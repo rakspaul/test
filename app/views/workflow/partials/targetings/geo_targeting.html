@@ -1,4 +1,5 @@
 $scope.geoData.countries = {{geoData.countries.selected}}
+geoData.regions.selected --> {{geoData.regions.selected}}
 <div class="col-md-12 zeroPadding breadcrumbs">
 	<h5 ng-click="redirectTargettingMain($event);" data-ng-bind="textConstants.TARGETING"></h5>
 	<span class="icon-arrow-down"></span>
@@ -74,7 +75,7 @@ $scope.geoData.countries = {{geoData.countries.selected}}
 
                                     <div class="col-md-12 external_chkbox pull-left">
                                         <div class="squaredFour">
-                                            <input type="checkbox" checklist-model="geoData.countries.selected" checklist-value="country" ng-change="check(country, checked, 'countries')" class="squaredFourChkbox" id="country_{{country.id}}">
+                                            <input type="checkbox" ng-model="bool" ng-change="check(bool, country, 'countries')" ng-checked="isChecked(country.id, 'countries')" class="squaredFourChkbox" id="country_{{country.id}}">
                                             <label for="country_{{country.id}}"></label>
                                         </div>
                                         <span class="squaredFourTxt" >{{country.name}}</span>
@@ -104,7 +105,7 @@ $scope.geoData.countries = {{geoData.countries.selected}}
                                 <div class="clearfix each-targetting-name" ng-repeat="region in geoData.regions.data">
                                     <div class="external_chkbox pull-left col-md-8">
                                         <div class="squaredFour">
-                                            <input type="checkbox" checklist-model="geoData.regions.selected" checklist-value="region" ng-change="check(region, checked, 'regions')" class="squaredFourChkbox" id="region_{{region.id}}_{{region.country.id}}" >
+                                            <input type="checkbox" ng-model="bool" ng-change="check(bool, region, 'regions')" ng-checked="isChecked(region.id, 'regions')" class="squaredFourChkbox" id="region_{{region.id}}_{{region.country.id}}" >
                                             <label for="region_{{region.id}}_{{region.country.id}}"></label>
                                         </div>
                                         <span class="squaredFourTxt" >{{region.name}}</span>
@@ -138,7 +139,7 @@ $scope.geoData.countries = {{geoData.countries.selected}}
                                 <div class="clearfix each-targetting-name" ng-repeat="city in geoData.cities.data">
                                     <div class="external_chkbox pull-left col-md-4">
                                         <div class="squaredFour">
-                                            <input type="checkbox" checklist-model="geoData.cities.selected" checklist-value="city" ng-change="check(city, checked, 'cities')" class="squaredFourChkbox" id="city_{{city.id}}_{{city.parent.id}}_{{city.country.id}}" >
+                                            <input type="checkbox" ng-model="bool" ng-change="check(bool, city, 'cities')" ng-checked="isChecked(city.id, 'cities')" class="squaredFourChkbox" id="city_{{city.id}}_{{city.parent.id}}_{{city.country.id}}" >
                                             <label for="city_{{city.id}}_{{city.parent.id}}_{{city.country.id}}"></label>
                                         </div>
                                         <span class="squaredFourTxt" data-ng-bind="city.name"></span>
@@ -191,7 +192,7 @@ $scope.geoData.countries = {{geoData.countries.selected}}
                                 <div class="clearfix each-targetting-name" ng-repeat="dma in geoData.dmas.data">
                                     <div class="external_chkbox pull-left col-md-8">
                                         <div class="squaredFour">
-                                            <input type="checkbox" checklist-model="geoData.dmas.selected" checklist-value="dma" ng-change="check(dma, checked, 'dmas')" class="squaredFourChkbox" id="dma_{{dma.id}}" >
+                                            <input type="checkbox" ng-model="bool" ng-change="check(bool, dma, 'dmas')" ng-checked="isChecked(dma.id, 'dmas')" class="squaredFourChkbox" id="dma_{{dma.id}}" >
                                             <label for="dma_{{dma.id}}"></label>
                                         </div>
                                         <span class="squaredFourTxt" data-ng-bind="dma.name">Metro</span>
@@ -209,7 +210,7 @@ $scope.geoData.countries = {{geoData.countries.selected}}
 
             <!---- start Zip Container ---------->
             <div id="zip" class="col-md-12 zeroPadding targetting-each-content" style="display:none;">
-                <textarea class="form-control" id="zipCodes" name="zipCodes" ng-model="adData.zipCodes" rows="3" placeholder="Separate zip / postal codes by comma. Use hyphens to denote ranges."></textarea>
+                <textarea class="form-control" id="zipCodes" name="zipCodes" ng-model="adData.zipCodes" rows="3" placeholder="textConstants.ZIP_CODE_LABEL"></textarea>
                 <div class="col-md-12 zeroPadding">
                     <button type="button" ng-click="addZipCode()" ng-disabled="!adData.zipCodes" class="btn btn-default pull-right">
                         <img ng-src="/images/workflow/icon_target.svg" alt="" height="15" />
@@ -281,8 +282,32 @@ $scope.geoData.countries = {{geoData.countries.selected}}
 
                     <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET" ng-if="geoData.countries.selected.length === 0 && geoData.regions.selected.length === 0 && geoData.cities.selected.length === 0"></div>
                 </div>
+
+                <!----   selected region and city level targeting ---------->
+                <div class="clearfix each-row"  ng-repeat="region in geoData.regions.selected" ng-if="geoData.regions.included === false">
+                    <div class="pull-left">{{region.parent.name}}</div>
+                    <div class="group">
+                        <div class="each-group">
+                            <div class="pull-left"><img ng-src="/images/workflow/{{region.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{region.name}}</div>
+                            <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(region, 'cities')"></span></div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!----   selected region and city level targeting ---------->
+                <div class="clearfix each-row"  ng-repeat="city in geoData.cities.selected" ng-if="geoData.cities.included === false">
+                    <div class="pull-left">{{city.country.name}} -- {{city.parent.name}}</div>
+                    <div class="group">
+                        <div class="each-group">
+                            <div class="pull-left"><img ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
+                            <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'cities')"></span></div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class="table dmaTable" >
+            <div class="table dmaTable" ng-if="geoTargetingData.selected.dmas.length >0">
                 <div>
                     <div class="clearfix each-row" >
                         <div class="pull-left" data-ng-bind="textConstants.METROS"></div>
@@ -292,16 +317,16 @@ $scope.geoData.countries = {{geoData.countries.selected}}
                     </div>
                 </div>
                 <div class="values-table">
-                    <div class="clearfix each-row"  >
-                        <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/>dma name</div>
-                        <div class="pull-right cancel"><span class="icon-close removeItem" ></span></div>
+                    <div class="clearfix each-row"  ng-repeat="dma in geoData.dmas.selected">
+                        <div class="pull-left"><img ng-src="/images/workflow/{{dma.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{dma.name}}</div>
+                        <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(dma, 'dmas')"></span></div>
                     </div>
-                    <div>
+                    <div ng-if="geoTargetingData.selected.dmas.length === 0">
                         <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
                     </div>
                 </div>
             </div>
-            <div class="table zipTable" >
+            <div class="table zipTable" ng-if="geoTargetingData.selected.zip.length >0">
                 <div>
                     <div class="clearfix each-row" >
                         <div class="pull-left" data-ng-bind="textConstants.ZIPPOSTCODE"></div>
@@ -311,20 +336,18 @@ $scope.geoData.countries = {{geoData.countries.selected}}
                     </div>
                 </div>
                 <div class="values-table">
-                    <div >
-                        <div class="clearfix each-row" >
-                            <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> zipcode </div>
-                            <div class="pull-right cancel"><span class="icon-close removeItem" ></span></div>
+                    <div ng-repeat="zipCodeList in geoData.zip.selected">
+                        <div class="clearfix each-row" ng-repeat="zipCode in zipCodeList.added">
+                            <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> {{zipCode}}</div>
+                            <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(zipCode, 'zip')"></span></div>
                         </div>
-                        <div >
+                        <div ng-if="geoTargetingData.selected.zip.length === 0">
                             <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-        <div  class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
     </div>
 </div>
 
