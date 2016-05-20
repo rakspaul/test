@@ -870,6 +870,9 @@
 .adCreateMaster #targetting .targettingFormWrap .targetting-each-content .external_chkbox .squaredFourTxt {
   width: 80%;
 }
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .external_chkbox .squaredFourTxt {
+  width: 80%;
+}
 .adCreateMaster #targetting .targettingFormWrap .targetting-each-content .toggle-on:after,
 .adCreateMaster #targetting .targettingFormWrap .targetting-each-content .toggle-off:after {
   content: "";

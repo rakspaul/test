@@ -1,3 +1,4 @@
+$scope.geoData.countries = {{geoData.countries.selected}}
 <div class="col-md-12 zeroPadding breadcrumbs">
 	<h5 ng-click="redirectTargettingMain($event);" data-ng-bind="textConstants.TARGETING"></h5>
 	<span class="icon-arrow-down"></span>
@@ -16,9 +17,9 @@
         </div>
 
         <ul class="nav nav-tabs">
-          <li class="active"><a ng-click="showGeographyTabsBox($event, 'geo')" ng-href="javascript:void(0);" data-ng-bind="textConstants.GEO"></a></li>
-          <li><a ng-href="javascript:void(0);" ng-click="showGeographyTabsBox($event, 'dmas')" data-ng-bind="textConstants.METRO"></a></li>
-          <li><a ng-href="javascript:void(0);" ng-click="showGeographyTabsBox($event, 'zip', true); " data-ng-bind="textConstants.ZIPPOSTCODE"></a></li>
+          <li class="active"><a id="geoTab" ng-click="showGeographyTabsBox($event, 'geo')" ng-href="javascript:void(0);" data-ng-bind="textConstants.GEO"></a></li>
+          <li><a id="dmasTab" ng-href="javascript:void(0);" ng-click="showGeographyTabsBox($event, 'dmas')" data-ng-bind="textConstants.METRO"></a></li>
+          <li><a id="zipCodeTab" ng-href="javascript:void(0);" ng-click="showGeographyTabsBox($event, 'zip', true); " data-ng-bind="textConstants.ZIPPOSTCODE"></a></li>
         </ul>
 
         <div class="tab-content targetting-container">
@@ -37,18 +38,19 @@
                     <div class="pull-left">
                         <span class="pull-left target-label" data-ng-bind="textConstants.TARGET"></span>
                         <div class="btn-group" role="group" aria-label="..." >
-                            <button type="button" class="btn btn-default active" ng-click="showRespectiveTabContent($event, 'countries');" data-ng-bind="textConstants.COUNTRY"></button>
-                            <button type="button" class="btn btn-default" ng-click="showRespectiveTabContent($event, 'regions');" data-ng-bind="textConstants.REGION"></button>
-                            <button type="button" class="btn btn-default" ng-click="showRespectiveTabContent($event, 'cities');" data-ng-bind="textConstants.CITY"></button>
-                            <span class="common_tooltip"  data-ng-bind="textConstants.INCEXCCITYNOTE"></span>
+                            <button type="button" id="countryTab" class="btn btn-default active" ng-click="showRespectiveTabContent($event, 'countries');" data-ng-bind="textConstants.COUNTRY"></button>
+                            <button type="button" id="regionTab" class="btn btn-default" ng-click="showRespectiveTabContent($event, 'regions');" data-ng-bind="textConstants.REGION"></button>
+                            <button type="button" id="cityTab" class="btn btn-default" ng-click="showRespectiveTabContent($event, 'cities');" data-ng-bind="textConstants.CITY"></button>
+                            <span class="common_tooltip"  data-ng-bind="geoNote"></span>
                         </div>
                     </div>
-
+                    $scope.geoData[$scope.selectedSubTab].switch --> {{geoData[selectedSubTab].switch}}
+                    geoData[selectedSubTab].included --> {{geoData[selectedSubTab].included}}
                     <div class="pull-right include-toggle-switch">
-                        <div class="exclude-label" ng-show = '!showHideToggleSwitch()'>
+                        <div class="exclude-label" ng-show='!geoData[selectedSubTab].switch && !geoData[selectedSubTab].included'>
                             <span><span data-ng-bind="textConstants.EXCLUDE"></span> <img ng-src="/images/workflow/icon_exclude.svg" alt="" height="15"/></span>
                         </div>
-                        <div class="include-label" ng-show = 'showHideToggleSwitch()'>
+                        <div class="include-label" ng-show = 'geoData[selectedSubTab].switch'>
                                <span data-ng-bind="textConstants.INCLUDE" class="toggle-switch-text"></span>
                                <input type="checkbox" checked data-toggle="toggle" class="toggle-event" data-on=" " data-off=" " >
                         </div>
@@ -102,8 +104,8 @@
                                 <div class="clearfix each-targetting-name" ng-repeat="region in geoData.regions.data">
                                     <div class="external_chkbox pull-left col-md-8">
                                         <div class="squaredFour">
-                                            <input type="checkbox" checklist-model="geoData.regions.selected" checklist-value="region" ng-change="check(region, checked, 'regions')" class="squaredFourChkbox" id="region_{{region.id}}" >
-                                            <label for="region_{{region.id}}"></label>
+                                            <input type="checkbox" checklist-model="geoData.regions.selected" checklist-value="region" ng-change="check(region, checked, 'regions')" class="squaredFourChkbox" id="region_{{region.id}}_{{region.country.id}}" >
+                                            <label for="region_{{region.id}}_{{region.country.id}}"></label>
                                         </div>
                                         <span class="squaredFourTxt" >{{region.name}}</span>
                                     </div>
@@ -136,8 +138,8 @@
                                 <div class="clearfix each-targetting-name" ng-repeat="city in geoData.cities.data">
                                     <div class="external_chkbox pull-left col-md-4">
                                         <div class="squaredFour">
-                                            <input type="checkbox" checklist-model="geoData.cities.selected" checklist-value="city" ng-change="check(city, checked, 'cities')" class="squaredFourChkbox" id="city_{{city.id}}" >
-                                            <label for="city_{{city.id}}"></label>
+                                            <input type="checkbox" checklist-model="geoData.cities.selected" checklist-value="city" ng-change="check(city, checked, 'cities')" class="squaredFourChkbox" id="city_{{city.id}}_{{city.parent.id}}_{{city.country.id}}" >
+                                            <label for="city_{{city.id}}_{{city.parent.id}}_{{city.country.id}}"></label>
                                         </div>
                                         <span class="squaredFourTxt" data-ng-bind="city.name"></span>
                                     </div>
@@ -224,78 +226,76 @@
         <div class="col-md-12">
             <h2 data-ng-bind="textConstants.SELECTED"></h2>
         </div>
-        <div class="col-md-12" >
-            <div class="table regionTable" >
+        <div class="col-md-12" ng-if="geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0 || geoData.dmas.selected.length > 0">
+
+            <div class="table regionTable" ng-if="geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0">
                 <div>
                     <div class="clearfix each-row" >
-                        <div class="pull-left" data-ng-bind="textConstants.REGCITIES"></div>
+                        <div class="pull-left" data-ng-bind="textConstants.TARGETING_LABEL + ': ' + getTargetingType()"></div>
                         <div class="pull-right removeAll">
-                            <a ng-href="javascript:void(0);" data-ng-bind="textConstants.REMOVEALL"></a>
+                            <a ng-href="javascript:void(0);" ng-click="showRemoveConfirmBox($event, 'countries');" data-ng-bind="textConstants.REMOVEALL"></a>
                         </div>
                     </div>
                 </div>
                 <div class="values-table">
-                    <div class="clearfix each-row" >
-                        <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> region</div>
-                        <div class="pull-right cancel"><span class="icon-close removeItem" ></span></div>
+                    <!----   selected country , region and city level targeting ---------->
+                    <div class="clearfix each-row" ng-repeat="country in geoData.countries.selected">
+                        <div class="pull-left"><img ng-src="/images/workflow/{{country.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{country.name}}</div>
+                        <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(country, 'countries')"></span></div>
                         <div class="group">
-                            <div class="each-group">
-                                <div class="pull-left"><img ng-src="/images/workflow/icon_exclude.svg" alt="" height="15"/> city name</div>
-                                <div class="pull-right cancel"><span class="icon-close removeItem" ></span></div>
-                            </div>
-
-                        </div>
-                    </div>
-                     <div class="clearfix each-row" >
-                        <div class="pull-left"><img ng-src="/images/workflow/icon_exclude.svg" alt="" height="15"/> region</div>
-                        <div class="pull-right cancel"><span class="icon-close removeItem"></span></div>
-                        <div class="group">
-                            <div class="each-group">
-                                <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> city name</div>
-                                <div class="pull-right cancel"><span class="icon-close removeItem" ></span></div>
-                            </div>
-
-                        </div>
-                    </div>
-                     <div class="clearfix each-row"  >
-                        <div class="pull-left"><img ng-src="/images/workflow/icon_exclude.svg" alt="" height="15"/> region </div>
-                        <div class="pull-right cancel"><span class="icon-close removeItem" ></span></div>
-                        <div class="group">
-                            <div class="each-group">
-                                <div class="pull-left"><img ng-src="/images/workflow/icon_exclude.svg" alt="" height="15"/> city name{{city.name}}</div>
-                                <div class="pull-right cancel"><span class="icon-close removeItem" ></span></div>
+                            <div class="each-group" ng-repeat="region in country.regions">
+                                <div class="pull-left"><img ng-src="/images/workflow/{{region.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{region.name}}</div>
+                                <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(region, 'regions')"></span></div>
                                 <div class="group">
-                                    <div class="each-group">
-                                        <div class="pull-left"><img ng-src="/images/workflow/icon_exclude.svg" alt="" height="15"/> city name{{city.name}} 444</div>
-                                        <div class="pull-right cancel"><span class="icon-close removeItem" ></span></div>
+                                    <div class="each-group" ng-repeat="city in region.cities">
+                                        <div class="pull-left"><img ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
+                                        <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'cities')"></span></div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="each-group" ng-repeat="city in country.cities" ng-if="!country.regions || country.regions.length ===0">
+                                <div class="pull-left"><img ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
+                                <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'cities')"></span></div>
+                            </div>
+
                         </div>
                     </div>
 
-                    <div  class="clearfix each-row"  >
-                        <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> city ( region)</div>
-                        <div class="pull-right cancel"><span class="icon-close removeItem"></span></div>
-                    </div>
-                    <div  class="clearfix each-row"  >
-                        <div class="pull-left"><img ng-src="/images/workflow/icon_exclude.svg" alt="" height="15"/> city ( region)</div>
-                        <div class="pull-right cancel"><span class="icon-close removeItem"></span></div>
-                    </div>
-                    <div  class="clearfix each-row"  >
-                        <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> city ( region)</div>
-                        <div class="pull-right cancel"><span class="icon-close removeItem"></span></div>
+                    <!----   selected region and city level targeting ---------->
+                     <div class="clearfix each-row"  ng-repeat="region in geoData.regions.selected" ng-if="geoData.countries.selected.length === 0">
+                         <div class="pull-left"><img ng-src="/images/workflow/{{region.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{region.name}}</div>
+                         <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(region, 'regions')"></span></div>
+                         <div class="group">
+                             <div class="each-group" ng-repeat="city in region.cities">
+                                 <div class="pull-left"><img ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
+                                 <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'cities')"></span></div>
+                             </div>
+                         </div>
                     </div>
 
+                    <!----  only selected city level targeting ---------->
+                    <div  class="clearfix each-row" ng-repeat="city in geoData.cities.selected" ng-if="geoData.countries.selected.length === 0 && geoData.regions.selected.length === 0">
+                        <div class="pull-left"><img ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
+                        <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'cities')"></span></div>
+                    </div>
 
+                    <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET" ng-if="geoData.countries.selected.length === 0 && geoData.regions.selected.length === 0 && geoData.cities.selected.length === 0"></div>
                 </div>
             </div>
 
-
         </div>
+    </div>
+</div>
 
-        <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
-
+<div class="msgPopupHolder" id="confirmBox" ng-show="showConfirmBox">
+    <div class="msgPopup">
+        <div>
+            <div class="msg pull-left" style="padding-top: 10px;" data-ng-bind="textConstants.AREYOUSURE"></div>
+            <div class="clearfix btn-holder" style="margin: 0;">
+                <div class="pull-right common_primary_btn" ng-click="removeSelectedList(boxType);" data-ng-bind="textConstants.YES"></div>
+                <div class="pull-right secondary_txt"  ng-click="hideConfirmBox()" data-ng-bind="textConstants.NO"></div>
+            </div>
+        </div>
     </div>
 </div>
 

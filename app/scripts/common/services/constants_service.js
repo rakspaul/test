@@ -973,12 +973,15 @@ define(['angularAMD'], function(angularAMD) {
         this.REGTABLABEL = 'REGION';
         this.METRO = 'METRO';
         this.ZIPPOSTCODE = 'ZIP / POSTAL CODE';
-        this.INCEXCCITYNOTE =
-            'Once you include or exclude a city, regions are not available for further inclusion or exclusion.';
+
+        this.NOT_SELECTED_COUNTRY_NOTE = 'Once you have set your targeting at the region level, you cannot select any countries for inclusion or exclusion';
+        this.NOT_SELECTED_REGION_NOTE = 'Once you have set your targeting at the city level, you cannot select any regions for inclusion or exclusion';
+        this.NOT_SELECTED_COUNTRY_REGION_NOTE = 'Once you have set your targeting at the city level, you cannot select any countries for inclusion or exclusion';
+
         this.REGION = 'Region';
         this.CITY = 'City';
         this.SELECTED = 'Selected';
-        this.REGCITIES = 'Regions & Cities';
+        this.TARGETING_LABEL = 'Targeting';
         this.REMOVEALL = 'Remove All';
         this.METROS = 'Metros';
         this.METROTXT = 'Metro';
