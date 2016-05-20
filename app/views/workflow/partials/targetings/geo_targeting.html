@@ -282,8 +282,49 @@ $scope.geoData.countries = {{geoData.countries.selected}}
                     <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET" ng-if="geoData.countries.selected.length === 0 && geoData.regions.selected.length === 0 && geoData.cities.selected.length === 0"></div>
                 </div>
             </div>
+            <div class="table dmaTable" >
+                <div>
+                    <div class="clearfix each-row" >
+                        <div class="pull-left" data-ng-bind="textConstants.METROS"></div>
+                        <div class="pull-right removeAll">
+                            <a ng-href="javascript:void(0);" data-ng-bind="textConstants.REMOVEALL"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="values-table">
+                    <div class="clearfix each-row"  >
+                        <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/>dma name</div>
+                        <div class="pull-right cancel"><span class="icon-close removeItem" ></span></div>
+                    </div>
+                    <div>
+                        <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="table zipTable" >
+                <div>
+                    <div class="clearfix each-row" >
+                        <div class="pull-left" data-ng-bind="textConstants.ZIPPOSTCODE"></div>
+                        <div class="pull-right removeAll">
+                            <a ng-href="javascript:void(0);" data-ng-bind="textConstants.REMOVEALL"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="values-table">
+                    <div >
+                        <div class="clearfix each-row" >
+                            <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> zipcode </div>
+                            <div class="pull-right cancel"><span class="icon-close removeItem" ></span></div>
+                        </div>
+                        <div >
+                            <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
+        <div  class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
     </div>
 </div>
 
