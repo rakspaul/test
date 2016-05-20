@@ -1,0 +1,213 @@
+.left_column_nav {
+  padding: 30px 0 0 0;
+  width: 23%;
+  float: left;
+  height: 100%;
+}
+.left_column_nav .campaign_name {
+  font-family: Avenir, sans-serif;
+  display: inline-block;
+  float: left;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+.left_column_nav .stepCompLabel {
+  border-width: 0;
+}
+.left_column_nav .stepCompLabel p {
+  margin: 15px 0 0 0;
+  float: left;
+}
+.left_column_nav .stepCompLabel .titleLabel {
+  font-size: 14px;
+  color: #939eae;
+  cursor: default;
+}
+.left_column_nav .stepCompLabel .statusLabel {
+  float: left;
+  width: 100%;
+  clear: left;
+  margin: 8px 0 0 0;
+}
+.left_column_nav .stepCompLabel .statusLabel:first-child {
+  margin: 0;
+}
+.left_column_nav .stepCompLabel .statusLabel.ng-scope span:last-child,
+.left_column_nav .stepCompLabel .statusLabel.disabled span {
+  color: #939eae;
+  padding-left: 3px;
+}
+.left_column_nav .stepCompLabel .statusLabel.disabled span.creative_tab_sizes {
+  padding-left: 0;
+}
+.left_column_nav .stepCompLabel .statusLabel .errorTxt {
+  color: #e83b05;
+}
+.left_column_nav .stepCompLabel .statusLabel .glyphicon {
+  width: 16px;
+  text-align: left;
+  padding: 0;
+}
+.left_column_nav .stepCompLabel .statusLabel .col-md-5 {
+  font-size: 11px;
+  color: #939eae;
+  padding-right: 5px;
+}
+.left_column_nav .stepCompLabel .statusLabel .col-md-12 {
+  padding-left: 16px;
+  text-align: left;
+}
+.left_column_nav .stepCompLabel .statusLabel .col-md-12 .statusIcon {
+  margin: -1px 5px 0 0;
+  float: left;
+}
+.left_column_nav .stepCompLabel .statusLabel .col-md-12 .txtLabel {
+  margin: 8px 0 0 0;
+  float: left;
+  clear: left;
+}
+.left_column_nav .stepCompLabel li {
+  width: 100%;
+  margin-bottom: 2px;
+  margin-top: 20px;
+  float: left;
+}
+.left_column_nav .stepCompLabel li:first-child {
+  margin-top: 0;
+}
+.left_column_nav .stepCompLabel li a {
+  font-size: 14px;
+  width: 100%;
+  float: left;
+  color: #939eae;
+  text-decoration: none;
+  padding: 4px;
+  border-width: 0;
+  cursor: pointer;
+}
+.left_column_nav .stepCompLabel li a:hover {
+  background: transparent;
+  text-decoration: none;
+}
+.left_column_nav .stepCompLabel span {
+  font-size: 12px;
+  float: left;
+}
+.left_column_nav .stepCompLabel span:first-child {
+  clear: left;
+  text-align: right;
+}
+.left_column_nav .stepCompLabel .active {
+  background-image: url(/images/workflow/blueSelector.png);
+  background-position: top right;
+  background-repeat: no-repeat;
+}
+.left_column_nav .stepCompLabel .active a {
+  font-family: Avenir-bold, sans-serif;
+  color: #0978c9;
+  border-radius: 0;
+  background: transparent;
+}
+.left_column_nav .stepCompLabel .active span {
+  font-family: Avenir, sans-serif;
+}
+.left_column_nav .stepCompLabel .glyphicon {
+  padding: 0 5px 0 0;
+  text-align: center;
+  width: 20px;
+}
+.left_column_nav .nav-tabs > li.active > a,
+.left_column_nav .nav-tabs > li.active > a:hover,
+.left_column_nav .nav-tabs > li.active > a:focus {
+  border-width: 0;
+  color: #0978c9;
+  background: transparent;
+}
+.left_column_nav .creative_tab_sizes {
+  word-wrap: break-word;
+  word-break: break-word;
+  text-align: left !important;
+}
+.left_column_nav div.each-setting.statusLabel span {
+  font-size: 14px;
+}
+.left_column_nav div.each-setting.statusLabel .grey_txt {
+  font-size: 12px;
+  margin-top: 2px;
+}
+.left_column_nav div.each-setting.statusLabel .icon_txt {
+  float: left;
+  margin-right: 4px;
+}
+.left_column_nav div.each-setting.statusLabel div.col-md-12 span.statusIcon {
+  margin: 2px 5px 0 0;
+}
+.left_column_nav div.statusLabel div.col-md-12 .statusIcon.icon-calendar {
+  margin-left: 2px;
+}
+.campaign-create-left-nav .campaign_name {
+  float: none;
+}
+.campaign-create-left-nav .active .titleLabel {
+  font-family: Avenir-bold, sans-serif;
+  color: #0978c9;
+}
+.campaign-create-left-nav .eachStepCompLabel {
+  margin-bottom: 20px;
+}
+.campaign-create-left-nav .eachStepCompLabel p {
+  margin: 0;
+  float: none;
+}
+.nextWrapper {
+  position: absolute;
+  left: -1px;
+  bottom: 0;
+  background: #fff;
+  border-top: 1px dashed #D0D0D0;
+  height: 30px;
+  width: 100%;
+  cursor: pointer;
+  text-align: center;
+  z-index: 999999;
+}
+.nextWrapper img {
+  width: 35px;
+  margin-top: -12px;
+  background: -moz-linear-gradient(top, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(22%, #ffffff), color-stop(37%, rgba(255, 255, 255, 0.81)), color-stop(100%, rgba(255, 255, 255, 0)));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#00ffffff", GradientType=0);
+  /* IE6-9 */
+}
+.nextWrapper .btn {
+  margin-top: -24px;
+}
+.miniTabLinks {
+  float: left;
+}
+.miniTabLinks .btn-link {
+  float: left;
+  margin-right: 30px;
+  font-size: 13px;
+  color: #939EAE;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 5px 0 5px 0;
+  line-height: 100%;
+  height: 25px;
+  box-shadow: none;
+}
+.miniTabLinks .btn-link.active {
+  border-bottom: 2px solid #0978C9;
+  color: #57606C;
+}

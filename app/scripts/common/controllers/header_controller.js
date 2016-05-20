@@ -4,7 +4,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                                                         constants, loginModel, domainReports,
                                                         campaignSelectModel, RoleBasedService, workflowService,featuresService,subAccountModel,localStorageService) {
         $scope.user_name = loginModel.getUserName();
-        $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
         $scope.version = version;
 
 
@@ -82,6 +81,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
         var features = $rootScope.$on('features', function () {
             featurePermission();
+            $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
         });
 
         featurePermission();
@@ -214,8 +214,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $(event.currentTarget).parent().addClass('active_tab');
 
             }
-           
-          
+
+
             $location.url(url);
         };
 
@@ -260,6 +260,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             $("a[reportTitle='" + reportTitle + "']").parent().addClass('active_tab')
         }
 
+
+
         var callSetDefaultReport = $rootScope.$on("callSetDefaultReport", function (event, args) {
             $scope.setDefaultReport(args);
         });
@@ -272,6 +274,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     cdbDropdownId = $("#cdbDropdown"),
                     brandsListId = $("#brandsList"),
                     advertisersDropDownList = $("#advertisersDropDownList"),
+                    dropdownMenuWithSearch = $(".dropdown-menu-with-search"),
                     subAccountDropDownList = $("#subAccountDropDownList"),
                     profileDropdownId = $("#profileDropdown"),
                     accountDropdownList = $(".clientDropdownCnt"),
@@ -294,7 +297,9 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     advertisersDropDownList.closest(".each_filter").removeClass("filter_dropdown_open");
                     advertisersDropDownList.hide();
                 }
-
+                if (dropdownMenuWithSearch.is(':visible') && ($(event.target).closest(".dropdown").find(".dropdown-with-search-btn").length == 0) && ( $(event.target).closest(".dropdown").find(".search-inside-dropdown").length == 0 )) {
+                    dropdownMenuWithSearch.hide();
+                }
                 if (subAccountDropDownList.is(':visible') && event.target.id != "sub_account_name_selected" && event.target.id != "subAccountDropdown") {
                     subAccountDropDownList.closest(".each_filter").removeClass("filter_dropdown_open");
                     subAccountDropDownList.hide();

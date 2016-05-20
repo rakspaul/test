@@ -93,7 +93,8 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
                 //api call to fetch keywords
                 var params = {
                     'searchKey': key,
-                    'seatId': $scope.adData.platformSeatId
+                    'seatId': $scope.adData.platformSeatId,
+                    'sortColumn':name
                 }
 
                 audienceService
@@ -211,8 +212,8 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
             initAudienceTargetting: function () {
                 _audienceTargetting.setSortColumn();
                 _audienceTargetting.setSortOrder();
-                _audienceTargetting.fetchAllSource();
-                _audienceTargetting.fetchAllCategories();
+            //    _audienceTargetting.fetchAllSource();
+            //    _audienceTargetting.fetchAllCategories();
             },
 
             resetSelectedFields: function () {
@@ -470,6 +471,7 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
         };
 
         $scope.selectKeyword = function (keyword) {
+            $scope.selectedKeywords=[];
             var input = $.trim($('#selectAud').find('.keyword-txt').val());
             // If user has not entered anything (blanks are trimmed off), don't do anything.
             if (!input) {
@@ -487,7 +489,6 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
             }
 
             $scope.audienceKeywords = [];
-            $('.keyword-txt').val('');
             _audienceTargetting.fetchAllAudience();
         };
 
@@ -498,6 +499,11 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
             $scope.selectedKeywords.splice(index, 1);
             _audienceTargetting.fetchAllAudience();
         };
+        $scope.clearKeywordSearch = function () {
+            $scope.selectedKeywords=[];
+            $('.keyword-txt').val('');
+            _audienceTargetting.fetchAllAudience();
+        };
 
         //keyword user choice
         $scope.showKeywords = function (keyword, event) {
@@ -506,9 +512,10 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
             if (event.which === 13) {
                 $scope.selectKeyword(keyword);// fetch audience
                 return false;
-            } else {
-                _audienceTargetting.fetchAllKeywords(keyword);
             }
+                // else {
+            //    _audienceTargetting.fetchAllKeywords(keyword);
+            //}
         };
 
         $scope.loadMoreAudience = function () {

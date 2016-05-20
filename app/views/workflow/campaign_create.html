@@ -10,7 +10,7 @@
                     <h1 class="campaign_name">{{textConstants.MP_TITLE}}</h1>
                     <ul class="stepCompLabel nav nav-tabs" id="mediaTab">
                         <li class="active eachStepCompLabel">
-                            <a class="leftNavLink selected" data-target="#settings" data-toggle="tab">1 About this Media Plan</a>
+                            <a class="leftNavLink selected" data-target="#settings" data-toggle="tab">1. About this Media Plan</a>
 
                             <div class="statusLabel" ng-if="selectedCampaign.startTime">
                                 <div class="col-md-12">
@@ -43,7 +43,7 @@
                         </li>
                         <li class="clearfix eachStepCompLabel" >
                             <a class="leftNavLink disabled-cursor" ng-if="!selectedCampaign.advertiserId">2 Pixels</a>
-                            <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#pixels" data-toggle="tab">2 Pixels</a>
+                            <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#pixels" data-toggle="tab">2. Pixels</a>
                             <div class="statusLabel">
                                 <div class="col-md-12" ng-if="selectedCampaign.selectedPixel.length >0">
                                     <div>{{selectedCampaign.selectedPixel.length}} pixels selected</div>
@@ -56,7 +56,7 @@
 
                         <li class="clearfix eachStepCompLabel" >
                             <a class="leftNavLink budget-page-trigger disabled-cursor" ng-if="!selectedCampaign.advertiserId">3 {{textConstants.MP_BUDGET}} & Measure</a>
-                            <a class="leftNavLink budget-page-trigger" ng-if="selectedCampaign.advertiserId" data-target="#budget" data-toggle="tab">3 {{textConstants.MP_BUDGET}} & Measure</a>
+                            <a class="leftNavLink budget-page-trigger" ng-if="selectedCampaign.advertiserId" data-target="#budget" data-toggle="tab">3. {{textConstants.MP_BUDGET}} & Measure</a>
                             <div class="statusLabel" ng-if="Campaign.totalBudget">
                                 <div class="col-md-12">
                                     <div class="statusIcon icon-usd"></div>
@@ -81,13 +81,21 @@
                         </li>
                         <li class="clearfix eachStepCompLabel" >
                             <a class="leftNavLink disabled-cursor" ng-if="!selectedCampaign.advertiserId">4 Line Items</a>
-                            <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#addLineItems" data-toggle="tab">4 Line Items</a>
+                            <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#addLineItems" data-toggle="tab">4. Line Items</a>
                             <div class="statusLabel">
                                 <div class="col-md-12" ng-if="lineItemList.length >0">
-                                    <div>{{lineItemList.length}} Line Item selected</div>
+                                    <div>{{lineItemList.length}} Line Item{{(lineItemList.length > 1)?'s':''}}</div>
                                 </div>
+
                                 <div class="col-md-12" ng-if="lineItemList.length === 0">
                                     <span data-ng-bind="textConstants.NOTSET"></span>
+                                </div>
+                            </div>
+                            <div class="statusLabel" ng-if="lineItemList.length >0">
+                                <div class="col-md-12" >
+                                    <div class="statusIcon icon-usd"></div>
+                                    <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}} {{selectedCampaign.lineItemBillableAmountTotal | setDecimal:2 | number : fractionSize}}</span>
+                                    <span> ({{textConstants.TOTAL_BILLABLE_AMOUNT}})</span>
                                 </div>
                             </div>
                         </li>
@@ -116,15 +124,20 @@
                                     </ul>
                                 </div>
                             </div>
-                            <!--ng-disabled="createCampaignForm.$invalid"-->
-                            <a href="#" class="btn btn-primary pull-right" role="button" ng-disabled="createCampaignForm.$invalid"  ng-click="saveCampaign()">{{textConstants.MP_SAVE}}</a>
-                            <div ng-hide="(mode!='edit')">
+
+                            <a href="#" class="btn btn-primary pull-right" ng-show="!saveBtnLoader" role="button" ng-disabled="createCampaignForm.$invalid"  ng-click="saveCampaign()">{{textConstants.MP_SAVE}}</a>
+                            <div ng-show="saveBtnLoader" class="pull-right common-loading-btn"></div>
+
+                            <div ng-show="(mode == 'edit' || cloneMediaPlanName)">
                                 <a href="#" ng-click ="redirectToOverViewPage(editCampaignData.id)" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
                             </div>
+
                             <div class="pull-right common-loading-btn" style="width:62px;" ng-show="saveCampaignClicked"></div>
-                            <div ng-show="(mode!='edit')">
+
+                            <div ng-show="(mode == 'create' && !cloneMediaPlanName)">
                                 <a href="/mediaplans" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
                             </div>
+
                         </div>
                     </div>
 
@@ -178,7 +191,7 @@
                 </div>
             </div>
 
-            <div class="common-popup-container" ng-show="campaignArchive">
+            <div class="common-popup-container" ng-show="campaignArchive" ng-controller="ArchiveController">
                 <div class="popup">
                     <div class="popup-header-body">
                         <div class="clearfix">
@@ -190,7 +203,7 @@
                         </div>
                     </div>
                     <div class="clearfix popup-footer" >
-                        <button type="button" ng-click="archiveCampaign($event)" class="common_primary_btn pull-right" ng-hide="deleteCampaignFailed">Archive</button>
+                        <button type="button" ng-click="archiveCampaign($event,campaignId)" class="common_primary_btn pull-right" ng-hide="deleteCampaignFailed">Archive</button>
                         <button type="button" ng-click="cancelArchiveCampaign()"class="secondary_txt pull-right" >Cancel</button>
                     </div>
 

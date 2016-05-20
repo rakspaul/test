@@ -12,18 +12,22 @@ define(['angularAMD','workflow/services/filter_service','common/services/constan
                 $scope.filterData.advertiserSelectedName="";
                 $scope.filterData.advertiserSelectedId ="";
 
+                var setAdvertiserOnLSAndShow = function() {
+                    //set to localstorage
+                    var adveriserObj = {'id':$scope.filterData.advertiserList[0].id,'name':$scope.filterData.advertiserList[0].name,'referedFrom':'filterDirective'};
+                    localStorage.setItem('setAdvertiser', JSON.stringify(adveriserObj));
+
+                    $scope.filterData.advertiserSelectedId  = $scope.filterData.advertiserList[0].id;
+                    $scope.filterData.advertiserSelectedName = $scope.filterData.advertiserList[0].name;
+                }
+
                 var fetchAdvertiserAndBroadCast = function(onClientSelect) {
                     onClientSelect = onClientSelect || false;
                     filterService.fetchAdvertisers($scope.filterData.subAccSelectedId,function(advertiserData){
                         $scope.filterData.advertiserList= [{'id':'-1','name':constants.ALL_ADVERTISERS}].concat(advertiserData);
 
                         if(onClientSelect) {
-                            //set to localstorage
-                            var adveriserObj = {'id':$scope.filterData.advertiserList[0].id,'name':$scope.filterData.advertiserList[0].name,'referedFrom':'filterDirective'};
-                            localStorage.setItem('setAdvertiser', JSON.stringify(adveriserObj));
-
-                            $scope.filterData.advertiserSelectedId  = $scope.filterData.advertiserList[0].id;
-                            $scope.filterData.advertiserSelectedName = $scope.filterData.advertiserList[0].name;
+                            setAdvertiserOnLSAndShow();
                         }
 
                         var args = {'from':$scope.from,'clientId':$scope.filterData.subAccSelectedId,'advertiserId':-1}
@@ -76,6 +80,15 @@ define(['angularAMD','workflow/services/filter_service','common/services/constan
                     var args = {'from':$scope.from,'clientId':$scope.filterData.subAccSelectedId,'advertiserId':advertiser.id}
                     $rootScope.$broadcast('filterChanged',args)
                 };
+
+                $scope.showAdvertisersDropDown = function () {
+                    $('#advertisersDropDownList').toggle().closest('.each_filter').toggleClass('filter_dropdown_open');
+                };
+
+               var accountChanged = $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function (event, args) {
+                   setAdvertiserOnLSAndShow();
+                });
+
             },
             restrict: 'EAC',
             scope : {from:'@'},

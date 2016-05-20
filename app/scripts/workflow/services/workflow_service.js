@@ -124,15 +124,25 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     return dataService.fetch(url);
                 },
-                getPixels: function (advertiserId, client_Id) {
+                getPixels: function (advertiserId, client_Id,endDate,pixels,mode) {
                     var clientId = loginModel.getSelectedClient().id;
-                    ;
+
+                    if(endDate){
+                        endDate = momentService.localTimeToUTC(endDate);
+                    }
+
                     if (client_Id) {
                         clientId = client_Id;
                     }
 
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
-                        '/advertisers/' + advertiserId + '/pixels?type=PAGE_VIEW';
+                        '/advertisers/' + advertiserId + '/pixels?type=PAGE_VIEW&min_expiry_date='+endDate;
+
+                    if(mode === 'edit') {
+                        if(pixels && pixels.length > 0) {
+                            url += '&include='+ pixels.toString();
+                        }
+                    }
 
                     return dataService.fetch(url);
                 },
@@ -289,7 +299,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                             '/campaigns/' + campaignId +
                             '/ad_groups/' + adGroupID +
                             '/ads';
-
                     return dataService.fetch(url, {
                         cache: false
                     });
@@ -446,8 +455,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 },
 
                 /*creative Library Flow*/
-                getVendorsAdServer: function () {
-                    var clientId = loginModel.getSelectedClient().id;
+                getVendorsAdServer: function (subAccountId) {
+                    var clientId;
+                    if(subAccountId)
+                         clientId=subAccountId;
+                    else
+                         clientId = loginModel.getSelectedClient().id;
 
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -460,13 +473,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
-                        '/vendors?format=' + adFormat.replace(/\s+/g, '').toUpperCase());
+                        '/vendors?format=' + adFormat.toUpperCase());
                 },
 
                 getTemplates: function (adServer, format) {
                         return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/vendors/' + adServer.id +
-                            '/templates?format=' + format.replace(/\s+/g, '').toUpperCase());
+                            '/templates?format=' + format.toUpperCase());
                 },
 
                 getCreativeSizes: function () {

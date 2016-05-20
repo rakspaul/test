@@ -96,6 +96,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CTR = "CTR";
         this.VTC = "VTC";
         this.CPM = "CPM";
+        this.ESTREACH = "Estimated Reach";
         this.CPC = "CPC";
         this.CPA = "CPA";
         this.ACTION_RATE = "Action rate";
@@ -387,6 +388,8 @@ define(['angularAMD'], function(angularAMD) {
         this.BEFORE_VALUE = "Before Value";
         this.AFTER_VALUE = "After Value";
         this.CHANGE_IN_PERCENTAGE = "Change %";
+        this.UPLOAD_COMPLETE = "Upload Complete";
+        this.DOWNLOAD_ERROR_LOG = "Download Error Log";
 
         this.DAYS_OF_WEEK = "Days of Week";
         this.DISCREPANCY = "Discrepancy";
@@ -505,7 +508,7 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_SOCIAL = 'Social';
         this.WF_DISPLAY_SEARCH = 'DISPLAY';
         this.WF_VIDEO_SEARCH = 'VIDEO';
-        this.WF_RICH_MEDIA_SEARCH = 'RICHMEDIA';
+        this.WF_RICH_MEDIA_SEARCH = 'RICH MEDIA';
         this.WF_SOCIAL_SEARCH = 'SOCIAL';
         this.WF_HEADER_PRIMARY_GOAL = 'What is your primary goal?';
         this.WF_AD_GOAL = 'Ad Goal';
@@ -598,9 +601,10 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_CLONE = "Clone";
         this.WF_PAUSE = "Pause";
         this.WF_RESUME = "Resume";
-        this.WF_MOVE_TO = "Move to"
-        this.WF_ARCHIVE = "Archive"
-        this.WF_NOT_SET = "Not Set"
+        this.WF_MOVE_TO = "Move to";
+        this.WF_ARCHIVE = "Archive";
+        this.WF_NOT_SET = "Not Set";
+        this.CLOSE = "Close";
         this.WF_AD_SAVE_CLOSE = "Save & Close";
         this.WF_AD_SAVE_CONTINUE = "Save & Continue";
         this.WF_NAME_CAMPAIGN_TXT = "Tell us about your Media Plan?";
@@ -682,22 +686,22 @@ define(['angularAMD'], function(angularAMD) {
 
         //Ad Create: Sidebar
         this.ADSETUP = 'Ad Setup';
-        this.ADTYPESIDE = '1 Ad Type';
+        this.ADTYPESIDE = '1. Ad Type';
         this.NOTSET = 'Not Set';
         this.FORMATPAR = '(Format)';
         this.PRIMARYKPIPAR = '(Primary KPI)';
         this.SCREENPAR = '(Screen)';
-        this.BUDGETDELIVERYSIDE = '2 Budget & Delivery';
+        this.BUDGETDELIVERYSIDE = '2. Budget & Delivery';
         this.FLIGHTPAR = '(Flight)';
         this.UNITCOSTPAR = '(Unit Cost)';
-        this.BUYINGPLATFORMSIDE = '3 Buying Platform';
+        this.BUYINGPLATFORMSIDE = '3. Buying Platform';
         this.PLATFORMPAR = '(Platform)';
-        this.TARGETINGSIDE = '4 Targeting';
+        this.TARGETINGSIDE = '4. Targeting';
         this.GEOGRAPHY = 'Geography';
         this.AUDIENCE = 'Audience';
         this.DAYPART = 'Daypart';
-        this.INVENTORYSIDE = '5 Inventory Filters';
-        this.CREATIVESIDE = '6 Creative';
+        this.INVENTORYSIDE = '5. Inventory Filters';
+        this.CREATIVESIDE = '6. Creative';
 
         //Ad Create: 1 Ad Type
         this.SELECTADTYPE = 'Select Ad Type';
@@ -883,6 +887,10 @@ define(['angularAMD'], function(angularAMD) {
         this.CUSTOM_REPORTS = 'Custom Reports';
         this.MEDIA_PLAN_REPORTS = 'Media Plan Reports';
         this.CREATIVES = 'Creatives';
+
+        //media plans
+        this.NO_CATEGORY_FOR_SELECTED_ADVERISER = 'No category available for selected advertiser.';
+        this.CPA_CONVERSION_MESSAGE = 'All conversion pixels set for CPA line items in your spreadsheet will be automatically associated with this Media Plan.'
 
         //Overview: Create Ad Groups
         this.CREATEADGROUP = 'Create Ad Group';
@@ -1124,8 +1132,7 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_COST_TRACKING = "Cost Tracking |";
         this.MEDIAPLAN_COST_MEASURED = "The Costs that will be measured in Cost Attribution reports and are factored into COGS+ Billing";
         this.MEDIAPLAN_ADD_ADDITIONAL_COSTS = "Add Additional Costs (Optional)";
-        this.MEDIAPLAN_METRIC = "Metric";
-        this.MEDIAPLAN_VENDOR = "Vendor";
+        this.MEDIAPLAN_METRIC = "Metric";this.MEDIAPLAN_VENDOR = "Vendor";
         this.MEDIAPLAN_CONFIGURATION = "Configuration";
         this.MEDIAPLAN_CHANNELS = "Channels";
         this.MEDIAPLAN_CATEGORY = "Category";
@@ -1139,6 +1146,8 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_BILLABLE_AMOUNT = "Billable Amount";
         this.MEDIAPLAN_VOLUME = "Volume";
         this.MEDIAPLAN_FLIGHT_DATES = "Flight Dates";
+        this.IMPORT_LINE_ITEMS = "Import Line Items";
+        this.EXPORT_LINE_ITEMS = "Export Line Items";
 
         this.MEDIAPLAN_ADD_CREDIT = "Add Credit";
         this.MEDIAPLAN_CREDIT_NAME = "Credit Name / Notes";
@@ -1146,6 +1155,10 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_ADD_ANOTHER_CREDIT = "Add Another Credit";
         this.MEDIAPLAN_FLIGHT_DATE_START = "Flight Date Start";
         this.MEDIAPLAN_FLIGHT_DATE_END = "Flight Date End";
+        this.SAVE_CHANGES = "Save Changes";
+        this.SELECT_CONVERSION_PIXELS = "Select Conversion Pixel";
+        this.AD_GRP_NAME="Ad Group Name";
+        this.TOTAL_BILLABLE_AMOUNT = 'Total Billable Amount';
 
         this.MEDIA_PLAN_CLONE ='Media Plan Clone';
         this.MEDIA_PLAN_WARNING_MESSAGE = 'You will lose your changes if you leave this page. Are you sure?'

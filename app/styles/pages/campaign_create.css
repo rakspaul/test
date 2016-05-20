@@ -603,25 +603,25 @@
   text-align: center;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnTwo {
-  width: 30%;
+  /* width: 30%;*/
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnThree {
   text-align: center;
-  width: 13%;
+  /* width: 13%;*/
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnThree img {
   margin-top: 13px;
   text-align: center;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnFour {
-  width: 22%;
+  /*width: 22%;*/
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnFive {
-  width: 12%;
+  /* width: 12%; */
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnSix {
   border-width: 0 !important;
-  width: 17%;
+  /* width: 17%; */
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable,
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable {
@@ -665,6 +665,10 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnThree,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnThree {
+  border-right: 0px solid #bfc9d7;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyWrap {
   float: left;
@@ -1476,7 +1480,6 @@
   background: #F8F9FA;
   float: left;
   margin-top: 30px;
-  padding-bottom: 85px;
   width: 100%;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap h2 {
@@ -1499,7 +1502,7 @@
   left: 0;
   margin: 0 40px;
   position: absolute;
-  top: 70px;
+  top: 110px;
   width: 815px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control {
@@ -2036,6 +2039,7 @@
 #campaignCreate .firstWrapper .masterContainer .createItemList {
   background: #FEFBF0;
   padding: 0 10px 10px 10px;
+  margin-top: 30px ;
 }
 #campaignCreate .firstWrapper .masterContainer .tableNormal {
   float: left;
@@ -2258,6 +2262,7 @@
   width: auto;
   padding-bottom: 5px;
   margin-bottom: 5px;
+  width: 50%;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .pillsWrap {
   float: left;
@@ -3325,6 +3330,26 @@
   position: relative;
   width: 77%;
 }
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addLineItems .common_file_upload_container {
+  width: 80%;
+  padding: 5px;
+  margin: 20px 0;
+}
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addLineItems .common_file_upload_container .file_upload_icon {
+  margin: 0 40px;
+}
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addLineItems .common_file_upload_container .file_upload_text {
+  width: 70% ;
+}
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addLineItems .common_file_upload_container .img_table_txt {
+  margin: 15px 0px ;
+}
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addLineItems .popup-content {
+  margin-bottom: 20px ;
+}
+#campaignCreate .firstWrapper .masterContainer .settingWrap .list_item_export_import_dd {
+  margin-left: 10px ;
+}
 #campaignCreate .firstWrapper .masterContainer .settingWrap .adName {
   background: #FFF;
   height: 30px;
@@ -3517,7 +3542,7 @@
   position: absolute;
   top: 123px;
   width: 930px;
-  z-index: 1111111;
+  z-index: 111111;
 }
 #campaignCreate .platformSlide .platform-custom .adHeader {
   margin: 20px 0 10px;
@@ -3603,7 +3628,7 @@
 }
 #campaignCreate .platformSlide .platform-custom .platWrap .form-group select {
   background: transparent;
-  background-image: url(../images/cdesk/common_down_arrow.png);
+  background-image: url(/images/cdesk/common_down_arrow.png);
   background-position: right 8px top 12px;
   background-repeat: no-repeat;
   height: 36px;

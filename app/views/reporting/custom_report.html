@@ -764,7 +764,7 @@
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
                                     <div class="each_col tree_dimension_col" ng-bind-html="reportTitle"></div>
-                                    <div class="each_col_delivery" ng-class="addReqClassToSort(dm.value,sortType,sortReverse)" ng-click="clickToSort(dm.value);"
+                                    <div class="each_col_delivery" ng-class="addReqClassToSort(dm.key,sortType,sortReverse)" ng-click="clickToSort(dm.key);"
                                          ng-repeat="dm in metricKeyArr.delivery_metrics track by $index"
                                          ng-bind-html="dm.value">
                                     </div>
@@ -817,14 +817,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-if="fetching" class="common-load-more" style="margin-top: -100px"></div>
+                        <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
                     </div>
                     <div class="custom_report_response_table" id="cost_table" style="display:none;" ng-show="showCost && metricKeyArr.cost_metrics.length">
                         <div class="custom_report_scroll">
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
                                     <div class="each_col tree_dimension_col">{{reportTitle}}</div>
-                                    <div class="each_col_cost" ng-class="addReqClassToSort(bm.value,sortType,sortReverse)" ng-click="clickToSort(bm.value);"
+                                    <div class="each_col_cost" ng-class="addReqClassToSort(bm.key,sortType,sortReverse)" ng-click="clickToSort(bm.key);"
                                          ng-repeat="bm in metricKeyArr.cost_metrics track by $index"
                                          ng-bind="bm.value">
                                     </div>
@@ -874,7 +874,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-if="fetching" class="common-load-more"></div>
+                        <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
                     </div>
                     <!-- <div class="custom_report_response_table" id="booked_table" style="display:none;">
                         <div class="custom_report_scroll">
@@ -918,7 +918,7 @@
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
                                     <div class="each_col tree_dimension_col">{{reportTitle}}</div>
-                                    <div class="each_col" ng-class="addReqClassToSort(em.value,sortType,sortReverse)" ng-click="clickToSort(em.value);"
+                                    <div class="each_col" ng-class="addReqClassToSort(em.key,sortType,sortReverse)" ng-click="clickToSort(em.key);"
                                          ng-repeat="em in metricKeyArr.engagement_metrics track by $index"
                                          ng-bind="em.value">
                                     </div>
@@ -966,14 +966,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-if="fetching" class="common-load-more"></div>
+                        <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
                     </div>
                     <div class="custom_report_response_table" id="video_table" style="display:none;" ng-show="metricKeyArr.video_metrics.length">
                         <div class="custom_report_scroll">
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
                                     <div class="each_col tree_dimension_col">{{reportTitle}}</div>
-                                    <div class="each_col" ng-class="addReqClassToSort(vm.value,sortType,sortReverse)" ng-click="clickToSort(vm.value);"
+                                    <div class="each_col" ng-class="addReqClassToSort(vm.key,sortType,sortReverse)" ng-click="clickToSort(vm.key);"
                                          ng-repeat="vm in metricKeyArr.video_metrics track by $index"
                                          ng-bind="vm.value">
                                     </div>
@@ -1022,14 +1022,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-if="fetching" class="common-load-more"></div>
+                        <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
                     </div>
                     <div class="custom_report_response_table" id="display_quality_table" style="display:none;" ng-show="metricKeyArr.display_quality_metrics.length">
                         <div class="custom_report_scroll">
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
                                     <div class="each_col tree_dimension_col">{{reportTitle}}</div>
-                                    <div class="each_col" ng-class="addReqClassToSort(vm.value,sortType,sortReverse)" ng-click="clickToSort(vm.value);"
+                                    <div class="each_col" ng-class="addReqClassToSort(vm.key,sortType,sortReverse)" ng-click="clickToSort(vm.key);"
                                          ng-repeat="vm in metricKeyArr.display_quality_metrics track by $index"
                                          ng-bind="vm.value">
                                     </div>
@@ -1080,14 +1080,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-if="fetching" class="common-load-more"></div>
+                        <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
                     </div>
                     <div class="custom_report_response_table" id="video_quality_table" style="display:none;" ng-show="metricKeyArr.video_quality_metrics.length">
                         <div class="custom_report_scroll">
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
                                     <div class="each_col tree_dimension_col">{{reportTitle}}</div>
-                                    <div class="each_col" ng-class="addReqClassToSort(vm.value,sortType,sortReverse)" ng-click="clickToSort(vm.value);"
+                                    <div class="each_col" ng-class="addReqClassToSort(vm.key,sortType,sortReverse)" ng-click="clickToSort(vm.key);"
                                          ng-repeat="vm in metricKeyArr.video_quality_metrics track by $index"
                                          ng-bind="vm.value">
                                     </div>
@@ -1139,7 +1139,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-if="fetching" class="common-load-more"></div>
+                        <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
                     </div>
                 </div>
             </div>
@@ -1192,7 +1192,7 @@
              ng-bind="customeReportData.collective_cost == -1 ? 'NA' : (customeReportData.collective_cost | nrFormat)">
         </div>
         <div class="each_col_cost" ng-if="customeReportData.creative_cost>=-1"
-             ng-bind="customeReportData.creative_cost == -1 ? 'NA' : (customeReportData.creative_cost | nrFormat)">
+        ng-bind="customeReportData.creative_cost == -1 ? 'NA' : (customeReportData.creative_cost | nrFormat)">
         </div>
         <div class="each_col_cost" ng-if="customeReportData.data_cost>=-1"
              ng-bind="customeReportData.data_cost == -1 ? 'NA' : (customeReportData.data_cost | nrFormat)">
@@ -1200,19 +1200,17 @@
         <div class="each_col_cost" ng-if="customeReportData.inventory_cost>=-1"
              ng-bind="customeReportData.inventory_cost == -1 ? 'NA' : (customeReportData.inventory_cost | nrFormat)">
         </div>
-        <div class="each_col_cost" ng-if="customeReportData.metric_provider_cost>=-1"
-             ng-bind="customeReportData.metric_provider_cost == -1 ? 'NA' : (customeReportData.metric_provider_cost | nrFormat)">
-        </div>
+        <div class="each_col_cost" ng-if="customeReportData.gross_ecpm>=-1"
+             ng-bind="customeReportData.gross_ecpm == -1 ? 'NA' : (customeReportData.gross_ecpm | number:2)"></div>
+        <div class="each_col_cost" ng-if="customeReportData.gross_ecpc>=-1"
+             ng-bind="customeReportData.gross_ecpc == -1 ? 'NA' : (customeReportData.gross_ecpc | number:2)"></div>
         <div class="each_col_cost" ng-if="customeReportData.platform_cost>=-1"
              ng-bind="customeReportData.platform_cost == -1 ? 'NA' : (customeReportData.platform_cost | nrFormat)">
         </div>
         <div class="each_col_cost" ng-if="customeReportData.research_cost>=-1"
              ng-bind="customeReportData.research_cost == -1 ? 'NA' : (customeReportData.research_cost | nrFormat)">
         </div>
-        <div class="each_col_cost" ng-if="customeReportData.gross_ecpm>=-1"
-             ng-bind="customeReportData.gross_ecpm == -1 ? 'NA' : (customeReportData.gross_ecpm | number:2)"></div>
-        <div class="each_col_cost" ng-if="customeReportData.gross_ecpc>=-1"
-             ng-bind="customeReportData.gross_ecpc == -1 ? 'NA' : (customeReportData.gross_ecpc | number:2)"></div>
+
 
         <!----- booked report data ------------------------
         <div class="each_col" ng-if="customeReportData.ad_count>=0">{{customeReportData.ad_count}}</div>
@@ -1301,38 +1299,35 @@
         </div>
 
         <!----- Quality Video report data ------------------------>
-        <div class="each_col" ng-if="customeReportData.video_delivered_imps>=-1"
-             ng-bind="customeReportData.video_delivered_imps == -1 ? 'NA' : (customeReportData.video_delivered_imps | nrFormat)">
-        </div>
-        <div class="each_col" ng-if="customeReportData.video_measurable_imps>=-1"
-             ng-bind="customeReportData.video_measurable_imps == -1 ? 'NA' : (customeReportData.video_measurable_imps | nrFormat)">
-        </div>
-        <div class="each_col" ng-if="customeReportData.video_measurable_perc>=-1"
-             ng-bind="customeReportData.video_measurable_perc == -1 ? 'NA' : (customeReportData.video_measurable_perc | number:0) +'%'">
-        </div>
         <div class="each_col" ng-if="customeReportData.video_viewable_imps>=-1"
              ng-bind="customeReportData.video_viewable_imps == -1 ? 'NA' : (customeReportData.video_viewable_imps | nrFormat)">
         </div>
-        <div class="each_col" ng-if="customeReportData.video_viewable_perc>=-1"
-             ng-bind="customeReportData.video_viewable_perc == -1 ? 'NA' : (customeReportData.video_viewable_perc | number:0) + '%'"   >
+        <div class="each_col" ng-if="customeReportData.video_completion_25>=-1"
+             ng-bind="customeReportData.video_completion_25 == -1 ? 'NA' : (customeReportData.video_completion_25 | nrFormat)">
         </div>
-        <div class="each_col" ng-if="customeReportData.video_video_viewable_25>=-1"
-             ng-bind="customeReportData.video_video_viewable_25 == -1 ? 'NA' : (customeReportData.video_video_viewable_25 | nrFormat)">
+        <div class="each_col" ng-if="customeReportData.video_completion_50>=-1"
+             ng-bind="customeReportData.video_completion_50 == -1 ? 'NA' : (customeReportData.video_completion_50 | nrFormat)">
         </div>
-        <div class="each_col" ng-if="customeReportData.video_video_viewable_50>=-1"
-             ng-bind="customeReportData.video_video_viewable_50 == -1 ? 'NA' : (customeReportData.video_video_viewable_50 | nrFormat)">
+        <div class="each_col" ng-if="customeReportData.video_completion_75>=-1"
+             ng-bind="customeReportData.video_completion_75 == -1 ? 'NA' : (customeReportData.video_completion_75 | nrFormat)">
         </div>
-        <div class="each_col" ng-if="customeReportData.video_video_viewable_75>=-1"
-             ng-bind="customeReportData.video_video_viewable_75 == -1 ? 'NA' : (customeReportData.video_video_viewable_75 | nrFormat)">
+        <div class="each_col" ng-if="customeReportData.video_completion_100>=-1"
+             ng-bind="customeReportData.video_completion_100 == -1 ? 'NA' : (customeReportData.video_completion_100 | nrFormat)">
         </div>
-        <div class="each_col" ng-if="customeReportData.video_video_viewable_100>=-1"
-             ng-bind="customeReportData.video_video_viewable_100 == -1 ? 'NA' : (customeReportData.video_video_viewable_100 | nrFormat)">
+        <div class="each_col" ng-if="customeReportData.video_viewable_25>=-1"
+             ng-bind="customeReportData.video_viewable_25 == -1 ? 'NA' : (customeReportData.video_viewable_25 | nrFormat)">
+        </div>
+        <div class="each_col" ng-if="customeReportData.video_viewable_50>=-1"
+             ng-bind="customeReportData.video_viewable_50 == -1 ? 'NA' : (customeReportData.video_viewable_50 | nrFormat)">
+        </div>
+        <div class="each_col" ng-if="customeReportData.video_viewable_75>=-1"
+             ng-bind="customeReportData.video_viewable_75 == -1 ? 'NA' : (customeReportData.video_viewable_75 | nrFormat)">
+        </div>
+        <div class="each_col" ng-if="customeReportData.video_viewable_100>=-1"
+             ng-bind="customeReportData.video_viewable_100 == -1 ? 'NA' : (customeReportData.video_viewable_100 | nrFormat)">
         </div>
         <div class="each_col" ng-if="customeReportData.video_suspicious_imps>=-1"
              ng-bind="customeReportData.video_suspicious_imps == -1 ? 'NA' : (customeReportData.video_suspicious_imps |  nrFormat)">
-        </div>
-        <div class="each_col" ng-if="customeReportData.video_suspicious_act_perc>=-1"
-             ng-bind="customeReportData.video_suspicious_act_perc == -1 ? 'NA' : (customeReportData.video_suspicious_act_perc | number:2)">
         </div>
     </script>
 

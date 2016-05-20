@@ -448,7 +448,17 @@
 		.icon-search {
 			top: -4px ;
 		}
-	}	
+	}
+}
+.edit-report-popup-holder {
+	.common_dropdown {
+		.dropdown {
+			border: 0px ;
+		}
+		.dropdown-menu {
+			margin-top: -5px ;
+		}
+	}
 }
 .clone-popup {
 	.cloneMediaPlanNameInput {
@@ -1556,7 +1566,7 @@
 				padding: 5px;
 				cursor: default;
 				&:hover {
-					background: #d2dee7;
+					background: #F5F9FD;
 				}
 			}
 		}
@@ -1764,7 +1774,7 @@ multiselect {
 		z-index: 3000;
 		text-align: left;
 		width: 500px;
-		min-height: 250px;
+		min-height: 300px;
 		background: white;
 		border-radius: 5px;
 		-moz-border-radius: 5px;
@@ -1819,6 +1829,12 @@ multiselect {
 				color: @color_14;
 				margin-top: 6px;
 			}
+		}
+	}
+	.download_error_log {
+		margin-top: 10px;
+		.download_error_log_txt {
+			margin-left: 5px;
 		}
 	}
 }
@@ -1879,10 +1895,10 @@ multiselect {
 		top: 10px;
 		left: 10px;
 		z-index: 1;
-        input {
-            padding-left: 20px;
-        }
 	}
+    input {
+        padding-left: 20px !important;
+    }
 	.perSymbol {
 		right: 25px;
 		left: auto;
@@ -1901,6 +1917,9 @@ multiselect {
 }
 .errorBorder {
 	border-color: @color_25 !important ;
+}
+.successText {
+	color: #39AE42 ;
 }
 .disabled-field {
 	background: #eee ;
@@ -1929,7 +1948,7 @@ div.inputLoader {
     -webkit-border-radius: 2px;
     > input[type="text"] {
     	border: solid 1px  transparent;
-    	width: 80% ;
+    	width: 100% ;
     	margin: 0 ;
     }
     > input[type="text"]:focus , > input[type="text"]:hover {
@@ -1940,6 +1959,7 @@ div.inputLoader {
 		right: 0px ;
 		top : 0px ;
 		z-index: 10 ;
+		background-color: #fff ;
 	}
 }
 tags-input .autocomplete {
@@ -2007,7 +2027,24 @@ tags-input .autocomplete {
     -webkit-animation-iteration-count: 1;
     font-size: 14px ;
 }
-
+/*Dropdown which has search input box*/
+.dropdown-menu-with-search {
+	padding-top: 0 ;
+	.search-inside-dropdown {
+		border: 0px ;
+		border-bottom: solid 1px #ccc;
+		margin-bottom: 5px ;
+		input {
+			border: 0px;
+			padding-right: 30px;
+			background: url("/images/cdesk/search_input.png") no-repeat right 10px center;
+			height: 30px;
+			width: 100%;
+			padding-left: 15px;
+		}
+	}
+}
+/*End of Dropdown which has search input box*/
 
 @keyframes show-notification {
     from {
