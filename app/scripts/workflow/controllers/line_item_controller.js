@@ -164,7 +164,6 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 return false;
             }
             workflowService.createLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem).then(function (results) {
-                console.log('result==', results)
                 if (results.status === 'success' && results.data.statusCode === 201) {
                     var campaignObj = $scope.createCampaignAccess();
                     campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
@@ -581,10 +580,29 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 $scope.pricingRate = item.billingRate;
 
                 //line start Date
-                $scope.lineItemStartDate = momentService.utcToLocalTime(item.startTime);
+                $scope.lineItemStartDate = momentService.utcToLocalTime(item.startTime)  ;
 
                 //line Item End Date
-                $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime);
+                $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime)  ;
+
+            
+                 //line Item End Date
+                $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime)  ;
+
+                if( $scope.campaignDate ) {
+
+                    $scope.lineItemdiffDays = momentService.dateDiffInDays($scope.lineItemStartDate,$scope.lineItemEndDate) ;
+                }
+                if( $scope.campaignDate ) {
+                    if( !$scope.ifClonedDateLessThanStartDate ) {
+                        $scope.lineItemStartDate = momentService.addDaysCustom($scope.lineItemStartDate, 'MM/DD/YYYY', $scope.newdiffDays); 
+                        $scope.lineItemEndDate = momentService.addDaysCustom($scope.lineItemEndDate, 'MM/DD/YYYY', $scope.newdiffDays);
+                    } else {
+                        $scope.lineItemStartDate = momentService.substractDaysCustom($scope.lineItemStartDate, 'MM/DD/YYYY', $scope.lessdiffDays) ;
+                        $scope.lineItemEndDate = momentService.addDaysCustom($scope.lineItemStartDate , 'MM/DD/YYYY', $scope.lineItemdiffDays ); 
+                    }
+                }
+
 
                 campaignId = item.campaignId;
                 $scope.createNewLineItem('create', item);
@@ -639,7 +657,6 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 }
             }
             $scope.lineItemList = tempList;
-            console.log(tempList);
         }
 
         $scope.calculateLineItemTotal = function(){
@@ -650,7 +667,6 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         }
 
         $scope.calculateVolume = function(mode){
-            console.log("type == ",$scope.lineItemType.name,'$scope.pricingRate== ',$scope.pricingRate,'$scope.billableAmount==',$scope.billableAmount);
 
             if (CONST_COGS_PERCENT !== $scope.lineItemType.name && CONST_FLAT_FEE !== $scope.lineItemType.name && CONST_COGS_CPM !== $scope.lineItemType.name){
                 if(mode === 'create'){

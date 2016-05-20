@@ -36,6 +36,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.lineRate = '';
         $scope.adGroupName = '';
         $scope.lineTarget = '';
+        $scope.campaignDate = '' ;
 
         $scope.checkUniqueMediaPlanNameNotFound = false;
         $scope.executionPlatforms = [];
@@ -84,6 +85,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.selectedCampaign.costAttributes = {};
 
         var selectedAdvertiser;
+        $scope.periodDays = 0 ;
+        $scope.lessdiffDays = 0 ;
+        $scope.ifClonedDateLessThanStartDate = false ;
+        $scope.lineItemdiffDays = 0;
+        $scope.newdiffDays = 0 ;
 
         if (!loginModel.getMasterClient().isLeafNode) {
             $scope.showSubAccount = true;
@@ -179,8 +185,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             fetchCostAttributes: function () {
                 workflowService.getCostAttr($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId).then(function (result) {
                     $scope.selectedCampaign.costAttributes = workflowService.processCostAttr(result.data.data);
-                    console.log("$scope.selectedCampaign.costAttributes", $scope.selectedCampaign.costAttributes);
-                    console.log("selectedCampaign.costAttributes.category", $scope.selectedCampaign.costAttributes.category);
                 });
             },
 
@@ -256,18 +260,41 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     endTime: momentService.utcToLocalTime(campaignData.endTime)
                 }
 
+                if( $scope.campaignDate ) {
+
+                    $scope.periodDays = momentService.dateDiffInDays(flightDateObj.startTime,flightDateObj.endTime)   ;
+                }
+
+
+
+                $scope.newdiffDays =  momentService.dateDiffInDays(flightDateObj.startTime ,$scope.campaignDate)  ; 
+
+                $scope.ifClonedDateLessThanStartDate = momentService.isDateBefore($scope.campaignDate , flightDateObj.startTime ) ;
+
+                if( $scope.ifClonedDateLessThanStartDate ) {
+                    // when the cloned date is smaller than  the media plan date
+                    $scope.lessdiffDays = momentService.dateDiffInDays($scope.campaignDate , flightDateObj.startTime)  ;
+                }
+
+                if( $scope.campaignDate ) {
+                    flightDateObj.startTime = $scope.campaignDate ;
+                    flightDateObj.endTime = momentService.addDaysCustom(flightDateObj.startTime, 'MM/DD/YYYY', $scope.periodDays); 
+                }
+
+
                 //set startDate
                 if (flightDateObj.startTime) {
-                    $scope.selectedCampaign.startTime = flightDateObj.startTime;
+                    $scope.selectedCampaign.startTime = flightDateObj.startTime ;
                 }
 
                 //set endDate
                 if (flightDateObj.endTime) {
-                    $scope.selectedCampaign.endTime = flightDateObj.endTime;
+                    $scope.selectedCampaign.endTime = flightDateObj.endTime  ;
                     $scope.initiateDatePicker();
                     $scope.handleFlightDate(flightDateObj);
                 }
 
+             
                 //set updateAt value in hidden field.
                 if (campaignData.updatedAt) {
                     $scope.selectedCampaign.updatedAt = campaignData.updatedAt;
@@ -354,6 +381,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.processEditCampaignData = function () {
             workflowService.getCampaignData($scope.campaignId).then(function (result) {
+
                 if (result.status === "OK" || result.status === "success") {
                     createCampaign.prefillMediaPlan(result.data.data);
                 }
@@ -422,7 +450,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var endDateElem = $('#endDateInput')
             var changeDate;
 
-            if ($scope.mode !== 'edit') {
+            if ($scope.mode !== 'edit' || !$scope.campaignDate ) {
                 if (startTime) {
                     if (moment(startTime).isAfter(endTime)) {
                         endDateElem.removeAttr("disabled").css({'background': 'transparent'});
@@ -596,7 +624,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var startDateElem = $('#startDateInput');
             var endDateElem = $('#endDateInput');
             var today = momentService.utcToLocalTime();
-            if ($scope.mode == 'edit') {
+            if ($scope.mode == 'edit' || $scope.campaignDate ) {
                 var campaignStartTime = $scope.selectedCampaign.startTime;
                 var currentDateTime = momentService.utcToLocalTime();
                 if (moment(campaignStartTime).isAfter(currentDateTime)) {
@@ -617,7 +645,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 endDateElem.datepicker("setStartDate", today);
                 endDateElem.datepicker("update", today);
-
             }
         };
 
@@ -707,6 +734,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if (cloneMediaPlanObj) {
                     $scope.cloneMediaPlanName = cloneMediaPlanObj.name;
                     $scope.campaignId = cloneMediaPlanObj.id;
+                    $scope.campaignDate = cloneMediaPlanObj.date;
                     $scope.mode = 'create';
                 }
 
