@@ -69,7 +69,7 @@
         <label for="nameTitleCampaign" class="col-sm-12 greyTxt"  data-ng-bind="textConstants.MEDIAPLAN_NAME"></label>
         <div  class="form-group col-sm-12 zeroPadding" show-errors>
             <div class="inputLoader">
-                <input type="text" class="form-control" remove-special-character ='remove-special-character' ng-keyup="isMediaPlanNameExist($event)" name="campaignName" title="{{selectedCampaign.campaignName}}" ng-model="selectedCampaign.campaignName"  autocomplete="off" maxlength="250" ng-maxlength="250" autofocus placeholder="Enter a name up to 250 characters (no punctuation or special characters)" required/>
+                <input type="text" class="form-control" remove-special-character ='remove-special-character' ng-keyup="isMediaPlanNameExist($event)" name="campaignName" title="{{selectedCampaign.campaignName}}" ng-model="selectedCampaign.campaignName"  autocomplete="off" maxlength="250" ng-maxlength="250" autofocus placeholder="Enter up to 250 characters, no punctuation or special characters." required/>
                 <div class="common-loading-area" ng-show="checkUniqueMediaPlanNameNotFound && selectedCampaign.campaignName"></div>
             </div>
             <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel" data-ng-bind="textConstants.WF_ENTER_NAME_CAMPAIGN"></label>

@@ -2734,7 +2734,7 @@ button, i, input[type="submit"] {
 
 .nav_filters {
   width: 100%;
-  margin: 5px auto 2px ;
+  //margin: 5px auto 2px ;
   font-size: 14px;
   color: #21252B;
   line-height: 20px;
@@ -2782,13 +2782,15 @@ button, i, input[type="submit"] {
       height: 18px;
     }
     #advertisersDropDownList , #subAccountDropDownList {
-
-      width: 280px;
-      left : 0px ;
-      padding: 0 ;
+      width: auto;
+      padding-top: 0;
+      //left : 0px ;
+      //padding: 0 ;
       .brandsList_ul2 {
         max-height: 200px;
         overflow: auto ;
+        float: left;
+        width: 100%;
       }
       .brand_search_highlight {
         border-bottom: solid 1px #fff ;
@@ -2820,6 +2822,38 @@ button, i, input[type="submit"] {
       .brandsList_ul {
         max-height: 200px;
         overflow: auto ;
+        float: left;
+        width: 100%;
+        li {
+            a {
+                float: left;
+                width: 100%;
+                color: #21252b;
+                font-family: Avenir;
+                font-size: 14px;
+                line-height: 100%;
+                padding: 9px 15px;
+                overflow: hidden;
+                &:hover, &:focus {
+                    color: #21252b;
+                    text-decoration: none;
+                    background-color: #E1EDF9;
+                }
+                span {
+                    padding: 0;
+                }
+            }
+        }
+        li.active {
+            a {
+                background: #fff;
+                &:hover, &:focus {
+                    color: #21252b;
+                    text-decoration: none;
+                    background-color: #E1EDF9;
+                }
+            }
+        }
       }
       .brand_search_highlight {
         border-bottom: solid 1px #fff ;
@@ -2971,14 +3005,79 @@ button, i, input[type="submit"] {
   }
   .brandsDropdownSearch {
     position: relative;
-    #brandsDropdownDiv , #subAccountDropdownDiv {
+    #brandsDropdownDiv , #subAccountDropdownDiv, .advertisersList_ul {
         width: 100%;
-        border-bottom: solid 1px #ccc;
-        padding: 0px 10px;
+        border-bottom: solid 1px #BFC9D7;
+        //padding: 5px 10px;
+        float: left;
         input {
           font-family: "Avenir" ;
           padding-right: 20px;
-          background: url("/images/cdesk/search_input.png") no-repeat right center;
+          background: url("/images/cdesk/search_input.png") #fff no-repeat right center !important;
+        }
+        li {
+            float: left;
+            width: 100%;
+            a {
+                color: #21252b;
+                font-family: Avenir;
+                font-size: 14px;
+                line-height: 100%;
+                padding: 9px 15px !important;
+                overflow: hidden;
+                float: left;
+                width: 100%;
+                &:hover, &:focus {
+                    color: #21252b;
+                    text-decoration: none;
+                    background-color: #E1EDF9;
+                }
+                span {
+                    padding: 0;
+                }
+            }
+        }
+        li.active {
+            a {
+                background: #fff !important;
+            }
+        }
+    }
+    .subAccountList_ul {
+        float: left;
+        width: 100%;
+        li {
+            padding: 0;
+            width: 100%;
+            float: left;
+            a {
+                float: left;
+                width: 100%;
+                color: #21252b;
+                font-family: Avenir;
+                font-size: 14px;
+                line-height: 100%;
+                padding: 9px 15px !important;
+                overflow: hidden;
+                &:hover, &:focus {
+                    color: #21252b;
+                    text-decoration: none;
+                    background-color: #E1EDF9;
+                }
+                span {
+                    padding: 0;
+                }
+            }
+        }
+        li.active {
+            a {
+                background: transparent;
+                &:hover, &:focus {
+                    color: #21252b;
+                    text-decoration: none;
+                    background-color: #E1EDF9;
+                }
+            }
         }
     }
   }

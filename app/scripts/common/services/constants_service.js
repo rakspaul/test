@@ -338,6 +338,7 @@ define(['angularAMD'], function(angularAMD) {
         this.FLIGHT_DATES = "Flight Dates";
         this.METRICS_LIFE_TIME = "Metrics (Lifetime)";
         this.METRICS = "Metrics";
+        this.METRIC = "Metric";
         this.SELECTED_METRICS = "Selected Metrics";
         this.LOAD_MORE_STRATEGIES = "Load More Ad Groups";
         this.LOAD_MORE_TACTICS = "Load More Ads";

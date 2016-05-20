@@ -94,7 +94,7 @@ select {
         }
 
         .btn-default {
-            border-radius: 2px !important;
+            border-radius: 0;
             box-shadow: none;
 
             &:hover {
@@ -119,13 +119,13 @@ select {
             }
 
             &:first-child {
-                border-top-right-radius: 0 !important;
-                border-bottom-right-radius: 0 !important;
+                border-top-left-radius: 2px !important;
+                border-bottom-left-radius: 2px !important;
             }
 
             &:last-child {
-                border-top-left-radius: 0 !important;
-                border-bottom-left-radius: 0 !important;
+                border-top-right-radius: 2px !important;
+                border-bottom-right-radius: 2px !important;
             }
 
             &.whitelist.active.disabled,

@@ -59,13 +59,37 @@
   margin-left: 2px;
 }
 .main_dashboard .dropdown ul {
-  padding: 0px;
+  width: 280px;
+  margin-top: 3px;
+  margin-left: 0;
+  border: 1px solid #ccd2da;
+  border-radius: 1px;
+  box-shadow: 0 1px 7px rgba(0, 0, 0, 0.15) !important;
+  -webkit-box-shadow: 0 1px 7px rgba(0, 0, 0, 0.15) !important;
+  width: auto;
+  min-width: 100%;
+  max-width: 340px;
+  max-height: 280px;
+  overflow: auto;
 }
 .main_dashboard .dropdown ul li {
-  padding: 2px 5px ;
+  color: #21252b;
+  font-family: Avenir;
+  font-size: 14px;
+  line-height: 100%;
+  padding: 9px 15px;
+  overflow: hidden;
+  cursor: pointer;
 }
 .main_dashboard .dropdown ul li:hover {
-  background: #f5f9fd ;
+  color: #21252b;
+  text-decoration: none;
+  background-color: #E1EDF9;
+}
+.main_dashboard .dropdown ul li:focus {
+  color: #21252b;
+  text-decoration: none;
+  background-color: #E1EDF9;
 }
 .main_dashboard .status_filter .dropdown_ul {
   min-width: 100px ;
@@ -109,7 +133,20 @@
 }
 .main_dashboard .status_filter .status_filter_dd li {
   text-align: left;
-  padding: 6px 10px;
+  float: left;
+  width: 100%;
+  color: #21252b;
+  font-family: Avenir;
+  font-size: 14px;
+  line-height: 100%;
+  padding: 9px 15px;
+  overflow: hidden;
+}
+.main_dashboard .status_filter .status_filter_dd li:hover,
+.main_dashboard .status_filter .status_filter_dd li:focus {
+  color: #21252b;
+  text-decoration: none;
+  background-color: #E1EDF9;
 }
 .main_dashboard .status_filter .status_filter_dd li.active {
   font-family: "Avenir-bold";
@@ -461,7 +498,18 @@
   width: 100px;
 }
 .main_dashboard #dashboard_metric_dd .dropdown_ul li {
-  padding: 2px 5px;
+  color: #21252b;
+  font-family: Avenir;
+  font-size: 14px;
+  line-height: 100%;
+  padding: 9px 15px;
+  overflow: hidden;
+}
+.main_dashboard #dashboard_metric_dd .dropdown_ul li:hover,
+.main_dashboard #dashboard_metric_dd .dropdown_ul li:focus {
+  color: #21252b;
+  text-decoration: none;
+  background-color: #E1EDF9;
 }
 .main_dashboard #dashboard_screen_dd .dropdown_ul {
   left: -6px;
