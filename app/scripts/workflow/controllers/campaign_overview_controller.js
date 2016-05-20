@@ -12,7 +12,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         end = momentService.utcToLocalTime(campaignData.endTime),
                         start = momentService.utcToLocalTime(campaignData.startTime);
 
-                    campaignData.numOfDays = moment(end).diff(moment(start), 'days');
+                    campaignData.numOfDays = moment(end).diff(moment(start), 'days') +  1 ;
 
                     $scope.isEndDateInPast =  moment().isAfter(end, 'day');
                 },

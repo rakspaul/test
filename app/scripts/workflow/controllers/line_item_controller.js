@@ -573,12 +573,16 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 $scope.billableAmount = item.billableAmount;
                 $scope.volume = item.volume;
                 $scope.pricingRate = item.billingRate;
-
+                console.log("hello in line" , $scope.diffDays ) ;
                 //line start Date
-                $scope.lineItemStartDate = momentService.utcToLocalTime(item.startTime);
+                $scope.lineItemStartDate = momentService.utcToLocalTime(item.startTime)  ;
+                $scope.lineItemStartDate = momentService.addDaysCustom($scope.lineItemStartDate, 'MM/DD/YYYY', $scope.diffDays); 
+
 
                 //line Item End Date
-                $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime);
+                $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime)  ;
+                $scope.lineItemEndDate = momentService.addDaysCustom($scope.lineItemEndDate, 'MM/DD/YYYY', $scope.diffDays); 
+
 
                 campaignId = item.campaignId;
                 $scope.createNewLineItem('create', item);
@@ -633,7 +637,6 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 }
             }
             $scope.lineItemList = tempList;
-            console.log(tempList);
         }
 
         $scope.calculateLineItemTotal = function(){
@@ -644,7 +647,6 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         }
 
         $scope.calculateVolume = function(mode){
-            console.log("type == ",$scope.lineItemType.name,'$scope.pricingRate== ',$scope.pricingRate,'$scope.billableAmount==',$scope.billableAmount);
 
             if(mode === 'create'){
                 $scope.volume = '';

@@ -29,15 +29,17 @@ define(['angularAMD'],function (angularAMD) {
 
             var params = {
                 'id': Number($routeParams.campaignId),
-                'name': cloneMediaPlanName
+                'name': cloneMediaPlanName,
+                'date': cloneStartDate
             }
 
             $scope.showCloneLoader = true;
-            if(cloneLineItems) {
+
+            if(cloneLineItems  && cloneAdGroups) {
                 params['cloneLineitems'] = cloneLineItems;
                 params['cloneAdGroups'] = cloneAdGroups;
                 params['cloneAds'] = true;
-                if( (flightDateChosen == "automaticFlightDates") && $scope.newMediaPlanDate ) {
+                if( cloneAdGroups && (flightDateChosen == "automaticFlightDates") && $scope.newMediaPlanDate ) {
                     params['startDate'] = momentService.localTimeToUTC(cloneStartDate, 'startTime') ;
                 }
                
@@ -60,6 +62,7 @@ define(['angularAMD'],function (angularAMD) {
                 $location.url(vistoconfig.MEDIAPLAN_CREATE);
                 $scope.close();
             }
+
         };
 
         $scope.showDuplicateAdGroupSection = function() {
