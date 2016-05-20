@@ -299,7 +299,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                             '/campaigns/' + campaignId +
                             '/ad_groups/' + adGroupID +
                             '/ads';
-
                     return dataService.fetch(url, {
                         cache: false
                     });
@@ -474,7 +473,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
-                        '/vendors?format=' + adFormat.replace(/\s+/g, '').toUpperCase());
+                        '/vendors?format=' + adFormat.toUpperCase());
                 },
 
                 getTemplates: function (adServer, format) {

@@ -264,6 +264,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         promiseObj = $scope.adId ?
                             workflowService.updateAd(postDataObj) :
                             workflowService.createAd(postDataObj);
+                        console.log('postDataObj test---',postDataObj);
 
                         promiseObj.then(function (result) {
                             var responseData = result.data.data,
@@ -439,9 +440,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 if (responseData.adFormat) {
                     format = $filter('toTitleCase')(responseData.adFormat);
-                    if (format === 'Richmedia') {
-                        format = 'Rich Media';
-                    }
+
                     $scope.adFormatSelection(format, '', 'editData');
                     $scope.adData.adFormat = format;
                 }
@@ -1067,7 +1066,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                     adFormatsData = $scope.workflowData.adFormats;
                     _.each(adFormatsData, function (obj) {
-                        obj.name === $scope.adformatName ? obj.active = true : obj.active = false;
+                        objectName = $filter('toTitleCase')(obj.name);
+                        objectName === $scope.adformatName ? obj.active = true : obj.active = false;
                     });
                 }
 
@@ -1216,7 +1216,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     postAdDataObj.campaignId = Number($scope.campaignId);
 
                     if (formData.adFormat) {
-                        postAdDataObj.adFormat = formData.adFormat.replace(/\s+/g, '').toUpperCase();
+                        postAdDataObj.adFormat = formData.adFormat.toUpperCase();
                     }
 
                     if ($scope.editedAdSourceId) {
