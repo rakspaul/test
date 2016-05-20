@@ -131,7 +131,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                         $filter('toPascalCase')(platform.name) +
                                         ': ' +
                                         settings +
-                                        '. Would you like to clear these settings and switch platforms? (OK/Cancel).';
+                                        '. Would you like to clear these settings and switch platforms?';
                                     $scope.changePlatformPopup = true;
                                 } else {
                                     _buyingPlatform.setPlatform(event, platform, seat);
