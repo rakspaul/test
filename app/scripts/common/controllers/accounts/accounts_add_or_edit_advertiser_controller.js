@@ -31,6 +31,7 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
             $scope.resetBrandAdvertiserAfterEdit();
             $modalInstance.dismiss();
             _currCtrl.clearAdvInputFiled();
+            $scope.advertiserAddOrEditData.duplicatePixelName = false;
         };
         $(".miniTabLinks.sub .btn").removeClass("active");
         $(".miniTabLinks.sub .subBasics").addClass("active");
