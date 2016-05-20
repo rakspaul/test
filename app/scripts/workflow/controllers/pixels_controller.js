@@ -10,7 +10,7 @@ define(['angularAMD' , 'workflow/services/workflow_service' , 'common/moment_uti
 
             var pixels = {
                 fetchPixels: function (pixels) {
-                    workflowService.getPixels($scope.selectedCampaign.advertiserId,$scope.selectedCampaign.clientId, $scope.selectedCampaign.endTime,pixels,$scope.mode).then(function (result) {
+                    workflowService.getPixels($scope.selectedCampaign.advertiserId,$scope.selectedCampaign.clientId, $scope.selectedCampaign.utcEndTime,pixels,$scope.mode).then(function (result) {
                         if (result.status === "OK" || result.status === "success") {
                             $scope.selectedCampaign.selectedPixel = [];
                             var responseData = result.data.data;
