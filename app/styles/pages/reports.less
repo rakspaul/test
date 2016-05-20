@@ -2572,6 +2572,32 @@ div.strategy_total_container {
     display:none;
   }
   .vid_show {display:block;}
+  
+  /*hot fix for the KPI drpdown of platform header so that nothing else will break*/
+  .performancePlatformHeader {
+    .seventh_col {
+      width: 90px !important;
+      cursor: pointer;
+      .kpi_indicator_ul {
+        top: 20px ;
+        .drop_list {
+          width: 80% ;
+          li {
+            line-height: 22px ;
+            .kpiIndicator {
+              float: left;
+              margin: 1px 0px 0 0;
+            }
+          }
+        }
+        .direction_arrows {
+          margin-top: 5px ;
+        }
+      }
+    }
+  }
+  /*end of hot fix for the KPI drpdown of platform header so that nothing else will break*/
+
   .vid_data_hdr {
     width:336px;
     border:1px none #FF6600;

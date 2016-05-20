@@ -2192,6 +2192,8 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 /**************** reports performance table styling ***********/
 .reports_tabs_content_container {
   margin-top: 22  px ;
+  /*hot fix for the KPI drpdown of platform header so that nothing else will break*/
+  /*end of hot fix for the KPI drpdown of platform header so that nothing else will break*/
 }
 .reports_tabs_content_container .common-load-icon {
   text-align: center;
@@ -2446,6 +2448,26 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container .vid_show {
   display: block;
+}
+.reports_tabs_content_container .performancePlatformHeader .seventh_col {
+  width: 90px !important;
+  cursor: pointer;
+}
+.reports_tabs_content_container .performancePlatformHeader .seventh_col .kpi_indicator_ul {
+  top: 20px ;
+}
+.reports_tabs_content_container .performancePlatformHeader .seventh_col .kpi_indicator_ul .drop_list {
+  width: 80% ;
+}
+.reports_tabs_content_container .performancePlatformHeader .seventh_col .kpi_indicator_ul .drop_list li {
+  line-height: 22px ;
+}
+.reports_tabs_content_container .performancePlatformHeader .seventh_col .kpi_indicator_ul .drop_list li .kpiIndicator {
+  float: left;
+  margin: 1px 0px 0 0;
+}
+.reports_tabs_content_container .performancePlatformHeader .seventh_col .kpi_indicator_ul .direction_arrows {
+  margin-top: 5px ;
 }
 .reports_tabs_content_container .vid_data_hdr {
   width: 336px;
@@ -4341,7 +4363,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
+  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #ffffff;
   height: 11px;
   width: 12px;
   min-width: 12px;
