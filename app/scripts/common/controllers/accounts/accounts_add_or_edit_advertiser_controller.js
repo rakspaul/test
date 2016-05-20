@@ -206,7 +206,7 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 return false;
             }
             if(_currCtrl.downloadPixelIds.length && (_currCtrl.downloadPixelIds.length < $scope.advertiserData.pixels.length)){
-                url += '?id='+ _currCtrl.downloadPixelIds.join(",");
+                url += '?ids='+ _currCtrl.downloadPixelIds.join(",");
             }
             dataService.downloadFile(url).then(function (res) {
                 if(res.status === 'OK' || res.status === 'success'){
