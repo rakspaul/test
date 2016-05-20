@@ -617,7 +617,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 //  postCrDataObj.isTracking = $scope.TrackingIntegrationsSelected;
 
                 postCrDataObj.adServerId = formData.creativeAdServer;
-                postCrDataObj.creativeFormat = $scope.creativeFormat.replace(/\s+/g, '').toUpperCase();
+                postCrDataObj.creativeFormat = $scope.creativeFormat.toUpperCase();
                 postCrDataObj.sslEnable = 'true';
                 postCrDataObj.tag = '%%TRACKER%%';
                 postCrDataObj.sizeId = formData.creativeSize;
