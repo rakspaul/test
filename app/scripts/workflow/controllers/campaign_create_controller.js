@@ -85,7 +85,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.selectedCampaign.costAttributes = {};
 
         var selectedAdvertiser;
-        $scope.diffDays = 0 ;
+        $scope.periodDays = 0 ;
+        $scope.lessdiffDays = 0 ;
+        $scope.ifClonedDateLessThanStartDate = false ;
+        $scope.lineItemdiffDays = 0;
+        $scope.newdiffDays = 0 ;
 
         if (!loginModel.getMasterClient().isLeafNode) {
             $scope.showSubAccount = true;
@@ -256,12 +260,23 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 if( $scope.campaignDate ) {
 
-                    $scope.diffDays = momentService.dateDiffInDays(flightDateObj.startTime,flightDateObj.endTime) + 1 ;
+                    $scope.periodDays = momentService.dateDiffInDays(flightDateObj.startTime,flightDateObj.endTime)   ;
                 }
-                console.log("console 2 " , flightDateObj.startTime , flightDateObj.endTime , $scope.diffDays ) ;
+
+
+
+                $scope.newdiffDays =  momentService.dateDiffInDays(flightDateObj.startTime ,$scope.campaignDate)  ; 
+
+                $scope.ifClonedDateLessThanStartDate = momentService.isDateBefore($scope.campaignDate , flightDateObj.startTime ) ;
+
+                if( $scope.ifClonedDateLessThanStartDate ) {
+                    // when the cloned date is smaller than  the media plan date
+                    $scope.lessdiffDays = momentService.dateDiffInDays($scope.campaignDate , flightDateObj.startTime)  ;
+                }
+
                 if( $scope.campaignDate ) {
                     flightDateObj.startTime = $scope.campaignDate ;
-                    flightDateObj.endTime = momentService.addDaysCustom(flightDateObj.startTime, 'MM/DD/YYYY', $scope.diffDays); 
+                    flightDateObj.endTime = momentService.addDaysCustom(flightDateObj.startTime, 'MM/DD/YYYY', $scope.periodDays); 
                 }
 
 

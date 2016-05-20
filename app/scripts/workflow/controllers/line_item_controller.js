@@ -159,7 +159,6 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 return false;
             }
             workflowService.createLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem).then(function (results) {
-                console.log('result==', results)
                 if (results.status === 'success' && results.data.statusCode === 201) {
                     var campaignObj = $scope.createCampaignAccess();
                     campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
@@ -573,15 +572,30 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 $scope.billableAmount = item.billableAmount;
                 $scope.volume = item.volume;
                 $scope.pricingRate = item.billingRate;
-                console.log("hello in line" , $scope.diffDays ) ;
+
                 //line start Date
                 $scope.lineItemStartDate = momentService.utcToLocalTime(item.startTime)  ;
-                $scope.lineItemStartDate = momentService.addDaysCustom($scope.lineItemStartDate, 'MM/DD/YYYY', $scope.diffDays); 
-
 
                 //line Item End Date
                 $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime)  ;
-                $scope.lineItemEndDate = momentService.addDaysCustom($scope.lineItemEndDate, 'MM/DD/YYYY', $scope.diffDays); 
+
+            
+                 //line Item End Date
+                $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime)  ;
+
+                if( $scope.campaignDate ) {
+
+                    $scope.lineItemdiffDays = momentService.dateDiffInDays($scope.lineItemStartDate,$scope.lineItemEndDate) ;
+                }
+                if( $scope.campaignDate ) {
+                    if( !$scope.ifClonedDateLessThanStartDate ) {
+                        $scope.lineItemStartDate = momentService.addDaysCustom($scope.lineItemStartDate, 'MM/DD/YYYY', $scope.newdiffDays); 
+                        $scope.lineItemEndDate = momentService.addDaysCustom($scope.lineItemEndDate, 'MM/DD/YYYY', $scope.newdiffDays);
+                    } else {
+                        $scope.lineItemStartDate = momentService.substractDaysCustom($scope.lineItemStartDate, 'MM/DD/YYYY', $scope.lessdiffDays) ;
+                        $scope.lineItemEndDate = momentService.addDaysCustom($scope.lineItemStartDate , 'MM/DD/YYYY', $scope.lineItemdiffDays ); 
+                    }
+                }
 
 
                 campaignId = item.campaignId;
