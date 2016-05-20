@@ -1,14 +1,14 @@
 define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/services/transformer_service',
     'reporting/models/campaign_cdb_data', 'reporting/models/campaign_cost', 'common/services/request_cancel_service',
     'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model',
-    'reporting/advertiser/advertiser_model', 'common/services/url_service', 'common/services/vistoconfig_service'],
+    'reporting/advertiser/advertiser_model', 'common/services/url_service', 'common/services/vistoconfig_service','../../common/services/data_service'],
     function (angularAMD) {
         //originally part of controllers/campaign_controller.js
         angularAMD.factory('campaignListModel', ['$rootScope', '$location', 'campaignListService', 'modelTransformer',
             'campaignCDBData', 'campaignCost', 'requestCanceller', 'constants', 'brandsModel', 'loginModel',
-            'advertiserModel', 'urlService', 'vistoconfig',
+            'advertiserModel', 'urlService', 'vistoconfig','dataService',
             function ($rootScope, $location, campaignListService, modelTransformer, campaignCDBData, campaignCost,
-                      requestCanceller, constants, brandsModel, loginModel, advertiserModel, urlService, vistoconfig) {
+                      requestCanceller, constants, brandsModel, loginModel, advertiserModel, urlService, vistoconfig,dataService) {
                 //var scrollFlag = 1;
                 var Campaigns = function () {
                     this.getCapitalizeString = function (string) {
@@ -232,7 +232,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 self = this;
                                 self.noData = false;
                                 url = _campaignServiceUrl.call(this);
-
+console.log('url 42: ',url)
                                 campaignListService.getCampaigns(url, function (result) {
                                     var data = result.data.data;
 
@@ -261,30 +261,51 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                     self.performanceParams.nextPage += 1;
 
                                     if (data.length > 0) {
-                                        //var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
                                         var campaignData = campaignListService.setActiveInactiveCampaigns(data,
                                             timePeriodApiMapping(self.timePeriod));
 
                                         angular.forEach(campaignData, function (campaign) {
-                                            this.push(campaign);
-                                            //self.costIds += campaign.orderId + ',';
-                                            //compareCostDates.call(self, campaign.startDate, campaign.endDate);
-                                            if (campaign.kpi_type === 'null') {
-                                                campaign.kpi_type = 'CTR';
-                                                campaign.kpi_value = 0;
-                                            }
-                                            campaignListService.getCdbLineChart(campaign, self.timePeriod,
-                                                function (cdbData) {
-                                                    if (cdbData) {
-                                                        self.cdbDataMap[campaign.orderId] =
-                                                            modelTransformer.transform(cdbData, campaignCDBData);
-                                                        self.cdbDataMap[campaign.orderId].modified_vtc_metrics =
-                                                            campaignListService.vtcMetricsJsonModifier(
-                                                                self.cdbDataMap[campaign.orderId].video_metrics
-                                                            );
-                                                    }
+                                            var queryObj = {
+                                                'queryId':14,
+                                                'clientId':loginModel.getSelectedClient().id,
+                                                'advertiserId':advertiserModel.getSelectedAdvertiser().id,
+                                                'brandId':brandsModel.getSelectedBrand().id,
+                                                'dateFilter':'life_time',
+                                                'campaignIds':campaign.id
+                                            };
+                                            var spendUrl = urlService.getCampaignSpend(queryObj);
+
+                                            var contextThis = this;
+
+                                            dataService.fetch(spendUrl).then(function(response) {
+                                                if(response.data){
+                                                    campaign.spend = response.data.data[0].gross_rev;
+                                                } else {
+                                                    campaign.spend = 0;
                                                 }
-                                            );
+                                                contextThis.push(campaign);
+
+                                                //self.costIds += campaign.orderId + ',';
+                                                //compareCostDates.call(self, campaign.startDate, campaign.endDate);
+                                                if (campaign.kpi_type === 'null') {
+                                                    campaign.kpi_type = 'CTR';
+                                                    campaign.kpi_value = 0;
+                                                }
+                                                campaignListService.getCdbLineChart(campaign, self.timePeriod,
+                                                    function (cdbData) {
+                                                        if (cdbData) {
+                                                            self.cdbDataMap[campaign.orderId] =
+                                                                modelTransformer.transform(cdbData, campaignCDBData);
+                                                            self.cdbDataMap[campaign.orderId].modified_vtc_metrics =
+                                                                campaignListService.vtcMetricsJsonModifier(
+                                                                    self.cdbDataMap[campaign.orderId].video_metrics
+                                                                );
+                                                        }
+                                                    }
+                                                );
+                                            });
+
+
                                         }, self.campaignList);
 
                                         //as we change the brand, we are updating the campaign model as well.

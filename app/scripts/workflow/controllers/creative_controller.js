@@ -353,8 +353,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         // function on adFormat selected
         $scope.adFormatSelection = function (adFormatName,flag) {
             var index = _.findIndex($scope.creativeSizeData.adFormats, function (obj) {
-                    return (obj.name).replace(/\s+/g, '').toUpperCase() ===
-                        (adFormatName).replace(/\s+/g, '').toUpperCase();
+                    return (obj.name).toUpperCase() ===
+                        (adFormatName).toUpperCase();
                     // return angular.uppercase(obj.name) === angular.uppercase(adFormatName)
                 }),
                 i;

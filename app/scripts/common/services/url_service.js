@@ -360,6 +360,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     return url;
                 };
+
+                this.getCampaignSpend = function(queryObj) {
+                    //query_id = 14
+                    var params = this.buildParams(queryObj);
+                    return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?' + params;
+                }
+
             }
         ]);
     }

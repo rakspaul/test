@@ -479,7 +479,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 getTemplates: function (adServer, format) {
                         return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/vendors/' + adServer.id +
-                            '/templates?format=' + format.replace(/\s+/g, '').toUpperCase());
+                            '/templates?format=' + format.toUpperCase());
                 },
 
                 getCreativeSizes: function () {
