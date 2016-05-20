@@ -1158,6 +1158,7 @@ define(['angularAMD'], function(angularAMD) {
         this.SAVE_CHANGES = "Save Changes";
         this.SELECT_CONVERSION_PIXELS = "Select Conversion Pixel";
         this.AD_GRP_NAME="Ad Group Name";
+        this.TOTAL_BILLABLE_AMOUNT = 'Total Billable Amount';
 
         this.MEDIA_PLAN_CLONE ='Media Plan Clone';
         this.MEDIA_PLAN_WARNING_MESSAGE = 'You will lose your changes if you leave this page. Are you sure?'
