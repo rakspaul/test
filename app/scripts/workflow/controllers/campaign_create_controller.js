@@ -253,8 +253,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 var flightDateObj = {
                     startTime: momentService.utcToLocalTime(campaignData.startTime),
-                    endTime: momentService.utcToLocalTime(campaignData.endTime),
-                    utcEndTime:campaignData.endTime
+                    endTime: momentService.utcToLocalTime(campaignData.endTime)
                 }
 
                 //set startDate
@@ -265,7 +264,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 //set endDate
                 if (flightDateObj.endTime) {
                     $scope.selectedCampaign.endTime = flightDateObj.endTime;
-                    $scope.selectedCampaign.utcEndTime = flightDateObj.utcEndTime;
                     $scope.initiateDatePicker();
                     $scope.handleFlightDate(flightDateObj);
                 }
@@ -852,7 +850,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         //        event.preventDefault();
         //    }
         //});
-
 
 
         $scope.$watch('selectedCampaign.endTime',function(){
