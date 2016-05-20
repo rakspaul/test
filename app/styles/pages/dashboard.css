@@ -526,9 +526,11 @@
   right: -10px;
 }
 .main_dashboard #dashboard_allocation_dd .metrics_text {
-  color: #21252b;
-  margin-right: 10px;
-  font-family: "Avenir-bold";
+  color: #939eae !important;
+  text-align: left;
+  font-size: 14px !important;
+  font-weight: normal;
+  margin: 0 8px 0 0;
 }
 .main_dashboard .dashboard_perf_graph {
   min-height: 175px;
@@ -620,9 +622,11 @@
   padding: 15px 18px 0px;
 }
 .main_dashboard .dashboard_heading .show_link {
-  margin: 7px 5px 0 0px;
-  font-size: 14px;
-  font-family: "Avenir-bold";
+  margin: 7px 8px 0 0px;
+  color: #939eae !important;
+  text-align: left;
+  font-size: 14px !important;
+  font-weight: normal;
 }
 .main_dashboard .dashboard_heading .top_budget_subtitle {
   font-family: "Avenir";
