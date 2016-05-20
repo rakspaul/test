@@ -172,7 +172,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             resetFormats = function (adserver, allAdserverData) {
                 var index,
                     i;
-
+                //for processeditMode
                 if (allAdserverData && allAdserverData.length > 0) {
                     index = _.findIndex(allAdserverData, function (obj) {
                         return Number(obj.id) === Number(adserver.id);
@@ -183,7 +183,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 for (i = 0; i < adserver.formats.length; i++) {
                     index = _.findIndex($scope.creativeSizeData.adFormats, function (obj) {
-                        return (obj.name).replace(/\s+/g, '').toUpperCase() === angular.uppercase(adserver.formats[i]);
+                       // return (obj.name).replace(/\s+/g, '').toUpperCase() === angular.uppercase(adserver.formats[i]);
+                        return (obj.name).toUpperCase() === angular.uppercase(adserver.formats[i]);
                     });
 
                     if (index >= 0) {
@@ -195,11 +196,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             // Get all adserver in Creative Library Page
-            getAdServersInLibraryPage = function () {
+            getAdServersInLibraryPage = function (subAccountId) {
                 var responseData = '';
 
                 workflowService
-                    .getVendorsAdServer()
+                    .getVendorsAdServer(subAccountId)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             responseData = result.data.data;
@@ -331,6 +332,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     creatives.fetchAdvertisers(data.id);
                     reset.advertiser();
                     reset.brand();
+                    getAdServersInLibraryPage($scope.creative.clientId)
                     break;
 
                 case 'advertiser':
@@ -567,7 +569,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             // In creative List Page to create new creative
             if (!$scope.adPage) {
-                getAdServersInLibraryPage();
+                // instead of trigerring here, trigger when the user selects sub account, with sub account ID
+               // getAdServersInLibraryPage();
 
                 if ($scope.showSubAccount) {
                     creatives.fetchSubAccounts();
