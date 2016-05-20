@@ -386,26 +386,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
             // This sets dynamic width to line to take 100% height
             function colResize() {
-                var winHeight = $(window).height() - 110;
-
+                var winHeight = $(document).height() - 110;
                 $('.campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav').css('min-height', winHeight + 'px');
                 $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
-
-                //Targetting Responsive
-                $('.targetingSlide .tab-pane, .targetingSlide .tab-pane .list_row_holder')
-                    .css('min-height', winHeight - 380 + 'px');
-                    
-                //Audience Targeting
-                $('#selectAud .segFixedWrap').css({'max-height': winHeight - 392 + 'px', 'height': winHeight - 392 + 'px',});
-                $('#buildAud .segmentHolder').css({'max-height': winHeight - 232 + 'px', 'height': winHeight - 232 + 'px',});
-
-                //Geo Targeting
-                $('#zip #zipCodes').css('min-height', winHeight - 317 + 'px');
-                
-                //Day Targeting
-                $('.dayTargetLower').css('min-height', winHeight - 290 + 'px');
             }
-
+            
             //edit mode data population
             function processEditMode(result, clientId, advertiserId) {
                 var responseData = result.data.data,
@@ -1567,6 +1552,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
             $(window).resize(function () {
                 colResize();
+                if ($(window).height() > 596) {
+                    colResize();
+                }
             });
 
             // This is for the drop down list. Perhaps adding this to a more general controller

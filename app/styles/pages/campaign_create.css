@@ -4379,7 +4379,7 @@
 .video-dimension {
   background: #EDF2F8;
   padding: 30px ;
-  margin-top: 30px;
+  margin: 30px 0;
 }
 .video-dimension .each-video-dimension {
   margin-bottom: 20px ;
