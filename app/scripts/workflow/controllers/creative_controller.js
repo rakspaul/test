@@ -183,7 +183,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 for (i = 0; i < adserver.formats.length; i++) {
                     index = _.findIndex($scope.creativeSizeData.adFormats, function (obj) {
-                       // return (obj.name).replace(/\s+/g, '').toUpperCase() === angular.uppercase(adserver.formats[i]);
                         return (obj.name).toUpperCase() === angular.uppercase(adserver.formats[i]);
                     });
 

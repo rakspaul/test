@@ -929,6 +929,7 @@ function (angularAMD) {
             dataService
                 .fetch(urlService.APIVistoCustomQuery(params))
                 .then(function (result) {
+
                     var kpiModel = kpiSelectModel.selectedKpi,
                         formatDataPerfMtrcs,
                         formatData,
@@ -970,7 +971,9 @@ function (angularAMD) {
                             sortedData  = sortedData.slice(0, 3);
                             _.each(sortedData, function (data, idx) {
                                 var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel],
-                                    screenType = data.dimension.toLowerCase();
+
+                                //It removes empty space and makes a single word and then convert to lower case
+                                  screenType = data.dimension.replace(/ /g,'').toLowerCase();
 
                                 $scope.chartDataFormat.push({
                                     'gross_env': data.gross_rev,

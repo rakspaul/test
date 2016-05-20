@@ -1,6 +1,6 @@
 define(['angularAMD', 'common/services/vistoconfig_service','common/services/data_service','reporting/brands/brands_model','reporting/dashboard/dashboard_model','common/services/constants_service','login/login_model','common/services/role_based_service', 'reporting/advertiser/advertiser_model', 'common/services/vistoconfig_service','reporting/subAccount/sub_account_model'],function (angularAMD) {
   'use strict';
-  angularAMD.service('screenChartModel', ['urlService', 'dataService', 'brandsModel','dashboardModel' ,'constants' , 'loginModel', 'RoleBasedService', 'advertiserModel', 'vistoconfig','subAccountModel', function ( urlService, dataService, brandsModel, dashboardModel, constants, loginModel, RoleBasedService, advertiserModel, vistoconfig,subAccountModel) {
+  angularAMD.service('screenChartModel', ['$filter','urlService', 'dataService', 'brandsModel','dashboardModel' ,'constants' , 'loginModel', 'RoleBasedService', 'advertiserModel', 'vistoconfig','subAccountModel', function ($filter, urlService, dataService, brandsModel, dashboardModel, constants, loginModel, RoleBasedService, advertiserModel, vistoconfig,subAccountModel) {
 
         var screenWidgetData = { selectedMetric : constants.SPEND ,
             metricDropDown : [constants.SPEND, constants.IMPRESSIONS, constants.CTR,constants.VTC, constants.CPA, constants.CPM, constants.CPC, constants.ACTION_RATE],
@@ -87,8 +87,11 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
                     cls = screenTypeMap[eachObj.screen_type.toLowerCase()];
                     type = eachObj.screen_type;
                 } else if (selectedFormat.toLowerCase() === 'formats') {
-                    cls = formatTypeMap[eachObj.ad_format.toLowerCase()];
-                    type = eachObj.ad_format.toLowerCase();
+
+                    //It removes empty space and makes a single word and then convert to lower case
+                    cls = formatTypeMap[eachObj.ad_format.replace(/ /g,'').toLowerCase()];
+
+                    type = $filter('toPascalCase')(eachObj.ad_format.toLowerCase());
                 } else {
                     type = eachObj.platform_name;
                     icon_url = eachObj.platform_icon_url == 'Unknown' ? 'platform_logo.png' : type.toLowerCase().replace(/ /g, '_') + '.png';
