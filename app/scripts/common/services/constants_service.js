@@ -686,22 +686,22 @@ define(['angularAMD'], function(angularAMD) {
 
         //Ad Create: Sidebar
         this.ADSETUP = 'Ad Setup';
-        this.ADTYPESIDE = '1 Ad Type';
+        this.ADTYPESIDE = '1. Ad Type';
         this.NOTSET = 'Not Set';
         this.FORMATPAR = '(Format)';
         this.PRIMARYKPIPAR = '(Primary KPI)';
         this.SCREENPAR = '(Screen)';
-        this.BUDGETDELIVERYSIDE = '2 Budget & Delivery';
+        this.BUDGETDELIVERYSIDE = '2. Budget & Delivery';
         this.FLIGHTPAR = '(Flight)';
         this.UNITCOSTPAR = '(Unit Cost)';
-        this.BUYINGPLATFORMSIDE = '3 Buying Platform';
+        this.BUYINGPLATFORMSIDE = '3. Buying Platform';
         this.PLATFORMPAR = '(Platform)';
-        this.TARGETINGSIDE = '4 Targeting';
+        this.TARGETINGSIDE = '4. Targeting';
         this.GEOGRAPHY = 'Geography';
         this.AUDIENCE = 'Audience';
         this.DAYPART = 'Daypart';
-        this.INVENTORYSIDE = '5 Inventory Filters';
-        this.CREATIVESIDE = '6 Creative';
+        this.INVENTORYSIDE = '5. Inventory Filters';
+        this.CREATIVESIDE = '6. Creative';
 
         //Ad Create: 1 Ad Type
         this.SELECTADTYPE = 'Select Ad Type';
