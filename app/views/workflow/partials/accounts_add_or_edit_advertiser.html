@@ -62,13 +62,13 @@
             <textarea data-ng-model="advertiserAddOrEditData.adChoiceCode"></textarea>
         </div>
     </div>
-    
+
     <!--IAB Category-->
     <div class="col-md-12 IABForm">
         <div class="col-md-12 zeroPadding">
             <h1 class="pull-left">IAB Categories</h1>
         </div>
-        
+
         <div class="col-md-12 zeroPadding">
             <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                 <label class="col-sm-12 greyTxt">Category:</label>
@@ -87,7 +87,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="form-group col-md-4" style="padding: 0 15px;">
                 <label class="col-sm-12 greyTxt">Sub Category:</label>
 
@@ -107,14 +107,14 @@
             </div>
         </div>
     </div>
-    
+
     <!--Billing & Invoices-->
     <div class="billingMethods" ng-show="clientObj.isLeafNode">
         <div class="col-md-12 zeroPadding"><h1 class="pull-left">Billing & Invoices</h1></div>
         <div class="col-md-12 zeroPadding">
             <!--Billed-->
             <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-                <label class="col-sm-12 greyTxt">Billed For:</label>
+                <label class="col-sm-12 greyTxt">Billed For accaddoreditAD:</label>
 
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown">
@@ -210,7 +210,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="form-group col-md-4" style="margin-top: -36px" data-ng-show="selectedRateType=='COGS'">
                     <label class="col-sm-12 greyTxt">Value:</label>
                     <input type="text" class="form-control" maxlength="80" placeholder="Add some value">
@@ -240,7 +240,7 @@
                 <button type="button" class="btn btn-default pull-right" style="display: none">
                     <span class="icon-filter" style="margin: -1px 0 0;"></span>
                 </button>
-    
+
                 <div class="searchInput pull-right">
                     <a class="btn btn-default searchInputBtn" ng-click="searchShowInput($event)">
                         <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
@@ -259,7 +259,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <a role="button" class="btn btn-default pull-right" data-ng-click="downLoadPixel();"
                data-ng-disabled="advertiserData.disableDownLoadPixel"
                style="border-right: 0;"><span class="icon-download"></span><span>Download Selected Pixels</span></a>
@@ -268,9 +268,9 @@
                 {{advertiserData.pixels.length}} Pixels
             </span>
         </div>
-        
-        
-            
+
+
+
     </div>
 
     <!--Create Pixel Form-->
@@ -309,13 +309,13 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="form-group col-md-2 clearLeft" style="padding: 0 15px 0 0;">
                 <label class="col-sm-12 greyTxt">Impression Look Back:</label>
                 <input type="text" class="form-control" placeholder="Add value" value="14" ng-model="pixelFormData.impLookbackWindow"
                         data-ng-keyup="pixelFormData.impLookbackWindow>30?pixelFormData.impLookbackWindow=30:(pixelFormData.impLookbackWindow<0)?pixelFormData.impLookbackWindow=14:''">
             </div>
-        
+
             <div class="form-group col-md-2" style="padding: 0 15px;">
                 <label class="col-sm-12 greyTxt">Click Look Back:</label>
                 <input type="text" class="form-control" placeholder="Add value" value="14" ng-model="pixelFormData.clickLookbackWindow"
@@ -331,7 +331,7 @@
                     data-ng-bind="pixelIndex!=null ? 'Update Pixel' : 'Save Pixel'">Save Pixel</a>
 
             <a class="pull-right btn btn-link" ng-click="cancelPixel();" aria-label="Close">Cancel</a>
-            
+
             <a class="pull-right btn btn-default" data-dismiss="modal" ng-if="pixelIndex!=null && advertiserData.pixels[pixelIndex].isFeedData != true"
                ng-click="removePixel();" aria-label="Close">Remove Pixel</a>
         </div>
@@ -352,36 +352,36 @@
                         </div>
                     </div>
                 </div>
-    
+
                 <div class="tbody thin">
                     <!--Table Sample-->
                     <div class="tr" data-ng-repeat="pixel in advertiserData.pixels">
                         <div class="td col-md-3">
                             <a data-ng-bind="pixel.name" data-ng-click="editPixel($index, pixel);"></a>
                         </div>
-    
+
                         <div class="td col-md-3">
                             <span data-ng-bind="pixel.pixelType"></span>
                         </div>
-    
+
                         <div class="td col-md-2">
                             <span data-ng-bind="pixel.impLook">14</span>
                         </div>
-                        
+
                         <div class="td col-md-1">
                             <span data-ng-bind="pixel.clickLook">14</span>
                         </div>
-                        
+
                         <div class="td col-md-2">
                             <span data-ng-bind="pixel.expiryDate"></span>
                         </div>
-                        
+
                         <div class="td col-md-1 text-center" style="padding-left: 0;">
                             <input type="checkbox" class="pixelSelect" data-ng-model="isSelected"
                                    data-ng-click="selectPixel(pixel.id, isSelected)" style="float: none;"/>
                         </div>
                     </div>
-                    
+
                     <div class="common-load-more" style="display: none;"></div>
                 </div>
             </div>
