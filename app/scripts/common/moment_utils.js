@@ -11,7 +11,6 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
 
         //eg: moment('2010-10-20').isBefore('2010-10-21');
         this.isDateBefore = function(date1, date2) {
-            console.log("hello",  moment(date1).isBefore(date2)) ;
             return moment(date1).isBefore(date2);
         };
 

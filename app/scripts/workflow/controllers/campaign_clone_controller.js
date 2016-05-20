@@ -13,6 +13,7 @@ define(['angularAMD'],function (angularAMD) {
         var today = momentService.utcToLocalTime();
         $timeout(function() {
             $("#cloneStartDateInput").datepicker("update", today);
+            $("#cloneStartDateInput").datepicker("setStartDate", today);
         }, 200) ;
         
 
