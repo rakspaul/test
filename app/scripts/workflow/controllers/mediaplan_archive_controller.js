@@ -1,7 +1,6 @@
 define(['angularAMD' , 'workflow/services/workflow_service' ],
     function(angularAMD) {
-        angularAMD.controller('ArchiveController', function($scope , workflowService,$rootScope ) {
-            console.log('nananan');
+        angularAMD.controller('ArchiveController', function($scope , workflowService,$rootScope ,$location,vistoconfig) {
             $scope.campaignArchive = false;
 
             // archive campaign

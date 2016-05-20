@@ -10,7 +10,7 @@
                     <h1 class="campaign_name">{{textConstants.MP_TITLE}}</h1>
                     <ul class="stepCompLabel nav nav-tabs" id="mediaTab">
                         <li class="active eachStepCompLabel">
-                            <a class="leftNavLink selected" data-target="#settings" data-toggle="tab">1 About this Media Plan</a>
+                            <a class="leftNavLink selected" data-target="#settings" data-toggle="tab">1. About this Media Plan</a>
 
                             <div class="statusLabel" ng-if="selectedCampaign.startTime">
                                 <div class="col-md-12">
@@ -43,7 +43,7 @@
                         </li>
                         <li class="clearfix eachStepCompLabel" >
                             <a class="leftNavLink disabled-cursor" ng-if="!selectedCampaign.advertiserId">2 Pixels</a>
-                            <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#pixels" data-toggle="tab">2 Pixels</a>
+                            <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#pixels" data-toggle="tab">2. Pixels</a>
                             <div class="statusLabel">
                                 <div class="col-md-12" ng-if="selectedCampaign.selectedPixel.length >0">
                                     <div>{{selectedCampaign.selectedPixel.length}} pixels selected</div>
@@ -56,7 +56,7 @@
 
                         <li class="clearfix eachStepCompLabel" >
                             <a class="leftNavLink budget-page-trigger disabled-cursor" ng-if="!selectedCampaign.advertiserId">3 {{textConstants.MP_BUDGET}} & Measure</a>
-                            <a class="leftNavLink budget-page-trigger" ng-if="selectedCampaign.advertiserId" data-target="#budget" data-toggle="tab">3 {{textConstants.MP_BUDGET}} & Measure</a>
+                            <a class="leftNavLink budget-page-trigger" ng-if="selectedCampaign.advertiserId" data-target="#budget" data-toggle="tab">3. {{textConstants.MP_BUDGET}} & Measure</a>
                             <div class="statusLabel" ng-if="Campaign.totalBudget">
                                 <div class="col-md-12">
                                     <div class="statusIcon icon-usd"></div>
@@ -81,13 +81,21 @@
                         </li>
                         <li class="clearfix eachStepCompLabel" >
                             <a class="leftNavLink disabled-cursor" ng-if="!selectedCampaign.advertiserId">4 Line Items</a>
-                            <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#addLineItems" data-toggle="tab">4 Line Items</a>
+                            <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#addLineItems" data-toggle="tab">4. Line Items</a>
                             <div class="statusLabel">
                                 <div class="col-md-12" ng-if="lineItemList.length >0">
-                                    <div>{{lineItemList.length}} Line Item selected</div>
+                                    <div>{{lineItemList.length}} Line Item{{(lineItemList.length > 1)?'s':''}}</div>
                                 </div>
+
                                 <div class="col-md-12" ng-if="lineItemList.length === 0">
                                     <span data-ng-bind="textConstants.NOTSET"></span>
+                                </div>
+                            </div>
+                            <div class="statusLabel" ng-if="lineItemList.length >0">
+                                <div class="col-md-12" >
+                                    <div class="statusIcon icon-usd"></div>
+                                    <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}} {{selectedCampaign.lineItemBillableAmountTotal | setDecimal:2 | number : fractionSize}}</span>
+                                    <span> (Delivery Budget)</span>
                                 </div>
                             </div>
                         </li>
