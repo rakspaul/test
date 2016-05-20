@@ -73,7 +73,7 @@
                 <div class="common-loading-area" ng-show="checkUniqueMediaPlanNameNotFound && selectedCampaign.campaignName"></div>
             </div>
             <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel" data-ng-bind="textConstants.WF_ENTER_NAME_CAMPAIGN"></label>
-            <span class="greyTxt customErrorLabel" ng-if="mediaPlanNameExists" data-ng-bind="(editCampaignData.name || selectedCampaign.campaignName) + ' '+ textConstants.CLONEMEDIAPLANNAMEERR"></span>
+            <span class="greyTxt customErrorLabel" ng-if="mediaPlanNameExists" >{{'"' +(editCampaignData.name || selectedCampaign.campaignName)+ '" ' + textConstants.CLONEMEDIAPLANNAMEERR}}</span>
         </div>
     </div>
 

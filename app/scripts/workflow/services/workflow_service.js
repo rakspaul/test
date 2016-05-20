@@ -128,7 +128,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     var clientId = loginModel.getSelectedClient().id;
 
                     if(endDate){
-                        endDate = moment(endDate,'MM/DD/YYYY').format('YYYY-MM-DD');
+                        endDate = momentService.localTimeToUTC(endDate);
                     }
 
                     if (client_Id) {
