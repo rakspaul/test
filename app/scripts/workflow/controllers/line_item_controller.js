@@ -490,6 +490,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                     endDateElem.datepicker("setStartDate", startTime);
                     endDateElem.datepicker("update", endTime);
                 }
+                $scope.updateLineItemCreateDate();
 
             } else {
 
@@ -670,6 +671,12 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                     }
                 }
             }
+        };
+
+        //TODO : need to make the change to optimise this code
+        $scope.updateLineItemCreateDate = function(){
+            $scope.lineItemStartDate = $('#lineItemStartDateInput').val();
+            $scope.lineItemEndDate = $('#lineItemEndDateInput').val();
         }
 
         function updateRateTypeArr(){

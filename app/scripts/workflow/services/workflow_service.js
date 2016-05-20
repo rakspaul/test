@@ -127,7 +127,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 getPixels: function (advertiserId, client_Id,endDate,pixels,mode) {
                     var clientId = loginModel.getSelectedClient().id;
 
-                    if(endDate){
+                    if(!endDate){
                         endDate = moment(endDate,'dd/mm/yyyy').format('YYYY-MM-DD');
                     }
 
@@ -139,7 +139,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         '/advertisers/' + advertiserId + '/pixels?type=PAGE_VIEW&min_expiry_date='+endDate;
 
                     if(mode === 'edit') {
-                        if(pixels.length > 0) {
+                        if(pixels && pixels.length > 0) {
                             url += '&include='+ pixels.toString();
                         }
                     }
