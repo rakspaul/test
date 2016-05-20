@@ -655,24 +655,28 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             if (CONST_COGS_PERCENT !== $scope.lineItemType.name && CONST_FLAT_FEE !== $scope.lineItemType.name && CONST_COGS_CPM !== $scope.lineItemType.name){
                 if(mode === 'create'){
                     $scope.volume = '';
-                    if($scope.lineItemType && $scope.lineItemType.name && $scope.pricingRate && $scope.billableAmount){
+                    if($scope.lineItemType && $scope.lineItemType.name && $scope.pricingRate && $scope.billableAmount && $scope.pricingRate > 0){
                         if($scope.lineItemType.name === 'CPM') {
                             $scope.volume = ($scope.billableAmount / $scope.pricingRate ) * 1000;
                         } else {
                             $scope.volume = ($scope.billableAmount / $scope.pricingRate );
                         }
                         $scope.volume = Math.round($scope.volume);
+                    } else {
+                        $scope.volume = 0;
                     }
                 } else {
                     $scope.editLineItem.volume = '';
-                    if($scope.editLineItem.lineItemType && $scope.editLineItem.lineItemType.name && $scope.editLineItem.pricingRate && $scope.editLineItem.billableAmount){
+                    if($scope.editLineItem.lineItemType && $scope.editLineItem.lineItemType.name && $scope.editLineItem.pricingRate && $scope.editLineItem.billableAmount && $scope.editLineItem.pricingRate > 0){
                         if($scope.editLineItem.lineItemType.name === 'CPM') {
                             $scope.editLineItem.volume = ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate ) * 1000;
                         } else {
                             $scope.editLineItem.volume = ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate );
                         }
                         $scope.editLineItem.volume = Math.round($scope.editLineItem.volume);
-
+                    } else {
+                         //. in case $scope.editLineItem.pricingRate is 0
+                        $scope.editLineItem.volume = 0;
                     }
                 }
             }
