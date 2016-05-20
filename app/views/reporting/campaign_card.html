@@ -87,7 +87,7 @@
     <div class="col-md-4 each_campaign_section metric_campaign_section">
         <div class="clearfix metric_graph_header">
             <span class="metric_title" ng-bind="textConstants.SPEND"></span>
-            <span class="metric_val" ng-bind="campaigns.cdbDataMap[campaign.orderId].getGrossRev() | currency"></span>
+            <span class="metric_val" ng-bind="campaign.spend| currency"></span>
         </div>
         <div class="metric_graph {{getSpendClass(campaign)}}">
             <div class="full_metric_graph">
