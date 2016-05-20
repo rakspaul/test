@@ -508,7 +508,7 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_SOCIAL = 'Social';
         this.WF_DISPLAY_SEARCH = 'DISPLAY';
         this.WF_VIDEO_SEARCH = 'VIDEO';
-        this.WF_RICH_MEDIA_SEARCH = 'RICHMEDIA';
+        this.WF_RICH_MEDIA_SEARCH = 'RICH MEDIA';
         this.WF_SOCIAL_SEARCH = 'SOCIAL';
         this.WF_HEADER_PRIMARY_GOAL = 'What is your primary goal?';
         this.WF_AD_GOAL = 'Ad Goal';
@@ -686,22 +686,22 @@ define(['angularAMD'], function(angularAMD) {
 
         //Ad Create: Sidebar
         this.ADSETUP = 'Ad Setup';
-        this.ADTYPESIDE = '1 Ad Type';
+        this.ADTYPESIDE = '1. Ad Type';
         this.NOTSET = 'Not Set';
         this.FORMATPAR = '(Format)';
         this.PRIMARYKPIPAR = '(Primary KPI)';
         this.SCREENPAR = '(Screen)';
-        this.BUDGETDELIVERYSIDE = '2 Budget & Delivery';
+        this.BUDGETDELIVERYSIDE = '2. Budget & Delivery';
         this.FLIGHTPAR = '(Flight)';
         this.UNITCOSTPAR = '(Unit Cost)';
-        this.BUYINGPLATFORMSIDE = '3 Buying Platform';
+        this.BUYINGPLATFORMSIDE = '3. Buying Platform';
         this.PLATFORMPAR = '(Platform)';
-        this.TARGETINGSIDE = '4 Targeting';
+        this.TARGETINGSIDE = '4. Targeting';
         this.GEOGRAPHY = 'Geography';
         this.AUDIENCE = 'Audience';
         this.DAYPART = 'Daypart';
-        this.INVENTORYSIDE = '5 Inventory Filters';
-        this.CREATIVESIDE = '6 Creative';
+        this.INVENTORYSIDE = '5. Inventory Filters';
+        this.CREATIVESIDE = '6. Creative';
 
         //Ad Create: 1 Ad Type
         this.SELECTADTYPE = 'Select Ad Type';
@@ -1132,8 +1132,7 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_COST_TRACKING = "Cost Tracking |";
         this.MEDIAPLAN_COST_MEASURED = "The Costs that will be measured in Cost Attribution reports and are factored into COGS+ Billing";
         this.MEDIAPLAN_ADD_ADDITIONAL_COSTS = "Add Additional Costs (Optional)";
-        this.MEDIAPLAN_METRIC = "Metric";
-        this.MEDIAPLAN_VENDOR = "Vendor";
+        this.MEDIAPLAN_METRIC = "Metric";this.MEDIAPLAN_VENDOR = "Vendor";
         this.MEDIAPLAN_CONFIGURATION = "Configuration";
         this.MEDIAPLAN_CHANNELS = "Channels";
         this.MEDIAPLAN_CATEGORY = "Category";
@@ -1159,6 +1158,7 @@ define(['angularAMD'], function(angularAMD) {
         this.SAVE_CHANGES = "Save Changes";
         this.SELECT_CONVERSION_PIXELS = "Select Conversion Pixel";
         this.AD_GRP_NAME="Ad Group Name";
+        this.TOTAL_BILLABLE_AMOUNT = 'Total Billable Amount';
 
         this.MEDIA_PLAN_CLONE ='Media Plan Clone';
         this.MEDIA_PLAN_WARNING_MESSAGE = 'You will lose your changes if you leave this page. Are you sure?'

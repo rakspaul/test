@@ -174,6 +174,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     clickLookbackWindow: ''
                 };
                 $scope.pixelIndex = null;
+                $scope.advertiserAddOrEditData.duplicatePixelName = false;
             };
 
             $scope.cancelPixel = function () {

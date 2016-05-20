@@ -348,6 +348,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             $(".file_upload_container").slideDown();
             $(".moreOptCreative").find('span').remove();
             $(".moreOptCreative").html("<span class='icon-more-options'></span>");
+            //broadCast method for calling adServers for bulk Upload page.
+            $scope.$broadcast('bulkUploadSelected');
         }
 
         $scope.showSuccessBulkUpload = function() {
