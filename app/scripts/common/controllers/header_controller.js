@@ -324,7 +324,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 if (campObjId.is(':visible') && ( $(event.target).closest("#campObjClick").length == 0)) {
                     campObjId.hide();
                 }
-
+                
                 if (mainNavDropdown.is(':visible') && ( $(event.target).closest("#user-menu").length == 0) && ( $(event.target).closest("#reports_nav_link").length == 0 ) && ( $(event.target).closest("#user_nav_link").length == 0 ) && ( $(event.target).closest(".header_tab_dd_subheading").length == 0 )) {
                     mainNavDropdown.hide();
                     $(".main_navigation_holder").find(".selected").removeClass("selected");
