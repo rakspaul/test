@@ -229,7 +229,21 @@
             <div class="pull-right" style="padding: 30px 0 0 0;">
                 <div class="pull-right btn btn-primary" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''" ng-click="(mode === 'create' || cloneMediaPlanName)?createNewLineItem('create'):createNewLineItemInEditMode('create')">Add Line Item</div>
                 <div class="pull-right btn btn-link" id="hideLineItemCreateBox" ng-click="selectedCampaign.resetLineItemParameters()">Cancel</div>
+                <!--confirm message in edit mode-->
+                <div class="popUpCue" data-ng-show="showConfirmPopupCreate" >
+                    <span class="col-md-12 zeroPadding">Media Plan changes will be saved, before Line Item changes is created.</span>
+                    <a href="javascript:void(0);"
+                       class="leftNavLink pull-right btn btn-primary"
+                       data-ng-click="saveCampaign('create')"
+                       data-ng-bind="textConstants.CONTINUE">
+                    </a>
+                    <a class="pull-right btn btn-link"
+                       data-ng-bind="textConstants.CANCEL"
+                       data-ng-click="cancelMediaPlanCreation()">
+                    </a>
+                </div>
             </div>
+
 
         </div>
     </div>

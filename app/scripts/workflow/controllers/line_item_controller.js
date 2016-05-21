@@ -21,6 +21,8 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         $scope.showUploadRecordsMessageLineItems = false;
         $scope.selectedCampaign.lineItemfile;
         $scope.selectedCampaign.rejectedFiles;
+        // edit mode - save media plan along with line item
+        $scope.showConfirmPopupCreate = false;
 
 /*---START------BULK LineItem Upload Section---------*/
 
@@ -150,12 +152,13 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             $scope.calculateLineItemTotal();
         };
 
-        $scope.createNewLineItemInEditMode = function () {
+        $scope.$parent.createNewLineItemInEditMode = function () {
             var newItem,
                 tempBudget;
+            // this is kept to initially create object in case we have to save it in service - line item edit mode- save media plan q
             newItem = createLineItemObj();
-            newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
-            newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+
+
             //calc budget for validation against campaign budget
             //tempBudget = $scope.selectedCampaign.lineItemBillableAmountTotal;
             //tempBudget = Number(tempBudget) + Number(newItem.billableAmount);
@@ -164,15 +167,45 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
                 return false;
             }
-            workflowService.createLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem).then(function (results) {
-                if (results.status === 'success' && results.data.statusCode === 201) {
-                    var campaignObj = $scope.createCampaignAccess();
-                    campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
-                    $scope.selectedCampaign.resetLineItemParameters();
+
+            //if we have to save the media plan prior to line item
+            $scope.showConfirmPopupCreate = false;
+            if($scope.saveMediaPlan){
+                //this is temp save in case we need to save media plan before line item
+                workflowService.setLineItemData(newItem);
+
+                //show popup
+                $scope.showConfirmPopupCreate = true;
+            } else {
+                //this is temp save in case we need to save media plan before line item
+                newItem = workflowService.getLineItemData();
+                if(!newItem){
                     newItem = createLineItemObj();
                 }
-            });
+
+                newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
+                newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+
+                //else just save line item
+                workflowService.createLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem).then(function (results) {
+                    console.log('result==', results)
+                    if (results.status === 'success' && results.data.statusCode === 201) {
+                        var campaignObj = $scope.createCampaignAccess();
+                        campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
+                        $scope.selectedCampaign.resetLineItemParameters();
+                        newItem = createLineItemObj();
+                        workflowService.setLineItemData(null);
+
+                    }
+                });
+            }
+
+
         };
+
+        $scope.cancelMediaPlanCreation = function(){
+            $scope.showConfirmPopupCreate = false;
+        }
 
         $scope.updateLineItemInEditMode = function () {
             var newItem,
@@ -586,7 +619,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 //line Item End Date
                 $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime)  ;
 
-            
+
                  //line Item End Date
                 $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime)  ;
 
@@ -596,11 +629,11 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 }
                 if( $scope.campaignDate ) {
                     if( !$scope.ifClonedDateLessThanStartDate ) {
-                        $scope.lineItemStartDate = momentService.addDaysCustom($scope.lineItemStartDate, 'MM/DD/YYYY', $scope.newdiffDays); 
+                        $scope.lineItemStartDate = momentService.addDaysCustom($scope.lineItemStartDate, 'MM/DD/YYYY', $scope.newdiffDays);
                         $scope.lineItemEndDate = momentService.addDaysCustom($scope.lineItemEndDate, 'MM/DD/YYYY', $scope.newdiffDays);
                     } else {
                         $scope.lineItemStartDate = momentService.substractDaysCustom($scope.lineItemStartDate, 'MM/DD/YYYY', $scope.lessdiffDays) ;
-                        $scope.lineItemEndDate = momentService.addDaysCustom($scope.lineItemStartDate , 'MM/DD/YYYY', $scope.lineItemdiffDays ); 
+                        $scope.lineItemEndDate = momentService.addDaysCustom($scope.lineItemStartDate , 'MM/DD/YYYY', $scope.lineItemdiffDays );
                     }
                 }
 

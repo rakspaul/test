@@ -18,7 +18,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 deletedModule = [],
                 rates,
                 selectedAdvertiser,
-                cloneMediaPlanData;
+                cloneMediaPlanData,
+                lineitemDetails = null;
 
             function createObj(platform) {
                 var integrationObj = {};
@@ -39,6 +40,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 });
                 return integrationObj;
             }
+
 
             return {
                 fetchCampaigns: function () {
@@ -1069,6 +1071,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                             'Content-Type': 'application/json'
                         }
                     );
+                },
+                setLineItemData: function(data){
+                    lineitemDetails = data;
+                },
+                getLineItemData: function(){
+                    return lineitemDetails;
                 }
 
 
