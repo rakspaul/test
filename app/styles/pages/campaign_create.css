@@ -825,31 +825,6 @@
   padding: 20px 0 20px 0;
   width: 100%;
 }
-.adCreateMaster #targetting .targettingFormWrap .targetting-each-content {
-  border: solid 1px #dde6eb ;
-  border-top: 0 ;
-}
-.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .external_chkbox .squaredFour input[type=checkbox]:checked + label {
-  background: #3276b1 ;
-  border: solid 1px #3276b1;
-}
-.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .external_chkbox .squaredFour input[type=checkbox]:checked + label:after {
-  border-color: #fff ;
-}
-.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .toggle-on:after {
-  content: "";
-  position: absolute;
-  top: 6px;
-  left: 12px;
-  height: 20px;
-  width: 20px;
-  background-image: url(/images/workflow/icon-target-white.svg);
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-.adCreateMaster #targetting .targettingFormWrap .targetting-each-content textarea {
-  margin-bottom: 10px ;
-}
 .adCreateMaster #targetting .targettingFormWrap .include-label .btn-primary {
   margin: 0 ;
 }
@@ -870,23 +845,30 @@
 .adCreateMaster #targetting .targettingFormWrap .targetting-each-content .external_chkbox .squaredFourTxt {
   width: 80%;
 }
-.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .external_chkbox .squaredFourTxt {
-  width: 80%;
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .toggle-on:after {
+  content: "";
+  height: 16px;
+  width: 8px;
+  position: absolute;
+  top: 6px;
+  left: 18px;
+  border: solid 3px #fff;
+  border-top: 0;
+  border-left: 0;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  border-radius: 0px 0 3px;
+  -moz-border-radius: 0px 0 3px;
+  -webkit-border-radius: 0px 0 3px;
 }
-.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .toggle-on:after,
 .adCreateMaster #targetting .targettingFormWrap .targetting-each-content .toggle-off:after {
   content: "";
   position: absolute;
-  top: 6px;
-  left: 12px;
   height: 20px;
   width: 20px;
-  background-image: url(/images/workflow/icon-target-white.svg);
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 77%;
-}
-.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .toggle-off:after {
   left: 25px;
   top: 5px;
   background-size: 75%;
