@@ -284,6 +284,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     campaigns_list_class = $(".campaigns_list"),
                     regionTooltip = $(".regionCityTab").find(".common_tooltip"),
                     quickFilters = $(".sliding_dropdown_container");
+                    geoTooltipClose = $(".targetting-tab-header").find(".common_tooltip") ;
 
                 if (cdbDropdownId.is(':visible') && event.target.id != "durationMenuText") {
                     cdbDropdownId.closest(".each_filter").removeClass("filter_dropdown_open");
@@ -307,6 +308,9 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
                 if (profileDropdownId.is(':visible') && event.target.id != "profileItem") {
                     profileDropdownId.hide();
+                }
+                if (geoTooltipClose.is(':visible') && $(event.target).closest(".targetting-tab-header .btn-group" ).length == 0 ) {
+                    geoTooltipClose.hide();
                 }
                 if (campObjId.is(':visible') && ( $(event.target).closest("#campObjClick").length == 0)) {
                     campObjId.hide();

@@ -280,7 +280,7 @@
                     <div class="clearfix each-row" >
                         <div class="pull-left" data-ng-bind="textConstants.METROS"></div>
                         <div class="pull-right removeAll">
-                            <a ng-href="javascript:void(0);" data-ng-bind="textConstants.REMOVEALL"></a>
+                            <a ng-href="javascript:void(0);" data-ng-bind="textConstants.REMOVEALL" ng-click="showRemoveConfirmBox($event, 'dmas');"></a>
                         </div>
                     </div>
                 </div>
@@ -296,11 +296,10 @@
             </div>
             <div class="table zipTable" ng-if="geoData.zip.selected.length >0">
                 <div>
-                    sdf
                     <div class="clearfix each-row" >
                         <div class="pull-left" data-ng-bind="textConstants.ZIPPOSTCODE"></div>
                         <div class="pull-right removeAll">
-                            <a ng-href="javascript:void(0);" data-ng-bind="textConstants.REMOVEALL"></a>
+                            <a ng-href="javascript:void(0);" data-ng-bind="textConstants.REMOVEALL" ng-click="showRemoveConfirmBox($event, 'zipcode');"></a>
                         </div>
                     </div>
                 </div>
