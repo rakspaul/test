@@ -3903,8 +3903,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response #dynamicHeader {
   padding-left: 14px;
-  /* margin-bottom: 10px; */
-  margin-top: 28px;
+  margin: 28px 0 10px ;
 }
 .report_generator_and_response #dynamicHeader .collapseIcon {
   display: none;
@@ -3914,6 +3913,15 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response #dynamicHeader .downReport {
   display: none;
+  border: solid 1px #BFC9D7;
+  padding: 7px 15px;
+  margin-top: -6px;
+  height: 36px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.report_generator_and_response #dynamicHeader .downReport:hover {
+  background: #e1edf9;
 }
 .report_generator_and_response #dynamicHeader .subTitle {
   display: block;
@@ -4361,7 +4369,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
+  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #ffffff;
   height: 11px;
   width: 12px;
   min-width: 12px;
