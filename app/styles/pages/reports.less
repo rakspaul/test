@@ -4048,8 +4048,7 @@ only screen and (min-device-pixel-ratio: 2) {
 
     #dynamicHeader{
         padding-left:14px;
-       /* margin-bottom: 10px; */
-        margin-top: 28px;
+        margin : 28px 0 10px ;  
         .collapseIcon{
             display:none;
         }
@@ -4058,6 +4057,15 @@ only screen and (min-device-pixel-ratio: 2) {
         }
         .downReport {
             display:none;
+            border: solid 1px #BFC9D7;
+            padding: 7px 15px;
+            margin-top: -6px;
+            height: 36px;
+            border-radius: 2px;
+            cursor: pointer;
+            &:hover {
+              background: #e1edf9;
+            }
         }
         .subTitle{
             display:block;
