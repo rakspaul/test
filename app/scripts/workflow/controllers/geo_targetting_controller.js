@@ -901,12 +901,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var selectedRegions = $scope.geoData.regions.selected.length;
             var selectedCities = $scope.geoData.cities.selected.length;
 
-
+            $(".targetting-tab-header .showToolTip").hide() ;
             if(tabType === 'countries'
                 && selectedCountries === 0
                 && selectedRegions > 0) {
                 $scope.geoNote = $scope.textConstants.NOT_SELECTED_COUNTRY_NOTE;
                 showToolTip(elem);
+
                 return false;
             }
 
@@ -1299,7 +1300,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 elem = $('#confirmBox').find('.msgPopup'),
                 parentPos = $('.targettingFormWrap').offset(),
                 left_pos = position.left - parentPos.left - target.width() - 46,
-                top_pos = position.top - parentPos.top - target.height() + 4;
+                top_pos = position.top - parentPos.top - target.height() - 6;
 
             $scope.boxType = type;
             $scope.showConfirmBox = true;
@@ -1329,7 +1330,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.geoData[$scope.selectedSubTab].included = isChecked;
                 setIncludeExcludeGeo();
                 updateSelectedGeoList(isChecked);
-
+                if( isChecked ) {
+                    $(".include-label").find(".toggle-switch-text").text("Include") ;
+                } else {
+                    $(".include-label").find(".toggle-switch-text").text("Exclude") ;
+                }
 
             });
 
