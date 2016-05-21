@@ -908,6 +908,31 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list {
   width: 530px ;
 }
+.common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
+.breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
+.common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
+.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col {
+  width: 140px ;
+}
+.common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
+.breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
+.common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
+.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img {
+  margin: 4px 0 0 8px ;
+  float: left!important;
+}
+.common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span,
+.breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span,
+.common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span,
+.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span {
+  margin-top: 2px ;
+}
+.common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col,
+.breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col,
+.common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col,
+.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col {
+  margin-top: 2px ;
+}
 .common_reports_container .inventory_charts_details_holder .dropdown-menu,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .dropdown-menu {
   height: 162px;
