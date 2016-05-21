@@ -74,7 +74,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/
                         return constants.deleteReportHeader;
                     },
                     mainMsg: function() {
-                        return "Please note that this action affects '<span class='bold-font'>"+ $scope.reportList[reportIndex].fileName+"</span>'. The report will be deleted for both you and the marketer."
+                        if($scope.reportList[reportIndex].reportName) {
+                            return "Are you sure you want to delete '<span class='bold-font'>"+ $scope.reportList[reportIndex].reportType+"</span>' type report"+" '<span class='bold-font'>"+ $scope.reportList[reportIndex].reportName+"'</span>.";
+                        } else {
+                            return "Are you sure you want to delete '<span class='bold-font'>"+ $scope.reportList[reportIndex].reportType+"</span>' type report.";
+                        }
                     },
                     deleteAction: function() {
                         return function() {
