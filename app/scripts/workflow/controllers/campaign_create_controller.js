@@ -322,9 +322,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.selectedCampaign.kpiValue = campaignData.kpiValue;
                 }
 
-                //set Pixel Dara
+                //set Pixel Dara - this call will be made in watch section
                 //if (campaignData.pixels && campaignData.pixels.length > 0) {
-                    $scope.$broadcast('fetch_pixels', campaignData.pixels);
+                //    $scope.$broadcast('fetch_pixels', campaignData.pixels);
                 //}
 
                 //set Media Plan Budget & Margin
