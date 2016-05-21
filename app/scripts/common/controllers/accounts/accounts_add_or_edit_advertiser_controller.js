@@ -169,14 +169,14 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 $rootScope.setErrAlertMessage(constants.EMPTY_ADV_SELECTION);
                 return false;
             }
-            if(!$scope.advertiserData.lookbackImpressions || $scope.advertiserData.lookbackImpressions == ""){
-                $rootScope.setErrAlertMessage(constants.EMPTY_LOOKBACK_IMPRESSION);
-                return false;
-            }
-            if(!$scope.advertiserData.lookbackClicks || $scope.advertiserData.lookbackClicks == ""){
-                $rootScope.setErrAlertMessage(constants.EMPTY_LOOKBACK_CLICK);
-                return false;
-            }
+            //if(!$scope.advertiserData.lookbackImpressions || $scope.advertiserData.lookbackImpressions == ""){
+            //    $rootScope.setErrAlertMessage(constants.EMPTY_LOOKBACK_IMPRESSION);
+            //    return false;
+            //}
+            //if(!$scope.advertiserData.lookbackClicks || $scope.advertiserData.lookbackClicks == ""){
+            //    $rootScope.setErrAlertMessage(constants.EMPTY_LOOKBACK_CLICK);
+            //    return false;
+            //}
             if($scope.advertiserAddOrEditData.enableAdChoice && !$scope.advertiserAddOrEditData.adChoiceCode){
                 errMsg = constants.EMPTY_ADCHOICE_CODE;
                 ret = false;
@@ -206,7 +206,7 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 return false;
             }
             if(_currCtrl.downloadPixelIds.length && (_currCtrl.downloadPixelIds.length < $scope.advertiserData.pixels.length)){
-                url += '?id='+ _currCtrl.downloadPixelIds.join(",");
+                url += '?ids='+ _currCtrl.downloadPixelIds.join(",");
             }
             dataService.downloadFile(url).then(function (res) {
                 if(res.status === 'OK' || res.status === 'success'){
@@ -255,8 +255,8 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         }
         function createAdvertiserUnderClient(advId) {
             var requestData = {
-                lookbackImpressions : Number($scope.advertiserData.lookbackImpressions),
-                lookbackClicks : Number($scope.advertiserData.lookbackClicks)
+                lookbackImpressions : 14,
+                lookbackClicks : 14
             }
             accountsService
                 .createAdvertiserUnderClient($scope.client.id, advId, requestData)
@@ -322,7 +322,8 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                     updatedAt: item.updatedAt,
                     impLookbackWindow: item.impLookbackWindow,
                     clickLookbackWindow: item.clickLookbackWindow,
-                    expiryDate: momentService.localTimeToUTC(item.expiryDate, "endTime")//.format('YYYY-MM-DD HH:MM:SS.SSS')
+                    expiryDate: momentService.localTimeToUTC(item.expiryDate, "endTime"),//.format('YYYY-MM-DD HH:MM:SS.SSS')
+                    pixelCode: item.pixelCode
                 }
                 if(item.id){
                     $scope.advertiserData.pixels[index].id = item.id;

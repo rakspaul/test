@@ -52,7 +52,7 @@
         }
 
         &:not(.label-btn):active {
-            background-color: #DCEDF1 !important;
+            background-color: #DCE6F1 !important;
             border: 1px solid #BFC9D7 !important;
             box-shadow: none;
             span.icon-arrow-down,
@@ -96,7 +96,8 @@
         overflow: hidden;
         cursor: pointer;
         width: 100%;
-        padding: 3px 15px;
+        line-height: 100%;
+        padding: 9px 15px;
     }
 
     .disabled a {
@@ -279,6 +280,10 @@
         .btn {
             width: auto;
         }
+    }
+    
+    .dropdown-toggle:active, .dropdown-toggle:focus {
+        background: #DCE6F1 !important;
     }
 }
 .open {

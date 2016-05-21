@@ -71,6 +71,40 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                         break;
                 }
             };
+            
+            // This sets dynamic width to line to take 100% height
+            function colResize() {
+                var winHeight = $(document).height() - 110;
+
+                $('.campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav').css('min-height', winHeight + 'px');
+                $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
+
+                //Targetting Responsive
+                $('.targetingSlide .tab-pane, .targetingSlide .tab-pane .list_row_holder')
+                    .css('min-height', winHeight - 380 + 'px');
+                    
+                //Audience Targeting
+                $('#selectAud .segFixedWrap').css('max-height', winHeight - 362 + 'px');
+                $('#buildAud .segmentHolder').css('min-height', winHeight - 225 + 'px');
+
+                //Geo Targeting
+                $('#zip #zipCodes').css('min-height', winHeight - 310 + 'px');
+                $('#regions .list_row_holder').css('min-height', winHeight - 380 + 'px');
+                $('#dmas .list_row_holder').css('min-height', winHeight - 370 + 'px');
+                
+                //Day Targeting
+                $('.dayTargetLower').css('min-height', winHeight - 290 + 'px');
+                
+                //Video Targeting
+                $('.video-dimension').css('min-height', winHeight - 200 + 'px');
+            }
+
+            $(window).resize(function () {
+                colResize();
+                if ($(window).height() > 596) {
+                    colResize();
+                }
+            });
 
             /****************** START : AUDIENCE TARGETING  ***********************/
             $scope.saveAudience = function (selectedAudience) {
@@ -79,6 +113,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
 
             // Audience Targeting Trigger -- Onclick
             $scope.selectAudTarget = function () {
+                colResize();
                 $scope.$broadcast('triggerAudience');
                 _targeting.setTargetingForPreview('Audience');
             };
@@ -112,6 +147,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
 
             // Day Targeting Trigger
             $scope.selectDayTarget = function () {
+                colResize();
                 $scope.$broadcast('triggerDayPart');
                 _targeting.setTargetingForPreview('Daypart');
             };
@@ -217,8 +253,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
 
             // geo Targeting Trigger
             $scope.selectGeoTarget = function () {
+                colResize();
                 $scope.$broadcast('triggerGeography');
-
                 // show targeting in side bar
                 _targeting.setTargetingForPreview('Geography');
             };
@@ -248,6 +284,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
 
             /****************** START : VIDEO TARGETING  ***********************/
             $scope.selectVideoTarget = function () {
+                colResize();
                 $scope.$broadcast('triggerVideo');
                 _targeting.setTargetingForPreview('Video');
             };

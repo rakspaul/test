@@ -267,7 +267,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
 
 
-                $scope.newdiffDays =  momentService.dateDiffInDays(flightDateObj.startTime ,$scope.campaignDate)  ; 
+                $scope.newdiffDays =  momentService.dateDiffInDays(flightDateObj.startTime ,$scope.campaignDate)  ;
 
                 $scope.ifClonedDateLessThanStartDate = momentService.isDateBefore($scope.campaignDate , flightDateObj.startTime ) ;
 
@@ -278,7 +278,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 if( $scope.campaignDate ) {
                     flightDateObj.startTime = $scope.campaignDate ;
-                    flightDateObj.endTime = momentService.addDaysCustom(flightDateObj.startTime, 'MM/DD/YYYY', $scope.periodDays); 
+                    flightDateObj.endTime = momentService.addDaysCustom(flightDateObj.startTime, 'MM/DD/YYYY', $scope.periodDays);
                 }
 
 
@@ -294,7 +294,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.handleFlightDate(flightDateObj);
                 }
 
-             
+
                 //set updateAt value in hidden field.
                 if (campaignData.updatedAt) {
                     $scope.selectedCampaign.updatedAt = campaignData.updatedAt;
@@ -450,7 +450,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var endDateElem = $('#endDateInput')
             var changeDate;
 
-            if ($scope.mode !== 'edit' || !$scope.campaignDate ) {
+            if ($scope.mode !== 'edit' && !$scope.campaignDate ) {
                 if (startTime) {
                     if (moment(startTime).isAfter(endTime)) {
                         endDateElem.removeAttr("disabled").css({'background': 'transparent'});
@@ -499,10 +499,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 return false;
             }
 
-            if ($scope.selectedCampaign.lineItemBillableAmountTotal > $scope.Campaign.deliveryBudget) {
-                $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
-                return false;
-            }
+            //removing validation of total billable amount for now
+            //if ($scope.selectedCampaign.lineItemBillableAmountTotal > $scope.Campaign.deliveryBudget) {
+            //    $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
+            //    return false;
+            //}
             if ($scope.mode === 'edit' && $scope.editCampaignData.bookedSpend > $scope.Campaign.deliveryBudget) {
                 $rootScope.setErrAlertMessage('Booked Spent should not exceed the campaign budget');
                 return false;
@@ -671,22 +672,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
             $("html").css('background', '#fff');
             $scope.locale = $locale;
-            // This sets dynamic width to line to take 100% height
-            function colResize() {
-                var winHeight = $(window).height() - 50;
-                $("#campaignCreate .settingWrap").css('min-height', winHeight + 'px');
-                $(".tbody.thin").css('max-height', winHeight - 298 + 'px');
-                $(".selectedPixels").css('height', winHeight - 243 + 'px');
-            }
-
-            setTimeout(function () {
-                colResize();
-            }, 1000);
-
-
-            $(window).resize(function () {
-                colResize();
-            });
 
             // This is for the drop down list. Perhaps adding this to a more general controller
             $(document).on('click', '.dropdown-menu li.available a', function () {
@@ -901,6 +886,23 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }, 100)
                 }
             })
-        })
+        });
+
+        // This sets dynamic width to line to take 100% height
+        function colResize() {
+            var winHeight = $(window).height() - 50;
+            $("#campaignCreate .settingWrap").css('min-height', winHeight + 'px');
+            $(".tbody.thin").css('max-height', winHeight - 298 + 'px');
+            $(".selectedPixels").css('height', winHeight - 243 + 'px');
+        }
+
+        setTimeout(function () {
+            colResize();
+        }, 1000);
+
+
+        $(window).resize(function () {
+            colResize();
+        });
     });
 });

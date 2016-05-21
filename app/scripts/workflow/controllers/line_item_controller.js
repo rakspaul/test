@@ -157,9 +157,10 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
             newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
             //calc budget for validation against campaign budget
-            tempBudget = $scope.selectedCampaign.lineItemBillableAmountTotal;
-            tempBudget = Number(tempBudget) + Number(newItem.billableAmount);
-            if (tempBudget > $scope.Campaign.deliveryBudget) {
+            //tempBudget = $scope.selectedCampaign.lineItemBillableAmountTotal;
+            //tempBudget = Number(tempBudget) + Number(newItem.billableAmount);
+            //if (tempBudget > $scope.Campaign.deliveryBudget) {
+            if (Number(newItem.billableAmount) > $scope.Campaign.deliveryBudget) {
                 $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
                 return false;
             }
@@ -179,9 +180,9 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             newItem = createEditLineItemObj(angular.copy(oldLineItem));
             newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
             newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
-            tempBudget = $scope.selectedCampaign.lineItemBillableAmountTotal;
-            tempBudget = (Number(tempBudget) - Number(oldLineItem.billableAmount)) + Number(newItem.billableAmount);
-            if (tempBudget > $scope.Campaign.deliveryBudget) {
+            //tempBudget = $scope.selectedCampaign.lineItemBillableAmountTotal;
+            //tempBudget = (Number(tempBudget) - Number(oldLineItem.billableAmount)) + Number(newItem.billableAmount);
+            if (Number(newItem.billableAmount) > $scope.Campaign.deliveryBudget) {
                 $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
                 return false;
             }

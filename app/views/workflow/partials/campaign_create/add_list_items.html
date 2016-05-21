@@ -78,14 +78,14 @@
     <!-- End of Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
 
     <div class="col-md-12 zeroPadding btn-group create" role="group" style="margin: 20px 0 10px 0;">
-        <a class="btn btn-default" ng-click="showNewLineItemForm() ">
+        <a class="btn btn-default" ng-click="showNewLineItemForm()" style="border-right: 0;">
             <span class="icon-plus"></span>
             <span data-ng-bind="textConstants.CREATE" ></span>
         </a>
 
          <div class="pull-left">
             <div class="btn-group create" role="group" aria-label="...">
-                <div class="btn btn-default zeroPadding dropdown-workflow pull-left">
+                <div class="btn btn-default zeroPadding dropdown-workflow pull-left" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="padding-right: 18px;">
                             <span class="icon-more-options"></span>
@@ -132,7 +132,7 @@
         <!--Row 1-->
         <div class="col-md-4 zeroPadding ">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_LINE_ITEM_NAME"></label>
-            <input type="text" class="col-md-12 form-control" placeholder="Enter Line Item name up to 150 characters" name="lineItemName" ng-model="$parent.lineItemName" title="{{$parent.lineItemName}}" />
+            <input type="text" class="col-md-12 form-control" placeholder="Enter up to 150 characters." name="lineItemName" ng-model="$parent.lineItemName" title="{{$parent.lineItemName}}" />
             <span class="greyTxt errorLabel" ng-show="lineItemForm.lineItemName.$error.required">Please enter a name</span>
         </div>
 

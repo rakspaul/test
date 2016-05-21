@@ -35,19 +35,19 @@
         </div>
     </div>
 
-    <div class="form-group col-md-4" style="padding: 0 15px;">
-        <label class="col-sm-12 greyTxt">Impression Look Back:</label>
-        <input type="text" class="form-control" ng-model="advertiserData.lookbackImpressions"
-               placeholder="Add value"
-               ng-keyup="(advertiserData.lookbackImpressions>30)?advertiserData.lookbackImpressions=30:''">
-    </div>
-
-    <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
-        <label class="col-sm-12 greyTxt">Click Look Back:</label>
-        <input type="text" class="form-control" ng-model="advertiserData.lookbackClicks"
-               placeholder="Add value"
-               ng-keyup="(advertiserData.lookbackClicks>30)?advertiserData.lookbackClicks=30:''">
-    </div>
+    <!--<div class="form-group col-md-4" style="padding: 0 15px;">-->
+    <!--    <label class="col-sm-12 greyTxt">Impression Look Back:</label>-->
+    <!--    <input type="text" class="form-control" ng-model="advertiserData.lookbackImpressions"-->
+    <!--           placeholder="Add value"-->
+    <!--           ng-keyup="(advertiserData.lookbackImpressions>30)?advertiserData.lookbackImpressions=30:''">-->
+    <!--</div>-->
+    <!---->
+    <!--<div class="form-group col-md-4" style="padding: 0 0 0 15px;">-->
+    <!--    <label class="col-sm-12 greyTxt">Click Look Back:</label>-->
+    <!--    <input type="text" class="form-control" ng-model="advertiserData.lookbackClicks"-->
+    <!--           placeholder="Add value"-->
+    <!--           ng-keyup="(advertiserData.lookbackClicks>30)?advertiserData.lookbackClicks=30:''">-->
+    <!--</div>-->
 
     <div class="adChoices">
         <div class="col-md-12 zeroPadding"><h1 class="pull-left">Ad Choices</h1></div>
@@ -309,6 +309,14 @@
                     </div>
                 </div>
             </div>
+
+            <div class="form-group col-md-12" style="padding: 0 0 0 0" >
+                <label class="col-sm-12 greyTxt">Pixel Code</label>
+                <input type="textarea" class="form-control"
+                       ng-model="pixelFormData.pixelCode"
+                       data-ng-disabled="pixelIndex!=null && advertiserData.pixels[pixelIndex].isFeedData == true"
+                       data-ng-trim="true">
+            </div>
             
             <div class="form-group col-md-2 clearLeft" style="padding: 0 15px 0 0;">
                 <label class="col-sm-12 greyTxt">Impression Look Back:</label>
@@ -348,7 +356,7 @@
                         <div class="col-md-1 th">Click Look</div>
                         <div class="col-md-2 th">Pixel Expiration Date</div>
                         <div class="col-md-1 th text-center">
-                            <span class="col-md-12 zeroPadding text-center" style="cursor: pointer;" ng-click="selectAllPixels();">Select All</span>
+                            <span class="col-md-12 zeroPadding text-center" style="cursor: pointer;" ng-click="selectAllPixels();" tooltip="Select to Download">Select All</span>
                         </div>
                     </div>
                 </div>

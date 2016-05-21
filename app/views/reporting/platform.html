@@ -77,7 +77,7 @@
                              ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
                         <div class="reports_details_outer_container" ng-show="!dataNotFoundForPerformance"
                              ng-class="{vid_none_hdr:adFormats.videoAds == false,vid_show:adFormats.videoAds == true}">
-                            <div class="clearfix reports_platform_header" ng-hide="performanceBusy">
+                            <div class="clearfix reports_platform_header performancePlatformHeader" ng-hide="performanceBusy">
                                 <performance-header></performance-header>
                             </div>
                             <div class="strategy_total_container">

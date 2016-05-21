@@ -338,6 +338,7 @@ define(['angularAMD'], function(angularAMD) {
         this.FLIGHT_DATES = "Flight Dates";
         this.METRICS_LIFE_TIME = "Metrics (Lifetime)";
         this.METRICS = "Metrics";
+        this.METRIC = "Metric";
         this.SELECTED_METRICS = "Selected Metrics";
         this.LOAD_MORE_STRATEGIES = "Load More Ad Groups";
         this.LOAD_MORE_TACTICS = "Load More Ads";
@@ -1067,6 +1068,7 @@ define(['angularAMD'], function(angularAMD) {
         this.EMPTY_PIXEL_FIELD = "Please add pixel name";
         this.EMPTY_PIXEL_TYPE = "Please select the pixel type";
         this.EMPTY_PIXEL_EXPIREAT = "Please select the pixel expiration date";
+        this.EMPTY_PIXEL_CODE = "Please add some pixel code without any special characters, max character limit 20"
         this.EMPTY_BRAND_LIST = "No Brands available for the advertiser";
         this.ERR_ADD_PIXEL = "Error in adding pixel";
         this.EMPTY_CLIENT_LIST = "No Clients available for the client";
