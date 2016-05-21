@@ -15,7 +15,7 @@
                   </span>
         </div>
         <div class="pull-right col-md-6 dashboard-filters">
-          <div class="pull-right status_filter">
+          <div class="pull-right status_filter dropdown-workflow">
               <div class="dd_heading" ng-bind="textConstants.STATUS"></div>
               <div class="dropdown status_filter_dd">
               <span class="dropdown_ul_text " data-toggle="dropdown">
@@ -109,9 +109,9 @@
                         </span>
                     </div>
                     <div class="col-md-8">
-                       <div class="pull-right   col-md-3 zeroPadding">
+                       <div class="pull-right dropdown-workflow col-md-3 zeroPadding">
                           
-                          <div class="pull-right dropdown" id="dashboard_metric_dd">
+                          <div class="pull-right dropdown" id="dashboard_metric_dd" style="width: auto;">
                             <span class="dropdown_ul_text" data-toggle="dropdown">
                               <span>{{selectedFilter()}}</span>
                               <span class="arrow_img"></span>

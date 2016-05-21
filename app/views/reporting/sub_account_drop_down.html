@@ -1,7 +1,7 @@
 <div class="nav_filters_heading">{{constants.SUB_ACCOUNT}}</div>
 <div class="brand_name_selected" id="sub_account_name_selected" ng-click="showSubAccountDropDown()" title="{{subAccountData.selectedsubAccount.name}}"  ng-bind="(subAccountData.selectedsubAccount.name ? subAccountData.selectedsubAccount.name:'')"></div>
 <div class="clearfix">
-    <div class="brandsDropdownSearch">
+    <div class="brandsDropdownSearch dropdown-workflow">
         <ul class="dropdown-menu" role="menu" id="subAccountDropDownList">
             <div id="subAccountDropdownDiv">
                 <input class="dropdown-toggle inactive"  id="subAccountDropdown"  ng-keyup="disableShowAll();" ng-model="selectedSubAccount.name">

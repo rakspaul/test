@@ -1941,23 +1941,25 @@ multiselect {
 	margin: 0 auto;
 }
 div.inputLoader {
-	border : 1px solid #dde6eb ;
+    border-width: 0;
 	position: relative;
 	border-radius: 2px;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
-    > input[type="text"] {
-    	border: solid 1px  transparent;
-    	width: 100% ;
-    	margin: 0 ;
-    }
-    > input[type="text"]:focus , > input[type="text"]:hover {
-    	border: solid 1px  transparent !important;
-    }
+    box-shadow: none;
+    //> input[type="text"] {
+    //	border: solid 1px  transparent;
+    //	width: 100% ;
+    //	margin: 0 ;
+    //}
+    //> input[type="text"]:focus , > input[type="text"]:hover {
+    //	border: solid 1px  transparent !important;
+    //}
 	> .common-loading-area {
 		position: absolute;
-		right: 0px ;
-		top : 0px ;
+		right: 2px ;
+		top : 1px ;
+        height: 34px;
 		z-index: 10 ;
 		background-color: #fff ;
 	}

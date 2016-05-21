@@ -12,7 +12,7 @@
         <h2>{{adData.geoTargetName}} <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>({{locale.id === 'en-gb' ? 'UK' : 'US'}} only)</span></h2>
         <div class="tooltipWrap zipCodeTooltip" ng-show="enableZipCodePopUp">
             <span data-ng-bind="textConstants.INCZIP"></span>
-            <a ng-href="#" class="btn btn-default pull-right" ng-click="showGeographyTabsBox(null, 'zip', false);" role="button" data-ng-bind="textConstants.CONTINUE"></a>
+            <a ng-href="#" class="btn btn-primary pull-right" ng-click="showGeographyTabsBox(null, 'zip', false);" role="button" data-ng-bind="textConstants.CONTINUE"></a>
             <a href="#" ng-click="hidezipCodeTooltip()" class="btn btn-link pull-right"  role="button" data-ng-bind="textConstants.CANCEL"></a>
         </div>
 
@@ -72,7 +72,7 @@
                             <span class="pull-left">{{(selectedTab == 'cities')?'City':'Metro'}}</span>
                             <span class="pull-left common-sort-icon ascending" style="display: block;"></span> <!-- add "descending" or "ascending" whenever sorted  and remove display:none -->
                         </div>
-                        <div ng-show="selectedTab !=='regions'" class="pull-left list_val_col" style="margin-left: 30px;" data-ng-bind="textConstants.REGION"><!-- add "sort-icon-holder" always after implementing sorting--> <!-- add "active" when selected -->
+                        <div ng-show="selectedTab !=='regions'" class="pull-left" style="margin-left: 30px;" data-ng-bind="textConstants.REGION"><!-- add "sort-icon-holder" always after implementing sorting--> <!-- add "active" when selected -->
                         </div>
 
                     </div>
@@ -130,7 +130,7 @@
                 <div  >
                     <div class="list_holder">
                         <div class="common-load-icon_viewability" ng-if="!geoTargetingData.dmas"></div>
-                        <div class="list_row_holder" lr-infinite-scroll="loadMoreDmas" time-threshold="100">
+                        <div class="list_row_holder" lr-infinite-scroll="loadMoreDmas" time-threshold="100" style="margin-bottom: 15px;">
                             <div class="clearfix list_row" ng-repeat="dma in geoTargetingData.dmas">
                                 <div class="pull-left list_row_chkbox"><input id="{{dma.id}}" type="checkbox" ng-model="bool" ng-change="sync(bool, dma, 'dmas')" ng-checked="isChecked(dma.id, 'dmas')" value="" /></div>
                                 <div class="pull-left list_val_col" data-ng-bind="dma.dmaName"></div>

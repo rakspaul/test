@@ -169,14 +169,14 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 $rootScope.setErrAlertMessage(constants.EMPTY_ADV_SELECTION);
                 return false;
             }
-            if(!$scope.advertiserData.lookbackImpressions || $scope.advertiserData.lookbackImpressions == ""){
-                $rootScope.setErrAlertMessage(constants.EMPTY_LOOKBACK_IMPRESSION);
-                return false;
-            }
-            if(!$scope.advertiserData.lookbackClicks || $scope.advertiserData.lookbackClicks == ""){
-                $rootScope.setErrAlertMessage(constants.EMPTY_LOOKBACK_CLICK);
-                return false;
-            }
+            //if(!$scope.advertiserData.lookbackImpressions || $scope.advertiserData.lookbackImpressions == ""){
+            //    $rootScope.setErrAlertMessage(constants.EMPTY_LOOKBACK_IMPRESSION);
+            //    return false;
+            //}
+            //if(!$scope.advertiserData.lookbackClicks || $scope.advertiserData.lookbackClicks == ""){
+            //    $rootScope.setErrAlertMessage(constants.EMPTY_LOOKBACK_CLICK);
+            //    return false;
+            //}
             if($scope.advertiserAddOrEditData.enableAdChoice && !$scope.advertiserAddOrEditData.adChoiceCode){
                 errMsg = constants.EMPTY_ADCHOICE_CODE;
                 ret = false;
@@ -255,8 +255,8 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         }
         function createAdvertiserUnderClient(advId) {
             var requestData = {
-                lookbackImpressions : Number($scope.advertiserData.lookbackImpressions),
-                lookbackClicks : Number($scope.advertiserData.lookbackClicks)
+                lookbackImpressions : 14,
+                lookbackClicks : 14
             }
             accountsService
                 .createAdvertiserUnderClient($scope.client.id, advId, requestData)

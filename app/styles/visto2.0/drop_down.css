@@ -50,7 +50,7 @@
   background: none;
 }
 .dropdown-workflow .btn-default:not(.label-btn):active {
-  background-color: #DCEDF1 !important;
+  background-color: #DCE6F1 !important;
   border: 1px solid #BFC9D7 !important;
   box-shadow: none;
 }
@@ -90,7 +90,8 @@
   overflow: hidden;
   cursor: pointer;
   width: 100%;
-  padding: 3px 15px;
+  line-height: 100%;
+  padding: 9px 15px;
 }
 .dropdown-workflow .disabled a {
   color: #21252b;
@@ -261,6 +262,10 @@
 }
 .dropdown-workflow .category_dropdown .btn {
   width: auto;
+}
+.dropdown-workflow .dropdown-toggle:active,
+.dropdown-workflow .dropdown-toggle:focus {
+  background: #DCE6F1 !important;
 }
 .open .dropdown-toggle.btn-default {
   color: #363D49;
