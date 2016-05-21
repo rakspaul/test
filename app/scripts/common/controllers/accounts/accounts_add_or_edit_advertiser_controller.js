@@ -322,7 +322,8 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                     updatedAt: item.updatedAt,
                     impLookbackWindow: item.impLookbackWindow,
                     clickLookbackWindow: item.clickLookbackWindow,
-                    expiryDate: momentService.localTimeToUTC(item.expiryDate, "endTime")//.format('YYYY-MM-DD HH:MM:SS.SSS')
+                    expiryDate: momentService.localTimeToUTC(item.expiryDate, "endTime"),//.format('YYYY-MM-DD HH:MM:SS.SSS')
+                    pixelCode: item.pixelCode
                 }
                 if(item.id){
                     $scope.advertiserData.pixels[index].id = item.id;
