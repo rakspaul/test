@@ -912,7 +912,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
 .common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
 .breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col {
-  width: 140px ;
+  width: 160px ;
 }
 .common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
