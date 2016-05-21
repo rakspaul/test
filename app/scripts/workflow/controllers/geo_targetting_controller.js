@@ -486,6 +486,19 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
         };
 
+
+        //For DMAs - related methods
+        var zipWrapper = {
+            resetZipCode : function() {
+
+                if ($scope.zipCodesObj) {
+                    $scope.zipCodesObj = [];
+                }
+
+                $scope.adData.zipCodes = '';
+            }
+        };
+
         //Geo
         geoTargeting.countries = countriesWrapper;
         geoTargeting.regions = regionsWrapper;
@@ -493,6 +506,170 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         //DMAs
         geoTargeting.dmas = dmasWrapper;
+
+        var getSelectedZipCodes = function (zipList) {
+
+            var zipCodes = [];
+
+            _.each(zipList, function (obj) {
+                _.each(obj.added, function (val) {
+                    zipCodes.push(val);
+                });
+            });
+            return zipCodes;
+        };
+
+
+        var geoTargetsDataForListing = function() {
+            var geoData = _.extend({}, $scope.geoData),
+                obj = {};
+
+            /**
+             * zip Code
+             */
+            var zipCodes = getSelectedZipCodes(geoData.zip.selected);
+            if (zipCodes.length > 0) {
+                geoData.zipCodes = [{'values': zipCodes}];
+            }
+
+            delete geoData.zip;
+            obj.include = {};
+            obj.exclude = {};
+
+            _.each(geoData, function (data, idx) {
+                if (data.selected) {
+                    obj.include[idx] = [];
+                    if (idx !== 'zipCodes') {
+                        obj.exclude[idx] = [];
+                    }
+                    _.each(data.selected, function (d) {
+                        if(d) {
+                            if (d.included || d.values) {
+                                obj.include[idx].push(d);
+                            } else {
+                                console.log("idx", idx)
+                                obj.exclude[idx].push(d);
+                            }
+                        }
+                    });
+                }
+            })
+
+            if (angular.equals({}, obj.include)) {
+                obj.include = null;
+            }
+            if (angular.equals({}, obj.exclude)) {
+                obj.exclude = null;
+            }
+
+            return obj;
+        };
+
+        function modifyGeoTargetingDataForPreview() {
+            var geoData = _.extend({}, $scope.geoData),
+                obj = {};
+
+            geoData.zip = getAllAddedZipCode(geoData.zip.selected);
+            if (geoData.countries && geoData.countries.selected.length > 0) {
+                geoData['COUNTRY'] = {};
+                geoData['COUNTRY']['list'] = [];
+                geoData['COUNTRY']['list'] = geoData.countries.selected;
+                geoData['COUNTRY']['included'] = _.uniq(_.pluck(geoData.countries.selected, 'included'))[0];
+                delete geoData.countries;
+            }
+
+            if (geoData.regions && geoData.regions.selected.length > 0) {
+                geoData['REGION'] = {};
+                geoData['REGION']['list'] = [];
+                geoData['REGION']['list'] = geoData.regions.selected;
+                geoData['REGION']['included'] = _.uniq(_.pluck(geoData.regions.selected, 'included'))[0];
+                delete geoData.regions;
+            }
+
+            if (geoData.cities && geoData.cities.selected.length > 0) {
+                geoData['CITY'] = {};
+                geoData['CITY']['list'] = [];
+                geoData['CITY']['list'] = geoData.cities.selected;
+                geoData['CITY']['included'] = _.uniq(_.pluck(geoData.cities.selected, 'included'))[0];
+                delete geoData.cities;
+            }
+
+            if (geoData.dmas && geoData.dmas.selected.length > 0) {
+                geoData['DMA'] = {};
+                geoData['DMA']['list'] = [];
+                geoData['DMA']['list'] = geoData.dmas.selected;
+                geoData['DMA']['included'] = _.uniq(_.pluck(geoData.dmas.selected, 'included'))[0];
+                delete geoData.dmas;
+            }
+
+            if (geoData.zip && geoData.zip.length > 0) {
+                geoData['ZIP_CODE'] = {};
+                geoData['ZIP_CODE']['list'] = [];
+                geoData['ZIP_CODE']['list'] = geoData.zip;
+                geoData['ZIP_CODE']['included'] = geoData.zip.length > 0 ? true : false;
+                delete geoData.zip;
+            }
+            return geoData;
+        };
+
+        var hideGeoTargetingBox =  function () {
+            $('#geographyTargeting').delay(300).animate({
+                left: '100%',
+                marginLeft: '0',
+                opacity: '0'
+            }, function () {
+                $(this).hide();
+            });
+        }
+
+        var showGeoTargetingBox = function () {
+            $('#geographyTargeting')
+                .show()
+                .delay(300)
+                .animate({
+                    left: '50%',
+                    marginLeft: '-461px',
+                    opacity: '1.0'
+                }, 'slow');
+        }
+
+        //this is temp redirect to targetting screen
+        $scope.showTargettingScreen = function (cancelClicked) {
+
+            if($scope.zipCodesObj) {
+                $scope.zipCodesObj.info = [];
+                $scope.zipCodesObj.error = [];
+            }
+
+            if (cancelClicked && workflowService.getSavedGeo()) {
+            }
+            hideGeoTargetingBox();
+        };
+
+        $scope.saveGeography = function (cancelClicked) {
+
+            var geoTargetsData = workflowService.getAdsDetails();
+            zipWrapper.resetZipCode();
+            $scope.geoData.previewData = geoTargetsDataForListing();
+
+            if($scope.geoData.zip.selected.length === 0 && geoTargetsData && geoTargetsData.targets && geoTargetsData.targets.geoTargets && geoTargetsData.targets.geoTargets.ZIP_CODE) {
+                geoTargetsData.targets.geoTargets.ZIP_CODE = null;
+                workflowService.setAdsDetails(geoTargetsData);
+            }
+
+            var modifedGeoTargetObj = modifyGeoTargetingDataForPreview();
+
+            workflowService.setSavedGeo({
+                'modify': modifedGeoTargetObj,
+                'original': $scope.geoData.previewData
+            });
+
+            if(!cancelClicked) {
+                $scope.showTargettingScreen(cancelClicked);
+            }
+
+            $scope.$parent.showGeoTargetingForPreview();
+        };
 
         $scope.getTargetingType = function() {
             var targetingType;
@@ -840,13 +1017,23 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             }
 
-            //if selected tab is country and 
+            //if selected tab is country and we change the include/exclude toggle
             if($scope.selectedSubTab == 'countries') {
                 _.each($scope.selectedCountries, function(country) {
                     country.regions = null;
                 })
                 $scope.geoData.regions.selected = [];
                 $scope.geoData.regions.data = [];
+
+            }
+
+            //if selected tab is regions and country is not selected and we change the include/exclude toggle
+            if($scope.selectedCountries.length === 0 && $scope.selectedSubTab == 'regions') {
+                _.each($scope.selectedRegions, function(country) {
+                    country.cities = null;
+                })
+                $scope.geoData.cities.selected = [];
+                $scope.geoData.cities.data = [];
 
             }
 

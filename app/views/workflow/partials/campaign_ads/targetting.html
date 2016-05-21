@@ -80,52 +80,52 @@
                data-ng-click="selectAudTarget()">
     </div>
     <!--END : Audience Targeting Card-->
-
+    geoPreviewData --> {{geoPreviewData}}
     <!--START : Geo Targeting Card-->
     <div class="col-md-6 cardSelectHolder"
          data-ng-if="!isPlatformSelected || (isPlatformSelected && isGeoTargetEnabled)"
          data-ng-class="{true: 'active'}[selectedTargeting['geography']]">
-        <span data-ng-if="geoTargetingPreviewObj"
+        <span data-ng-if="geoPreviewData"
               class="icon-trash"
-              data-ng-style="(geoTargetingPreviewObj.include.count > 0 || geoTargetingPreviewObj.exclude.count > 0) ?
+              data-ng-style="(geoPreviewData.include.count > 0 || geoPreviewData.exclude.count > 0) ?
                             {'display': 'block'} : {'display': 'none'}"
               data-ng-click="deletetargets('GEO', $event)">
         </span>
         <div class="icon-location"></div>
-        <p>Geography <span>({{locale.id === 'en-gb' ? 'UK' : 'US'}} Only)</span></p>
-        <div class="cardTxtWrap" data-ng-if="!geoTargetingPreviewObj.include && !geoTargetingPreviewObj.exclude">
+        <p>Geography</span></p>
+        <div class="cardTxtWrap" data-ng-if="!geoPreviewData.include && !geoPreviewData.exclude">
             <span data-ng-bind="textConstants.TARGETAUDLOC"></span>
-            <p style="margin: 0;"><span>All {{locale.id === 'en-gb' ? 'UK' : 'US'}} (default)</span></p>
+            <p style="margin: 0;"><span>All Geo default</span></p>
         </div>
         <div class="cardTxtWrap targetDataSaved"
-             data-ng-if="geoTargetingPreviewObj.include || geoTargetingPreviewObj.exclude">
-            <div class="targetDataSavedTop" data-ng-if="geoTargetingPreviewObj.include.count > 0">
+             data-ng-if="geoPreviewData.include || geoPreviewData.exclude">
+            <div class="targetDataSavedTop" data-ng-if="geoPreviewData.include.count > 0">
                 <div class="icon-target"></div>
                 <span data-ng-bind="textConstants.INCLUDED"></span>
                 <div class="badge">
-                    {{geoTargetingPreviewObj.include.count}}
+                    {{geoPreviewData.include.count}}
                 </div>
             </div>
             <span class="targetListItem">
-                {{geoTargetingPreviewObj.include.label}}
+                {{geoPreviewData.include.label}}
             </span>
 
             <div class="targetDataSavedTop"
                  style="padding-top: 20px;"
-                 data-ng-if="geoTargetingPreviewObj.exclude.count > 0">
+                 data-ng-if="geoPreviewData.exclude.count > 0">
                 <div class="icon-exclude"></div>
                 <span data-ng-bind="textConstants.EXCLUDED"></span>
-                <div class="badge">{{geoTargetingPreviewObj.exclude.count}}</div>
+                <div class="badge">{{geoPreviewData.exclude.count}}</div>
             </div>
-            <span class="targetListItem" data-ng-if="geoTargetingPreviewObj.exclude.count">
-                {{geoTargetingPreviewObj.exclude.label}}
+            <span class="targetListItem" data-ng-if="geoPreviewData.exclude.count">
+                {{geoPreviewData.exclude.label}}
             </span>
         </div>
         <span data-ng-if="$parent.isPlatformSelected"
               class="onSelectBtn btn btn-default active"
               data-ng-click="selectGeoTarget()">
         </span>
-        <input data-ng-if="!geoTargetingPreviewObj.include && !geoTargetingPreviewObj.exclude"
+        <input data-ng-if="!geoPreviewData.include && !geoPreviewData.exclude"
                type="button"
                name="platform"
                value="Create"

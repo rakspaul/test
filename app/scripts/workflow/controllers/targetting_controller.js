@@ -149,57 +149,71 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                     excludeLabel = [],
                     str = '';
 
-                if (data.REGION && data.REGION.geoTargetList.length > 0) {
-                    if (data.REGION.isIncluded) {
-                        includedCount = data.REGION.geoTargetList.length;
-                        str = data.REGION.geoTargetList.length + ' Region' +
-                            ((data.REGION.geoTargetList.length > 1) ? 's' : '');
+                if (data.COUNTRY && data.COUNTRY.list.length > 0) {
+                    if (data.COUNTRY.included) {
+                        includedCount = data.COUNTRY.list.length;
+                        str = data.COUNTRY.list.length +
+                            ((data.COUNTRY.list.length > 1) ? ' Countries' : ' Country');
                         includeLabel.push(str);
                     } else {
-                        excludeCount = data.REGION.geoTargetList.length;
-                        str = data.REGION.geoTargetList.length + ' Region' +
-                            ((data.REGION.geoTargetList.length > 1) ? 's' : '');
+                        excludeCount = data.COUNTRY.list.length;
+                        str = data.COUNTRY.list.length +
+                            ((data.COUNTRY.list.length > 1) ? ' Countries' : ' Country');
                         excludeLabel.push(str);
                     }
                 }
 
-                if (data.DMA && data.DMA.geoTargetList.length > 0) {
-                    if (data.DMA.isIncluded) {
-                        includedCount += data.DMA.geoTargetList.length;
-                        str = data.DMA.geoTargetList.length + ' Metro' +
-                            ((data.DMA.geoTargetList.length > 1) ? 's' : '');
+                if (data.REGION && data.REGION.list.length > 0) {
+                    if (data.REGION.included) {
+                        includedCount = data.REGION.list.length;
+                        str = data.REGION.list.length + ' Region' +
+                            ((data.REGION.list.length > 1) ? 's' : '');
                         includeLabel.push(str);
                     } else {
-                        excludeCount += data.DMA.geoTargetList.length;
-                        str = data.DMA.geoTargetList.length + ' Metro' +
-                            ((data.DMA.geoTargetList.length > 1) ? 's' : '');
-                        excludeLabel.push(str);
-                    }
-                }
-                if (data.CITY &&  data.CITY.geoTargetList.length > 0) {
-                    if (data.CITY.isIncluded) {
-                        includedCount += data.CITY.geoTargetList.length;
-                        str = data.CITY.geoTargetList.length +
-                            ((data.CITY.geoTargetList.length > 1) ? ' Cities' : ' City');
-                        includeLabel.push(str);
-                    } else {
-                        excludeCount += data.CITY.geoTargetList.length;
-                        str = data.CITY.geoTargetList.length +
-                            ((data.CITY.geoTargetList.length > 1) ? ' Cities' : ' City');
+                        excludeCount = data.REGION.list.length;
+                        str = data.REGION.list.length + ' Region' +
+                            ((data.REGION.list.length > 1) ? 's' : '');
                         excludeLabel.push(str);
                     }
                 }
 
-                if (data.ZIP_CODE && data.ZIP_CODE.geoTargetList.length > 0) {
-                    if (data.ZIP_CODE.isIncluded) {
-                        includedCount += data.ZIP_CODE.geoTargetList.length;
-                        str = data.ZIP_CODE.geoTargetList.length + ' Postal Code' +
-                            ((data.ZIP_CODE.geoTargetList.length > 1) ? 's' : '');
+                if (data.DMA && data.DMA.list.length > 0) {
+                    if (data.DMA.included) {
+                        includedCount += data.DMA.list.length;
+                        str = data.DMA.list.length + ' Metro' +
+                            ((data.DMA.list.length > 1) ? 's' : '');
                         includeLabel.push(str);
                     } else {
-                        excludeCount += data.ZIP_CODE.geoTargetList.length;
-                        str = data.ZIP_CODE.geoTargetList.length + ' Postal Code' +
-                            ((data.ZIP_CODE.geoTargetList.length > 1) ? 's' : '');
+                        excludeCount += data.DMA.list.length;
+                        str = data.DMA.list.length + ' Metro' +
+                            ((data.DMA.list.length > 1) ? 's' : '');
+                        excludeLabel.push(str);
+                    }
+                }
+                if (data.CITY &&  data.CITY.list.length > 0) {
+                    if (data.CITY.included) {
+                        includedCount += data.CITY.list.length;
+                        str = data.CITY.list.length +
+                            ((data.CITY.list.length > 1) ? ' Cities' : ' City');
+                        includeLabel.push(str);
+                    } else {
+                        excludeCount += data.CITY.list.length;
+                        str = data.CITY.list.length +
+                            ((data.CITY.list.length > 1) ? ' Cities' : ' City');
+                        excludeLabel.push(str);
+                    }
+                }
+
+                if (data.ZIP_CODE && data.ZIP_CODE.list.length > 0) {
+                    if (data.ZIP_CODE.included) {
+                        includedCount += data.ZIP_CODE.list.length;
+                        str = data.ZIP_CODE.list.length + ' Postal Code' +
+                            ((data.ZIP_CODE.list.length > 1) ? 's' : '');
+                        includeLabel.push(str);
+                    } else {
+                        excludeCount += data.ZIP_CODE.list.length;
+                        str = data.ZIP_CODE.list.length + ' Postal Code' +
+                            ((data.ZIP_CODE.list.length > 1) ? 's' : '');
                         excludeLabel.push(str);
                     }
                 }
@@ -207,7 +221,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                 previewObj.include =  {count: includedCount, label: includeLabel.join(' ')};
                 previewObj.exclude =  {count: excludeCount,  label: excludeLabel.join(' ')};
 
-                $scope.geoTargetingPreviewObj = previewObj;
+                $scope.geoPreviewData = previewObj;
             };
 
             $scope.showGeoTargetingForPreview = function () {
