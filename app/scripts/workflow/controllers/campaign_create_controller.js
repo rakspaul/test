@@ -587,7 +587,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             if(lineItemMode === 'create'){
                                 $scope.createNewLineItemInEditMode();
                             } else {
-
+                                $scope.updateLineItemInEditMode();
                             }
 
                         } else {

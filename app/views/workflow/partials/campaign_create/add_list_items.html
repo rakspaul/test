@@ -437,6 +437,19 @@
 
         <a class="btn btn-primary pull-right" ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()" ng-bind="textConstants.SAVE_CHANGES"></a>
         <a class="btn btn-link pull-right cancelLineItem" ng-click="hideLineItemEditRow($event);">Cancel</a>
+        <!--confirm message in edit mode-->
+        <div class="popUpCue" data-ng-show="showConfirmPopupEdit" >
+            <span class="col-md-12 zeroPadding">Media Plan changes will be saved, before Line Item changes are saved.</span>
+            <a href="javascript:void(0);"
+               class="leftNavLink pull-right btn btn-primary"
+               data-ng-click="saveCampaign('edit')"
+               data-ng-bind="textConstants.CONTINUE">
+            </a>
+            <a class="pull-right btn btn-link"
+               data-ng-bind="textConstants.CANCEL"
+               data-ng-click="cancelMediaPlanCreationEdit()">
+            </a>
+        </div>
 
 
 

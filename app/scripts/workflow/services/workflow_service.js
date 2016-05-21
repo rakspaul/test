@@ -19,7 +19,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 rates,
                 selectedAdvertiser,
                 cloneMediaPlanData,
-                lineitemDetails = null;
+                lineitemDetails = null,
+                lineitemDetailsEdit = null;
 
             function createObj(platform) {
                 var integrationObj = {};
@@ -1076,6 +1077,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     lineitemDetails = data;
                 },
                 getLineItemData: function(){
+                    return lineitemDetails;
+                },
+                setLineItemDataEdit: function(data){
+                    lineitemDetails = data;
+                },
+                getLineItemDataEdit: function(){
                     return lineitemDetails;
                 }
 

@@ -23,6 +23,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         $scope.selectedCampaign.rejectedFiles;
         // edit mode - save media plan along with line item
         $scope.showConfirmPopupCreate = false;
+        $scope.showConfirmPopupEdit = false;
 
 /*---START------BULK LineItem Upload Section---------*/
 
@@ -196,6 +197,8 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                         newItem = createLineItemObj();
                         workflowService.setLineItemData(null);
 
+                    } else {
+                        $rootScope.setErrAlertMessage(results.data.data.message );
                     }
                 });
             }
@@ -207,28 +210,59 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             $scope.showConfirmPopupCreate = false;
         }
 
-        $scope.updateLineItemInEditMode = function () {
+        $scope.$parent.updateLineItemInEditMode = function () {
             var newItem,
                 tempBudget;
-            newItem = createEditLineItemObj(angular.copy(oldLineItem));
-            newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
-            newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+            //this hack is to make it work in edit mode when media plan save is requierd prior to line item
+            //check if we have saved line item details in service or create a new line item object
+            newItem = workflowService.getLineItemDataEdit()
+            if(!newItem){
+                newItem = createEditLineItemObj(angular.copy(oldLineItem));
+            }
+
+
             //tempBudget = $scope.selectedCampaign.lineItemBillableAmountTotal;
             //tempBudget = (Number(tempBudget) - Number(oldLineItem.billableAmount)) + Number(newItem.billableAmount);
             if (Number(newItem.billableAmount) > $scope.Campaign.deliveryBudget) {
                 $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
                 return false;
             }
-            workflowService.updateLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem).then(function (results) {
-                if (results.status === 'success' && (results.data.statusCode === 200 || results.data.statusCode === 201)) {
-                    var campaignObj = $scope.createCampaignAccess();
-                    campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
-                    $scope.calculateLineItemTotal();
+            //if we have to save the media plan prior to line item
+            $scope.showConfirmPopupEdit = false;
+            if($scope.saveMediaPlan){
+                //this is temp save in case we need to save media plan before line item
+                workflowService.setLineItemDataEdit(newItem);
 
+                //show popup
+                $scope.showConfirmPopupEdit = true;
+            } else {
+                //this is temp save in case we need to save media plan before line item
+                newItem = workflowService.getLineItemDataEdit();
+                if(!newItem){
+                    newItem = createEditLineItemObj(angular.copy(oldLineItem));
                 }
 
-            });
+                newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
+                newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+
+                // update line item
+                workflowService.updateLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem).then(function (results) {
+                    if (results.status === 'success' && (results.data.statusCode === 200 || results.data.statusCode === 201)) {
+                        var campaignObj = $scope.createCampaignAccess();
+                        campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
+                        $scope.calculateLineItemTotal();
+                        workflowService.setLineItemDataEdit(null);
+
+                    } else {
+                        $rootScope.setErrAlertMessage(results.data.data.message );
+                    }
+                });
+            }
         };
+
+        $scope.cancelMediaPlanCreationEdit = function(){
+            $scope.showConfirmPopupEdit = false;
+        }
 
         function createLineItemObj(lineItemObj) {
             var newItem = {};
