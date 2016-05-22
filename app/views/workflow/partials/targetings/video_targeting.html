@@ -42,6 +42,7 @@
                                 aria-labelledby="selectDimension"
                                 id="selectDimension"
                                 name="selectDimension"
+                                data-ng-click="$event.stopPropagation()"
                                 data-toggle="dropdown">
                                 <li class="available {{!dimension.active ? 'disabled' : ''}}"
                                     data-ng-click="selectOption($event , dimension)"
@@ -61,7 +62,6 @@
                     <div class="col-md-12 zeroPadding dropdown-workflow">
                         <div class="dropdown">
                             <button data-ng-disabled="!sizesData"
-                                    id="sizesType"
                                     class="btn btn-default dropdown-toggle"
                                     type="button"
                                     data-toggle="dropdown"
@@ -73,9 +73,10 @@
                                 <span class="icon-arrow-down"></span>
                             </button>
                             <ul class="dropdown-menu"
-                                aria-labelledby="selectDimension"
+                                aria-labelledby="selectSize"
                                 id="selectSize"
                                 name="selectSize"
+                                data-ng-click="$event.stopPropagation()"
                                 data-toggle="dropdown">
                                 <li class="available"
                                     data-ng-click="selectSize($event, sizeLabel)"
