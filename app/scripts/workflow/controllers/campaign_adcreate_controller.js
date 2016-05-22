@@ -1319,7 +1319,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                 buildGeoTargetingParams = function (data, type) {
                                     var obj = {};
 
-                                    obj.isIncluded = _.uniq(_.pluck(data, type + 'Included'))[0];
+                                    obj.isIncluded = _.uniq(_.pluck(data, 'included'))[0];
                                     obj.geoTargetList = _.pluck(data, 'id');
 
                                     return obj;
@@ -1327,20 +1327,24 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                 geoTargetData = $scope.adData.geoTargetingData;
 
-                                if (geoTargetData.regions.length > 0) {
-                                    postGeoTargetObj.REGION = buildGeoTargetingParams(geoTargetData.regions, 'regions');
+                                if (geoTargetData.countries.selected.length > 0) {
+                                    postGeoTargetObj.COUNTRY = buildGeoTargetingParams(geoTargetData.countries.selected, 'countries');
                                 }
 
-                                if (geoTargetData.cities.length > 0) {
-                                    postGeoTargetObj.CITY = buildGeoTargetingParams(geoTargetData.cities, 'cities');
+                                if (geoTargetData.regions.selected.length > 0) {
+                                    postGeoTargetObj.REGION = buildGeoTargetingParams(geoTargetData.regions.selected, 'regions');
                                 }
 
-                                if (geoTargetData.dmas.length > 0) {
-                                    postGeoTargetObj.DMA = buildGeoTargetingParams(geoTargetData.dmas, 'dmas');
+                                if (geoTargetData.cities.selected.length > 0) {
+                                    postGeoTargetObj.CITY = buildGeoTargetingParams(geoTargetData.cities.selected, 'cities');
                                 }
 
-                                if ($scope.adData.geoTargetingData.zip.length > 0) {
-                                    zipObj = $scope.adData.geoTargetingData.zip;
+                                if (geoTargetData.dmas.selected.length > 0) {
+                                    postGeoTargetObj.DMA = buildGeoTargetingParams(geoTargetData.dmas.selected, 'dmas');
+                                }
+
+                                if (geoTargetData.zip.selected.length > 0) {
+                                    zipObj = geoTargetData.zip.selected;
                                     zipPostArr = [];
 
                                     _.each(zipObj, function (zipArr) {
