@@ -410,7 +410,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.adGroupsSearchFunc = function (e) {
                 var searchTermsArr,
                     len;
-
+console.log('ad groups search')
                 // Perform search if enter key is pressed or search button is clicked.
                 if (!e || e.keyCode === 13) {
                     $scope.adGroupsNoData = false;
