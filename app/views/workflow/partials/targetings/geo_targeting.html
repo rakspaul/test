@@ -236,37 +236,24 @@
                 </div>
                 <div class="values-table">
                     <!----   selected country , region and city level targeting ---------->
-                    <div class="clearfix each-row" ng-repeat="country in selectedCountries">
-                        <div class="pull-left"><img ng-show = "country.included !==undefined" ng-src="/images/workflow/{{country.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{country.name}}</div>
-                        <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(country, 'countries')"></span></div>
-                        <div class="group">
-                            <div class="each-group" ng-repeat="region in country.regions">
-                                <div class="pull-left"><img ng-show = "region.included !==undefined" ng-src="/images/workflow/{{region.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{region.name}}</div>
-                                <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(region, 'regions')"></span></div>
-                                <div class="group">
-                                    <div class="each-group" ng-repeat="city in region.cities">
-                                        <div class="pull-left"><img ng-show = "city.included !==undefined" ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
-                                        <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'cities')"></span></div>
+                    <div ng-repeat="item in geoSelectedItems">
+                        <div class="clearfix each-row" ng-repeat="country in item.countries track by $index">
+                            <div class="pull-left"><img ng-show = "country.included !==undefined" ng-src="/images/workflow/{{country.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{country.name}}</div>
+                            <div ng-show = "country.included !==undefined" class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(country, 'countries', 'country_'+country.id)"></span></div>
+                            <div class="group">
+                                <div class="each-group" ng-repeat="region in country.regions track by $index">
+                                    <div class="pull-left"><img ng-show = "region.included !==undefined" ng-src="/images/workflow/{{region.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{region.name}}</div>
+                                    <div ng-show = "region.included !==undefined" class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(region, 'regions', 'region_region.id_region.country.id')"></span></div>
+                                    <div class="group">
+                                        <div class="each-group" ng-repeat="city in region.cities track by $index">
+                                            <div class="pull-left"><img ng-show = "city.included !==undefined" ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
+                                            <div ng-show = "city.included !==undefined" class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'cities', 'city_city.id_city.parent.id_city.country.id')"></span></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="each-group" ng-repeat="city in country.cities">
-                                <div class="pull-left"><img ng-show = "city.included !==undefined" ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
-                                <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'cities')"></span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!----   selected region and city level targeting ---------->
-                    <div class="clearfix each-row"  ng-repeat="region in selectedRegions" ng-if="selectedCountries.length === 0 || geoData.countries.included === false">
-                        <div class="pull-left">{{region.parent.name}}</div>
-                        <div class="clearfix each-row">
-                            <div class="pull-left"><img ng-show = "region.included !==undefined" ng-src="/images/workflow/{{region.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{region.name}}</div>
-                            <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(region, 'regions')"></span></div>
-                            <div class="group">
-                                <div class="each-group" ng-repeat="city in region.cities">
+                                <div class="each-group" ng-repeat="city in country.cities">
                                     <div class="pull-left"><img ng-show = "city.included !==undefined" ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
-                                    <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'cities')"></span></div>
+                                    <div ng-show = "city.included !==undefined" class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'cities')"></span></div>
                                 </div>
                             </div>
                         </div>
@@ -287,7 +274,7 @@
                 <div class="values-table">
                     <div class="clearfix each-row"  ng-repeat="dma in geoData.dmas.selected">
                         <div class="pull-left"><img ng-src="/images/workflow/{{dma.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{dma.name}}</div>
-                        <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(dma, 'dmas')"></span></div>
+                        <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(dma, 'dmas', 'dma_{{dma.id}}')"></span></div>
                     </div>
                     <div ng-if="geoTargetingData.selected.dmas.length === 0">
                         <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
@@ -318,68 +305,6 @@
         </div>
     </div>
 </div>
-
-<!--=== Selected Targeting ===-->
-<div class="col-md-12 targettingSelected" style="display:none;">
-    <div class="col-md-12 tsHeader">
-        <h2>Geography</span></h2>
-        <a ng-href="#" ng-click="deleteGeography()"><img ng-src="/images/workflow/icon_trash.svg" alt="" height="15"/></a>
-        <a ng-href="#" ng-click="editGeography()"><img ng-src="/images/workflow/icon_pencil.svg" alt="" height="15"/></a>
-        <div class="col-md-6 zeroPadding" style="clear: left;">
-            <span><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> Include</span>
-        </div>
-        <div class="col-md-6 zeroPadding">
-            <span><img ng-src="/images/workflow/icon_exclude.svg" alt="" height="15"/> Exclude</span>
-        </div>
-    </div>
-
-    <div class="col-md-12 tsBody">
-        <div class="col-md-6 zeroPadding">
-            <div class="total_data_holder regioncity" ng-if="geoData.previewData.include.regions.length>0 || geoData.previewData.include.cities.length>0">
-                <h5 data-ng-bind="textConstants.REGCITIES"></h5>
-                <div class="data_list_holder less_data">
-                    <div class="data_list" ng-repeat="regioncity in geoData.previewData.include.regions" data-ng-bind="regioncity.name"></div>
-                    <div class="data_list" ng-repeat="regioncity in geoData.previewData.include.cities">{{regioncity.parent.name}}, {{regioncity.name}}</div>
-                </div>
-                <div class="show_more_less" ng-if="geoData.previewData.include.regions.length>2 || geoData.previewData.include.cities.length>2" ng-click="show_more_less_list($event);" ng-bind="'+' + (geoData.previewData.include.regions.length-2) < 0 ? (geoData.previewData.include.cities.length-2):(geoData.previewData.include.regions.length-2) + ' more '">+
-                </div>
-            </div>
-            <div class="total_data_holder zipCode" ng-if="geoData.previewData.include.zipCodes[0].values.length>0">
-                <h5 data-ng-bind="textConstants.ZIPPOSTCODE"></h5>
-                <div class="data_list_holder less_data">
-                    <div class="data_list" ng-repeat="zipCode in geoData.previewData.include.zipCodes[0].values" data-ng-bind="zipCode"></div>
-                </div>
-                <div class="show_more_less" ng-if="geoData.previewData.include.zipCodes[0].values.length>2" ng-click="show_more_less_list($event);">+ {{geoData.previewData.include.zipCodes[0].values.length-2}} more</div>
-            </div>
-            <div class="total_data_holder dmas" ng-if="geoData.previewData.include.dmas.length>0">
-                <h5 data-ng-bind="textConstants.DMAS"></h5>
-                <div class="data_list_holder less_data">
-                    <div class="data_list" ng-repeat="dma in geoData.previewData.include.dmas" data-ng-bind="dma.name"></div>
-                </div>
-                <div class="show_more_less" ng-if="geoData.previewData.include.dmas.length>2" ng-click="show_more_less_list($event);">+ {{geoData.previewData.include.dmas.length-2}} more</div>
-            </div>
-        </div>
-        <div class="col-md-6 zeroPadding">
-            <div class="total_data_holder regioncity" ng-if="geoData.previewData.exclude.regions.length>0 || geoData.previewData.exclude.cities.length>0">
-                <h5 data-ng-bind="textConstants.REGCITIES"></h5>
-                <div class="data_list_holder less_data">
-                    <div class="data_list" ng-repeat="regioncity in geoData.previewData.exclude.regions" data-ng-bind="regioncity.name"></div>
-                    <div class="data_list" ng-repeat="regioncity in geoData.previewData.exclude.cities">{{regioncity.parent.name}}, {{regioncity.name}}</div>
-                </div>
-                <div class="show_more_less" ng-if="geoData.previewData.exclude.regions.length>2 || geoData.previewData.exclude.cities.length>2" ng-click="show_more_less_list($event);" ng-bind="'+' (geoData.previewData.exclude.regions.length-2) < 0 ? (geoData.previewData.exclude.cities.length-2):(geoData.previewData.exclude.regions.length-2) + ' more ' ">
-                </div>
-            </div>
-            <div class="total_data_holder dmas" ng-if="geoData.previewData.exclude.dmas.length>0">
-                <h5 data-ng-bind="textConstants.DMAS"></h5>
-                <div class="data_list_holder less_data">
-                    <div class="data_list" ng-repeat="dma in geoData.previewData.exclude.dmas" data-ng-bind="dma.name"></div>
-                </div>
-                <div class="show_more_less" ng-if="geoData.previewData.exclude.dmas.length>2" ng-click="show_more_less_list($event);">+ {{geoData.previewData.exclude.dmas.length-2}} more</div>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <div class="msgPopupHolder" id="confirmBox" ng-show="showConfirmBox">
     <div class="msgPopup">
