@@ -84,6 +84,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.mediaPlanNameExists = false;
         $scope.selectedCampaign.costAttributes = {};
 
+        //flag to make API call to save media plan along with line item
+        $scope.saveMediaPlan = false;
+
         var selectedAdvertiser;
         $scope.periodDays = 0 ;
         $scope.lessdiffDays = 0 ;
@@ -267,7 +270,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
 
 
-                $scope.newdiffDays =  momentService.dateDiffInDays(flightDateObj.startTime ,$scope.campaignDate)  ; 
+                $scope.newdiffDays =  momentService.dateDiffInDays(flightDateObj.startTime ,$scope.campaignDate)  ;
 
                 $scope.ifClonedDateLessThanStartDate = momentService.isDateBefore($scope.campaignDate , flightDateObj.startTime ) ;
 
@@ -278,7 +281,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 if( $scope.campaignDate ) {
                     flightDateObj.startTime = $scope.campaignDate ;
-                    flightDateObj.endTime = momentService.addDaysCustom(flightDateObj.startTime, 'MM/DD/YYYY', $scope.periodDays); 
+                    flightDateObj.endTime = momentService.addDaysCustom(flightDateObj.startTime, 'MM/DD/YYYY', $scope.periodDays);
                 }
 
 
@@ -294,7 +297,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.handleFlightDate(flightDateObj);
                 }
 
-             
+
                 //set updateAt value in hidden field.
                 if (campaignData.updatedAt) {
                     $scope.selectedCampaign.updatedAt = campaignData.updatedAt;
@@ -319,9 +322,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.selectedCampaign.kpiValue = campaignData.kpiValue;
                 }
 
-                //set Pixel Dara
+                //set Pixel Dara - this call will be made in watch section
                 //if (campaignData.pixels && campaignData.pixels.length > 0) {
-                    $scope.$broadcast('fetch_pixels', campaignData.pixels);
+                //    $scope.$broadcast('fetch_pixels', campaignData.pixels);
                 //}
 
                 //set Media Plan Budget & Margin
@@ -450,7 +453,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var endDateElem = $('#endDateInput')
             var changeDate;
 
-            if ($scope.mode !== 'edit' || !$scope.campaignDate ) {
+            if ($scope.mode !== 'edit' && !$scope.campaignDate ) {
                 if (startTime) {
                     if (moment(startTime).isAfter(endTime)) {
                         endDateElem.removeAttr("disabled").css({'background': 'transparent'});
@@ -486,7 +489,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
         };
 
-        $scope.saveCampaign = function () {
+        $scope.saveCampaign = function (lineItemMode) {
             $scope.$broadcast('show-errors-check-validity');
 
             var formElem,
@@ -499,10 +502,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 return false;
             }
 
-            if ($scope.selectedCampaign.lineItemBillableAmountTotal > $scope.Campaign.deliveryBudget) {
-                $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
-                return false;
-            }
+            //removing validation of total billable amount for now
+            //if ($scope.selectedCampaign.lineItemBillableAmountTotal > $scope.Campaign.deliveryBudget) {
+            //    $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
+            //    return false;
+            //}
             if ($scope.mode === 'edit' && $scope.editCampaignData.bookedSpend > $scope.Campaign.deliveryBudget) {
                 $rootScope.setErrAlertMessage('Booked Spent should not exceed the campaign budget');
                 return false;
@@ -575,7 +579,21 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.cloneMediaPlanName = null;
                         $scope.selectedCampaign.resetLineItemParameters();
                         $scope.editLineItem = {};
-                        $scope.sucessHandler(result);
+                        if($scope.saveMediaPlan){
+                            $rootScope.setErrAlertMessage('Media plan successfully' + ($scope.mode === 'edit' ? ' updated ' : ' created ') , 0);
+                            $scope.saveMediaPlan = false;
+                            $scope.selectedCampaign.updatedAt = result.data.data.updatedAt;
+                            //trigger save the line item now after successful updation of media plan
+                            if(lineItemMode === 'create'){
+                                $scope.createNewLineItemInEditMode();
+                            } else {
+                                $scope.updateLineItemInEditMode();
+                            }
+
+                        } else {
+                            $scope.sucessHandler(result);
+                        }
+
                     } else {
                         $scope.saveBtnLoader= false;
                         $rootScope.setErrAlertMessage('Unable to ' + (($scope.mode === 'edit') ? ' update ' : ' create ') + ' Media Plan');
@@ -671,7 +689,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
             $("html").css('background', '#fff');
             $scope.locale = $locale;
-            
+
             // This is for the drop down list. Perhaps adding this to a more general controller
             $(document).on('click', '.dropdown-menu li.available a', function () {
                 $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
@@ -864,7 +882,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         //});
 
 
-        $scope.$watch('selectedCampaign.endTime',function(){
+        $scope.$watch('selectedCampaign.endTime',function(newVal,oldVal){
             if(selectedAdvertiser){
                 if(createCampaign.campaignData && createCampaign.campaignData.pixels){
                     $scope.$broadcast('fetch_pixels', createCampaign.campaignData.pixels);
@@ -873,7 +891,46 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             }
 
+            //set the flag to save the media plan along with line item
+            if($scope.mode === 'edit'){
+                if (typeof oldVal === 'undefined') return;
+                if (newVal !== oldVal) {
+                    $scope.saveMediaPlan = true;
+                }
+            }
         });
+
+        $scope.$watch('selectedCampaign.startTime',function(newVal,oldVal){
+            //set the flag to save the media plan along with line item
+            if($scope.mode === 'edit'){
+                if (typeof oldVal === 'undefined') return;
+
+                if (newVal !== oldVal) {
+                    $scope.saveMediaPlan = true;
+                }
+            }
+        });
+
+        $scope.$watch('Campaign.totalBudget',function(newVal,oldVal){
+            //set the flag to save the media plan along with line item
+            if($scope.mode === 'edit'){
+                if (typeof oldVal === 'undefined') return;
+                if (newVal !== oldVal) {
+                    $scope.saveMediaPlan = true;
+                }
+            }
+        });
+
+        $scope.$watch('Campaign.marginPercent',function(newVal,oldVal){
+            //set the flag to save the media plan along with line item
+            if($scope.mode === 'edit'){
+                if (typeof oldVal === 'undefined' || oldVal === 0) return;
+                if (newVal !== oldVal) {
+                    $scope.saveMediaPlan = true;
+                }
+            }
+        });
+
 
         $(function () {
             $(".masterContainer").on('click', '.leftNavLink', function (event) {
@@ -886,7 +943,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             })
         });
-        
+
+        // This sets dynamic width to line to take 100% height
         // This sets dynamic width to line to take 100% height
         function colResize() {
             var winHeight = $(window).height() - 50;

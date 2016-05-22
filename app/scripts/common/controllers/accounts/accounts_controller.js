@@ -20,6 +20,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 name: '',
                 pixelType: '',
                 expiryDate: '',
+                pixelCode: '',
                 description: '',
                 pixelTypeName: 'Select Pixel Type'
             };
@@ -112,6 +113,15 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 } else if (!item.clickLookbackWindow || item.clickLookbackWindow === '') {
                     errMsg = constants.EMPTY_LOOKBACK_CLICK;
                     ret = false;
+                } else if (!item.pixelCode || item.pixelCode === '') {
+                    errMsg = constants.EMPTY_PIXEL_CODE;
+                    ret = false;
+                } else if(item.pixelCode){
+                    var pattern = new RegExp(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/);
+                    if (item.pixelCode.length > 20 || pattern.test(item.pixelCode)) {
+                        errMsg = constants.EMPTY_PIXEL_CODE;
+                        ret = false;
+                    }
                 }
 
                 if (!ret) {
@@ -131,6 +141,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                             'name',
                             'pixelType',
                             'expiryDate',
+                            'pixelCode',
                             'description',
                             'impLookbackWindow',
                             'clickLookbackWindow'
@@ -169,6 +180,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     pixelType: '',
                     expiryDate: '',
                     description: '',
+                    pixelCode: '',
                     pixelTypeName: 'Select Pixel Type',
                     impLookbackWindow: '',
                     clickLookbackWindow: ''
@@ -492,6 +504,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     name: '',
                     pixelType: '',
                     expiryDate: '',
+                    pixelCode: '',
                     description: '',
                     pixelTypeName: 'Select Pixel Type'
                 };

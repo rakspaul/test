@@ -28,8 +28,8 @@ define(['angularAMD' , 'workflow/services/workflow_service' ],
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.campaignArchive = false;
                             $scope.campaignArchiveLoader = false;
-                            campaignName = $scope.workflowData.campaignData.name;
-                            localStorage.setItem('topAlertMessage', campaignName + ' has been archived');
+                            //campaignName = $scope.workflowData.campaignData.name;
+                            localStorage.setItem('topAlertMessage','Campaign has been archived');
                             $location.url(vistoconfig.MEDIA_PLANS_LINK);
                         } else {
                             campaignArchiveErrorHandler();

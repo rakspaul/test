@@ -653,12 +653,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             $scope.getAdFormatIconName = function (adFormat) {
                 var adFormatMapper = {
-                    display: 'picture',
-                    video: 'film',
-                    'rich media': 'paperclip',
-                    social: 'user'
+                    display: 'image',
+                    video: 'video',
+                    'rich media': 'rich-media',
+                    social: 'social'
                 };
-
                 return adFormatMapper[adFormat.toLowerCase()];
             };
 

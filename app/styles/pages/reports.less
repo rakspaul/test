@@ -906,6 +906,22 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
       margin-right: 20px;
       .inventory_chart_details_list {
         width : 530px ;
+        > .cpa_col {
+          width: 160px ;
+          .arrrow_img {
+            margin :  4px 0 0 8px ;
+            float: left!important;
+          }
+          .dd_txt {
+            span {
+              margin-top: 2px ;
+            }
+
+          }
+        }
+        > .cpa_col  ~ .imps_del_col {
+          margin-top: 2px ;
+        }
       }
     }
   }
@@ -4048,8 +4064,7 @@ only screen and (min-device-pixel-ratio: 2) {
 
     #dynamicHeader{
         padding-left:14px;
-       /* margin-bottom: 10px; */
-        margin-top: 28px;
+        margin : 28px 0 10px ;  
         .collapseIcon{
             display:none;
         }
@@ -4058,6 +4073,15 @@ only screen and (min-device-pixel-ratio: 2) {
         }
         .downReport {
             display:none;
+            border: solid 1px #BFC9D7;
+            padding: 7px 15px;
+            margin-top: -6px;
+            height: 36px;
+            border-radius: 2px;
+            cursor: pointer;
+            &:hover {
+              background: #e1edf9;
+            }
         }
         .subTitle{
             display:block;

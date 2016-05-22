@@ -309,6 +309,14 @@
                     </div>
                 </div>
             </div>
+
+            <div class="form-group col-md-12" style="padding: 0 0 0 0" >
+                <label class="col-sm-12 greyTxt">Pixel Code</label>
+                <input type="textarea" class="form-control"
+                       ng-model="pixelFormData.pixelCode"
+                       data-ng-disabled="pixelIndex!=null && advertiserData.pixels[pixelIndex].isFeedData == true"
+                       data-ng-trim="true">
+            </div>
             
             <div class="form-group col-md-2 clearLeft" style="padding: 0 15px 0 0;">
                 <label class="col-sm-12 greyTxt">Impression Look Back:</label>

@@ -31,7 +31,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 }
 
                 // remove spaces.
-                format = format.trim();
+                //format = format.replace(/\s/g, '');
                 workflowService
                     .getCreatives(clientID,adId, format, query, {cache: false},state,function(result){
                         var responseData,

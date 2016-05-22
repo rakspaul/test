@@ -224,7 +224,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             isSearch = true;
             var searchVal = $scope.creativeSearch,
                 qryStr = '';
-            //formats = 'VIDEO,RICHMEDIA,DISPLAY';
+            //formats = 'VIDEO,RICH MEDIA,DISPLAY';
 
             if (searchVal.length > 0) {
                 qryStr += 'query=' + searchVal;
