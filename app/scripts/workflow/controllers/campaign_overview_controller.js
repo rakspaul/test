@@ -142,7 +142,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                                 // Highlight non-Adgroup ad name
                                 _.each($scope.workflowData.campaignAdsData, function (obj) {
-                                    obj.nameHtml = $scope.highlightTitleText(obj.name, $scope.adGroupsSearchTerm);
+                                    obj.nameHtml = $scope.highlightTitleText(obj.name, $scope.adGroupsSearch.term);
                                 });
 
                                 isAdsInProgressState = _.filter(responseData, function (obj) {
@@ -183,7 +183,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                         labelsLen,
                                         searchTermsArr,
                                         searchTermsLen,
-                                        searchTerm = $scope.adGroupsSearchTerm.toLowerCase().trim();
+                                        searchTerm = $scope.adGroupsSearch.term.toLowerCase().trim();
 
                                     obj.adGroup.nameHtml = obj.adGroup.name;
 
@@ -247,7 +247,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                                 // Highlight non-Adgroup ad name
                                 _.each($scope.workflowData.campaignAdsData, function (obj) {
-                                    obj.nameHtml = $scope.highlightTitleText(obj.name, $scope.adGroupsSearchTerm);
+                                    obj.nameHtml = $scope.highlightTitleText(obj.name, $scope.adGroupsSearch.term);
                                 });
 
                                 // Hide animated 'busy' icon and show search results
@@ -287,7 +287,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 // Highlight Ad titles inside Ad Group
                                 if ($scope.workflowData.getADsForGroupData[index].length) {
                                     _.each($scope.workflowData.getADsForGroupData[index], function (obj) {
-                                        searchTerm = $scope.adGroupsSearchTerm.toLowerCase().trim();
+                                        searchTerm = $scope.adGroupsSearch.term.toLowerCase().trim();
                                         obj.nameHtml = $scope.highlightTitleText(obj.name, searchTerm);
                                     });
                                 }
@@ -376,9 +376,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.isMaximumAdGroupBudget = true;
             $scope.selectedClientName = loginModel.getSelectedClient().name;
             $scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
-            $scope.adGroupsSearchTerm = '';
-            $scope.adGroupsSearchTermsArr = [''];
-            $scope.adGroupsSearchTermChanged = false;
+
+            $scope.adGroupsSearch = {
+                term: '',
+                termsArr: [],
+                termChanged: false
+            };
+
             $scope.isAdGroupsSearchReset = false;
             $scope.isAdGroupsSearched = false;
             $scope.adGroupsNoData = false;
@@ -410,7 +414,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.adGroupsSearchFunc = function (e) {
                 var searchTermsArr,
                     len;
-console.log('ad groups search')
+
                 // Perform search if enter key is pressed or search button is clicked.
                 if (!e || e.keyCode === 13) {
                     $scope.adGroupsNoData = false;
@@ -419,18 +423,18 @@ console.log('ad groups search')
                     // Show animated 'busy' icon and hide search results
                     $scope.isAdGroupsBusy = true;
 
-                    $scope.adGroupsSearchTerm = $scope.adGroupsSearchTerm ? $scope.adGroupsSearchTerm.trim() : '';
+                    $scope.adGroupsSearch.term = $scope.adGroupsSearch.term ? $scope.adGroupsSearch.term.trim() : '';
 
-                    if ($scope.adGroupsSearchTerm) {
+                    if ($scope.adGroupsSearch.term) {
                         // Search term is entered
-                        searchTermsArr = $scope.adGroupsSearchTermsArr;
+                        searchTermsArr = $scope.adGroupsSearch.termsArr;
                         len = searchTermsArr.length;
-                        searchTermsArr[len] = $scope.adGroupsSearchTerm;
+                        searchTermsArr[len] = $scope.adGroupsSearch.term;
 
                         if (searchTermsArr[len - 1] !== searchTermsArr[len - 2]) {
-                            $scope.adGroupsSearchTermChanged = true;
+                            $scope.adGroupsSearch.termChanged = true;
                         } else {
-                            $scope.adGroupsSearchTermChanged = true;
+                            $scope.adGroupsSearch.termChanged = true;
                         }
 
                         $scope.isAdGroupsSearched = true;
@@ -439,7 +443,7 @@ console.log('ad groups search')
                         $scope.isAdGroupsSearched = false;
                     }
 
-                    campaignOverView.getAdgroups($routeParams.campaignId, $scope.adGroupsSearchTerm);
+                    campaignOverView.getAdgroups($routeParams.campaignId, $scope.adGroupsSearch.term);
                 }
             };
 
@@ -468,9 +472,9 @@ console.log('ad groups search')
                 if ($scope.isAdGroupsSearched) {
                     $scope.isAdGroupsSearched = false;
                     $scope.isAdGroupsSearchReset = true;
-                    $scope.adGroupsSearchTermChanged = false;
-                    $scope.adGroupsSearchTerm = '';
-                    $scope.adGroupsSearchTermsArr = [''];
+                    $scope.adGroupsSearch.termChanged = false;
+                    $scope.adGroupsSearch.term = '';
+                    $scope.adGroupsSearch.termsArr = [''];
                     $scope.adGroupsSearchFunc();
                 }
             };
@@ -756,10 +760,10 @@ console.log('ad groups search')
                     // It is not cleared in the following circumstances:
                     // - When not in search mode (except in #2 scenario above).
                     // - When performing search using the exact search term as the last search.
-                    if (($scope.isAdGroupsSearched && $scope.adGroupsSearchTermChanged) ||
+                    if (($scope.isAdGroupsSearched && $scope.adGroupsSearch.termChanged) ||
                             $scope.isAdGroupsSearchReset) {
                         $scope.isAdGroupsSearchReset = false;
-                        $scope.adGroupsSearchTermChanged = false;
+                        $scope.adGroupsSearch.termChanged = false;
                         $scope.workflowData.getADsForGroupData[index] = null;
                     }
 
