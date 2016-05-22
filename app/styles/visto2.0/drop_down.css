@@ -215,6 +215,9 @@
   text-decoration: none;
   background-color: #E1EDF9;
 }
+.dropdown-workflow .dropdown-menu {
+  z-index: 9999999;
+}
 .dropdown-workflow .dropdown-menu.pull-top.pull-left {
   top: initial !important;
   bottom: 105%;
