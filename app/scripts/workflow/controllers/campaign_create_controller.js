@@ -579,7 +579,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.cloneMediaPlanName = null;
                         $scope.selectedCampaign.resetLineItemParameters();
                         $scope.editLineItem = {};
-                        if($scope.saveMediaPlan){
+                        if($scope.saveMediaPlan && lineItemMode){
                             $rootScope.setErrAlertMessage('Media plan successfully' + ($scope.mode === 'edit' ? ' updated ' : ' created ') , 0);
                             $scope.saveMediaPlan = false;
                             $scope.selectedCampaign.updatedAt = result.data.data.updatedAt;
@@ -589,7 +589,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             } else {
                                 $scope.updateLineItemInEditMode();
                             }
-
+                            $scope.saveBtnLoader= false;
                         } else {
                             $scope.sucessHandler(result);
                         }
