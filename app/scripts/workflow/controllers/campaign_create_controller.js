@@ -582,7 +582,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.selectedCampaign.resetLineItemParameters();
                         $scope.editLineItem = {};
                         if(($scope.mode === 'create') && ($scope.mediaPlanOverviewClient != undefined)) {
-                            loginModel.setSelectedClient($scope.mediaPlanOverviewClient);
+                            loginModel.setSelectedClient($scope.mediaPlanOverviewClient); 
                         }
                         if($scope.saveMediaPlan && lineItemMode){
                             $rootScope.setErrAlertMessage('Media plan successfully' + ($scope.mode === 'edit' ? ' updated ' : ' created ') , 0);
