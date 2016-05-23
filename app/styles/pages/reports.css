@@ -1213,12 +1213,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_outer_container .sort_order_up:hover,
 .viewability_details_video_mode_outer_container .sort_order_up:hover,
 .custom_report_response_table .sort_order_up:hover {
-  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll 100px 1px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 10px 1px rgba(0, 0, 0, 0);
 }
 .viewability_details_outer_container .sort_order_up.active,
 .viewability_details_video_mode_outer_container .sort_order_up.active,
 .custom_report_response_table .sort_order_up.active {
-  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 100px -64px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 10px -64px rgba(0, 0, 0, 0);
   cursor: pointer;
   padding-right: 17px;
   color: #0978c9;
@@ -1228,19 +1228,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .custom_report_response_table .sort_order_down {
   cursor: pointer;
   padding-right: 17px;
-}
-.viewability_details_outer_container .sort_order_down:hover,
-.viewability_details_video_mode_outer_container .sort_order_down:hover,
-.custom_report_response_table .sort_order_down:hover {
-  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 100px 1px rgba(0, 0, 0, 0);
-}
-.viewability_details_outer_container .sort_order_down.active,
-.viewability_details_video_mode_outer_container .sort_order_down.active,
-.custom_report_response_table .sort_order_down.active {
-  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll 100px -64px rgba(0, 0, 0, 0);
-  cursor: pointer;
-  padding-right: 17px;
-  color: #0978c9;
 }
 .viewability_details_outer_container div.each_col.seventh_col,
 .viewability_details_video_mode_outer_container div.each_col.seventh_col,
@@ -4414,7 +4401,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
+  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #ffffff;
   height: 11px;
   width: 12px;
   min-width: 12px;
