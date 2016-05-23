@@ -323,7 +323,7 @@
             <div class="popup-content" >
                 <span class="errorText" ng-bind="$parent.errorRecords.length+'record(s) failed.'"> </span>
             </div>
-            <div class="popup-content" >
+            <div ng-show="$parent.errorRecords.length" class="popup-content" >
                 <a class="pull-left download_error_log" >
                     <span class="pull-left icon-download"></span>
                     <span class="pull-left download_error_log_txt" ng-click="downloadErrorLog($parent.errorRecordsFileName)" data-ng-bind="textConstants.DOWNLOAD_ERROR_LOG"></span>

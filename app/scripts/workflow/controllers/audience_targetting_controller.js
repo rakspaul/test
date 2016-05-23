@@ -499,6 +499,7 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
             $scope.selectedKeywords.splice(index, 1);
             _audienceTargetting.fetchAllAudience();
         };
+
         $scope.clearKeywordSearch = function () {
             $scope.selectedKeywords=[];
             $('.keyword-txt').val('');
@@ -510,12 +511,14 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
             $scope.pageNumber = 1;
             $scope.dropdownCss.display = keyword.length > 0 ? 'block' : 'none';
             if (event.which === 13) {
-                $scope.selectKeyword(keyword);// fetch audience
-                return false;
+                if(keyword.length){
+                    $scope.selectKeyword(keyword);// fetch audience for keyword entered by user
+                    return false;
+                }else{
+                    $scope.clearKeywordSearch();// fetch all audience when user clears the textBox
+                }
+
             }
-                // else {
-            //    _audienceTargetting.fetchAllKeywords(keyword);
-            //}
         };
 
         $scope.loadMoreAudience = function () {
