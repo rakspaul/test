@@ -1,6 +1,7 @@
 <span class="dropdown_ul_text col-md-12" data-toggle="dropdown" value="'{{kpiData.selectedKpi}}'" style="margin-top: 3px;">
-    <span ng-class="{vid_none_hdr_hide:whichCaller.changedrpval == 'yes'}"  class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="kpiData.selectedKpi.trim().toLowerCase() === campaign_default_kpi_type.trim()"></span>
-    <span ng-if="whichCaller.changedrpval == 'yes'">
+    <span class="arrrow_img pull-right"></span>
+
+    <span ng-if="whichCaller.changedrpval == 'yes'" class="pull-right">
         <span ng-if="kpiData.selectedKpi == 'vtc'||kpiData.selectedKpi == 'ctr' ||kpiData.selectedKpi == 'action_rate'" ng-init="changeClickedSelectedKpiAlt('cpm')" class="dd_txt pull-left" style="line-height: 100%;">
             {{textConstants.CPM }}
         </span>
@@ -11,7 +12,7 @@
             {{kpiData.selectedKpi == 'action_rate' ? textConstants.ACTION_RATE : kpiData.selectedKpi.toUpperCase()}}
         </span>
     </span>
-    <span ng-if="!whichCaller.changedrpval" class="dd_txt" ng-init="changeClickedSelectedKpiAlt(campaign_default_kpi_type)">
+    <span ng-if="!whichCaller.changedrpval" class="pull-right dd_txt" ng-init="changeClickedSelectedKpiAlt(campaign_default_kpi_type)">
         <span ng-if="kpiData.selectedKpi != 'impressions'" class="pull-left" style="line-height: 100%;">
        {{kpiData.selectedKpi == 'action_rate' ? textConstants.ACTION_RATE : kpiData.selectedKpi.toUpperCase()}}
         </span>
@@ -21,7 +22,8 @@
         </span>
        <!-- -->
     </span>
-    <span class="arrrow_img pull-right"></span>
+    <span ng-class="{vid_none_hdr_hide:whichCaller.changedrpval == 'yes'}"  class="default-kpi-header-icon pull-right" tooltip="Primary KPI" ng-if="kpiData.selectedKpi.trim().toLowerCase() === campaign_default_kpi_type.trim()"></span>
+
 </span>
 
 <div class="dropdown_ul dropdown-menu kpi_indicator_ul" ng-class="{kpi_indicator_ul2:whichCaller.changedrpval == 'yes'}">
