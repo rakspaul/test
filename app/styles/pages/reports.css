@@ -2507,14 +2507,19 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   width: 90px !important;
   cursor: pointer;
 }
+.reports_tabs_content_container .performancePlatformHeader .seventh_col .arrrow_img {
+  margin-left: 5px ;
+}
 .reports_tabs_content_container .performancePlatformHeader .seventh_col .kpi_indicator_ul {
   top: 20px ;
+  padding: 0;
 }
 .reports_tabs_content_container .performancePlatformHeader .seventh_col .kpi_indicator_ul .drop_list {
   width: 80% ;
 }
 .reports_tabs_content_container .performancePlatformHeader .seventh_col .kpi_indicator_ul .drop_list li {
   line-height: 22px ;
+  padding: 1px 15px !important;
 }
 .reports_tabs_content_container .performancePlatformHeader .seventh_col .kpi_indicator_ul .drop_list li .kpiIndicator {
   float: left;
