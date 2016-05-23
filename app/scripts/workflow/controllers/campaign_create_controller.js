@@ -53,6 +53,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.kpiValue = '';
 
         $scope.type = {};
+        $scope.advertiserTypeValue = {};
         $scope.lineItemList = [];
         // line item create flags
         $scope.rateReadOnly = false;
@@ -173,10 +174,29 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }, createCampaign.errorHandler);
             },
             fetchRateTypes: function () {
-                workflowService.getRatesTypes().then(function (result) {
-                    $scope.type = result.data.data;
-                    workflowService.setRateTypes(angular.copy($scope.type));
-                })
+                if($scope.selectedCampaign.advertiserId){
+                    workflowService.getRatesTypes($scope.selectedCampaign.clientId,$scope.selectedCampaign.advertiserId).then(function (result) {
+                        if(result.status === "OK" || result.status === "success"){
+                            $scope.type = result.data.data;
+                            workflowService.setRateTypes(angular.copy($scope.type));
+                        }
+                    })
+                    this.fetchBillingTypeValue();
+                }
+
+
+            },
+            fetchBillingTypeValue: function () {
+                if($scope.selectedCampaign.advertiserId){
+                    workflowService.getBillingTypeValue($scope.selectedCampaign.clientId,$scope.selectedCampaign.advertiserId).then(function (result) {
+                        if(result.status === "OK" || result.status === "success"){
+                            $scope.advertiserTypeValue = result.data.data;
+                            workflowService.setAdvertiserTypeValue(angular.copy($scope.advertiserTypeValue));
+                        }
+                    })
+                }
+
+
             },
 
             fetchVendorConfigs: function () {
@@ -241,6 +261,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     //$scope.selectHandler('advertiser', campaignData.advertiser, null)
 
                 }
+
+                //fetch rates based on advertiser and client
+                //createCampaign.fetchRateTypes()
 
                 //set Brand
                 if (campaignData.brandId && campaignData.brandName) {
@@ -407,6 +430,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.selectedCampaign.clientId = data.id;
                         createCampaign.fetchAdvertisers(data.id);
                     }
+                    createCampaign.fetchRateTypes();
                     break;
 
                 case 'subAccount':
@@ -436,6 +460,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     createCampaign.fetchVendorConfigs();
                     $scope.selectedCampaign.resetLineItemParameters(); //close new line item and reset all its fields
                     createCampaign.fetchBillingTypesAndValues();  //make call to fetch billing type and values
+                    createCampaign.fetchRateTypes(); // fetch rates for line item based on advertiser and client
                     $scope.$broadcast('fetch_pixels');
                     break;
 
@@ -715,7 +740,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.hideKpiValue = false;
             $scope.client = loginModel.getSelectedClient();
             $scope.isClientDropDownDisable = false;
-            createCampaign.fetchRateTypes();
+            //createCampaign.fetchRateTypes();// remove this
             if ($scope.client.name) {
                 $scope.isClientDropDownDisable = true;
                 $scope.clientName = $scope.client.name;

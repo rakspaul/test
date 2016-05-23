@@ -20,7 +20,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 selectedAdvertiser,
                 cloneMediaPlanData,
                 lineitemDetails = null,
-                lineitemDetailsEdit = null;
+                lineitemDetailsEdit = null,
+                advertiserBillingVal;
 
             function createObj(platform) {
                 var integrationObj = {};
@@ -149,10 +150,25 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     return dataService.fetch(url);
                 },
-                getRatesTypes: function () {
-                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/billing_types';
-
-                    return dataService.fetch(url);
+                getRatesTypes: function (clientId,advertiserId) {
+                    var client_id = loginModel.getSelectedClient().id;
+                    if(clientId){
+                        client_id = clientId;
+                    }
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+client_id+'/advertisers/'+advertiserId+'/allowedBillingTypes';
+                    if(client_id && advertiserId){
+                        return dataService.fetch(url);
+                    }
+                },
+                getBillingTypeValue: function (clientId,advertiserId) {
+                    var client_id = loginModel.getSelectedClient().id;
+                    if(clientId){
+                        client_id = clientId;
+                    }
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+client_id+'/advertisers/'+advertiserId+'/billing';
+                    if(client_id && advertiserId){
+                        return dataService.fetch(url);
+                    }
                 },
                 saveCampaign: function (data) {
                     var isLeafNode = loginModel.getMasterClient().isLeafNode;
@@ -1044,6 +1060,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                 getRateTypes: function () {
                     return rates;
+                },
+                setAdvertiserTypeValue: function(bv){
+                    advertiserBillingVal = bv;
+                },
+                getAdvertiserTypeValue: function () {
+                    return advertiserBillingVal;
                 },
 
                 setSelectedAdvertiser: function (adv) {

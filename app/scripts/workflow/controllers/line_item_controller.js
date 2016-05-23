@@ -133,7 +133,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         $scope.showNewLineItemForm = function () {
             $scope.selectedCampaign.createItemList = true;
             $scope.lineItemErrorFlag = false;
-            updateRateTypeArr(); // remove cogs+ in create and edit mode from rate type arr
+            setCogsValue(); // update type arr and selected advertiser
 
             $scope.initiateLineItemDatePicker();
         }
@@ -186,6 +186,11 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
                 newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
                 newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+
+                // in case pricerate is 30% markup remove the Markup
+                if(typeof newItem.pricingRate === "string"){
+                    newItem.pricingRate = Number(newItem.pricingRate.split('%')[0]);
+                }
 
                 //else just save line item
                 workflowService.createLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem).then(function (results) {
@@ -245,6 +250,11 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
                 newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
 
+                // in case pricerate is 30% markup remove the Markup
+                if(typeof newItem.pricingRate === "string"){
+                    newItem.pricingRate = Number(newItem.pricingRate.split('%')[0]);
+                }
+
                 // update line item
                 workflowService.updateLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem).then(function (results) {
                     if (results.status === 'success' && (results.data.statusCode === 200 || results.data.statusCode === 201)) {
@@ -276,7 +286,10 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             }
             newItem.billableAmount = $scope.billableAmount;
             newItem.volume = $scope.volume;
-            newItem.pricingRate = $scope.pricingRate;
+            // in case pricerate is 30% markup remove the Markup
+            if(typeof $scope.pricingRate === "string"){
+                newItem.pricingRate = Number($scope.pricingRate.split('%')[0]);
+            }
             newItem.startTime = $scope.lineItemStartDate;
             newItem.endTime = $scope.lineItemEndDate;
             if($scope.pixelSelected){
@@ -327,7 +340,6 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             } else {
                 $scope.editLineItem.lineItemType = obj;
             }
-
             if (mode === 'create') {
                 $scope.lineRate = '';
                 $scope.rateReadOnly = false;
@@ -339,48 +351,25 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 $scope.hideAdGroupName = false;
                 $scope.showPixelsList = false;
                 if (CONST_COGS_PERCENT === $scope.lineItemType.name) {
-                    if (selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)) {
+                    if (selectedAdvertiser && (selectedAdvertiser.billingTypeId && selectedAdvertiser.billingValue)) {
                         $scope.rateReadOnly = true;
                         $scope.pricingRate = selectedAdvertiser.billingValue + "% Markup";// to get via advertiser api
-                        // manully setting parameter in type dropdown
-                        var arr = [];
-                        var index = _.findIndex($scope.type, function (item) {
-                            return item.name === $scope.lineItemType.name;
-                        });
-                        arr.push($scope.type[index]);
-                        var index1 = _.findIndex($scope.type, function (item) {
-                            return item.name === CONST_FLAT_FEE;
-                        })
-                        arr.push($scope.type[index1]);
-                        $scope.type = arr;
-
+                        $('.lineItemType').html('<span class="text" data-ng-bind="lineItemType.name">'+$scope.lineItemType.name+'</span> <span class="icon-arrow-down"></span>');
                     }
 
                     $scope.volumeFlag = false;
                     $scope.volume = '';
                 }
                 else if (CONST_COGS_CPM === $scope.lineItemType.name) {
-                    if (selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)) {
+                    if (selectedAdvertiser && (selectedAdvertiser.billingTypeId && selectedAdvertiser.billingValue)) {
                         $scope.rateReadOnly = true;
                         $scope.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
-                        //$scope.rateTypeReadOnly = true;
-                        // manully setting parameter in type dropdown
-                        var arr = [];
-                        var index = _.findIndex($scope.type, function (item) {
-                            return item.name === $scope.lineItemType.name
-                        });
-                        arr.push($scope.type[index]);
-                        var index1 = _.findIndex($scope.type, function (item) {
-                            return item.name === CONST_FLAT_FEE
-                        })
-                        arr.push($scope.type[index1]);
-                        $scope.type = arr;
                     }
                     $scope.volumeFlag = false;
                     $scope.volume = '';
                 }
                 else if (CONST_FLAT_FEE === $scope.lineItemType.name) {
-                    if (selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)) {
+                    if (selectedAdvertiser && (selectedAdvertiser.billingTypeId && selectedAdvertiser.billingValue)) {
                         $scope.rateReadOnly = true;
                         $scope.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
                     }
@@ -409,9 +398,9 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
                 if (CONST_COGS_PERCENT === $scope.editLineItem.lineItemType.name) {
 
-                    if (selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)) {
+                    if (selectedAdvertiser && (selectedAdvertiser.billingTypeId && selectedAdvertiser.billingValue)) {
                         $scope.rateReadOnlyEdit = true;
-                        $scope.editLineItem.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
+                        $scope.editLineItem.pricingRate = selectedAdvertiser.billingValue+ "% Markup";// to get via advertiser api
                         $scope.rateTypeReadOnlyEdit = true;
                     }
                     $scope.volumeFlagEdit = false;
@@ -420,7 +409,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
                 }
                 else if (CONST_COGS_CPM === $scope.editLineItem.lineItemType.name) {
-                    if (selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)) {
+                    if (selectedAdvertiser && (selectedAdvertiser.billingTypeId && selectedAdvertiser.billingValue)) {
                         $scope.rateReadOnlyEdit = true;
                         $scope.editLineItem.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
                         $scope.rateTypeReadOnlyEdit = true;
@@ -430,7 +419,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                     $scope.editLineItem.pixelSelected = {};
                 }
                 else if (CONST_FLAT_FEE === $scope.editLineItem.lineItemType.name) {
-                    if (selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)) {
+                    if (selectedAdvertiser && (selectedAdvertiser.billingTypeId && selectedAdvertiser.billingValue)) {
                         $scope.rateReadOnlyEdit = true;
                         $scope.editLineItem.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
                         $scope.rateTypeReadOnlyEdit = true;
@@ -482,7 +471,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             $scope.amountFlag = true;
             $scope.hideAdGroupName = false;
             $scope.showPixelsList = false;
-            $scope.type = angular.copy(workflowService.getRateTypes());
+            //$scope.type = angular.copy(workflowService.getRateTypes());
         }
 
 
@@ -501,8 +490,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             $(target).toggle();
             $(target).closest('.tr').find('.tableEdit').toggle();
 
-
-            updateRateTypeArr(); // remove cogs+ in create and edit mode from rate type arr
+            setCogsValue(); // update type arr and selected advertiser
 
             //disable flat fee in case the user created media plan with line item with rate type other than FLAT FEE
             if($scope.mode === 'edit'){
@@ -774,21 +762,15 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             $scope.lineItemEndDate = $('#lineItemEndDateInput').val();
         }
 
-        function updateRateTypeArr(){
-            selectedAdvertiser = workflowService.getSelectedAdvertiser();
-            if (selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)) {
-
+        function setCogsValue(){
+            selectedAdvertiser = workflowService.getAdvertiserTypeValue();
+            if (selectedAdvertiser && (selectedAdvertiser.billingValue && selectedAdvertiser.billingTypeId)) {
                 var index = _.findIndex($scope.type, function (item) {
-                    return item.id === selectedAdvertiser.billingType.id;
+                    return item.id ===  selectedAdvertiser.billingTypeId;
                 });
-
-                $scope.setLineItem($scope.type[index], 'create');
-            } else {
-                // in case the advertiser does not have billing type and billing value remove COGS + % from Rate Type list
-                var index = _.findIndex($scope.type, function (type) {
-                    return type.name === CONST_COGS_PERCENT;
-                })
-                $scope.type.splice(index, 1);
+                if(index != -1){
+                    $scope.setLineItem($scope.type[index], 'create');
+                }
             }
         }
     });
