@@ -1262,6 +1262,10 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_video_mode_outer_container {
   margin-top: 15px;
 }
+.viewability_details_outer_container .sort_order_up:hover,
+.viewability_details_video_mode_outer_container .sort_order_up:hover {
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 0px top 1px rgba(0, 0, 0, 0);
+}
 .viewability_details_outer_container .sort_order_up.active:hover,
 .viewability_details_video_mode_outer_container .sort_order_up.active:hover,
 .viewability_details_outer_container .sort_order_down.active:hover,
@@ -1391,6 +1395,16 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_viewability_block .each_col.viewability_delivered_col > span,
 .viewability_details_video_mode_outer_container .each_col.viewability_delivered_col > span {
   text-align: right;
+}
+.viewability_details_outer_container .each_col.viewability_delivered_col > span.sort_order_up.active,
+#reports_platform_viewability_block .each_col.viewability_delivered_col > span.sort_order_up.active,
+.viewability_details_video_mode_outer_container .each_col.viewability_delivered_col > span.sort_order_up.active {
+  background-position: right -64px;
+}
+.viewability_details_outer_container .each_col.viewability_delivered_col > span.sort_order_up.active:hover,
+#reports_platform_viewability_block .each_col.viewability_delivered_col > span.sort_order_up.active:hover,
+.viewability_details_video_mode_outer_container .each_col.viewability_delivered_col > span.sort_order_up.active:hover {
+  background-position: right -64px;
 }
 .viewability_details_outer_container .first_col,
 #reports_platform_viewability_block .first_col,
@@ -1595,7 +1609,13 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_video_mode_outer_container .tooltip_holder .common_tooltip {
   text-align: left !important;
 }
+.viewability_details_video_mode_outer_container .sort_order_down.active {
+  background-position: right -65px;
+}
 .viewability_details_video_mode_outer_container .sort_order_down.active:hover {
+  background-position: right -65px;
+}
+.viewability_details_video_mode_outer_container .sort_order_up.active {
   background-position: right -65px;
 }
 .viewability_details_video_mode_outer_container .sort_order_up.active:hover {
@@ -1700,7 +1720,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin-top: -20px;
   position: absolute;
   right: 1px;
-  top: 96px;
+  top: 141px;
 }
 .view_mode_switch_container span {
   float: left;
@@ -4867,6 +4887,7 @@ body.custom_report_page .bodyWrap {
 }
 .quality_page_holder .view_mode_switch_container {
   margin-top: 0px;
+  top: 92px ;
 }
 .quality_page_holder .smallSreenScrollContainer {
   margin-top: 30px ;
