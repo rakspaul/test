@@ -227,7 +227,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         };
 
         $scope.removeKpiActive = function(){
-            $(".viewability_header .sec_col .icon_text_holder").removeClass( "active" );
+            //$(".viewability_header .sec_col .icon_text_holder").removeClass( "active" );
             $('.dropdown_ul_text').removeClass( "active" );
             $(".kpi_arrow_sort").removeClass( "active" );
             $(".kpi-dd-holder").removeClass( "active" );
