@@ -390,7 +390,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $('.campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav').css('min-height', winHeight + 'px');
                 $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
             }
-            
+
             //edit mode data population
             function processEditMode(result, clientId, advertiserId) {
                 var responseData = result.data.data,
