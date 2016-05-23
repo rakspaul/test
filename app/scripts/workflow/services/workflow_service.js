@@ -710,7 +710,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     );
                 },
                 updateLineItems: function (campaignId,client_id,data) {
-                    console.log(data)
                     var clientId = client_id || loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId + '/lineitems/'+data.id;
 
@@ -955,7 +954,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 },
 
                 processVendorConfig: function (data) {
-                    console.log("processVendorConfig");
                     var processedData = {};
                     processedData.userPermission = [];
                     processedData.configs = [];
@@ -1034,7 +1032,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         newItemObj.lineItem = item;
                         newItemList.push(newItemObj);
                     });
-                    //console.log("newItemList &***(((",newItemList);
                     return newItemList;
                 },
 
@@ -1062,7 +1059,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return cloneMediaPlanData;
                 },
                 deleteLineItem: function(lineItem,client_id){
-                    console.log(lineItem);
                     var clientId = client_id || loginModel.getSelectedClient().id;
                     return dataService.delete(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +

@@ -189,7 +189,6 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
                 //else just save line item
                 workflowService.createLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem).then(function (results) {
-                    console.log('result==', results)
                     if (results.status === 'success' && results.data.statusCode === 201) {
                         var campaignObj = $scope.createCampaignAccess();
                         campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
@@ -661,7 +660,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
                     $scope.lineItemdiffDays = momentService.dateDiffInDays($scope.lineItemStartDate,$scope.lineItemEndDate) ;
                 }
-                if( $scope.campaignDate ) {
+                if( $scope.campaignDate && $scope.flightDateChosen == "automaticFlightDates" ) {
                     if( !$scope.ifClonedDateLessThanStartDate ) {
                         $scope.lineItemStartDate = momentService.addDaysCustom($scope.lineItemStartDate, 'MM/DD/YYYY', $scope.newdiffDays);
                         $scope.lineItemEndDate = momentService.addDaysCustom($scope.lineItemEndDate, 'MM/DD/YYYY', $scope.newdiffDays);

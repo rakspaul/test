@@ -37,6 +37,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.adGroupName = '';
         $scope.lineTarget = '';
         $scope.campaignDate = '' ;
+        $scope.flightDateChosen = '' ;
 
         $scope.checkUniqueMediaPlanNameNotFound = false;
         $scope.executionPlatforms = [];
@@ -279,7 +280,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.lessdiffDays = momentService.dateDiffInDays($scope.campaignDate , flightDateObj.startTime)  ;
                 }
 
-                if( $scope.campaignDate ) {
+                if( $scope.campaignDate && $scope.flightDateChosen == "automaticFlightDates") {
                     flightDateObj.startTime = $scope.campaignDate ;
                     flightDateObj.endTime = momentService.addDaysCustom(flightDateObj.startTime, 'MM/DD/YYYY', $scope.periodDays);
                 }
@@ -737,6 +738,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.cloneMediaPlanName = cloneMediaPlanObj.name;
                     $scope.campaignId = cloneMediaPlanObj.id;
                     $scope.campaignDate = cloneMediaPlanObj.date;
+                    $scope.flightDateChosen = cloneMediaPlanObj.originalFlightdates ;
                     $scope.mode = 'create';
                 }
 
