@@ -10,6 +10,8 @@ define(['angularAMD'],function (angularAMD) {
         $scope.newMediaPlanStartDate = false ;
         $scope.newMediaPlanDate = "" ;
         $scope.cloneAdGroups = false ;
+        
+
         var today = momentService.utcToLocalTime();
         $timeout(function() {
             $("#cloneStartDateInput").datepicker("update", today);
@@ -26,12 +28,13 @@ define(['angularAMD'],function (angularAMD) {
             var cloneLineItems = $scope.cloneLineItems;
             var cloneAdGroups = $scope.cloneAdGroups;
             var cloneStartDate = $scope.newMediaPlanDate;
-            var flightDateChosen = $("input[name='chooseFlightDate']:checked").val() ;
+            $scope.flightDateChosen = $("input[name='chooseFlightDate']:checked").val() ;
 
             var params = {
                 'id': Number($routeParams.campaignId),
                 'name': cloneMediaPlanName,
-                'date': cloneStartDate
+                'date': cloneStartDate,
+                'originalFlightdates': $scope.flightDateChosen   
             }
 
             $scope.showCloneLoader = true;
@@ -40,7 +43,7 @@ define(['angularAMD'],function (angularAMD) {
                 params['cloneLineitems'] = cloneLineItems;
                 params['cloneAdGroups'] = cloneAdGroups;
                 params['cloneAds'] = true;
-                if( cloneAdGroups && (flightDateChosen == "automaticFlightDates") && $scope.newMediaPlanDate ) {
+                if( cloneAdGroups && ($scope.flightDateChosen == "automaticFlightDates") && $scope.newMediaPlanDate ) {
                     params['startDate'] = momentService.localTimeToUTC(cloneStartDate, 'startTime') ;
                 }
                
@@ -66,6 +69,10 @@ define(['angularAMD'],function (angularAMD) {
 
         };
 
+        $scope.makeCloneLineItemsTrue = function() {
+            $scope.cloneLineItems = true ;
+        };
+
         $scope.showDuplicateAdGroupSection = function() {
 
             $scope.newMediaPlanStartDate = false ;
@@ -84,9 +91,9 @@ define(['angularAMD'],function (angularAMD) {
 
         };
         $scope.chooseFlightDate = function(type) {
-                var flightDateChosen = $("input[name='chooseFlightDate']:checked").val() ;
+                $scope.flightDateChosen = $("input[name='chooseFlightDate']:checked").val() ;
                 $scope.newMediaPlanStartDate = true ;
-                if( flightDateChosen != "automaticFlightDates" ) {
+                if( $scope.flightDateChosen != "automaticFlightDates" ) {
                     $scope.newMediaPlanStartDate = false ;
                     $("#cloneStartDateInput").attr("disabled" , true) ;
                 } else {

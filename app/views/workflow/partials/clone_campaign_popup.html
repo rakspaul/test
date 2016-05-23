@@ -18,9 +18,8 @@
                 <span data-ng-bind="textConstants.CLONEMEDIAPLANNAMEERR"></span>
             </span>
             <div class="col-md-12 zeroPadding duplicateOptionChkbox">
-
                 <label>
-                    <input type="checkbox"  ng-checked ='true' onclick="return false;" onkeydown="return false;" ng-model="cloneLineItems">
+                    <input type="checkbox"  ng-checked ='true' ng-click="makeCloneLineItemsTrue();" onkeydown="makeCloneLineItemsTrue();" ng-model="cloneLineItems">
                     <span data-ng-bind="textConstants.DUPLICATELINEITEMS"></span>
                 </label><br>
 
