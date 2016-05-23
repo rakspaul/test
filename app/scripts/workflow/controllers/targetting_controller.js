@@ -71,7 +71,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                         break;
                 }
             };
-            
+
             // This sets dynamic width to line to take 100% height
             function colResize() {
                 var winHeight = $(document).height() - 110;
@@ -82,7 +82,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                 //Targetting Responsive
                 $('.targetingSlide .tab-pane, .targetingSlide .tab-pane .list_row_holder')
                     .css('min-height', winHeight - 380 + 'px');
-                    
+
                 //Audience Targeting
                 $('#selectAud .segFixedWrap').css('max-height', winHeight - 362 + 'px');
                 $('#buildAud .segmentHolder').css('min-height', winHeight - 225 + 'px');
@@ -91,10 +91,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                 $('#zip #zipCodes').css('min-height', winHeight - 310 + 'px');
                 $('#regions .list_row_holder').css('min-height', winHeight - 380 + 'px');
                 $('#dmas .list_row_holder').css('min-height', winHeight - 370 + 'px');
-                
+
                 //Day Targeting
                 $('.dayTargetLower').css('min-height', winHeight - 290 + 'px');
-                
+
                 //Video Targeting
                 $('.video-dimension').css('min-height', winHeight - 200 + 'px');
             }

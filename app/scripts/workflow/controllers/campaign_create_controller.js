@@ -37,6 +37,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.adGroupName = '';
         $scope.lineTarget = '';
         $scope.campaignDate = '' ;
+        $scope.flightDateChosen = '' ;
 
         $scope.checkUniqueMediaPlanNameNotFound = false;
         $scope.executionPlatforms = [];
@@ -83,6 +84,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.lineItemEndDate = '';
         $scope.mediaPlanNameExists = false;
         $scope.selectedCampaign.costAttributes = {};
+
+        //flag to make API call to save media plan along with line item
+        $scope.saveMediaPlan = false;
 
         var selectedAdvertiser;
         $scope.periodDays = 0 ;
@@ -276,7 +280,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.lessdiffDays = momentService.dateDiffInDays($scope.campaignDate , flightDateObj.startTime)  ;
                 }
 
-                if( $scope.campaignDate ) {
+                if( $scope.campaignDate && $scope.flightDateChosen == "automaticFlightDates") {
                     flightDateObj.startTime = $scope.campaignDate ;
                     flightDateObj.endTime = momentService.addDaysCustom(flightDateObj.startTime, 'MM/DD/YYYY', $scope.periodDays);
                 }
@@ -319,9 +323,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.selectedCampaign.kpiValue = campaignData.kpiValue;
                 }
 
-                //set Pixel Dara
+                //set Pixel Dara - this call will be made in watch section
                 //if (campaignData.pixels && campaignData.pixels.length > 0) {
-                    $scope.$broadcast('fetch_pixels', campaignData.pixels);
+                //    $scope.$broadcast('fetch_pixels', campaignData.pixels);
                 //}
 
                 //set Media Plan Budget & Margin
@@ -486,7 +490,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
         };
 
-        $scope.saveCampaign = function () {
+        $scope.saveCampaign = function (lineItemMode) {
             $scope.$broadcast('show-errors-check-validity');
 
             var formElem,
@@ -576,7 +580,21 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.cloneMediaPlanName = null;
                         $scope.selectedCampaign.resetLineItemParameters();
                         $scope.editLineItem = {};
-                        $scope.sucessHandler(result);
+                        if($scope.saveMediaPlan && lineItemMode){
+                            $rootScope.setErrAlertMessage('Media plan successfully' + ($scope.mode === 'edit' ? ' updated ' : ' created ') , 0);
+                            $scope.saveMediaPlan = false;
+                            $scope.selectedCampaign.updatedAt = result.data.data.updatedAt;
+                            //trigger save the line item now after successful updation of media plan
+                            if(lineItemMode === 'create'){
+                                $scope.createNewLineItemInEditMode();
+                            } else {
+                                $scope.updateLineItemInEditMode();
+                            }
+                            $scope.saveBtnLoader= false;
+                        } else {
+                            $scope.sucessHandler(result);
+                        }
+
                     } else {
                         $scope.saveBtnLoader= false;
                         $rootScope.setErrAlertMessage('Unable to ' + (($scope.mode === 'edit') ? ' update ' : ' create ') + ' Media Plan');
@@ -720,6 +738,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.cloneMediaPlanName = cloneMediaPlanObj.name;
                     $scope.campaignId = cloneMediaPlanObj.id;
                     $scope.campaignDate = cloneMediaPlanObj.date;
+                    $scope.flightDateChosen = cloneMediaPlanObj.originalFlightdates ;
                     $scope.mode = 'create';
                 }
 
@@ -865,7 +884,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         //});
 
 
-        $scope.$watch('selectedCampaign.endTime',function(){
+        $scope.$watch('selectedCampaign.endTime',function(newVal,oldVal){
             if(selectedAdvertiser){
                 if(createCampaign.campaignData && createCampaign.campaignData.pixels){
                     $scope.$broadcast('fetch_pixels', createCampaign.campaignData.pixels);
@@ -874,7 +893,46 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             }
 
+            //set the flag to save the media plan along with line item
+            if($scope.mode === 'edit'){
+                if (typeof oldVal === 'undefined') return;
+                if (newVal !== oldVal) {
+                    $scope.saveMediaPlan = true;
+                }
+            }
         });
+
+        $scope.$watch('selectedCampaign.startTime',function(newVal,oldVal){
+            //set the flag to save the media plan along with line item
+            if($scope.mode === 'edit'){
+                if (typeof oldVal === 'undefined') return;
+
+                if (newVal !== oldVal) {
+                    $scope.saveMediaPlan = true;
+                }
+            }
+        });
+
+        $scope.$watch('Campaign.totalBudget',function(newVal,oldVal){
+            //set the flag to save the media plan along with line item
+            if($scope.mode === 'edit'){
+                if (typeof oldVal === 'undefined') return;
+                if (newVal !== oldVal) {
+                    $scope.saveMediaPlan = true;
+                }
+            }
+        });
+
+        $scope.$watch('Campaign.marginPercent',function(newVal,oldVal){
+            //set the flag to save the media plan along with line item
+            if($scope.mode === 'edit'){
+                if (typeof oldVal === 'undefined' || oldVal === 0) return;
+                if (newVal !== oldVal) {
+                    $scope.saveMediaPlan = true;
+                }
+            }
+        });
+
 
         $(function () {
             $(".masterContainer").on('click', '.leftNavLink', function (event) {
@@ -888,6 +946,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             })
         });
 
+        // This sets dynamic width to line to take 100% height
         // This sets dynamic width to line to take 100% height
         function colResize() {
             var winHeight = $(window).height() - 50;

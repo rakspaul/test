@@ -354,6 +354,7 @@
   margin: 2px 0 30px 10px;
 }
 .adCreateMaster #targetting .targetingSlide .all-daypart-holder {
+  height: 275px ;
   overflow: auto;
 }
 .adCreateMaster #targetting .targetingSlide .dayRow {
@@ -2635,6 +2636,13 @@
   float: left;
   min-height: 96px;
   width: 100%;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .cardTopLayer [class^="icon-"],
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .cardTopLayer [class*=" icon-"] {
+  font-size: 32px;
+  height: 32px;
+  width: 32px;
+  margin-bottom: 15px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .col-md-12 {
   padding: 10px;

@@ -908,6 +908,37 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list {
   width: 530px ;
 }
+.common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
+.breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
+.common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
+.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col {
+  width: 122px ;
+}
+.common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text,
+.breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text,
+.common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text,
+.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text {
+  padding-right: 0 ;
+  padding-left: 0 ;
+}
+.common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
+.breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
+.common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
+.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img {
+  margin: 4px 0 0 8px ;
+}
+.common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span,
+.breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span,
+.common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span,
+.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span {
+  margin-top: 2px ;
+}
+.common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col,
+.breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col,
+.common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col,
+.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col {
+  margin-top: 2px ;
+}
 .common_reports_container .inventory_charts_details_holder .dropdown-menu,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .dropdown-menu {
   height: 162px;
@@ -1188,12 +1219,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_outer_container .sort_order_up:hover,
 .viewability_details_video_mode_outer_container .sort_order_up:hover,
 .custom_report_response_table .sort_order_up:hover {
-  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll 100px 1px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 10px 1px rgba(0, 0, 0, 0);
 }
 .viewability_details_outer_container .sort_order_up.active,
 .viewability_details_video_mode_outer_container .sort_order_up.active,
 .custom_report_response_table .sort_order_up.active {
-  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 100px -64px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 10px -64px rgba(0, 0, 0, 0);
   cursor: pointer;
   padding-right: 17px;
   color: #0978c9;
@@ -1203,19 +1234,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .custom_report_response_table .sort_order_down {
   cursor: pointer;
   padding-right: 17px;
-}
-.viewability_details_outer_container .sort_order_down:hover,
-.viewability_details_video_mode_outer_container .sort_order_down:hover,
-.custom_report_response_table .sort_order_down:hover {
-  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 100px 1px rgba(0, 0, 0, 0);
-}
-.viewability_details_outer_container .sort_order_down.active,
-.viewability_details_video_mode_outer_container .sort_order_down.active,
-.custom_report_response_table .sort_order_down.active {
-  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll 100px -64px rgba(0, 0, 0, 0);
-  cursor: pointer;
-  padding-right: 17px;
-  color: #0978c9;
 }
 .viewability_details_outer_container div.each_col.seventh_col,
 .viewability_details_video_mode_outer_container div.each_col.seventh_col,
@@ -1236,6 +1254,10 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_outer_container,
 .viewability_details_video_mode_outer_container {
   margin-top: 15px;
+}
+.viewability_details_outer_container .sort_order_up:hover,
+.viewability_details_video_mode_outer_container .sort_order_up:hover {
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 0px top 1px rgba(0, 0, 0, 0);
 }
 .viewability_details_outer_container .sort_order_up.active:hover,
 .viewability_details_video_mode_outer_container .sort_order_up.active:hover,
@@ -1366,6 +1388,16 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_viewability_block .each_col.viewability_delivered_col > span,
 .viewability_details_video_mode_outer_container .each_col.viewability_delivered_col > span {
   text-align: right;
+}
+.viewability_details_outer_container .each_col.viewability_delivered_col > span.sort_order_up.active,
+#reports_platform_viewability_block .each_col.viewability_delivered_col > span.sort_order_up.active,
+.viewability_details_video_mode_outer_container .each_col.viewability_delivered_col > span.sort_order_up.active {
+  background-position: right -64px;
+}
+.viewability_details_outer_container .each_col.viewability_delivered_col > span.sort_order_up.active:hover,
+#reports_platform_viewability_block .each_col.viewability_delivered_col > span.sort_order_up.active:hover,
+.viewability_details_video_mode_outer_container .each_col.viewability_delivered_col > span.sort_order_up.active:hover {
+  background-position: right -64px;
 }
 .viewability_details_outer_container .first_col,
 #reports_platform_viewability_block .first_col,
@@ -1570,7 +1602,13 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_video_mode_outer_container .tooltip_holder .common_tooltip {
   text-align: left !important;
 }
+.viewability_details_video_mode_outer_container .sort_order_down.active {
+  background-position: right -65px;
+}
 .viewability_details_video_mode_outer_container .sort_order_down.active:hover {
+  background-position: right -65px;
+}
+.viewability_details_video_mode_outer_container .sort_order_up.active {
   background-position: right -65px;
 }
 .viewability_details_video_mode_outer_container .sort_order_up.active:hover {
@@ -1675,7 +1713,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin-top: -20px;
   position: absolute;
   right: 1px;
-  top: 96px;
+  top: 141px;
 }
 .view_mode_switch_container span {
   float: left;
@@ -3903,8 +3941,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response #dynamicHeader {
   padding-left: 14px;
-  /* margin-bottom: 10px; */
-  margin-top: 28px;
+  margin: 28px 0 10px ;
 }
 .report_generator_and_response #dynamicHeader .collapseIcon {
   display: none;
@@ -3914,6 +3951,15 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response #dynamicHeader .downReport {
   display: none;
+  border: solid 1px #BFC9D7;
+  padding: 7px 15px;
+  margin-top: -6px;
+  height: 36px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.report_generator_and_response #dynamicHeader .downReport:hover {
+  background: #e1edf9;
 }
 .report_generator_and_response #dynamicHeader .subTitle {
   display: block;
@@ -4361,7 +4407,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
+  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #ffffff;
   height: 11px;
   width: 12px;
   min-width: 12px;
@@ -4834,6 +4880,7 @@ body.custom_report_page .bodyWrap {
 }
 .quality_page_holder .view_mode_switch_container {
   margin-top: 0px;
+  top: 92px ;
 }
 .quality_page_holder .smallSreenScrollContainer {
   margin-top: 30px ;

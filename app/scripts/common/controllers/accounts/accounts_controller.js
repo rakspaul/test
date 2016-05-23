@@ -420,6 +420,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     },function (err) {
                     });
                 } else {
+                    $scope.selectedAdvertiserId = '';
+                    $scope.selectedAdvertiser = 'Select Advertiser';
                 }
                 $('html, body').animate({scrollTop : 0},30);
 

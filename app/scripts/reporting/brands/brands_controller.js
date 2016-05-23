@@ -34,7 +34,6 @@ define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_se
          }
 
         $scope.selectBrand = function (brand, advertiser, event_type) {
-            console.log("brand", brand , "advertiser", advertiser, "event_typessss", event_type);
             $("#brand_name_selected").text(brand.name);
             $('#brandsDropdown').attr('placeholder', brand.name).val('');
             $scope.brandData.showAll = true;
