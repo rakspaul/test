@@ -224,7 +224,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             isSearch = true;
             var searchVal = $scope.creativeSearch,
                 qryStr = '';
-            //formats = 'VIDEO,RICHMEDIA,DISPLAY';
+            //formats = 'VIDEO,RICH MEDIA,DISPLAY';
 
             if (searchVal.length > 0) {
                 qryStr += 'query=' + searchVal;
@@ -348,6 +348,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             $(".file_upload_container").slideDown();
             $(".moreOptCreative").find('span').remove();
             $(".moreOptCreative").html("<span class='icon-more-options'></span>");
+            //broadCast method for calling adServers for bulk Upload page.
+            $scope.$broadcast('bulkUploadSelected');
         }
 
         $scope.showSuccessBulkUpload = function() {

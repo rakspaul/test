@@ -354,7 +354,6 @@
   margin: 2px 0 30px 10px;
 }
 .adCreateMaster #targetting .targetingSlide .all-daypart-holder {
-  height: 220px ;
   overflow: auto;
 }
 .adCreateMaster #targetting .targetingSlide .dayRow {
@@ -588,7 +587,7 @@
   border-right: 1px solid #fff !important;
   padding-left: 0 !important;
   text-align: center;
-  /* width: 6%; */
+  width: 6%;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnOne .checkbox {
   float: left;
@@ -1076,18 +1075,6 @@
 .adCreateMaster #targetting .targettingFormWrap .tabbable .zipCodeTooltip:before {
   border-top-color: #A2A2A2;
 }
-.adCreateMaster #targetting .targettingFormWrap .tabbable .zipCodeTooltip .btn {
-  background: #0978c9;
-  border-width: 0;
-  color: #fff;
-  margin-right: 5px;
-  padding: 8px 12px;
-  width: auto;
-}
-.adCreateMaster #targetting .targettingFormWrap .tabbable .zipCodeTooltip .btn:last-child {
-  background: #fff;
-  color: #0978c9;
-}
 .adCreateMaster #targetting .targettingFormWrap .tabbable .zipCodeTooltip span {
   color: #21252b;
   font-size: 14px;
@@ -1492,7 +1479,7 @@
   width: 100%;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container #myCarousel {
-  height: 340px;
+  height: 290px;
   padding: 0 40px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-indicators {
@@ -1502,7 +1489,7 @@
   left: 0;
   margin: 0 40px;
   position: absolute;
-  top: 110px;
+  top: 50px;
   width: 815px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control {
@@ -1513,7 +1500,7 @@
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control .leftCtrl,
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control .rightCtrl {
   height: 45px;
-  margin-top: 140px;
+  margin-top: 80px;
   width: 38px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control .leftCtrl {
@@ -2039,6 +2026,7 @@
 #campaignCreate .firstWrapper .masterContainer .createItemList {
   background: #FEFBF0;
   padding: 0 10px 10px 10px;
+  margin-top: 30px ;
 }
 #campaignCreate .firstWrapper .masterContainer .tableNormal {
   float: left;
@@ -2261,6 +2249,7 @@
   width: auto;
   padding-bottom: 5px;
   margin-bottom: 5px;
+  width: 50%;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .pillsWrap {
   float: left;
@@ -2646,6 +2635,13 @@
   float: left;
   min-height: 96px;
   width: 100%;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .cardTopLayer [class^="icon-"],
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .cardTopLayer [class*=" icon-"] {
+  font-size: 32px;
+  height: 32px;
+  width: 32px;
+  margin-bottom: 15px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .col-md-12 {
   padding: 10px;
@@ -3344,9 +3340,6 @@
 }
 #campaignCreate .firstWrapper .masterContainer .settingWrap #addLineItems .popup-content {
   margin-bottom: 20px ;
-}
-#campaignCreate .firstWrapper .masterContainer .settingWrap .list_item_export_import_dd {
-  margin-left: 10px ;
 }
 #campaignCreate .firstWrapper .masterContainer .settingWrap .adName {
   background: #FFF;
@@ -4392,7 +4385,7 @@
 .video-dimension {
   background: #EDF2F8;
   padding: 30px ;
-  margin-top: 30px;
+  margin: 30px 0;
 }
 .video-dimension .each-video-dimension {
   margin-bottom: 20px ;

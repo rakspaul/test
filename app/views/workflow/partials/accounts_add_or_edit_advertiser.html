@@ -311,23 +311,54 @@
                     </span>
                 </div>
             </div>
+            <div class="form-group col-md-12" style="padding: 0 0 0 0" >
+                <label class="col-sm-12 greyTxt">Pixel Code</label>
+                <input type="textarea" class="form-control"
+                       ng-model="pixelFormData.pixelCode"
+                       data-ng-disabled="pixelIndex!=null && advertiserData.pixels[pixelIndex].isFeedData == true"
+                       data-ng-trim="true">
+            </div>
 
-            <!--Create Pixel Form-->
-            <div class="pixelCreate" style="display: none">
-                <div class="delete_row delete_row_pixel" data-ng-click="clearPixel()"></div>
-                <div class="pixelLayer" >
-                    <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-                        <label class="col-sm-12 greyTxt">Pixel Name:</label>
-                        <input type="text"
-                               class="form-control"
-                               maxlength="50"
-                               data-ng-model="pixelFormData.name"
-                               data-ng-keyup="checkDuplicatePixel(pixelFormData.name)">
-                        <label class="errorText"
-                               style="margin-top:6px"
-                               data-ng-bind="'Duplicate Entry'"
-                               data-ng-if="advertiserAddOrEditData.duplicatePixelName">
-                        </label>
+            <div class="form-group col-md-2 clearLeft" style="padding: 0 15px 0 0;">
+                <label class="col-sm-12 greyTxt">Impression Look Back:</label>
+                <input type="text" class="form-control" placeholder="Add value" value="14" ng-model="pixelFormData.impLookbackWindow"
+                        data-ng-keyup="pixelFormData.impLookbackWindow>30?pixelFormData.impLookbackWindow=30:(pixelFormData.impLookbackWindow<0)?pixelFormData.impLookbackWindow=14:''">
+            </div>
+
+            <div class="form-group col-md-2" style="padding: 0 15px;">
+                <label class="col-sm-12 greyTxt">Click Look Back:</label>
+                <input type="text" class="form-control" placeholder="Add value" value="14" ng-model="pixelFormData.clickLookbackWindow"
+                        data-ng-keyup="pixelFormData.clickLookbackWindow>30?pixelFormData.clickLookbackWindow=30:(pixelFormData.clickLookbackWindow<0)?pixelFormData.clickLookbackWindow=14:''">
+            </div>
+
+            <div class="form-group col-md-8" style="padding: 0 0 0 15px;">
+                <label class="col-sm-12 greyTxt">Description</label>
+                <input type="textarea" class="form-control" ng-model="pixelFormData.description">
+            </div>
+
+            <a class="pull-right btn btn-default" style="margin-bottom: 15px;" data-ng-click="savePixel()"
+                    data-ng-bind="pixelIndex!=null ? 'Update Pixel' : 'Save Pixel'">Save Pixel</a>
+
+            <a class="pull-right btn btn-link" ng-click="cancelPixel();" aria-label="Close">Cancel</a>
+
+            <a class="pull-right btn btn-default" data-dismiss="modal" ng-if="pixelIndex!=null && advertiserData.pixels[pixelIndex].isFeedData != true"
+               ng-click="removePixel();" aria-label="Close">Remove Pixel</a>
+        </div>
+    </div>
+    <!--Pixel List Table-->
+    <div class="pixelTable">
+        <div class="table-responsive user-list animated" id="table_responsive">
+            <div class="vistoTable" id="visto_table">
+                <div class="thead thin">
+                    <div class="tr">
+                        <div class="col-md-3 th">Pixel Name</div>
+                        <div class="col-md-3 th">Pixel Type</div>
+                        <div class="col-md-2 th">Impression Look</div>
+                        <div class="col-md-1 th">Click Look</div>
+                        <div class="col-md-2 th">Pixel Expiration Date</div>
+                        <div class="col-md-1 th text-center">
+                            <span class="col-md-12 zeroPadding text-center" style="cursor: pointer;" ng-click="selectAllPixels();" tooltip="Select to Download">Select All</span>
+                        </div>
                     </div>
                     <div class="form-group col-md-4" style="padding: 0 15px;">
                         <label class="col-sm-12 greyTxt">Pixel Type:</label>

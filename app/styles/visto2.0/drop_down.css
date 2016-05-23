@@ -50,7 +50,7 @@
   background: none;
 }
 .dropdown-workflow .btn-default:not(.label-btn):active {
-  background-color: #DCEDF1 !important;
+  background-color: #DCE6F1 !important;
   border: 1px solid #BFC9D7 !important;
   box-shadow: none;
 }
@@ -90,7 +90,8 @@
   overflow: hidden;
   cursor: pointer;
   width: 100%;
-  padding: 3px 15px;
+  line-height: 100%;
+  padding: 9px 15px;
 }
 .dropdown-workflow .disabled a {
   color: #21252b;
@@ -214,6 +215,9 @@
   text-decoration: none;
   background-color: #E1EDF9;
 }
+.dropdown-workflow .dropdown-menu {
+  z-index: 9999999;
+}
 .dropdown-workflow .dropdown-menu.pull-top.pull-left {
   top: initial !important;
   bottom: 105%;
@@ -238,19 +242,22 @@
 }
 .dropdown-workflow .searchBar {
   position: relative;
-  margin-bottom: 15px;
-  margin-top: -5px;
 }
 .dropdown-workflow .searchBar .icon-search {
   position: absolute;
   z-index: 10;
-  top: 10px;
+  top: 9px;
   right: 10px;
   cursor: pointer;
   font-size: 16px;
   height: 16px;
   width: 16px;
   color: #939eae;
+  padding: 0;
+}
+.dropdown-workflow .searchBar .greyTxt {
+  float: left;
+  width: 100%;
 }
 .dropdown-workflow .category_dropdown {
   padding: 5px 5px 0 0;
@@ -261,6 +268,10 @@
 }
 .dropdown-workflow .category_dropdown .btn {
   width: auto;
+}
+.dropdown-workflow .dropdown-toggle:active,
+.dropdown-workflow .dropdown-toggle:focus {
+  background: #DCE6F1 !important;
 }
 .open .dropdown-toggle.btn-default {
   color: #363D49;
@@ -369,14 +380,22 @@
 .dropdown-search {
   padding-top: 0;
 }
+.dropdown-search .greyTxt {
+  float: left;
+  width: 100%;
+  margin-top: 0 !important;
+}
 .dropdown-search input[type="text"] {
   border-radius: 0 !important;
   border-left: 0;
   border-right: 0;
   border-top: 0;
 }
+.dropdown-search li {
+  padding: 0px !important;
+}
 .dropdown-search li a {
-  padding: 5px 10px;
+  padding: 9px 15px !important;
 }
 .dropdown-search li a input[type="checkbox"] {
   margin: 0;
@@ -419,7 +438,7 @@
 }
 .dropdown-search li ul li a {
   width: 100%;
-  padding: 5px 0;
+  padding: 9px 15px !important;
   color: #21252b;
   font-family: Avenir, sans-serif;
   font-size: 14px;

@@ -25,6 +25,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
             $scope.resetBrandAdvertiserAfterEdit();
             $modalInstance.dismiss();
             _currCtrl.clearAdvInputFiled();
+            $scope.advertiserAddOrEditData.duplicatePixelName = false;
         };
 
         $('.miniTabLinks.sub .btn').removeClass('active');
@@ -216,16 +217,6 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                 return false;
             }
 
-            if (!$scope.advertiserData.lookbackImpressions || $scope.advertiserData.lookbackImpressions === '') {
-                $rootScope.setErrAlertMessage(constants.EMPTY_LOOKBACK_IMPRESSION);
-                return false;
-            }
-
-            if (!$scope.advertiserData.lookbackClicks || $scope.advertiserData.lookbackClicks === '') {
-                $rootScope.setErrAlertMessage(constants.EMPTY_LOOKBACK_CLICK);
-                return false;
-            }
-
             if ($scope.advertiserAddOrEditData.enableAdChoice && !$scope.advertiserAddOrEditData.adChoiceCode) {
                 errMsg = constants.EMPTY_ADCHOICE_CODE;
                 ret = false;
@@ -324,8 +315,8 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
 
         function createAdvertiserUnderClient(advId) {
             var requestData = {
-                lookbackImpressions : Number($scope.advertiserData.lookbackImpressions),
-                lookbackClicks : Number($scope.advertiserData.lookbackClicks)
+                lookbackImpressions : 14,
+                lookbackClicks : 14
             };
 
             accountsService
@@ -396,7 +387,8 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                     updatedAt: item.updatedAt,
                     impLookbackWindow: item.impLookbackWindow,
                     clickLookbackWindow: item.clickLookbackWindow,
-                    expiryDate: momentService.localTimeToUTC(item.expiryDate, 'endTime')
+                    expiryDate: momentService.localTimeToUTC(item.expiryDate, 'endTime'),
+                    pixelCode: item.pixelCode
                 };
 
                 if (item.id) {

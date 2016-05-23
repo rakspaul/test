@@ -264,6 +264,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         promiseObj = $scope.adId ?
                             workflowService.updateAd(postDataObj) :
                             workflowService.createAd(postDataObj);
+                        console.log('postDataObj test---',postDataObj);
 
                         promiseObj.then(function (result) {
                             var responseData = result.data.data,
@@ -385,21 +386,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
             // This sets dynamic width to line to take 100% height
             function colResize() {
-                var winHeight = $(window).height() - 110;
-
+                var winHeight = $(document).height() - 110;
                 $('.campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav').css('min-height', winHeight + 'px');
                 $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
-
-                //Targetting Responsive
-                $('.targetingSlide .tab-pane, .targetingSlide .tab-pane .list_row_holder')
-                    .css('min-height', winHeight - 430 + 'px');
-
-                // $('#selectAud .segFixedWrap').css('max-height', winHeight - 475 + 'px');
-                // $('#selectAud .setTwo .selectedItems').css('max-height', winHeight - 315 + 'px');
-
-                $('.dayTargetLower').css('min-height', winHeight - 290 + 'px');
             }
-
+            
             //edit mode data population
             function processEditMode(result, clientId, advertiserId) {
                 var responseData = result.data.data,
@@ -439,9 +430,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 if (responseData.adFormat) {
                     format = $filter('toTitleCase')(responseData.adFormat);
-                    if (format === 'Richmedia') {
-                        format = 'Rich Media';
-                    }
+
                     $scope.adFormatSelection(format, '', 'editData');
                     $scope.adData.adFormat = format;
                 }
@@ -1067,7 +1056,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                     adFormatsData = $scope.workflowData.adFormats;
                     _.each(adFormatsData, function (obj) {
-                        obj.name === $scope.adformatName ? obj.active = true : obj.active = false;
+                        objectName = $filter('toTitleCase')(obj.name);
+                        objectName === $scope.adformatName ? obj.active = true : obj.active = false;
                     });
                 }
 
@@ -1216,7 +1206,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     postAdDataObj.campaignId = Number($scope.campaignId);
 
                     if (formData.adFormat) {
-                        postAdDataObj.adFormat = formData.adFormat.replace(/\s+/g, '').toUpperCase();
+                        postAdDataObj.adFormat = formData.adFormat.toUpperCase();
                     }
 
                     if ($scope.editedAdSourceId) {
@@ -1562,6 +1552,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
             $(window).resize(function () {
                 colResize();
+                if ($(window).height() > 596) {
+                    colResize();
+                }
             });
 
             // This is for the drop down list. Perhaps adding this to a more general controller

@@ -4,14 +4,14 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
     'reporting/models/gauge_model', 'common/services/role_based_service',
     'reporting/campaignList/campaign_list_filter_directive', 'reporting/directives/campaign_cost_sort',
     'reporting/directives/campaign_sort', 'reporting/directives/campaign_card',
-    'reporting/directives/campaign_list_sort', 'reporting/common/d3/campaign_chart',
+    'reporting/directives/campaign_list_sort', 'reporting/common/d3/quartiles_graph', 'reporting/common/d3/campaign_chart',
     'reporting/directives/campaign_cost_card'],
     function (angularAMD) {
         angularAMD.controller('CampaignListController',
             function ($scope, $rootScope, $location, kpiSelectModel, campaignListModel, campaignSelectModel,
                       strategySelectModel, utils, constants, brandsModel, loginModel, gaugeModel, RoleBasedService,
                       featuresService) {
-                
+
                 //Hot fix to show the campaign tab selected
                 $('.main_navigation')
                     .find('.active')

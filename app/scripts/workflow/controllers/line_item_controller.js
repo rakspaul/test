@@ -21,6 +21,9 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         $scope.showUploadRecordsMessageLineItems = false;
         $scope.selectedCampaign.lineItemfile;
         $scope.selectedCampaign.rejectedFiles;
+        // edit mode - save media plan along with line item
+        $scope.showConfirmPopupCreate = false;
+        $scope.showConfirmPopupEdit = false;
 
 /*---START------BULK LineItem Upload Section---------*/
 
@@ -150,52 +153,116 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             $scope.calculateLineItemTotal();
         };
 
-        $scope.createNewLineItemInEditMode = function () {
+        $scope.$parent.createNewLineItemInEditMode = function () {
             var newItem,
                 tempBudget;
+            // this is kept to initially create object in case we have to save it in service - line item edit mode- save media plan q
             newItem = createLineItemObj();
-            newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
-            newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+
+
             //calc budget for validation against campaign budget
-            tempBudget = $scope.selectedCampaign.lineItemBillableAmountTotal;
-            tempBudget = Number(tempBudget) + Number(newItem.billableAmount);
-            if (tempBudget > $scope.Campaign.deliveryBudget) {
+            //tempBudget = $scope.selectedCampaign.lineItemBillableAmountTotal;
+            //tempBudget = Number(tempBudget) + Number(newItem.billableAmount);
+            //if (tempBudget > $scope.Campaign.deliveryBudget) {
+            if (Number(newItem.billableAmount) > $scope.Campaign.deliveryBudget) {
                 $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
                 return false;
             }
-            workflowService.createLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem).then(function (results) {
-                console.log('result==', results)
-                if (results.status === 'success' && results.data.statusCode === 201) {
-                    var campaignObj = $scope.createCampaignAccess();
-                    campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
-                    $scope.selectedCampaign.resetLineItemParameters();
+
+            //if we have to save the media plan prior to line item
+            $scope.showConfirmPopupCreate = false;
+            if($scope.saveMediaPlan){
+                //this is temp save in case we need to save media plan before line item
+                workflowService.setLineItemData(newItem);
+
+                //show popup
+                $scope.showConfirmPopupCreate = true;
+            } else {
+                //this is temp save in case we need to save media plan before line item
+                newItem = workflowService.getLineItemData();
+                if(!newItem){
                     newItem = createLineItemObj();
                 }
-            });
+
+                newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
+                newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+
+                //else just save line item
+                workflowService.createLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem).then(function (results) {
+                    console.log('result==', results)
+                    if (results.status === 'success' && results.data.statusCode === 201) {
+                        var campaignObj = $scope.createCampaignAccess();
+                        campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
+                        $scope.selectedCampaign.resetLineItemParameters();
+                        newItem = createLineItemObj();
+                        workflowService.setLineItemData(null);
+
+                    } else {
+                        $rootScope.setErrAlertMessage(results.data.data.message );
+                    }
+                });
+            }
+
+
         };
 
-        $scope.updateLineItemInEditMode = function () {
+        $scope.cancelMediaPlanCreation = function(){
+            $scope.showConfirmPopupCreate = false;
+        }
+
+        $scope.$parent.updateLineItemInEditMode = function () {
             var newItem,
                 tempBudget;
-            newItem = createEditLineItemObj(angular.copy(oldLineItem));
-            newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
-            newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
-            tempBudget = $scope.selectedCampaign.lineItemBillableAmountTotal;
-            tempBudget = (Number(tempBudget) - Number(oldLineItem.billableAmount)) + Number(newItem.billableAmount);
-            if (tempBudget > $scope.Campaign.deliveryBudget) {
+            //this hack is to make it work in edit mode when media plan save is requierd prior to line item
+            //check if we have saved line item details in service or create a new line item object
+            newItem = workflowService.getLineItemDataEdit()
+            if(!newItem){
+                newItem = createEditLineItemObj(angular.copy(oldLineItem));
+            }
+
+
+            //tempBudget = $scope.selectedCampaign.lineItemBillableAmountTotal;
+            //tempBudget = (Number(tempBudget) - Number(oldLineItem.billableAmount)) + Number(newItem.billableAmount);
+            if (Number(newItem.billableAmount) > $scope.Campaign.deliveryBudget) {
                 $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
                 return false;
             }
-            workflowService.updateLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem).then(function (results) {
-                if (results.status === 'success' && (results.data.statusCode === 200 || results.data.statusCode === 201)) {
-                    var campaignObj = $scope.createCampaignAccess();
-                    campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
-                    $scope.calculateLineItemTotal();
+            //if we have to save the media plan prior to line item
+            $scope.showConfirmPopupEdit = false;
+            if($scope.saveMediaPlan){
+                //this is temp save in case we need to save media plan before line item
+                workflowService.setLineItemDataEdit(newItem);
 
+                //show popup
+                $scope.showConfirmPopupEdit = true;
+            } else {
+                //this is temp save in case we need to save media plan before line item
+                newItem = workflowService.getLineItemDataEdit();
+                if(!newItem){
+                    newItem = createEditLineItemObj(angular.copy(oldLineItem));
                 }
 
-            });
+                newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
+                newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+
+                // update line item
+                workflowService.updateLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem).then(function (results) {
+                    if (results.status === 'success' && (results.data.statusCode === 200 || results.data.statusCode === 201)) {
+                        var campaignObj = $scope.createCampaignAccess();
+                        campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
+                        $scope.calculateLineItemTotal();
+                        workflowService.setLineItemDataEdit(null);
+
+                    } else {
+                        $rootScope.setErrAlertMessage(results.data.data.message );
+                    }
+                });
+            }
         };
+
+        $scope.cancelMediaPlanCreationEdit = function(){
+            $scope.showConfirmPopupEdit = false;
+        }
 
         function createLineItemObj(lineItemObj) {
             var newItem = {};
@@ -581,10 +648,29 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 $scope.pricingRate = item.billingRate;
 
                 //line start Date
-                $scope.lineItemStartDate = momentService.utcToLocalTime(item.startTime);
+                $scope.lineItemStartDate = momentService.utcToLocalTime(item.startTime)  ;
 
                 //line Item End Date
-                $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime);
+                $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime)  ;
+
+
+                 //line Item End Date
+                $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime)  ;
+
+                if( $scope.campaignDate ) {
+
+                    $scope.lineItemdiffDays = momentService.dateDiffInDays($scope.lineItemStartDate,$scope.lineItemEndDate) ;
+                }
+                if( $scope.campaignDate ) {
+                    if( !$scope.ifClonedDateLessThanStartDate ) {
+                        $scope.lineItemStartDate = momentService.addDaysCustom($scope.lineItemStartDate, 'MM/DD/YYYY', $scope.newdiffDays);
+                        $scope.lineItemEndDate = momentService.addDaysCustom($scope.lineItemEndDate, 'MM/DD/YYYY', $scope.newdiffDays);
+                    } else {
+                        $scope.lineItemStartDate = momentService.substractDaysCustom($scope.lineItemStartDate, 'MM/DD/YYYY', $scope.lessdiffDays) ;
+                        $scope.lineItemEndDate = momentService.addDaysCustom($scope.lineItemStartDate , 'MM/DD/YYYY', $scope.lineItemdiffDays );
+                    }
+                }
+
 
                 campaignId = item.campaignId;
                 $scope.createNewLineItem('create', item);
@@ -639,7 +725,6 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 }
             }
             $scope.lineItemList = tempList;
-            console.log(tempList);
         }
 
         $scope.calculateLineItemTotal = function(){
@@ -650,27 +735,36 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         }
 
         $scope.calculateVolume = function(mode){
-            console.log("type == ",$scope.lineItemType.name,'$scope.pricingRate== ',$scope.pricingRate,'$scope.billableAmount==',$scope.billableAmount);
 
-            if(mode === 'create'){
-                $scope.volume = '';
-                if($scope.lineItemType && $scope.lineItemType.name && $scope.pricingRate && $scope.billableAmount){
-                    if($scope.lineItemType.name === 'CPM') {
-                        $scope.volume = ($scope.billableAmount / $scope.pricingRate ) * 1000;
+            if (CONST_COGS_PERCENT !== $scope.lineItemType.name && CONST_FLAT_FEE !== $scope.lineItemType.name && CONST_COGS_CPM !== $scope.lineItemType.name){
+                if(mode === 'create'){
+                    $scope.volume = '';
+                    if($scope.lineItemType && $scope.lineItemType.name && $scope.pricingRate && $scope.billableAmount && $scope.pricingRate > 0){
+                        if($scope.lineItemType.name === 'CPM') {
+                            $scope.volume = ($scope.billableAmount / $scope.pricingRate ) * 1000;
+                        } else {
+                            $scope.volume = ($scope.billableAmount / $scope.pricingRate );
+                        }
+                        $scope.volume = Math.round($scope.volume);
                     } else {
-                        $scope.volume = ($scope.billableAmount / $scope.pricingRate );
+                        $scope.volume = 0;
                     }
-                }
-            } else {
-                $scope.editLineItem.volume = '';
-                if($scope.editLineItem.lineItemType && $scope.editLineItem.lineItemType.name && $scope.editLineItem.pricingRate && $scope.editLineItem.billableAmount){
-                    if($scope.editLineItem.lineItemType.name === 'CPM') {
-                        $scope.editLineItem.volume = ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate ) * 1000;
+                } else {
+                    $scope.editLineItem.volume = '';
+                    if($scope.editLineItem.lineItemType && $scope.editLineItem.lineItemType.name && $scope.editLineItem.pricingRate && $scope.editLineItem.billableAmount && $scope.editLineItem.pricingRate > 0){
+                        if($scope.editLineItem.lineItemType.name === 'CPM') {
+                            $scope.editLineItem.volume = ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate ) * 1000;
+                        } else {
+                            $scope.editLineItem.volume = ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate );
+                        }
+                        $scope.editLineItem.volume = Math.round($scope.editLineItem.volume);
                     } else {
-                        $scope.editLineItem.volume = ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate );
+                         //. in case $scope.editLineItem.pricingRate is 0
+                        $scope.editLineItem.volume = 0;
                     }
                 }
             }
+
         };
 
         //TODO : need to make the change to optimise this code

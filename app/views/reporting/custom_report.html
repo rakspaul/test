@@ -539,8 +539,8 @@
 
                             <div class="each-col default-schedule-col report-name-col">
                                 <div class="label-txt">{{textConstants.REPORT_NAME}}</div>
-                                <div>
-                                    <input style="height:36px; width:100%;" type="text" ng-model="reports.name" maxlength="256">
+                                <div class="col-md-12 zeroPadding">
+                                    <input type="text" ng-model="reports.name" maxlength="256" placeholder="Enter a Report Name, no punctuation or special characters.">
                                 </div>
                             </div>
                             <div class="each-col default-schedule-col" ng-show="reportTypeSelect !== 'Save'" >
