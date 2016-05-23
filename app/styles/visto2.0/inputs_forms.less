@@ -141,9 +141,30 @@ select {
         width: 93%;
         float: none;
         margin: 0 auto;
+        .icon-clear {
+            right: 61px;
+            top: 10px;
+            display: inline-block;
+            &:before {
+                content: "\5a";
+                height: 20px;
+                width: 20px;
+                padding: 9px 10px;
+                border-right: solid 1px #BFC9D7;
+                background: #fff;
+                cursor: pointer;
+            }
+        }
     input {
       border-width: 1px;
       border-right: 1px solid #BFC9D7;
+    }
+    .input-group-btn {
+        .btn {
+            width: 38px;
+            height: 32px ;
+            padding: 6px 12px;
+        }
     }
     .btn {
       position: relative;
