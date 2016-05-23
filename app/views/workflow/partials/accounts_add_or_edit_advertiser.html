@@ -350,11 +350,11 @@
             <div class="vistoTable" id="visto_table">
                 <div class="thead thin">
                     <div class="tr">
-                        <div class="col-md-3 th">Pixel Name</div>
+                        <div class="col-md-5 th">Pixel Name</div>
                         <div class="col-md-3 th">Pixel Type</div>
-                        <div class="col-md-2 th">Impression Look</div>
+                        <div class="col-md-1 th">Impression Look</div>
                         <div class="col-md-1 th">Click Look</div>
-                        <div class="col-md-2 th">Pixel Expiration Date</div>
+                        <div class="col-md-1 th">Pixel Expiration Date</div>
                         <div class="col-md-1 th text-center">
                             <span class="col-md-12 zeroPadding text-center" style="cursor: pointer;" ng-click="selectAllPixels();" tooltip="Select to Download">Select All</span>
                         </div>
@@ -364,7 +364,7 @@
                 <div class="tbody thin">
                     <!--Table Sample-->
                     <div class="tr" data-ng-repeat="pixel in advertiserData.pixels">
-                        <div class="td col-md-3">
+                        <div class="td col-md-5">
                             <a data-ng-bind="pixel.name" data-ng-click="editPixel($index, pixel);"></a>
                         </div>
     
@@ -372,15 +372,15 @@
                             <span data-ng-bind="pixel.pixelType"></span>
                         </div>
     
-                        <div class="td col-md-2">
-                            <span data-ng-bind="pixel.impLook">14</span>
+                        <div class="td col-md-1">
+                            <span data-ng-bind="pixel.impLookbackWindow">14</span>
                         </div>
                         
                         <div class="td col-md-1">
-                            <span data-ng-bind="pixel.clickLook">14</span>
+                            <span data-ng-bind="pixel.clickLookbackWindow">14</span>
                         </div>
                         
-                        <div class="td col-md-2">
+                        <div class="td col-md-1">
                             <span data-ng-bind="pixel.expiryDate"></span>
                         </div>
                         
