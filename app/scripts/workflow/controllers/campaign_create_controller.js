@@ -416,6 +416,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.selectedCampaign.clientId = data.id;
                     $scope.workflowData['advertisers'] = [];
                     createCampaign.fetchAdvertisers(data.id);
+                    $scope.mediaPlanOverviewClient = {'id':data.id,'name':data.name};
                     resetPixelMediaPlan();
                     break;
 
@@ -580,6 +581,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.cloneMediaPlanName = null;
                         $scope.selectedCampaign.resetLineItemParameters();
                         $scope.editLineItem = {};
+                        if(($scope.mode === 'create') && ($scope.mediaPlanOverviewClient != undefined)) {
+                            loginModel.setSelectedClient($scope.mediaPlanOverviewClient);
+                        }
                         if($scope.saveMediaPlan && lineItemMode){
                             $rootScope.setErrAlertMessage('Media plan successfully' + ($scope.mode === 'edit' ? ' updated ' : ' created ') , 0);
                             $scope.saveMediaPlan = false;
