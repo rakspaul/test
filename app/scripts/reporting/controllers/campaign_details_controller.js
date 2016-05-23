@@ -307,6 +307,26 @@ function (angularAMD) {
                     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
                     campaignSelectModel.setSelectedCampaign(selectedCampaign);
 
+                    /*   Fetch Spend Start */
+                    var queryObj = {
+                        'queryId':14,
+                        'clientId':loginModel.getSelectedClient().id,
+                        'advertiserId':advertiserModel.getSelectedAdvertiser().id,
+                        'brandId':brandsModel.getSelectedBrand().id,
+                        'dateFilter':'life_time',
+                        'campaignIds':$scope.campaign.id
+                    };
+                    var spendUrl = urlService.getCampaignSpend(queryObj);
+
+                    dataService.fetch(spendUrl).then(function(response) {
+                        if(response.data){
+                            $scope.campaigns.spend =  response.data.data[0].gross_rev;
+                        } else {
+                            $scope.campaigns.spend =  0;
+                        }
+                    })
+                    /*   Fetch Spend End  */
+
                     //_selectedbrandFromModel = brandsModel.getSelectedBrand();
 
                     campaign.getStrategiesData(clientId, $scope.campaign, constants.PERIOD_LIFE_TIME);
