@@ -354,6 +354,7 @@
   margin: 2px 0 30px 10px;
 }
 .adCreateMaster #targetting .targetingSlide .all-daypart-holder {
+  height: 275px ;
   overflow: auto;
 }
 .adCreateMaster #targetting .targetingSlide .dayRow {
