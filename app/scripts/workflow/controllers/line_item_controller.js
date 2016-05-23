@@ -405,6 +405,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 $scope.hideAdGroupNameEdit = false;
                 $scope.showPixelsListEdit = false;
                 //$scope.editLineItem.pricingRate = (obj.pricingRate)?obj.pricingRate:'';
+                $scope.editLineItem.adGroupName =  $scope.editLineItem.lineItemName;
 
                 if (CONST_COGS_PERCENT === $scope.editLineItem.lineItemType.name) {
 
