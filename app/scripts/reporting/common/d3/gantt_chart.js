@@ -35,7 +35,7 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
             var timeDomainMode = FIT_TIME_DOMAIN_MODE; // fixed or fit
             var taskTypes = [];
             var taskStatus = [];
-            var height = CALENDAR_HEIGHT - margin.top - margin.bottom - 5;
+            var height = CALENDAR_HEIGHT - margin.top - margin.bottom + 20;
             var width = CALENDAR_WIDTH - margin.right - margin.left - 5;
 
             //for drag and panning

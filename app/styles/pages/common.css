@@ -292,7 +292,8 @@
   border: 1px solid #dde6eb;
   background-color: #ffffff;
   font-size: 14px;
-  color: #939ead;
+  /*
+		color: @color_6;*/
   line-height: 18px;
   padding: 8px;
   margin: 0 8px;
@@ -408,6 +409,25 @@
 }
 .popup-holder .dropdown-workflow .searchBar .icon-search {
   top: -4px;
+}
+.clone-ad-popup .dropdown-workflow .dropdown-menu li span {
+  padding: 0px ;
+}
+.clone-ad-popup .dropdown-workflow .toggleDropdown {
+  padding: 0px ;
+}
+.clone-ad-popup .dropdown-workflow .toggleDropdown .toggleDropdownDiv {
+  padding: 10px 15px 10px 15px;
+}
+.clone-ad-popup .dropdown-workflow .searchBar input {
+  padding-left: 15px ;
+}
+.clone-ad-popup .dropdown-workflow .searchBar input:focus {
+  border: 0px !important;
+  border-bottom: solid 1px  #dde6eb !important;
+}
+.clone-ad-popup .dropdown-workflow .searchBar .icon-search {
+  top: 9px;
 }
 .edit-report-popup-holder .common_dropdown .dropdown {
   border: 0px ;
@@ -1861,6 +1881,9 @@ tags-input .autocomplete {
   padding: 10px 0 0 8px;
   height: 36px;
   width: 27px;
+}
+.dropdownDisabled {
+  cursor: not-allowed;
 }
 .slider-msg {
   border: solid 1px #0978C9;

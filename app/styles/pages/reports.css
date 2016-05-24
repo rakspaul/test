@@ -2507,14 +2507,19 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   width: 90px !important;
   cursor: pointer;
 }
+.reports_tabs_content_container .performancePlatformHeader .seventh_col .arrrow_img {
+  margin-left: 5px ;
+}
 .reports_tabs_content_container .performancePlatformHeader .seventh_col .kpi_indicator_ul {
   top: 20px ;
+  padding: 0;
 }
 .reports_tabs_content_container .performancePlatformHeader .seventh_col .kpi_indicator_ul .drop_list {
   width: 80% ;
 }
 .reports_tabs_content_container .performancePlatformHeader .seventh_col .kpi_indicator_ul .drop_list li {
   line-height: 22px ;
+  padding: 1px 15px !important;
 }
 .reports_tabs_content_container .performancePlatformHeader .seventh_col .kpi_indicator_ul .drop_list li .kpiIndicator {
   float: left;
@@ -4078,6 +4083,21 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response .report_builder_container .each_section_custom_report .metrics_btns .title_row_separator .metrics_edit_container,
 .report_generator_and_response .report_builder_container .each_section_custom_report .metrics_btns .title_row_separator .secondary_txt {
   margin-top: 10px ;
+}
+.report_generator_and_response .report_builder_container .each_section_custom_report.dimensionKeywordSection .dropdown_ul_text {
+  max-width: 160px;
+  min-width: 160px ;
+  height: 34px ;
+}
+.report_generator_and_response .report_builder_container .each_section_custom_report.dimensionKeywordSection .dropdown_ul_text .dd_txt {
+  width: 86%;
+  white-space: nowrap;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.report_generator_and_response .report_builder_container .each_section_custom_report.dimensionKeywordSection .filter_input_txtbox input {
+  width: 170px ;
 }
 .report_generator_and_response .report_builder_container .each_section_custom_report.metrics_section {
   margin-top: 0px ;

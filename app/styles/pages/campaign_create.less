@@ -2250,29 +2250,8 @@
                 }
             }
 
-            .createItemList {
-                background: #FEFBF0;
-                padding: 0 10px 10px 10px;
-            }
-
-            .tableNormal {
-                float: left;
-                width: 100%;
-                .td {
-                    cursor: pointer;
-                }
-            }
-
-            .tableEdit {
-                float: left;
-                width: 100%;
-                display: none;
-                background: #FEFBF0;
-                padding: 0 10px 10px 10px;
-                border: 1px solid rgba(191, 201, 215, 0.5);
-                border-top: 0;
-            }
-
+        
+         
             .showAddCreditForm {
                 margin-bottom: 5px;
                 cursor: pointer;
@@ -2487,6 +2466,17 @@
                 padding: 0 10px 10px 10px;
                 border: 1px solid rgba(191, 201, 215, 0.5);
                 border-top: 0;
+                .dropdown-toggle.btn[disabled] {
+                    background: #eee ;
+                    opacity: 1 ;
+                    cursor: not-allowed ;
+                    .icon-arrow-down {
+                        background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eee 65%);
+                        background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eee 65%);
+                        background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #eee 54%);
+                        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eee', endColorstr='#eee', GradientType=1);
+                    }
+                }
             }
 
             .showAddCreditForm {

@@ -28,13 +28,14 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
         var clientId = loginModel.getSelectedClient().id;
         var advertiserId = advertiserModel.getSelectedAdvertiser().id;
         var brandId = brandsModel.getSelectedBrand().id;
-        var url = urlService.APICampaignCountsSummary(constants.PERIOD_LIFE_TIME, clientId, advertiserId, brandId, campaignStatusToSend());
+        var url = urlService.APICalendarWidgetForAllBrands(clientId, advertiserId, 'end_date',campaignStatusToSend());
+
         return dataService.fetch(url).then(function (response) {
             var searchCriteria = utils.typeaheadParams;
             searchCriteria.clientId = loginModel.getSelectedClient().id;
             searchCriteria.advertiserId = advertiserModel.getAdvertiser().hasOwnProperty('selectedAdvertiser') ? advertiserModel.getAdvertiser().selectedAdvertiser.id : -1;
             return brandsModel.getBrands(function() {
-                var ready = response.data.data.ready, draft = response.data.data.draft, paused = response.data.data.paused;
+                /*var ready = response.data.data.ready, draft = response.data.data.draft, paused = response.data.data.paused;
                 var totalCampaigns = response.data.data.active.total + response.data.data.completed.total + response.data.data.na.total + ready + draft + paused;
                 dashboardData.totalCampaigns = totalCampaigns;
                 var mediaPlanText = 'Media Plan' + (dashboardData.totalCampaigns > 1 ? 's' : '');
@@ -42,7 +43,11 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
                     dashboardData.toolTip = 'Showing data for ' + dashboardData.totalCampaigns + ' ' + mediaPlanText + ' across ' + brandsModel.totalBrands() + ' brand' + (Number(brandsModel.totalBrands()) > 1 ? 's' : '');
                 } else {
                     dashboardData.toolTip = 'Showing data for ' + dashboardData.totalCampaigns + ' ' + mediaPlanText;
-                }
+                }*/
+
+                var totalCamapigns = response.data.data.total_campaigns;
+                var mediaPlanText = 'Media Plan' + (totalCamapigns > 1 ? 's' : '');
+                dashboardData.toolTip = 'Showing data for ' + totalCamapigns + ' ' + mediaPlanText;
             },searchCriteria, false);
         });
     };

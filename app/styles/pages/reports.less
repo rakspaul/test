@@ -2615,12 +2615,18 @@ div.strategy_total_container {
     .seventh_col {
       width: 90px !important;
       cursor: pointer;
+      .arrrow_img {
+        margin-left: 5px ;
+      }
       .kpi_indicator_ul {
         top: 20px ;
+        padding: 0;
+
         .drop_list {
           width: 80% ;
           li {
             line-height: 22px ;
+            padding: 1px 15px !important;
             .kpiIndicator {
               float: left;
               margin: 1px 0px 0 0;
@@ -4227,6 +4233,23 @@ only screen and (min-device-pixel-ratio: 2) {
             margin-top: 10px ;
           }
         }
+      }
+    }
+    .each_section_custom_report.dimensionKeywordSection {
+      .dropdown_ul_text {
+        max-width: 160px;
+        min-width: 160px ;
+        height: 34px ;
+        .dd_txt {
+          width: 86%;
+          white-space: nowrap;
+          display: inline-block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      .filter_input_txtbox input {
+        width: 170px ;
       }
     }
     .each_section_custom_report.metrics_section {
