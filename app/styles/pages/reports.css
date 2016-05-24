@@ -4084,6 +4084,21 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response .report_builder_container .each_section_custom_report .metrics_btns .title_row_separator .secondary_txt {
   margin-top: 10px ;
 }
+.report_generator_and_response .report_builder_container .each_section_custom_report.dimensionKeywordSection .dropdown_ul_text {
+  max-width: 160px;
+  min-width: 160px ;
+  height: 34px ;
+}
+.report_generator_and_response .report_builder_container .each_section_custom_report.dimensionKeywordSection .dropdown_ul_text .dd_txt {
+  width: 86%;
+  white-space: nowrap;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.report_generator_and_response .report_builder_container .each_section_custom_report.dimensionKeywordSection .filter_input_txtbox input {
+  width: 170px ;
+}
 .report_generator_and_response .report_builder_container .each_section_custom_report.metrics_section {
   margin-top: 0px ;
 }
@@ -4550,6 +4565,20 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .heading_row .inner_heading_row {
   width: 100% ;
+}
+.custom_report_response_page .custom_report_response_table .heading_row .inner_heading_row .sort_order_up:hover {
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 1px;
+}
+.custom_report_response_page .custom_report_response_table .heading_row .inner_heading_row .sort_order_down:hover {
+  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 1px;
+}
+.custom_report_response_page .custom_report_response_table .heading_row .inner_heading_row .sort_order_up.active {
+  color: #0978c9;
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -64px;
+}
+.custom_report_response_page .custom_report_response_table .heading_row .inner_heading_row .sort_order_down.active {
+  color: #0978c9;
+  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px;
 }
 .custom_report_response_page .custom_report_response_table .first_dimension_row_holder {
   /* padding: 20px 30px 0px 30px ;*/

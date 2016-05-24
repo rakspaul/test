@@ -552,7 +552,7 @@ define(['common'], function (angularAMD) {
         })
 
         .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore,
-                       workflowService, featuresService, subAccountModel, $window,localStorageService) {
+                       workflowService, featuresService, subAccountModel, $window,localStorageService,constants) {
             var handleLoginRedirection = function () {
                 var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
                     localStorageRedirect = localStorage.getItem('cdeskRedirect'),
@@ -575,6 +575,10 @@ define(['common'], function (angularAMD) {
                             $location.url(setDefaultPage);
                         }
                     }
+                },
+
+                broadCastClientLoaded = function() {
+                    $rootScope.$broadcast(constants.CLIENT_LOADED);
                 },
 
                 loginCheckFunc = function () {
@@ -629,6 +633,7 @@ define(['common'], function (angularAMD) {
                                             .getClientData(clientObj.id)
                                             .then(function (response) {
                                                 featuresService.setFeatureParams(response.data.data.features);
+                                                broadCastClientLoaded();
                                             });
 
                                         if (locationPath === '/login' || locationPath === '/') {
@@ -641,6 +646,7 @@ define(['common'], function (angularAMD) {
                                                 .getClientData(clientObj.id)
                                                 .then(function (response) {
                                                     featuresService.setFeatureParams(response.data.data.features);
+                                                    broadCastClientLoaded();
                                                 });
 
                                             if (locationPath === '/login' || locationPath === '/') {

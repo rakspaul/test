@@ -1,4 +1,4 @@
-<div class=" clearfix popup-holder">
+<div class=" clearfix popup-holder clone-ad-popup">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"
                 ng-click="close()" aria-label="Close">
@@ -14,19 +14,21 @@
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown inputLoader">
                         <div class="common-loading-area" style="display:none;"></div>
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
-                            <span class="text" ng-bind-html="mediaPlanName"></span>
-                            <span class="icon-arrow-down"></span>
+                        <button class="btn btn-default toggleDropdown" type="button"  aria-haspopup="true" aria-expanded="true">
+                            <div class="clearfix toggleDropdownDiv" ng-click="defaultDropdownToggle($event)" >
+                                <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
+                                <span class="text" ng-bind-html="mediaPlanName"></span>
+                                <span class="icon-arrow-down"></span>
+                            </div>
                         </button>
-                        <ul class="dropdown-menu dropdown-search" aria-labelledby="accountType" data-toggle="dropdown">
-                            <li class="searchBar">
+                        <ul class="dropdown-menu dropdown-search" aria-labelledby="accountType" >
+                            <li class="searchBar" >
                                 <div class="col-md-12 input-group input-group-sm search-control">
                                     <input type="text" class="col-md-12" name="mediaplanSearch" ng-model="media"  placeholder="Search Media Plan"/>
                                     <div class="icon-search"></div>
                                 </div>
                             </li>
-                            <li ng-repeat="mediaplan in mediaPlanList | filter: media" >
+                            <li ng-repeat="mediaplan in mediaPlanList | filter: media" ng-click="defaultDropdownToggle($event)" >
                                 <a ng-click="selectMediaPlan(mediaplan)">
                                     <span ng-if="mediaplan.id == campaignId"><b>{{mediaplan.name}} (Current)</b></span>
                                     <span ng-if="mediaplan.id != campaignId">{{mediaplan.name}}</span>
@@ -40,18 +42,20 @@
                 <label class="greyTxt">{{textConstants.WF_SELECT_AD_GROUP}}</label><br>
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="text" ng-bind-html="adGroupName ? adGroupName :textConstants.WF_NO_AD_GROUP"></span>
-                            <span class="icon-arrow-down"></span>
+                        <button class="btn btn-default toggleDropdown" type="button" aria-haspopup="true" aria-expanded="true" >
+                            <div class="clearfix toggleDropdownDiv"  ng-click="defaultDropdownToggle($event)" >
+                                <span class="text" ng-bind-html="adGroupName ? adGroupName :textConstants.WF_NO_AD_GROUP"></span>
+                                <span class="icon-arrow-down"></span>
+                            </div>
                         </button>
-                        <ul class="dropdown-menu dropdown-search" aria-labelledby="accountType" data-toggle="dropdown">
-                            <li class="searchBar">
+                        <ul class="dropdown-menu dropdown-search" aria-labelledby="accountType" >
+                            <li class="searchBar"  >
                                 <div class="col-md-12 input-group input-group-sm search-control">
                                     <input type="text" class="col-md-12" name="mediaplanSearch" ng-model="adGroup"  placeholder="Search Ad Group"/>
                                     <div class="icon-search"></div>
                                 </div>
                             </li>
-                            <li ng-repeat="groups in adGroupList" >
+                            <li ng-repeat="groups in adGroupList | filter: adGroup" ng-click="defaultDropdownToggle($event)" >
                                 <a ng-click="selectAdGroup(groups.adGroup)">
                                     <span ng-if="groups.adGroup.id == adGroupId"><b>{{groups.adGroup.name}} (Current)</b></span>
                                     <span ng-if="groups.adGroup.id != adGroupId">{{groups.adGroup.name}}</span>

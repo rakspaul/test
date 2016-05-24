@@ -4235,6 +4235,23 @@ only screen and (min-device-pixel-ratio: 2) {
         }
       }
     }
+    .each_section_custom_report.dimensionKeywordSection {
+      .dropdown_ul_text {
+        max-width: 160px;
+        min-width: 160px ;
+        height: 34px ;
+        .dd_txt {
+          width: 86%;
+          white-space: nowrap;
+          display: inline-block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      .filter_input_txtbox input {
+        width: 170px ;
+      }
+    }
     .each_section_custom_report.metrics_section {
       margin-top: 0px ;
     }
@@ -4756,6 +4773,22 @@ only screen and (min-device-pixel-ratio: 2) {
       padding: 30px 30px 0 30px;
       .inner_heading_row {
         width: 100% ;
+        .sort_order_up:hover {
+          background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 1px;
+        }
+        .sort_order_down:hover{
+          background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 1px;
+
+        }
+        .sort_order_up.active  {
+          color: #0978c9;
+          background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -64px;
+        }
+        .sort_order_down.active {
+          color: #0978c9;
+          background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px;
+
+        }
       }
     }
     .first_dimension_row_holder {
@@ -4825,6 +4858,7 @@ only screen and (min-device-pixel-ratio: 2) {
       text-align: right;
 
     }
+   
 
     .tree_dimension_col {
       width: 295px;

@@ -437,6 +437,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 case 'subAccount':
 
                     $scope.selectedCampaign.advertiser = '';
+                    $scope.selectedCampaign.advertiserName = 'Select Advertiser';
                     $scope.selectedCampaign.clientId = data.id;
                     $scope.workflowData['advertisers'] = [];
                     createCampaign.fetchAdvertisers(data.id);
@@ -445,16 +446,19 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     break;
 
                 case 'advertiser' :
+
                     resetPixelMediaPlan();
                     $scope.workflowData['brands'] = [];
                     $scope.selectedCampaign.brand = '';
                     $scope.selectedCampaign.advertiserId = data.id;
+                    $scope.selectedCampaign.advertiserName = data.name;
                     selectedAdvertiser = data;
                     workflowService.setSelectedAdvertiser(selectedAdvertiser);
 
                     if ($scope.mode === 'create') {
                         $("#brandDDL").parents('.dropdown').find('button').html("Select Brand <span class='icon-arrow-down'></span>");
                     }
+                    $scope.isMediaPlanNameExist();
                     createCampaign.fetchBrands($scope.selectedCampaign.clientId, data.id);
                     $scope.selectedCampaign.selectedPixel = [];
                     createCampaign.platforms(data.id);
@@ -616,8 +620,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             //trigger save the line item now after successful updation of media plan
                             if(lineItemMode === 'create'){
                                 $scope.createNewLineItemInEditMode();
-                            } else {
+                            } else if(lineItemMode === 'edit'){
                                 $scope.updateLineItemInEditMode();
+                            } else if(lineItemMode === 'upload'){
+                                $scope.uploadFileChosenLineItem();
                             }
                             $scope.saveBtnLoader= false;
                         } else {
@@ -841,12 +847,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.isMediaPlanNameExist = function () {
             var target = event.target,
-                cloneMediaPlanName = target.value,
+                //cloneMediaPlanName = target.value,
+                cloneMediaPlanName = $scope.selectedCampaign.campaignName,
+                subAccountId=$scope.selectedCampaign.clientId,
                 advertiserId = $scope.selectedCampaign.advertiserId,
                 url;
             $scope.checkUniqueMediaPlanNameNotFound = true;
-            if($scope.selectedCampaign.oldCampaignName != cloneMediaPlanName) {
-                workflowService.checkforUniqueMediaPlan(advertiserId, cloneMediaPlanName).then(function (results) {
+            if($scope.selectedCampaign.oldCampaignName != cloneMediaPlanName && advertiserId) {
+                workflowService.checkforUniqueMediaPlan(subAccountId,advertiserId, cloneMediaPlanName).then(function (results) {
                     $scope.checkUniqueMediaPlanNameNotFound = false;
                     if (results.status === 'OK' || results.status === 'success') {
                         var responseData = results.data.data;

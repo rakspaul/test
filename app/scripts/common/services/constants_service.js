@@ -1171,5 +1171,7 @@ define(['angularAMD'], function(angularAMD) {
         this.INCLUDES_FIXED_COSTS = "*Includes fixed costs";
         this.EXCLUDES_MEDIA_PLAN_FIXED_COSTS = "*Excludes Media Plan fixed costs";
 
+        this.CLIENT_LOADED = "clientLoaded";
+
     });
 });

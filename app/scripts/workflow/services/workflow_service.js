@@ -21,6 +21,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 cloneMediaPlanData,
                 lineitemDetails = null,
                 lineitemDetailsEdit = null,
+                lineitemDetailsBulk = null,
                 advertiserBillingVal;
 
             function createObj(platform) {
@@ -418,8 +419,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     );
                 },
 
-                checkforUniqueMediaPlan : function(advertiserId, cloneMediaPlanName) {
-                    var clientId = loginModel.getSelectedClient().id,
+                checkforUniqueMediaPlan : function(subAccountId,advertiserId, cloneMediaPlanName) {
+                    var clientId,
+                        url;
+                    if(subAccountId)
+                        clientId=subAccountId;
+                    else
+                        clientId= loginModel.getSelectedClient().id;
                         url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/clients/' + clientId +
                             '/advertisers/' + advertiserId +
@@ -1098,11 +1104,18 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return lineitemDetails;
                 },
                 setLineItemDataEdit: function(data){
-                    lineitemDetails = data;
+                    lineitemDetailsEdit = data;
                 },
                 getLineItemDataEdit: function(){
-                    return lineitemDetails;
+                    return lineitemDetailsEdit;
+                },
+                setLineItemBulkData: function(bulk){
+                    lineitemDetailsBulk = bulk;
+                },
+                getLineItemBulkData: function(){
+                    return lineitemDetailsBulk ;
                 }
+
 
 
             };
