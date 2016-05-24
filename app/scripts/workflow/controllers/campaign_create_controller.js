@@ -96,10 +96,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.lineItemdiffDays = 0;
         $scope.newdiffDays = 0 ;
 
-        //loader Flags
+        //loader Flags - popup loader
         $scope.createNewLineItemLoader = false;
         $scope.editLineItemLoader = false;
         $scope.bulkUploadItemLoader = false;
+        //loader Flags - normal edit save button loader
+        $scope.createNewLineItemLoaderEdit = false;
+        $scope.editLineItemLoaderEdit = false;
+        $scope.bulkUploadItemLoaderEdit = false;
 
         if (!loginModel.getMasterClient().isLeafNode) {
             $scope.showSubAccount = true;

@@ -73,6 +73,9 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 $scope.showConfirmPopupBulkUpload = true;
             } else {
                 if($scope.selectedCampaign.lineItemfile){
+                    //bulk upload loader flag
+                    $scope.bulkUploadItemLoaderEdit = true;
+
                     var clientId = ($scope.selectedCampaign.clientId)? $scope.selectedCampaign.clientId:loginModel.getSelectedClient().id;
                     var url= vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + $routeParams.campaignId
                         + '/lineitems/bulkUpload';
@@ -99,12 +102,12 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                             });
                             $scope.clearFileSelected();
                             //bulk upload loader
-                            $scope.bulkUploadItemLoader = false;
+                            $scope.bulkUploadItemLoaderEdit = false;
                         }, function (response) {
                             $scope.uploadBusy = false;
                             $scope.uploadErrorMsg = "Unable to upload the file.";
                             //bulk upload loader
-                            $scope.bulkUploadItemLoader = false;
+                            $scope.bulkUploadItemLoaderEdit = false;
                         });
                     })($scope.selectedCampaign.lineItemfile);
                 }
@@ -114,6 +117,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
         $scope.cancelMediaPlanUpload = function(){
             $scope.showConfirmPopupBulkUpload = false;
+            $scope.bulkUploadItemLoaderEdit = false;
         }
 
         /*Function to download error log, when some rows in upload fails to upload*/
@@ -191,6 +195,9 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 return false;
             }
 
+            //loader for save button
+            $scope.createNewLineItemLoaderEdit = true;
+
             //if we have to save the media plan prior to line item
             $scope.showConfirmPopupCreate = false;
             if($scope.saveMediaPlan){
@@ -228,6 +235,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                     }
                     //hide loader
                     $scope.createNewLineItemLoader = false;
+                    $scope.createNewLineItemLoaderEdit = false;
                 });
             }
 
@@ -236,6 +244,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
         $scope.cancelMediaPlanCreation = function(){
             $scope.showConfirmPopupCreate = false;
+            $scope.createNewLineItemLoaderEdit = false;
         }
 
         $scope.$parent.updateLineItemInEditMode = function () {
@@ -255,6 +264,10 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
                 return false;
             }
+
+            //loader for update buton
+            $scope.editLineItemLoaderEdit = true;
+
             //if we have to save the media plan prior to line item
             $scope.showConfirmPopupEdit = false;
             if($scope.saveMediaPlan){
@@ -290,12 +303,16 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                         $rootScope.setErrAlertMessage(results.data.data.message );
                     }
                     $scope.editLineItemLoader = false;
+                    $scope.editLineItemLoaderEdit = false;
+
                 });
             }
         };
 
         $scope.cancelMediaPlanCreationEdit = function(){
             $scope.showConfirmPopupEdit = false;
+            $scope.editLineItemLoaderEdit = false;
+
         }
 
         function createLineItemObj(lineItemObj) {
