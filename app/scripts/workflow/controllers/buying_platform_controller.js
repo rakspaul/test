@@ -347,7 +347,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.$broadcast('switchPlatformFunc');
         };
 
-        $scope.$parent.saveCustomeFieldForPlatform = function () {
+        $scope.$parent.saveCustomeFieldForPlatform = function (flag) {
             var customFieldErrorElem = $('.customFieldErrorMsg'),
                 customPlatformFormData = $('#customPlatformForm').serializeArray();
 
@@ -373,7 +373,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
 
             $scope.switchPlatform();
-            if (customFieldErrorElem.length === 0) {
+            if (!flag && customFieldErrorElem.length === 0) {
                 $scope.triggerTargetting();
             }
 
