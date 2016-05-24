@@ -260,6 +260,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             $("a[reportTitle='" + reportTitle + "']").parent().addClass('active_tab')
         }
 
+        
+
 
 
         var callSetDefaultReport = $rootScope.$on("callSetDefaultReport", function (event, args) {
@@ -284,6 +286,9 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     campaigns_list_class = $(".campaigns_list"),
                     regionTooltip = $(".regionCityTab").find(".common_tooltip"),
                     quickFilters = $(".sliding_dropdown_container");
+                    dropdownWithSearch = $(".clone-ad-popup .dropdown-search");
+
+                    
 
                 if (cdbDropdownId.is(':visible') && event.target.id != "durationMenuText") {
                     cdbDropdownId.closest(".each_filter").removeClass("filter_dropdown_open");
@@ -307,6 +312,10 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
                 if (profileDropdownId.is(':visible') && event.target.id != "profileItem") {
                     profileDropdownId.hide();
+                }
+               
+                if (dropdownWithSearch.is(':visible') &&  ($(event.target).closest(".toggleDropdown").length == 0) ){
+                    dropdownWithSearch.hide();
                 }
                 if (campObjId.is(':visible') && ( $(event.target).closest("#campObjClick").length == 0)) {
                     campObjId.hide();

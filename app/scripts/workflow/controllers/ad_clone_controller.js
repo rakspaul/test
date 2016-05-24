@@ -27,6 +27,16 @@ define(['angularAMD'],function (angularAMD) {
             clone.getAdGroups();
         };
 
+        $scope.defaultDropdownToggle = function (event) {
+            var elem = $(event.target);
+            if ( elem.closest(".dropdown").find(".dropdown-menu").is(":hidden") ) {
+                $(".clone-ad-popup ul.dropdown-menu").hide();
+                elem.closest(".dropdown").find(".dropdown-menu").toggle();
+            } else {
+                elem.closest(".dropdown").find(".dropdown-menu").hide();
+            }
+        }
+
         $scope.selectAdGroup = function (adGroup) {
             if(adGroup){
                 selectedAdGroupId = adGroup.id;
