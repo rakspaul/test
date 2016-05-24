@@ -38,11 +38,12 @@
         <a class="btn btn-link pull-right" ng-click="clearFileSelected()">Cancel</a>
         <div class="popUpCue" data-ng-show="showConfirmPopupBulkUpload" style="left: 74%;top: -170px;">
             <span class="col-md-12 zeroPadding">Media Plan changes will be saved, bulk uploading line items.</span>
-            <a href="javascript:void(0);"
+            <a href="javascript:void(0);" ng-show ="!bulkUploadItemLoader"
                class="leftNavLink pull-right btn btn-primary"
                data-ng-click="saveCampaign('upload')"
                data-ng-bind="textConstants.CONTINUE">
             </a>
+            <div ng-show ="bulkUploadItemLoader" class="pull-right common-loading-btn" ></div>
             <a class="pull-right btn btn-link"
                data-ng-bind="textConstants.CANCEL"
                data-ng-click="cancelMediaPlanUpload()">
@@ -247,8 +248,9 @@
                     <a href="javascript:void(0);"
                        class="leftNavLink pull-right btn btn-primary"
                        data-ng-click="saveCampaign('create')"
-                       data-ng-bind="textConstants.CONTINUE">
+                       data-ng-bind="textConstants.CONTINUE" ng-show ="!createNewLineItemLoader">
                     </a>
+                    <div ng-show ="createNewLineItemLoader" class="pull-right common-loading-btn" ></div>
                     <a class="pull-right btn btn-link"
                        data-ng-bind="textConstants.CANCEL"
                        data-ng-click="cancelMediaPlanCreation()">
@@ -456,8 +458,9 @@
             <a href="javascript:void(0);"
                class="leftNavLink pull-right btn btn-primary"
                data-ng-click="saveCampaign('edit')"
-               data-ng-bind="textConstants.CONTINUE">
+               data-ng-bind="textConstants.CONTINUE" ng-show="!editLineItemLoader">
             </a>
+            <div ng-show ="editLineItemLoader" class="pull-right common-loading-btn" ></div>
             <a class="pull-right btn btn-link"
                data-ng-bind="textConstants.CANCEL"
                data-ng-click="cancelMediaPlanCreationEdit()">

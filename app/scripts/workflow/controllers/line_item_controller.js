@@ -26,6 +26,8 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         $scope.showConfirmPopupEdit = false;
         $scope.showConfirmPopupBulkUpload = false;
 
+
+
 /*---START------BULK LineItem Upload Section---------*/
 
         /*function to download empty template*/
@@ -96,9 +98,13 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                                 }
                             });
                             $scope.clearFileSelected();
+                            //bulk upload loader
+                            $scope.bulkUploadItemLoader = false;
                         }, function (response) {
                             $scope.uploadBusy = false;
                             $scope.uploadErrorMsg = "Unable to upload the file.";
+                            //bulk upload loader
+                            $scope.bulkUploadItemLoader = false;
                         });
                     })($scope.selectedCampaign.lineItemfile);
                 }
@@ -216,11 +222,12 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                         $scope.selectedCampaign.resetLineItemParameters();
                         newItem = createLineItemObj();
                         workflowService.setLineItemData(null);
-
                     } else {
                         $rootScope.setErrAlertMessage(results.data.data.message );
                         workflowService.setLineItemData(null);
                     }
+                    //hide loader
+                    $scope.createNewLineItemLoader = false;
                 });
             }
 
@@ -282,6 +289,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                     } else {
                         $rootScope.setErrAlertMessage(results.data.data.message );
                     }
+                    $scope.editLineItemLoader = false;
                 });
             }
         };
