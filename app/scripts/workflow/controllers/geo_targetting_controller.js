@@ -713,39 +713,50 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 }
 
-                var selectedGeoType = $.extend(true, [], $scope.geoData[type].selected);
-                //if selected tab is country and we change the include/exclude toggle
-                if (type == 'countries') {
-                    _.each($scope.selectedCountries, function (country) {
-                        country.regions = null;
-                    })
-                    $scope.geoData.regions.selected = [];
-                    $scope.geoData.regions.data = [];
-                    $scope.selectedRegions = [];
+                if(type === 'countries'  || type === 'regions'  || type === 'cities' ) {
+                    var selectedGeoType = $.extend(true, [], $scope.geoData[type].selected);
+                    //if selected tab is country and we change the include/exclude toggle
+                    if (type == 'countries') {
+                        _.each($scope.selectedCountries, function (country) {
+                            country.regions = null;
+                        })
+                        $scope.geoData.regions.selected = [];
+                        $scope.geoData.regions.data = [];
+                        $scope.selectedRegions = [];
 
-                    $scope.geoData.cities.selected = [];
-                    $scope.geoData.cities.data = [];
-                    $scope.selectedCities = [];
+                        $scope.geoData.cities.selected = [];
+                        $scope.geoData.cities.data = [];
+                        $scope.selectedCities = [];
 
+                    }
+
+                    //if selected tab is regions and country is not selected and we change the include/exclude toggle
+                    if ($scope.selectedCountries.length === 0 && type == 'regions') {
+                        _.each($scope.selectedRegions, function (country) {
+                            country.cities = null;
+                        })
+                        $scope.geoData.cities.selected = [];
+                        $scope.geoData.cities.data = [];
+                        $scope.selectedCities = [];
+                    }
+
+                    tmpSelectedGeoItemArr = selectedGeoType;
+                    geoTargeting.modifySelectedGeoData(selectedGeoType);
                 }
 
-                //if selected tab is regions and country is not selected and we change the include/exclude toggle
-                if ($scope.selectedCountries.length === 0 && type == 'regions') {
-                    _.each($scope.selectedRegions, function (country) {
-                        country.cities = null;
-                    })
-                    $scope.geoData.cities.selected = [];
-                    $scope.geoData.cities.data = [];
-                    $scope.selectedCities = [];
-                }
-                $scope.geoSelectedItems = {};
-
-                tmpSelectedGeoItemArr = selectedGeoType;
-
-                geoTargeting.modifySelectedGeoData(selectedGeoType);
-
-                $timeout(function() {
+                $timeout(function () {
                     $scope.$apply();
+                }, 100)
+            },
+
+            toggleSwitch : function(flag, mainTab) {
+                var toggleElem = $("." + mainTab + '-toggle');
+                toggleElem.bootstrapToggle(flag ? 'on' : 'off');
+            },
+
+            triggerGeoSubNavTab : function(type) {
+                $timeout(function() {
+                    $(".targetting-tab-header").find('#' + type + 'Tab').trigger('click');
                 }, 100)
             },
 
@@ -777,7 +788,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             setData : function(bool, data,  isIncluded) {
                 $scope.geoData['countries'].included = isIncluded
-                var countryData = angular.copy(data);
+                var countryData = $.extend(true, [], data);
                 _.each(countryData, function (item) {
                     $scope.check(bool, item, 'countries');
                 });
@@ -840,7 +851,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             setData : function(bool, data, isIncluded) {
                 $scope.geoData['regions'].included = isIncluded
-                var regionData = data;
+                var regionData = $.extend(true, [], data);
                 _.each(regionData, function (item) {
                     $scope.check(bool, item, 'regions');
                 });
@@ -925,7 +936,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             setData : function(bool, data, isIncluded) {
                 $scope.geoData['cities'].included = isIncluded
-                var cityData = angular.copy(data);
+                var cityData = $.extend(true, [], data);
                 _.each(cityData, function (item) {
                     $scope.check(bool, item, 'cities');
                 });
@@ -1066,7 +1077,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             setData : function(bool, data, isIncluded) {
                 $scope.geoData['dmas'].included = isIncluded
-                var dmaData = angular.copy(data);
+                var dmaData = $.extend(true, [], data);
                 _.each(dmaData, function (item) {
                     $scope.check(bool, item, 'dmas');
                 });
@@ -1423,6 +1434,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             elem.closest("li").addClass("active");
             $(".targetting-each-content").hide();
             $("#" + tabType).show();
+
             if (tabType == "zip") {
                 $(".targetting-container .searchInput").hide();
             } else {
@@ -1444,6 +1456,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 geoTargeting.showHideExcAndIncSwitch();
                 geoTargeting.setIncludeExcludeGeo();
                 geoTargeting['dmas'].init();
+                if($scope.geoData.dmas.selected.length  === 0) {
+                    geoTargeting.toggleSwitch(true, 'dmas');
+                }
             }
         };
 
@@ -1692,89 +1707,116 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
         };
 
-        var toggleSwitch = function(flag) {
-            var mainTab = $scope.selectedMainTab,
-                toggleElem = $("." + mainTab + '-toggle');
-            toggleElem.bootstrapToggle(flag ? 'on' : 'off');
-        };
-
-        var triggerGeoSubNavTab = function(type) {
-            $timeout(function() {
-                $(".targetting-tab-header").find('#' + type + 'Tab').trigger('click');
-            }, 100)
-        }
-
         //broadcast from targeting_controller.js,  when user click on geo targeting card.
         $scope.$on('trigger.Geo', function () {
             geoTargeting.updateParams({'platformId': $scope.adData.platformId});
+            var navTabsTargetElem,
+                saveGeoData,
+                geoTargets,
+                countryIncluded,
+                regionIncluded,
+                citiesIncluded,
+                dmasIncluded;
+
             if ($scope.selectedMainTab !== 'geo') {
-                var navTabsTargetElem = $(".targettingFormWrap").find(".nav-tabs");
+                navTabsTargetElem = $(".targettingFormWrap").find(".nav-tabs");
                 $timeout(function () {
                     $(navTabsTargetElem[0]).find("li a").triggerHandler('click');
-                }, 50);
+                }, 100);
             }
 
             $scope.storedResponse = angular.copy(workflowService.getAdsDetails());
-            var geoTargets = $scope.storedResponse && $scope.storedResponse.targets.geoTargets;
-
+            geoTargets = $scope.storedResponse && $scope.storedResponse.targets.geoTargets;
 
             //get save data form service
-            var saveGeoData = workflowService.getSavedGeo() && workflowService.getSavedGeo().original;
+            saveGeoData = workflowService.getSavedGeo() && workflowService.getSavedGeo().original;
             if (saveGeoData && (saveGeoData.countries.selected.length >0 || saveGeoData.regions.selected.length >0 || saveGeoData.cities.selected.length >0 || saveGeoData.dmas.selected.length >0 || saveGeoData.zip.selected.length >0)) {
-                if(saveGeoData.countries) {
+                if(saveGeoData.countries.selected.length >0) {
+                    $scope.geoData.countries.selected = [];
+                    countryIncluded = saveGeoData.countries.included;
+                    geoTargeting.toggleSwitch(countryIncluded, 'geo')
                     countriesWrapper.setData(true, saveGeoData.countries.selected, saveGeoData.countries.included);
                 }
 
-                if(saveGeoData.regions) {
-                    countriesWrapper.setData(true, saveGeoData.regions.selected, saveGeoData.regions.included);
+                if(saveGeoData.regions.selected.length >0) {
+                    $scope.geoData.regions.selected = [];
+                    regionsWrapper.setData(true, saveGeoData.regions.selected, saveGeoData.regions.included);
+                    regionIncluded = saveGeoData.regions.included;
+                    if(saveGeoData.countries.selected.length === 0) {
+                        $scope.selectedSubTab = 'regions';
+                        geoTargeting.triggerGeoSubNavTab('region');
+                        geoTargeting.toggleSwitch(regionIncluded, 'geo')
+                    }
                 }
 
-                if(saveGeoData.cities) {
-                    countriesWrapper.setData(true, saveGeoData.cities.selected, saveGeoData.cities.included);
+                if(saveGeoData.cities.selected.length >0) {
+                    $scope.geoData.cities.selected = [];
+                    citiesWrapper.setData(true, saveGeoData.cities.selected, saveGeoData.cities.included);
+                    citiesIncluded = saveGeoData.countries.included;
+                    if(saveGeoData.countries.selected.length === 0 && saveGeoData.regions.selected.length === 0) {
+                        $scope.selectedSubTab = 'cities';
+                        geoTargeting.triggerGeoSubNavTab('city');
+                        geoTargeting.toggleSwitch(citiesIncluded, 'geo');
+                    }
                 }
 
-                if(saveGeoData.dmas) {
-                    countriesWrapper.setData(true, saveGeoData.dmas.selected, saveGeoData.dmas.included);
+                if(saveGeoData.dmas.selected.length >0) {
+                    $scope.geoData.dmas.selected = [];
+                    dmasIncluded = saveGeoData.dmas.included;
+                    geoTargeting.toggleSwitch(dmasIncluded, 'dmas');
+                    dmasWrapper.setData(true, saveGeoData.dmas.selected, saveGeoData.dmas.included);
                 }
 
-                if(saveGeoData.zip) {
-                    countriesWrapper.setData(saveGeoData.zip.selected);
+                if(saveGeoData.zip.selected.length >0) {
+                    $scope.geoData.zip.selected = [];
+                    zipWrapper.setData(saveGeoData.zip.selected);
                 }
+
             } else if(geoTargets && _.size(geoTargets) > 0) { //get geo Data form ads Data
 
                 if (geoTargets && geoTargets.COUNTRY) {
-                    var countryIncluded = geoTargets.COUNTRY.isIncluded;
-                    toggleSwitch(countryIncluded)
+                    $scope.geoData.countries.selected = [];
+                    countryIncluded = geoTargets.COUNTRY.isIncluded;
+                    geoTargeting.toggleSwitch(countryIncluded, 'geo')
                     countriesWrapper.setData(true, geoTargets.COUNTRY.geoTargetList, geoTargets.COUNTRY.isIncluded);
                 }
 
                 if (geoTargets && geoTargets.REGION) {
+                    $scope.geoData.regions.selected = [];
                     regionsWrapper.setData(true, geoTargets.REGION.geoTargetList, geoTargets.REGION.isIncluded);
-                    var regionIncluded = geoTargets.REGION.isIncluded;
+                    regionIncluded = geoTargets.REGION.isIncluded;
                     if(!geoTargets.COUNTRY) {
                         $scope.selectedSubTab = 'regions';
-                        triggerGeoSubNavTab('region');
-                        toggleSwitch(regionIncluded)
+                        geoTargeting.triggerGeoSubNavTab('region');
+                        geoTargeting.toggleSwitch(regionIncluded, 'geo')
                     }
                 }
 
                 if (geoTargets && geoTargets.CITY) {
+                    $scope.geoData.cities.selected = [];
                     citiesWrapper.setData(true, geoTargets.CITY.geoTargetList, geoTargets.CITY.isIncluded);
+                    citiesIncluded = geoTargets.CITY.isIncluded;
                     if(!geoTargets.COUNTRY && !geoTargets.REGION) {
                         $scope.selectedSubTab = 'cities';
-                        triggerGeoSubNavTab('city');
+                        geoTargeting.triggerGeoSubNavTab('city');
+                        geoTargeting.toggleSwitch(citiesIncluded, 'geo');
                     }
                 }
 
                 if (geoTargets && geoTargets.DMA) {
+                    $scope.geoData.dmas.selected = [];
+                    dmasIncluded = geoTargets.DMA.isIncluded;
+                    geoTargeting.toggleSwitch(dmasIncluded, 'dmas')
                     dmasWrapper.setData(true, geoTargets.DMA.geoTargetList, geoTargets.DMA.isIncluded);
                 }
+
                 if (geoTargets && geoTargets.ZIP_CODE) {
+                    $scope.geoData.zip.selected = [];
                     zipWrapper.setData(geoTargets.ZIP_CODE.geoTargetList);
                 }
 
             } else {
-                toggleSwitch('on');
+                geoTargeting.toggleSwitch('on', 'geo');
             }
 
             //binding chnage event on switch
@@ -1795,7 +1837,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             //show geoTargeting Container
             geoTargeting.show();
         });
-
 
         //on load reset geo targeting variables.
         $scope.resetGeoTargeting();
