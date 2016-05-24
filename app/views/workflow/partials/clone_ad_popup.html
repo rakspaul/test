@@ -55,7 +55,7 @@
                                     <div class="icon-search"></div>
                                 </div>
                             </li>
-                            <li ng-repeat="groups in adGroupList" ng-click="defaultDropdownToggle($event)" >
+                            <li ng-repeat="groups in adGroupList | filter: adGroup" ng-click="defaultDropdownToggle($event)" >
                                 <a ng-click="selectAdGroup(groups.adGroup)">
                                     <span ng-if="groups.adGroup.id == adGroupId"><b>{{groups.adGroup.name}} (Current)</b></span>
                                     <span ng-if="groups.adGroup.id != adGroupId">{{groups.adGroup.name}}</span>
