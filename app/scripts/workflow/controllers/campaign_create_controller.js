@@ -616,8 +616,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             //trigger save the line item now after successful updation of media plan
                             if(lineItemMode === 'create'){
                                 $scope.createNewLineItemInEditMode();
-                            } else {
+                            } else if(lineItemMode === 'edit'){
                                 $scope.updateLineItemInEditMode();
+                            } else if(lineItemMode === 'upload'){
+                                $scope.uploadFileChosenLineItem();
                             }
                             $scope.saveBtnLoader= false;
                         } else {

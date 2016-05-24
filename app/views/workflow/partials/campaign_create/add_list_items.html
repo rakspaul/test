@@ -36,6 +36,18 @@
         <a ng-if="selectedCampaign.lineItemfile" class="icon-clear pull-left" ng-click="clearFileSelected()" ></a>
         <a  class="btn btn-primary pull-right" ng-click="uploadFileChosenLineItem();">Upload</a>
         <a class="btn btn-link pull-right" ng-click="clearFileSelected()">Cancel</a>
+        <div class="popUpCue" data-ng-show="showConfirmPopupBulkUpload" style="left: 74%;top: -170px;">
+            <span class="col-md-12 zeroPadding">Media Plan changes will be saved, bulk uploading line items.</span>
+            <a href="javascript:void(0);"
+               class="leftNavLink pull-right btn btn-primary"
+               data-ng-click="saveCampaign('upload')"
+               data-ng-bind="textConstants.CONTINUE">
+            </a>
+            <a class="pull-right btn btn-link"
+               data-ng-bind="textConstants.CANCEL"
+               data-ng-click="cancelMediaPlanUpload()">
+            </a>
+        </div>
     </div>
 
     <div class="col-md-12 common_file_upload_container" style="display:none">
@@ -332,6 +344,7 @@
         </div>
         <div class="clearfix popup-footer" >
             <button type="button" ng-click="hideuploadFileChosenLineItem()" class="common_primary_btn pull-right" data-ng-bind="textConstants.CLOSE"></button>
+
         </div>
 
     </div>
