@@ -26,11 +26,10 @@
             <!--Search Input-->
             <div class="searchInput geography">
                  <div class="input-group">
-                     <input type="text" class="form-control searchBox" data-searchfield="{{selectedSubTab}}" ng-keyup="search($event)" placeholder="Search for regions or cities">
-                      <span class="icon-clear pull-right" aria-hidden="true"></span>
-
+                     <input type="text" class="form-control searchBox" ng-model="searchKeyword" data-searchfield="{{selectedSubTab}}" ng-keyup="search($event, searchKeyword)" placeholder="Search for regions or cities">
+                     <span class="icon-clear" aria-hidden="true" ng-click="resetGeoSearch($event)"></span>
                       <span class="input-group-btn">
-                        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        <button class="btn btn-default" ng-click="search($event, searchKeyword)" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                       </span>
                 </div>
             </div>
@@ -65,15 +64,15 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="targetting-tab-body" lr-infinite-scroll="loadMoreGeoData">
                             <div class="common-loading-area full-table-loading" ng-show="geoData.countries.fetching"></div>
                             <div class="no-data-common" ng-show="geoData.countries.data_not_found" data-ng-bind="textConstants.DATANOTAVAILABLE"></div>
                             <div ng-if="!geoData.countries.fetching">
                                 <div class="clearfix each-targetting-name" ng-repeat="country in geoData.countries.data">
-
                                     <div class="col-md-12 external_chkbox pull-left">
                                         <div class="squaredFour">
-                                            <input type="checkbox" checklist-model="getTargetingValues('countries')" checklist-value="country" ng-change="check(country, checked, 'countries')" class="squaredFourChkbox" id="country_{{country.id}}">
+                                            <input type="checkbox" ng-model="bool" ng-click="check(bool, country, 'countries')" ng-checked="isChecked(country.id, 'countries')" class="squaredFourChkbox" id="country_{{country.id}}">
                                             <label for="country_{{country.id}}"></label>
                                         </div>
                                         <span class="squaredFourTxt" >{{country.name}}</span>
@@ -103,7 +102,7 @@
                                 <div class="clearfix each-targetting-name" ng-repeat="region in geoData.regions.data">
                                     <div class="external_chkbox pull-left col-md-8">
                                         <div class="squaredFour">
-                                            <input type="checkbox" checklist-model="getTargetingValues('regions')" checklist-value="region" ng-change="check(region, checked, 'regions')" class="squaredFourChkbox" id="region_{{region.id}}_{{region.country.id}}" >
+                                            <input type="checkbox" ng-model="bool" ng-click="check(bool, region, 'regions')" ng-checked="isChecked(region.id, 'regions')" class="squaredFourChkbox" id="region_{{region.id}}_{{region.country.id}}" >
                                             <label for="region_{{region.id}}_{{region.country.id}}"></label>
                                         </div>
                                         <span class="squaredFourTxt" >{{region.name}}</span>
@@ -137,7 +136,7 @@
                                 <div class="clearfix each-targetting-name" ng-repeat="city in geoData.cities.data">
                                     <div class="external_chkbox pull-left col-md-4">
                                         <div class="squaredFour">
-                                            <input type="checkbox" checklist-model="getTargetingValues('cities')" checklist-value="city" ng-change="check(city, checked, 'cities')" class="squaredFourChkbox" id="city_{{city.id}}_{{city.parent.id}}_{{city.country.id}}" >
+                                            <input type="checkbox" ng-model="bool" ng-click="check(bool, city, 'cities')" ng-checked="isChecked(city.id, 'cities')"  class="squaredFourChkbox" id="city_{{city.id}}_{{city.parent.id}}_{{city.country.id}}" >
                                             <label for="city_{{city.id}}_{{city.parent.id}}_{{city.country.id}}"></label>
                                         </div>
                                         <span class="squaredFourTxt" data-ng-bind="city.name"></span>
@@ -190,7 +189,7 @@
                                 <div class="clearfix each-targetting-name" ng-repeat="dma in geoData.dmas.data">
                                     <div class="external_chkbox pull-left col-md-8">
                                         <div class="squaredFour">
-                                            <input type="checkbox" checklist-model="getTargetingValues('dmas')" checklist-value="dma" ng-change="check(dma, checked, 'dmas')" class="squaredFourChkbox" id="dma_{{dma.id}}" >
+                                            <input type="checkbox" ng-model="bool" ng-click="check(bool, dma, 'dmas')" ng-checked="isChecked(dma.id, 'dmas')" class="squaredFourChkbox" id="dma_{{dma.id}}" >
                                             <label for="dma_{{dma.id}}"></label>
                                         </div>
                                         <span class="squaredFourTxt" data-ng-bind="dma.dmaName"></span>
@@ -245,11 +244,11 @@
                             <div class="group">
                                 <div class="each-group" ng-repeat="region in country.regions track by $index">
                                     <div class="pull-left"><img ng-show = "region.included !==undefined" ng-src="/images/workflow/{{region.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{region.name}}</div>
-                                    <div ng-show = "region.included !==undefined" class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(region, 'regions', 'region_region.id_region.country.id')"></span></div>
+                                    <div ng-show = "region.included !==undefined" class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(region, 'regions', 'region_' + region.id + '_' + region.country.id)"></span></div>
                                     <div class="group">
                                         <div class="each-group" ng-repeat="city in region.cities track by $index">
                                             <div class="pull-left"><img ng-show = "city.included !==undefined" ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
-                                            <div ng-show = "city.included !==undefined" class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'cities', 'city_city.id_city.parent.id_city.country.id')"></span></div>
+                                            <div ng-show = "city.included !==undefined" class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'cities', 'city_' + city.id + '_' + city.parent.id + '_' + city.country.id)"></span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -288,7 +287,7 @@
                     <div class="clearfix each-row" >
                         <div class="pull-left" data-ng-bind="textConstants.ZIPPOSTCODE"></div>
                         <div class="pull-right removeAll">
-                            <a ng-href="javascript:void(0);" data-ng-bind="textConstants.REMOVEALL" ng-click="showRemoveConfirmBox($event, 'zipcode');"></a>
+                            <a ng-href="javascript:void(0);" data-ng-bind="textConstants.REMOVEALL" ng-click="showRemoveConfirmBox($event, 'zip');"></a>
                         </div>
                     </div>
                 </div>

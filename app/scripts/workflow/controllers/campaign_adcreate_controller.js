@@ -272,8 +272,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                             $scope.adCreateLoader = false;
 
-                            //$('.workflowPreloader, .workflowPreloader .adSavePre').hide();
-
                             if (result.status === 'OK' || result.status === 'success') {
                                 $scope.state = responseData.state;
                                 $scope.adId = responseData.id;
@@ -1370,6 +1368,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                     postGeoTargetObj = adData.targets.geoTargets;
 
                                     if (postGeoTargetObj) {
+                                        if (postGeoTargetObj.COUNTRY) {
+                                            postGeoTargetObj.COUNTRY.geoTargetList =
+                                                _.pluck(postGeoTargetObj.COUNTRY.geoTargetList, 'id');
+                                        }
+
                                         if (postGeoTargetObj.REGION) {
                                             postGeoTargetObj.REGION.geoTargetList =
                                                 _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
