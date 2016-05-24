@@ -1701,21 +1701,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         var triggerGeoSubNavTab = function(type) {
             $timeout(function() {
                 $(".targetting-tab-header").find('#' + type + 'Tab').trigger('click');
-            }, 100)
+            }, 300)
         }
 
         //broadcast from targeting_controller.js,  when user click on geo targeting card.
         $scope.$on('trigger.Geo', function () {
             geoTargeting.updateParams({'platformId': $scope.adData.platformId});
-            var moduleDeleted = workflowService.getDeleteModule();
-            if (_.indexOf(moduleDeleted, 'Geography') !== -1) {
-                if ($scope.storedResponse) {
-                    $scope.storedResponse.targets.geoTargets = null;
-                }
-                workflowService.resetDeleteModule();
-                workflowService.setSavedGeo(null);
-            }
-
             if ($scope.selectedMainTab !== 'geo') {
                 var navTabsTargetElem = $(".targettingFormWrap").find(".nav-tabs");
                 $timeout(function () {
