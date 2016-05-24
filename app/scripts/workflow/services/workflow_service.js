@@ -21,6 +21,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 cloneMediaPlanData,
                 lineitemDetails = null,
                 lineitemDetailsEdit = null,
+                lineitemDetailsBulk = null,
                 advertiserBillingVal;
 
             function createObj(platform) {
@@ -1102,11 +1103,18 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return lineitemDetails;
                 },
                 setLineItemDataEdit: function(data){
-                    lineitemDetails = data;
+                    lineitemDetailsEdit = data;
                 },
                 getLineItemDataEdit: function(){
-                    return lineitemDetails;
+                    return lineitemDetailsEdit;
+                },
+                setLineItemBulkData: function(bulk){
+                    lineitemDetailsBulk = bulk;
+                },
+                getLineItemBulkData: function(){
+                    return lineitemDetailsBulk ;
                 }
+
 
 
             };

@@ -24,6 +24,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         // edit mode - save media plan along with line item
         $scope.showConfirmPopupCreate = false;
         $scope.showConfirmPopupEdit = false;
+        $scope.showConfirmPopupBulkUpload = false;
 
 /*---START------BULK LineItem Upload Section---------*/
 
@@ -59,39 +60,54 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
         /*Function to upload the csv file selected, Based on response, show popUp with number of success-failure-errorLog download link
         * call getLineItems() to get the saved and newly uploaded line items*/
-        $scope.uploadFileChosenLineItem = function() {
-            if($scope.selectedCampaign.lineItemfile){
-                var clientId = loginModel.getSelectedClient().id;
-                var url= vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + $routeParams.campaignId
-                    + '/lineitems/bulkUpload';
+        $scope.$parent.uploadFileChosenLineItem = function() {
+            //if we have to save the media plan prior to line item
+            $scope.showConfirmPopupBulkUpload = false;
+            if($scope.saveMediaPlan){
+                //this is temp save in case we need to save media plan before line item
+                workflowService.setLineItemBulkData($scope.selectedCampaign.lineItemfile);
 
-                (function(file) {
-                    Upload.upload({
-                        url: url,
-                        fileFormDataName: 'lineitemList',
-                        file: $scope.selectedCampaign.lineItemfile
-                    }).then(function (response) {
-                        $scope.$parent.successfulRecords = response.data.data.success;
-                        $scope.$parent.errorRecords = response.data.data.failure;
-                        $scope.$parent.errorRecordsFileName = response.data.data.logFileDownloadLink;
-                        if ($scope.$parent.errorRecords.length > 0) {
-                            $scope.$parent.bulkUploadResultHeader += ' - Errors found';
-                        }
-                        $scope.showUploadRecordsMessageLineItems = true;
-                        //make lineitems call n refresh that data
-                        workflowService.getLineItem($routeParams.campaignId, true).then(function (results) {
-                            if (results.status === 'success' && results.data.statusCode === 200) {
-                                $scope.lineItemList = [];
-                                $scope.processLineItemEditMode(results.data.data);
+                //show popup
+                $scope.showConfirmPopupBulkUpload = true;
+            } else {
+                if($scope.selectedCampaign.lineItemfile){
+                    var clientId = ($scope.selectedCampaign.clientId)? $scope.selectedCampaign.clientId:loginModel.getSelectedClient().id;
+                    var url= vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + $routeParams.campaignId
+                        + '/lineitems/bulkUpload';
+
+                    (function(file) {
+                        Upload.upload({
+                            url: url,
+                            fileFormDataName: 'lineitemList',
+                            file: $scope.selectedCampaign.lineItemfile
+                        }).then(function (response) {
+                            $scope.$parent.successfulRecords = response.data.data.success;
+                            $scope.$parent.errorRecords = response.data.data.failure;
+                            $scope.$parent.errorRecordsFileName = response.data.data.logFileDownloadLink;
+                            if ($scope.$parent.errorRecords.length > 0) {
+                                $scope.$parent.bulkUploadResultHeader += ' - Errors found';
                             }
+                            $scope.showUploadRecordsMessageLineItems = true;
+                            //make lineitems call n refresh that data
+                            workflowService.getLineItem($routeParams.campaignId, true).then(function (results) {
+                                if (results.status === 'success' && results.data.statusCode === 200) {
+                                    $scope.lineItemList = [];
+                                    $scope.processLineItemEditMode(results.data.data);
+                                }
+                            });
+                            $scope.clearFileSelected();
+                        }, function (response) {
+                            $scope.uploadBusy = false;
+                            $scope.uploadErrorMsg = "Unable to upload the file.";
                         });
-                        $scope.clearFileSelected();
-                    }, function (response) {
-                        $scope.uploadBusy = false;
-                        $scope.uploadErrorMsg = "Unable to upload the file.";
-                    });
-                })($scope.selectedCampaign.lineItemfile);
+                    })($scope.selectedCampaign.lineItemfile);
+                }
             }
+
+        };
+
+        $scope.cancelMediaPlanUpload = function(){
+            $scope.showConfirmPopupBulkUpload = false;
         }
 
         /*Function to download error log, when some rows in upload fails to upload*/
