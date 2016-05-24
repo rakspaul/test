@@ -5,13 +5,26 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
         var _videoTargetting = {
                 init: function () {
+                    $scope.isVideoTargetingCancelled = false;
+                    $scope.isVideoTargetingSaved = false;
+                    $scope.isVideoTargetingCollapsed = false;
                     $scope.adData.isVideoSelected = null;
-                    $scope.additionalDimension = [];
-                    $scope.selectedDimension = [];
 
-                    $scope.adData.videoTargets.sizes = [];
-                    $scope.adData.videoTargets.positions = [];
-                    $scope.adData.videoTargets.playbackMethods = [];
+                    $scope.selectedDimension = [];
+                    $scope.additionalDimension = [];
+                    $scope.videoTypes = [];
+                    $scope.videoPreviewData = [];
+
+                    $scope.tagsSize = [];
+                    $scope.tagsPosition = [];
+                    $scope.tagsPlayback = [];
+                    $scope.sizesLabels  = [];
+
+                    $scope.adData.videoTargets = {
+                        sizes: [],
+                        positions: [],
+                        playbackMethods: []
+                    };
 
                     $scope.dimensionArr = [
                         {key: 'sizes',            value: 'Player Size',     active: true},
@@ -19,6 +32,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                         {key: 'playback_methods', value: 'Playback Method', active: true}
                     ];
                     $scope.dimensionArrTemp = $.extend(true, [], $scope.dimensionArr);
+ console.log('init()')
                 },
 
                 showBox: function () {
@@ -77,7 +91,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
                     if ($scope.isVideoTargetingSaved) {
                         $scope.selectedDimension = [];
-                        $scope.selectedDimensionTemp.push(type)
+                        selectedDimensionTemp.push(type)
                     }
 
                     if (_.indexOf($scope.selectedDimension, type) === -1) {
@@ -96,7 +110,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                     }
 
                     if ($scope.isVideoTargetingSaved) {
-                        $scope.selectedDimension = $.extend(true, [], $scope.selectedDimensionTemp);
+                        $scope.selectedDimension = $.extend(true, [], selectedDimensionTemp);
                     }
                 },
 
@@ -149,25 +163,26 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                         },
                         hide: false
                     });
+                    console.log('$scope.additionalDimension = ', $scope.additionalDimension)
                 },
 
                 prefillVideoData: function () {
                     var i,
                         n;
-
-                    if (_.isEmpty($scope.adData.videoPreviewData)) {
-                        $scope.adData.additionalDimension = [];
-                        $scope.adData.videoTargets = {};
-                        $scope.additionalDimension = [];
-                        videoTargets = null;
-                    }
-
+console.log('prefillVideoData()...')
                     _videoTargetting.showBox();
 
-                    if ($scope.mode === 'edit') {
+                    //if ($scope.mode === 'edit') {
                         // Video Targeting is being loaded for the first time.
                         // 1) Prefill the saved data in the UI.
                         // 2) Clone the relevant data objects so that they can be restored for Cancel action
+                        if (_.isEmpty($scope.adData.videoPreviewData)) {
+                            $scope.adData.additionalDimension = [];
+                            $scope.adData.videoTargets = {};
+                            $scope.additionalDimension = [];
+                            videoTargets = null;
+                        }
+
                         if (!$scope.isVideoTargetingCancelled) {
                             if ($scope.adData.videoPreviewData.sizes ||
                                 $scope.adData.videoPreviewData.positions ||
@@ -179,7 +194,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                                     videoTargets = adData.targets.videoTargets;
                                 }
                             }
-
+console.log('LOAD: $scope.adData.videoTargets = ', $scope.adData.videoTargets, ', videoTargets = ', videoTargets)
                             $scope.videoTypes = [];
 
                             for (i in videoTargets) {
@@ -222,9 +237,9 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
                             // Clone the relevant data objects
                             videoTargetsTemp = $.extend(true, {}, videoTargets);
-                            $scope.videoTypesTemp = $.extend(true, [], $scope.videoTypes);
-                            $scope.videoPreviewDataTemp = $.extend(true, [], $scope.videoPreviewData);
-                            $scope.additionalDimensionTemp = $.extend(true, [], $scope.additionalDimension);
+                            videoTypesTemp = $.extend(true, [], $scope.videoTypes);
+                            videoPreviewDataTemp = $.extend(true, [], $scope.videoPreviewData);
+                            additionalDimensionTemp = $.extend(true, [], $scope.additionalDimension);
                             $scope.dimensionArrTemp = $.extend(true, [], $scope.dimensionArr);
                         } else {
                             // Video targeting had been loaded previously and cancelled, using Cancel button
@@ -233,30 +248,17 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                                 _videoTargetting.addAdditionalDimension();
                             }
                         }
-                    }
+                    //}
                 }
             },
 
             adData,
             videoTargets,
-            videoTargetsTemp;
-
-        $scope.additionalDimension = [];
-        $scope.additionalDimensionTemp = [];
-        $scope.videoTypesTemp = [];
-        $scope.videoPreviewDataTemp = [];
-        $scope.selectedDimension = [];
-        $scope.selectedDimensionTemp = [];
-        $scope.tagsSize = [];
-        $scope.tagsPosition = [];
-        $scope.tagsPlayback = [];
-        $scope.sizesLabels  = [];
-        $scope.adData.videoTargets = {};
-        $scope.isVideoTargetingCancelled = false;
-        $scope.isVideoTargetingSaved = false;
-        $scope.isVideoTargetingCollapsed = false;
-        $scope.dimensionArr = [];
-        $scope.dimensionArrTemp = [];
+            videoTargetsTemp,
+            selectedDimensionTemp = [],
+            additionalDimensionTemp = [],
+            videoTypesTemp = [],
+            videoPreviewDataTemp = [];
 
         // resetting the video data
         videoService.saveVideoData(null);
@@ -313,6 +315,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             _videoTargetting.getVideoTargetsType(type, index);
 
             if ($scope.selectedDimension.length < 3) {
+                console.log('selectOption(), addAdditionalDimension()');
                 _videoTargetting.addAdditionalDimension(type);
             }
 
@@ -322,9 +325,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
             // call this function we have selected options manually.
             if (event && $scope.selectedDimension.length <= 3) {
+                console.log('selectOption(), removeSelectedDimension()');
                 _videoTargetting.removeSelectedDimension();
             }
-
+console.log('selectOption(), type = ', type, ', value = ', value, ', status = ', status, ', index = ', index)
             // Close the dropdown manually as default action has been prevented
             $('.dropdown.dimension-type .dropdown-toggle').dropdown('toggle');
         };
@@ -431,22 +435,17 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             // Clone back the relevant data objects to their original state when first loaded.
             $scope.isVideoTargetingCancelled = true;
             videoTargets = $.extend(true, {}, videoTargetsTemp);
-            $scope.videoTypes = $.extend(true, [], $scope.videoTypesTemp);
-            $scope.videoPreviewData = $.extend(true, [], $scope.videoPreviewDataTemp);
-            $scope.additionalDimension = $.extend(true, [], $scope.additionalDimensionTemp);
+            $scope.videoTypes = $.extend(true, [], videoTypesTemp);
+            $scope.videoPreviewData = $.extend(true, [], videoPreviewDataTemp);
+            $scope.additionalDimension = $.extend(true, [], additionalDimensionTemp);
             $scope.dimensionArr = $.extend(true, [], $scope.dimensionArrTemp);
         };
 
         $scope.$on('triggerVideo', function () {
+    console.log('triggerVideo() called...')
             _videoTargetting.prefillVideoData();
         });
 
         _videoTargetting.init();
-
-        $(function () {
-            if ($scope.mode === 'create') {
-                _videoTargetting.addAdditionalDimension();
-            }
-        });
     });
 });
