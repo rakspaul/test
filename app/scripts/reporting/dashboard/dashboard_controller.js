@@ -60,7 +60,7 @@ define(['angularAMD','common/services/constants_service','reporting/dashboard/da
             dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());
         }
 
-        var clientLoaded = $rootScope.$on('clientLoaded',function(){
+        var clientLoaded = $rootScope.$on(constants.CLIENT_LOADED,function(){
             updateTitle();
         })
 

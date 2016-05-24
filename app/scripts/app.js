@@ -552,7 +552,7 @@ define(['common'], function (angularAMD) {
         })
 
         .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore,
-                       workflowService, featuresService, subAccountModel, $window,localStorageService) {
+                       workflowService, featuresService, subAccountModel, $window,localStorageService,constants) {
             var handleLoginRedirection = function () {
                 var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
                     localStorageRedirect = localStorage.getItem('cdeskRedirect'),
@@ -578,7 +578,7 @@ define(['common'], function (angularAMD) {
                 },
 
                 broadCastClientLoaded = function() {
-                    $rootScope.$broadcast('clientLoaded');
+                    $rootScope.$broadcast(constants.CLIENT_LOADED);
                 },
 
                 loginCheckFunc = function () {
