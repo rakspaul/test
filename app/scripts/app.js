@@ -577,6 +577,10 @@ define(['common'], function (angularAMD) {
                     }
                 },
 
+                broadCastClientLoaded = function() {
+                    $rootScope.$broadcast('clientLoaded');
+                },
+
                 loginCheckFunc = function () {
                     var locationPath = $location.path(),
                         authorizationKey,
@@ -629,6 +633,7 @@ define(['common'], function (angularAMD) {
                                             .getClientData(clientObj.id)
                                             .then(function (response) {
                                                 featuresService.setFeatureParams(response.data.data.features);
+                                                broadCastClientLoaded();
                                             });
 
                                         if (locationPath === '/login' || locationPath === '/') {
@@ -641,6 +646,7 @@ define(['common'], function (angularAMD) {
                                                 .getClientData(clientObj.id)
                                                 .then(function (response) {
                                                     featuresService.setFeatureParams(response.data.data.features);
+                                                    broadCastClientLoaded();
                                                 });
 
                                             if (locationPath === '/login' || locationPath === '/') {
