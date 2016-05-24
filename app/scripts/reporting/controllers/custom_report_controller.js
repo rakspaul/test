@@ -562,7 +562,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     });
                     _customctrl.getMetricValues(respData, $scope.selectedMetricsList, 'first_dimension');
                    // var winHeight = $(window).height() - 180;
-                    var height = parseInt($(".custom_report_scroll").css("height"), 10) + (respData.length * 40);
+                    var height = parseInt($(".custom_report_scroll").css("height"), 10) + (respData.length * 70);
                     if(_customctrl.reportPageNum_1D == 1) {
                         // add the height of header + header padding + data container margin + top container padding for the first time
                         height += $(".heading_row").outerHeight(true) + parseInt($(".custom_report_response_table").css("margin-bottom"),10) + parseInt($(".first_dimension_row_holder").css("padding-top"),10);
