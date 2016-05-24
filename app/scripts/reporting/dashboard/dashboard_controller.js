@@ -59,6 +59,7 @@ define(['angularAMD','common/services/constants_service','reporting/dashboard/da
         } else {
             dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());
         }
+
         updateTitle();
 
         var eventBrandChangedFunc = $rootScope.$on(constants.EVENT_BRAND_CHANGED, function () {

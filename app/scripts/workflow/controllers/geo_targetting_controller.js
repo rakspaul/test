@@ -706,14 +706,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             updateSelectedGeoList : function (isChecked, type) {
-                var selectedGeoType = $.extend(true, [], $scope.geoData[type].selected);
-                if (selectedGeoType.length > 0 && isChecked !== null) {
-                    _.each(selectedGeoType, function (data) {
+                if ($scope.geoData[type].selected.length > 0 && isChecked !== null) {
+                    _.each($scope.geoData[type].selected, function (data) {
                         data['included'] = isChecked;
                     })
 
                 }
 
+                var selectedGeoType = $.extend(true, [], $scope.geoData[type].selected);
                 //if selected tab is country and we change the include/exclude toggle
                 if (type == 'countries') {
                     _.each($scope.selectedCountries, function (country) {
@@ -1697,6 +1697,18 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
         };
 
+        var toggleSwitch = function(flag) {
+            var mainTab = $scope.selectedMainTab,
+                toggleElem = $("." + mainTab + '-toggle');
+            toggleElem.bootstrapToggle(flag);
+        };
+
+        var triggerGeoSubNavTab = function(type) {
+            $timeout(function() {
+                $(".targetting-tab-header").find('#' + type + 'Tab').trigger('click');
+            }, 100)
+        }
+
         //broadcast from targeting_controller.js,  when user click on geo targeting card.
         $scope.$on('trigger.Geo', function () {
             geoTargeting.updateParams({'platformId': $scope.adData.platformId});
@@ -1709,13 +1721,20 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 workflowService.setSavedGeo(null);
             }
 
-           //show Countries
-            $('.toggle-event').bootstrapToggle();
+            if ($scope.selectedMainTab !== 'geo') {
+                var navTabsTargetElem = $(".targettingFormWrap").find(".nav-tabs");
+                $timeout(function () {
+                    $(navTabsTargetElem[0]).find("li a").triggerHandler('click');
+                }, 50);
+            }
+
+            $scope.storedResponse = angular.copy(workflowService.getAdsDetails());
+            var geoTargets = $scope.storedResponse && $scope.storedResponse.targets.geoTargets;
+
 
             //get save data form service
             var saveGeoData = workflowService.getSavedGeo() && workflowService.getSavedGeo().original;
             if (saveGeoData) {
-
                 if(saveGeoData.countries) {
                     countriesWrapper.setData(true, saveGeoData.countries.selected, saveGeoData.countries.included);
                 }
@@ -1735,30 +1754,30 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if(saveGeoData.zip) {
                     countriesWrapper.setData(saveGeoData.zip.selected);
                 }
-
-                console.log("saveGeoData", saveGeoData);
-            } else { //get geo Data form ads Data
-                $scope.storedResponse = angular.copy(workflowService.getAdsDetails());
-                var geoTargets = $scope.storedResponse && $scope.storedResponse.targets.geoTargets;
-
-                var countryIncluded = geoTargets.COUNTRY.isIncluded;
-
-                if(countryIncluded) {
-                    $('.toggle-event').bootstrapToggle('on');
-                } else {
-                    $('.toggle-event').bootstrapToggle('off');
-                }
+            } else if(geoTargets && _.size(geoTargets) > 0) { //get geo Data form ads Data
 
                 if (geoTargets && geoTargets.COUNTRY) {
+                    var countryIncluded = geoTargets.COUNTRY.isIncluded;
+                    toggleSwitch(countryIncluded)
                     countriesWrapper.setData(true, geoTargets.COUNTRY.geoTargetList, geoTargets.COUNTRY.isIncluded);
                 }
 
                 if (geoTargets && geoTargets.REGION) {
                     regionsWrapper.setData(true, geoTargets.REGION.geoTargetList, geoTargets.REGION.isIncluded);
+                    var regionIncluded = geoTargets.REGION.isIncluded;
+                    if(!geoTargets.COUNTRY) {
+                        $scope.selectedSubTab = 'regions';
+                        triggerGeoSubNavTab('region');
+                        toggleSwitch(regionIncluded)
+                    }
                 }
 
                 if (geoTargets && geoTargets.CITY) {
                     citiesWrapper.setData(true, geoTargets.CITY.geoTargetList, geoTargets.CITY.isIncluded);
+                    if(!geoTargets.COUNTRY && !geoTargets.REGION) {
+                        $scope.selectedSubTab = 'cities';
+                        triggerGeoSubNavTab('city');
+                    }
                 }
 
                 if (geoTargets && geoTargets.DMA) {
@@ -1767,15 +1786,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if (geoTargets && geoTargets.ZIP_CODE) {
                     zipWrapper.setData(geoTargets.ZIP_CODE.geoTargetList);
                 }
-            }
 
+            } else {
+                toggleSwitch('on');
+            }
 
             //binding chnage event on switch
             $('.toggle-event').change(function (event) {
                 event.stopImmediatePropagation();
                 var isChecked = $(this).prop('checked');
                 $scope.geoData[$scope.selectedSubTab].included = isChecked;
-
                 geoTargeting.setIncludeExcludeGeo();
                 geoTargeting.updateSelectedGeoList(isChecked, $scope.selectedSubTab);
 
@@ -1786,14 +1806,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             });
 
-            if ($scope.selectedMainTab !== 'geo') {
-                var navTabsTargetElem = $(".targettingFormWrap").find(".nav-tabs");
-                $timeout(function () {
-                    $(navTabsTargetElem[0]).find("li a").triggerHandler('click');
-                }, 50);
-            }
-
-            geoTargeting.countries.init();
             //show geoTargeting Container
             geoTargeting.show();
         });
