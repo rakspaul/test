@@ -129,6 +129,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
 //                            if($scope.isCostModelTransparent ===  false) {
 //                                $scope.isCostModelTransparentMsg = $scope.strategyCostData[0].message;
 //                            }
+                            var marginPercentage = function(item) {
+                                if (item.gross_rev && item.gross_rev != 0) {
+                                    item.margin = item.margin * 100 / item.gross_rev;
+                                }
+                            };
                             var sumTechFeesNServiceFees = function(item) {
                                 if (item.tech_fees == null && item.service_fees == null) {
                                     item.tech_service_fees_total = null;
@@ -146,11 +151,13 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
                                     if(!utils.hasItem($scope.strategyCostData,"campaign_id", item.campaign_id)) {
                                         item.kpi_type = $scope.selected_filters.campaign_default_kpi_type;
                                         sumTechFeesNServiceFees(item);
+                                        marginPercentage(item);
                                         $scope.strategyCostData.push(item);
                                     }
                                 }else{
                                     if(!utils.hasItem($scope.tacticsCostData,"ad_id", item.ad_id)) {
                                         sumTechFeesNServiceFees(item);
+                                        marginPercentage(item);
                                         $scope.tacticsCostData.push(item);
                                     }
                                 }
