@@ -840,7 +840,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             setData : function(bool, data, isIncluded) {
                 $scope.geoData['regions'].included = isIncluded
-                var regionData = angular.copy(data);
+                var regionData = data;
                 _.each(regionData, function (item) {
                     $scope.check(bool, item, 'regions');
                 });
@@ -1701,7 +1701,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         var triggerGeoSubNavTab = function(type) {
             $timeout(function() {
                 $(".targetting-tab-header").find('#' + type + 'Tab').trigger('click');
-            }, 300)
+            }, 100)
         }
 
         //broadcast from targeting_controller.js,  when user click on geo targeting card.
@@ -1745,12 +1745,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if (geoTargets && geoTargets.COUNTRY) {
                     var countryIncluded = geoTargets.COUNTRY.isIncluded;
                     toggleSwitch(countryIncluded)
-                    $scope.geoData.countries.selected = geoTargets.COUNTRY.geoTargetList;
                     countriesWrapper.setData(true, geoTargets.COUNTRY.geoTargetList, geoTargets.COUNTRY.isIncluded);
                 }
 
                 if (geoTargets && geoTargets.REGION) {
-                    $scope.geoData.regions.selected = geoTargets.REGION.geoTargetList;
                     regionsWrapper.setData(true, geoTargets.REGION.geoTargetList, geoTargets.REGION.isIncluded);
                     var regionIncluded = geoTargets.REGION.isIncluded;
                     if(!geoTargets.COUNTRY) {
@@ -1761,7 +1759,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 if (geoTargets && geoTargets.CITY) {
-                    $scope.geoData.cities.selected = geoTargets.CITY.geoTargetList;
                     citiesWrapper.setData(true, geoTargets.CITY.geoTargetList, geoTargets.CITY.isIncluded);
                     if(!geoTargets.COUNTRY && !geoTargets.REGION) {
                         $scope.selectedSubTab = 'cities';
@@ -1770,7 +1767,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 if (geoTargets && geoTargets.DMA) {
-                    $scope.geoData.dmas.selected = geoTargets.DMA.geoTargetList;
                     dmasWrapper.setData(true, geoTargets.DMA.geoTargetList, geoTargets.DMA.isIncluded);
                 }
                 if (geoTargets && geoTargets.ZIP_CODE) {
