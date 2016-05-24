@@ -59,14 +59,14 @@
                             <a class="leftNavLink budget-page-trigger" ng-if="selectedCampaign.advertiserId" data-target="#budget" data-toggle="tab">3. {{textConstants.MP_BUDGET}} & Measure</a>
                             <div class="statusLabel" ng-if="Campaign.totalBudget">
                                 <div class="col-md-12">
-                                    <div class="statusIcon icon-usd"></div>
+                                    <!--<div class="statusIcon icon-usd"></div>-->
                                     <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget | setDecimal:2 | number : fractionSize}}</span>
                                     <span>(Total Budget)</span>
                                 </div>
                             </div>
                             <div class="statusLabel" ng-if="Campaign.deliveryBudget">
                                 <div class="col-md-12">
-                                    <div class="statusIcon icon-usd"></div>
+                                    <!--<div class="statusIcon icon-usd"></div>-->
                                     <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget | setDecimal:2 | number : fractionSize}}</span>
                                     <span>(Delivery Budget)</span>
                                 </div>
@@ -93,7 +93,7 @@
                             </div>
                             <div class="statusLabel" ng-if="lineItemList.length >0">
                                 <div class="col-md-12" >
-                                    <div class="statusIcon icon-usd"></div>
+                                    <!--<div class="statusIcon icon-usd"></div>-->
                                     <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}} {{selectedCampaign.lineItemBillableAmountTotal | setDecimal:2 | number : fractionSize}}</span>
                                     <span> ({{textConstants.TOTAL_BILLABLE_AMOUNT}})</span>
                                 </div>
