@@ -1745,10 +1745,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if (geoTargets && geoTargets.COUNTRY) {
                     var countryIncluded = geoTargets.COUNTRY.isIncluded;
                     toggleSwitch(countryIncluded)
+                    $scope.geoData.countries.selected = geoTargets.COUNTRY.geoTargetList;
                     countriesWrapper.setData(true, geoTargets.COUNTRY.geoTargetList, geoTargets.COUNTRY.isIncluded);
                 }
 
                 if (geoTargets && geoTargets.REGION) {
+                    $scope.geoData.regions.selected = geoTargets.REGION.geoTargetList;
                     regionsWrapper.setData(true, geoTargets.REGION.geoTargetList, geoTargets.REGION.isIncluded);
                     var regionIncluded = geoTargets.REGION.isIncluded;
                     if(!geoTargets.COUNTRY) {
@@ -1759,6 +1761,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 if (geoTargets && geoTargets.CITY) {
+                    $scope.geoData.cities.selected = geoTargets.CITY.geoTargetList;
                     citiesWrapper.setData(true, geoTargets.CITY.geoTargetList, geoTargets.CITY.isIncluded);
                     if(!geoTargets.COUNTRY && !geoTargets.REGION) {
                         $scope.selectedSubTab = 'cities';
@@ -1767,6 +1770,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 if (geoTargets && geoTargets.DMA) {
+                    $scope.geoData.dmas.selected = geoTargets.DMA.geoTargetList;
                     dmasWrapper.setData(true, geoTargets.DMA.geoTargetList, geoTargets.DMA.isIncluded);
                 }
                 if (geoTargets && geoTargets.ZIP_CODE) {
