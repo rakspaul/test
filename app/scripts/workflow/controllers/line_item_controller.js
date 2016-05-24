@@ -220,6 +220,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
                     } else {
                         $rootScope.setErrAlertMessage(results.data.data.message );
+                        workflowService.setLineItemData(null);
                     }
                 });
             }
@@ -305,6 +306,8 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             // in case pricerate is 30% markup remove the Markup
             if(typeof $scope.pricingRate === "string"){
                 newItem.pricingRate = Number($scope.pricingRate.split('%')[0]);
+            } else {
+                newItem.pricingRate = $scope.pricingRate;
             }
             newItem.startTime = $scope.lineItemStartDate;
             newItem.endTime = $scope.lineItemEndDate;
