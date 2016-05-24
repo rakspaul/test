@@ -3,10 +3,11 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
     angularAMD.controller('VideoTargettingController', function ($scope, $timeout, audienceService, workflowService,
                                                                  constants, videoService) {
 
-        var _videoTargetting = {
+        var _videoTargeting = {
                 init: function () {
                     $scope.isVideoTargetingCancelled = false;
                     $scope.isVideoTargetingSaved = false;
+                    $scope.isVideoTargetingDeleted = false;
                     $scope.isVideoTargetingCollapsed = false;
                     $scope.adData.isVideoSelected = null;
 
@@ -14,6 +15,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                     $scope.additionalDimension = [];
                     $scope.videoTypes = [];
                     $scope.videoPreviewData = [];
+                    $scope.adData.videoPreviewData = {};
 
                     $scope.tagsSize = [];
                     $scope.tagsPosition = [];
@@ -31,8 +33,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                         {key: 'positions',        value: 'Position',        active: true},
                         {key: 'playback_methods', value: 'Playback Method', active: true}
                     ];
-                    $scope.dimensionArrTemp = $.extend(true, [], $scope.dimensionArr);
- console.log('init()')
+                    dimensionArrTemp = $.extend(true, [], $scope.dimensionArr);
                 },
 
                 showBox: function () {
@@ -91,7 +92,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
                     if ($scope.isVideoTargetingSaved) {
                         $scope.selectedDimension = [];
-                        selectedDimensionTemp.push(type)
+                        selectedDimensionTemp.push(type);
                     }
 
                     if (_.indexOf($scope.selectedDimension, type) === -1) {
@@ -104,7 +105,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
                                 if (results.status === 'success' && results.data.statusCode === 200) {
                                     data = results.data.data;
-                                    _videoTargetting.setVideoData(data, type, index);
+                                    _videoTargeting.setVideoData(data, type, index);
                                 }
                             });
                     }
@@ -163,92 +164,91 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                         },
                         hide: false
                     });
-                    console.log('$scope.additionalDimension = ', $scope.additionalDimension)
                 },
 
                 prefillVideoData: function () {
                     var i,
                         n;
-console.log('prefillVideoData()...')
-                    _videoTargetting.showBox();
 
-                    //if ($scope.mode === 'edit') {
-                        // Video Targeting is being loaded for the first time.
-                        // 1) Prefill the saved data in the UI.
-                        // 2) Clone the relevant data objects so that they can be restored for Cancel action
-                        if (_.isEmpty($scope.adData.videoPreviewData)) {
-                            $scope.adData.additionalDimension = [];
-                            $scope.adData.videoTargets = {};
-                            $scope.additionalDimension = [];
-                            videoTargets = null;
-                        }
+                    _videoTargeting.showBox();
 
-                        if (!$scope.isVideoTargetingCancelled) {
-                            if ($scope.adData.videoPreviewData.sizes ||
-                                $scope.adData.videoPreviewData.positions ||
-                                $scope.adData.videoPreviewData.playbackMethods) {
-                                if ($scope.isVideoTargetingSaved) {
-                                    videoTargets = $scope.adData.videoTargets;
-                                } else {
-                                    adData = workflowService.getAdsDetails();
-                                    videoTargets = adData.targets.videoTargets;
-                                }
-                            }
-console.log('LOAD: $scope.adData.videoTargets = ', $scope.adData.videoTargets, ', videoTargets = ', videoTargets)
-                            $scope.videoTypes = [];
+                    if (_.isEmpty($scope.adData.videoPreviewData)) {
+                        $scope.adData.additionalDimension = [];
+                        $scope.adData.videoTargets = {};
+                        $scope.additionalDimension = [];
+                        videoTargets = null;
+                    }
 
-                            for (i in videoTargets) {
-                                if (videoTargets[i].length > 0) {
-                                    $scope.videoTypes.push(i);
-                                }
-                            }
-
-                            if (videoTargets) {
-                                _.each($scope.videoTypes, function (type, index) {
-                                    _videoTargetting.addAdditionalDimension(type, videoTargets, 'edit');
-                                    _videoTargetting.getVideoTargetsType(type, index);
-                                    _videoTargetting.setVideoData(videoTargets[type], type, index);
-                                    $scope.additionalDimension[index].hide = true;
-                                });
-
-                                // Discard the top half of the  $scope.additionalDimension array if Video targeting
-                                // has been saved or collapsed. This is required because a duplicate set of data
-                                // is created by the above 'each' loop.
-                                if ($scope.isVideoTargetingCollapsed || $scope.isVideoTargetingSaved) {
-                                    n = parseInt($scope.additionalDimension.length / 2, 10);
-                                    $scope.additionalDimension.splice(n, n * 2);
-                                    $scope.isVideoTargetingCollapsed = false;
-                                }
-
-                                if ($scope.videoTypes.length < 3) {
-                                    if (!$scope.isVideoTargetingSaved) {
-                                        _videoTargetting.removeSelectedDimension();
-                                    }
-                                    _videoTargetting.addAdditionalDimension();
-                                }
-
-                                if ($scope.isVideoTargetingSaved) {
-                                    $scope.isVideoTargetingSaved = false;
-                                }
+                    if (!$scope.isVideoTargetingCancelled) {
+                        if ($scope.adData.videoPreviewData.sizes ||
+                            $scope.adData.videoPreviewData.positions ||
+                            $scope.adData.videoPreviewData.playbackMethods) {
+                            if ($scope.isVideoTargetingSaved) {
+                                videoTargets = $scope.adData.videoTargets;
                             } else {
-                                _videoTargetting.init();
-                                _videoTargetting.addAdditionalDimension();
-                            }
-
-                            // Clone the relevant data objects
-                            videoTargetsTemp = $.extend(true, {}, videoTargets);
-                            videoTypesTemp = $.extend(true, [], $scope.videoTypes);
-                            videoPreviewDataTemp = $.extend(true, [], $scope.videoPreviewData);
-                            additionalDimensionTemp = $.extend(true, [], $scope.additionalDimension);
-                            $scope.dimensionArrTemp = $.extend(true, [], $scope.dimensionArr);
-                        } else {
-                            // Video targeting had been loaded previously and cancelled, using Cancel button
-                            if (!videoTargets) {
-                                _videoTargetting.init();
-                                _videoTargetting.addAdditionalDimension();
+                                adData = workflowService.getAdsDetails();
+                                videoTargets = adData.targets.videoTargets;
                             }
                         }
-                    //}
+
+                        $scope.videoTypes = [];
+
+                        for (i in videoTargets) {
+                            if (videoTargets[i].length > 0) {
+                                $scope.videoTypes.push(i);
+                            }
+                        }
+
+                        if (videoTargets) {
+                            _.each($scope.videoTypes, function (type, index) {
+                                _videoTargeting.addAdditionalDimension(type, videoTargets, 'edit');
+                                _videoTargeting.getVideoTargetsType(type, index);
+                                _videoTargeting.setVideoData(videoTargets[type], type, index);
+                                $scope.additionalDimension[index].hide = true;
+                            });
+
+                            // Discard the top half of the  $scope.additionalDimension array if Video targeting
+                            // has been saved or collapsed. This is required because a duplicate set of data
+                            // is created by the above 'each' loop.
+                            if ($scope.isVideoTargetingCollapsed || $scope.isVideoTargetingSaved) {
+                                n = parseInt($scope.additionalDimension.length / 2, 10);
+                                $scope.additionalDimension.splice(n, n * 2);
+                                $scope.isVideoTargetingCollapsed = false;
+                            }
+
+                            if ($scope.videoTypes.length < 3) {
+                                if (!$scope.isVideoTargetingSaved) {
+                                    _videoTargeting.removeSelectedDimension();
+                                }
+                                _videoTargeting.addAdditionalDimension();
+                            }
+
+                            if ($scope.isVideoTargetingSaved) {
+                                $scope.isVideoTargetingSaved = false;
+                            }
+                        } else {
+                            _videoTargeting.init();
+                            _videoTargeting.addAdditionalDimension();
+                        }
+
+                        // Clone the relevant data objects
+                        videoTargetsTemp = $.extend(true, {}, videoTargets);
+                        videoTypesTemp = $.extend(true, [], $scope.videoTypes);
+                        videoPreviewDataTemp = $.extend(true, [], $scope.videoPreviewData);
+                        additionalDimensionTemp = $.extend(true, [], $scope.additionalDimension);
+                        dimensionArrTemp = $.extend(true, [], $scope.dimensionArr);
+                    } else {
+                        // Video targeting had been loaded previously and cancelled, using Cancel button
+                        if (!videoTargets) {
+                            _videoTargeting.init();
+                            _videoTargeting.addAdditionalDimension();
+                        }
+
+                        selectedDimensionTemp = $.extend(true, [], $scope.selectedDimension);
+                    }
+
+                    // This is to ensure there's no duplicate entries under any circumstances
+                    $scope.selectedDimension = _.unique($scope.selectedDimension);
                 }
             },
 
@@ -258,42 +258,59 @@ console.log('LOAD: $scope.adData.videoTargets = ', $scope.adData.videoTargets, '
             selectedDimensionTemp = [],
             additionalDimensionTemp = [],
             videoTypesTemp = [],
-            videoPreviewDataTemp = [];
+            videoPreviewDataTemp = [],
+            dimensionArrTemp = [];
 
         // resetting the video data
         videoService.saveVideoData(null);
 
-        $scope.adData.videoPreviewData = {};
-
         // save data in video services
         $scope.saveVideoTarget = function () {
             var i,
-                dimensionName = [];
+                dimensionName = [],
+                n,
+                tempArr = [];
 
             videoService.saveVideoData($scope.adData.videoTargets);
             $scope.$parent.showVideoPreviewData($scope.adData);
 
-            _videoTargetting.hideBox();
+            _videoTargeting.hideBox();
 
             // As the current Video targeting data has been saved,
             // reset the $scope.isVideoTargetingCancelled flag back to false.
             $scope.isVideoTargetingCancelled = false;
             $scope.isVideoTargetingSaved = true;
 
-            for (i = 0; i < $scope.additionalDimension.length; i++) {
-                if ($scope.additionalDimension[i].tags.data && $scope.additionalDimension[i].tags.data.length === 0) {
-                    $scope.additionalDimension.splice(i, 1);
-                }
-                if ($scope.additionalDimension[i]) {
-                    dimensionName.push($scope.additionalDimension[i].name);
+            // Extract only the video targeting options with data
+            if ($scope.adData.videoTargets.sizes.length > 0) {
+                dimensionName.push('Player Size');
+            }
+
+            if ($scope.adData.videoTargets.positions.length > 0) {
+                dimensionName.push('Position');
+            }
+
+            if ($scope.adData.videoTargets.playbackMethods.length > 0) {
+                dimensionName.push('Playback Method');
+            }
+
+            tempArr = $.extend(true, [], $scope.additionalDimension);
+            n = $scope.additionalDimension.length;
+            for (i = 0; i < n; i++) {
+                if ($scope.additionalDimension[i].tags.data === undefined ||
+                    ($scope.additionalDimension[i].tags.data && $scope.additionalDimension[i].tags.data.length === 0)) {
+                    if ($scope.additionalDimension[i].name) {
+                        $scope.additionalDimension.splice(i--, 1);
+                        n--;
+                    }
                 }
             }
 
             for (i = 0; i < $scope.dimensionArr.length; i++) {
-                if (dimensionName.indexOf($scope.dimensionArr[i].value) === -1) {
-                    $scope.dimensionArr[i].active = true;
-                } else {
+                if (dimensionName.indexOf($scope.dimensionArr[i].value) > -1) {
                     $scope.dimensionArr[i].active = false;
+                } else {
+                    $scope.dimensionArr[i].active = true;
                 }
             }
         };
@@ -310,13 +327,10 @@ console.log('LOAD: $scope.adData.videoTargets = ', $scope.adData.videoTargets, '
                 return false;
             }
 
-            $scope.selectDimension = value;
-
-            _videoTargetting.getVideoTargetsType(type, index);
+            _videoTargeting.getVideoTargetsType(type, index);
 
             if ($scope.selectedDimension.length < 3) {
-                console.log('selectOption(), addAdditionalDimension()');
-                _videoTargetting.addAdditionalDimension(type);
+                _videoTargeting.addAdditionalDimension(type);
             }
 
             $scope.additionalDimension[index].hide = true;
@@ -325,10 +339,9 @@ console.log('LOAD: $scope.adData.videoTargets = ', $scope.adData.videoTargets, '
 
             // call this function we have selected options manually.
             if (event && $scope.selectedDimension.length <= 3) {
-                console.log('selectOption(), removeSelectedDimension()');
-                _videoTargetting.removeSelectedDimension();
+                _videoTargeting.removeSelectedDimension();
             }
-console.log('selectOption(), type = ', type, ', value = ', value, ', status = ', status, ', index = ', index)
+
             // Close the dropdown manually as default action has been prevented
             $('.dropdown.dimension-type .dropdown-toggle').dropdown('toggle');
         };
@@ -356,12 +369,6 @@ console.log('selectOption(), type = ', type, ', value = ', value, ', status = ',
                 playerSizeList = videoService.getPlayerSize(null, type);
                 _.each(playerSizeList, function (obj) {
                     obj.targetId = obj.id;
-
-                    /* TODO: (Lalding) commenting out the line below as it affects removing tags, but might have
-                     side effects elsewhere, so I'm not deleting the line for now.
-                     */
-                    // removing id and adding targetid as a key for creating data for save response.
-                    // delete obj.id;
                 });
 
                 $scope.adData.videoTargets.sizes.push(playerSizeList[0]);
@@ -391,12 +398,6 @@ console.log('selectOption(), type = ', type, ', value = ', value, ', status = ',
 
             if (action === 'add') {
                 tag.targetId = tag.id;
-
-                /* TODO: (Lalding) commenting out the line below as it affects removing tags, but might have
-                         side effects elsewhere, so I'm not deleting the line for now.
-                 */
-                // removing id and adding targetid as a key for creating data for save response.
-                // delete tag.id;
             }
 
             if (pos !==  -1) {
@@ -421,7 +422,7 @@ console.log('selectOption(), type = ', type, ', value = ', value, ', status = ',
         };
 
         $scope.hideVideoTargeting = function (action) {
-            _videoTargetting.hideBox();
+            _videoTargeting.hideBox();
 
             // TODO: 'hide' (collapsing the video targeting screen and go back to targeting screen)
             // is not working properly, so treating 'hide' same as 'cancel' for now.
@@ -438,14 +439,18 @@ console.log('selectOption(), type = ', type, ', value = ', value, ', status = ',
             $scope.videoTypes = $.extend(true, [], videoTypesTemp);
             $scope.videoPreviewData = $.extend(true, [], videoPreviewDataTemp);
             $scope.additionalDimension = $.extend(true, [], additionalDimensionTemp);
-            $scope.dimensionArr = $.extend(true, [], $scope.dimensionArrTemp);
+            $scope.dimensionArr = $.extend(true, [], dimensionArrTemp);
+            $scope.selectedDimension = $.extend(true, [], selectedDimensionTemp);
         };
 
         $scope.$on('triggerVideo', function () {
-    console.log('triggerVideo() called...')
-            _videoTargetting.prefillVideoData();
+            _videoTargeting.prefillVideoData();
         });
 
-        _videoTargetting.init();
+        $scope.$on('videoTargetingDeleted', function () {
+            $scope.isVideoTargetingDeleted = true;
+        });
+
+        _videoTargeting.init();
     });
 });
