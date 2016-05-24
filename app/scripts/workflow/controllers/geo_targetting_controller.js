@@ -1720,7 +1720,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             //get save data form service
             var saveGeoData = workflowService.getSavedGeo() && workflowService.getSavedGeo().original;
-            if (saveGeoData) {
+            if (saveGeoData && (saveGeoData.countries.selected.length >0 || saveGeoData.regions.selected.length >0 || saveGeoData.cities.selected.length >0 || saveGeoData.dmas.selected.length >0 || saveGeoData.zip.selected.length >0)) {
                 if(saveGeoData.countries) {
                     countriesWrapper.setData(true, saveGeoData.countries.selected, saveGeoData.countries.included);
                 }
