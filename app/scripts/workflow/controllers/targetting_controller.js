@@ -320,6 +320,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                     adData.targets.videoTargets= null;
                     workflowService.setAdsDetails(adData);
                 }
+
+                $scope.$broadcast('videoTargetingDeleted');
             };
             /****************** END : VIDEO TARGETING  ***********************/
 
