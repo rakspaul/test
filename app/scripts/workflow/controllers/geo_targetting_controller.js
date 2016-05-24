@@ -1418,7 +1418,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         // show geo, dmas, zip container
         $scope.showGeographyTabsBox = function (event, tabType, showPopup) {
-            $('.toggle-event').bootstrapToggle();
             var elem = $(event.target);
             elem.closest(".nav-tabs").find(".active").removeClass("active");
             elem.closest("li").addClass("active");
@@ -1476,8 +1475,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
 
         $scope.removeItem = function (item, type, id) {
-
-            $('.toggle-event').bootstrapToggle();
 
             var geoItems = $.extend(true, {}, $scope.geoData[type]),
                 j,
@@ -1593,8 +1590,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.geoData[type].data.length = 0;
                 }
 
-
-                    $('.toggle-event').bootstrapToggle('on');
                     $scope.geoData.regions.selected.length = 0;
                     if($scope.geoData.cities.selected) {
                         $scope.geoData.cities.selected.length = 0;
@@ -1700,7 +1695,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         var toggleSwitch = function(flag) {
             var mainTab = $scope.selectedMainTab,
                 toggleElem = $("." + mainTab + '-toggle');
-            toggleElem.bootstrapToggle(flag);
+            toggleElem.bootstrapToggle(flag ? 'on' : 'off');
         };
 
         var triggerGeoSubNavTab = function(type) {
