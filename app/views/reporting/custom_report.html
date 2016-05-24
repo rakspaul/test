@@ -1151,14 +1151,14 @@
         <div class="each_col {{customeReportData.level === 'first_dimension' ?
                 'more_dimension_arrow' :
                 'tree_string'}}"
-             ng-click="showDataForClikedDimension($event, customeReportData.value); $event.stopPropagation();">
+             ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();">
         </div>
 
         <!---- Dimension report data ------------------------>
         <div class="each_col tree_dimension_col {{customeReportData.level === 'first_dimension' ?
                 'more_dimension_col' :
                 ' '}}"
-             ng-click="showDataForClikedDimension($event, customeReportData.value); $event.stopPropagation();"
+             ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();"
              ng-if="customeReportData.value"
              ng-bind="customeReportData.value">
         </div>
