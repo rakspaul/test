@@ -326,8 +326,8 @@
 		-webkit-border-radius: 2px;
 		border: 1px solid #dde6eb;
 		background-color: #ffffff;
-		font-size: 14px;
-		color: @color_6;
+		font-size: 14px;/*
+		color: @color_6;*/
 		line-height: 18px;
 		padding: 8px;
 		margin: 0 8px;
@@ -447,6 +447,32 @@
 		margin-top: 0px ;
 		.icon-search {
 			top: -4px ;
+		}
+	}
+}
+.clone-ad-popup {
+	
+	.dropdown-workflow {
+		.dropdown-menu li span {
+			padding: 0px ;
+		}
+		.toggleDropdown {
+			padding: 0px ;
+			.toggleDropdownDiv {
+				padding: 10px 15px 10px 15px;
+			}
+		}
+		.searchBar {
+			input {
+				padding-left: 15px ;
+				&:focus {
+				    border: 0px !important;
+					border-bottom: solid 1px  #dde6eb !important;
+				}
+			}
+			.icon-search {
+				top: 9px;
+			}
 		}
 	}
 }
