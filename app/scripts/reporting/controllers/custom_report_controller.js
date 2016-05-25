@@ -1181,10 +1181,15 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             if (dimension != undefined) {
                 var specificFilter = $scope.customeDimensionData[0].dim_specific_filters,
                     specificMetrics = $scope.customeDimensionData[0].dim_specific_metrics;
-                $scope.secondaryDimensionArr  = specificFilter.hasOwnProperty(dimension) ? angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].dimensions);
-                $scope.filterList  = specificFilter.hasOwnProperty(dimension) ? angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].filters);
                 if (type == 'Primary') {
-                    $scope.showAddBreakdownButton = true;
+                    $scope.secondaryDimensionArr  = specificFilter.hasOwnProperty(dimension) ? angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].dimensions);
+                    $scope.secondaryDimensionArr = _.filter($scope.secondaryDimensionArr,function(item){
+                        return item != "conversion_pixel_name";
+                    });
+                    $scope.filterList  = specificFilter.hasOwnProperty(dimension) ? angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].filters);
+                    if(!$scope.reports.reportDefinition.dimensions.primary.name) {
+                        $scope.showAddBreakdownButton = true;
+                    }
                     $scope.reports.reportDefinition.dimensions.primary.name = $scope.displayName[dimension];
                     $scope.reports.reportDefinition.dimensions.primary.dimension = (dimension == undefined) ? dimension.dimension : dimension;
 
@@ -2042,7 +2047,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
             $scope.$on('$locationChangeStart', function(event, next) {
                 $scope.intermediateSave();
-                if ($scope.updateScheduleReport && $scope.stopRedirectingPage && ($scope.reports.name != $scope.scheduleResponseData.name || !angular.equals($scope.reports.schedule, $scope.scheduleResponseData.schedule))) {
+                if($scope.buttonLabel == "Update" && $scope.stopRedirectingPage && (!$scope.isSavedReportGen && ($scope.reports.name != $scope.scheduleResponseData.name || !angular.equals($scope.reports.schedule, $scope.scheduleResponseData.schedule)))) {
                     event.preventDefault();
                     $scope.updateSchedule = true;
                     $scope.nextURL = next;
@@ -2111,6 +2116,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
                     //if a dimension is selected as Primary it should not appear in secondary
                     $scope.secondaryDimensionArr = angular.copy($scope.customeDimensionData[0].dimensions);
+                    $scope.secondaryDimensionArr = _.filter($scope.secondaryDimensionArr,function(item){
+                        return item != "conversion_pixel_name";
+                    });
                     var removeIndex = ($scope.secondaryDimensionArr).indexOf(obj.dimension);
                     $scope.secondaryDimensionArr.splice(removeIndex,1);
 
@@ -2310,8 +2318,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         if (localStorageService.scheduleListReportType.get() == "Saved") {
                             var url = urlService.savedReport($routeParams.reportId);
                             $scope.isSavedReportGen = true;
-                        }
-                        else {
+                        } else {
+                            $scope.isSavedReportGen = false;
                             $scope.reportTypeSelect = 'Schedule As';
                             var url = urlService.scheduledReport($routeParams.reportId);
                         }
