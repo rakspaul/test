@@ -37,6 +37,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.adGroupName = '';
         $scope.lineTarget = '';
         $scope.campaignDate = '' ;
+        $scope.flightDateChosen = '' ;
 
         $scope.checkUniqueMediaPlanNameNotFound = false;
         $scope.executionPlatforms = [];
@@ -53,6 +54,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.kpiValue = '';
 
         $scope.type = {};
+        $scope.advertiserTypeValue = {};
         $scope.lineItemList = [];
         // line item create flags
         $scope.rateReadOnly = false;
@@ -173,10 +175,29 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }, createCampaign.errorHandler);
             },
             fetchRateTypes: function () {
-                workflowService.getRatesTypes().then(function (result) {
-                    $scope.type = result.data.data;
-                    workflowService.setRateTypes(angular.copy($scope.type));
-                })
+                if($scope.selectedCampaign.advertiserId){
+                    workflowService.getRatesTypes($scope.selectedCampaign.clientId,$scope.selectedCampaign.advertiserId).then(function (result) {
+                        if(result.status === "OK" || result.status === "success"){
+                            $scope.type = result.data.data;
+                            workflowService.setRateTypes(angular.copy($scope.type));
+                        }
+                    })
+                    this.fetchBillingTypeValue();
+                }
+
+
+            },
+            fetchBillingTypeValue: function () {
+                if($scope.selectedCampaign.advertiserId){
+                    workflowService.getBillingTypeValue($scope.selectedCampaign.clientId,$scope.selectedCampaign.advertiserId).then(function (result) {
+                        if(result.status === "OK" || result.status === "success"){
+                            $scope.advertiserTypeValue = result.data.data;
+                            workflowService.setAdvertiserTypeValue(angular.copy($scope.advertiserTypeValue));
+                        }
+                    })
+                }
+
+
             },
 
             fetchVendorConfigs: function () {
@@ -242,6 +263,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 }
 
+                //fetch rates based on advertiser and client
+                //createCampaign.fetchRateTypes()
+
                 //set Brand
                 if (campaignData.brandId && campaignData.brandName) {
                     $scope.selectedCampaign.brandName = campaignData.brandName;
@@ -279,7 +303,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.lessdiffDays = momentService.dateDiffInDays($scope.campaignDate , flightDateObj.startTime)  ;
                 }
 
-                if( $scope.campaignDate ) {
+                if( $scope.campaignDate && $scope.flightDateChosen == "automaticFlightDates") {
                     flightDateObj.startTime = $scope.campaignDate ;
                     flightDateObj.endTime = momentService.addDaysCustom(flightDateObj.startTime, 'MM/DD/YYYY', $scope.periodDays);
                 }
@@ -407,28 +431,34 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.selectedCampaign.clientId = data.id;
                         createCampaign.fetchAdvertisers(data.id);
                     }
+                    createCampaign.fetchRateTypes();
                     break;
 
                 case 'subAccount':
 
                     $scope.selectedCampaign.advertiser = '';
+                    $scope.selectedCampaign.advertiserName = 'Select Advertiser';
                     $scope.selectedCampaign.clientId = data.id;
                     $scope.workflowData['advertisers'] = [];
                     createCampaign.fetchAdvertisers(data.id);
+                    $scope.mediaPlanOverviewClient = {'id':data.id,'name':data.name};
                     resetPixelMediaPlan();
                     break;
 
                 case 'advertiser' :
+
                     resetPixelMediaPlan();
                     $scope.workflowData['brands'] = [];
                     $scope.selectedCampaign.brand = '';
                     $scope.selectedCampaign.advertiserId = data.id;
+                    $scope.selectedCampaign.advertiserName = data.name;
                     selectedAdvertiser = data;
                     workflowService.setSelectedAdvertiser(selectedAdvertiser);
 
                     if ($scope.mode === 'create') {
                         $("#brandDDL").parents('.dropdown').find('button').html("Select Brand <span class='icon-arrow-down'></span>");
                     }
+                    $scope.isMediaPlanNameExist();
                     createCampaign.fetchBrands($scope.selectedCampaign.clientId, data.id);
                     $scope.selectedCampaign.selectedPixel = [];
                     createCampaign.platforms(data.id);
@@ -436,6 +466,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     createCampaign.fetchVendorConfigs();
                     $scope.selectedCampaign.resetLineItemParameters(); //close new line item and reset all its fields
                     createCampaign.fetchBillingTypesAndValues();  //make call to fetch billing type and values
+                    createCampaign.fetchRateTypes(); // fetch rates for line item based on advertiser and client
                     $scope.$broadcast('fetch_pixels');
                     break;
 
@@ -579,17 +610,22 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.cloneMediaPlanName = null;
                         $scope.selectedCampaign.resetLineItemParameters();
                         $scope.editLineItem = {};
-                        if($scope.saveMediaPlan){
+                        if(($scope.mode === 'create') && ($scope.mediaPlanOverviewClient != undefined)) {
+                            loginModel.setSelectedClient($scope.mediaPlanOverviewClient); 
+                        }
+                        if($scope.saveMediaPlan && lineItemMode){
                             $rootScope.setErrAlertMessage('Media plan successfully' + ($scope.mode === 'edit' ? ' updated ' : ' created ') , 0);
                             $scope.saveMediaPlan = false;
                             $scope.selectedCampaign.updatedAt = result.data.data.updatedAt;
                             //trigger save the line item now after successful updation of media plan
                             if(lineItemMode === 'create'){
                                 $scope.createNewLineItemInEditMode();
-                            } else {
+                            } else if(lineItemMode === 'edit'){
                                 $scope.updateLineItemInEditMode();
+                            } else if(lineItemMode === 'upload'){
+                                $scope.uploadFileChosenLineItem();
                             }
-
+                            $scope.saveBtnLoader= false;
                         } else {
                             $scope.sucessHandler(result);
                         }
@@ -715,7 +751,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.hideKpiValue = false;
             $scope.client = loginModel.getSelectedClient();
             $scope.isClientDropDownDisable = false;
-            createCampaign.fetchRateTypes();
+            //createCampaign.fetchRateTypes();// remove this
             if ($scope.client.name) {
                 $scope.isClientDropDownDisable = true;
                 $scope.clientName = $scope.client.name;
@@ -737,6 +773,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.cloneMediaPlanName = cloneMediaPlanObj.name;
                     $scope.campaignId = cloneMediaPlanObj.id;
                     $scope.campaignDate = cloneMediaPlanObj.date;
+                    $scope.flightDateChosen = cloneMediaPlanObj.originalFlightdates ;
                     $scope.mode = 'create';
                 }
 
@@ -810,12 +847,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.isMediaPlanNameExist = function () {
             var target = event.target,
-                cloneMediaPlanName = target.value,
+                //cloneMediaPlanName = target.value,
+                cloneMediaPlanName = $scope.selectedCampaign.campaignName,
+                subAccountId=$scope.selectedCampaign.clientId,
                 advertiserId = $scope.selectedCampaign.advertiserId,
                 url;
             $scope.checkUniqueMediaPlanNameNotFound = true;
-            if($scope.selectedCampaign.oldCampaignName != cloneMediaPlanName) {
-                workflowService.checkforUniqueMediaPlan(advertiserId, cloneMediaPlanName).then(function (results) {
+            if($scope.selectedCampaign.oldCampaignName != cloneMediaPlanName && advertiserId) {
+                workflowService.checkforUniqueMediaPlan(subAccountId,advertiserId, cloneMediaPlanName).then(function (results) {
                     $scope.checkUniqueMediaPlanNameNotFound = false;
                     if (results.status === 'OK' || results.status === 'success') {
                         var responseData = results.data.data;

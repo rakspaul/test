@@ -94,7 +94,7 @@
                                             <span class="pull-left col-md-4 zeroPadding text-right" ng-bind="strategy.tech_service_fees_total != null ? (strategy.tech_service_fees_total | currency:undefined:0) : '-'"></span>
                                         </div>
                                         <div class="col-md-1 zeroPadding text-center bold" ng-bind="strategy.gross_rev != null ? (strategy.gross_rev | currency:undefined:0) : '-'"></div>
-                                        <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
+                                        <div class="col-md-1 zeroPadding text-center" ng-bind="strategy.margin != null ? (strategy.margin | number:0) : '-'"></div>
                                     </div>
                                 </div>
                                 <div class="all_startegy_cost">
@@ -119,7 +119,7 @@
                                                     <span class="pull-left col-md-4 zeroPadding text-right" ng-bind="tactic.tech_service_fees_total != null ? (tactic.tech_service_fees_total | currency:undefined:0) : '-'"></span>
                                                 </div>
                                                 <div class="col-md-1 zeroPadding bold text-center" ng-bind="tactic.gross_rev != null ? (tactic.gross_rev | currency:undefined:0) : '-'"></div>
-                                                <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
+                                                <div class="col-md-1 zeroPadding text-center" ng-bind="tactic.margin != null ? (tactic.margin | number:0) : '-'"></div>
                                             </div>
                                         </div>
                                     </div>

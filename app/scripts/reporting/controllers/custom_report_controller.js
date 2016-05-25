@@ -41,6 +41,15 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             'display_quality_metrics',
             'video_quality_metrics'
         ];
+        var metricsTab = [
+            'delivery',
+            'cost',
+            'booked',
+            'engagement',
+            'video',
+            'display_quality',
+            'video_quality'
+        ]
 
         $scope.dataNotFound = false;
         $scope.reportDataBusy = false;
@@ -106,6 +115,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         */
 
         $scope.sortReverse  = false;
+        $scope.sortType = 'abcdefghijklmnopqrstuvwxyz';
         $scope.clickToSort = function(dm) {
             $scope.sortType = dm;
             $scope.sortReverse = !$scope.sortReverse;
@@ -562,12 +572,14 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     });
                     _customctrl.getMetricValues(respData, $scope.selectedMetricsList, 'first_dimension');
                    // var winHeight = $(window).height() - 180;
-                    var height = parseInt($(".custom_report_scroll").css("height"), 10) + (respData.length * 40);
-                    if(_customctrl.reportPageNum_1D == 1) {
-                        // add the height of header + header padding + data container margin + top container padding for the first time
-                        height += $(".heading_row").outerHeight(true) + parseInt($(".custom_report_response_table").css("margin-bottom"),10) + parseInt($(".first_dimension_row_holder").css("padding-top"),10);
-                    }
-                    $(".custom_report_scroll").css({"max-height": height + "px", "height": height + "px"});
+                    _.each(metricsTab,function(tab) {
+                        var cntId = tab + "_table",
+                            height = parseInt($("#" + cntId + " .custom_report_scroll").css("height"), 10) + (respData.length * 40);
+                        if (_customctrl.reportPageNum_1D == 1) {
+                            height += $(".heading_row").outerHeight(true) + parseInt($(".custom_report_response_table").css("margin-bottom"), 10) + parseInt($(".first_dimension_row_holder").css("padding-top"), 10);
+                        }
+                        $("#" + cntId + " .custom_report_scroll").css({"max-height": height + "px", "height": height + "px"});
+                    });
                     attachScrollToWindow();
                 } else {
                     if(_customctrl.reportPageNum_1D == 1) {
@@ -603,10 +615,18 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 return true;
             }
         }
-
+        _customctrl.resetReportDataCnt = function(){
+            $(".custom_report_response_table").hide();
+            $("#delivery_table").show();
+            $(".custom_report_response_tabs").find(".each_tab").removeClass("active");
+            $(".custom_report_response_tabs").find("#delivery_tab").addClass("active");
+            $scope.activeTab = "delivery_metrics";
+            $(".custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row").css("left","0");
+        }
         $scope.generateReport = function(generateReportType) {
             if (validateGenerateReport()) {
                // $(".iconPlus")
+                _customctrl.resetReportDataCnt();
                 if((!isGenerateAlreadyCalled)) {
                     isGenerateAlreadyCalled = true;
                 }
@@ -914,7 +934,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
         $scope.fetchMoreSecondDimensionData = function(ev, value, rowIndex, loadMore) {
             _customctrl.reportPageNum_2D[$scope.activeTab][rowIndex] += 1;
-            $scope.showDataForClikedDimension(ev, value, loadMore);
+            $scope.showDataForClikedDimension(ev, value,rowIndex, loadMore);
         };
 
         _customctrl.isInputsChangedAfterGenerate = function(oldJSON, newJSON){
@@ -954,9 +974,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             return retVal;
         }
 
-        $scope.showDataForClikedDimension = function(ev, value, loadMore) {
+        $scope.showDataForClikedDimension = function(ev, value, rowIndex, loadMore) {
             var winHeight = $(window).height() - 160;
-            $(".custom_report_scroll").css({"min-height": winHeight});
+          //  $(".custom_report_scroll").css({"min-height": winHeight});
 
             var currFirtDimensionElem = $(ev.target).parents(".reportData");
             var currSecondDimensionElem = currFirtDimensionElem.find('.second_dimension_row_holder');
@@ -1024,6 +1044,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                 currFirtDimensionElem.addClass('noDataOpen');
                             }
                         }
+                        var cntId = $scope.activeTab.split('_')[0] + "_table",
+                            height = parseInt($("#"+cntId+" .custom_report_scroll").css("height"), 10) + (respData.length * 36);
+                        $("#"+cntId+" .custom_report_scroll").css({"max-height": height + "px", "height": height + "px"});
                     }
 
                 }, function(currentRowIndex) {
@@ -1038,11 +1061,14 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
             } else {
                 //hide the second dimension data for clcked row
-                $(".custom_report_scroll").css({"min-height": "360px"});
-
+               // $(".custom_report_scroll").css({"min-height": "360px"});
                 if ($(ev.target).closest(".second_dimension_row").length == 0) {
                     _customctrl.hideSecondDimensionData(currFirtDimensionElem, currSecondDimensionElem);
                 }
+                var cntId = $scope.activeTab.split('_')[0] + "_table",
+                    rowLen = $("#"+cntId+" .custom_report_scroll .first_dimension_row_holder .each_row:eq("+rowIndex+") .second_dimension_row").length,
+                    height = parseInt($("#"+cntId+" .custom_report_scroll").css("height"), 10) - (rowLen * 36);
+                $("#"+cntId+" .custom_report_scroll").css({"max-height": height + "px", "height": height + "px"});
             }
         };
 

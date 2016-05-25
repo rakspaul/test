@@ -99,14 +99,14 @@ define(['angularAMD'], function(angularAMD) {
         this.ESTREACH = "Estimated Reach";
         this.CPC = "CPC";
         this.CPA = "CPA";
-        this.ACTION_RATE = "Action rate";
+        this.ACTION_RATE = "Action Rate";
         this.SCREENS = "Screens";
         this.FORMATS = "Formats";
         this.PLATFORMS = "Platforms";
         this.CREATIVES = "Creatives";
         this.VIDEO_PLAYS = "Video Plays";
         this.AD_SIZES = "Ad Sizes";
-        this.DELETE_CREATIVES = "Are you sure you want to delete creatives?"
+        this.DELETE_CREATIVES = "Are you sure you want to archive creatives?"
         this.CPMV = "CPMv";
 
         this.COLLECTIVE_INSIGHTS = "Collective Insights";
@@ -645,7 +645,7 @@ define(['angularAMD'], function(angularAMD) {
         this.MP_BUDGET = 'Budget';
         this.MP_CONTACTS = 'Contacts';
         this.MP_OPTIONAL = 'Optional';
-        this.MP_SAVE = 'Save';
+        this.MP_SAVE = 'Save & Close';
         this.MP_CANCEL = 'Cancel';
         this.MP_WHATIS = 'What is your Media Plan Objective?';
         this.MP_PRIGOAL = 'Primary Goal';
@@ -1035,7 +1035,7 @@ define(['angularAMD'], function(angularAMD) {
         this.TRACKINGONLY = 'Tracking-Only';
         this.DATANOTAVAILABLE = 'Data not available';
         this.UPDATETAG = 'Update Tag';
-        this.CREATIVESDELETE = 'Creatives Delete';
+        this.CREATIVESDELETE = 'Archive Creatives';
         this.TAB_CHANGED = 'tab_changed';
 
        // this.EVENT_CLIENT_CHANGED = 'eventClientChanged';
@@ -1119,7 +1119,7 @@ define(['angularAMD'], function(angularAMD) {
 
         // Media Plan Setup: 2 Pixels
         this.MEDIAPLAN_PIXEL_SELECT = "Select Conversion Pixels (Optional)";
-        this.MEDIAPLAN_PIXEL_REQUIRED = "A Conversion Pixel is required for tracking and reporting conversions and for CPA billing";
+        this.MEDIAPLAN_PIXEL_REQUIRED = "Conversion Pixels are required for conversion reports and CPA billing.";
         this.MEDIAPLAN_PIXEL_SELECTED = "Selected Pixels";
         this.MEDIAPLAN_PIXEL_LIST = 'Pixels in list';
 
@@ -1170,6 +1170,8 @@ define(['angularAMD'], function(angularAMD) {
         this.CAMPAIGN_TOTAL = "Campaign total*:";
         this.INCLUDES_FIXED_COSTS = "*Includes fixed costs";
         this.EXCLUDES_MEDIA_PLAN_FIXED_COSTS = "*Excludes Media Plan fixed costs";
+
+        this.CLIENT_LOADED = "clientLoaded";
 
     });
 });

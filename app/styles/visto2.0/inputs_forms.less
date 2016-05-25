@@ -68,8 +68,27 @@ input:-webkit-autofill:hover, textarea:-webkit-autofill:hover, select:-webkit-au
 }
 
 select {
-    border-radius: 1px;
-    border: 1px solid #ccd2da;
+    border-radius: 2px !important;
+    -webkit-appearance: none;
+    -webkit-border-radius: 2px;
+    
+    padding: 10px 30px 10px 15px;
+    box-shadow: none !important;
+    text-align: center;
+    line-height: 16px;
+    font-size: 14px;
+    height: 36px;
+    width: auto; 
+    
+    cursor: pointer;
+    overflow: hidden;
+    background: url(../../images/cdesk/arrow_down2.png) no-repeat right #fff;
+    border: 1px solid #BFC9D7 !important;
+    background-size: 20px 15px;
+}
+
+select:hover {
+    background-color: #E1EDF9 !important;
 }
 
 .searchInput {

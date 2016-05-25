@@ -354,6 +354,7 @@
   margin: 2px 0 30px 10px;
 }
 .adCreateMaster #targetting .targetingSlide .all-daypart-holder {
+  height: 275px ;
   overflow: auto;
 }
 .adCreateMaster #targetting .targetingSlide .dayRow {
@@ -1839,26 +1840,6 @@
 #campaignCreate .firstWrapper .masterContainer .addRowMedia span:last-child {
   margin-top: 1px;
 }
-#campaignCreate .firstWrapper .masterContainer .createItemList {
-  background: #FEFBF0;
-  padding: 0 10px 10px 10px;
-}
-#campaignCreate .firstWrapper .masterContainer .tableNormal {
-  float: left;
-  width: 100%;
-}
-#campaignCreate .firstWrapper .masterContainer .tableNormal .td {
-  cursor: pointer;
-}
-#campaignCreate .firstWrapper .masterContainer .tableEdit {
-  float: left;
-  width: 100%;
-  display: none;
-  background: #FEFBF0;
-  padding: 0 10px 10px 10px;
-  border: 1px solid rgba(191, 201, 215, 0.5);
-  border-top: 0;
-}
 #campaignCreate .firstWrapper .masterContainer .showAddCreditForm {
   margin-bottom: 5px;
   cursor: pointer;
@@ -2043,6 +2024,17 @@
   padding: 0 10px 10px 10px;
   border: 1px solid rgba(191, 201, 215, 0.5);
   border-top: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .tableEdit .dropdown-toggle.btn[disabled] {
+  background: #eee ;
+  opacity: 1 ;
+  cursor: not-allowed;
+}
+#campaignCreate .firstWrapper .masterContainer .tableEdit .dropdown-toggle.btn[disabled] .icon-arrow-down {
+  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eeeeee 65%);
+  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eeeeee 65%);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #eeeeee 54%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eee', endColorstr='#eee', GradientType=1);
 }
 #campaignCreate .firstWrapper .masterContainer .showAddCreditForm {
   margin-bottom: 5px;
