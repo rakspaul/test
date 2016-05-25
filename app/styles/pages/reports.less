@@ -4643,6 +4643,22 @@ only screen and (min-device-pixel-ratio: 2) {
     .second_dimension_row_holder {
       margin-left: 5px;
       display: block;
+      .sec_dimension_loadingIcon {
+        display: inline-block;
+        position: relative;
+        margin-top: 20px;
+        margin-bottom: 20px ;
+        &:after {
+            content: "";
+            top: -20px;
+            left: -468px;
+            width: 100px;
+            height: 90px;
+            position: absolute;
+            background: #fff;
+            z-index: 3;
+        }
+      }
       .no-data-common {
         margin: 50px 0 50px 408px;
         font-family: "Avenir";
@@ -4689,8 +4705,19 @@ only screen and (min-device-pixel-ratio: 2) {
       .second_dimension_row:last-of-type {
           background-color: #fff;
           z-index: 2;
-          height: 13px;
           border-left: dashed 1px rgb(149, 161, 169);
+          .each_col.tree_string {
+            &:before {
+              content: "";
+              position: absolute;
+              top: 15px;
+              left: -1px;
+              height: 17px;
+              width: 14px;
+              background: #fff;
+              z-index: 1;
+            }
+          }
       }
     }
     .vertical_scroll {
@@ -4985,9 +5012,12 @@ div.reports_tabs_content_container {
     }
   }
   .sec_dimension_load_more {
-    margin-top: 25px;
+    padding: 25px;
     display: block;
     text-indent: 470px;
+    background: #fff;
+    position: relative;
+    z-index: 2;
   }
   .custom_report_scroll {
     .first_dimension_row_holder {
@@ -4999,7 +5029,7 @@ div.reports_tabs_content_container {
     .heading_first_dimension {
       .more_dimension_arrow {
         height: 20px;
-        background-position-y: 8px;
+        background-position-y: 5px;
         margin-top: 0 ;
       }
       &:hover {
