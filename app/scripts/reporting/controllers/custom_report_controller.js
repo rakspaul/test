@@ -2042,7 +2042,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
             $scope.$on('$locationChangeStart', function(event, next) {
                 $scope.intermediateSave();
-                if ($scope.updateScheduleReport && $scope.stopRedirectingPage && ($scope.reports.name != $scope.scheduleResponseData.name || !angular.equals($scope.reports.schedule, $scope.scheduleResponseData.schedule))) {
+                if($scope.buttonLabel == "Update" && $scope.stopRedirectingPage && (!$scope.isSavedReportGen && ($scope.reports.name != $scope.scheduleResponseData.name || !angular.equals($scope.reports.schedule, $scope.scheduleResponseData.schedule)))) {
                     event.preventDefault();
                     $scope.updateSchedule = true;
                     $scope.nextURL = next;
@@ -2310,8 +2310,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         if (localStorageService.scheduleListReportType.get() == "Saved") {
                             var url = urlService.savedReport($routeParams.reportId);
                             $scope.isSavedReportGen = true;
-                        }
-                        else {
+                        } else {
+                            $scope.isSavedReportGen = false;
                             $scope.reportTypeSelect = 'Schedule As';
                             var url = urlService.scheduledReport($routeParams.reportId);
                         }
