@@ -359,7 +359,12 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             newItem.adGroupName = $scope.editLineItem.adGroupName;
             newItem.billableAmount = $scope.editLineItem.billableAmount;
             newItem.volume = $scope.editLineItem.volume;
-            newItem.pricingRate = $scope.editLineItem.pricingRate;
+            // in case pricerate is 30% markup remove the Markup
+            if(typeof $scope.editLineItem.pricingRate === "string"){
+                newItem.pricingRate = Number($scope.editLineItem.pricingRate.split('%')[0]);
+            } else {
+                newItem.pricingRate = $scope.editLineItem.pricingRate;
+            }
             newItem.startTime = $scope.editLineItem.startTime;
             newItem.endTime = $scope.editLineItem.endTime;
             newItem.pixel = $scope.editLineItem.pixelSelected;
