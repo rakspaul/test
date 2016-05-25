@@ -126,9 +126,9 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                     };
 
                     //by default active filter will be applied - (active)
-                    this.appliedQuickFilter = constants.ACTIVE_CONDITION;
-                    this.appliedQuickFilterText = constants.ACTIVE_LABEL;
-                    this.dashboard.status.active.bothItem = constants.ACTIVE;
+                    this.appliedQuickFilter = constants.ALL_CONDITION;
+                    this.appliedQuickFilterText = constants.ALL;
+                    this.dashboard.status.active.all = constants.ACTIVE;
 
                     this.resetFilters = function () {
                         this.campaignList = [];
@@ -232,7 +232,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 self = this;
                                 self.noData = false;
                                 url = _campaignServiceUrl.call(this);
-console.log('url 42: ',url)
+
                                 campaignListService.getCampaigns(url, function (result) {
                                     var data = result.data.data;
 
@@ -687,7 +687,7 @@ console.log('url 42: ',url)
                             this.dashboard.status.paused = '';
                             this.dashboard.status.completed = '';
                             this.dashboard.status.archived = '';
-                            this.dashboard.status.all = '';
+                            this.dashboard.status.active.all = '';
                         },
 
                         setQuickFilter = function (filterToApply) {
