@@ -1183,6 +1183,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     specificMetrics = $scope.customeDimensionData[0].dim_specific_metrics;
                 if (type == 'Primary') {
                     $scope.secondaryDimensionArr  = specificFilter.hasOwnProperty(dimension) ? angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].dimensions);
+                    $scope.secondaryDimensionArr = _.filter($scope.secondaryDimensionArr,function(item){
+                        return item != "conversion_pixel_name";
+                    });
                     $scope.filterList  = specificFilter.hasOwnProperty(dimension) ? angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].filters);
                     if(!$scope.reports.reportDefinition.dimensions.primary.name) {
                         $scope.showAddBreakdownButton = true;
@@ -2113,6 +2116,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
                     //if a dimension is selected as Primary it should not appear in secondary
                     $scope.secondaryDimensionArr = angular.copy($scope.customeDimensionData[0].dimensions);
+                    $scope.secondaryDimensionArr = _.filter($scope.secondaryDimensionArr,function(item){
+                        return item != "conversion_pixel_name";
+                    });
                     var removeIndex = ($scope.secondaryDimensionArr).indexOf(obj.dimension);
                     $scope.secondaryDimensionArr.splice(removeIndex,1);
 
