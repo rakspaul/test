@@ -1395,7 +1395,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         };
         function attachScrollToWindow() {
              $(window).scroll(function () {
-                  if (!$scope.fetching && (($(window).scrollTop() + $(window).height()) >= $(document).height())) {
+                  if (!$scope.fetching && (($(window).scrollTop() + $(window).height()) >= $(document).height() - 100)) {
                         _customctrl.loadMoreItems();
                   }
              });
