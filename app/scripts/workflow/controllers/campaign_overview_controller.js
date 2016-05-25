@@ -787,6 +787,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.isMinimumAdGroupBudget = true;
                 $scope.isMaximumAdGroupBudget = true;
 
+                $scope.adGroupData.lineitemName = null;
+
                 $scope.showCreateAdGrp = !$scope.showCreateAdGrp;
                 adGroupCreateformElem[0].reset();
                 $scope.$broadcast('show-errors-reset');
