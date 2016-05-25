@@ -443,7 +443,12 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 $scope.hideAdGroupNameEdit = false;
                 $scope.showPixelsListEdit = false;
                 //$scope.editLineItem.pricingRate = (obj.pricingRate)?obj.pricingRate:'';
-                $scope.editLineItem.adGroupName =  $scope.editLineItem.lineItemName;
+
+                /*  this is to set line ad group name to line item name in case adGroup is empty
+                    this is to not blindly set ad group name to line item name in create mode */
+                if($scope.editLineItem.adGroupName === ''){
+                    $scope.editLineItem.adGroupName =  $scope.editLineItem.lineItemName;
+                }
 
                 if (CONST_COGS_PERCENT === $scope.editLineItem.lineItemType.name) {
 
