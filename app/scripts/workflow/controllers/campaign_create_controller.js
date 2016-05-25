@@ -500,6 +500,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         changeDate = moment(startTime).format(constants.DATE_US_FORMAT);
                         endDateElem.datepicker("setStartDate", changeDate);
                         endDateElem.datepicker("update", changeDate);
+                    } else {
+                        endDateElem.datepicker("setStartDate", startTime);
                     }
                 }
             } else {
