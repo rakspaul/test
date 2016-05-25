@@ -13,6 +13,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             CONST_POST_CLICK_CPA = 'Post-Click CPA',
             oldLineItem,
             oldLineItemIndex;
+        $scope.CONST_COGS_PERCENT = 'COGS+ %';
         $scope.CONST_FLAT_FEE = 'Flat Fee';
         $scope.pixelSelected = {};
         $scope.pixelSelected.name = 'Select from list';
