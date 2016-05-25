@@ -13,6 +13,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             CONST_POST_CLICK_CPA = 'Post-Click CPA',
             oldLineItem,
             oldLineItemIndex;
+        $scope.CONST_COGS_PERCENT = 'COGS+ %';
         $scope.CONST_FLAT_FEE = 'Flat Fee';
         $scope.pixelSelected = {};
         $scope.pixelSelected.name = 'Select from list';
@@ -25,6 +26,8 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         $scope.showConfirmPopupCreate = false;
         $scope.showConfirmPopupEdit = false;
         $scope.showConfirmPopupBulkUpload = false;
+
+
 
 /*---START------BULK LineItem Upload Section---------*/
 
@@ -71,6 +74,9 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 $scope.showConfirmPopupBulkUpload = true;
             } else {
                 if($scope.selectedCampaign.lineItemfile){
+                    //bulk upload loader flag
+                    $scope.bulkUploadItemLoaderEdit = true;
+
                     var clientId = ($scope.selectedCampaign.clientId)? $scope.selectedCampaign.clientId:loginModel.getSelectedClient().id;
                     var url= vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + $routeParams.campaignId
                         + '/lineitems/bulkUpload';
@@ -96,9 +102,13 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                                 }
                             });
                             $scope.clearFileSelected();
+                            //bulk upload loader
+                            $scope.bulkUploadItemLoaderEdit = false;
                         }, function (response) {
                             $scope.uploadBusy = false;
                             $scope.uploadErrorMsg = "Unable to upload the file.";
+                            //bulk upload loader
+                            $scope.bulkUploadItemLoaderEdit = false;
                         });
                     })($scope.selectedCampaign.lineItemfile);
                 }
@@ -108,6 +118,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
         $scope.cancelMediaPlanUpload = function(){
             $scope.showConfirmPopupBulkUpload = false;
+            $scope.bulkUploadItemLoaderEdit = false;
         }
 
         /*Function to download error log, when some rows in upload fails to upload*/
@@ -185,6 +196,9 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 return false;
             }
 
+            //loader for save button
+            $scope.createNewLineItemLoaderEdit = true;
+
             //if we have to save the media plan prior to line item
             $scope.showConfirmPopupCreate = false;
             if($scope.saveMediaPlan){
@@ -216,11 +230,13 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                         $scope.selectedCampaign.resetLineItemParameters();
                         newItem = createLineItemObj();
                         workflowService.setLineItemData(null);
-
                     } else {
                         $rootScope.setErrAlertMessage(results.data.data.message );
                         workflowService.setLineItemData(null);
                     }
+                    //hide loader
+                    $scope.createNewLineItemLoader = false;
+                    $scope.createNewLineItemLoaderEdit = false;
                 });
             }
 
@@ -229,6 +245,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
         $scope.cancelMediaPlanCreation = function(){
             $scope.showConfirmPopupCreate = false;
+            $scope.createNewLineItemLoaderEdit = false;
         }
 
         $scope.$parent.updateLineItemInEditMode = function () {
@@ -248,6 +265,10 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
                 return false;
             }
+
+            //loader for update buton
+            $scope.editLineItemLoaderEdit = true;
+
             //if we have to save the media plan prior to line item
             $scope.showConfirmPopupEdit = false;
             if($scope.saveMediaPlan){
@@ -282,12 +303,17 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                     } else {
                         $rootScope.setErrAlertMessage(results.data.data.message );
                     }
+                    $scope.editLineItemLoader = false;
+                    $scope.editLineItemLoaderEdit = false;
+
                 });
             }
         };
 
         $scope.cancelMediaPlanCreationEdit = function(){
             $scope.showConfirmPopupEdit = false;
+            $scope.editLineItemLoaderEdit = false;
+
         }
 
         function createLineItemObj(lineItemObj) {
@@ -334,7 +360,12 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             newItem.adGroupName = $scope.editLineItem.adGroupName;
             newItem.billableAmount = $scope.editLineItem.billableAmount;
             newItem.volume = $scope.editLineItem.volume;
-            newItem.pricingRate = $scope.editLineItem.pricingRate;
+            // in case pricerate is 30% markup remove the Markup
+            if(typeof $scope.editLineItem.pricingRate === "string"){
+                newItem.pricingRate = Number($scope.editLineItem.pricingRate.split('%')[0]);
+            } else {
+                newItem.pricingRate = $scope.editLineItem.pricingRate;
+            }
             newItem.startTime = $scope.editLineItem.startTime;
             newItem.endTime = $scope.editLineItem.endTime;
             newItem.pixel = $scope.editLineItem.pixelSelected;
@@ -412,7 +443,12 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 $scope.hideAdGroupNameEdit = false;
                 $scope.showPixelsListEdit = false;
                 //$scope.editLineItem.pricingRate = (obj.pricingRate)?obj.pricingRate:'';
-                $scope.editLineItem.adGroupName =  $scope.editLineItem.lineItemName;
+
+                /*  this is to set line ad group name to line item name in case adGroup is empty
+                    this is to not blindly set ad group name to line item name in create mode */
+                if($scope.editLineItem.adGroupName === ''){
+                    $scope.editLineItem.adGroupName =  $scope.editLineItem.lineItemName;
+                }
 
                 if (CONST_COGS_PERCENT === $scope.editLineItem.lineItemType.name) {
 

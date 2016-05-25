@@ -96,6 +96,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.lineItemdiffDays = 0;
         $scope.newdiffDays = 0 ;
 
+        //loader Flags - popup loader
+        $scope.createNewLineItemLoader = false;
+        $scope.editLineItemLoader = false;
+        $scope.bulkUploadItemLoader = false;
+        //loader Flags - normal edit save button loader
+        $scope.createNewLineItemLoaderEdit = false;
+        $scope.editLineItemLoaderEdit = false;
+        $scope.bulkUploadItemLoaderEdit = false;
+
         if (!loginModel.getMasterClient().isLeafNode) {
             $scope.showSubAccount = true;
         }
@@ -604,6 +613,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     postDataObj.campaignId = $routeParams.campaignId;
                 }
 
+                //display loader
+                if(lineItemMode === 'create'){
+                    $scope.createNewLineItemLoader = true;
+                } else if(lineItemMode === 'edit'){
+                    $scope.editLineItemLoader = true;
+                } else if(lineItemMode === 'upload'){
+                    $scope.bulkUploadItemLoader = true;
+                }
+
+
                 workflowService[($scope.mode === 'edit' && !$scope.cloneMediaPlanName) ? 'updateCampaign' : 'saveCampaign'](postDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         workflowService.setMediaPlanClone(null);
@@ -611,7 +630,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.selectedCampaign.resetLineItemParameters();
                         $scope.editLineItem = {};
                         if(($scope.mode === 'create') && ($scope.mediaPlanOverviewClient != undefined)) {
-                            loginModel.setSelectedClient($scope.mediaPlanOverviewClient); 
+                            loginModel.setSelectedClient($scope.mediaPlanOverviewClient);
                         }
                         if($scope.saveMediaPlan && lineItemMode){
                             $rootScope.setErrAlertMessage('Media plan successfully' + ($scope.mode === 'edit' ? ' updated ' : ' created ') , 0);
