@@ -1,6 +1,6 @@
 define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'common/moment_utils',
-    'common/services/vistoconfig_service', 'workflow/controllers/get_adgroups_controller',
-    'workflow/directives/edit_ad_group_section','login/login_model', 'workflow/controllers/campaign_clone_controller', 'workflow/controllers/mediaplan_archive_controller'],
+        'common/services/vistoconfig_service', 'workflow/controllers/get_adgroups_controller',
+        'workflow/directives/edit_ad_group_section', 'login/login_model', 'workflow/controllers/campaign_clone_controller', 'workflow/controllers/mediaplan_archive_controller'],
     function (angularAMD) {
         angularAMD.controller('CampaignOverViewController', function ($scope, $modal, $rootScope, $routeParams,
                                                                       $timeout, $location, $route, constants,
@@ -12,12 +12,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         end = momentService.utcToLocalTime(campaignData.endTime),
                         start = momentService.utcToLocalTime(campaignData.startTime);
 
-                    campaignData.numOfDays = moment(end).diff(moment(start), 'days') +  1 ;
+                    campaignData.numOfDays = moment(end).diff(moment(start), 'days') + 1;
 
-                    $scope.isEndDateInPast =  moment().isAfter(end, 'day');
+                    $scope.isEndDateInPast = moment().isAfter(end, 'day');
                 },
 
-                getLineItems : function (callback) {
+                getLineItems: function (callback) {
                     var campaignId = $scope.workflowData.campaignData.id;
 
                     workflowService
@@ -58,7 +58,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                         $scope.primaryKpiSelected = responseData.kpiType;
                                     }
                                 }
-                                $scope.labels=responseData.labels;
+                                $scope.labels = responseData.labels;
 
                                 $scope.campaignStartTime =
                                     momentService.utcToLocalTime($scope.workflowData.campaignData.startTime);
@@ -321,9 +321,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         });
                 },
 
-                getLineItem : function (lineItemId) {
+                getLineItem: function (lineItemId) {
                     return _.filter($scope.lineItems, function (obj) {
-                        return obj.id ===  lineItemId;
+                        return obj.id === lineItemId;
                     })[0];
                 },
 
@@ -388,7 +388,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.adGroupsNoData = false;
             $scope.isAdGroupsBusy = false;
             $scope.adGroupData = {};
-            $scope.labels=[];
+            $scope.labels = [];
 
             $scope.DownloadTrackingTags = function () {
                 var clientId = loginModel.getSelectedClient().id,
@@ -498,7 +498,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var fparams = featuresService.getFeatureParams();
             $scope.showAdSetUp = 'fparams[0].ad_setup';
 
-            $rootScope.$on('features',function () {
+            $rootScope.$on('features', function () {
                 var fparams = featuresService.getFeatureParams();
                 $scope.showAdSetUp = 'fparams[0].ad_setup';
             });
@@ -738,6 +738,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                     return [a, b];
                 }
+
                 return $scope.sizeString;
             };
 
@@ -761,7 +762,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     // - When not in search mode (except in #2 scenario above).
                     // - When performing search using the exact search term as the last search.
                     if (($scope.isAdGroupsSearched && $scope.adGroupsSearch.termChanged) ||
-                            $scope.isAdGroupsSearchReset) {
+                        $scope.isAdGroupsSearchReset) {
                         $scope.isAdGroupsSearchReset = false;
                         $scope.adGroupsSearch.termChanged = false;
                         $scope.workflowData.getADsForGroupData[index] = null;
@@ -795,7 +796,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.adGroupMinBudget = 0;
 
                 if ($scope.workflowData.campaignAdsData && $scope.workflowData.campaignAdsData.length > 0) {
-                    campaignAdsData  = $scope.workflowData.campaignAdsData;
+                    campaignAdsData = $scope.workflowData.campaignAdsData;
 
                     $scope.adGroupMinBudget = campaignAdsData.reduce(function (memo, obj) {
                         return memo + (obj.cost || 0);
@@ -867,7 +868,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             };
 
-            $scope.resetAdsData  = function () {
+            $scope.resetAdsData = function () {
                 $scope.independantAdData = {};
             };
 
@@ -937,7 +938,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     .removeAttr('disabled')
                     .css({'background': 'transparent'});
 
-                if (!$scope.workflowData.campaignData ||  ($scope.workflowData.campaignAdsData &&
+                if (!$scope.workflowData.campaignData || ($scope.workflowData.campaignAdsData &&
                     $scope.workflowData.campaignAdsData.length > 0)) {
                     return;
                 }
@@ -961,17 +962,25 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         var errMsg;
 
                         data = data || '';
+
                         $scope.downloadingTracker = false;
 
-                        if (data && data.data && data.data.data.data[0]) {
-                            errMsg = _.values(data.data.data.data[0])[0];
+                        if (data && data.data) {
+                            errorData = data.data.data;
+                            if (errorData.message) {
+                                errMsg = errorData.message;
+                            }
+
+                            if (errorData.data && errorData.data[0]) {
+                                errMsg = _.values(errorData.data[0])[0];
+                            }
                         }
 
                         $rootScope.setErrAlertMessage(errMsg);
                     },
 
-                    isCampaignHasAds =  $scope.workflowData.campaignAdsData &&
-                        $scope.workflowData.campaignAdsData.length > 0 ? true : false;
+                    isCampaignHasAds = $scope.workflowData.campaignAdsData &&
+                    $scope.workflowData.campaignAdsData.length > 0 ? true : false;
 
                 $scope.$broadcast('show-errors-check-validity');
                 $scope.loadingBtn = true;
@@ -1005,41 +1014,41 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }
 
                     workflowService[formData.adgroupId ? 'editAdGroups' : 'createAdGroups']
-                        ($routeParams.campaignId, postCreateAdObj).then(function (result) {
-                            if (result.status === 'OK' || result.status === 'success') {
-                                $scope.loadingBtn = false;
-                                formElem[0].reset();
-                                $scope.$broadcast('show-errors-reset');
-                                $scope.showCreateAdGrp = !$scope.showCreateAdGrp;
-                                $scope.createGroupMessage = !$scope.createGroupMessage;
+                    ($routeParams.campaignId, postCreateAdObj).then(function (result) {
+                        if (result.status === 'OK' || result.status === 'success') {
+                            $scope.loadingBtn = false;
+                            formElem[0].reset();
+                            $scope.$broadcast('show-errors-reset');
+                            $scope.showCreateAdGrp = !$scope.showCreateAdGrp;
+                            $scope.createGroupMessage = !$scope.createGroupMessage;
 
-                                if (formData.adgroupId) {
-                                    $scope.createAdGroupMessage = 'Ad Group Edited Successfully';
-                                    localStorage.setItem('topAlertMessage',
-                                        $scope.textConstants.AD_GROUP_EDITED_SUCCESS);
-                                } else {
-                                    $scope.createAdGroupMessage =
-                                        isCampaignHasAds ? 'Successfully grouped Ads' : 'Ad Group Created Successfully';
-                                    localStorage.setItem('topAlertMessage',
-                                        $scope.textConstants.AD_GROUP_CREATED_SUCCESS);
-                                }
-
-                                $route.reload();
+                            if (formData.adgroupId) {
+                                $scope.createAdGroupMessage = 'Ad Group Edited Successfully';
+                                localStorage.setItem('topAlertMessage',
+                                    $scope.textConstants.AD_GROUP_EDITED_SUCCESS);
                             } else {
-                                $scope.loadingBtn = false;
-
-                                if (result.status === 'error' && result.data.status === 400) {
-                                    adGroupSaveErrorHandler(result);
-                                } else {
-                                    $scope.createGroupMessage = !$scope.createGroupMessage;
-                                    $scope.createAdGroupMessage = 'Ad Group not Created';
-                                }
+                                $scope.createAdGroupMessage =
+                                    isCampaignHasAds ? 'Successfully grouped Ads' : 'Ad Group Created Successfully';
+                                localStorage.setItem('topAlertMessage',
+                                    $scope.textConstants.AD_GROUP_CREATED_SUCCESS);
                             }
-                        });
+
+                            $route.reload();
+                        } else {
+                            $scope.loadingBtn = false;
+
+                            if (result.status === 'error' && result.data.status === 400) {
+                                adGroupSaveErrorHandler(result);
+                            } else {
+                                $scope.createGroupMessage = !$scope.createGroupMessage;
+                                $scope.createAdGroupMessage = 'Ad Group not Created';
+                            }
+                        }
+                    });
                 }
             };
 
-            $scope.goEdit = function (adsData ,unallocatedBudget, adGroupsData) {
+            $scope.goEdit = function (adsData, unallocatedBudget, adGroupsData) {
                 var campaignId = adsData.campaignId,
                     adsId = adsData.id,
                     groupId = adsData.adGroupId,
@@ -1047,9 +1056,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     lineItemId = adGroupsData.adGroup.lineitemId;
 
                 workflowService.setUnallocatedAmount(unallocatedBudget);
-                localStorage.setItem('unallocatedAmount',unallocatedBudget);
-                localStorage.setItem('groupBudget',Number(groupBudget));
-                $scope.editAdforAdGroup(campaignId , adsData.startTime, adsData.endTime, adsId, groupId, lineItemId);
+                localStorage.setItem('unallocatedAmount', unallocatedBudget);
+                localStorage.setItem('groupBudget', Number(groupBudget));
+                $scope.editAdforAdGroup(campaignId, adsData.startTime, adsData.endTime, adsId, groupId, lineItemId);
             };
 
             $scope.editAdforAdGroup = function (campaignId, stTime, edTime, adsId, groupId, lineItemId) {
@@ -1064,9 +1073,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 if (groupId && adsId) {
                     path = '/mediaplan/' + campaignId +
-                           '/lineItem/' + lineItemId +
-                           '/adGroup/' + groupId +
-                           '/ads/' + adsId + '/edit';
+                        '/lineItem/' + lineItemId +
+                        '/adGroup/' + groupId +
+                        '/ads/' + adsId + '/edit';
                 }
 
                 $location.path(path);
@@ -1101,7 +1110,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.calculateSpendBudget = function (adGroupsData) {
                 var deliveryBudget = $scope.calculateBudget(adGroupsData);
 
-                if (parseInt(deliveryBudget) === 0 ) {
+                if (parseInt(deliveryBudget) === 0) {
                     return 0;
                 } else {
                     if (adGroupsData.bookedSpend && adGroupsData.bookedSpend > 0) {
@@ -1112,7 +1121,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             };
 
-            $scope.pixelsDownload =  function () {
+            $scope.pixelsDownload = function () {
                 var clientId = loginModel.getSelectedClient().id,
                     campaignId = $scope.workflowData.campaignData.id;
 
