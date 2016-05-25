@@ -1181,10 +1181,12 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             if (dimension != undefined) {
                 var specificFilter = $scope.customeDimensionData[0].dim_specific_filters,
                     specificMetrics = $scope.customeDimensionData[0].dim_specific_metrics;
-                $scope.secondaryDimensionArr  = specificFilter.hasOwnProperty(dimension) ? angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].dimensions);
-                $scope.filterList  = specificFilter.hasOwnProperty(dimension) ? angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].filters);
                 if (type == 'Primary') {
-                    $scope.showAddBreakdownButton = true;
+                    $scope.secondaryDimensionArr  = specificFilter.hasOwnProperty(dimension) ? angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].dimensions);
+                    $scope.filterList  = specificFilter.hasOwnProperty(dimension) ? angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].filters);
+                    if(!$scope.reports.reportDefinition.dimensions.primary.name) {
+                        $scope.showAddBreakdownButton = true;
+                    }
                     $scope.reports.reportDefinition.dimensions.primary.name = $scope.displayName[dimension];
                     $scope.reports.reportDefinition.dimensions.primary.dimension = (dimension == undefined) ? dimension.dimension : dimension;
 
