@@ -233,6 +233,9 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                     } else {
                         $rootScope.setErrAlertMessage(results.data.data.message );
                         workflowService.setLineItemData(null);
+                        //hide loader
+                        $scope.createNewLineItemLoader = false;
+                        $scope.createNewLineItemLoaderEdit = false;
                     }
                     //hide loader
                     $scope.createNewLineItemLoader = false;
