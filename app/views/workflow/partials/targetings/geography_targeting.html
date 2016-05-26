@@ -12,7 +12,7 @@
         <h2>{{adData.geoTargetName}} <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>({{locale.id === 'en-gb' ? 'UK' : 'US'}} only)</span></h2>
         <div class="tooltipWrap zipCodeTooltip" ng-show="enableZipCodePopUp">
             <span data-ng-bind="textConstants.INCZIP"></span>
-            <a ng-href="#" class="btn btn-primary pull-right" ng-click="showGeographyTabsBox(null, 'zip', false);" role="button" data-ng-bind="textConstants.CONTINUE"></a>
+            <a ng-href="#" class="btn btn-primary pull-right" style="margin: 0;" ng-click="showGeographyTabsBox(null, 'zip', false);" role="button" data-ng-bind="textConstants.CONTINUE"></a>
             <a href="#" ng-click="hidezipCodeTooltip()" class="btn btn-link pull-right"  role="button" data-ng-bind="textConstants.CANCEL"></a>
         </div>
 
@@ -34,13 +34,13 @@
                           </span>
                         </div>
                         <div class="col-md-12 zeroPadding">
-                            <div class="pull-left zeroPadding regionCityTab" ng-show="selectedTab !== 'dmas'">
-                                <ul class="nav nav-tabs">
-                                    <li class="tab_region_holder active"><!-- add tooltip_holder when you want the tooltip to be visible -->
+                            <div class="pull-left zeroPadding btn-group regionCityTab radioBtnToggle" ng-show="selectedTab !== 'dmas'">
+                                <ul class="nav nav-tabs miniToggle">
+                                    <li class="btn btn-default tab_region_holder active"><!-- add tooltip_holder when you want the tooltip to be visible -->
                                         <a data-target="#region"  id="tab_region"  data-toggle="tab" ng-click="listRegions('', $event);" data-ng-bind="textConstants.REGION"></a>
                                         <span class="common_tooltip" style="display:none;" data-ng-bind="textConstants.INCEXCCITYNOTE"></span>
                                     </li>
-                                    <li id="cityTab" ng-show="showCitiesTab"><a data-target="#city" ng-click ="listCities($event);" data-toggle="tab" data-ng-bind="textConstants.CITY"></a></li>
+                                    <li class="btn btn-default" id="cityTab" ng-show="showCitiesTab"><a data-target="#city" ng-click ="listCities($event);" data-toggle="tab" data-ng-bind="textConstants.CITY"></a></li>
                                 </ul>
                             </div>
                             <div class="col-md-4 zeroPadding switchWrap" ng-show="selectedTab !== 'dmas'">

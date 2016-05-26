@@ -51,7 +51,10 @@ select {
     color: #57606d;
     font-size: 14px;
     border: 1px solid #BFC9D7;
-
+    background: #fff;
+    &:hover {
+        border: 1px solid #939EAE;
+    }
     &:not(.label-btn):hover {
         background: #e1edf9;
         box-shadow: none !important;
@@ -97,14 +100,7 @@ select {
             border-radius: 0;
             box-shadow: none;
 
-            &:hover {
-                background-color: #0564A9;
-                color: #363D49;
-                border: 1px solid #BFC9D7;
-                span {
-                    color: #363D49;
-                }
-            }
+            
 
             &.active,
             &.active:hover {
@@ -113,6 +109,15 @@ select {
                 color: #363D49;
                 box-shadow: none;
 
+                span {
+                    color: #363D49;
+                }
+            }
+            
+            &:hover {
+                background-color: #0564A9;
+                color: #363D49;
+                border: 1px solid #BFC9D7;
                 span {
                     color: #363D49;
                 }
@@ -144,6 +149,8 @@ select {
 
 // Big Toggle BTN
 .goalBtnGroup {
+    float: left;
+    cursor: pointer;
     .btn-primary {
         border-radius: 0;
         width: auto;
@@ -174,28 +181,27 @@ select {
         }
 
         &.active {
-            background-color: #0978C9;
-            border-right: 1px solid #0978C9 !important;
-            color: #ffffff;
+            background-color: #DCE6F1 !important;
             box-shadow: none;
+            color:#363D49;
 
             span {
-                color: #fff;
+                color:#363D49;
             }
             
             &.hover {
                 .hideRadioBtn {
                     color: #363D49 !important;
-                    background-color: #0564A9 !important;
+                    background-color: transparent !important;
                     span {
-                        background-color: #0564A9 !important;
+                        color:#363D49;
                     }
                 }
             }
 
             .hideRadioBtn {
                 color: #363D49 !important;
-                background-color: #0978C9 !important;
+                background-color: transparent !important;
             }
         }
 
@@ -215,24 +221,6 @@ select {
         position: relative;
         height: 60px;
         margin-top: 10px;
-
-        &.active {
-            .hideRadioBtn:hover {
-                color: #363D49;
-            }
-
-            .hideRadioBtn {
-                //background-color: #0978C9;
-                color: #ffffff;
-                box-shadow: none;
-
-                [class^="icon-"],
-                [class*=" icon-"] {
-                    color: #fff;
-                }
-            }
-        }
-
         .hideRadioBtn {
             top: 0;
             left: 0;
@@ -240,19 +228,11 @@ select {
             height: 100%;
             margin-top: -15px;
             margin-bottom: 0;
-
             img,
             [class^="icon-"],
             [class*=" icon-"] {
                 float: left;
             }
-        }
-    }
-    
-    .btn-primary.active:hover {
-        background-color: #0564A9 !important;
-        .hideRadioBtn {
-            background-color: #0564A9 !important;
         }
     }
 }
@@ -445,42 +425,33 @@ input.cmn-toggle-round:checked + label:after {
 
 // Button With Check Boxes
 .screenChkSelection {
-    .btn_border {
-        background: #fff;
-        border: 1px solid #BFC9D7;
-        border-radius: 2px;
+    .btn-default {
         float: left;
-        padding: 10px 15px;
+        padding: 9px 15px;
         width: auto;
         cursor: pointer;
-        &.active {
-            background: #0978c9;
-            border: 1px solid #0978c9;
-
-            &:hover {
-                background: #0978c9;
-            }
-
-            [class^="icon-"],
-            [class*=" icon-"],
-            .btnLabel {
-                color: #fff;
-                font-weight: normal;
-            }
-
-            input[type="checkbox"] {
-                background: #fff;
-                color: #0978C9;
-            }
-        }
-
+        color:#363D49;
+        background-color:#ffffff;
+        font-family: Avenir;
+        border-radius: 2px;
+        border: 1px solid #BFC9D7 !important;
+        margin-right: 15px;
+        
         &:hover {
-            background: #E1EDF9;
+            background-color: #E1EDF9 !important;
+            border: 1px solid #939EAE !important;
+        }
+        
+        &.active {
+            background-color: #DCE6F1 !important;
+            border: 1px solid #BFC9D7 !important;
+            box-shadow: none;
         }
 
         label {
             float: left;
             cursor: pointer;
+            margin: 0;
             .btnLabel {
                 float: left;
                 font-weight: normal;
@@ -500,6 +471,7 @@ input.cmn-toggle-round:checked + label:after {
                 margin: 0;
                 position: relative;
                 width: 16px;
+                float: left;
 
                 &:checked {
                     background: #fff;
