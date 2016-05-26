@@ -108,13 +108,13 @@ select {
 
             &.active,
             &.active:hover {
-                background-color: #0978C9 !important;
-                border: 1px solid #0978C9;
-                color: #ffffff;
+                background-color: #DCE6F1 !important;
+                border: 1px solid #BFC9D7;
+                color: #363D49;
                 box-shadow: none;
 
                 span {
-                    color: #fff;
+                    color: #363D49;
                 }
             }
 
@@ -131,7 +131,7 @@ select {
             &.whitelist.active.disabled,
             &.blacklist.active.disabled {
                 /* Override for Inventory whitelist/blacklist toggle active button */
-                border: 1px solid #0978C9;
+                //border: 1px solid #0978C9;
                 opacity: 1;
             }
 
@@ -159,11 +159,12 @@ select {
         padding: 10px 15px;
 
         &:hover {
+            background: #E1EDF9 !important;
             .hideRadioBtn {
-                background-color: #0564A9 !important;
+                background-color: none !important;
                 span, [class^="icon-"], [class*=" icon-"] {
-                    color: #fff;
-                    background: #0564A9 !important;
+                    color: #363D49;
+                    background: none !important;
                 }
             }
         }
@@ -440,6 +441,72 @@ input.cmn-toggle-round:checked + label:before {
 
 input.cmn-toggle-round:checked + label:after {
     margin-left: 49px;
+}
+
+// Button With Check Boxes
+.screenChkSelection {
+    .btn_border {
+        background: #fff;
+        border: 1px solid #BFC9D7;
+        border-radius: 2px;
+        float: left;
+        padding: 10px 15px;
+        width: auto;
+        cursor: pointer;
+        &.active {
+            background: #0978c9;
+            border: 1px solid #0978c9;
+
+            &:hover {
+                background: #0978c9;
+            }
+
+            [class^="icon-"],
+            [class*=" icon-"],
+            .btnLabel {
+                color: #fff;
+                font-weight: normal;
+            }
+
+            input[type="checkbox"] {
+                background: #fff;
+                color: #0978C9;
+            }
+        }
+
+        &:hover {
+            background: #E1EDF9;
+        }
+
+        label {
+            float: left;
+            cursor: pointer;
+            .btnLabel {
+                float: left;
+                font-weight: normal;
+                line-height: 100%;
+                margin-top: 2px;
+                padding: 0;
+            }
+
+            [class^="icon-"],
+            [class*=" icon-"] {
+                float: left;
+                margin: 0 10px;
+            }
+
+            input[type="checkbox"] {
+                height: 16px;
+                margin: 0;
+                position: relative;
+                width: 16px;
+
+                &:checked {
+                    background: #fff;
+                }
+            }
+        }
+    }
 }
 
 //Pills Styling
