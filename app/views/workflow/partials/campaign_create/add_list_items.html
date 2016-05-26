@@ -452,7 +452,7 @@
                 </div>
         </div>
 
-        <a class="btn btn-primary pull-right" ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()" ng-bind="textConstants.SAVE_CHANGES" ng-show="!editLineItemLoaderEdit"></a>
+        <a class="btn btn-primary pull-right" ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()" data-ng-disabled="!editLineItem.lineItemName || !editLineItem.billableAmount" ng-bind="textConstants.SAVE_CHANGES" ng-show="!editLineItemLoaderEdit"></a>
         <div ng-show ="editLineItemLoaderEdit" class="pull-right common-loading-btn" ></div>
         <a class="btn btn-link pull-right cancelLineItem" ng-click="hideLineItemEditRow($event);">Cancel</a>
         <!--confirm message in edit mode-->
