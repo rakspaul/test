@@ -43,6 +43,10 @@ select {
   color: #57606d;
   font-size: 14px;
   border: 1px solid #BFC9D7;
+  background: #fff;
+}
+.btn-default:hover {
+  border: 1px solid #939EAE;
 }
 .btn-default:not(.label-btn):hover {
   background: #e1edf9;
@@ -80,14 +84,6 @@ select {
   border-radius: 0;
   box-shadow: none;
 }
-.radioBtnToggle .miniToggle .btn-default:hover {
-  background-color: #0564A9;
-  color: #363D49;
-  border: 1px solid #BFC9D7;
-}
-.radioBtnToggle .miniToggle .btn-default:hover span {
-  color: #363D49;
-}
 .radioBtnToggle .miniToggle .btn-default.active,
 .radioBtnToggle .miniToggle .btn-default.active:hover {
   background-color: #DCE6F1 !important;
@@ -97,6 +93,14 @@ select {
 }
 .radioBtnToggle .miniToggle .btn-default.active span,
 .radioBtnToggle .miniToggle .btn-default.active:hover span {
+  color: #363D49;
+}
+.radioBtnToggle .miniToggle .btn-default:hover {
+  background-color: #0564A9;
+  color: #363D49;
+  border: 1px solid #BFC9D7;
+}
+.radioBtnToggle .miniToggle .btn-default:hover span {
   color: #363D49;
 }
 .radioBtnToggle .miniToggle .btn-default:first-child {
@@ -114,6 +118,10 @@ select {
 }
 .radioBtnToggle .miniToggle .btn-default span {
   color: #363D49;
+}
+.goalBtnGroup {
+  float: left;
+  cursor: pointer;
 }
 .goalBtnGroup .btn-primary {
   border-radius: 0;
@@ -145,24 +153,23 @@ select {
   border-left: 1px solid #BFC9D7;
 }
 .goalBtnGroup .btn-primary.active {
-  background-color: #0978C9;
-  border-right: 1px solid #0978C9 !important;
-  color: #ffffff;
+  background-color: #DCE6F1 !important;
   box-shadow: none;
+  color: #363D49;
 }
 .goalBtnGroup .btn-primary.active span {
-  color: #fff;
+  color: #363D49;
 }
 .goalBtnGroup .btn-primary.active.hover .hideRadioBtn {
   color: #363D49 !important;
-  background-color: #0564A9 !important;
+  background-color: transparent !important;
 }
 .goalBtnGroup .btn-primary.active.hover .hideRadioBtn span {
-  background-color: #0564A9 !important;
+  color: #363D49;
 }
 .goalBtnGroup .btn-primary.active .hideRadioBtn {
   color: #363D49 !important;
-  background-color: #0978C9 !important;
+  background-color: transparent !important;
 }
 .goalBtnGroup .btn-primary span {
   float: left;
@@ -178,17 +185,6 @@ select {
   height: 60px;
   margin-top: 10px;
 }
-.goalBtnGroup label.active .hideRadioBtn:hover {
-  color: #363D49;
-}
-.goalBtnGroup label.active .hideRadioBtn {
-  color: #ffffff;
-  box-shadow: none;
-}
-.goalBtnGroup label.active .hideRadioBtn [class^="icon-"],
-.goalBtnGroup label.active .hideRadioBtn [class*=" icon-"] {
-  color: #fff;
-}
 .goalBtnGroup label .hideRadioBtn {
   top: 0;
   left: 0;
@@ -201,12 +197,6 @@ select {
 .goalBtnGroup label .hideRadioBtn [class^="icon-"],
 .goalBtnGroup label .hideRadioBtn [class*=" icon-"] {
   float: left;
-}
-.goalBtnGroup .btn-primary.active:hover {
-  background-color: #0564A9 !important;
-}
-.goalBtnGroup .btn-primary.active:hover .hideRadioBtn {
-  background-color: #0564A9 !important;
 }
 .firstBtnGroup .btn-primary {
   border-top-left-radius: 2px !important;
@@ -362,58 +352,52 @@ input.cmn-toggle-round:checked + label:before {
 input.cmn-toggle-round:checked + label:after {
   margin-left: 49px;
 }
-.screenChkSelection .btn_border {
-  background: #fff;
-  border: 1px solid #BFC9D7;
-  border-radius: 2px;
+.screenChkSelection .btn-default {
   float: left;
-  padding: 10px 15px;
+  padding: 9px 15px;
   width: auto;
   cursor: pointer;
+  color: #363D49;
+  background-color: #ffffff;
+  font-family: Avenir;
+  border-radius: 2px;
+  border: 1px solid #BFC9D7 !important;
+  margin-right: 15px;
 }
-.screenChkSelection .btn_border.active {
-  background: #0978c9;
-  border: 1px solid #0978c9;
+.screenChkSelection .btn-default:hover {
+  background-color: #E1EDF9 !important;
+  border: 1px solid #939EAE !important;
 }
-.screenChkSelection .btn_border.active:hover {
-  background: #0978c9;
+.screenChkSelection .btn-default.active {
+  background-color: #DCE6F1 !important;
+  border: 1px solid #BFC9D7 !important;
+  box-shadow: none;
 }
-.screenChkSelection .btn_border.active [class^="icon-"],
-.screenChkSelection .btn_border.active [class*=" icon-"],
-.screenChkSelection .btn_border.active .btnLabel {
-  color: #fff;
-  font-weight: normal;
-}
-.screenChkSelection .btn_border.active input[type="checkbox"] {
-  background: #fff;
-  color: #0978C9;
-}
-.screenChkSelection .btn_border:hover {
-  background: #E1EDF9;
-}
-.screenChkSelection .btn_border label {
+.screenChkSelection .btn-default label {
   float: left;
   cursor: pointer;
+  margin: 0;
 }
-.screenChkSelection .btn_border label .btnLabel {
+.screenChkSelection .btn-default label .btnLabel {
   float: left;
   font-weight: normal;
   line-height: 100%;
   margin-top: 2px;
   padding: 0;
 }
-.screenChkSelection .btn_border label [class^="icon-"],
-.screenChkSelection .btn_border label [class*=" icon-"] {
+.screenChkSelection .btn-default label [class^="icon-"],
+.screenChkSelection .btn-default label [class*=" icon-"] {
   float: left;
   margin: 0 10px;
 }
-.screenChkSelection .btn_border label input[type="checkbox"] {
+.screenChkSelection .btn-default label input[type="checkbox"] {
   height: 16px;
   margin: 0;
   position: relative;
   width: 16px;
+  float: left;
 }
-.screenChkSelection .btn_border label input[type="checkbox"]:checked {
+.screenChkSelection .btn-default label input[type="checkbox"]:checked {
   background: #fff;
 }
 tags-input .tags .tag-item {

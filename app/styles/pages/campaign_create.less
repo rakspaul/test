@@ -308,85 +308,44 @@
         }
 
         .regionCityTab {
+            margin: 0 0 20px 0;
             .nav-tabs {
-                margin-top: 20px;
-                width: 100%;
-
-                li {
-                    background: #f5f9fd;
-                    border-radius: 0;
-                    border-bottom: 1px solid #dde6eb;
-                    border-right: 1px solid #dde6eb;
-                    border-top: 1px solid #dde6eb;
-
-                    a {
-                        background-color: transparent;
-                        border-width: 0;
-                        margin: 0;
-                    }
-                }
-
-                li.active {
-                    background: #fff;
-                    border-bottom: 0;
-
-                    &:first-child {
-                        border-left: 1px solid #dde6eb;
-                        border-top-left-radius: 2px;
-                    }
-
-                    a {
-                        background: #fff;
-                        margin-top: 1px;
-                    }
-                }
-            }
-
-            ul.nav.nav-tabs {
                 border-width: 0;
-                left: 0;
-                margin: 26px 0 20px 0;
-                width: auto;
-
+                margin: 0 !important;
                 li {
-                    background: #fff;
-                    border: 1px solid #BFC9D7;
-                    border-bottom-right-radius: 2px;
-                    border-top-right-radius: 2px;
-                    text-align: center;
-                    width: 120px;
-
-                    &.active {
-                        background: #0978c9;
-                        border: 1px solid #0978c9;
-
-                        a {
-                            background: #0978c9;
-                            color: #fff;
-                            font-family:  Avenir, sans-serif;
-                            margin: 0;
-                        }
-
-                    }
-
-                    &:first-child {
-                        border-bottom-left-radius: 2px;
-                        border-bottom-right-radius: 0;
-                        border-top-left-radius: 2px;
-                        border-top-right-radius: 0;
-                    }
-
-                    &:hover {
-                        background: #f5f9fd;
-                    }
-
+                    color:#363D49;
+                    background-color: #ffffff !important;
+                    font-family: Avenir;
+                    border-radius: 2px;
+                    border: 1px solid #BFC9D7 !important;
                     a {
-                        color: #0978c9;
-                        padding: 6px 0;
-                        width: 100%;
+                        color:#363D49 !important;
+                        margin: 0 !important;
+                        background: transparent !important;
+                        padding: 0 !important;
+                        &:active {
+                            margin: 0;
+                            background: transparent;
+                            padding: 0;
+                        }
+                    }
+                    &:hover {
+                        background-color: #E1EDF9 !important;
+                        border: 1px solid #939EAE !important;
+                    }
+                }
+                li.active {
+                    background-color: #DCE6F1 !important;
+                    border: 1px solid #BFC9D7 !important;
+                    box-shadow: none;
+                    &:hover {
+                        background-color: #DCE6F1 !important;
+                        border: 1px solid #BFC9D7 !important;
+                        box-shadow: none;
                     }
                 }
             }
+            
         }
 
         #regions {
@@ -853,6 +812,28 @@
                                   width: 13px;
                               }
                           }
+                          
+                        .searchInputBtn {
+                            &:active, &:focus, &:hover, &:target {
+                                border-width: 0px !important;
+                            }
+                        }
+                          
+                        .searchClearInputBtn {
+                            right: 42px;
+                            border-right: 1px solid #BFC9D7;
+                            height: 36px;
+                            background: transparent !important;
+                            top: 0px;
+                            &:active, &:focus, &:hover, &:target {
+                                border-width: 0px !important;
+                                border-right: 1px solid #BFC9D7 !important;
+                            }
+                            .icon-clear {
+                                background: transparent !important;
+                                top: 1px;
+                            }
+                        }
                       }
 
                       .segBodyTable {
@@ -1606,36 +1587,6 @@
                 float: left;
                 font-family: Avenir-bold, sans-serif;
                 font-size: 20px;
-            }
-
-            .btn_border {
-                background-color: #FFF;
-                border: 1px solid #DDDDDD;
-                border-radius: 4px;
-                margin-right: 1%;
-                padding: 10px 0 10px 10px;
-                width: 24.001%;
-
-                .btnLabel {
-                    float: left;
-                    padding: 3px 0;
-                }
-
-                .glyphicon {
-                    float: left;
-                    font-size: 22px;
-                    padding: 0 7px 0 8px;
-                }
-
-                input {
-                    float: left;
-                    margin-top: 5px;
-                }
-
-                label {
-                    float: left;
-                    margin-bottom: 0;
-                }
             }
 
             #formAdCreate {
