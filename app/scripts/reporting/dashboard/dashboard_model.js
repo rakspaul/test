@@ -1,6 +1,6 @@
-define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model','reporting/timePeriod/time_period_model','common/services/constants_service','common/services/url_service','common/services/request_cancel_service','common/services/data_service','common/utils'],function (angularAMD) {
+define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model','reporting/timePeriod/time_period_model','common/services/constants_service','common/services/url_service','common/services/request_cancel_service','common/services/data_service','common/utils', 'reporting/subAccount/sub_account_model'],function (angularAMD) {
   'use strict';
-  angularAMD.factory("dashboardModel", ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel', 'constants', 'urlService', 'requestCanceller', 'dataService', 'utils', function (loginModel, advertiserModel, brandsModel, timePeriodModel, constants, urlService, requestCanceller, dataService, utils) {
+  angularAMD.factory("dashboardModel", ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel', 'constants', 'urlService', 'requestCanceller', 'dataService', 'utils','subAccountModel', function (loginModel, advertiserModel, brandsModel, timePeriodModel, constants, urlService, requestCanceller, dataService, utils,subAccountModel) {
 
     var dashboardData = {selectedStatus: constants.DASHBOARD_STATUS_IN_FLIGHT};//by default it is active.  Now check local storage if we want to change it last saved status.
     var localStoredCampaignStatus = JSON.parse(localStorage.getItem('dashboardStatusFilter'));
@@ -25,7 +25,7 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
     };
 
     var getCampaingsCount = function () {
-        var clientId = loginModel.getSelectedClient().id;
+        var clientId = subAccountModel.getDashboardAccountId();
         var advertiserId = advertiserModel.getSelectedAdvertiser().id;
         var brandId = brandsModel.getSelectedBrand().id;
         var url = urlService.APICalendarWidgetForAllBrands(clientId, advertiserId, 'end_date',campaignStatusToSend());

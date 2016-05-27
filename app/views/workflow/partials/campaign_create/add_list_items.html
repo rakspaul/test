@@ -34,15 +34,17 @@
         </a>
         <span ng-if="selectedCampaign.lineItemfile" class="pull-left" ng-bind="selectedCampaign.lineItemfile.name"></span>
         <a ng-if="selectedCampaign.lineItemfile" class="icon-clear pull-left" ng-click="clearFileSelected()" ></a>
-        <a  class="btn btn-primary pull-right" ng-click="uploadFileChosenLineItem();">Upload</a>
+        <a  class="btn btn-primary pull-right" ng-click="uploadFileChosenLineItem();" ng-show ="!bulkUploadItemLoaderEdit">Upload</a>
+        <div ng-show ="bulkUploadItemLoaderEdit" class="pull-right common-loading-btn" ></div>
         <a class="btn btn-link pull-right" ng-click="clearFileSelected()">Cancel</a>
         <div class="popUpCue" data-ng-show="showConfirmPopupBulkUpload" style="left: 74%;top: -170px;">
             <span class="col-md-12 zeroPadding">Media Plan changes will be saved, bulk uploading line items.</span>
-            <a href="javascript:void(0);"
+            <a href="javascript:void(0);" ng-show ="!bulkUploadItemLoader"
                class="leftNavLink pull-right btn btn-primary"
                data-ng-click="saveCampaign('upload')"
                data-ng-bind="textConstants.CONTINUE">
             </a>
+            <div ng-show ="bulkUploadItemLoader" class="pull-right common-loading-btn" ></div>
             <a class="pull-right btn btn-link"
                data-ng-bind="textConstants.CANCEL"
                data-ng-click="cancelMediaPlanUpload()">
@@ -239,7 +241,8 @@
 
 
             <div class="pull-right" style="padding: 30px 0 0 0;">
-                <div class="pull-right btn btn-default" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''" ng-click="(mode === 'create' || cloneMediaPlanName)?createNewLineItem('create'):createNewLineItemInEditMode('create')">Add Line Item</div>
+                <div class="pull-right btn btn-default" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''" ng-click="(mode === 'create' || cloneMediaPlanName)?createNewLineItem('create'):createNewLineItemInEditMode('create')" ng-show="!createNewLineItemLoaderEdit">Add Line Item</div>
+                <div ng-show ="createNewLineItemLoaderEdit" class="pull-right common-loading-btn" ></div>
                 <div class="pull-right btn btn-link" id="hideLineItemCreateBox" ng-click="selectedCampaign.resetLineItemParameters()">Cancel</div>
                 <!--confirm message in edit mode-->
                 <div class="popUpCue" data-ng-show="showConfirmPopupCreate" style="left: 75%;top: -140px;">
@@ -247,8 +250,9 @@
                     <a href="javascript:void(0);"
                        class="leftNavLink pull-right btn btn-primary"
                        data-ng-click="saveCampaign('create')"
-                       data-ng-bind="textConstants.CONTINUE">
+                       data-ng-bind="textConstants.CONTINUE" ng-show ="!createNewLineItemLoader">
                     </a>
+                    <div ng-show ="createNewLineItemLoader" class="pull-right common-loading-btn" ></div>
                     <a class="pull-right btn btn-link"
                        data-ng-bind="textConstants.CANCEL"
                        data-ng-click="cancelMediaPlanCreation()">
@@ -284,7 +288,7 @@
                     <div class="tableNormal" ng-click="showEditItemRow($event,item)">
                         <a class="td col-md-3" tooltip='{{item.name}}' data-ng-bind="item.name | textEllipsis: 50"></a>
                         <a class="td col-md-2" data-ng-bind="item.lineItemType.name">{</a>
-                        <a class="td col-md-1" data-ng-bind="item.pricingRate | currency"></a>
+                        <a class="td col-md-1" data-ng-bind="(item.lineItemType.name !== CONST_COGS_PERCENT)?(item.pricingRate | currency): item.pricingRate + '%'"></a>
                         <a class="td col-md-2" data-ng-bind="item.billableAmount | currency"></a>
                         <a class="td col-md-2" data-ng-bind="item.volume"></a>
                         <a class="td col-md-2">{{item.startTime}} - {{item.endTime}}</a>
@@ -448,7 +452,8 @@
                 </div>
         </div>
 
-        <a class="btn btn-primary pull-right" ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()" ng-bind="textConstants.SAVE_CHANGES"></a>
+        <a class="btn btn-primary pull-right" ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()" ng-bind="textConstants.SAVE_CHANGES" ng-show="!editLineItemLoaderEdit"></a>
+        <div ng-show ="editLineItemLoaderEdit" class="pull-right common-loading-btn" ></div>
         <a class="btn btn-link pull-right cancelLineItem" ng-click="hideLineItemEditRow($event);">Cancel</a>
         <!--confirm message in edit mode-->
         <div class="popUpCue" data-ng-show="showConfirmPopupEdit" style="left: 75%;top: -100px;">
@@ -456,8 +461,9 @@
             <a href="javascript:void(0);"
                class="leftNavLink pull-right btn btn-primary"
                data-ng-click="saveCampaign('edit')"
-               data-ng-bind="textConstants.CONTINUE">
+               data-ng-bind="textConstants.CONTINUE" ng-show="!editLineItemLoader">
             </a>
+            <div ng-show ="editLineItemLoader" class="pull-right common-loading-btn" ></div>
             <a class="pull-right btn btn-link"
                data-ng-bind="textConstants.CANCEL"
                data-ng-click="cancelMediaPlanCreationEdit()">

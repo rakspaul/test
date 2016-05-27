@@ -178,6 +178,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.api_return_code=200;
 
             var url = urlService.APIVistoCustomQuery(param);
+            $scope.selectedVendor = "";
             return dataService.fetch(url).then(function (result) {
                 $scope.strategyLoading =  false;
                 $scope.vendorList = [];
