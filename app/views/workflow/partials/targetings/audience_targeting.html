@@ -43,13 +43,11 @@
 						<!--</div>-->
 
                         <div class="searchInput col-md-12 zeroPadding" style="width: 100%;">
-                            <div class="input-group searchInputForm col-md-11" style="display: block;">
-                                <a class="btn btn-default searchInputBtn pull-right" >
-                                    <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;" ng-click="selectKeyword(keywordText)"></span>
-                                </a>
-                                
-                                <input type="text" class="form-control keyword-txt" style="padding-right: 80px;" name ="keywordText" placeholder="Max 10 keywords. Must be separated by commas" ng-value="keywordText" ng-keyup="showKeywords(keywordText,$event)" ng-model="keywordText">
-                                
+                            <a class="btn btn-default searchInputBtn pull-right col-md-1" >
+                                <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;" ng-click="selectKeyword(keywordText)"></span>
+                            </a>
+                            <div class="input-group searchInputForm col-md-11" style="display: block;width: 91.66%">
+                                <input type="text" class="form-control keyword-txt" name ="keywordText" placeholder="Search Segments..." ng-value="keywordText" ng-keyup="showKeywords(keywordText,$event)" ng-model="keywordText">
                                 <div class="btn btn-default searchClearInputBtn">
                                     <span class="icon-clear" aria-hidden="true" ng-click="clearKeywordSearch()"></span>
                                 </div>
@@ -103,10 +101,10 @@
                                         </li>
                                         <ul class="ddList">
                                             <li ng-repeat="category in audienceCategories | filter: categorySearch ">
-                                                <span  tooltip-placement="top" title="{{category.category}}">
+                                                <span>
                                                     <input type="checkbox" name="checkbox" ng-click="selectCategories(category,'category')" ng-checked="category.isChecked" style="margin-right: 0px;">
                                                     <!--<span class="icon-arrow-down-thick" ng-click="showSubCategory($event)" style="margin-right: 0;cursor:pointer;"></span>-->
-                                                    <span style="width: auto;float: none; padding-left: 0;">{{category.category  | limitTo:40}} {{(category.category.length > 40)? '...':'' }}</span>
+                                                    <span style="width: auto;float: none; padding-left: 0;"  title="{{category.category}}">{{category.category  | limitTo:40}} {{(category.category.length > 40)? '...':'' }}</span>
                                                 </span>
                                                 <!--<ul ng-if="(category.subCategories.length > 0 && category.subCategories[0].subCategory != null)" style="display:none">-->
                                                     <!--<li ng-repeat="sub in category.subCategories"><span tooltip-placement="top" title="{{sub.subCategory}}"><input type="checkbox" ng-click="selectCategories(sub,'subcategory',category)" ng-checked="sub.isChecked" tooltip="asdf">{{sub.subCategory | limitTo:35}} {{(sub.subCategory.length > 35)? '...':'' }} </span></li>-->
@@ -158,8 +156,8 @@
 										<input type="checkbox" ng-click="selectAudience(audience)" ng-checked="audience.isChecked">
 									</div>
 								</div>
-								<div class="columnTwo audienceTip col-md-8" tooltip="{{audience.name}}" tooltip-placement="right">
-									<span data-ng-bind="audience.name"></span>
+								<div class="columnTwo audienceTip col-md-8" >
+									<span data-ng-bind="audience.name" tooltip="{{audience.name}}" tooltip-placement="right" class="toolTipAudienceSegment"></span>
 								</div>
 								<div class="columnThree col-md-3" >
 									<div class="pull-left">$&nbsp;</div>
