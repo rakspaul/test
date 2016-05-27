@@ -639,6 +639,21 @@
   white-space: nowrap;
   width: 100%;
 }
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnOne .toolTipAudienceSegment,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnOne .toolTipAudienceSegment,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnTwo .toolTipAudienceSegment,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnTwo .toolTipAudienceSegment,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnThree .toolTipAudienceSegment,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnThree .toolTipAudienceSegment,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnFour .toolTipAudienceSegment,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFour .toolTipAudienceSegment,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnFive .toolTipAudienceSegment,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFive .toolTipAudienceSegment,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnSix .toolTipAudienceSegment,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnSix .toolTipAudienceSegment {
+  width: auto;
+  max-width: 100%;
+}
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnThree,
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnThree {
   border-right: 0px solid #bfc9d7;
