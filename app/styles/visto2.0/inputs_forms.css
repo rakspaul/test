@@ -135,7 +135,7 @@ select:hover {
 .searchInput .input-group .btn [class*=" icon-"] {
   float: right !important;
   cursor: pointer;
-  padding: 10px 10px !important;
+  padding: 9px 10px !important;
   top: 0;
   right: 0;
   height: 34px;

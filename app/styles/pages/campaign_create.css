@@ -242,71 +242,44 @@
   max-width: 170px;
   min-width: 170px;
 }
+.adCreateMaster #targetting .regionCityTab {
+  margin: 0 0 20px 0;
+}
 .adCreateMaster #targetting .regionCityTab .nav-tabs {
-  margin-top: 20px;
-  width: 100%;
+  border-width: 0;
+  margin: 0 !important;
 }
 .adCreateMaster #targetting .regionCityTab .nav-tabs li {
-  background: #f5f9fd;
-  border-radius: 0;
-  border-bottom: 1px solid #dde6eb;
-  border-right: 1px solid #dde6eb;
-  border-top: 1px solid #dde6eb;
+  color: #363D49;
+  background-color: #ffffff !important;
+  font-family: Avenir;
+  border-radius: 2px;
+  border: 1px solid #BFC9D7 !important;
 }
 .adCreateMaster #targetting .regionCityTab .nav-tabs li a {
-  background-color: transparent;
-  border-width: 0;
+  color: #363D49 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+.adCreateMaster #targetting .regionCityTab .nav-tabs li a:active {
   margin: 0;
+  background: transparent;
+  padding: 0;
+}
+.adCreateMaster #targetting .regionCityTab .nav-tabs li:hover {
+  background-color: #E1EDF9 !important;
+  border: 1px solid #939EAE !important;
 }
 .adCreateMaster #targetting .regionCityTab .nav-tabs li.active {
-  background: #fff;
-  border-bottom: 0;
+  background-color: #DCE6F1 !important;
+  border: 1px solid #BFC9D7 !important;
+  box-shadow: none;
 }
-.adCreateMaster #targetting .regionCityTab .nav-tabs li.active:first-child {
-  border-left: 1px solid #dde6eb;
-  border-top-left-radius: 2px;
-}
-.adCreateMaster #targetting .regionCityTab .nav-tabs li.active a {
-  background: #fff;
-  margin-top: 1px;
-}
-.adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs {
-  border-width: 0;
-  left: 0;
-  margin: 26px 0 20px 0;
-  width: auto;
-}
-.adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li {
-  background: #fff;
-  border: 1px solid #BFC9D7;
-  border-bottom-right-radius: 2px;
-  border-top-right-radius: 2px;
-  text-align: center;
-  width: 120px;
-}
-.adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li.active {
-  background: #0978c9;
-  border: 1px solid #0978c9;
-}
-.adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li.active a {
-  background: #0978c9;
-  color: #fff;
-  font-family: Avenir, sans-serif;
-  margin: 0;
-}
-.adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li:first-child {
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 0;
-  border-top-left-radius: 2px;
-  border-top-right-radius: 0;
-}
-.adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li:hover {
-  background: #f5f9fd;
-}
-.adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li a {
-  color: #0978c9;
-  padding: 6px 0;
-  width: 100%;
+.adCreateMaster #targetting .regionCityTab .nav-tabs li.active:hover {
+  background-color: #DCE6F1 !important;
+  border: 1px solid #BFC9D7 !important;
+  box-shadow: none;
 }
 .adCreateMaster #targetting #regions {
   border: 1px solid #dde6eb;
@@ -717,6 +690,30 @@
   height: 35px;
   top: -12px;
   width: 13px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchInputBtn:active,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchInputBtn:focus,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchInputBtn:hover,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchInputBtn:target {
+  border-width: 0px !important;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchClearInputBtn {
+  right: 42px;
+  border-right: 1px solid #BFC9D7;
+  height: 36px;
+  background: transparent !important;
+  top: 0px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchClearInputBtn:active,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchClearInputBtn:focus,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchClearInputBtn:hover,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchClearInputBtn:target {
+  border-width: 0px !important;
+  border-right: 1px solid #BFC9D7 !important;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchClearInputBtn .icon-clear {
+  background: transparent !important;
+  top: 1px;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable {
   border-top: 0;
@@ -1300,6 +1297,7 @@
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .buyingPlatformHolder {
   float: left;
+  width: 100%;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .adBuyingPlatform .popUpCue {
   top: 10px ;
@@ -1310,31 +1308,6 @@
   float: left;
   font-family: Avenir-bold, sans-serif;
   font-size: 20px;
-}
-#campaignCreate .campaignAdCreate .adMainWrapper .btn_border {
-  background-color: #FFF;
-  border: 1px solid #DDDDDD;
-  border-radius: 4px;
-  margin-right: 1%;
-  padding: 10px 0 10px 10px;
-  width: 24.001%;
-}
-#campaignCreate .campaignAdCreate .adMainWrapper .btn_border .btnLabel {
-  float: left;
-  padding: 3px 0;
-}
-#campaignCreate .campaignAdCreate .adMainWrapper .btn_border .glyphicon {
-  float: left;
-  font-size: 22px;
-  padding: 0 7px 0 8px;
-}
-#campaignCreate .campaignAdCreate .adMainWrapper .btn_border input {
-  float: left;
-  margin-top: 5px;
-}
-#campaignCreate .campaignAdCreate .adMainWrapper .btn_border label {
-  float: left;
-  margin-bottom: 0;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper #formAdCreate {
   float: left;
@@ -3250,58 +3223,6 @@
   padding: 10px 0;
   text-align: center;
   width: 100%;
-}
-#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border {
-  background: #fff;
-  border: 1px solid #BFC9D7;
-  border-radius: 2px;
-  float: left;
-  padding: 10px 15px;
-  width: auto;
-}
-#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border.active {
-  background: #0978c9;
-  border: 1px solid #0978c9;
-}
-#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border.active:hover {
-  background: #0978c9;
-}
-#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border.active [class^="icon-"],
-#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border.active [class*=" icon-"],
-#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border.active .btnLabel {
-  color: #fff;
-  font-weight: normal;
-}
-#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border.active input[type="checkbox"] {
-  background: #fff;
-  color: #0978C9;
-}
-#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border:hover {
-  background: #E1EDF9;
-}
-#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border label {
-  float: left;
-}
-#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border label .btnLabel {
-  float: left;
-  font-weight: normal;
-  line-height: 100%;
-  margin-top: 2px;
-  padding: 0;
-}
-#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border label [class^="icon-"],
-#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border label [class*=" icon-"] {
-  float: left;
-  margin: 0 10px;
-}
-#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border label input[type="checkbox"] {
-  height: 16px;
-  margin: 0;
-  position: relative;
-  width: 16px;
-}
-#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border label input[type="checkbox"]:checked {
-  background: #fff;
 }
 #campaignCreate .firstWrapper .masterContainer .selectcostObj,
 #campaignCreate .firstWrapper .masterContainer .selectkpiObj {
