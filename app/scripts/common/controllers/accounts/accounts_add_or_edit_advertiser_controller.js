@@ -243,7 +243,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
             createAdvertiserUnderClient($scope.selectedAdvertiserId);
         };
 
-        $scope.show_respective_method = function (type) {
+        $scope.showRespectiveMethod = function (type) {
             $scope.selectedBillType = type;
         };
 

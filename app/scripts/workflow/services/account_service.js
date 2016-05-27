@@ -54,9 +54,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             },
 
             getClients: function (success, failure, flag) {
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients?access_level=admin&pageSize=200&pageNo=1',
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients?access_level=admin',
                     canceller;
-                console.log('getClients(), url = ', url)
+                console.log('getClients() serive, url = ', url)
 
                 if (flag === 'cancellable') {
                     canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
@@ -232,6 +232,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             },
 
             getClient: function (clientId) {
+console.log('getClient(), clientId = ', clientId)
                 return dataService.fetch
                 (vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId,
                     {cache: false}
@@ -335,15 +336,22 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             },
 
             getAdChoiceDataFromClient: function (clientId) {
-console.log('getAdChoiceDataFromClient(), URL = ', vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/ad_choices');
                 return dataService.fetch(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/ad_choices',
                     {cache: false}
                 );
             },
 
+            getBillingTypes: function () {
+console.log('getBillingTypes(), URL = ', vistoconfig.apiPaths.WORKFLOW_API_URL + '/billing_types')
+                return dataService.fetch(
+                    //http://qa-desk.collective.com/api/workflow/v3/billing_types
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/billing_types',
+                    {cache: false}
+                );
+            },
+
             saveAdChoiceDataForClient: function (clientId, data) {
-console.log('saveAdChoiceDataForClient(), URL = ', vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/ad_choices')
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/ad_choices',
                     data,
@@ -364,22 +372,6 @@ console.log('getIABSubCategoryList(), URL = ', vistoconfig.apiPaths.WORKFLOW_API
                 return dataService.fetch(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/iab_categories?group_id=' + groupId,
                     {cache: false}
-                );
-            },
-
-            getIABCategoryForClient: function (clientId) {
-console.log('getIABCategoryForClient(), URL = ', vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/iab_categories')
-                return dataService.fetch(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/iab_categories',
-                    {cache: false}
-                );
-            },
-
-            saveIABCategoryForClient: function (clientId, data) {
-console.log('saveIABCategoryForClient(), URL = ', vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/iab_categories')
-                return dataService.post(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/iab_categories',
-                    data, {'Content-Type': 'application/json'}
                 );
             },
 
