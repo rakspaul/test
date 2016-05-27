@@ -4,7 +4,7 @@
     <div class="brandsDropdownSearch dropdown-workflow">
         <ul class="dropdown-menu" role="menu" id="subAccountDropDownList">
             <div id="subAccountDropdownDiv">
-                <input class="dropdown-toggle inactive"  id="subAccountDropdown"  ng-keyup="disableShowAll();" ng-model="selectedSubAccount.name">
+                <input class="dropdown-toggle inactive"  id="subAccountDropdown"  ng-keyup="disableShowAll();" ng-model="selectedSubAccount.name" placeHolder="{{(subAccountData.selectedsubAccount.name ? subAccountData.selectedsubAccount.name:'Select Sub-Account')}}">
                 <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
             </div>
             <div  class="subAccountList_ul">

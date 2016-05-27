@@ -4,7 +4,7 @@
     <div class="brandsDropdownSearch dropdown-workflow">
         <ul class="dropdown-menu" role="menu" id="advertisersDropDownList">
             <div id="brandsDropdownDiv">
-                <input class="dropdown-toggle inactive"  id="advertisersDropdown"  ng-keyup="disableShowAll();" ng-model="selectedAdvertiser.name"/>
+                <input class="dropdown-toggle inactive"  id="advertisersDropdown"  ng-keyup="disableShowAll();" ng-model="selectedAdvertiser.name" placeHolder="{{(advertiserData.selectedAdvertiser.name ? advertiserData.selectedAdvertiser.name : 'Select Advertiser')}}" />
                 <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
             </div>
             <div  class="advertisersList_ul">
