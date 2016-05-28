@@ -44,6 +44,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 });
 
                 $scope.campaigns = new campaignListModel();
+                $scope.campaigns.initializeFilter();
                 $scope.sortReverse = false;
                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
                 $scope.textConstants = constants;
@@ -220,7 +221,13 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 });
 
                 $scope.$on('$locationChangeStart', function (event, next) {
-                    $(window).unbind('scroll');
+                    var currentLocation = next;
+                    if(currentLocation.indexOf("mediaplans?filter") <= -1) {
+                        var isMediaPlanList = currentLocation.split("/")[4];
+                        if(!isMediaPlanList) {
+                            $(window).unbind('scroll');
+                        }
+                    }
                 });
             }
         );
