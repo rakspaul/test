@@ -4,11 +4,11 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
     'reporting/advertiser/advertiser_model', 'common/services/url_service', 'common/services/vistoconfig_service','../../common/services/data_service'],
     function (angularAMD) {
         //originally part of controllers/campaign_controller.js
-        angularAMD.factory('campaignListModel', ['$rootScope', '$location', 'campaignListService', 'modelTransformer',
+        angularAMD.factory('campaignListModel', ['$route','$rootScope', '$location', 'campaignListService', 'modelTransformer',
             'campaignCDBData', 'campaignCost', 'requestCanceller', 'constants', 'brandsModel', 'loginModel',
-            'advertiserModel', 'urlService', 'vistoconfig','dataService',
-            function ($rootScope, $location, campaignListService, modelTransformer, campaignCDBData, campaignCost,
-                      requestCanceller, constants, brandsModel, loginModel, advertiserModel, urlService, vistoconfig,dataService) {
+            'advertiserModel', 'urlService', 'vistoconfig','dataService','localStorageService',
+            function ($route,$rootScope, $location, campaignListService, modelTransformer, campaignCDBData, campaignCost,
+                      requestCanceller, constants, brandsModel, loginModel, advertiserModel, urlService, vistoconfig,dataService,localStorageService) {
                 //var scrollFlag = 1;
                 var Campaigns = function () {
                     this.getCapitalizeString = function (string) {
@@ -125,10 +125,11 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         }
                     };
 
-                    //by default active filter will be applied - (active)
+
+                   /* //by default active filter will be applied - (active)
                     this.appliedQuickFilter = constants.ALL_CONDITION;
                     this.appliedQuickFilterText = constants.ALL;
-                    this.dashboard.status.active.all = constants.ACTIVE;
+                    this.dashboard.status.active.all = constants.ACTIVE;*/
 
                     this.resetFilters = function () {
                         this.campaignList = [];
@@ -698,6 +699,8 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                             this.resetFilters();
                             this.appliedQuickFilter = filterToApply;
 
+                            localStorageService.campaignListFilter.set(filterToApply);
+
                             switch (filterToApply) {
                                 case constants.ACTIVE_CONDITION:
                                     this.appliedQuickFilterText = constants.INFLIGHT_LABEL;
@@ -789,6 +792,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                     type = constants.ACTIVE;
                             }
 
+
                             this.dashboard.appliedFilterType = type;
                             this.dashboard.filterTotal = this.dashboard.quickFilterSelectedCount;
                             this.campaignList = [];
@@ -797,8 +801,31 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                             this.scrollFlag = 1;
                             fetchData.call(this);
 
+                            if(filterToApply == 'all') {
+                                $location.search('filter', null);
+                            } else {
+                                $location.search('filter', filterToApply);
+                            }
+
                             // grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_STATUS_FILTER,
                             // (kpiStatus ? kpiStatus : type), loginModel.getLoginName());
+                        },
+
+                        initializeFilter = function () {
+                            var currentLocation = $location.url();
+                            var filterStatus = $location.url().split("filter=")[1];
+
+                            if (filterStatus == undefined) {
+                                $tmpSavedFilter = localStorageService.campaignListFilter.get();
+
+                                if($tmpSavedFilter != undefined) {
+                                    this.setQuickFilter($tmpSavedFilter);
+                                } else {
+                                    this.setQuickFilter(constants.ALL_CONDITION);
+                                }
+                            } else {
+                                this.setQuickFilter(filterStatus);
+                            }
                         },
 
                         _campaignServiceUrl = function (from) {
@@ -894,7 +921,8 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         getData: getData,
                         findScrollerFromContainer: findScrollerFromContainer,
                         setQuickFilter: setQuickFilter,
-                        unSelectQuickFilter: unSelectQuickFilter
+                        unSelectQuickFilter: unSelectQuickFilter,
+                        initializeFilter:initializeFilter
                     };
                 }();
 
