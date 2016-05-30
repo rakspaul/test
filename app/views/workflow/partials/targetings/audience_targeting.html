@@ -48,7 +48,7 @@
                             </a>
                             <div class="input-group searchInputForm col-md-11" style="display: block;width: 91.66%">
                                 <input type="text" class="form-control keyword-txt" name ="keywordText" placeholder="Search Segments..." ng-value="keywordText" ng-keyup="showKeywords(keywordText,$event)" ng-model="keywordText">
-                                <div class="btn btn-default searchClearInputBtn">
+                                <div class="btn btn-default">
                                     <span class="icon-clear" aria-hidden="true" ng-click="clearKeywordSearch()"></span>
                                 </div>
                             </div>
@@ -136,15 +136,15 @@
 								<input type="checkbox" ng-click="selectAllAudience($event)" ng-checked="selectAllChecked">
 							</div>
 						</div>
-						<div class="columnTwo col-md-8">
+						<div class="columnTwo col-md-5">
 							<span data-ng-bind="textConstants.SEGMENTNAME"></span>
 						</div>
 						<div class="columnThree col-md-3" >
 							<span data-ng-bind="textConstants.CPM"></span>
 						</div>
-						<!--<div class="columnFour" style="width: 31.333%">-->
-							<!--<span data-ng-bind="textConstants.ESTREACH"></span>-->
-						<!--</div>-->
+						<div class="columnFour col-md-3">
+							<span data-ng-bind="textConstants.ESTREACH"></span>
+						</div>
 					</div>
 
 					<div class="segBodyWrap">
@@ -156,16 +156,17 @@
 										<input type="checkbox" ng-click="selectAudience(audience)" ng-checked="audience.isChecked">
 									</div>
 								</div>
-								<div class="columnTwo audienceTip col-md-8" >
-									<span data-ng-bind="audience.name" tooltip="{{audience.name}}" tooltip-placement="right" class="toolTipAudienceSegment"></span>
+								<div class="columnTwo audienceTip col-md-5" >
+									<!--<span data-ng-bind="audience.name" title="{{audience.name}}" tooltip-placement="right" class="toolTipAudienceSegment"></span>-->
+									<span data-ng-bind="audience.name" title="{{audience.name}}" class="toolTipAudienceSegment"></span>
 								</div>
-								<div class="columnThree col-md-3" >
+								<div class="columnTwo col-md-3" >
 									<div class="pull-left">$&nbsp;</div>
 									<div class="pull-left" data-ng-bind="audience.cpmCost"></div>
 								</div>
-								<!--<div class="columnFour" style="width: 31.333%; border-right: 0; ">-->
-									<!--<span data-ng-bind="(audience.estReach).toLocaleString()"></span>-->
-								<!--</div>-->
+								<div class="columnThree col-md-3" >
+                                    <div class="pull-left" data-ng-bind="(audience.estReach).toLocaleString()"></div>
+								</div>
 							</div>
 							<div ng-if="!showAudienceLoader && audienceList.length == 0" style="color: #ccc;text-align: center;padding-top: 10px;" data-ng-bind="textConstants.NORESULTSFOUND"></div>
 						</div>
