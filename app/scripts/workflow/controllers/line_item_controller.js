@@ -668,6 +668,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
         // ******** Line item edit mode ******
         $scope.$parent.processLineItemEditMode = function (lineItemList) {
+            $scope.lineItemList.length = 0;
             _.each(lineItemList, function (item) {
                 $scope.lineItemName = item.name;
                 var index = _.findIndex($scope.type, function (type) {
