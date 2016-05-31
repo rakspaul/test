@@ -4,6 +4,7 @@
 </popup-msg>
 
 <div id="detailedPage" class="dashboard_outer_container yo" ng-controller="CampaignListController">
+
     <!-- header-->
     <div class="clearfix page_header_container campaign_list_header">
         <div class="pull-left campaign_name_holder">
@@ -134,7 +135,8 @@
         </div>
         <!-- END OF PERFORMANCE DIV -->
     </div><!--end of scrollable container-->
-    <div class="load-more" id="load_more" style="display:none">&nbsp;</div>
+
+    <div class="col-md-12 load-more" id="load_more" ng-show="campaigns.loadMoreCampaigns">&nbsp;</div>
     <campaign-drop-down selected-obj=selectedCampaign style="visibility: hidden"></campaign-drop-down>
 </div>
 
