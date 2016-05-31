@@ -284,7 +284,7 @@
 
             <div class="tbody" >
                 <!--Table Data Sample-->
-                <div class="tr" ng-repeat="item in lineItemList" >
+                <div class="tr" ng-repeat="item in lineItems.lineItemList" >
                     <div class="tableNormal" ng-click="showEditItemRow($event,item)">
                         <a class="td col-md-3" tooltip='{{item.name}}' data-ng-bind="item.name | textEllipsis: 50"></a>
                         <a class="td col-md-2" data-ng-bind="item.lineItemType.name">{</a>

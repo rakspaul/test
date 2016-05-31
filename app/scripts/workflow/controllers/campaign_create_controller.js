@@ -55,7 +55,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.type = {};
         $scope.advertiserTypeValue = {};
-        $scope.lineItemList = [];
+        $scope.lineItems = {};
+        $scope.lineItems.lineItemList = [];
         // line item create flags
         $scope.rateReadOnly = false;
         $scope.rateTypeReadOnly = false;
@@ -230,7 +231,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             fetchLineItemDetails: function (campaignId) {
                 workflowService.getLineItem(campaignId, true).then(function (results) {
                     if (results.status === 'success' && results.data.statusCode === 200) {
-                        $scope.lineItemList = [];
+                        $scope.lineItems.lineItemList = [];
                         $scope.processLineItemEditMode(results.data.data);
                     }
                 });
@@ -539,7 +540,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj;
 
 
-            if ($scope.lineItemList.length == 0) {
+            if ($scope.lineItems.lineItemList.length == 0) {
                 $rootScope.setErrAlertMessage('Please create a Line Item');
                 return false;
             }
@@ -554,7 +555,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 return false;
             }
 
-            if ($scope.createCampaignForm.$valid && $scope.lineItemList.length > 0) {
+            if ($scope.createCampaignForm.$valid && $scope.lineItems.lineItemList.length > 0) {
                 $scope.saveBtnLoader= true;
                 formElem = $("#createCampaignForm").serializeArray();
                 formData = _.object(_.pluck(formElem, 'name'), _.pluck(formElem, 'value'));
@@ -587,7 +588,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.totalBudget = formData.totalBudget;
 
                 if ($scope.mode === 'create' || $scope.cloneMediaPlanName) {
-                    postDataObj.lineItems = workflowService.processLineItemsObj(angular.copy($scope.lineItemList));
+                    postDataObj.lineItems = workflowService.processLineItemsObj(angular.copy($scope.lineItems.lineItemList));
                 }
 
                 postDataObj.campaignType = 'Display';
@@ -894,7 +895,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         function resetPixelMediaPlan() {
-            $scope.lineItemList = [];
+            $scope.lineItems.lineItemList = [];
             $scope.selectedCampaign.selectedPixel = [];
         }
 
