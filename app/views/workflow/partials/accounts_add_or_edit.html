@@ -146,36 +146,43 @@
     <div class="billingMethods">
         <div class="col-md-12 zeroPadding">
             <h1 class="pull-left">Billing & Invoices</h1>
+            
+            <div class="form-group col-md-4 pull-right">
+                <label class="col-sm-12 greyTxt" style="text-align: right;">Invoice On Demand:</label>
+                <input id="invoiceDemand" class="cmn-toggle cmn-toggle-round pull-right" type="checkbox">
+                <label for="invoiceDemand" class="pull-right"></label>
+            </div>
         </div>
 
         <!--Row 1-->
         <div class="col-md-12 zeroPadding">
             <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                 <label class="col-sm-12 greyTxt">Billed For:</label>
-                <div class="col-md-12 zeroPadding dropdown-workflow">
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle"
-                                type="button"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="true">
-                            <span class="text" data-ng-bind="billingData.selectedBilledFor.type"></span>
-                            <span class="icon-arrow-down"></span>
-                        </button>
-                        <ul class="dropdown-menu" data-toggle="dropdown">
-                            <li class="available" data-ng-repeat="billedFor in billingData.billedForArr">
-                                <a data-ng-click="showRespectiveMethod(billedFor.name)"
-                                   data-ng-bind="billedFor.name">
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
+                <!--    <div class="dropdown">-->
+                <!--        <button class="btn btn-default dropdown-toggle"-->
+                <!--                type="button"-->
+                <!--                data-toggle="dropdown"-->
+                <!--                aria-haspopup="true"-->
+                <!--                aria-expanded="true">-->
+                <!--            <span class="text" data-ng-bind="billingData.selectedBilledFor.type"></span>-->
+                <!--            <span class="icon-arrow-down"></span>-->
+                <!--        </button>-->
+                <!--        <ul class="dropdown-menu" data-toggle="dropdown">-->
+                <!--            <li class="available" data-ng-repeat="billedFor in billingData.billedForArr">-->
+                <!--                <a data-ng-click="showRespectiveMethod(billedFor.name)"-->
+                <!--                   data-ng-bind="billedFor.name">-->
+                <!--                </a>-->
+                <!--            </li>-->
+                <!--        </ul>-->
+                <!--    </div>-->
+                <!--</div>-->
+                
+                <span>Tech Fees</span>
             </div>
 
             <!--Tech Fees-->
-            <div class="col-md-8 zeroPadding methodFees techFees"
-                 data-ng-show="billingData.selectedBilledFor.type === 'Tech Fees'">
+            <div class="col-md-8 zeroPadding methodFees techFees">
                 <label class="col-sm-12 greyTxt">Rate Type:</label>
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle form-group col-md-4 disabled"
@@ -195,19 +202,19 @@
                            maxlength="80"
                            data-ng-model="billingData.billingValue">
                 </div>
-                <div class="form-group col-md-4" style="padding: 0 15px 0 0; margin-top: -36px;">
-                    <label class="col-sm-12 greyTxt">Invoice On Demand:</label>
-                    <input id="invoiceDemand" class="cmn-toggle cmn-toggle-round" type="checkbox">
-                    <label for="invoiceDemand"></label>
-                </div>
             </div>
-            <div class="col-md-8 zeroPadding methodFees techFees"
-                 data-ng-show="billingData.selectedBilledFor.type === 'Service Fees'">
+            
+            <!--Service Fee-->
+            <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
+                <label class="col-sm-12 greyTxt">Billed For:</label>
+                <span>Service Fees</span>
+            </div>
+            
+            <div class="col-md-8 zeroPadding methodFees techFees">
                 <label class="col-sm-12 greyTxt">Rate Type:</label>
                 <div class="dropdown-workflow col-md-4 zeroPadding">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle form-group col-md-4"
-                                style="padding: 7px;"
                                 type="button"
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
@@ -230,11 +237,6 @@
                            class="form-control"
                            maxlength="80"
                            data-ng-model="billingData.billingValue">
-                </div>
-                <div class="form-group col-md-4" style="padding: 0 15px 0 0; margin-top: -36px;">
-                    <label class="col-sm-12 greyTxt">Invoice On Demand:</label>
-                    <input id="invoiceDemand2" class="cmn-toggle cmn-toggle-round" type="checkbox">
-                    <label for="invoiceDemand2"></label>
                 </div>
             </div>
         </div>
