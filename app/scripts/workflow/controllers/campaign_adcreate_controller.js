@@ -390,7 +390,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $('.campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav').css('min-height', winHeight + 'px');
                 $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
             }
-            
+
             //edit mode data population
             function processEditMode(result, clientId, advertiserId) {
                 var responseData = result.data.data,
@@ -1520,6 +1520,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     //special case when we remove tag from selected list
                     $scope.$broadcast('removeCreativeTags', [[clickedTagData], 'special']);
                 }
+            };
+
+            $scope.isSaveBtnEnable = function() {
+                var adData = $scope.adData;
+                return (adData.budgetExceeded || adData.adBudgetExceedUnallocated || !adData.adName || adData.targetValue.length === 0 || adData.unitCost.length === 0 || adData.totalAdBudget.length === 0 || adData.budgetAmount.length === 0);
             };
 
             $('.main_navigation_holder')
