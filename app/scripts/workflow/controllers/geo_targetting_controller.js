@@ -1274,8 +1274,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 targetingType = 'Cities';
             }
             return targetingType;
-        }
-
+        };
 
         $scope.isChecked = function (id, type) {
             var match = false,
@@ -1297,8 +1296,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 pos,
                 newItem;
 
-            //previousSelectedData = $.extend(true, [], $scope.geoData[type].selected);
-
             idx = _.findIndex($scope.geoData[type].selected, function (obj) {
                 return item.id === obj.id;
             });
@@ -1311,14 +1308,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.geoData[type].selected.push(item);
             }
 
-            if (type === 'countries') {
+            if (checked !=null && type === 'countries') {
                 if ($scope.geoData.countries.selected.length === 0) {
                     geoTargeting.updateSelectedGeoList(null, type);
                 }
             }
 
-
-            if (type === 'regions') {
+            if (checked !=null && type === 'regions') {
                 if ($scope.geoData.regions.selected.length > 0) {
                     geoTargeting.updateSelectedGeoList(null, type);
                 }
@@ -1535,14 +1531,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 tmpSelectedGeoItemArr = _.filter(tmpSelectedGeoItemArr, function(obj) { return obj.countryCode !== item.countryCode });
 
-
-
                 _.each($scope.geoSelectedItems, function(obj) {
-                    _.each(obj.countries, function(country, idx) {
-                        if(country.code === item.code) {
-                            obj.countries.splice(idx, 1);
-                        }
-                    })
+                    obj.countries = _.filter(obj.countries, function(obj) { return obj.code !== item.code });
                 });
 
                 if($scope.selectedSubTab === 'regions') {
@@ -1560,26 +1550,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             if(type === 'regions') {
 
-                var tmpArr= $.extend(true, [], tmpSelectedGeoItemArr);
-                _.each(tmpArr, function(obj, idx) {
-                    if(obj.countryCode === item.countryCode && obj.geoType === 'REGION' && obj.name === item.name) {
-                        tmpSelectedGeoItemArr.splice(idx, 1)
-                        console.log("111", obj);
-                    }
-
-                    if(obj.countryCode === item.countryCode && obj.geoType === 'CITY' && obj.parent.name === item.name) {
-                        tmpSelectedGeoItemArr.splice(idx, 1)
-                        console.log("222", obj);
-                    }
-                })
+                tmpSelectedGeoItemArr = _.filter(tmpSelectedGeoItemArr, function(obj) { return obj.geoType === 'REGION' && obj.name !== item.name});
 
                 _.each($scope.geoSelectedItems, function(obj) {
                     _.each(obj.countries, function(country) {
-                        _.each(country.regions, function(region, idx) {
-                            country.regions[idx] = _.filter(region, function(obj) { return obj.name !== item.name });
-                        })
+                        country.regions = _.filter(country.regions, function(obj) { return obj.name !== item.name });
                     })
                 });
+
+
+                $scope.geoData.cities.selected = _.filter($scope.geoData.cities.selected, function(obj) { return obj.parent.id === item.id});
 
                 if($scope.selectedSubTab === 'cities') {
                     $timeout(function() {
@@ -1588,9 +1568,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             }
 
-
             if(type === 'cities') {
+
                 tmpSelectedGeoItemArr = _.filter(tmpSelectedGeoItemArr, function(obj) { return obj.name !== item.name });
+
                 _.each($scope.geoSelectedItems, function(obj) {
                     _.each(obj.countries, function(country) {
                         _.each(country.regions, function(region) {
