@@ -695,6 +695,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                             var kpiStatus = '',
                                 type = '';
 
+                            this.loadMoreCampaigns = false;
                             this.unSelectQuickFilter();
                             this.resetFilters();
                             this.appliedQuickFilter = filterToApply;

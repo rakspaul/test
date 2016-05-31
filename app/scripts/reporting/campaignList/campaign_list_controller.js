@@ -51,6 +51,9 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
                 $scope.searchTerm = '';
                 $scope.campaigns.searchTerm = '';
+
+                $scope.campaigns.loadMoreCampaigns = false;
+
                 $scope.campaignSearchFunc = function (e) {
                     // Perform search if enter key is pressed, or search button is clicked & user has entered something.
                     // NOTE: The event object (e) is not passed if called from search button.
@@ -207,11 +210,12 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     if ($scope.campaigns.dashboard.quickFilterSelectedCount <= 5 ||
                         (($scope.campaigns.performanceParams.nextPage - 1) * 5 >=
                         $scope.campaigns.dashboard.quickFilterSelectedCount)) {
+                        $scope.campaigns.loadMoreCampaigns = false;
                         return;
                     }
 
-                    if (!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() >
-                        $(document).height() - 100)) {
+                    if (!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() > $(document).height() - 100)) {
+                        $scope.campaigns.loadMoreCampaigns = true;
                         if ($scope.campaigns.searchTerm) {
                             $scope.campaigns.fetchData($scope.campaigns.searchTerm);
                         } else {

@@ -1,7 +1,7 @@
 define(['angularAMD'], function(angularAMD) {
     angularAMD.service("constants", function($locale) {
         this.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
-        this.CAMPAIGN_LIST_CANCELLER = 1;
+        this.CAMPAIGN_LIST_CANCELLER = 10;
         this.CAMPAIGN_FILTER_CANCELLER = 1;
         this.ADDLIBRARY_FILTER_CANCELLER = 10;
         this.PLATFORM_TAB_CANCELLER = 99;
