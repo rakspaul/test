@@ -137,16 +137,10 @@
                                         data-toggle="dropdown"
                                         aria-haspopup="true"
                                         aria-expanded="true">
-                                    <span class="text" data-ng-bind="selectedBillType">Arbitrage</span>
+                                    <span class="text" data-ng-bind="billingData.selectedBilledFor.type"></span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" data-toggle="dropdown">
-                                    <li class="available">
-                                        <a data-ng-click="showRespectiveMethod('Tech Fees')">Tech Fees</a>
-                                    </li>
-                                    <li class="available">
-                                        <a data-ng-click="showRespectiveMethod('Service Fees')">Service Fees</a>
-                                    </li>
                                     <li class="available">
                                         <a data-ng-click="showRespectiveMethod('Cost')">Cost</a>
                                     </li>
@@ -155,69 +149,6 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
-                    </div>
-
-                    <!--Tech Fees-->
-                    <div class="col-md-8 zeroPadding methodFees techFees"
-                         data-ng-show="selectedBillType === 'Tech Fees'"
-                         style="padding-left: 15px;">
-                        <label class="col-sm-12 greyTxt">Rate Type:</label>
-                        <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle form-group col-md-4 disabled"
-                                    type="button"
-                                    data-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="true"
-                                    disabled>
-                                <span class="text">CPM</span>
-                            </button>
-                        </div>
-                        <div class="form-group col-md-4" style="margin-top: -36px;">
-                            <label class="col-sm-12 greyTxt" for="rateValue">Value:</label>
-                            <input type="text" id="rateValue" class="form-control" maxlength="80">
-                        </div>
-                        <div class="form-group col-md-4" style="padding: 0 15px 0 0; margin-top: -36px;">
-                            <label class="col-sm-12 greyTxt">Invoice On Demand:</label>
-                            <input id="invoiceDemand" class="cmn-toggle cmn-toggle-round" type="checkbox">
-                            <label for="invoiceDemand"></label>
-                        </div>
-                    </div>
-
-                    <!--Service Fee-->
-                    <div class="col-md-8 zeroPadding methodFees techFees"
-                         data-ng-show="selectedBillType=='Service Fees'"
-                         style="padding-left: 15px;">
-                        <label class="col-sm-12 greyTxt">Rate Type:</label>
-                        <div class="dropdown-workflow col-md-4 zeroPadding">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle form-group"
-                                        style="padding: 7px;"
-                                        type="button"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true"
-                                        aria-expanded="true">
-                                    <span class="text" data-ng-bind="selectedRateType"></span>
-                                    <span class="icon-arrow-down" style="margin-left:172px"></span>
-                                </button>
-                                <ul class="dropdown-menu" data-toggle="dropdown">
-                                    <li class="available">
-                                        <a data-ng-click="selectedRateType='COGS'">COGS</a>
-                                    </li>
-                                    <li class="available">
-                                        <a data-ng-click="selectedRateType='CPM'">CPM</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-4" style="margin-top: -36px">
-                            <label class="col-sm-12 greyTxt">Value:</label>
-                            <input type="text" class="form-control" maxlength="80" placeholder="Add some value">
-                        </div>
-                        <div class="form-group col-md-4" style="padding: 0 15px 0 0; margin-top: -36px;">
-                            <label class="col-sm-12 greyTxt">Invoice On Demand:</label>
-                            <input id="invoiceDemand2" class="cmn-toggle cmn-toggle-round" type="checkbox">
-                            <label for="invoiceDemand2"></label>
                         </div>
                     </div>
 
@@ -234,26 +165,26 @@
                                         data-toggle="dropdown"
                                         aria-haspopup="true"
                                         aria-expanded="true">
-                                    <span class="text" data-ng-bind="selectedRateType"></span>
+                                    <span class="text" data-ng-bind="billingData.selectedBillingType.name"></span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" data-toggle="dropdown">
-                                    <li class="available">
-                                        <a data-ng-click="selectedRateType='COGS'">COGS</a>
-                                    </li>
-                                    <li class="available">
-                                        <a data-ng-click="selectedRateType='Arbitrage'">Arbitrage</a>
+                                    <li class="available" data-ng-repeat="billingType in billingData.billingTypesArr">
+                                        <a data-ng-click="selectedBillingTypeChanged(billingType)"
+                                           data-ng-bind="billingType.name">
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="form-group col-md-4"
                              style="margin-top: -36px"
-                             data-ng-show="selectedRateType=='COGS'">
+                             data-ng-show="billingData.selectedBillingType.id === 6">
                             <label class="col-sm-12 greyTxt">Value:</label>
                             <input type="text" class="form-control" maxlength="80" placeholder="Add some value">
                         </div>
-                        <div class="form-group col-md-4" style="padding: 0 15px 0 0; margin: -36px 0 0 15px;">
+                        <div class="form-group col-md-4"
+                             style="padding: 0 15px 0 0; margin: -36px 0 0 15px; display: none;">
                             <label class="col-sm-12 greyTxt">Invoice On Demand:</label>
                             <input id="invoiceDemand3" class="cmn-toggle cmn-toggle-round" type="checkbox">
                             <label for="invoiceDemand3"></label>

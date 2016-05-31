@@ -8,43 +8,18 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
     angularAMD.controller('AccountsAddOrEditAdvertiser', function ($scope, $rootScope, $modalInstance,
                                                                    accountsService, constants, momentService,
                                                                    dataService, urlService) {
-        var _currCtrl = this;
-
-        $scope.advertiserData.disableDownLoadPixel = true;
-        $scope.selectedBillType = 'Select';
-        $scope.selectedRateType = 'Select';
-
-        $scope.showUserModeText = function () {
-            return ($scope.mode === 'create'? 'Add Advertiser':'Edit Advertiser ( ' + $scope.advObj.name + ' )');
-        };
-
-        $scope.advertiserAddOrEditData.selectedIABCategory = 'Select';
-        $scope.advertiserAddOrEditData.selectedIABSubCategory = 'Select';
-
-        $scope.close=function () {
-            $scope.resetBrandAdvertiserAfterEdit();
-            $modalInstance.dismiss();
-            _currCtrl.clearAdvInputFiled();
-            $scope.advertiserAddOrEditData.duplicatePixelName = false;
-        };
-
-        $('.miniTabLinks.sub .btn').removeClass('active');
-        $('.miniTabLinks.sub .subBasics').addClass('active');
-        $modalInstance.opened.then(function () {
-            $('popup-msg').appendTo(document.body);
-        });
+        var _currCtrl = this,
+            selectedBillingTypeName;
 
         _currCtrl.downloadPixelIds = [];
 
-        _currCtrl.clearAdvInputFiled = function () {
+        _currCtrl.clearAdvInputField = function () {
             $scope.advertiserAddOrEditData.enableAdChoice = false;
             $scope.advertiserAddOrEditData.adChoiceCode = '';
             _currCtrl.isAdChoiceInClient = false;
             _currCtrl.isAdChoiceInAdv = false;
             $scope.advertiserAddOrEditData.resAdChoiceData = {};
         };
-
-        _currCtrl.clearAdvInputFiled();
 
         _currCtrl.getIABCategoryList = function () {
             accountsService
@@ -53,7 +28,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                     if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
                         $scope.advertiserAddOrEditData.IABCategoryList = res.data.data;
                     }
-                },function (err) {
+                }, function (err) {
                 });
         };
 
@@ -70,8 +45,6 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                     console.log('Error: To get the sub-category list');
                 });
         };
-
-        _currCtrl.getIABCategoryList();
 
         _currCtrl.getIABCategory = function () {
             accountsService
@@ -93,7 +66,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
 
                         _currCtrl.getIABSubCategoryList($scope.advertiserAddOrEditData.selectedIABCategoryId);
                     }
-                },function (err) {
+                }, function (err) {
                 });
         };
 
@@ -111,7 +84,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                     if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
                         // TODO: Do something with the returned data???
                     }
-                },function (err) {
+                }, function (err) {
                 });
         };
 
@@ -145,7 +118,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                     } else {
                         _currCtrl.getAdChoiceDataFromClient();
                     }
-                },function (err) {
+                }, function (err) {
                     _currCtrl.getAdChoiceDataFromClient();
                 });
         };
@@ -172,34 +145,10 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                         } else {
                             console.log('Error: Save Ad Choice in Advertiser');
                         }
-                    },function (err) {
+                    }, function (err) {
                         console.log('Error: Save Ad Choice in Advertiser');
                     });
             }
-        };
-
-        // TODO: Why is this commented out???
-        /*$rootScope.$on('advertiserDataReceived',function () {
-            $scope.getAdnlData();
-        });*/
-
-        $scope.selectIABCategory = function (type) {
-            $scope.advertiserAddOrEditData.selectedIABCategory = type.name;
-            $scope.advertiserAddOrEditData.selectedIABCategoryId = type.id;
-            $scope.advertiserAddOrEditData.selectedIABSubCategory = 'Select';
-            $scope.advertiserAddOrEditData.selectedIABSubCategoryId = null;
-            _currCtrl.getIABSubCategoryList(type.id);
-        };
-
-        $scope.selectIABSubCategory = function (type) {
-            $scope.advertiserAddOrEditData.selectedIABSubCategory = type.name;
-            $scope.advertiserAddOrEditData.selectedIABSubCategoryId = type.id;
-        };
-
-        $scope.getAdnlData = function () {
-            _currCtrl.getAdChoiceData();
-            _currCtrl.getIABCategory();
-            // TODO: get data for BillingMethods
         };
 
         _currCtrl.saveAdnlData = function () {
@@ -235,84 +184,6 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
             return ret;
         };
 
-        $scope.saveAdvertisers = function () {
-            if (!_currCtrl.verifyCreateAdvInputs()) {
-                return;
-            }
-
-            createAdvertiserUnderClient($scope.selectedAdvertiserId);
-        };
-
-        $scope.showRespectiveMethod = function (type) {
-            $scope.selectedBillType = type;
-        };
-
-        $scope.downLoadPixel = function () {
-            var url = urlService.downloadAdminAdvPixel($scope.client.id, $scope.selectedAdvertiserId);
-
-            if (!_currCtrl.downloadPixelIds.length) {
-                return false;
-            }
-
-            if (_currCtrl.downloadPixelIds.length && (_currCtrl.downloadPixelIds.length < $scope.advertiserData.pixels.length)) {
-                url += '?id='+ _currCtrl.downloadPixelIds.join(',');
-            }
-
-            dataService
-                .downloadFile(url)
-                .then(function (res) {
-                    if (res.status === 'OK' || res.status === 'success') {
-                        saveAs(res.file, res.fileName);
-                        $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_SUCCESS, 0);
-                    } else {
-                        $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_ERR);
-                    }
-                },function (err) {
-                    $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_ERR);
-                });
-        };
-
-        $scope.selectPixel = function (pixelId, isSelected) {
-            if (isSelected) {
-                $scope.advertiserData.disableDownLoadPixel = false;
-                if (_currCtrl.downloadPixelIds.indexOf(pixelId) === -1) {
-                    _currCtrl.downloadPixelIds.push(pixelId);
-                }
-            } else {
-                _currCtrl.downloadPixelIds = _.filter(_currCtrl.downloadPixelIds, function (item) {
-                    return item !== pixelId;
-                });
-
-                if (!_currCtrl.downloadPixelIds.length) {
-                    $scope.advertiserData.disableDownLoadPixel = true;
-                }
-            }
-        };
-
-        $scope.selectAllPixels = function () {
-            var checkBoxes = $('.pixelSelect');
-
-            checkBoxes.prop('checked', !checkBoxes.prop('checked'));
-
-            if (checkBoxes.prop('checked')) {
-                $scope.advertiserData.disableDownLoadPixel = false;
-                _currCtrl.downloadPixelIds = _.pluck($scope.advertiserData.pixels, 'id');
-            } else {
-                $scope.advertiserData.disableDownLoadPixel = true;
-                _currCtrl.downloadPixelIds = [];
-            }
-        };
-
-        $scope.checkDuplicatePixel = function (name) {
-            $scope.advertiserAddOrEditData.duplicatePixelName = false;
-
-            _.each($scope.advertiserData.pixels, function (item) {
-                if (!$scope.advertiserAddOrEditData.duplicatePixelName) {
-                    $scope.advertiserAddOrEditData.duplicatePixelName = (item.name === name) ? true : false;
-                }
-            });
-        };
-
         function createAdvertiserUnderClient(advId) {
             var requestData = {
                 lookbackImpressions : 14,
@@ -331,7 +202,6 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                         if ($scope.advertiserData.pixels.length) {
                             createPixelsforAdvertiser($scope.clientId, advId);
                         } else {
-                            //$scope.fetchAllAdvertisersforClient($scope.client.id);
                             $scope.fetchAllClients();
                         }
 
@@ -340,22 +210,22 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                         } else {
                             $rootScope.setErrAlertMessage('Advertiser add successfully', 0);
                         }
-                    } else {
                     }
                 }, function (err) {
                     $scope.close();
+
                     if ($scope.isEditMode) {
                         $rootScope.setErrAlertMessage('Error in updating advertiser under client.', 0);
                     } else {
-                        $rootScope.setErrAlertMessage('Error in creating advertiser under client.');
+                        $rootScope.setErrAlertMessage('Error in creating advertiser under client.', 0);
                     }
                 });
         }
 
         function addPixeltoAdvertiserUnderClient(clientId, advId) {
             var requestData = {
-                lookbackImpressions : Number($scope.advertiserData.lookbackImpressions),
-                lookbackClicks : Number($scope.advertiserData.lookbackClicks)
+                lookbackImpressions: Number($scope.advertiserData.lookbackImpressions),
+                lookbackClicks: Number($scope.advertiserData.lookbackClicks)
             };
 
             accountsService
@@ -376,11 +246,11 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
         function getRequestDataforPixel(clientId, advertiserId) {
             _.each($scope.advertiserData.pixels, function (item, index) {
                 $scope.advertiserData.pixels[index] = {
-                    name : item.name,
-                    clientId : clientId,
-                    advertiserId : advertiserId,
-                    pixelType : item.pixelType,
-                    poolSize : 0,
+                    name: item.name,
+                    clientId: clientId,
+                    advertiserId: advertiserId,
+                    pixelType: item.pixelType,
+                    poolSize: 0,
                     description: item.description,
                     createdBy: item.createdBy,
                     createdAt: item.createdAt,
@@ -429,22 +299,191 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
             return respBody;
         }
 
-        $scope.$on('$locationChangeSuccess', function () {
-            $scope.close();
-        });
+        function getBillingTypes() {
+            accountsService
+                .getBillingTypes()
+                .then(function (res) {
+                    var billingTypes;
+
+                    if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
+                        billingTypes = res.data.data;
+                        console.log('Billing types = ', billingTypes)
+                        // Billing types for "Cost"
+                        // id = 6 (COGS)
+                        $scope.billingData.billingTypesArr =  billingTypes.filter(function (obj) {
+                            return obj.id === 6;
+                        });
+
+                        $scope.billingData.billingTypesArr.push({
+                            id: -1,
+                            name: 'Arbitrage'
+                        });
+
+console.log('getBillingTypes(), $scope.billingData.billingTypesArr = ', $scope.billingData.billingTypesArr)
+                        // Billing data
+                        if ($scope.clientObj && $scope.clientObj.billingTypeId) {
+                            $scope.billingData.selectedBillingType.id = $scope.clientObj.billingTypeId;
+
+                            selectedBillingTypeName = $scope.billingData.billingTypesArr.filter(function (obj) {
+                                return obj.id === $scope.clientObj.billingTypeId;
+                            });
+
+                            $scope.billingData.selectedBillingType.name = selectedBillingTypeName[0].name;
+                        }
+                    }
+                }, function (err) {
+                    console.log('Error = ', err);
+                });
+        }
+
+        $scope.advertiserData.disableDownLoadPixel = true;
+
+        $scope.billingData = {
+            selectedBilledFor: {
+                type: 'Select',
+                value: ''
+            },
+
+            billedFor: {
+                Cost: 'COST',
+                None: 'NONE'
+            },
+
+            billedForArr: [
+                {name: 'Cost', value: 'COST'},
+                {name: 'None', value: 'NONE'}
+            ],
+
+            selectedBillingType: {
+                id: 0,
+                name: 'Select'
+            },
+
+            billingTypesArr: []
+        };
+        $scope.selectedRateType = 'Select';
+
+        $scope.advertiserAddOrEditData.selectedIABCategory = 'Select';
+        $scope.advertiserAddOrEditData.selectedIABSubCategory = 'Select';
+
+        $scope.selectedBillingTypeChanged = function (billingType) {
+            $scope.billingData.selectedBillingType.id = billingType.id;
+            $scope.billingData.selectedBillingType.name = billingType.name;
+        };
+
+        $scope.showUserModeText = function () {
+            return ($scope.mode === 'create'? 'Add Advertiser':'Edit Advertiser ( ' + $scope.advObj.name + ' )');
+        };
+
+        $scope.close = function () {
+            $scope.resetBrandAdvertiserAfterEdit();
+            $modalInstance.dismiss();
+            _currCtrl.clearAdvInputField();
+            $scope.advertiserAddOrEditData.duplicatePixelName = false;
+        };
+
+        $scope.selectIABCategory = function (type) {
+            $scope.advertiserAddOrEditData.selectedIABCategory = type.name;
+            $scope.advertiserAddOrEditData.selectedIABCategoryId = type.id;
+            $scope.advertiserAddOrEditData.selectedIABSubCategory = 'Select';
+            $scope.advertiserAddOrEditData.selectedIABSubCategoryId = null;
+            _currCtrl.getIABSubCategoryList(type.id);
+        };
+
+        $scope.selectIABSubCategory = function (type) {
+            $scope.advertiserAddOrEditData.selectedIABSubCategory = type.name;
+            $scope.advertiserAddOrEditData.selectedIABSubCategoryId = type.id;
+        };
+
+        $scope.getAdnlData = function () {
+            _currCtrl.getAdChoiceData();
+            _currCtrl.getIABCategory();
+            // TODO: get data for BillingMethods
+        };
+
+        $scope.saveAdvertisers = function () {
+            if (!_currCtrl.verifyCreateAdvInputs()) {
+                return;
+            }
+
+            createAdvertiserUnderClient($scope.selectedAdvertiserId);
+        };
+
+        $scope.showRespectiveMethod = function (type) {
+            $scope.selectedBillType = type;
+        };
+
+        $scope.downLoadPixel = function () {
+            var url = urlService.downloadAdminAdvPixel($scope.client.id, $scope.selectedAdvertiserId);
+
+            if (!_currCtrl.downloadPixelIds.length) {
+                return false;
+            }
+
+            if (_currCtrl.downloadPixelIds.length &&
+                (_currCtrl.downloadPixelIds.length < $scope.advertiserData.pixels.length)) {
+                url += '?id='+ _currCtrl.downloadPixelIds.join(',');
+            }
+
+            dataService
+                .downloadFile(url)
+                .then(function (res) {
+                    if (res.status === 'OK' || res.status === 'success') {
+                        saveAs(res.file, res.fileName);
+                        $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_SUCCESS, 0);
+                    } else {
+                        $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_ERR);
+                    }
+                }, function (err) {
+                    $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_ERR);
+                });
+        };
+
+        $scope.selectPixel = function (pixelId, isSelected) {
+            if (isSelected) {
+                $scope.advertiserData.disableDownLoadPixel = false;
+                if (_currCtrl.downloadPixelIds.indexOf(pixelId) === -1) {
+                    _currCtrl.downloadPixelIds.push(pixelId);
+                }
+            } else {
+                _currCtrl.downloadPixelIds = _.filter(_currCtrl.downloadPixelIds, function (item) {
+                    return item !== pixelId;
+                });
+
+                if (!_currCtrl.downloadPixelIds.length) {
+                    $scope.advertiserData.disableDownLoadPixel = true;
+                }
+            }
+        };
+
+        $scope.selectAllPixels = function () {
+            var checkBoxes = $('.pixelSelect');
+
+            checkBoxes.prop('checked', !checkBoxes.prop('checked'));
+
+            if (checkBoxes.prop('checked')) {
+                $scope.advertiserData.disableDownLoadPixel = false;
+                _currCtrl.downloadPixelIds = _.pluck($scope.advertiserData.pixels, 'id');
+            } else {
+                $scope.advertiserData.disableDownLoadPixel = true;
+                _currCtrl.downloadPixelIds = [];
+            }
+        };
+
+        $scope.checkDuplicatePixel = function (name) {
+            $scope.advertiserAddOrEditData.duplicatePixelName = false;
+
+            _.each($scope.advertiserData.pixels, function (item) {
+                if (!$scope.advertiserAddOrEditData.duplicatePixelName) {
+                    $scope.advertiserAddOrEditData.duplicatePixelName = (item.name === name) ? true : false;
+                }
+            });
+        };
 
         $scope.selectAdvertiser = function (advertiser) {
             $scope.selectedAdvertiserId = advertiser.id;
             $scope.selectedAdvertiser = advertiser.name;
         };
-
-        if ($scope.isEditMode) {
-            $scope.getAdnlData();
-
-            setTimeout(function () {
-                $('#advertiser').addClass('disabled');
-            },100);
-        }
 
         //Search Hide / Show
         $scope.searchShowInput = function () {
@@ -470,6 +509,32 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                 $('.searchInputForm').hide();
             }, 100);
         };
+
+        $('.miniTabLinks.sub .btn').removeClass('active');
+        $('.miniTabLinks.sub .subBasics').addClass('active');
+
+        $modalInstance
+            .opened
+            .then(function () {
+                $('popup-msg').appendTo(document.body);
+            });
+
+        _currCtrl.clearAdvInputField();
+        _currCtrl.getIABCategoryList();
+
+        getBillingTypes();
+console.log('$scope.billingData.billingTypesArr = ', $scope.billingData.billingTypesArr);
+        if ($scope.isEditMode) {
+            $scope.getAdnlData();
+
+            setTimeout(function () {
+                $('#advertiser').addClass('disabled');
+            }, 100);
+        }
+
+        $scope.$on('$locationChangeSuccess', function () {
+            $scope.close();
+        });
 
         $('html').click(function (e) {
             if ($(e.target).closest('.searchInput').length === 0) {

@@ -205,35 +205,35 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                         console.log('Error = ', err);
                     });
             }
+
             $scope.currencySelected = '';
 
-            $scope.billingData = {};
+            $scope.billingData = {
+                selectedBilledFor: {
+                    type: 'Select',
+                    value: ''
+                },
 
-            $scope.billingData.selectedBilledFor = {
-                type: 'Select',
-                value: ''
+                billedFor: {
+                    'Tech Fees': 'TECH_FEES',
+                    'Service Fees': 'SERVICE_FEES',
+                    None: 'NONE'
+                },
+
+                billedForArr: [
+                    {name: 'Tech Fees', value: 'TECH_FEES'},
+                    {name: 'Service Fees', value: 'SERVICE_FEES'},
+                    {name: 'None', value: 'NONE'}
+                ],
+
+                selectedBillingType: {
+                    id: 0,
+                    name: 'Select'
+                },
+
+                billingTypesArr: [],
+                billingValue: 0
             };
-
-            $scope.billingData.billedFor = {
-                'Tech Fees': 'TECH_FEES',
-                'Service Fees': 'SERVICE_FEES',
-                None: 'NONE'
-            };
-
-            $scope.billingData.billedForArr = [
-                {name: 'Tech Fees', value: 'TECH_FEES'},
-                {name: 'Service Fees', value: 'SERVICE_FEES'},
-                {name: 'None', value: 'NONE'}
-            ];
-
-            $scope.billingData.selectedBillingType =  {
-                id: 0,
-                name: 'Select'
-            };
-
-            $scope.billingData.billingTypesArr = [];
-
-            $scope.billingData.billingValue = 0;
 
             $scope.referenceId = '';
 

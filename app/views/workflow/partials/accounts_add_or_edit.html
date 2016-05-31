@@ -114,7 +114,7 @@
                         <li class="available"
                             value="{{key}}"
                             data-ng-repeat="(key, value) in timezones"
-                            data-ng-selected="{{key == timezone}}">
+                            data-ng-selected="{{key === timezone}}">
                             <a data-ng-bind="value" data-ng-click="selectTimeZone(key)"></a>
                         </li>
                     </ul>
