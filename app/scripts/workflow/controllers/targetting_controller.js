@@ -89,7 +89,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
 
                 //Geo Targeting
                 $('#zip #zipCodes').css('min-height', winHeight - 310 + 'px');
-                $('#regions .list_row_holder').css('min-height', winHeight - 380 + 'px');
+                $('.geo-tab-content .targetting-tab-body').css('min-height', winHeight - 380 + 'px');
                 $('#dmas .list_row_holder').css('min-height', winHeight - 370 + 'px');
 
                 //Day Targeting
