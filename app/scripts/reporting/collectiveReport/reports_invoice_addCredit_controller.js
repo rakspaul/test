@@ -1,5 +1,3 @@
-var angObj = angObj || {};
-
 define(['angularAMD',
     'common/services/data_service', 'common/services/url_service', 'common/services/constants_service'],function (angularAMD) {
     'use strict';
@@ -16,7 +14,7 @@ define(['angularAMD',
         $scope.addCredit = function(){
             $scope.errSaveCredit = false;
             $('.creditsCnt').scrollTop($(".creditsCnt")[0].scrollHeight);
-            $scope.addCreditData.credits.push({});
+            $scope.addCreditData.credits.push({});                        // Inserting one more empty row for the add credit input field.
         }
         $scope.removeCredit = function(index){
             $scope.errSaveCredit = false;

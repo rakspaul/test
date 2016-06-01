@@ -74,44 +74,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                     }else{
                                         _currCtrl.last_page = true;
                                     }
-                                    // Highlighting of Ad group name & label pills.
-                                    // The highlighting will be done at the Search API call.
-//                                    _.each(responseData, function (obj) {
-//                                        var i,
-//                                            j,
-//                                            temp,
-//                                            labelsLen,
-//                                            searchTermsArr,
-//                                            searchTermsLen,
-//                                            searchTerm = $scope.invoiceReports.searchTerm.toLowerCase().trim();
-//
-//                                        //obj.mediaPlanNameHtml = obj.mediaPlanName;
-//
-//                                        if (searchTerm) {
-//                                            // Highlight Ad group title
-//                                            obj.mediaPlanName =
-//                                                $scope.highlightTitleText(obj.mediaPlanName, searchTerm);
-//
-//                                            // Highlight Ad group label pills
-//                                            labelsLen = obj.labels.length;
-//                                            searchTermsArr = searchTerm.split(' ');
-//                                            searchTermsLen = searchTermsArr.length;
-//
-//                                            if (searchTermsLen > 1) {
-//                                                searchTermsArr.push(searchTerm);
-//                                            }
-//                                            for (i = 0; i < labelsLen; i++) {
-//                                                for (j = 0; j < searchTermsLen; j++) {
-//                                                    temp = $scope.highlightLabelPill(obj.labels[i], searchTermsArr[j])
-//                                                        .toString();
-//                                                    if (temp.indexOf('</mark>') >= 0) {
-//                                                        obj.labels[i] = temp;
-//                                                        break;
-//                                                    }
-//                                                }
-//                                            }
-//                                        }
-//                                    });
                                 }else{
                                     _currCtrl.last_page = true;
                                 }
@@ -191,15 +153,9 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                             $scope.invoiceReports.isSearched = true;
                             $scope.invoiceReports.page_num = 1;
                             $scope.getInvoiceData(0);
-                        } /*else {
-                            $scope.invoiceReports.isSearched = false;
-                        }*/
-
-                        //$scope.getInvoiceData();
+                        }
                     }
                 };
-
-
 
                 $scope.toggleInvocieLists=function(mediaPlan,index,event){
                     var elem = $(event.target),
@@ -208,17 +164,10 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         sel.removeClass("icon-arrow-down-open");
                         $("div[data-row-index="+index+"] .secondDimensionList").hide() ;
                         sel.closest(".oneDimensionRow").removeClass('visible') ;
-//                        if( $(".secondDimensionList:visible").length == 0 ) {
-//                            $( ".childRowHead" ).hide();
-//                        }
                     } else {
                         sel.addClass("icon-arrow-down-open") ;
                         $("div[data-row-index="+index+"] .secondDimensionList").show() ;
-               //         sel.closest(".oneDimensionRow").addClass('visible') ;
-               //         creativeList.getCreativeAds(creativeId,index);
-               //         $( ".childRowHead" ).show();
                     }
-                    //$scope.chkActiveParent();
                 };
 
                 $scope.showAddCreditPopup = function (invoice) {
@@ -234,9 +183,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         }
                     });
                 };
-
-
-
 
                 $scope.highlightTitleText = function (text, phrase) {
                     var keywordsArr,
@@ -286,7 +232,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     e.preventDefault();
 
                     dataService
-//                        .fetch(data.downloadLink)
                         .downloadFile(data.downloadLink)
                         .then(function (result) {
                             var responseData,
@@ -298,41 +243,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 saveAs(result.file, result.fileName);
-//                                responseData = result.data;
-//
-//                                mediaPlanName = $(e.target)
-//                                    .parents('.more-options')
-//                                    .siblings('.media-plan-name')[0]
-//                                    .innerHTML;
-//
-//                                // Replace blank spaces with underscore in media plan name
-//                                mediaPlanName = mediaPlanName.replace(/ /g, '_');
-//
-//                                invoiceDate = $(e.target)
-//                                    .parents('.media-plan-name-wrapper')
-//                                    .siblings('.invoice-date')[0]
-//                                    .innerHTML;
-//
-//                                invoiceDate = moment(invoiceDate).format('MMDDYYYY');
-//
-//                                // Default file name is "MediaPlanName-InvoiceDateInMMDDYYYformat
-//                                fileName = mediaPlanName + '-' + invoiceDate;
-//
-//                                // Download the CSV file
-//                                uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(result.data);
-//
-//                                //this trick will generate a temp <a /> tag
-//                                link = document.createElement('a');
-//                                link.href = uri;
-//
-//                                //set the visibility hidden so it will not effect on your web-layout
-//                                link.style = 'visibility:hidden';
-//                                link.download = fileName + '.csv';
-//
-//                                //this part will append the anchor tag and remove it after automatic click
-//                                document.body.appendChild(link);
-//                                link.click();
-//                                document.body.removeChild(link);
                             }
                         });
                 };
