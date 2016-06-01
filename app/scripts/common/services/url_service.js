@@ -330,36 +330,43 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return vistoconfig.apiPaths.WORKFLOW_API_URL+'/clients/'+clientId+'/advertisers/'+advId+'/pixels_download';
                 };
                 this.getInvoiceData = function (invoiceReports) {
-                    var clientId =  loginModel.getMasterClient().id,
+                    var clientId =  loginModel.getSelectedClient().id,
                         url;
-
                     if (invoiceReports.isSearched) {
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             // '/clients/' + clientId +
-                            '/clients/' + '2' + // TODO: temp client ID
+                            '/clients/' + clientId +
                             '/invoices/search' +
                             '?advertiser_id=' + invoiceReports.advertiserId +
                             '&brand_id=' + invoiceReports.brandId +
                             '&start_date=' + moment(invoiceReports.startDate).format(constants.DATE_UTC_SHORT_FORMAT) +
                             '&end_date=' + moment(invoiceReports.endDate).format(constants.DATE_UTC_SHORT_FORMAT) +
                             // Page number & page size hard-coded for now
-                            '&page_num=1&page_size=50' +
+                            '&page_num='+invoiceReports.page_num+
+                            '&page_size=50' +
                             '&search_term=' + invoiceReports.searchTerm;
                     } else {
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             // '/clients/' + clientId +
-                            '/clients/' + '2' + // TODO: temp client ID
+                            '/clients/' + clientId +
                             '/invoices/list' +
                             '?advertiser_id=' + invoiceReports.advertiserId +
                             '&brand_id=' + invoiceReports.brandId +
                             '&start_date=' + moment(invoiceReports.startDate).format(constants.DATE_UTC_SHORT_FORMAT) +
                             '&end_date=' + moment(invoiceReports.endDate).format(constants.DATE_UTC_SHORT_FORMAT) +
                             // Page number & page size hard-coded for now
-                            '&page_num=1&page_size=50';
+                            '&page_num='+invoiceReports.page_num+
+                            '&page_size=50';
                     }
 
                     return url;
                 };
+
+                this.saveInvoiceListCredits = function(invoiceId){
+                    var clientId =  loginModel.getMasterClient().id,
+                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
+                    return url+'/clients/'+clientId+'/invoices/'+invoiceId+'/credits';
+                }
 
                 this.getCampaignSpend = function(queryObj) {
                     //query_id = 14

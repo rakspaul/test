@@ -13,16 +13,12 @@
  *= require highcharts.css
  *= require_self
  */
-
-//Lib CSS
 @import "libs/angular-ui-switch.min.css";
 @import "libs/bootstrap-toggle.min.css";
 @import "libs/animate.css";
 @import "libs/icons.css";
 @import "libs/chosen.css";
 @import "libs/jquery-ui.css";
-
-//Per Page CSS
 @import "pages/common.css";
 @import "pages/reports.css";
 @import "pages/campaign_list.css";
@@ -31,8 +27,6 @@
 @import "pages/custom_reports.css";
 @import "pages/reports_schedule_list.css";
 @import "pages/reports_invoice_list.css";
-
-//Master UI Kit ver1.4 CSS
 @import "visto2.0/datepicker.css";
 @import "visto2.0/master.css";
 @import "pages/campaign_create.css";
@@ -42,10 +36,6 @@
 @import "visto2.0/inputs_forms.css";
 @import "visto2.0/drop_down.css";
 @import "visto2.0/tabs.css";
-
-//New Reports CSS
 @import "visto2.0/dashboard.css";
 @import "visto2.0/charts.css";
-
-//Responsive CSS
 @import "visto2.0/responsive.css";
