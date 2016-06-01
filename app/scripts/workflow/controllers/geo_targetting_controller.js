@@ -1422,6 +1422,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         //show country/region and city container
         $scope.showRespectiveTabContent = function (event, tabType) {
+
             /*
              show tooltip in two cases
              1. if you have selected region without selecting countries
@@ -1443,14 +1444,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 return false;
             }
 
-            //if (tabType === 'regions'
-            //    && selectedRegions === 0
-            //    && selectedCities > 0) {
-            //    $scope.geoNote = $scope.textConstants.NOT_SELECTED_REGION_NOTE;
-            //    geoTargeting.showToolTip(elem);
-            //    return false;
-            //}
-
             if ((tabType === 'countries' || tabType === 'regions')
                 && selectedCities > 0
                 && selectedCountries === 0
@@ -1464,19 +1457,22 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $(".geo-tab-content").hide();
             $("#" + tabType + "-geo-tab-content").show();
 
-            elem.closest(".btn-group").find(".active").removeClass("active");
-            elem.addClass("active");
+            if(!elem.hasClass('active')) {
+                elem.closest(".btn-group").find(".active").removeClass("active");
+                elem.addClass("active");
 
-            //reseting search value
-            geoTargeting.resetSearchValue();
 
-            //reseting geo targeting data
-            geoTargeting.resetGeoData();
+                //reseting search value
+                geoTargeting.resetSearchValue();
 
-            $scope.selectedSubTab = tabType;
-            geoTargeting.showHideExcAndIncSwitch();
-            geoTargeting.setIncludeExcludeGeo();
-            geoTargeting[tabType].init();
+                //reseting geo targeting data
+                geoTargeting.resetGeoData();
+
+                $scope.selectedSubTab = tabType;
+                geoTargeting.showHideExcAndIncSwitch();
+                geoTargeting.setIncludeExcludeGeo();
+                geoTargeting[tabType].init();
+            }
         };
 
         $scope.divHeightCalculation = function () {
