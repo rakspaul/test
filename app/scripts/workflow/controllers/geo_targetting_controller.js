@@ -36,6 +36,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.geoData.countries.data = [];
                 $scope.geoData.regions.data = [];
                 $scope.geoData.cities.data = [];
+                $scope.geoData.dmas.data = [];
             },
 
             //reset selected geoData
@@ -43,6 +44,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.geoData.countries.selected = [];
                 $scope.geoData.regions.selected = [];
                 $scope.geoData.cities.selected = [];
+                $scope.geoData.dmas.selected = [];
             },
 
             resetSearchValue: function () {

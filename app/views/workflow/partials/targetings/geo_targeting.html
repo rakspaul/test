@@ -12,13 +12,13 @@
         <div class="tooltipWrap zipCodeTooltip" ng-show="enableZipCodePopUp">
             <span data-ng-bind="textConstants.INCZIP"></span>
             <a ng-href="#" class="btn btn-default pull-right" ng-click="showGeographyTabsBox(null, 'zip', false);" role="button" data-ng-bind="textConstants.CONTINUE"></a>
-            <a href="javascript:void(0);" ng-click="hidezipCodeTooltip()" class="btn btn-link pull-right"  role="button" data-ng-bind="textConstants.CANCEL"></a>
+            <a ng-href="#" ng-click="hidezipCodeTooltip()" class="btn btn-link pull-right"  role="button" data-ng-bind="textConstants.CANCEL"></a>
         </div>
 
         <ul class="nav nav-tabs">
-          <li class="active"><a id="geoTab" ng-click="showGeographyTabsBox($event, 'geo')" ng-href="javascript:void(0);" data-ng-bind="textConstants.GEO"></a></li>
-          <li><a id="dmasTab" ng-href="javascript:void(0);" ng-click="showGeographyTabsBox($event, 'dmas')" data-ng-bind="textConstants.METRO"></a></li>
-          <li><a id="zipCodeTab" ng-href="javascript:void(0);" ng-click="showGeographyTabsBox($event, 'zip', true); " data-ng-bind="textConstants.ZIPPOSTCODE"></a></li>
+          <li class="active"><a id="geoTab" ng-click="showGeographyTabsBox($event, 'geo')" ng-href="#" data-ng-bind="textConstants.GEO"></a></li>
+          <li><a id="dmasTab" ng-href="#" ng-click="showGeographyTabsBox($event, 'dmas')" data-ng-bind="textConstants.METRO"></a></li>
+          <li><a id="zipCodeTab" ng-href="#" ng-click="showGeographyTabsBox($event, 'zip', true); " data-ng-bind="textConstants.ZIPPOSTCODE"></a></li>
         </ul>
 
         <div class="tab-content targetting-container">
