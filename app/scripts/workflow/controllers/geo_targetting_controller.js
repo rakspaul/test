@@ -16,6 +16,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             };
 
         $scope.textconstants = constants;
+        $scope.zipCodeTabSelected = false;
 
         $(window).resize(function () {
             $scope.divHeightCalculation();
@@ -653,7 +654,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.geoSelectedItems[idx] = [];
                     }
 
-                    if (geoType[0] === 'COUNTRY' && geoType[1] === 'REGION' && geoType[2] === 'CITY') {
+                    if ((geoType[0] === 'COUNTRY' && geoType[1] === 'REGION' && geoType[2] === 'CITY') || geoType[0] === 'COUNTRY' && geoType[1] === 'CITY' && geoType[2] === 'REGION') {
                         geoTargeting.countryRegionCityWrapper(geoItem, idx);
                     } else if (geoType[0] === 'COUNTRY' && geoType[1] === 'REGION') {
                         geoTargeting.countryRegionWrapper(geoItem, idx);
@@ -712,31 +713,32 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     })
                 }
 
+                var selectedCountries = $scope.geoData.countries.selected,
+                    selectedRegions = $scope.geoData.regions.selected;
+
+
                 if(type === 'countries'  || type === 'regions'  || type === 'cities' ) {
                     var selectedGeoType = $.extend(true, [], $scope.geoData[type].selected);
                     //if selected tab is country and we change the include/exclude toggle
                     if (type == 'countries') {
-                        _.each($scope.selectedCountries, function (country) {
+                        _.each(selectedCountries, function (country) {
                             country.regions = null;
                         })
                         $scope.geoData.regions.selected = [];
                         $scope.geoData.regions.data = [];
-                        $scope.selectedRegions = [];
 
                         $scope.geoData.cities.selected = [];
                         $scope.geoData.cities.data = [];
-                        $scope.selectedCities = [];
 
                     }
 
                     //if selected tab is regions and country is not selected and we change the include/exclude toggle
-                    if ($scope.selectedCountries.length === 0 && type == 'regions') {
-                        _.each($scope.selectedRegions, function (country) {
+                    if (selectedCountries.length === 0 && type == 'regions') {
+                        _.each(selectedRegions, function (country) {
                             country.cities = null;
                         })
                         $scope.geoData.cities.selected = [];
                         $scope.geoData.cities.data = [];
-                        $scope.selectedCities = [];
                     }
 
                     if(isChecked !== null) {
@@ -1292,8 +1294,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.check = function (checked, item,  type) {
 
             var idx,
-                previousSelectedData,
-                pos,
                 newItem;
 
             idx = _.findIndex($scope.geoData[type].selected, function (obj) {
@@ -1308,7 +1308,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.geoData[type].selected.push(item);
             }
 
-            if (checked !=null && type === 'countries') {
+            if (checked !== null && type === 'countries') {
                 if ($scope.geoData.countries.selected.length === 0) {
                     geoTargeting.updateSelectedGeoList(null, type);
                 }
@@ -1320,11 +1320,35 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             }
 
+            /**
+             * if country is selected and city is selected
+             * and if we are selecting region for which city is already selected
+             * we have to remove the cities for those regions and only show regions.
+             */
+
+            if($scope.geoData.countries.selected.length > 0 && $scope.geoData.cities.selected.length >0 && $scope.selectedSubTab === 'regions') {
+                console.log("$scope.geoData.countries.selected", $scope.geoData.regions.selected);
+
+                _.each($scope.geoData.cities.selected, function(obj, idx) {
+                    if(obj.parent.id === item.id) {
+                        $scope.geoData.cities.selected.splice(1, idx)
+                    }
+                })
+
+                tmpSelectedGeoItemArr = _.filter(tmpSelectedGeoItemArr, function(obj) { return obj.parent.id !== item.id });
+
+                //_.each(tmpSelectedGeoItemArr, function(obj, idx) {
+                //    if(obj.parent.id === item.id) {
+                //        tmpSelectedGeoItemArr.splice(1, idx)
+                //    }
+                //})
+            }
+
             if(type !== 'dmas') {
                 newItem = $.extend(true, {}, item);
 
                 idx = _.findIndex(tmpSelectedGeoItemArr, function (obj) {
-                    return newItem.id === obj.id;
+                    return obj.id === newItem.id;
                 });
 
                 if (idx >= 0 && !checked) {
@@ -1349,6 +1373,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         //search countries/regions/cities
         $scope.search = function (event, searchtxt) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+
             var target = $(event.currentTarget),
                 parent;
             if($(target).attr('type') === 'button') {
@@ -1360,7 +1387,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     geoTargeting.searchGeo(searchtxt, searchType);
                 }
             }
-            event.stopImmediatePropagation();
         };
 
 
@@ -1440,28 +1466,40 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             // var winHeight = $(window).height() ;
             // $(".targetting-tab-body").height() ;
         };
+
         $scope.divHeightCalculation();
 
 
-        $scope.divHeightCalculation();
+        $scope.hidezipCodeTooltip = function () {
+            $scope.enableZipCodePopUp = false;
+        };
 
         // show geo, dmas, zip container
         $scope.showGeographyTabsBox = function (event, tabType, showPopup) {
-            var elem = $(event.target);
-            elem.closest(".nav-tabs").find(".active").removeClass("active");
-            elem.closest("li").addClass("active");
-            $(".targetting-each-content").hide();
-            $("#" + tabType).show();
 
             if (tabType == "zip") {
+                if (showPopup && !$scope.zipCodeTabSelected) {
+                    $scope.enableZipCodePopUp = true;
+                    return false;
+                } else {
+                    $scope.zipCodeTabSelected = false;
+                }
+
                 $(".targetting-container .searchInput").hide();
             } else {
                 $(".targetting-container .searchInput").show();
             }
 
+            var elem = event ? $(event.target) : $('#zipCodeTab');
+            elem.closest(".nav-tabs").find(".active").removeClass("active");
+            elem.closest("li").addClass("active");
+            $(".targetting-each-content").hide();
+            $("#" + tabType).show();
+
             //reseting search value
             geoTargeting.resetSearchValue();
 
+            $scope.enableZipCodePopUp = false;
             // if clicked main tab is geo
             if (tabType === 'geo') {
                 $scope.selectedMainTab = 'geo';
@@ -1550,7 +1588,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             if(type === 'regions') {
 
-                tmpSelectedGeoItemArr = _.filter(tmpSelectedGeoItemArr, function(obj) { return obj.geoType === 'REGION' && obj.name !== item.name});
+                tmpSelectedGeoItemArr = _.filter(tmpSelectedGeoItemArr, function(obj) { return obj.id !== item.id}); //filter all regions
+                tmpSelectedGeoItemArr = _.filter(tmpSelectedGeoItemArr, function(obj) { return obj.parent.id !== item.id}); //filter all cities within the region
+
 
                 _.each($scope.geoSelectedItems, function(obj) {
                     _.each(obj.countries, function(country) {
@@ -1558,8 +1598,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     })
                 });
 
-
-                $scope.geoData.cities.selected = _.filter($scope.geoData.cities.selected, function(obj) { return obj.parent.id === item.id});
+                if(item.geoType === 'cities') {
+                    $scope.geoData.cities.selected = _.filter($scope.geoData.cities.selected, function(obj) { return obj.parent.id === item.id});
+                }
 
                 if($scope.selectedSubTab === 'cities') {
                     $timeout(function() {
@@ -1662,18 +1703,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.geoData.cities.selected.length = 0;
                     }
 
-                    $scope.selectedCountries.length = 0;
-
                     if($scope.geoData.regions.data) {
                         $scope.geoData.regions.data.length = 0;
                     }
 
-                    $scope.selectedRegions.length = 0;
-
                     if($scope.geoData.cities.data) {
                         $scope.geoData.cities.data.length = 0;
                     }
-                    $scope.selectedCities.length = 0;
 
                     $timeout(function () {
                         $(navTabChildElems[0]).triggerHandler('click');
@@ -1748,9 +1784,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.selectedMainTab = 'geo';
                 $scope.selectedSubTab = 'countries';
 
-                $scope.selectedCountries = [];
                 $scope.selectedRegions = [];
-                $scope.selectedCities = [];
 
                 $scope.geoSelectedItems = {}
                 tmpSelectedGeoItemArr = [];

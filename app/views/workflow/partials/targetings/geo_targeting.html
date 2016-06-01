@@ -3,7 +3,7 @@
 	<span class="icon-arrow-down"></span>
 	<h5 style="cursor: default;" data-ng-bind="textConstants.GEOGRAPHY"></h5>
 
-    <button ng-disabled="!(geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0 || geoData.dmas.selected.length > 0 || geoData.zip.selected.length > 0)" class="pull-right btn btn-default" style="text-transform:none;" ng-click="saveGeography()" data-ng-bind="textConstants.SAVE_GEOGRAPHY"></button>
+    <button type="button" ng-disabled="!(geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0 || geoData.dmas.selected.length > 0 || geoData.zip.selected.length > 0)" class="pull-right btn btn-default" style="text-transform:none;" ng-click="saveGeography()" data-ng-bind="textConstants.SAVE_GEOGRAPHY"></button>
     <a ng-href="#" class="pull-right btn btn-link" ng-click="showTargettingScreen(true);" data-ng-bind="textConstants.CANCEL"></a>
 </div>
 
