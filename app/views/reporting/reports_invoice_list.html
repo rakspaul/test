@@ -10,45 +10,8 @@
                 <filters-header></filters-header>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="col-md-12">
-                <div class="each_section_custom_report" style="min-width: 384px;">
-                    <div>
-                        <div class="clearfix title_row_separator customDatesTimeframe">
-                            <div class="pull-left col-md-12">
-                                <div class="col-md-12 input-daterange input-group date pull-left">
-                                    <div class="col-md-12 dateWrapper">
-                                        <div class="col-md-6">
-                                            <input type="text"
-                                                   id="startDateInput"
-                                                   class="input-sm form-control timeframe"
-                                                   ng-model="invoiceReports.startDate"
-                                                   required>
-                                            <i class="icon-calendar glyphicon pull-right"></i>
-                                            <!-- <label ng-if="!invoiceReports.startDate"
-                                            style="display:block" class="errorLabel"
-                                             ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="text"
-                                                   id="endDateInput"
-                                                   class="input-sm form-control timeframe"
-                                                   ng-model="invoiceReports.endDate"
-                                                   required>
-                                            <i class="icon-calendar glyphicon pull-right"></i>
-                                            <!-- <label ng-if="!invoiceReports.endDate"
-                                                style="display:block" class="errorLabel"
-                                                ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
+
+        <div class="col-md-8">
             <div class="btn-group pull-right">
                 <button type="button" class="btn btn-default pull-right" style="display: none">
                     <span class="icon-filter" style="margin: -1px 0 0;"></span>
@@ -74,6 +37,53 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Date filter -->
+    <div class="col-md-12 zeroPadding" style="margin-top:20px; margin-bottom:20px; margin-left:-60px;">
+        <div class="col-md-4">
+            <div class="pull-left">
+                <div class="col-md-12">
+                    <div class="each_section_custom_report" style="min-width: 384px;">
+                        <div>
+                            <div class="clearfix title_row_separator customDatesTimeframe">
+                                <div class="pull-left col-md-12">
+                                    <div class="col-md-12 input-daterange input-group date pull-left">
+                                        <div class="col-md-12 dateWrapper">
+                                            <div class="col-md-6">
+                                                <input type="text"
+                                                       id="startDateInput"
+                                                       class="input-sm form-control timeframe"
+                                                       ng-model="invoiceReports.startDate"
+                                                       required>
+                                                <i class="icon-calendar glyphicon pull-right"></i>
+                                                <!-- <label ng-if="!invoiceReports.startDate"
+                                                style="display:block" class="errorLabel"
+                                                 ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text"
+                                                       id="endDateInput"
+                                                       class="input-sm form-control timeframe"
+                                                       ng-model="invoiceReports.endDate"
+                                                       required>
+                                                <i class="icon-calendar glyphicon pull-right"></i>
+                                                <!-- <label ng-if="!invoiceReports.endDate"
+                                                    style="display:block" class="errorLabel"
+                                                    ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <button class="btn btn-default pull-left" type="button" ng-click="goClick()"> Go </button>
         </div>
     </div>
 
