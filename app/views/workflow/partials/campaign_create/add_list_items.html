@@ -396,7 +396,11 @@
             </div>
         </div>
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="volumeFlagEdit">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_VOLUME"></label>
+`            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="!editLineItem.lineItemType || editLineItem.lineItemType.name === 'Select Type'" data-ng-bind="textConstants.MEDIAPLAN_VOLUME">Volume</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="editLineItem.lineItemType.name === 'CPM'">Impressions</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="editLineItem.lineItemType.name === 'CPC'">Clicks</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="editLineItem.lineItemType.name === 'CPCV'">Completed</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="editLineItem.lineItemType.name === 'Post-Click CPA' || editLineItem.lineItemType.name === 'Post-Impression CPA' || editLineItem.lineItemType.name === 'Total CPA'">Actions</label>
             <input type="text" class="col-md-12 form-control" placeholder="" ng-model="editLineItem.volume" whole-number-only autocomplete="off" ng-readonly="true"/>
         </div>
 
