@@ -621,7 +621,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 getCountries: function (platformId, data, requestType, success, failure) {
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/countries' + data,
                         canceller;
-
                     if (requestType === 'cancellable') {
                         canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
                         return dataService.fetchCancelable(url, canceller, success, failure);
