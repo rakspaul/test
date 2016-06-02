@@ -1001,7 +1001,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     name: 'View to Completion'
                 };
 
-                $scope.adData.primaryKpi = '';
+              //  $scope.adData.primaryKpi = '';
 
                 if ($scope.adData.adFormat === 'Video') {
                     $scope.workflowData.primaryKpi[1].kpiValues.push(videoKpiObj);
