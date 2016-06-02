@@ -235,12 +235,13 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
                 // Download section
                 $scope.invoiceReports.download = function (e, data) {
-                    var href = e.target.href;
-
+                    var href = e.target.href,
+                        url = "";
                     e.preventDefault();
-
+                    url = data.downloadLink ? data.downloadLink :
+                          data.campaignId ? urlService.downloadInvoiceCampaign(data.campaignId) : "";
                     dataService
-                        .downloadFile(data.downloadLink)
+                        .downloadFile(url)
                         .then(function (result) {
                             var responseData,
                                 uri,
