@@ -317,6 +317,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             $scope.userModalData = [];
             $scope.advertiserName=[];
             $scope.brandName=[];
+            $scope.adminToggle = [];
             $scope.User = {
                 data: []
             };
