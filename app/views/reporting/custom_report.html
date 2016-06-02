@@ -199,10 +199,7 @@
                             <div class="clearfix title_row_separator">
                                 <div class="pull-left metrics_edit_container">
                                     <a class="blue_txt" href="#" data-toggle="modal" data-target=".metric_popup">
-											<span class="dashed_txt"
-                                                  ng-click="refreshMetriPopUp()"
-                                                  ng-bind="metrics_text">
-                                            </span>
+					<span class="dashed_txt" ng-click="refreshMetriPopUp()" ng-bind="metrics_text"></span>
                                     </a>
                                 </div>
                             </div>
@@ -217,6 +214,7 @@
                                 <div class="col-md-12 each_section_custom_report">
                                     <div class="total_metrics_container">
                                         <input style="display:none" type="text" placeHolder="Search" class="search_input">
+                                        
                                         <div class="clearfix">
                                             <div class="pull-left popup_heading">Metrics</div>
                                             <div class="pull-right select_all_measures_holder">
@@ -235,6 +233,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                         <div class="measurable_col_holder">
                                             <!-- Delivery Metrics -->
                                             <div  class="col-md-3 each_measurable_col" ng-if="deliveryMetrics.length">
@@ -508,7 +507,134 @@
                 </div>
                 </div>
             <!-- End 2nd Row Additional Filters -->
-
+            
+            <!--Selected Metrics-->
+            <div class="col-md-12 zeroPadding">
+                <span class="pull-left">Metrics</span>
+                <div class="pull-left clearLeft">
+                    <a href="#" class="pull-left" ng-click="refreshMetriPopUp()">
+                        <span class="pull-left" ng-bind="metrics_text"></span>
+                        <span class="pull-left icon-inline-edit"></span>
+                    </a>
+                </div>
+                
+                <!--Metric Data Toggle-->
+                <div class="col-md-12 zeroPadding metricDataView">
+                    <!--Header-->
+                    <div class="col-md-12 zeroPadding">
+                        <span class="pull-left">Select Metrics</span>
+                        <input ng-click="OnSelectUnselectAllMetrics();" type="checkbox" ng-model="allMetrics" class="pull-left" id="selectAll_chkbox">
+                        <span class="pull-left">Select All</span>
+                        
+                        <a class="btn btn-default pull-right">Save & Close</a>
+                        <a class="btn btn-link pull-right">Cancel</a>
+                    </div>
+                    
+                    <!--Body-->
+                    <div class="col-md-12 zeroPadding">
+                        <!--Delivery-->
+                        <div class="col-md-2 zeroPadding">
+                            <span class="col-md-12 zeroPadding">
+                                <input type="checkbox"
+                                    class="squaredFourChkbox"
+                                    id="delivery_chkbox"
+                                    ng-model="deliveryMetrics.isAllSelected"
+                                    ng-click="onDeliveryMetrClick()">
+                                    Delivery
+                            </span>
+                            
+                            <div class="col-md-12 zeroPadding"
+                                relationIds='Delivery'
+                                ng-repeat="delivery_metric in deliveryMetrics track by $index"
+                                id="{{delivery_metric.key}}"
+                                ng-class="{active:delivery_metric.selected}"
+                                ng-click="onDeliveryMetrClick($index)"
+                                ng-bind-html="delivery_metric.value">
+                            </div>
+                            
+                        </div>
+                        
+                        <!--Pacing-->
+                        <div class="col-md-2 zeroPadding">
+                            <span class="col-md-12 zeroPadding">Pacing</span>
+                            <div class="col-md-12 zeroPadding"></div>
+                        </div>
+                        
+                        <!--Cost-->
+                        <div class="col-md-3 zeroPadding">
+                            <span class="col-md-12 zeroPadding">
+                                <input type="checkbox"
+                                    class="squaredFourChkbox"
+                                    id="cost_chkbox"
+                                    ng-model="costMetrics.isAllSelected"
+                                    ng-click="onCostMetrClick()">
+                                    Cost
+                            </span>
+                            
+                            <div class="col-md-6 zeroPadding"
+                                relationIds='Cost'
+                                ng-repeat="cost_metric in costMetrics track by $index"
+                                id="{{cost_metric.key}}"
+                                ng-class="{active:cost_metric.selected}"
+                                ng-click="onCostMetrClick($index)"
+                                ng-bind-html="cost_metric.value">
+                            </div>
+                        </div>
+                        
+                        <!--Video-->
+                        <div class="col-md-2 zeroPadding">
+                            <span class="col-md-12 zeroPadding">
+                                <input type="checkbox"
+                                    class="squaredFourChkbox"
+                                    id="video_chkbox"
+                                    ng-model="videoMetrics.isAllSelected"
+                                    ng-click="onVedioMetrClick()">
+                                    Video
+                            </span>
+                            
+                            <div class="col-md-12 zeroPadding"
+                                relationIds='Video'
+                                ng-repeat="video_metric in videoMetrics track by $index "
+                                id="{{video_metric.key}}"
+                                ng-class="{active:video_metric.selected}"
+                                ng-click="onVedioMetrClick($index)"
+                                ng-bind-html="video_metric.value">
+                            </div>
+                        </div>
+                        
+                        <!--Quality-->
+                        <div class="col-md-3 zeroPadding">
+                            <span class="col-md-12 zeroPadding">
+                                <input type="checkbox"
+                                    class="squaredFourChkbox"
+                                    id="display_quality_chkbox"
+                                    ng-model="displayQltyMetrics.isAllSelected"
+                                    ng-click="onQltyDisplayClick()">
+                                    Quality
+                            </span>
+                            
+                            <div class="col-md-6 zeroPadding"
+                                relationIds='Quality Display'
+                                ng-repeat="display_quality_metrics in displayQltyMetrics track by $index"
+                                id="{{display_quality_metrics.key}}"
+                                ng-class="{active:display_quality_metrics.selected}"
+                                ng-click="onQltyDisplayClick($index)"
+                                ng-bind-html="display_quality_metrics.value">
+                            </div>
+                            
+                            <!--Video Quality-->
+                            <div class="col-md-6 zeroPadding"
+                                relationIds='Quality Video'
+                                ng-repeat="video_quality_metrics in videoQltyMetrics track by $index "
+                                id="{{video_quality_metrics.key}}"
+                                ng-class="{active:video_quality_metrics.selected}"
+                                ng-click="onQltyVdoMetrClick($index)"
+                                ng-bind-html="video_quality_metrics.value">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- 3rd Row Save/Schedule -->
             <div class="row create_scheduled_report">
