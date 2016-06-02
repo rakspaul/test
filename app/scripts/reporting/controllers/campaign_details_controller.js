@@ -410,6 +410,9 @@ function (angularAMD) {
                                 maxDays = result.data.data.measures_by_days;
                                 kpiType = ($scope.campaign.kpiType);
                                 kpiTypeLower = kpiType.toLowerCase();
+                                if(kpiTypeLower === 'action rate') {
+                                    kpiTypeLower = 'action_rate';
+                                }
                                 for (i = 0; i < maxDays.length; i++) {
                                     maxDays[i].ctr *= 100;
                                     maxDays[i].vtc = maxDays[i].video_metrics.vtc_rate;
@@ -659,6 +662,11 @@ function (angularAMD) {
                         sortedData;
 
                     kpIType = kpIType.toLowerCase();
+
+                    if(kpIType === "action rate") {
+                        kpIType = 'action_rate';
+                    }
+
                     $scope.loadingInventoryFlag = false;
 
                     if (result.status === 'success' && !angular.isString(result.data)) {
@@ -674,9 +682,10 @@ function (angularAMD) {
                             sortedData = _.sortBy(inventoryData, kpIType);
 
                             sortedData =
-                                (kpIType.toLowerCase() === 'cpa' ||
-                                kpIType.toLowerCase() === 'cpm' ||
-                                kpIType.toLowerCase() === 'cpc') ? sortedData: sortedData.reverse();
+                                (kpIType === 'cpa' ||
+                                kpIType === 'cpm' ||
+                                kpIType === 'cpc') ? sortedData: sortedData.reverse();
+
                             sortedData = _.sortBy(sortedData, function (obj) {
                                 return obj[kpIType] === 0;
                             });
@@ -691,21 +700,20 @@ function (angularAMD) {
                                     kpiData = data[kpIType];
                                 }
 
-                                if (kpIType.toLowerCase() === 'ctr' || kpIType.toLowerCase() === 'action_rate' ||
-                                    kpIType.toLowerCase() === 'action rate') {
+                                if (kpIType === 'ctr' || kpIType === 'action_rate') {
                                     kpiData = parseFloat(kpiData.toFixed(4));
-                                } else if (kpIType.toLowerCase() === 'cpm' || kpIType.toLowerCase() === 'cpc' ||
-                                    kpIType.toLowerCase() === 'vtc') {
+                                } else if (kpIType === 'cpm' || kpIType === 'cpc' ||
+                                    kpIType === 'vtc') {
                                     kpiData = parseFloat(kpiData.toFixed(2));
                                 }
 
                                 $scope.chartDataInventory.push({
-                                    'gross_env': '',
-                                    className: '',
-                                    'icon_url': '',
-                                    'type': data.dimension,
-                                    'value': kpiData,
-                                    kpiType: kpIType
+                                    'gross_env' : '',
+                                    'className' : '',
+                                    'icon_url' : '',
+                                    'type' : data.dimension,
+                                    'value' : kpiData,
+                                    'kpiType' : kpIType
                                 });
                             });
                         }
