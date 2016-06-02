@@ -1112,7 +1112,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.calculateSpendBudget = function (adGroupsData) {
                 var deliveryBudget = $scope.calculateBudget(adGroupsData);
 
-                if (parseInt(deliveryBudget) === 0) {
+                if (parseFloat(deliveryBudget) === 0) {
                     return 0;
                 } else {
                     if (adGroupsData.bookedSpend && adGroupsData.bookedSpend > 0) {
