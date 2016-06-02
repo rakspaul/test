@@ -715,6 +715,7 @@ define(['angularAMD'], function(angularAMD) {
         this.LEARNMOREADSET = 'Learn more about Ad Settings';
         this.WHENADRUN = 'What are your flight and delivery settings?';
         this.FLIGHTPASSED = 'Media Plan flight date has passed';
+        this.ADGROUP_FLIGHTPASSED = 'Ad Group flight date has passed';
         this.SETUPBUDGET = 'How do you want to budget your Ad?';
         this.MEASUREBUDGET = 'How will you measure success for your Ad?';
         this.TRACKBUDGET = 'How do you want to track your Ad?';

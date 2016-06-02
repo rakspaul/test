@@ -241,7 +241,7 @@
 
 
             <div class="pull-right" style="padding: 30px 0 0 0;">
-                <div class="pull-right btn btn-default" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''" ng-click="(mode === 'create' || cloneMediaPlanName)?createNewLineItem('create'):createNewLineItemInEditMode('create')" ng-show="!createNewLineItemLoaderEdit">Add Line Item</div>
+                <div class="pull-right btn btn-primary" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''" ng-click="(mode === 'create' || cloneMediaPlanName)?createNewLineItem('create'):createNewLineItemInEditMode('create')" ng-show="!createNewLineItemLoaderEdit">Add Line Item</div>
                 <div ng-show ="createNewLineItemLoaderEdit" class="pull-right common-loading-btn" ></div>
                 <div class="pull-right btn btn-link" id="hideLineItemCreateBox" ng-click="selectedCampaign.resetLineItemParameters()">Cancel</div>
                 <!--confirm message in edit mode-->
