@@ -44,8 +44,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                                 arr = null,
                                 result = res.data.data,
                                 advertiserIndex;
-console.log('getUserAdvertiser(): index = ', typeof index, ', result = ', result,
-    ', $scope.userModalData = ', $scope.userModalData, ', counter = ', counter)
 
                             if ((res.status === 'OK' || res.status === 'success') && result.length) {
                                 arr = result;
@@ -84,7 +82,6 @@ console.log('getUserAdvertiser(): index = ', typeof index, ', result = ', result
                                 }
 
                                 $scope.userPages = res.data.data;
-                                console.log('userPages = ', $scope.userPages)
                             }
                         });
                 },
@@ -580,7 +577,7 @@ console.log('getUserAdvertiser(): index = ', typeof index, ', result = ', result
         $rootScope.$on('permissionsForUsers', function (e, user) {
             $scope.resetFields(true);
             userModalPopup.getUserClients();
-console.log('call setPreselectedPermission')
+
             if (user) {
                 setPreselectedPermission(user);
                 $scope.editId = user[0].id;
