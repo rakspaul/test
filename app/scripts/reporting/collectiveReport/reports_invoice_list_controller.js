@@ -3,7 +3,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
     'reporting/models/domain_reports','common/services/data_service', 'common/moment_utils',
     'common/services/role_based_service', 'common/services/url_service', 'common/services/data_store_model',
     'common/controllers/confirmation_modal_controller','reporting/collectiveReport/report_schedule_delete_controller', 'workflow/controllers/ad_clone_controller',
-    'reporting/collectiveReport/reports_invoice_addCredit_controller' ],
+    'reporting/collectiveReport/reports_invoice_addCredit_controller', 'workflow/directives/custom_date_picker' ],
     function (angularAMD) {
         'use strict';
 
@@ -24,6 +24,14 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     endDate: moment().format(constants.DATE_US_FORMAT),
                     page_num: 1
                 };
+                _currCtrl.resetDateToInit = function(){
+                    $scope.invoiceReports.startDate = moment().subtract(365, 'day').format(constants.DATE_US_FORMAT);
+                    $scope.invoiceReports.endDate = moment().format(constants.DATE_US_FORMAT);
+                    $("#startDateInput").val($scope.invoiceReports.startDate);
+                    $("#endDateInput").val($scope.invoiceReports.endDate);
+                    $('#startDateInput').datepicker('setDate', $scope.invoiceReports.startDate);
+                    $('#endDateInput').datepicker('setDate',$scope.invoiceReports.endDate);
+                }
                 _currCtrl.resetPagination = function(){
                     _currCtrl.last_page = false;
                     $scope.invoiceReports.page_num = 1;
@@ -117,11 +125,11 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     $scope.invoiceReports.clientId = loginModel.getSelectedClient().id,
                         $scope.getInvoiceData(0);
                 });
-                $("#startDateInput, #endDateInput").change(function(){
+                $scope.goClick = function(){
                     $("#startDateInput").val() && ($scope.invoiceReports.startDate = $("#startDateInput").val());
-                    $("#startDateInput").val() && ($scope.invoiceReports.endDate = $("#endDateInput").val());
+                    $("#endDateInput").val() && ($scope.invoiceReports.endDate = $("#endDateInput").val());
                     $scope.getInvoiceData(0);
-                });
+                }
                 //Search Hide / Show
                 $scope.searchShowInput = function () {
                     var searchInputForm = $('.searchInputForm');
@@ -248,14 +256,11 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 };
 
                 $(document).ready(function () {
+                    _currCtrl.resetDateToInit();
                     $(window).unbind('scroll');
                     $scope.getInvoiceData(0);
-
-                    $('.input-daterange').datepicker({
-                        format: 'mm/dd/yyyy',
-                        orientation: 'auto',
-                        autoclose: true,
-                        todayHighlight: true
+                    $('.input-daterange').change(function(){
+                        $('.datepicker').hide();
                     });
                 });
                 function attachScrollToWindow() {
