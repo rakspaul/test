@@ -67,8 +67,7 @@
 .reports-invoice-list .report_list_table .option-horizontal {
   text-align: center;
   cursor: pointer;
-  height: 33px;
-  padding-top: 5px;
+  height: 19px;
 }
 .reports-invoice-list .report_list_table .option-horizontal > span {
   display: inline-block;
