@@ -1921,6 +1921,13 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         });
                     });
                 });
+                $(".metricDataViewHeader").hide();
+                $(".metricDataView").slideDown();
+            }
+            
+            $scope.cancelMetricView = function() {
+                $(".metricDataView").slideUp();
+                setTimeout(function(){ $(".metricDataViewHeader").fadeIn(); }, 600);
             }
 
             $scope.validateScheduleDate = function(){

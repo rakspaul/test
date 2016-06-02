@@ -3,57 +3,51 @@
 
 <div class="report_generator_and_response">
     <div class="report_builder_container">
-        <div class="container">
-        <div class="row">
-        <div class="col-md-12" id="dynamicHeader">
+        <div class="col-md-12" id="dynamicHeader" style="padding: 30px 0 0 0;">
             <!-- this will be hidden until fold happens -->
-            <a class="collapseIcon iconPlusMinus" role="button" id="{{$index+1}}" href=""> 
-                <span class="icon-plus" ng-click="ToggleAdGroups(this)"></span> 
+            <a class="collapseIcon iconPlusMinus" role="button" id="{{$index+1}}" href="">
+                <span class="icon-plus" ng-click="ToggleAdGroups(this)"></span>
             </a>
-            <!-- -->
-            <span class="heading" style="float:left;"><h1 ng-bind-html="textConstants.REPORT_BUILDER"></h1></span>
+            
+            <h1 class="pull-left zeroMargin" ng-bind-html="textConstants.REPORT_BUILDER"></h1>
             <!-- this will be hidden after fold-->
-            <span class="heading subTitle"><h6 ng-bind-html="textConstants.REPORT_BUILDER_SUBTITLE"></h6></span>
-            <!-- -->
+            <h6 class="heading subTitle pull-left clearLeft" ng-bind-html="textConstants.REPORT_BUILDER_SUBTITLE"></h6>
+            
             <!-- his will be hidden until fold happens -->
-            <span class="heading savedSubTitle"><span>{{reports.name}}</span></span>
-            <span class="heading savedSubTitle"><span ng-if="reports.name">|</span> {{reports.reportDefinition.timeframe.start_date}}</span>
-            <span class="heading savedSubTitle">- {{reports.reportDefinition.timeframe.end_date}}</span>
-            <span class="heading downReport">
+            <span class="heading savedSubTitle pull-left">{{reports.name}}</span>
+            <span class="heading savedSubTitle pull-left"><span ng-if="reports.name">|</span> {{reports.reportDefinition.timeframe.start_date}}</span>
+            <span class="heading savedSubTitle pull-left">- {{reports.reportDefinition.timeframe.end_date}}</span>
+            <span class="heading downReport pull-left">
                 <span class="icon-download zeroPadding pull-left" style="margin-right:9px;"></span>
                 <a ng-click="downloadCreateRepBuilder()" class="pull-left">Download Report</a></span>
             </span>
         </div>
-        </div>
-        </div>
 
-        <div class="container" id="reportBuilderForm">
-            <div class="row">
-
-            </div>
-            <div class="row">
-                <div class="col-md-4">
+        <div class="col-md-12 zeroPadding" id="reportBuilderForm">
+            <!--Row 1-->
+            <div class="col-md-12 zeroPadding reportRowForm">
+                <!--Dimensions-->
+                <div class="col-md-4 zeroPadding">
                     <div class="each_section_custom_report dimensionKeywordSection">
                         <div class="create_report_title create_report_title_label" ng-bind-html="textConstants.SELECT_DIMENTION" ></div>
                         <div ng-show="showPrimaryTxtBox" class="create_report_title create_report_title_label filter_input_txtbox" ng-bind-html="textConstants.ADD_KEYWORDS"  ></div>
-                        <div>
                             <!-- Primary Dimension start -->
                             <div class="clearfix title_row_separator breakdown_div dimension_block">
                                 <div class="pull-left custom_report_filter custom_report_breakdown">
                                     <div class="common_dropdown">
                                         <div class="dropdown">
-                                                <span class="dropdown_ul_text" data-toggle="dropdown" title="{{reports.reportDefinition.dimensions.primary.name ?
-                                                          reports.reportDefinition.dimensions.primary.name :
-                                                          textConstants.REPORT_CHOOSE_BREAKDOWN}}">
-                                                    <span class="dd_txt"
-                                                          data-template_id = "{{showDefaultDimension.template_id}}"
-                                                          id="{{showDefaultDimension.key}}"
-                                                          ng-bind-html="reports.reportDefinition.dimensions.primary.name ?
-                                                          reports.reportDefinition.dimensions.primary.name :
-                                                          textConstants.REPORT_CHOOSE_BREAKDOWN">
-                                                    </span>
-                                                    <span class="arrow_img"></span>
+                                            <span class="dropdown_ul_text" data-toggle="dropdown" title="{{reports.reportDefinition.dimensions.primary.name ?
+                                                      reports.reportDefinition.dimensions.primary.name :
+                                                      textConstants.REPORT_CHOOSE_BREAKDOWN}}">
+                                                <span class="dd_txt"
+                                                      data-template_id = "{{showDefaultDimension.template_id}}"
+                                                      id="{{showDefaultDimension.key}}"
+                                                      ng-bind-html="reports.reportDefinition.dimensions.primary.name ?
+                                                      reports.reportDefinition.dimensions.primary.name :
+                                                      textConstants.REPORT_CHOOSE_BREAKDOWN">
                                                 </span>
+                                                <span class="arrow_img"></span>
+                                            </span>
                                             <ul class="dropdown-menu" ng-click="enable_generate_btn();">
                                                 <li ng-click="select_dropdown_option($event)"
                                                     ng-bind-html="textConstants.REPORT_CHOOSE_BREAKDOWN">
@@ -67,12 +61,14 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="pull-left filter_input_txtbox" ng-show="showPrimaryTxtBox">
                                     <input type="text" name="filter" class ="reportFilter"
                                            ng-model='reports.reportDefinition.dimensions.primary.value'
                                            data-reportType = "Primary" autofocus placeholder="Contains keywords ...">
                                 </div>
                             </div>
+                            
                             <!-- Second Dimension start -->
                             <div id="breakdown_row" ng-show="showSecondDimensionBlock">
                                 <div class="clearfix title_row_separator breakdown_div">
@@ -116,520 +112,297 @@
                                     <div class="pull-left delete_row" ng-click="deleteSecondDimensionBlock();"></div>
                                 </div>
                             </div>
-                            <!-- Second Dimension end -->
-                            <div class="row" ng-show="showAddBreakdownButton">
-                                <div class="add_breakdown_line"></div>
-                                <div class="clearfix add_breakdown_btn">
-                                    <div class="pull-left add_circle_symbol" ng-click="showSecondDimension()"></div>
-                                    <div class="pull-left"
-                                         ng-click="showSecondDimension()"
-                                         ng-bind-html="textConstants.ADD_BREAKDOWN_LABEL">
-                                    </div>
+                            
+                        <!-- Second Dimension end -->
+                        <div class="row" ng-show="showAddBreakdownButton">
+                            <div class="add_breakdown_line"></div>
+                            <div class="clearfix add_breakdown_btn">
+                                <div class="pull-left add_circle_symbol" ng-click="showSecondDimension()"></div>
+                                <div class="pull-left"
+                                     ng-click="showSecondDimension()"
+                                     ng-bind-html="textConstants.ADD_BREAKDOWN_LABEL">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- div class 1st column over -->
-                <div class="col-md-6 left_border">
-                     <div class="each_section_custom_report" style="min-width: 566px;">
-                        <div class="create_report_title" ng-bind-html="textConstants.REPORT_BUILDER_TIMEFRAME"></div>
-                        <div>
-                            <div class="clearfix title_row_separator customDatesTimeframe">
-                                <div class="pull-left col-md-4 timeframe_selector">
-                                    <div class="common_dropdown">
-                                        <div class="dropdown">
-                                                <span class="dropdown_ul_text" data-toggle="dropdown">
-                                                    <span class="dd_txt"
-                                                          id="date-selected-txt"
-                                                          ng-bind-html="reports.reportDefinition.timeframe.type ?
-                                                          reports.reportDefinition.timeframe.type :
-                                                          textConstants.YESTERDAY">
-                                                    </span>
-                                                    <span class="arrow_img"></span>
-                                                </span>
-                                            <ul class="dropdown-menu">
-                                                <li ng-model="reports.reportDefinition.timeframe.type"
-                                                    ng-repeat="timeframe in textConstants.REPORT_BUILDER_TIMEFRAME_LIST"
-                                                    ng-click="reports.reportDefinition.timeframe.type = timeframe;
-                                                        select_dropdown_option($event , timeframe)"
-                                                    ng-bind-html="timeframe">
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="pull-left col-md-8">
-                                    <div class="col-md-12 input-daterange input-group date pull-left">
-                                        <div class="col-md-12 dateWrapper ">
-                                            <div class="col-md-6">
-                                                <input type="text"
-                                                       id="startDateInput"
-                                                       class="input-sm form-control timeframe"
-                                                       ng-model="reports.reportDefinition.timeframe.start_date"
-                                                       required>
-                                                <i class="icon-calendar glyphicon pull-right"></i>
-                                                <label ng-if="!reports.reportDefinition.timeframe.start_date" style="display:block"
-                                                       class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="text"
-                                                       id="endDateInput"
-                                                       class="input-sm form-control timeframe"
-                                                       ng-model="reports.reportDefinition.timeframe.end_date"
-                                                       required>
-                                                <i class="icon-calendar glyphicon pull-right"></i>
-                                                <label ng-if="!reports.reportDefinition.timeframe.end_date"
-                                                       style="display:block"
-                                                       class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- div class 2nd column over -->
-                <!-- 3rd column Metrics -->
-                <div class="col-md-2 left_border_metrics">
-                    <div class="each_section_custom_report metrics_section">
-                        <div class="create_report_title" ng-bind="textConstants.SELECTED_METRICS"></div>
-                        <div class="metrics_btns">
-                            <div class="clearfix title_row_separator">
-                                <div class="pull-left metrics_edit_container">
-                                    <a class="blue_txt" href="#" data-toggle="modal" data-target=".metric_popup">
-					<span class="dashed_txt" ng-click="refreshMetriPopUp()" ng-bind="metrics_text"></span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="metric_popup modal fade"
-                             tabindex="-1"
-                             role="dialog"
-                             aria-labelledby="myModalLabel"
-                             aria-hidden="true">
-                            <div class="about_popup">
-                                <span class="close unselectable" data-dismiss="modal" aria-hidden="true">×</span>
-                                <div class="col-md-12 each_section_custom_report">
-                                    <div class="total_metrics_container">
-                                        <input style="display:none" type="text" placeHolder="Search" class="search_input">
-                                        
-                                        <div class="clearfix">
-                                            <div class="pull-left popup_heading">Metrics</div>
-                                            <div class="pull-right select_all_measures_holder">
-                                                <div class="clearfix custom_report_col_title">
-                                                    <div class="pull-right external_chkbox">
-                                                        <div class="squaredFour">
-                                                            <input ng-click="OnSelectUnselectAllMetrics();"
-                                                                   type="checkbox"
-                                                                   ng-model="allMetrics"
-                                                                   class="squaredFourChkbox"
-                                                                   id="selectAll_chkbox">
-                                                            <label for="selectAll_chkbox"></label>
-                                                        </div>
-                                                        <span class="squaredFourTxt">Select All</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="measurable_col_holder">
-                                            <!-- Delivery Metrics -->
-                                            <div  class="col-md-3 each_measurable_col" ng-if="deliveryMetrics.length">
-                                                <div class="custom_report_col_title">
-                                                    <div class="external_chkbox clearfix">
-                                                        <div class="squaredFour"
-                                                             ng-class="{not_all_selected:deliveryMetrics.minOneSelected}">
-                                                            <input type="checkbox"
-                                                                   class="squaredFourChkbox"
-                                                                   id="delivery_chkbox"
-                                                                   ng-model="deliveryMetrics.isAllSelected"
-                                                                   ng-click="onDeliveryMetrClick()">
-                                                            <label for="delivery_chkbox"></label>
-                                                        </div>
-                                                        <span class="squaredFourTxt">Delivery</span>
-                                                    </div>
-                                                </div>
-                                                <div class="custom_report_col">
-                                                    <div class="each_option"
-                                                         relationIds='Delivery'
-                                                         ng-repeat="delivery_metric in deliveryMetrics track by $index"
-                                                         id="{{delivery_metric.key}}"
-                                                         ng-class="{active:delivery_metric.selected}"
-                                                         ng-click="onDeliveryMetrClick($index)"
-                                                         ng-bind-html="delivery_metric.value">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Cost Metrics -->
-                                            <div  class="col-md-3 each_measurable_col" ng-if="showCost && costMetrics.length">
-                                                <div class="custom_report_col_title">
-                                                    <div class="external_chkbox clearfix">
-                                                        <div class="squaredFour"
-                                                             ng-class="{not_all_selected:costMetrics.minOneSelected}">
-                                                            <input type="checkbox"
-                                                                   class="squaredFourChkbox"
-                                                                   id="cost_chkbox"
-                                                                   ng-model="costMetrics.isAllSelected"
-                                                                   ng-click="onCostMetrClick()">
-                                                            <label for="cost_chkbox"></label>
-                                                        </div>
-                                                        <span class="squaredFourTxt">Cost</span>
-                                                    </div>
-                                                </div>
-                                                <div class="custom_report_col">
-                                                    <div class="each_option"
-                                                         relationIds='Cost'
-                                                         ng-repeat="cost_metric in costMetrics track by $index"
-                                                         id="{{cost_metric.key}}"
-                                                         ng-class="{active:cost_metric.selected}"
-                                                         ng-click="onCostMetrClick($index)"
-                                                         ng-bind-html="cost_metric.value">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!--div  class="col-md-3 each_measurable_col">
-                                                <div class="custom_report_col_title">
-                                                    <div class="external_chkbox clearfix">
-                                                      <div class="squaredFour">
-                                                        <input type="checkbox" class="squaredFourChkbox"
-                                                        id="booked_chkbox" ng-click="select_unselect_metrics($event)">
-                                                        <label for="booked_chkbox"></label>
-                                                      </div>
-                                                      <span class="squaredFourTxt">Booked</span>
-                                                    </div>
-                                                </div>
-                                                <div class="custom_report_col">
-                                                    <div class="each_option" ng-repeat="booked_metric in
-                                                    customeDimensionData[0].booked_metrics" id="{{booked_metric.key}}"
-                                                    ng-click="select_option($event , 'booked_chkd')">
-                                                        {{booked_metric.value}}
-                                                    </div>
-                                                </div>
-                                            </div-->
-                                            <!-- Engagement Metrics -->
-                                            <!--	<div  class="col-md-3 each_measurable_col">
-                                                     <div class="custom_report_col_title">
-                                                <div class="external_chkbox clearfix">
-                                             <div class="squaredFour" ng-class="{not_all_selected:engagementMetrics.minOneSelected}">
-                                             <input type="checkbox" class="squaredFourChkbox" id="engagement_chkbox"
-                                             ng-model="engagementMetrics.isAllSelected" ng-click="onEngagementMetrClick()">
-                                               <label for="engagement_chkbox"></label>
-                                              </div>
-                                             <span class="squaredFourTxt">Engagement</span>
-                                             </div>
-                                            </div>
-                                              <div class="custom_report_col">
-                                            <div class="each_option" relationIds='Engagement' ng-repeat="engagement_metric in
-                                            engagementMetrics track by $index" id="{{engagement_metric.key}}"
-                                            ng-class="{active:engagement_metric.selected}" ng-click="onEngagementMetrClick($index)">
-                                             {{engagement_metric.value}}
-                                            </div>
-                                             </div>
-                                             </div>-->
-
-                                            <!-- Video Metrics -->
-                                            <div  class="col-md-3 each_measurable_col" ng-if="videoMetrics.length">
-                                                <div class="custom_report_col_title">
-                                                    <div class="external_chkbox clearfix">
-                                                        <div class="squaredFour"
-                                                             ng-class="{not_all_selected:videoMetrics.minOneSelected}">
-                                                            <input type="checkbox"
-                                                                   class="squaredFourChkbox"
-                                                                   id="video_chkbox"
-                                                                   ng-model="videoMetrics.isAllSelected"
-                                                                   ng-click="onVedioMetrClick()">
-                                                            <label for="video_chkbox"></label>
-                                                        </div>
-                                                        <span class="squaredFourTxt">Video</span>
-                                                    </div>
-                                                </div>
-                                                <div class="custom_report_col">
-                                                    <div class="each_option"
-                                                         relationIds='Video'
-                                                         ng-repeat="video_metric in videoMetrics track by $index "
-                                                         id="{{video_metric.key}}"
-                                                         ng-class="{active:video_metric.selected}"
-                                                         ng-click="onVedioMetrClick($index)"
-                                                         ng-bind-html="video_metric.value">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!--  Quality Metrics -->
-                                            <div  class="col-md-3 each_measurable_col" ng-if="showQuality && displayQltyMetrics.length">
-                                                <div class="custom_report_col_title">
-                                                    <div class="external_chkbox clearfix">
-                                                        <div class="squaredFour"
-                                                             ng-class="{not_all_selected:displayQltyMetrics.minOneSelected}">
-                                                            <input type="checkbox"
-                                                                   class="squaredFourChkbox"
-                                                                   id="display_quality_chkbox"
-                                                                   ng-model="displayQltyMetrics.isAllSelected"
-                                                                   ng-click="onQltyDisplayClick()">
-                                                            <label for="display_quality_chkbox"></label>
-                                                        </div>
-                                                        <span class="squaredFourTxt">Quality Display</span>
-                                                    </div>
-                                                </div>
-                                                <div class="custom_report_col">
-                                                    <div class="each_option"
-                                                         relationIds='Quality Display'
-                                                         ng-repeat="display_quality_metrics in displayQltyMetrics track by $index"
-                                                         id="{{display_quality_metrics.key}}"
-                                                         ng-class="{active:display_quality_metrics.selected}"
-                                                         ng-click="onQltyDisplayClick($index)"
-                                                         ng-bind-html="display_quality_metrics.value">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- video quality metrics -->
-                                            <div  class="col-md-3 each_measurable_col" ng-if="showQuality && videoQltyMetrics.length">
-                                                <div class="custom_report_col_title">
-                                                    <div class="external_chkbox clearfix">
-                                                        <div class="squaredFour"
-                                                             ng-class="{not_all_selected:videoQltyMetrics.minOneSelected}">
-                                                            <input type="checkbox"
-                                                                   class="squaredFourChkbox"
-                                                                   id="video_quality_chkbox"
-                                                                   ng-model="videoQltyMetrics.isAllSelected"
-                                                                   ng-click="onQltyVdoMetrClick()">
-                                                            <label for="video_quality_chkbox"></label>
-                                                        </div>
-                                                        <span class="squaredFourTxt">Quality Video</span>
-                                                    </div>
-                                                </div>
-                                                <div class="custom_report_col">
-                                                    <div class="each_option"
-                                                         relationIds='Quality Video'
-                                                         ng-repeat="video_quality_metrics in videoQltyMetrics track by $index "
-                                                         id="{{video_quality_metrics.key}}"
-                                                         ng-class="{active:video_quality_metrics.selected}"
-                                                         ng-click="onQltyVdoMetrClick($index)"
-                                                         ng-bind-html="video_quality_metrics.value">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="clearfix">
-                                            <div class="pull-right common_primary_btn"
-                                                 ng-click="saveMetrics()"
-                                                 ng-bind-html="textConstants.MP_SAVE">
-                                            </div>
-                                            <div class="pull-right secondary_txt"
-                                                 data-dismiss="modal" aria-hidden="true"
-                                                 ng-bind-html="textConstants.MP_CANCEL">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- div class 3rd col over -->
-
-
-
-            </div>
-            <!-- first row over -->
-
-            <!-- Start 2nd Row Additional Filters -->
-            <div class="container">
-            <div class="row">
-            <div class="col-md-12">
-                <div class="each_section_custom_report">
-                    <div class="create_report_title" ng-bind-html="textConstants.REPORT_ADDITIONAL_FILTERS"></div>
-                    <div class="additional_filters_holder">
-                        <div id="filter_breakdown_row" ng-repeat="addFilts in additionalFilters track by $index"
-                             data-ng-init="filterIndex=$index"
-                            <!-- sapna -->
-                            <div class="clearfix custom_filter_breakdown breakdown_div">
-                                <div class="pull-left custom_filter_dropdown custom_report_breakdown">
-                                    <div class="common_dropdown">
-                                        <div class="dropdown">
-													<span class="dropdown_ul_text" data-toggle="dropdown">
-                                                        <span class="dd_txt"
-                                                              ng-bind-html="addFilts.name ?
-                                                              addFilts.name :
-                                                              textConstants.CHOOSE_FILTER">
+                <!--Ends Dimensions-->
+                    
+                <!-- Additional Filters -->
+                <div class="col-md-4">
+                    <div class="each_section_custom_report">
+                        <div class="create_report_title" ng-bind-html="textConstants.REPORT_ADDITIONAL_FILTERS"></div>
+                        <div class="additional_filters_holder">
+                            <div id="filter_breakdown_row" ng-repeat="addFilts in additionalFilters track by $index"
+                                 data-ng-init="filterIndex=$index">
+                                <!-- sapna -->
+                                <div class="clearfix custom_filter_breakdown breakdown_div">
+                                    <div class="pull-left custom_filter_dropdown custom_report_breakdown">
+                                        <div class="common_dropdown">
+                                            <div class="dropdown">
+                                                        <span class="dropdown_ul_text" data-toggle="dropdown">
+                                                            <span class="dd_txt"
+                                                                  ng-bind-html="addFilts.name ?
+                                                                  addFilts.name :
+                                                                  textConstants.CHOOSE_FILTER">
+                                                            </span>
+                                                            <span class="arrow_img"></span>
                                                         </span>
-                                                        <span class="arrow_img"></span>
-                                                    </span>
-                                            <ul class="dropdown-menu">
-                                                <div class="dropdown_autoselect_box">
-                                                    <input ng-click="addSearch($event)"
-                                                           type="text"
-                                                           ng-model="dimensionQuery"
-                                                           placeHolder="Search">
-                                                </div>
-                                                <li ng-repeat="filters in filterList
-														    | filter:dimensionQuery"
-                                                    id="{{filters}}"
-                                                    ng-click="onChoosingAditFlts(filterIndex,
-                                                            filters);"
-                                                    ng-model="addFilts.key"
-                                                    ng-bind-html="displayName[filters]" ng-if="checkDimension(filters)">
-                                                </li>
-                                            </ul>
+                                                <ul class="dropdown-menu">
+                                                    <div class="dropdown_autoselect_box">
+                                                        <input ng-click="addSearch($event)"
+                                                               type="text"
+                                                               ng-model="dimensionQuery"
+                                                               placeHolder="Search">
+                                                    </div>
+                                                    <li ng-repeat="filters in filterList
+                                                                | filter:dimensionQuery"
+                                                        id="{{filters}}"
+                                                        ng-click="onChoosingAditFlts(filterIndex,
+                                                                filters);"
+                                                        ng-model="addFilts.key"
+                                                        ng-bind-html="displayName[filters]" ng-if="checkDimension(filters)">
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="pull-left filter_input_txtbox">
+                                        <input type="text"
+                                               name="filter"
+                                               class="reportFilter"
+                                               ng-model="addFilts.value"
+                                               ng-hide="addFilts.hide"
+                                               autofocus
+                                               placeholder="Contains keywords ...">
+                                    </div>
+                                    <div class="pull-left delete_row" ng-click="delAditFlt($index);"></div>
                                 </div>
-                                <div class="pull-left filter_input_txtbox">
-                                    <input type="text"
-                                           name="filter"
-                                           class="reportFilter"
-                                           ng-model="addFilts.value"
-                                           ng-hide="addFilts.hide"
-                                           autofocus
-                                           placeholder="Contains keywords ...">
-                                </div>
-                                <div class="pull-left delete_row" ng-click="delAditFlt($index);"></div>
+                                <!-- sapna -->
                             </div>
-                            <!-- sapna -->
+                            <div class="clearfix title_row_separator">
+                                <div class="pull-left additional_filters_label">
+                                    <div class="pull-left add_circle_symbol" ng-click="addAdditionalFilters()"></div>
+                                    <div ng-click="addAdditionalFilters()"
+                                         class="pull-left blue_txt"
+                                         ng-bind-html="textConstants.REPORT_ADD_FILTERS">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="clearfix title_row_separator">
-                            <div class="pull-left additional_filters_label">
-                                <div class="pull-left add_circle_symbol" ng-click="addAdditionalFilters()"></div>
-                                <div ng-click="addAdditionalFilters()"
-                                     class="pull-left blue_txt"
-                                     ng-bind-html="textConstants.REPORT_ADD_FILTERS">
+                    </div>
+    
+                </div>
+                <!-- End Additional Filters -->
+                    
+                <!-- Timeframe -->
+                <div class="col-md-4 zeroPadding">
+                    <div class="create_report_title" ng-bind-html="textConstants.REPORT_BUILDER_TIMEFRAME"></div>
+                    <div>
+                        <div class="clearfix title_row_separator customDatesTimeframe">
+                            <div class="pull-left col-md-4 timeframe_selector">
+                                <div class="common_dropdown">
+                                    <div class="dropdown">
+                                            <span class="dropdown_ul_text" data-toggle="dropdown">
+                                                <span class="dd_txt"
+                                                      id="date-selected-txt"
+                                                      ng-bind-html="reports.reportDefinition.timeframe.type ?
+                                                      reports.reportDefinition.timeframe.type :
+                                                      textConstants.YESTERDAY">
+                                                </span>
+                                                <span class="arrow_img"></span>
+                                            </span>
+                                        <ul class="dropdown-menu">
+                                            <li ng-model="reports.reportDefinition.timeframe.type"
+                                                ng-repeat="timeframe in textConstants.REPORT_BUILDER_TIMEFRAME_LIST"
+                                                ng-click="reports.reportDefinition.timeframe.type = timeframe;
+                                                    select_dropdown_option($event , timeframe)"
+                                                ng-bind-html="timeframe">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pull-left col-md-8">
+                                <div class="col-md-12 input-daterange input-group date pull-left">
+                                    <div class="col-md-12 dateWrapper ">
+                                        <div class="col-md-6">
+                                            <input type="text"
+                                                   id="startDateInput"
+                                                   class="input-sm form-control timeframe"
+                                                   ng-model="reports.reportDefinition.timeframe.start_date"
+                                                   required>
+                                            <i class="icon-calendar glyphicon pull-right"></i>
+                                            <label ng-if="!reports.reportDefinition.timeframe.start_date" style="display:block"
+                                                   class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="text"
+                                                   id="endDateInput"
+                                                   class="input-sm form-control timeframe"
+                                                   ng-model="reports.reportDefinition.timeframe.end_date"
+                                                   required>
+                                            <i class="icon-calendar glyphicon pull-right"></i>
+                                            <label ng-if="!reports.reportDefinition.timeframe.end_date"
+                                                   style="display:block"
+                                                   class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <!-- End Timeframe -->
             </div>
-                </div>
-                </div>
-            <!-- End 2nd Row Additional Filters -->
+            <!--End Row 1-->
             
             <!--Selected Metrics-->
             <div class="col-md-12 zeroPadding">
-                <span class="pull-left">Metrics</span>
-                <div class="pull-left clearLeft">
-                    <a href="#" class="pull-left" ng-click="refreshMetriPopUp()">
-                        <span class="pull-left" ng-bind="metrics_text"></span>
-                        <span class="pull-left icon-inline-edit"></span>
-                    </a>
+                <div class="col-md-12 zeroPadding metricDataViewHeader">
+                    <span class="pull-left">Metrics</span>
+                    <div class="pull-left clearLeft">
+                        <a href="#" class="pull-left" ng-click="refreshMetriPopUp()">
+                            <span class="pull-left" ng-bind="metrics_text"></span>
+                            <span class="pull-left icon-inline-edit"></span>
+                        </a>
+                    </div>
                 </div>
                 
                 <!--Metric Data Toggle-->
-                <div class="col-md-12 zeroPadding metricDataView">
-                    <!--Header-->
-                    <div class="col-md-12 zeroPadding">
-                        <span class="pull-left">Select Metrics</span>
-                        <input ng-click="OnSelectUnselectAllMetrics();" type="checkbox" ng-model="allMetrics" class="pull-left" id="selectAll_chkbox">
-                        <span class="pull-left">Select All</span>
-                        
-                        <a class="btn btn-default pull-right">Save & Close</a>
-                        <a class="btn btn-link pull-right">Cancel</a>
-                    </div>
-                    
-                    <!--Body-->
-                    <div class="col-md-12 zeroPadding">
-                        <!--Delivery-->
-                        <div class="col-md-2 zeroPadding">
-                            <span class="col-md-12 zeroPadding">
-                                <input type="checkbox"
-                                    class="squaredFourChkbox"
-                                    id="delivery_chkbox"
-                                    ng-model="deliveryMetrics.isAllSelected"
-                                    ng-click="onDeliveryMetrClick()">
-                                    Delivery
-                            </span>
+                <div class="col-md-12 metricDataView">
+                    <div class="metricContainer">
+                        <!--Header-->
+                        <div class="col-md-12 zeroPadding" style="margin-bottom: 30px;">
+                            <h1 class="pull-left" style="margin: 0;">Select Metrics</h1>
+                            <input ng-click="OnSelectUnselectAllMetrics();" type="checkbox" ng-model="allMetrics"
+                                   class="pull-left" id="selectAll_chkbox" style="margin: 8px 5px 0 30px;">
+                            <span class="pull-left" style="margin-top: 5px;">Select All</span>
                             
-                            <div class="col-md-12 zeroPadding"
-                                relationIds='Delivery'
-                                ng-repeat="delivery_metric in deliveryMetrics track by $index"
-                                id="{{delivery_metric.key}}"
-                                ng-class="{active:delivery_metric.selected}"
-                                ng-click="onDeliveryMetrClick($index)"
-                                ng-bind-html="delivery_metric.value">
-                            </div>
-                            
+                            <a class="btn btn-default pull-right" ng-click="cancelMetricView();">Save & Close</a>
+                            <a class="btn btn-link pull-right" ng-click="cancelMetricView();">Cancel</a>
                         </div>
                         
-                        <!--Pacing-->
-                        <div class="col-md-2 zeroPadding">
-                            <span class="col-md-12 zeroPadding">Pacing</span>
-                            <div class="col-md-12 zeroPadding"></div>
-                        </div>
-                        
-                        <!--Cost-->
-                        <div class="col-md-3 zeroPadding">
-                            <span class="col-md-12 zeroPadding">
-                                <input type="checkbox"
-                                    class="squaredFourChkbox"
-                                    id="cost_chkbox"
-                                    ng-model="costMetrics.isAllSelected"
-                                    ng-click="onCostMetrClick()">
-                                    Cost
-                            </span>
-                            
-                            <div class="col-md-6 zeroPadding"
-                                relationIds='Cost'
-                                ng-repeat="cost_metric in costMetrics track by $index"
-                                id="{{cost_metric.key}}"
-                                ng-class="{active:cost_metric.selected}"
-                                ng-click="onCostMetrClick($index)"
-                                ng-bind-html="cost_metric.value">
-                            </div>
-                        </div>
-                        
-                        <!--Video-->
-                        <div class="col-md-2 zeroPadding">
-                            <span class="col-md-12 zeroPadding">
-                                <input type="checkbox"
-                                    class="squaredFourChkbox"
-                                    id="video_chkbox"
-                                    ng-model="videoMetrics.isAllSelected"
-                                    ng-click="onVedioMetrClick()">
-                                    Video
-                            </span>
-                            
-                            <div class="col-md-12 zeroPadding"
-                                relationIds='Video'
-                                ng-repeat="video_metric in videoMetrics track by $index "
-                                id="{{video_metric.key}}"
-                                ng-class="{active:video_metric.selected}"
-                                ng-click="onVedioMetrClick($index)"
-                                ng-bind-html="video_metric.value">
-                            </div>
-                        </div>
-                        
-                        <!--Quality-->
-                        <div class="col-md-3 zeroPadding">
-                            <span class="col-md-12 zeroPadding">
-                                <input type="checkbox"
-                                    class="squaredFourChkbox"
-                                    id="display_quality_chkbox"
-                                    ng-model="displayQltyMetrics.isAllSelected"
-                                    ng-click="onQltyDisplayClick()">
-                                    Quality
-                            </span>
-                            
-                            <div class="col-md-6 zeroPadding"
-                                relationIds='Quality Display'
-                                ng-repeat="display_quality_metrics in displayQltyMetrics track by $index"
-                                id="{{display_quality_metrics.key}}"
-                                ng-class="{active:display_quality_metrics.selected}"
-                                ng-click="onQltyDisplayClick($index)"
-                                ng-bind-html="display_quality_metrics.value">
+                        <!--Body-->
+                        <div class="col-md-12 zeroPadding">
+                            <!--Delivery-->
+                            <div class="col-md-2 zeroPadding">
+                                <span class="col-md-12 zeroPadding">
+                                    <input type="checkbox"
+                                        class="squaredFourChkbox"
+                                        id="delivery_chkbox"
+                                        ng-model="deliveryMetrics.isAllSelected"
+                                        ng-click="onDeliveryMetrClick()">
+                                        Delivery
+                                </span>
+                                
+                                <div class="col-md-12 metricData"
+                                    relationIds='Delivery'
+                                    ng-repeat="delivery_metric in deliveryMetrics track by $index"
+                                    id="{{delivery_metric.key}}"
+                                    ng-class="{active:delivery_metric.selected}"
+                                    ng-click="onDeliveryMetrClick($index)"
+                                    ng-bind-html="delivery_metric.value">
+                                </div>
                             </div>
                             
-                            <!--Video Quality-->
-                            <div class="col-md-6 zeroPadding"
-                                relationIds='Quality Video'
-                                ng-repeat="video_quality_metrics in videoQltyMetrics track by $index "
-                                id="{{video_quality_metrics.key}}"
-                                ng-class="{active:video_quality_metrics.selected}"
-                                ng-click="onQltyVdoMetrClick($index)"
-                                ng-bind-html="video_quality_metrics.value">
+                            <!--Pacing-->
+                            <div class="col-md-2 zeroPadding">
+                                <span class="col-md-12 zeroPadding">
+                                    <input type="checkbox"
+                                        class="squaredFourChkbox">
+                                    Pacing
+                                </span>
+                                
+                                <!--Pacing Hardcoded Values-->
+                                <div class="col-md-12 metricData">Booked Imps.</div>
+                                <div class="col-md-12 metricData">Actual Imps.</div>
+                                <div class="col-md-12 metricData">+/- Imps.*</div>
+                                <div class="col-md-12 metricData">% Delivered</div>
+                                <div class="col-md-12 metricData">Booked Revenue</div>
+                                <div class="col-md-12 metricData">Actual Revenue</div>
+                                <div class="col-md-12 metricData">+/- Revenue*</div>
+                                <div class="col-md-12 metricData">Booked eCPM</div>
+                                <div class="col-md-12 metricData">Actual eCPM</div>
+                                <div class="col-md-12 metricData">+/- eCPM*</div>
+                            </div>
+                            
+                            <!--Cost-->
+                            <div class="col-md-3 zeroPadding">
+                                <span class="col-md-12 zeroPadding">
+                                    <input type="checkbox"
+                                        class="squaredFourChkbox"
+                                        id="cost_chkbox"
+                                        ng-model="costMetrics.isAllSelected"
+                                        ng-click="onCostMetrClick()">
+                                        Cost
+                                </span>
+                                
+                                <div class="col-md-6 metricData"
+                                    relationIds='Cost'
+                                    ng-repeat="cost_metric in costMetrics track by $index"
+                                    id="{{cost_metric.key}}"
+                                    ng-class="{active:cost_metric.selected}"
+                                    ng-click="onCostMetrClick($index)"
+                                    ng-bind-html="cost_metric.value">
+                                </div>
+                            </div>
+                            
+                            <!--Video-->
+                            <div class="col-md-2 zeroPadding">
+                                <span class="col-md-12 zeroPadding">
+                                    <input type="checkbox"
+                                        class="squaredFourChkbox"
+                                        id="video_chkbox"
+                                        ng-model="videoMetrics.isAllSelected"
+                                        ng-click="onVedioMetrClick()">
+                                        Video
+                                </span>
+                                
+                                <div class="col-md-12 metricData"
+                                    relationIds='Video'
+                                    ng-repeat="video_metric in videoMetrics track by $index "
+                                    id="{{video_metric.key}}"
+                                    ng-class="{active:video_metric.selected}"
+                                    ng-click="onVedioMetrClick($index)"
+                                    ng-bind-html="video_metric.value">
+                                </div>
+                            </div>
+                            
+                            <!--Quality-->
+                            <div class="col-md-3 zeroPadding">
+                                <span class="col-md-12 zeroPadding">
+                                    <input type="checkbox"
+                                        class="squaredFourChkbox"
+                                        id="display_quality_chkbox"
+                                        ng-model="displayQltyMetrics.isAllSelected"
+                                        ng-click="onQltyDisplayClick()">
+                                        Quality
+                                </span>
+                                
+                                <div class="col-md-6 metricData"
+                                    relationIds='Quality Display'
+                                    ng-repeat="display_quality_metrics in displayQltyMetrics track by $index"
+                                    id="{{display_quality_metrics.key}}"
+                                    ng-class="{active:display_quality_metrics.selected}"
+                                    ng-click="onQltyDisplayClick($index)"
+                                    ng-bind-html="display_quality_metrics.value">
+                                </div>
+                                
+                                <!--Video Quality-->
+                                <div class="col-md-6 metricData"
+                                    relationIds='Quality Video'
+                                    ng-repeat="video_quality_metrics in videoQltyMetrics track by $index "
+                                    id="{{video_quality_metrics.key}}"
+                                    ng-class="{active:video_quality_metrics.selected}"
+                                    ng-click="onQltyVdoMetrClick($index)"
+                                    ng-bind-html="video_quality_metrics.value">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12 zeroPadding" style="margin: 30px 0 0 0;">
+                                <span class="pull-left greyTxt">Imps. = Impressions</span>
+                                <span class="pull-left greyTxt" style="margin-left: 30px;">*Booked vs. Actual Values</span>
                             </div>
                         </div>
                     </div>
@@ -825,8 +598,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
+                <div class="col-md-12 zeroPadding">
+                    <div class="container">
                         <span class="pull-right common-loading-btn" style="width:91px;" ng-show="loadingBtn"></span>
                         <button class="pull-right btn btn-primary {{generateBtnDisabled ?
                                     'disabled' :

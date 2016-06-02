@@ -2904,6 +2904,7 @@ input[type="submit"] {
 }
 .nav_filters .brand_name_selected.no_pointer {
   cursor: default;
+  opacity: .4;
 }
 .nav_filters .campaign_name_selected {
   height: 20px ;

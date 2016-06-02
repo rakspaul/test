@@ -4129,7 +4129,8 @@ only screen and (min-device-pixel-ratio: 2) {
     }
 
     .report_builder_container  {
-//    margin-bottom: 30px ;
+        background: #fff;
+        //margin-bottom: 30px ;
     input[type='text'] {
       //border: 1px solid #BFC9D7;
       border-radius: 2px !important;
@@ -4156,7 +4157,7 @@ only screen and (min-device-pixel-ratio: 2) {
       }
     }
     .common_dropdown .dropdown {
-        border-color: #BFC9D7 ;
+        margin-right: 15px ;
         .dropdown_ul_text {
           padding : 7px 10px ;
         }
@@ -4169,9 +4170,6 @@ only screen and (min-device-pixel-ratio: 2) {
     .timeframe_selector {
       padding: 0px ;
       width: 162px ;
-    }
-    .common_dropdown .dropdown {
-      margin-right: 15px ;
     }
     ::-webkit-input-placeholder {
       color:  #939ead;
@@ -4190,7 +4188,9 @@ only screen and (min-device-pixel-ratio: 2) {
       font-size: 14px;
     }
     .each_section_custom_report {
-      margin: 0px 0 20px 0 ;
+      margin: 0 auto 20px;
+      width: 1200px;
+      float: none;
       .custom_report_filter{
           //margin-right: 11px;
       }
@@ -4363,6 +4363,47 @@ only screen and (min-device-pixel-ratio: 2) {
         border: solid 2px rgb(9, 120, 201); ;
       }
     }
+    
+    #dynamicHeader, .reportRowForm {
+        margin: 0 auto;
+        width: 1230px;
+        float: none;
+        display: table;
+    }
+    
+    #reportBuilderForm {
+        float: none !important;
+        display: table;
+    }
+    
+    //Metrics CSS
+    .metricDataViewHeader {
+        margin: 0 auto;
+        width: 1230px;
+        float: none;
+    }
+    .metricDataView {
+        display: none;
+        background: #f5f9fd;
+        padding: 30px 0;
+        border-top: solid 2px #ccd9e3;
+        border-bottom: solid 2px #ccd9e3;
+        .metricContainer {
+            width: 1200px;
+            margin: 0 auto;
+            .metricData {
+                padding: 0;
+                cursor: pointer;
+            }
+            .metricData.active {
+                padding-left: 15px;
+                background-image: url(../../images/cdesk/checkMark.png);
+                background-repeat: no-repeat;
+                background-position: left;
+                background-size: 9px;
+            }
+        }
+    }
 
     .add_breakdown_btn {
       padding: 7px 10px 0 0;
@@ -4397,6 +4438,8 @@ only screen and (min-device-pixel-ratio: 2) {
     background: #edf2f8 ;
     padding: 30px 0 0px 0;
     border-top: solid 2px #ccd9e3 ;
+    float: left;
+    width: 100%;
     .report-response-load {
       background: url("/images/loading.gif") no-repeat center 20px ;
       height: 150px;
@@ -4457,9 +4500,9 @@ only screen and (min-device-pixel-ratio: 2) {
       }
     }
     div.create_scheduled_report {
-      margin-bottom: 20px ;
-      margin-left: 0;
-      margin-right: 0;
+      margin: 30px 0;
+      float: left;
+      width: 100%;
       .scheduled_report_fields {
         margin : 6px 0 15px ;
       }

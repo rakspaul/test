@@ -3980,6 +3980,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   left: -1px;
 }
 .report_generator_and_response .report_builder_container {
+  background: #fff;
   /* firefox 19+ */
   /* ie */
 }
@@ -4002,7 +4003,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin: 7px 147px 20px;
 }
 .report_generator_and_response .report_builder_container .common_dropdown .dropdown {
-  border-color: #BFC9D7 ;
+  margin-right: 15px ;
 }
 .report_generator_and_response .report_builder_container .common_dropdown .dropdown .dropdown_ul_text {
   padding: 7px 10px ;
@@ -4015,9 +4016,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response .report_builder_container .timeframe_selector {
   padding: 0px ;
   width: 162px ;
-}
-.report_generator_and_response .report_builder_container .common_dropdown .dropdown {
-  margin-right: 15px ;
 }
 .report_generator_and_response .report_builder_container ::-webkit-input-placeholder {
   color: #939ead;
@@ -4036,7 +4034,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   font-size: 14px;
 }
 .report_generator_and_response .report_builder_container .each_section_custom_report {
-  margin: 0px 0 20px 0 ;
+  margin: 0 auto 20px;
+  width: 1200px;
+  float: none;
 }
 .report_generator_and_response .report_builder_container .each_section_custom_report .measurable_col_holder {
   float: none;
@@ -4183,6 +4183,44 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response .report_builder_container .custom_report_col .each_option:hover {
   border: solid 2px #0978c9;
 }
+.report_generator_and_response .report_builder_container #dynamicHeader,
+.report_generator_and_response .report_builder_container .reportRowForm {
+  margin: 0 auto;
+  width: 1230px;
+  float: none;
+  display: table;
+}
+.report_generator_and_response .report_builder_container #reportBuilderForm {
+  float: none !important;
+  display: table;
+}
+.report_generator_and_response .report_builder_container .metricDataViewHeader {
+  margin: 0 auto;
+  width: 1230px;
+  float: none;
+}
+.report_generator_and_response .report_builder_container .metricDataView {
+  display: none;
+  background: #f5f9fd;
+  padding: 30px 0;
+  border-top: solid 2px #ccd9e3;
+  border-bottom: solid 2px #ccd9e3;
+}
+.report_generator_and_response .report_builder_container .metricDataView .metricContainer {
+  width: 1200px;
+  margin: 0 auto;
+}
+.report_generator_and_response .report_builder_container .metricDataView .metricContainer .metricData {
+  padding: 0;
+  cursor: pointer;
+}
+.report_generator_and_response .report_builder_container .metricDataView .metricContainer .metricData.active {
+  padding-left: 15px;
+  background-image: url(../../images/cdesk/checkMark.png);
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: 9px;
+}
 .report_generator_and_response .report_builder_container .add_breakdown_btn {
   padding: 7px 10px 0 0;
   border-radius: 4px;
@@ -4214,6 +4252,8 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   background: #edf2f8 ;
   padding: 30px 0 0px 0;
   border-top: solid 2px #ccd9e3 ;
+  float: left;
+  width: 100%;
 }
 .report_generator_and_response .custom_response_screenshot_container .report-response-load {
   background: url("/images/loading.gif") no-repeat center 20px;
@@ -4270,9 +4310,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin: 0 30px 0 0;
 }
 .report_generator_and_response div.create_scheduled_report {
-  margin-bottom: 20px ;
-  margin-left: 0;
-  margin-right: 0;
+  margin: 30px 0;
+  float: left;
+  width: 100%;
 }
 .report_generator_and_response div.create_scheduled_report .scheduled_report_fields {
   margin: 6px 0 15px ;
