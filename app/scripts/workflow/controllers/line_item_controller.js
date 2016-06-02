@@ -171,7 +171,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 if ($scope.lineItemName != '') {
                     newItem = createLineItemObj(lineItemObj);
 
-                    if(showLineItemExceedErrorMessage(newItem.billableAmount,$scope.Campaign.deliveryBudget)){
+                    if(doesLineItemExceedBudget(newItem.billableAmount,$scope.Campaign.deliveryBudget)){
                         return false;
                     }
 
@@ -197,7 +197,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             //tempBudget = Number(tempBudget) + Number(newItem.billableAmount);
             //if (tempBudget > $scope.Campaign.deliveryBudget) {
 
-            if(showLineItemExceedErrorMessage(newItem.billableAmount,$scope.Campaign.deliveryBudget)){
+            if(doesLineItemExceedBudget(newItem.billableAmount,$scope.Campaign.deliveryBudget)){
                 return false;
             }
             //loader for save button
@@ -268,7 +268,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
             //tempBudget = $scope.selectedCampaign.lineItemBillableAmountTotal;
             //tempBudget = (Number(tempBudget) - Number(oldLineItem.billableAmount)) + Number(newItem.billableAmount);
-            if(showLineItemExceedErrorMessage(newItem.billableAmount,$scope.Campaign.deliveryBudget)){
+            if(doesLineItemExceedBudget(newItem.billableAmount,$scope.Campaign.deliveryBudget)){
                 return false;
             }
 
@@ -569,7 +569,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         };
 
         $scope.updateLineItem = function (newItem) {
-            if(showLineItemExceedErrorMessage($scope.editLineItem.billableAmount,$scope.Campaign.deliveryBudget)){
+            if(doesLineItemExceedBudget($scope.editLineItem.billableAmount,$scope.Campaign.deliveryBudget)){
                 return false;
             }
 
@@ -839,7 +839,9 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             }
         }
 
-        function showLineItemExceedErrorMessage(billableAmount,deliveryBudget){
+        //shows error message if line item billable amount exceed media plan budget
+        // return true if the line item budget exceeds media plan budget
+        function doesLineItemExceedBudget(billableAmount,deliveryBudget){
             if (Number(billableAmount) > deliveryBudget) {
                 $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
                 return true;
