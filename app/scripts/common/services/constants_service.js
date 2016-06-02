@@ -1040,6 +1040,7 @@ define(['angularAMD'], function(angularAMD) {
 
        // this.EVENT_CLIENT_CHANGED = 'eventClientChanged';
         //this.EVENT_CLIENT_CHANGED_FROM_DASHBOARD = 'advertiserChangedFromDashboard';
+        this.INVOICE_CREDIT_FIELD_EMPTY = "Please enter valid Notes and Amounts";
 
         this.EVENT_SUB_ACCOUNT_CHANGED = 'eventSubAccountChanged';
         this.EVENT_SUB_ACCOUNT_CHANGED_FROM_DASHBOARD = 'SubAccountChangedFromDashboard';
@@ -1172,6 +1173,19 @@ define(['angularAMD'], function(angularAMD) {
         this.EXCLUDES_MEDIA_PLAN_FIXED_COSTS = "*Excludes Media Plan fixed costs";
 
         this.CLIENT_LOADED = "clientLoaded";
+        // Invoice Report
+        this.INVOICE_REPORT = "Invoice Reports";
+        this.INVOICE_REPORT_ADD_CREDIT = "Add Credit to Invoice Report";
+        this.CREDIT_ADD_SUCCESS = "Credit added/updated successfully";
+        this.CREDIT_ADD_ERR = "Error in adding/updating the credit ";
+        this.INVOICE_VIEW_REPORT = "View Invoice Report ";
+        this.INVOICE_VIEW_REPORT_ALL = "View All Invoice Reports";
+        this.INVOICE_REPORT_MEDIA_PLAN = "Media Plan (Expand to see invoice reports)";
+        this.INVOICE_REPORT_DATE = "Invoice Date";
+        this.INVOICE_REPORT_SPEND = "Spend";
+        this.INVOICE_REPORT_CREDITS = "Credits";
+        this.INVOICE_REPORT_BILLABLE = "Billable";
+        this.INVOICE_REPORT_ACCOUNT = "Account/Advertiser";
 
     });
 });
