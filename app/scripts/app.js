@@ -24,6 +24,73 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'login/login_controller'
                 }))
 
+                .when('/a/:accountId/dashboard', angularAMD.route({
+                    templateUrl: assets.html_dashboard,
+                    controller: 'DashboardController',
+                    controllerUrl: 'reporting/dashboard/dashboard_controller',
+                    title: 'Dashboard',
+                    bodyclass: 'dashboard_body',
+                    resolve: {
+                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, workflowService) {
+                            var deferred = $q.defer();
+
+                            accountService.fetchAccountList().then(function() {
+                                if (accountService.allowedAccount($route.current.params.accountId)) {
+                                    workflowService.getClientData($route.current.params.accountId).then(function(response) {
+                                        if (response && response.data.data) {
+                                            RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
+                                            RoleBasedService.setCurrencySymbol();
+                                            featuresService.setFeatureParams(response.data.data.features);
+                                        }
+                                        deferred.resolve();
+                                    });
+                                } else {
+                                    console.log('account not allowed');
+                                    $location.url('/tmp')
+                                }
+                            });
+                            return deferred.promise;
+                        }
+                    }
+                }))
+                .when('/a/:accountId/sa/:subAccountId/dashboard', angularAMD.route({
+                    templateUrl: assets.html_dashboard,
+                    controller: 'DashboardController',
+                    controllerUrl: 'reporting/dashboard/dashboard_controller',
+                    title: 'Dashboard',
+                    bodyclass: 'dashboard_body',
+                    resolve: {
+                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, workflowService) {
+                            var deferred = $q.defer();
+
+                            accountService.fetchAccountList().then(function() {
+                                if (accountService.allowedAccount($route.current.params.accountId)) {
+                                    subAccountService.fetchSubAccountList($route.current.params.accountId).then(function() {
+                                        subAccountService.fetchDashboardSubAccountList($route.current.params.accountId).then(function() {
+                                            if (subAccountService.allowedDashboardSubAccount($route.current.params.subAccountId)) {
+                                                workflowService.getClientData($route.current.params.accountId).then(function(response) {
+                                                    if (response && response.data.data) {
+                                                        RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
+                                                        RoleBasedService.setCurrencySymbol();
+                                                        featuresService.setFeatureParams(response.data.data.features);
+                                                    }
+                                                    deferred.resolve();
+                                                });
+                                            } else {
+                                                console.log('dashboard account not allowed');
+                                                $location.url('/tmp')
+                                            }
+                                        });
+                                    });
+                                } else {
+                                    console.log('account not allowed');
+                                    $location.url('/tmp')
+                                }
+                            });
+                            return deferred.promise;
+                        }
+                    }
+                }))
                 .when('/dashboard', angularAMD.route({
                     templateUrl: assets.html_dashboard,
                     controller: 'DashboardController',
@@ -57,6 +124,43 @@ define(['common'], function (angularAMD) {
                         check: function ($location, featuresService) {
                             //redirects to default page if it has no permission to access it
                             featuresService.setGetFeatureParams('mediaplan_list');
+                        }
+                    }
+                }))
+
+                .when('/mediaplans/reports', angularAMD.route({
+                    templateUrl: assets.html_campaign_reports,
+                    title: 'Reports Overview',
+                    controller: 'CampaignReportsController',
+                    controllerUrl: 'reporting/controllers/campaign_reports_controller',
+                    resolve: {
+                        // fetchMasterClientList: function($q, $location, headerService, campaignSelectModel) {
+                        //     var deferred = $q.defer();
+                        //     var url = '/mediaplans';
+                        //     headerService.fetchMasterClientList().then(function() {
+                        //         campaignSelectModel.getCampaigns().then(function(campaigns) {
+                        //             if (campaigns && campaigns.length > 0) {
+                        //                 url = '/mediaplans/' + campaigns[0].campaign_id;
+                        //             } 
+                        //             console.log('url', url);
+                        //             deferred.resolve(url);
+                        //             $location.url(url);
+                        //             return url;
+                        //         });
+                        //     });
+                        //     return deferred.promise;
+
+                        //     // return $q.all(deferred.promise).then(function() {
+                        //     //     console.log("Resolved");
+                        //     //     return url;
+                        //     // });
+                        // },
+                        check: function ($location, featuresService,localStorageService) {
+                            //redirects to default page if it has no permission to access it
+                            featuresService.setGetFeatureParams('report_overview');
+                            if(localStorageService.selectedCampaign.get() && localStorageService.selectedCampaign.get().id == -1)  {
+                                $location.url('/mediaplans');
+                            }
                         }
                     }
                 }))
@@ -654,64 +758,64 @@ define(['common'], function (angularAMD) {
                     dataService.updateRequestHeader();
                     if ((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') === null ||
                         localStorage.getItem('selectedClient') === undefined )) {
-                        userObj = JSON.parse(localStorage.getItem('userObj'));
-                        workflowService
-                            .getClients()
-                            .then(function (result) {
-                                var matchedClientsobj;
+                        // userObj = RoleBasedService.getUserData().preferred_client;
+                        // workflowService
+                        //     .getClients()
+                        //     .then(function (result) {
+                        //         var matchedClientsobj;
 
-                                if ((result && result.data.data.length > 0)) {
-                                    if (userObj && userObj.preferred_client) {
-                                        matchedClientsobj = _.find(result.data.data, function (obj) {
-                                            return obj.id === userObj.preferred_client;
-                                        });
-                                    }
+                        //         if ((result && result.data.data.length > 0)) {
+                        //             if (userObj && userObj.preferred_client) {
+                        //                 matchedClientsobj = _.find(result.data.data, function (obj) {
+                        //                     return obj.id === userObj.preferred_client;
+                        //                 });
+                        //             }
 
-                                    if (matchedClientsobj !== undefined) {
-                                        clientObj = matchedClientsobj;
-                                    } else {
-                                        clientObj = result.data.data[0];
-                                    }
+                        //             if (matchedClientsobj !== undefined) {
+                        //                 clientObj = matchedClientsobj;
+                        //             } else {
+                        //                 clientObj = result.data.data[0];
+                        //             }
 
-                                    localStorageService.masterClient.set({
-                                        id: clientObj.id,
-                                        name: clientObj.name,
-                                        isLeafNode: clientObj.isLeafNode
-                                    });
+                        //             localStorageService.masterClient.set({
+                        //                 id: clientObj.id,
+                        //                 name: clientObj.name,
+                        //                 isLeafNode: clientObj.isLeafNode
+                        //             });
 
-                                    if (clientObj.isLeafNode) {
-                                        loginModel.setSelectedClient({
-                                            id: clientObj.id,
-                                            name: clientObj.name
-                                        });
+                        //             if (clientObj.isLeafNode) {
+                        //                 loginModel.setSelectedClient({
+                        //                     id: clientObj.id,
+                        //                     name: clientObj.name
+                        //                 });
 
-                                        workflowService
-                                            .getClientData(clientObj.id)
-                                            .then(function (response) {
-                                                featuresService.setFeatureParams(response.data.data.features);
-                                                broadCastClientLoaded();
-                                            });
+                        //                 workflowService
+                        //                     .getClientData(clientObj.id)
+                        //                     .then(function (response) {
+                        //                         featuresService.setFeatureParams(response.data.data.features);
+                        //                         broadCastClientLoaded();
+                        //                     });
 
-                                        if (locationPath === '/login' || locationPath === '/') {
-                                            handleLoginRedirection();
-                                        }
-                                    } else {
-                                        //set subAccount
-                                        subAccountModel.fetchSubAccounts('MasterClientChanged',function(){
-                                            workflowService
-                                                .getClientData(clientObj.id)
-                                                .then(function (response) {
-                                                    featuresService.setFeatureParams(response.data.data.features);
-                                                    broadCastClientLoaded();
-                                                });
+                        //                 if (locationPath === '/login' || locationPath === '/') {
+                        //                     handleLoginRedirection();
+                        //                 }
+                        //             } else {
+                        //                 //set subAccount
+                        //                 subAccountModel.fetchSubAccounts('MasterClientChanged',function(){
+                        //                     workflowService
+                        //                         .getClientData(clientObj.id)
+                        //                         .then(function (response) {
+                        //                             featuresService.setFeatureParams(response.data.data.features);
+                        //                             broadCastClientLoaded();
+                        //                         });
 
-                                            if (locationPath === '/login' || locationPath === '/') {
-                                                handleLoginRedirection();
-                                            }
-                                        });
-                                    }
-                                } //end of then if
-                            });
+                        //                     if (locationPath === '/login' || locationPath === '/') {
+                        //                         handleLoginRedirection();
+                        //                     }
+                        //                 });
+                        //             }
+                        //         } //end of then if
+                        // });
                     } else {
                         if (loginModel.getSelectedClient) {
                             if (locationPath === '/login' || locationPath === '/') {

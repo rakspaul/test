@@ -1,11 +1,11 @@
 define(['angularAMD','common/services/constants_service','reporting/dashboard/dashboard_model','reporting/brands/brands_model', 'reporting/advertiser/advertiser_model','reporting/campaignSelect/campaign_select_model','login/login_model','reporting/common/d3/bubble_chart_directive','reporting/common/d3/gauge_directive', 'reporting/subAccount/sub_account_model'],function (angularAMD) {
     'use strict';
-    angularAMD.controller('DashboardController', function ($scope, $rootScope, constants, dashboardModel, brandsModel, advertiserModel, campaignSelectModel ,loginModel,subAccountModel) {
+    angularAMD.controller('DashboardController', function ($scope, $rootScope, constants, dashboardModel, brandsModel, advertiserModel, campaignSelectModel ,loginModel, subAccountModel, subAccountService) {
 
         $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
         $(".main_navigation").find('.active').removeClass('active').end().find('#dashboard_nav_link').addClass('active');
         $scope.data = dashboardModel.getData();
-        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
+        // $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         $scope.brandSelectedFromBubble = false;
         $scope.textConstants = constants;
 
@@ -64,10 +64,13 @@ define(['angularAMD','common/services/constants_service','reporting/dashboard/da
             updateTitle();
         });
 
-        if(subAccountModel.getDashboardAccountId()) {
+        // if(subAccountModel.getDashboardAccountId()) {
+        //     updateTitle();
+        // }
+
+        if (subAccountService.getSelectedDashboardSubAccount()) {
             updateTitle();
         }
-
 
         var eventBrandChangedFunc = $rootScope.$on(constants.EVENT_BRAND_CHANGED, function () {
             dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());

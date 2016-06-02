@@ -276,7 +276,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
 
                                             dataService.fetch(spendUrl).then(function(response) {
                                                 self.busy = false;
-                                                if(response.data){
+                                                if(response.data && response.data.data && response.data.data.length > 0) {
                                                     campaign.spend = response.data.data[0].gross_rev;
                                                 } else {
                                                     campaign.spend = 0;

@@ -6,6 +6,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
                                                                 campaignSelectModel, constants, brandsModel,
                                                                 loginModel, utils) {
 
+        console.log('CampaignSelectController initialized');
+
         $scope.campaignData = {
             campaigns: {},
             selectedCampaign: {
@@ -103,6 +105,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
         $scope.fetchCampaigns = function (search, set_campaign) {
             delete searchCriteria.clientId;
             delete searchCriteria.advertiserId;
+            console.log('fetchCampaigns');
 
             campaignSelectModel.getCampaigns(brandsModel.getSelectedBrand().id, searchCriteria).then(function () {
 
@@ -196,31 +199,47 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
            $(".campaigns_list").not(this).hide();
 
         });
-        $('.campaigns_list').on('click', 'li', function (e) {
-            
+
+        $scope.selectCampaign = function(campaign) {
             $scope.$parent.strategyLoading = true;
             //$scope.$parent.isFetchStrategiesCalled = false;
-            var selectedCampaign = {
-                id: $(e.target).attr('value'),
-                name: $(e.target).text(),
-                kpi: $(e.target).attr('_kpi'),
-                startDate: $(e.target).attr('_startDate'),
-                endDate: $(e.target).attr('_endDate')
+            $scope.setCampaign(campaign);
 
-            };
-            $scope.setCampaign(selectedCampaign);
-
-            if(selectedCampaign.id == 0) {
+            if(campaign.id == 0) {
                  resetSearchCriteria();
                  $scope.fetchCampaigns(false, false);
             }
 
-
             $('.campaigns_list').hide();
             //grunt analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
-            e.preventDefault();
-            e.stopImmediatePropagation();
+            // e.preventDefault();
+            // e.stopImmediatePropagation();
+        }
+        // $('.campaigns_list').on('click', 'li', function (e) {
+            
+        //     $scope.$parent.strategyLoading = true;
+        //     //$scope.$parent.isFetchStrategiesCalled = false;
+        //     var selectedCampaign = {
+        //         id: $(e.target).attr('value'),
+        //         name: $(e.target).text(),
+        //         kpi: $(e.target).attr('_kpi'),
+        //         startDate: $(e.target).attr('_startDate'),
+        //         endDate: $(e.target).attr('_endDate')
 
-        });
+        //     };
+        //     $scope.setCampaign(selectedCampaign);
+
+        //     if(selectedCampaign.id == 0) {
+        //          resetSearchCriteria();
+        //          $scope.fetchCampaigns(false, false);
+        //     }
+
+
+        //     $('.campaigns_list').hide();
+        //     //grunt analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
+        //     e.preventDefault();
+        //     e.stopImmediatePropagation();
+
+        // });
     });
 });

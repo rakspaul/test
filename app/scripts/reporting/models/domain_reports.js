@@ -384,6 +384,31 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
+    angularAMD.directive('dashboardFiltersHeader', ['$location', '$rootScope', '$http', '$compile', 'constants',
+        'loginModel', 'accountService', function ($location, $rootScope, $http, $compile, constants, loginModel, accountService) {
+        return {
+            controller: function ($scope, $cookieStore, $location) {
+            },
+            restrict: 'EAC',
+            templateUrl: assets.html_dashboard_filters_header,
+            link: function (scope, element, attrs) {
+                scope.textConstants = constants;
+                var masterClient = accountService.getSelectedAccount();
+                scope.isLeafNode = true;
+                if(masterClient.isLeafNode == false) {
+                    scope.isLeafNode = false;
+                }
+                // var masterClientChanged = $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function (event, args) {
+                //     scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
+                // });
+
+                // var masterClientChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
+                //     scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
+                // });
+            }
+        };
+    }]);
+
     angularAMD.directive('filtersHeader', ['$location','$rootScope','$http', '$compile', 'constants','loginModel', function ($location,$rootScope,$http, $compile,constants,loginModel) {
         return {
             controller: function ($scope, $cookieStore, $location) {

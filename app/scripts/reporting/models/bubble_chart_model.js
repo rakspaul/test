@@ -1,6 +1,7 @@
 define(['angularAMD','common/services/url_service','reporting/timePeriod/time_period_model','common/services/data_service','reporting/brands/brands_model','reporting/dashboard/dashboard_model','common/services/request_cancel_service','common/services/constants_service','login/login_model','reporting/advertiser/advertiser_model', 'reporting/subAccount/sub_account_model'],function (angularAMD) {
   'use strict';
-  angularAMD.service('bubbleChartModel', ['urlService', 'timePeriodModel', 'dataService', 'brandsModel', 'dashboardModel', 'requestCanceller', 'constants', 'loginModel','advertiserModel','subAccountModel', function (urlService, timePeriodModel, dataService, brandsModel, dashboardModel, requestCanceller, constants, loginModel,advertiserModel,subAccountModel) {
+  angularAMD.service('bubbleChartModel', ['urlService', 'timePeriodModel', 'dataService', 'brandsModel', 'dashboardModel', 'requestCanceller', 'constants', 'loginModel','advertiserModel','subAccountModel', '$routeParams', 'accountService',
+    function (urlService, timePeriodModel, dataService, brandsModel, dashboardModel, requestCanceller, constants, loginModel,advertiserModel,subAccountModel, $routeParams, accountService) {
 
     var bubbleWidgetData = {
       brandData: {},
@@ -10,10 +11,10 @@ define(['angularAMD','common/services/url_service','reporting/timePeriod/time_pe
       campaignDataForAllBrands: {}
     };
 
-    this.getBubbleChartData = function () {
-        var isDashboardSubAccount = subAccountModel.isDashboardSubAccount();
+    this.getBubbleChartDataForBrands = function () {
       var queryObj = {
-        "clientId": subAccountModel.getDashboardAccountId(),
+        // "clientId": subAccountModel.getDashboardAccountId(),
+        "clientId": $routeParams.subAccountId || $routeParams.accountId,
         "advertiserId": advertiserModel.getSelectedAdvertiser().id,
         "brandId": brandsModel.getSelectedBrand().id,
         "dateFilter": constants.PERIOD_LIFE_TIME,
@@ -45,12 +46,12 @@ define(['angularAMD','common/services/url_service','reporting/timePeriod/time_pe
 
     // getBubbleChartDataForCampaign
     this.getBubbleChartDataForCampaign = function (selectedBrand) {
-      var clientId = loginModel.getSelectedClient().id;
+      // var clientId = loginModel.getSelectedClient().id;
       var advertiserId = advertiserModel.getSelectedAdvertiser().id;
-      var isDashboardSubAccount = subAccountModel.isDashboardSubAccount();
 
       var queryObj = {
-        "clientId": subAccountModel.getDashboardAccountId(),
+        // "clientId": subAccountModel.getDashboardAccountId(),
+        "clientId": $routeParams.subAccountId || $routeParams.accountId,
         "advertiserId": advertiserModel.getSelectedAdvertiser().id,
         "brandId": ((selectedBrand == undefined) ? -1 : selectedBrand),
         "dateFilter": constants.PERIOD_LIFE_TIME,
@@ -86,10 +87,10 @@ define(['angularAMD','common/services/url_service','reporting/timePeriod/time_pe
 
     // So that user can fire paraller request to fetch campaigns of a brands.
     this.getBubbleChartDataForCampaignWithOutCanceller = function (selectedBrand) {
-        var isDashboardSubAccount = subAccountModel.isDashboardSubAccount();
-      if(loginModel.getSelectedClient()) {
+      if(accountService.getSelectedAccount()) {
           var queryObj = {
-              "clientId": subAccountModel.getDashboardAccountId(),
+              // "clientId": subAccountModel.getDashboardAccountId(),
+              "clientId": $routeParams.subAccountId || $routeParams.accountId,
               "advertiserId": advertiserModel.getSelectedAdvertiser().id,
               "brandId": ((selectedBrand == undefined) ? -1 : selectedBrand),
               "dateFilter": constants.PERIOD_LIFE_TIME,

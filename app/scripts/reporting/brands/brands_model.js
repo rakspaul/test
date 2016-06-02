@@ -32,35 +32,37 @@ define(['angularAMD', 'reporting/brands/brands_service', 'common/services/consta
                 }
             },
             setSelectedBrand: function (_brand) {
-                var isLeafNode = localStorageService.masterClient.get().isLeafNode;
-                var isDashboardSubaccount = subAccountModel.isDashboardSubAccount();
+                // var isLeafNode = localStorageService.masterClient.get().isLeafNode;
+                // var isDashboardSubaccount = subAccountModel.isDashboardSubAccount();
 
-                if (!isLeafNode && isDashboardSubaccount) {
-                    localStorageService.brand.setDashboard(_brand);
-                } else {
-                    brand.selectedBrand = _brand;
+                // if (!isLeafNode && isDashboardSubaccount) {
+                //     localStorageService.brand.setDashboard(_brand);
+                // } else {
+                //     brand.selectedBrand = _brand;
+                //     localStorageService.brand.set(_brand);
+                // }
                     localStorageService.brand.set(_brand);
-                }
             },
             getSelectedBrand: function () {
-                var isLeafNode = localStorageService.masterClient.get().isLeafNode;
-                var isDashboardSubaccount = subAccountModel.isDashboardSubAccount();
+                // var isLeafNode = localStorageService.masterClient.get().isLeafNode;
+                // var isDashboardSubaccount = subAccountModel.isDashboardSubAccount();
 
-                if (!isLeafNode && isDashboardSubaccount) {
-                  var  brands = localStorageService.brand.getDashboard();
-                    if(brands !== null) {
-                        brand.selectedDashboardBrand = brands;
-                    }
-                    return brand.selectedDashboardBrand;
-                } else {
-                   var brands = localStorageService.brand.get();
-                    if(brands !== null) {
-                        brand.selectedBrand = brands;
-                    } else {
-                        brand.selectedBrand = brand.allBrandObject;
-                    }
-                    return  brand.selectedBrand;
-                }
+                // if (!isLeafNode && isDashboardSubaccount) {
+                //   var  brands = localStorageService.brand.getDashboard();
+                //     if(brands !== null) {
+                //         brand.selectedDashboardBrand = brands;
+                //     }
+                //     return brand.selectedDashboardBrand;
+                // } else {
+                //    var brands = localStorageService.brand.get();
+                //     if(brands !== null) {
+                //         brand.selectedBrand = brands;
+                //     } else {
+                //         brand.selectedBrand = brand.allBrandObject;
+                //     }
+                //     return  brand.selectedBrand;
+                // }
+                return localStorageService.brand.get() || brand.allBrandObject;
             },
             getBrand: function () {
                 return brand;

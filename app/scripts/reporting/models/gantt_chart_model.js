@@ -1,5 +1,6 @@
 define(['angularAMD', 'common/services/url_service','common/services/data_service','reporting/brands/brands_model','reporting/dashboard/dashboard_model', 'login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/subAccount/sub_account_model'], function (angularAMD) {
-  angularAMD.service('ganttChartModel', ['utils', 'urlService', 'dataService', 'brandsModel','dashboardModel','loginModel', 'advertiserModel','subAccountModel', function (utils, urlService , dataService, brandsModel, dashboardModel, loginModel, advertiserModel,subAccountModel) {
+  angularAMD.service('ganttChartModel', ['utils', 'urlService', 'dataService', 'brandsModel','dashboardModel','loginModel', 'advertiserModel', '$routeParams',
+    function (utils, urlService , dataService, brandsModel, dashboardModel, loginModel, advertiserModel, $routeParams) {
         this.dashboard = {
             tasks: {},
             brands: {},
@@ -7,8 +8,7 @@ define(['angularAMD', 'common/services/url_service','common/services/data_servic
         };
         this.getGanttChartData = function () {
             var url;
-            var isDashboardSubAccount = subAccountModel.isDashboardSubAccount();
-            var clientId = subAccountModel.getDashboardAccountId();
+            var clientId = $routeParams.subAccountId || $routeParams.accountId;
             var advertiserId = advertiserModel.getSelectedAdvertiser().id;
             var brandId = brandsModel.getSelectedBrand().id;
 

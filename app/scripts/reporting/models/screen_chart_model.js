@@ -1,6 +1,7 @@
 define(['angularAMD', 'common/services/vistoconfig_service','common/services/data_service','reporting/brands/brands_model','reporting/dashboard/dashboard_model','common/services/constants_service','login/login_model','common/services/role_based_service', 'reporting/advertiser/advertiser_model', 'common/services/vistoconfig_service','reporting/subAccount/sub_account_model'],function (angularAMD) {
   'use strict';
-  angularAMD.service('screenChartModel', ['$filter','urlService', 'dataService', 'brandsModel','dashboardModel' ,'constants' , 'loginModel', 'RoleBasedService', 'advertiserModel', 'vistoconfig','subAccountModel', function ($filter, urlService, dataService, brandsModel, dashboardModel, constants, loginModel, RoleBasedService, advertiserModel, vistoconfig,subAccountModel) {
+  angularAMD.service('screenChartModel', ['$filter','urlService', 'dataService', 'brandsModel','dashboardModel' ,'constants' , 'loginModel', 'RoleBasedService', 'advertiserModel', 'vistoconfig','subAccountModel', '$routeParams', 
+    function ($filter, urlService, dataService, brandsModel, dashboardModel, constants, loginModel, RoleBasedService, advertiserModel, vistoconfig,subAccountModel, $routeParams) {
 
         var screenWidgetData = { selectedMetric : constants.SPEND ,
             metricDropDown : [constants.SPEND, constants.IMPRESSIONS, constants.CTR,constants.VTC, constants.CPA, constants.CPM, constants.CPC, constants.ACTION_RATE],
@@ -129,7 +130,8 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
 
             var queryObj = {
                'queryId' :  queryId,
-               'clientId': subAccountModel.getDashboardAccountId(),
+               // 'clientId': subAccountModel.getDashboardAccountId(),
+                "clientId": $routeParams.subAccountId || $routeParams.accountId,
                'campaignStatus' :  dashboardModel.campaignStatusToSend(),
                'advertiserId' : advertiserId,
                'brandId' :  brandId,

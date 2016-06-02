@@ -319,10 +319,10 @@ function (angularAMD) {
                     var spendUrl = urlService.getCampaignSpend(queryObj);
 
                     dataService.fetch(spendUrl).then(function(response) {
-                        if(response.data){
-                            $scope.campaigns.spend =  response.data.data[0].gross_rev;
+                        if(response.data && response.data.data && response.data.data.length > 0) {
+                            $scope.campaigns.spend = response.data.data[0].gross_rev;
                         } else {
-                            $scope.campaigns.spend =  0;
+                            $scope.campaigns.spend = 0;
                         }
                     })
                     /*   Fetch Spend End  */
@@ -383,7 +383,7 @@ function (angularAMD) {
             }, function (result) {
                 console.log('call failed');
             });
-        }
+        };
 
         $timeout(function(){
             getSetCampaignDetails();

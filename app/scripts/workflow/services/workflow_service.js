@@ -65,18 +65,29 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     }
 
                     var clientId = loginModel.getMasterClient().id;
-                    if (clientId !== undefined) {
-                        var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/descendants?level=last' + accessLevel;
-                        return dataService.fetch(url);
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/descendants?level=last' + accessLevel;
+                    return dataService.fetch(url);
+                },
+
+                getSubAccounts2: function(clientId, access_level) {
+                    var accessLevel = '';
+                    if (access_level !== undefined) {
+                        accessLevel = '&access_level=' + access_level;
                     }
+
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/descendants?level=last' + accessLevel;
+                    return dataService.fetch(url);
                 },
 
                 getDashboardSubAccount: function () {
                     var clientId = loginModel.getMasterClient().id;
-                    if (clientId) {
-                        var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/descendants?level=all';
-                        return dataService.fetch(url);
-                    }
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/descendants?level=all';
+                    return dataService.fetch(url);
+                },
+
+                getDashboardSubAccount2: function (clientId) {
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/descendants?level=all';
+                    return dataService.fetch(url);
                 },
 
                 getClients: function () {

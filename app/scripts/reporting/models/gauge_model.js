@@ -1,6 +1,7 @@
 define(['angularAMD', 'common/services/url_service', 'reporting/dashboard/dashboard_model', 'common/services/data_service', 'reporting/brands/brands_model', 'common/services/request_cancel_service', 'common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/subAccount/sub_account_model'], function (angularAMD) {
     'use strict';
-    angularAMD.service('gaugeModel', ['urlService', 'dashboardModel', 'dataService', 'brandsModel', 'requestCanceller', 'constants', 'loginModel', 'advertiserModel', 'subAccountModel', function (urlService, dashboardModel, dataService, brandsModel, requestCanceller, constants, loginModel, advertiserModel, subAccountModel) {
+    angularAMD.service('gaugeModel', ['urlService', 'dashboardModel', 'dataService', 'brandsModel', 'requestCanceller', 'constants', 'loginModel', 'advertiserModel', 'subAccountModel', '$routeParams',
+        function (urlService, dashboardModel, dataService, brandsModel, requestCanceller, constants, loginModel, advertiserModel, subAccountModel, $routeParams) {
 
         this.dashboard = {selectedFilter: ''};
         this.resetDashboardFilters = function () {
@@ -9,7 +10,8 @@ define(['angularAMD', 'common/services/url_service', 'reporting/dashboard/dashbo
         this.getGaugeData = function () {
             var advertiserId = advertiserModel.getSelectedAdvertiser().id;
             var brandId = brandsModel.getSelectedBrand().id;
-            var clientId = subAccountModel.getDashboardAccountId();
+            // var clientId = subAccountModel.getDashboardAccountId();
+            var clientId = $routeParams.subAccountId || $routeParams.accountId;
             var url = urlService.APICampaignCountsSummary(constants.PERIOD_LIFE_TIME, clientId, advertiserId, brandId, dashboardModel.campaignStatusToSend());
             //var canceller = requestCanceller.initCanceller(constants.GAUGE_CANCELLER);
 

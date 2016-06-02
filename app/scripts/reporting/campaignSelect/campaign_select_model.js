@@ -1,8 +1,8 @@
 define(['angularAMD','../../common/services/url_service','common/services/data_service','reporting/kpiSelect/kpi_select_model',
                      'login/login_model', 'reporting/advertiser/advertiser_model'], function (angularAMD) {
   angularAMD.factory("campaignSelectModel", ['$rootScope','urlService', 'dataService', 'kpiSelectModel',
-                                             'loginModel', 'advertiserModel','localStorageService',
-    function ($rootScope,urlService, dataService, kpiSelectModel, loginModel, advertiserModel,localStorageService) {
+                                             'loginModel', 'advertiserModel', 'localStorageService', 'brandsModel',
+    function ($rootScope, urlService, dataService, kpiSelectModel, loginModel, advertiserModel, localStorageService, brandsModel) {
 
     var campaign = {};
     campaign.campaigns = {};
@@ -16,6 +16,7 @@ define(['angularAMD','../../common/services/url_service','common/services/data_s
 
     campaign.setSelectedCampaign = function (_campaign, fileIndex, allCampaign) {
       if (!$.isEmptyObject(_campaign)) {
+        console.log('_campaign', _campaign);
         campaign.selectedCampaign.id = (_campaign.id == undefined) ? _campaign.campaign_id : _campaign.id;
         campaign.selectedCampaign.name = _campaign.name;
         campaign.selectedCampaign.kpi = (_campaign.kpi == undefined) ? (_campaign.kpi_type.toLowerCase()) : _campaign.kpi.toLowerCase();
@@ -23,8 +24,11 @@ define(['angularAMD','../../common/services/url_service','common/services/data_s
         campaign.selectedCampaign.endDate = (_campaign.endDate == undefined) ? _campaign.end_date : _campaign.endDate;
         campaign.selectedCampaign.cost_transparency = _campaign.cost_transparency;
         campaign.selectedCampaign.redirectWidget = _campaign.type || '';
+        campaign.selectedCampaign.advertiser = _campaign.advertiser;
+        campaign.selectedCampaign.brand = _campaign.brand;
 
-        if (campaign.selectedCampaign !== undefined && (campaign.selectedCampaign.kpi == 'null' || campaign.selectedCampaign.kpi == null || campaign.selectedCampaign.kpi == undefined || campaign.selectedCampaign.kpi == 'NA')) {
+        if (campaign.selectedCampaign.kpi == 'null' || campaign.selectedCampaign.kpi == null 
+          || campaign.selectedCampaign.kpi == undefined || campaign.selectedCampaign.kpi == 'NA') {
           campaign.selectedCampaign.kpi = 'ctr'; // set default kpi as ctr if it is coming as null or NA from backend.
         }
 
@@ -40,9 +44,24 @@ define(['angularAMD','../../common/services/url_service','common/services/data_s
         kpiSelectModel.setSelectedKpi(campaign.selectedCampaign.kpi);
         if (campaign.selectedCampaign.name) {
           if (fileIndex == undefined) {
+            console.log('campaign.selectedCampaign', campaign.selectedCampaign);
+            console.log('campaign.selectedCampaign.advertiser', campaign.selectedCampaign.advertiser);
+            console.log('campaign.selectedCampaign.brand', campaign.selectedCampaign.brand);
             $(".campaign_name_selected").text(campaign.selectedCampaign.name);
             $(".campaign_name_selected").prop('title', campaign.selectedCampaign.name);
             $("#campaignDropdown").val(campaign.selectedCampaign.name);
+
+            // if (campaign.selectedCampaign.advertiser) {
+            //     $('#advertiser_name_selected').text(campaign.selectedCampaign.advertiser.name);
+            //     $('#advertisersDropdown').attr('placeholder', campaign.selectedCampaign.advertiser.name).val('');
+            //     advertiserModel.setSelectedAdvertisers(campaign.selectedCampaign.advertiser);
+            // }
+
+            // if (campaign.selectedCampaign.brand) {
+            //     $("#brand_name_selected").text(campaign.selectedCampaign.brand.name);
+            //     $('#brandsDropdown').attr('placeholder', campaign.selectedCampaign.brand.name).val('');
+            //     brandsModel.setSelectedBrand(campaign.selectedCampaign.brand);
+            // }
           } else {
             var campaignElems = $($(".campaign_name_selected")[fileIndex]);
             campaignElems.text(campaign.selectedCampaign.name);
@@ -53,17 +72,23 @@ define(['angularAMD','../../common/services/url_service','common/services/data_s
       }
     };
 
-    campaign.getCampaigns = function (brand, searchCriteria) {
+    campaign.getCampaigns = function (brandId, searchCriteria) {
       //console.log('search criteria:',searchCriteria);
       //console.log("brand", brand);
       var clientId = loginModel.getSelectedClient().id;
       var advertiserId = advertiserModel.getSelectedAdvertiser().id;
-      var url = urlService.APICampaignDropDownList(clientId, advertiserId, brand, searchCriteria);
+      console.log('brandsModel.getselectedBrand()', brandsModel.getSelectedBrand());
+      if (brandId === undefined) {
+        var brand = brandsModel.getSelectedBrand();
+        console.log('brand.id', brand.id)
+        brandId = brand.id;
+      }
+      var url = urlService.APICampaignDropDownList(clientId, advertiserId, brandId, searchCriteria);
       return dataService.fetch(dataService.append(url, searchCriteria)).then(function (response) {
-        campaign.campaigns = (response.data.data !== undefined) ? response.data.data : {};
+        campaign.campaigns = (response.data.data !== undefined ? response.data.data : {});
         if (campaign.campaigns.length > 0 && campaign.selectedCampaign.id == -1) {
-          var _selectedCamp = campaign.campaigns[0];
-          campaign.setSelectedCampaign(_selectedCamp);
+          console.log('campaign.campaigns[0]', campaign.campaigns[0]);
+          campaign.setSelectedCampaign(campaign.campaigns[0]);
         }
         return campaign.campaigns;
       });

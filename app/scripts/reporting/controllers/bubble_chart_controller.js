@@ -34,7 +34,7 @@ define(['angularAMD','login/login_model','login/login_service','reporting/common
             $scope.spendBusy = true;
 
             // Fetch the new data now.
-            bubbleChartModel.getBubbleChartData().then(function () {
+            bubbleChartModel.getBubbleChartDataForBrands().then(function () {
                 $scope.spendBusy = false;
                 if (bubbleChartModel.getbubbleWidgetData()['dataNotAvailable'] == true) {
                     d3.select("#brands_svg").remove();

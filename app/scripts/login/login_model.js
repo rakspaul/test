@@ -78,6 +78,7 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
 
             setUser: function (user) {
                 data = user;
+                $cookieStore.put('cdesk_session', user);
 
                 // var time = moment().add(user.expiry_secs, 'seconds'),
                 // expiryTime = new Date(time);

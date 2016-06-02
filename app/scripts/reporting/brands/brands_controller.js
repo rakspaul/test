@@ -8,8 +8,8 @@ define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_se
         $scope.textConstants = constants;
         $scope.advertiser =  advertiserModel.getSelectedAdvertiser();
 
-        $scope.isDashbboardBrand = subAccountModel.isDashboardSubAccount();
-        var isLeafNode = localStorageService.masterClient.get().isLeafNode;
+        // $scope.isDashbboardBrand = subAccountModel.isDashboardSubAccount();
+        // var isLeafNode = localStorageService.masterClient.get().isLeafNode;
 
         function fetchBrands(searchCriteria, search) {
           if (loginModel.getUserId() == undefined) {
@@ -28,9 +28,9 @@ define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_se
 
          if((advertiserModel.getAdvertiser().selectedAdvertiser) && (advertiserModel.getAdvertiser().selectedAdvertiser.id)) {
              $scope.brandData = brandsModel.getBrand();
-             if($scope.isDashbboardBrand && !isLeafNode) {
-                 $scope.brandData.selectedBrand = $scope.brandData.selectedDashboardBrand;
-             }
+             // if($scope.isDashbboardBrand && !isLeafNode) {
+             //     $scope.brandData.selectedBrand = $scope.brandData.selectedDashboardBrand;
+             // }
          }
 
         $scope.selectBrand = function (brand, advertiser, event_type) {

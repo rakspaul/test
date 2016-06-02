@@ -1,6 +1,6 @@
 define(['../app','login/login_service','common/utils','common/services/constants_service','common/services/role_based_service','login/login_model'],function (app) {
     'use strict';
-    app.controller('loginController', function ($scope, $sce, loginService, utils, constants, RoleBasedService, loginModel) {
+    app.controller('loginController', function ($scope, $sce, loginService, utils, constants, RoleBasedService, loginModel, accountService, subAccountService, dataService) {
         var browserNameList = '',
             supportedBrowser = [
                 {
@@ -21,6 +21,27 @@ define(['../app','login/login_service','common/utils','common/services/constants
                 }
             ];
 
+        var postLoginPage = function() {
+            var preferredClientId = RoleBasedService.getUserData().preferred_client;
+            console.log('preferredClientId', preferredClientId);
+            dataService.updateRequestHeader();
+            accountService.fetchAccountList().then(function() {
+                var account, subAccount, url;
+                if (preferredClientId) {
+                    account = _.find(accountService.getAccounts(), function(client) {
+                        return client.id == preferredClientId;
+                    });
+                } else {
+                    account = accountService.getAccounts()[0];
+                }
+                if (account.isLeafNode) {
+                    url = '/a/' + account.id + '/dashboard';
+                } else {
+                    url = '/a/' + account.id + '/sa/' + account.id + '/dashboard';
+                }
+                window.location = url;
+            });
+        }
         $scope.textConstants = constants;
         $scope.loadingClass = '';
         $scope.loginErrorMsg = undefined;
@@ -51,7 +72,7 @@ define(['../app','login/login_service','common/utils','common/services/constants
                         loginModel.setClientData(user);
                         loginService.setCredentials(user);
                         RoleBasedService.setUserData(response);
-                        document.location = '/';
+                        postLoginPage();
                     } else {
                         $scope.error = response.data.message;
                         $scope.loginErrorMsg = response.data.message;

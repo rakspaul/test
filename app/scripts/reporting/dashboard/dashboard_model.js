@@ -1,6 +1,7 @@
 define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model','reporting/timePeriod/time_period_model','common/services/constants_service','common/services/url_service','common/services/request_cancel_service','common/services/data_service','common/utils', 'reporting/subAccount/sub_account_model'],function (angularAMD) {
   'use strict';
-  angularAMD.factory("dashboardModel", ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel', 'constants', 'urlService', 'requestCanceller', 'dataService', 'utils','subAccountModel', function (loginModel, advertiserModel, brandsModel, timePeriodModel, constants, urlService, requestCanceller, dataService, utils,subAccountModel) {
+  angularAMD.factory("dashboardModel", ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel', 'constants', 'urlService', 'requestCanceller', 'dataService', 'utils', '$routeParams',
+    function (loginModel, advertiserModel, brandsModel, timePeriodModel, constants, urlService, requestCanceller, dataService, utils, $routeParams) {
 
     var dashboardData = {selectedStatus: constants.DASHBOARD_STATUS_IN_FLIGHT};//by default it is active.  Now check local storage if we want to change it last saved status.
     var localStoredCampaignStatus = JSON.parse(localStorage.getItem('dashboardStatusFilter'));
@@ -25,16 +26,19 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
     };
 
     var getCampaingsCount = function () {
-        var clientId = subAccountModel.getDashboardAccountId();
+        var clientId = $routeParams.subAccountId || $routeParams.accountId;
         var advertiserId = advertiserModel.getSelectedAdvertiser().id;
         var brandId = brandsModel.getSelectedBrand().id;
         var url = urlService.APICalendarWidgetForAllBrands(clientId, advertiserId, 'end_date',campaignStatusToSend());
 
         return dataService.fetch(url).then(function (response) {
-            var searchCriteria = utils.typeaheadParams;
-            searchCriteria.clientId = loginModel.getSelectedClient().id;
-            searchCriteria.advertiserId = advertiserModel.getAdvertiser().hasOwnProperty('selectedAdvertiser') ? advertiserModel.getAdvertiser().selectedAdvertiser.id : -1;
-            return brandsModel.getBrands(function() {
+                var totalCamapigns = response.data.data.total_campaigns;
+                var mediaPlanText = 'Media Plan' + (totalCamapigns > 1 ? 's' : '');
+                dashboardData.toolTip = 'Showing data for ' + totalCamapigns + ' ' + mediaPlanText;
+            // var searchCriteria = utils.typeaheadParams;
+            // searchCriteria.clientId = loginModel.getSelectedClient().id;
+            // searchCriteria.advertiserId = advertiserModel.getAdvertiser().hasOwnProperty('selectedAdvertiser') ? advertiserModel.getAdvertiser().selectedAdvertiser.id : -1;
+            // return brandsModel.getBrands(function() {
                 /*var ready = response.data.data.ready, draft = response.data.data.draft, paused = response.data.data.paused;
                 var totalCampaigns = response.data.data.active.total + response.data.data.completed.total + response.data.data.na.total + ready + draft + paused;
                 dashboardData.totalCampaigns = totalCampaigns;
@@ -45,10 +49,10 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
                     dashboardData.toolTip = 'Showing data for ' + dashboardData.totalCampaigns + ' ' + mediaPlanText;
                 }*/
 
-                var totalCamapigns = response.data.data.total_campaigns;
-                var mediaPlanText = 'Media Plan' + (totalCamapigns > 1 ? 's' : '');
-                dashboardData.toolTip = 'Showing data for ' + totalCamapigns + ' ' + mediaPlanText;
-            },searchCriteria, false);
+            //     var totalCamapigns = response.data.data.total_campaigns;
+            //     var mediaPlanText = 'Media Plan' + (totalCamapigns > 1 ? 's' : '');
+            //     dashboardData.toolTip = 'Showing data for ' + totalCamapigns + ' ' + mediaPlanText;
+            // },searchCriteria, false);
         });
     };
 

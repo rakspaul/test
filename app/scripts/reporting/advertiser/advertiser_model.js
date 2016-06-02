@@ -33,22 +33,21 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
                 }
             },
             getSelectedAdvertiser: function () {
-                var isLeafNode = localStorageService.masterClient.get().isLeafNode;
-                if(advertiserService.isDashboardAdvertiser() && !isLeafNode) {
-                    var savedAdvertiser = JSON.parse(localStorage.getItem('dashboardAdvertiser'));
-                } else {
-                    var savedAdvertiser = JSON.parse(localStorage.getItem('setAdvertiser'));
-                }
+                // var isLeafNode = localStorageService.masterClient.get().isLeafNode;
+                // if(advertiserService.isDashboardAdvertiser() && !isLeafNode) {
+                //     var savedAdvertiser = localStorage.getItem('dashboardAdvertiser') && JSON.parse(localStorage.getItem('dashboardAdvertiser'));
+                // } else {
+                //     var savedAdvertiser = localStorage.getItem('setAdvertiser') && JSON.parse(localStorage.getItem('setAdvertiser'));
+                // }
 
-                if (savedAdvertiser !== null) {
-                    advertiser.selectedAdvertiser = savedAdvertiser;
-                    return advertiser.selectedAdvertiser;
-                } else {
-                    advertiser.selectedAdvertiser = advertiser.allAdvertiserObject;
-                    return advertiser.allAdvertiserObject;
-                }
-
-
+                // if (savedAdvertiser !== null) {
+                //     advertiser.selectedAdvertiser = savedAdvertiser;
+                //     return advertiser.selectedAdvertiser;
+                // } else {
+                //     advertiser.selectedAdvertiser = advertiser.allAdvertiserObject;
+                //     return advertiser.allAdvertiserObject;
+                // }
+                return advertiser.allAdvertiserObject
             },
             getAdvertiser: function () {
                 return advertiser;
