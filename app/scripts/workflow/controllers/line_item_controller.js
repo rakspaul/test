@@ -170,6 +170,12 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             if (mode === 'create' ) {
                 if ($scope.lineItemName != '') {
                     newItem = createLineItemObj(lineItemObj);
+
+                    if (Number(newItem.billableAmount) > $scope.Campaign.deliveryBudget) {
+                        $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
+                        return false;
+                    }
+
                     $scope.lineItems.lineItemList.push(newItem);
                     $scope.selectedCampaign.resetLineItemParameters();
                 }
@@ -566,6 +572,10 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         };
 
         $scope.updateLineItem = function (newItem) {
+            if (Number($scope.editLineItem.billableAmount) > $scope.Campaign.deliveryBudget) {
+                $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
+                return false;
+            }
             $scope.deleteLineItem(false);
             $scope.createNewLineItem('edit');
         }
