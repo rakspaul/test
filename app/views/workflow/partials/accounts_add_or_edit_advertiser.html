@@ -125,69 +125,136 @@
             <div class="billingMethods" data-ng-show="clientObj.isLeafNode">
                 <div class="col-md-12 zeroPadding">
                     <h1 class="pull-left">Billing & Invoices</h1>
+
+                    <div class="form-group col-md-4 pull-right">
+                        <label class="col-sm-12 greyTxt" style="text-align: right;">Invoice On Demand:</label>
+                        <input id="invoiceDemand" class="cmn-toggle cmn-toggle-round pull-right" type="checkbox">
+                        <label for="invoiceDemand" class="pull-right"></label>
+                    </div>
                 </div>
                 <div class="col-md-12 zeroPadding">
                     <!--Billed-->
                     <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-                        <label class="col-sm-12 greyTxt">Billed For:</label>
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
+                        <label class="col-sm-12 greyTxt">(Optional) Billed For:</label>
+                        <!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
+                        <!--    <div class="dropdown">-->
+                        <!--        <button class="btn btn-default dropdown-toggle"-->
+                        <!--                type="button"-->
+                        <!--                data-toggle="dropdown"-->
+                        <!--                aria-haspopup="true"-->
+                        <!--                aria-expanded="true">-->
+                        <!--            <span class="text" data-ng-bind="selectedBillType">Arbitrage</span>-->
+                        <!--            <span class="icon-arrow-down"></span>-->
+                        <!--        </button>-->
+                        <!--        <ul class="dropdown-menu" data-toggle="dropdown">-->
+                        <!--            <li class="available">-->
+                        <!--                <a data-ng-click="showRespectiveMethod('Tech Fees')">Tech Fees</a>-->
+                        <!--            </li>-->
+                        <!--            <li class="available">-->
+                        <!--                <a data-ng-click="showRespectiveMethod('Service Fees')">Service Fees</a>-->
+                        <!--            </li>-->
+                        <!--            <li class="available">-->
+                        <!--                <a data-ng-click="showRespectiveMethod('Cost')">Cost</a>-->
+                        <!--            </li>-->
+                        <!--            <li class="available">-->
+                        <!--                <a data-ng-click="showRespectiveMethod('None')">None</a>-->
+                        <!--            </li>-->
+                        <!--        </ul>-->
+                        <!--    </div>-->
+                        <!--</div>-->
+
+                        <span>Tech Fees</span>
+                    </div>
+
+                    <!--Tech Fees-->
+                    <div class="col-md-8 zeroPadding methodFees techFees"
+                         style="padding-left: 15px;">
+                        <label class="col-sm-12 greyTxt">Rate Type:</label>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle form-group col-md-4 disabled"
+                                    type="button"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="true"
+                                    disabled>
+                                <span class="text">CPM</span>
+                            </button>
+                        </div>
+                        <div class="form-group col-md-4" style="margin-top: -36px;">
+                            <label class="col-sm-12 greyTxt" for="rateValue">Value:</label>
+                            <input type="text" id="rateValue" class="form-control" maxlength="80">
+                        </div>
+                    </div>
+
+                    <!--Service Fee-->
+                    <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
+                        <label class="col-sm-12 greyTxt">(Optional) Billed For:</label>
+                        <span>Service Fees</span>
+                    </div>
+
+                    <div class="col-md-8 zeroPadding methodFees techFees"
+                         style="padding-left: 15px;">
+                        <label class="col-sm-12 greyTxt">Rate Type:</label>
+                        <div class="dropdown-workflow col-md-4 zeroPadding">
                             <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle"
+                                <button class="btn btn-default dropdown-toggle form-group"
                                         type="button"
                                         data-toggle="dropdown"
                                         aria-haspopup="true"
                                         aria-expanded="true">
-                                    <span class="text" data-ng-bind="billingData.selectedBilledFor.type"></span>
-                                    <span class="icon-arrow-down"></span>
+                                    <span class="text" data-ng-bind="selectedRateType"></span>
+                                    <span class="icon-arrow-down" style="margin-left:172px"></span>
                                 </button>
                                 <ul class="dropdown-menu" data-toggle="dropdown">
                                     <li class="available">
-                                        <a data-ng-click="showRespectiveMethod('Cost')">Cost</a>
+                                        <a data-ng-click="selectedRateType='COGS'">COGS</a>
                                     </li>
                                     <li class="available">
-                                        <a data-ng-click="showRespectiveMethod('None')">None</a>
+                                        <a data-ng-click="selectedRateType='CPM'">CPM</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
+                        <div class="form-group col-md-4" style="margin-top: -36px">
+                            <label class="col-sm-12 greyTxt">Value:</label>
+                            <input type="text" class="form-control" maxlength="80" placeholder="Add some value">
+                        </div>
                     </div>
 
                     <!--Cost-->
+                    <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
+                        <label class="col-sm-12 greyTxt">(Optional) Billed For:</label>
+                        <span>Cost</span>
+                    </div>
+
                     <div class="col-md-8 zeroPadding methodFees techFees"
-                         data-ng-show="selectedBillType === 'Cost'"
                          style="padding-left: 15px;">
                         <label class="col-sm-12 greyTxt">Rate Type:</label>
                         <div class="dropdown-workflow col-md-4 zeroPadding">
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle form-group col-md-4"
-                                        style="padding: 7px;"
                                         type="button"
                                         data-toggle="dropdown"
                                         aria-haspopup="true"
                                         aria-expanded="true">
-                                    <span class="text" data-ng-bind="billingData.selectedBillingType.name"></span>
+                                    <span class="text" data-ng-bind="selectedRateType"></span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" data-toggle="dropdown">
-                                    <li class="available" data-ng-repeat="billingType in billingData.billingTypesArr">
-                                        <a data-ng-click="selectedBillingTypeChanged(billingType)"
-                                           data-ng-bind="billingType.name">
-                                        </a>
+                                    <li class="available">
+                                        <a data-ng-click="selectedRateType='COGS'">COGS</a>
+                                    </li>
+                                    <li class="available">
+                                        <a data-ng-click="selectedRateType='Arbitrage'">Arbitrage</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="form-group col-md-4"
                              style="margin-top: -36px"
-                             data-ng-show="billingData.selectedBillingType.id === 6">
+                             data-ng-show="selectedRateType=='COGS'">
                             <label class="col-sm-12 greyTxt">Value:</label>
                             <input type="text" class="form-control" maxlength="80" placeholder="Add some value">
-                        </div>
-                        <div class="form-group col-md-4"
-                             style="padding: 0 15px 0 0; margin: -36px 0 0 15px; display: none;">
-                            <label class="col-sm-12 greyTxt">Invoice On Demand:</label>
-                            <input id="invoiceDemand3" class="cmn-toggle cmn-toggle-round" type="checkbox">
-                            <label for="invoiceDemand3"></label>
                         </div>
                     </div>
                 </div>
@@ -320,10 +387,10 @@
                     <div class="form-group col-md-12" style="padding: 0" >
                         <label class="col-sm-12 greyTxt" for="pixelCode">Pixel Code</label>
                         <textarea id="pixelCode" class="form-control"
-                               data-ng-model="pixelFormData.pixelCode"
-                               data-ng-disabled="pixelIndex !== null &&
+                                  data-ng-model="pixelFormData.pixelCode"
+                                  data-ng-disabled="pixelIndex !== null &&
                                                  advertiserData.pixels[pixelIndex].isFeedData === true"
-                               data-ng-trim="true">
+                                  data-ng-trim="true">
                         </textarea>
                     </div>
                     <div class="form-group col-md-2 clearLeft" style="padding: 0 15px 0 0;">
@@ -353,9 +420,9 @@
                     <div class="form-group col-md-8" style="padding: 0 0 0 15px;">
                         <label class="col-sm-12 greyTxt" for="pixeldesc">Description</label>
                         <textarea
-                               id="pixelDesc"
-                               class="form-control"
-                               data-ng-model="pixelFormData.description">
+                                id="pixelDesc"
+                                class="form-control"
+                                data-ng-model="pixelFormData.description">
                         </textarea>
                     </div>
                     <a class="pull-right btn btn-default"
@@ -441,5 +508,7 @@
             </li>
         </ul>
         <input type="hidden"  data-ng-model="selectedAdvertiserId">
-    </div><!-- end of modal_body -->
-</div> <!-- end of popup-holder -->
+    </div>
+    <!-- end of modal_body -->
+</div>
+<!-- end of popup-holder -->
