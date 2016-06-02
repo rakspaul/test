@@ -363,11 +363,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 };
 
                 this.saveInvoiceListCredits = function(invoiceId){
-                    var clientId =  loginModel.getMasterClient().id,
+                    var clientId =  loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
                     return url+'/clients/'+clientId+'/invoices/'+invoiceId+'/credits';
                 }
-
+                this.downloadInvoiceCampaign = function(campaignId){
+                    var clientId =  loginModel.getSelectedClient().id,
+                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
+                    return url+'/clients/'+clientId+'/invoices/campaign_id/'+campaignId+'/download';
+                }
                 this.getCampaignSpend = function(queryObj) {
                     //query_id = 14
                     var params = this.buildParams(queryObj);
