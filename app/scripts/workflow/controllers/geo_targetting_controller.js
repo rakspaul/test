@@ -620,13 +620,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             return item.parent.id === obj.id;
                         })
 
-                        if (pos1 >= 0) {
-                            countryLen = pos1;
+                        if (pos1 < 0) {
+                            $scope.geoSelectedItems[idx]['countries'][countryLen]['regions'].push(item.parent);
+                            delete item.parent;
                         }
-
-                        $scope.geoSelectedItems[idx]['countries'][countryLen]['regions'].push(item.parent);
-                        delete item.parent;
-
 
                         var regionLen = $scope.geoSelectedItems[idx]['countries'][countryLen]['regions'].length - 1;
 
@@ -724,13 +721,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if(geoTargeting.selectedGeoItemArr.length >0 && isChecked !== null) {
                     _.each(geoTargeting.selectedGeoItemArr, function(obj) {
                         if(obj.geoType === geoMapper[type]) {
-                            obj.included = false;
+                            obj.included = isChecked;
                         }
                     })
                 }
 
-                selectedCountries = $scope.geoData.countries.selected,
-                    selectedRegions = $scope.geoData.regions.selected;
+                selectedCountries = $scope.geoData.countries.selected;
+                selectedRegions = $scope.geoData.regions.selected;
 
                 if(type === 'countries'  || type === 'regions'  || type === 'cities' ) {
                     var selectedGeoType = $.extend(true, [], $scope.geoData[type].selected);
@@ -745,7 +742,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.geoData.cities.selected = [];
                         $scope.geoData.cities.data = [];
 
-                        geoTargeting.selectedGeoItemArr = _.filter(geoTargeting.selectedGeoItemArr, function(obj) { return obj.geoType !== 'COUNTRY'}); //filter all cities from the geoTargeting.selectedGeoItemArr
+                        geoTargeting.selectedGeoItemArr = _.filter(geoTargeting.selectedGeoItemArr, function(obj) { return obj.geoType === 'COUNTRY'}); //filter all cities from the geoTargeting.selectedGeoItemArr
                     }
 
                     //if selected tab is regions and country is not selected and we change the include/exclude toggle
@@ -1457,22 +1454,20 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $(".geo-tab-content").hide();
             $("#" + tabType + "-geo-tab-content").show();
 
-            if(!elem.hasClass('active')) {
-                elem.closest(".btn-group").find(".active").removeClass("active");
-                elem.addClass("active");
+            elem.closest(".btn-group").find(".active").removeClass("active");
+            elem.addClass("active");
 
 
-                //reseting search value
-                geoTargeting.resetSearchValue();
+            //reseting search value
+            geoTargeting.resetSearchValue();
 
-                //reseting geo targeting data
-                geoTargeting.resetGeoData();
+            //reseting geo targeting data
+            geoTargeting.resetGeoData();
 
-                $scope.selectedSubTab = tabType;
-                geoTargeting.showHideExcAndIncSwitch();
-                geoTargeting.setIncludeExcludeGeo();
-                geoTargeting[tabType].init();
-            }
+            $scope.selectedSubTab = tabType;
+            geoTargeting.showHideExcAndIncSwitch();
+            geoTargeting.setIncludeExcludeGeo();
+            geoTargeting[tabType].init();
         };
 
         $scope.divHeightCalculation = function () {
@@ -1636,6 +1631,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     })
                 });
             }
+
 
             $scope.check(false, item, type);
         };
