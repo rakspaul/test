@@ -14,13 +14,15 @@
             <h6 class="heading subTitle pull-left clearLeft" ng-bind-html="textConstants.REPORT_BUILDER_SUBTITLE"></h6>
             
             <!-- his will be hidden until fold happens -->
-            <span class="heading savedSubTitle pull-left">{{reports.name}}</span>
-            <span class="heading savedSubTitle pull-left"><span ng-if="reports.name">|</span> {{reports.reportDefinition.timeframe.start_date}}</span>
-            <span class="heading savedSubTitle pull-left">- {{reports.reportDefinition.timeframe.end_date}}</span>
-            <span class="heading downReport pull-left">
+            <span class="heading downReport pull-right">
                 <span class="icon-download zeroPadding pull-left" style="margin-right:9px;"></span>
                 <a ng-click="downloadCreateRepBuilder()" class="pull-left">Download Report</a></span>
             </span>
+            
+            <span class="greyTxt clearLeft pull-left" style="margin: 0 4px 10px 0;">{{reports.name}}</span>
+            <span class="greyTxt pull-left"><span ng-if="reports.name">|</span> {{reports.reportDefinition.timeframe.start_date}}</span>
+            <span class="greyTxt pull-left">-{{reports.reportDefinition.timeframe.end_date}}</span>
+            
         </div>
 
         <div class="col-md-12 zeroPadding" id="reportBuilderForm">
@@ -223,9 +225,9 @@
                         </div>
                     </div>
                     
-                    <div class="date pull-right" style="position: relative;">
+                    <div class="date pull-right input-daterange" style="position: relative;">
                         <div class="col-md-12 dateWrapper">
-                            <div class="pull-left" style="width: 125px;">
+                            <div class="pull-left" style="width: 115px;">
                                 <input type="text" style="background: transparent;"
                                        id="startDateInput"
                                        class="input-sm form-control timeframe"
@@ -234,7 +236,7 @@
                                 <label ng-if="!reports.reportDefinition.timeframe.start_date" style="display:block"
                                        class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
                             </div>
-                            <div class="pull-left" style="margin-left: 10px; width: 125px;">
+                            <div class="pull-left" style="margin-left: 10px; width: 115px;">
                                 <input type="text" style="background: transparent;"
                                        id="endDateInput"
                                        class="input-sm form-control timeframe"
@@ -246,9 +248,9 @@
                             </div>
                         </div>
                         
-                        <div class="col-md-12 zeroPadding" style="width: 260px;">
-                            <span class="icon-calendar pull-left" style="padding: 10px; border-left: 1px solid #BFC9D7; margin: 0 0 0 88px; height: 36px;"></span>
-                            <span class="icon-calendar pull-left" style="padding: 10px; border-left: 1px solid #BFC9D7; margin: 0 0 0 114px; height: 36px;"></span>
+                        <div class="col-md-12 zeroPadding" style="width: 242px;">
+                            <span class="icon-calendar pull-left" style="padding: 10px 6px; border-left: 1px solid #BFC9D7; margin: 0 0 0 86px; height: 36px;"></span>
+                            <span class="icon-calendar pull-left" style="padding: 10px 6px; border-left: 1px solid #BFC9D7; margin: 0 0 0 109px; height: 36px;"></span>
                         </div>
                     </div>
                 </div>
@@ -609,7 +611,7 @@
 
                         <button class="pull-right btn btn-default"
                                 ng-click="resetMetricOptions();"
-                                ng-bind-html="buttonResetCancel" ng-class="reportTypeSelect === 'Save' ? 'save_reset glyphicon glyphicon-repeat' : ''">
+                                ng-bind-html="buttonResetCancel" ng-class="reportTypeSelect === 'Save' ? 'save_reset' : ''">
                         </button>
 
                         <!-- <div class="pull-right secondary_txt" ng-click="reset_metric_options()">

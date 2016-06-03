@@ -18,7 +18,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         $scope.textConstants = constants;
         $scope.additionalValue = "Contains keywords ...";
         var _customctrl = this;
-        var elem = $(".each_section_custom_report").find(".dropdown").find(".dd_txt");
+        var elem = $("#reportBuilderForm").find(".dropdown").find(".dd_txt");
         
         var winHeight = $(window).height();
         $(".custom_response_screenshot_container").css('min-height', winHeight - 464);
@@ -479,7 +479,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
         _customctrl.createRequestParams = function(filterText, offset, isPrimary, rowIndex_2D,dataFormat) {
             var params = '',
-                dropdownElem = $(".each_section_custom_report"),
+                dropdownElem = $("#reportBuilderForm"),
                 reportId = dropdownElem.find('.dd_txt').attr('data-template_id'),
                 dimensionDataKey = isPrimary ? "primary" : "secondary",
                 filterDataKey = isPrimary ? "secondary" : "primary",
@@ -917,7 +917,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             } else {
                 $scope.generateBtnDisabled = true;
                 $(".custom_report_filter").closest(".breakdown_div").find(".filter_input_txtbox").hide();
-                $(".each_section_custom_report").find(".filter_input_txtbox").hide();
+                $("#reportBuilderForm").find(".filter_input_txtbox").hide();
             }
         }
 
