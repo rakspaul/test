@@ -28,10 +28,10 @@
                                     <div class="icon-search"></div>
                                 </div>
                             </li>
-                            <li ng-repeat="mediaplan in mediaPlanList | filter: media" ng-click="defaultDropdownToggle($event)" >
+                            <li ng-repeat="mediaplan in mediaPlanList | filter: media" ng-click="defaultDropdownToggle($event)">
                                 <a ng-click="selectMediaPlan(mediaplan)">
-                                    <span ng-if="mediaplan.id == campaignId"><b>{{mediaplan.name}} (Current)</b></span>
-                                    <span ng-if="mediaplan.id != campaignId">{{mediaplan.name}}</span>
+                                    <span ng-if="mediaplan.id == campaignId" tooltip="{{mediaplan.name}}"><b>{{mediaplan.name}} (Current)</b></span>
+                                    <span ng-if="mediaplan.id != campaignId" tooltip="{{mediaplan.name}}">{{mediaplan.name}}</span>
                                 </a>
                             </li>
                         </ul>
