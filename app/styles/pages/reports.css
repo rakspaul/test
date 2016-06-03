@@ -4211,11 +4211,10 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin: 0 auto;
 }
 .report_generator_and_response .report_builder_container .metricDataView .metricContainer .metricData {
-  padding: 0;
+  padding: 0 0 0 17px;
   cursor: pointer;
 }
 .report_generator_and_response .report_builder_container .metricDataView .metricContainer .metricData.active {
-  padding-left: 15px;
   background-image: url(../../images/cdesk/checkMark.png);
   background-repeat: no-repeat;
   background-position: left;
