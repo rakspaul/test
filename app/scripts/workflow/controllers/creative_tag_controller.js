@@ -1,7 +1,6 @@
 
 define(['angularAMD','common/services/constants_service','workflow/services/workflow_service'],function (angularAMD) {
   angularAMD.controller('CreativeTagController', function($scope, constants, workflowService) {
-
         var addFromLibrary = {
             modifyCreativesData: function (respData) {
                 var arr;
@@ -57,6 +56,9 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                                     }
                                 });
                             }
+                        }else if(result.status === 'OK' || result.status === 'success' && result.data.data.length == 0){
+                            $scope.loadingFlag = false;
+
                         }
                     },function(error){
                     addFromLibrary.errorHandler(error);
