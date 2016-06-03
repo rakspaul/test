@@ -425,7 +425,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         setStrategyInScope = function() {
             var selectedStrategyID =  $scope.selectedStrategy.id =  Number(strategySelectModel.getSelectedStrategy().id);
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = selectedStrategyID === 0 ? constants.MEDIA_PLAN_TOTAL : constants.AD_GROUP_TOTAL;
+            $scope.strategyHeading = selectedStrategyID === 0 ? constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
         };
 
 

@@ -1,7 +1,9 @@
 define(['angularAMD', '../../common/services/url_service', 'common/services/data_service', 'common/services/request_cancel_service',
-                      'common/services/constants_service'],function (angularAMD) {
+                      'common/services/constants_service', 'common/services/vistoconfig_service'],function (angularAMD) {
 
-    angularAMD.factory("strategySelectModel", ['urlService', 'dataService', 'requestCanceller', 'constants', function (urlService, dataService, requestCanceller, constants) {
+    angularAMD.factory("strategySelectModel", ['urlService', 'dataService', 'requestCanceller',
+                                               'constants', 'vistoconfig', function (urlService, dataService, requestCanceller,
+                                                                                     constants, vistoconfig) {
         var strategyObj = {};
         strategyObj.strategies = {};
         //strategyObj.selectedStrategy = (localStorage.getItem('selectedStrategy') == undefined) ? { id: -1,name : 'Loading...'} : (JSON.parse( localStorage.getItem('selectedStrategy') )) ;
@@ -17,7 +19,7 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
 
                 var modifyStrategiesData = function (resp) {
                     var strategyData = (resp && resp.data) ? resp.data : [];
-                    strategyData.unshift(constants.LINE_ITEM_DROPDWON_OBJECT);
+                    strategyData.unshift(vistoconfig.LINE_ITEM_DROPDWON_OBJECT);
                     strategyObj.strategies = (strategyData !== undefined) ? strategyData : {};
                     if (strategyObj.strategies.length !== undefined && strategyObj.strategies.length > 0 && strategyObj.selectedStrategy.id == -1) {
                         strategyObj.selectedStrategy.id = strategyObj.strategies[0].id;

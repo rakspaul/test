@@ -335,7 +335,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             extractAdFormats();
             $scope.selectedStrategy.id = selectedStrategyObj.id;
             $scope.selectedStrategy.name = selectedStrategyObj.name;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) >= 0 ? constants.AD_GROUP_TOTAL : constants.MEDIA_PLAN_TOTAL;
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) >= 0 ? constants.LINE_ITME_TOTAL : constants.MEDIA_PLAN_TOTAL;
             //$scope.viewLabelTxt = Number($scope.selectedStrategy.id) >= 0 ? 'Numbers shown in bold indicate Target KPI' : 'Numbers shown in bold indicate Target KPI';
             $scope.viewLabelTxt = 'Numbers shown in bold indicate Target KPI';
             $scope.isStrategyDataEmpty = false;

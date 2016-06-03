@@ -1189,6 +1189,7 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIA_PLAN_TOTAL = "Media Plan total*:";
         this.AD_GROUP_TOTAL = "Ad Group total*:";
         this.CAMPAIGN_TOTAL = "Campaign total*:";
+        this.LINE_ITME_TOTAL = "Line item total*:"
         this.INCLUDES_FIXED_COSTS = "*Includes fixed costs";
         this.EXCLUDES_MEDIA_PLAN_FIXED_COSTS = "*Excludes Media Plan fixed costs";
 
