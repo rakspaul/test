@@ -42,7 +42,7 @@ define(['angularAMD'], function (angularAMD) {
                     //reset the ad group max and min budget flag.
                     $scope.resetAdsBudgetsFlag();
 
-                    $scope.setLineItem(adGroupsData.adGroup.lineitemId);
+                    $scope.setLineItem(adGroupsData.adGroup);
 
                     $scope.adGroupMaxBudget = (Math.ceil($scope.workflowData.campaignData.deliveryBudget) -
                         adGroupsBudget) + Math.ceil(adsBudget) ;
@@ -51,10 +51,16 @@ define(['angularAMD'], function (angularAMD) {
                         $scope.extractor(getADsForGroupData, formElem);
                     } else {
                         $scope.resetAdsData();
-                        startDateElem.datepicker('setStartDate', $scope.campaignStartTime);
-                        startDateElem.datepicker('setEndDate', $scope.campaignEndTime);
 
-                        endDateElem.datepicker('setStartDate', $scope.campaignStartTime);
+                        if(moment($scope.campaignStartTime).isBefore(moment(startTime))) {
+                            startDateElem.datepicker('setStartDate', startTime);
+                            endDateElem.datepicker('setStartDate', startTime);
+                        } else {
+                            startDateElem.datepicker('setStartDate', $scope.campaignStartTime);
+                            endDateElem.datepicker('setStartDate', $scope.campaignStartTime);
+                        }
+
+                        startDateElem.datepicker('setEndDate', $scope.campaignEndTime);
                         endDateElem.datepicker('setEndDate', $scope.campaignEndTime);
                     }
 
