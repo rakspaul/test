@@ -28,9 +28,9 @@
             <div class="col-md-12 zeroPadding reportRowForm">
                 <!--Dimensions-->
                 <div class="col-md-4 zeroPadding">
-                    <div class="each_section_custom_report dimensionKeywordSection">
-                        <div class="create_report_title create_report_title_label" ng-bind-html="textConstants.SELECT_DIMENTION" ></div>
-                        <div ng-show="showPrimaryTxtBox" class="create_report_title create_report_title_label filter_input_txtbox" ng-bind-html="textConstants.ADD_KEYWORDS"  ></div>
+                    <div class="col-md-12 zeroPadding dimensionKeywordSection">
+                        <span class="col-md-12 greyTxt" ng-bind-html="textConstants.SELECT_DIMENTION" ></span>
+                        <!--<div ng-show="showPrimaryTxtBox" class="create_report_title create_report_title_label filter_input_txtbox" ng-bind-html="textConstants.ADD_KEYWORDS"  ></div>-->
                             <!-- Primary Dimension start -->
                             <div class="clearfix title_row_separator breakdown_div dimension_block">
                                 <div class="pull-left custom_report_filter custom_report_breakdown">
@@ -130,8 +130,8 @@
                     
                 <!-- Additional Filters -->
                 <div class="col-md-4">
-                    <div class="each_section_custom_report">
-                        <div class="create_report_title" ng-bind-html="textConstants.REPORT_ADDITIONAL_FILTERS"></div>
+                    <div class="col-md-12 zeroPadding">
+                        <span class="col-md-12 greyTxt" ng-bind-html="textConstants.REPORT_ADDITIONAL_FILTERS"></span>
                         <div class="additional_filters_holder">
                             <div id="filter_breakdown_row" ng-repeat="addFilts in additionalFilters track by $index"
                                  data-ng-init="filterIndex=$index">
@@ -197,59 +197,58 @@
                     
                 <!-- Timeframe -->
                 <div class="col-md-4 zeroPadding">
-                    <div class="create_report_title" ng-bind-html="textConstants.REPORT_BUILDER_TIMEFRAME"></div>
-                    <div>
-                        <div class="clearfix title_row_separator customDatesTimeframe">
-                            <div class="pull-left col-md-4 timeframe_selector">
-                                <div class="common_dropdown">
-                                    <div class="dropdown">
-                                            <span class="dropdown_ul_text" data-toggle="dropdown">
-                                                <span class="dd_txt"
-                                                      id="date-selected-txt"
-                                                      ng-bind-html="reports.reportDefinition.timeframe.type ?
-                                                      reports.reportDefinition.timeframe.type :
-                                                      textConstants.YESTERDAY">
-                                                </span>
-                                                <span class="arrow_img"></span>
-                                            </span>
-                                        <ul class="dropdown-menu">
-                                            <li ng-model="reports.reportDefinition.timeframe.type"
-                                                ng-repeat="timeframe in textConstants.REPORT_BUILDER_TIMEFRAME_LIST"
-                                                ng-click="reports.reportDefinition.timeframe.type = timeframe;
-                                                    select_dropdown_option($event , timeframe)"
-                                                ng-bind-html="timeframe">
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                    <div class="col-md-12 greyTxt" ng-bind-html="textConstants.REPORT_BUILDER_TIMEFRAME"></div>
+                            
+                    <div class="pull-left timeframe_selector">
+                        <div class="common_dropdown">
+                            <div class="dropdown">
+                                <span class="dropdown_ul_text" data-toggle="dropdown">
+                                    <span class="dd_txt"
+                                          id="date-selected-txt"
+                                          ng-bind-html="reports.reportDefinition.timeframe.type ?
+                                          reports.reportDefinition.timeframe.type :
+                                          textConstants.YESTERDAY">
+                                    </span>
+                                    <span class="arrow_img"></span>
+                                </span>
+                                <ul class="dropdown-menu">
+                                    <li ng-model="reports.reportDefinition.timeframe.type"
+                                        ng-repeat="timeframe in textConstants.REPORT_BUILDER_TIMEFRAME_LIST"
+                                        ng-click="reports.reportDefinition.timeframe.type = timeframe;
+                                            select_dropdown_option($event , timeframe)"
+                                        ng-bind-html="timeframe">
+                                    </li>
+                                </ul>
                             </div>
-                            <div class="pull-left col-md-8">
-                                <div class="col-md-12 input-daterange input-group date pull-left">
-                                    <div class="col-md-12 dateWrapper ">
-                                        <div class="col-md-6">
-                                            <input type="text"
-                                                   id="startDateInput"
-                                                   class="input-sm form-control timeframe"
-                                                   ng-model="reports.reportDefinition.timeframe.start_date"
-                                                   required>
-                                            <i class="icon-calendar glyphicon pull-right"></i>
-                                            <label ng-if="!reports.reportDefinition.timeframe.start_date" style="display:block"
-                                                   class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="text"
-                                                   id="endDateInput"
-                                                   class="input-sm form-control timeframe"
-                                                   ng-model="reports.reportDefinition.timeframe.end_date"
-                                                   required>
-                                            <i class="icon-calendar glyphicon pull-right"></i>
-                                            <label ng-if="!reports.reportDefinition.timeframe.end_date"
-                                                   style="display:block"
-                                                   class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
-                                        </div>
-                                    </div>
-                                </div>
+                        </div>
+                    </div>
+                    
+                    <div class="date pull-right" style="position: relative;">
+                        <div class="col-md-12 dateWrapper">
+                            <div class="pull-left" style="width: 125px;">
+                                <input type="text" style="background: transparent;"
+                                       id="startDateInput"
+                                       class="input-sm form-control timeframe"
+                                       ng-model="reports.reportDefinition.timeframe.start_date"
+                                       required>
+                                <label ng-if="!reports.reportDefinition.timeframe.start_date" style="display:block"
+                                       class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
                             </div>
+                            <div class="pull-left" style="margin-left: 10px; width: 125px;">
+                                <input type="text" style="background: transparent;"
+                                       id="endDateInput"
+                                       class="input-sm form-control timeframe"
+                                       ng-model="reports.reportDefinition.timeframe.end_date"
+                                       required>
+                                <label ng-if="!reports.reportDefinition.timeframe.end_date"
+                                       style="display:block"
+                                       class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12 zeroPadding" style="width: 260px;">
+                            <span class="icon-calendar pull-left" style="padding: 10px; border-left: 1px solid #BFC9D7; margin: 0 0 0 88px; height: 36px;"></span>
+                            <span class="icon-calendar pull-left" style="padding: 10px; border-left: 1px solid #BFC9D7; margin: 0 0 0 114px; height: 36px;"></span>
                         </div>
                     </div>
                 </div>
@@ -260,11 +259,11 @@
             <!--Selected Metrics-->
             <div class="col-md-12 zeroPadding">
                 <div class="col-md-12 zeroPadding metricDataViewHeader">
-                    <span class="pull-left">Metrics</span>
+                    <span class="pull-left greyTxt">Metrics</span>
                     <div class="pull-left clearLeft">
                         <a href="#" class="pull-left" ng-click="refreshMetriPopUp()">
                             <span class="pull-left" ng-bind="metrics_text"></span>
-                            <span class="pull-left icon-inline-edit"></span>
+                            <span class="pull-left icon-inline-edit" style="margin-left: 8px; color: #428bca;"></span>
                         </a>
                     </div>
                 </div>

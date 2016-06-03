@@ -19,6 +19,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         $scope.additionalValue = "Contains keywords ...";
         var _customctrl = this;
         var elem = $(".each_section_custom_report").find(".dropdown").find(".dd_txt");
+        
+        var winHeight = $(window).height();
+        $(".custom_response_screenshot_container").css('min-height', winHeight - 464);
 
         var metricKey = [
             'dimensions',

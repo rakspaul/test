@@ -4015,7 +4015,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response .report_builder_container .timeframe_selector {
   padding: 0px ;
-  width: 162px ;
 }
 .report_generator_and_response .report_builder_container ::-webkit-input-placeholder {
   color: #939ead;
@@ -4186,7 +4185,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response .report_builder_container #dynamicHeader,
 .report_generator_and_response .report_builder_container .reportRowForm {
   margin: 0 auto;
-  width: 1230px;
+  width: 1200px;
   float: none;
   display: table;
 }
@@ -4196,8 +4195,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response .report_builder_container .metricDataViewHeader {
   margin: 0 auto;
-  width: 1230px;
+  width: 1200px;
   float: none;
+  display: table;
 }
 .report_generator_and_response .report_builder_container .metricDataView {
   display: none;
