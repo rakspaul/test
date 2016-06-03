@@ -784,6 +784,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     setStartDate,
                     setEndDate;
 
+                //validate the new ad group button
+                if($scope.budgetAvailable <= 0){
+                    $rootScope.setErrAlertMessage($scope.textConstants.BUDGET_EXCEEDED);
+                    return false;
+                } else if($scope.isEndDateInPast){
+                    $rootScope.setErrAlertMessage($scope.textConstants.MEDIAPLAN_FLIGHTPASSED_NO_NEW_ADS);
+                    return false;
+                }
+
                 $scope.isMinimumAdGroupBudget = true;
                 $scope.isMaximumAdGroupBudget = true;
 

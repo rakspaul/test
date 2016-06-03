@@ -717,6 +717,8 @@ define(['angularAMD'], function(angularAMD) {
         this.FLIGHTPASSED = 'Media Plan flight date has passed';
         this.ADGROUP_FLIGHTPASSED = 'Ad flight dates cannot be edited';
         this.ADGROUP_FLIGHTPASSED_NO_NEW_ADS = 'Extend the Ad Group flight dates to create Ads';
+        this.BUDGET_EXCEEDED = "Cannot create Ad Group as the Media Plan does not have sufficient budget",
+        this.MEDIAPLAN_FLIGHTPASSED_NO_NEW_ADS = "Cannot create Ad Group as Media Plan has ended",
         this.SETUPBUDGET = 'How do you want to budget your Ad?';
         this.MEASUREBUDGET = 'How will you measure success for your Ad?';
         this.TRACKBUDGET = 'How do you want to track your Ad?';
