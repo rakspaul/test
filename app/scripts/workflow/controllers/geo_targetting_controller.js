@@ -1874,6 +1874,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     countryIncluded = geoTargets.COUNTRY.isIncluded;
                     geoTargeting.toggleSwitch(countryIncluded, 'geo')
                     countriesWrapper.setData(true, geoTargets.COUNTRY.geoTargetList, geoTargets.COUNTRY.isIncluded);
+                    countriesWrapper.init();
                 }
 
                 if (geoTargets && geoTargets.REGION) {
@@ -1884,6 +1885,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.selectedSubTab = 'regions';
                         geoTargeting.triggerGeoSubNavTab('region');
                         geoTargeting.toggleSwitch(regionIncluded, 'geo')
+                       regionsWrapper.init();
                     }
                 }
 
@@ -1895,6 +1897,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.selectedSubTab = 'cities';
                         geoTargeting.triggerGeoSubNavTab('city');
                         geoTargeting.toggleSwitch(citiesIncluded, 'geo');
+                        citiesWrapper.init();
                     }
                 }
 
@@ -1909,7 +1912,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.geoData.zip.selected = [];
                     zipWrapper.setData(geoTargets.ZIP_CODE.geoTargetList);
                 }
-                countriesWrapper.init();
+
+
             } else {
                 //on load reset geo targeting variables.
                 $scope.resetGeoTargeting();
