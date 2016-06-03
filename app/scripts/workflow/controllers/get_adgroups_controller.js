@@ -28,7 +28,7 @@ define(['angularAMD','common/moment_utils'],function (angularAMD) {
             if(momentService.isGreater(edTime,momentService.todayDate())){
                 $location.url(navigateUrl);
             } else {
-                $rootScope.setErrAlertMessage($scope.textConstants.ADGROUP_FLIGHTPASSED);
+                $rootScope.setErrAlertMessage($scope.textConstants.ADGROUP_FLIGHTPASSED_NO_NEW_ADS);
             }
         };
 
