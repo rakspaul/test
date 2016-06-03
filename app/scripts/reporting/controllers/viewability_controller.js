@@ -122,9 +122,19 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                         if($scope.adFormats.displayAds && !$scope.adFormats.videoAds) {
                             $scope.videoMode = false;
                         }
+                        ($scope.selectedStrategy.id >= 0) && (
+                            _.each(strategiesList.viewability_metrics, function(item){
+                                if(item.ad_group_id == -1 && item.ad_id == -1){
+                                    $scope.viewData.view_metrics = angular.copy(item);
+                                }
+                            }),
+                            $scope.viewData.viewability_metrics = _.filter($scope.viewData.viewability_metrics, function(item){
+                                return (item.ad_group_id != -1 && item.ad_id != -1);
+                            })
+                        );
                         if (strategiesList) {
                             $scope.dataNotFound = false;
-                            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? constants.MEDIA_PLAN_TOTAL : constants.AD_GROUP_TOTAL;
+                            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
                         } else {
                             errorHandler();
                         }

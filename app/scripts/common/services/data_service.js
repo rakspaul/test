@@ -58,6 +58,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                             '/campaigns/' + campaignId +
                             '/strategies/' + strategyId +
                             '/bydays/perf?' + durationQuery;
+                    } else if(type === 'lineitems'){
+                        urlPath =  vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                            '/clients/' + clientId +
+                            '/campaigns/' + campaignId +
+                            '/lineitems/' + strategyId +
+                            '/bydays/perf?' + durationQuery;
                     }
 
                     return this.fetch(urlPath);

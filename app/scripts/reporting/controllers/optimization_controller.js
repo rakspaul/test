@@ -186,14 +186,14 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
             var param = {
                 orderId : Number($scope.selectedCampaign.id),
-                startDate : $scope.selectedCampaign.startDate ,
-                endDate : $scope.selectedCampaign.endDate
+                startDate : moment($scope.selectedCampaign.startDate).format('YYYY-MM-DD'),
+                endDate : moment($scope.selectedCampaign.endDate).format('YYYY-MM-DD')
             };
 
             var strategyId = Number($scope.selectedStrategy.id);
 
             $scope.api_return_code=200;
-            dataService.getCdbChartData(param, $scope.selected_filters.time_filter, strategyId === -1 ? 'campaigns' : 'strategies',  strategyId , true).then(function (result) {
+            dataService.getCdbChartData(param, $scope.selected_filters.time_filter, strategyId === -1 ? 'campaigns' : 'lineitems',  strategyId , true).then(function (result) {
                 var lineData = [];
                 $scope.strategyLoading =  false;
                 if (result.status == "success" && !angular.isString(result.data)) {
@@ -425,7 +425,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         setStrategyInScope = function() {
             var selectedStrategyID =  $scope.selectedStrategy.id =  Number(strategySelectModel.getSelectedStrategy().id);
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = selectedStrategyID === 0 ? constants.MEDIA_PLAN_TOTAL : constants.AD_GROUP_TOTAL;
+            $scope.strategyHeading = selectedStrategyID === 0 ? constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
         };
 
 

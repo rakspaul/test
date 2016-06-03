@@ -185,7 +185,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
         });
 
         var dataHeader = function() {
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? constants.MEDIA_PLAN_TOTAL : constants.AD_GROUP_TOTAL;
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
             $scope.viewLabelTxt = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? constants.INCLUDES_FIXED_COSTS : constants.EXCLUDES_MEDIA_PLAN_FIXED_COSTS;
         }
 
