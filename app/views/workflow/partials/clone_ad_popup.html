@@ -57,8 +57,8 @@
                             </li>
                             <li ng-repeat="groups in adGroupList | filter: adGroup" ng-click="defaultDropdownToggle($event)" >
                                 <a ng-click="selectAdGroup(groups.adGroup)">
-                                    <span ng-if="groups.adGroup.id == adGroupId"><b>{{groups.adGroup.name}} (Current)</b></span>
-                                    <span ng-if="groups.adGroup.id != adGroupId">{{groups.adGroup.name}}</span>
+                                    <span ng-if="groups.adGroup.id == adGroupId" tooltip="{{groups.adGroup.name}}"><b>{{groups.adGroup.name}} (Current)</b></span>
+                                    <span ng-if="groups.adGroup.id != adGroupId" tooltip="{{groups.adGroup.name}}">{{groups.adGroup.name}}</span>
                                 </a>
                             </li>
                         </ul>
