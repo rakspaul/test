@@ -758,7 +758,9 @@ define(['angularAMD'], function(angularAMD) {
         this.SELECTED = 'Selected';
         this.TARGETAUDLOC = 'Target your audience by location';
         this.INCLUDED = 'Included';
+        this.INCLUDE = 'Include';
         this.EXCLUDED = 'Excluded';
+        this.EXCLUDE = 'Exclude';
         this.DAYPART = 'Daypart';
         this.SELECTADREST = 'Select when to show your Ad by restricting day and time';
         this.ALLDAYSTIMES = 'All Days & Times (default)';
@@ -964,20 +966,28 @@ define(['angularAMD'], function(angularAMD) {
 
         //Geo Targeting
         this.GEOGRAPHY = 'Geography';
+        this.SAVE_GEOGRAPHY = 'Save Geography' ;
+        this.COUNTRY = 'Country';
         this.INCZIP = 'Including zip / postal codes is going to limit your geographic targeting significantly.';
+        this.ZIP_CODE_LABEL = 'Separate zip / postal codes by comma. Use hyphens to denote ranges.';
         this.CONTINUE = 'Continue';
         this.REGCITY = 'REGION & CITY';
         this.REGTABLABEL = 'REGION';
         this.METRO = 'METRO';
         this.ZIPPOSTCODE = 'ZIP / POSTAL CODE';
-        this.INCEXCCITYNOTE =
-            'Once you include or exclude a city, regions are not available for further inclusion or exclusion.';
+
+        this.NOT_SELECTED_COUNTRY_NOTE = 'Once you have set your targeting at the region level, you cannot select any countries for inclusion or exclusion';
+        this.NOT_SELECTED_REGION_NOTE = 'Once you have set your targeting at the city level, you cannot select any regions for inclusion or exclusion';
+        this.NOT_SELECTED_COUNTRY_REGION_NOTE = 'Once you have set your targeting at the city level, you cannot select any countries for inclusion or exclusion';
+
         this.REGION = 'Region';
         this.CITY = 'City';
         this.SELECTED = 'Selected';
-        this.REGCITIES = 'Regions & Cities';
+        this.TARGETING_LABEL = 'Targeting';
         this.REMOVEALL = 'Remove All';
         this.METROS = 'Metros';
+        this.METROTXT = 'Metro';
+        this.GEO = 'GEO';
         this.DMAS = 'DMAs';
         this.SEARCHFORMETROS = 'Search for metros';
         this.SEARCHFORREGIONANDCITY = 'Search for regions or cities';

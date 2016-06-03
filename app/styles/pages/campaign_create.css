@@ -162,7 +162,7 @@
   text-decoration: none;
 }
 .adCreateMaster #targetting #city {
-  padding: 0 0 0 15px;
+  /*padding: 0 0 0 15px;*/
 }
 .adCreateMaster #targetting #dayTargeting {
   padding: 0;
@@ -236,54 +236,54 @@
   max-height: 300px;
   overflow: auto;
   width: 100%;
+  margin-left: 20px ;
 }
 .adCreateMaster #targetting .list_val_col {
   margin-left: 10px;
-  max-width: 170px;
-  min-width: 170px;
+  max-width: 155px;
+  min-width: 155px;
 }
 .adCreateMaster #targetting .regionCityTab {
   margin: 0 0 20px 0;
 }
 .adCreateMaster #targetting .regionCityTab .nav-tabs {
   border-width: 0;
-  margin: 0 !important;
+  left: 0;
+  margin: 26px 20px 20px 20px ;
+  width: auto;
 }
 .adCreateMaster #targetting .regionCityTab .nav-tabs li {
-  color: #363D49;
-  background-color: #ffffff !important;
-  font-family: Avenir;
-  border-radius: 2px;
-  border: 1px solid #BFC9D7 !important;
+  background: #fff;
+  border: 1px solid #BFC9D7;
+  border-bottom-right-radius: 2px;
+  border-top-right-radius: 2px;
+  text-align: center;
+  padding: 0 20px;
 }
-.adCreateMaster #targetting .regionCityTab .nav-tabs li a {
-  color: #363D49 !important;
-  margin: 0 !important;
-  background: transparent !important;
-  padding: 0 !important;
+.adCreateMaster #targetting .regionCityTab .nav-tabs li.active {
+  background: #0978c9;
+  border: 1px solid #0978c9;
 }
-.adCreateMaster #targetting .regionCityTab .nav-tabs li a:active {
+.adCreateMaster #targetting .regionCityTab .nav-tabs li.active a {
+  background: #0978c9;
+  color: #fff;
+  font-family: Avenir, sans-serif;
   margin: 0;
   background: transparent;
   padding: 0;
 }
-.adCreateMaster #targetting .regionCityTab .nav-tabs li:hover {
-  background-color: #E1EDF9 !important;
-  border: 1px solid #939EAE !important;
+.adCreateMaster #targetting .regionCityTab .nav-tabs li a {
+  color: #0978c9;
+  padding: 6px 0;
+  width: 100%;
 }
-.adCreateMaster #targetting .regionCityTab .nav-tabs li.active {
-  background-color: #DCE6F1 !important;
-  border: 1px solid #BFC9D7 !important;
-  box-shadow: none;
-}
-.adCreateMaster #targetting .regionCityTab .nav-tabs li.active:hover {
-  background-color: #DCE6F1 !important;
-  border: 1px solid #BFC9D7 !important;
-  box-shadow: none;
+.adCreateMaster #targetting .regionCityTab .nav-tabs li:not(.active):hover {
+  background: #f5f9fd;
 }
 .adCreateMaster #targetting #regions {
   border: 1px solid #dde6eb;
-  padding-left: 10px;
+  border-top: 0 ;
+  /*padding-left: 10px;*/
 }
 .adCreateMaster #targetting .tab-pane {
   padding: 0;
@@ -809,9 +809,10 @@
 .adCreateMaster #targetting .targettingFormWrap {
   border: 0 solid #E6E6E6;
   padding: 0 !important;
-}
-.adCreateMaster #targetting .targettingFormWrap .col-md-12 .btn {
-  margin-top: 20px;
+  /*.col-md-12 .btn {
+                margin-top: 20px;
+            }
+*/
 }
 .adCreateMaster #targetting .targettingFormWrap h2 {
   color: #21252b;
@@ -831,23 +832,123 @@
   border-left: 1px solid #dde6eb;
   border-right: 1px solid #dde6eb;
   float: left;
-  padding: 20px 0 0 0;
+  padding: 20px 0 20px 0;
   width: 100%;
 }
-.adCreateMaster #targetting .targettingFormWrap .searchInput .geoTypeResult {
+.adCreateMaster #targetting .targettingFormWrap .include-label .btn-primary {
+  margin: 0 ;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content {
+  border: solid 1px #dde6eb ;
+  border-top: 0 ;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .external_chkbox {
+  margin-top: 0px ;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .external_chkbox .squaredFour input[type=checkbox]:checked + label {
+  background: #3276b1 ;
+  border: solid 1px #3276b1;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .external_chkbox .squaredFour input[type=checkbox]:checked + label:after {
+  border-color: #fff ;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .external_chkbox .squaredFourTxt {
+  width: 80%;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .toggle-on:after {
+  content: "";
+  height: 16px;
+  width: 8px;
+  position: absolute;
+  top: 6px;
+  left: 18px;
+  border: solid 3px #fff;
+  border-top: 0;
+  border-left: 0;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  border-radius: 0px 0 3px;
+  -moz-border-radius: 0px 0 3px;
+  -webkit-border-radius: 0px 0 3px;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .toggle-off:after {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  left: 25px;
+  top: 5px;
+  background-size: 75%;
+  background-image: url(/images/workflow/icon_exclude.svg);
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content textarea {
+  margin-bottom: 10px ;
+}
+.adCreateMaster #targetting .targettingFormWrap .include-label .btn-primary {
+  margin: 0 ;
+}
+.adCreateMaster #targetting .targettingFormWrap .exclude-label {
+  margin-top: 8px;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-tab-header {
+  padding: 10px 20px ;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-tab-header .target-label {
+  color: #939eae ;
+  display: inline-block;
+  margin: 8px 10px 0 0 ;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-tab-header .btn-group .btn {
+  color: #0978c9 ;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-tab-header .btn-group .common_tooltip {
+  bottom: 46px;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-tab-header .btn-group .active {
+  background: #3276b1 !important ;
+  color: #fff ;
+  border-color: #3276b1;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-tab-subheader {
+  border-top: solid 1px #dde6eb;
+  border-bottom: solid 1px #dde6eb;
+  margin: 20px 0 0px ;
+  padding: 10px 0px 10px ;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-tab-body {
+  height: 200px;
+  min-height: 200px;
+  overflow: auto;
+  padding: 10px 0;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-tab-body .each-targetting-name {
+  padding-top: 5px ;
+  padding-bottom: 5px ;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-tab-body .full-table-loading {
+  margin-top: 85px ;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-tab-body .no-data-common {
+  margin-top: 75px;
+}
+.adCreateMaster #targetting .targettingFormWrap .geoTypeResult {
   float: left;
   margin-top: 20px;
   padding-left: 7px;
 }
-.adCreateMaster #targetting .targettingFormWrap .searchInput .switchWrap {
+.adCreateMaster #targetting .targettingFormWrap .switchWrap {
   float: right;
   margin-top: 30px;
+  margin-right: 20px ;
 }
-.adCreateMaster #targetting .targettingFormWrap .searchInput .switchWrap span {
+.adCreateMaster #targetting .targettingFormWrap .switchWrap span {
   float: right;
   margin: 3px 8px 0 0;
 }
-.adCreateMaster #targetting .targettingFormWrap .searchInput .switchWrap span img {
+.adCreateMaster #targetting .targettingFormWrap .switchWrap span img {
   margin: -2px 0 0;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .cancel {
@@ -959,14 +1060,11 @@
   float: left;
   width: 100%;
 }
-.adCreateMaster #targetting .targettingFormWrap .selectedTables .values-table .each-row .group .ng-scope {
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .values-table .each-row .group .each-group {
   clear: left;
   float: left;
-  padding: 5px 0 0;
+  padding: 5px 0 0 22px ;
   width: 100%;
-}
-.adCreateMaster #targetting .targettingFormWrap .selectedTables .values-table .each-row .group .ng-scope .pull-left {
-  padding-left: 30px;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .msgPopup {
   left: -185px;
@@ -1081,8 +1179,8 @@
   min-height: 400px;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .zipCodeTooltip {
-  left: 150px;
-  top: -90px;
+  left: 102px;
+  top: -104px;
   width: 250px;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .zipCodeTooltip:before {
@@ -2019,9 +2117,9 @@
   cursor: not-allowed;
 }
 #campaignCreate .firstWrapper .masterContainer .tableEdit .dropdown-toggle.btn[disabled] .icon-arrow-down {
-  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eee 65%);
-  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eee 65%);
-  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #eee 54%);
+  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eeeeee 65%);
+  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eeeeee 65%);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #eeeeee 54%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eee', endColorstr='#eee', GradientType=1);
 }
 #campaignCreate .firstWrapper .masterContainer .showAddCreditForm {
