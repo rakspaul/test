@@ -109,7 +109,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     // when strategyId = 0 qryObj.strategyId become false.
                     if (_.has(qryObj, 'strategyId') && qryObj.strategyId >= 0) {
-                        params += '&ad_group_id=' + qryObj.strategyId;
+                        params += '&lineitem_id=' + qryObj.strategyId;
                     }
 
                     return params;
@@ -118,7 +118,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 this.APIVistoCustomQuery = function (qryObj) {
                     var params = this.buildParams(qryObj),
                         qryUrl = qryObj.url ? qryObj.url : '/reportBuilder/customQuery';
-
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + qryUrl + '?' + params;
                 };
 
@@ -187,7 +186,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     var clientId =  loginModel.getSelectedClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' +
-                        campaingId + '/ad_groups/meta';
+                        campaingId + '/lineitems/meta';
                 };
 
                 this.APIReportList = function (advertiserId, brandId, campaignId) {

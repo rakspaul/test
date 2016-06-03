@@ -198,11 +198,11 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                         if (Number($scope.selectedStrategy.id) >= 0) {
                             // Ad group total
                             $scope.showPerfMetrix = true;
-                            $scope['strategyPerfDataBy'+tab]  = _.filter(result.data.data, function(item) { return item.ad_id == -1; })
+                            $scope['strategyPerfDataBy'+tab]  = _.filter(result.data.data, function(item) { return item.ad_id == -1 && item.ad_group_id == -1; })
                             $scope['strategyPerfDataBy'+tab]  = _.each($scope['strategyPerfDataBy'+tab], function(item) {
                                 item.kpi_type = $scope.selected_filters.campaign_default_kpi_type;
                             });
-                            $scope['strategyPerfDataByTactic'+tab]  =_.filter(result.data.data, function(item) { return item.ad_id != -1; });
+                            $scope['strategyPerfDataByTactic'+tab]  =_.filter(result.data.data, function(item) { return item.ad_id != -1 && item.ad_group_id != -1; });
                             $scope.groupThem = _.chain($scope['strategyPerfDataByTactic'+tab])
                                 .groupBy('ad_id')
                                 .map(function(value, key) {

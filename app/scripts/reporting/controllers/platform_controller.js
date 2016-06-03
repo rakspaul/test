@@ -163,14 +163,14 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                         if (Number($scope.selectedStrategy.id) >= 0) {
                             // strategy selected
                             $scope['platformData'] = _.filter(result.data.data, function (item) {
-                                return item.ad_id == -1;
+                                return (item.ad_id == -1 && item.ad_group_name == "");
                             });
                             _.each($scope['platformData'], function(item) {
                                 sumTechFeesNServiceFees(item);
                                 item.kpi_type = $scope.selected_filters.campaign_default_kpi_type;
                             });
                             $scope['tacticPlatformData'] = _.filter(result.data.data, function (item) {
-                                return item.ad_id != -1;
+                                return item.ad_id != -1 && item.ad_group_name != "";
                             });
                             _.each($scope['tacticPlatformData'], function(item) {
                                 sumTechFeesNServiceFees(item);

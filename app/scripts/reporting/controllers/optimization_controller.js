@@ -186,14 +186,14 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
             var param = {
                 orderId : Number($scope.selectedCampaign.id),
-                startDate : $scope.selectedCampaign.startDate ,
-                endDate : $scope.selectedCampaign.endDate
+                startDate : moment($scope.selectedCampaign.startDate).format('YYYY-MM-DD'),
+                endDate : moment($scope.selectedCampaign.endDate).format('YYYY-MM-DD')
             };
 
             var strategyId = Number($scope.selectedStrategy.id);
 
             $scope.api_return_code=200;
-            dataService.getCdbChartData(param, $scope.selected_filters.time_filter, strategyId === -1 ? 'campaigns' : 'strategies',  strategyId , true).then(function (result) {
+            dataService.getCdbChartData(param, $scope.selected_filters.time_filter, strategyId === -1 ? 'campaigns' : 'lineitems',  strategyId , true).then(function (result) {
                 var lineData = [];
                 $scope.strategyLoading =  false;
                 if (result.status == "success" && !angular.isString(result.data)) {

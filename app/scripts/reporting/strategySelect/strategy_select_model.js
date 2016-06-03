@@ -17,7 +17,7 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
 
                 var modifyStrategiesData = function (resp) {
                     var strategyData = (resp && resp.data) ? resp.data : [];
-                    strategyData.unshift(constants.ALL_STRATEGIES_OBJECT);
+                    strategyData.unshift(constants.LINE_ITEM_DROPDWON_OBJECT);
                     strategyObj.strategies = (strategyData !== undefined) ? strategyData : {};
                     if (strategyObj.strategies.length !== undefined && strategyObj.strategies.length > 0 && strategyObj.selectedStrategy.id == -1) {
                         strategyObj.selectedStrategy.id = strategyObj.strategies[0].id;

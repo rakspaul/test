@@ -403,6 +403,12 @@ define(['angularAMD'], function(angularAMD) {
         this.SSL_ERROR_MESSAGE = "Please enter a SSL compatible tag.";
 
         this.STRATEGY = "Ad Group";
+        this.LINE_ITEM = "Line Item";
+        this.LINE_ITEM_DROPDWON_OBJECT = {
+            'name': 'All Line Items',
+            id: -1,
+            type: 'all'
+        };
 
         this.PLATFORM_NAME = "Platform Name";
         this.COLLECTIVE_FEE = "Collective Fee";
