@@ -12,7 +12,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         end = momentService.utcToLocalTime(campaignData.endTime),
                         start = momentService.utcToLocalTime(campaignData.startTime);
 
-                    campaignData.numOfDays = moment(end).diff(moment(start), 'days'); 
+                    campaignData.numOfDays = moment(end).diff(moment(start), 'days');
 
                     $scope.isEndDateInPast = moment().isAfter(end, 'day');
                 },
@@ -844,7 +844,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.workflowData.campaignData.bookedSpend) + Math.ceil($scope.adGroupMinBudget);
             };
 
-            $scope.setLineItem = function (lineitemId) {
+            $scope.setLineItem = function (adgroupData) {
+                var lineitemId = adgroupData.lineitemId;
+                $scope.startTime = momentService.utcToLocalTime(adgroupData.startTime);
+                $scope.endTime = momentService.utcToLocalTime(adgroupData.endTime);
+
                 var matchedLineItem = campaignOverView.getLineItem(lineitemId);
                 $scope.selectLineItems(null, matchedLineItem);
             };
@@ -955,10 +959,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 if (startTime) {
-                    changeDate = moment(startTime).format(constants.DATE_US_FORMAT);
-                    endDateElem.datepicker('setStartDate', changeDate);
-                    endDateElem.datepicker('setEndDate', campaignEndTime);
-                    endDateElem.datepicker('update', changeDate);
+                    if (moment(startTime).isAfter($scope.endTime)) {
+                        changeDate = moment(startTime).format(constants.DATE_US_FORMAT);
+                        endDateElem.datepicker('setStartDate', changeDate);
+                        endDateElem.datepicker('setEndDate', campaignEndTime);
+                        endDateElem.datepicker('update', changeDate);
+                    } else {
+                        endDateElem.datepicker("setStartDate", startTime);
+                    }
                 }
             };
 
@@ -1161,6 +1169,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 $scope.startTime = startTime;
                 $scope.handleFlightDate(formElem, startTime);
+            });
+
+            $(document).on('changeDate', '.adGrpEndDateInput', function (ev) {
+                var formElem = $(ev.target).closest('form'),
+                    endTime = $(ev.target).val();
+
+                $scope.endTime = endTime;
             });
         });
     }
