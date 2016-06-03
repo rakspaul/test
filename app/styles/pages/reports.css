@@ -3957,7 +3957,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response .icon-minus,
 .report_generator_and_response .icon-plus {
   color: #57606d;
-  font-size: 12px;
+  font-size: 13px;
   height: 24px;
   padding: 6px;
   top: 0;
@@ -4211,7 +4211,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin: 0 auto;
 }
 .report_generator_and_response .report_builder_container .metricDataView .metricContainer .metricData {
-  padding: 0 0 0 17px;
+  padding: 9px 0 0 15px;
   cursor: pointer;
 }
 .report_generator_and_response .report_builder_container .metricDataView .metricContainer .metricData.active {
@@ -4219,6 +4219,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   background-repeat: no-repeat;
   background-position: left;
   background-size: 9px;
+  background-position-y: 14px;
 }
 .report_generator_and_response .report_builder_container .add_breakdown_btn {
   padding: 7px 10px 0 0;
@@ -4864,6 +4865,7 @@ body.custom_report_page {
 }
 body.custom_report_page .bodyWrap {
   width: 100% ;
+  padding: 0;
 }
 #newDatePickerBox {
   position: relative;
