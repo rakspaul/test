@@ -1909,7 +1909,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.geoData.zip.selected = [];
                     zipWrapper.setData(geoTargets.ZIP_CODE.geoTargetList);
                 }
-
+                countriesWrapper.init();
             } else {
                 //on load reset geo targeting variables.
                 $scope.resetGeoTargeting();
