@@ -1,5 +1,5 @@
 define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model',
-        'common/services/data_service', 'reporting/models/domain_reports', 'common/services/constants_service',
+        'common/services/data_service', 'reporting/models/domain_reports', 'common/services/constants_service', 'common/services/vistoconfig_service',
         'reporting/timePeriod/time_period_model', 'login/login_model', 'common/services/url_service',
        'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model','reporting/strategySelect/strategy_select_directive',
     'reporting/strategySelect/strategy_select_controller','reporting/timePeriod/time_period_pick_directive'
@@ -8,7 +8,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
     function (angularAMD) {
     'use strict';
         angularAMD.controller('ViewabilityController', function ($scope, kpiSelectModel, campaignSelectModel, strategySelectModel,
-                                                                 dataService, domainReports, constants,
+                                                                 dataService, domainReports, constants, vistoconfig,
                                                                  timePeriodModel, loginModel, urlService,
                                                                  advertiserModel, brandsModel) {
         $scope.textConstants = constants;
@@ -134,7 +134,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                         );
                         if (strategiesList) {
                             $scope.dataNotFound = false;
-                            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
+                            $scope.strategyHeading = Number($scope.selectedStrategy.id) === vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ? constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
                         } else {
                             errorHandler();
                         }

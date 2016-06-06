@@ -1,6 +1,6 @@
 define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaignList/campaign_list_model',
     'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model', 'common/utils',
-    'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model',
+    'common/services/constants_service', 'common/services/vistoconfig_service', 'reporting/brands/brands_model', 'login/login_model',
     'reporting/models/gauge_model', 'common/services/role_based_service',
     'reporting/campaignList/campaign_list_filter_directive', 'reporting/directives/campaign_cost_sort',
     'reporting/directives/campaign_sort', 'reporting/directives/campaign_card',
@@ -9,7 +9,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
     function (angularAMD) {
         angularAMD.controller('CampaignListController',
             function ($scope, $rootScope, $location, kpiSelectModel, campaignListModel, campaignSelectModel,
-                      strategySelectModel, utils, constants, brandsModel, loginModel, gaugeModel, RoleBasedService,
+                      strategySelectModel, utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel, RoleBasedService,
                       featuresService) {
 
                 //Hot fix to show the campaign tab selected
@@ -119,7 +119,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
                     campaignSelectModel.setSelectedCampaign(selectedCampaign);
                     kpiSelectModel.setSelectedKpi(selectedCampaign.kpi);
-                    strategySelectModel.setSelectedStrategy(constants.ALL_STRATEGIES_OBJECT);
+                    strategySelectModel.setSelectedStrategy(vistoconfig.LINE_ITEM_DROPDWON_OBJECT);
                     $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
                     //$location.path('/performance');//reportOverview
                     $location.path('/mediaplans/' + campaign.id);
