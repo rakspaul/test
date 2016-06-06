@@ -115,7 +115,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                 if (strategy.id === 0) {
                     tacticDataService = dataService.getUnassignedTacticList(campaign.id)
                 } else {
-                    tacticDataService = dataService.getStrategyTacticList(strategy.id)
+                    tacticDataService = dataService.getStrategyTacticList(strategy.id, campaign.id)
                 }
                 tacticDataService.then(function (response) {
                     var result = response.data,
@@ -280,7 +280,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
             };
 
             var getStrategyCdbLineChart = function (strategy, timePeriod, campaign, kpiType, kpiValue) {
-                dataService.getCdbChartData(campaign, timePeriod, 'strategies', strategy.id).then(function (result) {
+                dataService.getCdbChartData(campaign, timePeriod, 'lineitems', strategy.id).then(function (result) {
                     if (result.status == "success" && !angular.isString(result.data)) {
                         if (kpiType != undefined || kpiType != null) {
                             var kpiTypeLower = angular.lowercase(kpiType);
@@ -343,7 +343,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                     kpiValue = campaign.kpiValue,
                     pageSize = 3;
 
-                var url = '/clients/' + clientId + '/campaigns/' + campaign.orderId + '/ad_groups';
+                var url = '/clients/' + clientId + '/campaigns/' + campaign.orderId + '/lineitems';
                 dataService.getCampaignStrategies(url, 'list').then(function (result) {
                     var data = result.data.data;
                     if (result.status == "success" && !angular.isString(data)) {

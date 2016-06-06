@@ -80,27 +80,27 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getCdbTacticsChartData: function (campaignId, strategyId, tacticsId, timePeriod, filterStartDate,
+                getCdbTacticsChartData: function (campaignId, strategyId, adId, timePeriod, filterStartDate,
                                                   filterEndDate) {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
-                            '/strategies/' + strategyId +
-                            '/tactics/' + tacticsId +
+                            '/lineitems/' + strategyId +
+                            '/ads/' + adId +
                             '/bydays/perf?start_date=' + filterStartDate +
                             '&end_date=' + filterEndDate;
 
                     return this.fetch(url);
                 },
 
-                getStrategyTacticList: function (adGroupId) {
+                getStrategyTacticList: function (adGroupId, campaignId) {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
-                            '/ad_groups/' + adGroupId +
+                            '/campaigns/' + campaignId +
+                            '/lineitems/' + adGroupId +
                             '/ads';
-
                     return this.fetch(url);
                 },
 
