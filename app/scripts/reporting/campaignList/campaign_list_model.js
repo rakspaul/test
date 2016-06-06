@@ -69,7 +69,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                     };
 
                     //this.costMargin;
-                    this.busy = false;
+                    this.busy = true;
                     this.timePeriod = this.selectedTimePeriod.key;
                     this.nextPage = 1;
                     this.sortParam = 'start_date';
@@ -134,7 +134,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                     this.resetFilters = function () {
                         this.campaignList = [];
                         this.timePeriod = 'life_time';
-                        this.busy = false;
+                        this.busy = true;
 
                         this.performanceParams = {
                             nextPage: 1,
@@ -189,7 +189,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 this.tabActivation.performanceTab = 1;
                                 fetchCampaigns.call(this);
                             } else {
-                                fetchCostBreakdown.call(this);
+                                //fetchCostBreakdown.call(this);
                             }
                         },
 
@@ -227,32 +227,28 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                             findScrollerFromContainer.call(this);
                             if ((!this.performanceParams.lastPage && (this.dashboard.filterTotal > 0) ||
                                 (this.scrollFlag > 0)) || this.searchTerm) {
-                                //Reseting scrollFlag
-                                this.scrollFlag = 0;
-                                this.busy = true;
+                                this.scrollFlag = 0; //Reseting scrollFlag
                                 self = this;
                                 self.noData = false;
                                 url = _campaignServiceUrl.call(this);
 
                                 campaignListService.getCampaigns(url, function (result) {
                                     var data = result.data.data;
-
-                                    // The total count is now returned as part of the main result set
-                                    if (data && data[0] && data[0].count) {
+                                    if (data && data[0] && data[0].count) { // The total count is now returned as part of the main result set
                                         self.dashboard.quickFilterSelectedCount = data[0].count;
-                                        // This stores the original total count on first load
-                                        if (!self.dashboard.originalFilterTotal) {
+                                        if (!self.dashboard.originalFilterTotal) { // This stores the original total count on first load
                                             self.dashboard.originalFilterTotal = data[0].count;
                                         }
-
-                                        // Show / Hide 'No Relevant Media Plans' display
-                                        self.noData = self.dashboard.quickFilterSelectedCount ? false : true;
+                                        self.noData = self.dashboard.quickFilterSelectedCount ? false : true; // Show / Hide 'No Relevant Media Plans' display
                                     } else {
                                         self.noData = true;
                                     }
 
+                                    if( self.noData) { // when there is no data for busy flag should be false as default is true.
+                                        self.busy = false;
+                                    }
+
                                     requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
-                                    self.busy = false;
 
                                     if (result.status !== 'success') {
                                         self.performanceParams.lastPage = true;
@@ -279,6 +275,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                             var contextThis = this;
 
                                             dataService.fetch(spendUrl).then(function(response) {
+                                                self.busy = false;
                                                 if(response.data){
                                                     campaign.spend = response.data.data[0].gross_rev;
                                                 } else {
@@ -304,6 +301,8 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                                         }
                                                     }
                                                 );
+                                            }, function (result) {
+                                                self.busy = false;
                                             });
 
 
@@ -316,8 +315,6 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                     } else {
                                         self.performanceParams.lastPage = true;
                                     }
-                                }, function (result) {
-                                    self.busy = false;
                                 });
                             }
                         },

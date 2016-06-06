@@ -1163,7 +1163,7 @@ function (angularAMD) {
 
             campaignSelectModel.setSelectedCampaign(campaign);
             kpiSelectModel.setSelectedKpi(campaign.kpiType);
-            strategySelectModel.setSelectedStrategy(constants.ALL_STRATEGIES_OBJECT);
+            strategySelectModel.setSelectedStrategy(vistoconfig.LINE_ITEM_DROPDWON_OBJECT);
 
             // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just
             // fetch strategy list and retain selected strategy.
@@ -1203,7 +1203,7 @@ function (angularAMD) {
             if (campaign) {
                 campaign.type = type;
                 campaignSelectModel.setSelectedCampaign(campaign);
-                strategySelectModel.setSelectedStrategy(constants.ALL_STRATEGIES_OBJECT);
+                strategySelectModel.setSelectedStrategy(vistoconfig.LINE_ITEM_DROPDWON_OBJECT);
                 kpiSelectModel.setSelectedKpi(campaign.kpiType);
             }
 
