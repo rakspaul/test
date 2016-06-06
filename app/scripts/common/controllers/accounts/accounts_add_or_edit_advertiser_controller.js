@@ -155,15 +155,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                 enabled: $scope.advertiserAddOrEditData.enableAdChoice,
                 code: $scope.advertiserAddOrEditData.adChoiceCode
             };
-
-            if (reqBody.enabled && reqBody.code &&
-                (!$scope.advertiserAddOrEditData.resAdChoiceData.enabled ||
-                    (reqBody.enabled !== $scope.advertiserAddOrEditData.resAdChoiceData.enabled ||
-                        (!$scope.advertiserAddOrEditData.resAdChoiceData.code ||
-                        reqBody.code !== $scope.advertiserAddOrEditData.resAdChoiceData.code)
-                    )
-                )
-            ) {
+            if(reqBody.enabled !== $scope.advertiserAddOrEditData.resAdChoiceData.enabled || reqBody.code !== $scope.advertiserAddOrEditData.resAdChoiceData.code){
                 accountsService
                     .saveAdChoiceDataForAdv($scope.client.id, $scope.selectedAdvertiserId, reqBody)
                     .then(function (res) {
@@ -305,10 +297,9 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
 
         $scope.checkDuplicatePixel = function (name) {
             $scope.advertiserAddOrEditData.duplicatePixelName = false;
-
-            _.each($scope.advertiserData.pixels, function (item) {
+            _.each($scope.advertiserData.pixels, function (item, i) {
                 if (!$scope.advertiserAddOrEditData.duplicatePixelName) {
-                    $scope.advertiserAddOrEditData.duplicatePixelName = (item.name === name) ? true : false;
+                    $scope.advertiserAddOrEditData.duplicatePixelName = ((item.name === name) && ($scope.pixelIndex != i)) ? true : false;
                 }
             });
         };
