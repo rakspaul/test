@@ -87,6 +87,14 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         });
 
         //Search Clear
+        $(".searchInputForm input").on("input", function() {
+            if($('.searchInputForm input').val()) {
+              $(".searchClearInputBtn").show();
+            } else {
+              $(".searchClearInputBtn").hide(); 
+            }
+        });
+        
         $scope.searchHideInput = function () {
             $('.searchInputForm input').val('');
         };

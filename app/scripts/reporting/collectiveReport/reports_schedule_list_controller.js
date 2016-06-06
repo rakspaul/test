@@ -560,6 +560,14 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             };
 
             //Search Clear
+            $(".searchInputForm input").on("input", function() {
+                if($('.searchInputForm input').val()) {
+                  $(".searchClearInputBtn").show();
+                } else {
+                  $(".searchClearInputBtn").hide(); 
+                }
+            });
+            
             $scope.searchHideInput = function () {
                 var inputSearch = $('.searchInputForm input');
                 delete $scope.filters.searchText;

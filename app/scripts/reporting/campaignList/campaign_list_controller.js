@@ -172,6 +172,14 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 };
 
                 // Search Clear Data
+                $(".searchInputForm input").on("input", function() {
+                    if($('.searchInputForm input').val()) {
+                      $(".searchClearInputBtn").show();
+                    } else {
+                      $(".searchClearInputBtn").hide(); 
+                    }
+                });
+                
                 $scope.searchHideInput = function () {
                     $('.searchInputForm input').val('');
 
