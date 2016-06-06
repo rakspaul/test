@@ -867,8 +867,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         }
 
 
-        $scope.isMediaPlanNameExist = function () {
-            var target = event.target,
+        $scope.isMediaPlanNameExist = function (event) {
+            var target = (event)?event.target:'',
                 //cloneMediaPlanName = target.value,
                 cloneMediaPlanName = $scope.selectedCampaign.campaignName,
                 subAccountId=$scope.selectedCampaign.clientId,
