@@ -17,9 +17,14 @@
         </div>
 
         <!--Search Input-->
-        <div class="pull-right">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-default pull-right" style="display: none">
+                <span class="icon-filter" style="margin: -1px 0 0;"></span>
+            </button>
+            
             <div class="searchInput pull-left" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                <a class="btn btn-default searchInputBtn" ng-click="searchShowInput();filters.searchText=null">
+                <a class="btn btn-default searchInputBtnInline" ng-click="searchShowInput();filters.searchText=null"
+                    style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
                     <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
                 </a>
                 <div class="input-group searchInputForm" >
@@ -47,6 +52,7 @@
                 <!-- attribute data-toogle="collapse"  attached to id="toggle-example"-->
             </div>
         </div>
+        
         <div id="schedule_report_filter" class="collapse">
             <div class="container zeroPadding">
                 <div class="row zeroPadding" style="margin-top:10px; margin-bottom:10px;">

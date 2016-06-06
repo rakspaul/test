@@ -91,24 +91,16 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                             });
                     }
 
-
-
+                // Search Clear
                 $scope.searchHideInput = function () {
                     $('.searchInputForm input').val('');
-                    $('.searchInputBtn').show();
-                    $('.searchClearInputBtn, .searchInputBtnInline').hide();
-                    $('.searchInputForm').animate({width: '34px'}, 'fast');
-
-                    setTimeout(function () {
-                        $('.searchInputForm').hide();
-                    }, 100);
-
                     if ($scope.invoiceReports.isSearched) {
                         $scope.invoiceReports.isSearched = false;
                         $scope.invoiceReports.searchTerm = '';
                         $scope.getInvoiceData();
                     }
                 };
+                
                 $scope.$on(constants.EVENT_ADVERTISER_CHANGED, function(event, args) {
                     $scope.invoiceReports.advertiserId = advertiserModel.getAdvertiser().selectedAdvertiser ? advertiserModel.getAdvertiser().selectedAdvertiser.id : -1,
                     $scope.getInvoiceData(0);

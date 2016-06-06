@@ -447,28 +447,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             };
 
-            //Search Hide / Show
-            $scope.adGroupsShowInput = function () {
-                var searchInputForm = $('.searchInputForm');
-
-                $('.searchInputBtn').hide();
-                $('.searchInputBtnInline').show();
-                searchInputForm.show();
-                searchInputForm.animate({width: '400px'}, 'fast');
-                setTimeout(function () {
-                    $('.searchClearInputBtn').fadeIn();
-                }, 300);
-            };
-
+            //Search Clear
             $scope.adGroupsHideInput = function () {
                 $('.searchInputForm input').val('');
-                $('.searchInputBtn').show();
-                $('.searchClearInputBtn, .searchInputBtnInline').hide();
-                $('.searchInputForm').animate({width: '44px'}, 'fast');
-                setTimeout(function () {
-                    $('.searchInputForm').hide();
-                }, 100);
-
                 if ($scope.isAdGroupsSearched) {
                     $scope.isAdGroupsSearched = false;
                     $scope.isAdGroupsSearchReset = true;

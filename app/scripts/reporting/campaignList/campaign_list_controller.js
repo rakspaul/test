@@ -171,27 +171,9 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     return utils.highlightSearch(text, search);
                 };
 
-                // Search show / hide
-                $scope.searchShowInput = function () {
-                    var searchInputForm = $('.searchInputForm');
-
-                    $('.searchInputBtn').hide();
-                    $('.searchInputBtnInline').show();
-                    searchInputForm.show();
-                    searchInputForm.animate({width: '400px'}, 'fast');
-                    setTimeout(function () {
-                        $('.searchClearInputBtn').fadeIn();
-                    }, 300);
-                };
-
+                // Search Clear Data
                 $scope.searchHideInput = function () {
                     $('.searchInputForm input').val('');
-                    $('.searchInputBtn').show();
-                    $('.searchClearInputBtn, .searchInputBtnInline').hide();
-                    $('.searchInputForm').animate({width: '34px'}, 'fast');
-                    setTimeout(function () {
-                        $('.searchInputForm').hide();
-                    }, 100);
 
                     if ($scope.isCampaignSearched) {
                         $scope.isCampaignSearched = false;

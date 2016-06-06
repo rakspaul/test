@@ -559,26 +559,13 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 });
             };
 
-            //Search Hide / Show
-            $scope.searchShowInput = function () {
-                var searchInputForm = $('.searchInputForm');
-
-                $('.searchInputBtn').hide();
-                searchInputForm.show();
-                searchInputForm.animate({width: '300px'}, 'fast');
-            };
-
+            //Search Clear
             $scope.searchHideInput = function () {
                 var inputSearch = $('.searchInputForm input');
-
                 delete $scope.filters.searchText;
                 isSearch = false;
-                $('.searchInputForm').animate({width: '44px'}, 'fast');
                 inputSearch.val('');
-                setTimeout(function () { $('.searchInputForm').hide(); }, 300);
-                setTimeout(function () { $('.searchInputBtn').fadeIn(); }, 300);
                 $scope.creativeData.creatives = [];
-
                 //  var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
                 // var selectedClientObj = localStorage.selectedMasterClient && JSON.parse(localStorage.selectedMasterClient);
                 //creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);

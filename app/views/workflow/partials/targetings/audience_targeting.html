@@ -25,15 +25,17 @@
             <div class="segmentStepOne">
                 <div class="setOne">
                     <div class="segmentHeader" >
-
-                        <div class="searchInput col-md-12 zeroPadding" style="width: 100%;">
-                            <a class="btn btn-default searchInputBtn pull-right col-md-1" >
-                                <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;" ng-click="selectKeyword(keywordText)"></span>
-                            </a>
-                            <div class="input-group searchInputForm col-md-11" style="display: block;width: 91.66%">
-                                <input type="text" class="form-control keyword-txt" name ="keywordText" placeholder="Search Segments..." ng-value="keywordText" ng-keyup="showKeywords(keywordText,$event)" ng-model="keywordText">
-                                <div class="btn btn-default">
-                                    <span class="icon-clear" aria-hidden="true" ng-click="clearKeywordSearch()"></span>
+                        <!--Search-->
+                        <div class="btn-group pull-right">
+                            <div class="searchInput col-md-12 zeroPadding">
+                                <a class="btn btn-default searchInputBtnInline">
+                                    <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;" ng-click="selectKeyword(keywordText)"></span>
+                                </a>
+                                <div class="input-group searchInputForm">
+                                    <input type="text" class="form-control keyword-txt" name ="keywordText" placeholder="Search Segments..." ng-value="keywordText" ng-keyup="showKeywords(keywordText,$event)" ng-model="keywordText">
+                                    <div class="btn btn-default searchClearInputBtn">
+                                        <span class="icon-clear" aria-hidden="true" ng-click="clearKeywordSearch()"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
