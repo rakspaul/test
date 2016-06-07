@@ -148,9 +148,6 @@ select:hover {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-.searchInput .searchClearInputBtn {
-  display: none;
-}
 .searchInput .searchClearInputBtn [class^="icon-"],
 .searchInput .searchClearInputBtn [class*=" icon-"] {
   background: transparent !important;

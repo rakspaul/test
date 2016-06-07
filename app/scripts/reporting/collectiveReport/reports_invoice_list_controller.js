@@ -130,9 +130,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     $('.searchInputBtnInline').show();
                     searchInputForm.show();
                     searchInputForm.animate({width: '300px'}, 'fast');
-                    setTimeout(function () {
-                        $('.searchClearInputBtn').fadeIn();
-                    }, 300);
                 };
 
                 // Filter button

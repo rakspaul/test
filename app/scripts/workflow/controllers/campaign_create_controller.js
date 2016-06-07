@@ -817,20 +817,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $('.searchInputBtnInline').show();
             searchInputForm.show();
             searchInputForm.animate({width: '400px'}, 'fast');
-            setTimeout(function () {
-                $('.searchClearInputBtn').fadeIn();
-            }, 300);
         };
 
         // *************** generalized show hide of search field ***************
-
-        $(".searchInputForm input").on("input", function() {
-            if($('.searchInputForm input').val()) {
-              $(".searchClearInputBtn").show();
-            } else {
-              $(".searchClearInputBtn").hide(); 
-            }
-        });
 
         $scope.searchClearInput = function () {
             var inputSearch = $('.searchInputForm input');
