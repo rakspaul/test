@@ -503,6 +503,21 @@ define(['common'], function (angularAMD) {
                         }
                     }
                 }))
+                
+                .when('/creative/:creativeId/preview', angularAMD.route({
+                    templateUrl: assets.html_creative_preview,
+                    title: 'Preview Creative',
+                    controller: 'CreativeController',
+                    controllerUrl: 'workflow/controllers/creative_controller',
+                    resolve: {
+                        check: function ($location, featuresService, $rootScope) {
+                            var featuredFeatures = $rootScope.$on('features', function () {
+                                featuresService.setGetFeatureParams('creative_list');
+                            });
+                            featuresService.setGetFeatureParams('creative_list');
+                        }
+                    }
+                }))
 
                 .when('/creative/list', angularAMD.route({
                     templateUrl: assets.html_creative_list,

@@ -495,6 +495,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CONTINUE = 'Continue';
         this.PREVIOUS = 'Previous';
         this.NEXT = 'Next';
+        this.PREVIEW = 'Preview';
 
         this.WF_GUIDED_COPY = 'Guided Copy Here - What should i choose?';
         this.WF_HEADER_CREATIVES = 'What type of creatives are you using?';

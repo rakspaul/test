@@ -407,6 +407,10 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             //$scope.editorEnabled = false;
             //$scope.creativeTag = obj.tag;
         };
+        
+        $scope.previewCreative = function (creativeData) {
+            $location.url("/creative/"+creativeData.id+"/preview");
+        };
 
         $scope.toggleCreativeAds=function(context,creativeId,index,event){
             var elem = $(event.target);
