@@ -210,9 +210,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 });
             };
 
-            $scope.addIAB = function () {
-                // TODO: Code for Add
-            };
+            // TODO: Code for Add??
+            /*$scope.addIAB = function () {
+            };*/
 
             _currCtrl.pixelJSON = {
                 impressionLookBack: 14,
@@ -367,7 +367,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                             };
                         }
 
-                        $scope.clientsDetails[clientId].advertisers = [];
                         $scope.clientsDetails[clientId].advertisers = res.data.data;
                     });
             };
@@ -455,7 +454,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                             }
 
                             getPixelsData(client.id,advObj.id);
-                        },function (err) {
+                        }, function (err) {
+                            console.log('Error = ', err);
                         });
                 } else {
                     $scope.selectedAdvertiserId = '';
@@ -508,9 +508,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.advertiserId = advObj.id;
                 $('html, body').animate({scrollTop: 0}, 30);
 
-                if (mode === 'edit') {
-                    // TODO: Code for edit brand;
-                }
+                // TODO: Code for edit brand???
+                /*if (mode === 'edit') {
+                }*/
 
                 accountsService
                     .getAdvertisersBrand(client.id, advObj.id)

@@ -56,7 +56,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             getClients: function (success, failure, flag) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients?access_level=admin',
                     canceller;
-                console.log('getClients() serive, url = ', url)
 
                 if (flag === 'cancellable') {
                     canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
@@ -214,7 +213,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             },
 
             updateClient: function (data, id) {
-                console.log('updateClient(), url = ', vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + id, ', data = ', data)
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + id,
                     data,
@@ -223,7 +221,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             },
 
             createClient: function (data) {
-                console.log('updateClient(), url = ', vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/', ', data = ', data)
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients',
                     data,
@@ -232,9 +229,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             },
 
             getClient: function (clientId) {
-console.log('getClient(), clientId = ', clientId)
-                return dataService.fetch
-                (vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId,
+                return dataService.fetch(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId,
                     {cache: false}
                 );
             },
@@ -343,9 +339,7 @@ console.log('getClient(), clientId = ', clientId)
             },
 
             getBillingTypes: function () {
-console.log('getBillingTypes(), URL = ', vistoconfig.apiPaths.WORKFLOW_API_URL + '/billing_types')
                 return dataService.fetch(
-                    //http://qa-desk.collective.com/api/workflow/v3/billing_types
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/billing_types',
                     {cache: false}
                 );
@@ -360,7 +354,6 @@ console.log('getBillingTypes(), URL = ', vistoconfig.apiPaths.WORKFLOW_API_URL +
             },
 
             getIABCategoryList: function () {
-console.log('getIABCategoryList(), URL = ', vistoconfig.apiPaths.WORKFLOW_API_URL + '/iab_category_groups')
                 return dataService.fetch(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/iab_category_groups',
                     {cache: false}
@@ -368,7 +361,6 @@ console.log('getIABCategoryList(), URL = ', vistoconfig.apiPaths.WORKFLOW_API_UR
             },
 
             getIABSubCategoryList: function (groupId) {
-console.log('getIABSubCategoryList(), URL = ', vistoconfig.apiPaths.WORKFLOW_API_URL + '/iab_categories?group_id=' + groupId)
                 return dataService.fetch(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/iab_categories?group_id=' + groupId,
                     {cache: false}
@@ -376,7 +368,6 @@ console.log('getIABSubCategoryList(), URL = ', vistoconfig.apiPaths.WORKFLOW_API
             },
 
             getIABCategoryForAdv: function (clientId, advId) {
-console.log('getIABCategoryForAdv(), URL = ',  vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advId + '/iab_categories')
                 return dataService.fetch(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -387,7 +378,6 @@ console.log('getIABCategoryForAdv(), URL = ',  vistoconfig.apiPaths.WORKFLOW_API
             },
 
             saveIABCategoryForAdv: function (clientId, advId, data) {
-console.log('saveIABCategoryForAdv(), URL = ', vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advId + '/iab_categories')
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -399,7 +389,6 @@ console.log('saveIABCategoryForAdv(), URL = ', vistoconfig.apiPaths.WORKFLOW_API
             },
 
             getAdChoiceDataFromAdv: function (clientId, advId) {
-console.log('getAdChoiceDataFromAdv(), URL = ', vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/ad_choices?advertiser_id=' + advId)
                 return dataService.fetch(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -409,11 +398,31 @@ console.log('getAdChoiceDataFromAdv(), URL = ', vistoconfig.apiPaths.WORKFLOW_AP
             },
 
             saveAdChoiceDataForAdv: function (clientId, advId, data) {
-console.log('saveAdChoiceDataForAdv(), URL = ', vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/ad_choices?advertiser_id=' + advId)
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/ad_choices?advertiser_id=' + advId,
+                    data,
+                    {'Content-Type': 'application/json'}
+                );
+            },
+
+            getBillingDataForAdv: function (clientId, advId) {
+                return dataService.fetch(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + clientId +
+                    '/advertisers/' + advId +
+                    '/billing',
+                    {cache: false}
+                );
+            },
+
+            saveBillingDataForAdv: function (clientId, advId, data) {
+                return dataService.post(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + clientId +
+                    '/advertisers/' + advId +
+                    '/billing',
                     data,
                     {'Content-Type': 'application/json'}
                 );

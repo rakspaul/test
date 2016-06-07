@@ -81,11 +81,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
 
             accountsService
                 .saveIABCategoryForAdv($scope.client.id, $scope.selectedAdvertiserId, reqBody)
-                .then(function (res) {
-                    if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
-                        // TODO: Do something with the returned data???
-                    }
-                }, function (err) {
+                .then(null, function (err) {
                     console.log('Error = ', err);
                 });
         };
@@ -136,22 +132,106 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                 reqBody.code !== $scope.advertiserAddOrEditData.resAdChoiceData.code) {
                 accountsService
                     .saveAdChoiceDataForAdv($scope.client.id, $scope.selectedAdvertiserId, reqBody)
-                    .then(function (res) {
-                        if (res.status === 'OK' || res.status === 'success') {
-                            // For Save Data
-                        } else {
-                            console.log('Error: Save Ad Choice in Advertiser');
-                        }
-                    }, function (err) {
+                    .then(null, function (err) {
                         console.log('Error = ', err);
                     });
             }
+        };
+
+        _currCtrl.getBillingData = function () {
+            accountsService
+                .getBillingDataForAdv($scope.client.id, $scope.selectedAdvertiserId)
+                .then(function (res) {
+                    var result = res.data.data;
+
+                    if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
+                        _.each(result, function (item) {
+                            switch (item.billedFor) {
+                                case 'TECH_FEES':
+                                    $scope.billingData.techFees.billingTypeId = item.billingTypeId;
+                                    $scope.billingData.techFees.billingTypeName = 'CPM';
+                                    $scope.billingData.techFees.billingValue = item.billingValue;
+                                    break;
+
+                                case 'SERVICE_FEES':
+                                    $scope.billingData.serviceFees.billingTypeId = item.billingTypeId;
+
+                                    if (parseInt(item.billingTypeId) === 8) {
+                                        $scope.billingData.serviceFees.billingTypeName = 'CPM';
+                                    } else if (parseInt(item.billingTypeId) === 6) {
+                                        $scope.billingData.serviceFees.billingTypeName = 'COG+ %';
+                                    }
+
+                                    $scope.billingData.serviceFees.billingValue = item.billingValue;
+                                    break;
+
+                                case 'COST':
+                                    $scope.billingData.cost.billingTypeId = item.billingTypeId;
+
+                                    if (parseInt(item.billingTypeId) === 6) {
+                                        $scope.billingData.cost.billingTypeName = 'COG+ %';
+                                    }
+
+                                    $scope.billingData.cost.billingValue = item.billingValue;
+                                    break;
+                            }
+                        });
+                    }
+                }, function (err) {
+                    console.log('Error = ', err);
+                });
+        };
+
+        _currCtrl.saveBillingData = function () {
+            var list = [],
+                idx = 0,
+                reqBody;
+
+            if ($scope.billingData.techFees.billingValue) {
+                list[idx++] = {
+                    billedFor: 'TECH_FEES',
+                    billingTypeId: $scope.billingData.techFees.billingTypeId,
+                    billingValue: $scope.billingData.techFees.billingValue
+                };
+            }
+
+            if ($scope.billingData.serviceFees.billingValue) {
+                list[idx++] = {
+                    billedFor: 'SERVICE_FEES',
+                    billingTypeId: $scope.billingData.serviceFees.billingTypeId,
+                    billingValue: $scope.billingData.serviceFees.billingValue
+                };
+            }
+
+            if ($scope.billingData.cost.billingValue) {
+                list[idx++] = {
+                    billedFor: 'COST',
+                    billingTypeId: $scope.billingData.cost.billingTypeId,
+                    billingValue: $scope.billingData.cost.billingValue
+                };
+            }
+
+            _.each(list, function (item) {
+                item.clientId = $scope.client.id;
+                item.advertiserId = $scope.selectedAdvertiserId;
+            });
+
+            reqBody = {
+                list: list
+            };
+
+            accountsService
+                .saveBillingDataForAdv($scope.client.id, $scope.selectedAdvertiserId, reqBody)
+                .then(null, function (err) {
+                    console.log('Error = ', err);
+                });
         };
 
         _currCtrl.saveAdnlData = function () {
             _currCtrl.saveAdChoiceData();
             _currCtrl.saveIABCategory();
             // TODO: save for BillingMethods
+            _currCtrl.saveBillingData();
         };
 
         _currCtrl.verifyCreateAdvInputs = function () {
@@ -437,6 +517,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
             _currCtrl.getAdChoiceData();
             _currCtrl.getIABCategory();
             // TODO: get data for BillingMethods
+            _currCtrl.getBillingData();
         };
 
         $scope.saveAdvertisers = function () {
