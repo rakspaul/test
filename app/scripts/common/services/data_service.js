@@ -232,13 +232,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
 
                     return this.put(url,data);
                 },
-                updateSavedReport: function (reportId,data) {
+
+                updateSavedReport: function (reportId, data) {
                     var url = urlService.updateSavedRpt(reportId);
 
                     return this.put(url,data);
                 },
 
-                append: function (url,paramsObj) {
+                append: function (url, paramsObj) {
                     var property;
 
                     for (property in paramsObj) {
@@ -453,7 +454,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                                 loginModel.forbidden();
                                 return errorObject;
                             } else if (error.status === 404) {
-                                errorObject.data.message = 'Network error.  Please contact support.'
+                                errorObject.data.message = 'Network error.  Please contact support.';
                                 return errorObject;
                             }
 
@@ -530,14 +531,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
 
                         function (error) {
                             if (error.status === 401) {
-                                errorObject.data.message = error.data.message
+                                errorObject.data.message = error.data.message;
                                 loginModel.unauthorized();
                                 return errorObject;
                             } else if (error.status === 403) {
                                 loginModel.forbidden();
                                 return errorObject;
                             } else if (error.status === 404) {
-                                errorObject.data.message = 'Network error.  Please contact support.'
+                                errorObject.data.message = 'Network error.  Please contact support.';
                                 return errorObject;
                             }
 
