@@ -401,6 +401,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         };
         
         $scope.previewCreative = function (creativeData) {
+            $scope.previewCreativeId = creativeData.id;
+            $scope.previewCreativeName = creativeData.name;
             $location.url("/creative/"+creativeData.id+"/preview");
         };
 
