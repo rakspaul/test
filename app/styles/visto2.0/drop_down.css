@@ -464,3 +464,16 @@
 .dropdown-search-btn .category_dropdown {
   margin-top: 0;
 }
+.dropdown.hideOption .dropdown-toggle {
+  border-width: 0 !important;
+  padding: 0 5px;
+  background: transparent !important;
+  height: 19px;
+  cursor: pointer;
+}
+.dropdown.hideOption .dropdown-toggle:hover,
+.dropdown.hideOption .dropdown-toggle:active,
+.dropdown.hideOption .dropdown-toggle:focus {
+  background: transparent !important;
+  border-width: 0 !important;
+}
