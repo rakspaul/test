@@ -1,6 +1,10 @@
 <popup-msg ng-show="alertMessage" ng-controller="popUpMsgCtr"
            ng-init="init('alertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
 
-<div class="col-md-12 zeroPadding">
-	    <h1>Creative Preview {{previewCreativeName}}</h1>
+<div class="col-md-12 zeroPadding" style="margin-top: 30px;">
+	    <h1 class="pull-left zeroMargin">Creative Preview {{creativePreviewData.name}}</h1>
+	    <a href="/creative/list" class="btn btn-default pull-right">Back</a>
+	    
+	    <div class="col-md-12 zeroPadding" id="creativePreviewContainer" style="margin-top: 30px;">
+	    </div>
 </div>
