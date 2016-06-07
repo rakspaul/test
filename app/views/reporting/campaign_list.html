@@ -45,17 +45,18 @@
                     <input type="text"
                            class="form-control"
                            name="campaignsSearch"
+                           search-box
                            ng-model="campaigns.searchTerm"
                            ng-keyup="campaignSearchFunc($event)"
                            placeholder="Search Media Plans...">
-                    <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
+                    <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput($event)">
                         <span class="icon-clear" aria-hidden="true"></span>
                     </div>
 
                 </div>
             </div>
         </div>
-        
+
         <!--  campaigns.appliedQuickFilterText -->
         <span class="pull-right"
               ng-bind="campaigns.searchTerm ? campaigns.dashboard.quickFilterSelectedCount + ' out of ' +

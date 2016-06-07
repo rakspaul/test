@@ -448,8 +448,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             };
 
             //Search Clear
-            $scope.adGroupsHideInput = function () {
+            $scope.adGroupsHideInput = function (evt) {
                 $('.searchInputForm input').val('');
+                $(evt.target).hide();
                 if ($scope.isAdGroupsSearched) {
                     $scope.isAdGroupsSearched = false;
                     $scope.isAdGroupsSearchReset = true;

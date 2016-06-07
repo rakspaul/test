@@ -23,12 +23,13 @@
                     </a>
                     <div class="input-group searchInputForm" >
                         <input type="text"
-                               class="form-control"
+                               class="form-control",
+                               search-box
                                name="invoiceReportsSearch"
                                ng-keyup="invoiceReportsSearchFunc($event)"
                                ng-model="invoiceReports.searchTerm"
                                placeholder="Search Invoice Reports...">
-                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
+                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput($event)">
                             <span class="icon-clear" aria-hidden="true"></span>
                         </div>
                     </div>

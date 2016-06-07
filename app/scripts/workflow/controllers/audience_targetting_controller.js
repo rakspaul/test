@@ -28,6 +28,7 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
             left: '0'
         };
 
+        $scope.isAudienceTargetingSearched = false;
         $scope.showAudienceLoader = false;
 
         var editOneTimeFlag = false;
@@ -153,6 +154,7 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.showAudienceLoader = false;
+
                             var responseData = result.data.data;
                             audienceService.setAudience(responseData);
                             if (loadMoreFlag) {
@@ -500,10 +502,14 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
             _audienceTargetting.fetchAllAudience();
         };
 
-        $scope.clearKeywordSearch = function () {
+        $scope.clearKeywordSearch = function (evt) {
             $scope.selectedKeywords=[];
             $('.keyword-txt').val('');
-            _audienceTargetting.fetchAllAudience();
+            evt && $(evt.target).hide();
+            if($scope.isAudienceTargetingSearched) {
+                $scope.isAudienceTargetingSearched = false;
+                _audienceTargetting.fetchAllAudience();
+            }
         };
 
         //keyword user choice
@@ -512,6 +518,7 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
             $scope.dropdownCss.display = keyword.length > 0 ? 'block' : 'none';
             if (event.which === 13) {
                 if(keyword.length){
+                    $scope.isAudienceTargetingSearched = true;
                     $scope.selectKeyword(keyword);// fetch audience for keyword entered by user
                     return false;
                 }else{

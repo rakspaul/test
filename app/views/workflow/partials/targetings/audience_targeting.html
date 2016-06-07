@@ -32,9 +32,9 @@
                                     <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;" ng-click="selectKeyword(keywordText)"></span>
                                 </a>
                                 <div class="input-group searchInputForm">
-                                    <input type="text" class="form-control keyword-txt" name ="keywordText" placeholder="Search Segments..." ng-value="keywordText" ng-keyup="showKeywords(keywordText,$event)" ng-model="keywordText">
+                                    <input type="text" class="form-control keyword-txt" search-box name ="keywordText" placeholder="Search Segments..." ng-value="keywordText" ng-keyup="showKeywords(keywordText,$event)" ng-model="keywordText" autocomplete="off">
                                     <div class="btn btn-default searchClearInputBtn">
-                                        <span class="icon-clear" aria-hidden="true" ng-click="clearKeywordSearch()"></span>
+                                        <span class="icon-clear" aria-hidden="true" ng-click="clearKeywordSearch($event)"></span>
                                     </div>
                                 </div>
                             </div>

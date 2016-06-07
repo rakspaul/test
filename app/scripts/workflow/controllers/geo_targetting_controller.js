@@ -1376,11 +1376,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         //reset search countries/regions/cities
-        $scope.resetGeoSearch = function() {
+        $scope.resetGeoSearch = function(event) {
             var target = $(event.target),
-                parentElem = target.parent().find(".searchBox"),
+                parentElem = target.parents().find(".searchBox"),
                 searchType = parentElem.attr('data-searchfield');//search type can be countries/regions/cities
+            target.hide();
             parentElem.val('');
+            $scope.searchKeyword = null;
             //clear the searchbox value
             geoTargeting.searchGeo('', searchType);
         }

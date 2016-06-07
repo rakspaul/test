@@ -6,7 +6,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.userConsoleFormDetails={};
         $(".each_nav_link").removeClass("active_tab");
         $("#admin_nav_link").addClass("active_tab");
-        
+
         //Responsive Height
         var winHeight = $(window).height();
         $(".table-responsive .tbody").css("min-height", winHeight - 330);
@@ -87,10 +87,11 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         });
 
         //Search Clear
-        $scope.searchHideInput = function () {
+        $scope.searchHideInput = function (evt) {
+            evt && $(evt.target).hide();
             $('.searchInputForm input').val('');
         };
-        
+
         $scope.getRoleText = function(roleId){
             switch(roleId){
                 case 1: return "Super Admin";  break;

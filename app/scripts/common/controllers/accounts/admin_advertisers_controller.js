@@ -9,11 +9,11 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             loginModel) {
             $(".each_nav_link").removeClass("active_tab");
             $("#admin_nav_link").addClass("active_tab");
-            
+
             //Responsive Height
             var winHeight = $(window).height();
             $(".table-responsive .tbody").css("min-height", winHeight - 380);
-            
+
             $scope.advertisersData = [];
             $scope.isEditAdvertiser = false;
             $scope.fetchAllAdvertisers = function(){
@@ -77,7 +77,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             }
 
             //Search Clear
-            $scope.searchHideInput = function () {
+            $scope.searchHideInput = function (evt) {
+                evt && $(evt.target).hide();
                 $('.searchInputForm input').val('');
             };
 

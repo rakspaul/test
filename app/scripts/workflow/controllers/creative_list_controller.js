@@ -22,6 +22,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.loadCreativeData=false;
         $scope.deletePopup=false;
         $scope.successfulRecords = [];
+        $scope.isCreativeSearched =  false;
         $scope.clientId = loginModel.getSelectedClient().id;
 
         //$scope.creativeData.creatives_count=1;
@@ -220,22 +221,28 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             return moment(date).format('DD MMM YYYY');
         };
 
-        $scope.creativeSearchFunc = function () {
-            isSearch = true;
-            var searchVal = $scope.creativeSearch,
-                qryStr = '';
-            //formats = 'VIDEO,RICH MEDIA,DISPLAY';
+        $scope.creativeSearchFunc = function (e) {
+            if (!e || e.keyCode === 13) {
 
-            if (searchVal.length > 0) {
-                qryStr += 'query=' + searchVal;
-            }
-            if(searchVal.length > 2){
-                var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-                creativeList.getCreativesList($scope.clientId, undefined, qryStr);
-            }else if(searchVal.length==0){
-                $scope.creativeData['creatives'].length = 0;
-                var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-                creativeList.getCreativesList($scope.clientId,'', '',20, 1);
+                isSearch = true;
+                var searchVal = $scope.creativeSearch,
+                    qryStr = '';
+
+                if (searchVal.length > 0) {
+                    qryStr += 'query=' + searchVal;
+                }
+                if (searchVal.length > 2) {
+                    $scope.creativeListLoading = true;
+                    var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+                    $scope.isCreativeSearched = true;
+                    creativeList.getCreativesList($scope.clientId, undefined, qryStr);
+                } else if (searchVal.length == 0) {
+                    $scope.creativeListLoading = false;
+                    $scope.isCreativeSearched = false;
+                    $scope.creativeData['creatives'].length = 0;
+                    var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+                    creativeList.getCreativesList($scope.clientId, '', '', 20, 1);
+                }
             }
         };
 
@@ -479,13 +486,17 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $('.bodyWrap').css('width', '100%');
 
         //Search Clear
-        $scope.searchHideInput = function () {
+        $scope.searchHideInput = function (evt) {
             isSearch = false;
             var inputSearch = $(".searchInputForm input");
+            $(evt.target).hide();
             inputSearch.val('');
-            $scope.creativeData['creatives']=[];
-            var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-            creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
+            if($scope.isCreativeSearched) {
+                $scope.creativeData['creatives'] = [];
+                $scope.creativeListLoading = true;
+                var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+                creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id, '', '', 20, 1);
+            }
         };
 
         $scope.headerToggle = function () {

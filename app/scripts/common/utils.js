@@ -798,6 +798,21 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                 };
             })
 
+            .directive('searchBox', function() {
+                return {
+                    restrict: 'A',
+                    require: 'ngModel',
+
+                    link: function (scope, element, attrs, modelCtrl) {
+                        element.on('keyup blur', function (evt) {
+                            var clearBtn = element.parent().find(".icon-clear");
+                            var searchInpVal = evt.target.value;
+                            clearBtn.toggle(Boolean(searchInpVal));
+                        });
+                    }
+                };
+            })
+
             .filter('spliter', function () {
                 return function (input, splitIndex) {
                     // do some bounds checking here to ensure it has that index

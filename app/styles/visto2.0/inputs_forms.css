@@ -81,7 +81,7 @@ select {
   width: auto;
   cursor: pointer;
   overflow: hidden;
-  background: url(../../images/cdesk/arrow_down2.png) no-repeat right #fff;
+  background: url(../../images/cdesk/arrow_down2.png) no-repeat right #ffffff;
   border: 1px solid #BFC9D7 !important;
   background-size: 20px 15px;
 }
@@ -151,6 +151,7 @@ select:hover {
 .searchInput .searchClearInputBtn [class^="icon-"],
 .searchInput .searchClearInputBtn [class*=" icon-"] {
   background: transparent !important;
+  display: none;
 }
 [class*="col-"] tags-input {
   float: left;

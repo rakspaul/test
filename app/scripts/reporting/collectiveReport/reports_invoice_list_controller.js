@@ -92,7 +92,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     }
 
                 // Search Clear
-                $scope.searchHideInput = function () {
+                $scope.searchHideInput = function (evt) {
+                    $(evt.target).hide();
                     $('.searchInputForm input').val('');
                     if ($scope.invoiceReports.isSearched) {
                         $scope.invoiceReports.isSearched = false;
@@ -100,7 +101,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         $scope.getInvoiceData();
                     }
                 };
-                
+
                 $scope.$on(constants.EVENT_ADVERTISER_CHANGED, function(event, args) {
                     $scope.invoiceReports.advertiserId = advertiserModel.getAdvertiser().selectedAdvertiser ? advertiserModel.getAdvertiser().selectedAdvertiser.id : -1,
                     $scope.getInvoiceData(0);

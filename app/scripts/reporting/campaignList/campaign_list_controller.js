@@ -172,7 +172,8 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 };
 
                 // Search Clear Data
-                $scope.searchHideInput = function () {
+                $scope.searchHideInput = function (evt) {
+                    $(evt.target).hide();
                     $('.searchInputForm input').val('');
 
                     if ($scope.isCampaignSearched) {

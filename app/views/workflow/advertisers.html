@@ -20,7 +20,7 @@
 
             <span class="delete_row" ng-show="isEditAdvertiser" data-ng-click="isEditAdvertiser=false;advertiserName=''"
                 style="position: absolute;top: 32px;left: 470px;"></span>
-            
+
             <!--Search Input-->
             <div class="btn-group pull-right">
                 <button type="button" class="btn btn-default pull-right" style="display: none">
@@ -35,6 +35,8 @@
                         <input type="text"
                                class="form-control"
                                name="usersSearch"
+                               ng-model="usersSearch"
+                               search-box
                                placeholder="Search Advertisers...">
                         <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
                             <span class="icon-clear" aria-hidden="true"></span>

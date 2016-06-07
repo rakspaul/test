@@ -265,10 +265,11 @@
                             <div class="input-group searchInputForm" >
                                 <input type="text" class="form-control"
                                        name="adGroupsSearch"
+                                       search-box
                                        data-ng-model="adGroupsSearch.term"
                                        data-ng-keyup="adGroupsSearchFunc($event)"
                                        placeholder="Search Ad Groups and Ads...">
-                                <div class="btn btn-default searchClearInputBtn" data-ng-click="adGroupsHideInput()">
+                                <div class="btn btn-default searchClearInputBtn" data-ng-click="adGroupsHideInput($event)">
                                     <span class="icon-clear" aria-hidden="true"></span>
                                 </div>
                             </div>

@@ -33,8 +33,10 @@
                         <input type="text"
                                class="form-control"
                                name="usersSearch"
+                               ng-model="usersSearch"
+                               search-box
                                placeholder="Search Users...">
-                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
+                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput($event)">
                             <span class="icon-clear" aria-hidden="true"></span>
                         </div>
                     </div>
