@@ -254,23 +254,6 @@
 #searchList .btn-default .filter {
   height: 36px !important;
 }
-#searchList .btn-default:hover,
-#searchList .btn-default:focus,
-#searchList .btn-default:active,
-#searchList .btn-default.active,
-#searchList .open .dropdown-toggle.btn-default {
-  background-color: #e1edf9 !important;
-}
-#searchList .btn-group .btn [class^="icon-"] {
-  float: left;
-  height: 14px;
-  width: 14px;
-  padding: 0;
-  margin: -2px 10px 0 0;
-  color: #363d49;
-  border-top-left-radius: 2px;
-  border-bottom-left-radius: 2px;
-}
 #searchList .searchInputSchedule {
   width: auto;
   border-top: 1px solid #BFC9D7;

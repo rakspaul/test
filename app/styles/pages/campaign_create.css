@@ -706,30 +706,6 @@
   top: -12px;
   width: 13px;
 }
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchInputBtn:active,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchInputBtn:focus,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchInputBtn:hover,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchInputBtn:target {
-  border-width: 0px !important;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchClearInputBtn {
-  right: 42px;
-  border-right: 1px solid #BFC9D7;
-  height: 36px;
-  background: transparent !important;
-  top: 0px;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchClearInputBtn:active,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchClearInputBtn:focus,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchClearInputBtn:hover,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchClearInputBtn:target {
-  border-width: 0px !important;
-  border-right: 1px solid #BFC9D7 !important;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .searchClearInputBtn .icon-clear {
-  background: transparent !important;
-  top: 1px;
-}
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable {
   border-top: 0;
   margin: 0;
@@ -827,13 +803,6 @@
 }
 .adCreateMaster #targetting .targettingFormWrap .loading-icon {
   margin-top: 0;
-}
-.adCreateMaster #targetting .targettingFormWrap .searchInput {
-  border-left: 1px solid #dde6eb;
-  border-right: 1px solid #dde6eb;
-  float: left;
-  padding: 20px 0 20px 0;
-  width: 100%;
 }
 .adCreateMaster #targetting .targettingFormWrap .include-label .btn-primary {
   margin: 0 ;
@@ -1097,11 +1066,6 @@
   overflow: auto;
   padding: 6px 0 !important;
   width: 100%;
-}
-.adCreateMaster #targetting .targettingFormWrap .tabbable #dma .searchInput {
-  border-width: 0;
-  border-bottom: 2px solid #dde6eb;
-  padding: 14px 20px;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .nav-tabs {
   border-bottom: 1px solid #dde6eb;
@@ -2117,9 +2081,9 @@
   cursor: not-allowed;
 }
 #campaignCreate .firstWrapper .masterContainer .tableEdit .dropdown-toggle.btn[disabled] .icon-arrow-down {
-  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eeeeee 65%);
-  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eeeeee 65%);
-  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #eeeeee 54%);
+  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eee 65%);
+  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eee 65%);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #eee 54%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eee', endColorstr='#eee', GradientType=1);
 }
 #campaignCreate .firstWrapper .masterContainer .showAddCreditForm {

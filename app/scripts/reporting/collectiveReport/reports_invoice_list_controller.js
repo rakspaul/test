@@ -91,24 +91,17 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                             });
                     }
 
-
-
-                $scope.searchHideInput = function () {
+                // Search Clear
+                $scope.searchHideInput = function (evt) {
+                    $(evt.target).hide();
                     $('.searchInputForm input').val('');
-                    $('.searchInputBtn').show();
-                    $('.searchClearInputBtn, .searchInputBtnInline').hide();
-                    $('.searchInputForm').animate({width: '34px'}, 'fast');
-
-                    setTimeout(function () {
-                        $('.searchInputForm').hide();
-                    }, 100);
-
                     if ($scope.invoiceReports.isSearched) {
                         $scope.invoiceReports.isSearched = false;
                         $scope.invoiceReports.searchTerm = '';
                         $scope.getInvoiceData();
                     }
                 };
+
                 $scope.$on(constants.EVENT_ADVERTISER_CHANGED, function(event, args) {
                     $scope.invoiceReports.advertiserId = advertiserModel.getAdvertiser().selectedAdvertiser ? advertiserModel.getAdvertiser().selectedAdvertiser.id : -1,
                     $scope.getInvoiceData(0);
@@ -137,9 +130,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     $('.searchInputBtnInline').show();
                     searchInputForm.show();
                     searchInputForm.animate({width: '300px'}, 'fast');
-                    setTimeout(function () {
-                        $('.searchClearInputBtn').fadeIn();
-                    }, 300);
                 };
 
                 // Filter button

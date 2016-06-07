@@ -131,8 +131,9 @@
                     <input type="text"
                            class="form-control"
                            name="campaignsSearch"
+                           search-box
                            placeholder="Search Line Items...">
-                    <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
+                    <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput($event)">
                         <span class="icon-clear" aria-hidden="true" style="margin: 0;"></span>
                     </div>
                 </div>

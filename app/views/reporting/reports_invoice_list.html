@@ -11,27 +11,25 @@
             </div>
         </div>
 
+        <!--Search-->
         <div class="col-md-8">
             <div class="btn-group pull-right">
                 <button type="button" class="btn btn-default pull-right" style="display: none">
                     <span class="icon-filter" style="margin: -1px 0 0;"></span>
                 </button>
                 <div class="searchInput pull-right">
-                    <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
-                        <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
-                    </a>
-
                     <a class="btn btn-default searchInputBtnInline" ng-click="invoiceReportsSearchFunc()">
                         <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
                     </a>
                     <div class="input-group searchInputForm" >
                         <input type="text"
-                               class="form-control"
+                               class="form-control",
+                               search-box
                                name="invoiceReportsSearch"
                                ng-keyup="invoiceReportsSearchFunc($event)"
                                ng-model="invoiceReports.searchTerm"
                                placeholder="Search Invoice Reports...">
-                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
+                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput($event)">
                             <span class="icon-clear" aria-hidden="true"></span>
                         </div>
                     </div>

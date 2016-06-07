@@ -9,11 +9,11 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             loginModel) {
             $(".each_nav_link").removeClass("active_tab");
             $("#admin_nav_link").addClass("active_tab");
-            
+
             //Responsive Height
             var winHeight = $(window).height();
             $(".table-responsive .tbody").css("min-height", winHeight - 380);
-            
+
             $scope.advertisersData = [];
             $scope.isEditAdvertiser = false;
             $scope.fetchAllAdvertisers = function(){
@@ -76,27 +76,10 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.advertiserName = obj.name;
             }
 
-            //Search Hide / Show
-            $scope.searchShowInput = function (e) {
-                var searchInputForm = $('.searchInputForm');
-
-                $('.searchInputBtn').hide();
-                $('.searchInputBtnInline').show();
-                searchInputForm.show();
-                searchInputForm.animate({width: '250px'}, 'fast');
-                setTimeout(function () {
-                    $('.searchClearInputBtn').fadeIn();
-                }, 300);
-            };
-
-            $scope.searchHideInput = function () {
+            //Search Clear
+            $scope.searchHideInput = function (evt) {
+                evt && $(evt.target).hide();
                 $('.searchInputForm input').val('');
-                $('.searchInputBtn').show();
-                $('.searchClearInputBtn, .searchInputBtnInline').hide();
-                $('.searchInputForm').animate({width: '34px'}, 'fast');
-                setTimeout(function () {
-                    $('.searchInputForm').hide();
-                }, 100);
             };
 
             $('html').click(function(e) {

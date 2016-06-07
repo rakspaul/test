@@ -445,13 +445,10 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
             $('.searchInputBtnInline').show();
             searchInputForm.show();
             searchInputForm.animate({width: '250px'}, 'fast');
-
-            setTimeout(function () {
-                $('.searchClearInputBtn').fadeIn();
-            }, 300);
         };
 
-        $scope.searchHideInput = function () {
+        $scope.searchHideInput = function (evt) {
+            evt && $(evt.target).hide();
             $('.searchInputForm input').val('');
             $('.searchInputBtn').show();
             $('.searchClearInputBtn, .searchInputBtnInline').hide();

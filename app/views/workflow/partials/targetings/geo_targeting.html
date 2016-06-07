@@ -23,16 +23,24 @@
 
         <div class="tab-content targetting-container">
             <!---- start region and city Container ---------->
+
             <!--Search Input-->
-            <div class="searchInput geography">
-                <div class="input-group">
-                    <input type="text" class="form-control searchBox" ng-model="searchKeyword" data-searchfield="{{selectedSubTab}}" ng-keyup="search($event, searchKeyword)" placeholder="Search for regions or cities">
-                    <span class="icon-clear" aria-hidden="true" ng-click="resetGeoSearch($event)"></span>
-                      <span class="input-group-btn">
-                        <button class="btn btn-default" ng-click="search($event, searchKeyword)" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                      </span>
+            <div class="btn-group pull-right" style="width: 100%; border-left: 1px solid #dde6eb;
+                border-right: 1px solid #dde6eb; padding: 20px 20px 12px 20px;">
+                <div class="searchInput geography">
+                    <a class="btn btn-default searchInputBtnInline" ng-click="search($event, searchKeyword)" type="button">
+                        <span class="icon-search" aria-hidden="true"></span>
+                    </a>
+
+                    <div class="input-group searchInputForm">
+                        <input type="text" class="form-control searchBox" search-box ng-model="searchKeyword" data-searchfield="{{selectedSubTab}}" ng-keyup="search($event, searchKeyword)" placeholder="Search for regions or cities" autocomplete="off">
+                        <div class="btn btn-default searchClearInputBtn">
+                            <span class="icon-clear" aria-hidden="true" ng-click="resetGeoSearch($event)"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
+
             <div id="geo" class="col-md-12 zeroPadding targetting-each-content geo-targetting-content-holder">
                 <div class="clearfix targetting-tab-header">
                     <div class="pull-left">

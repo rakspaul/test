@@ -125,7 +125,7 @@
             <div class="billingMethods" data-ng-show="clientObj.isLeafNode">
                 <div class="col-md-12 zeroPadding">
                     <h1 class="pull-left">Billing & Invoices</h1>
-                    
+
                     <div class="form-group col-md-4 pull-right">
                         <label class="col-sm-12 greyTxt" style="text-align: right;">Invoice On Demand:</label>
                         <input id="invoiceDemand" class="cmn-toggle cmn-toggle-round pull-right" type="checkbox">
@@ -162,7 +162,7 @@
                         <!--        </ul>-->
                         <!--    </div>-->
                         <!--</div>-->
-                        
+
                         <span>Tech Fees</span>
                     </div>
 
@@ -185,13 +185,13 @@
                             <input type="text" id="rateValue" class="form-control" maxlength="80">
                         </div>
                     </div>
-                    
+
                     <!--Service Fee-->
                     <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                         <label class="col-sm-12 greyTxt">(Optional) Billed For:</label>
                         <span>Service Fees</span>
                     </div>
-                    
+
                     <div class="col-md-8 zeroPadding methodFees techFees"
                          style="padding-left: 15px;">
                         <label class="col-sm-12 greyTxt">Rate Type:</label>
@@ -226,7 +226,7 @@
                         <label class="col-sm-12 greyTxt">(Optional) Billed For:</label>
                         <span>Cost</span>
                     </div>
-                    
+
                     <div class="col-md-8 zeroPadding methodFees techFees"
                          style="padding-left: 15px;">
                         <label class="col-sm-12 greyTxt">Rate Type:</label>
@@ -279,9 +279,10 @@
                             <div class="input-group searchInputForm" >
                                 <input type="text"
                                        class="form-control"
+                                       search-box
                                        name="usersSearch"
                                        placeholder="Search Pixels...">
-                                <div class="btn btn-default searchClearInputBtn" data-ng-click="searchHideInput()">
+                                <div class="btn btn-default searchClearInputBtn" data-ng-click="searchHideInput($event)">
                                     <span class="icon-clear zeroMargin" aria-hidden="true"></span>
                                 </div>
                             </div>
