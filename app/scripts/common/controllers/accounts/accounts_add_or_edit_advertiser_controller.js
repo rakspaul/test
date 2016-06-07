@@ -41,8 +41,8 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                     } else {
                         console.log('Error: To get the sub-category list');
                     }
-                },function (err) {
-                    console.log('Error: To get the sub-category list');
+                }, function (err) {
+                    console.log('Error = ', err);
                 });
         };
 
@@ -67,6 +67,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                         _currCtrl.getIABSubCategoryList($scope.advertiserAddOrEditData.selectedIABCategoryId);
                     }
                 }, function (err) {
+                    console.log('Error = ', err);
                 });
         };
 
@@ -85,6 +86,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                         // TODO: Do something with the returned data???
                     }
                 }, function (err) {
+                    console.log('Error = ', err);
                 });
         };
 
@@ -101,6 +103,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                         $scope.advertiserAddOrEditData.resAdChoiceData = res.data.data;
                     }
                 }, function (err) {
+                    console.log('Error = ', err);
                 });
         };
 
@@ -120,6 +123,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                     }
                 }, function (err) {
                     _currCtrl.getAdChoiceDataFromClient();
+                    console.log('Error = ', err);
                 });
         };
 
@@ -146,7 +150,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                             console.log('Error: Save Ad Choice in Advertiser');
                         }
                     }, function (err) {
-                        console.log('Error: Save Ad Choice in Advertiser');
+                        console.log('Error = ', err);
                     });
             }
         };
@@ -208,11 +212,12 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                         if ($scope.isEditMode) {
                             $rootScope.setErrAlertMessage('Advertiser updated successfully', 0);
                         } else {
-                            $rootScope.setErrAlertMessage('Advertiser add successfully', 0);
+                            $rootScope.setErrAlertMessage('Advertiser added successfully', 0);
                         }
                     }
                 }, function (err) {
                     $scope.close();
+                    console.log('Error = ', err);
 
                     if ($scope.isEditMode) {
                         $rootScope.setErrAlertMessage('Error in updating advertiser under client.', 0);
@@ -239,6 +244,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                     }
                 }, function (err) {
                     $scope.close();
+                    console.log('Error = ', err);
                     $rootScope.setErrAlertMessage(constants.ERR_ADD_PIXEL);
                 });
         }
@@ -282,6 +288,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                     }
                 }, function (err) {
                     $scope.close();
+                    console.log('Error = ', err);
                     $rootScope.setErrAlertMessage('Error in creating advertiser under client.');
                 });
         }
@@ -296,6 +303,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
             } else {
                 respBody.name = $scope.advertiserName;
             }
+
             return respBody;
         }
 
@@ -307,28 +315,49 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
 
                     if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
                         billingTypes = res.data.data;
-                        console.log('Billing types = ', billingTypes)
+
+                        // Billing types for "Service Fees"
+                        // id = 6 (COGS)
+                        // id = 8 (CPM)
+                        $scope.billingData.serviceFees.billingTypesArr =  billingTypes.filter(function (obj) {
+                            return obj.id === 6 || obj.id === 8;
+                        });
+
+                        // Sort the array in desc. order so that CPM comes first
+                        $scope.billingData.serviceFees.billingTypesArr.sort(function (a, b) {
+                            return a.id < b.id;
+                        });
+
+                        if ($scope.clientObj && $scope.clientObj.billingTypeId) {
+                            $scope.billingData.serviceFees.billingTypeId = $scope.clientObj.billingTypeId;
+
+                            selectedBillingTypeName =
+                                $scope.billingData.serviceFees.billingTypesArr.filter(function (obj) {
+                                    return obj.id === $scope.clientObj.billingTypeId;
+                                });
+
+                            $scope.billingData.serviceFees.billingTypeId = selectedBillingTypeName[0].name;
+                        }
+
                         // Billing types for "Cost"
                         // id = 6 (COGS)
-                        $scope.billingData.billingTypesArr =  billingTypes.filter(function (obj) {
+                        $scope.billingData.cost.billingTypesArr =  billingTypes.filter(function (obj) {
                             return obj.id === 6;
                         });
 
-                        $scope.billingData.billingTypesArr.push({
+                        $scope.billingData.cost.billingTypesArr.push({
                             id: -1,
                             name: 'Arbitrage'
                         });
 
-console.log('getBillingTypes(), $scope.billingData.billingTypesArr = ', $scope.billingData.billingTypesArr)
-                        // Billing data
                         if ($scope.clientObj && $scope.clientObj.billingTypeId) {
-                            $scope.billingData.selectedBillingType.id = $scope.clientObj.billingTypeId;
+                            $scope.billingData.cost.billingTypeId = $scope.clientObj.billingTypeId;
 
-                            selectedBillingTypeName = $scope.billingData.billingTypesArr.filter(function (obj) {
+                            selectedBillingTypeName = $scope.billingData.cost.billingTypesArr.filter(function (obj) {
                                 return obj.id === $scope.clientObj.billingTypeId;
                             });
 
-                            $scope.billingData.selectedBillingType.name = selectedBillingTypeName[0].name;
+                            $scope.billingData.cost.billingTypeName = selectedBillingTypeName[0].name;
                         }
                     }
                 }, function (err) {
@@ -339,36 +368,52 @@ console.log('getBillingTypes(), $scope.billingData.billingTypesArr = ', $scope.b
         $scope.advertiserData.disableDownLoadPixel = true;
 
         $scope.billingData = {
-            selectedBilledFor: {
-                type: 'Select',
-                value: ''
+            techFees: {
+                name: 'Tech Fees',
+                value: 'TECH_FEES',
+                billingTypeId: '8',
+                billingTypeName: 'CPM',
+                billingValue: null
             },
 
-            billedFor: {
-                Cost: 'COST',
-                None: 'NONE'
+            serviceFees: {
+                name: 'Service Fees',
+                value: 'SERVICE_FEES',
+                billingTypeId: '8',
+                billingTypeName: 'CPM',
+                billingValue: null,
+                billingTypesArr: []
             },
 
-            billedForArr: [
-                {name: 'Cost', value: 'COST'},
-                {name: 'None', value: 'NONE'}
-            ],
-
-            selectedBillingType: {
-                id: 0,
-                name: 'Select'
-            },
-
-            billingTypesArr: []
+            cost: {
+                name: 'Cost',
+                value: 'COST',
+                billingTypeId: 6,
+                billingTypeName: 'COGS+ %',
+                billingValue: null,
+                billingTypesArr: []
+            }
         };
         $scope.selectedRateType = 'Select';
 
         $scope.advertiserAddOrEditData.selectedIABCategory = 'Select';
         $scope.advertiserAddOrEditData.selectedIABSubCategory = 'Select';
 
-        $scope.selectedBillingTypeChanged = function (billingType) {
-            $scope.billingData.selectedBillingType.id = billingType.id;
-            $scope.billingData.selectedBillingType.name = billingType.name;
+        $scope.selectedBillingTypeChanged = function (billingType, billedFor) {
+            if (billedFor === 'SERVICE_FEES') {
+                $scope.billingData.serviceFees.billingTypeId = billingType.id;
+                $scope.billingData.serviceFees.billingTypeName = billingType.name;
+                $scope.billingData.serviceFees.billingValue = null;
+                $('#serviceFeesBillingValue').trigger('focus');
+            } else if (billedFor === 'COST') {
+                $scope.billingData.cost.billingTypeId = billingType.id;
+                $scope.billingData.cost.billingTypeName = billingType.name;
+                $scope.billingData.cost.billingValue = null;
+
+                setTimeout(function () {
+                    $('#costBillingValue').trigger('focus');
+                }, 0);
+            }
         };
 
         $scope.showUserModeText = function () {
@@ -422,7 +467,7 @@ console.log('getBillingTypes(), $scope.billingData.billingTypesArr = ', $scope.b
 
             if (_currCtrl.downloadPixelIds.length &&
                 (_currCtrl.downloadPixelIds.length < $scope.advertiserData.pixels.length)) {
-                url += '?id='+ _currCtrl.downloadPixelIds.join(',');
+                url += '?id=' + _currCtrl.downloadPixelIds.join(',');
             }
 
             dataService
@@ -435,6 +480,7 @@ console.log('getBillingTypes(), $scope.billingData.billingTypesArr = ', $scope.b
                         $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_ERR);
                     }
                 }, function (err) {
+                    console.log('Error = ', err);
                     $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_ERR);
                 });
         };
@@ -442,6 +488,7 @@ console.log('getBillingTypes(), $scope.billingData.billingTypesArr = ', $scope.b
         $scope.selectPixel = function (pixelId, isSelected) {
             if (isSelected) {
                 $scope.advertiserData.disableDownLoadPixel = false;
+
                 if (_currCtrl.downloadPixelIds.indexOf(pixelId) === -1) {
                     _currCtrl.downloadPixelIds.push(pixelId);
                 }
@@ -523,7 +570,7 @@ console.log('getBillingTypes(), $scope.billingData.billingTypesArr = ', $scope.b
         _currCtrl.getIABCategoryList();
 
         getBillingTypes();
-console.log('$scope.billingData.billingTypesArr = ', $scope.billingData.billingTypesArr);
+
         if ($scope.isEditMode) {
             $scope.getAdnlData();
 

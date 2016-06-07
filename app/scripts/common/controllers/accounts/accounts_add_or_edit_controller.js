@@ -7,7 +7,6 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
         angularAMD.controller('AccountsAddOrEdit', function ($scope, $rootScope, $modalInstance, accountsService,
                                                              constants) {
             var _currCtrl = this,
-                selectedBilledForType,
                 selectedBillingTypeName;
 
             _currCtrl.isAdChoiceInClient = false;
@@ -119,6 +118,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                     respBody.billableAccountId = $scope.billableAccountId;
                 }
 
+                // TODO: This has to be modified to match with the new API
                 if ($scope.billingData.selectedBilledFor.value && $scope.billingData.selectedBillingType.id) {
                     respBody.billedFor = $scope.billingData.selectedBilledFor.value;
                     respBody.billingTypeId = $scope.billingData.selectedBillingType.id;
@@ -186,19 +186,13 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
 
                             // Billing data
                             if ($scope.clientObj && $scope.clientObj.billingTypeId) {
-                                // TODO: Temp. Remove the following if statement later.
-                                if ($scope.clientObj.billingTypeId !== 6 && $scope.clientObj.billingTypeId !== 8) {
-                                    $scope.clientObj.billingTypeId = 8;
-                                }
-                                // END TODO:
-
-                                $scope.billingData.selectedBillingType.id = $scope.clientObj.billingTypeId;
+                                $scope.billingData.serviceFees.billingTypeId = $scope.clientObj.billingTypeId;
 
                                 selectedBillingTypeName = $scope.billingData.billingTypesArr.filter(function (obj) {
                                     return obj.id === $scope.clientObj.billingTypeId;
                                 });
 
-                                $scope.billingData.selectedBillingType.name = selectedBillingTypeName[0].name;
+                                $scope.billingData.serviceFees.billingTypeId = selectedBillingTypeName[0].name;
                             }
                         }
                     }, function (err) {
@@ -209,30 +203,23 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
             $scope.currencySelected = '';
 
             $scope.billingData = {
-                selectedBilledFor: {
-                    type: 'Select',
-                    value: ''
+                techFees: {
+                    name: 'Tech Fees',
+                    value: 'TECH_FEES',
+                    billingTypeId: '8',
+                    billingTypeName: 'CPM',
+                    billingValue: null
                 },
 
-                billedFor: {
-                    'Tech Fees': 'TECH_FEES',
-                    'Service Fees': 'SERVICE_FEES',
-                    None: 'NONE'
+                serviceFees: {
+                    name: 'Service Fees',
+                    value: 'SERVICE_FEES',
+                    billingTypeId: '8',
+                    billingTypeName: 'CPM',
+                    billingValue: null
                 },
 
-                billedForArr: [
-                    {name: 'Tech Fees', value: 'TECH_FEES'},
-                    {name: 'Service Fees', value: 'SERVICE_FEES'},
-                    {name: 'None', value: 'NONE'}
-                ],
-
-                selectedBillingType: {
-                    id: 0,
-                    name: 'Select'
-                },
-
-                billingTypesArr: [],
-                billingValue: 0
+                billingTypesArr: []
             };
 
             $scope.referenceId = '';
@@ -240,33 +227,13 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
             getCountries();
             getTimezones();
 
-            $scope.showRespectiveMethod = function (type) {
-                var result = $scope.billingData.billedForArr.filter(function (obj) {
-                    return obj.name === type;
-                });
-
-                if (result.length) {
-                    $scope.billingData.selectedBilledFor.type = result[0].name;
-                    $scope.billingData.selectedBilledFor.value = result[0].value;
-
-                    // Set CPM as default for selectedBillingType for Tech Fees,
-                    // and 'Select' for Service Fees
-                    if ($scope.billingData.selectedBilledFor.value === 'TECH_FEES') {
-                        $scope.billingData.selectedBillingType.id = $scope.billingData.billingTypesArr[0].id;
-                        $scope.billingData.selectedBillingType.name = $scope.billingData.billingTypesArr[0].name;
-                    } else {
-                        $scope.billingData.selectedBillingType.id = 0;
-                        $scope.billingData.selectedBillingType.name = 'Select';
-                    }
-
-                    // Reset billing value to 0
-                    $scope.billingData.billingValue = 0;
-                }
-            };
-
             $scope.selectedBillingTypeChanged = function (billingType) {
-                $scope.billingData.selectedBillingType.id = billingType.id;
-                $scope.billingData.selectedBillingType.name = billingType.name;
+                $scope.billingData.serviceFees.billingTypeId = billingType.id;
+                $scope.billingData.serviceFees.billingTypeName = billingType.name;
+                $scope.billingData.serviceFees.billingValue = null;
+                $('#serviceFeesBillingValue').trigger('focus');
+console.log('$scope.billingData.serviceFees = ', $scope.billingData.serviceFees,
+', $scope.billingData.serviceFees.billingValue = ', !!$scope.billingData.serviceFees.billingValue)
             };
 
             $scope.showUserModeText = function () {
@@ -320,6 +287,8 @@ console.log('body = ', body, ', body.id = ', body.id);
                             } else {
                                 console.log('failure??');
                             }
+                        }, function (err) {
+                            console.log('Error = ', err);
                         });
                 } else {
                     if ($scope.isCreateTopClient) {
@@ -333,6 +302,8 @@ console.log('createBillableAccount(), result = ', result);
 console.log('createBillableAccount(), body = ', body);
                                     createClient(body);
                                 }
+                            }, function (err) {
+                                console.log('Error = ', err);
                             });
                     } else {
                         accountsService
@@ -344,7 +315,8 @@ console.log('createBillableAccount(), body = ', body);
                                     body.parentId = $scope.clientObj;
                                     createClient(body);
                                 }
-                            },function (err) {
+                            }, function (err) {
+                                console.log('Error = ', err);
                             });
                     }
                 }
@@ -384,21 +356,16 @@ console.log('createBillableAccount(), body = ', body);
                 }, 100);
             }
 
-            // Billing & Invoice
+            // TODO: Billing & Invoice to match the new API
             if ($scope.clientObj && $scope.clientObj.billedFor) {
-                $scope.billingData.selectedBilledFor.value = $scope.clientObj.billedFor;
-
-                selectedBilledForType = $scope.billingData.billedForArr.filter(function (obj) {
-                    return obj.value === $scope.clientObj.billedFor;
-                });
-
-                $scope.billingData.selectedBilledFor.type = selectedBilledForType[0].name;
+                    console.log('$scope.clientObj = ', $scope.clientObj);
             }
 
             getBillingTypes();
 
             if ($scope.clientObj && $scope.clientObj.billingValue) {
-                $scope.billingData.billingValue = $scope.clientObj.billingValue;
+                $scope.billingData.techFees.billingValue = $scope.clientObj.billingValue;
+                $scope.billingData.serviceFees.billingValue = $scope.clientObj.billingValue;
             }
             // End Billing & Invoice
         });

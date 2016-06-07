@@ -136,34 +136,7 @@
                     <!--Billed-->
                     <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                         <label class="col-sm-12 greyTxt">(Optional) Billed For:</label>
-                        <!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
-                        <!--    <div class="dropdown">-->
-                        <!--        <button class="btn btn-default dropdown-toggle"-->
-                        <!--                type="button"-->
-                        <!--                data-toggle="dropdown"-->
-                        <!--                aria-haspopup="true"-->
-                        <!--                aria-expanded="true">-->
-                        <!--            <span class="text" data-ng-bind="selectedBillType">Arbitrage</span>-->
-                        <!--            <span class="icon-arrow-down"></span>-->
-                        <!--        </button>-->
-                        <!--        <ul class="dropdown-menu" data-toggle="dropdown">-->
-                        <!--            <li class="available">-->
-                        <!--                <a data-ng-click="showRespectiveMethod('Tech Fees')">Tech Fees</a>-->
-                        <!--            </li>-->
-                        <!--            <li class="available">-->
-                        <!--                <a data-ng-click="showRespectiveMethod('Service Fees')">Service Fees</a>-->
-                        <!--            </li>-->
-                        <!--            <li class="available">-->
-                        <!--                <a data-ng-click="showRespectiveMethod('Cost')">Cost</a>-->
-                        <!--            </li>-->
-                        <!--            <li class="available">-->
-                        <!--                <a data-ng-click="showRespectiveMethod('None')">None</a>-->
-                        <!--            </li>-->
-                        <!--        </ul>-->
-                        <!--    </div>-->
-                        <!--</div>-->
-
-                        <span>Tech Fees</span>
+                        <span data-ng-bind="billingData.techFees.name"></span>
                     </div>
 
                     <!--Tech Fees-->
@@ -177,19 +150,24 @@
                                     aria-haspopup="true"
                                     aria-expanded="true"
                                     disabled>
-                                <span class="text">CPM</span>
+                                <span class="text" data-ng-bind="billingData.techFees.billingTypeName"></span>
                             </button>
                         </div>
                         <div class="form-group col-md-4" style="margin-top: -36px;">
-                            <label class="col-sm-12 greyTxt" for="rateValue">Value:</label>
-                            <input type="text" id="rateValue" class="form-control" maxlength="80">
+                            <label class="col-sm-12 greyTxt" for="techFeesBillingValue">Value:</label>
+                            <input type="text"
+                                   id="techFeesBillingValue"
+                                   class="form-control"
+                                   maxlength="80"
+                                   data-ng-model="billingData.techFees.billingValue"
+                                   placeholder="Add some value">
                         </div>
                     </div>
 
                     <!--Service Fee-->
                     <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                         <label class="col-sm-12 greyTxt">(Optional) Billed For:</label>
-                        <span>Service Fees</span>
+                        <span data-ng-bind="billingData.serviceFees.name"></span>
                     </div>
 
                     <div class="col-md-8 zeroPadding methodFees techFees"
@@ -202,22 +180,26 @@
                                         data-toggle="dropdown"
                                         aria-haspopup="true"
                                         aria-expanded="true">
-                                    <span class="text" data-ng-bind="selectedRateType"></span>
+                                    <span class="text" data-ng-bind="billingData.serviceFees.billingTypeName"></span>
                                     <span class="icon-arrow-down" style="margin-left:172px"></span>
                                 </button>
                                 <ul class="dropdown-menu" data-toggle="dropdown">
-                                    <li class="available">
-                                        <a data-ng-click="selectedRateType='COGS'">COGS</a>
-                                    </li>
-                                    <li class="available">
-                                        <a data-ng-click="selectedRateType='CPM'">CPM</a>
+                                    <li class="available"
+                                        data-ng-repeat="billingType in billingData.serviceFees.billingTypesArr">
+                                        <a data-ng-click="selectedBillingTypeChanged(billingType, 'SERVICE_FEES')"
+                                           data-ng-bind="billingType.name"></a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="form-group col-md-4" style="margin-top: -36px">
                             <label class="col-sm-12 greyTxt">Value:</label>
-                            <input type="text" class="form-control" maxlength="80" placeholder="Add some value">
+                            <input type="text"
+                                   id="serviceFeesBillingValue"
+                                   data-ng-model="billingData.serviceFees.billingValue"
+                                   class="form-control"
+                                   maxlength="80"
+                                   placeholder="Add some value">
                         </div>
                     </div>
 
@@ -237,24 +219,27 @@
                                         data-toggle="dropdown"
                                         aria-haspopup="true"
                                         aria-expanded="true">
-                                    <span class="text" data-ng-bind="selectedRateType"></span>
+                                    <span class="text" data-ng-bind="billingData.cost.billingTypeName"></span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" data-toggle="dropdown">
-                                    <li class="available">
-                                        <a data-ng-click="selectedRateType='COGS'">COGS</a>
-                                    </li>
-                                    <li class="available">
-                                        <a data-ng-click="selectedRateType='Arbitrage'">Arbitrage</a>
+                                    <li class="available"
+                                        data-ng-repeat="billingType in billingData.cost.billingTypesArr">
+                                        <a data-ng-click="selectedBillingTypeChanged(billingType, 'COST')"
+                                           data-ng-bind="billingType.name"></a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="form-group col-md-4"
                              style="margin-top: -36px"
-                             data-ng-show="selectedRateType=='COGS'">
+                             data-ng-show="billingData.cost.billingTypeId === 6">
                             <label class="col-sm-12 greyTxt">Value:</label>
-                            <input type="text" class="form-control" maxlength="80" placeholder="Add some value">
+                            <input type="text"
+                                   id="costBillingValue"
+                                   class="form-control"
+                                   maxlength="80"
+                                   placeholder="Add some value">
                         </div>
                     </div>
                 </div>
