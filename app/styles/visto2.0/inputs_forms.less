@@ -71,15 +71,15 @@ select {
     border-radius: 2px !important;
     -webkit-appearance: none;
     -webkit-border-radius: 2px;
-    
+
     padding: 10px 30px 10px 15px;
     box-shadow: none !important;
     text-align: center;
     line-height: 16px;
     font-size: 14px;
     height: 36px;
-    width: auto; 
-    
+    width: auto;
+
     cursor: pointer;
     overflow: hidden;
     background: url(../../images/cdesk/arrow_down2.png) no-repeat right #fff;
@@ -105,8 +105,8 @@ select:hover {
   }
   .input-group {
     position: relative;
-    display: none;
-    width: 34px;
+    width: auto;
+    min-width: 300px;
     float: right;
     /* margin-right: 1px; */
     input {
@@ -114,7 +114,7 @@ select:hover {
       border-bottom-right-radius: 0px !important;
       height: 36px !important;
       border: 1px solid #BFC9D7;
-      /* border-right: 0px; */
+      border-right: 0px;
     }
     input:focus {
       border: 1px solid #0978c9 !important;
@@ -144,7 +144,6 @@ select:hover {
     }
   }
   .searchInputBtnInline {
-    display: none;
     float: right;
     background: #DCE6F1;
     border-left: 1px solid #BFC9D7 !important;
@@ -153,22 +152,8 @@ select:hover {
   }
   .searchClearInputBtn {
     [class^="icon-"], [class*=" icon-"] {
-      background: #fff !important;
-    }
-  }
-}
-
-.searchInput.geography {
-    height: auto;
-    .input-group {
-      display: block;
-      width: 100%;
-    input {
-      border-width: 1px;
-      border-right: 1px solid #BFC9D7;
-    }
-    .btn {
-      position: relative;
+      background: transparent !important;
+        display: none;
     }
   }
 }
@@ -233,7 +218,7 @@ select:hover {
 // Search Input
 .searchInput {
     .input-group {
-        width: 100%;
+        //width: 100%;
 
         input[type="text"] {
             margin: 0;

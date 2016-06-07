@@ -12,7 +12,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         end = momentService.utcToLocalTime(campaignData.endTime),
                         start = momentService.utcToLocalTime(campaignData.startTime);
 
-                    campaignData.numOfDays = moment(end).diff(moment(start), 'days') + 1;
+                    campaignData.numOfDays = moment(end).diff(moment(start), 'days');
 
                     $scope.isEndDateInPast = moment().isAfter(end, 'day');
                 },
@@ -447,28 +447,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             };
 
-            //Search Hide / Show
-            $scope.adGroupsShowInput = function () {
-                var searchInputForm = $('.searchInputForm');
-
-                $('.searchInputBtn').hide();
-                $('.searchInputBtnInline').show();
-                searchInputForm.show();
-                searchInputForm.animate({width: '400px'}, 'fast');
-                setTimeout(function () {
-                    $('.searchClearInputBtn').fadeIn();
-                }, 300);
-            };
-
-            $scope.adGroupsHideInput = function () {
+            //Search Clear
+            $scope.adGroupsHideInput = function (evt) {
                 $('.searchInputForm input').val('');
-                $('.searchInputBtn').show();
-                $('.searchClearInputBtn, .searchInputBtnInline').hide();
-                $('.searchInputForm').animate({width: '44px'}, 'fast');
-                setTimeout(function () {
-                    $('.searchInputForm').hide();
-                }, 100);
-
+                $(evt.target).hide();
                 if ($scope.isAdGroupsSearched) {
                     $scope.isAdGroupsSearched = false;
                     $scope.isAdGroupsSearchReset = true;
@@ -784,6 +766,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     setStartDate,
                     setEndDate;
 
+                //validate the new ad group button
+                if($scope.budgetAvailable <= 0){
+                    $rootScope.setErrAlertMessage($scope.textConstants.BUDGET_EXCEEDED);
+                    return false;
+                } else if($scope.isEndDateInPast){
+                    $rootScope.setErrAlertMessage($scope.textConstants.MEDIAPLAN_FLIGHTPASSED_NO_NEW_ADS);
+                    return false;
+                }
+
                 $scope.isMinimumAdGroupBudget = true;
                 $scope.isMaximumAdGroupBudget = true;
 
@@ -835,7 +826,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.workflowData.campaignData.bookedSpend) + Math.ceil($scope.adGroupMinBudget);
             };
 
-            $scope.setLineItem = function (lineitemId) {
+            $scope.setLineItem = function (adgroupData) {
+                var lineitemId = adgroupData.lineitemId;
+                $scope.startTime = momentService.utcToLocalTime(adgroupData.startTime);
+                $scope.endTime = momentService.utcToLocalTime(adgroupData.endTime);
+
                 var matchedLineItem = campaignOverView.getLineItem(lineitemId);
                 $scope.selectLineItems(null, matchedLineItem);
             };
@@ -946,10 +941,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 if (startTime) {
-                    changeDate = moment(startTime).format(constants.DATE_US_FORMAT);
-                    endDateElem.datepicker('setStartDate', changeDate);
-                    endDateElem.datepicker('setEndDate', campaignEndTime);
-                    endDateElem.datepicker('update', changeDate);
+                    if (moment(startTime).isAfter($scope.endTime)) {
+                        changeDate = moment(startTime).format(constants.DATE_US_FORMAT);
+                        endDateElem.datepicker('setStartDate', changeDate);
+                        endDateElem.datepicker('setEndDate', campaignEndTime);
+                        endDateElem.datepicker('update', changeDate);
+                    } else {
+                        endDateElem.datepicker("setStartDate", startTime);
+                    }
                 }
             };
 
@@ -1112,7 +1111,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.calculateSpendBudget = function (adGroupsData) {
                 var deliveryBudget = $scope.calculateBudget(adGroupsData);
 
-                if (parseInt(deliveryBudget) === 0) {
+                if (parseFloat(deliveryBudget) === 0) {
                     return 0;
                 } else {
                     if (adGroupsData.bookedSpend && adGroupsData.bookedSpend > 0) {
@@ -1152,6 +1151,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 $scope.startTime = startTime;
                 $scope.handleFlightDate(formElem, startTime);
+            });
+
+            $(document).on('changeDate', '.adGrpEndDateInput', function (ev) {
+                var formElem = $(ev.target).closest('form'),
+                    endTime = $(ev.target).val();
+
+                $scope.endTime = endTime;
             });
         });
     }

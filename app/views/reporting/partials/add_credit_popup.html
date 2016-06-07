@@ -8,19 +8,19 @@
 
         <div class="col-md-12 zeroPadding">
             <div class="pull-left accountTitleTag" style="margin-bottom:20px;">
-            <span class="tagTitle">Account</span>
-            <span>VISTO QA</span>
+            <span class="tagTitle">Account:</span>
+            <span>{{mediaPlanList[0].account}}</span>
             <span class="slash-divider" style="padding-left:5px;">/</span>
            </div>
             <div class="pull-left" style="padding-left:5px;">
-                <span class="tagTitle">Advertiser</span>
-                <span>QAUS NYC</span>
-                <span class="slash-divider">/</span>
+                <span class="tagTitle">Advertiser:</span>
+                <span>{{mediaPlanList[0].advertiser}}</span>
+                <span class="slash-divider" style="padding-left:5px;">/</span>
             </div>
 
             <div class="pull-left" style="padding-left:5px;">
-                <span class="tagTitle">Invoice ID</span>
-                <span class="ng-binding">1059</span>
+                <span class="tagTitle">Invoice ID:</span>
+                <span class="ng-binding">{{addCreditData.invoice.invoiceId}}</span>
             </div>
         </div>
     </div>

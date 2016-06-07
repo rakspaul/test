@@ -57,6 +57,7 @@ define(['angularAMD','reporting/editActions/edit_actions_service', 'common/servi
             var line = data.name;
             var split = line.split("\n");
             var splitlength = split.length;
+            var i;
             if(splitlength > max_line){
                 var txt_data ='';
                 for(i=0; i< max_line;i++){
@@ -81,7 +82,7 @@ define(['angularAMD','reporting/editActions/edit_actions_service', 'common/servi
                 $scope.saveBtnDisabled = true;
                 $scope.commentError = false;
                 editActionsService.editAction(data).then( function (response){
-               if(response) {
+               if(response !== null || response !== undefined) {
                     var args = {'loadingFlag':2,'showExternal':$scope.activityLogFilterByStatus};
                     $rootScope.$broadcast(constants.EVENT_ACTION_CREATED,args);
                     $scope.editError = undefined;
@@ -116,7 +117,7 @@ define(['angularAMD','reporting/editActions/edit_actions_service', 'common/servi
         $scope.$on('$destroy', function() {
             closeEditActivityScreenFunc();
         });
-        
+
         var winHeight = $(document).height();
         $(".edit_activity_log_holder").css('height',winHeight - 50);
 

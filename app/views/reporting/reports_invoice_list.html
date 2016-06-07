@@ -11,27 +11,25 @@
             </div>
         </div>
 
+        <!--Search-->
         <div class="col-md-8">
             <div class="btn-group pull-right">
                 <button type="button" class="btn btn-default pull-right" style="display: none">
                     <span class="icon-filter" style="margin: -1px 0 0;"></span>
                 </button>
                 <div class="searchInput pull-right">
-                    <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
-                        <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
-                    </a>
-
                     <a class="btn btn-default searchInputBtnInline" ng-click="invoiceReportsSearchFunc()">
                         <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
                     </a>
                     <div class="input-group searchInputForm" >
                         <input type="text"
-                               class="form-control"
+                               class="form-control",
+                               search-box
                                name="invoiceReportsSearch"
                                ng-keyup="invoiceReportsSearchFunc($event)"
                                ng-model="invoiceReports.searchTerm"
                                placeholder="Search Invoice Reports...">
-                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
+                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput($event)">
                             <span class="icon-clear" aria-hidden="true"></span>
                         </div>
                     </div>
@@ -131,7 +129,7 @@
                 <div class="dropdown-workflow">
                     <div class="dropdown hideOption">
                         <div class="option-horizontal">
-                            <a class="pull-left" tooltip="{{mediaPlan.mediaPlanName}}" ng-click="invoiceReports.download($event, invoice)">
+                            <a class="pull-left" tooltip="Download all Invoice Reports" ng-click="invoiceReports.download($event, mediaPlan)">
                                 <span class="icon-download zeroPadding pull-left"></span>
                             </a>
                         </div>
@@ -139,10 +137,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2 td tableTd invoice-date" data-ng-bind="mediaPlan.invoiceDate" style="min-height: 80px"></div>
-        <div class="col-md-1 td tableTd" ng-bind="constants.currencySymbol + mediaPlan.spend" style="min-height: 80px"></div>
-        <div class="col-md-1 td tableTd" ng-bind="constants.currencySymbol + mediaPlan.credits" style="min-height: 80px"></div>
-        <div class="col-md-1 td tableTd" ng-bind="constants.currencySymbol + (mediaPlan.spend - mediaPlan.credits)" style="min-height: 80px"></div>
+        <div class="col-md-2 td tableTd invoice-date" data-ng-bind="mediaPlan.invoiceDate" style="min-height: 80px;"></div>
+        <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.spend |number:0)" style="min-height: 80px;"></div>
+        <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.credits | number:0)" style="min-height: 80px;"></div>
+        <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.spend - mediaPlan.credits |number:0)" style="min-height: 80px;"></div>
         <div class="col-md-2 td tableTd" data-ng-bind="mediaPlan.account+'/'+mediaPlan.advertiser" style="min-height: 80px"></div>
         <!-- <div class="col-md-2 td" ng-bind="mediaPlan.account +'/'+ mediaPlan.advertiser"></div> -->
     </div>
@@ -188,14 +186,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 td" ng-bind="invoice.invoiceDate">Date</div>
-                <div class="col-md-1 td text-center" ng-bind="constants.currencySymbol + invoice.spend"></div>
-                <div class="col-md-1 td text-center" ng-bind="constants.currencySymbol + invoice.credits">Credits</div>
-                <div class="col-md-1 td text-center" ng-bind="constants.currencySymbol +'  '+ (invoice.spend - invoice.credits)"></div>
+                <div class="col-md-2 td" ng-bind="invoice.invoiceDate"></div>
+                <div class="col-md-1 td text-right" ng-bind="constants.currencySymbol + (invoice.spend | number:0)"></div>
+                <div class="col-md-1 td text-right" ng-bind="constants.currencySymbol + (invoice.credits | number:0)"></div>
+                <div class="col-md-1 td text-right" ng-bind="constants.currencySymbol +'  '+ (invoice.spend - invoice.credits | number:0)"></div>
                 <div class="col-md-2 td"></div>
             </div>
 
-        </div><!-- rowHover -->
+        </div><!-- rowHover invoice.credits | number:3 -->
 
         <div class="col-md-12" ng-bind-html="textConstants.INVOICE_VIEW_REPORT_ALL" ng-show="loadMoreInvoice_{{$index}}" data-ng-click="loadMoreInvoice($index)"
              style="text-align: center; padding-top:7px; height:36px; border: 1px solid rgba(191, 201, 215, 0.5);"></div>

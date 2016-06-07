@@ -89,7 +89,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
 
                 //Geo Targeting
                 $('#zip #zipCodes').css('min-height', winHeight - 310 + 'px');
-                $('#regions .list_row_holder').css('min-height', winHeight - 380 + 'px');
+                $('.geo-tab-content .targetting-tab-body').css('min-height', winHeight - 380 + 'px');
                 $('#dmas .list_row_holder').css('min-height', winHeight - 370 + 'px');
 
                 //Day Targeting
@@ -185,6 +185,20 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                     excludeLabel = [],
                     str = '';
 
+                if (data.COUNTRY && data.COUNTRY.geoTargetList.length > 0) {
+                    if (data.COUNTRY.isIncluded) {
+                        includedCount = data.COUNTRY.geoTargetList.length;
+                        str = data.COUNTRY.geoTargetList.length +
+                            ((data.COUNTRY.geoTargetList.length > 1) ? ' Countries' : ' Country');
+                        includeLabel.push(str);
+                    } else {
+                        excludeCount = data.COUNTRY.geoTargetList.length;
+                        str = data.COUNTRY.geoTargetList.length +
+                            ((data.COUNTRY.geoTargetList.length > 1) ? ' Countries' : ' Country');
+                        excludeLabel.push(str);
+                    }
+                }
+
                 if (data.REGION && data.REGION.geoTargetList.length > 0) {
                     if (data.REGION.isIncluded) {
                         includedCount = data.REGION.geoTargetList.length;
@@ -233,7 +247,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                             ((data.ZIP_CODE.geoTargetList.length > 1) ? 's' : '');
                         includeLabel.push(str);
                     } else {
-                        excludeCount += data.ZIP_CODE.geoTargetList.length;
+                        excludeCount += data.ZIP_CODE.list.length;
                         str = data.ZIP_CODE.geoTargetList.length + ' Postal Code' +
                             ((data.ZIP_CODE.geoTargetList.length > 1) ? 's' : '');
                         excludeLabel.push(str);
@@ -243,7 +257,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                 previewObj.include =  {count: includedCount, label: includeLabel.join(' ')};
                 previewObj.exclude =  {count: excludeCount,  label: excludeLabel.join(' ')};
 
-                $scope.geoTargetingPreviewObj = previewObj;
+                $scope.geoPreviewData = previewObj;
             };
 
             $scope.showGeoTargetingForPreview = function () {
@@ -254,7 +268,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
             // geo Targeting Trigger
             $scope.selectGeoTarget = function () {
                 colResize();
-                $scope.$broadcast('triggerGeography');
+                $scope.$broadcast('trigger.Geo');
                 // show targeting in side bar
                 _targeting.setTargetingForPreview('Geography');
             };
@@ -262,12 +276,11 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
             $scope.deleteGeoTargetting = function () {
                 var adData;
 
-                $scope.adData.isGeographySelected = false;
-                $scope.geoTargetingPreviewObj = null;
+                $scope.geoPreviewData = null;
                 workflowService.resetDeleteModule();
                 workflowService.setSavedGeo(null);
                 $scope.adData.isGeographySelected  = null;
-                $scope.$broadcast('resetVariables');
+                $scope.$broadcast('reset.Geo');
 
                 if ($scope.mode === 'edit') {
                     adData = angular.copy(workflowService.getAdsDetails());

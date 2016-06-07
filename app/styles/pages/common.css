@@ -330,6 +330,10 @@
   border-bottom: 0px;
   padding: 30px 30px 0px 30px;
 }
+.popup-holder span.tagTitle {
+  color: #939eae;
+  margin-right: 5px;
+}
 .popup-holder .modal-body {
   padding: 0 30px 30px;
 }

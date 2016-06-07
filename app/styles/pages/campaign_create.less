@@ -207,7 +207,7 @@
         }
 
         #city {
-            padding: 0 0 0 15px;
+            /*padding: 0 0 0 15px;*/
         }
 
         #dayTargeting {
@@ -295,12 +295,13 @@
             max-height: 300px;
             overflow: auto;
             width: 100%;
+            margin-left: 20px ;
         }
 
         .list_val_col {
             margin-left: 10px;
-            max-width: 170px;
-            min-width: 170px;
+            max-width: 155px;
+            min-width: 155px;
 
             &:last-child {
                 //margin-left: 28px;
@@ -311,46 +312,46 @@
             margin: 0 0 20px 0;
             .nav-tabs {
                 border-width: 0;
-                margin: 0 !important;
+                left: 0;
+                margin: 26px 20px 20px 20px ;
+                width: auto;
                 li {
-                    color:#363D49;
-                    background-color: #ffffff !important;
-                    font-family: Avenir;
-                    border-radius: 2px;
-                    border: 1px solid #BFC9D7 !important;
-                    a {
-                        color:#363D49 !important;
-                        margin: 0 !important;
-                        background: transparent !important;
-                        padding: 0 !important;
-                        &:active {
+                    background: #fff;
+                    border: 1px solid #BFC9D7;
+                    border-bottom-right-radius: 2px;
+                    border-top-right-radius: 2px;
+                    text-align: center;
+                    padding: 0 20px;
+                    &.active {
+                        background: #0978c9;
+                        border: 1px solid #0978c9;
+
+                        a {
+                            background: #0978c9;
+                            color: #fff;
+                            font-family:  Avenir, sans-serif;
                             margin: 0;
                             background: transparent;
                             padding: 0;
                         }
                     }
-                    &:hover {
-                        background-color: #E1EDF9 !important;
-                        border: 1px solid #939EAE !important;
+                    a {
+                        color: #0978c9;
+                        padding: 6px 0;
+                        width: 100%;
                     }
                 }
-                li.active {
-                    background-color: #DCE6F1 !important;
-                    border: 1px solid #BFC9D7 !important;
-                    box-shadow: none;
-                    &:hover {
-                        background-color: #DCE6F1 !important;
-                        border: 1px solid #BFC9D7 !important;
-                        box-shadow: none;
-                    }
+                li:not(.active):hover {
+                    background: #f5f9fd;
                 }
             }
-            
+
         }
 
         #regions {
             border: 1px solid #dde6eb;
-            padding-left: 10px;
+            border-top: 0 ;
+            /*padding-left: 10px;*/
         }
 
         .tab-pane {
@@ -817,28 +818,6 @@
                                   width: 13px;
                               }
                           }
-                          
-                        .searchInputBtn {
-                            &:active, &:focus, &:hover, &:target {
-                                border-width: 0px !important;
-                            }
-                        }
-                          
-                        .searchClearInputBtn {
-                            right: 42px;
-                            border-right: 1px solid #BFC9D7;
-                            height: 36px;
-                            background: transparent !important;
-                            top: 0px;
-                            &:active, &:focus, &:hover, &:target {
-                                border-width: 0px !important;
-                                border-right: 1px solid #BFC9D7 !important;
-                            }
-                            .icon-clear {
-                                background: transparent !important;
-                                top: 1px;
-                            }
-                        }
                       }
 
                       .segBodyTable {
@@ -936,10 +915,10 @@
             border: 0 solid #E6E6E6;
             padding: 0 !important;
 
-            .col-md-12 .btn {
+            /*.col-md-12 .btn {
                 margin-top: 20px;
             }
-
+*/
             h2 {
                 color: #21252b;
                 font-size: 18px;
@@ -956,15 +935,118 @@
             .loading-icon {
                 margin-top: 0;
             }
-
-            .searchInput {
-                border-left: 1px solid #dde6eb;
-                border-right: 1px solid #dde6eb;
-                float: left;
-                padding: 20px 0 0 0;
-                width: 100%;
-
-                .geoTypeResult {
+            .include-label {
+                .btn-primary {
+                    margin: 0 ;
+                }
+            }
+            .targetting-each-content {
+                border: solid 1px #dde6eb ;
+                border-top: 0 ;
+                .external_chkbox  {
+                    margin-top: 0px ;
+                    .squaredFour {
+                         input[type=checkbox]:checked +  label {
+                            background : #3276b1 ;
+                            border: solid 1px #3276b1;
+                         }
+                         input[type=checkbox]:checked +  label:after {
+                            border-color: #fff ;
+                         }
+                    }
+                    .squaredFourTxt {
+                            width: 80%;
+                    }
+                }
+                .toggle-on {
+                    &:after {
+                        content: "";
+                        height: 16px;
+                        width: 8px;
+                        position: absolute;
+                        top: 6px;
+                        left: 18px;
+                        border: solid 3px #fff;
+                        border-top: 0;
+                        border-left: 0;
+                        transform: rotate(45deg);
+                        -webkit-transform: rotate(45deg);
+                        -moz-transform: rotate(45deg);
+                        border-radius: 0px 0 3px;
+                        -moz-border-radius: 0px 0 3px;
+                        -webkit-border-radius: 0px 0 3px;
+                    }
+                }
+                .toggle-off {
+                    &:after {
+                        content: "";
+                        position: absolute;
+                        height: 20px;
+                        width: 20px;
+                        background-repeat: no-repeat;
+                        background-position: center center;
+                        left: 25px;
+                        top: 5px;
+                        background-size: 75%;
+                        background-image: url(/images/workflow/icon_exclude.svg);
+                    }
+                }
+                textarea {
+                    margin-bottom: 10px ;
+                }
+            }
+            .include-label {
+                .btn-primary {
+                    margin: 0 ;
+                }
+            }
+            .exclude-label {
+                margin-top: 8px;
+            }
+            .targetting-tab-header {
+                 padding: 10px 20px ;
+                .target-label {
+                    color: #939eae ;
+                    display: inline-block;
+                    margin: 8px 10px 0 0 ;
+                }
+                .btn-group {
+                    .btn {
+                        color: #0978c9 ;
+                    }
+                    .common_tooltip {
+                        bottom: 46px;
+                    }
+                    .active {
+                        background: #3276b1 !important ;
+                        color: #fff ;
+                        border-color: #3276b1;
+                    }
+                }
+            }
+            .targetting-tab-subheader {
+                border-top: solid 1px #dde6eb;
+                border-bottom: solid 1px #dde6eb;
+                margin: 20px 0 0px ;
+                padding: 10px 0px 10px ;
+            }
+            .targetting-tab-body {
+                height: 200px;
+                min-height: 200px;
+                overflow: auto;
+                padding : 10px 0;
+                .each-targetting-name {
+                    padding-top: 5px ;
+                    padding-bottom: 5px ;
+                }
+               .full-table-loading {
+                    margin-top: 85px ;
+               }
+               .no-data-common {
+                    margin-top: 75px;
+               }
+            }
+             .geoTypeResult {
                     float: left;
                     margin-top: 20px;
                     padding-left: 7px;
@@ -973,7 +1055,7 @@
                 .switchWrap {
                     float: right;
                     margin-top: 30px;
-
+                    margin-right: 20px ;
                     span {
                         float: right;
                         margin: 3px 8px 0 0;
@@ -983,8 +1065,6 @@
                         }
                     }
                 }
-            }
-
             .selectedTables {
                 .cancel {
                     cursor: pointer;
@@ -1120,15 +1200,11 @@
                             float: left;
                             width: 100%;
 
-                            .ng-scope {
+                            .each-group {
                                 clear: left;
                                 float: left;
-                                padding: 5px 0 0;
+                                padding: 5px 0 0 22px ;
                                 width: 100%;
-
-                                .pull-left {
-                                    padding-left: 30px;
-                                }
                             }
                         }
                     }
@@ -1175,12 +1251,6 @@
                     overflow: auto;
                     padding: 6px 0 !important;
                     width: 100%;
-
-                    .searchInput {
-                        border-width: 0;
-                        border-bottom: 2px solid #dde6eb;
-                        padding: 14px 20px;
-                    }
                 }
 
                 .nav-tabs {
@@ -1272,8 +1342,8 @@
                 }
 
                 .zipCodeTooltip {
-                    left: 150px;
-                    top: -90px;
+                    left: 102px;
+                    top: -104px;
                     width: 250px;
 
                     &:before {

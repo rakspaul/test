@@ -103,8 +103,8 @@ select:hover {
 }
 .searchInput .input-group {
   position: relative;
-  display: none;
-  width: 34px;
+  width: auto;
+  min-width: 300px;
   float: right;
   /* margin-right: 1px; */
 }
@@ -113,7 +113,7 @@ select:hover {
   border-bottom-right-radius: 0px !important;
   height: 36px !important;
   border: 1px solid #BFC9D7;
-  /* border-right: 0px; */
+  border-right: 0px;
 }
 .searchInput .input-group input:focus {
   border: 1px solid #0978c9 !important;
@@ -142,7 +142,6 @@ select:hover {
   width: 40px;
 }
 .searchInput .searchInputBtnInline {
-  display: none;
   float: right;
   background: #DCE6F1;
   border-left: 1px solid #BFC9D7 !important;
@@ -151,21 +150,8 @@ select:hover {
 }
 .searchInput .searchClearInputBtn [class^="icon-"],
 .searchInput .searchClearInputBtn [class*=" icon-"] {
-  background: #fff !important;
-}
-.searchInput.geography {
-  height: auto;
-}
-.searchInput.geography .input-group {
-  display: block;
-  width: 100%;
-}
-.searchInput.geography .input-group input {
-  border-width: 1px;
-  border-right: 1px solid #BFC9D7;
-}
-.searchInput.geography .input-group .btn {
-  position: relative;
+  background: transparent !important;
+  display: none;
 }
 [class*="col-"] tags-input {
   float: left;
@@ -217,9 +203,6 @@ select:hover {
   color: #21252b;
   text-decoration: none;
   border: 1px solid #0978c9;
-}
-.searchInput .input-group {
-  width: 100%;
 }
 .searchInput .input-group input[type="text"] {
   margin: 0;

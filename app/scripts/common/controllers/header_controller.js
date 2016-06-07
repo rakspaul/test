@@ -260,7 +260,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             $("a[reportTitle='" + reportTitle + "']").parent().addClass('active_tab')
         }
 
-        
+
 
 
 
@@ -287,8 +287,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     regionTooltip = $(".regionCityTab").find(".common_tooltip"),
                     quickFilters = $(".sliding_dropdown_container");
                     dropdownWithSearch = $(".clone-ad-popup .dropdown-search");
-
-                    
+                    geoTooltipClose = $(".targetting-tab-header").find(".common_tooltip") ;
 
                 if (cdbDropdownId.is(':visible') && event.target.id != "durationMenuText") {
                     cdbDropdownId.closest(".each_filter").removeClass("filter_dropdown_open");
@@ -313,13 +312,19 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 if (profileDropdownId.is(':visible') && event.target.id != "profileItem") {
                     profileDropdownId.hide();
                 }
-               
-                if (dropdownWithSearch.is(':visible') &&  ($(event.target).closest(".toggleDropdown").length == 0) ){
+
+                if (dropdownWithSearch.is(':visible') &&  ($(event.target).closest(".toggleDropdown").length == 0) ) {
                     dropdownWithSearch.hide();
                 }
+
+                if (geoTooltipClose.is(':visible') && $(event.target).closest(".targetting-tab-header .btn-group" ).length == 0 ) {
+                    geoTooltipClose.hide();
+                }
+
                 if (campObjId.is(':visible') && ( $(event.target).closest("#campObjClick").length == 0)) {
                     campObjId.hide();
                 }
+
                 if (mainNavDropdown.is(':visible') && ( $(event.target).closest("#user-menu").length == 0) && ( $(event.target).closest("#reports_nav_link").length == 0 ) && ( $(event.target).closest("#user_nav_link").length == 0 ) && ( $(event.target).closest(".header_tab_dd_subheading").length == 0 )) {
                     mainNavDropdown.hide();
                     $(".main_navigation_holder").find(".selected").removeClass("selected");
@@ -328,6 +333,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 if (reportTypeDropdownClass.is(':visible') && ( $(event.target).closest(".reportTypeDropdownTxt").length == 0) ) {
                     reportTypeDropdownClass.hide();
                 }
+
                 if (campaigns_list_class.is(':visible') && ( $(event.target).closest(".campaign_name_selected").length == 0) && ( $(event.target).closest("#campaignsDropdownDiv").length == 0) ) {
                     campaigns_list_class.hide();
                 }
@@ -336,6 +342,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     accountDropdownList.hide();
                     $(".childTier").hide() ;
                 }
+
                 // In  admin users page, the multidimensional ( for nth dimension dropdown) account dropdown closes on click of body
                 if ( $(".childTier").is(':visible') && ( $(event.target).closest(".clientDropdownCnt").length == 0) && ( $(event.target).closest(".accountDropDown").length == 0) ) {
                     $(".childTier").hide() ;

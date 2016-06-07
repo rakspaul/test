@@ -10,7 +10,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $(".each_nav_link").removeClass("active_tab");
             $("#admin_nav_link").addClass("active_tab");
             $scope.brandsData = [];
-            
+
             //Responsive Height
             var winHeight = $(window).height();
             $(".table-responsive .tbody").css("min-height", winHeight - 380);
@@ -76,26 +76,10 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.brandName = obj.name;
             }
 
-            //Search Hide / Show
-            $scope.searchShowInput = function () {
-                var searchInputForm = $('.searchInputForm');
-                $('.searchInputBtn').hide();
-                $('.searchInputBtnInline').show();
-                searchInputForm.show();
-                searchInputForm.animate({width: '250px'}, 'fast');
-                setTimeout(function () {
-                    $('.searchClearInputBtn').fadeIn();
-                }, 300);
-            };
-
-            $scope.searchHideInput = function () {
+            //Search Clear
+            $scope.searchHideInput = function (evt) {
+                evt && $(evt.target).hide();
                 $('.searchInputForm input').val('');
-                $('.searchInputBtn').show();
-                $('.searchClearInputBtn, .searchInputBtnInline').hide();
-                $('.searchInputForm').animate({width: '34px'}, 'fast');
-                setTimeout(function () {
-                    $('.searchInputForm').hide();
-                }, 100);
             };
 
             $('html').click(function(e) {
