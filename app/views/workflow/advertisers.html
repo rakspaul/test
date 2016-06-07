@@ -36,6 +36,7 @@
                                class="form-control"
                                name="usersSearch"
                                ng-model="usersSearch"
+                               ng-keyup="searchFunc($event)"
                                search-box
                                placeholder="Search Advertisers...">
                         <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
