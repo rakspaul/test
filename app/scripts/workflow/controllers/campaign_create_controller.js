@@ -826,11 +826,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             inputSearch.val('');
         };
 
-        $('body').click(function (e) {
-            if ($(e.target).closest('.searchInput').length === 0) {
-                $scope.searchHideInput();
-            }
-        });
+        //$('body').click(function (e) {
+        //    if ($(e.target).closest('.searchInput').length === 0) {
+        //        $scope.searchHideInput();
+        //    }
+        //});
 
         //Show Add Credits
         $scope.showAddCreditForm = function () {
