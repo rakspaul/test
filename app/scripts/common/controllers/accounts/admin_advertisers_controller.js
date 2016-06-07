@@ -4,14 +4,15 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         'common/controllers/accounts/accounts_add_or_edit_advertiser_controller',
         'common/controllers/accounts/accounts_add_or_edit_brand_controller', 'common/controllers/accounts/accounts_add_or_edit_controller' ],
     function (angularAMD) {
-        angularAMD.controller('AdminUsersController', function ($scope, $rootScope, $modal, $compile,
+        angularAMD.controller('AdminUsersController', function ($scope, $rootScope, $modal, $compile, $filter,
             constants, accountsService, momentService,
             loginModel) {
             $(".each_nav_link").removeClass("active_tab");
             $("#admin_nav_link").addClass("active_tab");
 
             //Responsive Height
-            var winHeight = $(window).height();
+            var _curCtrl = this,
+                winHeight = $(window).height();
             $(".table-responsive .tbody").css("min-height", winHeight - 380);
 
             $scope.advertisersData = [];
@@ -22,7 +23,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     $scope.loadAdvertiserList = false;
                     if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
                         $scope.advertisersData = res.data.data;
-                        $scope.advertisersTotal = _.size(res.data.data);
+                        _curCtrl.advertisersData = $scope.advertisersData;
                         _.each($scope.advertisersData, function(item, i){
                             $scope.advertisersData[i].createdAt = momentService.newMoment($scope.advertisersData[i].createdAt).format('YYYY-MM-DD');
                         })
@@ -80,8 +81,17 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.searchHideInput = function (evt) {
                 evt && $(evt.target).hide();
                 $('.searchInputForm input').val('');
+                $scope.advertisersData = _curCtrl.advertisersData;
             };
-
+            $scope.searchFunc = function(e){
+                !$scope.usersSearch && ($scope.advertisersData = _curCtrl.advertisersData);
+                if (!e || e.keyCode === 13) {
+                    $scope.advertisersData = $filter('filter')(_curCtrl.advertisersData, $scope.usersSearch);
+                }
+            }
+            $scope.$watch('advertisersData', function(v) {
+                $scope.advertisersTotal = _.size($scope.advertisersData);
+            });
             $('html').click(function(e) {
                 if ($(e.target).closest('.searchInput').length === 0) {
                     $scope.searchHideInput();

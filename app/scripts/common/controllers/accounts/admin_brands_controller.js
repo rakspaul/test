@@ -4,7 +4,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         'common/controllers/accounts/accounts_add_or_edit_advertiser_controller',
         'common/controllers/accounts/accounts_add_or_edit_brand_controller', 'common/controllers/accounts/accounts_add_or_edit_controller' ],
     function (angularAMD) {
-        angularAMD.controller('AdminAdvertisersController', function ($scope, $rootScope, $modal, $compile,
+        angularAMD.controller('AdminAdvertisersController', function ($scope, $rootScope, $modal, $compile, $filter,
             constants, accountsService, momentService,
             loginModel) {
             $(".each_nav_link").removeClass("active_tab");
@@ -12,7 +12,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.brandsData = [];
 
             //Responsive Height
-            var winHeight = $(window).height();
+            var _curCtrl = this,
+                winHeight = $(window).height();
             $(".table-responsive .tbody").css("min-height", winHeight - 380);
 
             $scope.fetchAllBrands = function(){
@@ -21,7 +22,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     $scope.loadBrandList = false;
                     if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
                         $scope.brandsData = res.data.data;
-                        $scope.brandsTotal = _.size(res.data.data);
+                        _curCtrl.brandsData = $scope.brandsData;
                         _.each($scope.brandsData, function(item, i){
                             $scope.brandsData[i].createdAt = momentService.newMoment($scope.brandsData[i].createdAt).format('YYYY-MM-DD');
                         })
@@ -80,8 +81,18 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.searchHideInput = function (evt) {
                 evt && $(evt.target).hide();
                 $('.searchInputForm input').val('');
+                $scope.brandsData = _curCtrl.brandsData;
             };
+            $scope.searchFunc = function(e){
+                !$scope.usersSearch && ($scope.brandsData = _curCtrl.brandsData);
+                if (!e || e.keyCode === 13) {
+                    $scope.brandsData = $filter('filter')(_curCtrl.brandsData, $scope.usersSearch);
 
+                }
+            }
+            $scope.$watch('brandsData', function(v) {
+                $scope.brandsTotal = _.size($scope.brandsData);
+            });
             $('html').click(function(e) {
                 if ($(e.target).closest('.searchInput').length === 0) {
                     $scope.searchHideInput();
