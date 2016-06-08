@@ -42,6 +42,7 @@
                                 aria-labelledby="selectDimension"
                                 id="selectDimension"
                                 name="selectDimension"
+                                data-ng-click="$event.stopPropagation();"
                                 data-toggle="dropdown">
                                 <li class="available {{!dimension.active ? 'disabled' : ''}}"
                                     data-ng-click="selectOption($event , dimension)"
@@ -75,6 +76,7 @@
                                 aria-labelledby="selectDimension"
                                 id="selectSize"
                                 name="selectSize"
+                                data-ng-click="$event.stopPropagation();"
                                 data-toggle="dropdown">
                                 <li class="available"
                                     data-ng-click="selectSize($event , sizeLabel)"
