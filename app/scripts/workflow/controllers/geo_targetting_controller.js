@@ -1927,6 +1927,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             } else {
                 //on load reset geo targeting variables.
                 $scope.resetGeoTargeting();
+                geoTargeting.triggerGeoSubNavTab('country');
                 geoTargeting.toggleSwitch('on', 'geo');
                 countriesWrapper.init();
             }
@@ -1936,7 +1937,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 event.stopImmediatePropagation();
                 var isChecked = $(this).prop('checked');
                 $scope.geoData[$scope.selectedSubTab].included = isChecked;
-                geoTargeting.setIncludeExcludeGeo();
                 geoTargeting.updateSelectedGeoList(isChecked, $scope.selectedSubTab);
 
                 if (isChecked) {
