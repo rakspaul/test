@@ -19,7 +19,8 @@ define(['angularAMD'], function (angularAMD) {
                         highestEndTime = momentService.utcToLocalTime(adGroupsData.adGroup.endTime),
                         getADsForGroupData = $scope.workflowData.getADsForGroupData[adGroupsIndex],
                         startDateElem = formElem.find('.adGrpStartDateInput'),
-                        endDateElem = formElem.find('.adGrpEndDateInput');
+                        endDateElem = formElem.find('.adGrpEndDateInput'),
+                        currentDate = moment().format(constants.DATE_US_FORMAT);
 
                     $scope.adgroupId = adGroupsData.adGroup.id;
                     $scope.adGroupName = adGroupsData.adGroup.name;
@@ -51,10 +52,13 @@ define(['angularAMD'], function (angularAMD) {
                         $scope.extractor(getADsForGroupData, formElem);
                     } else {
                         $scope.resetAdsData();
+                        if(moment($scope.campaignStartTime).isBefore(currentDate)) {
+                            startDateElem.datepicker('setStartDate', currentDate);
+                            endDateElem.datepicker('setStartDate', highestEndTime);
 
-                        if(moment($scope.campaignStartTime).isBefore(moment(startTime))) {
+                        } else if(moment($scope.campaignStartTime).isBefore(moment(startTime))) {
                             startDateElem.datepicker('setStartDate', startTime);
-                            endDateElem.datepicker('setStartDate', startTime);
+                            endDateElem.datepicker('setStartDate', highestEndTime);
                         } else {
                             startDateElem.datepicker('setStartDate', $scope.campaignStartTime);
                             endDateElem.datepicker('setStartDate', $scope.campaignStartTime);
