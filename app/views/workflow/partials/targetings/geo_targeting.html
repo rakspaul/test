@@ -80,7 +80,7 @@
                                 <div class="clearfix each-targetting-name" ng-repeat="country in geoData.countries.data">
                                     <div class="col-md-12 external_chkbox pull-left">
                                         <div class="squaredFour">
-                                            <input type="checkbox" ng-model="bool" ng-click="check(bool, country, 'countries')" ng-checked="isChecked(country.id, 'countries')" class="squaredFourChkbox" id="country_{{country.id}}">
+                                            <input type="checkbox" ng-model="bool" ng-click="updateSelection($event, country, 'countries')" ng-checked="isChecked(country.id, 'countries')" class="squaredFourChkbox" id="country_{{country.id}}">
                                             <label for="country_{{country.id}}"></label>
                                         </div>
                                         <span class="squaredFourTxt" >{{country.name}}</span>
@@ -110,7 +110,7 @@
                                 <div class="clearfix each-targetting-name" ng-repeat="region in geoData.regions.data">
                                     <div class="external_chkbox pull-left col-md-8">
                                         <div class="squaredFour">
-                                            <input type="checkbox" ng-model="bool" ng-click="check(bool, region, 'regions')" ng-checked="isChecked(region.id, 'regions')" class="squaredFourChkbox" id="region_{{region.id}}_{{region.country.id}}" >
+                                            <input type="checkbox" ng-model="bool" ng-click="updateSelection($event, region, 'regions')" ng-checked="isChecked(region.id, 'regions')" class="squaredFourChkbox" id="region_{{region.id}}_{{region.country.id}}" >
                                             <label for="region_{{region.id}}_{{region.country.id}}"></label>
                                         </div>
                                         <span class="squaredFourTxt" >{{region.name}}</span>
@@ -144,7 +144,7 @@
                                 <div class="clearfix each-targetting-name" ng-repeat="city in geoData.cities.data">
                                     <div class="external_chkbox pull-left col-md-4">
                                         <div class="squaredFour">
-                                            <input type="checkbox" ng-model="bool" ng-click="check(bool, city, 'cities')" ng-checked="isChecked(city.id, 'cities')"  class="squaredFourChkbox" id="city_{{city.id}}_{{city.parent.id}}_{{city.country.id}}" >
+                                            <input type="checkbox" ng-model="bool" ng-click="updateSelection($event, city, 'cities')" ng-checked="isChecked(city.id, 'cities')"  class="squaredFourChkbox" id="city_{{city.id}}_{{city.parent.id}}_{{city.country.id}}" >
                                             <label for="city_{{city.id}}_{{city.parent.id}}_{{city.country.id}}"></label>
                                         </div>
                                         <span class="squaredFourTxt" data-ng-bind="city.name"></span>
@@ -197,7 +197,7 @@
                                 <div class="clearfix each-targetting-name" ng-repeat="dma in geoData.dmas.data">
                                     <div class="external_chkbox pull-left col-md-8">
                                         <div class="squaredFour">
-                                            <input type="checkbox" ng-model="bool" ng-click="check(bool, dma, 'dmas')" ng-checked="isChecked(dma.id, 'dmas')" class="squaredFourChkbox" id="dma_{{dma.id}}" >
+                                            <input type="checkbox" ng-model="bool" ng-click="updateSelection($event, dma, 'dmas')" ng-checked="isChecked(dma.id, 'dmas')" class="squaredFourChkbox" id="dma_{{dma.id}}" >
                                             <label for="dma_{{dma.id}}"></label>
                                         </div>
                                         <span class="squaredFourTxt" data-ng-bind="dma.dmaName"></span>

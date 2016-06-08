@@ -1304,6 +1304,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             return match;
         };
 
+        $scope.updateSelection = function($event, item, type) {
+            var checkbox = $event.target;
+            var action = (checkbox.checked ? true : false);
+            $scope.check(action, item, type);
+        };
 
         $scope.check = function (checked, item,  type) {
 
@@ -1830,9 +1835,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             if (saveGeoData && (saveGeoData.countries.selected.length >0 || saveGeoData.regions.selected.length >0 || saveGeoData.cities.selected.length >0 || saveGeoData.dmas.selected.length >0 || saveGeoData.zip.selected.length >0)) {
                 if(saveGeoData.countries.selected.length >0) {
                     $scope.geoData.countries.selected = [];
+                    $scope.selectedSubTab = 'countries';
                     countryIncluded = saveGeoData.countries.included;
-                    geoTargeting.toggleSwitch(countryIncluded, 'geo')
                     countriesWrapper.setData(true, saveGeoData.countries.selected, saveGeoData.countries.included);
+                    geoTargeting.triggerGeoSubNavTab('country');
+                    geoTargeting.toggleSwitch(countryIncluded, 'geo')
                 }
 
                 if(saveGeoData.regions.selected.length >0) {
