@@ -1,7 +1,7 @@
 define(['angularAMD'], function(angularAMD) {
     angularAMD.service("constants", function($locale) {
         this.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
-        this.CAMPAIGN_LIST_CANCELLER = 1;
+        this.CAMPAIGN_LIST_CANCELLER = 10;
         this.CAMPAIGN_FILTER_CANCELLER = 1;
         this.ADDLIBRARY_FILTER_CANCELLER = 10;
         this.PLATFORM_TAB_CANCELLER = 99;
@@ -96,17 +96,17 @@ define(['angularAMD'], function(angularAMD) {
         this.CTR = "CTR";
         this.VTC = "VTC";
         this.CPM = "CPM";
-        this.ESTREACH = "Estimated Reach";
+        this.ESTREACH = "Estimated Pool Size";
         this.CPC = "CPC";
         this.CPA = "CPA";
-        this.ACTION_RATE = "Action rate";
+        this.ACTION_RATE = "Action Rate";
         this.SCREENS = "Screens";
         this.FORMATS = "Formats";
         this.PLATFORMS = "Platforms";
         this.CREATIVES = "Creatives";
         this.VIDEO_PLAYS = "Video Plays";
         this.AD_SIZES = "Ad Sizes";
-        this.DELETE_CREATIVES = "Are you sure you want to delete creatives?"
+        this.DELETE_CREATIVES = "Are you sure you want to archive creatives?"
         this.CPMV = "CPMv";
 
         this.COLLECTIVE_INSIGHTS = "Collective Insights";
@@ -237,11 +237,7 @@ define(['angularAMD'], function(angularAMD) {
             '<span class="no-data-common">Optimization activity not recorded</span>';
         this.MSG_NO_CAMPAIGNS_WITH_SET_KPI = '<span class="data_not_found">No Media Plan with set KPI value</span>';
         this.DATA_NOT_AVAILABLE_STYLE = 'data_not_found';
-        this.ALL_STRATEGIES_OBJECT = {
-            'name': 'All Ad Groups',
-            id: -1,
-            type: 'all'
-        };
+
         this.NO_ADGROUPS_FOUND = 'No Ad Groups Found';
         this.NO_MEDIAPLANS_FOUND = 'No Media Plans Found';
 
@@ -338,6 +334,7 @@ define(['angularAMD'], function(angularAMD) {
         this.FLIGHT_DATES = "Flight Dates";
         this.METRICS_LIFE_TIME = "Metrics (Lifetime)";
         this.METRICS = "Metrics";
+        this.METRIC = "Metric";
         this.SELECTED_METRICS = "Selected Metrics";
         this.LOAD_MORE_STRATEGIES = "Load More Ad Groups";
         this.LOAD_MORE_TACTICS = "Load More Ads";
@@ -402,6 +399,7 @@ define(['angularAMD'], function(angularAMD) {
         this.SSL_ERROR_MESSAGE = "Please enter a SSL compatible tag.";
 
         this.STRATEGY = "Ad Group";
+        this.LINE_ITEM = "Line Item";
 
         this.PLATFORM_NAME = "Platform Name";
         this.COLLECTIVE_FEE = "Collective Fee";
@@ -508,7 +506,7 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_SOCIAL = 'Social';
         this.WF_DISPLAY_SEARCH = 'DISPLAY';
         this.WF_VIDEO_SEARCH = 'VIDEO';
-        this.WF_RICH_MEDIA_SEARCH = 'RICHMEDIA';
+        this.WF_RICH_MEDIA_SEARCH = 'RICH MEDIA';
         this.WF_SOCIAL_SEARCH = 'SOCIAL';
         this.WF_HEADER_PRIMARY_GOAL = 'What is your primary goal?';
         this.WF_AD_GOAL = 'Ad Goal';
@@ -644,7 +642,7 @@ define(['angularAMD'], function(angularAMD) {
         this.MP_BUDGET = 'Budget';
         this.MP_CONTACTS = 'Contacts';
         this.MP_OPTIONAL = 'Optional';
-        this.MP_SAVE = 'Save';
+        this.MP_SAVE = 'Save & Close';
         this.MP_CANCEL = 'Cancel';
         this.MP_WHATIS = 'What is your Media Plan Objective?';
         this.MP_PRIGOAL = 'Primary Goal';
@@ -686,22 +684,22 @@ define(['angularAMD'], function(angularAMD) {
 
         //Ad Create: Sidebar
         this.ADSETUP = 'Ad Setup';
-        this.ADTYPESIDE = '1 Ad Type';
+        this.ADTYPESIDE = '1. Ad Type';
         this.NOTSET = 'Not Set';
         this.FORMATPAR = '(Format)';
         this.PRIMARYKPIPAR = '(Primary KPI)';
         this.SCREENPAR = '(Screen)';
-        this.BUDGETDELIVERYSIDE = '2 Budget & Delivery';
+        this.BUDGETDELIVERYSIDE = '2. Budget & Delivery';
         this.FLIGHTPAR = '(Flight)';
         this.UNITCOSTPAR = '(Unit Cost)';
-        this.BUYINGPLATFORMSIDE = '3 Buying Platform';
+        this.BUYINGPLATFORMSIDE = '3. Buying Platform';
         this.PLATFORMPAR = '(Platform)';
-        this.TARGETINGSIDE = '4 Targeting';
+        this.TARGETINGSIDE = '4. Targeting';
         this.GEOGRAPHY = 'Geography';
         this.AUDIENCE = 'Audience';
         this.DAYPART = 'Daypart';
-        this.INVENTORYSIDE = '5 Inventory Filters';
-        this.CREATIVESIDE = '6 Creative';
+        this.INVENTORYSIDE = '5. Inventory Filters';
+        this.CREATIVESIDE = '6. Creative';
 
         //Ad Create: 1 Ad Type
         this.SELECTADTYPE = 'Select Ad Type';
@@ -714,6 +712,10 @@ define(['angularAMD'], function(angularAMD) {
         this.LEARNMOREADSET = 'Learn more about Ad Settings';
         this.WHENADRUN = 'What are your flight and delivery settings?';
         this.FLIGHTPASSED = 'Media Plan flight date has passed';
+        this.ADGROUP_FLIGHTPASSED = 'Ad flight dates cannot be edited';
+        this.ADGROUP_FLIGHTPASSED_NO_NEW_ADS = 'Extend the Ad Group flight dates to create Ads';
+        this.BUDGET_EXCEEDED = "Cannot create Ad Group as the Media Plan does not have sufficient budget",
+        this.MEDIAPLAN_FLIGHTPASSED_NO_NEW_ADS = "Cannot create Ad Group as Media Plan has ended",
         this.SETUPBUDGET = 'How do you want to budget your Ad?';
         this.MEASUREBUDGET = 'How will you measure success for your Ad?';
         this.TRACKBUDGET = 'How do you want to track your Ad?';
@@ -757,7 +759,9 @@ define(['angularAMD'], function(angularAMD) {
         this.SELECTED = 'Selected';
         this.TARGETAUDLOC = 'Target your audience by location';
         this.INCLUDED = 'Included';
+        this.INCLUDE = 'Include';
         this.EXCLUDED = 'Excluded';
+        this.EXCLUDE = 'Exclude';
         this.DAYPART = 'Daypart';
         this.SELECTADREST = 'Select when to show your Ad by restricting day and time';
         this.ALLDAYSTIMES = 'All Days & Times (default)';
@@ -963,20 +967,28 @@ define(['angularAMD'], function(angularAMD) {
 
         //Geo Targeting
         this.GEOGRAPHY = 'Geography';
+        this.SAVE_GEOGRAPHY = 'Save Geography' ;
+        this.COUNTRY = 'Country';
         this.INCZIP = 'Including zip / postal codes is going to limit your geographic targeting significantly.';
+        this.ZIP_CODE_LABEL = 'Separate zip / postal codes by comma. Use hyphens to denote ranges.';
         this.CONTINUE = 'Continue';
         this.REGCITY = 'REGION & CITY';
         this.REGTABLABEL = 'REGION';
         this.METRO = 'METRO';
         this.ZIPPOSTCODE = 'ZIP / POSTAL CODE';
-        this.INCEXCCITYNOTE =
-            'Once you include or exclude a city, regions are not available for further inclusion or exclusion.';
+
+        this.NOT_SELECTED_COUNTRY_NOTE = 'Once you have set your targeting at the region level, you cannot select any countries for inclusion or exclusion';
+        this.NOT_SELECTED_REGION_NOTE = 'Once you have set your targeting at the city level, you cannot select any regions for inclusion or exclusion';
+        this.NOT_SELECTED_COUNTRY_REGION_NOTE = 'Once you have set your targeting at the city level, you cannot select any countries for inclusion or exclusion';
+
         this.REGION = 'Region';
         this.CITY = 'City';
         this.SELECTED = 'Selected';
-        this.REGCITIES = 'Regions & Cities';
+        this.TARGETING_LABEL = 'Targeting';
         this.REMOVEALL = 'Remove All';
         this.METROS = 'Metros';
+        this.METROTXT = 'Metro';
+        this.GEO = 'GEO';
         this.DMAS = 'DMAs';
         this.SEARCHFORMETROS = 'Search for metros';
         this.SEARCHFORREGIONANDCITY = 'Search for regions or cities';
@@ -1034,11 +1046,12 @@ define(['angularAMD'], function(angularAMD) {
         this.TRACKINGONLY = 'Tracking-Only';
         this.DATANOTAVAILABLE = 'Data not available';
         this.UPDATETAG = 'Update Tag';
-        this.CREATIVESDELETE = 'Creatives Delete';
+        this.CREATIVESDELETE = 'Archive Creatives';
         this.TAB_CHANGED = 'tab_changed';
 
        // this.EVENT_CLIENT_CHANGED = 'eventClientChanged';
         //this.EVENT_CLIENT_CHANGED_FROM_DASHBOARD = 'advertiserChangedFromDashboard';
+        this.INVOICE_CREDIT_FIELD_EMPTY = "Please enter valid Notes and Amounts";
 
         this.EVENT_SUB_ACCOUNT_CHANGED = 'eventSubAccountChanged';
         this.EVENT_SUB_ACCOUNT_CHANGED_FROM_DASHBOARD = 'SubAccountChangedFromDashboard';
@@ -1067,6 +1080,7 @@ define(['angularAMD'], function(angularAMD) {
         this.EMPTY_PIXEL_FIELD = "Please add pixel name";
         this.EMPTY_PIXEL_TYPE = "Please select the pixel type";
         this.EMPTY_PIXEL_EXPIREAT = "Please select the pixel expiration date";
+        this.EMPTY_PIXEL_CODE = "Please add some pixel code without any special characters, max character limit 20"
         this.EMPTY_BRAND_LIST = "No Brands available for the advertiser";
         this.ERR_ADD_PIXEL = "Error in adding pixel";
         this.EMPTY_CLIENT_LIST = "No Clients available for the client";
@@ -1117,7 +1131,7 @@ define(['angularAMD'], function(angularAMD) {
 
         // Media Plan Setup: 2 Pixels
         this.MEDIAPLAN_PIXEL_SELECT = "Select Conversion Pixels (Optional)";
-        this.MEDIAPLAN_PIXEL_REQUIRED = "A Conversion Pixel is required for tracking and reporting conversions and for CPA billing";
+        this.MEDIAPLAN_PIXEL_REQUIRED = "Conversion Pixels are required for conversion reports and CPA billing.";
         this.MEDIAPLAN_PIXEL_SELECTED = "Selected Pixels";
         this.MEDIAPLAN_PIXEL_LIST = 'Pixels in list';
 
@@ -1132,8 +1146,7 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_COST_TRACKING = "Cost Tracking |";
         this.MEDIAPLAN_COST_MEASURED = "The Costs that will be measured in Cost Attribution reports and are factored into COGS+ Billing";
         this.MEDIAPLAN_ADD_ADDITIONAL_COSTS = "Add Additional Costs (Optional)";
-        this.MEDIAPLAN_METRIC = "Metric";
-        this.MEDIAPLAN_VENDOR = "Vendor";
+        this.MEDIAPLAN_METRIC = "Metric";this.MEDIAPLAN_VENDOR = "Vendor";
         this.MEDIAPLAN_CONFIGURATION = "Configuration";
         this.MEDIAPLAN_CHANNELS = "Channels";
         this.MEDIAPLAN_CATEGORY = "Category";
@@ -1156,6 +1169,10 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_ADD_ANOTHER_CREDIT = "Add Another Credit";
         this.MEDIAPLAN_FLIGHT_DATE_START = "Flight Date Start";
         this.MEDIAPLAN_FLIGHT_DATE_END = "Flight Date End";
+        this.SAVE_CHANGES = "Save Changes";
+        this.SELECT_CONVERSION_PIXELS = "Select Conversion Pixel";
+        this.AD_GRP_NAME="Ad Group Name";
+        this.TOTAL_BILLABLE_AMOUNT = 'Total Billable Amount';
 
         this.MEDIA_PLAN_CLONE ='Media Plan Clone';
         this.MEDIA_PLAN_WARNING_MESSAGE = 'You will lose your changes if you leave this page. Are you sure?'
@@ -1163,8 +1180,24 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIA_PLAN_TOTAL = "Media Plan total*:";
         this.AD_GROUP_TOTAL = "Ad Group total*:";
         this.CAMPAIGN_TOTAL = "Campaign total*:";
+        this.LINE_ITME_TOTAL = "Line item total*:"
         this.INCLUDES_FIXED_COSTS = "*Includes fixed costs";
         this.EXCLUDES_MEDIA_PLAN_FIXED_COSTS = "*Excludes Media Plan fixed costs";
+
+        this.CLIENT_LOADED = "clientLoaded";
+        // Invoice Report
+        this.INVOICE_REPORT = "Invoice Reports";
+        this.INVOICE_REPORT_ADD_CREDIT = "Add Credit to Invoice Report";
+        this.CREDIT_ADD_SUCCESS = "Credit added/updated successfully";
+        this.CREDIT_ADD_ERR = "Error in adding/updating the credit ";
+        this.INVOICE_VIEW_REPORT = "View Invoice Report ";
+        this.INVOICE_VIEW_REPORT_ALL = "View All Invoice Reports";
+        this.INVOICE_REPORT_MEDIA_PLAN = "Media Plan (Expand to see invoice reports)";
+        this.INVOICE_REPORT_DATE = "Invoice Date";
+        this.INVOICE_REPORT_SPEND = "Spend";
+        this.INVOICE_REPORT_CREDITS = "Credits";
+        this.INVOICE_REPORT_BILLABLE = "Billable";
+        this.INVOICE_REPORT_ACCOUNT = "Account/Advertiser";
 
     });
 });

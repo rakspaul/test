@@ -606,8 +606,23 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     text-align: left;
     min-width: 100px;
     li {
-      padding-left: 10px ;
-      height:25px;
+        padding: 9px 15px !important;
+        float: left;
+        width: 100%;
+        color: #21252b;
+        font-family: Avenir;
+        font-size: 14px;
+        line-height: 100%;
+        overflow: hidden;
+        &:hover, &:focus {
+            color: #21252b;
+            text-decoration: none;
+            background-color: #E1EDF9;
+        }
+      span {
+        padding: 0;
+        display: none;
+      }
     }
   }
 }
@@ -891,6 +906,25 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
       margin-right: 20px;
       .inventory_chart_details_list {
         width : 530px ;
+        > .cpa_col {
+          width: 122px ;
+          .dropdown_ul_text {
+            padding-right: 0 ;
+            padding-left: 0 ;
+          }
+          .arrrow_img {
+            margin :  4px 0 0 8px ;
+          }
+          .dd_txt {
+            span {
+              margin-top: 2px ;
+            }
+
+          }
+        }
+        > .cpa_col  ~ .imps_del_col {
+          margin-top: 2px ;
+        }
       }
     }
   }
@@ -1166,10 +1200,10 @@ div.strategy_total_container {
     padding-right: 17px;
   }
   .sort_order_up:hover {
-    background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll 100px 1px rgba(0, 0, 0, 0);
+    background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 10px 1px rgba(0, 0, 0, 0);
   }
   .sort_order_up.active {
-    background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 100px -64px rgba(0, 0, 0, 0);
+    background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px rgba(0, 0, 0, 0);
     cursor: pointer;
     padding-right: 17px;
     color: #0978c9;
@@ -1178,15 +1212,7 @@ div.strategy_total_container {
     cursor: pointer;
     padding-right: 17px;
   }
-  .sort_order_down:hover {
-    background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 100px 1px rgba(0, 0, 0, 0);
-  }
-  .sort_order_down.active {
-    background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll 100px -64px rgba(0, 0, 0, 0);
-    cursor: pointer;
-    padding-right: 17px;
-    color: #0978c9;
-  }
+
 
   div.each_col.seventh_col {
     text-align: right;
@@ -1206,6 +1232,9 @@ div.strategy_total_container {
 }
 .viewability_details_outer_container , .viewability_details_video_mode_outer_container{
   margin-top: 15px;
+  .sort_order_up:hover {
+    background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 0px top 1px rgba(0, 0, 0, 0);
+  }
   .sort_order_up.active, .sort_order_down.active {
     &:hover{
       background-position: 31px -65px;
@@ -1305,6 +1334,12 @@ div.strategy_total_container {
   .each_col.viewability_delivered_col  {
     >span {
       text-align: right;
+    }
+    >span.sort_order_up.active {
+      background-position : right -64px ;
+      &:hover {
+        background-position : right -64px ;
+      }
     }
   }
   .first_col {
@@ -1462,11 +1497,13 @@ div.strategy_total_container {
 }
 .viewability_details_video_mode_outer_container{
   .sort_order_down.active {
+    background-position: right -65px;
     &:hover{
       background-position: right -65px;
     }
   }
   .sort_order_up.active {
+    background-position: right -65px;
     &:hover{
       background-position: right -65px;
     }
@@ -1643,7 +1680,7 @@ div.strategy_total_container {
   margin-top: -20px;
   position: absolute;
   right: 1px;
-  top: 96px;
+  top: 141px;
   span {
     float: left;
     display: inline-block;
@@ -2572,6 +2609,38 @@ div.strategy_total_container {
     display:none;
   }
   .vid_show {display:block;}
+
+  /*hot fix for the KPI drpdown of platform header so that nothing else will break*/
+  .performancePlatformHeader {
+    .seventh_col {
+      width: 90px !important;
+      cursor: pointer;
+      .arrrow_img {
+        margin-left: 5px ;
+      }
+      .kpi_indicator_ul {
+        top: 20px ;
+        padding: 0;
+
+        .drop_list {
+          width: 80% ;
+          li {
+            line-height: 22px ;
+            padding: 1px 15px !important;
+            .kpiIndicator {
+              float: left;
+              margin: 1px 0px 0 0;
+            }
+          }
+        }
+        .direction_arrows {
+          margin-top: 5px ;
+        }
+      }
+    }
+  }
+  /*end of hot fix for the KPI drpdown of platform header so that nothing else will break*/
+
   .vid_data_hdr {
     width:336px;
     border:1px none #FF6600;
@@ -4007,8 +4076,7 @@ only screen and (min-device-pixel-ratio: 2) {
 
     #dynamicHeader{
         padding-left:14px;
-       /* margin-bottom: 10px; */
-        margin-top: 28px;
+        margin : 28px 0 10px ;
         .collapseIcon{
             display:none;
         }
@@ -4017,6 +4085,15 @@ only screen and (min-device-pixel-ratio: 2) {
         }
         .downReport {
             display:none;
+            border: solid 1px #BFC9D7;
+            padding: 7px 15px;
+            margin-top: -6px;
+            height: 36px;
+            border-radius: 2px;
+            cursor: pointer;
+            &:hover {
+              background: #e1edf9;
+            }
         }
         .subTitle{
             display:block;
@@ -4054,12 +4131,12 @@ only screen and (min-device-pixel-ratio: 2) {
     .report_builder_container  {
 //    margin-bottom: 30px ;
     input[type='text'] {
-      border: 1px solid #BFC9D7;
+      //border: 1px solid #BFC9D7;
       border-radius: 2px !important;
       line-height: normal;
-      padding: 10px 12px 7px 12px;
-      height: auto;
-      box-shadow: none;
+      //padding: 10px 12px 7px 12px;
+      //height: auto;
+      //box-shadow: none;
     }
     .heading {
         h1 {
@@ -4094,7 +4171,7 @@ only screen and (min-device-pixel-ratio: 2) {
       width: 162px ;
     }
     .common_dropdown .dropdown {
-      margin-right: 4px ;
+      margin-right: 15px ;
     }
     ::-webkit-input-placeholder {
       color:  #939ead;
@@ -4115,10 +4192,10 @@ only screen and (min-device-pixel-ratio: 2) {
     .each_section_custom_report {
       margin: 0px 0 20px 0 ;
       .custom_report_filter{
-          margin-right: 11px;
+          //margin-right: 11px;
       }
       .filter_input_txtbox{
-          max-width: 159px;
+          //max-width: 159px;
       }
       .measurable_col_holder {
         float: none;
@@ -4139,9 +4216,9 @@ only screen and (min-device-pixel-ratio: 2) {
       }
       .filter_input_txtbox {
         input {
-          padding: 5px 10px ;
-          height: 36px;
-          border: solid 1px #dde6eb;
+          //padding: 5px 10px ;
+          //height: 36px;
+          //border: solid 1px #dde6eb;
           border-radius: 2px;
           -moz-border-radius: 2px;
           -webkit-border-radius: 2px;
@@ -4156,6 +4233,23 @@ only screen and (min-device-pixel-ratio: 2) {
             margin-top: 10px ;
           }
         }
+      }
+    }
+    .each_section_custom_report.dimensionKeywordSection {
+      .dropdown_ul_text {
+        max-width: 160px;
+        min-width: 160px ;
+        height: 34px ;
+        .dd_txt {
+          width: 86%;
+          white-space: nowrap;
+          display: inline-block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      .filter_input_txtbox input {
+        width: 170px ;
       }
     }
     .each_section_custom_report.metrics_section {
@@ -4386,15 +4480,15 @@ only screen and (min-device-pixel-ratio: 2) {
         }
       }
       .report-name-col input[type='text'] {
-        border-color: #BFC9D7 ;
-        padding-top: 7px;
-        padding-bottom: 10px;
+        //border-color: #BFC9D7 ;
+        //padding-top: 7px;
+        //padding-bottom: 10px;
       }
       .each-col:not(#schedule-btn) {
         display: none;
       }
       .each-col {
-        margin-left: 20px ;
+        margin-left: 15px ;
       }
       #schedule-btn {
         margin-left: 0 ;
@@ -4549,6 +4643,22 @@ only screen and (min-device-pixel-ratio: 2) {
     .second_dimension_row_holder {
       margin-left: 5px;
       display: block;
+      .sec_dimension_loadingIcon {
+        display: inline-block;
+        position: relative;
+        margin-top: 20px;
+        margin-bottom: 20px ;
+        &:after {
+            content: "";
+            top: -20px;
+            left: -468px;
+            width: 100px;
+            height: 90px;
+            position: absolute;
+            background: #fff;
+            z-index: 3;
+        }
+      }
       .no-data-common {
         margin: 50px 0 50px 408px;
         font-family: "Avenir";
@@ -4595,8 +4705,19 @@ only screen and (min-device-pixel-ratio: 2) {
       .second_dimension_row:last-of-type {
           background-color: #fff;
           z-index: 2;
-          height: 13px;
           border-left: dashed 1px rgb(149, 161, 169);
+          .each_col.tree_string {
+            &:before {
+              content: "";
+              position: absolute;
+              top: 15px;
+              left: -1px;
+              height: 17px;
+              width: 14px;
+              background: #fff;
+              z-index: 1;
+            }
+          }
       }
     }
     .vertical_scroll {
@@ -4679,6 +4800,22 @@ only screen and (min-device-pixel-ratio: 2) {
       padding: 30px 30px 0 30px;
       .inner_heading_row {
         width: 100% ;
+        .sort_order_up:hover {
+          background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 1px;
+        }
+        .sort_order_down:hover{
+          background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 1px;
+
+        }
+        .sort_order_up.active  {
+          color: #0978c9;
+          background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -64px;
+        }
+        .sort_order_down.active {
+          color: #0978c9;
+          background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px;
+
+        }
       }
     }
     .first_dimension_row_holder {
@@ -4748,6 +4885,7 @@ only screen and (min-device-pixel-ratio: 2) {
       text-align: right;
 
     }
+
 
     .tree_dimension_col {
       width: 295px;
@@ -4874,9 +5012,12 @@ div.reports_tabs_content_container {
     }
   }
   .sec_dimension_load_more {
-    margin-top: 25px;
+    padding: 25px;
     display: block;
     text-indent: 470px;
+    background: #fff;
+    position: relative;
+    z-index: 2;
   }
   .custom_report_scroll {
     .first_dimension_row_holder {
@@ -4888,7 +5029,7 @@ div.reports_tabs_content_container {
     .heading_first_dimension {
       .more_dimension_arrow {
         height: 20px;
-        background-position-y: 8px;
+        background-position-y: 5px;
         margin-top: 0 ;
       }
       &:hover {
@@ -5055,7 +5196,8 @@ body.custom_report_page {
 }
 .quality_page_holder {
   .view_mode_switch_container {
-    margin-top: 0px; 
+    margin-top: 0px;
+    top: 92px ;
   }
   .smallSreenScrollContainer {
     margin-top: 30px ;

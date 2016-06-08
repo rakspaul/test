@@ -292,7 +292,8 @@
   border: 1px solid #dde6eb;
   background-color: #ffffff;
   font-size: 14px;
-  color: #939ead;
+  /*
+		color: @color_6;*/
   line-height: 18px;
   padding: 8px;
   margin: 0 8px;
@@ -328,6 +329,10 @@
 .popup-holder .modal-header {
   border-bottom: 0px;
   padding: 30px 30px 0px 30px;
+}
+.popup-holder span.tagTitle {
+  color: #939eae;
+  margin-right: 5px;
 }
 .popup-holder .modal-body {
   padding: 0 30px 30px;
@@ -409,8 +414,32 @@
 .popup-holder .dropdown-workflow .searchBar .icon-search {
   top: -4px;
 }
+.clone-ad-popup .dropdown-workflow .dropdown-menu li span {
+  padding: 0px ;
+}
+.clone-ad-popup .dropdown-workflow .toggleDropdown {
+  padding: 0px ;
+}
+.clone-ad-popup .dropdown-workflow .toggleDropdown .toggleDropdownDiv {
+  padding: 10px 15px 10px 15px;
+}
+.clone-ad-popup .dropdown-workflow .searchBar input {
+  padding-left: 15px ;
+}
+.clone-ad-popup .dropdown-workflow .searchBar input:focus {
+  border: 0px !important;
+  border-bottom: solid 1px  #dde6eb !important;
+}
+.clone-ad-popup .dropdown-workflow .searchBar .icon-search {
+  top: 9px;
+}
 .edit-report-popup-holder .common_dropdown .dropdown {
   border: 0px ;
+}
+.edit-report-popup-holder .common_dropdown .dropdown .dropdown_txt {
+  background: url("/images/cdesk/common_down_arrow.png") no-repeat right center;
+  padding-right: 20px;
+  cursor: pointer;
 }
 .edit-report-popup-holder .common_dropdown .dropdown-menu {
   margin-top: -5px;
@@ -420,6 +449,8 @@
 }
 .clone-popup .cloneMediaPlanNameInput input {
   color: #555 ;
+  margin: 0 ;
+  width: 100% ;
 }
 .clone-popup .duplicateOptionChkbox {
   margin-top: 20px ;
@@ -1762,8 +1793,8 @@ multiselect .dropdown-menu > li > a {
   left: 10px;
   z-index: 1;
 }
-.symbol-input .symbol input {
-  padding-left: 20px;
+.symbol-input input {
+  padding-left: 20px !important;
 }
 .symbol-input .perSymbol {
   right: 25px;
@@ -1806,25 +1837,18 @@ multiselect .dropdown-menu > li > a {
   margin: 0 auto;
 }
 div.inputLoader {
-  border: 1px solid #dde6eb ;
+  border-width: 0;
   position: relative;
   border-radius: 2px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
-}
-div.inputLoader > input[type="text"] {
-  border: solid 1px  transparent;
-  width: 100% ;
-  margin: 0 ;
-}
-div.inputLoader > input[type="text"]:focus,
-div.inputLoader > input[type="text"]:hover {
-  border: solid 1px  transparent !important;
+  box-shadow: none;
 }
 div.inputLoader > .common-loading-area {
   position: absolute;
-  right: 0px ;
-  top: 0px ;
+  right: 2px ;
+  top: 1px ;
+  height: 34px;
   z-index: 10 ;
   background-color: #fff ;
 }
@@ -1867,6 +1891,9 @@ tags-input .autocomplete {
   height: 36px;
   width: 27px;
 }
+.dropdownDisabled {
+  cursor: not-allowed;
+}
 .slider-msg {
   border: solid 1px #0978C9;
   border-radius: 2px;
@@ -1891,6 +1918,24 @@ tags-input .autocomplete {
   -webkit-animation-iteration-count: 1;
   font-size: 14px ;
 }
+/*Dropdown which has search input box*/
+.dropdown-menu-with-search {
+  padding-top: 0 ;
+}
+.dropdown-menu-with-search .search-inside-dropdown {
+  border: 0px ;
+  border-bottom: solid 1px #ccc;
+  margin-bottom: 5px ;
+}
+.dropdown-menu-with-search .search-inside-dropdown input {
+  border: 0px;
+  padding-right: 30px;
+  background: url("/images/cdesk/search_input.png") no-repeat right 10px center;
+  height: 30px;
+  width: 100%;
+  padding-left: 15px;
+}
+/*End of Dropdown which has search input box*/
 @keyframes show-notification {
   from {
     opacity: 0;

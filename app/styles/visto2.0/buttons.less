@@ -21,12 +21,16 @@ select {
     text-decoration: none;
 }
 
+.btn:hover {
+    background: #E1EDF9 !important;
+}
+
 .btn-primary {
     background: #0978C9;
 }
 
 .btn-primary:hover {
-    background: #0564A9;
+    background: #0564A9 !important;
 }
 
 .btn-primary:active,
@@ -40,13 +44,17 @@ select {
 
 .btn-link:hover, .btn-link:active {
     color: #428bca;
+    background: none !important;
 }
 
 .btn-default {
     color: #57606d;
     font-size: 14px;
     border: 1px solid #BFC9D7;
-
+    background: #fff;
+    &:hover {
+        border: 1px solid #939EAE;
+    }
     &:not(.label-btn):hover {
         background: #e1edf9;
         box-shadow: none !important;
@@ -57,6 +65,12 @@ select {
         background: #E1EDF9;
         box-shadow: none !important;
     }
+}
+
+.btn-default:active, .btn-default:focus, .btn-default:target{
+  background-color: #DCE6F1 !important;
+  border: 1px solid #BFC9D7 !important;
+  box-shadow: none;
 }
 
 .label-btn {
@@ -83,11 +97,25 @@ select {
         }
 
         .btn-default {
-            border-radius: 2px !important;
+            border-radius: 0;
             box-shadow: none;
 
+            
+
+            &.active,
+            &.active:hover {
+                background-color: #DCE6F1 !important;
+                border: 1px solid #BFC9D7;
+                color: #363D49;
+                box-shadow: none;
+
+                span {
+                    color: #363D49;
+                }
+            }
+            
             &:hover {
-                background-color: #E1EDF9;
+                background-color: #0564A9;
                 color: #363D49;
                 border: 1px solid #BFC9D7;
                 span {
@@ -95,32 +123,20 @@ select {
                 }
             }
 
-            &.active,
-            &.active:hover {
-                background-color: #0978C9;
-                border: 1px solid #0978C9;
-                color: #ffffff;
-                box-shadow: none;
-
-                span {
-                    color: #fff;
-                }
-            }
-
             &:first-child {
-                border-top-right-radius: 0 !important;
-                border-bottom-right-radius: 0 !important;
+                border-top-left-radius: 2px !important;
+                border-bottom-left-radius: 2px !important;
             }
 
             &:last-child {
-                border-top-left-radius: 0 !important;
-                border-bottom-left-radius: 0 !important;
+                border-top-right-radius: 2px !important;
+                border-bottom-right-radius: 2px !important;
             }
 
             &.whitelist.active.disabled,
             &.blacklist.active.disabled {
                 /* Override for Inventory whitelist/blacklist toggle active button */
-                border: 1px solid #0978C9;
+                //border: 1px solid #0978C9;
                 opacity: 1;
             }
 
@@ -133,6 +149,8 @@ select {
 
 // Big Toggle BTN
 .goalBtnGroup {
+    float: left;
+    cursor: pointer;
     .btn-primary {
         border-radius: 0;
         width: auto;
@@ -148,27 +166,42 @@ select {
         padding: 10px 15px;
 
         &:hover {
-            background-color: #E1EDF9;
-            color: #363D49;
+            background: #E1EDF9 !important;
+            .hideRadioBtn {
+                background-color: none !important;
+                span, [class^="icon-"], [class*=" icon-"] {
+                    color: #363D49;
+                    background: none !important;
+                }
+            }
         }
-
+ 
         &.first {
             border-left: 1px solid #BFC9D7;
         }
 
         &.active {
-            background-color: #0978C9;
-            border-right: 1px solid #0978C9 !important;
-            color: #ffffff;
+            background-color: #DCE6F1 !important;
             box-shadow: none;
+            color:#363D49;
 
             span {
-                color: #fff;
+                color:#363D49;
+            }
+            
+            &.hover {
+                .hideRadioBtn {
+                    color: #363D49 !important;
+                    background-color: transparent !important;
+                    span {
+                        color:#363D49;
+                    }
+                }
             }
 
-            .hideRadioBtn:hover {
-                background-color: #0978C9 !important;
+            .hideRadioBtn {
                 color: #363D49 !important;
+                background-color: transparent !important;
             }
         }
 
@@ -188,25 +221,6 @@ select {
         position: relative;
         height: 60px;
         margin-top: 10px;
-
-        &.active {
-            .hideRadioBtn:hover {
-                background-color: #E1EDF9;
-                color: #363D49;
-            }
-
-            .hideRadioBtn {
-                background-color: #0978C9;
-                color: #ffffff;
-                box-shadow: none;
-
-                [class^="icon-"],
-                [class*=" icon-"] {
-                    color: #fff;
-                }
-            }
-        }
-
         .hideRadioBtn {
             top: 0;
             left: 0;
@@ -214,16 +228,11 @@ select {
             height: 100%;
             margin-top: -15px;
             margin-bottom: 0;
-
             img,
             [class^="icon-"],
             [class*=" icon-"] {
                 float: left;
             }
-        }
-
-        .hideRadioBtn:hover {
-            background-color: #E1EDF9;
         }
     }
 }
@@ -412,6 +421,64 @@ input.cmn-toggle-round:checked + label:before {
 
 input.cmn-toggle-round:checked + label:after {
     margin-left: 49px;
+}
+
+// Button With Check Boxes
+.screenChkSelection {
+    .btn-default {
+        float: left;
+        padding: 9px 15px;
+        width: auto;
+        cursor: pointer;
+        color:#363D49;
+        background-color:#ffffff;
+        font-family: Avenir;
+        border-radius: 2px;
+        border: 1px solid #BFC9D7 !important;
+        margin-right: 15px;
+        
+        &:hover {
+            background-color: #E1EDF9 !important;
+            border: 1px solid #939EAE !important;
+        }
+        
+        &.active {
+            background-color: #DCE6F1 !important;
+            border: 1px solid #BFC9D7 !important;
+            box-shadow: none;
+        }
+
+        label {
+            float: left;
+            cursor: pointer;
+            margin: 0;
+            .btnLabel {
+                float: left;
+                font-weight: normal;
+                line-height: 100%;
+                margin-top: 2px;
+                padding: 0;
+            }
+
+            [class^="icon-"],
+            [class*=" icon-"] {
+                float: left;
+                margin: 0 10px;
+            }
+
+            input[type="checkbox"] {
+                height: 16px;
+                margin: 0;
+                position: relative;
+                width: 16px;
+                float: left;
+
+                &:checked {
+                    background: #fff;
+                }
+            }
+        }
+    }
 }
 
 //Pills Styling

@@ -5,3 +5,4 @@ window.workflowCreate_api = 'https://beta.collective.com/api/workflow/v3';
 window.ga_id = 'UA-58701829-1';
 window.version = '1615.01';
 window.help_domain_url = 'https://vistohelp.collective.com';
+

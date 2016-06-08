@@ -2674,7 +2674,6 @@ input[type="submit"] {
 }
 .nav_filters {
   width: 100%;
-  margin: 5px auto 2px ;
   font-size: 14px;
   color: #21252B;
   line-height: 20px;
@@ -2717,14 +2716,15 @@ input[type="submit"] {
 }
 .nav_filters .each_filter #advertisersDropDownList,
 .nav_filters .each_filter #subAccountDropDownList {
-  width: 280px;
-  left: 0px ;
-  padding: 0 ;
+  width: auto;
+  padding-top: 0;
 }
 .nav_filters .each_filter #advertisersDropDownList .brandsList_ul2,
 .nav_filters .each_filter #subAccountDropDownList .brandsList_ul2 {
   max-height: 200px;
   overflow: auto ;
+  float: left;
+  width: 100%;
 }
 .nav_filters .each_filter #advertisersDropDownList .brand_search_highlight,
 .nav_filters .each_filter #subAccountDropDownList .brand_search_highlight {
@@ -2761,6 +2761,36 @@ input[type="submit"] {
 .nav_filters .each_filter #brandsList .brandsList_ul {
   max-height: 200px;
   overflow: auto ;
+  float: left;
+  width: 100%;
+}
+.nav_filters .each_filter #brandsList .brandsList_ul li a {
+  float: left;
+  width: 100%;
+  color: #21252b;
+  font-family: Avenir;
+  font-size: 14px;
+  line-height: 100%;
+  padding: 9px 15px;
+  overflow: hidden;
+}
+.nav_filters .each_filter #brandsList .brandsList_ul li a:hover,
+.nav_filters .each_filter #brandsList .brandsList_ul li a:focus {
+  color: #21252b;
+  text-decoration: none;
+  background-color: #E1EDF9;
+}
+.nav_filters .each_filter #brandsList .brandsList_ul li a span {
+  padding: 0;
+}
+.nav_filters .each_filter #brandsList .brandsList_ul li.active a {
+  background: #fff;
+}
+.nav_filters .each_filter #brandsList .brandsList_ul li.active a:hover,
+.nav_filters .each_filter #brandsList .brandsList_ul li.active a:focus {
+  color: #21252b;
+  text-decoration: none;
+  background-color: #E1EDF9;
 }
 .nav_filters .each_filter #brandsList .brand_search_highlight {
   border-bottom: solid 1px #fff ;
@@ -2890,16 +2920,93 @@ input[type="submit"] {
   position: relative;
 }
 .nav_filters .brandsDropdownSearch #brandsDropdownDiv,
-.nav_filters .brandsDropdownSearch #subAccountDropdownDiv {
+.nav_filters .brandsDropdownSearch #subAccountDropdownDiv,
+.nav_filters .brandsDropdownSearch .advertisersList_ul {
   width: 100%;
-  border-bottom: solid 1px #ccc;
-  padding: 0px 10px;
+  border-bottom: solid 1px #BFC9D7;
+  float: left;
 }
 .nav_filters .brandsDropdownSearch #brandsDropdownDiv input,
-.nav_filters .brandsDropdownSearch #subAccountDropdownDiv input {
+.nav_filters .brandsDropdownSearch #subAccountDropdownDiv input,
+.nav_filters .brandsDropdownSearch .advertisersList_ul input {
   font-family: "Avenir";
   padding-right: 20px;
-  background: url("/images/cdesk/search_input.png") no-repeat right center;
+  background: url("/images/cdesk/search_input.png") #fff no-repeat right center !important;
+}
+.nav_filters .brandsDropdownSearch #brandsDropdownDiv li,
+.nav_filters .brandsDropdownSearch #subAccountDropdownDiv li,
+.nav_filters .brandsDropdownSearch .advertisersList_ul li {
+  float: left;
+  width: 100%;
+}
+.nav_filters .brandsDropdownSearch #brandsDropdownDiv li a,
+.nav_filters .brandsDropdownSearch #subAccountDropdownDiv li a,
+.nav_filters .brandsDropdownSearch .advertisersList_ul li a {
+  color: #21252b;
+  font-family: Avenir;
+  font-size: 14px;
+  line-height: 100%;
+  padding: 9px 15px !important;
+  overflow: hidden;
+  float: left;
+  width: 100%;
+}
+.nav_filters .brandsDropdownSearch #brandsDropdownDiv li a:hover,
+.nav_filters .brandsDropdownSearch #subAccountDropdownDiv li a:hover,
+.nav_filters .brandsDropdownSearch .advertisersList_ul li a:hover,
+.nav_filters .brandsDropdownSearch #brandsDropdownDiv li a:focus,
+.nav_filters .brandsDropdownSearch #subAccountDropdownDiv li a:focus,
+.nav_filters .brandsDropdownSearch .advertisersList_ul li a:focus {
+  color: #21252b;
+  text-decoration: none;
+  background-color: #E1EDF9;
+}
+.nav_filters .brandsDropdownSearch #brandsDropdownDiv li a span,
+.nav_filters .brandsDropdownSearch #subAccountDropdownDiv li a span,
+.nav_filters .brandsDropdownSearch .advertisersList_ul li a span {
+  padding: 0;
+}
+.nav_filters .brandsDropdownSearch #brandsDropdownDiv li.active a,
+.nav_filters .brandsDropdownSearch #subAccountDropdownDiv li.active a,
+.nav_filters .brandsDropdownSearch .advertisersList_ul li.active a {
+  background: #fff !important;
+}
+.nav_filters .brandsDropdownSearch .subAccountList_ul {
+  float: left;
+  width: 100%;
+}
+.nav_filters .brandsDropdownSearch .subAccountList_ul li {
+  padding: 0;
+  width: 100%;
+  float: left;
+}
+.nav_filters .brandsDropdownSearch .subAccountList_ul li a {
+  float: left;
+  width: 100%;
+  color: #21252b;
+  font-family: Avenir;
+  font-size: 14px;
+  line-height: 100%;
+  padding: 9px 15px !important;
+  overflow: hidden;
+}
+.nav_filters .brandsDropdownSearch .subAccountList_ul li a:hover,
+.nav_filters .brandsDropdownSearch .subAccountList_ul li a:focus {
+  color: #21252b;
+  text-decoration: none;
+  background-color: #E1EDF9;
+}
+.nav_filters .brandsDropdownSearch .subAccountList_ul li a span {
+  padding: 0;
+}
+.nav_filters .brandsDropdownSearch .subAccountList_ul li.active a {
+  background: transparent;
+}
+.nav_filters .brandsDropdownSearch .subAccountList_ul li.active a:hover,
+.nav_filters .brandsDropdownSearch .subAccountList_ul li.active a:focus {
+  color: #21252b;
+  text-decoration: none;
+  background-color: #E1EDF9;
 }
 .nav_filters #strategy_dropdown {
   background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px;

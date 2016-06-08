@@ -1,14 +1,14 @@
 define(['angularAMD', '../../../common/services/constants_service', 'login/login_model'], function (angularAMD) {
     'use strict';
-    angularAMD.directive('campaignChart', function($window, $filter, constants, loginModel) {
+    angularAMD.directive('campaignChart', function ($window, $filter, constants, loginModel) {
         return {
             restrict: 'EA',
             template: "<svg></svg>",
-            link: function(scope, elem, attrs) {
+            link: function (scope, elem, attrs) {
                 var lineChartService = {
                     lineChartConfig: {},
 
-                    createVariablesToDrawGraph: function(data, index) {
+                    createVariablesToDrawGraph: function (data, index) {
                         var _config = this.lineChartConfig;
                         var xkeyVal = _config.keys.xAxis.val;
                         var ykeyVal = _config.keys.yAxis.val;
@@ -16,12 +16,12 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                         var width = _config.width;
                         var height = _config.height;
                         var xScale = d3.time.scale().domain([data[0][xkeyVal], data[data.length - 1][xkeyVal]]).range([margin.left, width]);
-                        var yScale = d3.scale.linear().domain([0, d3.max(data, function(d) {
+                        var yScale = d3.scale.linear().domain([0, d3.max(data, function (d) {
                             return d[ykeyVal];
                         })]).range([height, margin.left]);
                         var ticksData;
-                        if(_config.isPerformanceChart) {
-                            ticksData = data.length > 7 ? 5 : data.length-1;
+                        if (_config.isPerformanceChart) {
+                            ticksData = data.length > 7 ? 5 : data.length - 1;
                         } else {
                             ticksData = _config.keys.xAxis.ticks;
                         }
@@ -34,8 +34,10 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                             .tickSize(0);
 
                         //tick control
-                        if(!_config.isPerformanceChart && data !== null) {
-                            var timeExtent = d3.extent(data, function(d) {return Date.parse(d.date)});
+                        if (!_config.isPerformanceChart && data !== null) {
+                            var timeExtent = d3.extent(data, function (d) {
+                                return Date.parse(d.date)
+                            });
                             var median = d3.median(timeExtent);
 
                             xAxisGen.tickValues([
@@ -49,18 +51,18 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
 
                         //.tickValues(_config.keys.xAxis.tickValues)
                         /*.tickFormat(function(d){
-                            return d ==0 ? d : (d +'%');
-                        });*/
+                         return d ==0 ? d : (d +'%');
+                         });*/
                         var numberFormat = d3.format(".f");
                         var yAxisGen = d3.svg.axis()
                             .scale(yScale)
                             .orient("left")
                             .ticks(_config.keys.yAxis.ticks)
                             .tickPadding(10)
-                          //  .tickFormat(d3.format(".f"))
-                           .tickFormat(function(d){
-                              return kpiPrefix(_config.kpiType) + " " + numberFormat(d) + " " + kpiSuffix(_config.kpiType);
-                           })
+                            //  .tickFormat(d3.format(".f"))
+                            .tickFormat(function (d) {
+                                return kpiPrefix(_config.kpiType) + " " + numberFormat(d) + " " + kpiSuffix(_config.kpiType);
+                            })
                             //.tickValues(_config.keys.yAxis.tickValues.length > 0 ? _config.keys.yAxis.tickValues : 1)
                             .tickSize(0);
 
@@ -70,20 +72,20 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                         //define area
                         //if area is enabled
                         /* var area = d3.svg.area()
-                             .x(function(d) {
-                                 return xScale(d[xkeyVal]);
-                             })
-                             .y0(height)
-                             .y1(function(d) {
-                                 return yScale(d[ykeyVal]);
-                             });*/
+                         .x(function(d) {
+                         return xScale(d[xkeyVal]);
+                         })
+                         .y0(height)
+                         .y1(function(d) {
+                         return yScale(d[ykeyVal]);
+                         });*/
 
                         //draw a line function
                         var lineFun = d3.svg.line()
-                            .x(function(d) {
+                            .x(function (d) {
                                 return xScale(d[xkeyVal]);
                             })
-                            .y(function(d) {
+                            .y(function (d) {
                                 return yScale(d[ykeyVal]);
                             });
 
@@ -98,7 +100,7 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                         });
                     },
 
-                    drawPath: function(data, index) {
+                    drawPath: function (data, index) {
                         // parse the dates from a string into a date object
                         var _config = this.lineChartConfig;
                         var xkeyVal = _config.keys.xAxis.val;
@@ -108,18 +110,18 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                         var chartCallFrom = _config.chartCallFrom;
                         var yScale = _config.yScale;
                         var adjustment = 10;
-                        if(_config.isPerformanceChart) {
-                          adjustment = 30;
+                        if (_config.isPerformanceChart) {
+                            adjustment = 30;
                         }
 
-                        var svg = d3.select(_config.rawSvg[0]).append('g').attr("transform", "translate("+adjustment+",0)");
+                        var svg = d3.select(_config.rawSvg[0]).append('g').attr("transform", "translate(" + adjustment + ",0)");
                         //draw the area now
                         /*if(index === 0) {
-                          svg.append("path")
-                              .datum(data)
-                              .attr("class", "area")
-                              .attr("d", _config.area);
-                        }*/
+                         svg.append("path")
+                         .datum(data)
+                         .attr("class", "area")
+                         .attr("d", _config.area);
+                         }*/
                         //lines for the border of the chart
                         svg.append("line")
                             .style("stroke-width", "1")
@@ -136,15 +138,15 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                             .attr("x2", _config.width).attr("y2", _config.margin.top);
 
                         //find the max data
-                        var maxData = d3.max(data, function(d) {
+                        var maxData = d3.max(data, function (d) {
                             return d[ykeyVal];
                         });
 
-                        if(_config.isPerformanceChart) {
+                        if (_config.isPerformanceChart) {
                             var adjustY;
-                            if(chartCallFrom == 'action_optimization') {
+                            if (chartCallFrom == 'action_optimization' || _config.kpiType.toLowerCase() == "action rate") {
                                 adjustY = 10;
-                            } else if(_config.kpiType.toLowerCase() == "impressions") {
+                            } else if (_config.kpiType.toLowerCase() == "impressions") {
                                 adjustY = 14;
                             } else {
                                 adjustY = 20;
@@ -154,12 +156,12 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                                 .attr("id", "kpi_type_text")
                                 .attr("x", -15)
                                 .attr("y", adjustY)
-                                .style("font-size","12px")
+                                .style("font-size", "12px")
                                 .style("fill", "#57595b")
-                                .text(_config.kpiType.toLowerCase()!=="impressions"?_config.kpiType:"Impressions");
-                         }
+                                .text(_config.kpiType.toLowerCase() !== "impressions" ? _config.kpiType : "Impressions");
+                        }
 
-                         if (threshold !== 0 && kpiType.toLowerCase() !== "impressions") {
+                        if (threshold !== 0 && kpiType.toLowerCase() !== "impressions") {
                             //if there is a threshold, then draw goal icon, line and render threshold encoding
 
                             //if threshold is out of view i.e greater than data view
@@ -176,21 +178,21 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                                 imagePosition = 5;
 
                             //if performance chart
-                            if(_config.isPerformanceChart) {
+                            if (_config.isPerformanceChart) {
                                 imageSize = "13";
                                 imagePosition = -30;
 
-                                 var addCrossHair = function(xCoord, yCoord) {
-                                      // Update vertical cross hair
-                                    if(xCoord > 21) { //show crosshair inside view
-                                      d3.select("#v_crosshair")
-                                          .attr("x1", xCoord)
-                                          .attr("y1", _config.height )
-                                          .attr("x2", xCoord)
-                                          .attr("y2", _config.margin.top)
-                                          .style("display", "block");
-                                      }
-                                  };
+                                var addCrossHair = function (xCoord, yCoord) {
+                                    // Update vertical cross hair
+                                    if (xCoord > 21) { //show crosshair inside view
+                                        d3.select("#v_crosshair")
+                                            .attr("x1", xCoord)
+                                            .attr("y1", _config.height)
+                                            .attr("x2", xCoord)
+                                            .attr("y2", _config.margin.top)
+                                            .style("display", "block");
+                                    }
+                                };
 
                                 svg.append("g").attr("class", "crosshair").append("line").attr("id", "v_crosshair") // vertical cross hair
                                     .attr("x1", 0)
@@ -201,15 +203,15 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                                     .style("stroke-width", "1px")
                                     .style("stroke-dasharray", "4,3")
                                     .style("display", "none");
-                                    svg.on("mousemove", function () {
+                                svg.on("mousemove", function () {
                                         var xCoord = d3.mouse(this)[0],
                                             yCoord = d3.mouse(this)[1];
                                         addCrossHair(xCoord, yCoord);
                                     })
-                                        .on("mouseover", function () {
+                                    .on("mouseover", function () {
                                         d3.selectAll(".crosshair").style("display", "block");
                                     })
-                                        .on("mouseout", function () {
+                                    .on("mouseout", function () {
                                         d3.selectAll(".crosshair").style("display", "none");
                                     })
                             } //check for performance chart ends
@@ -228,64 +230,26 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                                 .attr("x1", _config.margin.left).attr("y1", _config.yScale(threshold))
                                 .attr("x2", _config.width).attr("y2", _config.yScale(threshold));
 
-                            // svg.append("svg:path")
-                            //     //.attr('stroke', 'url(#temperature-gradient)')
-                            //     .attr({
-                            //         d: _config.lineFun(data),
-                            //         "class": "path" + index
-                            //     });
-
-                            //draw threshold
-                            //TODO: older method of encoding threshold - verification process.
-                            // svg.append("linearGradient")
-                            //     .attr("id", "temperature-gradient")
-                            //     .attr("gradientUnits", "userSpaceOnUse")
-                            //     .attr("x1", 0).attr("y1", _config.yScale(threshold))
-                            //     .attr("x2", 0).attr("y2", _config.yScale(threshold +0.01))
-                            //     .selectAll("stop")
-                            //     .data([{
-                            //             offset: "0%",
-                            //             color: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? '#f24444' : '#0078cc'
-                            //         }, {
-                            //             offset: "50%",
-                            //             color: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? '#f24444' : '#0078cc'
-                            //         }, //negative
-                            //         {
-                            //             offset: "50%",
-                            //             color:  (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? '#0078cc' : '#f24444'
-                            //         }, {
-                            //             offset: "100%",
-                            //             color: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? '#0078cc' : '#f24444'
-                            //         }
-                            //     ])
-                            //     .enter().append("stop")
-                            //     .attr("offset", function(d) {
-                            //         return d.offset;
-                            //     })
-                            //     .attr("stop-color", function(d) {
-                            //         return d.color;
-                            //     });
-
                             //interpolate path data
                             var line = d3.svg.line()
                                 .interpolate("basis")
-                                .x(function(d) {
+                                .x(function (d) {
                                     return _config.xScale(d.date);
                                 })
-                                .y(function(d) {
+                                .y(function (d) {
                                     return _config.yScale(d.values);
                                 });
 
                             //classes used to color the threshold clipping path
                             var red = "clip-above-" + _config.versionTag,
                                 blue = "clip-below-" + _config.versionTag,
-                                //default settings - positive color is blue and is below and danger zone is red that is above
+                            //default settings - positive color is blue and is below and danger zone is red that is above
                                 aboveClass = blue,
                                 belowClass = red;
                             if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
                                 //positive color is blue that is above and danger zone is below that is red
                                 aboveClass = red,
-                                belowClass = blue;
+                                    belowClass = blue;
                             }
 
                             //clipPath area for threshold encoding
@@ -303,32 +267,36 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                                 .attr("height", _config.height - _config.yScale(threshold));
 
                             //apply threshold encoding color classes to the path data
-                              svg.selectAll(".line")
+                            svg.selectAll(".line")
                                 .data(["above", "below"])
                                 .enter().append("path")
-                                .attr("class", function(d) { return "line " + d; })
-                                .attr("clip-path", function(d) { return "url(#clip-" + d + "-"+_config.versionTag+")"; })
+                                .attr("class", function (d) {
+                                    return "line " + d;
+                                })
+                                .attr("clip-path", function (d) {
+                                    return "url(#clip-" + d + "-" + _config.versionTag + ")";
+                                })
                                 .datum(data)
                                 .attr("d", line);
 
                         } else { //if no threshold
 
-                          if(kpiType.toLowerCase() === "impressions") {
-                            //delivery as kpi
-                            //***
-                            var maxUpperThreshold = d3.max(data, function(d) {
-                                return d['upperPacing'];
-                            });
-                            if(maxUpperThreshold>maxData) {
-                                updateDomain(maxUpperThreshold, 20);
-                            }
+                            if (kpiType.toLowerCase() === "impressions") {
+                                //delivery as kpi
+                                //***
+                                var maxUpperThreshold = d3.max(data, function (d) {
+                                    return d['upperPacing'];
+                                });
+                                if (maxUpperThreshold > maxData) {
+                                    updateDomain(maxUpperThreshold, 20);
+                                }
 
                                 var upperPacingLine = d3.svg.line()
                                     .interpolate("basis")
-                                    .x(function(d) {
+                                    .x(function (d) {
                                         return _config.xScale(d.date);
                                     })
-                                    .y(function(d) {
+                                    .y(function (d) {
                                         return _config.yScale(d.upperPacing);
                                     });
 
@@ -338,107 +306,111 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                                         d: upperPacingLine(data),
                                         "class": "upper_pacing"
                                     })
-                                    .style({"stroke":'#DDE6EB', "stroke-dasharray":5, "fill":'none'});
+                                    .style({"stroke": '#DDE6EB', "stroke-dasharray": 5, "fill": 'none'});
 
-                                    var lowerPacingLine = d3.svg.line()
-                                        .interpolate("basis")
-                                        .x(function(d) {
-                                            return _config.xScale(d.date);
-                                        })
-                                        .y(function(d) {
-                                            return _config.yScale(d.lowerPacing);
-                                        });
+                                var lowerPacingLine = d3.svg.line()
+                                    .interpolate("basis")
+                                    .x(function (d) {
+                                        return _config.xScale(d.date);
+                                    })
+                                    .y(function (d) {
+                                        return _config.yScale(d.lowerPacing);
+                                    });
 
 
-                                    svg.append("svg:path")
-                                        .attr({
-                                            d: lowerPacingLine(data),
-                                            "class": "upper_pacing"
-                                        })
-                                        .style({"stroke":'#DDE6EB', "stroke-dasharray":5, "fill":'none'});
+                                svg.append("svg:path")
+                                    .attr({
+                                        d: lowerPacingLine(data),
+                                        "class": "upper_pacing"
+                                    })
+                                    .style({"stroke": '#DDE6EB', "stroke-dasharray": 5, "fill": 'none'});
 
-                                  //CREATE DEFINITION FOR COLOR CLIPPING
-                                  var defs = svg.append("svg:defs");
+                                //CREATE DEFINITION FOR COLOR CLIPPING
+                                var defs = svg.append("svg:defs");
 
-                                  var clippath = defs.append("svg:clipPath")
-                                  .attr("id", "delivery-clip-"+_config.versionTag);
+                                var clippath = defs.append("svg:clipPath")
+                                    .attr("id", "delivery-clip-" + _config.versionTag);
 
-                                  var draw_clip_poly = function(d) {
+                                var draw_clip_poly = function (d) {
                                     return draw_polygon(_config.reverseUpperPacing).replace('M', '');
-                                  };
+                                };
 
-                                  var draw_polygon = d3.svg.line()
-                                    .x(function(d) { return _config.xScale(_config.parseDate(d.date)); })
-                                    .y(function(d) {  return _config.yScale(d.pacing); })
-                                    .interpolate(function (points) { return points.join(' '); });
-
-
-                                  //POLYGON TO CLIP COLOR
-                                  clippath.append("svg:polygon")
-                                  .attr("class", "area_clip")
-                                  .attr("points", draw_clip_poly);
-
-                                  var reversePacingLine = d3.svg.line()
-                                      .interpolate("basis")
-                                      .x(function(d) {
-                                          return _config.xScale(_config.parseDate(d.date));
-                                      })
-                                      .y(function(d) {
-                                          return _config.yScale(d.pacing);
-                                      });
+                                var draw_polygon = d3.svg.line()
+                                    .x(function (d) {
+                                        return _config.xScale(_config.parseDate(d.date));
+                                    })
+                                    .y(function (d) {
+                                        return _config.yScale(d.pacing);
+                                    })
+                                    .interpolate(function (points) {
+                                        return points.join(' ');
+                                    });
 
 
-                                  //DRAW IMPRESSIONS PATH
-                                  svg.append("svg:path")
-                                      .attr({
-                                          d: _config.lineFun(data),
-                                          "class": "path" + index
-                                      }) .style({"stroke":'#f24444', "stroke-width": 2, "fill":'none'});
-                                      var clipId = "url(#delivery-clip-"+versionTag+")";
+                                //POLYGON TO CLIP COLOR
+                                clippath.append("svg:polygon")
+                                    .attr("class", "area_clip")
+                                    .attr("points", draw_clip_poly);
 
-                                  //DRAW CLIPPED PATH
-                                  svg.append("svg:path")
+                                var reversePacingLine = d3.svg.line()
+                                    .interpolate("basis")
+                                    .x(function (d) {
+                                        return _config.xScale(_config.parseDate(d.date));
+                                    })
+                                    .y(function (d) {
+                                        return _config.yScale(d.pacing);
+                                    });
+
+
+                                //DRAW IMPRESSIONS PATH
+                                svg.append("svg:path")
+                                    .attr({
+                                        d: _config.lineFun(data),
+                                        "class": "path" + index
+                                    }).style({"stroke": '#f24444', "stroke-width": 2, "fill": 'none'});
+                                var clipId = "url(#delivery-clip-" + versionTag + ")";
+
+                                //DRAW CLIPPED PATH
+                                svg.append("svg:path")
                                     .attr("clip-path", clipId)
-                                      .attr({
-                                          d: _config.lineFun(data),
-                                          "class": "path" + index
-                                      });
+                                    .attr({
+                                        d: _config.lineFun(data),
+                                        "class": "path" + index
+                                    });
 
 
-                           } else {
-                              //resize domain of y-axis 20% extra spacing
-                              updateDomain(maxData, 20);
+                            } else {
+                                //resize domain of y-axis 20% extra spacing
+                                updateDomain(maxData, 20);
 
-                              //render default color to the path
-                              svg.append("svg:path")
-                                  .attr({
-                                      d: _config.lineFun(data),
-                                      "class": "path" + index
-                                  });
+                                //render default color to the path
+                                svg.append("svg:path")
+                                    .attr({
+                                        d: _config.lineFun(data),
+                                        "class": "path" + index
+                                    });
                             } //END OF KPI
 
                         }//END OF NO THRESHOLD CHECK
 
 
-
-
                         svg.append("rect")
-                          .attr("class", "overlay")
-                          .attr("width",  _config.width)
-                          .attr("height",  _config.height)
-                          //.attr("transform", "translate("+(adjustment-10)+",0)")
-                          //.on("mouseover", function() { focus.style("display", null); })
-                          //.on("mouseout", function() { focus.style("display", "none"); })
-                          .on("mousemove", mousemove)
-                          .on("mouseout", tooltipMouseOut);
+                            .attr("class", "overlay")
+                            .attr("width", _config.width)
+                            .attr("height", _config.height)
+                            //.attr("transform", "translate("+(adjustment-10)+",0)")
+                            //.on("mouseover", function() { focus.style("display", null); })
+                            //.on("mouseout", function() { focus.style("display", "none"); })
+                            .on("mousemove", mousemove)
+                            .on("mouseout", tooltipMouseOut);
 
                         //resize domain of yaxis
-                        function updateDomain(maxData, percentage){
-                          var adjustment = (maxData * percentage) /100;
-                          var newMax = adjustment + maxData;
-                          if(newMax>0){
-                              _config.yScale.domain([0, newMax]);
-                          }
+                        function updateDomain(maxData, percentage) {
+                            var adjustment = (maxData * percentage) / 100;
+                            var newMax = adjustment + maxData;
+                            if (newMax > 0) {
+                                _config.yScale.domain([0, newMax]);
+                            }
                         }
 
                         //tooltipMouseOver
@@ -451,423 +423,478 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                                 formatX = moment(xAxisValue).format('dddd, D MMM, YYYY');// //Saturday, 24 Jan, 2015
 
                             //calculating the plotting position
-                            var WIDTH= _config.width,
-                                HEIGHT= _config.height,
+                            var WIDTH = _config.width,
+                                HEIGHT = _config.height,
                                 w = 160,
                                 h = 40,
                                 x = mousePos[0],
                                 y = mousePos[1];
 
                             //if overflow in width
-                            if((x + w) > WIDTH) {
-                              x = x - 10 - w;
+                            if ((x + w) > WIDTH) {
+                                x = x - 10 - w;
                             }
 
                             //if overflow in height
-                            if((y + h) > HEIGHT) {
-                              y = HEIGHT - h;
+                            if ((y + h) > HEIGHT) {
+                                y = HEIGHT - h;
                             }
 
                             var rect = svg.selectAll(".tooltip_box")
                                 .data([mousePos]).enter()
                                 .append("rect")
-                                .attr("class","tooltip_box")
-                                .attr("x", function(d) { return x + 20 })
-                                .attr("y", function(d) { return y - 5 })
+                                .attr("class", "tooltip_box")
+                                .attr("x", function (d) {
+                                    return x + 20
+                                })
+                                .attr("y", function (d) {
+                                    return y - 5
+                                })
                                 .attr("width", w)
                                 .attr("height", h);
                             var text = svg.selectAll(".tooltip_line")
                                 .data([mousePos]).enter()
                                 .append("text")
                                 .classed("tooltip_line", true)
-                                .attr("x", function(d) { return x + 30 })
-                                .attr("y", function(d) { return y + 10 })
-                              text.append('tspan').text(formatX);
-                              text.append('tspan')
-                                  .attr("x", function(d) { return x + 30 })
-                                  .attr("dy", 16)
-                                  .style("font-weight","bold")
-                                  .text(kpiType+": ");
-                              text.append('tspan')
-                                  .attr("dx", 0)
-                                  .text(formatY);
-                              //.text(parseFloat(yAxisValue).toFixed(3));
-                          }
+                                .attr("x", function (d) {
+                                    return x + 30
+                                })
+                                .attr("y", function (d) {
+                                    return y + 10
+                                })
+                            text.append('tspan').text(formatX);
+                            text.append('tspan')
+                                .attr("x", function (d) {
+                                    return x + 30
+                                })
+                                .attr("dy", 16)
+                                .style("font-weight", "bold")
+                                .text(kpiType + ": ");
+                            text.append('tspan')
+                                .attr("dx", 0)
+                                .text(formatY);
+                            //.text(parseFloat(yAxisValue).toFixed(3));
+                        }
 
-                          //tooltipMouseout
-                          function tooltipMouseOut() {
-                             var svg = d3.select(_config.rawSvg[0]);
-                             svg.selectAll(".tooltip_line")//.data([]).exit()
-                             .remove();
-                             svg.selectAll(".tooltip_box")//.data([]).exit()
-                             .remove();
-                          }
+                        //tooltipMouseout
+                        function tooltipMouseOut() {
+                            var svg = d3.select(_config.rawSvg[0]);
+                            svg.selectAll(".tooltip_line")//.data([]).exit()
+                                .remove();
+                            svg.selectAll(".tooltip_box")//.data([]).exit()
+                                .remove();
+                        }
 
-                          var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+                        var bisectDate = d3.bisector(function (d) {
+                            return d.date;
+                        }).left;
 
-                          function mousemove() {
+                        function mousemove() {
 
-                             var x0 = _config.xScale.invert(d3.mouse(this)[0]),
-                                 i = bisectDate(data, x0, 1),
-                                 d0 = data[i - 1],
-                                 d1 = data[i];
+                            var x0 = _config.xScale.invert(d3.mouse(this)[0]),
+                                i = bisectDate(data, x0, 1),
+                                d0 = data[i - 1],
+                                d1 = data[i];
 
-                                 var d = undefined;
+                            var d = undefined;
 
-                                 if(d0 && d1) {
-                                   d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-                                 } else {
-                                   return false;
-                                 }
+                            if (d0 && d1) {
+                                d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+                            } else {
+                                return false;
+                            }
 
-                                 var svg = d3.select(_config.rawSvg[0]),
-                                     mousePos = d3.mouse(this),
-                                     formatY = parseFloat(d.values).toFixed(2),
-                                     formatX = moment(d.date).format('dddd, D MMM, YYYY');// //Saturday, 24 Jan, 2015
+                            var svg = d3.select(_config.rawSvg[0]),
+                                mousePos = d3.mouse(this),
+                                formatY = parseFloat(d.values).toFixed(2),
+                                formatX = moment(d.date).format('dddd, D MMM, YYYY');// //Saturday, 24 Jan, 2015
 
-                                 if(kpiType.toLowerCase() == "impressions") {
-                                   //delivery in tooltips shown as integer
-                                   formatY = parseInt(d.values);
-                                   formatY = $filter('nrFormat')(formatY, 0);
-                                 }
+                            if (kpiType.toLowerCase() == "impressions") {
+                                //delivery in tooltips shown as integer
+                                formatY = parseInt(d.values);
+                                formatY = $filter('nrFormat')(formatY, 0);
+                            }
 
-                                svg.selectAll(".tooltip_line")
-                                    .remove();
-                                svg.selectAll(".tooltip_box")
-                                    .remove();
+                            svg.selectAll(".tooltip_line")
+                                .remove();
+                            svg.selectAll(".tooltip_box")
+                                .remove();
 
-                                 //calculating the plotting position
-                                 var WIDTH= _config.width,
-                                     HEIGHT= _config.height,
-                                     w = 160,
-                                     h = 40,
-                                     x =  _config.xScale(_config.xScale.invert(d3.mouse(this)[0])),
-                                    // y = _config.yScale(_config.yScale.invert(d3.mouse(this)[1]));
-                                     y = _config.yScale(d.values);
+                            //calculating the plotting position
+                            var WIDTH = _config.width,
+                                HEIGHT = _config.height,
+                                w = 160,
+                                h = 40,
+                                x = _config.xScale(_config.xScale.invert(d3.mouse(this)[0])),
+                            // y = _config.yScale(_config.yScale.invert(d3.mouse(this)[1]));
+                                y = _config.yScale(d.values);
 
-                                 //if overflow in width
-                                 if((x + w) > WIDTH) {
-                                    x = x - 20 - w;
-                                 }
+                            //if overflow in width
+                            if ((x + w) > WIDTH) {
+                                x = x - 20 - w;
+                            }
 
-                                 //if overflow in height
-                                 if((y + h) > HEIGHT) {
-                                    y = HEIGHT - h;
-                                 }
+                            //if overflow in height
+                            if ((y + h) > HEIGHT) {
+                                y = HEIGHT - h;
+                            }
 
-                                 var rect = svg
-                                     .append("rect")
-                                     .attr("class","tooltip_box")
-                                     .attr("x", function(d) { return x + 20 })
-                                     .attr("y", function(d) { return y - 5 })
-                                     .attr("width", w)
-                                     .attr("height", h)
+                            var rect = svg
+                                .append("rect")
+                                .attr("class", "tooltip_box")
+                                .attr("x", function (d) {
+                                    return x + 20
+                                })
+                                .attr("y", function (d) {
+                                    return y - 5
+                                })
+                                .attr("width", w)
+                                .attr("height", h)
 
-                                 var text = svg
-                                     .append("text")
-                                     .classed("tooltip_line", true)
-                                     .attr("x", function(d) { return x + 30 })
-                                     .attr("y", function(d) { return y + 10 })
+                            var text = svg
+                                .append("text")
+                                .classed("tooltip_line", true)
+                                .attr("x", function (d) {
+                                    return x + 30
+                                })
+                                .attr("y", function (d) {
+                                    return y + 10
+                                })
 
-                                   text.append('tspan').text(formatX);
-                                   text.append('tspan')
-                                       .attr("x", function(d) { return x + 30 })
-                                       .attr("dy", 16)
-                                       .style("font-weight","bold")
-                                       .text(kpiType+": ");
-                                   text.append('tspan')
-                                       .attr("dx", 0)
-                                       .text(formatY);
+                            text.append('tspan').text(formatX);
+                            text.append('tspan')
+                                .attr("x", function (d) {
+                                    return x + 30
+                                })
+                                .attr("dy", 16)
+                                .style("font-weight", "bold")
+                                .text(kpiType + ": ");
+                            text.append('tspan')
+                                .attr("dx", 0)
+                                .text(formatY);
 
-                                       // focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
-                                       // focus.select("text").text(formatCurrency(d.close));
-                           }
+                            // focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
+                            // focus.select("text").text(formatCurrency(d.close));
+                        }
 
-  if(_config.isPerformanceChart) {
+                        if (_config.isPerformanceChart) {
 
-                          var actionItems = [];
-                          //TODO: prepare activity data
-                          // _.each(data, function(seriesData, i) {
-                          //     _.each(_config.activityList, function(activityData, j) {
-                          //       if(moment(seriesData.date).format('YYYY-MM-DD') == moment(activityData.created_at).format('YYYY-MM-DD')) {
-                          //         actionItems.push({
-                          //             date: _config.parseDate(moment(activityData.created_at).format('YYYY-MM-DD')),
-                          //             values: seriesData.values,
-                          //             name: activityData.ad_name
-                          //         });
-                          //       }
-                          //
-                          //     })
-                          //
-                          // })
+                            var actionItems = [];
+                            //TODO: prepare activity data
+                            // _.each(data, function(seriesData, i) {
+                            //     _.each(_config.activityList, function(activityData, j) {
+                            //       if(moment(seriesData.date).format('YYYY-MM-DD') == moment(activityData.created_at).format('YYYY-MM-DD')) {
+                            //         actionItems.push({
+                            //             date: _config.parseDate(moment(activityData.created_at).format('YYYY-MM-DD')),
+                            //             values: seriesData.values,
+                            //             name: activityData.ad_name
+                            //         });
+                            //       }
+                            //
+                            //     })
+                            //
+                            // })
 
                             var external = _config.external,
-                              showExternal;
+                                showExternal;
                             if (external != undefined && external == true) {
                                 //filter applied
                                 showExternal = true;
                             }
 
 //---------
-                          var countActivityItem = [],
-                              findPlacedActivity = [],
-                              eFlag =0,
-                              position = 0,
-                              flag = [],
-                              counter = 0;
-                          var defaultGrey = _config.defaultGrey;
-                          if (_config.activityList) {
-                              _.each(data, function(seriesData, i) {
-                                  position = 0;
-                                  _.each(_config.activityList, function(activityData, j) {
-                                      var dateUTC = new Date(activityData.created_at);
-                                      var actionUTC = Date.UTC(dateUTC.getUTCFullYear(), dateUTC.getUTCMonth(), dateUTC.getUTCDate());
-                                      //if(seriesData.date == actionUTC) {
-                                      if(moment(seriesData.date).format('YYYY-MM-DD') == moment(activityData.created_at).format('YYYY-MM-DD')) {
-                                          if (flag[actionUTC] === undefined) {
-                                              flag[actionUTC] = 1;
-                                          }
+                            var countActivityItem = [],
+                                findPlacedActivity = [],
+                                eFlag = 0,
+                                position = 0,
+                                flag = [],
+                                counter = 0;
+                            var defaultGrey = _config.defaultGrey;
+                            if (_config.activityList) {
+                                _.each(data, function (seriesData, i) {
+                                    position = 0;
+                                    _.each(_config.activityList, function (activityData, j) {
+                                        var dateUTC = new Date(activityData.created_at);
+                                        var actionUTC = Date.UTC(dateUTC.getUTCFullYear(), dateUTC.getUTCMonth(), dateUTC.getUTCDate());
+                                        //if(seriesData.date == actionUTC) {
+                                        if (moment(seriesData.date).format('YYYY-MM-DD') == moment(activityData.created_at).format('YYYY-MM-DD')) {
+                                            if (flag[actionUTC] === undefined) {
+                                                flag[actionUTC] = 1;
+                                            }
 
-                                          if((showExternal && activityData.make_external == true) || (showExternal === undefined)) {
-                                              eFlag = activityData.make_external;
-                                              if (countActivityItem[actionUTC] == undefined  ){
-                                                  countActivityItem[actionUTC] = [];
-                                                  countActivityItem[actionUTC]['externalIDS'] =[];
-                                                  countActivityItem[actionUTC]['internalIDS'] =[];
-                                                  countActivityItem[actionUTC]['external'] = 0
-                                                  countActivityItem[actionUTC]['internal'] = 0;
-                                              }
-                                              if(eFlag == true){
-                                                  if( countActivityItem[actionUTC]['external'] != undefined ){
-                                                      countActivityItem[actionUTC]['external']++;
-                                                      var arrayVar = "externalIDS";
-                                                  }
-                                              } else {
-                                                  var arrayVar = "internalIDS";
-                                                  if( countActivityItem[actionUTC]['internal'] != undefined ){
-                                                      countActivityItem[actionUTC]['internal']++;
-                                                  }
-                                              }
-                                              var activity_id = activityData.ad_id + '' + activityData.id;
-                                              var check_morethan_one = countActivityItem[actionUTC][arrayVar].length > 0 ? "," : "";
-                                              countActivityItem[actionUTC][arrayVar]= countActivityItem[actionUTC][arrayVar] + check_morethan_one + activity_id;
-                                          }
-                                      }
-                                  }) //end of activity data iteration
-                              }) //end of series data iteration
-                          }
+                                            if ((showExternal && activityData.make_external == true) || (showExternal === undefined)) {
+                                                eFlag = activityData.make_external;
+                                                if (countActivityItem[actionUTC] == undefined) {
+                                                    countActivityItem[actionUTC] = [];
+                                                    countActivityItem[actionUTC]['externalIDS'] = [];
+                                                    countActivityItem[actionUTC]['internalIDS'] = [];
+                                                    countActivityItem[actionUTC]['external'] = 0
+                                                    countActivityItem[actionUTC]['internal'] = 0;
+                                                }
+                                                if (eFlag == true) {
+                                                    if (countActivityItem[actionUTC]['external'] != undefined) {
+                                                        countActivityItem[actionUTC]['external']++;
+                                                        var arrayVar = "externalIDS";
+                                                    }
+                                                } else {
+                                                    var arrayVar = "internalIDS";
+                                                    if (countActivityItem[actionUTC]['internal'] != undefined) {
+                                                        countActivityItem[actionUTC]['internal']++;
+                                                    }
+                                                }
+                                                var activity_id = activityData.ad_id + '' + activityData.id;
+                                                var check_morethan_one = countActivityItem[actionUTC][arrayVar].length > 0 ? "," : "";
+                                                countActivityItem[actionUTC][arrayVar] = countActivityItem[actionUTC][arrayVar] + check_morethan_one + activity_id;
+                                            }
+                                        }
+                                    }) //end of activity data iteration
+                                }) //end of series data iteration
+                            }
 
-                          var activityCount = 0;
-                          var extSLNo,intSLNo,overlapResult,activityDateArray = [];
-                          extSLNo = intSLNo = 1;
-                          var getParams= (document.URL).split(/[\s/]+/);
-                          var selectedCampaignId = getParams[getParams.length - 1] == 'optimization' ? JSON.parse(localStorage.getItem('selectedCampaign')).id : getParams[getParams.length - 1] ;
-                          if (_config.activityList) {
-                              _.each(data, function(seriesData, i) {
-                                  position = 0;
-                                  _.each(_config.activityList, function(activityData, j) {
-                                      var dateUTC = new Date(activityData.created_at);
-                                      var actionUTC = Date.UTC(dateUTC.getUTCFullYear(), dateUTC.getUTCMonth(), dateUTC.getUTCDate());
-                                      if(moment(seriesData.date).format('YYYY-MM-DD') == moment(activityData.created_at).format('YYYY-MM-DD')) {
+                            var activityCount = 0;
+                            var extSLNo, intSLNo, overlapResult, activityDateArray = [];
+                            extSLNo = intSLNo = 1;
+                            var getParams = (document.URL).split(/[\s/]+/);
+                            var selectedCampaignId = getParams[getParams.length - 1] == 'optimization' ? JSON.parse(localStorage.getItem('selectedCampaign')).id : getParams[getParams.length - 1];
+                            if (_config.activityList) {
+                                _.each(data, function (seriesData, i) {
+                                    position = 0;
+                                    _.each(_config.activityList, function (activityData, j) {
+                                        var dateUTC = new Date(activityData.created_at);
+                                        var actionUTC = Date.UTC(dateUTC.getUTCFullYear(), dateUTC.getUTCMonth(), dateUTC.getUTCDate());
+                                        if (moment(seriesData.date).format('YYYY-MM-DD') == moment(activityData.created_at).format('YYYY-MM-DD')) {
 
-                                          var newActivity = undefined;
+                                            var newActivity = undefined;
 
-                                          if (flag[actionUTC] === undefined) {
-                                              flag[actionUTC] = 1;
-                                          }
+                                            if (flag[actionUTC] === undefined) {
+                                                flag[actionUTC] = 1;
+                                            }
 
-                                          // newActivity ={
-                                          //     date: _config.parseDate(moment(activityData.created_at).format('YYYY-MM-DD')),
-                                          //     values: seriesData.values,
-                                          //     name: activityData.ad_name
-                                          // };
+                                            // newActivity ={
+                                            //     date: _config.parseDate(moment(activityData.created_at).format('YYYY-MM-DD')),
+                                            //     values: seriesData.values,
+                                            //     name: activityData.ad_name
+                                            // };
 
-                                          if ((showExternal && activityData.make_external == true) || (showExternal === undefined)) {
-                                              var checkFlag = activityData.make_external == true ? 'external':'internal',
-                                                  arrayVar = activityData.make_external == true ? 'externalIDS':'internalIDS',
-                                                  id_list = countActivityItem[actionUTC][arrayVar],
-                                                  overlapFlag;
-                                              activityCount = countActivityItem[actionUTC][checkFlag];
-                                              if(activityCount == 1){
-                                                  var circleInfo = getCircleSLNo(activityData.make_external,extSLNo,intSLNo,actionUTC,selectedCampaignId);
-                                                  var circleSLNo = circleInfo.circleSLNo;
-                                                  //Get Increment Id for external and Internal SL Number
-                                                  extSLNo = circleInfo.extSLNo;
-                                                  intSLNo = circleInfo.intSLNo;
-                                                  overlapResult = getOverlapFlag(activityDateArray,actionUTC);
-                                                  activityDateArray = overlapResult.activityDateArray;
-                                                  overlapFlag = overlapResult.overlapFlag;
+                                            if ((showExternal && activityData.make_external == true) || (showExternal === undefined)) {
+                                                var checkFlag = activityData.make_external == true ? 'external' : 'internal',
+                                                    arrayVar = activityData.make_external == true ? 'externalIDS' : 'internalIDS',
+                                                    id_list = countActivityItem[actionUTC][arrayVar],
+                                                    overlapFlag;
+                                                activityCount = countActivityItem[actionUTC][checkFlag];
+                                                if (activityCount == 1) {
+                                                    var circleInfo = getCircleSLNo(activityData.make_external, extSLNo, intSLNo, actionUTC, selectedCampaignId);
+                                                    var circleSLNo = circleInfo.circleSLNo;
+                                                    //Get Increment Id for external and Internal SL Number
+                                                    extSLNo = circleInfo.extSLNo;
+                                                    intSLNo = circleInfo.intSLNo;
+                                                    overlapResult = getOverlapFlag(activityDateArray, actionUTC);
+                                                    activityDateArray = overlapResult.activityDateArray;
+                                                    overlapFlag = overlapResult.overlapFlag;
 
-                                                  //TODO: DRAW MARKER WITH ONE ACTIVITY
-                                                  newActivity ={
-                                                      date: _config.parseDate(moment(activityData.created_at).format('YYYY-MM-DD')),
-                                                      values: seriesData.values,
-                                                      name: activityData.ad_name,
-                                                      id: activityData.ad_id + '' + activityData.id,
-                                                      comment: activityData.comment,
-                                                      activityCount: activityCount,
-                                                      make_external: activityData.make_external,
-                                                      id_list: id_list,
-                                                      circleSLNo: circleSLNo,
-                                                      overlapFlag: overlapFlag,
-                                                      kpiType: kpiType,
-                                                      defaultGrey: defaultGrey,
-                                                      action_color: activityData.action_color,
-                                                      position: position,
-                                                      flagId: activityData.make_external == true ? 'external' : 'internal',
-                                                  };
-                                                  actionItems.push(newActivity);
+                                                    //TODO: DRAW MARKER WITH ONE ACTIVITY
+                                                    newActivity = {
+                                                        date: _config.parseDate(moment(activityData.created_at).format('YYYY-MM-DD')),
+                                                        values: seriesData.values,
+                                                        name: activityData.ad_name,
+                                                        id: activityData.ad_id + '' + activityData.id,
+                                                        comment: activityData.comment,
+                                                        activityCount: activityCount,
+                                                        make_external: activityData.make_external,
+                                                        id_list: id_list,
+                                                        circleSLNo: circleSLNo,
+                                                        overlapFlag: overlapFlag,
+                                                        kpiType: kpiType,
+                                                        defaultGrey: defaultGrey,
+                                                        action_color: activityData.action_color,
+                                                        position: position,
+                                                        flagId: activityData.make_external == true ? 'external' : 'internal',
+                                                    };
+                                                    actionItems.push(newActivity);
 
-                                                  //drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list,circleSLNo,overlapFlag);
-                                                  counter++;
-                                                  position += 20; //correction for multiple markers in the same place
-                                              } else {
-                                                  if (findPlacedActivity[actionUTC] == undefined  ){
-                                                      findPlacedActivity[actionUTC] =[];
-                                                      findPlacedActivity[actionUTC]['external'] = 0
-                                                      findPlacedActivity[actionUTC]['internal'] = 0;
-                                                  }
-                                                   //Multiple Item in single chart
-                                                  if( findPlacedActivity[actionUTC][checkFlag] != 'completed' ){
-                                                      findPlacedActivity[actionUTC][checkFlag] = 'completed';
-                                                      var circleInfo = getCircleSLNo(activityData.make_external,extSLNo,intSLNo,actionUTC,selectedCampaignId);
-                                                      //Get circle SL Number
-                                                      var circleSLNo = circleInfo.circleSLNo;
-                                                      //Get Increment Id for external and Internal SL Number
-                                                      extSLNo = circleInfo.extSLNo;
-                                                      intSLNo = circleInfo.intSLNo;
-                                                      overlapResult = getOverlapFlag(activityDateArray,actionUTC);
-                                                      activityDateArray = overlapResult.activityDateArray;
-                                                      overlapFlag = overlapResult.overlapFlag;
+                                                    //drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list,circleSLNo,overlapFlag);
+                                                    counter++;
+                                                    position += 20; //correction for multiple markers in the same place
+                                                } else {
+                                                    if (findPlacedActivity[actionUTC] == undefined) {
+                                                        findPlacedActivity[actionUTC] = [];
+                                                        findPlacedActivity[actionUTC]['external'] = 0
+                                                        findPlacedActivity[actionUTC]['internal'] = 0;
+                                                    }
+                                                    //Multiple Item in single chart
+                                                    if (findPlacedActivity[actionUTC][checkFlag] != 'completed') {
+                                                        findPlacedActivity[actionUTC][checkFlag] = 'completed';
+                                                        var circleInfo = getCircleSLNo(activityData.make_external, extSLNo, intSLNo, actionUTC, selectedCampaignId);
+                                                        //Get circle SL Number
+                                                        var circleSLNo = circleInfo.circleSLNo;
+                                                        //Get Increment Id for external and Internal SL Number
+                                                        extSLNo = circleInfo.extSLNo;
+                                                        intSLNo = circleInfo.intSLNo;
+                                                        overlapResult = getOverlapFlag(activityDateArray, actionUTC);
+                                                        activityDateArray = overlapResult.activityDateArray;
+                                                        overlapFlag = overlapResult.overlapFlag;
 
-                                                      //TODO: DRAW ACTIVITY MARKER WITH THIS DATA
-                                                      newActivity ={
-                                                          date: _config.parseDate(moment(activityData.created_at).format('YYYY-MM-DD')),
-                                                          values: seriesData.values,
-                                                          name: activityData.ad_name,
-                                                          id: activityData.ad_id + '' + activityData.id,
-                                                          comment: activityData.comment,
-                                                          activityCount: activityCount,
-                                                          make_external: activityData.make_external,
-                                                          id_list: id_list,
-                                                          circleSLNo: circleSLNo,
-                                                          overlapFlag: overlapFlag,
-                                                          kpiType: kpiType,
-                                                          defaultGrey: defaultGrey,
-                                                          action_color: activityData.action_color,
-                                                          position: position,
-                                                          flagId: activityData.make_external == true ? 'external' : 'internal',
-                                                      };
-                                                      actionItems.push(newActivity);
+                                                        //TODO: DRAW ACTIVITY MARKER WITH THIS DATA
+                                                        newActivity = {
+                                                            date: _config.parseDate(moment(activityData.created_at).format('YYYY-MM-DD')),
+                                                            values: seriesData.values,
+                                                            name: activityData.ad_name,
+                                                            id: activityData.ad_id + '' + activityData.id,
+                                                            comment: activityData.comment,
+                                                            activityCount: activityCount,
+                                                            make_external: activityData.make_external,
+                                                            id_list: id_list,
+                                                            circleSLNo: circleSLNo,
+                                                            overlapFlag: overlapFlag,
+                                                            kpiType: kpiType,
+                                                            defaultGrey: defaultGrey,
+                                                            action_color: activityData.action_color,
+                                                            position: position,
+                                                            flagId: activityData.make_external == true ? 'external' : 'internal',
+                                                        };
+                                                        actionItems.push(newActivity);
 
-                                                      //drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list,circleSLNo,overlapFlag);
-                                                      counter++;
-                                                      position += 20;
-                                                  }
-                                              }
-                                          }
+                                                        //drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list,circleSLNo,overlapFlag);
+                                                        counter++;
+                                                        position += 20;
+                                                    }
+                                                }
+                                            }
 
 
-                                      }
+                                        }
 
-                                  }) //iteration of activity data
-                              }) //iteration of series data
-                          }
+                                    }) //iteration of activity data
+                                }) //iteration of series data
+                            }
 
 //--------
 
 
+                            //draw activiy markers
+                            //TODO: call function
+                            var markerData = svg.selectAll("circle").data(actionItems);
 
-                           //draw activiy markers
-                           //TODO: call function
-                           var markerData = svg.selectAll("circle").data(actionItems);
-
-                           var marker = markerData.enter()
-                               .append("g")
-	                             .attr("transform", function(d){
-                                 if(d.overlapFlag){
-                                   return "translate("+_config.xScale(d.date)+","+(_config.yScale(d.values)+20)+")";
-                                 }
-                                 return "translate("+_config.xScale(d.date)+","+_config.yScale(d.values)+")";
-                               })
-                               .style("cursor","pointer");
+                            var marker = markerData.enter()
+                                .append("g")
+                                .attr("transform", function (d) {
+                                    if (d.overlapFlag) {
+                                        return "translate(" + _config.xScale(d.date) + "," + (_config.yScale(d.values) + 20) + ")";
+                                    }
+                                    return "translate(" + _config.xScale(d.date) + "," + _config.yScale(d.values) + ")";
+                                })
+                                .style("cursor", "pointer");
 
                             var markerBorder = marker.append("circle")
-                                .attr("class","marker_1")
-                                .attr("stroke", function(d){
-                                    return (d.defaultGrey == false || d.make_external == false ) ? '#777':'#0072bc'; //177ac6
+                                .attr("class", "marker_1")
+                                .attr("stroke", function (d) {
+                                    return (d.defaultGrey == false || d.make_external == false ) ? '#777' : '#0072bc'; //177ac6
                                 })
 
-                                .attr("data-pos-x", function(d, i) { return _config.xScale(d.date) })
-                                .attr("data-pos-y", function(d, i) {
-                                    if(d.overlapFlag){
-                                        return (_config.yScale(d.values)+20);
+                                .attr("data-pos-x", function (d, i) {
+                                    return _config.xScale(d.date)
+                                })
+                                .attr("data-pos-y", function (d, i) {
+                                    if (d.overlapFlag) {
+                                        return (_config.yScale(d.values) + 20);
                                     }
                                     return _config.yScale(d.values)
                                 })
                                 .attr("stroke-width", "2.5")
-                                .attr("fill", function(d, i) { return "#fff" })
-                                .attr("r", function(d, i) { return 9 })
+                                .attr("fill", function (d, i) {
+                                    return "#fff"
+                                })
+                                .attr("r", function (d, i) {
+                                    return 9
+                                })
                                 //data properties
-                                .attr("id", function(d) { return d.id || 'NA' })
-                                .attr("kpiType", function(d) { return d.kpiType || 'NA' })
-                                .attr("kpiValue", function(d) { return d.kpiValue || 'NA' })
-                                .attr("comment", function(d) { return d.comment || 'NA' })
-                                .attr("id_list", function(d) { return d.id_list })
-                                .attr("activityCount", function(d) { return d.activityCount })
-                                .attr("number_of_activity", function(d) { return d.activityCount })
-                                .attr("number_of_activity", function(d) { return d.activityCount })
-                                .attr("circle_slno", function(d) { return d.circleSLNo })
+                                .attr("id", function (d) {
+                                    return d.id || 'NA'
+                                })
+                                .attr("kpiType", function (d) {
+                                    return d.kpiType || 'NA'
+                                })
+                                .attr("kpiValue", function (d) {
+                                    return d.kpiValue || 'NA'
+                                })
+                                .attr("comment", function (d) {
+                                    return d.comment || 'NA'
+                                })
+                                .attr("id_list", function (d) {
+                                    return d.id_list
+                                })
+                                .attr("activityCount", function (d) {
+                                    return d.activityCount
+                                })
+                                .attr("number_of_activity", function (d) {
+                                    return d.activityCount
+                                })
+                                .attr("number_of_activity", function (d) {
+                                    return d.activityCount
+                                })
+                                .attr("circle_slno", function (d) {
+                                    return d.circleSLNo
+                                })
 
-                                // zIndex: bubbleZIndex,
-                                // cX: container.x,
-                                // cY:container.y,
+                            // zIndex: bubbleZIndex,
+                            // cX: container.x,
+                            // cY:container.y,
 
 
-                             marker.append('text')
-                             .attr("dx", function(d){
-                                 if(d.activityCount>9) {
-                                     return -6;
-                                 } else {
-                                     return -4;
-                                 }
-                             })
-                             .attr("dy", function(d){
-                                 if(d.activityCount>99) {
-                                     return 3;
-                                 } else if(d.activityCount>9) {
-                                     return 4;
-                                 } else {
-                                     return 4;
-                                 }
-                             })
-                             .style("font-size", function(d){
-                                if(d.activityCount>99) {
-                                    return "8px";
-                                } else if(d.activityCount>9) {
-                                    return "10px";
-                                } else {
-                                    return "12px";
-                                }
-                             })
-                             .style("fill", function(d){
-                                return (d.activityCount >1 ) ? '#000' : 'transparent';
-                             })
-                             .text(function(d){
-                               return getActivityCountLabel(d.activityCount);
-                             })
-                             .attr("data-pos-x", function(d, i) { return _config.xScale(d.date) })
-                             .attr("data-pos-y", function(d, i) {
-                                 if(d.overlapFlag){
-                                     return (_config.yScale(d.values)+20);
-                                 }
-                                 return _config.yScale(d.values)
-                             })
-                             //data properties
-                             .attr("id", function(d) { return 't'+d.id || 'NA' })
-                             .attr("flagId", function(d) { return d.flagId || 'NA' })
-                             .attr("circle_slno", function(d) { return d.circleSLNo })
-                             .attr("applyColor", function(d) { return (d.activityCount >1 ) ? 1 : 0 })
+                            marker.append('text')
+                                .attr("dx", function (d) {
+                                    if (d.activityCount > 9) {
+                                        return -6;
+                                    } else {
+                                        return -4;
+                                    }
+                                })
+                                .attr("dy", function (d) {
+                                    if (d.activityCount > 99) {
+                                        return 3;
+                                    } else if (d.activityCount > 9) {
+                                        return 4;
+                                    } else {
+                                        return 4;
+                                    }
+                                })
+                                .style("font-size", function (d) {
+                                    if (d.activityCount > 99) {
+                                        return "8px";
+                                    } else if (d.activityCount > 9) {
+                                        return "10px";
+                                    } else {
+                                        return "12px";
+                                    }
+                                })
+                                .style("fill", function (d) {
+                                    return (d.activityCount > 1 ) ? '#000' : 'transparent';
+                                })
+                                .text(function (d) {
+                                    return getActivityCountLabel(d.activityCount);
+                                })
+                                .attr("data-pos-x", function (d, i) {
+                                    return _config.xScale(d.date)
+                                })
+                                .attr("data-pos-y", function (d, i) {
+                                    if (d.overlapFlag) {
+                                        return (_config.yScale(d.values) + 20);
+                                    }
+                                    return _config.yScale(d.values)
+                                })
+                                //data properties
+                                .attr("id", function (d) {
+                                    return 't' + d.id || 'NA'
+                                })
+                                .attr("flagId", function (d) {
+                                    return d.flagId || 'NA'
+                                })
+                                .attr("circle_slno", function (d) {
+                                    return d.circleSLNo
+                                })
+                                .attr("applyColor", function (d) {
+                                    return (d.activityCount > 1 ) ? 1 : 0
+                                })
 
 
                             // marker.on("mouseover", function () {
@@ -879,70 +906,70 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                             //        d3.select(this).select("text").style("fill", "#000");
                             //  })
                             marker.on("click", function (d) {
-                                  chartClick(d, defaultGrey);
+                                chartClick(d, defaultGrey);
                             }).on("mouseover", function (d) {
-                                  chartMouserOver(d, _config, this);
+                                chartMouserOver(d, _config, this);
                             }).on("mouseout", function (d) {
-                                  chartMouseOut(d, _config, this);
+                                chartMouseOut(d, _config, this);
                             })
 
 
-}
+                        }
 
                         /* if(index == 0) {
-                           svg.selectAll("line.verticalGrid").data(data).enter()
-                               .append("line")
-                               .attr({
-                                   "y1": _config.height,
-                                   "y2": _config.margin.top,
-                                   "x1": function(d) {
-                                       return _config.xScale(d[xkeyVal]);
-                                   },
-                                   "x2": function(d) {
-                                       return _config.xScale(d[xkeyVal]);
-                                   },
-                                   "stroke": "#dde6eb",
-                                   "stroke-width": "1px"
-                               }).style("stroke-dasharray", ("3, 3"));
+                         svg.selectAll("line.verticalGrid").data(data).enter()
+                         .append("line")
+                         .attr({
+                         "y1": _config.height,
+                         "y2": _config.margin.top,
+                         "x1": function(d) {
+                         return _config.xScale(d[xkeyVal]);
+                         },
+                         "x2": function(d) {
+                         return _config.xScale(d[xkeyVal]);
+                         },
+                         "stroke": "#dde6eb",
+                         "stroke-width": "1px"
+                         }).style("stroke-dasharray", ("3, 3"));
                          }*/
 
                         //plotting circles on chart
                         /*  var circles = svg.selectAll("circle"+index)
-                              .data(data)
-                              .enter().append("circle")
-                              .attr({
-                                  "class": "dots"+index,
-                                  "r": 5,
-                                  "cx": function(d) {
-                                      return _config.xScale(d[xkeyVal]);
-                                  },
-                                  "cy": function(d) {
-                                      return _config.yScale(d[ykeyVal]);
-                                  }
-                              })*/
+                         .data(data)
+                         .enter().append("circle")
+                         .attr({
+                         "class": "dots"+index,
+                         "r": 5,
+                         "cx": function(d) {
+                         return _config.xScale(d[xkeyVal]);
+                         },
+                         "cy": function(d) {
+                         return _config.yScale(d[ykeyVal]);
+                         }
+                         })*/
                         //plotting lables on chart
                         /*var label = svg.selectAll(".labels"+ (_config.showPathLabel ? index : 0))
-                            .data(data)
-                            .enter().append("text")
-                            .attr("class", "labels")
-                            .attr("x", function(d) {
-                                return _config.xScale(d[xkeyVal]) - 10;
-                            })
-                            .attr("y", function(d) {
-                                return _config.yScale(d[ykeyVal]) - 10;
-                            })
-                            .text(function(d, i) {
-                                if(_config.showPathLabel) {
-                                   return d[ykeyVal] + '%';
-                                } else {
-                                  return i ===0 ? 'imps.'+ d[ykeyVal] :'';
-                                }
+                         .data(data)
+                         .enter().append("text")
+                         .attr("class", "labels")
+                         .attr("x", function(d) {
+                         return _config.xScale(d[xkeyVal]) - 10;
+                         })
+                         .attr("y", function(d) {
+                         return _config.yScale(d[ykeyVal]) - 10;
+                         })
+                         .text(function(d, i) {
+                         if(_config.showPathLabel) {
+                         return d[ykeyVal] + '%';
+                         } else {
+                         return i ===0 ? 'imps.'+ d[ykeyVal] :'';
+                         }
 
-                            })*/
+                         })*/
 
                     },
 
-                    drawAxis: function() {
+                    drawAxis: function () {
                         var _config = this.lineChartConfig;
                         var xkeyVal = _config.keys.xAxis.val;
                         var ykeyVal = _config.keys.yAxis.val;
@@ -952,48 +979,48 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                         var width = _config.width;
                         var margin = _config.margin;
                         var adjustment = 10;
-                        if(_config.isPerformanceChart) {
-                          adjustment = 30;
+                        if (_config.isPerformanceChart) {
+                            adjustment = 30;
                         }
 
                         var xTicks = svg.append("svg:g")
                             .attr("class", "x axis")
-                            .attr("transform", "translate("+adjustment+"," + height + ")")
-                        .call(_config.xAxisGen);
+                            .attr("transform", "translate(" + adjustment + "," + height + ")")
+                            .call(_config.xAxisGen);
 
-                        if(_config.isPerformanceChart) {
-                              xTicks.selectAll('.x .tick text') // select all the x tick texts #909BAB
-                              .call(function(t){
-                                t.each(function(d){ // for each one
-                                  var self = d3.select(this);
-                                  var s = self.text().split(' ');  // get the text and split it
-                                  self.text(''); // clear it out
-                                  self.append("tspan") // insert two tspans
-                                    .attr("x", 0)
-                                    .attr("dy","1em")
-                                    .text((s[0]!="")?s[0]:s[1]);
-                                  self.append("tspan")
-                                    .attr("x", 0)
-                                    .attr("dy","1.1em")
-                                    .text((s[0]!="")?s[1]:s[2]);
+                        if (_config.isPerformanceChart) {
+                            xTicks.selectAll('.x .tick text') // select all the x tick texts #909BAB
+                                .call(function (t) {
+                                    t.each(function (d) { // for each one
+                                        var self = d3.select(this);
+                                        var s = self.text().split(' ');  // get the text and split it
+                                        self.text(''); // clear it out
+                                        self.append("tspan") // insert two tspans
+                                            .attr("x", 0)
+                                            .attr("dy", "1em")
+                                            .text((s[0] != "") ? s[0] : s[1]);
+                                        self.append("tspan")
+                                            .attr("x", 0)
+                                            .attr("dy", "1.1em")
+                                            .text((s[0] != "") ? s[1] : s[2]);
                                     })
                                 });
                         } else { //end of type check
-                            xTicks.selectAll('.x .tick text').each(function(d,i){
+                            xTicks.selectAll('.x .tick text').each(function (d, i) {
                                 //fixing tick positions
-                                  var self = d3.select(this);
-                                  if(i==0){
-                                      self.attr("x","15")
-                                  }
-                                  if(i==2){
-                                      self.attr("x","-15")
-                                  }
+                                var self = d3.select(this);
+                                if (i == 0) {
+                                    self.attr("x", "15")
+                                }
+                                if (i == 2) {
+                                    self.attr("x", "-15")
+                                }
                             });
                         } //end of type check
 
                         svg.append("svg:g")
                             .attr("class", "y axis")
-                            .attr("transform", "translate("+(20+adjustment)+",0)")
+                            .attr("transform", "translate(" + (20 + adjustment) + ",0)")
                             .call(_config.yAxisGen)
 
 
@@ -1022,7 +1049,7 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                         // }
                     },
 
-                    setChartParameters: function() {
+                    setChartParameters: function () {
                         var _config = this.lineChartConfig;
                         var margin = _config.margin;
                         var width = _config.rawSvg.attr("width") - margin.left - margin.right;
@@ -1035,30 +1062,30 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                         var that = this;
                         var parseDate = d3.time.format("%Y-%m-%d").parse;
                         this.updateConfig({
-                          'parseDate': parseDate
+                            'parseDate': parseDate
                         })
 
-                        _config.dataToPlot[0].forEach(function(d) {
+                        _config.dataToPlot[0].forEach(function (d) {
                             d['date'] = parseDate(d['date']);
                         });
                         that.createVariablesToDrawGraph(_config.dataToPlot[0]);
 
-                        _.each(_config.dataToPlot, function(data, idx) {
+                        _.each(_config.dataToPlot, function (data, idx) {
                             that.drawPath(data, idx);
                         })
 
 
                     },
 
-                    updateConfig: function(configValues) {
+                    updateConfig: function (configValues) {
                         if (typeof configValues === "object") {
                             _.extend(this.lineChartConfig, configValues)
                         }
                     },
 
-                    findKey: function(obj, value) {
+                    findKey: function (obj, value) {
                         var key;
-                        _.each(obj, function(v, k) {
+                        _.each(obj, function (v, k) {
                             if (v === value) {
                                 key = k;
                             }
@@ -1067,7 +1094,7 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                         return (key != undefined ? key.toUpperCase() : value.toUpperCase());
                     },
 
-                    chartDataFun: function(lineData, threshold, kpiType, chartFrom, deliveryData) {
+                    chartDataFun: function (lineData, threshold, kpiType, chartFrom, deliveryData) {
                         var _config = this.lineChartConfig;
                         var kpiType = kpiType != 'null' ? kpiType : 'NA';
                         var kpiMap = {
@@ -1090,30 +1117,30 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                             totalDays, totalImps;
 
                         //for delivery as KPI
-                        if(kpiType.toLowerCase() === "impressions") {
-                          if(deliveryData) {
-                              bookedImpressions = deliveryData.bookedImpressions;
-                              deliveryDays = deliveryData.deliveryDays;
-                              weekStart = moment(deliveryData.endDate).subtract(6,'days'); // 1 WEEK
-                              weekEnd = moment(deliveryData.endDate);
-                              totalDays = deliveryData.totalDays;
+                        if (kpiType.toLowerCase() === "impressions") {
+                            if (deliveryData) {
+                                bookedImpressions = deliveryData.bookedImpressions;
+                                deliveryDays = deliveryData.deliveryDays;
+                                weekStart = moment(deliveryData.endDate).subtract(6, 'days'); // 1 WEEK
+                                weekEnd = moment(deliveryData.endDate);
+                                totalDays = deliveryData.totalDays;
 
-                          }
-                            goalPerDay = bookedImpressions/deliveryDays;
+                            }
+                            goalPerDay = bookedImpressions / deliveryDays;
                             totalImps = goalPerDay * totalDays;
                             //generate pacing data from impressions
                             var days;
                             for (var i = 0; i < lineData.length; i++) {
-                              //days passed
-                              days = i+1;
-                                    upperPacing = (goalPerDay * (days))  + (totalImps * 0.05);
-                                    lowerPacing = (goalPerDay * (days))  - (totalImps * 0.05);
+                                //days passed
+                                days = i + 1;
+                                upperPacing = (goalPerDay * (days)) + (totalImps * 0.05);
+                                lowerPacing = (goalPerDay * (days)) - (totalImps * 0.05);
                                 //Fixes for pacing lines going out of the chart
-                                if(upperPacing < 0) {
-                                  upperPacing = 0;
+                                if (upperPacing < 0) {
+                                    upperPacing = 0;
                                 }
-                                if(lowerPacing < 0) {
-                                  lowerPacing = 0;
+                                if (lowerPacing < 0) {
+                                    lowerPacing = 0;
                                 }
                                 data.push({
                                     date: lineData[i]['date'],
@@ -1135,11 +1162,9 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                         }
 
 
-
                         return data;
                     }
                 }
-
 
 
                 //All supporting functions
@@ -1155,95 +1180,107 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
 
                 // create a unique SLNO with Internal Or External flag with date
                 //actionUTC activity date
-                var getCircleSLNo = function(make_external,extSLNo,intSLNo,actionUTC,selectedCampaignId){
+                var getCircleSLNo = function (make_external, extSLNo, intSLNo, actionUTC, selectedCampaignId) {
                     var circleSLNo = undefined;
-                    if(make_external == true){
-                        circleSLNo ="extSL_"+extSLNo+"_"+actionUTC+"_"+selectedCampaignId;
+                    if (make_external == true) {
+                        circleSLNo = "extSL_" + extSLNo + "_" + actionUTC + "_" + selectedCampaignId;
                         extSLNo++;
-                    }else{
-                       circleSLNo ="intSL_"+intSLNo+"_"+actionUTC+"_"+selectedCampaignId;
-                       intSLNo++;
+                    } else {
+                        circleSLNo = "intSL_" + intSLNo + "_" + actionUTC + "_" + selectedCampaignId;
+                        intSLNo++;
                     }
-                    return {"circleSLNo":circleSLNo,"extSLNo":extSLNo,"intSLNo":intSLNo};
+                    return {"circleSLNo": circleSLNo, "extSLNo": extSLNo, "intSLNo": intSLNo};
                 };
 
-                var getOverlapFlag = function(activityDateArray,actionUTC){
+                var getOverlapFlag = function (activityDateArray, actionUTC) {
                     var overlapFlag;
-                    if (_.indexOf(activityDateArray,actionUTC) == -1 ){
+                    if (_.indexOf(activityDateArray, actionUTC) == -1) {
                         activityDateArray.push(actionUTC);
                         overlapFlag = 0;
-                    }else{
+                    } else {
                         overlapFlag = 1;
                     }
-                    return {"overlapFlag":overlapFlag,"activityDateArray":activityDateArray};
+                    return {"overlapFlag": overlapFlag, "activityDateArray": activityDateArray};
                 };
 
-                var getActivityCountLabel = function(activityCount){
-                    var display_activityCount =  '';
-                     switch(true) {
-                       case (activityCount >1 && activityCount < 10) :
-                             display_activityCount =  ' '+ activityCount+' ';
-                             break;
-                       case (activityCount >= 10 && activityCount <= 99) :
-                            display_activityCount =  ' '+activityCount+' ';
+                var getActivityCountLabel = function (activityCount) {
+                    var display_activityCount = '';
+                    switch (true) {
+                        case (activityCount > 1 && activityCount < 10) :
+                            display_activityCount = ' ' + activityCount + ' ';
                             break;
-                       case (activityCount >99) :
-                            display_activityCount =  ' 99+';
+                        case (activityCount >= 10 && activityCount <= 99) :
+                            display_activityCount = ' ' + activityCount + ' ';
                             break;
-                      default: display_activityCount = '';
+                        case (activityCount > 99) :
+                            display_activityCount = ' 99+';
+                            break;
+                        default:
+                            display_activityCount = '';
                     }
                     return display_activityCount;
                 };
 
-                var chartClick =  function(that, defaultGrey) {
+                var chartClick = function (that, defaultGrey) {
                     var myContainer = $('#action-container:first'),
                         actionId = that.id,
                         getIdList = that.id_list,
                         circle_slno = that.circleSLNo,
                         isActionExternal = that.make_external,
-                        splitIdList =  getIdList.split(",");
+                        splitIdList = getIdList.split(",");
 
-                    $('circle').attr({ fill:'#ffffff',activeStatus:0});
+                    $('circle').attr({fill: '#ffffff', activeStatus: 0});
                     //check and select multiple activity id
-                    if(splitIdList.length > 1 ) {
-                        for(var i=0;i < splitIdList.length;i++){
-                            var targetId =splitIdList[i];
-                            $('circle#' + targetId).attr({ fill:(  isActionExternal == false ) ? '#7e848b':'#2c9aec',activeStatus:1});
+                    if (splitIdList.length > 1) {
+                        for (var i = 0; i < splitIdList.length; i++) {
+                            var targetId = splitIdList[i];
+                            $('circle#' + targetId).attr({
+                                fill: (  isActionExternal == false ) ? '#7e848b' : '#2c9aec',
+                                activeStatus: 1
+                            });
                         }
                     } else {
-                        $('circle#' + actionId).attr({ fill:(  isActionExternal == false ) ? '#7e848b':'#2c9aec',activeStatus:1});
+                        $('circle#' + actionId).attr({
+                            fill: (  isActionExternal == false ) ? '#7e848b' : '#2c9aec',
+                            activeStatus: 1
+                        });
                     }
-                    $("text[applyColor=1]").css({fill:'#000'});
+                    $("text[applyColor=1]").css({fill: '#000'});
                     var getactivityCount = that.activityCount;
-                    if(getactivityCount > 1){
-                        $('text#t' + actionId).css({fill:'#fff'});
+                    if (getactivityCount > 1) {
+                        $('text#t' + actionId).css({fill: '#fff'});
                     }
-                    var activityLocalStorage={"actionSelStatusFlag":isActionExternal,"actionSelActivityCount":getactivityCount,"actionSel":getIdList,"selectedCircleSLNo":circle_slno};
-                    localStorage.setItem('activityLocalStorage',JSON.stringify(activityLocalStorage));
-                    if(defaultGrey) {
+                    var activityLocalStorage = {
+                        "actionSelStatusFlag": isActionExternal,
+                        "actionSelActivityCount": getactivityCount,
+                        "actionSel": getIdList,
+                        "selectedCircleSLNo": circle_slno
+                    };
+                    localStorage.setItem('activityLocalStorage', JSON.stringify(activityLocalStorage));
+                    if (defaultGrey) {
                         myContainer = $('.reports_section_details_container');
                         $('div[id^="actionItem_"]').removeClass('action_selected');
                         //highlight activity in reports page
                         var scrollTo = $('#actionItem_' + that.id);
-                        if(scrollTo.length) {
+                        if (scrollTo.length) {
                             scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
                             //Mulitple Activity List
-                            if(splitIdList.length > 1 ){
-                                for(var i=0;i < splitIdList.length;i++){
-                                    var targetId =splitIdList[i];
-                                    myContainer.find('#actionItem_'+targetId).addClass('action_selected');
+                            if (splitIdList.length > 1) {
+                                for (var i = 0; i < splitIdList.length; i++) {
+                                    var targetId = splitIdList[i];
+                                    myContainer.find('#actionItem_' + targetId).addClass('action_selected');
                                     //ToDO Remove commented one after the fixes
-                                   /* myContainer.animate({
-                                        scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
-                                    });
-    */
+                                    /* myContainer.animate({
+                                     scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                                     });
+                                     */
                                 }
                                 myContainer.animate({
-                                        scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                                    scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                                 });
-                            }else{
+                            } else {
                                 //Day wise single Activity
-                                myContainer.find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+that.id).addClass('action_selected');
+                                myContainer.find('.action_selected').removeClass('action_selected').end().find('#actionItem_' + that.id).addClass('action_selected');
                                 myContainer.animate({
                                     scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                                 });
@@ -1252,36 +1289,36 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                             //grunt analytics.track(loginModel.getUserRole(), constants.GA_OPTIMIZATION_TAB, 'optimization_graph_activity_marker_click', loginModel.getLoginName());
                         }
                     } else {
-                    //click to scroll and highlight activity
+                        //click to scroll and highlight activity
                         var scrollTo = $('#actionItem_' + that.id);
-                        if(scrollTo.length) {
+                        if (scrollTo.length) {
                             scrollTo.siblings().removeClass('active').end().addClass('active');
-                            if(splitIdList.length > 1 ){
+                            if (splitIdList.length > 1) {
                                 myContainer.find('.active').removeClass('active').end();
-                                for(var i=0;i < splitIdList.length;i++){
-                                    var targetId =splitIdList[i];
-                                    myContainer.find('#actionItem_'+targetId).addClass('active');
+                                for (var i = 0; i < splitIdList.length; i++) {
+                                    var targetId = splitIdList[i];
+                                    myContainer.find('#actionItem_' + targetId).addClass('active');
                                     //ToDO Remove below commented one after fix
                                     /*myContainer.animate({
-                                        scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
-                                    });*/
+                                     scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                                     });*/
                                 }
                                 //
                                 myContainer.animate({
-                                        scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
-                                    });
-                            }else{
-                                myContainer.find('.active').removeClass('active').end().find('#actionItem_'+that.id).addClass('active');
+                                    scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                                });
+                            } else {
+                                myContainer.find('.active').removeClass('active').end().find('#actionItem_' + that.id).addClass('active');
                                 myContainer.animate({
                                     scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                                 });
                             }
-                          //grunt  analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'campaign_performance_graph_activity_click', loginModel.getLoginName());
+                            //grunt  analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'campaign_performance_graph_activity_click', loginModel.getLoginName());
                         }
                     }
                 };
 
-                var wordwrap =  function(str, int_width, str_break, cut) {
+                var wordwrap = function (str, int_width, str_break, cut) {
                     var m = ((arguments.length >= 2) ? arguments[1] : 75);
                     var b = ((arguments.length >= 3) ? arguments[2] : '\n');
                     var c = ((arguments.length >= 4) ? arguments[3] : false);
@@ -1308,31 +1345,31 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                     return r.join('\n');
                 };
 
-                var getCircleStatus = function(that){
-                   return that.circleSLNo.substr(0,3);
+                var getCircleStatus = function (that) {
+                    return that.circleSLNo.substr(0, 3);
                 };
 
-                var chartMouserOver =  function(d, _config, that) {
+                var chartMouserOver = function (d, _config, that) {
                     var getId = d.id,
-                        circleStroke = getCircleStatus(d) == 'ext' ? '#2c9aec':'#7e848b',
+                        circleStroke = getCircleStatus(d) == 'ext' ? '#2c9aec' : '#7e848b',
                         activityCount = d.activityCount,
-                        activeStatus = parseInt($('#'+getId).attr('activestatus')) > 0 ? 1 :0;
-                    $("#"+getId).attr({stroke:circleStroke});
+                        activeStatus = parseInt($('#' + getId).attr('activestatus')) > 0 ? 1 : 0;
+                    $("#" + getId).attr({stroke: circleStroke});
                     //Mouseover for the text need to check if activity count > 1
-                    if(activityCount > 1 && activeStatus == 0){
-                        $("#t"+getId).css({color:circleStroke,fill:circleStroke});
+                    if (activityCount > 1 && activeStatus == 0) {
+                        $("#t" + getId).css({color: circleStroke, fill: circleStroke});
                     }
 
                     var svg = d3.select(_config.rawSvg[0]),
                         mousePos = d3.mouse(that),
-                        yAxisValue = $("#"+getId).data('pos-y')+20,
-                        xAxisValue = $("#"+getId).data('pos-x')+20,
+                        yAxisValue = $("#" + getId).data('pos-y') + 20,
+                        xAxisValue = $("#" + getId).data('pos-x') + 20,
                         formatY = parseFloat(d.values).toFixed(2),
                         formatX = moment(xAxisValue).format('dddd, D MMM, YYYY');// //Saturday, 24 Jan, 2015
 
                     //calculating the plotting position
-                    var WIDTH= _config.width,
-                        HEIGHT= _config.height,
+                    var WIDTH = _config.width,
+                        HEIGHT = _config.height,
                         w = 40,
                         h = 40,
                         x = xAxisValue + 20,
@@ -1350,19 +1387,19 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
 
 
                     var html_comment,
-                        //info = ""+formatX+"<br>"+d.kpiType+": <b>"+formatY+"</b><br>",
-                        info = ""+d.kpiType+": <b>"+formatY+"</b><br>",
+                    //info = ""+formatX+"<br>"+d.kpiType+": <b>"+formatY+"</b><br>",
+                        info = "" + d.kpiType + ": <b>" + formatY + "</b><br>",
                         getMessage = ' External ',
-                        numberOfActivityHeader = d.make_external == true ? '<b>'+d.activityCount+'</b> '+' Activities' : '<b>'+d.activityCount +'</b> Internal Activities';
+                        numberOfActivityHeader = d.make_external == true ? '<b>' + d.activityCount + '</b> ' + ' Activities' : '<b>' + d.activityCount + '</b> Internal Activities';
 
                     var symbol = kpiPrefix(d.kpiType);
                     var suffix = kpiSuffix(d.kpiType);
 
-                    html_comment= (d.comment).toString().replace(/(?:<)/g, '&lt;');
+                    html_comment = (d.comment).toString().replace(/(?:<)/g, '&lt;');
                     html_comment = wordwrap(html_comment, 20, '<br/>');
                     html_comment = html_comment.replace(/(?:\\r\\n|\r|\\n| \\n)/g, '<br />');
                     html_comment = info + html_comment;
-                    if(activityCount > 1){
+                    if (activityCount > 1) {
 
                         html_comment = info + numberOfActivityHeader;
 
@@ -1371,40 +1408,40 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                     $('.line_tooltip').html(html_comment);
 
                     h = $('.line_tooltip').height();
-                    w= $('.line_tooltip').width();
+                    w = $('.line_tooltip').width();
 
                     //if overflow in width
-                    if((x + w) > WIDTH) {
-                      x = x - 10 - w;
+                    if ((x + w) > WIDTH) {
+                        x = x - 10 - w;
                     }
 
                     //if overflow in height
-                    if((y + h) > HEIGHT) {
-                      y = HEIGHT - h;
+                    if ((y + h) > HEIGHT) {
+                        y = HEIGHT - h;
                     }
 
-                    $('.line_tooltip').css({"top":y+"px"});
-                    $('.line_tooltip').css({"left":x+"px"});
+                    $('.line_tooltip').css({"top": y + "px"});
+                    $('.line_tooltip').css({"left": x + "px"});
 
                 };
 
-                var chartMouseOut = function(d, _config, that){
+                var chartMouseOut = function (d, _config, that) {
                     $('.line_tooltip').hide();
-                     var getId = d.id,
-                         circleStroke = getCircleStatus(d) == 'ext' ? '#177ac6':'#57606c',
-                         activityCount = d.activityCount,
-                         activeStatus = parseInt($('#'+getId).attr('activestatus')) > 0 ? 1 :0,
-                         display_color = activityCount == 1 ? 'transparent' : '#000';
-                    if(activeStatus == 0){
-                          // Mouseout for the circle
-                         $("#"+getId).attr({stroke:circleStroke});
-                         // Mouseout for the Text
-                         $("#t"+getId).css({color:display_color,fill:display_color});
-                    }else{
-                         //$("#"+getId).attr({stroke:circleStroke});
-                         // Mouseout for the Text
-                         if(activityCount > 1)
-                         $("#t"+getId).css({color:'#fff',fill:'#fff'});
+                    var getId = d.id,
+                        circleStroke = getCircleStatus(d) == 'ext' ? '#177ac6' : '#57606c',
+                        activityCount = d.activityCount,
+                        activeStatus = parseInt($('#' + getId).attr('activestatus')) > 0 ? 1 : 0,
+                        display_color = activityCount == 1 ? 'transparent' : '#000';
+                    if (activeStatus == 0) {
+                        // Mouseout for the circle
+                        $("#" + getId).attr({stroke: circleStroke});
+                        // Mouseout for the Text
+                        $("#t" + getId).css({color: display_color, fill: display_color});
+                    } else {
+                        //$("#"+getId).attr({stroke:circleStroke});
+                        // Mouseout for the Text
+                        if (activityCount > 1)
+                            $("#t" + getId).css({color: '#fff', fill: '#fff'});
                     }
                 };
 
@@ -1412,46 +1449,46 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
 
                 var dataObj = JSON.parse(attrs.chartData);
                 var chartCallFrom = attrs.chartLocation || null;
-                var versionTag = attrs.chartTag || Math.floor(Math.random()*10000000); //to fix firefox mozilla coloring issue for clip path tagging
+                var versionTag = attrs.chartTag || Math.floor(Math.random() * 10000000); //to fix firefox mozilla coloring issue for clip path tagging
 
                 var deliveryData = dataObj.deliveryData || null;
 
                 var chartDataset = lineChartService.chartDataFun(dataObj.data, dataObj.kpiValue, dataObj.kpiType, dataObj.from, deliveryData),
                     performanceChart = false;
 
-                var reverseUpperPacing =[], pacing = [];
-                if((dataObj.kpiType).toLowerCase() === "impressions") {
+                var reverseUpperPacing = [], pacing = [];
+                if ((dataObj.kpiType).toLowerCase() === "impressions") {
 
-                      //create reverse line for delivery polygon
-                      _.each(chartDataset, function(d){
-                        pacing.push (
-                          {
-                            "pacing": d.lowerPacing,
-                            "date": d.date
-                          }
+                    //create reverse line for delivery polygon
+                    _.each(chartDataset, function (d) {
+                        pacing.push(
+                            {
+                                "pacing": d.lowerPacing,
+                                "date": d.date
+                            }
                         );
                         reverseUpperPacing.push(
-                          {
-                            "pacing": d.upperPacing,
-                            "date": d.date
-                          }
+                            {
+                                "pacing": d.upperPacing,
+                                "date": d.date
+                            }
                         )
-                      });
-                      reverseUpperPacing.reverse();
-                      _.each(reverseUpperPacing, function(p){
+                    });
+                    reverseUpperPacing.reverse();
+                    _.each(reverseUpperPacing, function (p) {
                         pacing.push(
-                          {
-                            "pacing": p.pacing,
-                            "date": p.date
-                          }
+                            {
+                                "pacing": p.pacing,
+                                "date": p.date
+                            }
                         );
-                      });
+                    });
 
                 }
 
 
-                if(dataObj.from =="action_performance") {
-                   performanceChart = true;
+                if (dataObj.from == "action_performance") {
+                    performanceChart = true;
                 }
 
                 var lineData = {
@@ -1487,16 +1524,16 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                 };
 
                 //override chart details
-                if(performanceChart) {
-                  lineData.keys.yAxis.ticks = 6;
-                  lineData.keys.xAxis.ticks = 7;
-                  lineData.external = dataObj.showExternal;
-                  lineData.defaultGrey= dataObj.defaultGrey || undefined;
-                  //lineData.margin.right = 0;
+                if (performanceChart) {
+                    lineData.keys.yAxis.ticks = 6;
+                    lineData.keys.xAxis.ticks = 7;
+                    lineData.external = dataObj.showExternal;
+                    lineData.defaultGrey = dataObj.defaultGrey || undefined;
+                    //lineData.margin.right = 0;
                 }
 
-                if((dataObj.kpiType).toLowerCase() === "impressions") {
-                  //disabling ticks for y axis when kpi is delivery
+                if ((dataObj.kpiType).toLowerCase() === "impressions") {
+                    //disabling ticks for y axis when kpi is delivery
                     lineData.keys.yAxis.ticks = 0;
                 }
 
@@ -1517,7 +1554,7 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                     showPathLabel: lineData.showPathLabel,
                     showAxisLabel: lineData.showAxisLabel,
                     axisLabel: lineData.axisLabel,
-                    activityList: (dataObj.activityList !== undefined)? dataObj.activityList : undefined,
+                    activityList: (dataObj.activityList !== undefined) ? dataObj.activityList : undefined,
                     external: lineData.external,
                     defaultGrey: lineData.defaultGrey
                 });

@@ -1,6 +1,6 @@
 define(['angularAMD','common/services/constants_service','workflow/services/workflow_service',
   'workflow/directives/ng_upload_hidden'],function (angularAMD) {
-  angularAMD.controller('BulkCreativeController', function($scope, $rootScope, $routeParams, $location, 
+  angularAMD.controller('BulkCreativeController', function($scope, $rootScope, $routeParams, $location,
     constants, workflowService, Upload) {
      // $scope.creativeFormat="DISPLAY";
       $scope.creative={};
@@ -61,7 +61,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               getTemplates($scope.selectedAdServer, $scope.creativeFormat);
           }
       };
-      
+
       /*function on adFormat selected*/
       $scope.adFormatSelected = function(adFormatName) {
           var index = _.findIndex($scope.creativeSizeData.adFormats, function(obj) {
@@ -172,6 +172,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           resetAdserver();
           resetFormat();
           resetTemplate();
+          $scope.creativeAdServers=[];
           $scope.resetFileChosen();
           $(".file_upload_container").slideUp();
           setTimeout(function(){
@@ -252,8 +253,10 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           target.parent().addClass('active');
           target.attr('checked', 'checked');
       };
-
-      getAdServers();
+      $scope.$on('bulkUploadSelected' , function() {
+          getAdServers();
+      });
+      //getAdServers();
 
       $('.dropdown-menu li a').click(function () {
           var selText = $(this).text();

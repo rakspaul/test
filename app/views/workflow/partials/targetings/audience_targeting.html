@@ -25,93 +25,23 @@
             <div class="segmentStepOne">
                 <div class="setOne">
                     <div class="segmentHeader" >
-                        <div class="col-md-12 zeroPadding multiDDL">
-							<span class="icon-search" ng-click="selectKeyword(keywordText)"></span>
-							<label class="col-md-12 greyTxt" data-ng-bind="textConstants.KEYWORD"></label>
-	                        <input type="text" class="col-md-12 keyword-txt" name ="keywordText" placeholder="Max 10 keywords. Must be separated by commas" ng-keyup="showKeywords(keywordText,$event)" ng-model="keywordText"/>
-							<label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
-							<ul ng-if="audienceKeywords.length>0" class="dropdown-menu" role="menu" id="keywordsList" ng-style="dropdownCss" style="width:585px;">
-								<li ng-repeat="keyword in audienceKeywords | filter:keywordText" ng-click="selectKeyword(keyword.keyword)">
-									<a >
-										<span class="tick"></span>
-										<span class="menuItemText ng-binding" data-ng-bind="keyword.keyword"></span>
-									</a>
-								</li>
-							</ul>
-						</div>
-
-                        <div class="col-md-3" style="padding: 0 10px 0 0; display: none">
-                            <label class="col-md-12 greyTxt" data-ng-bind="textConstants.SOURCE"></label>
-                            <div class="col-md-12 zeroPadding dropdown-workflow dropdown-search-btn">
-                                <div class="dropdown">
-                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="text" data-ng-bind="sourceText"></span>
-                                        <span class="icon-arrow-down"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-search" aria-labelledby="sourceSeg" style="width: 230px;">
-                                        <li class="searchBar">
-                                            <input type="text" class="col-md-12" placeholder="Search" ng-model="sourceSearch"/>
-                                            <div class="icon-search"></div>
-                                        </li>
-                                        <ul class="ddList">
-                                            <li ng-repeat="source in sourceList| filter: sourceSearch">
-                                                <span>
-                                                    <input type="checkbox" name="checkbox" ng-click="selectSource(source,'category')" ng-checked="source.isChecked">
-                                                    {{source.name}}
-                                                </span>
-                                            </li>
-                                        </ul>
-                                        <div class="clearfix category_dropdown">
-                                            <div class="pull-left btn btn-link" ng-click="clearAllSelectedSource()" data-ng-bind="textConstants.CLEARALL">
-                                            </div>
-                                            <div class="pull-right btn  btn-default" ng-click="processDone()" data-ng-bind="textConstants.DONE">
-                                            </div>
-                                        </div>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3" style="padding: 0 10px 0 0;display: none">
-                            <label class="col-md-12 greyTxt" data-ng-bind="textConstants.CATEGORY"></label>
-                            <div class="col-md-12 zeroPadding dropdown-workflow dropdown-search-btn">
-                                <div class="dropdown">
-                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="text" data-ng-bind="categoryText"></span>
-                                        <span class="icon-arrow-down"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-search" aria-labelledby="sourceSeg" style="width: 400px;max-width:400px;">
-                                        <li class="searchBar">
-                                            <input type="text" class="col-md-12" placeholder="Search" ng-model="categorySearch.category"/>
-                                            <div class="icon-search"></div>
-                                        </li>
-                                        <ul class="ddList">
-                                            <li ng-repeat="category in audienceCategories | filter: categorySearch ">
-                                                <span  tooltip-placement="top" title="{{category.category}}">
-                                                    <input type="checkbox" name="checkbox" ng-click="selectCategories(category,'category')" ng-checked="category.isChecked" style="margin-right: 0px;">
-                                                    <!--<span class="icon-arrow-down-thick" ng-click="showSubCategory($event)" style="margin-right: 0;cursor:pointer;"></span>-->
-                                                    <span style="width: auto;float: none; padding-left: 0;">{{category.category  | limitTo:40}} {{(category.category.length > 40)? '...':'' }}</span>
-                                                </span>
-                                                <!--<ul ng-if="(category.subCategories.length > 0 && category.subCategories[0].subCategory != null)" style="display:none">-->
-                                                    <!--<li ng-repeat="sub in category.subCategories"><span tooltip-placement="top" title="{{sub.subCategory}}"><input type="checkbox" ng-click="selectCategories(sub,'subcategory',category)" ng-checked="sub.isChecked" tooltip="asdf">{{sub.subCategory | limitTo:35}} {{(sub.subCategory.length > 35)? '...':'' }} </span></li>-->
-                                                <!--</ul>-->
-                                            </li>
-                                        </ul>
-                                        <div class="clearfix category_dropdown">
-                                            <div class="pull-left btn btn-link" ng-click="clearAllSelectedCategory()" data-ng-bind="textConstants.CLEARALL">
-                                            </div>
-                                            <div class="pull-right btn  btn-default" ng-click="processDone()" data-ng-bind="textConstants.DONE">
-                                            </div>
-                                        </div>
-                                    </ul>
+                        <!--Search-->
+                        <div class="btn-group pull-right">
+                            <div class="searchInput col-md-12 zeroPadding">
+                                <a class="btn btn-default searchInputBtnInline">
+                                    <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;" ng-click="selectKeyword(keywordText)"></span>
+                                </a>
+                                <div class="input-group searchInputForm">
+                                    <input type="text" class="form-control keyword-txt" search-box name ="keywordText" placeholder="Search Segments..." ng-value="keywordText" ng-keyup="showKeywords(keywordText,$event)" ng-model="keywordText" autocomplete="off">
+                                    <div class="btn btn-default searchClearInputBtn">
+                                        <span class="icon-clear" aria-hidden="true" ng-click="clearKeywordSearch($event)"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-md-6 zeroPadding">
-                            <!--<label class="col-md-12 greyTxt">Category</label>-->
                             <input type="text" id="amount" class="col-md-12 greyTxt sliderAmount" readonly>
-
                             <div class="col-md-12 zeroPadding" id="slider-range"></div>
                         </div>
                     </div>
@@ -122,35 +52,36 @@
 								<input type="checkbox" ng-click="selectAllAudience($event)" ng-checked="selectAllChecked">
 							</div>
 						</div>
-						<div class="columnTwo" style="width: 41.333%">
+						<div class="columnTwo col-md-5">
 							<span data-ng-bind="textConstants.SEGMENTNAME"></span>
 						</div>
-						<div class="columnThree" style="width: 21.333%">
+						<div class="columnThree col-md-3" >
 							<span data-ng-bind="textConstants.CPM"></span>
 						</div>
-						<div class="columnFour" style="width: 31.333%">
+						<div class="columnFour col-md-3">
 							<span data-ng-bind="textConstants.ESTREACH"></span>
 						</div>
 					</div>
 
 					<div class="segBodyWrap">
                         <div class="common-loading-area" ng-if="showAudienceLoader"></div>
-						<div class="segFixedWrap" id= "audienceTargetingContainer" lr-infinite-scroll="loadMoreAudience">
+						<div class="segFixedWrap" id= "audienceTargetingContainer" lr-infinite-scroll="loadMoreAudience" style="margin-bottom: 15px;">
 							<div class="col-md-12 segBodyTable" ng-repeat="audience in audienceList">
 								<div class="columnOne">
 									<div class="checkbox">
 										<input type="checkbox" ng-click="selectAudience(audience)" ng-checked="audience.isChecked">
 									</div>
 								</div>
-								<div class="columnTwo audienceTip" style="width: 41.333%" tooltip="{{audience.name}}" tooltip-placement="right">
-									<span data-ng-bind="audience.name"></span>
+								<div class="columnTwo audienceTip col-md-5" >
+									<!--<span data-ng-bind="audience.name" title="{{audience.name}}" tooltip-placement="right" class="toolTipAudienceSegment"></span>-->
+									<span data-ng-bind="audience.name" title="{{audience.name}}" class="toolTipAudienceSegment"></span>
 								</div>
-								<div class="columnThree" style="width: 21.333%">
+								<div class="columnTwo col-md-3" >
 									<div class="pull-left">$&nbsp;</div>
-									<div class="pull-left" data-ng-bind="audience.cpmCost"></div>
+									<div class="pull-left" data-ng-bind="(audience.cpmCost).toFixed(2)"></div>
 								</div>
-								<div class="columnFour" style="width: 31.333%; border-right: 0; ">
-									<span data-ng-bind="(audience.estReach).toLocaleString()"></span>
+								<div class="columnThree col-md-3" >
+                                    <div class="pull-left" data-ng-bind="(audience.estReach).toLocaleString()"></div>
 								</div>
 							</div>
 							<div ng-if="!showAudienceLoader && audienceList.length == 0" style="color: #ccc;text-align: center;padding-top: 10px;" data-ng-bind="textConstants.NORESULTSFOUND"></div>
@@ -168,7 +99,7 @@
                         <div class="segWrap" ng-repeat="aud in selectedAudience">
                             <span>{{aud.name}}</span><div style="clear:both"></div>
                             <div class="pull-left">$&nbsp;</div>
-                            <div class="pull-left">{{aud.cpmCost}}</div><div style="clear:both"></div>
+                            <div class="pull-left">{{(aud.cpmCost).toFixed(2)}}</div><div style="clear:both"></div>
                             <!--<span>{{aud.estReach}}</span><div style="clear:both"></div>-->
                             <div class="icon-close" ng-click="selectAudience(aud)"></div>
                         </div>

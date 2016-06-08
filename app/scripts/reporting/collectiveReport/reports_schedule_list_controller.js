@@ -155,33 +155,27 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 $scope.getScheduledReports();
             };
 
-            dataService
-                .getCustomReportMetrics($scope.campaign)
-                .then(function (result) {
-                    var jsonModifier = function (data) {
-                        var arr = [];
+            dataService.getCustomReportMetrics($scope.campaign).then(function (result) {
+                $scope.displayName = result.data.data[0].display_name;
+                var jsonModifier = function (data) {
+                    var arr = [];
 
-                        _.each(data, function (obj) {
-                            var d = obj.split(':');
+                    _.each(data, function (obj) {
+                        var d = obj.split(':');
+                        arr.push({ 'key': d[0], 'value': $scope.displayName[d[0]] });
+                    });
 
-                            arr.push({
-                                'key': d[0],
-                                'value': d[1]
-                            });
-                        });
+                    return arr;
+                };
 
-                        return arr;
-                    };
+                $scope.customeDimension = jsonModifier(result.data.data[0].dimensions);
+            });
 
-                    $scope.customeDimension = jsonModifier(result.data.data[0].dimensions);
-                    $scope.displayName = result.data.data[0].display_name;
+            $scope.loadDimensionsList = function ($query) {
+                return $scope.customeDimension.filter(function(dimension) {
+                    return dimension['value'].toLowerCase().indexOf($query.toLowerCase()) != -1;
                 });
 
-            $scope.loadDimensionsList = function () {
-                var deferred = $q.defer();
-
-                deferred.resolve($scope.customeDimension);
-                return deferred.promise;
             };
 
             $scope.addDimensionFilter = function () {
@@ -206,20 +200,22 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 return true;
             };
 
-            $scope.select_filter_option = function (key, value) {
-                switch(key) {
-                    case 'reportName':
-                        $scope.filters[key] = value;
-                        _curCtrl.filters[key] = value;
-                        $scope.getScheduledReports();
-                        break;
-                    case 'reportType':
-                        $scope.filters[key] = value;
-                        _curCtrl.filters[key] = value;
-                        break;
-                    default:
-                        $scope.filters[key] = utils.getValueOfItem(constants.REPORT_LIST_GENERATEON, value);
-                        _curCtrl.filters[key] = value;
+            $scope.select_filter_option = function (key, value, e) {
+                if (!e || e.keyCode === 13) {
+                    switch (key) {
+                        case 'reportName':
+                            $scope.filters[key] = value;
+                            _curCtrl.filters[key] = value;
+                            $scope.getScheduledReports();
+                            break;
+                        case 'reportType':
+                            $scope.filters[key] = value;
+                            _curCtrl.filters[key] = value;
+                            break;
+                        default:
+                            $scope.filters[key] = utils.getValueOfItem(constants.REPORT_LIST_GENERATEON, value);
+                            _curCtrl.filters[key] = value;
+                    }
                 }
             };
 
@@ -565,30 +561,15 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 });
             };
 
-            //Search Hide / Show
-            $scope.searchShowInput = function () {
-                var searchInputForm = $('.searchInputForm');
-
-                $('.searchInputBtn').hide();
-                searchInputForm.show();
-                searchInputForm.animate({width: '300px'}, 'fast');
-            };
-
-            $scope.searchHideInput = function () {
+            //Search Clear
+            $scope.searchHideInput = function (evt) {
+                $(evt.target).hide();
                 var inputSearch = $('.searchInputForm input');
-
                 delete $scope.filters.searchText;
                 isSearch = false;
-                $('.searchInputForm').animate({width: '44px'}, 'fast');
                 inputSearch.val('');
-                setTimeout(function () { $('.searchInputForm').hide(); }, 300);
-                setTimeout(function () { $('.searchInputBtn').fadeIn(); }, 300);
-                $scope.creativeData.creatives = [];
-
-                //  var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-                // var selectedClientObj = localStorage.selectedMasterClient && JSON.parse(localStorage.selectedMasterClient);
-                //creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
-                creativeList.getCreativesList(JSON.parse(localStorage.selectedMasterClient).id,'', '',20, 1);
+                $scope.creativeSearch = null;
+                $scope.select_filter_option('reportName', '');
             };
 
             $scope.refreshReportList = function () {

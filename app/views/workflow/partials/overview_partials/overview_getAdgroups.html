@@ -15,7 +15,7 @@
                 data-ng-bind-html="adGroupsData.adGroup.nameHtml"></h4>
 
             <div class="pull-right labelsmargin" style="display:block;">
-                <span class="adGroupTxtSecondary " style="padding-right: 30px;">
+                <span class="adGroupTxtSecondary " style="padding-right: 1px;">
                     <span class="pull-left greyTxt">Ready</span>
                     <p class="pull-left{{!adGroupsData.READY ? ' active' : ''}}"
                        data-ng-bind="(adGroupsData.READY || 0)">
@@ -197,7 +197,7 @@
                             </div>
                         </h4>
                         <span data-ng-if="adsData.adFormat"
-                              class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right"
+                              class="icon-{{getAdFormatIconName(adsData.adFormat)}} pull-right"
                               aria-hidden="true">
                         </span>
                         <span class="pull-left adTxtGray dateAd"

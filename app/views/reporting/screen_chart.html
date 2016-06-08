@@ -1,8 +1,8 @@
 <div class="dashboard_section dashboard_screens_graph_holder" ng-controller="ScreenChartController"  ng-class="{'dashboard_screens_platform' : screenWidgetData.selectedFormat == 'Platforms'}" >
   <div class="clearfix">
     <div class="dashboard_heading dashboard_heading_bold clearfix">
-      <div class="pull-left">
-        <div class="pull-left dropdown" id="dashboard_screen_dd">
+      <div class="pull-left dropdown-workflow">
+        <div class="pull-left dropdown" id="dashboard_screen_dd" style="width: auto;">
               <span class="dropdown_ul_text" data-toggle="dropdown">
                 <span>{{screenWidgetData.selectedFormat}}</span>
                 <span class="arrow_img"></span>
@@ -20,7 +20,7 @@
       </div>
       
       <div class="pull-right dropdown" id="dashboard_allocation_dd" >
-              <span class="metrics_text">{{textConstants.METRICS}}</span>
+              <span class="metrics_text">{{textConstants.METRIC}}</span>
               <span class="dropdown_ul_text" data-toggle="{{!screenBusy ?  'dropdown' : ''}}">
                 <span>{{screenWidgetData.selectedMetric}}</span>
                 <span class="arrow_img"></span>

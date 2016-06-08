@@ -423,7 +423,7 @@
 
 <script type="text/ng-template" id="formatTpl">
     <div class="each_col sec_col">
-        {{formatData.dimension}}
+        {{(formatData.dimension | toPascalCase)}}
     </div>
     <div class="each_col third_col {{formatData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}">
         {{((formatData.impressions >0) || (formatData.impressions == 0)) ? (formatData.impressions | nrFormat) : '-'}}

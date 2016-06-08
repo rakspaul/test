@@ -264,14 +264,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         promiseObj = $scope.adId ?
                             workflowService.updateAd(postDataObj) :
                             workflowService.createAd(postDataObj);
+                        console.log('postDataObj test---',postDataObj);
 
                         promiseObj.then(function (result) {
                             var responseData = result.data.data,
                                 url;
 
                             $scope.adCreateLoader = false;
-
-                            //$('.workflowPreloader, .workflowPreloader .adSavePre').hide();
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 $scope.state = responseData.state;
@@ -385,19 +384,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
             // This sets dynamic width to line to take 100% height
             function colResize() {
-                var winHeight = $(window).height() - 110;
-
+                var winHeight = $(document).height() - 110;
                 $('.campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav').css('min-height', winHeight + 'px');
                 $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
-
-                //Targetting Responsive
-                $('.targetingSlide .tab-pane, .targetingSlide .tab-pane .list_row_holder')
-                    .css('min-height', winHeight - 430 + 'px');
-
-                // $('#selectAud .segFixedWrap').css('max-height', winHeight - 475 + 'px');
-                // $('#selectAud .setTwo .selectedItems').css('max-height', winHeight - 315 + 'px');
-
-                $('.dayTargetLower').css('min-height', winHeight - 290 + 'px');
             }
 
             //edit mode data population
@@ -439,9 +428,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 if (responseData.adFormat) {
                     format = $filter('toTitleCase')(responseData.adFormat);
-                    if (format === 'Richmedia') {
-                        format = 'Rich Media';
-                    }
+
                     $scope.adFormatSelection(format, '', 'editData');
                     $scope.adData.adFormat = format;
                 }
@@ -1012,7 +999,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     name: 'View to Completion'
                 };
 
-                $scope.adData.primaryKpi = '';
+              //  $scope.adData.primaryKpi = '';
 
                 if ($scope.adData.adFormat === 'Video') {
                     $scope.workflowData.primaryKpi[1].kpiValues.push(videoKpiObj);
@@ -1067,7 +1054,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                     adFormatsData = $scope.workflowData.adFormats;
                     _.each(adFormatsData, function (obj) {
-                        obj.name === $scope.adformatName ? obj.active = true : obj.active = false;
+                        objectName = $filter('toTitleCase')(obj.name);
+                        objectName === $scope.adformatName ? obj.active = true : obj.active = false;
                     });
                 }
 
@@ -1216,7 +1204,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     postAdDataObj.campaignId = Number($scope.campaignId);
 
                     if (formData.adFormat) {
-                        postAdDataObj.adFormat = formData.adFormat.replace(/\s+/g, '').toUpperCase();
+                        postAdDataObj.adFormat = formData.adFormat.toUpperCase();
                     }
 
                     if ($scope.editedAdSourceId) {
@@ -1319,7 +1307,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                 buildGeoTargetingParams = function (data, type) {
                                     var obj = {};
 
-                                    obj.isIncluded = _.uniq(_.pluck(data, type + 'Included'))[0];
+                                    obj.isIncluded = _.uniq(_.pluck(data, 'included'))[0];
                                     obj.geoTargetList = _.pluck(data, 'id');
 
                                     return obj;
@@ -1327,20 +1315,24 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                 geoTargetData = $scope.adData.geoTargetingData;
 
-                                if (geoTargetData.regions.length > 0) {
-                                    postGeoTargetObj.REGION = buildGeoTargetingParams(geoTargetData.regions, 'regions');
+                                if (geoTargetData.countries.selected.length > 0) {
+                                    postGeoTargetObj.COUNTRY = buildGeoTargetingParams(geoTargetData.countries.selected, 'countries');
                                 }
 
-                                if (geoTargetData.cities.length > 0) {
-                                    postGeoTargetObj.CITY = buildGeoTargetingParams(geoTargetData.cities, 'cities');
+                                if (geoTargetData.regions.selected.length > 0) {
+                                    postGeoTargetObj.REGION = buildGeoTargetingParams(geoTargetData.regions.selected, 'regions');
                                 }
 
-                                if (geoTargetData.dmas.length > 0) {
-                                    postGeoTargetObj.DMA = buildGeoTargetingParams(geoTargetData.dmas, 'dmas');
+                                if (geoTargetData.cities.selected.length > 0) {
+                                    postGeoTargetObj.CITY = buildGeoTargetingParams(geoTargetData.cities.selected, 'cities');
                                 }
 
-                                if ($scope.adData.geoTargetingData.zip.length > 0) {
-                                    zipObj = $scope.adData.geoTargetingData.zip;
+                                if (geoTargetData.dmas.selected.length > 0) {
+                                    postGeoTargetObj.DMA = buildGeoTargetingParams(geoTargetData.dmas.selected, 'dmas');
+                                }
+
+                                if (geoTargetData.zip.selected.length > 0) {
+                                    zipObj = geoTargetData.zip.selected;
                                     zipPostArr = [];
 
                                     _.each(zipObj, function (zipArr) {
@@ -1376,6 +1368,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                     postGeoTargetObj = adData.targets.geoTargets;
 
                                     if (postGeoTargetObj) {
+                                        if (postGeoTargetObj.COUNTRY) {
+                                            postGeoTargetObj.COUNTRY.geoTargetList =
+                                                _.pluck(postGeoTargetObj.COUNTRY.geoTargetList, 'id');
+                                        }
+
                                         if (postGeoTargetObj.REGION) {
                                             postGeoTargetObj.REGION.geoTargetList =
                                                 _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
@@ -1532,6 +1529,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 }
             };
 
+            $scope.isSaveBtnEnable = function() {
+                var adData = $scope.adData;
+                return (adData.budgetExceeded || adData.adBudgetExceedUnallocated || !adData.adName || adData.targetValue.length === 0 || adData.unitCost.length === 0 || adData.totalAdBudget.length === 0 || adData.budgetAmount.length === 0);
+            };
+
             $('.main_navigation_holder')
                 .find('.active_tab')
                 .removeClass('active_tab');
@@ -1562,6 +1564,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
             $(window).resize(function () {
                 colResize();
+                if ($(window).height() > 596) {
+                    colResize();
+                }
             });
 
             // This is for the drop down list. Perhaps adding this to a more general controller

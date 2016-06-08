@@ -305,13 +305,14 @@
                                     <textarea ng-model="showList.name"
                                               ng-bind-html="showList.name|removeSpecialCharacter"
                                               placeHolder="Leave a Comment" id="edit_action_comment" maxChar="160"
-                                              maxLine="2" ng-focus="resetEditActionValidation()"> </textarea>
+                                              maxLine="2" ng-focus="resetEditActionValidation($event)"> </textarea>
 
                                     <div ng-show="commentError" id="edit_error_comment" class="error_message">{{
                                         textConstants.PLEASE_FILL_OUT_FIELD }}
                                     </div>
                                     <div id="error_edit_action_more_comment" class="error_message"></div>
                                 </div>
+
                                 <div class="pull-right submit_btn_holder clearfix">
                                     <span class="pull-left btn btn-link" ng-click="closeEdit();">{{ textConstants.CANCEL }}</span>
                                     <input type="submit" class="pull-right btn btn-primary" value="Save"
@@ -399,8 +400,7 @@
                             </div>
                             <div class="pull-right activity_edit_holder">
                                 <div class="activity_edit" tooltip-placement="left" tooltip="Edit"
-                                     ng-controller="EditActionsController" ng-click="showEdit(action.id)"
-                                     onclick="disableSaveButton()">
+                                     ng-controller="EditActionsController" ng-click="showEdit(action.id)">
                                 </div>
                                 <div class="activity_report" tooltip-placement="left" tooltip="Open Report"
                                      ng-click="setOptimizationData(campaign,action,strategyByActionId);setReportMenu()">
@@ -500,7 +500,7 @@
                         <!--Column 2-->
                         <div class="col-md-4 each_col col_spend">
                             <div class="col_heading clearfix">{{ textConstants.SPEND }}
-                                <span class="metric_val">{{((campaigns.cdbDataMap[campaign.orderId].getGrossRev() >0)|| (campaigns.cdbDataMap[campaign.orderId].getGrossRev() == 0))? (campaigns.cdbDataMap[campaign.orderId].getGrossRev() | currency:undefined:2) : '-'}}</span>
+                                <span class="metric_val">{{(campaigns.spend >0)? (campaigns.spend | currency:undefined:2) : '-'}}</span>
                             </div>
                             <div class="metric_graph {{getSpendClass(campaign)}}">
                                 <div class="full_metric_graph">

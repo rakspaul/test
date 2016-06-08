@@ -12,8 +12,8 @@ define(['angularAMD'], function (angularAMD) {
             },
 
             getPlayerSize = function (searchText, type) {
-                if(type === 'Any') {
-                    return sizeList['Any'];
+                if (type === 'Any') {
+                    return sizeList.Any;
                 }
 
                 return sizeList['Specific Size'].filter(function (size) {

@@ -326,8 +326,8 @@
 		-webkit-border-radius: 2px;
 		border: 1px solid #dde6eb;
 		background-color: #ffffff;
-		font-size: 14px;
-		color: @color_6;
+		font-size: 14px;/*
+		color: @color_6;*/
 		line-height: 18px;
 		padding: 8px;
 		margin: 0 8px;
@@ -367,6 +367,12 @@
 		border-bottom: 0px;
 		padding: 30px 30px 0px 30px;
 	}
+
+    span.tagTitle {
+        color: #939eae;
+        margin-right:5px;
+    }
+
 	.modal-body {
 		padding: 0 30px 30px;
 	}
@@ -448,12 +454,43 @@
 		.icon-search {
 			top: -4px ;
 		}
-	}	
+	}
+}
+.clone-ad-popup {
+
+	.dropdown-workflow {
+		.dropdown-menu li span {
+			padding: 0px ;
+		}
+		.toggleDropdown {
+			padding: 0px ;
+			.toggleDropdownDiv {
+				padding: 10px 15px 10px 15px;
+			}
+		}
+		.searchBar {
+			input {
+				padding-left: 15px ;
+				&:focus {
+				    border: 0px !important;
+					border-bottom: solid 1px  #dde6eb !important;
+				}
+			}
+			.icon-search {
+				top: 9px;
+			}
+		}
+	}
 }
 .edit-report-popup-holder {
 	.common_dropdown {
 		.dropdown {
 			border: 0px ;
+			.dropdown_txt {
+				background: url("/images/cdesk/common_down_arrow.png") no-repeat right center;
+				padding-right: 20px;
+				cursor: pointer;
+			}
 		}
 		.dropdown-menu {
 			margin-top: -5px ;
@@ -465,6 +502,8 @@
 		width: 100%;
 		input {
 			color: #555 ;
+			margin : 0 ;
+			width: 100% ;
 		}
 	}
 	.duplicateOptionChkbox {
@@ -1895,10 +1934,10 @@ multiselect {
 		top: 10px;
 		left: 10px;
 		z-index: 1;
-        input {
-            padding-left: 20px;
-        }
 	}
+    input {
+        padding-left: 20px !important;
+    }
 	.perSymbol {
 		right: 25px;
 		left: auto;
@@ -1941,23 +1980,25 @@ multiselect {
 	margin: 0 auto;
 }
 div.inputLoader {
-	border : 1px solid #dde6eb ;
+    border-width: 0;
 	position: relative;
 	border-radius: 2px;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
-    > input[type="text"] {
-    	border: solid 1px  transparent;
-    	width: 100% ;
-    	margin: 0 ;
-    }
-    > input[type="text"]:focus , > input[type="text"]:hover {
-    	border: solid 1px  transparent !important;
-    }
+    box-shadow: none;
+    //> input[type="text"] {
+    //	border: solid 1px  transparent;
+    //	width: 100% ;
+    //	margin: 0 ;
+    //}
+    //> input[type="text"]:focus , > input[type="text"]:hover {
+    //	border: solid 1px  transparent !important;
+    //}
 	> .common-loading-area {
 		position: absolute;
-		right: 0px ;
-		top : 0px ;
+		right: 2px ;
+		top : 1px ;
+        height: 34px;
 		z-index: 10 ;
 		background-color: #fff ;
 	}
@@ -2003,6 +2044,9 @@ tags-input .autocomplete {
 		}
 	}
 }
+.dropdownDisabled {
+	cursor: not-allowed ;
+}
 .slider-msg {
 	border: solid 1px #0978C9;
     border-radius: 2px;
@@ -2027,7 +2071,24 @@ tags-input .autocomplete {
     -webkit-animation-iteration-count: 1;
     font-size: 14px ;
 }
-
+/*Dropdown which has search input box*/
+.dropdown-menu-with-search {
+	padding-top: 0 ;
+	.search-inside-dropdown {
+		border: 0px ;
+		border-bottom: solid 1px #ccc;
+		margin-bottom: 5px ;
+		input {
+			border: 0px;
+			padding-right: 30px;
+			background: url("/images/cdesk/search_input.png") no-repeat right 10px center;
+			height: 30px;
+			width: 100%;
+			padding-left: 15px;
+		}
+	}
+}
+/*End of Dropdown which has search input box*/
 
 @keyframes show-notification {
     from {

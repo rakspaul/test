@@ -85,13 +85,7 @@
                                                </div>
                                                 <button data-ng-show="!adCreateLoader"
                                                         type="button"
-                                                        data-ng-disabled="adData.budgetExceeded ||
-                                                                          adData.adBudgetExceedUnallocated ||
-                                                                          !adData.adName ||
-                                                                          adData.targetValue.length === 0 ||
-                                                                          adData.unitCost.length === 0 ||
-                                                                          adData.totalAdBudget.length === 0 ||
-                                                                          adData.budgetAmount.length === 0"
+                                                        data-ng-disabled="isSaveBtnEnable()"
                                                         id="SaveAd"
                                                         data-ng-click="campaignAdSave(false)"
                                                         data-ng-bind="textConstants.WF_AD_SAVE_CLOSE"
@@ -102,7 +96,7 @@
                                                      class="pull-right common-loading-btn">
                                                 </div>
                                                 <a data-ng-href="/mediaplan/{{workflowData.campaignData.id}}/overview"
-                                                   class="pull-right cancel-btn">
+                                                   class="pull-right btn btn-link">
                                                     Cancel
                                                 </a>
                                             </div>

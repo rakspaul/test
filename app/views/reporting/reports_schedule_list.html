@@ -17,20 +17,26 @@
         </div>
 
         <!--Search Input-->
-        <div class="pull-right">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-default pull-right" style="display: none">
+                <span class="icon-filter" style="margin: -1px 0 0;"></span>
+            </button>
+
             <div class="searchInput pull-left" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                <a class="btn btn-default searchInputBtn" ng-click="searchShowInput();filters.searchText=null">
+                <a class="btn btn-default searchInputBtnInline" ng-click="searchShowInput();filters.searchText=null"
+                    style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
                     <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
                 </a>
                 <div class="input-group searchInputForm" >
                     <input type="text"
                            class="form-control"
                            id="creativeSearch"
+                           search-box
                            name="creativeSearch"
                            ng-model="creativeSearch"
-                           ng-keyup="select_filter_option('reportName', creativeSearch)"
+                           ng-keyup="select_filter_option('reportName', creativeSearch, $event)"
                            placeholder="Search Reports By Report Name..">
-                    <div class="btn btn-default" ng-click="searchHideInput()">
+                    <div class="btn btn-default" ng-click="searchHideInput($event)">
                         <span class="icon-clear" aria-hidden="true"></span>
                     </div>
                 </div>
@@ -47,6 +53,7 @@
                 <!-- attribute data-toogle="collapse"  attached to id="toggle-example"-->
             </div>
         </div>
+
         <div id="schedule_report_filter" class="collapse">
             <div class="container zeroPadding">
                 <div class="row zeroPadding" style="margin-top:10px; margin-bottom:10px;">
@@ -126,7 +133,7 @@
                                         on-tag-added="addDimensionFilter()"
                                         on-tag-removed="removeDimensionFilter()"
                                         max-tags="5">
-                                    <auto-complete source="loadDimensionsList()"
+                                    <auto-complete source="loadDimensionsList($query)"
                                                    min-length="1"
                                                    load-on-down-arrow="true"
                                                    max-results-to-show="50"></auto-complete>

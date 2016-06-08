@@ -9,7 +9,7 @@
         <span class="common-loading-btn pull-right" ng-if="uploadBusy" ></span>
         <a class="btn btn-link pull-right" ng-click="hideBulkSetup();">Cancel</a>
         <h3 class="col-md-12 creativeSizeData zeroPadding">What Creative Record Template will you be uploading?</h3>
-    
+
         <!--Ad Server DDL-->
         <div class="form-group pull-left ad-server-dd" show-errors >
             <label for="sel1" class="greyTxt" style="margin-top: 0;">Ad Server</label>
@@ -30,7 +30,7 @@
             </div>
             <label ng-if="formCreativeCreate.creativeAdServer.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Server size.</label>
         </div>
-        
+
         <!--Channel-->
         <div class="form-group pull-left channel-dd" >
             <div class="col-md-12 greyTxt">Channel</div>
@@ -51,7 +51,7 @@
             </div>
             <label ng-if="formCreativeCreate.creativeFormat.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Format.</label>
         </div>
-        
+
         <!--Creative Template DDL-->
         <div class="form-group pull-left crt-dd" >
             <label for="sel1" class="greyTxt">Creative Record Template (CRT)</label>
@@ -72,7 +72,7 @@
             </div>
             <!--<label ng-if="formCreativeCreate.creativeTemplate.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Server size.</label>-->
         </div>
-        
+
         <a class="pull-left" style="margin: 40px 0 0 20px;" ng-show="formCompleted()" ng-click="downloadCreativeTemplate()">
             <span ng-hide="downloadBusy">
                 <span class="icon-download pull-left"></span>
@@ -93,7 +93,7 @@
             </div>
 
             <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
-        </div>		
+        </div>
     </form>
     <!--Bulk Ad Setup Ends-->
 
@@ -101,25 +101,25 @@
     <div class="col-md-12 zeroPadding successfullBulkUpView">
         <div class="icon-success pull-left" style="margin: 5px 5px 0 0; color: #4CC94A;"></div>
         <h1 class="pull-left" >File upload successful</h1>
-        
+
         <a class="btn btn-primary pull-right">Add Records</a>
         <a class="btn btn-link pull-right" ng-click="hideBulkSetup();">Cancel</a>
-        
+
         <div class="col-md-12 zeroPadding" style="margin-top: 30px;">
             <!--View Records List-->
             <h3 class="pull-left" style="margin: 10px 5px 10px 0;">7</h3>
             <h3 class="pull-left" style="margin: 10px 5px 10px 0;">Creative Records are ready for upload</h3>
-            
+
             <a class="pull-right showRecordList" ng-click="showRecordList();" style="margin-top: 10px;">
                 <span class="pull-left icon-plus"></span>
                 <span class="pull-left" style="margin-left: 5px;">View Records</span>
             </a>
-            
+
             <a class="pull-right hideRecordList" ng-click="showRecordList();" style="margin-top: 10px;">
                 <span class="pull-left icon-minus"></span>
                 <span class="pull-left" style="margin-left: 5px;">View Records</span>
             </a>
-            
+
             <div class="col-md-12 recordList">
                 <!--List Header-->
                 <div class="col-md-12 zeroPadding headerList">
@@ -129,7 +129,7 @@
                     <span class="col-md-2 zeroPadding">Ad Server</span>
                     <span class="col-md-1 zeroPadding">Type</span>
                 </div>
-                
+
                 <!--Examples Start Below For List-->
                 <div class="col-md-12 zeroPadding bodyList">
                     <span class="col-md-4 zeroPadding">Cr1234-videoplay-promo17</span>
@@ -182,13 +182,13 @@
                 </div>
                 <!--Examples Ends Here For List-->
             </div>
-            
+
             <hr class="col-md-12 zeroPadding">
-            
+
             <!--Error Records List-->
             <h3 class="pull-left" style="color: #F24444; margin: 10px 5px 10px 0;">10</h3>
             <h3 class="pull-left" style="margin: 10px 5px 10px 0;">Creative Records missing required fields.</h3>
-            
+
             <a class="pull-right" style="margin-top: 10px;">
                 <span class="pull-left icon-download"></span>
                 <span class="pull-left" style="margin-left: 5px;">Download Error Log</span>
