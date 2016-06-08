@@ -1519,6 +1519,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             if (tabType === 'geo') {
                 $scope.selectedMainTab = 'geo';
                 $scope.selectedSubTab = 'countries';
+                if($scope.geoData.countries.selected.length === 0
+                    && $scope.geoData.regions.selected.length > 0) {
+                    $scope.selectedSubTab = 'regions';
+                }
+                if($scope.geoData.countries.selected.length === 0
+                    && $scope.geoData.regions.selected.length === 0
+                    && $scope.geoData.cities.selected.length > 0) {
+                    $scope.selectedSubTab = 'cities';
+                }
+                geoTargeting.showHideExcAndIncSwitch();
                 geoTargeting[$scope.selectedSubTab].init();
             }
 
@@ -1938,11 +1948,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 var isChecked = $(this).prop('checked');
                 $scope.geoData[$scope.selectedSubTab].included = isChecked;
                 geoTargeting.updateSelectedGeoList(isChecked, $scope.selectedSubTab);
+                var target = $(event.target);
+                var includeLabelElem  = target.parents(".include-label");
 
                 if (isChecked) {
-                    $(".include-label").find(".toggle-switch-text").text("Include");
+                    includeLabelElem.find(".toggle-switch-text").text("Include");
                 } else {
-                    $(".include-label").find(".toggle-switch-text").text("Exclude");
+                    includeLabelElem.find(".toggle-switch-text").text("Exclude");
                 }
             });
 
