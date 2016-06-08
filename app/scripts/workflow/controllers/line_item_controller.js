@@ -659,7 +659,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             //set line Item start Date
             if (lineItem.startTime) {
                 $scope.editLineItem.startTime = lineItem.startTime;
-                lineItemStartDateElem.datepicker("setStartDate", lineItem.startTime);
+                lineItemStartDateElem.datepicker("setStartDate", $scope.selectedCampaign.startTime);
                 lineItemStartDateElem.datepicker("update", lineItem.startTime);
             }
             if (lineItem.adGroupName) {
