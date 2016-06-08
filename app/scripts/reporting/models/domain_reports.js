@@ -234,6 +234,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                     }
 
                     var report_url = urlService.APIVistoCustomQuery(queryObj);
+                    (queryObj.queryId == 26 || queryObj.queryId == 28) && (report_url += '&result_count=2000'); // Reports/Inventory: Download URL
                     if (report.report_cat && report.report_type) {
                         report_url += "&report_cat=" + report.report_cat + "&report_type=" + report.report_type;
                     }

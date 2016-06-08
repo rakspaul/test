@@ -272,8 +272,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                             $scope.adCreateLoader = false;
 
-                            //$('.workflowPreloader, .workflowPreloader .adSavePre').hide();
-
                             if (result.status === 'OK' || result.status === 'success') {
                                 $scope.state = responseData.state;
                                 $scope.adId = responseData.id;
@@ -390,7 +388,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $('.campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav').css('min-height', winHeight + 'px');
                 $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
             }
-            
+
             //edit mode data population
             function processEditMode(result, clientId, advertiserId) {
                 var responseData = result.data.data,
@@ -1001,7 +999,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     name: 'View to Completion'
                 };
 
-                $scope.adData.primaryKpi = '';
+              //  $scope.adData.primaryKpi = '';
 
                 if ($scope.adData.adFormat === 'Video') {
                     $scope.workflowData.primaryKpi[1].kpiValues.push(videoKpiObj);
@@ -1309,7 +1307,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                 buildGeoTargetingParams = function (data, type) {
                                     var obj = {};
 
-                                    obj.isIncluded = _.uniq(_.pluck(data, type + 'Included'))[0];
+                                    obj.isIncluded = _.uniq(_.pluck(data, 'included'))[0];
                                     obj.geoTargetList = _.pluck(data, 'id');
 
                                     return obj;
@@ -1317,20 +1315,24 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                 geoTargetData = $scope.adData.geoTargetingData;
 
-                                if (geoTargetData.regions.length > 0) {
-                                    postGeoTargetObj.REGION = buildGeoTargetingParams(geoTargetData.regions, 'regions');
+                                if (geoTargetData.countries.selected.length > 0) {
+                                    postGeoTargetObj.COUNTRY = buildGeoTargetingParams(geoTargetData.countries.selected, 'countries');
                                 }
 
-                                if (geoTargetData.cities.length > 0) {
-                                    postGeoTargetObj.CITY = buildGeoTargetingParams(geoTargetData.cities, 'cities');
+                                if (geoTargetData.regions.selected.length > 0) {
+                                    postGeoTargetObj.REGION = buildGeoTargetingParams(geoTargetData.regions.selected, 'regions');
                                 }
 
-                                if (geoTargetData.dmas.length > 0) {
-                                    postGeoTargetObj.DMA = buildGeoTargetingParams(geoTargetData.dmas, 'dmas');
+                                if (geoTargetData.cities.selected.length > 0) {
+                                    postGeoTargetObj.CITY = buildGeoTargetingParams(geoTargetData.cities.selected, 'cities');
                                 }
 
-                                if ($scope.adData.geoTargetingData.zip.length > 0) {
-                                    zipObj = $scope.adData.geoTargetingData.zip;
+                                if (geoTargetData.dmas.selected.length > 0) {
+                                    postGeoTargetObj.DMA = buildGeoTargetingParams(geoTargetData.dmas.selected, 'dmas');
+                                }
+
+                                if (geoTargetData.zip.selected.length > 0) {
+                                    zipObj = geoTargetData.zip.selected;
                                     zipPostArr = [];
 
                                     _.each(zipObj, function (zipArr) {
@@ -1366,6 +1368,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                     postGeoTargetObj = adData.targets.geoTargets;
 
                                     if (postGeoTargetObj) {
+                                        if (postGeoTargetObj.COUNTRY) {
+                                            postGeoTargetObj.COUNTRY.geoTargetList =
+                                                _.pluck(postGeoTargetObj.COUNTRY.geoTargetList, 'id');
+                                        }
+
                                         if (postGeoTargetObj.REGION) {
                                             postGeoTargetObj.REGION.geoTargetList =
                                                 _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
@@ -1520,6 +1527,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     //special case when we remove tag from selected list
                     $scope.$broadcast('removeCreativeTags', [[clickedTagData], 'special']);
                 }
+            };
+
+            $scope.isSaveBtnEnable = function() {
+                var adData = $scope.adData;
+                return (adData.budgetExceeded || adData.adBudgetExceedUnallocated || !adData.adName || adData.targetValue.length === 0 || adData.unitCost.length === 0 || adData.totalAdBudget.length === 0 || adData.budgetAmount.length === 0);
             };
 
             $('.main_navigation_holder')

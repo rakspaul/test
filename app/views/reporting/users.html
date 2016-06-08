@@ -26,11 +26,6 @@
                 </button>
 
                 <div class="searchInput pull-right">
-                    <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
-                        <!--<a class="btn btn-default searchInputBtn" ng-click="searchShowInput()" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">-->
-                        <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
-                    </a>
-
                     <a class="btn btn-default searchInputBtnInline" ng-click="campaignSearchFunc()">
                         <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
                     </a>
@@ -38,8 +33,11 @@
                         <input type="text"
                                class="form-control"
                                name="usersSearch"
+                               ng-model="usersSearch"
+                               ng-keyup="searchFunc($event)"
+                               search-box
                                placeholder="Search Users...">
-                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
+                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput($event)">
                             <span class="icon-clear" aria-hidden="true"></span>
                         </div>
                     </div>

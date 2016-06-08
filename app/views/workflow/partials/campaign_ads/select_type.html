@@ -16,6 +16,7 @@
                remove-special-character="remove-special-character"
                data-ng-model="adData.adName"
                maxlength="250"
+               autocomplete="off"
                autofocus>
     </div>
 </div>
@@ -34,8 +35,8 @@
 <div class="col-md-12 zeroPadding adFormatChkBox">
     <div class="col-md-12 adHeader" data-ng-bind="textConstants.WF_HEADER_CREATIVES"></div>
     <div class="col-md-12 greyTxt" data-ng-bind="textConstants.WF_AD_FORMAT"></div>
-    <div class="goalBtnWithPopup">
-        <div class="btn-group goalBtnGroup zeroPadding"
+    <div class="goalBtnWithPopup btn-group">
+        <div class="goalBtnGroup zeroPadding"
              data-ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}"
              data-ng-repeat="adformat in workflowData.adFormats track by adformat.id">
             <label class="btn btn-primary{{adformat.active ? ' active' : '' }}
@@ -121,22 +122,26 @@
     <div class="col-md-12 greyTxt" data-ng-bind="textConstants.WF_SCREEN_TYPE"></div>
 
     <!--Abi can you add the active class to the div element below-->
-    <div class="form-group col-md-3 btn_border bigChkBox{{screenType.active ? ' active' : ''}}"
-         data-ng-repeat="screenType in workflowData.screenTypes track by screenType.id">
-        <label for="screenTypeChkBox{{screenType.id}}">
-            <input type="checkbox"
-                   name="screens"
-                   data-ng-model="screenType.active"
-                   id="screenTypeChkBox{{screenType.id}}"
-                   value="{{adData.screenTypes}}"
-                   class="btn_rad chkScreenFocus"
-                   data-ng-click="screenTypeSelection(screenType);"
-                   data-ng-checked="screenType.active">
-            <!--<img data-ng-src="/assets/images/workflow/{{screenType.name | lowercase}}.svg" alt="" width="25"/>-->
-            <div class="icon-{{screenType.name | lowercase}}"></div>
-            <div class="btnLabel" data-ng-bind="screenType.name"></div>
-        </label>
+    <div class="btn-group">
+        <div class="form-group col-md-3 btn-default bigChkBox{{screenType.active ? ' active' : ''}}"
+            data-ng-repeat="screenType in workflowData.screenTypes track by screenType.id">
+           <label for="screenTypeChkBox{{screenType.id}}">
+               <input type="checkbox"
+                      name="screens"
+                      data-ng-model="screenType.active"
+                      id="screenTypeChkBox{{screenType.id}}"
+                      value="{{adData.screenTypes}}"
+                      class="btn_rad chkScreenFocus"
+                      data-ng-click="screenTypeSelection(screenType);"
+                      data-ng-checked="screenType.active">
+               <!--<img data-ng-src="/assets/images/workflow/{{screenType.name | lowercase}}.svg" alt="" width="25"/>-->
+               <div class="icon-{{screenType.name | lowercase}}"></div>
+               <div class="btnLabel" data-ng-bind="screenType.name"></div>
+           </label>
+       </div>
     </div>
+
+
 </div>
 
 <!--=== Next Step Panel ===-->

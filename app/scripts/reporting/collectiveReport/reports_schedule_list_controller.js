@@ -200,20 +200,22 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 return true;
             };
 
-            $scope.select_filter_option = function (key, value) {
-                switch(key) {
-                    case 'reportName':
-                        $scope.filters[key] = value;
-                        _curCtrl.filters[key] = value;
-                        $scope.getScheduledReports();
-                        break;
-                    case 'reportType':
-                        $scope.filters[key] = value;
-                        _curCtrl.filters[key] = value;
-                        break;
-                    default:
-                        $scope.filters[key] = utils.getValueOfItem(constants.REPORT_LIST_GENERATEON, value);
-                        _curCtrl.filters[key] = value;
+            $scope.select_filter_option = function (key, value, e) {
+                if (!e || e.keyCode === 13) {
+                    switch (key) {
+                        case 'reportName':
+                            $scope.filters[key] = value;
+                            _curCtrl.filters[key] = value;
+                            $scope.getScheduledReports();
+                            break;
+                        case 'reportType':
+                            $scope.filters[key] = value;
+                            _curCtrl.filters[key] = value;
+                            break;
+                        default:
+                            $scope.filters[key] = utils.getValueOfItem(constants.REPORT_LIST_GENERATEON, value);
+                            _curCtrl.filters[key] = value;
+                    }
                 }
             };
 
@@ -559,30 +561,15 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 });
             };
 
-            //Search Hide / Show
-            $scope.searchShowInput = function () {
-                var searchInputForm = $('.searchInputForm');
-
-                $('.searchInputBtn').hide();
-                searchInputForm.show();
-                searchInputForm.animate({width: '300px'}, 'fast');
-            };
-
-            $scope.searchHideInput = function () {
+            //Search Clear
+            $scope.searchHideInput = function (evt) {
+                $(evt.target).hide();
                 var inputSearch = $('.searchInputForm input');
-
                 delete $scope.filters.searchText;
                 isSearch = false;
-                $('.searchInputForm').animate({width: '44px'}, 'fast');
                 inputSearch.val('');
-                setTimeout(function () { $('.searchInputForm').hide(); }, 300);
-                setTimeout(function () { $('.searchInputBtn').fadeIn(); }, 300);
-                $scope.creativeData.creatives = [];
-
-                //  var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-                // var selectedClientObj = localStorage.selectedMasterClient && JSON.parse(localStorage.selectedMasterClient);
-                //creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
-                creativeList.getCreativesList(JSON.parse(localStorage.selectedMasterClient).id,'', '',20, 1);
+                $scope.creativeSearch = null;
+                $scope.select_filter_option('reportName', '');
             };
 
             $scope.refreshReportList = function () {

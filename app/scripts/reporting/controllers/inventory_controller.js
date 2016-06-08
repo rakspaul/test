@@ -97,14 +97,14 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                                     if (Number($scope.selectedStrategy.id) >= 0) {
                                         // strategy selected
                                         $scope.strategyTableData = _.filter(result.data.data, function (item) {
-                                            return item.ad_id == -1;
+                                            return item.ad_id == -1 && item.ad_group_id == -1;
                                         });
                                         _.each($scope.strategyTableData, function (item) {
                                             item.kpi_type = $scope.selected_filters.campaign_default_kpi_type;
                                         });
 
                                         var adsTempData = _.filter(result.data.data, function (item) {
-                                            return item.ad_id != -1;
+                                            return item.ad_id != -1 && item.ad_group_id != -1;
                                         });
                                         $scope.tacticListData = _.chain(adsTempData)
                                             .groupBy('ad_name')
@@ -294,7 +294,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
             $scope.$on(constants.EVENT_STRATEGY_CHANGED, function (event, strategy) {
                 $scope.selectedStrategy.id = strategySelectModel.getSelectedStrategy().id;
                 $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name;
-                $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? constants.MEDIA_PLAN_TOTAL : constants.AD_GROUP_TOTAL;
+                $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
                 inventoryWrapper.callBackStrategyChange();
             });
 

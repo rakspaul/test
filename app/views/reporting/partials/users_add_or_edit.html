@@ -1,48 +1,84 @@
-<popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
-           ng-init="init('flashMessage','WF_USER_CREATION_FAIL')"></popup-msg>
-<shrujan></shrujan>
+<popup-msg data-ng-show="flashMessage"
+           data-ng-controller="popUpMsgCtr"
+           data-ng-init="init('flashMessage', 'WF_USER_CREATION_FAIL')">
+</popup-msg>
 <div class="col-md-12 zeroPadding">
     <div class="col-md-12 zeroPadding">
-        <h1 class="pull-left">{{isEdit?'Edit':'Add'}} User</h1>
+        <h1 class="pull-left" data-ng-bind="isEdit ? 'Edit User' : 'Add User'"></h1>
     </div>
     <div class="col-md-12 zeroPadding">
         <form id="userCreateEditForm" name="userCreateEditForm" class="col-md-12 zeroPadding">
             <div class="col-md-12 zeroPadding">
                 <div class="form-group col-md-3" show-errors style="padding-left: 0;">
-                    <label class="col-sm-12 greyTxt"><span class="icon-user pull-left"></span> User Login:</label>
-                    <input name="userLogin" type="email" class="form-control" ng-disabled="isEdit" ng-model="userConsoleFormDetails.email" required >
-                    <label ng-if="userCreateEditForm.userLogin.$error.email" class="col-sm-12  greyTxt errorLabel">Invalid email address.</label>
+                    <label class="col-sm-12 greyTxt">
+                        <span class="icon-user pull-left"></span>
+                        User Login:
+                    </label>
+                    <input name="userLogin"
+                           type="email"
+                           class="form-control"
+                           data-ng-disabled="isEdit"
+                           data-ng-model="userConsoleFormDetails.email"
+                           required>
+                    <label data-ng-if="userCreateEditForm.userLogin.$error.email" class="col-sm-12 greyTxt errorLabel">
+                        Invalid email address.
+                    </label>
                 </div>
                 <div class="form-group col-md-2" show-errors>
-                    <label class="col-sm-12 greyTxt">First Name:</label>
-                    <input name="firstName" type="text" ng-model="userConsoleFormDetails.firstName" class="form-control"  required>
+                    <label class="col-sm-12 greyTxt" for="firstName">First Name:</label>
+                    <input id="firstName"
+                           name="firstName"
+                           type="text"
+                           data-ng-model="userConsoleFormDetails.firstName"
+                           class="form-control"
+                           required>
                 </div>
                 <div class="form-group col-md-2" show-errors>
-                    <label class="col-sm-12 greyTxt">Last Name:</label>
-                    <input name="lastName" type="text" ng-model="userConsoleFormDetails.lastName" class="form-control"  required>
+                    <label class="col-sm-12 greyTxt" for="lastName">Last Name:</label>
+                    <input id="lastName"
+                           name="lastName"
+                           type="text"
+                           data-ng-model="userConsoleFormDetails.lastName"
+                           class="form-control"
+                           required>
                 </div>
                 <div class="form-group col-md-2" show-errors>
-                    <label class="col-sm-12 greyTxt">Password:</label>
-                    <input name="password" type="password" ng-model="userConsoleFormDetails.password" class="form-control" ng-disabled="userConsoleFormDetails.isEditPassword" required>
+                    <label class="col-sm-12 greyTxt" for="password">Password:</label>
+                    <input id="password"
+                           name="password"
+                           type="password"
+                           data-ng-model="userConsoleFormDetails.password"
+                           class="form-control"
+                           data-ng-disabled="userConsoleFormDetails.isEditPassword"
+                           required>
                 </div>
-                <div class="form-group col-md-2" ng-if="showSuperAdminButton">
+                <div class="form-group col-md-2" data-ng-if="showSuperAdminButton">
                     <label class="pull-left greyTxt" style="width: 100%;">User Active Status</label>
                     <div class="pull-left">
-                        <input id="userState" class="cmn-toggle cmn-toggle-round" data-ng-model="userConsoleFormDetails.status" type="checkbox" checked>
+                        <input id="userState"
+                               class="cmn-toggle cmn-toggle-round"
+                               data-ng-model="userConsoleFormDetails.status"
+                               type="checkbox"
+                               checked>
                         <label for="userState"></label>
                     </div>
                 </div>
-                <div class="form-group col-md-1" style="padding-right: 0;" ng-if="showSuperAdminButton">
+                <div class="form-group col-md-1" style="padding-right: 0;" data-ng-if="showSuperAdminButton">
                     <label class="pull-right greyTxt">Super User</label>
                     <div class="pull-right">
-                        <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" data-ng-model="isCurr_SuperUser" type="checkbox" data-ng-click="superUserToggleClicked(isCurr_SuperUser);">
+                        <input id="cmn-toggle-1"
+                               class="cmn-toggle cmn-toggle-round"
+                               data-ng-model="isCurr_SuperUser"
+                               type="checkbox"
+                               data-ng-click="superUserToggleClicked(isCurr_SuperUser);">
                         <label for="cmn-toggle-1"></label>
                     </div>
                 </div>
             </div>
-            <div class="form-group col-md-12 zeroPadding" ng-if="!isCurr_SuperUser">
-                <!--THIS IS TEST ELEMENTS ENDS HERE-->
-                <div class="accounts col-md-12 add-filters" ng-repeat="(permissionIndex,item) in permissions track by $index" data-row-index="{{$index}}"> <!--$index--{{$index}}-->
+            <div class="form-group col-md-12 zeroPadding" data-ng-if="!isCurr_SuperUser">
+                <div class="accounts col-md-12 add-filters"
+                     data-ng-repeat="(permissionIndex, item) in permissions track by $index"
+                     data-row-index="{{$index}}">
                     <div class="col-md-12 zeroPadding">
                         <h1 class="pull-left">Account Access</h1>
                     </div>
@@ -50,80 +86,139 @@
                         <label class="col-md-12 zeroPadding greyTxt">Accounts:</label>
                         <div class="zeroPadding dropdown-workflow dropdown-multi">
                             <div class="dropdown" style="z-index: 99999" id = "accountDropDown_{{$index}}" >
-                                <button class="btn btn-default" type="button" aria-haspopup="true" aria-expanded="true" ng-click="open_accounts_dropdown($event) ;">
-                                    <span class="text" ng-bind="permissions[$index].clientName"></span>
+                                <button class="btn btn-default"
+                                        type="button"
+                                        aria-haspopup="true"
+                                        aria-expanded="true"
+                                        data-ng-click="openAccountsDropdown($event);">
+                                    <span class="text" data-ng-bind="permissions[$index].clientName"></span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
-                                <ul class="dropdown-menu clientDropdownCnt" id="clientDropdown_0" data-ng-init="accountIndex=$index">
-                                    <li ng-repeat="client in userModalData.Clients"   style="position:relative">
-                                        <a ng-click="select_client_option(client.id, client.name, accountIndex)" ng-bind="client.name"></a>
-                                        <span class="icon-arrow-down icon-arrow-right" ng-click="getSubClientList(client.id, client.name, 0, accountIndex)" ng-if="!client.isLeafNode"></span>
+                                <ul class="dropdown-menu clientDropdownCnt"
+                                    id="clientDropdown_0"
+                                    data-ng-init="accountIndex=$index">
+                                    <li data-ng-repeat="client in userModalData.Clients" style="position:relative">
+                                        <a data-ng-click="selectClientOption(client.id, client.name, accountIndex)"
+                                           data-ng-bind="client.name">
+                                        </a>
+                                        <span class="icon-arrow-down icon-arrow-right"
+                                              data-ng-click="getSubClientList(client.id, client.name, 0, accountIndex)"
+                                              data-ng-if="!client.isLeafNode">
+                                        </span>
                                     </li>
                                 </ul>
-                                <div ng-if="loadingClientDropDown[accountIndex]" style="position: absolute;width: 100%;height: 200px;background: rgba(255,255,255,0.63);z-index: 99999;">
-                                    <span class="common-load-more" style="/* width:150px; */position: absolute;top: 40px;left: 134px;/* z-index: 999999; */"></span>
+                                <div data-ng-if="loadingClientDropDown[accountIndex]"
+                                     style="position: absolute;
+                                            width: 100%;
+                                            height: 200px;
+                                            background: rgba(255,255,255,0.63);
+                                            z-index: 99999;">
+                                    <span class="common-load-more"
+                                          style="position: absolute; top: 40px;left: 134px;">
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="pull-left" style="padding: 0 30px;">
                         <label class="pull-left greyTxt">Account Admin:</label>
                         <div class="pull-left clearLeft" data-ng-click="adminUserToggleClicked($index, $event)">
-                            <input id="admin-toggle-{{$index}}" data-ng-model="toggle" class="cmn-toggle cmn-toggle-round" type="checkbox" >
+                            <input id="admin-toggle-{{$index}}"
+                                   data-ng-model="toggle"
+                                   class="cmn-toggle cmn-toggle-round"
+                                   type="checkbox">
                             <label for="admin-toggle-{{$index}}"></label>
                         </div>
                     </div>
-
                     <div class="pull-left">
                         <label class="col-md-12 zeroPadding greyTxt">Permission Group:</label>
-
                         <div class="btn-group toggleBtn selOption" >
-                            <button type="button" ng-disabled="adminToggle[$index]" class="btn btn-default all" ng-click="permissionAll($index);">All</button>
-                            <button type="button" ng-disabled="adminToggle[$index]" class="btn btn-default unAll" ng-click="permissionUnAll($index);">Unselect All</button>
-                            <button type="button" ng-disabled="adminToggle[$index]" class="btn btn-default reportsOnly" ng-click="permissionRepOnly($index);">Reporting Only</button>
+                            <button type="button"
+                                    class="btn btn-default all"
+                                    data-ng-disabled="adminToggle[$index]"
+                                    data-ng-click="permissionAll($index);">
+                                All
+                            </button>
+                            <button type="button"
+                                    class="btn btn-default unAll"
+                                    data-ng-disabled="adminToggle[$index]"
+                                    data-ng-click="permissionUnAll($index);">
+                                Unselect All
+                            </button>
+                            <button type="button"
+                                    class="btn btn-default reportsOnly"
+                                    data-ng-disabled="adminToggle[$index]"
+                                    data-ng-click="permissionRepOnly($index);">
+                                Reporting Only
+                            </button>
                         </div>
                     </div>
-
                     <div class="col-md-12 zeroPadding">
                         <label class="col-md-12 zeroPadding greyTxt">Per Page Permission:</label>
-                        <div ng-repeat="userPerPages in userPages" class="col-md-3 zeroPadding userPages"
+                        <div class="col-md-3 zeroPadding userPages"
+                             data-ng-repeat="userPerPages in userPages"
                              data-ng-click="selectUserPage($parent.$index, userPerPages)">
-                            <input type="checkbox" data-ng-init="modalVal=userPerPages.code+'_'+$parent.$index+'_checked'"
+                            <input type="checkbox"
                                    id="{{userPerPages.code}}_{{$parent.$index}}_id"
-                                   ng-disabled = "adminToggle[$parent.$index]"
-                                   ng-model="userConsoleFormDetails[userPerPages.code+'_'+$parent.$index+'_checked']" class="pull-left">
-                            <label for="{{userPerPages.code}}_{{$parent.$index}}_id" ng-bind="userPerPages.name" class="pull-left" style="margin: 1px 0 0 5px;cursor:pointer;">Text</label>
+                                   data-ng-init="modalVal = userPerPages.code + '_' + $parent.$index + '_checked'"
+                                   data-ng-disabled="adminToggle[$parent.$index]"
+                                   data-ng-model="userConsoleFormDetails[userPerPages.code + '_' + $parent.$index + '_checked']"
+                                   class="pull-left">
+                            <label for="{{userPerPages.code}}_{{$parent.$index}}_id"
+                                   data-ng-bind="userPerPages.name"
+                                   class="pull-left"
+                                   style="margin: 1px 0 0 5px;cursor:pointer;">
+                                Text
+                            </label>
                         </div>
                     </div>
-                    
-                    <div class="col-md-12" style="background: rgba(0, 0, 0, 0.08); padding: 15px 30px; margin: 15px 0;" ng-repeat="i in item.resources" id="resources_{{$parent.$index}}_{{$index}}">
+                    <div class="col-md-12"
+                         style="background: rgba(0, 0, 0, 0.08); padding: 15px 30px; margin: 15px 0;"
+                         data-ng-repeat="i in item.resources"
+                         id="resources_{{$parent.$index}}_{{$index}}">
                         <div class="form-group col-md-4" style="padding-left: 0;">
                             <label class="col-md-12 zeroPadding greyTxt">Advertiser Name:</label>
                             <div class="zeroPadding dropdown-workflow">
                                 <div class="dropdown" data-ng-init="accountIndex=$parent.$index;permissionIndex=$index;">
-                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="text" >{{permissions[$parent.$index].resources[$index]["advertiserName"]}}</span>
+                                    <button class="btn btn-default dropdown-toggle"
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="true">
+                                        <span class="text"
+                                              data-ng-bind="permissions[$parent.$index].resources[$index].advertiserName">
+                                        </span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="accountType">
-                                        <li ng-repeat="advertiser in dropdownList[$parent.$index].advertisers"><a ng-click="selectAdvertiser(advertiser,accountIndex, permissionIndex)">{{advertiser.name}}</a>
+                                        <li data-ng-repeat="advertiser in dropdownList[$parent.$index].advertisers">
+                                            <a data-ng-click="selectAdvertiser(advertiser, accountIndex, permissionIndex)"
+                                               data-ng-bind="advertiser.name">
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-group col-md-4">
                             <label class="col-md-12 zeroPadding greyTxt">Brand Name:</label>
                             <div class="zeroPadding dropdown-workflow">
                                 <div class="dropdown">
-                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="text" >{{permissions[$parent.$index].resources[$index]["brandName"]}}</span>
+                                    <button class="btn btn-default dropdown-toggle"
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="true">
+                                        <span class="text"
+                                              data-ng-bind="permissions[$parent.$index].resources[$index].brandName">
+                                        </span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="accountType">
-                                        <li ng-repeat="brand in dropdownList[$parent.$index][$index].brands"><a ng-click="selectBrand(brand,$parent.$parent.$index, $parent.$index)">{{brand.name}}</a>
+                                        <li data-ng-repeat="brand in dropdownList[$parent.$index][$index].brands">
+                                            <a data-ng-click="selectBrand(brand, $parent.$parent.$index, $parent.$index)"
+                                               data-ng-bind="brand.name">
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -133,25 +228,37 @@
                             <label class="col-md-12 zeroPadding greyTxt">Permission:</label>
                             <div class="zeroPadding dropdown-workflow">
                                 <div class="dropdown" style="padding-right: 25px;">
-                                    <button class="btn btn-default dropdown-toggle" style="width:300px" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="text" >{{permissions[$parent.$index].resources[$index]["permissionName"]}}</span>
+                                    <button class="btn btn-default dropdown-toggle"
+                                            style="width: 300px"
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="true">
+                                        <span class="text"
+                                              data-ng-bind="permissions[$parent.$index].resources[$index].permissionName">
+                                        </span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="accountType">
-                                        <li ng-repeat="list in dropdownList[$parent.$index].permission"><a ng-click="selectPermission(list,$parent.$parent.$index, $parent.$index)">{{list.name}}</a>
+                                        <li data-ng-repeat="list in dropdownList[$parent.$index].permission">
+                                            <a data-ng-click="selectPermission(list,$parent.$parent.$index, $parent.$index)"
+                                               data-ng-bind="list.name">
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="delete_row" ng-click="deletePermission($parent.$index, $index, $event)"></div>
+                        <div class="delete_row" data-ng-click="deletePermission($parent.$index, $index, $event)"></div>
                     </div>
                     <div class="col-md-12 zeroPadding">
-                        <a class="btn btn-link pull-left addRowMedia" id="addPermissionText_{{$index}}" ng-click="addPermission($index)">
+                        <a class="btn btn-link pull-left addRowMedia"
+                           id="addPermissionText_{{$index}}"
+                           data-ng-click="addPermission($index)">
                             <span class="icon-plus"></span>
                             <span>Add Permission</span>
                         </a>
-                        <a class="btn btn-link pull-right addRowMedia" ng-click="deleteAccount($index, $event)">
+                        <a class="btn btn-link pull-right addRowMedia" data-ng-click="deleteAccount($index, $event)">
                             <span class="icon-trash" style="margin-right: 5px;"></span>
                             <span>Remove Account Access</span>
                         </a>
@@ -161,26 +268,34 @@
                 <div class="add_filter_link">
                     <a class="btn btn-link pull-left addRowMedia">
                         <span class="icon-plus"></span>
-                        <span ng-click="incrementCounter()">Add Account Access</span>
+                        <span data-ng-click="incrementCounter()">Add Account Access</span>
                     </a>
                 </div>
             </div>
         </form>
-    </div><!-- end of modal_body -->
-    <div class="col-md-12 zeroPadding">
-        <span class="btn btn-primary pull-right" ng-click="saveUserForm()" data-ng-bind="editId ? 'Update' : 'Create'"></span>
-        <span class="btn btn-link pull-right" data-dismiss="modal" ng-click="closeForm()">Cancel</span>
     </div>
-</div> <!-- end of popup-holder -->
-<script type="text/javascript">
+    <!-- end of modal_body -->
+
+    <div class="col-md-12 zeroPadding">
+        <span class="btn btn-primary pull-right"
+              data-ng-click="saveUserForm()"
+              data-ng-bind="editId ? 'Update' : 'Create'">
+        </span>
+        <span class="btn btn-link pull-right" data-dismiss="modal" data-ng-click="closeForm()">Cancel</span>
+    </div>
+</div>
+<!-- end of popup-holder -->
+
+<script>
     //Pills
     var config = {
         '.chosen-select'           : {},
-        '.chosen-select-deselect'  : {allow_single_deselect:true},
-        '.chosen-select-no-single' : {disable_search_threshold:10},
-        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-        '.chosen-select-width'     : {width:"95%"}
-    }
+        '.chosen-select-deselect'  : {allow_single_deselect: true},
+        '.chosen-select-no-single' : {disable_search_threshold: 10},
+        '.chosen-select-no-results': {no_results_text: 'Oops, nothing found!'},
+        '.chosen-select-width'     : {width: '95%'}
+    };
+
     $('.accountDDL').dropdown({
         toggleText: 'Select Account'
     });

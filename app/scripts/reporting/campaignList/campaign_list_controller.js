@@ -1,6 +1,6 @@
 define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaignList/campaign_list_model',
     'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model', 'common/utils',
-    'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model',
+    'common/services/constants_service', 'common/services/vistoconfig_service', 'reporting/brands/brands_model', 'login/login_model',
     'reporting/models/gauge_model', 'common/services/role_based_service',
     'reporting/campaignList/campaign_list_filter_directive', 'reporting/directives/campaign_cost_sort',
     'reporting/directives/campaign_sort', 'reporting/directives/campaign_card',
@@ -9,7 +9,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
     function (angularAMD) {
         angularAMD.controller('CampaignListController',
             function ($scope, $rootScope, $location, kpiSelectModel, campaignListModel, campaignSelectModel,
-                      strategySelectModel, utils, constants, brandsModel, loginModel, gaugeModel, RoleBasedService,
+                      strategySelectModel, utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel, RoleBasedService,
                       featuresService) {
 
                 //Hot fix to show the campaign tab selected
@@ -44,12 +44,16 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 });
 
                 $scope.campaigns = new campaignListModel();
+                $scope.campaigns.initializeFilter();
                 $scope.sortReverse = false;
                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
                 $scope.textConstants = constants;
 
                 $scope.searchTerm = '';
                 $scope.campaigns.searchTerm = '';
+
+                $scope.campaigns.loadMoreCampaigns = false;
+
                 $scope.campaignSearchFunc = function (e) {
                     // Perform search if enter key is pressed, or search button is clicked & user has entered something.
                     // NOTE: The event object (e) is not passed if called from search button.
@@ -115,7 +119,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
                     campaignSelectModel.setSelectedCampaign(selectedCampaign);
                     kpiSelectModel.setSelectedKpi(selectedCampaign.kpi);
-                    strategySelectModel.setSelectedStrategy(constants.ALL_STRATEGIES_OBJECT);
+                    strategySelectModel.setSelectedStrategy(vistoconfig.LINE_ITEM_DROPDWON_OBJECT);
                     $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
                     //$location.path('/performance');//reportOverview
                     $location.path('/mediaplans/' + campaign.id);
@@ -167,27 +171,10 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     return utils.highlightSearch(text, search);
                 };
 
-                // Search show / hide
-                $scope.searchShowInput = function () {
-                    var searchInputForm = $('.searchInputForm');
-
-                    $('.searchInputBtn').hide();
-                    $('.searchInputBtnInline').show();
-                    searchInputForm.show();
-                    searchInputForm.animate({width: '400px'}, 'fast');
-                    setTimeout(function () {
-                        $('.searchClearInputBtn').fadeIn();
-                    }, 300);
-                };
-
-                $scope.searchHideInput = function () {
+                // Search Clear Data
+                $scope.searchHideInput = function (evt) {
+                    $(evt.target).hide();
                     $('.searchInputForm input').val('');
-                    $('.searchInputBtn').show();
-                    $('.searchClearInputBtn, .searchInputBtnInline').hide();
-                    $('.searchInputForm').animate({width: '34px'}, 'fast');
-                    setTimeout(function () {
-                        $('.searchInputForm').hide();
-                    }, 100);
 
                     if ($scope.isCampaignSearched) {
                         $scope.isCampaignSearched = false;
@@ -206,11 +193,12 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     if ($scope.campaigns.dashboard.quickFilterSelectedCount <= 5 ||
                         (($scope.campaigns.performanceParams.nextPage - 1) * 5 >=
                         $scope.campaigns.dashboard.quickFilterSelectedCount)) {
+                        $scope.campaigns.loadMoreCampaigns = false;
                         return;
                     }
 
-                    if (!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() >
-                        $(document).height() - 100)) {
+                    if (!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() > $(document).height() - 100)) {
+                        $scope.campaigns.loadMoreCampaigns = true;
                         if ($scope.campaigns.searchTerm) {
                             $scope.campaigns.fetchData($scope.campaigns.searchTerm);
                         } else {
@@ -220,7 +208,13 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 });
 
                 $scope.$on('$locationChangeStart', function (event, next) {
-                    $(window).unbind('scroll');
+                    var currentLocation = next;
+                    if(currentLocation.indexOf("mediaplans?filter") <= -1) {
+                        var isMediaPlanList = currentLocation.split("/")[4];
+                        if(!isMediaPlanList) {
+                            $(window).unbind('scroll');
+                        }
+                    }
                 });
             }
         );

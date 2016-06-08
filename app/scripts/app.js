@@ -48,6 +48,7 @@ define(['common'], function (angularAMD) {
                 .when('/mediaplans', angularAMD.route({
                     templateUrl: assets.html_campaign_list,
                     title: 'Media Plan List',
+                    reloadOnSearch : false,
                     resolve: {
                         check: function ($location, featuresService) {
                             //redirects to default page if it has no permission to access it

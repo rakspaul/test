@@ -4,15 +4,16 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         'common/controllers/accounts/accounts_add_or_edit_advertiser_controller',
         'common/controllers/accounts/accounts_add_or_edit_brand_controller', 'common/controllers/accounts/accounts_add_or_edit_controller' ],
     function (angularAMD) {
-        angularAMD.controller('AdminAdvertisersController', function ($scope, $rootScope, $modal, $compile,
+        angularAMD.controller('AdminAdvertisersController', function ($scope, $rootScope, $modal, $compile, $filter,
             constants, accountsService, momentService,
             loginModel) {
             $(".each_nav_link").removeClass("active_tab");
             $("#admin_nav_link").addClass("active_tab");
             $scope.brandsData = [];
-            
+
             //Responsive Height
-            var winHeight = $(window).height();
+            var _curCtrl = this,
+                winHeight = $(window).height();
             $(".table-responsive .tbody").css("min-height", winHeight - 380);
 
             $scope.fetchAllBrands = function(){
@@ -21,7 +22,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     $scope.loadBrandList = false;
                     if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
                         $scope.brandsData = res.data.data;
-                        $scope.brandsTotal = _.size(res.data.data);
+                        _curCtrl.brandsData = $scope.brandsData;
                         _.each($scope.brandsData, function(item, i){
                             $scope.brandsData[i].createdAt = momentService.newMoment($scope.brandsData[i].createdAt).format('YYYY-MM-DD');
                         })
@@ -76,28 +77,22 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.brandName = obj.name;
             }
 
-            //Search Hide / Show
-            $scope.searchShowInput = function () {
-                var searchInputForm = $('.searchInputForm');
-                $('.searchInputBtn').hide();
-                $('.searchInputBtnInline').show();
-                searchInputForm.show();
-                searchInputForm.animate({width: '250px'}, 'fast');
-                setTimeout(function () {
-                    $('.searchClearInputBtn').fadeIn();
-                }, 300);
-            };
-
-            $scope.searchHideInput = function () {
+            //Search Clear
+            $scope.searchHideInput = function (evt) {
+                evt && $(evt.target).hide();
                 $('.searchInputForm input').val('');
-                $('.searchInputBtn').show();
-                $('.searchClearInputBtn, .searchInputBtnInline').hide();
-                $('.searchInputForm').animate({width: '34px'}, 'fast');
-                setTimeout(function () {
-                    $('.searchInputForm').hide();
-                }, 100);
+                $scope.brandsData = _curCtrl.brandsData;
             };
+            $scope.searchFunc = function(e){
+                !$scope.usersSearch && ($scope.brandsData = _curCtrl.brandsData);
+                if (!e || e.keyCode === 13) {
+                    $scope.brandsData = $filter('filter')(_curCtrl.brandsData, $scope.usersSearch);
 
+                }
+            }
+            $scope.$watch('brandsData', function(v) {
+                $scope.brandsTotal = _.size($scope.brandsData);
+            });
             $('html').click(function(e) {
                 if ($(e.target).closest('.searchInput').length === 0) {
                     $scope.searchHideInput();

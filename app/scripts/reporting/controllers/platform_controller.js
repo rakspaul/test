@@ -1,5 +1,5 @@
 define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model',
-        'common/services/data_service', 'common/services/constants_service', 'reporting/models/domain_reports',
+        'common/services/data_service', 'common/services/constants_service', 'reporting/models/domain_reports', 'common/services/vistoconfig_service',
         'reporting/timePeriod/time_period_model', 'login/login_model', 'common/services/role_based_service',
         'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
         'common/services/url_service', 'common/services/features_service', 'common/services/request_cancel_service',
@@ -9,7 +9,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
     function (angularAMD) {    'use strict';
         angularAMD.controller('PlatformController', function ($scope, $rootScope, kpiSelectModel, campaignSelectModel, strategySelectModel,
-                                                      dataService, constants, domainReports,
+                                                      dataService, constants, domainReports, vistoconfig,
                                                       timePeriodModel, loginModel, RoleBasedService,
                                                       advertiserModel, brandsModel,
                                                       urlService, featuresService, requestCanceller) {
@@ -163,14 +163,14 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                         if (Number($scope.selectedStrategy.id) >= 0) {
                             // strategy selected
                             $scope['platformData'] = _.filter(result.data.data, function (item) {
-                                return item.ad_id == -1;
+                                return (item.ad_id == -1 && item.ad_group_name == "");
                             });
                             _.each($scope['platformData'], function(item) {
                                 sumTechFeesNServiceFees(item);
                                 item.kpi_type = $scope.selected_filters.campaign_default_kpi_type;
                             });
                             $scope['tacticPlatformData'] = _.filter(result.data.data, function (item) {
-                                return item.ad_id != -1;
+                                return item.ad_id != -1 && item.ad_group_name != "";
                             });
                             _.each($scope['tacticPlatformData'], function(item) {
                                 sumTechFeesNServiceFees(item);
@@ -285,7 +285,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             extractAdFormats();
             $scope.selectedStrategy.id = selectedStrategyObj.id;
             $scope.selectedStrategy.name = selectedStrategyObj.name;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? constants.MEDIA_PLAN_TOTAL : constants.AD_GROUP_TOTAL;
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ? constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
             $scope.isStrategyDataEmpty = false;
             $scope.resetVariables();
             $scope.strategyChangeHandler();

@@ -71,6 +71,7 @@ define(['angularAMD','reporting/subAccount/sub_account_model','common/services/c
             $("#sub_account_name_selected").text(sub_account.displayName);
             $("#sub_account_name_selected").attr("title" , sub_account.displayName);
             $('#subAccountDropdown').attr('placeholder', sub_account.displayName).val('');
+            $("#subAccountDropDownList").hide() ;
 
             $scope.subAccountData.showAll = true;
 

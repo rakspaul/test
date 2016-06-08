@@ -5,11 +5,29 @@
 .reports-invoice-list .report_list_table .table-header {
   border-bottom: 2px solid #939eae;
 }
+.reports-invoice-list .report_list_table .invoice-tbody {
+  border: solid 1px #ccc;
+}
+.reports-invoice-list .report_list_table .tableTd {
+  min-height: 80px !important;
+}
+.reports-invoice-list .report_list_table .no_data_found {
+  margin: 100px auto 110px;
+}
 .reports-invoice-list .report_list_table div.more-options {
   width: 65px ;
   padding-left: 5px;
   padding-right: 0;
   border-left: 1px none rgba(191, 201, 215, 0.5);
+}
+.reports-invoice-list .report_list_table .hideOption1 {
+  display: none;
+}
+.reports-invoice-list .report_list_table .rowHover1:hover {
+  background-color: #FF6600;
+}
+.reports-invoice-list .report_list_table .rowHover1:hover .hideOption1 {
+  display: block;
 }
 .reports-invoice-list .report_list_table .common-sort-icon {
   display: inline-block;
@@ -23,6 +41,15 @@
 }
 .reports-invoice-list .report_list_table .highlight-row .hideOption,
 .reports-invoice-list .report_list_table .rowHover:hover .hideOption {
+  display: block;
+}
+.reports-invoice-list .report_list_table .hideOption1 {
+  display: none;
+}
+.reports-invoice-list .report_list_table .rowHover1:hover {
+  background-color: #FF6600;
+}
+.reports-invoice-list .report_list_table .rowHover1:hover .hideOption1 {
   display: block;
 }
 .reports-invoice-list .report_list_table .inner-row {
@@ -44,7 +71,6 @@
 .reports-invoice-list .report_list_table .more-options .headerDownload {
   border-top: 1px solid #ccd2da;
   padding: 5px 15px !important;
-  width: 160px;
 }
 .reports-invoice-list .report_list_table .more-options .headerDownload span {
   width: auto !important;
@@ -67,7 +93,8 @@
 .reports-invoice-list .report_list_table .option-horizontal {
   text-align: center;
   cursor: pointer;
-  height: 19px;
+  /* height: 33px;
+       padding-top: 5px; */
 }
 .reports-invoice-list .report_list_table .option-horizontal > span {
   display: inline-block;
@@ -99,4 +126,15 @@
 }
 .reports-invoice-list .table-responsive .vistoTable .tbody .tr .td a {
   text-align: left !important;
+}
+.reports-invoice-list .invoice-dialog .modal-dialog {
+  width: 1010px ;
+}
+.reports-invoice-list .invoiceTitleTag {
+  float: left;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+.reports-invoice-list .invoiceTitleTag span.tagTitle {
+  color: #FF6600;
 }
