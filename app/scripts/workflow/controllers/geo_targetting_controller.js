@@ -1334,9 +1334,30 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
 
             if (checked !=null && type === 'regions') {
-                if ($scope.geoData.regions.selected.length > 0) {
+                if ($scope.geoData.regions.selected.length === 0) {
                     geoTargeting.updateSelectedGeoList(null, type);
                 }
+            }
+
+            /**
+             *
+             * if we uncheck country, region and city belongs too country uncheck
+             */
+
+            if(!checked && $scope.selectedSubTab === 'countries') {
+                $scope.geoData.regions.selected = _.filter($scope.geoData.regions.selected , function(obj) { return obj.countryCode !== item.countryCode });
+                $scope.geoData.cities.selected = _.filter($scope.geoData.cities.selected , function(obj) { return obj.countryCode !== item.countryCode });
+                geoTargeting.selectedGeoItemArr = _.filter(geoTargeting.selectedGeoItemArr, function(obj) { return obj.countryCode !== item.countryCode });
+            }
+
+            /**
+             *
+             * if we uncheck regions, city belongs to regions should uncheck
+             */
+
+            if(!checked && $scope.selectedSubTab === 'regions') {
+                $scope.geoData.cities.selected = _.filter($scope.geoData.cities.selected , function(obj) { return obj.parent.id !== item.id});
+                geoTargeting.selectedGeoItemArr = _.filter(geoTargeting.selectedGeoItemArr, function(obj) { return  obj.parent.id !== item.id });
             }
 
             /**
@@ -1356,11 +1377,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 geoTargeting.selectedGeoItemArr = _.filter(geoTargeting.selectedGeoItemArr, function(obj) { return obj.parent.id !== item.id });
 
-                //_.each(geoTargeting.selectedGeoItemArr, function(obj, idx) {
-                //    if(obj.parent.id === item.id) {
-                //        geoTargeting.selectedGeoItemArr.splice(1, idx)
-                //    }
-                //})
             }
 
             if(type !== 'dmas') {
