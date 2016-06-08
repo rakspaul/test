@@ -744,7 +744,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         campaignId: $scope.getAd_result.campaignId,
                         adGroupId : $scope.adGroupId,
                         lineitemId : $scope.adData.lineItemId,
-                        updatedAt: $scope.getAd_result.updatedAt
+                        updatedAt: $scope.getAd_result.updatedAt,
+                        totalBudget : $scope.workflowData.adsData.totalBudget,
+                        budgetValue : $scope.workflowData.adsData.budgetValue
                     };
 
                 workflowService
@@ -775,7 +777,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         adGroupId: $scope.adGroupId,
                         lineitemId: $scope.adData.lineItemId,
                         campaignId: $scope.getAd_result.campaignId,
-                        updatedAt: $scope.getAd_result.updatedAt
+                        updatedAt: $scope.getAd_result.updatedAt,
+                        totalBudget : $scope.workflowData.adsData.totalBudget,
+                        budgetValue : $scope.workflowData.adsData.budgetValue
                     };
 
                 workflowService
