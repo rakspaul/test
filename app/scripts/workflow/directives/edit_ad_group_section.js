@@ -57,7 +57,7 @@ define(['angularAMD'], function (angularAMD) {
                             endDateElem.datepicker('setStartDate', highestEndTime);
 
                         } else if(moment($scope.campaignStartTime).isBefore(moment(startTime))) {
-                            startDateElem.datepicker('setStartDate', startTime);
+                            startDateElem.datepicker('setStartDate', $scope.campaignStartTime);
                             endDateElem.datepicker('setStartDate', highestEndTime);
                         } else {
                             startDateElem.datepicker('setStartDate', $scope.campaignStartTime);
