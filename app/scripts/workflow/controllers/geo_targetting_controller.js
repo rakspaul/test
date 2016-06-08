@@ -1867,6 +1867,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if(saveGeoData.dmas.selected.length >0) {
                     $scope.geoData.dmas.selected = [];
                     dmasIncluded = saveGeoData.dmas.included;
+                    $scope.selectedSubTab = 'dmas';
                     geoTargeting.toggleSwitch(dmasIncluded, 'dmas');
                     dmasWrapper.setData(true, saveGeoData.dmas.selected, saveGeoData.dmas.included);
                 }
