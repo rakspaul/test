@@ -290,6 +290,19 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             return videoService.getPlaybackMethods(query);
         };
 
+        // TODO: This is an attempt to resolve the auto-complete dropdown disappearing when the tag body is clicked
+        // followed by removing a tag. In this scenario, the auto-complete dropdown always closes, whereas the
+        // expected behaviour is that it should remain open.
+        // It's not resolved yet, will come back to it later after fixing the CANCEL issue.
+        /*$scope.tagsInputClicked = function (event) {
+            event.stopPropagation();
+            event.preventDefault();
+            console.log('tagsInputClicked(): event = ', event, event.target, event.currentTarget)
+            $timeout(function() {
+                $(event.currentTarget).trigger('focus');
+            }, 0);
+        };*/
+
         $scope.videoDimensionTagChanged = function (tag, type, action) {
             var index = 0,
                 pos = _.findIndex($scope.adData.videoTargets[type], function (obj) {
@@ -298,12 +311,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
             if (action === 'add') {
                 tag.targetId = tag.id;
-
-                /* TODO: (Lalding) commenting out the line below as it affects removing tags, but might have
-                         side effects elsewhere, so I'm not deleting the line for now.
-                 */
-                // removing id and adding targetid as a key for creating data for save response.
-                // delete tag.id;
             }
 
             if (pos !==  -1) {
@@ -319,7 +326,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                     index = 4;
                 }
 
-                $($('#' + type + 'InputBox .input')[index]).trigger('blur').trigger('keydown').trigger('focus');
+                $($('#' + type + 'InputBox .input')[index]).trigger('blur').trigger('focus').trigger('click');
             }, 0);
 
             if (action === 'add') {
