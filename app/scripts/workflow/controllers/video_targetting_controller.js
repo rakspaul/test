@@ -421,18 +421,9 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             }
         };
 
-        $scope.hideVideoTargeting = function (action) {
+        $scope.hideVideoTargeting = function () {
             _videoTargeting.hideBox();
 
-            // TODO: 'hide' (collapsing the video targeting screen and go back to targeting screen)
-            // is not working properly, so treating 'hide' same as 'cancel' for now.
-            /*if (action === 'hide') {
-                $scope.isVideoTargetingCancelled = false;
-                $scope.isVideoTargetingCollapsed = true;
-                return;
-            }*/
-
-            // Video targeting is cancelled using Cancel button.
             // Clone back the relevant data objects to their original state when first loaded.
             $scope.isVideoTargetingCancelled = true;
             videoTargets = $.extend(true, {}, videoTargetsTemp);
