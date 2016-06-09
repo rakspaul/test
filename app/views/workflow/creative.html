@@ -216,23 +216,28 @@
                         <label ng-if="formCreativeCreate.creativeSize.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;" data-ng-bind="textConstants.CREATIVE_ERR_SIZE"></label>
                     </div>
 
-                <div class="form-group col-md-12 zeroPadding adFormatChkBox" show-errors style="margin-top: 20px;" >
-                    <div class="col-md-12 greyTxt" data-ng-bind="textConstants.CREATIVE_TYPE"></div>
-                    <div class="goalBtnWithPopup creativeType">
-                        <div class="btn-group goalBtnGroup zeroPadding" ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}" ng-repeat="creativeTag in creativeSizeData.tagTypes track by creativeTag.id" >
-                            <label class="btn btn-primary {{creativeTag.active ? 'active' : '' }} {{(creativeTag.disabled) ? 'disabled' : '' }}"
-                                   aria-disabled="{{(creativeTag.disabled) ? true : false }}">
-                                <input type="radio" value="{{creativeTag.name}}" class="btn_rad" ng-click="creativeTagSelected($event,creativeTag.name)" ng-checked="creativeTag.active">
-                                <div class="hideRadioBtn" style="margin-top: -18px;">
-                                    <span data-ng-bind="creativeTag.name" style="margin:0px ;"></span>
-                                </div>
-                            </label>
+                    <div class="form-group col-md-12 zeroPadding adFormatChkBox" show-errors style="margin-top: 20px;" >
+                        <div class="col-md-12 greyTxt" data-ng-bind="textConstants.CREATIVE_TYPE"></div>
+                        <div class="goalBtnWithPopup creativeType">
+                            <div class="btn-group goalBtnGroup zeroPadding" ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}" ng-repeat="creativeTag in creativeSizeData.tagTypes track by creativeTag.id" >
+                                <label class="btn btn-primary {{creativeTag.active ? 'active' : '' }} {{(creativeTag.disabled) ? 'disabled' : '' }}"
+                                       aria-disabled="{{(creativeTag.disabled) ? true : false }}">
+                                    <input type="radio" value="{{creativeTag.name}}" class="btn_rad" ng-click="creativeTagSelected($event,creativeTag.name)" ng-checked="creativeTag.active">
+                                    <div class="hideRadioBtn" style="margin-top: -18px;">
+                                        <span data-ng-bind="creativeTag.name" style="margin:0px ;"></span>
+                                    </div>
+                                </label>
+                            </div>
+                            <input class="form-control" type="hidden" name="creativeType" ng-model="creativeType"  ng-update-hidden  required/>
+                            <label ng-if="formCreativeCreate.creativeType.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;" data-ng-bind="textConstants.CREATIVE_ERR_TAG_TYPE"></label>
+
                         </div>
-                        <input class="form-control" type="hidden" name="creativeType" ng-model="creativeType"  ng-update-hidden  required/>
-                        <label ng-if="formCreativeCreate.creativeType.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;" data-ng-bind="textConstants.CREATIVE_ERR_TAG_TYPE"></label>
 
                     </div>
-
+                <div class="form-group col-md-6">
+                    <label for="name" class="greyTxt" style="margin-top: 0;">Click Through URL</label>
+                    <input type="text" class="form-control ng-pristine ng-valid"  id="clickUrl" name="clickUrl" ng-model="clickUrl" placeholder="ClickThrough URL" required>
+                    <label ng-show="IncorrectClickThru"  style="color: red" data-ng-bind="textConstants.WF_INVALID_CLICKTHRU"></label>
                 </div>
 
                 <!--Template from Json to be appended on this DIV-->

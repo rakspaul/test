@@ -575,6 +575,7 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_CREATIVE_FORMAT_LABEL = 'Creative Format'
         this.WF_MANDATORY_CREATIVE_FORMAT = "Please select the creative format.";
         this.WF_MANDATORY_CREATIVE_NAME = "Please enter a name for the creative."
+        this.WF_INVALID_CLICKTHRU = "Please enter a valid url."
         this.WF_AD_ARCHIVE_SUCCESS = "Ad Archived Successfully"
         this.WF_AD_ARCHIVE_FAILURE = "Ad Archive Unsuccessful"
         this.WF_CAMPAIGN_ARCHIVE_SUCCESS = "Media Plan Archived Successfully"
