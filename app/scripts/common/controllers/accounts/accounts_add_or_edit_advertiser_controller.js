@@ -237,7 +237,9 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
         _currCtrl.verifyCreateAdvInputs = function () {
             var ret = true,
                 errMsg = 'Error';
-
+            if($scope.advertiserCodeExist){
+                return false;
+            }
             if (!$scope.selectedAdvertiserId || $scope.selectedAdvertiserId === '') {
                 $rootScope.setErrAlertMessage(constants.EMPTY_ADV_SELECTION);
                 return false;
@@ -266,7 +268,9 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                 lookbackImpressions : 14,
                 lookbackClicks : 14
             };
-
+            if(!$scope.isEditMode){
+                requestData['code'] = $scope.setSelectedAdvertiserCode == "Others" ? $scope.customAdvertiserCode : $scope.setSelectedAdvertiserCode;
+            }
             accountsService
                 .createAdvertiserUnderClient($scope.client.id, advId, requestData)
                 .then(function (result) {
@@ -602,11 +606,33 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
             });
         };
 
+        _currCtrl.getClientCode = function(){
+            accountsService
+                .getUserAdvertiserCode($scope.selectedAdvertiser).then(function(result){
+                    if(result.status == "OK" || result.status == "success"){
+                        var res = result.data.data;
+                        if(res.length){
+                            $scope.codeList = res;
+                        }
+                    }
+                },function(err){});
+        }
+        $scope.leaveFocusCustomAdvertiserCode = function(){
+            accountsService.checkAdvertiserCodeExist($scope.customAdvertiserCode).then(function(result){
+                if (result.status === 'OK' || result.status === 'success') {
+                    $scope.advertiserCodeExist = result.data.data.isExists
+                }
+            },function(err){});
+        }
         $scope.selectAdvertiser = function (advertiser) {
             $scope.selectedAdvertiserId = advertiser.id;
             $scope.selectedAdvertiser = advertiser.name;
+            _currCtrl.getClientCode();
         };
 
+        $scope.selectAdvertiserCode = function(ev, code){
+            $scope.setSelectedAdvertiserCode = code;
+        }
         //Search Hide / Show
         $scope.searchShowInput = function () {
             var searchInputForm = $('.searchInputForm');
@@ -647,7 +673,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
             $scope.getAdnlData();
 
             setTimeout(function () {
-                $('#advertiser').addClass('disabled');
+                $('#advertiser, .setSelectedAdvertiserCode').addClass('disabled');
             }, 100);
         }
 

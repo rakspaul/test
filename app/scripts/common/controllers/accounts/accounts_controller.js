@@ -14,7 +14,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 .find('#creative_nav_link')
                 .addClass('active');
 
-            _currCtrl = this;
+            var _currCtrl = this;
             $scope.pixelIndex = null;
             $scope.pixelFormData = {
                 name: '',
@@ -436,11 +436,10 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.activeEditAdvertiserTab = 'basic';
                 $scope.clientObj = client;
                 $scope.advObj = advObj;
-
                 if ($scope.isEditMode) {
                     $scope.selectedAdvertiserId = advObj.id;
                     $scope.selectedAdvertiser = advObj.name;
-
+                    $scope.setSelectedAdvertiserCode = advObj.code;
                     accountsService
                         .getAdvertiserUnderClient(client.id, advObj.id)
                         .then(function (res) {
@@ -540,10 +539,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.advertiserName = '';
                 $scope.brandName = '';
                 $scope.clientName = '';
+                $scope.setSelectedClientCode = '';
                 $scope.selectedBrandId = '';
                 $scope.allBrands = [];
                 $scope.allAdvertiser = [];
                 $scope.dropdownCss.display = 'none';
+                $scope.setSelectedAdvertiserCode = "";
                 accountsService.setToBeEditedAdvertiser(null);
                 accountsService.setToBeEditedBrand(null);
                 accountsService.setToBeEditedClient(null);
@@ -594,14 +595,13 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $('#brandNameInp').val($scope.brandName);
             };
 
-            $scope.showDropdown = function () {
-                $scope.advertiserName = '';
-                $scope.selectedAdvertiserId = '';
-                $scope.brandName = '';
-                $scope.selectedBrandId = '';
-                $scope.dropdownCss.display = 'block';
-                $('.account_name_list').show();
-            };
+
+            $scope.selectClientCode = function(ev, code){
+                $scope.setSelectedClientCode = code;
+                $(".customClientCode, .accountCode").removeClass("col-md-12").removeClass("col-md-6");
+                var addClass = (code=='Others') ? "col-md-6" : "col-md-12";
+                $(".customClientCode, .accountCode").addClass(addClass);
+            }
 
             $('#pixelExpirationDate').datepicker('update', new Date());
 
