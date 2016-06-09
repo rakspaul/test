@@ -824,6 +824,8 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_PERMISSION_NEEDED = 'Atleast 1 permission needed';
         this.WF_USER_CREATION_FAIL = 'Unable to create User';
         this.WF_USER_EDIT_FAIL = 'Unable to update User';
+        this.CLIENT_CODE_EXIST = 'Already exists. Please choose a different Client Code.';
+        this.ADVERTISER_CODE_EXIST = 'Already exists. Please choose a different Advertiser Code.';
 
         //Overview Page
         this.ADVERTISER = 'Advertiser';

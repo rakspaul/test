@@ -77,7 +77,7 @@
                            data-ng-blur="leaveFocusCustomAdvertiserCode()"
                            data-toggle="dropdown">
                     <div>
-                        <span class="errorText" ng-if="advertiserCodeExist">Already exists. Please choose a different Advertiser Code.</span>
+                        <span class="errorText codeExist" ng-if="advertiserCodeExist" data-ng-bind="textConstants.ADVERTISER_CODE_EXIST"></span>
                     </div>
                 </div>
             </div>
