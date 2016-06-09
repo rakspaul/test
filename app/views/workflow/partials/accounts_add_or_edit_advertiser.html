@@ -46,6 +46,42 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group col-md-8 " style="padding: 0 15px;">
+                <div class="col-md-6 zeroPadding dropdown-workflow accountCode">
+                    <label class="col-sm-12 greyTxt">Advertiser Code:</label>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle setSelectedAdvertiserCode"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="true">
+                            <span class="text" data-ng-bind="setSelectedAdvertiserCode ? setSelectedAdvertiserCode : 'Select Code'"></span>
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" data-toggle="dropdown">
+                            <li class="available" data-ng-repeat="code in codeList" data-ng-click="selectAdvertiserCode($event,code)">
+                                <a data-ng-bind="code"></a>
+                            </li>
+                            <li class="available" data-ng-click="selectAdvertiserCode($event,'Others')">
+                                <a data-ng-bind="'Others'"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group col-md-6 customClientCode" style="padding: 0 15px;" data-ng-show="setSelectedAdvertiserCode=='Others'">
+                    <label class="col-sm-12 greyTxt">Enter Code:</label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Add Code"
+                           data-ng-model="customAdvertiserCode"
+                           data-ng-blur="leaveFocusCustomAdvertiserCode()"
+                           data-toggle="dropdown">
+                    <div>
+                        <span class="errorText codeExist" ng-if="advertiserCodeExist" data-ng-bind="textConstants.ADVERTISER_CODE_EXIST"></span>
+                    </div>
+                </div>
+            </div>
+
             <div class="adChoices">
                 <div class="col-md-12 zeroPadding">
                     <h1 class="pull-left">Ad Choices</h1>
