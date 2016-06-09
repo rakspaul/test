@@ -3,7 +3,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
     'workflow/directives/ng_upload_hidden'], function (angularAMD) {
     angularAMD.controller('CreativeController', function ($scope, $rootScope, $routeParams, $location, constants,
                                                          workflowService, creativeCustomModule, loginModel) {
-
+        $scope.IncorrectClickThru=false;
         var validTag = false,
             postCrDataObj = {},
 
@@ -33,6 +33,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 $scope.creativeFormat = $scope.creativeEditData.creativeFormat;
                                 $scope.pushedCount = $scope.creativeEditData.pushedCount;
                                 $scope.associatedAdCount = $scope.creativeEditData.noOfAds;
+                                $scope.clickUrl=$scope.creativeEditData.clickthroughURL;
 
                                 // set the creativeTag Type
                                 $scope.creativeType = $scope.creativeEditData.creativeType.toUpperCase();
@@ -237,6 +238,18 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.IncorrectTagMessage =
                         'You have entered an invalid Javascript tag.Please review carefully and try again';
                     console.log('Incorrect tag');
+                }
+            },
+
+            validateUrl= function (url) {
+                var re = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+                if(re.test(url)) {
+                    postCrDataObj.clickthroughURL = url;
+                    $scope.IncorrectClickThru=false;
+                    validTag = true;
+                }else{
+                    validTag = false;
+                    $scope.IncorrectClickThru=true;
                 }
             };
 
@@ -600,7 +613,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     'creativeTemplate',
                     'tag',
                     'creativeSize',
-                    'creativeType'
+                    'creativeType',
+                    'clickUrl'
                 ];
 
             $scope.$broadcast('show-errors-check-validity');
@@ -625,6 +639,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postCrDataObj.vendorCreativeTemplateId = formData.creativeTemplate;
 
                 validateScriptTag(formData.tag);
+                // validate if the click thru url is valid
+                validateUrl(formData.clickUrl);
 
                 //if ($scope.TrackingIntegrationsSelected) {
                 //  postCrDataObj.tag = '%%TRACKER%%';
@@ -634,7 +650,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 // }
 
                 if (validTag) {
-                    validCreativeUrl = true;
+                //    validCreativeUrl = true;
                     $('#invalidUrl').remove();
 
                     for (i = 0; i< formDataObj.length; i++) {
@@ -655,18 +671,18 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     postCrDataObj.creativeCustomInputs = _.map(templateArr, function (data) {
                         var d = data.name.split('$$');
 
-                        if (d[0] === 'clickthrough_url.clickthrough_url' && data.value !== '') {
-                            // validate if the url is valid
-                            validCreativeUrl = workflowService.validateUrl(data.value);
-
-                            if (validCreativeUrl === false) {
-                                $('[name = "' + data.name + '"]')
-                                    .parent()
-                                    .append('<label id="invalidUrl" ' +
-                                        'class="col-sm-12 control-label errorLabel" ' +
-                                        'style="display: block">Please enter a valid url.</label>');
-                            }
-                        }
+                        //if (d[0] === 'clickthrough_url.clickthrough_url' && data.value !== '') {
+                        //    // validate if the url is valid
+                        //    validCreativeUrl = workflowService.validateUrl(data.value);
+                        //
+                        //    if (validCreativeUrl === false) {
+                        //        $('[name = "' + data.name + '"]')
+                        //            .parent()
+                        //            .append('<label id="invalidUrl" ' +
+                        //                'class="col-sm-12 control-label errorLabel" ' +
+                        //                'style="display: block">Please enter a valid url.</label>');
+                        //    }
+                        //}
 
                         return {
                             creativeCustomInputId: Number(d[1]),
@@ -674,9 +690,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         };
                     });
 
-                    if (validCreativeUrl) {
+                  //  if (validCreativeUrl) {
                         $scope.creativeSave(postCrDataObj);
-                    }
+                  //  }
                 }
             }
         };
