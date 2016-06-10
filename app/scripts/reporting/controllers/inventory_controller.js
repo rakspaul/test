@@ -7,8 +7,8 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
     function (angularAMD) {
         'use strict';
-        angularAMD.controller('InventoryController', function ($scope, kpiSelectModel, campaignSelectModel, strategySelectModel,
-                                                               columnline, dataService, constants,
+        angularAMD.controller('InventoryController', function ($scope, $routeParams, kpiSelectModel, campaignSelectModel, strategySelectModel,
+                                                               columnline, dataService, constants, vistoconfig,
                                                                timePeriodModel, loginModel, advertiserModel,
                                                                brandsModel, urlService,
                                                                domainReports) {
@@ -65,9 +65,10 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                             'domains': 28
                         },
                         datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
+                        clientId = $routeParams.subAccountId || $routeParams.accountId,
                         param = {
                             campaignId: $scope.selectedCampaign.id,
-                            clientId: loginModel.getSelectedClient().id,
+                            clientId: clientId,
                             advertiserId: advertiserModel.getSelectedAdvertiser().id,
                             brandId: brandsModel.getSelectedBrand().id,
                             dateFilter: datefilter,
@@ -316,7 +317,10 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 $('#tactic_' + id + '_body').toggle();
             };
 
+            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
             inventoryWrapper.init();
+            inventoryWrapper.callBackStrategyChange();
+
 
             $(function() {
 

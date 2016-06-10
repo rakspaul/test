@@ -4,35 +4,39 @@ define(['angularAMD','reporting/subAccount/sub_account_model','common/services/c
         var search = false;
         var searchCriteria = utils.typeaheadParams;
         $scope.constants = constants;
-        $scope.isDashboardFilter = false;
-
-
-        var initializeDataObj = function() {
-            var locationPath = $location.url();
-            if (locationPath.endsWith('/dashboard')) {
-                $scope.isDashboardFilter = true;
-            }
-
-            $scope.subAccountData = {
-                subAccounts : {},
-                selectedsubAccount :  {
-                    id: -1,
-                    name : 'Loading...'
-                }
-            };
+        // $scope.isDashboardFilter = false;
+        $scope.subAccountData = {
+            subAccounts : {},
+            selectedsubAccount :  {}
         };
 
-        initializeDataObj();
 
-        function fetchSubAccounts(from,searchCriteria, search) {
-            if($scope.isDashboardFilter) {
+        // var initializeDataObj = function() {
+        //     var locationPath = $location.path();
+        //     if (locationPath.endsWith('/dashboard')) {
+        //         $scope.isDashboardFilter = true;
+        //     }
+
+        //     $scope.subAccountData = {
+        //         subAccounts : {},
+        //         selectedsubAccount :  {
+        //             id: -1,
+        //             name : 'Loading...'
+        //         }
+        //     };
+        // };
+
+        // initializeDataObj();
+
+        function fetchSubAccounts(from, searchCriteria, search) {
+            if($location.path().endsWith('/dashboard')) {
                 $scope.subAccountData.subAccounts = subAccountService.getDashboadSubAccountList();
                 $scope.subAccountData.selectedsubAccount.id = subAccountService.getSelectedDashboardSubAccount().id;
                 $scope.subAccountData.selectedsubAccount.name = subAccountService.getSelectedDashboardSubAccount().displayName;
             } else {
-                $scope.subAccountData.subAccounts = subAccountService.getSubAccountList();
-                $scope.subAccountData.selectedsubAccount.id = subAccountService.getSelectedSubAccount.id;
-                $scope.subAccountData.selectedsubAccount.name = subAccountService.getSelectedSubAccount().name;
+                $scope.subAccountData.subAccounts = subAccountService.getSubAccounts();
+                $scope.subAccountData.selectedsubAccount.id = subAccountService.getSelectedSubAccount().id;
+                $scope.subAccountData.selectedsubAccount.name = subAccountService.getSelectedSubAccount().displayName;
             }
             // subAccountModel.fetchSubAccounts(from,function () {
             //     if($scope.isDashboardFilter) {
@@ -113,20 +117,20 @@ define(['angularAMD','reporting/subAccount/sub_account_model','common/services/c
         };
 
         //shold we have this
-        var eventClientChangedFromDashBoard = $rootScope.$on(constants.EVENT_CLIENT_CHANGED_FROM_DASHBOARD, function (event, args) {
-            $scope.selectSubAccount(args.subAccount, args.event_type);
-        });
+        // var eventClientChangedFromDashBoard = $rootScope.$on(constants.EVENT_CLIENT_CHANGED_FROM_DASHBOARD, function (event, args) {
+        //     $scope.selectSubAccount(args.subAccount, args.event_type);
+        // });
 
-        var masterClientChanged = $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function (event, args) {
-            initializeDataObj();
-            subAccountModel.resetSubAccount();
-            var isLeafNode = loginModel.getMasterClient().isLeafNode;
-            var subAccountId = loginModel.getSelectedClient().id;
-            if(!isLeafNode) {
-                fetchSubAccounts('MasterClientChanged');
-            }
-            $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client':subAccountId, 'event_type': 'clicked'});
-        });
+        // var masterClientChanged = $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function (event, args) {
+        //     initializeDataObj();
+        //     subAccountModel.resetSubAccount();
+        //     var isLeafNode = loginModel.getMasterClient().isLeafNode;
+        //     var subAccountId = loginModel.getSelectedClient().id;
+        //     if(!isLeafNode) {
+        //         fetchSubAccounts('MasterClientChanged');
+        //     }
+        //     $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client':subAccountId, 'event_type': 'clicked'});
+        // });
 
 
         $(function () {

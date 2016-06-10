@@ -203,7 +203,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     });
 
-    angularAMD.directive('downloadReport', function ($http, $location, loginModel, advertiserModel, brandsModel, dataService, urlService, vistoconfig, constants) {
+    angularAMD.directive('downloadReport', function ($http, $location, $routeParams, loginModel, advertiserModel, brandsModel, dataService, urlService, vistoconfig, constants) {
         return {
             controller: function ($scope, $cookieStore, $location) {
 
@@ -219,7 +219,8 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                     var queryObj = {
                         'url': report.url,
                         queryId: report.query_id,
-                        clientId: loginModel.getSelectedClient().id,
+                        // clientId: loginModel.getSelectedClient().id,
+                        clientId: $routeParams.subAccountId || $routeParams.accountId,
                         campaignId: $scope.selectedCampaign.id,
                         advertiserId: advertiserModel.getSelectedAdvertiser().id,
                         brandId: brandsModel.getSelectedBrand().id,
@@ -409,7 +410,8 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
-    angularAMD.directive('filtersHeader', ['$location','$rootScope','$http', '$compile', 'constants','loginModel', function ($location,$rootScope,$http, $compile,constants,loginModel) {
+    angularAMD.directive('filtersHeader', ['$location','$rootScope','$http', '$compile', 'constants','loginModel', 'accountService', 
+        function ($location,$rootScope,$http, $compile,constants, loginModel, accountService) {
         return {
             controller: function ($scope, $cookieStore, $location) {
             },
@@ -419,18 +421,18 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 scope.reportFilter = attrs.reports;
                 scope.textConstants = constants;
                 scope.showStrategies = attrs.strategies;
-                var masterClient = loginModel.getMasterClient();
+                var masterClient = accountService.getSelectedAccount();
                 scope.isLeafNode = true;
                 if(masterClient.isLeafNode == false) {
                     scope.isLeafNode = false;
                 }
-                var masterClientChanged = $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function (event, args) {
-                    scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
-                });
+                // var masterClientChanged = $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function (event, args) {
+                //     scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
+                // });
 
-                var masterClientChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
-                    scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
-                });
+                // var masterClientChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
+                //     scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
+                // });
 
                 var locationUrl = $location.url();
                 if(locationUrl == '/reports/list') {
@@ -439,15 +441,15 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                     scope.allCampaign = false;
                 }
 
-                if (scope.allCampaign == "true" || scope.allCampaign == true) {
-                    scope.selectedCampaign = {
-                        id: 0,
-                        name: 'All Media Plans',
-                        kpi: 'ctr',
-                        startDate: '-1',
-                        endDate: '-1'
-                    };
-                }
+                // if (scope.allCampaign == "true" || scope.allCampaign == true) {
+                //     scope.selectedCampaign = {
+                //         id: 0,
+                //         name: 'All Media Plans',
+                //         kpi: 'ctr',
+                //         startDate: '-1',
+                //         endDate: '-1'
+                //     };
+                // }
             }
         };
     }]);

@@ -4,10 +4,10 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
     'reporting/advertiser/advertiser_model', 'common/services/url_service', 'common/services/vistoconfig_service','../../common/services/data_service'],
     function (angularAMD) {
         //originally part of controllers/campaign_controller.js
-        angularAMD.factory('campaignListModel', ['$route','$rootScope', '$location', 'campaignListService', 'modelTransformer',
+        angularAMD.factory('campaignListModel', ['$route','$rootScope', '$routeParams', '$location', 'campaignListService', 'modelTransformer',
             'campaignCDBData', 'campaignCost', 'requestCanceller', 'constants', 'brandsModel', 'loginModel',
             'advertiserModel', 'urlService', 'vistoconfig','dataService','localStorageService',
-            function ($route,$rootScope, $location, campaignListService, modelTransformer, campaignCDBData, campaignCost,
+            function ($route,$rootScope, $routeParams, $location, campaignListService, modelTransformer, campaignCDBData, campaignCost,
                       requestCanceller, constants, brandsModel, loginModel, advertiserModel, urlService, vistoconfig,dataService,localStorageService) {
                 //var scrollFlag = 1;
                 var Campaigns = function () {
@@ -75,7 +75,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                     this.sortParam = 'start_date';
                     this.sortDirection = 'desc';
                     this.brandId = brandsModel.getSelectedBrand().id;
-                    this.client_id = loginModel.getSelectedClient().id;
+                    this.client_id = $routeParams.subAccountId || $routeParams.accountId;
 
                     this.dashboard = {
                         filterTotal: 1,
@@ -264,7 +264,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                         angular.forEach(campaignData, function (campaign) {
                                             var queryObj = {
                                                 'queryId':14,
-                                                'clientId':loginModel.getSelectedClient().id,
+                                                'clientId': $routeParams.subAccountId || $routeParams.accountId,
                                                 'advertiserId':advertiserModel.getSelectedAdvertiser().id,
                                                 'brandId':brandsModel.getSelectedBrand().id,
                                                 'dateFilter':'life_time',
@@ -428,7 +428,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                          * coming from dashboard then (active,ontrack)/(active,underperforming)
                          */
                         fetchDashboardData = function (forceLoadFilter) {
-                            var clientId = loginModel.getSelectedClient().id,
+                            var clientId = $routeParams.subAccountId || $routeParams.accountId,
                                 advertiserId = advertiserModel.getSelectedAdvertiser().id,
                                 brandId = brandsModel.getSelectedBrand().id,
                                 url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
@@ -827,7 +827,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         },
 
                         _campaignServiceUrl = function (from) {
-                            var clientId = loginModel.getSelectedClient().id,
+                            var clientId = $routeParams.subAccountId || $routeParams.accountId,
                                 nextPageNumber,
                                 params;
 
@@ -838,7 +838,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                             }
 
                             params = [
-                                'client_id=' + loginModel.getSelectedClient().id,
+                                'client_id=' + $routeParams.subAccountId || $routeParams.accountId,
                                 'advertiser_id=' + advertiserModel.getSelectedAdvertiser().id,
                                 'brand_id=' + brandsModel.getSelectedBrand().id,
                                 'date_filter=' + this.timePeriod,

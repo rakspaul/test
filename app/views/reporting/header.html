@@ -4,7 +4,7 @@
         <div class="icon-hamburger" ng-click="mobileMenuShow();"></div>
 
         <!--Logo-->
-        <a href="/dashboard" class="main_logo" id="logo" style="cursor:pointer;">
+        <a href="javascript:void(0);" class="main_logo" id="logo" style="cursor:pointer;" ng-click="NavigateToTab('', $event ,'dashboard')">
             <img ng-src="/images/visto_logos/Visto_Logo_hi-res.svg" alt="" height="32"/>
         </a>
 
@@ -12,7 +12,7 @@
         <div class="mobileNavWrap">
             <div class="mobileNav">
                 <a href="/mediaplans" ng-mouseover="hide_navigation_dropdown($event);" ng-bind="textConstants.MEDIA_PLAN"></a>
-                <a href="javascript:void(0);" reporttitle="reportOverview" ng-click="NavigateToTab('', $event ,'reportOverview')" ng-bind="textConstants.REPORTS"></a>
+                <a href="javascript:void(0);" reporttitle="reportOverview" ng-click="NavigateToTab('overview', $event ,'reportOverview')" ng-bind="textConstants.REPORTS"></a>
                 <a href="javascript:void(0);" ng-click="NavigateToTab('', $event ,'creativelist')" ng-bind="textConstants.CREATIVES"></a>
             </div>
             <div class="mobileHideFunc" ng-click="mobileMenuHide();"></div>
@@ -29,9 +29,9 @@
                    ng-click="NavigateToTab('', $event ,'mediaplanList')" ng-bind="textConstants.MEDIA_PLAN"></a>
                 <div class="arrowSelect"></div>
             </div>
-            <div class="pull-left each_nav_link" id="reports_nav_link" ng-if="showReportTab">
+            <div class="pull-left each_nav_link {{pageName == 'reports' ? 'active_tab' : ''}}" id="reports_nav_link" ng-if="showReportTab">
                 <a href="javascript:void(0);" reporttitle="reportOverview"
-                   ng-click="NavigateToTab('', $event ,'reportOverview')"
+                   ng-click="NavigateToTab('/overview', $event ,'reportsSubPage')"
                    ng-mouseover="show_hide_nav_dropdown($event,'reports','hover');" ng-bind="textConstants.REPORTS"></a>
 
                 <div class="arrowSelect" style="bottom: -1px;"></div>

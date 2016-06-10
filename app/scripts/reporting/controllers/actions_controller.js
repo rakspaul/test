@@ -7,7 +7,7 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
                                                           dataService, modelTransformer, Tactic,
                                                           constants, ActionType, ActionSubType) {
 
-        var loadActionTypes = true,
+        var loadActionTypes = true, clientId = $routeParams.subAccountId || $routeParams.accountId,
             loadAdsMeta = true;
         $scope.action = { types : [], external : false, name : '' };
         $scope.tactics = {};
@@ -25,7 +25,7 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
                 return;
             }
             loadActionTypes = false;
-            dataService.getActions().then(function (response) {
+            dataService.getActions(clientId).then(function (response) {
                 if(response.status === 'success') {
                     var action = { types : [], external : false, name : ''},
                         result = response.data.data,
@@ -51,7 +51,7 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
                 return;
             }
             loadAdsMeta = false;
-            dataService.getTactics($routeParams.campaignId).then(function (response) {
+            dataService.getTactics(clientId, $routeParams.campaignId).then(function (response) {
                 if (response.status === 'success') {
                     var tactics = [],
                         result = response.data.data,
@@ -121,7 +121,7 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
             if(data.action_sub_type_ids.length > 0 && data.action_type_id !=undefined && data.metric_impacted != undefined && data.name.length > 0 && data.action_tactic_ids.length > 0 ) {
                 for(var i in data.action_tactic_ids){
                     data.ad_id = data.action_tactic_ids[i];
-                    dataService.createAction(data).then( function (response){
+                    dataService.createAction(clientId, data).then( function (response){
                         $scope.action.disableTagButton = {'visibility': 'visible'};
                         $timeout(function() {
                             $scope.action.disableTagButton = {'visibility': 'hidden'};

@@ -1,7 +1,7 @@
 define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_store_model', 'common/utils',
     'common/services/url_service', 'login/login_model', 'common/services/constants_service'],
     function (angularAMD) {
-        angularAMD.factory('dataService', function ($q, $http, $cookieStore, $location, vistoconfig, dataStore, utils,
+        angularAMD.factory('dataService', function ($q, $http, $cookieStore, $location, $routeParams, vistoconfig, dataStore, utils,
                                                     urlService, loginModel, constants) {
             var errorObject = {
                 status: 'error',
@@ -27,11 +27,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(vistoconfig.apiPaths.apiSerivicesUrl_NEW + urlPath);
                 },
 
-                getCdbChartData: function (campaign, timePeriod, type, strategyId) {
+                getCdbChartData: function (clientId, campaign, timePeriod, type, strategyId) {
                     var urlPath,
-                        clientId = loginModel.getSelectedClient().id,
-                        campaignId= campaign.orderId,
-                        durationQuery= 'date_filter=' + timePeriod,
+                        // clientId = $routeParams.subAccountId || $routeParams.accountId,
+                        campaignId = campaign.orderId,
+                        durationQuery = 'date_filter=' + timePeriod,
                         sd,
                         ed;
 
@@ -69,21 +69,20 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(urlPath);
                 },
 
-                getCdbTacticsMetrics: function (campaignId, filterStartDate, filterEndDate) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                            '/clients/' + clientId +
-                            '/campaigns/' + campaignId +
-                            '/strategies/tactics?start_date=' + filterStartDate +
-                            '&end_date=' + filterEndDate;
+                // getCdbTacticsMetrics: function (campaignId, filterStartDate, filterEndDate) {
+                //     var clientId = loginModel.getSelectedClient().id,
+                //         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                //             '/clients/' + clientId +
+                //             '/campaigns/' + campaignId +
+                //             '/strategies/tactics?start_date=' + filterStartDate +
+                //             '&end_date=' + filterEndDate;
 
-                    return this.fetch(url);
-                },
+                //     return this.fetch(url);
+                // },
 
-                getCdbTacticsChartData: function (campaignId, strategyId, adId, timePeriod, filterStartDate,
-                                                  filterEndDate) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                getCdbTacticsChartData: function (clientId, campaignId, strategyId, adId, timePeriod, filterStartDate, filterEndDate) {
+                    // var clientId = loginModel.getSelectedClient().id,
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
                             '/lineitems/' + strategyId +
@@ -94,9 +93,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getStrategyTacticList: function (adGroupId, campaignId) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                getStrategyTacticList: function (clientId, campaignId, adGroupId) {
+                    // var clientId = loginModel.getSelectedClient().id,
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
                             '/lineitems/' + adGroupId +
@@ -104,9 +103,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getUnassignedTacticList: function (campaignId) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                getUnassignedTacticList: function (clientId, campaignId) {
+                    // var clientId = loginModel.getSelectedClient().id,
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
                             '/no_ad_group/ads';
@@ -150,8 +149,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getActions: function () {
-                    var clientId = loginModel.getSelectedClient().id,
+                getActions: function (clientId) {
+                    // var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.workflow_apiServicesUrl +
                             '/clients/' + clientId +
                             '/actionTypes';
@@ -159,8 +158,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getTactics: function (orderId) {
-                    var clientId = loginModel.getSelectedClient().id,
+                getTactics: function (clientId, orderId) {
+                    // var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + orderId +
@@ -188,9 +187,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                createAction: function (data) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.workflow_apiServicesUrl +
+                createAction: function (clientId, data) {
+                    // var clientId = loginModel.getSelectedClient().id,
+                    var url = vistoconfig.apiPaths.workflow_apiServicesUrl +
                             '/clients/' + clientId +
                             '/actions';
 
@@ -205,16 +204,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.post(url, data, {'Content-Type': 'application/json'});
                 },
 
-                updateLastViewedAction: function (campaignId) {
-                    return this
-                        .put(urlService.APIlastViewedAction(campaignId), {})
-                        .then(function (response) {
-                            if (response.status === 'success') {
-                                //delete default campaign list cache here
-                                dataStore.deleteAllCachedCampaignListUrls();
-                            }
-                        });
-                },
+                // updateLastViewedAction: function (campaignId) {
+                //     return this
+                //         .put(urlService.APIlastViewedAction(campaignId), {})
+                //         .then(function (response) {
+                //             if (response.status === 'success') {
+                //                 //delete default campaign list cache here
+                //                 dataStore.deleteAllCachedCampaignListUrls();
+                //             }
+                //         });
+                // },
 
                 createScheduleReport :  function (data) {
                     return this.post( urlService.createScheduledRpt(), data, {'Content-Type': 'application/json'});

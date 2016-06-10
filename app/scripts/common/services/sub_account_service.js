@@ -1,10 +1,34 @@
 define(['angularAMD', 'workflow/services/workflow_service'], function (angularAMD) {
-    angularAMD.service('subAccountService', function ($rootScope, $location, $q, $route, $timeout, workflowService) {
+    angularAMD.service('subAccountService', function ($rootScope, $location, $q, $route, $timeout, workflowService, campaignSelectModel) {
 
         var subAccountList = [],
             dashboadSubAccountList = [],
             selectedSubAccount,
             selectedDashboardSubAccount;
+
+//TODO: to be moved to new service
+        var pageFinder = function(path) {
+            var pageName;
+            if (path.endsWith('dashboard')) {
+                pageName = 'dashboard';
+            } else if (path.endsWith('mediaplans')) {
+                pageName = 'mediaplans';
+            } else if (path.split('/').indexOf('mediaplans') > 0) {
+                pageName = 'reports';
+            }
+
+            return {
+                isDashboardPage: function() {
+                    return pageName == 'dashboard';
+                },
+                isMediaplansPage: function() {
+                    return pageName == 'mediaplans';
+                },
+                isReportsPage: function() {
+                    return pageName == 'reports';
+                }
+            };
+        };
 
         var accountIdParam = function() {
             return $route.current.params.accountId;
@@ -28,9 +52,9 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                 workflowService.getSubAccounts2(accountId).then(function (result) {
                     if (result && result.data.data.length > 0) {
                         subAccountList = _.map(result.data.data, function(a) {
-                            return {'id': a.id, 'name': a.displayName};
+                            return {'id': a.id, 'displayName': a.displayName};
                         });
-                        subAccountList = _.sortBy(subAccountList, 'name');
+                        subAccountList = _.sortBy(subAccountList, 'displayName');
                         console.log('fetchSubAccountList is fetched');
 
                         deferred.resolve();
@@ -69,8 +93,11 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                 workflowService.getDashboardSubAccount2(accountId).then(function(result) {
                     if (result && result.data.data.length > 0) {
                         dashboadSubAccountList = dashboadSubAccountList.concat(_.map(result.data.data, function(a) {
-                            return {'id': a.id, 'displayName': a.displayName};
+                            return {'id': a.id, 'displayName': a.displayName, 'isLeafNode': a.isLeafNode};
                         }));
+                        subAccountList = _.filter(dashboadSubAccountList, function(a) {
+                            return a.isLeafNode == true;
+                        });
                         console.log('fetchDashboardSubAccountList is fetched');
 
                         deferred.resolve();
@@ -121,13 +148,24 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                 dashboadSubAccountList = [],
                 selectedSubAccount = undefined,
                 selectedDashboardSubAccount = undefined;
+                campaignSelectModel.reset();
             },
 
             changeSubAccount: function(account, subAccount) {
                 console.log('changeAccount', account);
                 console.log('changeAccount', subAccount);
 
-                var url = '/a/' + account.id + '/sa/' + subAccount.id + '/dashboard';
+                var url = '/a/' + account.id + '/sa/' + subAccount.id;
+                var page = pageFinder($location.path());
+                if (page.isDashboardPage()) {
+                    url += '/dashboard';
+                } else if (page.isMediaplansPage()) {
+                    url += '/mediaplans';
+                } else if (page.isReportsPage()) {
+                    var reportName = _.last($location.path().split('/'));
+                    url += '/mediaplans/reports/' + reportName;
+                }
+                console.log('change the url', url);
                 $location.url(url);
             }
 

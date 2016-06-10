@@ -2,14 +2,14 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
                       'login/login_model', 'common/utils'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CampaignSelectController', function ($location,$scope, $rootScope,
+    angularAMD.controller('CampaignSelectController', function ($location, $scope, $rootScope, $routeParams,
                                                                 campaignSelectModel, constants, brandsModel,
-                                                                loginModel, utils) {
+                                                                loginModel, utils, strategySelectModel) {
 
         console.log('CampaignSelectController initialized');
 
         $scope.campaignData = {
-            campaigns: {},
+            campaigns: [],
             selectedCampaign: {
                 id: -1,
                 name: 'Loading...',
@@ -46,15 +46,15 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
             searchCriteria.key = '';
         };
 
-        $scope.$on(constants.EVENT_BRAND_CHANGED, function (event, args) {
-            if(args.event_type === 'clicked') {
-                resetSearchCriteria(); //Get Campaign for the selected brand
-                $scope.exhausted = false;
-                campaignSelectModel.removeSelectedCampaign();
-                $scope.fetchCampaigns(true, true);
-            }
+        // $scope.$on(constants.EVENT_BRAND_CHANGED, function (event, args) {
+        //     if(args.event_type === 'clicked') {
+        //         resetSearchCriteria(); //Get Campaign for the selected brand
+        //         $scope.exhausted = false;
+        //         campaignSelectModel.removeSelectedCampaign();
+        //         $scope.fetchCampaigns(true, true);
+        //     }
 
-        });
+        // });
 
        /* $scope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED, function (event, args) {
             if(args.event_type === 'clicked') {
@@ -69,38 +69,38 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
 
 
 
-        $scope.setCampaign = function (selectedCampaign) { // set campaign in campaign controller scope. and fire change in campaign event.
-            setMediaPlan();
+        // $scope.setCampaign = function (selectedCampaign) { // set campaign in campaign controller scope. and fire change in campaign event.
+        //     setMediaPlan();
 
-            if (selectedCampaign == undefined || selectedCampaign.id == -1) {
-                selectedCampaign = {
-                    id: -1,
-                    name: constants.NO_MEDIAPLANS_FOUND,
-                    kpi: 'ctr',
-                    startDate: '-1',
-                    endDate: '-1'
-                };
-            } else if (($scope.isAllMediaPlan == "true" || $scope.isAllMediaPlan == true) && selectedCampaign.id == 0) {
-                selectedCampaign = {
-                    id: 0,
-                    name: 'All Media Plans',
-                    kpi: 'ctr',
-                    startDate: '-1',
-                    endDate: '-1'
-                };
-            }
+        //     if (selectedCampaign == undefined || selectedCampaign.id == -1) {
+        //         selectedCampaign = {
+        //             id: -1,
+        //             name: constants.NO_MEDIAPLANS_FOUND,
+        //             kpi: 'ctr',
+        //             startDate: '-1',
+        //             endDate: '-1'
+        //         };
+        //     } else if (($scope.isAllMediaPlan == "true" || $scope.isAllMediaPlan == true) && selectedCampaign.id == 0) {
+        //         selectedCampaign = {
+        //             id: 0,
+        //             name: 'All Media Plans',
+        //             kpi: 'ctr',
+        //             startDate: '-1',
+        //             endDate: '-1'
+        //         };
+        //     }
 
-            if(selectedCampaign.id ===0  && ($scope.isAllMediaPlan ===  undefined || $scope.isAllMediaPlan ===  "")) {
-                selectedCampaign = campaignSelectModel.getSelectedCampaign();
-            }
+        //     if(selectedCampaign.id ===0  && ($scope.isAllMediaPlan ===  undefined || $scope.isAllMediaPlan ===  "")) {
+        //         selectedCampaign = campaignSelectModel.getSelectedCampaign();
+        //     }
 
-            var selectedBrand = brandsModel.getSelectedBrand();
-            if (selectedBrand.id !== -1) {
-                selectedCampaign['cost_transparency'] = selectedBrand.cost_transparency;
-            }
-            campaignSelectModel.setSelectedCampaign(selectedCampaign, $scope.fileIndex, $scope.isAllMediaPlan);
-            $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
-        };
+        //     var selectedBrand = brandsModel.getSelectedBrand();
+        //     if (selectedBrand.id !== -1) {
+        //         selectedCampaign['cost_transparency'] = selectedBrand.cost_transparency;
+        //     }
+        //     campaignSelectModel.setSelectedCampaign(selectedCampaign, $scope.fileIndex, $scope.isAllMediaPlan);
+        //     $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
+        // };
 
         $scope.fetchCampaigns = function (search, set_campaign) {
             delete searchCriteria.clientId;
@@ -127,9 +127,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
 
                 _.uniq($scope.campaignData.campaigns);
 
-                if (set_campaign) {
-                    $scope.setCampaign(campObj.campaigns[0]);
-                }
+                // if (set_campaign) {
+                //     $scope.setCampaign(campObj.campaigns[0]);
+                // }
                 $scope.fetching = false;
 
                 if ($scope.campaignData.campaigns.length < searchCriteria.limit)
@@ -158,41 +158,85 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
             $scope.fetching = true;
         };
 
-        $scope.init = function () {
-            var pathArray = window.location.pathname.split('/');
-            var firstLevelLocation = pathArray[1];
-            var secondLevelLocation = pathArray[2];
-            if (firstLevelLocation === "mediaplans" && secondLevelLocation !== undefined) {
-                var selectedCampaignNew = {
-                    id: secondLevelLocation,
-                    name: 'All Media Plans',
-                    kpi: 'ctr',
-                    startDate: '-1',
-                    endDate: '-1'
-                };
-                campaignSelectModel.setSelectedCampaign(selectedCampaignNew);
+        var loadCampaigns = true;
+        $('.campaign_name_selected').click(function (event) {
+            var elem = $(event.target);
+            if (loadCampaigns) {
+                $scope.fetchCampaigns(false, false);
+                loadCampaigns = false;
             }
-            if ($scope.isAllMediaPlan == "true" || $scope.isAllMediaPlan == true) {
-                resetSearchCriteria();
-                $scope.fetchCampaigns(true, true);
-            } else if ((campaignSelectModel.getSelectedCampaign().id == -1)) {
-                $scope.fetchCampaigns(true, true);
+            if($scope.multiCampaign == undefined) {
+                if ($('#campaigns_list').css('display') === 'block') {
+                 $('#campaigns_list').hide();
+                 } else {
+                 $('#campaigns_list').show();
+                 }
+
+                 var inputValue = $('#campaignDropdown').val();
+                 if(inputValue) {
+                    $('#campaignDropdown').attr('placeholder', inputValue);
+                    $('#campaignDropdown').val('');
+                    //if($scope.allCampaign == "true") {
+                        $('#campaign_name_selected').val(inputValue);
+                        $scope.selectedObj.name = inputValue;
+                     //}
+                 }
             } else {
-                $scope.setCampaign(campaignSelectModel.getCampaignObj().selectedCampaign);
-                $scope.fetchCampaigns(true, false);
-                $scope.campaignData.campaigns = [campaignSelectModel.getCampaignObj().selectedCampaign];
+                var target = $(event.target);
+                var campaignListElem = target.parent().find(".campaigns_list");
+                if (campaignListElem.css('display') === 'block') {
+                    campaignListElem.hide();
+                } else {
+                    campaignListElem.show();
+                }
+                event.preventDefault();
+                event.stopImmediatePropagation();
             }
 
-            localStorage.setItem('isNavigationFromCampaigns', false);
+            // to close the other media plan dropdown which is open
+            $(".mediaplan-dd-open").removeClass("mediaplan-dd-open") ;
+            $(".report-type-col .dropdown-menu").hide() ;
+            elem.siblings(".dropdown_type1").addClass("mediaplan-dd-open") ;
+            $(".dropdown_type1").not(".mediaplan-dd-open").hide() ;
+            $(".mediaplan-dd-open").show() ;
 
-        };
 
-        $scope.init();
+        });
+        // $scope.init = function () {
+        //     var pathArray = window.location.pathname.split('/');
+        //     var firstLevelLocation = pathArray[1];
+        //     var secondLevelLocation = pathArray[2];
+        //     if (firstLevelLocation === "mediaplans" && secondLevelLocation !== undefined) {
+        //         var selectedCampaignNew = {
+        //             id: secondLevelLocation,
+        //             name: 'All Media Plans',
+        //             kpi: 'ctr',
+        //             startDate: '-1',
+        //             endDate: '-1'
+        //         };
+        //         campaignSelectModel.setSelectedCampaign(selectedCampaignNew);
+        //     }
+        //     if ($scope.isAllMediaPlan == "true" || $scope.isAllMediaPlan == true) {
+        //         resetSearchCriteria();
+        //         $scope.fetchCampaigns(true, true);
+        //     } else if ((campaignSelectModel.getSelectedCampaign().id == -1)) {
+        //         $scope.fetchCampaigns(true, true);
+        //     } else {
+        //         $scope.setCampaign(campaignSelectModel.getCampaignObj().selectedCampaign);
+        //         $scope.fetchCampaigns(true, false);
+        //         $scope.campaignData.campaigns = [campaignSelectModel.getCampaignObj().selectedCampaign];
+        //     }
 
-        $rootScope.$on('CAMPAIGN_CHANGE', function() {
-            campaignSelectModel.removeSelectedCampaign();
-            $scope.fetchCampaigns(true, true);
-        })
+        //     localStorage.setItem('isNavigationFromCampaigns', false);
+
+        // };
+
+        // $scope.init();
+
+        // $rootScope.$on('CAMPAIGN_CHANGE', function() {
+        //     campaignSelectModel.removeSelectedCampaign();
+        //     $scope.fetchCampaigns(true, true);
+        // })
 
         //Function called when the user clicks on the campaign dropdown
          $('.campaigns_list').on('click', function () {
@@ -203,7 +247,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
         $scope.selectCampaign = function(campaign) {
             $scope.$parent.strategyLoading = true;
             //$scope.$parent.isFetchStrategiesCalled = false;
-            $scope.setCampaign(campaign);
+            // $scope.setCampaign(campaign);
 
             if(campaign.id == 0) {
                  resetSearchCriteria();
@@ -214,6 +258,13 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
             //grunt analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
             // e.preventDefault();
             // e.stopImmediatePropagation();
+            var url = "/a/" + $routeParams.accountId;
+            if ($routeParams.subAccountId) {
+                url += "/sa/" + $routeParams.subAccountId;
+            }
+            url += "/mediaplans/" + campaign.campaign_id + '/' + $routeParams.reportName;
+            console.log('url', url);
+            $location.url(url);
         }
         // $('.campaigns_list').on('click', 'li', function (e) {
             

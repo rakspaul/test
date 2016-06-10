@@ -2,15 +2,40 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
     'reporting/campaignSelect/campaign_select_model', 'common/services/role_based_service',
     'workflow/services/workflow_service', 'common/services/features_service',
     'reporting/subAccount/sub_account_model'], function (angularAMD) {
-    angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location, $modal,
-                                                        constants, loginModel, domainReports, campaignSelectModel,
-                                                        RoleBasedService, workflowService, featuresService,
-                                                        subAccountModel, localStorageService, accountService) {
+    angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location, $modal, $routeParams,
+                                                        constants, loginModel, domainReports, RoleBasedService, workflowService, 
+                                                        featuresService, accountService, subAccountService, subAccountModel, localStorageService) {
         // var featurePermission = function () {
         //         $scope.fparams = featuresService.getFeatureParams();
         //         $scope.showMediaPlanTab = $scope.fparams[0].mediaplan_list;
         //         $scope.showReportTab = $scope.fparams[0].reports_tab;
         //     },
+
+        var pageFinder = function(path) {
+            var pageName;
+            if (path.endsWith('dashboard')) {
+                pageName = 'dashboard';
+            } else if (path.endsWith('mediaplans')) {
+                pageName = 'mediaplans';
+            } else if (path.split('/').indexOf('mediaplans') > 0) {
+                pageName = 'reports';
+            }
+
+            return {
+                isDashboardPage: function() {
+                    return pageName == 'dashboard';
+                },
+                isMediaplansPage: function() {
+                    return pageName == 'mediaplans';
+                },
+                isReportsPage: function() {
+                    return pageName == 'reports';
+                },
+                pageName: function() {
+                    return pageName;
+                }
+            };
+        };
 
         var showSelectedMasterClient = function (evt, clientName) {
                 var elem = $(evt.target);
@@ -47,7 +72,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
-        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
+        // $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
 
         // $scope.getClientData = function () {
         //     clientId = localStorageService.masterClient.get().id;
@@ -123,7 +148,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
         $scope.NavigateToTab = function (url, event, page) {
             $('.header_tab_dropdown').removeClass('active_tab active selected');
 
-            if (page === 'reportOverview') {
+            if (page === 'dashboard') {
                 // $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
 
                 // if ($scope.selectedCampaign === -1) {
@@ -137,10 +162,14 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 //     $('#reports_overview_tab').addClass('active_tab');
                 //     $('#reports_nav_link').addClass('active_tab');
                 // }
-                $(".each_nav_link").removeClass('active_tab active selected');
-                url = '/mediaplans/reports';
-                $("#reports_overview_tab").addClass("active_tab");
-                $("#reports_nav_link").addClass("active_tab") ;
+                // $(".each_nav_link").removeClass('active_tab active selected');
+                // $("#reports_overview_tab").addClass("active_tab");
+                // $("#reports_nav_link").addClass("active_tab") ;
+                url = "/a/" + $routeParams.accountId;
+                if ($routeParams.subAccountId) {
+                    url += "/sa/" + $routeParams.subAccountId;
+                }
+                url += '/dashboard';
             } else if (page === 'creativelist') {
                 $('.each_nav_link').removeClass('active_tab active selected');
                 url = '/creative/list';
@@ -154,12 +183,27 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 url = '/mediaplans';
                 $('#campaigns_nav_link').addClass('active_tab');
             } else if (page === 'reportsSubPage') {
-                $('.reports_sub_menu_dd_holder').find('.active_tab').removeClass('active_tab');
-                $('.each_nav_link').removeClass('active_tab active selected');
-                $('#reports_nav_link').addClass('active_tab');
-                $(event.currentTarget).parent().addClass('active_tab');
+                var reportName = url;
+                url = "/a/" + $routeParams.accountId;
+                if ($routeParams.subAccountId) {
+                    var leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
+                        return a.id == $routeParams.subAccountId;
+                    });
+                    if (leafSubAccount) {
+                        url += "/sa/" + $routeParams.subAccountId;
+                    } else {
+                        url += "/sa/" + subAccountService.getSubAccounts()[0].id;
+                    }
+                }
+                if ($routeParams.campaignId) {
+                    url += "/mediaplans/" + $routeParams.campaignId;
+                } else {
+                    url += "/mediaplans/reports";
+                }
+                url += reportName;
             }
 
+            console.log('header_controller', 'url', url);
             $location.url(url);
         };
 

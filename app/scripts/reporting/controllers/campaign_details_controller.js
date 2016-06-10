@@ -38,13 +38,13 @@ function (angularAMD) {
                 $scope.showOptimization = fparams[0].optimization_transparency;
             }),
             //API call for campaign details
-            clientId = loginModel.getSelectedClient().id,
+            clientId = $routeParams.subAccountId || $routeParams.accountId,
             url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                 '/clients/' + clientId +
                 '/campaigns/' + $routeParams.campaignId,
             eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function (event, args) {
                 var callbackFunctionName = args.loadingFlag === 2  ?  $scope.refreshGraph : $scope.getCdbChartData;
-                dataStore.deleteFromCache(urlService.APIActionData($routeParams.campaignId));
+                dataStore.deleteFromCache(urlService.APIActionData(clientId, $routeParams.campaignId));
                 updateActionItems(callbackFunctionName, args.loadingFlag, args.showExternal);
             }),
             callRefreshGraphData = $rootScope.$on('callRefreshGraphData', function (event,args) {
@@ -56,7 +56,7 @@ function (angularAMD) {
             return {
                 queryId: queryId,
                 campaignId: $scope.campaign.orderId,
-                clientId: loginModel.getSelectedClient().id,
+                clientId: clientId,
                 advertiserId: advertiserModel.getSelectedAdvertiser().id,
                 brandId: brandsModel.getSelectedBrand().id,
                 dateFilter: datefilter
@@ -286,31 +286,31 @@ function (angularAMD) {
         });
 
         var getSetCampaignDetails = function() {
-            dataService.getSingleCampaign(url).then(function (result) {
-                var dataArr,
+            // dataService.getSingleCampaign(url).then(function (result) {
+                var dataArr;
                 //_selectedbrandFromModel,
-                    selectedCampaign;
+                    // selectedCampaign;
 
-                if (result.status === 'success' && !angular.isString(result.data)) {
-                    dataArr = [result.data.data];
+                // if (result.status === 'success' && !angular.isString(result.data)) {
+                    dataArr = [campaignSelectModel.getSelectedCampaignOriginal()];
                     $scope.adFormats = domainReports.checkForCampaignFormat(dataArr[0].adFormats);
                     $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
-                    selectedCampaign = {
-                        id: $scope.campaign.id,
-                        name: $scope.campaign.name,
-                        startDate: $scope.campaign.start_date,
-                        endDate: $scope.campaign.end_date,
-                        kpi: $scope.campaign.kpi_type.toLowerCase()
-                    };
+                    // selectedCampaign = {
+                    //     id: $scope.campaign.id,
+                    //     name: $scope.campaign.name,
+                    //     startDate: $scope.campaign.start_date,
+                    //     endDate: $scope.campaign.end_date,
+                    //     kpi: $scope.campaign.kpi_type.toLowerCase()
+                    // };
 
-                    //console.log($scope.adFormats);
+                    // //console.log($scope.adFormats);
                     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
-                    campaignSelectModel.setSelectedCampaign(selectedCampaign);
+                    // campaignSelectModel.setSelectedCampaign(result.data.data);
 
                     /*   Fetch Spend Start */
                     var queryObj = {
                         'queryId':14,
-                        'clientId':loginModel.getSelectedClient().id,
+                        'clientId': clientId,
                         'advertiserId':advertiserModel.getSelectedAdvertiser().id,
                         'brandId':brandsModel.getSelectedBrand().id,
                         'dateFilter':'life_time',
@@ -329,10 +329,10 @@ function (angularAMD) {
 
                     //_selectedbrandFromModel = brandsModel.getSelectedBrand();
 
-                    campaign.getStrategiesData(clientId, $scope.campaign, constants.PERIOD_LIFE_TIME);
+                    campaign.getStrategiesList(clientId, $scope.campaign, constants.PERIOD_LIFE_TIME);
                     updateActionItems($scope.getCdbChartData, 1, true);
 
-                    campaignListService.getCdbLineChart($scope.campaign, 'life_time', function (cdbData) {
+                    campaignListService.getCdbLineChart(clientId, $scope.campaign, 'life_time', function (cdbData) {
                         if (cdbData) {
                             $scope.campaigns.cdbDataMap[$routeParams.campaignId] =
                                 modelTransformer.transform(cdbData, campaignCDBData);
@@ -351,50 +351,45 @@ function (angularAMD) {
                     $scope.getFormatsGraphData($scope.campaign);
                     $scope.getInventoryGraphData($scope.campaign);
                     $scope.getCostViewabilityData($scope.campaign);
-                } else {
-                    if (result.status === 204 && result.data === '' ) {
-                        //if data not found
-                        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
-                        $scope.campaign = _.findWhere(campaignSelectModel, {id: $scope.selectedCampaign.id});
-                        $scope.campaign.campaignTitle = $scope.campaign.name;
-                        $scope.details = {
-                            campaign: null,
-                            details: null,
-                            actionChart:false
-                        };
-                        $scope.loadingPlatformFlag = false;
-                        $scope.loadingAdSizeFlag = false;
-                        $scope.loadingFormatFlag = false;
-                        $scope.activityLogFlag = true;
-                        $scope.setWidgetLoadedStatus();
-                        $scope.setEmptyWidget();
-                        $scope.campaign.getSelectedCampaign = campaignSelectModel.getSelectedCampaign;
-                        $scope.campaign.durationLeft = campaignSelectModel.durationLeft;
-                        $scope.campaign.daysSinceEnded = campaignSelectModel.daysSinceEnded;
-                    } else {
-                        if (result.status ==='error') {
-                            $scope.api_return_code = result.data.status;
-                        } else {
-                            $scope.api_return_code = result.status;
-                        }
-                        $scope.setWidgetLoadedStatus();
-                    }
-                }
-            }, function (result) {
-                console.log('call failed');
-            });
+                // } else {
+                //     if (result.status === 204 && result.data === '' ) {
+                //         //if data not found
+                //         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
+                //         $scope.campaign = _.findWhere(campaignSelectModel, {id: $scope.selectedCampaign.id});
+                //         $scope.campaign.campaignTitle = $scope.campaign.name;
+                //         $scope.details = {
+                //             campaign: null,
+                //             details: null,
+                //             actionChart:false
+                //         };
+                //         $scope.loadingPlatformFlag = false;
+                //         $scope.loadingAdSizeFlag = false;
+                //         $scope.loadingFormatFlag = false;
+                //         $scope.activityLogFlag = true;
+                //         $scope.setWidgetLoadedStatus();
+                //         $scope.setEmptyWidget();
+                //         $scope.campaign.getSelectedCampaign = campaignSelectModel.getSelectedCampaign;
+                //         $scope.campaign.durationLeft = campaignSelectModel.durationLeft;
+                //         $scope.campaign.daysSinceEnded = campaignSelectModel.daysSinceEnded;
+                //     } else {
+                //         if (result.status ==='error') {
+                //             $scope.api_return_code = result.data.status;
+                //         } else {
+                //             $scope.api_return_code = result.status;
+                //         }
+                //         $scope.setWidgetLoadedStatus();
+                //     }
+                // }
+            // }, function (result) {
+            //     console.log('call failed');
+            // });
         };
-
-        $timeout(function(){
-            getSetCampaignDetails();
-        },1000)
-
 
         //TODO: Performance Chart - Moving to D3
         $scope.getCdbChartData = function (campaign) {
             //API call for campaign chart
             dataService
-                .getCdbChartData(campaign, 'life_time', 'campaigns', null)
+                .getCdbChartData(clientId, campaign, 'life_time', 'campaigns', null)
                 .then(function (result) {
                     var lineData = [],
                         showExternal = true,
@@ -487,7 +482,7 @@ function (angularAMD) {
             if (strategiesYetToLoad.length > 0) {
                 strategiesToLoadNow = strategiesYetToLoad.splice(0, pageSize);
                 //requesting strategy card data
-                newStrategyData = campaign.requestStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME, strategiesToLoadNow);
+                newStrategyData = campaign.moreStrategiesData(clientId, $scope.campaign, constants.PERIOD_LIFE_TIME, strategiesToLoadNow);
 
                 $scope.campaign.campaignStrategies.push.apply(
                     $scope.campaign.campaignStrategies, newStrategyData
@@ -512,8 +507,8 @@ function (angularAMD) {
             if (tacticsYetToLoad.length > 0) {
                 tacticsToLoadNow = tacticsYetToLoad.splice(0, pageSize);
 
-                newTacticData = campaign.requestTacticsData(strategy, constants.PERIOD_LIFE_TIME,
-                                                                $scope.campaign, tacticsToLoadNow);
+                newTacticData = campaign.moreTacticsData(clientId, $scope.campaign, strategy, constants.PERIOD_LIFE_TIME,
+                                                                tacticsToLoadNow);
                 strategy.strategyTactics.push.apply(strategy.strategyTactics, newTacticData);
             }
         };
@@ -555,7 +550,7 @@ function (angularAMD) {
             var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
                 params = {
                     queryId: 14, //cost_report_for_one_or_more_campaign_ids
-                    clientId: loginModel.getSelectedClient().id,
+                    clientId: clientId,
                     campaignIds: campaign.orderId,
                     dateFilter: datefilter,
                     advertiserId: advertiserModel.getSelectedAdvertiser().id,
@@ -1120,6 +1115,10 @@ function (angularAMD) {
                     console.log('cost viewability call failed');
                 });
         };
+
+        // $timeout(function(){
+            getSetCampaignDetails();
+        // },1000)
 
         $scope.viewReports = function (campaign, strategy) {
             campaignSelectModel.setSelectedCampaign(campaign);

@@ -7,8 +7,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
     function (angularAMD) {
     'use strict';
-        angularAMD.controller('PerformanceController', function ($scope,$rootScope, kpiSelectModel, campaignSelectModel, strategySelectModel,
-                                                                 dataService, domainReports, constants,
+        angularAMD.controller('PerformanceController', function ($scope, $rootScope, $routeParams, kpiSelectModel, campaignSelectModel, strategySelectModel,
+                                                                 dataService, domainReports, constants, vistoconfig,
                                                                  timePeriodModel, brandsModel, loginModel,
                                                                  urlService, advertiserModel) {
         var _customctrl = this;
@@ -143,11 +143,11 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             var performanceQueryIdMapperWithAllAdsGroup = { 'screen' : 7, 'format' : 8, 'adsizes' : 9, 'creatives' :10, 'dow' :11, 'discrepancy' : 44};
             var performanceQueryIdMapperWithSelectedAdsGroup = { 'screen' : 17, 'format' : 18, 'adsizes' : 19, 'creatives' :20, 'dow' :21, 'discrepancy' : 45};
 
-            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
-
-            var param = {
+            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
+                 clientId = $routeParams.subAccountId || $routeParams.accountId,
+            param = {
                 campaignId: $scope.selectedCampaign.id,
-                clientId:  loginModel.getSelectedClient().id,
+                clientId:  clientId,
                 advertiserId: advertiserModel.getSelectedAdvertiser().id,
                 brandId: brandsModel.getSelectedBrand().id,
                 dateFilter: ($scope.selected_tab == "bydiscrepancy") ? "life_time" : datefilter,
@@ -447,7 +447,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
         };
 
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         $scope.init();
+        $scope.resetVariables();
+        $scope.strategyChangeHandler();
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
             $scope.selected_filters.time_filter = strategy;

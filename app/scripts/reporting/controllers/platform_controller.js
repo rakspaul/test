@@ -8,7 +8,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
     ],
 
     function (angularAMD) {    'use strict';
-        angularAMD.controller('PlatformController', function ($scope, $rootScope, kpiSelectModel, campaignSelectModel, strategySelectModel,
+        angularAMD.controller('PlatformController', function ($scope, $rootScope, $routeParams, kpiSelectModel, campaignSelectModel, strategySelectModel,
                                                       dataService, constants, domainReports, vistoconfig,
                                                       timePeriodModel, loginModel, RoleBasedService,
                                                       advertiserModel, brandsModel,
@@ -94,10 +94,11 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
 
         $scope.getPlatformData = function () {
-            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
-            var param = {
+            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
+                clientId = $routeParams.subAccountId || $routeParams.accountId,
+            param = {
                 campaignId: $scope.selectedCampaign.id,
-                clientId: loginModel.getSelectedClient().id,
+                clientId: clientId,
                 advertiserId: advertiserModel.getSelectedAdvertiser().id,
                 brandId: brandsModel.getSelectedBrand().id,
                 dateFilter: datefilter
@@ -355,7 +356,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
         }
 
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         $scope.init();
+        $scope.getPlatformData();
 
         //Binding click event on tab and fetch strategy method.
         $(function () {

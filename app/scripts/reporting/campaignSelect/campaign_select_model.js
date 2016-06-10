@@ -1,22 +1,25 @@
 define(['angularAMD','../../common/services/url_service','common/services/data_service','reporting/kpiSelect/kpi_select_model',
                      'login/login_model', 'reporting/advertiser/advertiser_model'], function (angularAMD) {
-  angularAMD.factory("campaignSelectModel", ['$rootScope','urlService', 'dataService', 'kpiSelectModel',
-                                             'loginModel', 'advertiserModel', 'localStorageService', 'brandsModel',
-    function ($rootScope, urlService, dataService, kpiSelectModel, loginModel, advertiserModel, localStorageService, brandsModel) {
+  angularAMD.factory("campaignSelectModel", ['$q', '$rootScope', '$routeParams', '$timeout', 'urlService', 'dataService', 'kpiSelectModel',
+                     'loginModel', 'advertiserModel', 'localStorageService', 'brandsModel', 'utils', 'vistoconfig', 'strategySelectModel',
+    function ($q, $rootScope, $routeParams, $timeout, urlService, dataService, kpiSelectModel, 
+        loginModel, advertiserModel, localStorageService, brandsModel, utils, vistoconfig, strategySelectModel) {
 
-    var campaign = {};
-    campaign.campaigns = {};
-    campaign.selectedCampaign = (localStorageService.selectedCampaign.get() == undefined) ? {
-      id: -1,
-      name: 'Loading...',
-      kpi: 'ctr',
-      startDate: '-1',
-      endDate: '-1'
-    } : localStorageService.selectedCampaign.get();
+    var campaign = {
+        selectedCampaign: {},
+        selectedCampaignOriginal: {}
+    };
+    // campaign.campaigns = {};
+    // campaign.selectedCampaign = (localStorageService.selectedCampaign.get() == undefined) ? {
+    //   id: -1,
+    //   name: 'Loading...',
+    //   kpi: 'ctr',
+    //   startDate: '-1',
+    //   endDate: '-1'
+    // } : localStorageService.selectedCampaign.get();
 
     campaign.setSelectedCampaign = function (_campaign, fileIndex, allCampaign) {
       if (!$.isEmptyObject(_campaign)) {
-        console.log('_campaign', _campaign);
         campaign.selectedCampaign.id = (_campaign.id == undefined) ? _campaign.campaign_id : _campaign.id;
         campaign.selectedCampaign.name = _campaign.name;
         campaign.selectedCampaign.kpi = (_campaign.kpi == undefined) ? (_campaign.kpi_type.toLowerCase()) : _campaign.kpi.toLowerCase();
@@ -32,15 +35,15 @@ define(['angularAMD','../../common/services/url_service','common/services/data_s
           campaign.selectedCampaign.kpi = 'ctr'; // set default kpi as ctr if it is coming as null or NA from backend.
         }
 
-        if (allCampaign == "true" || allCampaign == true) {
-          localStorage.setItem('selectedCampaignAll', JSON.stringify(campaign.selectedCampaign));
-        } else {
-          if (campaign.selectedCampaign.id != 0) {
-              localStorageService.selectedCampaign.set(campaign.selectedCampaign);
-          } else {
-            $rootScope.$broadcast('CAMPAIGN_CHANGE');
-          }
-        }
+        // if (allCampaign == "true" || allCampaign == true) {
+        //   localStorage.setItem('selectedCampaignAll', JSON.stringify(campaign.selectedCampaign));
+        // } else {
+        //   if (campaign.selectedCampaign.id != 0) {
+        //       localStorageService.selectedCampaign.set(campaign.selectedCampaign);
+        //   } else {
+        //     $rootScope.$broadcast('CAMPAIGN_CHANGE');
+        //   }
+        // }
         kpiSelectModel.setSelectedKpi(campaign.selectedCampaign.kpi);
         if (campaign.selectedCampaign.name) {
           if (fileIndex == undefined) {
@@ -73,10 +76,10 @@ define(['angularAMD','../../common/services/url_service','common/services/data_s
     };
 
     campaign.getCampaigns = function (brandId, searchCriteria) {
-      //console.log('search criteria:',searchCriteria);
-      //console.log("brand", brand);
-      var clientId = loginModel.getSelectedClient().id;
-      var advertiserId = advertiserModel.getSelectedAdvertiser().id;
+      // var clientId = loginModel.getSelectedClient().id;
+      var clientId = $routeParams.subAccountId || $routeParams.accountId,
+          advertiserId = advertiserModel.getSelectedAdvertiser().id;
+
       console.log('brandsModel.getselectedBrand()', brandsModel.getSelectedBrand());
       if (brandId === undefined) {
         var brand = brandsModel.getSelectedBrand();
@@ -85,18 +88,60 @@ define(['angularAMD','../../common/services/url_service','common/services/data_s
       }
       var url = urlService.APICampaignDropDownList(clientId, advertiserId, brandId, searchCriteria);
       return dataService.fetch(dataService.append(url, searchCriteria)).then(function (response) {
-        campaign.campaigns = (response.data.data !== undefined ? response.data.data : {});
-        if (campaign.campaigns.length > 0 && campaign.selectedCampaign.id == -1) {
-          console.log('campaign.campaigns[0]', campaign.campaigns[0]);
-          campaign.setSelectedCampaign(campaign.campaigns[0]);
-        }
-        return campaign.campaigns;
+        // campaign.campaigns = (response.data.data !== undefined ? response.data.data : {});
+        // if (campaign.campaigns.length > 0 && campaign.selectedCampaign.id == -1) {
+        //   console.log('campaign.campaigns[0]', campaign.campaigns[0]);
+        //   campaign.setSelectedCampaign(campaign.campaigns[0]);
+        // }
+        return response.data.data !== undefined ? response.data.data : {};
       });
 
     };
 
+    campaign.fetchCampaigns = function (clientId) {
+        var advertiserId = -1, brandId = -1, searchCriteria = utils.typeaheadParams,
+            url = urlService.APICampaignDropDownList(clientId, advertiserId, brandId, searchCriteria);
+        return dataService.fetch(dataService.append(url, searchCriteria));
+    };
+
+    campaign.fetchCampaign = function (clientId, campaignId) {
+        var deferred = $q.defer();
+        if (campaign.getSelectedCampaign() && campaign.getSelectedCampaign().id == campaignId) {
+            console.log('fetchCampaign', 'already fetched', campaign.getSelectedCampaign());
+            $timeout(function() {
+                deferred.resolve();
+            }, 5);
+            return deferred.promise;
+        }
+        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+            '/clients/' + clientId + '/campaigns/' + campaignId;
+        dataService.getSingleCampaign(url).then(function (result) {
+            if (result.status === 'success' && !angular.isString(result.data)) {
+                campaign.selectedCampaignOriginal = result.data.data;
+                campaign.setSelectedCampaign(result.data.data);
+                console.log('fetchCampaign', 'is fetched');
+            }
+            deferred.resolve();
+        }, function() {
+            deferred.reject('Mediaplan not found');
+        });
+        return deferred.promise;
+    };
+    
+    campaign.reset = function() {
+        campaign.selectedCampaign = {};
+        campaign.selectedCampaignOriginal = {};
+        strategySelectModel.reset();
+    };
+
     campaign.getSelectedCampaign = function () {
-      return (localStorageService.selectedCampaign.get() == undefined) ? campaign.selectedCampaign : localStorageService.selectedCampaign.get();
+      return campaign.selectedCampaign;
+      // return (localStorageService.selectedCampaign.get() == undefined) ? campaign.selectedCampaign : localStorageService.selectedCampaign.get();
+    };
+
+    campaign.getSelectedCampaignOriginal = function () {
+      return campaign.selectedCampaignOriginal;
+      // return (localStorageService.selectedCampaign.get() == undefined) ? campaign.selectedCampaign : localStorageService.selectedCampaign.get();
     };
 
     campaign.durationLeft = function (campaign) {

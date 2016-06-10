@@ -10,9 +10,113 @@ define(['common'], function (angularAMD) {
     var app = angular.module('vistoApp', ['ngRoute', 'ngCookies', 'tmh.dynamicLocale', 'ui.bootstrap', 'uiSwitch',
         'door3.css', 'ngFileUpload', 'ngSanitize', 'ui.multiselect', 'highcharts-ng', 'ui.bootstrap.showErrors',
         'ngTagsInput']);
+    var reportsHeaderResolver = function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
+        workflowService, campaignSelectModel, strategySelectModel) {
 
-    app
-        .config(function ($routeProvider, $httpProvider) {
+        var deferred = $q.defer();
+
+        accountService.fetchAccountList().then(function() {
+            if (accountService.allowedAccount($route.current.params.accountId)) {
+                subAccountService.fetchSubAccountList($route.current.params.accountId).then(function() {
+                    if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
+                        workflowService.getClientData($route.current.params.accountId).then(function(response) {
+                            if (response && response.data.data) {
+                                RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
+                                RoleBasedService.setCurrencySymbol();
+                                featuresService.setFeatureParams(response.data.data.features);
+                                var resolvedOtherDeferrer = false;
+                                campaignSelectModel.fetchCampaign($route.current.params.subAccountId, $route.current.params.campaignId).then(function() {
+                                    if (resolvedOtherDeferrer) {
+                                        deferred.resolve();
+                                    } else {
+                                        resolvedOtherDeferrer = true;
+                                    }
+                                }, function() {
+                                    deferred.reject('Mediaplan not found');
+                                });
+                                strategySelectModel.fetchStrategyList($route.current.params.subAccountId, $route.current.params.campaignId).then(function() {
+                                    if (strategySelectModel.allowedStrategy($route.current.params.li_id)) {
+                                        // broadcast set strategy
+                                    } else {
+                                        console.log('strategy not allowed');
+                                        $location.url('/tmp');
+                                    }
+                                    if (resolvedOtherDeferrer) {
+                                        deferred.resolve();
+                                    } else {
+                                        resolvedOtherDeferrer = true;
+                                    }
+                                }, function() {
+                                    console.log('strategies not found');
+                                });
+                            }
+                        }, function() {
+                            deferred.reject('Client data not found');
+                        });
+                    } else {
+                        console.log('sub account not allowed');
+                        $location.url('/tmp');
+                    }
+                });
+            } else {
+                console.log('account not allowed');
+                $location.url('/tmp');
+            }
+        });
+        return deferred.promise;
+    },
+
+    reportsHeaderResolver2 = function($q, $location, $route, accountService, RoleBasedService, featuresService,
+        workflowService, campaignSelectModel, strategySelectModel) {
+
+        var deferred = $q.defer();
+
+        accountService.fetchAccountList().then(function() {
+            if (accountService.allowedAccount($route.current.params.accountId)) {
+                workflowService.getClientData($route.current.params.accountId).then(function(response) {
+                    if (response && response.data.data) {
+                        RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
+                        RoleBasedService.setCurrencySymbol();
+                        featuresService.setFeatureParams(response.data.data.features);
+                        var resolvedOtherDeferrer = false;
+                        campaignSelectModel.fetchCampaign($route.current.params.accountId, $route.current.params.campaignId).then(function() {
+                            if (resolvedOtherDeferrer) {
+                                deferred.resolve();
+                            } else {
+                                resolvedOtherDeferrer = true;
+                            }
+                        }, function() {
+                            deferred.reject('Mediaplan not found');
+                        });
+                        strategySelectModel.fetchStrategyList($route.current.params.accountId, $route.current.params.campaignId).then(function() {
+                            if (strategySelectModel.allowedStrategy($route.current.params.li_id)) {
+                                // broadcast set strategy
+                            } else {
+                                console.log('strategy not allowed');
+                                $location.url('/tmp');
+                            }
+                            if (resolvedOtherDeferrer) {
+                                deferred.resolve();
+                            } else {
+                                resolvedOtherDeferrer = true;
+                            }
+                        }, function() {
+                            console.log('strategies not found');
+                        });
+                    }
+                }, function() {
+                    deferred.reject('Client data not found');
+                });
+            } else {
+                console.log('account not allowed');
+                $location.url('/tmp');
+            }
+        });
+        return deferred.promise;
+    };
+
+    
+    app.config(function ($routeProvider, $httpProvider) {
             $routeProvider.caseInsensitiveMatch = true;
 
             $routeProvider
@@ -29,6 +133,7 @@ define(['common'], function (angularAMD) {
                     controller: 'DashboardController',
                     controllerUrl: 'reporting/dashboard/dashboard_controller',
                     title: 'Dashboard',
+                    showHeader : true,
                     bodyclass: 'dashboard_body',
                     resolve: {
                         header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, workflowService) {
@@ -58,6 +163,7 @@ define(['common'], function (angularAMD) {
                     controller: 'DashboardController',
                     controllerUrl: 'reporting/dashboard/dashboard_controller',
                     title: 'Dashboard',
+                    showHeader : true,
                     bodyclass: 'dashboard_body',
                     resolve: {
                         header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, workflowService) {
@@ -65,22 +171,20 @@ define(['common'], function (angularAMD) {
 
                             accountService.fetchAccountList().then(function() {
                                 if (accountService.allowedAccount($route.current.params.accountId)) {
-                                    subAccountService.fetchSubAccountList($route.current.params.accountId).then(function() {
-                                        subAccountService.fetchDashboardSubAccountList($route.current.params.accountId).then(function() {
-                                            if (subAccountService.allowedDashboardSubAccount($route.current.params.subAccountId)) {
-                                                workflowService.getClientData($route.current.params.accountId).then(function(response) {
-                                                    if (response && response.data.data) {
-                                                        RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
-                                                        RoleBasedService.setCurrencySymbol();
-                                                        featuresService.setFeatureParams(response.data.data.features);
-                                                    }
-                                                    deferred.resolve();
-                                                });
-                                            } else {
-                                                console.log('dashboard account not allowed');
-                                                $location.url('/tmp')
-                                            }
-                                        });
+                                    subAccountService.fetchDashboardSubAccountList($route.current.params.accountId).then(function() {
+                                        if (subAccountService.allowedDashboardSubAccount($route.current.params.subAccountId)) {
+                                            workflowService.getClientData($route.current.params.accountId).then(function(response) {
+                                                if (response && response.data.data) {
+                                                    RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
+                                                    RoleBasedService.setCurrencySymbol();
+                                                    featuresService.setFeatureParams(response.data.data.features);
+                                                }
+                                                deferred.resolve();
+                                            });
+                                        } else {
+                                            console.log('dashboard account not allowed');
+                                            $location.url('/tmp')
+                                        }
                                     });
                                 } else {
                                     console.log('account not allowed');
@@ -91,176 +195,411 @@ define(['common'], function (angularAMD) {
                         }
                     }
                 }))
-                .when('/dashboard', angularAMD.route({
-                    templateUrl: assets.html_dashboard,
-                    controller: 'DashboardController',
-                    controllerUrl: 'reporting/dashboard/dashboard_controller',
-                    showHeader : true,
-                    title: 'Dashboard',
-                    bodyclass: 'dashboard_body',
-                    resolve: {
-                        check: function ($location, featuresService) {
-                            //redirects to default page if it has no permission to access it
-                            featuresService.setGetFeatureParams('dashboard');
-                        }
-                    }
-                }))
+                // .when('/dashboard', angularAMD.route({
+                //     templateUrl: assets.html_dashboard,
+                //     controller: 'DashboardController',
+                //     controllerUrl: 'reporting/dashboard/dashboard_controller',
+                //     showHeader : true,
+                //     title: 'Dashboard',
+                //     bodyclass: 'dashboard_body',
+                //     resolve: {
+                //         check: function ($location, featuresService) {
+                //             //redirects to default page if it has no permission to access it
+                //             featuresService.setGetFeatureParams('dashboard');
+                //         }
+                //     }
+                // }))
 
-                .when('/dashboard_2', angularAMD.route({
-                    templateUrl: assets.html_dashboard_2,
-                    controller: 'DashboardController_2',
-                    title: 'Dashboard 2.0',
-                    showHeader : true,
-                    bodyclass: 'dashboard_2',
-                    resolve: {}
-                }))
+                // .when('/dashboard_2', angularAMD.route({
+                //     templateUrl: assets.html_dashboard_2,
+                //     controller: 'DashboardController_2',
+                //     showHeader : true,
+                //     title: 'Dashboard 2.0',
+                //     bodyclass: 'dashboard_2',
+                //     resolve: {}
+                // }))
 
-                .when('/mediaplans', angularAMD.route({
-                    templateUrl: assets.html_campaign_list,
-                    title: 'Media Plan List',
-                    reloadOnSearch : false,
-                    showHeader : true,
-                    resolve: {
-                        check: function ($location, featuresService) {
-                            //redirects to default page if it has no permission to access it
-                            featuresService.setGetFeatureParams('mediaplan_list');
-                        }
-                    }
-                }))
+                // .when('/mediaplans', angularAMD.route({
+                //     templateUrl: assets.html_campaign_list,
+                //     title: 'Media Plan List',
+                //     reloadOnSearch : false,
+                //     showHeader : true,
+                //     resolve: {
+                //         check: function ($location, featuresService) {
+                //             //redirects to default page if it has no permission to access it
+                //             featuresService.setGetFeatureParams('mediaplan_list');
+                //         }
+                //     }
+                // }))
 
-                .when('/mediaplans/reports', angularAMD.route({
+                .when('/a/:accountId/mediaplans/reports/:reportName', angularAMD.route({
                     templateUrl: assets.html_campaign_reports,
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
                     controllerUrl: 'reporting/controllers/campaign_reports_controller',
+                    showHeader : true,
                     resolve: {
-                        // fetchMasterClientList: function($q, $location, headerService, campaignSelectModel) {
-                        //     var deferred = $q.defer();
-                        //     var url = '/mediaplans';
-                        //     headerService.fetchMasterClientList().then(function() {
-                        //         campaignSelectModel.getCampaigns().then(function(campaigns) {
-                        //             if (campaigns && campaigns.length > 0) {
-                        //                 url = '/mediaplans/' + campaigns[0].campaign_id;
-                        //             } 
-                        //             console.log('url', url);
-                        //             deferred.resolve(url);
-                        //             $location.url(url);
-                        //             return url;
-                        //         });
-                        //     });
-                        //     return deferred.promise;
+                        header: function($q, $location, $route, accountService, RoleBasedService, featuresService, workflowService, campaignSelectModel) {
+                            var deferred = $q.defer();
 
-                        //     // return $q.all(deferred.promise).then(function() {
-                        //     //     console.log("Resolved");
-                        //     //     return url;
-                        //     // });
-                        // },
-                        check: function ($location, featuresService,localStorageService) {
-                            //redirects to default page if it has no permission to access it
-                            featuresService.setGetFeatureParams('report_overview');
-                            if(localStorageService.selectedCampaign.get() && localStorageService.selectedCampaign.get().id == -1)  {
-                                $location.url('/mediaplans');
-                            }
+                            accountService.fetchAccountList().then(function() {
+                                if (accountService.allowedAccount($route.current.params.accountId)) {
+                                    workflowService.getClientData($route.current.params.accountId).then(function(response) {
+                                        if (response && response.data.data) {
+                                            RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
+                                            RoleBasedService.setCurrencySymbol();
+                                            featuresService.setFeatureParams(response.data.data.features);
+                                            campaignSelectModel.fetchCampaigns($route.current.params.accountId).then(function(campaignsResponse) {
+                                                if (campaignsResponse && campaignsResponse.data.data) {
+                                                    var params = $route.current.params,
+                                                        campaign = campaignsResponse.data.data[0];
+                                                    var url = '/a/' + params.accountId + '/mediaplans/' + campaign.campaign_id + '/' + params.reportName;
+                                                    console.log('url', url);
+                                                    $location.url(url);
+                                                }
+                                                deferred.resolve();
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    console.log('account not allowed');
+                                    $location.url('/tmp')
+                                }
+                            });
+                            return deferred.promise;
                         }
+                        // check: function ($location, featuresService,localStorageService) {
+                        //     //redirects to default page if it has no permission to access it
+                        //     featuresService.setGetFeatureParams('report_overview');
+                        //     if(localStorageService.selectedCampaign.get() && localStorageService.selectedCampaign.get().id == -1)  {
+                        //         $location.url('/mediaplans');
+                        //     }
+                        // }
                     }
                 }))
-
-                .when('/mediaplans/:campaignId', angularAMD.route({
-                    templateUrl: assets.html_campaign_details,
+                .when('/a/:accountId/mediaplans/:campaignId/overview', angularAMD.route({
+                    templateUrl: assets.html_campaign_details, 
                     title: 'Reports Overview',
-                    controller: 'CampaignDetailsController',
+                    controller: 'CampaignDetailsController', 
                     controllerUrl: 'reporting/controllers/campaign_details_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, featuresService,localStorageService) {
-                            //redirects to default page if it has no permission to access it
-                            featuresService.setGetFeatureParams('report_overview');
-                            if(localStorageService.selectedCampaign.get() && localStorageService.selectedCampaign.get().id == -1)  {
-                                $location.url('/mediaplans');
-                            }
+                        header: function($q, $location, $route, accountService, RoleBasedService, featuresService,
+                            workflowService, campaignSelectModel, strategySelectModel) {
+                            return reportsHeaderResolver2($q, $location, $route, accountService, RoleBasedService, featuresService,
+                                workflowService, campaignSelectModel, strategySelectModel);
                         }
                     }
                 }))
-
-                .when('/optimization', angularAMD.route({
-                    templateUrl: assets.html_optimization,
-                    title: 'Reports - Optimization Impact',
-                    controller: 'OptimizationController',
-                    controllerUrl: 'reporting/controllers/optimization_controller',
+                .when('/a/:accountId/mediaplans/:campaignId/performance', angularAMD.route({
+                    templateUrl: assets.html_performance, 
+                    title: 'Reports - Performance',
+                    controller: 'PerformanceController', 
+                    controllerUrl: 'reporting/controllers/performance_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, featuresService) {
-                            //redirects to default page if it has no permission to access it
-                            featuresService.setGetFeatureParams('optimization_transparency');
+                        header: function($q, $location, $route, accountService, RoleBasedService, featuresService, 
+                            workflowService, campaignSelectModel, strategySelectModel) {
+                            return reportsHeaderResolver2($q, $location, $route, accountService, RoleBasedService, featuresService,
+                                workflowService, campaignSelectModel, strategySelectModel);
                         }
                     }
                 }))
-
-                .when('/inventory', angularAMD.route({
-                    templateUrl: assets.html_inventory,
-                    title: 'Reports - Inventory',
-                    controller: 'InventoryController',
-                    controllerUrl: 'reporting/controllers/inventory_controller',
-                    showHeader : true,
-                    resolve: {
-                        check: function ($location, featuresService,workflowService) {
-                            //redirects to default page if it has no permission to access it
-                            featuresService.setGetFeatureParams('inventory');
-                        }
-                    }
-                }))
-
-                .when('/quality', angularAMD.route({
-                    templateUrl: assets.html_viewability,
-                    title: 'Reports - Quality',
-                    controller: 'ViewabilityController',
-                    controllerUrl: 'reporting/controllers/viewability_controller',
-                    showHeader : true,
-                    resolve: {
-                        check: function ($location, featuresService) {
-                            //redirects to default page if it has no permission to access it
-                            featuresService.setGetFeatureParams('quality');
-                        }
-                    }
-                }))
-
-                .when('/cost', angularAMD.route({
-                    templateUrl: assets.html_cost,
+                .when('/a/:accountId/mediaplans/:campaignId/cost', angularAMD.route({
+                    templateUrl: assets.html_cost, 
                     title: 'Reports - Cost',
-                    controller: 'CostController',
+                    controller: 'CostController', 
                     controllerUrl: 'reporting/controllers/cost_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, loginModel, featuresService) {
-                            // if  cost modal is opaque and some one trying to access cost direclty from the url
-                            var locationPath,
-                                isAgencyCostModelTransparent;
-
-                            isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
-                            locationPath = $location.path();
-                            if (!isAgencyCostModelTransparent && locationPath === '/cost') {
-                                $location.url('/');
-                            }
-
-                            //redirects to default page if it has no permission to access it
-                            featuresService.setGetFeatureParams('cost');
+                        header: function($q, $location, $route, accountService, RoleBasedService, featuresService, 
+                            workflowService, campaignSelectModel, strategySelectModel) {
+                            return reportsHeaderResolver2($q, $location, $route, accountService, RoleBasedService, featuresService,
+                                workflowService, campaignSelectModel, strategySelectModel);
                         }
                     }
                 }))
-
-                .when('/platform', angularAMD.route({
-                    templateUrl: assets.html_platform,
+                .when('/a/:accountId/mediaplans/:campaignId/platform', angularAMD.route({
+                    templateUrl: assets.html_platform, 
                     title: 'Reports - Platform',
-                    controller: 'PlatformController',
+                    controller: 'PlatformController', 
                     controllerUrl: 'reporting/controllers/platform_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, featuresService) {
-                            featuresService.setGetFeatureParams('platform');
+                        header: function($q, $location, $route, accountService, RoleBasedService, featuresService,
+                            workflowService, campaignSelectModel, strategySelectModel) {
+                            return reportsHeaderResolver2($q, $location, $route, accountService, RoleBasedService, featuresService,
+                                workflowService, campaignSelectModel, strategySelectModel);
+                       }
+                    }
+                }))
+                .when('/a/:accountId/mediaplans/:campaignId/inventory', angularAMD.route({
+                    templateUrl: assets.html_inventory, 
+                    title: 'Reports - Inventory',
+                    controller: 'InventoryController', 
+                    controllerUrl: 'reporting/controllers/inventory_controller',
+                    showHeader : true,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, RoleBasedService, featuresService,
+                            workflowService, campaignSelectModel, strategySelectModel) {
+                            return reportsHeaderResolver2($q, $location, $route, accountService, RoleBasedService, featuresService,
+                                workflowService, campaignSelectModel, strategySelectModel);
+                       }
+                    }
+                }))
+                .when('/a/:accountId/mediaplans/:campaignId/quality', angularAMD.route({
+                    templateUrl: assets.html_viewability, 
+                    title: 'Reports - Quality',
+                    controller: 'ViewabilityController', 
+                    controllerUrl: 'reporting/controllers/viewability_controller',
+                    showHeader : true,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, RoleBasedService, featuresService,
+                            workflowService, campaignSelectModel, strategySelectModel) {
+                            return reportsHeaderResolver2($q, $location, $route, accountService, RoleBasedService, featuresService,
+                                workflowService, campaignSelectModel, strategySelectModel);
+                       }
+                    }
+                }))
+                .when('/a/:accountId/mediaplans/:campaignId/optimization', angularAMD.route({
+                    templateUrl: assets.html_optimization, 
+                    title: 'Reports - Optimization Impact', 
+                    controller: 'OptimizationController', 
+                    controllerUrl: 'reporting/controllers/optimization_controller',
+                    showHeader : true,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, RoleBasedService, featuresService,
+                            workflowService, campaignSelectModel, strategySelectModel) {
+                            return reportsHeaderResolver2($q, $location, $route, accountService, RoleBasedService, featuresService,
+                                workflowService, campaignSelectModel, strategySelectModel);
+                       }
+                    }
+                }))
+                .when('/a/:accountId/sa/:subAccountId/mediaplans/reports/:reportName', angularAMD.route({   
+                    templateUrl: assets.html_campaign_reports,
+                    title: 'Reports Overview',
+                    controller: 'CampaignReportsController',
+                    controllerUrl: 'reporting/controllers/campaign_reports_controller',
+                    showHeader : true,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, workflowService, campaignSelectModel) {
+                            var deferred = $q.defer();
+
+                            accountService.fetchAccountList().then(function() {
+                                if (accountService.allowedAccount($route.current.params.accountId)) {
+                                    subAccountService.fetchSubAccountList($route.current.params.accountId).then(function() {
+                                        if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
+                                            workflowService.getClientData($route.current.params.accountId).then(function(response) {
+                                                if (response && response.data.data) {
+                                                    RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
+                                                    RoleBasedService.setCurrencySymbol();
+                                                    featuresService.setFeatureParams(response.data.data.features);
+                                                    campaignSelectModel.fetchCampaigns($route.current.params.subAccountId).then(function(campaignsResponse) {
+                                                        if (campaignsResponse && campaignsResponse.data.data) {
+                                                            var params = $route.current.params,
+                                                                campaign = campaignsResponse.data.data[0];
+                                                            var url = '/a/' + params.accountId + '/sa/' + params.subAccountId + '/mediaplans/' + campaign.campaign_id + '/' + params.reportName;
+                                                            console.log('url', url);
+                                                            $location.url(url);
+                                                        }
+                                                        deferred.resolve();
+                                                    });
+                                                }
+                                            });
+                                        } else {
+                                            console.log('sub account not allowed');
+                                            $location.url('/tmp')
+                                        }
+                                    });
+                                } else {
+                                    console.log('account not allowed');
+                                    $location.url('/tmp')
+                                }
+                            });
+                            return deferred.promise;
+                        }
+                        // check: function ($location, featuresService,localStorageService) {
+                        //     //redirects to default page if it has no permission to access it
+                        //     featuresService.setGetFeatureParams('report_overview');
+                        //     if(localStorageService.selectedCampaign.get() && localStorageService.selectedCampaign.get().id == -1)  {
+                        //         $location.url('/mediaplans');
+                        //     }
+                        // }
+                    }
+                }))
+                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/overview', angularAMD.route({
+                    templateUrl: assets.html_campaign_details, 
+                    title: 'Reports Overview',
+                    controller: 'CampaignDetailsController', 
+                    controllerUrl: 'reporting/controllers/campaign_details_controller',
+                    showHeader : true,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
+                            workflowService, campaignSelectModel, strategySelectModel) {
+                            return reportsHeaderResolver($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
+                                workflowService, campaignSelectModel, strategySelectModel);
                         }
                     }
-                    //css: 'assets/stylesheets/platform.css'
                 }))
+                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/performance', angularAMD.route({
+                    templateUrl: assets.html_performance, 
+                    title: 'Reports - Performance',
+                    controller: 'PerformanceController', 
+                    controllerUrl: 'reporting/controllers/performance_controller',
+                    showHeader : true,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, 
+                            workflowService, campaignSelectModel, strategySelectModel) {
+                            return reportsHeaderResolver($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
+                                workflowService, campaignSelectModel, strategySelectModel);
+                        }
+                    }
+                }))
+                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/cost', angularAMD.route({
+                    templateUrl: assets.html_cost, 
+                    title: 'Reports - Cost',
+                    controller: 'CostController', 
+                    controllerUrl: 'reporting/controllers/cost_controller',
+                    showHeader : true,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, 
+                            workflowService, campaignSelectModel, strategySelectModel) {
+                            return reportsHeaderResolver($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
+                                workflowService, campaignSelectModel, strategySelectModel);
+                        }
+                    }
+                }))
+                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/platform', angularAMD.route({
+                    templateUrl: assets.html_platform, 
+                    title: 'Reports - Platform',
+                    controller: 'PlatformController', 
+                    controllerUrl: 'reporting/controllers/platform_controller',
+                    showHeader : true,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
+                            workflowService, campaignSelectModel, strategySelectModel) {
+                            return reportsHeaderResolver($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
+                                workflowService, campaignSelectModel, strategySelectModel);
+                       }
+                    }
+                }))
+                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/inventory', angularAMD.route({
+                    templateUrl: assets.html_inventory, 
+                    title: 'Reports - Inventory',
+                    controller: 'InventoryController', 
+                    controllerUrl: 'reporting/controllers/inventory_controller',
+                    showHeader : true,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
+                            workflowService, campaignSelectModel, strategySelectModel) {
+                            return reportsHeaderResolver($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
+                                workflowService, campaignSelectModel, strategySelectModel);
+                       }
+                    }
+                }))
+                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/quality', angularAMD.route({
+                    templateUrl: assets.html_viewability, 
+                    title: 'Reports - Quality',
+                    controller: 'ViewabilityController', 
+                    controllerUrl: 'reporting/controllers/viewability_controller',
+                    showHeader : true,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
+                            workflowService, campaignSelectModel, strategySelectModel) {
+                            return reportsHeaderResolver($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
+                                workflowService, campaignSelectModel, strategySelectModel);
+                       }
+                    }
+                }))
+                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/optimization', angularAMD.route({
+                    templateUrl: assets.html_optimization, 
+                    title: 'Reports - Optimization Impact', 
+                    controller: 'OptimizationController', 
+                    controllerUrl: 'reporting/controllers/optimization_controller',
+                    showHeader : true,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
+                            workflowService, campaignSelectModel, strategySelectModel) {
+                            return reportsHeaderResolver($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
+                                workflowService, campaignSelectModel, strategySelectModel);
+                       }
+                    }
+                }))
+
+                // .when('/optimization', angularAMD.route({
+                //     templateUrl: assets.html_optimization,
+                //     title: 'Reports - Optimization Impact',
+                //     controller: 'OptimizationController',
+                //     controllerUrl: 'reporting/controllers/optimization_controller',
+                //     resolve: {
+                //         check: function ($location, featuresService) {
+                //             //redirects to default page if it has no permission to access it
+                //             featuresService.setGetFeatureParams('optimization_transparency');
+                //         }
+                //     }
+                // }))
+
+                // .when('/inventory', angularAMD.route({
+                //     templateUrl: assets.html_inventory,
+                //     title: 'Reports - Inventory',
+                //     controller: 'InventoryController',
+                //     controllerUrl: 'reporting/controllers/inventory_controller',
+                //     resolve: {
+                //         check: function ($location, featuresService,workflowService) {
+                //             //redirects to default page if it has no permission to access it
+                //             featuresService.setGetFeatureParams('inventory');
+                //         }
+                //     }
+                // }))
+
+                // .when('/quality', angularAMD.route({
+                //     templateUrl: assets.html_viewability,
+                //     title: 'Reports - Quality',
+                //     controller: 'ViewabilityController',
+                //     controllerUrl: 'reporting/controllers/viewability_controller',
+                //     resolve: {
+                //         check: function ($location, featuresService) {
+                //             //redirects to default page if it has no permission to access it
+                //             featuresService.setGetFeatureParams('quality');
+                //         }
+                //     }
+                // }))
+
+                // .when('/cost', angularAMD.route({
+                //     templateUrl: assets.html_cost,
+                //     title: 'Reports - Cost',
+                //     controller: 'CostController',
+                //     controllerUrl: 'reporting/controllers/cost_controller',
+                //     resolve: {
+                //         check: function ($location, loginModel, featuresService) {
+                //             // if  cost modal is opaque and some one trying to access cost direclty from the url
+                //             var locationPath,
+                //                 isAgencyCostModelTransparent;
+
+                //             isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+                //             locationPath = $location.path();
+                //             if (!isAgencyCostModelTransparent && locationPath === '/cost') {
+                //                 $location.url('/');
+                //             }
+
+                //             //redirects to default page if it has no permission to access it
+                //             featuresService.setGetFeatureParams('cost');
+                //         }
+                //     }
+                // }))
+
+                // .when('/platform', angularAMD.route({
+                //     templateUrl: assets.html_platform,
+                //     title: 'Reports - Platform',
+                //     controller: 'PlatformController',
+                //     controllerUrl: 'reporting/controllers/platform_controller',
+                //     resolve: {
+                //         check: function ($location, featuresService) {
+                //             featuresService.setGetFeatureParams('platform');
+                //         }
+                //     }
+                //     //css: 'assets/stylesheets/platform.css'
+                // }))
 
                 .when('/customreport', angularAMD.route({
                     templateUrl: assets.html_custom_report,
@@ -353,23 +692,22 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     controllerUrl: 'reporting/collectiveReport/reports_invoice_controller',
                     css: assets.css_reports_invoice_list,
-                    resolve: {
-                    }
-                }))
-
-
-                .when('/performance', angularAMD.route({
-                    templateUrl: assets.html_performance,
-                    title: 'Reports - Performance',
-                    controller: 'PerformanceController',
-                    controllerUrl: 'reporting/controllers/performance_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, featuresService) {
-                            featuresService.setGetFeatureParams('performance');
-                        }
                     }
                 }))
+
+                // .when('/performance', angularAMD.route({
+                //     templateUrl: assets.html_performance,
+                //     title: 'Reports - Performance',
+                //     controller: 'PerformanceController',
+                //     controllerUrl: 'reporting/controllers/performance_controller',
+                //     resolve: {
+                //         check: function ($location, featuresService) {
+                //             featuresService.setGetFeatureParams('performance');
+                //         }
+                //     }
+                // }))
 
                 .when('/mediaplan/create', angularAMD.route({
                     templateUrl: assets.html_campaign_create,
@@ -396,6 +734,7 @@ define(['common'], function (angularAMD) {
                 .when('/admin/home', angularAMD.route({
                     templateUrl: assets.html_admin_home,
                     title: 'AdminHome',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, loginModel) {
                             if(!loginModel.getClientData().is_super_admin){

@@ -7,7 +7,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
     function (angularAMD) {
     'use strict';
-        angularAMD.controller('ViewabilityController', function ($scope, kpiSelectModel, campaignSelectModel, strategySelectModel,
+        angularAMD.controller('ViewabilityController', function ($scope, $routeParams, kpiSelectModel, campaignSelectModel, strategySelectModel,
                                                                  dataService, domainReports, constants, vistoconfig,
                                                                  timePeriodModel, loginModel, urlService,
                                                                  advertiserModel, brandsModel) {
@@ -83,7 +83,6 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
         };
 
-        $scope.init();
         //Function called to show Strategy list
         $scope.strategyViewData = function (param) {
           //  console.log('this is param from controller'+JSON.stringify(param));
@@ -94,10 +93,11 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 $scope.strategyBusy = false;
             }
             $scope.api_return_code = 200;
-            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
-            var queryObj = {
+            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
+                clientId = $routeParams.subAccountId || $routeParams.accountId,
+                queryObj = {
                 campaignId: $scope.selectedCampaign.id,
-                clientId:  loginModel.getSelectedClient().id,
+                clientId: clientId,
                 advertiserId: advertiserModel.getSelectedAdvertiser().id,
                 brandId: brandsModel.getSelectedBrand().id,
                 dateFilter: datefilter
@@ -247,6 +247,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $(".drop_list li").css("color", "#000");
         };
 
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
+        $scope.init();
+        $scope.callBackStrategyChange();
 
         $scope.$on('dropdown-arrow-clicked', function(event, args,sortorder) {
             $scope.sortType = "view_metrics."+args;

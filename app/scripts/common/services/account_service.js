@@ -3,6 +3,30 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
 
         var accountList = [],
             selectedAccount;
+
+        var pageFinder = function(path) {
+            var pageName;
+            if (path.endsWith('dashboard')) {
+                pageName = 'dashboard';
+            } else if (path.endsWith('mediaplans')) {
+                pageName = 'mediaplans';
+            } else if (path.split('/').indexOf('mediaplans') > 0) {
+                pageName = 'reports';
+            }
+
+            return {
+                isDashboardPage: function() {
+                    return pageName == 'dashboard';
+                },
+                isMediaplansPage: function() {
+                    return pageName == 'mediaplans';
+                },
+                isReportsPage: function() {
+                    return pageName == 'reports';
+                }
+            };
+        };
+
         return {
 
             fetchAccountList: function() {
@@ -58,18 +82,41 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                 console.log('changeAccount', account);
                 subAccountService.reset();
                 featuresService.reset();
+                var page = pageFinder($location.path());
+                var url = '/a/' + account.id;
                 if (account.isLeafNode) {
-                    var url = '/a/' + account.id + '/dashboard';
+                    if (page.isDashboardPage()) {
+                        url += '/dashboard';
+                    } else if (page.isMediaplansPage()) {
+                        url += '/mediaplans';
+                    } else if (page.isReportsPage()) {
+                        var reportName = _.last($location.path().split('/'));
+                        url += '/mediaplans/reports/' + reportName;
+                    }
                     console.log('change the url', url);
-
                     $location.url(url);
                 } else {
-                    subAccountService.fetchDashboardSubAccountList(account.id).then(function() {
-                        var subAccountId = subAccountService.getDashboadSubAccountList()[0].id;
-                        var url = '/a/' + account.id + '/sa/' + subAccountId + '/dashboard';
-
-                        $location.url(url);
-                    });
+                    if (page.isDashboardPage()) {
+                        subAccountService.fetchDashboardSubAccountList(account.id).then(function() {
+                            var subAccountId = subAccountService.getDashboadSubAccountList()[0].id;
+                            url += '/sa/' + subAccountId + '/dashboard';
+                            console.log('change the url', url);
+                            $location.url(url);
+                        });
+                    } else {
+                        subAccountService.fetchSubAccountList(account.id).then(function() {
+                            var subAccountId = subAccountService.getSubAccounts()[0].id;
+                            url += '/sa/' + subAccountId;
+                            if (page.isMediaplansPage()) {
+                                url += '/mediaplans';
+                            } else if (page.isReportsPage()) {
+                                var reportName = _.last($location.path().split('/'));
+                                url += '/mediaplans/reports/' + reportName;
+                            }
+                            console.log('change the url', url);
+                            $location.url(url);
+                        });
+                    }
                 }
             }
 
