@@ -266,12 +266,20 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 $scope.getClientCode();
             };
             $scope.leaveFocusCustomClientCode = function(){
+                $scope.clientCodeExist = false;
+                $scope.customClientCode = $scope.customClientCode.replace(/ /g, "");
+                $scope.textConstants.CLIENT_CODE_EXIST = constants.CLIENT_CODE_EXIST;
+                if($scope.customClientCode.replace(/ /g, "").length != 5 || !(/^[a-zA-Z0-9_]*$/.test($scope.customClientCode))){
+                    $scope.textConstants.CLIENT_CODE_EXIST = constants.CODE_VERIFICATION;
+                    $scope.clientCodeExist = true;
+                    return;
+                }
                 accountsService.checkClientCodeExist($scope.customClientCode).then(function(result){
                     if (result.status === 'OK' || result.status === 'success') {
-                        $scope.clientCodeExist = result.data.data.isExists
+                        $scope.clientCodeExist = result.data.data.isExists;
                     }
                 },function(err){
-                })
+                });
             }
             $scope.getClientCode = function(){
                 accountsService
