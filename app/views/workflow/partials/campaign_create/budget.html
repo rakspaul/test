@@ -38,38 +38,7 @@
 
 <div class="col-md-12 zeroPadding">
     <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="border-bottom: 1px solid rgba(191, 201, 215, 0.5); padding-bottom: 10px !important;" data-ng-bind="textConstants.MEDIAPLAN_MEASUREMENT_SETTING_COSTS"></label>
-
-    <div data-toggle="collapse" data-target="#accountMeasurement" class="accordionDDL collapsed">
-        <div class="icon-arrow-down-thick"></div>
-        <span data-ng-bind="textConstants.MEDIAPLAN_ACCOUNT_MEASUREMENT_SETTING"></span>
-        <span data-ng-bind="textConstants.MEDIAPLAN_GENERATE_INVOICES"></span>
-    </div>
-
-    <div id="accountMeasurement" class="collapse fade">
-        <div class="table-responsive">
-            <div class="vistoTable yellowTable">
-                <div class="thead thin">
-                    <div class="tr">
-                        <div class="th col-md-3" data-ng-bind="textConstants.MEDIAPLAN_METRIC"></div>
-                        <div class="th col-md-3" data-ng-bind="textConstants.MEDIAPLAN_VENDOR"></div>
-                        <div class="th col-md-3" data-ng-bind="textConstants.MEDIAPLAN_CONFIGURATION"></div>
-                        <div class="th col-md-3" data-ng-bind="textConstants.MEDIAPLAN_CHANNELS"></div>
-                    </div>
-                </div>
-                <div class="tbody" style="max-height: 200px;overflow: auto;">
-                    <!--Table Sample-->
-                    <div class="tr" ng-repeat="config in selectedCampaign.vendorConfig.userPermission">
-                        <div class="td col-md-3" data-ng-bind="config.metric"></div>
-                        <div class="td col-md-3" data-ng-bind="config.vendorName"></div>
-                        <div class="td col-md-3" data-ng-bind="config.configName"></div>
-                        <div class="td col-md-3" data-ng-bind="config.adFormat"></div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
+    
     <div data-toggle="collapse" data-target="#costTracking" class="accordionDDL collapsed">
         <div class="icon-arrow-down-thick"></div>
         <span data-ng-bind="textConstants.MEDIAPLAN_COST_TRACKING"></span>
