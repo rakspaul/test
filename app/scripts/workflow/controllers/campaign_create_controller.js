@@ -99,12 +99,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         //loader Flags - popup loader
         $scope.createNewLineItemLoader = false;
-        $scope.editLineItemLoader = false;
+        $scope.Campaign.editLineItemLoader = false;
         $scope.bulkUploadItemLoader = false;
         //loader Flags - normal edit save button loader
-        $scope.createNewLineItemLoaderEdit = false;
+        $scope.Campaign.createNewLineItemLoaderEdit = false;
         $scope.editLineItemLoaderEdit = false;
         $scope.bulkUploadItemLoaderEdit = false;
+
+        $scope.Campaign.saveBtnLoader= false;
 
         if (!loginModel.getMasterClient().isLeafNode) {
             $scope.showSubAccount = true;
@@ -519,7 +521,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $rootScope.setErrAlertMessage('Media plan successfully' + ($scope.mode === 'edit' ? ' updated ' : ' created ') , 0);
             var url = '/mediaplan/' + result.data.data.id + '/overview';
             $timeout(function() {
-                $scope.saveBtnLoader= false;
+                $scope.Campaign.saveBtnLoader= false;
                 $location.url(url);
             }, 800);
 
@@ -539,7 +541,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 formData,
                 postDataObj;
 
-
             if ($scope.lineItems.lineItemList.length == 0) {
                 $rootScope.setErrAlertMessage('Please create a Line Item');
                 return false;
@@ -556,7 +557,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
 
             if ($scope.createCampaignForm.$valid && $scope.lineItems.lineItemList.length > 0) {
-                $scope.saveBtnLoader= true;
+                $scope.Campaign.saveBtnLoader= true;
+                $scope.Campaign.editLineItemLoader = true ;
+
                 formElem = $("#createCampaignForm").serializeArray();
                 formData = _.object(_.pluck(formElem, 'name'), _.pluck(formElem, 'value'));
                 postDataObj = {};
@@ -620,7 +623,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if(lineItemMode === 'create'){
                     $scope.createNewLineItemLoader = true;
                 } else if(lineItemMode === 'edit'){
-                    $scope.editLineItemLoader = true;
+                    $scope.Campaign.editLineItemLoader = true;
                 } else if(lineItemMode === 'upload'){
                     $scope.bulkUploadItemLoader = true;
                 }
@@ -647,17 +650,23 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             } else if(lineItemMode === 'upload'){
                                 $scope.uploadFileChosenLineItem();
                             }
-                            $scope.saveBtnLoader= false;
+                            $scope.Campaign.saveBtnLoader= false;
+                            $scope.Campaign.editLineItemLoader = false ;
+
                         } else {
                             $scope.sucessHandler(result);
                         }
 
                     } else {
-                        $scope.saveBtnLoader= false;
+                        $scope.Campaign.saveBtnLoader= false;
+                        $scope.Campaign.editLineItemLoader = false ;
+
                         $rootScope.setErrAlertMessage('Unable to ' + (($scope.mode === 'edit') ? ' update ' : ' create ') + ' Media Plan');
                     }
                 }, function (result) {
-                    $scope.saveBtnLoader= false;
+                    $scope.Campaign.saveBtnLoader= false;
+                    $scope.Campaign.editLineItemLoader = false ;
+
                     $rootScope.setErrAlertMessage('Unable to ' + (($scope.mode === 'edit') ? ' update ' : ' create ') + ' Media Plan');
                 });
             }
