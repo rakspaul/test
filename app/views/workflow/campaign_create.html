@@ -125,8 +125,8 @@
                                 </div>
                             </div>
 
-                            <a href="#" class="btn btn-primary pull-right" ng-show="!saveBtnLoader" role="button" ng-disabled="createCampaignForm.$invalid"  ng-click="saveCampaign()">{{textConstants.MP_SAVE}}</a>
-                            <div ng-show="saveBtnLoader" class="pull-right common-loading-btn"></div>
+                            <a href="#" class="btn btn-primary pull-right" ng-show="!Campaign.saveBtnLoader" role="button" ng-disabled="createCampaignForm.$invalid"  ng-click="saveCampaign()">{{textConstants.MP_SAVE}}</a>
+                            <div ng-show="Campaign.saveBtnLoader" class="pull-right common-loading-btn"></div>
 
                             <div ng-show="(mode == 'edit' || cloneMediaPlanName)">
                                 <a href="#" ng-click ="redirectToOverViewPage(editCampaignData.id)" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
