@@ -241,7 +241,7 @@
 
 
             <div class="pull-right" style="padding: 30px 0 0 0;">
-                <div class="pull-right btn btn-primary" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''" ng-click="(mode === 'create' || cloneMediaPlanName)?createNewLineItem('create'):createNewLineItemInEditMode('create')" ng-show="!Campaign.createNewLineItemLoaderEdit">Add Line Item</div>
+                <div class="pull-right btn btn-primary" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == '' || billableAmount == '0' " ng-click="(mode === 'create' || cloneMediaPlanName)?createNewLineItem('create'):createNewLineItemInEditMode('create')" ng-show="!Campaign.createNewLineItemLoaderEdit">Add Line Item</div>
                 <div ng-show ="Campaign.createNewLineItemLoaderEdit" class="pull-right common-loading-btn" ></div>
                 <div class="pull-right btn btn-link" id="hideLineItemCreateBox" ng-click="selectedCampaign.resetLineItemParameters()">Cancel</div>
                 <!--confirm message in edit mode-->
@@ -456,7 +456,7 @@
                 </div>
         </div>
 
-        <a class="btn btn-primary pull-right" ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()" data-ng-disabled="!editLineItem.lineItemName || !editLineItem.billableAmount" ng-bind="textConstants.SAVE_CHANGES" ng-show="!editLineItemLoaderEdit"></a>
+        <a class="btn btn-primary pull-right" ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()" data-ng-disabled="!editLineItem.lineItemName || !editLineItem.billableAmount || editLineItem.billableAmount == '0'" ng-bind="textConstants.SAVE_CHANGES" ng-show="!editLineItemLoaderEdit"></a>
         <div ng-show ="editLineItemLoaderEdit" class="pull-right common-loading-btn" ></div>
         <a class="btn btn-link pull-right cancelLineItem" ng-click="hideLineItemEditRow($event);">Cancel</a>
         <!--confirm message in edit mode-->

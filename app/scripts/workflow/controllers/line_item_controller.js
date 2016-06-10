@@ -556,6 +556,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
             //disable flat fee in case the user created media plan with line item with rate type other than FLAT FEE
             if($scope.mode === 'edit'){
+                $scope.showConfirmPopupEdit = false ;
                 $scope.disableFlatFeeEdit = false;
                 $scope.rateTypeReadOnlyEdit = false;
                 if(lineItem.lineItemType.name !== CONST_FLAT_FEE){
