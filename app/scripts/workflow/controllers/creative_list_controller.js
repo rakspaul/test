@@ -516,30 +516,30 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             var listSizeCreativeDataArr = creativeDataArr.map(function(sizeCreativeDataArr){return sizeCreativeDataArr.size.size});
             for(var i = 0; i < listSizeCreativeDataArr.length; i++) {
                     var widthHeight = listSizeCreativeDataArr[i].split("X") ;
-                    var maxWidth = 60; // Max width for the image
-                    var maxHeight = 60;    // Max height for the image
-                    var ratio = 0;  // Used for aspect ratio
+                    var maxWidth = 68;
+                    var maxHeight = 68;   
+                    var ratio = 0;  
                     var width = widthHeight[0];
                     var height =widthHeight[1];
-                    $scope.creativeData['creatives'][i].width = widthHeight[0];    // Current image width
-                    $scope.creativeData['creatives'][i].height = widthHeight[1];  // Current image height
+                    $scope.creativeData['creatives'][i].width = widthHeight[0];    
+                    $scope.creativeData['creatives'][i].height = widthHeight[1];  
 
                     // Check if the current width is larger than the max
                     if(width > maxWidth){
-                        ratio = maxWidth / width;   // get ratio for scaling image
+                        ratio = maxWidth / width;   
                         $scope.creativeData['creatives'][i].width = maxWidth ;
                         $scope.creativeData['creatives'][i].height = height * ratio ;
-                        height = height * ratio;    // Reset height to match scaled image
-                        width = width * ratio;    // Reset width to match scaled image
+                        height = height * ratio;    
+                        width = width * ratio;  
                     }
 
                     // Check if current height is larger than max
                     if(height > maxHeight){
-                        ratio = maxHeight / height; // get ratio for scaling image
+                        ratio = maxHeight / height; 
                         $scope.creativeData['creatives'][i].height = maxHeight ;
                         $scope.creativeData['creatives'][i].width =  width * ratio ;
-                        width = width * ratio;    // Reset width to match scaled image
-                        height = height * ratio;    // Reset height to match scaled image
+                        width = width * ratio;   
+                        height = height * ratio;   
                     }
                 }
         }

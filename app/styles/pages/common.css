@@ -1922,8 +1922,7 @@ tags-input .autocomplete {
   border: dashed 1px #939eae ;
   min-height: 10px ;
   min-width: 10px ;
-  margin-bottom: 15px;
-  margin-left: 40px;
+  margin: 5px 0 14px;
 }
 /*Dropdown which has search input box*/
 .dropdown-menu-with-search {
