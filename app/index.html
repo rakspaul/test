@@ -14,11 +14,9 @@
         <link rel="stylesheet" href="/styles/cdesk_application.css">
 </head>
 <body class='{{bodyclass}} {{productType}} {{customReport}}'>
-    <header></header>
-
+    <header ng-show="showHeader"></header>
     <div class="bodyWrap" ng-view></div>
-
-    <script src="/conf/application-local.js"></script>
+    <script src="/conf/application-beta.js"></script>
     <script src="/scripts/config.js"></script>
     <script data-main="/scripts/main.js" src="/scripts/libs/require.js"></script>
 

@@ -118,6 +118,7 @@ assets.html_campaign_create = '/views/workflow/campaign_create.html';
 assets.html_campaign_create_ad = '/views/workflow/campaign_overview.html';
 assets.html_campaign_create_adBuild = '/views/workflow/campaign_ad_create.html';
 assets.html_creative = '/views/workflow/creative.html';
+assets.html_creative_preview = '/views/workflow/creative_preview.html';
 assets.html_creative_list = '/views/workflow/creative_list.html';
 assets.html_workflow_campaign_list = '/views/workflow/campaign_list.html';
 
