@@ -7,87 +7,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
     function (angularAMD) {
         angularAMD.controller('AccountsController', function ($scope, $rootScope, $modal, $compile, constants,
                                                               accountsService, momentService, loginModel) {
-            $('.main_navigation')
-                .find('.active')
-                .removeClass('active')
-                .end()
-                .find('#creative_nav_link')
-                .addClass('active');
-
             var _currCtrl = this;
-            $scope.pixelIndex = null;
-            $scope.pixelFormData = {
-                name: '',
-                pixelType: '',
-                expiryDate: '',
-                pixelCode: '',
-                description: '',
-                pixelTypeName: 'Select Pixel Type'
-            };
-
-            $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
-            $scope.brandsList = [];
-            $scope.advertisersList = [];
-            $scope.clientId = '';
-            $scope.parentClientId = '';
-            $scope.advertiserId = '';
-            $scope.brandName = '';
-            $scope.reponseData = '';
-            $scope.isEditMode = false;
-            $scope.textConstants = constants;
-            $scope.clientsDetails = {};
-            $scope.advertiserName = '';
-            $scope.mode = 'create';
-            $scope.client = '';
-            $scope.brand = '';
-            $scope.allAdvertiser = [];
-            $scope.allBrands = [];
-            $scope.currency = [];
-
-            //this is the advertiser selected from dropdown during new advertiser creation
-            $scope.selectedAdvertiserId = '';
-
-            $scope.selectedBrandId = '';
-            $scope.activeEditAdvertiserTab = 'basic';
-            $scope.advertiserAddOrEditData = {};
-            $scope.dropdownCss = {
-                display: 'none',
-                'max-height': '100px',
-                overflow: 'scroll',
-                top: '60px',
-                left: '0px'
-            };
-
-            $('.each_nav_link').removeClass('active_tab');
-            $('#admin_nav_link').addClass('active_tab');
-            $('.miniTabLinks .btn').removeClass('active');
-            $('#accounts_link').addClass('active');
-
-            $scope.basicForm = function () {
-                $('.miniTabLinks.sub .btn').removeClass('active');
-                $('.miniTabLinks.sub .subBasics').addClass('active');
-                $scope.activeEditAdvertiserTab = 'basic';
-
-                $('.basicForm, .IABForm').show();
-                $('.createPixel, #pixelsCnt').hide();
-            };
-
-            $scope.showPixelTab = function () {
-                $scope.activeEditAdvertiserTab = 'pixel';
-                $('.createPixel, #pixelsCnt').show();
-
-                $('.basicForm, .IABForm').hide();
-                $('.miniTabLinks.sub .btn').removeClass('active');
-                $('.miniTabLinks.sub .subPixels').addClass('active');
-                $('.pixelCreate').hide();
-            };
-
-            $scope.addPixel = function () {
-                _currCtrl.setCalanderSetting();
-                $('#pixelExpDate').datepicker('setStartDate', momentService.getCurrentYear().toString());
-                $('.pixelCreate').slideDown();
-                $scope.pixelFormData.impLookbackWindow = $scope.pixelFormData.clickLookbackWindow = 14;
-            };
 
             _currCtrl.verifyPixelInput = function () {
                 var ret = true,
@@ -129,6 +49,149 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 }
 
                 return ret;
+            };
+
+            _currCtrl.fetchAllAdvertisers = function () {
+                accountsService
+                    .getUserAdvertiser()
+                    .then(function (res) {
+                        if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
+                            $scope.advertisersData = res.data.data;
+                        }
+                    });
+            };
+
+            _currCtrl.fetchAllBrands = function () {
+                accountsService
+                    .getUserBrands()
+                    .then(function (res) {
+                        if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
+                            $scope.brandsData = res.data.data;
+                        }
+                    });
+            };
+
+            _currCtrl.setCalanderSetting = function () {
+                var pixelExpDate = $('#pixelExpDate');
+
+                pixelExpDate.datepicker('update', momentService.todayDate('YYYY/MM/DD'));
+
+                pixelExpDate.change(function () {
+                    $scope.pixelFormData.expiryDate = $(this).val();
+                });
+            };
+
+            _currCtrl.pixelJSON = {
+                impressionLookBack: 14,
+                clickLookBack: 14,
+                pixelType: 'All',
+                pixelName: '',
+                pixelDate: momentService.todayDate('YYYY-MM-DD')
+            };
+
+            function getPixelsData(clientId, advId) {
+                accountsService
+                    .getPixelsUnderAdvertiser(clientId, advId)
+                    .then(function (res) {
+                        if (res.data.status === 'OK' || res.data.status === 'success') {
+                            $scope.advertiserData.pixels = res.data.data;
+
+                            _.each($scope.advertiserData.pixels, function (item, i) {
+                                $scope.advertiserData.pixels[i].pixelTypeName =
+                                    (item.pixelType === 'PAGE_VIEW') ? 'Action - Page View' :
+                                        (item.pixelType === 'AUDIENCE_CREATION') ?
+                                            'Audience Creation Pixel' : 'Retargeting Pixel';
+
+                                $scope.advertiserData.pixels[i].isFeedData = true;
+
+                                if (item.expiryDate) {
+                                    $scope.advertiserData.pixels[i].expiryDate =
+                                        momentService.utcToLocalTime(item.expiryDate,'YYYY/MM/DD');
+                                }
+
+                                $scope.advertiserData.impLookbackWindow = item.impLookbackWindow;
+                                $scope.advertiserData.clickLookbackWindow = item.clickLookbackWindow;
+                            });
+                        }
+                    },function (err) {
+                    });
+            }
+
+            $('.main_navigation')
+                .find('.active')
+                .removeClass('active')
+                .end()
+                .find('#creative_nav_link')
+                .addClass('active');
+
+            $scope.pixelIndex = null;
+            $scope.pixelFormData = {
+                name: '',
+                pixelType: '',
+                expiryDate: '',
+                pixelCode: '',
+                description: '',
+                pixelTypeName: 'Select Pixel Type'
+            };
+
+            $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
+            $scope.brandsList = [];
+            $scope.advertisersList = [];
+            $scope.clientId = '';
+            $scope.parentClientId = '';
+            $scope.advertiserId = '';
+            $scope.brandName = '';
+            $scope.reponseData = '';
+            $scope.isEditMode = false;
+            $scope.textConstants = constants;
+            $scope.clientsDetails = {};
+            $scope.advertiserName = '';
+            $scope.mode = 'create';
+            $scope.client = '';
+            $scope.brand = '';
+            $scope.allAdvertiser = [];
+            $scope.allBrands = [];
+            $scope.currency = [];
+
+            //this is the advertiser selected from dropdown during new advertiser creation
+            $scope.selectedAdvertiserId = '';
+
+            $scope.selectedBrandId = '';
+            $scope.activeEditAdvertiserTab = 'basic';
+            $scope.advertiserAddOrEditData = {};
+
+            $scope.dropdownCss = {
+                display: 'none',
+                'max-height': '100px',
+                overflow: 'scroll',
+                top: '60px',
+                left: '0px'
+            };
+
+            $scope.basicForm = function () {
+                $('.miniTabLinks.sub .btn').removeClass('active');
+                $('.miniTabLinks.sub .subBasics').addClass('active');
+                $scope.activeEditAdvertiserTab = 'basic';
+
+                $('.basicForm, .IABForm').show();
+                $('.createPixel, #pixelsCnt').hide();
+            };
+
+            $scope.showPixelTab = function () {
+                $scope.activeEditAdvertiserTab = 'pixel';
+                $('.createPixel, #pixelsCnt').show();
+
+                $('.basicForm, .IABForm').hide();
+                $('.miniTabLinks.sub .btn').removeClass('active');
+                $('.miniTabLinks.sub .subPixels').addClass('active');
+                $('.pixelCreate').hide();
+            };
+
+            $scope.addPixel = function () {
+                _currCtrl.setCalanderSetting();
+                $('#pixelExpDate').datepicker('setStartDate', momentService.getCurrentYear().toString());
+                $('.pixelCreate').slideDown();
+                $scope.pixelFormData.impLookbackWindow = $scope.pixelFormData.clickLookbackWindow = 14;
             };
 
             $scope.savePixel = function () {
@@ -200,27 +263,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.activeEditAdvertiserTab = 'iab';
             };
 
-            _currCtrl.setCalanderSetting = function () {
-                var pixelExpDate = $('#pixelExpDate');
-
-                pixelExpDate.datepicker('update', momentService.todayDate('YYYY/MM/DD'));
-
-                pixelExpDate.change(function () {
-                    $scope.pixelFormData.expiryDate = $(this).val();
-                });
-            };
-
             // TODO: Code for Add??
             /*$scope.addIAB = function () {
             };*/
-
-            _currCtrl.pixelJSON = {
-                impressionLookBack: 14,
-                clickLookBack: 14,
-                pixelType: 'All',
-                pixelName: '',
-                pixelDate: momentService.todayDate('YYYY-MM-DD')
-            };
 
             $scope.resetFlashMessage = function () {
                 $rootScope.setErrAlertMessage('', 0);
@@ -325,13 +370,11 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     .then(function (res) {
                         $scope.loadTopClientList = false;
                         $scope.clientsDetails[0] = res.data.data;
-                    },function (err) {
+                    }, function (err) {
                         $scope.loadTopClientList = false;
                         console.log('Error = ', err);
                     });
             };
-
-            $scope.fetchAllClients();
 
             $scope.fetchAllAdvertisersforClient = function (clientId) {
                 if (!$scope.clientsDetails[clientId]) {
@@ -387,34 +430,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                         });
                 }
             };
-
-            function getPixelsData(clientId, advId) {
-                accountsService
-                    .getPixelsUnderAdvertiser(clientId, advId)
-                    .then(function (res) {
-                        if (res.data.status === 'OK' || res.data.status === 'success') {
-                            $scope.advertiserData.pixels = res.data.data;
-
-                            _.each($scope.advertiserData.pixels, function (item, i) {
-                                $scope.advertiserData.pixels[i].pixelTypeName =
-                                    (item.pixelType === 'PAGE_VIEW') ? 'Action - Page View' :
-                                        (item.pixelType === 'AUDIENCE_CREATION') ?
-                                            'Audience Creation Pixel' : 'Retargeting Pixel';
-
-                                $scope.advertiserData.pixels[i].isFeedData = true;
-
-                                if (item.expiryDate) {
-                                    $scope.advertiserData.pixels[i].expiryDate =
-                                        momentService.utcToLocalTime(item.expiryDate,'YYYY/MM/DD');
-                                }
-
-                                $scope.advertiserData.impLookbackWindow = item.impLookbackWindow;
-                                $scope.advertiserData.clickLookbackWindow = item.clickLookbackWindow;
-                            });
-                        }
-                    },function (err) {
-                    });
-            }
 
             //Add or Edit Pop up for Advertiser
             $scope.AddOrEditAdvertiserModal = function (advObj, mode, client) {
@@ -595,38 +610,54 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $('#brandNameInp').val($scope.brandName);
             };
 
-
             $scope.selectClientCode = function(ev, code){
+                var clientAccountCode = $('.customClientCode, .accountCode'),
+                    addClass = (code === 'Others') ? 'col-md-6' : 'col-md-12';
+
                 $scope.setSelectedClientCode = code;
-                $(".customClientCode, .accountCode").removeClass("col-md-12").removeClass("col-md-6");
-                var addClass = (code=='Others') ? "col-md-6" : "col-md-12";
-                $(".customClientCode, .accountCode").addClass(addClass);
-            }
+                clientAccountCode.removeClass('col-md-12').removeClass('col-md-6');
+                clientAccountCode.addClass(addClass);
+            };
+
+            $scope.feesTooltip = function (client) {
+                var tooltipText = '',
+                    currencySymbol = client.currency ? client.currency.currencySymbol : '$',
+                    techFees = client.techFeesBillingValue,
+                    serviceFeesType = client.serviceFeesBillingTypeId,
+                    serviceFees = client.serviceFeesBillingValue;
+
+                if (techFees) {
+                    tooltipText = 'Tech Fees: ' + currencySymbol + techFees;
+                } else {
+                    tooltipText = 'Tech Fees: N/A';
+                }
+
+                if (serviceFees) {
+                    tooltipText += ', Service Fees: ';
+
+                    // If service Fees Type is COGS+ %
+                    if (serviceFeesType === 6) {
+                        tooltipText += serviceFees + '%';
+                    } else {
+                        tooltipText += currencySymbol + serviceFees;
+                    }
+                } else {
+                    tooltipText += ', Service Fees: N/A';
+                }
+
+                return tooltipText;
+            };
+
+            $scope.fetchAllClients();
+
+            $('.each_nav_link').removeClass('active_tab');
+            $('#admin_nav_link').addClass('active_tab');
+            $('.miniTabLinks .btn').removeClass('active');
+            $('#accounts_link').addClass('active');
 
             $('#pixelExpirationDate').datepicker('update', new Date());
 
-            _currCtrl.fetchAllAdvertisers = function () {
-                accountsService
-                    .getUserAdvertiser()
-                    .then(function (res) {
-                        if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
-                            $scope.advertisersData = res.data.data;
-                        }
-                    });
-            };
-
             _currCtrl.fetchAllAdvertisers();
-
-            _currCtrl.fetchAllBrands = function () {
-                accountsService
-                    .getUserBrands()
-                    .then(function (res) {
-                        if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
-                            $scope.brandsData = res.data.data;
-                        }
-                    });
-            };
-
             _currCtrl.fetchAllBrands();
         });
     }

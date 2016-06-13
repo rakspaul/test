@@ -16,7 +16,7 @@
                 <div class="pull-left account-name" data-ng-click="AddOrEditAccountModal('edit', client)">
                     <span class="pull-left" data-ng-bind="client.name"></span>
                     <span class="pull-left icon-usd"
-                          tooltip="Tech Fees CPM $0.50"
+                          tooltip="{{feesTooltip(client)}}"
                           tooltip-placement="right"
                           style="margin: 1px 0 0 5px;">
                     </span>
