@@ -160,9 +160,11 @@
                              data-ng-click="selectUserPage($parent.$index, userPerPages)">
                             <input type="checkbox"
                                    id="{{userPerPages.code}}_{{$parent.$index}}_id"
+                                   name="{{userPerPages.code}}"
                                    data-ng-init="modalVal = userPerPages.code + '_' + $parent.$index + '_checked'"
                                    data-ng-disabled="adminToggle[$parent.$index]"
-                                   data-ng-model="userConsoleFormDetails[userPerPages.code + '_' + $parent.$index + '_checked']"
+                                   data-ng-model="userConsoleFormDetails[userPerPages.code + '_' +
+                                                  $parent.$index + '_checked']"
                                    class="pull-left">
                             <label for="{{userPerPages.code}}_{{$parent.$index}}_id"
                                    data-ng-bind="userPerPages.name"
@@ -192,7 +194,8 @@
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="accountType">
                                         <li data-ng-repeat="advertiser in dropdownList[$parent.$index].advertisers">
-                                            <a data-ng-click="selectAdvertiser(advertiser, accountIndex, permissionIndex)"
+                                            <a data-ng-click=
+                                                       "selectAdvertiser(advertiser, accountIndex, permissionIndex)"
                                                data-ng-bind="advertiser.name">
                                             </a>
                                         </li>
@@ -232,16 +235,19 @@
                                             style="width: 300px"
                                             type="button"
                                             data-toggle="dropdown"
+                                            data-ng-disabled="dropdownList[$parent.$index].permission.length === 1"
                                             aria-haspopup="true"
                                             aria-expanded="true">
-                                        <span class="text"
-                                              data-ng-bind="permissions[$parent.$index].resources[$index].permissionName">
+                                        <span data-ng-bind=
+                                                      "permissions[$parent.$index].resources[$index].permissionName"
+                                              class="text">
                                         </span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="accountType">
                                         <li data-ng-repeat="list in dropdownList[$parent.$index].permission">
-                                            <a data-ng-click="selectPermission(list,$parent.$parent.$index, $parent.$index)"
+                                            <a data-ng-click=
+                                                       "selectPermission(list, $parent.$parent.$index, $parent.$index)"
                                                data-ng-bind="list.name">
                                             </a>
                                         </li>

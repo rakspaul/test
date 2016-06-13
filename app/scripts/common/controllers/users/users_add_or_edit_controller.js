@@ -136,8 +136,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         };
 
         _customctrl.createData = function () {
-            var timeNow = momentService.newMoment(moment().format('MM/DD/YYYY')).format('YYYY-MM-DD HH-MM-SS.SSS'),
-                features = [];
+            var features = [];
 
             _customctrl.requestData = {
                 firstName: $scope.userConsoleFormDetails.firstName,
@@ -303,6 +302,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
 
                             _.each(item.resources, function (d, j) {
                                 $scope.addPermission(i);
+
                                 if (item.resources.length === 1 &&
                                     d.accessLevel.toLowerCase() === 'admin' &&
                                     d.brandId === -1 &&
@@ -358,6 +358,25 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                         $rootScope.setErrAlertMessage(res.data.data.message);
                     }
                 });
+        }
+
+        function workflowSelected(accountIndex) {
+            if ($scope.dropdownList[accountIndex].permission) {
+                $scope.dropdownList[accountIndex].permission.length = 1;
+            }
+
+            if ($scope.permissions[accountIndex].resources.length) {
+                $scope.permissions[accountIndex].resources[0].permissionName = 'Write';
+                $scope.permissions[accountIndex].resources[0].permissionValue = 'write';
+            }
+        }
+
+        function workflowUnselected(accountIndex) {
+            // Append 'Read' if it is not already present.
+            if ($scope.dropdownList[accountIndex].permission &&
+                $scope.dropdownList[accountIndex].permission.length === 1) {
+                $scope.dropdownList[accountIndex].permission.push({value: 'read', name: 'Read'});
+            }
         }
 
         $scope.showSuperAdminButton = loginModel.getClientData().is_super_admin;
@@ -626,8 +645,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                 advertiserName: constants.ALL_ADVERTISERS,
                 brandId: -1,
                 brandName: constants.ALL_BRANDS,
-                permissionName: 'Admin',
-                permissionValue: 'admin'
+                permissionName: 'Write',
+                permissionValue: 'write'
             });
 
             if (!$scope.dropdownList[accountIndex].advertisers) {
@@ -636,9 +655,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
 
             if (!$scope.dropdownList[accountIndex].permission) {
                 $scope.dropdownList[accountIndex].permission = [
-                    {value: 'admin', name: 'Admin'},
-                    {value: 'write', name: 'Write'},
-                    {value: 'read',  name: 'Read'}
+                    {value: 'write', name: 'Write'}
                 ];
             }
 
@@ -700,16 +717,19 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                 description: 'Enable Access to all features',
                 code: 'ENABLE_ALL'
             }];
+
+            workflowSelected(accountIndex);
         };
 
         $scope.permissionUnAll = function (accountIndex) {
             _customctrl.allPages(accountIndex, false);
             $scope.pagePermissionValue[accountIndex] = [];
+
+            workflowUnselected(accountIndex);
         };
 
         $scope.permissionRepOnly = function (accountIndex) {
-            var sel = $('div[data-row-index=' + accountIndex + '] .userPages input'),
-                found;
+            var found;
 
             _customctrl.allPages(accountIndex, true);
 
@@ -741,9 +761,29 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                     });
                 }
             });
+
+            workflowUnselected(accountIndex);
         };
 
         $scope.selectUserPage = function (accountIndex, page) {
+            var workflowPages = $('input[name="CREATIVE_LIST"],' +
+                ' input[name="MEDIAPLAN_HUB"],' +
+                ' input[name="MEDIAPLAN_SETUP"],' +
+                ' input[name="AD_SETUP"]'),
+                isWorkflowPageSelected = false;
+
+            _.each(workflowPages, function (page) {
+                if ($(page).prop('checked')) {
+                    isWorkflowPageSelected = true;
+                }
+            });
+
+            if (isWorkflowPageSelected) {
+                workflowSelected(accountIndex);
+            } else {
+                workflowUnselected(accountIndex);
+            }
+
             if ($scope.userConsoleFormDetails[page.code + '_' + accountIndex + '_checked']) {
                 $scope.pagePermissionValue[accountIndex].push({
                     code: page.code,
@@ -831,7 +871,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                         console.log('Error: To get the sub-client list of ' + name);
                     }
                 },function (err) {
-                    console.log('Error: To get the sub-client list of ' + name);
+                    console.log('Error: To get the sub-client list of ' + name, ' (', err, ')');
                 });
         };
 
