@@ -844,7 +844,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
 
                     if (input && kpiType) {
                         if (kpiType.toLowerCase() === 'ctr') {
-                            return $filter('number')(input, 2) + '%';
+                            return $filter('number')(input, 3) + '%';
                         } else if (kpiType.toLowerCase() === 'cpc' || kpiType.toLowerCase() === 'cpa' ||
                             kpiType.toLowerCase() === 'cpm') {
                             return constants.currencySymbol + $filter('number')(input, 2);
