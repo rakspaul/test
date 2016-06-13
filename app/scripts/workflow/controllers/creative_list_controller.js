@@ -217,7 +217,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             var adFormatMapper = {
                 'display': 'icon-image',
                 'video': 'icon-video',
-                'richmedia': 'icon-rich-media',
+                'rich media': 'icon-rich-media',
                 'social': 'icon-social'
             };
 
