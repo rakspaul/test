@@ -331,7 +331,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
 
                                 _currCtrl.saveAdnlData();
                             } else {
-                                console.log('failure??');
+                                console.log('Failed to save data. Error = ', result.data.data.message);
                             }
                         }, function (err) {
                             console.log('Error = ', err);
