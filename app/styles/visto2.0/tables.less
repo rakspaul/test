@@ -248,7 +248,7 @@
         width: 100%;
       }
       .tableFormat {
-        .parentWrap { 
+        .parentWrap {
           display: table;
           .td {
             display: table-cell;
@@ -319,4 +319,31 @@
   .shadowRight {
     box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.17);
   }
+
+    .oneDimensionRow {
+        background-color: #f7f7f7;
+        .hideOption {
+            display:none;
+        }
+        .parentWrap:hover {
+            background-color: #f7f7f7;
+            .hideOption {
+                display:block;
+            }
+        }
+    }
+
+    .secondDimensionList {
+        background-color: #f7f7f7;
+        .hideOption {
+            display:none;
+        }
+        .childRow:hover {
+            background-color: #f7f7f7;
+            .hideOption {
+                display:block;
+            }
+        }
+    }
+
 }

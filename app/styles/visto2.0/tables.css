@@ -294,3 +294,27 @@
 .table-responsive .shadowRight {
   box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.17);
 }
+.table-responsive .oneDimensionRow {
+  background-color: #f7f7f7;
+}
+.table-responsive .oneDimensionRow .hideOption {
+  display: none;
+}
+.table-responsive .oneDimensionRow .parentWrap:hover {
+  background-color: #f7f7f7;
+}
+.table-responsive .oneDimensionRow .parentWrap:hover .hideOption {
+  display: block;
+}
+.table-responsive .secondDimensionList {
+  background-color: #f7f7f7;
+}
+.table-responsive .secondDimensionList .hideOption {
+  display: none;
+}
+.table-responsive .secondDimensionList .childRow:hover {
+  background-color: #f7f7f7;
+}
+.table-responsive .secondDimensionList .childRow:hover .hideOption {
+  display: block;
+}
