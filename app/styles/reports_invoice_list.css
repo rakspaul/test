@@ -1,3 +1,32 @@
+#invoice_data_filter {
+  border-top: 1px dotted #ccc;
+  padding: 21px 0 0 0 !important;
+  margin-top: 17px;
+}
+#invoice_data_filter .icon-calender {
+  top: -38px;
+  right: 13px;
+  border-left: solid 1px #ccc;
+  height: 38px;
+  width: 20px;
+  padding: 10px 0 0 8px;
+}
+#invoice_data_filter .filterInputCommon {
+  position: relative;
+  float: left;
+  margin-right: 5px;
+}
+#invoice_data_filter .filterInputClass1 {
+  width: 135px;
+}
+#invoice_data_filter .filterInputClass2 {
+  width: 90px;
+  margin-top: 32px;
+}
+#invoice_data_filter .filterInputClassBtn {
+  width: 85px;
+  margin: 32px 0 0 0px !important;
+}
 .reports-invoice-list .report_list_table {
   margin-bottom: 40px ;
   background: #fff;

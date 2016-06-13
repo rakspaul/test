@@ -245,7 +245,20 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                             }
                         });
                 };
+                $scope.filters = {
+                    "selectedStatus" : "Select Status",
+                    "selectStatus": function(status){
+                        this.selectedStatus = status;
+                    },
+                    "selectedGeneratedOn" : "Select TimeFrame",
+                    "selectGeneratedOn": function(){
 
+                    },
+                    "selectedMetrics": "Select Metrics",
+                    "selectMetrics": function(){
+
+                    }
+                }
                 $(document).ready(function () {
                     _currCtrl.resetDateToInit();
                     $(window).unbind('scroll');
