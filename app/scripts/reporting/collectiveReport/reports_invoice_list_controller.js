@@ -251,14 +251,33 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         this.selectedStatus = status;
                     },
                     "selectedGeneratedOn" : "Select TimeFrame",
-                    "selectGeneratedOn": function(){
-
+                    "selectGeneratedOn": function(timeFrame){
+                        console.log("selectGeneratedOn.....",timeFrame);
+                        var o = utils.getEndAndStartDate(timeFrame);
+                        this.selectedGeneratedOn = o.displayTimeFrame;
+                        $('#startDateInput').datepicker('update', o.startDate);
+                        $('#endDateInput').datepicker('update', o.endDate);
                     },
                     "selectedMetrics": "Select Metrics",
-                    "selectMetrics": function(){
-
+                    "selectMetrics": function(metrics){
+                        this.selectedMetrics = metrics;
+                    },
+                    "lowValue": "",
+                    "highValue": "",
+                    apply: function(){
+                        console.log("Apply...");
+                    },
+                    clear: function(){
+                        this.selectedStatus = "Select Status";
+                        this.selectedGeneratedOn = "Select TimeFrame";
+                        this.selectedMetrics = "Select Metrics";
+                        this.lowValue = "";
+                        this.highValue = "";
                     }
                 }
+                $('#startDateInput,#endDateInput').on('changeDate', function() {
+                    $scope.filters.selectedGeneratedOn = "Custom Dates";
+                });
                 $(document).ready(function () {
                     _currCtrl.resetDateToInit();
                     $(window).unbind('scroll');

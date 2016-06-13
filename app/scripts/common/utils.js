@@ -362,7 +362,54 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
 
                     return retVal;
                 }
-
+                function getEndAndStartDate(timeFrame){
+                    var o = {}
+                    switch (timeFrame) {
+                        case 'yesterday':
+                            o.startDate = moment().subtract(1, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.endDate = moment().format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.displayTimeFrame = "Yesterday";
+                            break;
+                        case 'last7days':
+                            o.startDate = moment().subtract(7, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.endDate = moment().subtract(0, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.displayTimeFrame = "Last 7 days";
+                            break;
+                        case 'last2Weeks':
+                            var startWeekDate = moment().startOf('week').subtract(1, 'day');
+                            o.endDate = startWeekDate.format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.startDate = startWeekDate.subtract('days', 13).format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.displayTimeFrame = "Last 2 weeks";
+                            break;
+                        case 'lastMonth':
+                            o.startDate =
+                                moment()
+                                    .subtract(1, 'months')
+                                    .endOf('month')
+                                    .format('YYYY-MM') + '-01';
+                            o.endDate =
+                                moment()
+                                    .subtract(1, 'months')
+                                    .endOf('month')
+                                    .format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.displayTimeFrame = "Last month";
+                            break;
+                        case 'lastQuater':
+                            o.startDate =
+                                moment()
+                                    .subtract(1, 'quarter')
+                                    .startOf('quarter')
+                                    .format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.endDate =
+                                moment()
+                                    .subtract(1, 'quarter')
+                                    .endOf('quarter')
+                                    .format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.displayTimeFrame = "Last quarter";
+                            break;
+                    }
+                    return o;
+                }
                 return {
                     formatDate: formatDate,
                     makeTitle: makeTitle,
@@ -379,7 +426,8 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     convertToEST: convertToEST,
                     convertToUTC: convertToUTC,
                     hasItem: hasItem,
-                    getValueOfItem: getValueOfItem
+                    getValueOfItem: getValueOfItem,
+                    getEndAndStartDate: getEndAndStartDate
                 };
             }
         ]);
