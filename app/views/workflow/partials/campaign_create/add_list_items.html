@@ -34,7 +34,7 @@
         </a>
         <span ng-if="selectedCampaign.lineItemfile" class="pull-left" ng-bind="selectedCampaign.lineItemfile.name"></span>
         <a ng-if="selectedCampaign.lineItemfile" class="icon-clear pull-left" ng-click="clearFileSelected()" ></a>
-        <a  class="btn btn-primary pull-right" ng-click="uploadFileChosenLineItem();" ng-show ="!bulkUploadItemLoaderEdit">Upload</a>
+        <a  class="btn btn-primary pull-right" ng-click="uploadFileChosenLineItem($parent.mode);" ng-show ="!bulkUploadItemLoaderEdit">Upload</a>
         <div ng-show ="bulkUploadItemLoaderEdit" class="pull-right common-loading-btn" ></div>
         <a class="btn btn-link pull-right" ng-click="clearFileSelected()">Cancel</a>
         <div class="popUpCue" data-ng-show="showConfirmPopupBulkUpload" style="left: 74%;top: -170px;">
@@ -105,8 +105,8 @@
                             <span class="icon-more-options"></span>
                         </button>
                         <ul class="dropdown-menu" id="moreOptions" style="left: 0; left: initial;">
-                            <li class="disabled" ><a class="text-left " role="button" data-ng-bind="textConstants.EXPORT_LINE_ITEMS"></a></li>
-                            <li class="{{$parent.mode=='create'? 'disabled':''}}"><a class="text-left" ng-disabled="$parent.mode=='create'? disabled:''" role="button" data-ng-bind="textConstants.IMPORT_LINE_ITEMS" ng-click="$parent.mode=='edit' ? showBulkUploadsection():''"></a></li>
+                            <li class="{{$parent.mode=='create'? '':'disabled'}}" ><a class="text-left " role="button" ng-disabled="$parent.mode=='create'? '': disabled" data-ng-bind="textConstants.EXPORT_LINE_ITEMS" ng-click="showBulkUploadsection()"></a></li>
+                            <li class="{{$parent.mode=='create'? 'disabled':''}}"><a class="text-left" ng-disabled="$parent.mode=='create'? disabled:''" role="button" data-ng-bind="textConstants.IMPORT_LINE_ITEMS" ng-click="showBulkUploadsection()"></a></li>
                         </ul>
                     </div>
                 </div>
