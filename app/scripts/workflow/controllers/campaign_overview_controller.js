@@ -491,7 +491,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     videoTargetsData;
 
                 if (adsData) {
-                    if ((adsData.targets.geoTargets.REGION &&
+                    if ((adsData.targets.geoTargets.COUNTRY &&
+                        adsData.targets.geoTargets.COUNTRY.geoTargetList.length > 0) || (adsData.targets.geoTargets.REGION &&
                         adsData.targets.geoTargets.REGION.geoTargetList.length > 0) ||
                         (adsData.targets.geoTargets.DMA &&
                         adsData.targets.geoTargets.DMA.geoTargetList.length > 0) ||
