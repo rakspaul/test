@@ -93,7 +93,7 @@
 			    <div class="tbody">
 				<div ng-if="!creativeListLoading" ng-repeat="creativeData in successfulRecords" class="tr oneDimensionRow creativeUploadedNow" ng-include="'creativeTpl'">
 				</div>
-				<div ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives" class="tr oneDimensionRow" ng-include="'creativeTpl'">
+				<div ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives" class="tr oneDimensionRow tableFormat" ng-include="'creativeTpl'">
 				</div>
 
 				<!--Sample Child / A Class "childRow" needs to be added to the data if its a Child-->
@@ -224,6 +224,7 @@
 		<span ng-if="(creativeData.noOfAds === 0)" style="width: 25px; height: 30px; float: left;"></span>
 		<a href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)" tooltip="{{creativeData.name}}" data-ng-bind="creativeData.name.length>0? (creativeData.name | textEllipsis: 40 ):''"></a>
 	    <div class="col-md-12 text-left zeroPadding">
+	    	<div class="size-box" ng-style="{width:creativeData.width, height:creativeData.height}"></div>
 	        <div class="incompleteCreative" ng-show="creativeData.creativeState === 'INCOMPLETE'">
 	            <div class="icon-statusdraft"></div>
 	            <span style="text-transform: capitalize;" data-ng-bind="creativeData.creativeState|lowercase">Incomplete</span>
@@ -280,3 +281,4 @@
 	    </div>
 	</div>
 </script>
+
