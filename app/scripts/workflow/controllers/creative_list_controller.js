@@ -1,5 +1,5 @@
 define(['angularAMD','common/services/constants_service','workflow/services/workflow_service','common/moment_utils', 'login/login_model', 'reporting/advertiser/advertiser_model', 'workflow/controllers/bulk_creative_controller', 'workflow/directives/filter_directive'], function (angularAMD) {
-  angularAMD.controller('CreativeListController', function($scope, $rootScope, $routeParams, $route, $location, constants, domainReports, workflowService, momentService, loginModel, advertiserModel) {
+  angularAMD.controller('CreativeListController', function($scope, $rootScope, $routeParams, $route, $location, $window, constants, domainReports, workflowService, momentService, loginModel, advertiserModel) {
         var checkedCreativeArr=[];
         $scope.creativeAds={};
         $scope.creativeAds['creativeAdData'] = {};
@@ -407,12 +407,12 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             //$scope.editorEnabled = false;
             //$scope.creativeTag = obj.tag;
         };
-        
+
         $scope.previewCreative = function (creativeData) {
             $scope.previewCreativeId = creativeData.id;
             $scope.previewCreativeName = creativeData.name;
             $scope.previewCreativeTag = creativeData.tag;
-            $location.url("/creative/"+creativeData.id+"/preview");
+            $window.open(window.location.host + "/creative/"+creativeData.id+"/preview", '_blank');
         };
 
         $scope.toggleCreativeAds=function(context,creativeId,index,event){
