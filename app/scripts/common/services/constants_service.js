@@ -575,6 +575,7 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_CREATIVE_FORMAT_LABEL = 'Creative Format'
         this.WF_MANDATORY_CREATIVE_FORMAT = "Please select the creative format.";
         this.WF_MANDATORY_CREATIVE_NAME = "Please enter a name for the creative."
+        this.WF_INVALID_CLICKTHRU = "Please enter a valid url."
         this.WF_AD_ARCHIVE_SUCCESS = "Ad Archived Successfully"
         this.WF_AD_ARCHIVE_FAILURE = "Ad Archive Unsuccessful"
         this.WF_CAMPAIGN_ARCHIVE_SUCCESS = "Media Plan Archived Successfully"
@@ -824,6 +825,9 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_PERMISSION_NEEDED = 'Atleast 1 permission needed';
         this.WF_USER_CREATION_FAIL = 'Unable to create User';
         this.WF_USER_EDIT_FAIL = 'Unable to update User';
+        this.CLIENT_CODE_EXIST = 'Already exists. Please choose a different Client Code.';
+        this.ADVERTISER_CODE_EXIST = 'Please choose a different Advertiser Code.';
+        this.CODE_VERIFICATION = "Please enter valid 5 alphanumeric character";
 
         //Overview Page
         this.ADVERTISER = 'Advertiser';

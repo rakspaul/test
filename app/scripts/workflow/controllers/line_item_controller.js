@@ -200,8 +200,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             if(doesLineItemExceedBudget(newItem.billableAmount,$scope.Campaign.deliveryBudget)){
                 return false;
             }
-            //loader for save button
-            $scope.createNewLineItemLoaderEdit = true;
+           
 
             //if we have to save the media plan prior to line item
             $scope.showConfirmPopupCreate = false;
@@ -217,6 +216,8 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 if(!newItem){
                     newItem = createLineItemObj();
                 }
+                //loader for save button
+                $scope.Campaign.createNewLineItemLoaderEdit = true;
 
                 newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
                 newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
@@ -239,11 +240,11 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                         workflowService.setLineItemData(null);
                         //hide loader
                         $scope.createNewLineItemLoader = false;
-                        $scope.createNewLineItemLoaderEdit = false;
+                        $scope.Campaign.createNewLineItemLoaderEdit = false;
                     }
                     //hide loader
                     $scope.createNewLineItemLoader = false;
-                    $scope.createNewLineItemLoaderEdit = false;
+                    $scope.Campaign.createNewLineItemLoaderEdit = false;
                 });
             }
 
@@ -252,7 +253,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
         $scope.cancelMediaPlanCreation = function(){
             $scope.showConfirmPopupCreate = false;
-            $scope.createNewLineItemLoaderEdit = false;
+            $scope.Campaign.createNewLineItemLoaderEdit = false;
         }
 
         $scope.$parent.updateLineItemInEditMode = function () {
@@ -272,9 +273,6 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 return false;
             }
 
-            //loader for update buton
-            $scope.editLineItemLoaderEdit = true;
-
             //if we have to save the media plan prior to line item
             $scope.showConfirmPopupEdit = false;
             if($scope.saveMediaPlan){
@@ -286,6 +284,10 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             } else {
                 //this is temp save in case we need to save media plan before line item
                 newItem = workflowService.getLineItemDataEdit();
+
+                //loader for update buton
+                $scope.editLineItemLoaderEdit = true;
+
                 if(!newItem){
                     newItem = createEditLineItemObj(angular.copy(oldLineItem));
                 }
@@ -554,6 +556,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
             //disable flat fee in case the user created media plan with line item with rate type other than FLAT FEE
             if($scope.mode === 'edit'){
+                $scope.showConfirmPopupEdit = false ;
                 $scope.disableFlatFeeEdit = false;
                 $scope.rateTypeReadOnlyEdit = false;
                 if(lineItem.lineItemType.name !== CONST_FLAT_FEE){

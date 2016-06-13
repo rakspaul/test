@@ -57,7 +57,9 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
             _currCtrl.verifyInput = function () {
                 var ret = true,
                     err = '';
-
+                if($scope.clientCodeExist){
+                    return false;
+                }
                 if (!$scope.clientType || $scope.clientType === '') {
                     err = constants.SELECT_CLIENT_TYPE;
                     ret = false;
@@ -106,6 +108,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                     if (!$scope.isCreateTopClient) {
                         respBody.parentId = obj.parentId;
                     }
+                    respBody.code = $scope.setSelectedClientCode == "Others" ? $scope.customClientCode : $scope.setSelectedClientCode;
                 } else {
                     respBody.billableAccountId = $scope.billableAccountId;
                     respBody.clientType = $scope.clientType;
@@ -114,6 +117,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                     respBody.referenceId = $scope.referenceId;
                     respBody.timezone = $scope.timezone;
                     respBody.billableAccountId = $scope.billableAccountId;
+                    respBody.code = $scope.setSelectedClientCode == "Others" ? $scope.customClientCode : $scope.setSelectedClientCode;
                 }
 
                 // TODO: This has to be modified to match with the new API
@@ -252,7 +256,43 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 $modalInstance.dismiss();
                 $scope.resetBrandAdvertiserAfterEdit();
             };
-
+            $scope.showDropdown = function () {
+                $scope.advertiserName = '';
+                $scope.selectedAdvertiserId = '';
+                $scope.brandName = '';
+                $scope.selectedBrandId = '';
+                $scope.dropdownCss.display = 'block';
+                $('.account_name_list').show();
+                $scope.getClientCode();
+            };
+            $scope.leaveFocusCustomClientCode = function(){
+                $scope.clientCodeExist = false;
+                $scope.customClientCode = $scope.customClientCode.replace(/ /g, "");
+                $scope.textConstants.CLIENT_CODE_EXIST = constants.CLIENT_CODE_EXIST;
+                if($scope.customClientCode.replace(/ /g, "").length != 5 || !(/^[a-zA-Z0-9_]*$/.test($scope.customClientCode))){
+                    $scope.textConstants.CLIENT_CODE_EXIST = constants.CODE_VERIFICATION;
+                    $scope.clientCodeExist = true;
+                    return;
+                }
+                accountsService.checkClientCodeExist($scope.customClientCode).then(function(result){
+                    if (result.status === 'OK' || result.status === 'success') {
+                        $scope.clientCodeExist = result.data.data.isExists;
+                    }
+                },function(err){
+                });
+            }
+            $scope.getClientCode = function(){
+                accountsService
+                    .getUserClientCode($scope.clientName).then(function(result){
+                        if(result.status == "OK" || result.status == "success"){
+                            var res = result.data.data;
+                            if(res.length){
+                                $scope.codeList = res;
+                            }
+                        }
+                    },function(err){
+                    });
+            }
             $scope.setSelectedClientType = function (type) {
                 $scope.clientType = type;
             };
@@ -352,11 +392,12 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 $scope.selectedCountryId = $scope.clientObj.country && $scope.clientObj.country.id;
                 $scope.selectedCountry = $scope.clientObj.country && $scope.clientObj.country.name;
                 $scope.timezone = $scope.clientObj.timezone;
+                $scope.setSelectedClientCode = $scope.clientObj.code;
 
                 _currCtrl.getAdnlData();
 
                 setTimeout(function () {
-                    $('#geography').addClass('disabled');
+                    $('#geography, .setSelectedClientCode').addClass('disabled');
                 }, 100);
             }
 

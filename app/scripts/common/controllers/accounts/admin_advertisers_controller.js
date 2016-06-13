@@ -42,7 +42,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     requestBody.name = $scope.advertiserName;
                     accountsService.updateAdvertiser(requestBody.id, requestBody).then(function (res) {
                         if (res.status === 'CREATED' || res.status === 'success') {
-                            $scope.advertiserName = "";
+                            $scope.clearEdit();
                             $scope.fetchAllAdvertisers();
                             $rootScope.setErrAlertMessage(constants.SUCCESS_UPDATED_ADVERTISER, 0);
                             $scope.isEditAdvertiser = false;
@@ -55,7 +55,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                         return;
                     });
                 }else {
-                    accountsService.createAdvertiser({name: $scope.advertiserName}).then(function (res) {
+                    var code = ($scope.setSelectedAdvertiserCode == 'Others') ? $scope.customAdvertiserCode : $scope.setSelectedAdvertiserCode;
+                    accountsService.createAdvertiser({name: $scope.advertiserName, code: code}).then(function (res) {
                         if (res.status === 'CREATED' || res.status === 'success') {
                             $scope.advertiserName = "";
                             $scope.fetchAllAdvertisers();
@@ -75,8 +76,49 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.isEditAdvertiser = obj.id;
                 $scope.editRequestBody = obj;
                 $scope.advertiserName = obj.name;
+                $scope.setSelectedAdvertiserCode = obj.code;
+                $(".setSelectedAdvertiserCode").addClass("disabled");
+            }
+            $scope.clearEdit = function(){
+                $scope.isEditAdvertiser=false;
+                $scope.advertiserName='';
+                $scope.setSelectedAdvertiserCode = '';
+                $(".setSelectedAdvertiserCode").removeClass("disabled");
+            }
+            _curCtrl.getAdvertiserCode = function(){
+                accountsService
+                    .getUserAdvertiserCode($scope.advertiserName).then(function(result){
+                        if(result.status == "OK" || result.status == "success"){
+                            var res = result.data.data;
+                            if(res.length){
+                                $scope.codeList = res;
+                            }
+                        }
+                    },function(err){});
             }
 
+            $scope.leaveFocusAddAdvertiser = function(){
+                _curCtrl.getAdvertiserCode();
+            }
+            $scope.selectAdvertiserCode = function(ev, code){
+                $scope.setSelectedAdvertiserCode = code;
+            }
+            $scope.leaveFocusCustomAdvertiserCode = function(){
+                $scope.advertiserCodeExist = false;
+                $scope.customAdvertiserCode = $scope.customAdvertiserCode.replace(/ /g, "");
+                $scope.textConstants.ADVERTISER_CODE_EXIST = constants.ADVERTISER_CODE_EXIST;
+                if($scope.customAdvertiserCode.replace(/ /g, "").length != 5 || !(/^[a-zA-Z0-9_]*$/.test($scope.customAdvertiserCode))){
+                    $scope.textConstants.ADVERTISER_CODE_EXIST = constants.CODE_VERIFICATION;
+                    $scope.advertiserCodeExist = true;
+                    return;
+                }
+                accountsService.checkAdvertiserCodeExist($scope.customAdvertiserCode).then(function(result){
+                    if (result.status === 'OK' || result.status === 'success') {
+                        $scope.advertiserCodeExist = result.data.data.isExists;
+                    }
+                },function(err){
+                });
+            }
             //Search Clear
             $scope.searchHideInput = function (evt) {
                 evt && $(evt.target).hide();

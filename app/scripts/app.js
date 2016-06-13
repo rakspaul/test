@@ -227,6 +227,16 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
+                .when('/v1sto/invoices/:invoiceId', angularAMD.route({
+                    templateUrl: assets.html_reports_invoice,
+                    title: 'Media Plan - Overview',
+                    controller: 'reportsInvoiceController',
+                    controllerUrl: 'reporting/collectiveReport/reports_invoice_controller',
+                    resolve: {
+                    }
+                }))
+
+
                 .when('/performance', angularAMD.route({
                     templateUrl: assets.html_performance,
                     title: 'Reports - Performance',

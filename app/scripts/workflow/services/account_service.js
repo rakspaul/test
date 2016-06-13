@@ -274,7 +274,18 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             getUserClients: function () {
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients');
             },
-
+            getUserClientCode: function (clientName) {
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/codes/generate?name='+clientName);
+            },
+            checkClientCodeExist: function (code) {
+                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/codes/'+code+'/exists');
+            },
+            getUserAdvertiserCode: function (advertiserName) {
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers/codes/generate?name='+advertiserName);
+            },
+            checkAdvertiserCodeExist: function (code) {
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers/codes/'+code+'/exists');
+            },
             getUserAdvertiser: function () {
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers');
             },

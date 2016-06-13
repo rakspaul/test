@@ -46,6 +46,41 @@
                    data-ng-keyup="showDropdown()"
                    data-toggle="dropdown">
         </div>
+        <div class="form-group col-md-4 " style="padding: 0 15px;">
+            <div class="col-md-12 zeroPadding dropdown-workflow accountCode">
+                <label class="col-sm-12 greyTxt">Account Code:</label>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle setSelectedClientCode"
+                            type="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="true">
+                        <span class="text" data-ng-bind="setSelectedClientCode ? setSelectedClientCode : 'Select Code'"></span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available" data-ng-repeat="code in codeList" data-ng-click="selectClientCode($event,code)">
+                            <a data-ng-bind="code"></a>
+                        </li>
+                        <li class="available" data-ng-click="selectClientCode($event,'Others')">
+                            <a data-ng-bind="'Others'"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group customClientCode" style="padding: 0 15px;" data-ng-show="setSelectedClientCode=='Others'">
+                <label class="col-sm-12 greyTxt">Enter Code:</label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="Add Code"
+                       data-ng-model="customClientCode"
+                       data-ng-blur="leaveFocusCustomClientCode()"
+                       data-toggle="dropdown">
+                <div>
+                    <span class="errorText" ng-if="clientCodeExist" data-ng-bind="textConstants.CLIENT_CODE_EXIST"></span>
+                </div>
+            </div>
+        </div>
 
         <!--Row 2-->
         <div class="form-group col-md-4" style="padding: 0 15px 0 0; clear: left">
