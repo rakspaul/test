@@ -221,9 +221,9 @@
             </div>
 
 
-            <div class="col-md-3 zeroPadding" style="margin-right:10px;"  ng-hide="hideAdGroupName">
-                <label class="col-sm-12 zeroPadding greyTxt" >Ad Group Name</label>
-                <input type="text" class="col-md-12" placeholder="Enter Ad Group Name up to 100 characters" remove-special-character ='remove-special-character' title="{{$parent.adGroupName}}" ng-model="$parent.adGroupName"/>
+            <div class="col-md-4 zeroPadding" style="margin-right:10px;"  ng-hide="hideAdGroupName">
+                <label class="col-sm-12 zeroPadding greyTxt" data-ng-bind="textConstants.CREATE_ADGROUP_LINEITEM"></label>
+                <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters" remove-special-character ='remove-special-character' title="{{$parent.adGroupName}}" ng-model="$parent.adGroupName"/>
             </div>
 
             <div class="col-md-3 zeroPadding dropdown-workflow" ng-show="showSystemOfRecord">
@@ -457,9 +457,9 @@
 
 
 
-                <div class="col-md-3 " style="padding: 0px !important;margin-right:10px;" ng-hide="hideAdGroupNameEdit || mode === 'edit'">
-                    <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.AD_GRP_NAME"></label>
-                    <input type="text" class="col-md-12" placeholder="Enter Ad Group Name up to 100 characters"  title="{{editLineItem.adGroupName}}" ng-model="editLineItem.adGroupName" autocomplete="off"/>
+                <div class="col-md-4 " style="padding: 0px !important;margin-right:10px;" ng-hide="hideAdGroupNameEdit || mode === 'edit'">
+                    <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.CREATE_ADGROUP_LINEITEM"></label>
+                    <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  title="{{editLineItem.adGroupName}}" ng-model="editLineItem.adGroupName" autocomplete="off"/>
                 </div>
 
                 <div class="col-md-3 zeroPadding dropdown-workflow" ng-show="showSystemOfRecordEdit" style="margin-right:10px;">
