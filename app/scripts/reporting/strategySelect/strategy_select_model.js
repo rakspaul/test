@@ -6,14 +6,18 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
                                                                                      constants, vistoconfig) {
 
         var strategyList = [],
-            selectedStrategy = vistoconfig.LINE_ITEM_DROPDWON_OBJECT;
+            selectedStrategy = vistoconfig.LINE_ITEM_DROPDWON_OBJECT,
+            previousCampaignId;
 
-        var strategyObj = {};
-        strategyObj.strategies = {};
-        //strategyObj.selectedStrategy = (localStorage.getItem('selectedStrategy') == undefined) ? { id: -1,name : 'Loading...'} : (JSON.parse( localStorage.getItem('selectedStrategy') )) ;
-        strategyObj.selectedStrategy = {id: -1, name: 'Loading...'};
+        // var strategyObj = {};
+        // strategyObj.strategies = {};
+        // //strategyObj.selectedStrategy = (localStorage.getItem('selectedStrategy') == undefined) ? { id: -1,name : 'Loading...'} : (JSON.parse( localStorage.getItem('selectedStrategy') )) ;
+        // strategyObj.selectedStrategy = {id: -1, name: 'Loading...'};
         return {
             fetchStrategyList: function (clientId, campaignId) {
+                if (previousCampaignId != campaignId) {
+                    this.reset();
+                }
                 var deferred = $q.defer();
                 if (strategyList.length > 0) {
                     console.log('fetchStrategyList ', 'already fetched');
@@ -32,6 +36,7 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
                     } else {
                         strategyList = [vistoconfig.LINE_ITEM_DROPDWON_OBJECT];
                     }
+                    previousCampaignId = campaignId;
                     console.log('fetchStrategyList', 'is fetched');
                     deferred.resolve();
                 });

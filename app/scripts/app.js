@@ -525,6 +525,75 @@ define(['common'], function (angularAMD) {
                        }
                     }
                 }))
+                .when('/a/:accountId/mediaplans', angularAMD.route({
+                    templateUrl: assets.html_campaign_list,
+                    title: 'Media Plan List',
+                    reloadOnSearch : false,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, workflowService) {
+                            var deferred = $q.defer();
+
+                            accountService.fetchAccountList().then(function() {
+                                if (accountService.allowedAccount($route.current.params.accountId)) {
+                                    workflowService.getClientData($route.current.params.accountId).then(function(response) {
+                                        if (response && response.data.data) {
+                                            RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
+                                            RoleBasedService.setCurrencySymbol();
+                                            featuresService.setFeatureParams(response.data.data.features);
+                                        }
+                                        deferred.resolve();
+                                    });
+                                } else {
+                                    console.log('account not allowed');
+                                    $location.url('/tmp')
+                                }
+                            });
+                            return deferred.promise;
+                        }
+                        // check: function ($location, featuresService) {
+                        //     //redirects to default page if it has no permission to access it
+                        //     featuresService.setGetFeatureParams('mediaplan_list');
+                        // }
+                    }
+                }))
+                .when('/a/:accountId/sa/:subAccountId/mediaplans', angularAMD.route({
+                    templateUrl: assets.html_campaign_list,
+                    title: 'Media Plan List',
+                    reloadOnSearch : false,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, workflowService) {
+                            var deferred = $q.defer();
+
+                            accountService.fetchAccountList().then(function() {
+                                if (accountService.allowedAccount($route.current.params.accountId)) {
+                                    subAccountService.fetchSubAccountList($route.current.params.accountId).then(function() {
+                                        if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
+                                            workflowService.getClientData($route.current.params.accountId).then(function(response) {
+                                                if (response && response.data.data) {
+                                                    RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
+                                                    RoleBasedService.setCurrencySymbol();
+                                                    featuresService.setFeatureParams(response.data.data.features);
+                                                }
+                                                deferred.resolve();
+                                            });
+                                        } else {
+                                            console.log('dashboard account not allowed');
+                                            $location.url('/tmp')
+                                        }
+                                    });
+                                } else {
+                                    console.log('account not allowed');
+                                    $location.url('/tmp')
+                                }
+                            });
+                            return deferred.promise;
+                        }
+                        // check: function ($location, featuresService) {
+                        //     //redirects to default page if it has no permission to access it
+                        //     featuresService.setGetFeatureParams('mediaplan_list');
+                        // }
+                    }
+                }))
 
                 // .when('/optimization', angularAMD.route({
                 //     templateUrl: assets.html_optimization,

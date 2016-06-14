@@ -8,7 +8,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
     'reporting/directives/campaign_cost_card'],
     function (angularAMD) {
         angularAMD.controller('CampaignListController',
-            function ($scope, $rootScope, $location, kpiSelectModel, campaignListModel, campaignSelectModel,
+            function ($scope, $rootScope, $location, $routeParams, kpiSelectModel, campaignListModel, campaignSelectModel,
                       strategySelectModel, utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel, RoleBasedService,
                       featuresService) {
 
@@ -109,63 +109,69 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 });
 
                 $scope.viewReports = function (campaign, source) {
-                    var selectedCampaign = {
-                        id: campaign.id,
-                        name: campaign.name,
-                        startDate: campaign.startDate,
-                        endDate: campaign.endDate,
-                        kpi: campaign.kpiType
-                    };
+                    // var selectedCampaign = {
+                    //     id: campaign.id,
+                    //     name: campaign.name,
+                    //     startDate: campaign.startDate,
+                    //     endDate: campaign.endDate,
+                    //     kpi: campaign.kpiType
+                    // };
 
-                    campaignSelectModel.setSelectedCampaign(selectedCampaign);
-                    kpiSelectModel.setSelectedKpi(selectedCampaign.kpi);
-                    strategySelectModel.setSelectedStrategy(vistoconfig.LINE_ITEM_DROPDWON_OBJECT);
-                    $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
-                    //$location.path('/performance');//reportOverview
-                    $location.path('/mediaplans/' + campaign.id);
-                    if (source === 'campaignCard') {
-                        $('.main_navigation .each_nav_link').removeClass('active_tab');
-                        $('#reports_nav_link').addClass('active_tab');
+                    // campaignSelectModel.setSelectedCampaign(selectedCampaign);
+                    // kpiSelectModel.setSelectedKpi(selectedCampaign.kpi);
+                    // strategySelectModel.setSelectedStrategy(vistoconfig.LINE_ITEM_DROPDWON_OBJECT);
+                    // $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
+                    // //$location.path('/performance');//reportOverview
+                    // $location.path('/mediaplans/' + campaign.id);
+                    // if (source === 'campaignCard') {
+                    //     $('.main_navigation .each_nav_link').removeClass('active_tab');
+                    //     $('#reports_nav_link').addClass('active_tab');
+                    // }
+                    url = "/a/" + $routeParams.accountId;
+                    if ($routeParams.subAccountId) {
+                        url += "/sa/" + $routeParams.subAccountId;
                     }
+                    url += '/mediaplans/' + campaign.id + '/overview';
+                    $location.url(url);
                 };
 
-                $scope.loadMoreStrategies = function (campaignId) {
-                    var pageSize = 3,
-                        campaign = _.find($scope.campaigns.campaignList, function (c) {
-                            return c.orderId === parseInt(campaignId);
-                        }),
-                        loadMoreData = campaign.campaignStrategiesLoadMore,
-                        moreData;
+                // $scope.loadMoreStrategies = function (campaignId) {
+                //     var pageSize = 3,
+                //         campaign = _.find($scope.campaigns.campaignList, function (c) {
+                //             return c.orderId === parseInt(campaignId);
+                //         }),
+                //         loadMoreData = campaign.campaignStrategiesLoadMore,
+                //         moreData;
 
-                    if (loadMoreData.length) {
-                        moreData = loadMoreData.splice(0, pageSize);
-                        _.each(moreData, function (s) {
-                            campaign.campaignStrategies.push(s);
-                        });
-                    }
-                };
+                //     if (loadMoreData.length) {
+                //         moreData = loadMoreData.splice(0, pageSize);
+                //         _.each(moreData, function (s) {
+                //             campaign.campaignStrategies.push(s);
+                //         });
+                //     }
+                // };
 
-                $scope.loadMoreTactics = function (strategyId, campaignId) {
-                    var pageSize = 3,
+                // $scope.loadMoreTactics = function (strategyId, campaignId) {
+                //     var pageSize = 3,
 
-                        campaign = _.find($scope.campaigns.campaignList, function (c) {
-                            return c.orderId === parseInt(campaignId);
-                        }),
+                //         campaign = _.find($scope.campaigns.campaignList, function (c) {
+                //             return c.orderId === parseInt(campaignId);
+                //         }),
 
-                        strategy = _.find(campaign.campaignStrategies, function (s) {
-                            return s.id === parseInt(strategyId);
-                        }),
+                //         strategy = _.find(campaign.campaignStrategies, function (s) {
+                //             return s.id === parseInt(strategyId);
+                //         }),
 
-                        loadMoreData = strategy.strategyTacticsLoadMore,
-                        moreData;
+                //         loadMoreData = strategy.strategyTacticsLoadMore,
+                //         moreData;
 
-                    if (loadMoreData.length) {
-                        moreData = loadMoreData.splice(0, pageSize);
-                        _.each(moreData, function (t) {
-                            strategy.strategyTactics.push(t);
-                        });
-                    }
-                };
+                //     if (loadMoreData.length) {
+                //         moreData = loadMoreData.splice(0, pageSize);
+                //         _.each(moreData, function (t) {
+                //             strategy.strategyTactics.push(t);
+                //         });
+                //     }
+                // };
 
                 $scope.goToLocation = function (url) {
                     utils.goToLocation(url);

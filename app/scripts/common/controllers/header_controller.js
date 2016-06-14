@@ -179,9 +179,22 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 url = '/admin/accounts';
                 $('#admin_nav_link').addClass('active_tab');
             } else if (page === 'mediaplanList') {
-                $('.each_nav_link').removeClass('active_tab active selected');
-                url = '/mediaplans';
-                $('#campaigns_nav_link').addClass('active_tab');
+                // $('.each_nav_link').removeClass('active_tab active selected');
+                // url = '/mediaplans';
+                // $('#campaigns_nav_link').addClass('active_tab');
+                var reportName = url;
+                url = "/a/" + $routeParams.accountId;
+                if ($routeParams.subAccountId) {
+                    var leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
+                        return a.id == $routeParams.subAccountId;
+                    });
+                    if (leafSubAccount) {
+                        url += "/sa/" + $routeParams.subAccountId;
+                    } else {
+                        url += "/sa/" + subAccountService.getSubAccounts()[0].id;
+                    }
+                }
+                url += '/mediaplans'
             } else if (page === 'reportsSubPage') {
                 var reportName = url;
                 url = "/a/" + $routeParams.accountId;

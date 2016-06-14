@@ -35,7 +35,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         };
 
         $scope.selectStrategy = function(strategy) {
-            console.log(strategy);
             var url = $location.path();
             $routeParams.li_id = strategy.id;
             var requiredParams = _.pick($routeParams, 'li_id', 'advertiser_id', 'brand_id');

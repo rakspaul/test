@@ -19,7 +19,7 @@ function (angularAMD) {
     angularAMD.controller('CampaignDetailsController', function ($rootScope, $scope, $routeParams,
                                                                 $window,$filter,$location,  $timeout,
                                                                 timePeriodModel, modelTransformer, campaignCDBData,
-                                                                campaignListService, campaignListModel,
+                                                                campaignListService,
                                                                 campaignSelectModel, strategySelectModel, actionChart,
                                                                 dataService, utils, pieChart, solidGaugeChart,
                                                                 constants, featuresService, loginModel, loginService,
@@ -30,7 +30,7 @@ function (angularAMD) {
         var orderBy = $filter('orderBy'),
             campaign = campaignListService,
             //onCampaignCount = 0,
-            Campaigns = campaignListModel,
+            // Campaigns = campaignListModel,
             fparams = featuresService.getFeatureParams(),
             featuredFeatures = $rootScope.$on('features', function () {
                 var fparams = featuresService.getFeatureParams();
@@ -131,7 +131,11 @@ function (angularAMD) {
                 });
         }
 
-        $scope.campaigns = new Campaigns();
+        // $scope.campaigns = new Campaigns();
+        $scope.campaigns = {
+            spend: 0,
+            cdbDataMap: {}
+        };
 
         $scope.activityLogFlag = false;
         brandsModel.disable();

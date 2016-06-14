@@ -4,7 +4,8 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
         var subAccountList = [],
             dashboadSubAccountList = [],
             selectedSubAccount,
-            selectedDashboardSubAccount;
+            selectedDashboardSubAccount,
+            previousAccountId;
 
 //TODO: to be moved to new service
         var pageFinder = function(path) {
@@ -41,6 +42,9 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
         return {
 
             fetchSubAccountList: function(accountId) {
+                if (previousAccountId != accountId) {
+                    this.reset();
+                }
                 var deferred = $q.defer();
                 if (subAccountList.length > 0) {
                     console.log('fetchSubAccountList ', 'already fetched');
@@ -55,6 +59,7 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                             return {'id': a.id, 'displayName': a.displayName};
                         });
                         subAccountList = _.sortBy(subAccountList, 'displayName');
+                        previousAccountId = accountId;
                         console.log('fetchSubAccountList is fetched');
 
                         deferred.resolve();
@@ -80,6 +85,9 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
             },
 
             fetchDashboardSubAccountList: function(accountId) {
+                if (previousAccountId != accountId) {
+                    this.reset();
+                }
                 var deferred = $q.defer();
                 if (dashboadSubAccountList.length > 0) {
                     console.log('fetchDashboardSubAccountList ', 'already fetched');

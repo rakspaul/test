@@ -231,6 +231,8 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 self = this;
                                 self.noData = false;
                                 url = _campaignServiceUrl.call(this);
+                                var clientId = $routeParams.subAccountId || $routeParams.accountId;
+
 
                                 campaignListService.getCampaigns(url, function (result) {
                                     var data = result.data.data;
@@ -264,7 +266,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                         angular.forEach(campaignData, function (campaign) {
                                             var queryObj = {
                                                 'queryId':14,
-                                                'clientId': $routeParams.subAccountId || $routeParams.accountId,
+                                                'clientId': clientId,
                                                 'advertiserId':advertiserModel.getSelectedAdvertiser().id,
                                                 'brandId':brandsModel.getSelectedBrand().id,
                                                 'dateFilter':'life_time',
@@ -289,7 +291,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                                     campaign.kpi_type = 'CTR';
                                                     campaign.kpi_value = 0;
                                                 }
-                                                campaignListService.getCdbLineChart(campaign, self.timePeriod,
+                                                campaignListService.getCdbLineChart(clientId, campaign, self.timePeriod,
                                                     function (cdbData) {
                                                         if (cdbData) {
                                                             self.cdbDataMap[campaign.orderId] =
@@ -838,7 +840,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                             }
 
                             params = [
-                                'client_id=' + $routeParams.subAccountId || $routeParams.accountId,
+                                'client_id=' + clientId,
                                 'advertiser_id=' + advertiserModel.getSelectedAdvertiser().id,
                                 'brand_id=' + brandsModel.getSelectedBrand().id,
                                 'date_filter=' + this.timePeriod,

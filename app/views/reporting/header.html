@@ -24,7 +24,7 @@
                 <a href="/dashboard" ng-bind="textConstants.DASHBOARD"></a>
                 <div class="arrowSelect"></div>
             </div>-->
-            <div class="pull-left each_nav_link" id="campaigns_nav_link" ng-if="showMediaPlanTab">
+            <div class="pull-left each_nav_link {{pageName == 'mediaplans' ? 'active_tab' : ''}}" id="campaigns_nav_link" ng-if="showMediaPlanTab">
                 <a href="javascript:void(0);" ng-mouseover="hide_navigation_dropdown($event);"
                    ng-click="NavigateToTab('', $event ,'mediaplanList')" ng-bind="textConstants.MEDIA_PLAN"></a>
                 <div class="arrowSelect"></div>

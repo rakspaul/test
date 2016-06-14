@@ -36,13 +36,13 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 localStorage.setItem('selectedClient', JSON.stringify(data));
             },
 
-            getSelectedClient: function () {
-                return localStorage.getItem('selectedClient') && JSON.parse(localStorage.getItem('selectedClient'));
-            },
+            // getSelectedClient: function () {
+            //     return localStorage.getItem('selectedClient') && JSON.parse(localStorage.getItem('selectedClient'));
+            // },
 
-            setDashboardClient: function(data) {
-                localStorage.setItem('dashboardClient', JSON.stringify(data));
-            },
+            // setDashboardClient: function(data) {
+            //     localStorage.setItem('dashboardClient', JSON.stringify(data));
+            // },
 
             getDashboardClient: function() {
                 return localStorage.getItem('dashboardClient') && JSON.parse(localStorage.getItem('dashboardClient'));
