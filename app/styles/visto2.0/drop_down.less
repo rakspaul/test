@@ -514,14 +514,18 @@
 
 .dropdown.hideOption {
     .dropdown-toggle {
-        border-width: 0 !important;
-        padding: 0 5px;
+        border: 1px solid #E1EDF9 !important;
+        padding: 4px 15px;
         background: transparent !important;
-        height: 19px;
+        height: 26px;
         cursor: pointer;
-        &:hover, &:active, &:focus {
-            background: transparent !important;
-            border-width: 0 !important;
+        &:hover {
+            background: #fff !important;
+            border: 1px solid #939eae !important;
+        }
+        &:active, &:focus {
+            background: #dce6f1 !important;
+            border: 1px solid #bfc9d7 !important;
         }
     }
 }

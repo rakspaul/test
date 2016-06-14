@@ -658,3 +658,7 @@ strong {
 .upload_files_selected_container .download_btn {
   margin-left: 10px ;
 }
+.no_pointer {
+  cursor: default;
+  opacity: .4;
+}

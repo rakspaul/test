@@ -504,7 +504,6 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.searchHideInput = function (evt) {
             isSearch = false;
             var inputSearch = $(".searchInputForm input");
-            $(evt.target).hide();
             inputSearch.val('');
             if($scope.isCreativeSearched) {
                 $scope.creativeData['creatives'] = [];
@@ -591,6 +590,11 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 }
             });
         });
+        
+        //Clear Preview Mouse Out
+        $scope.clearHoverPreview = function() {
+            $(".hideOption").removeClass("open");  
+        };
 
     });
 });
