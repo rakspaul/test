@@ -1187,17 +1187,20 @@ define(['angularAMD'], function(angularAMD) {
         this.CLIENT_LOADED = "clientLoaded";
         // Invoice Report
         this.INVOICE_REPORT = "Invoice Reports";
-        this.INVOICE_REPORT_ADD_CREDIT = "Add Credit to Invoice Report";
+        this.INVOICE_REPORT_ADD_ADJUSTMENT = "Add Adjustment to Invoice Report";
+        this.INVOICE_DOWNLOAD = "Download Invoice Report";
         this.CREDIT_ADD_SUCCESS = "Credit added/updated successfully";
         this.CREDIT_ADD_ERR = "Error in adding/updating the credit ";
         this.INVOICE_VIEW_REPORT = "View Invoice Report ";
         this.INVOICE_VIEW_REPORT_ALL = "View All Invoice Reports";
         this.INVOICE_REPORT_MEDIA_PLAN = "Media Plan (Expand to see invoice reports)";
+        this.INVOICE_REPORT_STATUS = "Status";
         this.INVOICE_REPORT_DATE = "Invoice Date";
-        this.INVOICE_REPORT_SPEND = "Spend";
-        this.INVOICE_REPORT_CREDITS = "Credits";
+        this.INVOICE_REPORT_SPEND = "Total Spend";
+        this.INVOICE_REPORT_ADJUSTMENTS = "Adjustments";
         this.INVOICE_REPORT_BILLABLE = "Billable";
         this.INVOICE_REPORT_ACCOUNT = "Account/Advertiser";
+        this.INVOICE_ADD_ADJUSTMENT = "Add Another Adjustment";
 
     });
 });

@@ -48,7 +48,7 @@
     </div>
 
     <!-- Date filter -->
-    <div class="col-md-12" id="invoice_data_filter">
+    <div class="col-md-12" id="invoice_data_filter" class="collapse">
         <div class="filterInputCommon filterInputClass1">
             <label class="col-sm-12 greyTxt">Status</label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
@@ -119,6 +119,13 @@
             <input type="text"
                    id="startDateInput"
                    class="input-sm form-control timeframe"
+                   custom-date-picker="{
+                                           format: 'yyyy-mm-dd',
+                                           orientation: 'auto',
+                                           autoclose: true,
+                                           todayHighlight: true,
+                                           forceParse: false
+                                       }"
                    ng-model="invoiceReports.startDate"
                    required>
             <i class="icon-calendar glyphicon pull-right" style="top: -37px;right: 13px;border-left: solid 1px #ccc;height: 38px;width: 20px;padding:10px 0 0 8px;z-index:2;"></i>
@@ -130,6 +137,13 @@
             <label class="col-sm-12 greyTxt">To</label>
             <input type="text"
                    id="endDateInput"
+                   custom-date-picker="{
+                                           format: 'yyyy-mm-dd',
+                                           orientation: 'auto',
+                                           autoclose: true,
+                                           todayHighlight: true,
+                                           forceParse: false
+                                       }"
                    class="input-sm form-control timeframe"
                    ng-model="invoiceReports.endDate"
                    required>
@@ -196,51 +210,7 @@
             </a>
         </div>
         </div>
-        <!--<div class="col-md-4">-->
-            <!--<div class="pull-left">-->
-                <!--<div class="col-md-12">-->
-                    <!--<div class="each_section_custom_report" style="min-width: 384px;">-->
-                        <!--<div>-->
-                            <!--<div class="clearfix title_row_separator customDatesTimeframe">-->
-                                <!--<div class="pull-left col-md-12">-->
-                                    <!--<div class="col-md-12 input-daterange input-group date pull-left">-->
-                                        <!--<div class="col-md-12 dateWrapper">-->
-                                            <!--<div class="col-md-6">-->
-                                                <!--<input type="text"-->
-                                                       <!--id="startDateInput"-->
-                                                       <!--class="input-sm form-control timeframe"-->
-                                                       <!--ng-model="invoiceReports.startDate"-->
-                                                       <!--required>-->
-                                                <!--<i class="icon-calendar glyphicon pull-right"></i>-->
-                                                <!--&lt;!&ndash; <label ng-if="!invoiceReports.startDate"-->
-                                                <!--style="display:block" class="errorLabel"-->
-                                                 <!--ng-bind="textConstants.SELECT_DATE_LABEL"></label> &ndash;&gt;-->
-                                            <!--</div>-->
-                                            <!--<div class="col-md-6">-->
-                                                <!--<input type="text"-->
-                                                       <!--id="endDateInput"-->
-                                                       <!--class="input-sm form-control timeframe"-->
-                                                       <!--ng-model="invoiceReports.endDate"-->
-                                                       <!--required>-->
-                                                <!--<i class="icon-calendar glyphicon pull-right"></i>-->
-                                                <!--&lt;!&ndash; <label ng-if="!invoiceReports.endDate"-->
-                                                    <!--style="display:block" class="errorLabel"-->
-                                                    <!--ng-bind="textConstants.SELECT_DATE_LABEL"></label> &ndash;&gt;-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="col-md-8">-->
-            <!--<button class="btn btn-default pull-left" type="button" ng-click="goClick()"> Go </button>-->
-        <!--</div>-->
     </div>
-
     <!--Table-->
     <div class="col-md-12 report_list_table zeroPadding centerAlign" style="margin: 20px 0 30px;">
         <div class="table-responsive" id="table_responsive">
@@ -249,9 +219,10 @@
                 <div class="thead">
                     <div class="tr">
                         <div class="col-md-5 th" data-ng-bind="textConstants.INVOICE_REPORT_MEDIA_PLAN"></div>
-                        <div class="col-md-2 th" data-ng-bind="textConstants.INVOICE_REPORT_DATE"></div>
+                        <div class="col-md-1 th" data-ng-bind="textConstants.INVOICE_REPORT_STATUS"></div>
+                        <div class="col-md-1 th" data-ng-bind="textConstants.INVOICE_REPORT_DATE"></div>
                         <div class="col-md-1 th" data-ng-bind="textConstants.INVOICE_REPORT_SPEND"></div>
-                        <div class="col-md-1 th" data-ng-bind="textConstants.INVOICE_REPORT_CREDITS"></div>
+                        <div class="col-md-1 th" data-ng-bind="textConstants.INVOICE_REPORT_ADJUSTMENTS"></div>
                         <div class="col-md-1 th" data-ng-bind="textConstants.INVOICE_REPORT_BILLABLE"></div>
                         <div class="col-md-2 th" data-ng-bind="textConstants.INVOICE_REPORT_ACCOUNT"></div>
                     </div>
@@ -293,7 +264,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2 td tableTd invoice-date" data-ng-bind="mediaPlan.invoiceDate" style="min-height: 80px;"></div>
+        <div class="col-md-1 td tableTd" data-ng-bind="mediaPlan.status" style="min-height: 80px;"></div>
+        <div class="col-md-1 td tableTd invoice-date" data-ng-bind="mediaPlan.invoiceDate" style="min-height: 80px;"></div>
         <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.spend |number:0)" style="min-height: 80px;"></div>
         <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.credits | number:0)" style="min-height: 80px;"></div>
         <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.spend - mediaPlan.credits |number:0)" style="min-height: 80px;"></div>
@@ -321,21 +293,23 @@
                             <div class="dropdown hideOption1">
                             <span data-toggle="dropdown">
                                 <div class="option-horizontal">
-                                    <span></span><span></span><span></span>
+                                    <span class="dotClass"></span><span class="dotClass"></span><span class="dotClass"></span>
                                 </div>
                             </span>
                                 <ul class="dropdown-menu">
-                                    <li data-ng-click="showAddCreditPopup(invoice)">
-                                        <a data-ng-bind="textConstants.INVOICE_REPORT_ADD_CREDIT"></a>
-                                    </li>
                                     <li>
-                                        <a style="cursor: not-allowed; color: #939eaf;"
+                                        <a style="cursor: not-allowed; color: #939eaf;text-align: left;"
                                            disabled ng-bind-html="textConstants.INVOICE_VIEW_REPORT"></a>
                                     </li>
+                                    <li data-ng-click="showAddAdjustmentPopup(invoice)">
+                                        <a data-ng-bind="textConstants.INVOICE_REPORT_ADD_ADJUSTMENT"></a>
+                                    </li>
                                     <li class="headerDownload" ng-click="">
-                                        <span class="icon-download zeroPadding pull-left"></span>
-                                        <a class="pull-left"
-                                           ng-click="invoiceReports.download($event, invoice)">Download</a>
+                                        <a>
+                                            <div class="pull-left icon-download" style="margin-right: 10px;"></div>
+                                            <div class="pull-left"
+                                               ng-click="invoiceReports.download($event, invoice)" data-ng-bind="textConstants.INVOICE_DOWNLOAD"></div>
+                                        </a>
                                     </li>
                                 </ul>
                             </div>

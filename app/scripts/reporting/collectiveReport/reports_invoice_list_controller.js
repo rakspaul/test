@@ -25,12 +25,14 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     page_num: 1
                 };
                 _currCtrl.resetDateToInit = function(){
-                    $scope.invoiceReports.startDate = moment().subtract(365, 'day').format(constants.DATE_US_FORMAT);
-                    $scope.invoiceReports.endDate = moment().format(constants.DATE_US_FORMAT);
+                    console.log("constants.DATE_US_FORMAT...",constants.DATE_US_FORMAT);
+                    $scope.invoiceReports.startDate = moment().subtract(365, 'day').format(constants.DATE_UTC_SHORT_FORMAT);
+                    $scope.invoiceReports.endDate = moment().format(constants.DATE_UTC_SHORT_FORMAT);
                     $("#startDateInput").val($scope.invoiceReports.startDate);
                     $("#endDateInput").val($scope.invoiceReports.endDate);
-                    $('#startDateInput').datepicker('setDate', $scope.invoiceReports.startDate);
-                    $('#endDateInput').datepicker('setDate',$scope.invoiceReports.endDate);
+                    //$('#startDateInput').datepicker('setDate', $scope.invoiceReports.startDate);
+                    //$('#endDateInput').datepicker('setDate',$scope.invoiceReports.endDate);
+                  //  $('#startDateInput').datepicker('setDate', momentService.todayDate('YYYY-MM-DD'));
                 }
                 _currCtrl.resetPagination = function(){
                     _currCtrl.last_page = false;
@@ -168,13 +170,13 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     }
                 };
 
-                $scope.showAddCreditPopup = function (invoice) {
+                $scope.showAddAdjustmentPopup = function (invoice) {
                     $scope.addCreditData.invoice = angular.copy(invoice);
                     var $modalInstance = $modal.open({
                         templateUrl: assets.html_add_credit_popup,
                         controller: 'ReportsInvoiceAddCreditController',
                         scope: $scope,
-                        windowClass: 'edit-dialog',
+                        windowClass: 'add-adjust-modal-dialog',
                         resolve: {
                             getMediaPlansForClone: function () {
                             }
@@ -252,7 +254,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     },
                     "selectedGeneratedOn" : "Select TimeFrame",
                     "selectGeneratedOn": function(timeFrame){
-                        console.log("selectGeneratedOn.....",timeFrame);
                         var o = utils.getEndAndStartDate(timeFrame);
                         this.selectedGeneratedOn = o.displayTimeFrame;
                         $('#startDateInput').datepicker('update', o.startDate);
@@ -276,7 +277,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     }
                 }
                 $('#startDateInput,#endDateInput').on('changeDate', function() {
-                    $scope.filters.selectedGeneratedOn = "Custom Dates";
+                    $scope.filters["selectedGeneratedOn"] = "Custom Dates";
                 });
                 $(document).ready(function () {
                     _currCtrl.resetDateToInit();

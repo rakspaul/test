@@ -3,7 +3,7 @@
   padding: 21px 0 0 0 !important;
   margin-top: 17px;
 }
-#invoice_data_filter .icon-calender {
+#invoice_data_filter .icon-calendar {
   top: -38px;
   right: 13px;
   border-left: solid 1px #ccc;
@@ -26,6 +26,19 @@
 #invoice_data_filter .filterInputClassBtn {
   width: 85px;
   margin: 32px 0 0 0px !important;
+}
+.dotClass {
+  display: inline-block;
+  height: 5px;
+  width: 5px !important;
+  background: #5D5D5D;
+  margin: 0 2px;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+}
+.add-adjust-modal-dialog {
+  width: 810px;
 }
 .reports-invoice-list .report_list_table {
   margin-bottom: 40px ;
