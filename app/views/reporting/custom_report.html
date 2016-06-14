@@ -1190,10 +1190,10 @@
         <div class="each_col_cost" ng-if="customeReportData.ad_servicing_cost>=-1"
              ng-bind="customeReportData.ad_servicing_cost == -1 ? 'NA' : (customeReportData.ad_servicing_cost | number:0)">
         </div>
-        <div class="each_col_cost" ng-if="customeReportData.ad_vertification_costnumber>=-1"
+        <div class="each_col_cost" ng-if="customeReportData.ad_vertification_cost>=-1"
              ng-bind="customeReportData.ad_vertification_cost == -1 ? 'NA' : (customeReportData.ad_vertification_cost | number:0)"></div>
         <div class="each_col_cost" ng-if="customeReportData.collective_cost>=-1"
-             ng-bind="customeReportData.collective_cost == -1 ? 'NA' : (customeReportData.collective_cost | nrFormat)">
+             ng-bind="customeReportData.collective_cost == -1 ? 'NA' : (customeReportData.collective_cost | number:0)">
         </div>
         <div class="each_col_cost" ng-if="customeReportData.creative_cost>=-1"
         ng-bind="customeReportData.creative_cost == -1 ? 'NA' : (customeReportData.creative_cost | nrFormat)">
@@ -1202,14 +1202,14 @@
              ng-bind="customeReportData.data_cost == -1 ? 'NA' : (customeReportData.data_cost | number:0)">
         </div>
         <div class="each_col_cost" ng-if="customeReportData.inventory_cost>=-1"
-             ng-bind="customeReportData.inventory_cost == -1 ? 'NA' : (customeReportData.inventory_cost | nrFormat)">
+             ng-bind="customeReportData.inventory_cost == -1 ? 'NA' : (customeReportData.inventory_cost | number:0)">
         </div>
         <div class="each_col_cost" ng-if="customeReportData.gross_ecpm>=-1"
              ng-bind="customeReportData.gross_ecpm == -1 ? 'NA' : (customeReportData.gross_ecpm | number:2)"></div>
         <div class="each_col_cost" ng-if="customeReportData.gross_ecpc>=-1"
              ng-bind="customeReportData.gross_ecpc == -1 ? 'NA' : (customeReportData.gross_ecpc | number:2)"></div>
         <div class="each_col_cost" ng-if="customeReportData.platform_cost>=-1"
-             ng-bind="customeReportData.platform_cost == -1 ? 'NA' : (customeReportData.platform_cost | nrFormat)">
+             ng-bind="customeReportData.platform_cost == -1 ? 'NA' : (customeReportData.platform_cost | number:0)">
         </div>
         <div class="each_col_cost" ng-if="customeReportData.research_cost>=-1"
              ng-bind="customeReportData.research_cost == -1 ? 'NA' : (customeReportData.research_cost | nrFormat)">
@@ -1267,7 +1267,7 @@
              ng-bind="customeReportData.mutes == -1 ? 'NA' : (customeReportData.mutes | nrFormat)">
         </div>
         <div class="each_col" ng-if="customeReportData.pauses>=-1"
-             ng-bind="customeReportData.pauses == -1 ? 'NA' : (customeReportData.pauses | nrFormat)">
+             ng-bind="customeReportData.pauses == -1 ? 'NA' : (customeReportData.pauses | number:0)">
         </div>
         <div class="each_col" ng-if="customeReportData.vast_redirect_errors>=-1"
              ng-bind="customeReportData.vast_redirect_errors == -1 ? 'NA' : (customeReportData.vast_redirect_errors | nrFormat)">
@@ -1287,7 +1287,7 @@
              ng-bind="customeReportData.display_viewable_imps == -1 ? 'NA' : (customeReportData.display_viewable_imps | number:0)">
         </div>
         <div class="each_col" ng-if="customeReportData.display_viewable_perc>=-1"
-             data-ng-bind="customeReportData.display_viewable_perc == -1 ? 'NA' : (customeReportData.display_viewable_perc | number:0) + '%'"   >
+             data-ng-bind="customeReportData.display_viewable_perc == -1 ? 'NA' : (customeReportData.display_viewable_perc | number:0) + '%'">
         </div>
         <div class="each_col" ng-if="customeReportData.display_viewable_imps_5s>=-1"
              ng-bind="customeReportData.display_viewable_imps_5s == -1 ? 'NA' : (customeReportData.display_viewable_imps_5s | number:0)">
