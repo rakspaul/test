@@ -519,7 +519,9 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 else if (CONST_POST_IMPRESSION_CPA === $scope.editLineItem.lineItemType.name || CONST_TOTAL_CPA === $scope.editLineItem.lineItemType.name || CONST_POST_CLICK_CPA === $scope.editLineItem.lineItemType.name) {
                     $scope.showPixelsListEdit = true;
                     if(_.isEmpty($scope.editLineItem.pixelSelected)){
-                        $('.pixelTypeEdit').html('<span class="text" data-ng-bind="editLineItem.pixelSelected.name">Select from list</span> <span class="icon-arrow-down"></span>');
+                        $scope.editLineItem.pixelSelected = {};
+                        $scope.editLineItem.pixelSelected.name = 'Select from list';
+                        // $('.pixelTypeEdit').html('<span class="text" data-ng-bind="editLineItem.pixelSelected.name">Select from list</span> <span class="icon-arrow-down"></span>');
                         $scope.editLineItem.pixelSelected.id = '';
                     }
 
@@ -680,7 +682,10 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
             //if pixel is empty show select from list in edit section for create/edit mode
             if(_.isEmpty($scope.editLineItem.pixelSelected)){
-                $('.pixelTypeEdit').html('<span class="text" data-ng-bind="editLineItem.pixelSelected.name">Select from list</span> <span class="icon-arrow-down"></span>');
+                $scope.editLineItem.pixelSelected = {};
+                $scope.editLineItem.pixelSelected.name = 'Select from list';
+                $scope.editLineItem.pixelSelected.id = '';
+                // $('.pixelTypeEdit').html('<span class="text" data-ng-bind="editLineItem.pixelSelected.name">Select from list</span> <span class="icon-arrow-down"></span>');
             }
 
 
