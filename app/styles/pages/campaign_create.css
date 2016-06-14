@@ -1869,6 +1869,9 @@
   margin: 0 auto;
   position: relative;
 }
+#campaignCreate .firstWrapper .masterContainer .pixelVistoTable .no-data-common .td {
+  padding: 30px ;
+}
 #campaignCreate .firstWrapper .masterContainer .no-line-item {
   color: #939ead;
   font-size: 12px;
