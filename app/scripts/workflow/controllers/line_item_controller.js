@@ -448,6 +448,8 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                     $scope.volume = '';
                     //$scope.amountFlag = false;
                     $scope.billableAmount = '';
+                    $scope.systemOfRecordSelected = {};
+                    $scope.systemOfRecordSelected.name = 'Select from list';
                     $('.systemOfRecordName').html('<span class="text" data-ng-bind="systemOfRecordSelected.name">Select from list</span> <span class="icon-arrow-down"></span>');
                     $scope.showSystemOfRecord = false;
                 }
@@ -509,7 +511,9 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                     $scope.hideAdGroupNameEdit = true;
                     $scope.editLineItem.adGroupName = '';
                     $scope.editLineItem.pixelSelected = {};
-                    $('.systemOfRecordNameEdit').html('<span class="text" data-ng-bind="systemOfRecordSelected.name">Select from list</span> <span class="icon-arrow-down"></span>');
+                    $scope.editLineItem.systemOfRecordSelected = {};
+                    $scope.editLineItem.systemOfRecordSelected.name = 'Select from list';
+                    // $('.systemOfRecordNameEdit').html('<span class="text" data-ng-bind="editLineItem.systemOfRecordSelected.name">'+ $scope.editLineItem.systemOfRecordSelected.name +'</span> <span class="icon-arrow-down"></span>');
                     $scope.showSystemOfRecordEdit = false;
                 }
                 else if (CONST_POST_IMPRESSION_CPA === $scope.editLineItem.lineItemType.name || CONST_TOTAL_CPA === $scope.editLineItem.lineItemType.name || CONST_POST_CLICK_CPA === $scope.editLineItem.lineItemType.name) {
