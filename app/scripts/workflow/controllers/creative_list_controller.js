@@ -523,8 +523,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             var listSizeCreativeDataArr = creativeDataArr.map(function(sizeCreativeDataArr){return sizeCreativeDataArr.size.size});
             for(var i = 0; i < listSizeCreativeDataArr.length; i++) {
                     var widthHeight = listSizeCreativeDataArr[i].split("X") ;
-                    var maxWidth = 68;
-                    var maxHeight = 68;   
+                    var maxWidth = 68  ;
+                    var maxHeight = 25 ;   
                     var ratio = 0;  
                     var width = widthHeight[0];
                     var height =widthHeight[1];

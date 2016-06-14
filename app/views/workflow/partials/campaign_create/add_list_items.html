@@ -146,7 +146,7 @@
         <!--Row 1-->
         <div class="col-md-4 zeroPadding ">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_LINE_ITEM_NAME"></label>
-            <input type="text" class="col-md-12 form-control" placeholder="Enter up to 150 characters." name="lineItemName" ng-model="$parent.lineItemName" title="{{$parent.lineItemName}}" />
+            <input type="text" class="col-md-12 form-control" placeholder="Enter Line Item name up to 150 characters" name="lineItemName" ng-model="$parent.lineItemName" title="{{$parent.lineItemName}}" />
             <span class="greyTxt errorLabel" ng-show="lineItemForm.lineItemName.$error.required">Please enter a name</span>
         </div>
 
@@ -155,14 +155,14 @@
             <div class="col-md-12 zeroPadding dropdown-workflow" >
                 <div class="dropdown">
                     <button style="width:100%;" class="btn btn-default dropdown-toggle lineItemType" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="rateTypeReadOnly">
-                        <span class="text" >{{(lineItemType )?lineItemType.name:'Select Type'}}</span>
+                        <span class="text" >{{(lineItemType )?lineItemType.name:'Select From List'}}</span>
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown" name="lineItemType">
                         <li class="available" ng-repeat="t in type"  ng-click="setLineItem(t,'create')"><a>{{t.name}}</a></li
                     </ul>
                     <input type="hidden" class="form-control" ng-model="lineItemType.id" name="lineItemType"  />
-                    <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemType.$error.required">Select Type</span>
+                    <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemType.$error.required">Select Rate Type</span>
                 </div>
 
             </div>
@@ -222,7 +222,7 @@
 
             <div class="col-md-4 " style="padding-bottom: 2px !important;" ng-hide="hideAdGroupName">
                 <label class="col-sm-12 zeroPadding greyTxt">Ad Group Name</label>
-                <input type="text" class="col-md-12" placeholder="Enter Ad Group Name up to 100 characters" remove-special-character ='remove-special-character' title="{{$parent.adGroupName}}" ng-model="$parent.adGroupName"/>
+                <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters" remove-special-character ='remove-special-character' title="{{$parent.adGroupName}}" ng-model="$parent.adGroupName"/>
             </div>
             <div class="col-md-5 zeroPadding dropdown-workflow" ng-show="showPixelsList">
                 <div class="dropdown">
