@@ -17,6 +17,8 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         $scope.CONST_FLAT_FEE = 'Flat Fee';
         $scope.pixelSelected = {};
         $scope.pixelSelected.name = 'Select from list';
+        $scope.systemOfRecordSelected = {};
+        $scope.systemOfRecordSelected.name = 'Select from list';
         $scope.selectedCampaign.lineItemBillableAmountTotal = 0;
         $scope.selectedCampaign.createItemList = false;
         $scope.showUploadRecordsMessageLineItems = false;
@@ -200,7 +202,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             if(doesLineItemExceedBudget(newItem.billableAmount,$scope.Campaign.deliveryBudget)){
                 return false;
             }
-           
+
 
             //if we have to save the media plan prior to line item
             $scope.showConfirmPopupCreate = false;
@@ -349,6 +351,11 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 newItem.pixelId = $scope.pixelSelected.id;
             }
 
+            if($scope.systemOfRecordSelected){
+                newItem.systemOfRecordSelected = $scope.systemOfRecordSelected;
+                newItem.vendorConfigId = $scope.systemOfRecordSelected.id; // vendorConfigId is the parameter backend acceptes
+            }
+
             newItem.campaignId = campaignId;
             //this is in case of edit mode where line item has id
             if (lineItemObj) {
@@ -378,6 +385,8 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             newItem.endTime = $scope.editLineItem.endTime;
             newItem.pixel = $scope.editLineItem.pixelSelected;
             newItem.pixelId = $scope.editLineItem.pixelSelected.id;
+            newItem.systemOfRecordSelected = $scope.editLineItem.systemOfRecordSelected;
+            newItem.vendorConfigId = $scope.editLineItem.systemOfRecordSelected.id; // vendorConfigId is the parameter backend acceptes
             newItem.campaignId = (campaignId === '-999') ? '-999' : campaignId; // handle real edit mode
 
             //this is in case of edit mode where line item has id
@@ -407,6 +416,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 $scope.pricingRate = '';
                 $scope.hideAdGroupName = false;
                 $scope.showPixelsList = false;
+                $scope.showSystemOfRecord = true;
                 if (CONST_COGS_PERCENT === $scope.lineItemType.name) {
                     if (selectedAdvertiser && (selectedAdvertiser.billingTypeId && selectedAdvertiser.billingValue)) {
                         $scope.rateReadOnly = true;
@@ -438,6 +448,8 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                     $scope.volume = '';
                     //$scope.amountFlag = false;
                     $scope.billableAmount = '';
+                    $('.systemOfRecordName').html('<span class="text" data-ng-bind="systemOfRecordSelected.name">Select from list</span> <span class="icon-arrow-down"></span>');
+                    $scope.showSystemOfRecord = false;
                 }
                 else if (CONST_POST_IMPRESSION_CPA === $scope.lineItemType.name || CONST_TOTAL_CPA === $scope.lineItemType.name || CONST_POST_CLICK_CPA === $scope.lineItemType.name) {
                     $scope.showPixelsList = true;
@@ -450,6 +462,8 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 $scope.hideLineItemRateEdit = false;
                 $scope.hideAdGroupNameEdit = false;
                 $scope.showPixelsListEdit = false;
+                $scope.showSystemOfRecordEdit = true;
+
                 //$scope.editLineItem.pricingRate = (obj.pricingRate)?obj.pricingRate:'';
 
                 /*  this is to set line ad group name to line item name in case adGroup is empty
@@ -495,6 +509,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                     $scope.hideAdGroupNameEdit = true;
                     $scope.editLineItem.adGroupName = '';
                     $scope.editLineItem.pixelSelected = {};
+                    $scope.showSystemOfRecordEdit = false;
                 }
                 else if (CONST_POST_IMPRESSION_CPA === $scope.editLineItem.lineItemType.name || CONST_TOTAL_CPA === $scope.editLineItem.lineItemType.name || CONST_POST_CLICK_CPA === $scope.editLineItem.lineItemType.name) {
                     $scope.showPixelsListEdit = true;
@@ -521,6 +536,8 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
             $('.lineItemType').html('<span class="text" data-ng-bind="lineItemType.name">Select Type</span> <span class="icon-arrow-down"></span>');
             $('.pixelType').html('<span class="text" data-ng-bind="pixelSelected.name">Select from list</span> <span class="icon-arrow-down"></span>');
+            $('.systemOfRecordName').html('<span class="text" data-ng-bind="systemOfRecordSelected.name">Select from list</span> <span class="icon-arrow-down"></span>');
+
             $scope.volume = '';
             $scope.billableAmount = '';
             $scope.pricingRate = '';
@@ -649,6 +666,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             $scope.editLineItem.lineItemName = lineItem.name;
             $scope.editLineItem.lineItemType = lineItem.lineItemType;
             $scope.editLineItem.pixelSelected = lineItem.pixel;
+            $scope.editLineItem.systemOfRecordSelected = lineItem.systemOfRecordSelected;
             $scope.editLineItem.pricingRate = lineItem.pricingRate;
             $scope.editLineItem.billableAmount = lineItem.billableAmount;
             $scope.editLineItem.volume = lineItem.volume;
@@ -697,7 +715,16 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                         $scope.pixelSelected.id = item.pixelId;
                     }
                 }
-
+                //SOR
+                if (item.vendorConfigId) {
+                    var sorIndex = _.findIndex($scope.selectedCampaign.systemOfRecord, function (type) {
+                        return type.id === item.vendorConfigId;
+                    });
+                    if(sorIndex != -1){
+                        $scope.systemOfRecordSelected = $scope.selectedCampaign.systemOfRecord[sorIndex];
+                        $scope.systemOfRecordSelected.id = item.vendorConfigId;
+                    }
+                }
                 $scope.hideAdGroupNameEdit = true;
                 $scope.lineItemType.id = item.billingTypeId;
                 $scope.billableAmount = item.billableAmount;
@@ -762,6 +789,15 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 $scope.pixelSelected = pixel;
             } else {
                 $scope.editLineItem.pixelSelected = pixel;
+            }
+
+        }
+
+        $scope.setSystemOfRecord = function (sor, mode) {
+            if (mode === 'create') {
+                $scope.systemOfRecordSelected = sor;
+            } else {
+                $scope.editLineItem.systemOfRecordSelected = sor;
             }
 
         }

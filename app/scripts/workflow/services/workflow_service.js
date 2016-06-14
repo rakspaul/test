@@ -854,6 +854,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advertiserId + '/clientVendorConfigs?rateType=FIXED');
                 },
+                getSystemOfRecord: function(advertiserId, client_id) {
+                    var clientId = loginModel.getSelectedClient().id;
+                    if (client_id) {
+                        clientId = client_id;
+                    }
+
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advertiserId + '/clientVendorConfigs?sor=true');
+                },
 
                 getBillingTypeAndValue: function (advertiserId, client_id) {
                     var clientId = client_id || loginModel.getSelectedClient().id;
