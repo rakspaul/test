@@ -1178,6 +1178,7 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_FLIGHT_DATE_END = "Flight Date End";
         this.SAVE_CHANGES = "Save Changes";
         this.SELECT_CONVERSION_PIXELS = "Select Conversion Pixel";
+        this.SELECT_SYSTEM_OF_RECORD = "System of Record";
         this.AD_GRP_NAME="Ad Group Name";
         this.TOTAL_BILLABLE_AMOUNT = 'Total Billable Amount';
 
