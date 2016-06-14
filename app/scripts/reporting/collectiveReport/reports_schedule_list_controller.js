@@ -563,7 +563,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
             //Search Clear
             $scope.searchHideInput = function (evt) {
-                $(evt.target).hide();
                 var inputSearch = $('.searchInputForm input');
                 delete $scope.filters.searchText;
                 isSearch = false;

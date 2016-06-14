@@ -633,7 +633,6 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
         };
 
         $scope.searchHideInput = function (evt) {
-            evt && $(evt.target).hide();
             $('.searchInputForm input').val('');
             $('.searchInputBtn').show();
             $('.searchClearInputBtn, .searchInputBtnInline').hide();

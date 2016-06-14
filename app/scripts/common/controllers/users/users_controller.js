@@ -90,7 +90,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
         //Search Clear
         $scope.searchHideInput = function (evt) {
-            evt && $(evt.target).hide();
             $('.searchInputForm input').val('');
             $scope.UsersData['users'] = _curCtrl.UsersData;
         };

@@ -105,7 +105,7 @@ select:hover {
   }
   .input-group {
     position: relative;
-    width: auto;
+    width: 100%;
     min-width: 300px;
     float: right;
     /* margin-right: 1px; */
@@ -114,7 +114,11 @@ select:hover {
       border-bottom-right-radius: 0px !important;
       height: 36px !important;
       border: 1px solid #BFC9D7;
-      border-right: 0px;
+      text-align: left;
+    }
+    input:hover {
+      border: 1px solid #939eae !important;
+      box-shadow: none;
     }
     input:focus {
       border: 1px solid #0978c9 !important;
@@ -145,17 +149,41 @@ select:hover {
   }
   .searchInputBtnInline {
     float: right;
-    background: #DCE6F1;
-    border-left: 1px solid #BFC9D7 !important;
+    position: absolute;
+    z-index: 10;
+    top: 1px;
+    right: 1px;
+    background: #fff;
+    border-width: 0px !important;
+    border-left: 1px solid #bfc9d7 !important;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+    padding: 10px 14px 8px !important;
+    height: 34px !important;
+  }
+  &:active, &:focus {
+    background: #dce6f1 !important;
+    border-color: #bfc9d7 !important;
   }
   .searchClearInputBtn {
+    border-width: 0px !important;
+    display: none;
+    right: 46px !important;
+    width: 40px !important;
+    background: transparent !important;
     [class^="icon-"], [class*=" icon-"] {
-      background: transparent !important;
-        display: none;
+        background: transparent !important;
+        padding: 10px 9px 9px 10px !important;
+        color: #57606d;
+        &:hover {
+            color: #363d49;
+        }
     }
   }
+}
+.searchInput:hover .searchInputBtnInline {
+  background: #e1edf9;
+  border-color: #939eae;
 }
 
 //Tags Input Pills

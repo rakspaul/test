@@ -704,3 +704,8 @@ body div div.nav_filters .subAccountList_ul {
   max-height: 200px;
   overflow-y: auto;
 }
+.size-box {
+  border: dashed 1px #939eae ;
+  margin: 5px 0 14px 0px;
+  max-width: 100%;
+}
