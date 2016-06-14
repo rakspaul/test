@@ -509,12 +509,13 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                     $scope.hideAdGroupNameEdit = true;
                     $scope.editLineItem.adGroupName = '';
                     $scope.editLineItem.pixelSelected = {};
+                    $('.systemOfRecordNameEdit').html('<span class="text" data-ng-bind="systemOfRecordSelected.name">Select from list</span> <span class="icon-arrow-down"></span>');
                     $scope.showSystemOfRecordEdit = false;
                 }
                 else if (CONST_POST_IMPRESSION_CPA === $scope.editLineItem.lineItemType.name || CONST_TOTAL_CPA === $scope.editLineItem.lineItemType.name || CONST_POST_CLICK_CPA === $scope.editLineItem.lineItemType.name) {
                     $scope.showPixelsListEdit = true;
                     if(_.isEmpty($scope.editLineItem.pixelSelected)){
-                        $('.pixelTypeEdit').html('<span class="text" data-ng-bind="pixelSelected.name">Select from list</span> <span class="icon-arrow-down"></span>');
+                        $('.pixelTypeEdit').html('<span class="text" data-ng-bind="editLineItem.pixelSelected.name">Select from list</span> <span class="icon-arrow-down"></span>');
                         $scope.editLineItem.pixelSelected.id = '';
                     }
 
@@ -533,6 +534,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             $scope.lineItemType.name = 'Select Type';
             $scope.lineItemType.id = '';
             $scope.pixelSelected = {};
+            $scope.systemOfRecordSelected = {};
 
             $('.lineItemType').html('<span class="text" data-ng-bind="lineItemType.name">Select Type</span> <span class="icon-arrow-down"></span>');
             $('.pixelType').html('<span class="text" data-ng-bind="pixelSelected.name">Select from list</span> <span class="icon-arrow-down"></span>');
@@ -550,6 +552,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             $scope.amountFlag = true;
             $scope.hideAdGroupName = false;
             $scope.showPixelsList = false;
+            $scope.showSystemOfRecordEdit = true;
             //$scope.type = angular.copy(workflowService.getRateTypes());
         }
 
@@ -670,6 +673,11 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             $scope.editLineItem.pricingRate = lineItem.pricingRate;
             $scope.editLineItem.billableAmount = lineItem.billableAmount;
             $scope.editLineItem.volume = lineItem.volume;
+
+            //if pixel is empty show select from list in edit section for create/edit mode
+            if(_.isEmpty($scope.editLineItem.pixelSelected)){
+                $('.pixelTypeEdit').html('<span class="text" data-ng-bind="editLineItem.pixelSelected.name">Select from list</span> <span class="icon-arrow-down"></span>');
+            }
 
 
             //set line Item End Date
