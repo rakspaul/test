@@ -221,7 +221,7 @@
             </div>
 
             <div class="col-md-4 " style="padding-bottom: 2px !important;" ng-hide="hideAdGroupName">
-                <label class="col-sm-12 zeroPadding greyTxt">Ad Group Name</label>
+                <label class="col-sm-12 zeroPadding greyTxt" data-ng-bind="textConstants.CREATE_ADGROUP_LINEITEM"></label>
                 <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters" remove-special-character ='remove-special-character' title="{{$parent.adGroupName}}" ng-model="$parent.adGroupName"/>
             </div>
             <div class="col-md-5 zeroPadding dropdown-workflow" ng-show="showPixelsList">
@@ -295,11 +295,13 @@
                     </div>
                     <div class="tableEdit" data-table-index = "{{$index}}" ng-include="'listItemEditTpl'"  style="padding-top: 20px;"></div>
                 </div>
+                <div ng-if="lineItems.lineItemList.length == 0" class="no-line-item" data-ng-bind="textConstants.NO_LINE_ITEMS_ERR">
+                </div>
             </div>
         </div>
     </div>
     <!--Item List Table Sample Start-->
-    <span class="col-md-12 text-right" style="padding: 0 0 5px 0; border-bottom: 1px solid rgba(191, 201, 215, 0.5);">Total Billable Amount: {{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{selectedCampaign.lineItemBillableAmountTotal}}</span>
+    <span class="col-md-12 text-right total-billable-amount">Total Billable Amount: {{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{selectedCampaign.lineItemBillableAmountTotal}}</span>
 
     <label class="col-sm-12 labelQuestTxt showAddCreditForm" ng-click="showAddCreditForm()" ng-hide="true">
         <span class="icon-arrow-down-thick"></span>Add Credits (0)

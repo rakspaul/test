@@ -1869,6 +1869,20 @@
   margin: 0 auto;
   position: relative;
 }
+#campaignCreate .firstWrapper .masterContainer .pixelVistoTable .no-data-common .td {
+  padding: 30px ;
+}
+#campaignCreate .firstWrapper .masterContainer .no-line-item {
+  color: #939ead;
+  font-size: 12px;
+  padding: 30px;
+  text-align: center;
+  border-bottom: 1px solid rgba(191, 201, 215, 0.5);
+}
+#campaignCreate .firstWrapper .masterContainer .total-billable-amount {
+  padding: 0 0 10px 0;
+  border-bottom: 1px solid rgba(191, 201, 215, 0.5);
+}
 #campaignCreate .firstWrapper .masterContainer .addRowMedia {
   color: #0978C9;
   float: left;
@@ -2081,9 +2095,9 @@
   cursor: not-allowed;
 }
 #campaignCreate .firstWrapper .masterContainer .tableEdit .dropdown-toggle.btn[disabled] .icon-arrow-down {
-  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eee 65%);
-  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eee 65%);
-  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #eee 54%);
+  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eeeeee 65%);
+  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eeeeee 65%);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #eeeeee 54%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eee', endColorstr='#eee', GradientType=1);
 }
 #campaignCreate .firstWrapper .masterContainer .showAddCreditForm {
