@@ -13,7 +13,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'rep
                                                                         collectiveReportModel, brandsModel, dataService,
                                                                         urlService, campaignSelectModel, constants,
                                                                         dataStore, utils, advertiserModel,
-                                                                        domainReports) {
+                                                                        domainReports, vistoconfig) {
         $scope.reportToEdit = {};
         $scope.showEditReport = false;
         $scope.campaign =  "Media Plan Name";
@@ -103,8 +103,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'rep
                                     $scope.reportList.splice(index, 1);
                                     $rootScope.setErrAlertMessage(constants.reportDeleteSuccess,0)
                                     var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaign')),
-                                        advertiserId = advertiserModel.getSelectedAdvertiser().id,
-                                        brandId = brandsModel.getSelectedBrand().id,
+                                        advertiserId = vistoconfig.getSelectAdvertiserId(),
+                                        brandId = vistoconfig.getSelectedBrandId(),
                                         url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ? selectedCampagin.id : -1);
                                     if(url) {
                                         dataStore.deleteFromCache(url);

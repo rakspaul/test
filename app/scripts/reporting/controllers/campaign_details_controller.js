@@ -38,13 +38,17 @@ function (angularAMD) {
                 $scope.showOptimization = fparams[0].optimization_transparency;
             }),
             //API call for campaign details
-            clientId = $routeParams.subAccountId || $routeParams.accountId,
+            clientId = vistoconfig.getSelectedAccountId(),
+            advertiserId = vistoconfig.getSelectAdvertiserId(),
+            brandId = vistoconfig.getSelectedBrandId(),
+            campaignId = vistoconfig.getSelectedCampaignId,
+
             url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                 '/clients/' + clientId +
-                '/campaigns/' + $routeParams.campaignId,
+                '/campaigns/' + campaignId,
             eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function (event, args) {
                 var callbackFunctionName = args.loadingFlag === 2  ?  $scope.refreshGraph : $scope.getCdbChartData;
-                dataStore.deleteFromCache(urlService.APIActionData(clientId, $routeParams.campaignId));
+                dataStore.deleteFromCache(urlService.APIActionData(clientId, campaignId));
                 updateActionItems(callbackFunctionName, args.loadingFlag, args.showExternal);
             }),
             callRefreshGraphData = $rootScope.$on('callRefreshGraphData', function (event,args) {
@@ -57,8 +61,8 @@ function (angularAMD) {
                 queryId: queryId,
                 campaignId: $scope.campaign.orderId,
                 clientId: clientId,
-                advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                brandId: brandsModel.getSelectedBrand().id,
+                advertiserId: advertiserId,
+                brandId: brandId,
                 dateFilter: datefilter
             };
         }
@@ -260,34 +264,34 @@ function (angularAMD) {
             }
         };
 
-        $scope.init = function () {
-            var campListCampaign,
-                listCampaign;
+        // $scope.init = function () {
+        //     var campListCampaign,
+        //         listCampaign;
 
-            if ($rootScope.isFromCampaignList === true) {
-                listCampaign = campaignListService.getListCampaign();
+        //     if ($rootScope.isFromCampaignList === true) {
+        //         listCampaign = campaignListService.getListCampaign();
 
-                if (angular.isObject(listCampaign)) {
-                    campListCampaign = {
-                        id: listCampaign.id,
-                        name: listCampaign.name,
-                        startDate: listCampaign.start_date,
-                        endDate: listCampaign.end_date,
-                        kpi: listCampaign.kpi_type
-                    };
-                    campaignSelectModel.setSelectedCampaign(campListCampaign);
-                    campaignListService.setListCampaign('');
-                    $location.path('/mediaplans/' + listCampaign.id);
-                }
-            }
-        };
+        //         if (angular.isObject(listCampaign)) {
+        //             campListCampaign = {
+        //                 id: listCampaign.id,
+        //                 name: listCampaign.name,
+        //                 startDate: listCampaign.start_date,
+        //                 endDate: listCampaign.end_date,
+        //                 kpi: listCampaign.kpi_type
+        //             };
+        //             campaignSelectModel.setSelectedCampaign(campListCampaign);
+        //             campaignListService.setListCampaign('');
+        //             $location.path('/mediaplans/' + listCampaign.id);
+        //         }
+        //     }
+        // };
 
-        //init function sets the selected campaign onclick of campaign in campaign list page. CRPT-3440
-        $scope.init();
+        // //init function sets the selected campaign onclick of campaign in campaign list page. CRPT-3440
+        // $scope.init();
 
-        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function (event) {
-            $location.path('/mediaplans/' + campaignSelectModel.getSelectedCampaign().id);
-        });
+        // $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function (event) {
+        //     $location.path('/mediaplans/' + campaignSelectModel.getSelectedCampaign().id);
+        // });
 
         var getSetCampaignDetails = function() {
             // dataService.getSingleCampaign(url).then(function (result) {
@@ -315,8 +319,8 @@ function (angularAMD) {
                     var queryObj = {
                         'queryId':14,
                         'clientId': clientId,
-                        'advertiserId':advertiserModel.getSelectedAdvertiser().id,
-                        'brandId':brandsModel.getSelectedBrand().id,
+                        'advertiserId':advertiserId,
+                        'brandId':brandId,
                         'dateFilter':'life_time',
                         'campaignIds':$scope.campaign.id
                     };
@@ -338,12 +342,12 @@ function (angularAMD) {
 
                     campaignListService.getCdbLineChart(clientId, $scope.campaign, 'life_time', function (cdbData) {
                         if (cdbData) {
-                            $scope.campaigns.cdbDataMap[$routeParams.campaignId] =
+                            $scope.campaigns.cdbDataMap[campaignId] =
                                 modelTransformer.transform(cdbData, campaignCDBData);
-                            $scope.campaigns.cdbDataMap[$routeParams.campaignId].modified_vtc_metrics =
+                            $scope.campaigns.cdbDataMap[campaignId].modified_vtc_metrics =
                                 campaignListService
                                     .vtcMetricsJsonModifier(
-                                        $scope.campaigns.cdbDataMap[$routeParams.campaignId].video_metrics
+                                        $scope.campaigns.cdbDataMap[campaignId].video_metrics
                                     );
                         }
                     });
@@ -557,8 +561,8 @@ function (angularAMD) {
                     clientId: clientId,
                     campaignIds: campaign.orderId,
                     dateFilter: datefilter,
-                    advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                    brandId: brandsModel.getSelectedBrand().id
+                    advertiserId: advertiserId,
+                    brandId: brandId
                 },
                 url = urlService.APIVistoCustomQuery(params);
 
@@ -1125,16 +1129,27 @@ function (angularAMD) {
         // },1000)
 
         $scope.viewReports = function (campaign, strategy) {
-            campaignSelectModel.setSelectedCampaign(campaign);
-            strategySelectModel.setSelectedStrategy(strategy);
-            kpiSelectModel.setSelectedKpi(campaign.kpiType);
+            // campaignSelectModel.setSelectedCampaign(campaign);
+            // strategySelectModel.setSelectedStrategy(strategy);
+            // kpiSelectModel.setSelectedKpi(campaign.kpiType);
 
-            // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just
-            // fetch strategy list and retain selected strategy.
-            localStorage.setItem('isNavigationFromCampaigns', true);
-            //grunt  analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS,
-            // 'view_report_for_strategy', loginModel.getLoginName());
-            utils.goToLocation(vistoconfig.PERFORMANCE_LINK);
+            // // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just
+            // // fetch strategy list and retain selected strategy.
+            // localStorage.setItem('isNavigationFromCampaigns', true);
+            // //grunt  analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS,
+            // // 'view_report_for_strategy', loginModel.getLoginName());
+            // utils.goToLocation(vistoconfig.PERFORMANCE_LINK);
+            var url = "/a/" + $routeParams.accountId;
+            if ($routeParams.subAccountId) {
+                url += "/sa/" + $routeParams.subAccountId;
+            }
+            url += "/mediaplans/" + $routeParams.campaignId + '/performance';
+            $routeParams.advertiser_id && (url += '?advertiser_id=' + $routeParams.advertiser_id);
+            $routeParams.advertiser_id && $routeParams.brand_id && (url += '&brand_id=' + $routeParams.brand_id);
+            strategy && (url += url.indexOf('?') > 0 ? '&' : '?');
+            strategy && (url += 'li_id=' + strategy.id);
+            console.log('url', url);
+            $location.url(url);
         };
 
         $scope.getMessageForDataNotAvailable = function (campaign, dataSetType) {

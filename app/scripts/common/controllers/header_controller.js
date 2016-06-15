@@ -4,7 +4,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
     'reporting/subAccount/sub_account_model'], function (angularAMD) {
     angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location, $modal, $routeParams,
                                                         constants, loginModel, domainReports, RoleBasedService, workflowService, 
-                                                        featuresService, accountService, subAccountService, subAccountModel, localStorageService) {
+                                                        featuresService, accountService, subAccountService, subAccountModel, 
+                                                        localStorageService, advertiserModel, brandsModel, strategySelectModel) {
         // var featurePermission = function () {
         //         $scope.fparams = featuresService.getFeatureParams();
         //         $scope.showMediaPlanTab = $scope.fparams[0].mediaplan_list;
@@ -148,6 +149,9 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
         $scope.NavigateToTab = function (url, event, page) {
             $('.header_tab_dropdown').removeClass('active_tab active selected');
 
+            advertiserModel.reset();
+            brandsModel.reset();
+            strategySelectModel.reset();
             if (page === 'dashboard') {
                 // $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
 
@@ -216,6 +220,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 url += reportName;
             }
 
+            $routeParams.advertiser_id && (url += '?advertiser_id=' + $routeParams.advertiser_id);
+            $routeParams.advertiser_id && $routeParams.brand_id && (url += '&brand_id=' + $routeParams.brand_id);
             console.log('header_controller', 'url', url);
             $location.url(url);
         };

@@ -7,7 +7,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
     function (angularAMD) {
     'use strict';
-        angularAMD.controller('ViewabilityController', function ($scope, $routeParams, kpiSelectModel, campaignSelectModel, strategySelectModel,
+        angularAMD.controller('ViewabilityController', function ($scope, kpiSelectModel, campaignSelectModel, strategySelectModel,
                                                                  dataService, domainReports, constants, vistoconfig,
                                                                  timePeriodModel, loginModel, urlService,
                                                                  advertiserModel, brandsModel) {
@@ -94,14 +94,13 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             }
             $scope.api_return_code = 200;
             var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
-                clientId = $routeParams.subAccountId || $routeParams.accountId,
                 queryObj = {
-                campaignId: $scope.selectedCampaign.id,
-                clientId: clientId,
-                advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                brandId: brandsModel.getSelectedBrand().id,
-                dateFilter: datefilter
-            };
+                    campaignId: $scope.selectedCampaign.id,
+                    clientId: vistoconfig.getSelectedAccountId(),
+                    advertiserId: vistoconfig.getSelectAdvertiserId(),
+                    brandId: vistoconfig.getSelectedBrandId(),
+                    dateFilter: datefilter
+                };
             if(_.has(param, 'strategyId') && param.strategyId >= 0) {
                 queryObj['queryId'] =  13;
                 queryObj['strategyId'] = param.strategyId;
@@ -173,23 +172,23 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             ];
         };
 
-        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
-            $scope.init();
-            //update the selected Campaign
-            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
-            $scope.videoMode = false;
-        });
+        // $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
+        //     $scope.init();
+        //     //update the selected Campaign
+        //     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+        //     $scope.videoMode = false;
+        // });
 
-        $scope.$watch('selectedCampaign', function() {
-            $scope.createDownloadReportUrl();
-        });
+        // $scope.$watch('selectedCampaign', function() {
+        //     $scope.createDownloadReportUrl();
+        // });
 
-        $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
-            $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
-            $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? constants.CAMPAIGN_TOTAL : constants.AD_GROUP_TOTAL;
-            $scope.callBackStrategyChange();
-        });
+        // $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
+        //     $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
+        //     $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
+        //     $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? constants.CAMPAIGN_TOTAL : constants.AD_GROUP_TOTAL;
+        //     $scope.callBackStrategyChange();
+        // });
 
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){

@@ -107,7 +107,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
             delete searchCriteria.advertiserId;
             console.log('fetchCampaigns');
 
-            campaignSelectModel.getCampaigns(brandsModel.getSelectedBrand().id, searchCriteria).then(function () {
+            campaignSelectModel.getCampaigns(searchCriteria).then(function () {
 
                 //TODO : rewrite what to do in search condiiton
 
@@ -262,7 +262,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
             if ($routeParams.subAccountId) {
                 url += "/sa/" + $routeParams.subAccountId;
             }
-            url += "/mediaplans/" + campaign.campaign_id + '/' + $routeParams.reportName;
+            var reportName = _.last($location.path().split('/'));
+            url += "/mediaplans/" + campaign.campaign_id + '/' + reportName;
+            $routeParams.advertiser_id && (url += '?advertiser_id=' + $routeParams.advertiser_id);
+            $routeParams.advertiser_id && $routeParams.brand_id && (url += '&brand_id=' + $routeParams.brand_id);
             console.log('url', url);
             $location.url(url);
         }

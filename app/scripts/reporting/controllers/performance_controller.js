@@ -7,7 +7,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
     function (angularAMD) {
     'use strict';
-        angularAMD.controller('PerformanceController', function ($scope, $rootScope, $routeParams, kpiSelectModel, campaignSelectModel, strategySelectModel,
+        angularAMD.controller('PerformanceController', function ($scope, $rootScope, kpiSelectModel, campaignSelectModel, strategySelectModel,
                                                                  dataService, domainReports, constants, vistoconfig,
                                                                  timePeriodModel, brandsModel, loginModel,
                                                                  urlService, advertiserModel) {
@@ -144,16 +144,15 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             var performanceQueryIdMapperWithSelectedAdsGroup = { 'screen' : 17, 'format' : 18, 'adsizes' : 19, 'creatives' :20, 'dow' :21, 'discrepancy' : 45};
 
             var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
-                 clientId = $routeParams.subAccountId || $routeParams.accountId,
-            param = {
-                campaignId: $scope.selectedCampaign.id,
-                clientId:  clientId,
-                advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                brandId: brandsModel.getSelectedBrand().id,
-                dateFilter: ($scope.selected_tab == "bydiscrepancy") ? "life_time" : datefilter,
-                tab: $scope.selected_tab
-            };
-            var tab = _.compact(_.pluck(performaceTabMap, [param.tab]))[0];
+                param = {
+                    campaignId: $scope.selectedCampaign.id,
+                    clientId: vistoconfig.getSelectedAccountId(),
+                    advertiserId: vistoconfig.getSelectAdvertiserId(),
+                    brandId: vistoconfig.getSelectedBrandId(),
+                    dateFilter: ($scope.selected_tab == "bydiscrepancy") ? "life_time" : datefilter,
+                    tab: $scope.selected_tab
+                },
+                tab = _.compact(_.pluck(performaceTabMap, [param.tab]))[0];
 
             if (Number($scope.selectedStrategy.id) >= 0) {
                 param.queryId = performanceQueryIdMapperWithSelectedAdsGroup[tab.toLowerCase()];

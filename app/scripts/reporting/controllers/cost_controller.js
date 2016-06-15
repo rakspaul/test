@@ -5,7 +5,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
     'common/services/vistoconfig_service','reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller',
     'reporting/timePeriod/time_period_pick_directive','reporting/kpiSelect/kpi_select_directive'],function (angularAMD) {
     'use strict';
-    angularAMD.controller('CostController', function ( $scope, $window, $routeParams,
+    angularAMD.controller('CostController', function ( $scope, $window,
                                                        campaignSelectModel, kpiSelectModel, advertiserModel,
                                                        strategySelectModel, brandsModel, dataService,
                                                        utils, loginModel, urlService,
@@ -24,7 +24,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
         $scope.api_return_code = 200;
         $scope.strategyMarginValue = -1 ;
         $scope.strategyMarginUnit = constants.SYMBOL_PERCENT;
-        var selectedBrand = brandsModel.getSelectedBrand();
+        // var selectedBrand = brandsModel.getSelectedBrand();
 
         var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
@@ -101,13 +101,15 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
             }
             $scope.api_return_code=200;
             var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
-                clientId = $routeParams.subAccountId || $routeParams.accountId;
-            var queryObj = {
-                clientId: clientId,
-                advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                brandId: brandsModel.getSelectedBrand().id,
-                dateFilter: datefilter
-            };
+                clientId = vistoconfig.getSelectedAccountId(),
+                advertiserId = vistoconfig.getSelectAdvertiserId(),
+                brandId = vistoconfig.getSelectedBrandId(),
+                queryObj = {
+                    clientId: clientId,
+                    advertiserId: advertiserId,
+                    brandId: brandId,
+                    dateFilter: datefilter
+                };
             if (_.has(param, 'strategyId') && param.strategyId >= 0) {
                 queryObj.queryId = 15; // cost_report_for_given_ad_group_id
                 queryObj.campaignId = param.campaignId,
@@ -180,9 +182,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
         //     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         // });
 
-        $scope.$watch('selectedCampaign', function() {
-            $scope.createDownloadReportUrl();
-        });
+        // $scope.$watch('selectedCampaign', function() {
+        //     $scope.createDownloadReportUrl();
+        // });
 
         var dataHeader = function() {
             $scope.strategyHeading = Number($scope.selectedStrategy.id) === vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ? constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;

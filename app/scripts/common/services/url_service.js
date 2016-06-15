@@ -1,3 +1,4 @@
+
 define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/constants_service', 'login/login_model'],
     function (angularAMD) {
         'use strict';
@@ -178,7 +179,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 this.APICampaignDropDownList = function (clientId, advertiserId, brandId) {
                     // clientId =  loginModel.getSelectedClient().id;
 
-                    return 'http://localhost:9000/api/reporting/v3' + '/clients/' + clientId +
+                    return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/advertisers/' + advertiserId + '/brands/' + brandId + '/campaigns/meta?x=x';
                 };
 

@@ -71,10 +71,10 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     }
                 };
 
-                $scope.$on(constants.EVENT_BRAND_CHANGED, function (event) {
-                    $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
-                    //$scope.campaigns.fetchData();
-                });
+                // $scope.$on(constants.EVENT_BRAND_CHANGED, function (event) {
+                //     $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
+                //     //$scope.campaigns.fetchData();
+                // });
 
                 $('html').css('background', '#fff');
 
@@ -132,6 +132,8 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                         url += "/sa/" + $routeParams.subAccountId;
                     }
                     url += '/mediaplans/' + campaign.id + '/overview';
+                    $routeParams.advertiser_id && (url += '?advertiser_id=' + $routeParams.advertiser_id);
+                    $routeParams.advertiser_id && $routeParams.brand_id && (url += '&brand_id=' + $routeParams.brand_id);
                     $location.url(url);
                 };
 

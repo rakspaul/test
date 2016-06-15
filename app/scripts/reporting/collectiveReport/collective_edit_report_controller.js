@@ -11,7 +11,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/
                                                                      campaignSelectModel, dataService, urlService,
                                                                      advertiserModel, brandsModel, constants,
                                                                      collectiveReportModel, utils, dataStore,
-                                                                     report,reportIndex) {
+                                                                     report,reportIndex, vistoconfig) {
         $scope.report = report;
         $scope.editScreenBusy = false;
         $scope.editedObj = angular.copy(report);
@@ -43,8 +43,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/
                 $scope.close();
                 $rootScope.setErrAlertMessage(constants.reportEditSuccess,0);
                 var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaign')),
-                    advertiserId = advertiserModel.getSelectedAdvertiser().id,
-                    brandId = brandsModel.getSelectedBrand().id,
+                    advertiserId = vistoconfig.getSelectAdvertiserId(),
+                    brandId = vistoconfig.getSelectedBrandId(),
                     url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ? selectedCampagin.id : -1);
                 if(url) {
                     dataStore.deleteFromCache(url);
@@ -87,8 +87,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/
                                     $scope.reportList.splice(reportIndex, 1);
                                     //to avoid listing report getting encached, remove that url from cache.
                                     var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaign')),
-                                        advertiserId = advertiserModel.getSelectedAdvertiser().id,
-                                        brandId = brandsModel.getSelectedBrand().id,
+                                        advertiserId = vistoconfig.getSelectAdvertiserId(),
+                                        brandId = vistoconfig.getSelectedBrandId(),
                                         url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ? selectedCampagin.id : -1);
                                     if(url) {
                                         dataStore.deleteFromCache(url);
@@ -120,7 +120,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/
 
           };
 
-        campaignSelectModel.getCampaigns(brandsModel.getSelectedBrand().id).then(function(response){
+        var clientId = vistoconfig.getSelectedAccountId(),
+            advertiserId = vistoconfig.getSelectAdvertiserId(),
+            brandId = vistoconfig.getSelectedBrandId();
+
+        campaignSelectModel.fetchCampaigns(clientId, advertiserId, brandId).then(function(response) {
             $scope.campaignList = response;
         });
 

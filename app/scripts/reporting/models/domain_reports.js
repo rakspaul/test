@@ -203,7 +203,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     });
 
-    angularAMD.directive('downloadReport', function ($http, $location, $routeParams, loginModel, advertiserModel, brandsModel, dataService, urlService, vistoconfig, constants) {
+    angularAMD.directive('downloadReport', function ($http, $location, loginModel, advertiserModel, brandsModel, dataService, urlService, vistoconfig, constants) {
         return {
             controller: function ($scope, $cookieStore, $location) {
 
@@ -219,11 +219,10 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                     var queryObj = {
                         'url': report.url,
                         queryId: report.query_id,
-                        // clientId: loginModel.getSelectedClient().id,
-                        clientId: $routeParams.subAccountId || $routeParams.accountId,
                         campaignId: $scope.selectedCampaign.id,
-                        advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                        brandId: brandsModel.getSelectedBrand().id,
+                        clientId: vistoconfig.getSelectedAccountId(),
+                        advertiserId: vistoconfig.getSelectAdvertiserId(),
+                        brandId: vistoconfig.getSelectedBrandId(),
                         dateFilter: 'life_time',//$scope.selected_filters.time_filter,
                         download_config_id: report.download_config_id
                     }

@@ -7,11 +7,10 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
     function (angularAMD) {
         'use strict';
-        angularAMD.controller('InventoryController', function ($scope, $routeParams, kpiSelectModel, campaignSelectModel, strategySelectModel,
+        angularAMD.controller('InventoryController', function ($scope, kpiSelectModel, campaignSelectModel, strategySelectModel,
                                                                columnline, dataService, constants, vistoconfig,
                                                                timePeriodModel, loginModel, advertiserModel,
-                                                               brandsModel, urlService,
-                                                               domainReports) {
+                                                               brandsModel, urlService, domainReports) {
 
             $scope.textConstants = constants;
 
@@ -65,12 +64,11 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                             'domains': 28
                         },
                         datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
-                        clientId = $routeParams.subAccountId || $routeParams.accountId,
                         param = {
                             campaignId: $scope.selectedCampaign.id,
-                            clientId: clientId,
-                            advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                            brandId: brandsModel.getSelectedBrand().id,
+                            clientId: vistoconfig.getSelectedAccountId(),
+                            advertiserId: vistoconfig.getSelectAdvertiserId(),
+                            brandId: vistoconfig.getSelectedBrandId(),
                             dateFilter: datefilter,
                             domain: $scope.selected_filters_tab
                         },

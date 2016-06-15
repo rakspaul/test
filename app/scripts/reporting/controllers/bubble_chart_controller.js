@@ -1,6 +1,7 @@
 define(['angularAMD','login/login_model','login/login_service','reporting/common/d3/bubble_chart','reporting/models/bubble_chart_model','reporting/brands/brands_model','common/services/constants_service'],function (angularAMD) {
   'use strict';
-  angularAMD.controller('BubbleChartController', function ($scope, $cookieStore, $location, loginModel, loginService, bubbleChart, bubbleChartModel, brandsModel, constants) {
+  angularAMD.controller('BubbleChartController', function ($scope, $cookieStore, $location, loginModel, loginService, bubbleChart, 
+    bubbleChartModel, brandsModel, constants, vistoconfig) {
         $scope.data = {
             brandData: {},
             campaignDataForSelectedBrand: {},
@@ -12,7 +13,7 @@ define(['angularAMD','login/login_model','login/login_service','reporting/common
             $scope.spendBusy = true;
 
             // Fetch the new data now.
-            bubbleChartModel.getBubbleChartDataForCampaign(brandsModel.getSelectedBrand().id).then(function () {
+            bubbleChartModel.getBubbleChartDataForCampaign(vistoconfig.getSelectedBrandId()).then(function () {
                 $scope.spendBusy = false;
                 if (bubbleChartModel.getbubbleWidgetData()['dataNotAvailable'] == true) {
                     d3.select("#brands_svg").remove();
@@ -47,7 +48,7 @@ define(['angularAMD','login/login_model','login/login_service','reporting/common
                     $scope.data.brandData = bubbleChartModel.getbubbleWidgetData()['brandData'];
 
 
-                    if (brandsModel.getSelectedBrand().id == -1) {
+                    if (vistoconfig.getSelectedBrandId() == -1) {
                         bubbleChart.updateBubbleChartData("brands", $scope.data.brandData);
                         $scope.budget_top_title = bubbleChartModel.getbubbleWidgetData()['budget_top_title'];
                     }
@@ -68,7 +69,7 @@ define(['angularAMD','login/login_model','login/login_service','reporting/common
             });
         }
 
-        if (brandsModel.getSelectedBrand().id == -1)
+        if (vistoconfig.getSelectedBrandId() == -1)
             getSpendDataForBrands();
         else
             getSpendDataForCampaigns();
@@ -76,7 +77,7 @@ define(['angularAMD','login/login_model','login/login_service','reporting/common
         $scope.refresh = function () {
             bubbleChart.cleaningBubbleChart("brands");
             bubbleChart.cleaningBubbleChart("campaigns");
-            if (brandsModel.getSelectedBrand().id == -1)// All brands is selected
+            if (vistoconfig.getSelectedBrandId() == -1)// All brands is selected
                 getSpendDataForBrands()
             else
                 getSpendDataForCampaigns();
@@ -86,9 +87,9 @@ define(['angularAMD','login/login_model','login/login_service','reporting/common
             $scope.refresh();
         });
 
-        $scope.$on(constants.EVENT_BRAND_CHANGED, function (event, args) {
-            $scope.refresh();
-        });
+        // $scope.$on(constants.EVENT_BRAND_CHANGED, function (event, args) {
+        //     $scope.refresh();
+        // });
 
         /*$scope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED, function (event, args) {
           $scope.refresh();

@@ -1,7 +1,8 @@
 define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model','reporting/timePeriod/time_period_model','common/services/constants_service','common/services/url_service','common/services/request_cancel_service','common/services/data_service','common/utils', 'reporting/subAccount/sub_account_model'],function (angularAMD) {
   'use strict';
-  angularAMD.factory("dashboardModel", ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel', 'constants', 'urlService', 'requestCanceller', 'dataService', 'utils', '$routeParams',
-    function (loginModel, advertiserModel, brandsModel, timePeriodModel, constants, urlService, requestCanceller, dataService, utils, $routeParams) {
+  angularAMD.factory("dashboardModel", ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel', 'constants', 'urlService', 'requestCanceller', 'dataService', 'utils', 'vistoconfig',
+    function (loginModel, advertiserModel, brandsModel, timePeriodModel, constants, urlService, requestCanceller, dataService, 
+        utils, vistoconfig) {
 
     var dashboardData = {selectedStatus: constants.DASHBOARD_STATUS_IN_FLIGHT};//by default it is active.  Now check local storage if we want to change it last saved status.
     var localStoredCampaignStatus = JSON.parse(localStorage.getItem('dashboardStatusFilter'));
@@ -26,10 +27,10 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
     };
 
     var getCampaingsCount = function () {
-        var clientId = $routeParams.subAccountId || $routeParams.accountId;
-        var advertiserId = advertiserModel.getSelectedAdvertiser().id;
-        var brandId = brandsModel.getSelectedBrand().id;
-        var url = urlService.APICalendarWidgetForAllBrands(clientId, advertiserId, 'end_date',campaignStatusToSend());
+        var clientId = vistoconfig.getSelectedAccountId(),
+            advertiserId = vistoconfig.getSelectAdvertiserId(),
+            brandId = vistoconfig.getSelectedBrandId(),
+            url = urlService.APICalendarWidgetForAllBrands(clientId, advertiserId, 'end_date',campaignStatusToSend());
 
         return dataService.fetch(url).then(function (response) {
                 var totalCamapigns = response.data.data.total_campaigns;
@@ -57,23 +58,28 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
     };
 
     function addCampaigns() {
-        var selectedBrand = brandsModel.getSelectedBrand().name;
+        // var selectedBrand = brandsModel.getSelectedBrand().name;
+        // dashboardData.titleSecondPart = dashboardData.selectedStatus + ' Media Plans for ';
+        // if (selectedBrand === constants.ALL_BRANDS) {
+        //     dashboardData.titleSecondPart += constants.ALL_BRANDS;
+        // }
         dashboardData.titleSecondPart = dashboardData.selectedStatus + ' Media Plans for ';
-        if (selectedBrand === constants.ALL_BRANDS) {
+        if (vistoconfig.getSelectedBrandId() === -1) {
             dashboardData.titleSecondPart += constants.ALL_BRANDS;
         }
     };
 
-    var setBrand = function (brand) {
-        dashboardData.selectedBrand = brand.name;
-        if (brand.name === constants.ALL_BRANDS) {
-            dashboardData.brandSelected = false;
-        } else {
-            dashboardData.brandSelected = true;
-        }
-    };
+    // var setBrand = function (brand) {
+    //     dashboardData.selectedBrand = brand.name;
+    //     if (brand.name === constants.ALL_BRANDS) {
+    //         dashboardData.brandSelected = false;
+    //     } else {
+    //         dashboardData.brandSelected = true;
+    //     }
+    // };
 
     var getData = function () {
+        dashboardData.brandSelected = vistoconfig.getSelectedBrandId() != -1;
         return dashboardData;
     };
 
@@ -90,7 +96,7 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
 
     return {
         setTitle: setTitle,
-        setSelectedBrand: setBrand,
+        // setSelectedBrand: setBrand,
         getData: getData,
         campaignStatusToSend: campaignStatusToSend
     };

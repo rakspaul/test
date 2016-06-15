@@ -9,7 +9,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
     function (angularAMD) {
     'use strict';
-        angularAMD.controller('OptimizationController', function ($timeout, $rootScope, $scope, $routeParams,
+        angularAMD.controller('OptimizationController', function ($timeout, $rootScope, $scope,
                                                                   kpiSelectModel, campaignSelectModel, strategySelectModel,
                                                                   dataService, utils, actionChart,
                                                                   domainReports, constants, timePeriodModel,
@@ -189,7 +189,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 startDate : moment($scope.selectedCampaign.startDate).format('YYYY-MM-DD'),
                 endDate : moment($scope.selectedCampaign.endDate).format('YYYY-MM-DD')
             },
-            clientId = $routeParams.subAccountId || $routeParams.accountId,
+            clientId = vistoconfig.getSelectedAccountId(),
             strategyId = Number($scope.selectedStrategy.id);
 
             $scope.api_return_code=200;
@@ -266,14 +266,13 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         };
 
         var getCustomQueryParams = function (queryId) {
-            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
-                clientId = $routeParams.subAccountId || $routeParams.accountId;
+            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
             return {
                 queryId: queryId,
                 campaignId: $scope.selectedCampaign.id,
-                clientId:  clientId,
-                advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                brandId: brandsModel.getSelectedBrand().id,
+                clientId: vistoconfig.getSelectedAccountId(),
+                advertiserId: vistoconfig.getSelectAdvertiserId(),
+                brandId: vistoconfig.getSelectedBrandId(),
                 dateFilter: datefilter,
                 make_external : false
 

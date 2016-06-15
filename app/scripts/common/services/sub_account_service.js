@@ -1,5 +1,6 @@
 define(['angularAMD', 'workflow/services/workflow_service'], function (angularAMD) {
-    angularAMD.service('subAccountService', function ($rootScope, $location, $q, $route, $timeout, workflowService, campaignSelectModel) {
+    angularAMD.service('subAccountService', function ($rootScope, $location, $q, $route, $timeout, workflowService, 
+        campaignSelectModel, advertiserModel, brandsModel) {
 
         var subAccountList = [],
             dashboadSubAccountList = [],
@@ -106,6 +107,7 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                         subAccountList = _.filter(dashboadSubAccountList, function(a) {
                             return a.isLeafNode == true;
                         });
+                        previousAccountId = accountId;
                         console.log('fetchDashboardSubAccountList is fetched');
 
                         deferred.resolve();
@@ -157,6 +159,8 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                 selectedSubAccount = undefined,
                 selectedDashboardSubAccount = undefined;
                 campaignSelectModel.reset();
+                advertiserModel.reset();
+                brandsModel.reset();
             },
 
             changeSubAccount: function(account, subAccount) {

@@ -98,22 +98,17 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     });
                 },
 
-                getAdvertisers: function (accessLevel, client_id) {
-                    var isLeafNode = localStorageService.masterClient.get().isLeafNode;
-                    var clientId = loginModel.getSelectedClient().id;
-                    var isDashboardSubAccount = false;
+                getAdvertisers: function (clientId, accessLevel) {
+                    // var isLeafNode = localStorageService.masterClient.get().isLeafNode;
+                    // var clientId = loginModel.getSelectedClient().id;
 
-                    var locationPath = $location.url();
-                    if ((locationPath === '/dashboard') || (locationPath === '/')) {
-                        isDashboardSubAccount = true;
-                    }
+                    var isDashboardSubAccount = $location.path().endsWith('/dashboard');
 
-
-                    if (client_id) {
-                        var clientId = client_id;
-                    } else if (isDashboardSubAccount && !isLeafNode) {
-                        var clientId = loginModel.getDashboardClient().id
-                    }
+                    // if (client_id) {
+                    //     var clientId = client_id;
+                    // } else if (isDashboardSubAccount && !isLeafNode) {
+                    //     var clientId = loginModel.getDashboardClient().id
+                    // }
 
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
 
@@ -127,15 +122,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return dataService.fetch(url);
                 },
 
-                getBrands: function (client_id, advertiserId, accessLevel) {
-                    var clientId = loginModel.getSelectedClient().id;
-                    if (client_id) {
-                        var clientId = client_id;
-                    }
+                getBrands: function (clientId, advertiserId, accessLevel) {
+                    // var clientId = loginModel.getSelectedClient().id;
+                    // if (client_id) {
+                    //     var clientId = client_id;
+                    // }
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
                         '/advertisers/' + advertiserId + '/brands';
                     if (accessLevel) {
-                        url = url + '?access_level=' + accessLevel;
+                        url += '?access_level=' + accessLevel;
                     }
 
                     return dataService.fetch(url);

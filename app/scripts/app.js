@@ -10,8 +10,44 @@ define(['common'], function (angularAMD) {
     var app = angular.module('vistoApp', ['ngRoute', 'ngCookies', 'tmh.dynamicLocale', 'ui.bootstrap', 'uiSwitch',
         'door3.css', 'ngFileUpload', 'ngSanitize', 'ui.multiselect', 'highcharts-ng', 'ui.bootstrap.showErrors',
         'ngTagsInput']);
+
+    var fetchCurrentAdvertiser = function($route, advertiserModel) {
+        var params = $route.current.params;
+        console.log('params.advertiser_id', params.advertiser_id);
+        if (params.advertiser_id) {
+            advertiserModel.fetchAdvertiserList(params.subAccountId || params.accountId).then(function() {
+                if (advertiserModel.allowedAdvertiser(params.advertiser_id)) {
+
+                    var advertiser = advertiserModel.getSelectedAdvertiser();
+                    $('#advertiser_name_selected').text(advertiser.name);
+                    $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
+                } else {
+                    console.log('advertiser not allowed');
+                    $location.url('/tmp');
+                }
+            });
+        }
+    };
+
+    var fetchCurrentBrand = function($route, brandsModel) {
+        var params = $route.current.params;
+        console.log('params.brand_id', params.brand_id);
+        if (params.advertiser_id && params.brand_id) {
+            brandsModel.fetchBrandList(params.subAccountId || params.accountId, params.advertiser_id).then(function() {
+                if (brandsModel.allowedBrand(params.brand_id)) {
+                    var brand = brandsModel.getSelectedBrand();
+                    $('#brand_name_selected').text(brand.name);
+                    $('#brandsDropdown').attr('placeholder', brand.name).val('');
+                } else {
+                    console.log('brand not allowed');
+                    $location.url('/tmp');
+                }
+            });
+        }
+    };
+
     var reportsHeaderResolver = function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
-        workflowService, campaignSelectModel, strategySelectModel) {
+        workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
 
         var deferred = $q.defer();
 
@@ -28,6 +64,8 @@ define(['common'], function (angularAMD) {
                                 campaignSelectModel.fetchCampaign($route.current.params.subAccountId, $route.current.params.campaignId).then(function() {
                                     if (resolvedOtherDeferrer) {
                                         deferred.resolve();
+                                        fetchCurrentAdvertiser($route, advertiserModel);
+                                        fetchCurrentBrand($route, brandsModel);
                                     } else {
                                         resolvedOtherDeferrer = true;
                                     }
@@ -43,6 +81,8 @@ define(['common'], function (angularAMD) {
                                     }
                                     if (resolvedOtherDeferrer) {
                                         deferred.resolve();
+                                        fetchCurrentAdvertiser($route, advertiserModel);
+                                        fetchCurrentBrand($route, brandsModel);
                                     } else {
                                         resolvedOtherDeferrer = true;
                                     }
@@ -67,7 +107,7 @@ define(['common'], function (angularAMD) {
     },
 
     reportsHeaderResolver2 = function($q, $location, $route, accountService, RoleBasedService, featuresService,
-        workflowService, campaignSelectModel, strategySelectModel) {
+        workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
 
         var deferred = $q.defer();
 
@@ -82,6 +122,8 @@ define(['common'], function (angularAMD) {
                         campaignSelectModel.fetchCampaign($route.current.params.accountId, $route.current.params.campaignId).then(function() {
                             if (resolvedOtherDeferrer) {
                                 deferred.resolve();
+                                fetchCurrentAdvertiser($route, advertiserModel);
+                                fetchCurrentBrand($route, brandsModel);
                             } else {
                                 resolvedOtherDeferrer = true;
                             }
@@ -97,6 +139,8 @@ define(['common'], function (angularAMD) {
                             }
                             if (resolvedOtherDeferrer) {
                                 deferred.resolve();
+                                fetchCurrentAdvertiser($route, advertiserModel);
+                                fetchCurrentBrand($route, brandsModel);
                             } else {
                                 resolvedOtherDeferrer = true;
                             }
@@ -136,18 +180,22 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     bodyclass: 'dashboard_body',
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, workflowService) {
+                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, 
+                            workflowService, advertiserModel, brandsModel) {
                             var deferred = $q.defer();
 
+                            var params = $route.current.params;
                             accountService.fetchAccountList().then(function() {
-                                if (accountService.allowedAccount($route.current.params.accountId)) {
-                                    workflowService.getClientData($route.current.params.accountId).then(function(response) {
+                                if (accountService.allowedAccount(params.accountId)) {
+                                    workflowService.getClientData(params.accountId).then(function(response) {
                                         if (response && response.data.data) {
                                             RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
                                             RoleBasedService.setCurrencySymbol();
                                             featuresService.setFeatureParams(response.data.data.features);
                                         }
                                         deferred.resolve();
+                                        fetchCurrentAdvertiser($route, advertiserModel);
+                                        fetchCurrentBrand($route, brandsModel);
                                     });
                                 } else {
                                     console.log('account not allowed');
@@ -166,9 +214,11 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     bodyclass: 'dashboard_body',
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, workflowService) {
+                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, 
+                            workflowService, advertiserModel, brandsModel) {
                             var deferred = $q.defer();
 
+                            var params = $route.current.params;
                             accountService.fetchAccountList().then(function() {
                                 if (accountService.allowedAccount($route.current.params.accountId)) {
                                     subAccountService.fetchDashboardSubAccountList($route.current.params.accountId).then(function() {
@@ -180,6 +230,8 @@ define(['common'], function (angularAMD) {
                                                     featuresService.setFeatureParams(response.data.data.features);
                                                 }
                                                 deferred.resolve();
+                                                fetchCurrentAdvertiser($route, advertiserModel);
+                                                fetchCurrentBrand($route, brandsModel);
                                             });
                                         } else {
                                             console.log('dashboard account not allowed');
@@ -239,7 +291,8 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'reporting/controllers/campaign_reports_controller',
                     showHeader : true,
                     resolve: {
-                        header: function($q, $location, $route, accountService, RoleBasedService, featuresService, workflowService, campaignSelectModel) {
+                        header: function($q, $location, $route, accountService, RoleBasedService, featuresService, workflowService, 
+                            campaignSelectModel, advertiserModel, brandsModel) {
                             var deferred = $q.defer();
 
                             accountService.fetchAccountList().then(function() {
@@ -249,15 +302,20 @@ define(['common'], function (angularAMD) {
                                             RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
                                             RoleBasedService.setCurrencySymbol();
                                             featuresService.setFeatureParams(response.data.data.features);
-                                            campaignSelectModel.fetchCampaigns($route.current.params.accountId).then(function(campaignsResponse) {
+                                            var params = $route.current.params;
+                                            campaignSelectModel.fetchCampaigns(params.accountId, params.advertiser_id || -1, params.brand_id || -1).then(function(campaignsResponse) {
                                                 if (campaignsResponse && campaignsResponse.data.data) {
-                                                    var params = $route.current.params,
-                                                        campaign = campaignsResponse.data.data[0];
-                                                    var url = '/a/' + params.accountId + '/mediaplans/' + campaign.campaign_id + '/' + params.reportName;
+                                                    var campaign = campaignsResponse.data.data[0],
+                                                        url = '/a/' + params.accountId + '/mediaplans';
+                                                    campaign && (url += '/' + campaign.campaign_id + '/' + params.reportName);
+                                                    params.advertiser_id && (url += '?advertiser_id=' + params.advertiser_id);
+                                                    params.advertiser_id && params.brand_id && (url += '&brand_id=' + params.brand_id);
                                                     console.log('url', url);
                                                     $location.url(url);
                                                 }
                                                 deferred.resolve();
+                                                // fetchCurrentAdvertiser($route, advertiserModel);
+                                                // fetchCurrentBrand($route, brandsModel);
                                             });
                                         }
                                     });
@@ -285,9 +343,9 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         header: function($q, $location, $route, accountService, RoleBasedService, featuresService,
-                            workflowService, campaignSelectModel, strategySelectModel) {
+                            workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, RoleBasedService, featuresService,
-                                workflowService, campaignSelectModel, strategySelectModel);
+                                workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
                         }
                     }
                 }))
@@ -299,9 +357,9 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         header: function($q, $location, $route, accountService, RoleBasedService, featuresService, 
-                            workflowService, campaignSelectModel, strategySelectModel) {
+                            workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, RoleBasedService, featuresService,
-                                workflowService, campaignSelectModel, strategySelectModel);
+                                workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
                         }
                     }
                 }))
@@ -313,9 +371,9 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         header: function($q, $location, $route, accountService, RoleBasedService, featuresService, 
-                            workflowService, campaignSelectModel, strategySelectModel) {
+                            workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, RoleBasedService, featuresService,
-                                workflowService, campaignSelectModel, strategySelectModel);
+                                workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
                         }
                     }
                 }))
@@ -327,9 +385,9 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         header: function($q, $location, $route, accountService, RoleBasedService, featuresService,
-                            workflowService, campaignSelectModel, strategySelectModel) {
+                            workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, RoleBasedService, featuresService,
-                                workflowService, campaignSelectModel, strategySelectModel);
+                                workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
                        }
                     }
                 }))
@@ -341,9 +399,9 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         header: function($q, $location, $route, accountService, RoleBasedService, featuresService,
-                            workflowService, campaignSelectModel, strategySelectModel) {
+                            workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, RoleBasedService, featuresService,
-                                workflowService, campaignSelectModel, strategySelectModel);
+                                workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
                        }
                     }
                 }))
@@ -355,9 +413,9 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         header: function($q, $location, $route, accountService, RoleBasedService, featuresService,
-                            workflowService, campaignSelectModel, strategySelectModel) {
+                            workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, RoleBasedService, featuresService,
-                                workflowService, campaignSelectModel, strategySelectModel);
+                                workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
                        }
                     }
                 }))
@@ -369,9 +427,9 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         header: function($q, $location, $route, accountService, RoleBasedService, featuresService,
-                            workflowService, campaignSelectModel, strategySelectModel) {
+                            workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, RoleBasedService, featuresService,
-                                workflowService, campaignSelectModel, strategySelectModel);
+                                workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
                        }
                     }
                 }))
@@ -382,7 +440,8 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'reporting/controllers/campaign_reports_controller',
                     showHeader : true,
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, workflowService, campaignSelectModel) {
+                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, 
+                            workflowService, campaignSelectModel, advertiserModel, brandsModel) {
                             var deferred = $q.defer();
 
                             accountService.fetchAccountList().then(function() {
@@ -394,15 +453,20 @@ define(['common'], function (angularAMD) {
                                                     RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
                                                     RoleBasedService.setCurrencySymbol();
                                                     featuresService.setFeatureParams(response.data.data.features);
-                                                    campaignSelectModel.fetchCampaigns($route.current.params.subAccountId).then(function(campaignsResponse) {
+                                                    var params = $route.current.params;
+                                                    campaignSelectModel.fetchCampaigns(params.subAccountId, params.advertiser_id || -1, params.brand_id || -1).then(function(campaignsResponse) {
                                                         if (campaignsResponse && campaignsResponse.data.data) {
-                                                            var params = $route.current.params,
-                                                                campaign = campaignsResponse.data.data[0];
-                                                            var url = '/a/' + params.accountId + '/sa/' + params.subAccountId + '/mediaplans/' + campaign.campaign_id + '/' + params.reportName;
+                                                            var campaign = campaignsResponse.data.data[0],
+                                                                url = '/a/' + params.accountId + '/sa/' + params.subAccountId + '/mediaplans';
+                                                            campaign && (url += '/' + campaign.campaign_id + '/' + params.reportName);
+                                                            params.advertiser_id && (url += '?advertiser_id=' + params.advertiser_id);
+                                                            params.advertiser_id && params.brand_id && (url += '&brand_id=' + params.brand_id);
                                                             console.log('url', url);
                                                             $location.url(url);
                                                         }
                                                         deferred.resolve();
+                                                        // fetchCurrentAdvertiser($route, advertiserModel);
+                                                        // fetchCurrentBrand($route, brandsModel);
                                                     });
                                                 }
                                             });
@@ -435,9 +499,9 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
-                            workflowService, campaignSelectModel, strategySelectModel) {
+                            workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
                             return reportsHeaderResolver($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
-                                workflowService, campaignSelectModel, strategySelectModel);
+                                workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
                         }
                     }
                 }))
@@ -449,9 +513,9 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, 
-                            workflowService, campaignSelectModel, strategySelectModel) {
+                            workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
                             return reportsHeaderResolver($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
-                                workflowService, campaignSelectModel, strategySelectModel);
+                                workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
                         }
                     }
                 }))
@@ -463,9 +527,9 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, 
-                            workflowService, campaignSelectModel, strategySelectModel) {
+                            workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
                             return reportsHeaderResolver($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
-                                workflowService, campaignSelectModel, strategySelectModel);
+                                workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
                         }
                     }
                 }))
@@ -477,9 +541,9 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
-                            workflowService, campaignSelectModel, strategySelectModel) {
+                            workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
                             return reportsHeaderResolver($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
-                                workflowService, campaignSelectModel, strategySelectModel);
+                                workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
                        }
                     }
                 }))
@@ -491,9 +555,9 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
-                            workflowService, campaignSelectModel, strategySelectModel) {
+                            workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
                             return reportsHeaderResolver($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
-                                workflowService, campaignSelectModel, strategySelectModel);
+                                workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
                        }
                     }
                 }))
@@ -505,9 +569,9 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
-                            workflowService, campaignSelectModel, strategySelectModel) {
+                            workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
                             return reportsHeaderResolver($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
-                                workflowService, campaignSelectModel, strategySelectModel);
+                                workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
                        }
                     }
                 }))
@@ -519,9 +583,9 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
-                            workflowService, campaignSelectModel, strategySelectModel) {
+                            workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
                             return reportsHeaderResolver($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService,
-                                workflowService, campaignSelectModel, strategySelectModel);
+                                workflowService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
                        }
                     }
                 }))
@@ -530,7 +594,8 @@ define(['common'], function (angularAMD) {
                     title: 'Media Plan List',
                     reloadOnSearch : false,
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, workflowService) {
+                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, 
+                            workflowService, advertiserModel, brandsModel) {
                             var deferred = $q.defer();
 
                             accountService.fetchAccountList().then(function() {
@@ -542,6 +607,8 @@ define(['common'], function (angularAMD) {
                                             featuresService.setFeatureParams(response.data.data.features);
                                         }
                                         deferred.resolve();
+                                        fetchCurrentAdvertiser($route, advertiserModel);
+                                        fetchCurrentBrand($route, brandsModel);
                                     });
                                 } else {
                                     console.log('account not allowed');
@@ -561,7 +628,8 @@ define(['common'], function (angularAMD) {
                     title: 'Media Plan List',
                     reloadOnSearch : false,
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, workflowService) {
+                        header: function($q, $location, $route, accountService, subAccountService, RoleBasedService, featuresService, 
+                            workflowService, advertiserModel, brandsModel) {
                             var deferred = $q.defer();
 
                             accountService.fetchAccountList().then(function() {
@@ -575,6 +643,8 @@ define(['common'], function (angularAMD) {
                                                     featuresService.setFeatureParams(response.data.data.features);
                                                 }
                                                 deferred.resolve();
+                                                fetchCurrentAdvertiser($route, advertiserModel);
+                                                fetchCurrentBrand($route, brandsModel);
                                             });
                                         } else {
                                             console.log('dashboard account not allowed');

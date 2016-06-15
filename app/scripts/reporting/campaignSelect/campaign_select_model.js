@@ -75,31 +75,26 @@ define(['angularAMD','../../common/services/url_service','common/services/data_s
       }
     };
 
-    campaign.getCampaigns = function (brandId, searchCriteria) {
+    campaign.getCampaigns = function (searchCriteria) {
       // var clientId = loginModel.getSelectedClient().id;
       var clientId = $routeParams.subAccountId || $routeParams.accountId,
-          advertiserId = advertiserModel.getSelectedAdvertiser().id;
+          advertiserId = $routeParams.advertiser_id || -1,
+          brandId = $routeParams.brand_id || -1;
 
-      console.log('brandsModel.getselectedBrand()', brandsModel.getSelectedBrand());
-      if (brandId === undefined) {
-        var brand = brandsModel.getSelectedBrand();
-        console.log('brand.id', brand.id)
-        brandId = brand.id;
-      }
       var url = urlService.APICampaignDropDownList(clientId, advertiserId, brandId, searchCriteria);
       return dataService.fetch(dataService.append(url, searchCriteria)).then(function (response) {
-        // campaign.campaigns = (response.data.data !== undefined ? response.data.data : {});
-        // if (campaign.campaigns.length > 0 && campaign.selectedCampaign.id == -1) {
-        //   console.log('campaign.campaigns[0]', campaign.campaigns[0]);
-        //   campaign.setSelectedCampaign(campaign.campaigns[0]);
-        // }
-        return response.data.data !== undefined ? response.data.data : {};
+            campaign.campaigns = (response.data.data !== undefined ? response.data.data : {});
+            // if (campaign.campaigns.length > 0 && campaign.selectedCampaign.id == -1) {
+            //   console.log('campaign.campaigns[0]', campaign.campaigns[0]);
+            //   campaign.setSelectedCampaign(campaign.campaigns[0]);
+            // }
+            return campaign.campaigns;
       });
 
     };
 
-    campaign.fetchCampaigns = function (clientId) {
-        var advertiserId = -1, brandId = -1, searchCriteria = utils.typeaheadParams,
+    campaign.fetchCampaigns = function (clientId, advertiserId, brandId) {
+        var searchCriteria = utils.typeaheadParams,
             url = urlService.APICampaignDropDownList(clientId, advertiserId, brandId, searchCriteria);
         return dataService.fetch(dataService.append(url, searchCriteria));
     };
