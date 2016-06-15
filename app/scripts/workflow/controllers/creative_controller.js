@@ -243,6 +243,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             validateUrl= function (url) {
                 var re = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+                validTag = true;
                 if(url!=''){
                     if(url && re.test(url)) {
                         postCrDataObj.clickthroughURL = url;
@@ -252,8 +253,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         validTag = false;
                         $scope.IncorrectClickThru=true;
                     }
-                }else{
-                    validTag = true;
                 }
             };
 
