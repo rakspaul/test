@@ -133,13 +133,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getCustomReportData: function (campaign, queryString) {
+                getCustomReportData: function (reportId, queryString) {
                     var clientId = loginModel.getMasterClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                            '/clients/' + clientId +
-                            '/custom_reports/' + queryString;
-
-                    return this.fetch(url);
+                            '/clients/' + clientId + '/custom_reports/' + reportId;
+                    return this.post( url, queryString,undefined,false);
                 },
 
                 getVideoViewabilityData: function (campaign) {
@@ -315,10 +313,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     );
                 },
 
-                downloadFile: function (url) {
+                downloadFile: function (url,httpMethod,data,headers) {
                     $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+                    var httpMethod = httpMethod?httpMethod:'GET';
+                    var data = data?data:'';
+                    var headers = headers?headers:{'Content-Type': 'application/json'};
 
-                    return $http({url: url, method: 'GET', responseType: 'arraybuffer'}).then(
+                    return $http({url: url, method: httpMethod, data:data, responseType: 'arraybuffer',headers: headers}).then(
                         function (response) {
                             var objOnSuccess = {
                                 status: 'success',
@@ -419,15 +420,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     );
                 },
 
-                post: function (url, data, header) {
+                post: function (url, data, header,dataToJson) {
                     loginModel.checkCookieExpiry();
                     $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
-
                     return $http({
                         url: url,
                         method: 'POST',
                         cache: true,
-                        data: angular.toJson(data),
+                        data: !dataToJson?data:angular.toJson(data),
                         headers: (header ? header : {'Content-Type': 'text/plain'})
                     }).then(
                         function (response) {

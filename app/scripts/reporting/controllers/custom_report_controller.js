@@ -19,7 +19,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         $scope.additionalValue = "Contains keywords ...";
         var _customctrl = this;
         var elem = $("#reportBuilderForm").find(".dropdown").find(".dd_txt");
-        
+
         var winHeight = $(window).height();
         $(".custom_response_screenshot_container").css('min-height', winHeight - 464);
 
@@ -27,22 +27,26 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             'dimensions',
             'delivery_metrics',
             'cost_metrics',
+            'pacing_metrics',
             'booked_metrics',
             'engagement_metrics',
             'video_metrics',
-            'display_quality_metrics',
-            'video_quality_metrics',
+            //'display_quality_metrics',
+           // 'video_quality_metrics',
+            'quality_metrics',
+            'pacing_metrics',
             'filters'
         ];
         var metricKey1 = [
             'dimension',
             'delivery_metrics',
             'cost_metrics',
+            'pacing_metrics',
             'booked_metrics',
             'engagement_metrics',
             'video_metrics',
-            'display_quality_metrics',
-            'video_quality_metrics'
+            'quality_metrics',
+            'pacing_metrics'
         ];
         var metricsTab = [
             'delivery',
@@ -50,9 +54,12 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             'booked',
             'engagement',
             'video',
-            'display_quality',
-            'video_quality'
+            'quality',
+            'pacing'
         ]
+
+        var tabWiseSelectedMetrics = [];
+        var metricCategoryKeys = ['delivery_metrics','cost_metrics','video_metrics','quality_metrics','pacing_metrics'];
 
         $scope.dataNotFound = false;
         $scope.reportDataBusy = false;
@@ -159,7 +166,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         }
 
         $scope.initializeMetrics = function(dataObj, selectedDim) {
-
             //delivery metrics
             if(!$scope.reports.reportDefinition.dimensions.primary.dimension){
 //                $scope.reports.reportDefinition.dimensions.primary = {"name":$scope.displayName[selectedDim],"dimension":selectedDim,"value":""};
@@ -169,6 +175,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             }
             var selectedDim = $scope.reports.reportDefinition.dimensions.primary.dimension;
             var metricsData = dataObj.dim_specific_metrics.hasOwnProperty(selectedDim) ?  dataObj.dim_specific_metrics[selectedDim] : dataObj.metrics;
+
             $scope.deliveryMetricsView = metricsData.delivery_metrics;
             $scope.deliveryMetrics = [];
             _.each($scope.deliveryMetricsView, function(key) {
@@ -195,6 +202,22 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $scope.totalCostMetrics = $scope.costMetrics.length;
             $scope.costMetrics.isAllSelected = false;
             $scope.costMetrics.minOneSelected = false;
+
+
+            // pacing metrics
+            var pacingMetricData = metricsData.pacing_metrics;
+            $scope.pacingMetrics = [];
+            _.each(pacingMetricData, function(key) {
+                $scope.pacingMetrics.push({
+                    key : key,
+                    value : $scope.displayName[key],
+                    selected : false
+                });
+            });
+            $scope.totalPacingMetrics = $scope.pacingMetrics.length;
+            $scope.pacingMetrics.isAllSelected = false;
+            $scope.pacingMetrics.minOneSelected = false;
+
 
 //            //engagement metrics
             $scope.engagementMetricsView = metricsData.engagement_metrics;
@@ -224,34 +247,25 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $scope.videoMetrics.isAllSelected = false;
             $scope.videoMetrics.minOneSelected = false;
 
-//            //quality display metrics
-            $scope.displayQltyMetricsView = metricsData.display_quality_metrics;
-            $scope.displayQltyMetrics = [];
-            _.each($scope.displayQltyMetricsView, function(key) {
-                $scope.displayQltyMetrics.push({
-                    key : key,
-                    value : $scope.displayName[key],
-                    selected : false
-                });
-            });
-            $scope.totaldisplayQltyMetrics = $scope.displayQltyMetrics.length;
-            $scope.displayQltyMetrics.isAllSelected = false;
-            $scope.displayQltyMetrics.minOneSelected = false;
+            //Quality metrics
+            if(metricsData.quality_metrics.display_metrics !== undefined) {
+                $scope.qualityMetricsData = (metricsData.quality_metrics.display_metrics).concat(metricsData.quality_metrics.video_metrics);
+            }
 
-//            //quality video metrics
-            $scope.videoQltyMetricsView = metricsData.video_quality_metrics;
-            $scope.videoQltyMetrics = [];
-            _.each($scope.videoQltyMetricsView, function(key) {
-                $scope.videoQltyMetrics.push({
+            $scope.qualityMetrics = [];
+            _.each($scope.qualityMetricsData, function(key) {
+                $scope.qualityMetrics.push({
                     key : key,
                     value : $scope.displayName[key],
                     selected : false
                 });
             });
-            $scope.totalVideoQltyMetrics = $scope.videoQltyMetrics.length;
-            $scope.videoQltyMetrics.isAllSelected = false;
-            $scope.videoQltyMetrics.minOneSelected = false;
-            $scope.totalMetrics = $scope.totalDelMetrics + $scope.totalCostMetrics + $scope.totalEngmtMetrics + $scope.totalVideoMetrics + $scope.totaldisplayQltyMetrics + $scope.totalVideoQltyMetrics;
+            $scope.totalQualityMetrics = $scope.qualityMetrics.length;
+            $scope.qualityMetrics.isAllSelected = false;
+            $scope.qualityMetrics.minOneSelected = false;
+
+            $scope.totalMetrics = $scope.totalDelMetrics + $scope.totalCostMetrics + $scope.totalEngmtMetrics + $scope.totalVideoMetrics + $scope.totalQualityMetrics+$scope.totalPacingMetrics;
+
         }
 
         $scope.setMetrixText = function(text) {
@@ -287,26 +301,71 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $rootScope.setErrAlertMessage('', 0);
         }
 
+          /*  _customctrl.getDimensionList = function(data, selectedMetrics) {
+                $scope.selectedDimension = elem.text();
+                var selectedDim = $scope.reports.reportDefinition.dimensions.primary.dimension;
+                $scope.metricKeyArr = {}
+                //if(selectedMetrics && selectedMetrics.length >0) {
+                if ($scope.selectedMetricsList.length < $scope.totalMetrics) {
+                    $scope.metricKeyArr = {
+                        'delivery_metrics': selectedMetrics
+                    };
+                } else {
+                    //  $scope.metricKeyArr = data.dim_specific_metrics.hasOwnProperty(selectedDim) ? data.dim_specific_metrics[selectedDim] : data.metrics;
+                    var metricsType = ['deliveryMetrics', 'costMetrics', 'videoMetrics', 'displayQltyMetrics', 'videoQltyMetrics'],
+                        arr = angular.copy(data.dim_specific_metrics.hasOwnProperty(selectedDim) ? data.dim_specific_metrics[selectedDim] : data.metrics);
+                    _.each(metricKey1, function(v) {
+                        $scope.metricKeyArr[v] = [];
+                        _.each(arr[v], function(o) {
+                            $scope.metricKeyArr[v].push({
+                                key : o,
+                                value : $scope.displayName[o]
+                            })
+                        });
+                    });
+                }
+            };
+*/
         _customctrl.getDimensionList = function(data, selectedMetrics) {
             $scope.selectedDimension = elem.text();
             var selectedDim = $scope.reports.reportDefinition.dimensions.primary.dimension;
+
             $scope.metricKeyArr = {}
-            //if(selectedMetrics && selectedMetrics.length >0) {
             if ($scope.selectedMetricsList.length < $scope.totalMetrics) {
-                $scope.metricKeyArr = {
-                    'delivery_metrics': selectedMetrics
-                };
+                var metricsCategorizedKey = angular.copy(data.metrics);
+
+
+                if(metricsCategorizedKey.quality_metrics.display_metrics !== undefined) {
+                    metricsCategorizedKey['quality_metrics'] = (metricsCategorizedKey.quality_metrics.display_metrics).concat(metricsCategorizedKey.quality_metrics.video_metrics);
+                }
+
+                _.each(selectedMetrics,function(selMet){
+                    _.each(metricCategoryKeys,function(metrCatKey){
+                        if($scope.metricKeyArr[metrCatKey] == undefined) {
+                            $scope.metricKeyArr[metrCatKey] = [];
+                        }
+                       if(_.indexOf(metricsCategorizedKey[metrCatKey],selMet.key) >= 0){
+                           $scope.metricKeyArr[metrCatKey].push({'key':selMet.key,'value':selMet.value});
+                       }
+                    })
+                })
             } else {
-              //  $scope.metricKeyArr = data.dim_specific_metrics.hasOwnProperty(selectedDim) ? data.dim_specific_metrics[selectedDim] : data.metrics;
-                var metricsType = ['deliveryMetrics', 'costMetrics', 'videoMetrics', 'displayQltyMetrics', 'videoQltyMetrics'],
-                    arr = angular.copy(data.dim_specific_metrics.hasOwnProperty(selectedDim) ? data.dim_specific_metrics[selectedDim] : data.metrics);
+                //when all the metrics is selected
+                var metricsType = ['deliveryMetrics', 'costMetrics', 'videoMetrics', 'qualityMetrics','pacingMetrics'];
+                var arr = angular.copy(data.dim_specific_metrics.hasOwnProperty(selectedDim) ? data.dim_specific_metrics[selectedDim] : data.metrics);
+
+                //merge dispaly and video
+                if(arr.quality_metrics.display_metrics !== undefined) {
+                    arr['quality_metrics'] = (arr.quality_metrics.display_metrics).concat(arr.quality_metrics.video_metrics);
+                }
+
                 _.each(metricKey1, function(v) {
                     $scope.metricKeyArr[v] = [];
                     _.each(arr[v], function(o) {
-                        $scope.metricKeyArr[v].push({
-                            key : o,
-                            value : $scope.displayName[o]
-                        })
+                            $scope.metricKeyArr[v].push({
+                                key : o,
+                                value : $scope.displayName[o]
+                            })
                     });
                 });
             }
@@ -332,72 +391,111 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             _.each(data, function(d, index) {
                 d.dimension.level = typeofDimension
                 d.dimension.idx = index
-                if (activeTab === 'display_quality_metrics') {
-                    tabData = d['quality_data']['display_data'];
-                } else if (activeTab === 'video_quality_metrics') {
-                    tabData = d['quality_data']['video_data'];
-                } else {
+                if (activeTab === 'quality_metrics') {
+                    tabData = _.extend({}, d['quality_data']['display_data'],d['quality_data']['video_data']);
+                }else {
                     tabData = d[activeTab];
                 }
                 _.extend(tabData, d['dimension']);
                 activeTabDataObj.push(tabData);
             });
             $.extend(true, $scope.metricValues, tmpObj);
+            console.log('metric values',$scope.metricValues)
+
         };
 
-        _customctrl.getDataBasedOnMetricSelected = function(newData, selectedMetrics, typeofDimension, currIdx) {
-            if (!$scope.reportMetaData.hasOwnProperty(typeofDimension)) {
-                $scope.reportMetaData[typeofDimension] = {};
-            }
-            if (typeof currIdx !== 'undefined' && currIdx >= 0) {
-                if(!$scope.reportMetaData[typeofDimension].hasOwnProperty(currIdx)){
-                    $scope.reportMetaData[typeofDimension][currIdx] = {};
-                    $scope.reportMetaData[typeofDimension][currIdx]['delivery_metrics'] = [];
-                }
-            } else {
-                if(!$scope.reportMetaData[typeofDimension].hasOwnProperty('delivery_metrics')){
-                    $scope.reportMetaData[typeofDimension]['delivery_metrics'] = [];
-                }
-            }
+            _customctrl.getDataBasedOnMetricSelected = function (newData, selectedMetrics, typeofDimension, currIdx) {
 
-            var modifiedMetricsList = selectedMetrics.slice();
-            modifiedMetricsList.unshift({
-                key: 'value',
-                value: ''
-            });
-            var metrics;
-            var metricObj;
-            _.each(newData, function(obj, index) {
-                metricObj = {};
-                _.each(metricKey1, function(mkey) {
-                    var hasProperty = mkey;
-                    var objWithKey = obj[mkey];
-                    if (mkey == 'display_quality_metrics') {
-                        hasProperty = 'quality_data';
-                        objWithKey = obj['quality_data']['display_data'];
-                    } else if (mkey == 'video_quality_metrics') {
-                        hasProperty = 'quality_data';
-                        objWithKey = obj['quality_data']['video_data'];
-                    }
-                    if (obj.hasOwnProperty(hasProperty)) {
-                        metrics = _.pick(objWithKey, _.pluck(modifiedMetricsList, 'key'))
-                        if (!$.isEmptyObject(metrics)) {
-                            _.extend(metricObj, metrics);
-                        }
-                    }
-                    metricObj.idx = index
-                });
-                metricObj.level = typeofDimension;
+                if (!$scope.reportMetaData.hasOwnProperty(typeofDimension)) {
+                    $scope.reportMetaData[typeofDimension] = {};
+                }
                 if (typeof currIdx !== 'undefined' && currIdx >= 0) {
-                    $scope.reportMetaData[typeofDimension][currIdx]['delivery_metrics'].push(metricObj);
+                    if (!$scope.reportMetaData[typeofDimension].hasOwnProperty(currIdx)) {
+                        $scope.reportMetaData[typeofDimension][currIdx] = {};
+                        $scope.reportMetaData[typeofDimension][currIdx]['delivery_metrics'] = [];
+                    }
                 } else {
-                    $scope.reportMetaData[typeofDimension]['delivery_metrics'].push(metricObj);
+                    _.each(metricCategoryKeys,function(mcKey){
+                        var metricScopeVariable = mcKey.split('_')[0];
+                        if (!($scope.reportMetaData[typeofDimension].hasOwnProperty(mcKey)) && $scope[metricScopeVariable+'Metrics'].minOneSelected) {
+                            $scope.reportMetaData[typeofDimension][mcKey] = [];
+                        }
+                    })
+
+                    /*if (!($scope.reportMetaData[typeofDimension].hasOwnProperty('delivery_metrics')) && $scope.deliveryMetrics.minOneSelected) {
+                        $scope.reportMetaData[typeofDimension]['delivery_metrics'] = [];
+                    }
+                    if (!($scope.reportMetaData[typeofDimension].hasOwnProperty('pacing_metrics')) && $scope.pacingMetrics.minOneSelected) {
+                        $scope.reportMetaData[typeofDimension]['pacing_metrics'] = [];
+                    }
+                    if (!($scope.reportMetaData[typeofDimension].hasOwnProperty('cost_metrics')) && $scope.costMetrics.minOneSelected) {
+                        $scope.reportMetaData[typeofDimension]['cost_metrics'] = [];
+                    }
+                    if (!($scope.reportMetaData[typeofDimension].hasOwnProperty('video_metrics')) && $scope.videoMetrics.minOneSelected) {
+                        $scope.reportMetaData[typeofDimension]['video_metrics'] = [];
+                    }
+                    if (!($scope.reportMetaData[typeofDimension].hasOwnProperty('quality_metrics')) && $scope.qualityMetrics.minOneSelected) {
+                        $scope.reportMetaData[typeofDimension]['quality_metrics'] = [];
+                    }*/
+
+
                 }
-            });
-            $scope.metricValues = $scope.reportMetaData;
-        };
+
+
+                var modifiedMetricsList = selectedMetrics.slice();
+
+                modifiedMetricsList.unshift({
+                    key: 'value',
+                    value: ''
+                });
+
+                var metrics;
+                var metricObj;
+
+                _.each(newData, function (obj, index) {
+                    metricObj = {};
+                    var value = "";
+                    _.each(metricKey1, function (mkey) {
+                        var hasProperty = mkey;
+                        var objWithKey = obj[mkey];
+                        if (mkey == 'quality_metrics') {
+                            hasProperty = 'quality_data';
+                            objWithKey = _.extend({},obj.quality_data.display_data, obj.quality_data.video_data);
+                        }
+                        if (obj.hasOwnProperty(hasProperty)) {
+                            metrics = _.pick(objWithKey, _.pluck(modifiedMetricsList, 'key'));
+                            if (!$.isEmptyObject(metrics)) {
+                                _.extend(metricObj, metrics);
+                            }
+
+                        }
+                        metricObj.idx = index
+                        metricObj.level = typeofDimension;
+
+                        if (typeof currIdx !== 'undefined' && currIdx >= 0) { console.log("check this -- currIdx",currIdx)
+                            $scope.reportMetaData[typeofDimension][currIdx]['delivery_metrics'].push(metricObj);
+                        } else {
+                            if(mkey == 'dimension') {
+                                value = metricObj.value;
+                            }
+                            metricObj.value = value;
+                            if((mkey !== 'dimension') && ($scope.reportMetaData[typeofDimension].hasOwnProperty(mkey))) {
+                                console.log('mkey',mkey,metricObj)
+                                $scope.reportMetaData[typeofDimension][mkey].push(metricObj);
+                                metricObj = {};
+                            }
+
+                        }
+
+                    });//end of each metrickey1
+
+
+                });// end of newData each
+                $scope.metricValues = $scope.reportMetaData;
+            };
 
         _customctrl.getMetricValues = function(newData, selectedMetrics, typeofDimension, currIdx) {
+
             var tmpArr = [];
             if ($scope.selectedMetricsList.length < $scope.totalMetrics) {
                 _customctrl.getDataBasedOnMetricSelected(newData, selectedMetrics, typeofDimension, currIdx)
@@ -428,10 +526,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     if (typeof currIdx !== 'undefined' && currIdx >= 0) {
                         $scope.reportMetaData[typeofDimension][currIdx].push(d);
                     } else {
+                        // remove below comment - sapna
                         $scope.reportMetaData[typeofDimension].push(d);
                     }
                 })
-
                 _customctrl.getDataBasedOnTabSelected($scope.activeTab, typeofDimension, currIdx)
             }
         };
@@ -477,10 +575,99 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             }
         }
 
+        _customctrl.createMetricRequestParams = function(params) {
+                var metricsString ="";
+
+                if($scope.totalMetrics === $scope.selectedMetricsList.length) {
+                    metricsString = 'all';
+                } else {
+                    //delivery metrics
+                    if($scope.deliveryMetrics.isAllSelected) {
+                        metricsString += "delivery_metrics:all";
+                        metricsString += '~';
+                    } else if($scope.deliveryMetrics.minOneSelected){
+                        metricsString += "delivery_metrics:";
+                        _.each($scope.deliveryMetrics,function(eachObj,index){
+                            if(eachObj.selected) {
+                                metricsString += eachObj.key+',';
+                            }
+                        })
+                        metricsString = metricsString.replace(/,\s*$/, "");
+                        metricsString += '~';
+                    }
+
+                    //pacing Metrics
+                    if($scope.pacingMetrics.isAllSelected){
+                        metricsString += "pacing_metrics:all";
+                        metricsString += '~';
+                    } else if($scope.pacingMetrics.minOneSelected){
+                        metricsString += "pacing_metrics:";
+                        _.each($scope.pacingMetrics,function(eachObj,index){
+                            if(eachObj.selected) {
+                                metricsString += eachObj.key+',';
+                            }
+                        })
+                        metricsString = metricsString.replace(/,\s*$/, "");
+                        metricsString += '~';
+                    }
+
+
+                    //cost Metrics
+                    if($scope.costMetrics.isAllSelected){
+                        metricsString += "cost_metrics:all";
+                        metricsString += '~';
+                    } else if($scope.costMetrics.minOneSelected){
+                        metricsString += "cost_metrics:";
+                        _.each($scope.costMetrics,function(eachObj,index){
+                            if(eachObj.selected) {
+                                metricsString += eachObj.key+',';
+                            }
+                        })
+                        metricsString = metricsString.replace(/,\s*$/, "");
+                        metricsString += '~';
+                    }
+
+                    //video Metrics
+                    if($scope.videoMetrics.isAllSelected) {
+                        metricsString += "video_metrics:all";
+                        metricsString += '~';
+                    } else if($scope.videoMetrics.minOneSelected) {
+                        metricsString += "video_metrics:";
+                        _.each($scope.videoMetrics,function(eachObj,index){
+                            if(eachObj.selected) {
+                                metricsString += eachObj.key+',';
+                            }
+                        })
+                        metricsString = metricsString.replace(/,\s*$/, "");
+                        metricsString += '~';
+                    }
+
+                    //quality metrics
+                    if($scope.qualityMetrics.isAllSelected) {
+                        metricsString += "quality_metrics:all";
+                        metricsString += '~';
+                    } else if($scope.qualityMetrics.minOneSelected) {
+                        metricsString += "quality_metrics:";
+                        _.each($scope.qualityMetrics,function(eachObj,index){
+                            if(eachObj.selected) {
+                                metricsString += eachObj.key+',';
+                            }
+                        })
+                        metricsString = metricsString.replace(/,\s*$/, "");
+                        metricsString += '~';
+                    }
+                }
+                metricsString = metricsString.replace(/~\s*$/, "");
+                params += "&metric_list="+metricsString;
+
+                return params;
+            }
+
+
+
         _customctrl.createRequestParams = function(filterText, offset, isPrimary, rowIndex_2D,dataFormat) {
             var params = '',
-                dropdownElem = $("#reportBuilderForm"),
-                reportId = dropdownElem.find('.dd_txt').attr('data-template_id'),
+
                 dimensionDataKey = isPrimary ? "primary" : "secondary",
                 filterDataKey = isPrimary ? "secondary" : "primary",
                 str = $scope.reports.reportDefinition.dimensions[dimensionDataKey].dimension;
@@ -528,9 +715,11 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             //timeframe
             str += '&start_date=' + $scope.reports.reportDefinition.timeframe.start_date + "&end_date=" + $scope.reports.reportDefinition.timeframe.end_date;
 
-            params = reportId + "?dimension=" + str + "&page_num=" + (isPrimary ? _customctrl.reportPageNum_1D : _customctrl.reportPageNum_2D[$scope.activeTab][rowIndex_2D]);
+            params = "dimension=" + str + "&page_num=" + (isPrimary ? _customctrl.reportPageNum_1D : _customctrl.reportPageNum_2D[$scope.activeTab][rowIndex_2D]);
 
-            return  (dataFormat && dataFormat==='csv')?'download/'+params : params;
+            params = _customctrl.createMetricRequestParams(params);
+
+            return  params;
         };
 
         _customctrl.errorHandler = function() {
@@ -541,7 +730,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
         _customctrl.fetchReportData = function(selectedMetricsList, params, idx, sucessCallbackHandler, errorCallbackHandler) {
             $scope.generateBtnDisabled = true;
-            dataService.getCustomReportData($scope.campaign, params).then(function(result) {
+             var dropdownElem = $("#reportBuilderForm"),
+                 reportId = dropdownElem.find('.dd_txt').attr('data-template_id');
+            dataService.getCustomReportData(reportId, params).then(function(result) {
                 requestCanceller.resetCanceller(constants.NEW_REPORT_RESULT_CANCELLER);
                 if (result && result.data.data) {
                     sucessCallbackHandler(result.data.data, idx);
@@ -618,14 +809,33 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 return true;
             }
         }
-        _customctrl.resetReportDataCnt = function(){
+       /* _customctrl.resetReportDataCnt = function(){
             $(".custom_report_response_table").hide();
             $("#delivery_table").show();
             $(".custom_report_response_tabs").find(".each_tab").removeClass("active");
             $(".custom_report_response_tabs").find("#delivery_tab").addClass("active");
             $scope.activeTab = "delivery_metrics";
             $(".custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row").css("left","0");
+        }*/
+
+        _customctrl.resetReportDataCnt = function(){
+            var metricsInTabOrder = ['delivery','cost','video','quality','pacing'];
+
+            var firstTabDetected = false;
+            _.each(metricsInTabOrder,function(mTab){
+                if(($scope[mTab+'Metrics'].minOneSelected) && !firstTabDetected) {
+                    firstTabDetected = true;
+                    $(".custom_report_response_table").hide();
+                    $("#"+mTab+"_table").show();
+                    $(".custom_report_response_tabs").find(".each_tab").removeClass("active");
+                    $(".custom_report_response_tabs").find("#"+mTab+"_tab").addClass("active");
+                    $scope.activeTab = mTab+"_metrics";
+                    $(".custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row").css("left","0");
+                }
+            })
         }
+
+
         $scope.generateReport = function(generateReportType) {
             if (validateGenerateReport()) {
                // $(".iconPlus")
@@ -637,7 +847,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 $scope.metricValues = [];
                 $scope.reportMetaData = {};
                 $scope.secondDimensionReportDataNotFound[$scope.activeTab] = {};
-                $scope.hideReportsTabs = true;
+                $scope.hideReportsTabs = false;
                 $scope.reportDataNotFound = false;
                 $scope.showhasBreakdown = '';
                 $scope.reportDataLoading = true;
@@ -650,9 +860,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     scrollTop: 0
                 });
 
-                if ($scope.totalMetrics == $scope.selectedMetricsList.length) {
+                /*if ($scope.totalMetrics == $scope.selectedMetricsList.length) {
                     $scope.hideReportsTabs = false;
-                }
+                }*/
                 _customctrl.reset();
                 _customctrl.createJSONforPage($scope.activeTab);
                 _customctrl.getDimensionList($scope.customeDimensionData[0], $scope.selectedMetricsList);
@@ -898,8 +1108,11 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
             $scope.downloadCreateRepBuilder = function(parentIndex, instanceIndex, instanceId) {
                 $scope.reportDownloadBusy = true;
+                var dropdownElem = $("#reportBuilderForm");
+                var reportId = dropdownElem.find('.dd_txt').attr('data-template_id');
                 var params = _customctrl.createRequestParams(null, $scope.firstDimensionoffset, 1,0,'csv');
-                dataService.downloadFile(urlService.downloadGeneratedRpt(params)).then(function (response) {
+
+                dataService.downloadFile(urlService.downloadGeneratedRpt(reportId),"POST",params,{'Content-Type': 'text/plain'}).then(function (response) {
                     if (response.status === "success") {
                         saveAs(response.file, response.fileName);
                         $scope.reportDownloadBusy = false;
@@ -1223,6 +1436,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 }
                 //$scope.allMetrics = true;
                 //$scope.OnSelectUnselectAllMetrics();
+
                 $scope.setMetrixText();
             }
 
@@ -1349,7 +1563,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $(".custom_report_response_tabs").find("#" + id + "_tab").addClass("active");
             $scope.activeTab = id + "_metrics";
             _customctrl.createJSONforPage($scope.activeTab);
-            _customctrl.getDataBasedOnTabSelected($scope.activeTab);
+            _customctrl.getDataBasedOnTabSelected($scope.activeTab,'first_dimension');
             $scope.checkHeaderScroll(id);
             var heading_width = $("#"+id+"_table .custom_report_scroll").find(".heading_row").width() ;
             $("#"+id+"_table .custom_report_scroll .first_dimension_row_holder").width(heading_width);
@@ -1511,7 +1725,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
 
             $scope.setAllMetrics = function() {
-                if ($scope.deliveryMetrics.isAllSelected && ($scope.costMetrics.isAllSelected || !$scope.showCost) && $scope.engagementMetrics.isAllSelected && $scope.videoMetrics.isAllSelected && ($scope.displayQltyMetrics.isAllSelected || !$scope.showQuality) && ($scope.videoQltyMetrics.isAllSelected || !$scope.showQuality)) {
+                if ($scope.deliveryMetrics.isAllSelected && ($scope.costMetrics.isAllSelected || !$scope.showCost) && $scope.engagementMetrics.isAllSelected && $scope.videoMetrics.isAllSelected && ($scope.qualityMetrics.isAllSelected || !$scope.showQuality)) {
                     $scope.allMetrics = true;
                 } else {
                     $scope.allMetrics = false;
@@ -1521,48 +1735,17 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
             $scope.allMetrics = false;
             $scope.OnSelectUnselectAllMetrics = function() {
-                //  delivery Metrics
-                $scope.deliveryMetrics.isAllSelected = $scope.allMetrics;
-                _.each($scope.deliveryMetrics, function(eachObj) {
-                    eachObj.selected = $scope.allMetrics;
-                })
+                var metricsTab = ['delivery','pacing','cost','video','quality'];
 
-                //cost Metrics
-                $scope.costMetrics.isAllSelected = $scope.allMetrics;
-                _.each($scope.costMetrics, function(eachObj) {
-                    eachObj.selected = $scope.allMetrics;
-                })
-
-                //engagement Metrics
-                $scope.engagementMetrics.isAllSelected = $scope.allMetrics;
-                _.each($scope.engagementMetrics, function(eachObj) {
-                    eachObj.selected = $scope.allMetrics;
-                })
-
-                //video Metrics
-                $scope.videoMetrics.isAllSelected = $scope.allMetrics;
-                _.each($scope.videoMetrics, function(eachObj) {
-                    eachObj.selected = $scope.allMetrics;
-                })
-
-                //Display Quality Metrics
-                $scope.displayQltyMetrics.isAllSelected = $scope.allMetrics;
-                _.each($scope.displayQltyMetrics, function(eachObj) {
-                    eachObj.selected = $scope.allMetrics;
-                })
-
-                //Quality video Metrics
-                $scope.videoQltyMetrics.isAllSelected = $scope.allMetrics;
-                _.each($scope.videoQltyMetrics, function(eachObj) {
-                    eachObj.selected = $scope.allMetrics;
-                })
-                if($scope.customMetrics && $scope.customMetrics.length) {
-                    $scope.customMetrics.isAllSelected = $scope.allMetrics;
-                    _.each($scope.customMetrics, function (eachObj) {
+                _.each(metricsTab,function(mTab){
+                    $scope[mTab+'Metrics'].isAllSelected = $scope.allMetrics;
+                    _.each($scope[mTab+'Metrics'], function(eachObj) {
                         eachObj.selected = $scope.allMetrics;
                     })
-                }
-
+                    if(!$scope[mTab+'Metrics'].isAllSelected) {
+                        $scope[mTab+'Metrics'].minOneSelected = false;
+                    }
+                })
             }
 
             //Delivery Metrics
@@ -1590,6 +1773,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         $scope.allMetrics = false;
                     }
                 } else {
+                    $scope.deliveryMetrics.minOneSelected = false;
                     $scope.allMetrics = false;
                 }
             }
@@ -1601,6 +1785,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         totalMetricSelected++;
                     }
                 }); // totalCustomMetrics
+                $scope.costMetrics.minOneSelected = false;
                 if (totalMetricSelected > 0) {
                     $scope.customMetrics.minOneSelected = true;
                     if (totalMetricSelected == $scope.totalCustomMetrics) {
@@ -1643,6 +1828,37 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     $scope.allMetrics = false;
                 }
             }
+
+            //pacing Metrics
+            $scope.onPacingMetrClick = function(index) {
+                var totalMetricSelected = 0;
+                if (index == undefined) {
+                    _.each($scope.pacingMetrics, function(eachObj) {
+                        eachObj.selected = $scope.pacingMetrics.isAllSelected;
+                    })
+                } else {
+                    $scope.pacingMetrics[index].selected = !$scope.pacingMetrics[index].selected;
+                }
+                var selectedIndx = _.findIndex($scope.pacingMetrics, function(eachObj) {
+                    if (eachObj.selected == true) {
+                        totalMetricSelected++;
+                    }
+                });
+                $scope.pacingMetrics.minOneSelected = false;
+                if (totalMetricSelected > 0) {
+                    $scope.pacingMetrics.minOneSelected = true;
+                    if (totalMetricSelected == $scope.totalPacingMetrics) {
+                        $scope.pacingMetrics.isAllSelected = true;
+                        $scope.setAllMetrics();
+                    } else {
+                        $scope.pacingMetrics.isAllSelected = false;
+                        $scope.allMetrics = false;
+                    }
+                } else {
+                    $scope.allMetrics = false;
+                }
+            }
+
 
             //Engagement Metrics
             $scope.onEngagementMetrClick = function(index) {
@@ -1704,59 +1920,29 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 }
             }
 
-            //Display Qulity Metrics
-            $scope.onQltyDisplayClick = function(index) {
+            //Quality Metrics
+            $scope.onQualityClick = function(index) {
                 var totalMetricSelected = 0;
                 if (index == undefined) {
-                    _.each($scope.displayQltyMetrics, function(eachObj) {
-                        eachObj.selected = $scope.displayQltyMetrics.isAllSelected;
+                    _.each($scope.qualityMetrics, function(eachObj) {
+                        eachObj.selected = $scope.qualityMetrics.isAllSelected;
                     })
                 } else {
-                    $scope.displayQltyMetrics[index].selected = !$scope.displayQltyMetrics[index].selected;
+                    $scope.qualityMetrics[index].selected = !$scope.qualityMetrics[index].selected;
                 }
-                var selectedIndx = _.findIndex($scope.displayQltyMetrics, function(eachObj) {
+                var selectedIndx = _.findIndex($scope.qualityMetrics, function(eachObj) {
                     if (eachObj.selected == true) {
                         totalMetricSelected++;
                     }
                 });
-                $scope.displayQltyMetrics.minOneSelected = false;
+                $scope.qualityMetrics.minOneSelected = false;
                 if (totalMetricSelected > 0) {
-                    $scope.displayQltyMetrics.minOneSelected = true;
-                    if (totalMetricSelected == $scope.totaldisplayQltyMetrics) {
-                        $scope.displayQltyMetrics.isAllSelected = true;
+                    $scope.qualityMetrics.minOneSelected = true;
+                    if (totalMetricSelected == $scope.totalQualityMetrics) {
+                        $scope.qualityMetrics.isAllSelected = true;
                         $scope.setAllMetrics();
                     } else {
-                        $scope.displayQltyMetrics.isAllSelected = false;
-                        $scope.allMetrics = false;
-                    }
-                } else {
-                    $scope.allMetrics = false;
-                }
-            }
-
-            //video Metrics
-            $scope.onQltyVdoMetrClick = function(index) {
-                var totalMetricSelected = 0;
-                if (index == undefined) {
-                    _.each($scope.videoQltyMetrics, function(eachObj) {
-                        eachObj.selected = $scope.videoQltyMetrics.isAllSelected;
-                    })
-                } else {
-                    $scope.videoQltyMetrics[index].selected = !$scope.videoQltyMetrics[index].selected;
-                }
-                var selectedIndx = _.findIndex($scope.videoQltyMetrics, function(eachObj) {
-                    if (eachObj.selected == true) {
-                        totalMetricSelected++;
-                    }
-                });
-                $scope.videoQltyMetrics.minOneSelected = false;
-                if (totalMetricSelected > 0) {
-                    $scope.videoQltyMetrics.minOneSelected = true;
-                    if (totalMetricSelected == $scope.totalVideoQltyMetrics) {
-                        $scope.videoQltyMetrics.isAllSelected = true;
-                        $scope.setAllMetrics();
-                    } else {
-                        $scope.videoQltyMetrics.isAllSelected = false;
+                        $scope.qualityMetrics.isAllSelected = false;
                         $scope.allMetrics = false;
                     }
                 } else {
@@ -1781,6 +1967,24 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 if (selectedDeliveryMetrics.length > 0) {
                     $scope.reports.reportDefinition.metrics['Delivery'] = selectedDeliveryMetrics;
                 }
+
+                //pacing Metrics
+                var selectedPacingMetrics = [];
+                    _.each($scope.pacingMetrics, function (eachObj) {
+                        if (eachObj.selected) {
+                            selectedPacingMetrics.push(eachObj.key);
+                            $scope.selectedMetricsList.push({
+                                'key': eachObj.key,
+                                'value': eachObj.value
+                            });
+                        }
+                    });
+
+                $scope.reports.reportDefinition.metrics['Pacing'] = [];
+                if (selectedPacingMetrics.length > 0) {
+                    $scope.reports.reportDefinition.metrics['Pacing'] = selectedPacingMetrics;
+                }
+
                 //cost Metrics
                 var selectedCostMetrics = [];
                 if($scope.showCost) {
@@ -1831,12 +2035,12 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     $scope.reports.reportDefinition.metrics['Video'] = selectedVideoMetrics;
                 }
 
-                //quality display metrics
-                var selectedDsplyQltyMetrics = [];
+                //quality metrics
+                var selectedQualityMetrics = [];
                 if($scope.showQuality) {
-                    _.each($scope.displayQltyMetrics, function(eachObj) {
+                    _.each($scope.qualityMetrics, function(eachObj) {
                         if (eachObj.selected) {
-                            selectedDsplyQltyMetrics.push(eachObj.key);
+                            selectedQualityMetrics.push(eachObj.key);
                             $scope.selectedMetricsList.push({
                                 'key': eachObj.key,
                                 'value': eachObj.value
@@ -1844,31 +2048,14 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         }
                     });
                 }
-                $scope.reports.reportDefinition.metrics['Quality Display'] = [];
-                if (selectedDsplyQltyMetrics.length > 0) {
-                    $scope.reports.reportDefinition.metrics['Quality Display'] = selectedDsplyQltyMetrics;
+                $scope.reports.reportDefinition.metrics['Quality'] = [];
+                if (selectedQualityMetrics.length > 0) {
+                    $scope.reports.reportDefinition.metrics['Quality'] = selectedQualityMetrics;
                 }
 
-                //quality video metrics
-                var selectedVideoQltyMetrics = [];
-                if($scope.showQuality) {
-                    _.each($scope.videoQltyMetrics, function (eachObj) {
-                        if (eachObj.selected) {
-                            selectedVideoQltyMetrics.push(eachObj.key);
-                            $scope.selectedMetricsList.push({
-                                'key': eachObj.key,
-                                'value': eachObj.value
-                            });
-                        }
-                    });
-                }
-                $scope.reports.reportDefinition.metrics['Quality Video'] = [];
-                if (selectedVideoQltyMetrics.length > 0) {
-                    $scope.reports.reportDefinition.metrics['Quality Video'] = selectedVideoQltyMetrics;
-                }
-
-                $(".metric_popup").modal('hide');
                 $scope.setMetrixText('Custom');
+                $scope.cancelMetricView();
+
             }
 
             $scope.updateSchdReport = function() {
@@ -1904,7 +2091,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 }
             }
             $scope.refreshMetriPopUp = function() {
-                var metricsType = ['deliveryMetrics', 'costMetrics', 'videoMetrics', 'displayQltyMetrics', 'videoQltyMetrics'];
+                var metricsType = ['deliveryMetrics', 'costMetrics', 'videoMetrics', 'qualityMetrics'];
                 _.each(metricsType, function(v) {
                     _.each($scope[v], function(o) {
                         o.selected = false;
@@ -1927,7 +2114,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 $(".metricDataViewHeader").hide();
                 $(".metricDataView").slideDown();
             }
-            
+
             $scope.cancelMetricView = function() {
                 $(".metricDataView").slideUp();
                 setTimeout(function(){ $(".metricDataViewHeader").fadeIn(); }, 600);
@@ -2183,6 +2370,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 //metrics
                 $scope.selectedMetricsList = [];
                 if (responseData.reportDefinition.metrics.Delivery) {
+                    tabWiseSelectedMetrics['delivery'] = [];
                     _.each($scope.deliveryMetrics, function(each) {
                         var deliveryMetricsObj = _.find(responseData.reportDefinition.metrics.Delivery, function(num) {
                             return num == each.key;
@@ -2196,29 +2384,35 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                 'key': each.key,
                                 'value': each.value
                             });
+                            tabWiseSelectedMetrics['delivery'].push({'key': each.key, 'value': each.value});
                             $scope.deliveryMetrics.minOneSelected = true;
                         }
                     });
                 }
-                if (responseData.reportDefinition.metrics.Engagement) {
-                    _.each($scope.engagementMetrics, function(each) {
-                        var engMetricsObj = _.find(responseData.reportDefinition.metrics.Engagement, function(num) {
+
+                if (responseData.reportDefinition.metrics.Pacing) {
+                    tabWiseSelectedMetrics['pacing'] = [];
+                    _.each($scope.pacingMetrics, function(each) {
+                        var pacingMetricsObj = _.find(responseData.reportDefinition.metrics.Pacing, function(num) {
                             return num == each.key;
                         });
-                        if (engMetricsObj == undefined) {
+                        if (pacingMetricsObj == undefined) {
                             each.selected = false;
-                            $scope.engagementMetrics.isAllSelected = false;
+                            $scope.pacingMetrics.isAllSelected = false;
                             $scope.allMetrics = false;
                         } else {
                             $scope.selectedMetricsList.push({
                                 'key': each.key,
                                 'value': each.value
                             });
-                            $scope.engagementMetrics.minOneSelected = true;
+                            tabWiseSelectedMetrics['pacing'].push({'key': each.key, 'value': each.value});
+                            $scope.pacingMetrics.minOneSelected = true;
                         }
                     });
                 }
+
                 if (responseData.reportDefinition.metrics.Cost && $scope.showCost) {
+                    tabWiseSelectedMetrics['cost'] = [];
                     _.each($scope.costMetrics, function(each) {
                         var costMetricsObj = _.find(responseData.reportDefinition.metrics.Cost, function(num) {
                             return num == each.key;
@@ -2232,11 +2426,13 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                 'key': each.key,
                                 'value': each.value
                             });
+                            tabWiseSelectedMetrics['cost'].push({'key': each.key, 'value': each.value});
                             $scope.costMetrics.minOneSelected = true;
                         }
                     });
                 }
                 if (responseData.reportDefinition.metrics.Video) {
+                    tabWiseSelectedMetrics['video'] = [];
                     _.each($scope.videoMetrics, function(each) {
                         var videoMetricsObj = _.find(responseData.reportDefinition.metrics.Video, function(num) {
                             return num == each.key;
@@ -2250,50 +2446,35 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                 'key': each.key,
                                 'value': each.value
                             });
+                            tabWiseSelectedMetrics['video'].push({'key': each.key, 'value': each.value});
                             $scope.videoMetrics.minOneSelected = true;
                         }
                     });
                 }
 
-                if (responseData.reportDefinition.metrics['Quality Display'] && $scope.showQuality) {
-                    _.each($scope.displayQltyMetrics, function(each) {
-                        var qualityDisplayObj = _.find(responseData.reportDefinition.metrics['Quality Display'], function(num) {
+                //Quality metrics
+                if (responseData.reportDefinition.metrics['Quality'] && $scope.showQuality) {
+                    tabWiseSelectedMetrics['quality'] = [];
+                    _.each($scope.qualityMetrics, function(each) {
+                        var qualityObj = _.find(responseData.reportDefinition.metrics['Quality'], function(num) {
                             return num == each.key;
                         });
-                        if (qualityDisplayObj == undefined) {
+                        if (qualityObj == undefined) {
                             each.selected = false;
-                            $scope.displayQltyMetrics.isAllSelected = false;
+                            $scope.qualityMetrics.isAllSelected = false;
                             $scope.allMetrics = false;
                         } else {
                             $scope.selectedMetricsList.push({
                                 'key': each.key,
                                 'value': each.value
                             });
-                            $scope.displayQltyMetrics.minOneSelected = true;
+                            tabWiseSelectedMetrics['quality'].push({'key': each.key, 'value': each.value});
+                            $scope.qualityMetrics.minOneSelected = true;
                         }
                     });
                 }
 
-                if (responseData.reportDefinition.metrics['Quality Video'] && $scope.showQuality) {
-                    _.each($scope.videoQltyMetrics, function(each) {
-                        var videoQltyMetricsObj = _.find(responseData.reportDefinition.metrics['Quality Video'], function(num) {
-                            return num == each.key;
-                        });
-                        if (videoQltyMetricsObj == undefined) {
-                            each.selected = false;
-                            $scope.videoQltyMetrics.isAllSelected = false;
-                            $scope.allMetrics = false;
-                        } else {
-                            $scope.selectedMetricsList.push({
-                                'key': each.key,
-                                'value': each.value
-                            });
-                            $scope.videoQltyMetrics.minOneSelected = true;
-                        }
-                    });
-                }
-
-                if($scope.deliveryMetrics.isAllSelected && $scope.engagementMetrics.isAllSelected && $scope.costMetrics.isAllSelected && $scope.videoMetrics.isAllSelected && $scope.videoQltyMetrics.isAllSelected && $scope.displayQltyMetrics.isAllSelected) {
+                if($scope.deliveryMetrics.isAllSelected && $scope.engagementMetrics.isAllSelected && $scope.costMetrics.isAllSelected && $scope.videoMetrics.isAllSelected && $scope.qualityMetrics.isAllSelected && $scope.pacingMetrics.isAllSelected) {
                     $scope.allMetrics = true;
                 }
                 $scope.scheduleResponseData = JSON.parse(JSON.stringify(responseData));
@@ -2303,7 +2484,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             } //end prefill data
             _customctrl.resetMetricsPopUp = function(){
                 $scope.allMetrics = true;
+
+                // selects all metrics initially
                 $scope.OnSelectUnselectAllMetrics();
+
                 $scope.saveMetrics();
                 $scope.setMetrixText('Default');
             }
@@ -2359,7 +2543,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             //Get custom metrics
             getCustomReportMetrics();
 
-            var metricsTabIdTab = ["delivery_table", "cost_table", "engagement_table", "video_table", "display_quality_table", "video_quality_table"];
+            var metricsTabIdTab = ["delivery_table", "cost_table", "engagement_table", "video_table", "quality_table","pacing_table"];
             metricsTabIdTab.forEach(function(id){
                 $("#"+id+" .custom_report_scroll").scroll(function(){
                     $(".custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row").css({"left": "-" + $("#"+id+" .custom_report_scroll").scrollLeft() + "px"});
