@@ -28,6 +28,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         $scope.showConfirmPopupCreate = false;
         $scope.showConfirmPopupEdit = false;
         $scope.showConfirmPopupBulkUpload = false;
+        $scope.correctLineItems=[];
 
 
 
@@ -62,10 +63,65 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 $('.common_file_upload_container').hide();
             }
         }
+        var lineItemCreateBulkUpload=function () {
+            for(var index=0;index<$scope.correctLineItems.length;index++) {
+                var newItem = {};
+                newItem.lineItemType={};
+                newItem.name = $scope.correctLineItems[index].name;
+                console.log("RateType::",$scope.type);
+                var objectIndex = _.findIndex($scope.type, function (type) {
+                    return type.id === $scope.correctLineItems[index].billingTypeId
+                });
+                if(objectIndex>=0){
+                    newItem.lineItemType = $scope.type[objectIndex];
+                }
+                newItem.pricingMethodId = $scope.correctLineItems[index].billingTypeId;
+                newItem.adGroupName = $scope.correctLineItems[index].adGroupName;
+                newItem.billableAmount = $scope.correctLineItems[index].billableAmount;
+                newItem.volume = $scope.correctLineItems[index].volume;
+                // in case pricerate is 30% markup remove the Markup
+                //if (typeof $scope.pricingRate === "string") {
+                //    newItem.pricingRate = Number($scope.billingRate.split('%')[0]);
+                //} else {
+                newItem.pricingRate = Number($scope.correctLineItems[index].billingRate);
+                // }
+                newItem.startTime = momentService.utcToLocalTime($scope.correctLineItems[index].startTime);
+                newItem.endTime = momentService.utcToLocalTime($scope.correctLineItems[index].endTime);
+                if(newItem.startTime < $scope.selectedCampaign.startTime || newItem.endTime > $scope.selectedCampaign.endTime){
+                    return false;
+                }
+                newItem.campaignId = (campaignId === '-999') ? '-999' : campaignId;
+
+                if ($scope.correctLineItems[index].pixelId) {
+                    var objectIndex = _.findIndex($scope.selectedCampaign.pixelList, function (type) {
+                        return type.id === $scope.correctLineItems[index].pixelId
+                    });
+                    newItem.pixel = $scope.selectedCampaign.pixelList[objectIndex];
+                    newItem.pixelId = $scope.selectedCampaign.pixelList[objectIndex].id;
+                }
+
+                if($scope.correctLineItems[index].vendorConfigId){
+                    var indexSor=_.findIndex($scope.selectedCampaign.systemOfRecord,function (type){
+                        return type.id==$scope.correctLineItems[index].vendorConfigId
+                    })
+                    newItem.systemOfRecordSelected = $scope.selectedCampaign.systemOfRecord[indexSor];
+                    newItem.vendorConfigId = $scope.selectedCampaign.systemOfRecord[indexSor].id;
+                }
+
+                if (doesLineItemExceedBudget(newItem.billableAmount, $scope.Campaign.deliveryBudget)) {
+                    return false;
+                }
+
+                $scope.lineItems.lineItemList.push(newItem);
+                $scope.calculateLineItemTotal();
+                // $scope.selectedCampaign.resetLineItemParameters();
+
+            }
+        }
 
         /*Function to upload the csv file selected, Based on response, show popUp with number of success-failure-errorLog download link
         * call getLineItems() to get the saved and newly uploaded line items*/
-        $scope.$parent.uploadFileChosenLineItem = function() {
+        $scope.$parent.uploadFileChosenLineItem = function(uploadMode) {
             //if we have to save the media plan prior to line item
             $scope.showConfirmPopupBulkUpload = false;
             if($scope.saveMediaPlan){
@@ -74,7 +130,55 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
                 //show popup
                 $scope.showConfirmPopupBulkUpload = true;
-            } else {
+            }else if(uploadMode=='create'){
+                if($scope.selectedCampaign.lineItemfile){
+                    //bulk upload loader flag
+                    $scope.bulkUploadItemLoaderEdit = true;
+
+                        var clientId = ($scope.selectedCampaign.clientId)? $scope.selectedCampaign.clientId:loginModel.getSelectedClient().id;
+                    var url= vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertiser/' + $scope.selectedCampaign.advertiserId
+                        + '/lineitems/parseCSV?campaignEndDate='+$scope.selectedCampaign.endTime;
+
+                    (function(file) {
+                        Upload.upload({
+                            url: url,
+                            fileFormDataName: 'lineitemList',
+                            file: $scope.selectedCampaign.lineItemfile
+                        }).then(function (response) {
+                            $scope.bulkUploadItemLoaderEdit = false;
+                            $scope.$parent.successfulRecords = response.data.data.success;
+                            $scope.verifiedItems=response.data.data.success;
+                            $scope.$parent.errorRecords = response.data.data.failure;
+                            $scope.$parent.errorRecordsFileName = response.data.data.logFileDownloadLink;
+                            if ($scope.$parent.errorRecords.length > 0) {
+                                $scope.$parent.bulkUploadResultHeader += ' - Errors found';
+                            }
+                            $scope.showUploadRecordsMessageLineItems = true;
+                            $scope.correctLineItems.length=0;
+                            var correctLineItem={};
+                            for(var i=0; i<$scope.verifiedItems.length;i++){
+                                correctLineItem=$scope.verifiedItems[i].lineitem;
+                                correctLineItem.adGroupName=$scope.verifiedItems[i].adGroupName;
+                                $scope.correctLineItems.push(correctLineItem);
+                                console.log("correctLineItem",correctLineItem);
+
+                            }
+                            console.log($scope.correctLineItems);
+                            /*Function insert verified line items to newItem and push to lineItems.lineItemList array to display on UI*/
+                            lineItemCreateBulkUpload($scope.correctLineItems);
+                            $scope.clearFileSelected();
+                            //bulk upload loader
+
+                        }, function (response) {
+                            $scope.uploadBusy = false;
+                            $scope.uploadErrorMsg = "Unable to upload the file.";
+                            //bulk upload loader
+                            $scope.bulkUploadItemLoaderEdit = false;
+                        });
+                    })($scope.selectedCampaign.lineItemfile);
+                }
+
+            }else if(uploadMode=='edit'){
                 if($scope.selectedCampaign.lineItemfile){
                     //bulk upload loader flag
                     $scope.bulkUploadItemLoaderEdit = true;
