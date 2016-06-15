@@ -614,15 +614,6 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .breadcrumb_campaign_strategy .dropdown_type2 .arrrow_img {
   background: url("/images/cdesk/common_down_arrow.png") no-repeat center center;
 }
-.common_reports_container .dropdown-menu li,
-.breadcrumb_campaign_strategy .dropdown-menu li {
-  cursor: default;
-  padding: 6px 10px;
-}
-.common_reports_container .dropdown-menu li:hover,
-.breadcrumb_campaign_strategy .dropdown-menu li:hover {
-  background: #F5F9FD ;
-}
 .common_reports_container .download_report,
 .breadcrumb_campaign_strategy .download_report {
   height: 36px;
@@ -780,12 +771,6 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   display: inline-block;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-.common_reports_container .dropdown-menu,
-.breadcrumb_campaign_strategy .dropdown-menu {
-  padding: 0px;
-  max-height: 200px;
-  overflow-y: auto;
 }
 .common_reports_container #strategies_list,
 .breadcrumb_campaign_strategy #strategies_list {

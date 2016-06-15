@@ -216,7 +216,7 @@
     </div>
 </div>
 <script type="text/ng-template" id="creativeTpl">
-	<div class="parentWrap">
+	<div class="parentWrap" ng-mouseleave="clearHoverPreview();">
 		<!--Creative Name-->
 		<div class="col-md-4 td">
 			<input type="checkbox" ng-disabled="creativeData.pushedCount>0" ng-checked="creativeData.active" ng-click="selectedCreativeCheckbox(creativeData)"/>

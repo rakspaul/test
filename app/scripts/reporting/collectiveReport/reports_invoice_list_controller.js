@@ -93,7 +93,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
                 // Search Clear
                 $scope.searchHideInput = function (evt) {
-                    $(evt.target).hide();
                     $('.searchInputForm input').val('');
                     if ($scope.invoiceReports.isSearched) {
                         $scope.invoiceReports.isSearched = false;

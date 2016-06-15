@@ -65,6 +65,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.hideLineItemRate = false;
         $scope.hideAdGroupName = false;
         $scope.showPixelsList = false;
+        $scope.showSystemOfRecord = true;
         //line item edit flags
         $scope.rateReadOnlyEdit = false;
         $scope.rateTypeReadOnlyEdit = false;
@@ -74,6 +75,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.hideAdGroupNameEdit = false;
         $scope.showPixelsListEdit = false;
         $scope.disableFlatFeeEdit = false; // this is to hide flat fee in edit mode
+        $scope.showSystemOfRecordEdit = true;
+
 
         $scope.editLineItem = {};
         $scope.vendorConfig = [];
@@ -221,6 +224,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             fetchCostAttributes: function () {
                 workflowService.getCostAttr($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId).then(function (result) {
                     $scope.selectedCampaign.costAttributes = workflowService.processCostAttr(result.data.data);
+                });
+            },
+            fetchSystemOfRecord: function() {
+                workflowService.getSystemOfRecord($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId).then(function (result) {
+                    $scope.selectedCampaign.systemOfRecord = result.data.data;
                 });
             },
 
@@ -476,6 +484,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     createCampaign.platforms(data.id);
                     createCampaign.fetchCostAttributes();
                     createCampaign.fetchVendorConfigs();
+                    createCampaign.fetchSystemOfRecord(); // for line item system of record
                     $scope.selectedCampaign.resetLineItemParameters(); //close new line item and reset all its fields
                     createCampaign.fetchBillingTypesAndValues();  //make call to fetch billing type and values
                     createCampaign.fetchRateTypes(); // fetch rates for line item based on advertiser and client

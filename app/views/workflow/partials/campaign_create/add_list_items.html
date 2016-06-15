@@ -146,7 +146,7 @@
         <!--Row 1-->
         <div class="col-md-4 zeroPadding ">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_LINE_ITEM_NAME"></label>
-            <input type="text" class="col-md-12 form-control" placeholder="Enter up to 150 characters." name="lineItemName" ng-model="$parent.lineItemName" title="{{$parent.lineItemName}}" />
+            <input type="text" class="col-md-12 form-control" placeholder="Enter Line Item name up to 150 characters" name="lineItemName" ng-model="$parent.lineItemName" title="{{$parent.lineItemName}}" />
             <span class="greyTxt errorLabel" ng-show="lineItemForm.lineItemName.$error.required">Please enter a name</span>
         </div>
 
@@ -155,14 +155,14 @@
             <div class="col-md-12 zeroPadding dropdown-workflow" >
                 <div class="dropdown">
                     <button style="width:100%;" class="btn btn-default dropdown-toggle lineItemType" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="rateTypeReadOnly">
-                        <span class="text" >{{(lineItemType )?lineItemType.name:'Select Type'}}</span>
+                        <span class="text" >{{(lineItemType )?lineItemType.name:'Select From List'}}</span>
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown" name="lineItemType">
                         <li class="available" ng-repeat="t in type"  ng-click="setLineItem(t,'create')"><a>{{t.name}}</a></li
                     </ul>
                     <input type="hidden" class="form-control" ng-model="lineItemType.id" name="lineItemType"  />
-                    <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemType.$error.required">Select Type</span>
+                    <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemType.$error.required">Select Rate Type</span>
                 </div>
 
             </div>
@@ -196,7 +196,7 @@
         <!--Row 2-->
         <div class="clearfix col-md-12 zeroPadding">
             <div class="pull-left">
-                <div class="span4 col-md-12 input-daterange input-group date otherBgDateRange pull-left" id="datepicker">
+                <div class="span4 col-md-12 input-daterange input-group date otherBgDateRange pull-left" id="datepicker" >
                     <div class="col-md-12 dateWrapper zeroPadding">
                         <div class="dateContainer">
                             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_START"></label>
@@ -220,11 +220,28 @@
                 </div>
             </div>
 
-            <div class="col-md-4 " style="padding-bottom: 2px !important;" ng-hide="hideAdGroupName">
-                <label class="col-sm-12 zeroPadding greyTxt">Ad Group Name</label>
-                <input type="text" class="col-md-12" placeholder="Enter Ad Group Name up to 100 characters" remove-special-character ='remove-special-character' title="{{$parent.adGroupName}}" ng-model="$parent.adGroupName"/>
+
+            <div class="col-md-4 zeroPadding" style="margin-right:10px;"  ng-hide="hideAdGroupName">
+                <label class="col-sm-12 zeroPadding greyTxt" data-ng-bind="textConstants.CREATE_ADGROUP_LINEITEM"></label>
+                <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters" remove-special-character ='remove-special-character' title="{{$parent.adGroupName}}" ng-model="$parent.adGroupName"/>
             </div>
-            <div class="col-md-5 zeroPadding dropdown-workflow" ng-show="showPixelsList">
+
+            <div class="col-md-3 zeroPadding dropdown-workflow" ng-show="showSystemOfRecord">
+                <div class="dropdown">
+                    <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_SYSTEM_OF_RECORD"></label>
+                    <button style="width:100%;" class="btn btn-default dropdown-toggle systemOfRecordName" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+                        <span class="text" >{{(systemOfRecordSelected )?systemOfRecordSelected.name:'Select from list'}}</span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown" name="lineItemType">
+                        <li class="available" ng-repeat="sor in selectedCampaign.systemOfRecord"  ng-click="setSystemOfRecord(sor,'create')"><a>{{sor.name}}</a></li>
+                    </ul>
+                    <input type="hidden" class="form-control" ng-model="systemOfRecordSelected.id" name="systemOfRecordSelected"  />
+                </div>
+
+            </div>
+
+            <div class="col-md-3 zeroPadding dropdown-workflow" ng-show="showPixelsList" style="margin-right:10px;">
                 <div class="dropdown">
                     <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_CONVERSION_PIXELS"></label>
                     <button style="width:100%;" class="btn btn-default dropdown-toggle pixelType" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
@@ -240,8 +257,10 @@
             </div>
 
 
+
+
             <div class="pull-right" style="padding: 30px 0 0 0;">
-                <div class="pull-right btn btn-primary" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == '' || billableAmount == '0' " ng-click="(mode === 'create' || cloneMediaPlanName)?createNewLineItem('create'):createNewLineItemInEditMode('create')" ng-show="!Campaign.createNewLineItemLoaderEdit">Add Line Item</div>
+                <div class="pull-right btn btn-primary" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == '' || billableAmount == '0'  || (showSystemOfRecord && !systemOfRecordSelected.id)" ng-click="(mode === 'create' || cloneMediaPlanName)?createNewLineItem('create'):createNewLineItemInEditMode('create')" ng-show="!Campaign.createNewLineItemLoaderEdit">Add Line Item</div>
                 <div ng-show ="Campaign.createNewLineItemLoaderEdit" class="pull-right common-loading-btn" ></div>
                 <div class="pull-right btn btn-link" id="hideLineItemCreateBox" ng-click="selectedCampaign.resetLineItemParameters()">Cancel</div>
                 <!--confirm message in edit mode-->
@@ -293,13 +312,15 @@
                         <a class="td col-md-2" data-ng-bind="item.volume"></a>
                         <a class="td col-md-2">{{item.startTime}} - {{item.endTime}}</a>
                     </div>
-                    <div class="tableEdit" data-table-index = "{{$index}}" ng-include="'listItemEditTpl'"  style="padding-top: 20px;"></div>
+                    <div class="tableEdit" data-table-index = "{{$index}}" ng-include="'listItemEditTpl'"  style="padding : 20px;padding-bottom: 30px ;"></div>
+                </div>
+                <div ng-if="lineItems.lineItemList.length == 0" class="no-line-item" data-ng-bind="textConstants.NO_LINE_ITEMS_ERR">
                 </div>
             </div>
         </div>
     </div>
     <!--Item List Table Sample Start-->
-    <span class="col-md-12 text-right" style="padding: 0 0 5px 0; border-bottom: 1px solid rgba(191, 201, 215, 0.5);">Total Billable Amount: {{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{selectedCampaign.lineItemBillableAmountTotal}}</span>
+    <span class="col-md-12 text-right total-billable-amount">Total Billable Amount: {{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{selectedCampaign.lineItemBillableAmountTotal}}</span>
 
     <label class="col-sm-12 labelQuestTxt showAddCreditForm" ng-click="showAddCreditForm()" ng-hide="true">
         <span class="icon-arrow-down-thick"></span>Add Credits (0)
@@ -410,7 +431,7 @@
     </div>
     <!--Row 2-->
     <div class="col-md-12 zeroPadding">
-            <div class="span4 col-md-12 input-daterange input-group date otherBgDateRange pull-left" id="datepickerEdit">
+            <div class="span4 col-md-12 input-daterange input-group date otherBgDateRange pull-left" id="datepickerEdit"  >
                 <div class="pull-left dateWrapper zeroPadding">
                     <div class="dateContainer">
                         <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_START"></label>
@@ -436,11 +457,27 @@
 
 
 
-                <div class="col-md-4 " style="padding: 0px !important;" ng-hide="hideAdGroupNameEdit || mode === 'edit'">
-                    <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.AD_GRP_NAME"></label>
-                    <input type="text" class="col-md-12" placeholder="Enter Ad Group Name up to 100 characters"  title="{{editLineItem.adGroupName}}" ng-model="editLineItem.adGroupName" autocomplete="off"/>
+                <div class="col-md-4 " style="padding: 0px !important;margin-right:10px;" ng-hide="hideAdGroupNameEdit || mode === 'edit'">
+                    <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.CREATE_ADGROUP_LINEITEM"></label>
+                    <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  title="{{editLineItem.adGroupName}}" ng-model="editLineItem.adGroupName" autocomplete="off"/>
                 </div>
-                <div class="col-md-5 zeroPadding dropdown-workflow" ng-show="showPixelsListEdit">
+
+                <div class="col-md-3 zeroPadding dropdown-workflow" ng-show="showSystemOfRecordEdit" style="margin-right:10px;">
+                    <div class="dropdown">
+                        <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_SYSTEM_OF_RECORD"></label>
+                        <button style="width:100%;" class="btn btn-default dropdown-toggle systemOfRecordNameEdit" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+                            <span class="text" >{{(editLineItem.systemOfRecordSelected )?editLineItem.systemOfRecordSelected.name:'Select from list'}}</span>
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown" name="lineItemType">
+                            <li class="available" ng-repeat="sor in selectedCampaign.systemOfRecord"  ng-click="setSystemOfRecord(sor,'edit')"><a>{{sor.name}}</a></li>
+                        </ul>
+                        <input type="hidden" class="form-control" ng-model="editLineItem.systemOfRecordSelected.id" name="editLineItem.systemOfRecordSelected"  />
+                    </div>
+
+                </div>
+
+                <div class="col-md-3 zeroPadding dropdown-workflow" ng-show="showPixelsListEdit" >
                     <div class="dropdown">
                         <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_CONVERSION_PIXELS"></label>
                         <button style="width:100%;" class="btn btn-default dropdown-toggle pixelTypeEdit" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="gf">
@@ -454,11 +491,15 @@
                     </div>
 
                 </div>
-        </div>
 
-        <a class="btn btn-primary pull-right" ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()" data-ng-disabled="!editLineItem.lineItemName || !editLineItem.billableAmount || editLineItem.billableAmount == '0'" ng-bind="textConstants.SAVE_CHANGES" ng-show="!editLineItemLoaderEdit"></a>
-        <div ng-show ="editLineItemLoaderEdit" class="pull-right common-loading-btn" ></div>
-        <a class="btn btn-link pull-right cancelLineItem" ng-click="hideLineItemEditRow($event);">Cancel</a>
+
+
+                <div class="pull-right" style="margin-top: 30px ;">
+                    <a class="btn btn-primary pull-right" ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()" data-ng-disabled="!editLineItem.lineItemName || !editLineItem.billableAmount || editLineItem.billableAmount == '0' || (showSystemOfRecordEdit && !editLineItem.systemOfRecordSelected.id)" ng-bind="textConstants.SAVE_CHANGES" ng-show="!editLineItemLoaderEdit"></a>
+                    <div ng-show ="editLineItemLoaderEdit" class="pull-right common-loading-btn" ></div>
+                    <a class="btn btn-link pull-right cancelLineItem" ng-click="hideLineItemEditRow($event);">Cancel</a>
+                </div>
+            </div>
         <!--confirm message in edit mode-->
         <div class="popUpCue" data-ng-show="showConfirmPopupEdit" style="left: 75%;top: -100px;">
             <span class="col-md-12 zeroPadding">Media Plan changes will be saved, before Line Item changes are saved.</span>

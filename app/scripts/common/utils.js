@@ -804,11 +804,16 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     require: 'ngModel',
 
                     link: function (scope, element, attrs, modelCtrl) {
+                         var clearBtn = element.parent().find(".searchClearInputBtn");
                         element.on('keyup blur', function (evt) {
-                            var clearBtn = element.parent().find(".icon-clear");
                             var searchInpVal = evt.target.value;
                             clearBtn.toggle(Boolean(searchInpVal));
                         });
+                        
+                        clearBtn.on('click', function(ev) {
+                            $(ev.currentTarget).hide();
+                        })
+                        
                     }
                 };
             })
