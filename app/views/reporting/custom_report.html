@@ -27,7 +27,7 @@
                 <div class="col-md-4 zeroPadding">
                     <div class="col-md-12 zeroPadding dimensionKeywordSection">
                         <span class="col-md-12 greyTxt" ng-bind-html="textConstants.SELECT_DIMENTION" ></span>
-                        <!--<div ng-show="showPrimaryTxtBox" class="create_report_title create_report_title_label filter_input_txtbox" ng-bind-html="textConstants.ADD_KEYWORDS"  ></div>-->
+                        <!--<div ng-show="showPrimaryTxtBox" class="create_report_titmeasurable_col_holderle create_report_title_label filter_input_txtbox" ng-bind-html="textConstants.ADD_KEYWORDS"  ></div>-->
                         <!-- Primary Dimension start -->
                         <div class="clearfix title_row_separator breakdown_div dimension_block">
                             <div class="pull-left custom_report_filter custom_report_breakdown">
@@ -282,7 +282,7 @@
                         <!--Body-->
                         <div class="col-md-12 zeroPadding">
                             <!--Delivery-->
-                            <div class="col-md-2 zeroPadding">
+                            <div class="col-md-2 zeroPadding" ng-show="deliveryMetrics.length">
                                 <span class="col-md-12 zeroPadding">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
@@ -303,7 +303,7 @@
                             </div>
 
                             <!--Pacing-->
-                            <div class="col-md-2 zeroPadding">
+                            <div class="col-md-2 zeroPadding" ng-show="pacingMetrics.length">
                                 <span class="col-md-12 zeroPadding">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
@@ -326,14 +326,14 @@
 
 
                             <!--Cost-->
-                            <div class="col-md-3 zeroPadding">
+                            <div class="col-md-3 zeroPadding" ng-show="costMetrics.length">
                                 <span class="col-md-12 zeroPadding">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
                                            id="cost_chkbox"
                                            ng-model="costMetrics.isAllSelected"
                                            ng-click="onCostMetrClick()">
-                                        Cost
+                                        Cost tab
                                 </span>
 
                                 <div class="col-md-6 metricData"
@@ -347,7 +347,7 @@
                             </div>
 
                             <!--Video-->
-                            <div class="col-md-2 zeroPadding">
+                            <div class="col-md-2 zeroPadding" ng-show="videoMetrics.length">
                                 <span class="col-md-12 zeroPadding">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
@@ -368,7 +368,7 @@
                             </div>
 
                             <!--Quality-->
-                            <div class="col-md-3 zeroPadding">
+                            <div class="col-md-3 zeroPadding" ng-show="qualityMetrics.length">
                                 <span class="col-md-6 zeroPadding">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"

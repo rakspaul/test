@@ -4666,9 +4666,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col {
   display: table-cell;
-  width: 120px;
-  min-width: 120px;
-  max-width: 120px;
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
   word-wrap: break-word;
   padding-right: 20px;
   /*
