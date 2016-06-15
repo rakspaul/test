@@ -145,7 +145,7 @@
                                                             </span>
                                                             <span class="arrow_img"></span>
                                                         </span>
-                                                <ul class="dropdown-menu">
+                                                <ul class="dropdown-menu" style="padding-top: 0;">
                                                     <div class="dropdown_autoselect_box">
                                                         <input ng-click="addSearch($event)"
                                                                type="text"
@@ -254,7 +254,7 @@
             <!--End Row 1-->
 
             <!--Selected Metrics-->
-            <div class="col-md-12 zeroPadding">
+            <div class="col-md-12 zeroPadding" style="margin-top: 30px;">
                 <div class="col-md-12 zeroPadding metricDataViewHeader">
                     <span class="pull-left greyTxt">Metrics</span>
                     <div class="pull-left clearLeft">
@@ -326,7 +326,7 @@
 
 
                             <!--Cost-->
-                            <div class="col-md-3 zeroPadding" ng-show="costMetrics.length">
+                            <div class="col-md-2 zeroPadding" ng-show="costMetrics.length">
                                 <span class="col-md-12 zeroPadding">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
@@ -336,7 +336,7 @@
                                         Cost tab
                                 </span>
 
-                                <div class="col-md-6 metricData"
+                                <div class="col-md-12 metricData"
                                      relationIds='Cost'
                                      ng-repeat="cost_metric in costMetrics track by $index"
                                      id="{{cost_metric.key}}"
@@ -368,8 +368,8 @@
                             </div>
 
                             <!--Quality-->
-                            <div class="col-md-3 zeroPadding" ng-show="qualityMetrics.length">
-                                <span class="col-md-6 zeroPadding">
+                            <div class="col-md-4 zeroPadding" ng-show="qualityMetrics.length">
+                                <span class="col-md-12 zeroPadding">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
                                            id="quality_chkbox"
