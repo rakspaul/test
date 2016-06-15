@@ -114,7 +114,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 //            creativeList.errorHandler();
                 //        }
                 //    }, creativeList.errorHandler);
-                
+
             },
             getCreativeAds:function(creativeId,index){
                 workflowService
@@ -523,29 +523,29 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             for(var i = 0; i < listSizeCreativeDataArr.length; i++) {
                     var widthHeight = listSizeCreativeDataArr[i].split("X") ;
                     var maxWidth = 68  ;
-                    var maxHeight = 25 ;   
-                    var ratio = 0;  
+                    var maxHeight = 25 ;
+                    var ratio = 0;
                     var width = widthHeight[0];
                     var height =widthHeight[1];
-                    $scope.creativeData['creatives'][i].width = widthHeight[0];    
-                    $scope.creativeData['creatives'][i].height = widthHeight[1];  
+                    $scope.creativeData['creatives'][i].width = widthHeight[0];
+                    $scope.creativeData['creatives'][i].height = widthHeight[1];
 
                     // Check if the current width is larger than the max
                     if(width > maxWidth){
-                        ratio = maxWidth / width;   
+                        ratio = maxWidth / width;
                         $scope.creativeData['creatives'][i].width = maxWidth ;
                         $scope.creativeData['creatives'][i].height = height * ratio ;
-                        height = height * ratio;    
-                        width = width * ratio;  
+                        height = height * ratio;
+                        width = width * ratio;
                     }
 
                     // Check if current height is larger than max
                     if(height > maxHeight){
-                        ratio = maxHeight / height; 
+                        ratio = maxHeight / height;
                         $scope.creativeData['creatives'][i].height = maxHeight ;
                         $scope.creativeData['creatives'][i].width =  width * ratio ;
-                        width = width * ratio;   
-                        height = height * ratio;   
+                        width = width * ratio;
+                        height = height * ratio;
                     }
                 }
         }
@@ -590,10 +590,10 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 }
             });
         });
-        
+
         //Clear Preview Mouse Out
         $scope.clearHoverPreview = function() {
-            $(".hideOption").removeClass("open");  
+            $(".hideOption").removeClass("open");
         };
 
     });
