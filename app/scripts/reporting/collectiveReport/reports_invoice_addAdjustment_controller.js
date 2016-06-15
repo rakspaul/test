@@ -2,23 +2,39 @@ define(['angularAMD',
     'common/services/data_service', 'common/services/url_service', 'common/services/constants_service'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('ReportsInvoiceAddCreditController', function ($scope, $rootScope, $modalInstance,
+    angularAMD.controller('ReportsInvoiceAddAdjustmentController', function ($scope, $rootScope, $modalInstance,
     dataService, urlService, constants
         ) {
-        $scope.addCreditData.credits = [];
+        console.log("ReportsInvoiceAddAdjustmentController....***");
         $scope.errSaveCredit = false;
         var _currCtrl = this;
         _currCtrl.clear = function(){
-            $scope.addCreditData.credits = [];
+            $scope.addAdjustmentData.adjustmentList = [];
+        }
+        $scope.enableCrORDrBtn = function(){
+            _.each($scope.addAdjustmentData.adjustmentList, function(item, i){
+                $(".adjustmentCnt").children().eq(i).find("."+item.transactionType).addClass("btn-primary");
+            });
+        }
+        setTimeout(function(){
+            $scope.enableCrORDrBtn();
+        },25);
+        $scope.enableBtn = function(enable, disable, ev, index){
+            var tar = $(ev.target);
+            if(!tar.hasClass("btn-primary")){
+                tar.addClass("btn-primary");
+                tar.siblings("."+disable).removeClass("btn-primary");
+                $scope.addAdjustmentData.adjustmentList[index].transactionType = enable
+            }
         }
         $scope.addCredit = function(){
             $scope.errSaveCredit = false;
-            $('.creditsCnt').scrollTop($(".creditsCnt")[0].scrollHeight);
-            $scope.addCreditData.credits.push({});                        // Inserting one more empty row for the add credit input field.
+            $('.adjustmentCnt').scrollTop($(".adjustmentCnt")[0].scrollHeight);
+            $scope.addAdjustmentData.adjustmentList.push({});                        // Inserting one more empty row for the add credit input field.
         }
         $scope.removeCredit = function(index){
             $scope.errSaveCredit = false;
-            $scope.addCreditData.credits = _.filter($scope.addCreditData.credits, function(item, i){
+            $scope.addAdjustmentData.adjustmentList = _.filter($scope.addAdjustmentData.lists, function(item, i){
                return index != i;
             });
         }
@@ -27,18 +43,11 @@ define(['angularAMD',
             _currCtrl.clear();
             $modalInstance.dismiss();
         }
-        $scope.getInvoiceInfo = function() {
-            $scope.addCreditData.credits = [];
-            _.each($scope.addCreditData.invoice.creditsList, function (item) {
-                $scope.addCreditData.credits.push(item);
-            });
-        }
-        $scope.getInvoiceInfo();
         _currCtrl.verifyInputs = function(){
             var ret = false,
                 err = "";
             $scope.errSaveCredit = false;
-            _.each($scope.addCreditData.credits, function(item){
+            _.each($scope.addAdjustmentData.adjustmentList, function(item){
                 if(!ret && (!item.amount || !item.name)){
                     ret = true;
                     $scope.errSaveCredit = true;
@@ -52,9 +61,9 @@ define(['angularAMD',
         }
         $scope.saveCredit = function(){
             if(_currCtrl.verifyInputs()) return true;
-            var data = {"credits": angular.copy($scope.addCreditData.credits)};
+            var data = {"adjustments": angular.copy($scope.addAdjustmentData.adjustmentList)};
             dataService
-                .post(urlService.saveInvoiceListCredits($scope.addCreditData.invoice.invoiceId), data, {'Content-Type': 'application/json'})
+                .post(urlService.saveInvoiceListCredits($scope.addAdjustmentData.invoiceId), data, {'Content-Type': 'application/json'})
                 .then(function (result) {
                     $scope.close();
                     if(result.status == "OK" || result.status == "success"){
@@ -68,6 +77,7 @@ define(['angularAMD',
                     $rootScope.setErrAlertMessage(constants.CREDIT_ADD_ERR);
                 });
         }
+
 
     });
 });
