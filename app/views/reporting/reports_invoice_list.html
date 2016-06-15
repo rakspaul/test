@@ -287,7 +287,7 @@
         <div class="rowHover1 parentWrap" ng-repeat="invoice in mediaPlan.invoices track by $index">
             <div class="tr childRow adsList">
                 <div class="col-md-5 td">
-                    <div class="col-md-9 media-plan-name" ng-bind="invoice.invoiceDate + ' Invoice Report'"></div>
+                    <div class="col-md-9 media-plan-name" ng-bind="invoice.invoiceDate + ' Invoice Report'" data-ng-click="showInvoiceReport(invoice.invoiceId)"></div>
                     <div class="col-md-3 more-options">
                         <div class="dropdown-workflow">
                             <div class="dropdown hideOption1">

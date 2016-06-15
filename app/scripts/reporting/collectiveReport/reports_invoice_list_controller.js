@@ -289,6 +289,10 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 $('#startDateInput,#endDateInput').on('changeDate', function() {
                     $scope.filters["selectedGeneratedOn"] = "Custom Dates";
                 });
+                $scope.showInvoiceReport = function(invoiceId){
+                    console.log("showInvoiceReport..."+invoiceId);
+                    $location.url('/v1sto/invoices/'+invoiceId);
+                }
                 $(document).ready(function () {
                     _currCtrl.resetDateToInit();
                     $(window).unbind('scroll');

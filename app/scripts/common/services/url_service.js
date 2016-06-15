@@ -328,6 +328,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 this.downloadAdminAdvPixel = function(clientId, advId){
                     return vistoconfig.apiPaths.WORKFLOW_API_URL+'/clients/'+clientId+'/advertisers/'+advId+'/pixels_download';
                 };
+                this.getInvoiceDetials = function(invoiceId){
+                    var clientId =  loginModel.getSelectedClient().id;
+                    return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/invoices/'+invoiceId;
+                };
                 this.getInvoiceData = function (invoiceReports, queryStr) {
                     console.log("Url services...."+queryStr);
                     var clientId =  loginModel.getSelectedClient().id,

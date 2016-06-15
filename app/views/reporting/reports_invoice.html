@@ -1,5 +1,157 @@
+<div class="modal-header">
+
+    <button type="button" class="close" data-dismiss="modal"
+            ng-click="close()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+    <div class="col-md-12 zeroPadding">
+        <div class="pull-left accountTitleTag" style="margin-bottom:20px;">
+            <span class="tagTitle">Account:</span>
+            <span data-ng-bind="clientName"></span>
+            <span class="slash-divider" style="padding-left:5px;">/</span>
+        </div>
+        <div class="pull-left" style="padding-left:5px;">
+            <span class="tagTitle">Advertiser:</span>
+            <span data-ng-bind="advertiserName"></span>
+            <span class="slash-divider" style="padding-left:5px;">/</span>
+        </div>
+
+        <div class="pull-left" style="padding-left:5px;">
+            <span class="tagTitle">Invoice ID:</span>
+            <span class="ng-binding" data-ng-bind="invoiceDetails.id"></span>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="col-md-10">
+    <h1 data-ng-bind="invoiceDetails.generatedOn + ' Invoice Report' + '  |  ' + invoiceDetails.invoiceName"></h1>
+    </div>
+    <div class="col-md-2">
+        <div class="col-md-6">
+            <button class="btn btn-default dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="true">
+                        <span class="text" data-ng-bind="filters.selectedStatus">
+                            Download
+                        </span>
+            </button>
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle"
+                            type="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="true">
+                        <span class="text" data-ng-bind="filters.selectedStatus">
+                            Select Account
+                        </span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available" data-ng-click="filters.selectStatus('Ready')">
+                            <a>Ready</a>
+                        </li>
+                        <li class="available" data-ng-click="filters.selectStatus('Review')">
+                            <a>Review</a>
+                        </li>
+                        <li class="available" data-ng-click="filters.selectStatus('Upload')">
+                            <a>Upload</a>
+                        </li>
+                        <li class="available" data-ng-click="filters.selectStatus('Suspended')">
+                            <a>Suspended</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12 zeroPadding">
+    <div class="col-md-2 zeroPadding">
+        <label class="col-sm-12 greyTxt">Generated</label>
+        <div data-ng-bind="invoiceDetails.generatedOn"></div>
+    </div>
+    <div class="col-md-1">
+        <label class="col-sm-12 greyTxt">PO#</label>
+        <div data-ng-bind="invoiceDetails.po"></div>
+    </div>
+    <div class="col-md-1">
+        <label class="col-sm-12 greyTxt">Spend</label>
+        <div data-ng-bind="invoiceDetails.spendTotal"></div>
+    </div>
+    <div class="col-md-1">
+        <label class="col-sm-12 greyTxt">Adjustments</label>
+        <div data-ng-bind="invoiceDetails.adjustmentTotal"></div>
+    </div>
+    <div class="col-md-1">
+        <label class="col-sm-12 greyTxt">Billable</label>
+        <div data-ng-bind="invoiceDetails.billable"></div>
+    </div>
+    <div class="col-md-6">
+        <label class="col-sm-12 greyTxt edit" data-ng-click="showAddNotePopup()">Note
+        </label>
+        <div data-ng-bind="invoiceDetails.description"></div>
+    </div>
 
 
-<h1> View Invoice Report Page</h1>
+</div>
+<div class="table-responsive user-list animated" id="table_responsive" style="margin-bottom: 30px;">
+    <div class="vistoTable" id="visto_table">
+        <div class="thead thin">
+            <div class="tr">
+                <div class="col-md-7 th">Line Item</div>
+                <div class="col-md-2 th">Rate</div>
+                <div class="col-md-1 th">Billable Units</div>
+                <div class="col-md-1 th">Invoiced Value</div>
+                <div class="col-md-1 th">Contracted Value</div>
+            </div>
+        </div>
+        <div class="tbody thin" style="max-height:350px;">
+            <div class="tr ng-scope" ng-repeat="lineItem in invoiceDetails.lineitems">
+                <div class="td col-md-7" data-ng-bind="lineItem.name"></div>
 
+                <div class="td col-md-2" data-ng-bind="lineItem.rate"></div>
+
+                <div class="td col-md-1" data-ng-bind="lineItem.billableUnits"></div>
+
+                <div class="td col-md-1" data-ng-bind="lineItem.value"></div>
+
+                <div class="td col-md-1" data-ng-bind="lineItem.contractedValue"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="col-md-12 zeroPadding">
+    <h1>Adjustment</h1>
+    <a class="btn btn-default" ng-click="showAddAdjustmentPopup()">
+        <span class="icon-plus"></span>
+        <span>User</span>
+    </a>
+</div>
+<div class="table-responsive user-list animated" id="table_responsive" style="margin-bottom: 30px;">
+    <div class="vistoTable" id="visto_table">
+        <div class="thead thin">
+            <div class="tr">
+                <div class="col-md-6 th" data-ng-bind="'Adjustment'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Added By'"></div>
+                <div class="col-md-2 th" data-ng-bind="'When'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Amount'"></div>
+            </div>
+        </div>
+        <div class="tbody thin" style="max-height:350px;">
+            <div class="tr ng-scope" ng-repeat="adjustment in invoiceDetails.adjustments">
+                <div class="td col-md-6" data-ng-bind="adjustment.name"></div>
+                <div class="td col-md-2" data-ng-bind="adjustment.addedBy"></div>
+                <div class="td col-md-2" data-ng-bind="adjustment.addedOn"></div>
+                <div class="td col-md-2" data-ng-bind="adjustment.amount"></div>
+            </div>
+        </div>
+    </div>
+</div>
 

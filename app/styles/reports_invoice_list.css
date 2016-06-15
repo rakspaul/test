@@ -45,6 +45,14 @@
   line-height: 33px;
   text-align: center;
 }
+.edit {
+  background: url(/images/cdesk/edit_blue.png) no-repeat right center;
+  cursor: pointer;
+  display: inline-block;
+  height: 18px;
+  margin-left: 10px;
+  width: 20px;
+}
 .reports-invoice-list .report_list_table {
   margin-bottom: 40px ;
   background: #fff;

@@ -145,6 +145,7 @@ assets.html_clone_campaign_popup = '/views/workflow/partials/clone_campaign_popu
 assets.html_ad_campaign_popup = '/views/workflow/partials/clone_ad_popup.html';
 
 assets.html_add_credit_popup = '/views/reporting/partials/add_invoice_adjustment_popup.html';
+assets.html_add_note_popup = '/views/reporting/partials/invoice_add_note.html';
 //Admin page
 
 assets.html_admin_home = '/views/workflow/admin_home.html';
