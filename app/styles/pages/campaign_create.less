@@ -2488,10 +2488,41 @@
                 }
             }
 
-            .createItemList {
+            .createItemList , .editItemList  {
                 background: #FEFBF0;
                 padding: 0 10px 10px 10px;
-                margin-top : 30px ;
+                margin-top : 10px ;
+                .listItemValues , .listItemSmallValues {
+                    width: 135px ;
+                    float: left;
+                    margin-right: 10px ;
+                }
+                .listItemSmallValues {
+                    width: 100px ;
+                    input[type="text"] {
+                        padding-right: 10px ;
+                    }
+                }
+                .listItemFirstRow {
+                    .eachListItemFirstRow {
+                        float: left;
+                        width: 405px ;
+                        margin-right: 10px ;
+                    }
+                }
+                .dateContainer {
+                    width: 150px ;
+                }
+                .showConfirmPopupCreate {
+                    left: -30px;
+                    top: auto;
+                    bottom: 45px;
+                }
+                .showConfirmPopupEdit {
+                    left: -24px;
+                    bottom: 44px;
+                    top: auto;
+                }
             }
 
             .tableNormal {

@@ -662,7 +662,9 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             $scope.amountFlag = true;
             $scope.hideAdGroupName = false;
             $scope.showPixelsList = false;
+            $scope.hideLineItemRate = false;
             $scope.showSystemOfRecordEdit = true;
+            $scope.showSystemOfRecord = true;
             //$scope.type = angular.copy(workflowService.getRateTypes());
         }
 
