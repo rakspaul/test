@@ -2112,6 +2112,18 @@
   bottom: 44px;
   top: auto;
 }
+#campaignCreate .firstWrapper .masterContainer .createItemList .common-loading-btn,
+#campaignCreate .firstWrapper .masterContainer .editItemList .common-loading-btn {
+  width: 120px ;
+}
+#campaignCreate .firstWrapper .masterContainer .createItemList .btn[disabled],
+#campaignCreate .firstWrapper .masterContainer .editItemList .btn[disabled] {
+  opacity: 0.65;
+}
+#campaignCreate .firstWrapper .masterContainer .createItemList .popUpCue .common-loading-btn,
+#campaignCreate .firstWrapper .masterContainer .editItemList .popUpCue .common-loading-btn {
+  width: 90px ;
+}
 #campaignCreate .firstWrapper .masterContainer .tableNormal {
   float: left;
   width: 100%;
