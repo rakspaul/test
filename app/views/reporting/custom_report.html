@@ -5,11 +5,13 @@
     <div class="report_builder_container">
         <div class="col-md-12" id="dynamicHeader" style="padding: 30px 0 0 0;">
             <!-- this will be hidden until fold happens -->
-            <a class="collapseIcon iconPlusMinus" role="button" id="{{$index+1}}" href="" style="margin: 0 10px 30px 0;">
+            <a class="collapseIcon iconPlusMinus" role="button" id="{{$index+1}}" href=""
+               style="margin: 0 10px 30px 0;">
                 <span class="icon-plus" ng-click="ToggleAdGroups(this)"></span>
             </a>
 
-            <h1 class="pull-left zeroMargin">{{textConstants.REPORT_BUILDER}} {{reports.name}} | {{reports.reportDefinition.timeframe.start_date}} - {{reports.reportDefinition.timeframe.end_date}}</h1>
+            <h1 class="pull-left zeroMargin">{{textConstants.REPORT_BUILDER}} {{reports.name}} |
+                {{reports.reportDefinition.timeframe.start_date}} - {{reports.reportDefinition.timeframe.end_date}}</h1>
             <!-- this will be hidden after fold-->
             <h6 class="heading subTitle pull-left clearLeft" ng-bind-html="textConstants.REPORT_BUILDER_SUBTITLE"></h6>
 
@@ -26,7 +28,7 @@
                 <!--Dimensions-->
                 <div class="col-md-4 zeroPadding">
                     <div class="col-md-12 zeroPadding dimensionKeywordSection">
-                        <span class="col-md-12 greyTxt" ng-bind-html="textConstants.SELECT_DIMENTION" ></span>
+                        <span class="col-md-12 greyTxt" ng-bind-html="textConstants.SELECT_DIMENTION"></span>
                         <!--<div ng-show="showPrimaryTxtBox" class="create_report_titmeasurable_col_holderle create_report_title_label filter_input_txtbox" ng-bind-html="textConstants.ADD_KEYWORDS"  ></div>-->
                         <!-- Primary Dimension start -->
                         <div class="clearfix title_row_separator breakdown_div dimension_block">
@@ -37,7 +39,7 @@
                                                       reports.reportDefinition.dimensions.primary.name :
                                                       textConstants.REPORT_CHOOSE_BREAKDOWN}}">
                                                 <span class="dd_txt"
-                                                      data-template_id = "{{showDefaultDimension.template_id}}"
+                                                      data-template_id="{{showDefaultDimension.template_id}}"
                                                       id="{{showDefaultDimension.key}}"
                                                       ng-bind-html="reports.reportDefinition.dimensions.primary.name ?
                                                       reports.reportDefinition.dimensions.primary.name :
@@ -51,7 +53,8 @@
                                             </li>
                                             <li ng-repeat="dimension in customeDimensionData[0].dimensions"
                                                 id="{{dimension}}"
-                                                ng-click="selectPriSecDimension(dimension, 'Primary')" ng-if="checkDimension(dimension)"
+                                                ng-click="selectPriSecDimension(dimension, 'Primary')"
+                                                ng-if="checkDimension(dimension)"
                                                 ng-bind-html="displayName[dimension]">
                                             </li>
                                         </ul>
@@ -60,9 +63,9 @@
                             </div>
 
                             <div class="pull-left filter_input_txtbox" ng-show="showPrimaryTxtBox">
-                                <input type="text" name="filter" class ="reportFilter"
+                                <input type="text" name="filter" class="reportFilter"
                                        ng-model='reports.reportDefinition.dimensions.primary.value'
-                                       data-reportType = "Primary" autofocus placeholder="Contains keywords ...">
+                                       data-reportType="Primary" autofocus placeholder="Contains keywords ...">
                             </div>
                         </div>
 
@@ -88,7 +91,7 @@
                                                 <li ng-click="select_dropdown_option($event)"
                                                     ng-bind-html="textConstants.REPORT_CHOOSE_BREAKDOWN">
                                                 </li>
-                                                <li ng-repeat="dimension in secondaryDimensionArr"
+                                                <li ng-repeat="dimension in secondaryDimensionArr "
                                                     id="{{dimension}}"
                                                     ng-click="selectPriSecDimension(dimension,'Secondary')"
                                                     ng-bind-html="displayName[dimension]">
@@ -145,7 +148,7 @@
                                                             </span>
                                                             <span class="arrow_img"></span>
                                                         </span>
-                                                <ul class="dropdown-menu" style="padding-top: 0;">
+                                                <ul class="dropdown-menu">
                                                     <div class="dropdown_autoselect_box">
                                                         <input ng-click="addSearch($event)"
                                                                type="text"
@@ -158,7 +161,8 @@
                                                         ng-click="onChoosingAditFlts(filterIndex,
                                                                 filters);"
                                                         ng-model="addFilts.key"
-                                                        ng-bind-html="displayName[filters]" ng-if="checkDimension(filters)">
+                                                        ng-bind-html="displayName[filters]"
+                                                        ng-if="checkDimension(filters)">
                                                     </li>
                                                 </ul>
                                             </div>
@@ -244,8 +248,10 @@
                         </div>
 
                         <div class="col-md-12 zeroPadding" style="width: 242px;">
-                            <span class="icon-calendar pull-left" style="padding: 10px 6px; border-left: 1px solid #BFC9D7; margin: 0 0 0 86px; height: 36px;"></span>
-                            <span class="icon-calendar pull-left" style="padding: 10px 6px; border-left: 1px solid #BFC9D7; margin: 0 0 0 109px; height: 36px;"></span>
+                            <span class="icon-calendar pull-left"
+                                  style="padding: 10px 6px; border-left: 1px solid #BFC9D7; margin: 0 0 0 86px; height: 36px;"></span>
+                            <span class="icon-calendar pull-left"
+                                  style="padding: 10px 6px; border-left: 1px solid #BFC9D7; margin: 0 0 0 109px; height: 36px;"></span>
                         </div>
                     </div>
                 </div>
@@ -254,7 +260,7 @@
             <!--End Row 1-->
 
             <!--Selected Metrics-->
-            <div class="col-md-12 zeroPadding" style="margin-top: 30px;">
+            <div class="col-md-12 zeroPadding">
                 <div class="col-md-12 zeroPadding metricDataViewHeader">
                     <span class="pull-left greyTxt">Metrics</span>
                     <div class="pull-left clearLeft">
@@ -326,7 +332,7 @@
 
 
                             <!--Cost-->
-                            <div class="col-md-2 zeroPadding" ng-show="costMetrics.length">
+                            <div class="col-md-3 zeroPadding" ng-show="costMetrics.length">
                                 <span class="col-md-12 zeroPadding">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
@@ -336,7 +342,7 @@
                                         Cost tab
                                 </span>
 
-                                <div class="col-md-12 metricData"
+                                <div class="col-md-6 metricData"
                                      relationIds='Cost'
                                      ng-repeat="cost_metric in costMetrics track by $index"
                                      id="{{cost_metric.key}}"
@@ -368,8 +374,8 @@
                             </div>
 
                             <!--Quality-->
-                            <div class="col-md-4 zeroPadding" ng-show="qualityMetrics.length">
-                                <span class="col-md-12 zeroPadding">
+                            <div class="col-md-3 zeroPadding" ng-show="qualityMetrics.length">
+                                <span class="col-md-6 zeroPadding">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
                                            id="quality_chkbox"
@@ -388,57 +394,70 @@
                                 </div>
                             </div>
 
-                                <div class="col-md-12 zeroPadding" style="margin: 30px 0 0 0;">
-                                    <span class="pull-left greyTxt">Imps. = Impressions</span>
-                                    <span class="pull-left greyTxt" style="margin-left: 30px;">*Booked vs. Actual Values</span>
-                                </div>
+                            <div class="col-md-12 zeroPadding" style="margin: 30px 0 0 0;">
+                                <span class="pull-left greyTxt">Imps. = Impressions</span>
+                                <span class="pull-left greyTxt"
+                                      style="margin-left: 30px;">*Booked vs. Actual Values</span>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- 3rd Row Save/Schedule -->
-                <div class="row create_scheduled_report">
-                    <div class="col-md-12 zeroPadding each_section_custom_report">
-                        <div class="create_report_title">
-                            <div class="clearfix scheduled_report_fields">
-                                <div class="each-col" id="schedule-btn">
-                                    <div class="label-txt" ng-bind-html="textConstants.SAVE_SCHEDULE"></div>
-                                    <div class="schedule-on-off-btn">
-                                        <input type="checkbox"
-                                               ng-model="scheduleReportActive"
-                                               checked data-toggle="toggle"
-                                               id="toggle"
-                                               data-on=" "
-                                               data-off=" ">
-                                    </div>
+            <!-- 3rd Row Save/Schedule -->
+            <div class="row create_scheduled_report">
+                <div class="col-md-12 zeroPadding each_section_custom_report">
+                    <div class="create_report_title">
+                        <div class="clearfix scheduled_report_fields">
+                            <div class="each-col" id="schedule-btn">
+                                <div class="label-txt" ng-bind-html="textConstants.SAVE_SCHEDULE"></div>
+                                <div class="schedule-on-off-btn">
+                                    <input type="checkbox"
+                                           ng-model="scheduleReportActive"
+                                           checked data-toggle="toggle"
+                                           id="toggle"
+                                           data-on=" "
+                                           data-off=" ">
                                 </div>
-                                <!-- SAVE/SCHEDULE TOGGELE BUTTON MARK UP -->
-                                <div class="each-col default-schedule-col radioBtnToggle">
-                                    <div class="label-txt">Select Save or Schedule</div>
-                                    <div class="btn-group miniToggle">
-                                        <label class="btn btn-default whitelist " style="width: auto;" ng-class="reportTypeSelect === 'Save' ? 'active' : ''" data-ng-click="scheduleReportActive=false">
-                                            <span>Save As</span>
-                                            <input type="radio" name="saveSchedule" group="budgetGroup" value="Save" ng-click = "saveSchedule('Save')" ng-model="reportTypeSelect" ng-checked="reportTypeSelect === 'Save' ? true : false" hidden="hidden" class=""  >
-                                        </label>
-                                        <label class="btn btn-default blacklist" style="width: auto;" ng-class="reportTypeSelect === 'Schedule As' ? 'active' : ''" data-ng-click="scheduleReportActive=true">
-                                            <span>Schedule As</span>
-                                            <input type="radio" name="saveSchedule" group="budgetGroup" ng-click = "saveSchedule('Schedule As')" value="Schedule As" ng-model="reportTypeSelect" ng-checked="reportTypeSelect === 'Schedule As' ? true : false" hidden="hidden" class=""  checked="checked">
-                                        </label>
-                                    </div>
+                            </div>
+                            <!-- SAVE/SCHEDULE TOGGELE BUTTON MARK UP -->
+                            <div class="each-col default-schedule-col radioBtnToggle">
+                                <div class="label-txt">Select Save or Schedule</div>
+                                <div class="btn-group miniToggle">
+                                    <label class="btn btn-default whitelist " style="width: auto;"
+                                           ng-class="reportTypeSelect === 'Save' ? 'active' : ''"
+                                           data-ng-click="scheduleReportActive=false">
+                                        <span>Save As</span>
+                                        <input type="radio" name="saveSchedule" group="budgetGroup" value="Save"
+                                               ng-click="saveSchedule('Save')" ng-model="reportTypeSelect"
+                                               ng-checked="reportTypeSelect === 'Save' ? true : false" hidden="hidden"
+                                               class="">
+                                    </label>
+                                    <label class="btn btn-default blacklist" style="width: auto;"
+                                           ng-class="reportTypeSelect === 'Schedule As' ? 'active' : ''"
+                                           data-ng-click="scheduleReportActive=true">
+                                        <span>Schedule As</span>
+                                        <input type="radio" name="saveSchedule" group="budgetGroup"
+                                               ng-click="saveSchedule('Schedule As')" value="Schedule As"
+                                               ng-model="reportTypeSelect"
+                                               ng-checked="reportTypeSelect === 'Schedule As' ? true : false"
+                                               hidden="hidden" class="" checked="checked">
+                                    </label>
                                 </div>
+                            </div>
 
-                                <div class="each-col default-schedule-col report-name-col">
-                                    <div class="label-txt">{{textConstants.REPORT_NAME}}</div>
-                                    <div class="col-md-12 zeroPadding">
-                                        <input type="text" ng-model="reports.name" maxlength="256" placeholder="Enter a Report Name, no punctuation or special characters.">
-                                    </div>
+                            <div class="each-col default-schedule-col report-name-col">
+                                <div class="label-txt">{{textConstants.REPORT_NAME}}</div>
+                                <div class="col-md-12 zeroPadding">
+                                    <input type="text" ng-model="reports.name" maxlength="256"
+                                           placeholder="Enter a Report Name, no punctuation or special characters.">
                                 </div>
-                                <div class="each-col default-schedule-col" ng-show="reportTypeSelect !== 'Save'" >
-                                    <div class="label-txt" ng-bind-html="textConstants.WF_FREQUENCY"></div>
-                                    <div>
-                                        <div class="common_dropdown">
-                                            <div class="dropdown">
+                            </div>
+                            <div class="each-col default-schedule-col" ng-show="reportTypeSelect !== 'Save'">
+                                <div class="label-txt" ng-bind-html="textConstants.WF_FREQUENCY"></div>
+                                <div>
+                                    <div class="common_dropdown">
+                                        <div class="dropdown">
                                  <span class="dropdown_ul_text" data-toggle="dropdown">
                                     <span class="dd_txt frequency"
                                           id="date-selected-txt"
@@ -448,39 +467,41 @@
                                                 </span>
                                     <span class="arrow_img"></span>
                                  </span>
-                                                <ul class="dropdown-menu">
-                                                    <li ng-repeat="frequency in textConstants.WF_FREQUENCY_LIST"
-                                                        ng-model="reports.schedule.frequency"
-                                                        ng-click="reports.schedule.frequency = frequency;
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="frequency in textConstants.WF_FREQUENCY_LIST"
+                                                    ng-model="reports.schedule.frequency"
+                                                    ng-click="reports.schedule.frequency = frequency;
                                                         select_schedule_option(frequency)"
-                                                        ng-bind-html="frequency">
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                                    ng-bind-html="frequency">
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="each-col scheduling-options schedule-once" ng-show="reportTypeSelect !== 'Save'" >
-                                    <div class="label-txt" ng-bind-html="textConstants.SCHEDULE_DELIVER_ON"></div>
-                                    <div>
-                                        <div class="input-daterange input-group date pull-left">
-                                            <div class="dateWrapper">
-                                                <input type="text"
-                                                       id="deliverOn"
-                                                       name="scheduleReportStartDate"
-                                                       ng-model="reports.schedule.startDate"
-                                                       class="input-sm form-control timeframe"
-                                                       required="">
-                                                <i class="icon-calendar glyphicon pull-right"></i>
-                                            </div>
+                            </div>
+                            <div class="each-col scheduling-options schedule-once"
+                                 ng-show="reportTypeSelect !== 'Save'">
+                                <div class="label-txt" ng-bind-html="textConstants.SCHEDULE_DELIVER_ON"></div>
+                                <div>
+                                    <div class="input-daterange input-group date pull-left">
+                                        <div class="dateWrapper">
+                                            <input type="text"
+                                                   id="deliverOn"
+                                                   name="scheduleReportStartDate"
+                                                   ng-model="reports.schedule.startDate"
+                                                   class="input-sm form-control timeframe"
+                                                   required="">
+                                            <i class="icon-calendar glyphicon pull-right"></i>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="each-col scheduling-options schedule-weekly" ng-show="reportTypeSelect !== 'Save'" >
-                                    <div class="label-txt" ng-bind-html="textConstants.SCHEDULE_OCCURS_ON"></div>
-                                    <div>
-                                        <div class="common_dropdown">
-                                            <div class="dropdown">
+                            </div>
+                            <div class="each-col scheduling-options schedule-weekly"
+                                 ng-show="reportTypeSelect !== 'Save'">
+                                <div class="label-txt" ng-bind-html="textConstants.SCHEDULE_OCCURS_ON"></div>
+                                <div>
+                                    <div class="common_dropdown">
+                                        <div class="dropdown">
                                  <span class="dropdown_ul_text" data-toggle="dropdown">
                                     <span class="dd_txt"
                                           id="date-selected-txt"
@@ -490,22 +511,23 @@
                                                 </span>
                                     <span class="arrow_img"></span>
                                  </span>
-                                                <ul class="dropdown-menu">
-                                                    <li ng-repeat="week in textConstants.WEEKNAME"
-                                                        ng-model="reports.schedule.occurance"
-                                                        ng-click="reports.schedule.occurance = week;
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="week in textConstants.WEEKNAME"
+                                                    ng-model="reports.schedule.occurance"
+                                                    ng-click="reports.schedule.occurance = week;
                                                         select_dropdown_option($event);" ng-bind-html="week">
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="each-col scheduling-options schedule-monthly" ng-show="reportTypeSelect !== 'Save'" >
-                                    <div class="label-txt" ng-bind-html="textConstants.SCHEDULE_OCCURS_ON"></div>
-                                    <div>
-                                        <div class="common_dropdown">
-                                            <div class="dropdown">
+                            </div>
+                            <div class="each-col scheduling-options schedule-monthly"
+                                 ng-show="reportTypeSelect !== 'Save'">
+                                <div class="label-txt" ng-bind-html="textConstants.SCHEDULE_OCCURS_ON"></div>
+                                <div>
+                                    <div class="common_dropdown">
+                                        <div class="dropdown">
                                             <span class="dropdown_ul_text" data-toggle="dropdown">
                                                 <span class="dd_txt"
                                                       id="date-selected-txt"
@@ -515,22 +537,23 @@
                                                 </span>
                                                 <span class="arrow_img"></span>
                                             </span>
-                                                <ul class="dropdown-menu">
-                                                    <li ng-repeat="schedule_occur in textConstants.SCHEDULE_REPORT_OCCURS_ON_LIST"
-                                                        ng-model="reports.schedule.occurance"
-                                                        ng-click="select_schedule_occurs_option($event, schedule_occur);"
-                                                        ng-bind-html="schedule_occur">
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="schedule_occur in textConstants.SCHEDULE_REPORT_OCCURS_ON_LIST"
+                                                    ng-model="reports.schedule.occurance"
+                                                    ng-click="select_schedule_occurs_option($event, schedule_occur);"
+                                                    ng-bind-html="schedule_occur">
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="each-col scheduling-options schedule-occurs-custom" ng-show="reportTypeSelect !== 'Save'" >
-                                    <div class="label-txt" ng-bind-html="textConstants.SELECT_DATE_LABEL"></div>
-                                    <div>
-                                        <div class="common_dropdown">
-                                            <div class="dropdown">
+                            </div>
+                            <div class="each-col scheduling-options schedule-occurs-custom"
+                                 ng-show="reportTypeSelect !== 'Save'">
+                                <div class="label-txt" ng-bind-html="textConstants.SELECT_DATE_LABEL"></div>
+                                <div>
+                                    <div class="common_dropdown">
+                                        <div class="dropdown">
                                  <span class="dropdown_ul_text" data-toggle="dropdown">
                                     <span class="dd_txt"
                                           id="date-selected-txt"
@@ -538,46 +561,46 @@
                                                 </span>
                                     <span class="arrow_img"></span>
                                  </span>
-                                                <ul class="dropdown-menu">
-                                                    <li ng-repeat="counter in getNumberDate"
-                                                        ng-model="reports.schedule.customOccuranceDate"
-                                                        ng-click="reports.schedule.customOccuranceDate = counter;
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="counter in getNumberDate"
+                                                    ng-model="reports.schedule.customOccuranceDate"
+                                                    ng-click="reports.schedule.customOccuranceDate = counter;
                                                         select_dropdown_option($event);" ng-bind="counter">
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="each-col scheduling-options schedule-date"  ng-show="reportTypeSelect !== 'Save'" >
-                                    <div class="input-daterange-scheduled">
-                                        <div class="input-daterange input-group date pull-left">
-                                            <div class="dateWrapper" style="width:258px;">
-                                                <div class="pull-left" style="width:124px;">
-                                                    <div class="label-txt"
-                                                         ng-bind-html="textConstants.SCHEDULE_START_DATE_LABEL">
-                                                    </div>
-                                                    <div>
-                                                        <input type="text"
-                                                               id="startOn"
-                                                               ng-model="reports.schedule.startDate"
-                                                               class="input-sm form-control timeframe"
-                                                               ng-disabled="reports.schedule.frequency === 'Once'"
-                                                               required>
-                                                        <i class="icon-calendar glyphicon pull-right"></i>
-                                                    </div>
+                            </div>
+                            <div class="each-col scheduling-options schedule-date"
+                                 ng-show="reportTypeSelect !== 'Save'">
+                                <div class="input-daterange-scheduled">
+                                    <div class="input-daterange input-group date pull-left">
+                                        <div class="dateWrapper" style="width:258px;">
+                                            <div class="pull-left" style="width:124px;">
+                                                <div class="label-txt"
+                                                     ng-bind-html="textConstants.SCHEDULE_START_DATE_LABEL">
                                                 </div>
-                                                <div class="pull-left endScheduledDate" style="width:124px;">
-                                                    <div class="label-txt"
-                                                         ng-bind-html="textConstants.SCHEDULE_END_DATE_LABEL">
-                                                    </div>
-                                                    <div>
-                                                        <input type="text"
-                                                               id="endOn"
-                                                               ng-model="reports.schedule.endDate"
-                                                               class="input-sm form-control timeframe" required="">
-                                                        <i class="icon-calendar glyphicon pull-right"></i>
-                                                    </div>
+                                                <div>
+                                                    <input type="text"
+                                                           id="startOn"
+                                                           ng-model="reports.schedule.startDate"
+                                                           class="input-sm form-control timeframe"
+                                                           ng-disabled="reports.schedule.frequency === 'Once'"
+                                                           required>
+                                                    <i class="icon-calendar glyphicon pull-right"></i>
+                                                </div>
+                                            </div>
+                                            <div class="pull-left endScheduledDate" style="width:124px;">
+                                                <div class="label-txt"
+                                                     ng-bind-html="textConstants.SCHEDULE_END_DATE_LABEL">
+                                                </div>
+                                                <div>
+                                                    <input type="text"
+                                                           id="endOn"
+                                                           ng-model="reports.schedule.endDate"
+                                                           class="input-sm form-control timeframe" required="">
+                                                    <i class="icon-calendar glyphicon pull-right"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -586,716 +609,733 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12 zeroPadding">
-                        <div class="container">
-                            <span class="pull-right common-loading-btn" style="width:91px;" ng-show="loadingBtn"></span>
-                            <button class="pull-right btn btn-primary {{generateBtnDisabled ?
+                </div>
+                <div class="col-md-12 zeroPadding">
+                    <div class="container">
+                        <span class="pull-right common-loading-btn" style="width:91px;" ng-show="loadingBtn"></span>
+                        <button class="pull-right btn btn-primary {{generateBtnDisabled ?
                                     'disabled' :
                                     ''}}"
-                                    ng-click="scheduleReportAction();"
-                                    ng-bind-html="buttonLabel" ng-show="!loadingBtn" >
-                            </button>
+                                ng-click="scheduleReportAction();"
+                                ng-bind-html="buttonLabel" ng-show="!loadingBtn">
+                        </button>
 
-                            <button class="pull-right btn btn-default"
-                                    ng-click="resetMetricOptions();"
-                                    ng-bind-html="buttonResetCancel" ng-class="reportTypeSelect === 'Save' ? 'save_reset' : ''">
-                            </button>
+                        <button class="pull-right btn btn-default"
+                                ng-click="resetMetricOptions();"
+                                ng-bind-html="buttonResetCancel"
+                                ng-class="reportTypeSelect === 'Save' ? 'save_reset' : ''">
+                        </button>
 
-                            <!-- <div class="pull-right secondary_txt" ng-click="reset_metric_options()">
-                                Reset
-                            </div> -->
-                        </div>
+                        <!-- <div class="pull-right secondary_txt" ng-click="reset_metric_options()">
+                            Reset
+                        </div> -->
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Custom Report Response Page -->
-            <div class="custom_response_screenshot_container">
-                <div class="img_table_container">
+        <!-- Custom Report Response Page -->
+        <div class="custom_response_screenshot_container">
+            <div class="img_table_container">
             <span class="img_table_txt">
                Please select dimensions, timeframe and any additional <br> parameters to generate a report
             </span>
-                    <div class="img_table"></div>
+                <div class="img_table"></div>
+            </div>
+            <div class="custom_report_response_page" style="display:none;">
+                <!-- generating report loader -->
+                <div class="report-response-load" style="display:none;">
+                    Generating Report...
                 </div>
-                <div class="custom_report_response_page" style="display:none;">
-                    <!-- generating report loader -->
-                    <div class="report-response-load"  style="display:none;">
-                        Generating Report...
-                    </div>
-                    <!-- end of generating report loader -->
-                    <div class="report_response_and_tabs">
-                        <!-- add  style="display:none;"  when tabs are not to be shown -->
-                        <div ng-if="!hideReportsTabs"
-                             class="clearfix custom_report_response_tabs">
-                            <div class="each_tab active" ng-click="show_respective_table('delivery')" id="delivery_tab" ng-show="metricKeyArr.delivery_metrics.length">
-                                <span>Delivery</span>
-                            </div>
-                            <!--<div class="each_tab" ng-click="show_respective_table('booked')" id="booked_tab">
-                                <span>Booked</span>
-                            </div>-->
-                            <div class="each_tab" ng-click="show_respective_table('cost')" id="cost_tab" ng-show="showCost && metricKeyArr.cost_metrics.length">
-                                <span>Cost</span>
-                            </div>
-                            <!--<div class="each_tab" ng-click="show_respective_table('engagement')" id="engagement_tab">
-                                <span>Engagement</span>
-                            </div>-->
-                            <div class="each_tab" ng-click="show_respective_table('video')" id="video_tab" ng-show="metricKeyArr.video_metrics.length">
-                                <span>Video</span>
-                            </div>
-                            <div class="each_tab" ng-click="show_respective_table('quality')" id="quality_tab" ng-show="metricKeyArr.quality_metrics.length">
-                                <span>Quality</span>
-                            </div>
-                            <div class="each_tab" ng-click="show_respective_table('pacing')" id="pacing_tab" ng-show="metricKeyArr.pacing_metrics.length">
-                                <span>Pacing</span>
-                            </div>
+                <!-- end of generating report loader -->
+                <div class="report_response_and_tabs">
+                    <!-- add  style="display:none;"  when tabs are not to be shown -->
+                    <div ng-if="!hideReportsTabs"
+                         class="clearfix custom_report_response_tabs">
+                        <div class="each_tab active" ng-click="show_respective_table('delivery')" id="delivery_tab"
+                             ng-show="metricKeyArr.delivery_metrics.length">
+                            <span>Delivery</span>
                         </div>
-                        <div class="custom_report_response_table" id="delivery_table" ng-show="metricKeyArr.delivery_metrics.length">
-                            <!-- add vertical_scroll class when scrolled vertically -->
-                            <div class="custom_report_scroll" style="height:0">
-                                <div class="each_row heading_row">
-                                    <div class="inner_heading_row">
-                                        <div class="each_col tree_dimension_col" ng-bind-html="reportTitle"></div>
-                                        <div class="each_col_delivery" ng-class="addReqClassToSort(dm.key,sortType,sortReverse)" ng-click="clickToSort(dm.key);"
-                                             ng-repeat="dm in metricKeyArr.delivery_metrics track by $index"
-                                             ng-bind-html="dm.value">
-                                        </div>
+                        <!--<div class="each_tab" ng-click="show_respective_table('booked')" id="booked_tab">
+                            <span>Booked</span>
+                        </div>-->
+                        <div class="each_tab" ng-click="show_respective_table('cost')" id="cost_tab"
+                             ng-show="showCost && metricKeyArr.cost_metrics.length">
+                            <span>Cost</span>
+                        </div>
+                        <!--<div class="each_tab" ng-click="show_respective_table('engagement')" id="engagement_tab">
+                            <span>Engagement</span>
+                        </div>-->
+                        <div class="each_tab" ng-click="show_respective_table('video')" id="video_tab"
+                             ng-show="metricKeyArr.video_metrics.length">
+                            <span>Video</span>
+                        </div>
+                        <div class="each_tab" ng-click="show_respective_table('quality')" id="quality_tab"
+                             ng-show="metricKeyArr.quality_metrics.length">
+                            <span>Quality</span>
+                        </div>
+                        <div class="each_tab" ng-click="show_respective_table('pacing')" id="pacing_tab"
+                             ng-show="metricKeyArr.pacing_metrics.length">
+                            <span>Pacing</span>
+                        </div>
+                    </div>
+                    <div class="custom_report_response_table" id="delivery_table"
+                         ng-show="metricKeyArr.delivery_metrics.length">
+                        <!-- add vertical_scroll class when scrolled vertically -->
+                        <div class="custom_report_scroll" style="height:0">
+                            <div class="each_row heading_row">
+                                <div class="inner_heading_row">
+                                    <div class="each_col tree_dimension_col" ng-bind-html="reportTitle"></div>
+                                    <div class="each_col_delivery"
+                                         ng-class="addReqClassToSort(dm.key,sortType,sortReverse)"
+                                         ng-click="clickToSort(dm.key);"
+                                         ng-repeat="dm in metricKeyArr.delivery_metrics track by $index"
+                                         ng-bind-html="dm.value">
                                     </div>
                                 </div>
-                                <div class="clearfix first_dimension_row_holder">
-                                    <div ng-if="reportDataLoading" class="common-load-more report-response-load">
-                                        Generating Report...
-                                    </div>
+                            </div>
+                            <div class="clearfix first_dimension_row_holder">
+                                <div ng-if="reportDataLoading" class="common-load-more report-response-load">
+                                    Generating Report...
+                                </div>
                                 <span ng-if="(!reportDataLoading && reportDataNotFound)"
                                       class="no-data-common"
                                       ng-bind-html="getMessageForDataNotAvailable()">
                                 </span>
-                                    <div class="each_row reportData {{showhasBreakdown}}"
-                                         data-result-row='{{customeReportData.idx}}'
-                                         ng-repeat="customeReportData in metricValues.first_dimension.delivery_metrics | orderBy:sortType:sortReverse">
-                                        <!-- add active when the next dimension is open -->
-                                        <!-- add hasBreakdown when the next dimension is available -->
-                                        <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
-                                        <!-- second dimension div-->
-                                        <div ng-show='secondDimensionReportLoading["delivery_metrics"][customeReportData.idx]'
-                                             class="common-load-more">
-                                        </div>
-                                        <div class="clearfix second_dimension_row_holder">
-                                            <div ng-if='!secondDimensionReportLoading["delivery_metrics"][customeReportData.idx] &&
+                                <div class="each_row reportData {{showhasBreakdown}}"
+                                     data-result-row='{{customeReportData.idx}}'
+                                     ng-repeat="customeReportData in metricValues.first_dimension.delivery_metrics | orderBy:sortType:sortReverse">
+                                    <!-- add active when the next dimension is open -->
+                                    <!-- add hasBreakdown when the next dimension is available -->
+                                    <div ng-include="'deliveryTpl'" class="heading_first_dimension"></div>
+                                    <!-- second dimension div-->
+                                    <div
+                                        ng-show='secondDimensionReportLoading["delivery_metrics"][customeReportData.idx]'
+                                        class="common-load-more">
+                                    </div>
+                                    <div class="clearfix second_dimension_row_holder">
+                                        <div ng-if='!secondDimensionReportLoading["delivery_metrics"][customeReportData.idx] &&
                                             metricValues.second_dimension[customeReportData.idx].delivery_metrics.length > 0'>
-                                                <div class="second_dimension_row"
-                                                     ng-repeat="customeReportData in
+                                            <div class="second_dimension_row"
+                                                 ng-repeat="customeReportData in
                                                     metricValues.second_dimension[customeReportData.idx].delivery_metrics | orderBy:sortType:sortReverse"
-                                                     ng-include="'customeReportTpl'">
-                                                </div>
-                                                <!-- load more for second dimension -->
+                                                 ng-include="'deliveryTpl'">
+                                            </div>
+                                            <!-- load more for second dimension -->
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.delivery_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
                                                   ng-show="secDimensionLoadMore['delivery_metrics'][customeReportData.idx]"
                                                   style="" extFile="aaa">
                                     <a href="javascript:void(0);">Load more</a>
                                  </span>
-                                            <span class="sec_dimension_loadingIcon common-loading-area" style="margin-left:465px;"
+                                            <span class="sec_dimension_loadingIcon common-loading-area"
+                                                  style="margin-left:465px;"
                                                   ng-show="secDimensionLoadIcon['delivery_metrics'][customeReportData.idx]"></span>
-                                            </div>
-
-                                        <span ng-if="secondDimensionReportDataNotFound['delivery_metrics'][customeReportData.idx]"
-                                              class="no-data-common"
-                                              ng-bind-html="getMessageForDataNotAvailable()">
-                                        </span>
-                                            <!-- end of load more for second dimension -->
                                         </div>
-                                        <!-- end of second dimension div-->
+
+                                        <span
+                                            ng-if="secondDimensionReportDataNotFound['delivery_metrics'][customeReportData.idx]"
+                                            class="no-data-common"
+                                            ng-bind-html="getMessageForDataNotAvailable()">
+                                        </span>
+                                        <!-- end of load more for second dimension -->
+                                    </div>
+                                    <!-- end of second dimension div-->
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
+                    </div>
+                    <div class="custom_report_response_table" id="cost_table" style="display:none;"
+                         ng-show="showCost && metricKeyArr.cost_metrics.length">
+                        <div class="custom_report_scroll">
+                            <div class="each_row heading_row">
+                                <div class="inner_heading_row">
+                                    <div class="each_col tree_dimension_col">{{reportTitle}}</div>
+                                    <div class="each_col_cost" ng-class="addReqClassToSort(bm.key,sortType,sortReverse)"
+                                         ng-click="clickToSort(bm.key);"
+                                         ng-repeat="bm in metricKeyArr.cost_metrics track by $index"
+                                         ng-bind="bm.value">
                                     </div>
                                 </div>
                             </div>
-                            <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
-                        </div>
-                        <div class="custom_report_response_table" id="cost_table" style="display:none;" ng-show="showCost && metricKeyArr.cost_metrics.length">
-                            <div class="custom_report_scroll">
-                                <div class="each_row heading_row">
-                                    <div class="inner_heading_row">
-                                        <div class="each_col tree_dimension_col">{{reportTitle}}</div>
-                                        <div class="each_col_cost" ng-class="addReqClassToSort(bm.key,sortType,sortReverse)" ng-click="clickToSort(bm.key);"
-                                             ng-repeat="bm in metricKeyArr.cost_metrics track by $index"
-                                             ng-bind="bm.value">
-                                        </div>
-                                    </div>
+                            <div class="clearfix first_dimension_row_holder">
+                                <div ng-if="reportDataLoading" class="common-load-more report-response-load">
+                                    Generating Report..
                                 </div>
-                                <div class="clearfix first_dimension_row_holder">
-                                    <div ng-if="reportDataLoading" class="common-load-more report-response-load">
-                                        Generating Report..
-                                    </div>
                                 <span ng-if="(!reportDataLoading && reportDataNotFound)"
                                       class="no-data-common"
                                       ng-bind-html="getMessageForDataNotAvailable()">
                                 </span>
-                                    <div class="each_row reportData {{showhasBreakdown}}"
-                                         data-result-row='{{customeReportData.idx}}'
-                                         ng-repeat="customeReportData in metricValues.first_dimension.cost_metrics | orderBy:sortType:sortReverse">
-                                        <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
-                                        <!-- second dimension div-->
-                                        <div ng-show='secondDimensionReportLoading["cost_metrics"][customeReportData.idx]'
-                                             class="common-load-more">
-                                        </div>
-                                        <div class="clearfix second_dimension_row_holder">
-                                            <div ng-if="!secondDimensionReportLoading['cost_metrics'][customeReportData.idx] &&
+                                <div class="each_row reportData {{showhasBreakdown}}"
+                                     data-result-row='{{customeReportData.idx}}'
+                                     ng-repeat="customeReportData in metricValues.first_dimension.cost_metrics | orderBy:sortType:sortReverse">
+                                    <div ng-include="'costTpl'" class="heading_first_dimension"></div>
+                                    <!-- second dimension div-->
+                                    <div ng-show='secondDimensionReportLoading["cost_metrics"][customeReportData.idx]'
+                                         class="common-load-more">
+                                    </div>
+                                    <div class="clearfix second_dimension_row_holder">
+                                        <div ng-if="!secondDimensionReportLoading['cost_metrics'][customeReportData.idx] &&
                                                 metricValues.second_dimension[customeReportData.idx].cost_metrics.length > 0">
-                                                <div class="second_dimension_row"
-                                                     ng-repeat="customeReportData in
+                                            <div class="second_dimension_row"
+                                                 ng-repeat="customeReportData in
                                                     metricValues.second_dimension[customeReportData.idx].cost_metrics | orderBy:sortType:sortReverse"
-                                                     ng-include="'customeReportTpl'">
-                                                </div>
+                                                 ng-include="'costTpl'">
+                                            </div>
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.cost_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
                                                   ng-show="secDimensionLoadMore['cost_metrics'][customeReportData.idx]"
                                                   style="">
                                     <a href="javascript:void(0);">Load more</a>
                                  </span>
-                                            <span class="sec_dimension_loadingIcon common-loading-area" style="margin-left:465px;"
+                                            <span class="sec_dimension_loadingIcon common-loading-area"
+                                                  style="margin-left:465px;"
                                                   ng-show="secDimensionLoadIcon['cost_metrics'][customeReportData.idx]"></span>
-                                            </div>
-
-                                        <span ng-if="secondDimensionReportDataNotFound['cost_metrics'][customeReportData.idx]"
-                                              class="no-data-common"
-                                              ng-bind-html="getMessageForDataNotAvailable()">
-                                        </span>
-                                            <!-- end of load more for second dimension -->
                                         </div>
-                                        <!-- end of second dimension div-->
+
+                                        <span
+                                            ng-if="secondDimensionReportDataNotFound['cost_metrics'][customeReportData.idx]"
+                                            class="no-data-common"
+                                            ng-bind-html="getMessageForDataNotAvailable()">
+                                        </span>
+                                        <!-- end of load more for second dimension -->
+                                    </div>
+                                    <!-- end of second dimension div-->
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
+                    </div>
+
+                    <div class="custom_report_response_table" id="video_table" style="display:none;"
+                         ng-show="metricKeyArr.video_metrics.length">
+                        <div class="custom_report_scroll">
+                            <div class="each_row heading_row">
+                                <div class="inner_heading_row">
+                                    <div class="each_col tree_dimension_col">{{reportTitle}}</div>
+                                    <div class="each_col" ng-class="addReqClassToSort(vm.key,sortType,sortReverse)"
+                                         ng-click="clickToSort(vm.key);"
+                                         ng-repeat="vm in metricKeyArr.video_metrics track by $index"
+                                         ng-bind="vm.value">
                                     </div>
                                 </div>
                             </div>
-                            <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
-                        </div>
-
-                        <div class="custom_report_response_table" id="engagement_table" style="display:none;" ng-show="metricKeyArr.engagement_metrics.length">
-                            <div class="custom_report_scroll">
-                                <div class="each_row heading_row">
-                                    <div class="inner_heading_row">
-                                        <div class="each_col tree_dimension_col">{{reportTitle}}</div>
-                                        <div class="each_col" ng-class="addReqClassToSort(em.key,sortType,sortReverse)" ng-click="clickToSort(em.key);"
-                                             ng-repeat="em in metricKeyArr.engagement_metrics track by $index"
-                                             ng-bind="em.value">
-                                        </div>
-                                    </div>
+                            <div class="clearfix first_dimension_row_holder">
+                                <div ng-if="reportDataLoading" class="common-load-more report-response-load">
+                                    Generating Report...
                                 </div>
-                                <div class="clearfix first_dimension_row_holder">
-                                    <div ng-if="reportDataLoading" class="common-load-more report-response-load">
-                                        Generating Report...
-                                    </div>
-                                <span ng-if="(!reportDataLoading && reportDataNotFound)"
-                                      class="no-data-common" ng-bind-html="getMessageForDataNotAvailable()">
-                                </span>
-                                    <div class="each_row reportData {{showhasBreakdown}}"
-                                         data-result-row='{{customeReportData.idx}}'
-                                         ng-repeat="customeReportData in metricValues.first_dimension.engagement_metrics | orderBy:sortType:sortReverse">
-                                        <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
-                                        <!-- second dimension div-->
-                                        <div ng-show='secondDimensionReportLoading["engagement_metrics"][customeReportData.idx]'
-                                             class="common-load-more"></div>
-                                        <div class="clearfix second_dimension_row_holder">
-                                            <div ng-if="!secondDimensionReportLoading['engagement_metrics'][customeReportData.idx] &&
-                                                metricValues.second_dimension[customeReportData.idx].engagement_metrics.length >0">
-                                                <div class="second_dimension_row"
-                                                     ng-repeat="customeReportData in
-                                                    metricValues.second_dimension[customeReportData.idx].engagement_metrics | orderBy:sortType:sortReverse"
-                                                     ng-include="'customeReportTpl'">
-                                                </div>
-                                            <span class="sec_dimension_load_more"
-                                                  ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.engagement_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
-                                                  ng-show="secDimensionLoadMore['engagement_metrics'][customeReportData.idx]"
-                                                  style="">
-                                    <a href="javascript:void(0);">Load more</a>
-                                        </span>
-                                            <span class="sec_dimension_loadingIcon common-loading-area" style="margin-left:465px;"
-                                                  ng-show="secDimensionLoadIcon['engagement_metrics'][customeReportData.idx]"></span>
-                                            </div>
-
-                                        <span ng-if="secondDimensionReportDataNotFound['engagement_metrics'][customeReportData.idx]"
-                                              class="no-data-common"
-                                              ng-bind-html="getMessageForDataNotAvailable()">
-                                        </span>
-                                            <!-- end of load more for second dimension -->
-                                        </div>
-                                        <!-- end of second dimension div-->
-                                    </div>
-                                </div>
-                            </div>
-                            <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
-                        </div>
-                        <div class="custom_report_response_table" id="video_table" style="display:none;" ng-show="metricKeyArr.video_metrics.length">
-                            <div class="custom_report_scroll">
-                                <div class="each_row heading_row">
-                                    <div class="inner_heading_row">
-                                        <div class="each_col tree_dimension_col">{{reportTitle}}</div>
-                                        <div class="each_col" ng-class="addReqClassToSort(vm.key,sortType,sortReverse)" ng-click="clickToSort(vm.key);"
-                                             ng-repeat="vm in metricKeyArr.video_metrics track by $index"
-                                             ng-bind="vm.value">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="clearfix first_dimension_row_holder">
-                                    <div ng-if="reportDataLoading" class="common-load-more report-response-load">
-                                        Generating Report...
-                                    </div>
                                 <span ng-if="(!reportDataLoading && reportDataNotFound)"
                                       class="no-data-common"
                                       ng-bind-html="getMessageForDataNotAvailable()">
                                 </span>
-                                    <div class="each_row reportData {{showhasBreakdown}}"
-                                         data-result-row='{{customeReportData.idx}}'
-                                         ng-repeat="customeReportData in metricValues.first_dimension.video_metrics | orderBy:sortType:sortReverse">
-                                        <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
-                                        <!-- second dimension div-->
-                                        <div ng-show='secondDimensionReportLoading["video_metrics"][customeReportData.idx]'
-                                             class="common-load-more"></div>
-                                        <div class="clearfix second_dimension_row_holder">
-                                            <div ng-if="!secondDimensionReportLoading['video_metrics'][customeReportData.idx] &&
+                                <div class="each_row reportData {{showhasBreakdown}}"
+                                     data-result-row='{{customeReportData.idx}}'
+                                     ng-repeat="customeReportData in metricValues.first_dimension.video_metrics | orderBy:sortType:sortReverse">
+                                    <div ng-include="'videoTpl'" class="heading_first_dimension"></div>
+                                    <!-- second dimension div-->
+                                    <div ng-show='secondDimensionReportLoading["video_metrics"][customeReportData.idx]'
+                                         class="common-load-more"></div>
+                                    <div class="clearfix second_dimension_row_holder">
+                                        <div ng-if="!secondDimensionReportLoading['video_metrics'][customeReportData.idx] &&
                                                 metricValues.second_dimension[customeReportData.idx].video_metrics.length > 0">
-                                                <div class="second_dimension_row"
-                                                     ng-repeat="customeReportData in
+                                            <div class="second_dimension_row"
+                                                 ng-repeat="customeReportData in
                                                     metricValues.second_dimension[customeReportData.idx].video_metrics | orderBy:sortType:sortReverse"
-                                                     ng-include="'customeReportTpl'">
-                                                </div>
+                                                 ng-include="'videoTpl'">
+                                            </div>
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.video_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
                                                   ng-show="secDimensionLoadMore['video_metrics'][customeReportData.idx]"
                                                   style="">
                                     <a href="javascript:void(0);">Load more</a>
                                         </span>
-                                            <span class="sec_dimension_loadingIcon common-loading-area" style="margin-left:465px;"
+                                            <span class="sec_dimension_loadingIcon common-loading-area"
+                                                  style="margin-left:465px;"
                                                   ng-show="secDimensionLoadIcon['video_metrics'][customeReportData.idx]"></span>
-                                            </div>
-
-                                        <span ng-if="secondDimensionReportDataNotFound['video_metrics'][customeReportData.idx]"
-                                              class="no-data-common"
-                                              ng-bind-html="getMessageForDataNotAvailable()">
-                                        </span>
-                                            <!-- end of load more for second dimension -->
                                         </div>
-                                        <!-- end of second dimension div-->
+
+                                        <span
+                                            ng-if="secondDimensionReportDataNotFound['video_metrics'][customeReportData.idx]"
+                                            class="no-data-common"
+                                            ng-bind-html="getMessageForDataNotAvailable()">
+                                        </span>
+                                        <!-- end of load more for second dimension -->
+                                    </div>
+                                    <!-- end of second dimension div-->
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
+                    </div>
+
+                    <!-- Quality metrics -->
+                    <div class="custom_report_response_table" id="quality_table" style="display:none;"
+                         ng-show="metricKeyArr.quality_metrics.length">
+                        <div class="custom_report_scroll">
+                            <div class="each_row heading_row">
+                                <div class="inner_heading_row">
+                                    <div class="each_col tree_dimension_col">{{reportTitle}}</div>
+                                    <div class="each_col" ng-class="addReqClassToSort(vm.key,sortType,sortReverse)"
+                                         ng-click="clickToSort(vm.key);"
+                                         ng-repeat="vm in metricKeyArr.quality_metrics track by $index"
+                                         ng-bind="vm.value">
                                     </div>
                                 </div>
                             </div>
-                            <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
-                        </div>
 
-                        <!-- Quality metrics -->
-                        <div class="custom_report_response_table" id="quality_table" style="display:none;" ng-show="metricKeyArr.quality_metrics.length">
-                            <div class="custom_report_scroll">
-                                <div class="each_row heading_row">
-                                    <div class="inner_heading_row">
-                                        <div class="each_col tree_dimension_col">{{reportTitle}}</div>
-                                        <div class="each_col" ng-class="addReqClassToSort(vm.key,sortType,sortReverse)" ng-click="clickToSort(vm.key);"
-                                             ng-repeat="vm in metricKeyArr.quality_metrics track by $index"
-                                             ng-bind="vm.value">
-                                        </div>
-                                    </div>
+                            <div class="clearfix first_dimension_row_holder">
+                                <div ng-if="reportDataLoading" class="common-load-more report-response-load">
+                                    Generating Report...
                                 </div>
-
-                                <div class="clearfix first_dimension_row_holder">
-                                    <div ng-if="reportDataLoading" class="common-load-more report-response-load">
-                                        Generating Report...
-                                    </div>
                                 <span ng-if="(!reportDataLoading && reportDataNotFound)"
                                       class="no-data-common"
                                       ng-bind-html="getMessageForDataNotAvailable()">
                                 </span>
-                                    <div class="each_row reportData {{showhasBreakdown}}"
-                                         data-result-row='{{customeReportData.idx}}'
-                                         ng-repeat="customeReportData in
+                                <div class="each_row reportData {{showhasBreakdown}}"
+                                     data-result-row='{{customeReportData.idx}}'
+                                     ng-repeat="customeReportData in
                                         metricValues.first_dimension.quality_metrics | orderBy:sortType:sortReverse">
-                                        <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
-                                        <!-- second dimension div-->
-                                        <div ng-show='secondDimensionReportLoading["quality_metrics"][customeReportData.idx]'
-                                             class="common-load-more"></div>
-                                        <div class="clearfix second_dimension_row_holder">
-                                            <div ng-if="!secondDimensionReportLoading['quality_metrics']
+                                    <div ng-include="'qualityTpl'" class="heading_first_dimension"></div>
+                                    <!-- second dimension div-->
+                                    <div
+                                        ng-show='secondDimensionReportLoading["quality_metrics"][customeReportData.idx]'
+                                        class="common-load-more"></div>
+                                    <div class="clearfix second_dimension_row_holder">
+                                        <div ng-if="!secondDimensionReportLoading['quality_metrics']
                                                 [customeReportData.idx] && metricValues.second_dimension[customeReportData.idx]
                                                 .quality_metrics.length > 0">
-                                                <div class="second_dimension_row"
-                                                     ng-repeat="customeReportData in
+                                            <div class="second_dimension_row"
+                                                 ng-repeat="customeReportData in
                                                     metricValues.second_dimension[customeReportData.idx].quality_metrics | orderBy:sortType:sortReverse"
-                                                     ng-include="'customeReportTpl'">
-                                                </div>
+                                                 ng-include="'qualityTpl'">
+                                            </div>
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.quality_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
                                                   ng-show="secDimensionLoadMore['quality_metrics'][customeReportData.idx]"
                                                   style="">
                                     <a href="javascript:void(0);">Load more</a>
                                         </span>
-                                            <span class="sec_dimension_loadingIcon common-loading-area" style="margin-left:465px;"
+                                            <span class="sec_dimension_loadingIcon common-loading-area"
+                                                  style="margin-left:465px;"
                                                   ng-show="secDimensionLoadIcon['quality_metrics'][customeReportData.idx]"></span>
-                                            </div>
+                                        </div>
                                         <span ng-if="secondDimensionReportDataNotFound['quality_metrics']
                                                 [customeReportData.idx]"
                                               class="no-data-common"
                                               ng-bind-html="getMessageForDataNotAvailable()">
                                         </span>
-                                            <!-- end of load more for second dimension -->
-                                        </div>
-                                        <!-- end of second dimension div-->
+                                        <!-- end of load more for second dimension -->
+                                    </div>
+                                    <!-- end of second dimension div-->
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
+                    </div>
+
+                    <!-- Pacing metrics -->
+
+                    <div class="custom_report_response_table" id="pacing_table" style="display:none;"
+                         ng-show="metricKeyArr.pacing_metrics.length">
+                        <div class="custom_report_scroll">
+                            <div class="each_row heading_row">
+                                <div class="inner_heading_row">
+                                    <div class="each_col tree_dimension_col">{{reportTitle}}</div>
+                                    <div class="each_col" ng-class="addReqClassToSort(vm.key,sortType,sortReverse)"
+                                         ng-click="clickToSort(vm.key);"
+                                         ng-repeat="vm in metricKeyArr.pacing_metrics track by $index"
+                                         ng-bind="vm.value">
                                     </div>
                                 </div>
                             </div>
-                            <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
-                        </div>
 
-                        <!-- Pacing metrics -->
-
-                        <div class="custom_report_response_table" id="pacing_table" style="display:none;" ng-show="metricKeyArr.pacing_metrics.length">
-                            <div class="custom_report_scroll">
-                                <div class="each_row heading_row">
-                                    <div class="inner_heading_row">
-                                        <div class="each_col tree_dimension_col">{{reportTitle}}</div>
-                                        <div class="each_col" ng-class="addReqClassToSort(vm.key,sortType,sortReverse)" ng-click="clickToSort(vm.key);"
-                                             ng-repeat="vm in metricKeyArr.pacing_metrics track by $index"
-                                             ng-bind="vm.value">
-                                        </div>
-                                    </div>
+                            <div class="clearfix first_dimension_row_holder">
+                                <div ng-if="reportDataLoading" class="common-load-more report-response-load">
+                                    Generating Report...
                                 </div>
-
-                                <div class="clearfix first_dimension_row_holder">
-                                    <div ng-if="reportDataLoading" class="common-load-more report-response-load">
-                                        Generating Report...
-                                    </div>
                                 <span ng-if="(!reportDataLoading && reportDataNotFound)"
                                       class="no-data-common"
                                       ng-bind-html="getMessageForDataNotAvailable()">
                                 </span>
-                                    <div class="each_row reportData {{showhasBreakdown}}"
-                                         data-result-row='{{customeReportData.idx}}'
-                                         ng-repeat="customeReportData in
+                                <div class="each_row reportData {{showhasBreakdown}}"
+                                     data-result-row='{{customeReportData.idx}}'
+                                     ng-repeat="customeReportData in
                                         metricValues.first_dimension.pacing_metrics | orderBy:sortType:sortReverse">
-                                        <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
-                                        <!-- second dimension div-->
-                                        <div ng-show='secondDimensionReportLoading["pacing_metrics"][customeReportData.idx]'
-                                             class="common-load-more"></div>
-                                        <div class="clearfix second_dimension_row_holder">
-                                            <div ng-if="!secondDimensionReportLoading['pacing_metrics']
+                                    <div ng-include="'pacingTpl'" class="heading_first_dimension"></div>
+                                    <!-- second dimension div-->
+                                    <div ng-show='secondDimensionReportLoading["pacing_metrics"][customeReportData.idx]'
+                                         class="common-load-more"></div>
+                                    <div class="clearfix second_dimension_row_holder">
+                                        <div ng-if="!secondDimensionReportLoading['pacing_metrics']
                                                 [customeReportData.idx] && metricValues.second_dimension[customeReportData.idx]
                                                 .quality_metrics.length > 0">
-                                                <div class="second_dimension_row"
-                                                     ng-repeat="customeReportData in
+                                            <div class="second_dimension_row"
+                                                 ng-repeat="customeReportData in
                                                     metricValues.second_dimension[customeReportData.idx].pacing_metrics | orderBy:sortType:sortReverse"
-                                                     ng-include="'customeReportTpl'">
-                                                </div>
+                                                 ng-include="'pacingTpl'">
+                                            </div>
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.pacing_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
                                                   ng-show="secDimensionLoadMore['pacing_metrics'][customeReportData.idx]"
                                                   style="">
                                     <a href="javascript:void(0);">Load more</a>
                                         </span>
-                                            <span class="sec_dimension_loadingIcon common-loading-area" style="margin-left:465px;"
+                                            <span class="sec_dimension_loadingIcon common-loading-area"
+                                                  style="margin-left:465px;"
                                                   ng-show="secDimensionLoadIcon['pacing_metrics'][customeReportData.idx]"></span>
-                                            </div>
+                                        </div>
                                         <span ng-if="secondDimensionReportDataNotFound['pacing_metrics']
                                                 [customeReportData.idx]"
                                               class="no-data-common"
                                               ng-bind-html="getMessageForDataNotAvailable()">
                                         </span>
-                                            <!-- end of load more for second dimension -->
-                                        </div>
-                                        <!-- end of second dimension div-->
+                                        <!-- end of load more for second dimension -->
                                     </div>
+                                    <!-- end of second dimension div-->
                                 </div>
                             </div>
-                            <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
                         </div>
+                        <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
                     </div>
                 </div>
-                <!-- End of Custom Report Response Page -->
             </div>
+            <!-- End of Custom Report Response Page -->
+        </div>
 
-            <script type="text/ng-template" id="customeReportTpl">
-                <div class="each_col {{customeReportData.level === 'first_dimension' ?
+        <script type="text/ng-template" id="deliveryTpl">
+            <div class="each_col {{customeReportData.level === 'first_dimension' ?
                 'more_dimension_arrow' :
                 'tree_string'}}"
-                     ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();">
-                </div>
+                 ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();">
+            </div>
 
-                <!---- Dimension report data ------------------------>
-                <div class="each_col tree_dimension_col {{customeReportData.level === 'first_dimension' ?
+            <!---- Dimension report data ------------------------>
+            <div class="each_col tree_dimension_col {{customeReportData.level === 'first_dimension' ?
                 'more_dimension_col' :
                 ' '}}">
-            <span ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();"
-                  ng-if="customeReportData.value"
-                  ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"></span>
-                </div>
+            <span
+                ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();"
+                ng-if="customeReportData.value"
+                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"></span>
+            </div>
 
-                <!----- Delivery report data ------------------------>
-                <div class="each_col_delivery" ng-if="customeReportData.impressions>=-1"
-                     ng-bind="customeReportData.impressions == -1 ? 'NA' : (customeReportData.impressions | number:0)"></div>
-                <div class="each_col_delivery" ng-if="customeReportData.clicks>=-1"
-                     ng-bind="customeReportData.clicks == -1 ? 'NA' : (customeReportData.clicks | number:0)"></div>
-                <div class="each_col_delivery" ng-if="customeReportData.ctr>=-1"
-                     ng-bind="customeReportData.ctr == -1 ? 'NA' : (customeReportData.ctr | kpiFormatter:'ctr')"></div>
-                <div class="each_col_delivery" ng-if="customeReportData.post_imp>=-1"
-                     ng-bind="customeReportData.post_imp == -1 ? 'NA' : (customeReportData.post_imp | nrFormat)"></div>
-                <div class="each_col_delivery" ng-if="customeReportData.post_click>=-1"
-                     ng-bind="customeReportData.post_click == -1 ? 'NA' : (customeReportData.post_click | nrFormat)"></div>
-                <div class="each_col_delivery" ng-if="customeReportData.pccr>=-1"
-                     ng-bind="customeReportData.pccr == -1 ? 'NA' : (customeReportData.pccr | number:2)"></div>
-                <div class="each_col_delivery" ng-if="customeReportData.actions>=-1"
-                     ng-bind="customeReportData.actions == -1 ? 'NA' : (customeReportData.actions | nrFormat)"></div>
-                <div class="each_col_delivery" ng-if="customeReportData.pub_payout>=-1"
-                     ng-bind="customeReportData.pub_payout == -1 ? 'NA' : (customeReportData.pub_payout | nrFormat)"></div>
+            <!----- Delivery report data ------------------------>
+            <div class="each_col_delivery" ng-if="customeReportData.impressions>=-1"
+                 ng-bind="customeReportData.impressions == -1 ? 'NA' : (customeReportData.impressions | nrFormat)"></div>
+            <div class="each_col_delivery" ng-if="customeReportData.clicks>=-1"
+                 ng-bind="customeReportData.clicks == -1 ? 'NA' : (customeReportData.clicks | nrFormat)"></div>
+            <div class="each_col_delivery" ng-if="customeReportData.ctr>=-1"
+                 ng-bind="customeReportData.ctr == -1 ? 'NA' : (customeReportData.ctr | kpiFormatter:'ctr')"></div>
+            <div class="each_col_delivery" ng-if="customeReportData.post_imp>=-1"
+                 ng-bind="customeReportData.post_imp == -1 ? 'NA' : (customeReportData.post_imp | nrFormat)"></div>
+            <div class="each_col_delivery" ng-if="customeReportData.post_click>=-1"
+                 ng-bind="customeReportData.post_click == -1 ? 'NA' : (customeReportData.post_click | nrFormat)"></div>
+            <div class="each_col_delivery" ng-if="customeReportData.pccr>=-1"
+                 ng-bind="customeReportData.pccr == -1 ? 'NA' : (customeReportData.pccr | number:2)"></div>
+            <div class="each_col_delivery" ng-if="customeReportData.actions>=-1"
+                 ng-bind="customeReportData.actions == -1 ? 'NA' : (customeReportData.actions | nrFormat)"></div>
+            <div class="each_col_delivery" ng-if="customeReportData.pub_payout>=-1"
+                 ng-bind="customeReportData.pub_payout == -1 ? 'NA' : (customeReportData.pub_payout | nrFormat)"></div>
+        </script>
 
+        <!----- Cost report data ------------------------>
+        <script type="text/ng-template" id="costTpl">
+            <div class="each_col {{customeReportData.level === 'first_dimension' ?
+                'more_dimension_arrow' :
+                'tree_string'}}"
+                 ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();">
+            </div>
 
-                <!----- Cost report data ------------------------>
+            <!---- Dimension report data ------------------------>
+            <div class="each_col tree_dimension_col {{customeReportData.level === 'first_dimension' ?
+                'more_dimension_col' :
+                ' '}}">
+            <span
+                ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();"
+                ng-if="customeReportData.value"
+                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"></span>
+            </div>
+            <!--Ad Serving  ad_serving_cost-->
+            <div class="each_col_cost" ng-if="customeReportData.ad_servicing_cost>=-1"
+                 ng-bind="customeReportData.ad_servicing_cost == -1 ? 'NA' : (customeReportData.ad_servicing_cost | nrFormat)"></div>
 
-                <!--Ad Serving  ad_serving_cost-->
-                <div class="each_col_cost" ng-if="customeReportData.ad_servicing_cost>=-1" ng-bind="customeReportData.ad_servicing_cost == -1 ? 'NA' : (customeReportData.ad_servicing_cost | number:0)"></div>
+            <!--Ad Verification  ad_verification_cost-->
+            <div class="each_col_cost" ng-if="customeReportData.ad_vertification_cost>=-1"
+                 ng-bind="customeReportData.ad_vertification_cost == -1 ? 'NA' : (customeReportData.ad_vertification_cost | nrFormat)"></div>
 
-                <!--Ad Verification  ad_verification_cost-->
-                <div class="each_col_cost" ng-if="customeReportData.ad_vertification_cost>=-1" ng-bind="customeReportData.ad_vertification_cost == -1 ? 'NA' : (customeReportData.ad_vertification_cost | number:0)"></div>
+            <!--Service Fees  collective_cost-->
+            <div class="each_col_cost" ng-if="customeReportData.collective_cost>=-1"
+                 ng-bind="customeReportData.collective_cost == -1 ? 'NA' : (customeReportData.collective_cost | nrFormat)"></div>
 
-                <!--Service Fees  collective_cost-->
-                <div class="each_col_cost" ng-if="customeReportData.collective_cost>=-1" ng-bind="customeReportData.collective_cost == -1 ? 'NA' : (customeReportData.collective_cost | number:0)"></div>
+            <!--Creative  creative_cost-->
+            <div class="each_col_cost" ng-if="customeReportData.creative_cost>=-1"
+                 ng-bind="customeReportData.creative_cost == -1 ? 'NA' : (customeReportData.creative_cost | nrFormat)"></div>
 
-                <!--Creative  creative_cost-->
-                <div class="each_col_cost" ng-if="customeReportData.creative_cost>=-1" ng-bind="customeReportData.creative_cost == -1 ? 'NA' : (customeReportData.creative_cost | nrFormat)"></div>
+            <!--Data  data_cost-->
+            <div class="each_col_cost" ng-if="customeReportData.data_cost>=-1"
+                 ng-bind="customeReportData.data_cost == -1 ? 'NA' : (customeReportData.data_cost | nrFormat)"></div>
 
-                <!--Data  data_cost-->
-                <div class="each_col_cost" ng-if="customeReportData.data_cost>=-1" ng-bind="customeReportData.data_cost == -1 ? 'NA' : (customeReportData.data_cost | number:0)"></div>
+            <!--Inventory inventory_cost-->
+            <div class="each_col_cost" ng-if="customeReportData.inventory_cost>=-1"
+                 ng-bind="customeReportData.inventory_cost == -1 ? 'NA' : (customeReportData.inventory_cost | nrFormat)"></div>
 
-                <!--Inventory inventory_cost-->
-                <div class="each_col_cost" ng-if="customeReportData.inventory_cost>=-1" ng-bind="customeReportData.inventory_cost == -1 ? 'NA' : (customeReportData.inventory_cost | number:0)"></div>
+            <!--eCPM gross_ecpm-->
+            <div class="each_col_cost" ng-if="customeReportData.gross_ecpm>=-1"
+                 ng-bind="customeReportData.gross_ecpm == -1 ? 'NA' : (customeReportData.gross_ecpm | number:2)"></div>
 
-                <!--eCPM gross_ecpm-->
-                <div class="each_col_cost" ng-if="customeReportData.gross_ecpm>=-1" ng-bind="customeReportData.gross_ecpm == -1 ? 'NA' : (customeReportData.gross_ecpm | number:2)"></div>
+            <!--eCPC gross_ecpc-->
+            <div class="each_col_cost" ng-if="customeReportData.gross_ecpc>=-1"
+                 ng-bind="customeReportData.gross_ecpc == -1 ? 'NA' : (customeReportData.gross_ecpc | number:2)"></div>
 
-                <!--eCPC gross_ecpc-->
-                <div class="each_col_cost" ng-if="customeReportData.gross_ecpc>=-1" ng-bind="customeReportData.gross_ecpc == -1 ? 'NA' : (customeReportData.gross_ecpc | number:2)"></div>
+            <!--eCPA gross_ecpa-->
+            <div class="each_col_cost" ng-if="customeReportData.gross_ecpa>=-1"
+                 ng-bind="customeReportData.gross_ecpa == -1 ? 'NA' : (customeReportData.gross_ecpa | number:2)"></div>
 
-                <!--eCPA gross_ecpa-->
-                <div class="each_col_cost" ng-if="customeReportData.gross_ecpa>=-1" ng-bind="customeReportData.gross_ecpa == -1 ? 'NA' : (customeReportData.gross_ecpa | number:2)"></div>
+            <!--Total Spend   gross_rev-->
+            <div class="each_col_cost" ng-if="customeReportData.gross_rev>=-1"
+                 ng-bind="customeReportData.gross_rev == -1 ? 'NA' : (customeReportData.gross_rev | nrFormat)"></div>
 
-                <!--Total Spend   gross_rev-->
-                <div class="each_col_cost" ng-if="customeReportData.gross_rev>=-1" ng-bind="customeReportData.gross_rev == -1 ? 'NA' : (customeReportData.gross_rev | number:0)"></div>
+            <!--Tech Fees platform_cost-->
+            <div class="each_col_cost" ng-if="customeReportData.platform_cost>=-1"
+                 ng-bind="customeReportData.platform_cost == -1 ? 'NA' : (customeReportData.platform_cost | nrFormat)"></div>
 
-                <!--Tech Fees platform_cost-->
-                <div class="each_col_cost" ng-if="customeReportData.platform_cost>=-1" ng-bind="customeReportData.platform_cost == -1 ? 'NA' : (customeReportData.platform_cost | number:0)"></div>
+            <!--Research  research_cost-->
+            <div class="each_col_cost" ng-if="customeReportData.research_cost>=-1"
+                 ng-bind="customeReportData.research_cost == -1 ? 'NA' : (customeReportData.research_cost | nrFormat)"></div>
 
-                <!--Research  research_cost-->
-                <div class="each_col_cost" ng-if="customeReportData.research_cost>=-1" ng-bind="customeReportData.research_cost == -1 ? 'NA' : (customeReportData.research_cost | nrFormat)"></div>
-
-                <!--%Margin   margin-->
-                <div class="each_col_cost" ng-if="customeReportData.margin>=-1" ng-bind="customeReportData.margin == -1 ? 'NA' : (customeReportData.margin |nrFormat)"></div>
-
-
-
-                <!----- video report data ------------------------>
-
-                <!--Video Plays  ad_starts-->
-                <div class="each_col" ng-if="customeReportData.ad_starts>=-1"
-                     ng-bind="customeReportData.ad_starts == -1 ? 'NA' : (customeReportData.ad_starts | number:0)">
-
-                </div>
-
-                <!--25% Ad Complete completion_25-->
-                <div class="each_col" ng-if="customeReportData.completion_25>=-1"
-                     ng-bind="customeReportData.completion_25 == -1 ? 'NA' : (customeReportData.completion_25 | number:0)">
-                </div>
-
-                <!--50% Ad Complete completion_50-->
-                <div class="each_col" ng-if="customeReportData.completion_50>=-1"
-                     ng-bind="customeReportData.completion_50 == -1 ? 'NA' : (customeReportData.completion_50 | number:0)">
-                </div>
-
-                <!--75% Ad Complete completion_75-->
-                <div class="each_col" ng-if="customeReportData.completion_75>=-1"
-                     ng-bind="customeReportData.completion_75 == -1 ? 'NA' : (customeReportData.completion_75 | number:0)">
-                </div>
-
-                <!--100% Ad Complete  completion_100-->
-                <div class="each_col" ng-if="customeReportData.completion_100>=-1"
-                     ng-bind="customeReportData.completion_100 == -1 ? 'NA' : (customeReportData.completion_100 | number:0)">
-                </div>
-
-                <!--Completion Rate completion_rate-->
-                <div class="each_col" ng-if="customeReportData.completion_rate>=-1"
-                     ng-bind="customeReportData.completion_rate == -1 ? 'NA' : (customeReportData.completion_rate | number:2)">
-                </div>
-
-                <!--Mutes mutes-->
-                <div class="each_col" ng-if="customeReportData.mutes>=-1"
-                     ng-bind="customeReportData.mutes == -1 ? 'NA' : (customeReportData.mutes | nrFormat)">
-                </div>
-
-                <!--Pauses pauses-->
-                <div class="each_col" ng-if="customeReportData.pauses>=-1"
-                     ng-bind="customeReportData.pauses == -1 ? 'NA' : (customeReportData.pauses | number:0)">
-                </div>
+            <!--%Margin   margin-->
+            <div class="each_col_cost"
+                 ng-bind="customeReportData.margin != null?(customeReportData.margin | number:0):'-'"></div>
+        </script>
 
 
-                <!----- Quality Display report data ------------------------>
+        <!----- video report data ------------------------>
+        <script type="text/ng-template" id="videoTpl">
+            <div class="each_col {{customeReportData.level === 'first_dimension' ?
+                'more_dimension_arrow' :
+                'tree_string'}}"
+                 ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();">
+            </div>
 
-                <div class="each_col" ng-if="customeReportData.display_delivered_imps>=-1"
-                     ng-bind="customeReportData.display_delivered_imps == -1 ? 'NA' : (customeReportData.display_delivered_imps | number:0)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.display_measurable_imps>=-1"
-                     ng-bind="customeReportData.display_measurable_imps == -1 ? 'NA' : (customeReportData.display_measurable_imps | number:0)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.display_measurable_perc>=-1"
-                     data-ng-bind="customeReportData.display_measurable_perc == -1 ? 'NA' : (customeReportData.display_measurable_perc | number:0)+'%'">
-                </div>
-                <div class="each_col" ng-if="customeReportData.display_viewable_imps>=-1"
-                     ng-bind="customeReportData.display_viewable_imps == -1 ? 'NA' : (customeReportData.display_viewable_imps | number:0)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.display_viewable_perc>=-1"
-                     data-ng-bind="customeReportData.display_viewable_perc == -1 ? 'NA' : (customeReportData.display_viewable_perc | number:0) + '%'"   >
-                </div>
-                <div class="each_col" ng-if="customeReportData.display_viewable_imps_5s>=-1"
-                     ng-bind="customeReportData.display_viewable_imps_5s == -1 ? 'NA' : (customeReportData.display_viewable_imps_5s | number:0)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.display_viewable_imps_15s>=-1"
-                     ng-bind="customeReportData.display_viewable_imps_15s == -1 ? 'NA' : (customeReportData.display_viewable_imps_15s | number:0)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.display_suspicious_imps>=-1"
-                     ng-bind="customeReportData.display_suspicious_imps | number:0">
-                </div>
-                <div class="each_col" ng-if="customeReportData.display_suspicious_act_perc>=-1"
-                     ng-bind="customeReportData.display_suspicious_act_perc == -1 ? 'NA' : (customeReportData.display_suspicious_act_perc | number:2)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_viewable_imps>=-1"
-                     ng-bind="customeReportData.video_viewable_imps == -1 ? 'NA' : (customeReportData.video_viewable_imps | number:0)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_completion_25>=-1"
-                     ng-bind="customeReportData.video_completion_25 == -1 ? 'NA' : (customeReportData.video_completion_25 | number:0)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_completion_50>=-1"
-                     ng-bind="customeReportData.video_completion_50 == -1 ? 'NA' : (customeReportData.video_completion_50 | number:0)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_completion_75>=-1"
-                     ng-bind="customeReportData.video_completion_75 == -1 ? 'NA' : (customeReportData.video_completion_75 | number:0)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_completion_100>=-1"
-                     ng-bind="customeReportData.video_completion_100 == -1 ? 'NA' : (customeReportData.video_completion_100 | number:0)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_viewable_25>=-1"
-                     ng-bind="customeReportData.video_viewable_25 == -1 ? 'NA' : (customeReportData.video_viewable_25 | number:0)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_viewable_50>=-1"
-                     ng-bind="customeReportData.video_viewable_50 == -1 ? 'NA' : (customeReportData.video_viewable_50 | number:0)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_viewable_75>=-1"
-                     ng-bind="customeReportData.video_viewable_75 == -1 ? 'NA' : (customeReportData.video_viewable_75 | number:0)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_viewable_100>=-1"
-                     ng-bind="customeReportData.video_viewable_100 == -1 ? 'NA' : (customeReportData.video_viewable_100 | number:0)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_suspicious_imps>=-1"
-                     ng-bind="customeReportData.video_suspicious_imps == -1 ? 'NA' : (customeReportData.video_suspicious_imps |  number:0)">
-                </div>
+            <!---- Dimension report data ------------------------>
+            <div class="each_col tree_dimension_col {{customeReportData.level === 'first_dimension' ?
+                'more_dimension_col' :
+                ' '}}">
+            <span
+                ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();"
+                ng-if="customeReportData.value"
+                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"></span>
+            </div>
+            <!--Video Plays  ad_starts-->
+            <div class="each_col" ng-if="customeReportData.ad_starts>=-1"
+                 ng-bind="customeReportData.ad_starts == -1 ? 'NA' : (customeReportData.ad_starts | nrFormat)">
 
-                <!----- Pacing report data ------------------------>
+            </div>
 
-                <!--Booked Impressions booked_impressions-->
-                <div class="each_col"
-                     ng-bind="customeReportData.booked_impressions == -1 ? 'NA' : (customeReportData.booked_impressions | number:0)">
-                </div>
+            <!--25% Ad Complete completion_25-->
+            <div class="each_col" ng-if="customeReportData.completion_25>=-1"
+                 ng-bind="customeReportData.completion_25 == -1 ? 'NA' : (customeReportData.completion_25 | nrFormat)">
+            </div>
 
-                <!--Actual Impressions actual_impressions-->
-                <div class="each_col"
-                     ng-bind="customeReportData.actual_impressions == -1 ? 'NA' : (customeReportData.actual_impressions | number:0)">
-                </div>
-                <!--+-Impressions diff_impressions-->
-                <div class="each_col"
-                     data-ng-bind="customeReportData.diff_impressions == -1 ? 'NA' : (customeReportData.diff_impressions | number:0)">
-                </div>
+            <!--50% Ad Complete completion_50-->
+            <div class="each_col" ng-if="customeReportData.completion_50>=-1"
+                 ng-bind="customeReportData.completion_50 == -1 ? 'NA' : (customeReportData.completion_50 | nrFormat)">
+            </div>
 
-                <!--%Delivered perc_delivered-->
-                <div class="each_col"
-                     ng-bind="customeReportData.perc_delivered == -1 ? 'NA' : (customeReportData.perc_delivered) + '%'">
-                </div>
+            <!--75% Ad Complete completion_75-->
+            <div class="each_col" ng-if="customeReportData.completion_75>=-1"
+                 ng-bind="customeReportData.completion_75 == -1 ? 'NA' : (customeReportData.completion_75 | nrFormat)">
+            </div>
 
-                <!--Booked Revenue booked_revenue-->
-                <div class="each_col"
-                     data-ng-bind="customeReportData.booked_revenue == -1 ? 'NA' : (customeReportData.booked_revenue | number:0)"   >
-                </div>
+            <!--100% Ad Complete  completion_100-->
+            <div class="each_col" ng-if="customeReportData.completion_100>=-1"
+                 ng-bind="customeReportData.completion_100 == -1 ? 'NA' : (customeReportData.completion_100 | nrFormat)">
+            </div>
 
-                <!--Actual Revenue actual_revenue-->
-                <div class="each_col"
-                     ng-bind="customeReportData.actual_revenue == -1 ? 'NA' : (customeReportData.actual_revenue | number:0)">
-                </div>
+            <!--Completion Rate completion_rate-->
+            <div class="each_col" ng-if="customeReportData.completion_rate>=-1"
+                 ng-bind="customeReportData.completion_rate == -1 ? 'NA' : (customeReportData.completion_rate | number:2)">
+            </div>
 
-                <!--+/- Revenue  diff_revenue-->
-                <div class="each_col"
-                     ng-bind="customeReportData.diff_revenue == -1 ? 'NA' : (customeReportData.diff_revenue | number:0)">
-                </div>
+            <!--Mutes mutes-->
+            <div class="each_col" ng-if="customeReportData.mutes>=-1"
+                 ng-bind="customeReportData.mutes == -1 ? 'NA' : (customeReportData.mutes | nrFormat)">
+            </div>
 
-                <!--Booked CPM booked_cpm-->
-                <div class="each_col"
-                     ng-bind="customeReportData.booked_cpm | number:2">
-                </div>
-
-                <!--Actual CPM actual_cpm-->
-                <div class="each_col"
-                     ng-bind="customeReportData.actual_cpm == -1 ? 'NA' : (customeReportData.actual_cpm | number:2)">
-                </div>
-
-                <!-- +/-CPM diff_cpm -->
-                <div class="each_col"
-                     ng-bind="customeReportData.diff_cpm == -1 ? 'NA' : (customeReportData.diff_cpm | number:2)">
-                </div>
+            <!--Pauses pauses-->
+            <div class="each_col" ng-if="customeReportData.pauses>=-1"
+                 ng-bind="customeReportData.pauses == -1 ? 'NA' : (customeReportData.pauses | nrFormat)">
+            </div>
+        </script>
 
 
-                <!----- Quality Video report data ------------------------>
-               <!-- <div class="each_col" ng-if="customeReportData.video_viewable_imps>=-1"
-                     ng-bind="customeReportData.video_viewable_imps == -1 ? 'NA' : (customeReportData.video_viewable_imps | nrFormat)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_completion_25>=-1"
-                     ng-bind="customeReportData.video_completion_25 == -1 ? 'NA' : (customeReportData.video_completion_25 | nrFormat)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_completion_50>=-1"
-                     ng-bind="customeReportData.video_completion_50 == -1 ? 'NA' : (customeReportData.video_completion_50 | nrFormat)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_completion_75>=-1"
-                     ng-bind="customeReportData.video_completion_75 == -1 ? 'NA' : (customeReportData.video_completion_75 | nrFormat)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_completion_100>=-1"
-                     ng-bind="customeReportData.video_completion_100 == -1 ? 'NA' : (customeReportData.video_completion_100 | nrFormat)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_viewable_25>=-1"
-                     ng-bind="customeReportData.video_viewable_25 == -1 ? 'NA' : (customeReportData.video_viewable_25 | nrFormat)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_viewable_50>=-1"
-                     ng-bind="customeReportData.video_viewable_50 == -1 ? 'NA' : (customeReportData.video_viewable_50 | nrFormat)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_viewable_75>=-1"
-                     ng-bind="customeReportData.video_viewable_75 == -1 ? 'NA' : (customeReportData.video_viewable_75 | nrFormat)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_viewable_100>=-1"
-                     ng-bind="customeReportData.video_viewable_100 == -1 ? 'NA' : (customeReportData.video_viewable_100 | nrFormat)">
-                </div>
-                <div class="each_col" ng-if="customeReportData.video_suspicious_imps>=-1"
-                     ng-bind="customeReportData.video_suspicious_imps == -1 ? 'NA' : (customeReportData.video_suspicious_imps |  nrFormat)">
-                </div>-->
-            </script>
+        <!----- Quality Display report data ------------------------>
+        <script type="text/ng-template" id="qualityTpl">
+            <div class="each_col {{customeReportData.level === 'first_dimension' ?
+                'more_dimension_arrow' :
+                'tree_string'}}"
+                 ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();">
+            </div>
 
-            <div class="common-popup-container" ng-show="updateSchedule">
-                <div class="popup">
-                    <div class="popup-header-body">
-                        <div class="clearfix">
-                            <h1 ng-show="scheduleReportActive == false" class="pull-left" ng-bind="textConstants.SAVED_UPDATE" ></h1>
-                            <h1 ng-show="scheduleReportActive === true" class="pull-left" ng-bind="textConstants.SCHEDULER_UPDATE"></h1>
-                            <span class="close unselectable" aria-hidden="true" ng-click="updateSchedule=false">x</span>
-                        </div>
-                        <div class="popup-content" ng-bind="archiveMessage"></div>
+            <!---- Dimension report data ------------------------>
+            <div class="each_col tree_dimension_col {{customeReportData.level === 'first_dimension' ?
+                'more_dimension_col' :
+                ' '}}">
+            <span
+                ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();"
+                ng-if="customeReportData.value"
+                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"></span>
+            </div>
+            <div class="each_col" ng-if="customeReportData.display_delivered_imps>=-1"
+                 ng-bind="customeReportData.display_delivered_imps == -1 ? 'NA' : (customeReportData.display_delivered_imps | nrFormat)">
+            </div>
+            <div class="each_col" ng-if="customeReportData.display_measurable_imps>=-1"
+                 ng-bind="customeReportData.display_measurable_imps == -1 ? 'NA' : (customeReportData.display_measurable_imps | nrFormat)">
+            </div>
+            <div class="each_col" ng-if="customeReportData.display_measurable_perc>=-1"
+                 data-ng-bind="customeReportData.display_measurable_perc == -1 ? 'NA' : (customeReportData.display_measurable_perc | number:0)+'%'">
+            </div>
+            <div class="each_col" ng-if="customeReportData.display_viewable_imps>=-1"
+                 ng-bind="customeReportData.display_viewable_imps == -1 ? 'NA' : (customeReportData.display_viewable_imps | nrFormat)">
+            </div>
+            <div class="each_col" ng-if="customeReportData.display_viewable_perc>=-1"
+                 data-ng-bind="customeReportData.display_viewable_perc == -1 ? 'NA' : (customeReportData.display_viewable_perc | number:0) + '%'">
+            </div>
+            <div class="each_col" ng-if="customeReportData.display_viewable_imps_5s>=-1"
+                 ng-bind="customeReportData.display_viewable_imps_5s == -1 ? 'NA' : (customeReportData.display_viewable_imps_5s | nrFormat)">
+            </div>
+            <div class="each_col" ng-if="customeReportData.display_viewable_imps_15s>=-1"
+                 ng-bind="customeReportData.display_viewable_imps_15s == -1 ? 'NA' : (customeReportData.display_viewable_imps_15s | nrFormat)">
+            </div>
+            <div class="each_col" ng-if="customeReportData.display_suspicious_imps>=-1"
+                 ng-bind="customeReportData.display_suspicious_imps | nrFormat">
+            </div>
+            <div class="each_col" ng-if="customeReportData.display_suspicious_act_perc>=-1"
+                 ng-bind="customeReportData.display_suspicious_act_perc == -1 ? 'NA' : (customeReportData.display_suspicious_act_perc | number:2)">
+            </div>
+            <div class="each_col" ng-if="customeReportData.video_viewable_imps>=-1"
+                 ng-bind="customeReportData.video_viewable_imps == -1 ? 'NA' : (customeReportData.video_viewable_imps | nrFormat)">
+            </div>
+            <div class="each_col" ng-if="customeReportData.video_completion_25>=-1"
+                 ng-bind="customeReportData.video_completion_25 == -1 ? 'NA' : (customeReportData.video_completion_25 | nrFormat)">
+            </div>
+            <div class="each_col" ng-if="customeReportData.video_completion_50>=-1"
+                 ng-bind="customeReportData.video_completion_50 == -1 ? 'NA' : (customeReportData.video_completion_50 | nrFormat)">
+            </div>
+            <div class="each_col" ng-if="customeReportData.video_completion_75>=-1"
+                 ng-bind="customeReportData.video_completion_75 == -1 ? 'NA' : (customeReportData.video_completion_75 | nrFormat)">
+            </div>
+            <div class="each_col" ng-if="customeReportData.video_completion_100>=-1"
+                 ng-bind="customeReportData.video_completion_100 == -1 ? 'NA' : (customeReportData.video_completion_100 | nrFormat)">
+            </div>
+            <div class="each_col" ng-if="customeReportData.video_viewable_25>=-1"
+                 ng-bind="customeReportData.video_viewable_25 == -1 ? 'NA' : (customeReportData.video_viewable_25 | nrFormat)">
+            </div>
+            <div class="each_col" ng-if="customeReportData.video_viewable_50>=-1"
+                 ng-bind="customeReportData.video_viewable_50 == -1 ? 'NA' : (customeReportData.video_viewable_50 | nrFormat)">
+            </div>
+            <div class="each_col" ng-if="customeReportData.video_viewable_75>=-1"
+                 ng-bind="customeReportData.video_viewable_75 == -1 ? 'NA' : (customeReportData.video_viewable_75 | nrFormat)">
+            </div>
+            <div class="each_col" ng-if="customeReportData.video_viewable_100>=-1"
+                 ng-bind="customeReportData.video_viewable_100 == -1 ? 'NA' : (customeReportData.video_viewable_100 | nrFormat)">
+            </div>
+            <div class="each_col" ng-if="customeReportData.video_suspicious_imps>=-1"
+                 ng-bind="customeReportData.video_suspicious_imps == -1 ? 'NA' : (customeReportData.video_suspicious_imps |  nrFormat)">
+            </div>
+        </script>
+
+        <!----- Pacing report data ------------------------>
+        <script type="text/ng-template" id="pacingTpl">
+            <div class="each_col {{customeReportData.level === 'first_dimension' ?
+                'more_dimension_arrow' :
+                'tree_string'}}"
+                 ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();">
+            </div>
+
+            <!---- Dimension report data ------------------------>
+            <div class="each_col tree_dimension_col {{customeReportData.level === 'first_dimension' ?
+                'more_dimension_col' :
+                ' '}}">
+            <span
+                ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();"
+                ng-if="customeReportData.value"
+                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"></span>
+            </div>
+            <!--Booked Impressions booked_impressions-->
+            <div class="each_col" ng-if="customeReportData.booked_impressions>=-1"
+                 ng-bind="customeReportData.booked_impressions == -1 ? 'NA' : (customeReportData.booked_impressions | nrFormat)">
+            </div>
+
+            <!--Actual Impressions actual_impressions-->
+            <div class="each_col" ng-if="customeReportData.actual_impressions>=-1"
+                 ng-bind="customeReportData.actual_impressions == -1 ? 'NA' : (customeReportData.actual_impressions | nrFormat)">
+            </div>
+
+            <!--+-Impressions diff_impressions-->
+            <div class="each_col"
+                 data-ng-bind="customeReportData.diff_impressions == null  ? 'NA' : (customeReportData.diff_impressions | nrFormat)">
+            </div>
+
+            <!--%Delivered perc_delivered-->
+            <div class="each_col" ng-if="customeReportData.perc_delivered>=-1"
+                 ng-bind="customeReportData.perc_delivered == -1 ? 'NA' : (customeReportData.perc_delivered| number:0) + '%'">
+            </div>
+
+            <!--Booked Revenue booked_revenue-->
+            <div class="each_col" ng-if="customeReportData.booked_revenue>=-1"
+                 data-ng-bind="customeReportData.booked_revenue == -1 ? 'NA' : (customeReportData.booked_revenue | number:0)">
+            </div>
+
+            <!--Actual Revenue actual_revenue-->
+            <div class="each_col" ng-if="customeReportData.actual_revenue>=-1"
+                 ng-bind="customeReportData.actual_revenue == -1 ? 'NA' : (customeReportData.actual_revenue | nrFormat)">
+            </div>
+
+            <!--+/- Revenue  diff_revenue-->
+            <div class="each_col"
+                 ng-bind="customeReportData.diff_revenue == null ? 'NA' : +(customeReportData.diff_revenue | nrFormat)">
+            </div>
+
+            <!--Booked CPM booked_cpm-->
+            <div class="each_col" ng-if="customeReportData.booked_cpm>=-1"
+                 ng-bind="customeReportData.booked_cpm | nrFormat">
+            </div>
+
+            <!--Actual CPM actual_cpm-->
+            <div class="each_col" ng-if="customeReportData.actual_cpm>=-1"
+                 ng-bind="customeReportData.actual_cpm == -1 ? 'NA' : (customeReportData.actual_cpm | number:2)">
+            </div>
+
+            <!-- +/-CPM diff_cpm -->
+            <div class="each_col"  ng-bind="((customeReportData.diff_cpm !== null)?(customeReportData.diff_cpm | number:0) :'-')"></div>
+        </script>
+
+        <div class="common-popup-container" ng-show="updateSchedule">
+            <div class="popup">
+                <div class="popup-header-body">
+                    <div class="clearfix">
+                        <h1 ng-show="scheduleReportActive == false" class="pull-left"
+                            ng-bind="textConstants.SAVED_UPDATE"></h1>
+                        <h1 ng-show="scheduleReportActive === true" class="pull-left"
+                            ng-bind="textConstants.SCHEDULER_UPDATE"></h1>
+                        <span class="close unselectable" aria-hidden="true" ng-click="updateSchedule=false">x</span>
                     </div>
-                    <div class="clearfix popup-footer">
-                        <div type="button"
-                             ng-click="updateReportAndRedirect('Yes')"
-                             class="common_primary_btn pull-right">
-                            Yes
-                        </div>
-                        <button type="button"
-                                ng-click="updateReportAndRedirect('No')"
-                                class="secondary_txt pull-right">
-                            No
-                        </button>
+                    <div class="popup-content" ng-bind="archiveMessage"></div>
+                </div>
+                <div class="clearfix popup-footer">
+                    <div type="button"
+                         ng-click="updateReportAndRedirect('Yes')"
+                         class="common_primary_btn pull-right">
+                        Yes
                     </div>
+                    <button type="button"
+                            ng-click="updateReportAndRedirect('No')"
+                            class="secondary_txt pull-right">
+                        No
+                    </button>
                 </div>
             </div>
         </div>
+    </div>

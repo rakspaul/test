@@ -23,38 +23,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         var winHeight = $(window).height();
         $(".custom_response_screenshot_container").css('min-height', winHeight - 464);
 
-        var metricKey = [
-            'dimensions',
-            'delivery_metrics',
-            'cost_metrics',
-            'pacing_metrics',
-            'booked_metrics',
-            'engagement_metrics',
-            'video_metrics',
-            'quality_metrics',
-            'pacing_metrics',
-            'filters'
-        ];
-        var metricKey1 = [
-            'dimension',
-            'delivery_metrics',
-            'cost_metrics',
-            'pacing_metrics',
-            'booked_metrics',
-            'engagement_metrics',
-            'video_metrics',
-            'quality_metrics',
-            'pacing_metrics'
-        ];
-        var metricsTab = [
-            'delivery',
-            'cost',
-            'booked',
-            'engagement',
-            'video',
-            'quality',
-            'pacing'
-        ]
+        var metricKey = ['dimensions', 'delivery_metrics', 'cost_metrics', 'pacing_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics', 'quality_metrics', 'pacing_metrics', 'filters'];
+        var metricKey1 = ['dimension', 'delivery_metrics', 'cost_metrics', 'pacing_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics', 'quality_metrics', 'pacing_metrics'];
+        var metricsTab = ['delivery', 'cost', 'booked', 'engagement', 'video', 'quality', 'pacing']
 
         var metricCategoryKeys = ['delivery_metrics','cost_metrics','video_metrics','quality_metrics','pacing_metrics'];
         var metricVarKeys = ['deliveryMetrics','costMetrics','videoMetrics','qualityMetrics','pacingMetrics']
@@ -164,14 +135,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         }
 
         $scope.initializeMetrics = function(dataObj, selectedDim) {
-            //delivery metrics
-            if(!$scope.reports.reportDefinition.dimensions.primary.dimension){
-//                $scope.reports.reportDefinition.dimensions.primary = {"name":$scope.displayName[selectedDim],"dimension":selectedDim,"value":""};
-//                $scope.showPrimaryTxtBox = true;
-//                $scope.showAddBreakdownButton = true;
-//                $scope.generateBtnDisabled = false;
-            }
-
             var selectedDim = $scope.reports.reportDefinition.dimensions.primary.dimension;
             var metricsData = dataObj.dim_specific_metrics.hasOwnProperty(selectedDim) ?  dataObj.dim_specific_metrics[selectedDim] : dataObj.metrics;
 
@@ -295,12 +258,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $scope.metricKeyArr = {}
             if ($scope.selectedMetricsList.length < $scope.totalMetrics) {
                 var metricsCategorizedKey = angular.copy(data.metrics);
-
-
                 if(metricsCategorizedKey.quality_metrics.display_metrics !== undefined) {
                     metricsCategorizedKey['quality_metrics'] = (metricsCategorizedKey.quality_metrics.display_metrics).concat(metricsCategorizedKey.quality_metrics.video_metrics);
                 }
-
                 _.each(selectedMetrics,function(selMet){
                     _.each(metricCategoryKeys,function(metrCatKey){
                         if($scope.metricKeyArr[metrCatKey] == undefined) {
@@ -753,14 +713,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 return true;
             }
         }
-       /* _customctrl.resetReportDataCnt = function(){
-            $(".custom_report_response_table").hide();
-            $("#delivery_table").show();
-            $(".custom_report_response_tabs").find(".each_tab").removeClass("active");
-            $(".custom_report_response_tabs").find("#delivery_tab").addClass("active");
-            $scope.activeTab = "delivery_metrics";
-            $(".custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row").css("left","0");
-        }*/
 
         _customctrl.resetReportDataCnt = function(){
             var metricsInTabOrder = ['delivery','cost','video','quality','pacing'];
