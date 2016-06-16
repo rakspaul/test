@@ -3,7 +3,8 @@ define(['angularAMD',
         'common/services/constants_service', 'common/services/url_service', 'common/services/data_store_model',
         'common/services/data_service', 'common/moment_utils', 'common/controllers/confirmation_modal_controller',
         'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
-        'reporting/collectiveReport/report_schedule_delete_controller', 'reporting/collectiveReport/reports_invoice_addNote_controller'],
+        'reporting/collectiveReport/report_schedule_delete_controller', 'reporting/collectiveReport/reports_invoice_addNote_controller',
+        'reporting/collectiveReport/reports_invoice_addAdjustment_controller'],
     function (angularAMD) {
         'use strict';
         angularAMD.controller('reportsInvoiceController', function ($scope,$filter, $location, $modal, $rootScope, $routeParams, $q, $timeout,
@@ -21,7 +22,7 @@ define(['angularAMD',
             $scope.advertiserName = advertiserModel.getAdvertiser().selectedAdvertiser ? advertiserModel.getAdvertiser().selectedAdvertiser.name : "All Advertisers";
 
             console.log("$scope.advertiser....",$scope.advertiser);
-            _curCtrl.getInvoiceDetials = function(){
+            $scope.getInvoiceDetials = function(){
                 dataService.fetch(urlService.getInvoiceDetials($routeParams.invoiceId)).then(function(result){
                    console.log("result......",result);
                     if(result.status == "success" || result.status == "OK"){
@@ -31,10 +32,13 @@ define(['angularAMD',
 
                 });
             }
-            _curCtrl.getInvoiceDetials();
-
+            $scope.getInvoiceDetials();
+            $rootScope.$on("adjustmentAdded",function(){
+                $scope.getInvoiceDetials();
+            });
             $scope.showAddAdjustmentPopup = function (invoice) {
-                $scope.addAdjustmentData = angular.copy(invoice);
+                $scope.addAdjustmentData = angular.copy($scope.invoiceDetails);
+                $scope.addAdjustmentData.invoiceId = $routeParams.invoiceId;
                 var $modalInstance = $modal.open({
                     templateUrl: assets.html_add_credit_popup,
                     controller: 'ReportsInvoiceAddAdjustmentController',

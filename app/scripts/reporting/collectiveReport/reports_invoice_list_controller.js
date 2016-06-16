@@ -14,6 +14,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                      domainReports, dataService, momentService,
                      RoleBasedService, urlService, dataStore,
                      $sce, $window/*, momentService, $q*/) {
+                console.log("Invoice report ctrl");
                 var _currCtrl = this;
                 _currCtrl.last_page = false;
                 $scope.invoiceReports = {
