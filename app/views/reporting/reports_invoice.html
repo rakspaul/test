@@ -32,20 +32,22 @@
 
 
 
-<div class="col-md-12">
-    <div class="col-md-8">
+<div class="col-md-12 zeroPadding">
+    <div class="col-md-8 zeroPadding">
     <h1 data-ng-bind="invoiceDetails.generatedOn + ' Invoice Report' + '  |  ' + invoiceDetails.invoiceName"></h1>
     </div>
 
 
     <div class="col-md-4">
+
+
         <div class="col-md-6">
             <div class="col-md-12 zeroPadding btn_list_filters centerAlign" style="margin-bottom:15px;">
                 <div class="btn-group create" role="group" aria-label="...">
-                    <a role="button" class="btn btn-default" ng-click="showAddAdjustmentPopup()"><span class="icon-download"></span><span data-ng-bind="textConstants.DOWNLOAD" class="ng-binding">Create</span></a>
+                    <a role="button" class="btn btn-default"><span class="icon-download"></span><span data-ng-bind="textConstants.DOWNLOAD" class="ng-binding">Create</span></a>
                 </div>
             </div>
-            </div>
+        </div>
 
         <div class="col-md-6">
             <div class="col-md-12 zeroPadding dropdown-workflow">
@@ -77,6 +79,10 @@
                 </div>
             </div>
         </div>
+
+
+
+
     </div>
 
     </div>
@@ -84,9 +90,9 @@
 
 
     <!-- 3rd Row -->
-    <div class="col-md-12" style="margin-top:20px; margin-bottom:20px;">
+    <div class="col-md-12 zeroPadding" style="margin-top:20px; margin-bottom:20px;">
 
-        <div class="col-md-2">
+        <div class="col-md-2 zeroPadding">
             <div class="pull-left">
                 <span class="greyTxt">Generated</span> <br>
                 <span data-ng-bind="invoiceDetails.generatedOn"></span>
@@ -123,8 +129,8 @@
 
         <div class="col-md-6">
             <div class="pull-left">
-                <span class="greyTxt" data-ng-click="showAddNotePopup()">Note</span>
-                <span class="glyphicon glyphicon-pencil" style="margin-right:10px ;font-size:12px"></span> <br>
+                <span class="greyTxt">Note</span>
+                <span class="glyphicon glyphicon-pencil" data-ng-click="showAddNotePopup()" style="margin-right:10px ;font-size:12px"></span> <br>
                 <span  data-ng-bind="invoiceDetails.description">-</span>
             </div>
         </div>
