@@ -234,11 +234,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 };
 
                 //download option from the report builder
-                this.downloadGeneratedRpt = function (queryString) {
+                this.downloadGeneratedRpt = function (reportId) {
                     var clientId =  loginModel.getMasterClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
-                        '/custom_reports/' + queryString;
+                        '/custom_reports/download/' + reportId;
                 };
 
                 this.downloadSchdRpt = function (instanceId) {

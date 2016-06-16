@@ -1005,6 +1005,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $timeout(function () {
                         $("#hideLineItemCreateBox").click();
                     }, 100)
+                } else {
+                    // in case there were no line items created by user in create mode show create line item box
+                    if($scope.mode === 'create' && $scope.lineItems.lineItemList.length == 0){
+                        $('.createLineItemBtn').click();
+                    }
                 }
             })
         });
