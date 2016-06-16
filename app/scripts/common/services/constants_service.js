@@ -1159,7 +1159,7 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_RATE = "Rate";
         this.MEDIAPLAN_PRICING = "Pricing";
         this.MEDIAPLAN_SETUP_LINE_ITEMS = "Setup Line Items";
-        this.MEDIAPLAN_LINE_ITEM_NAME = "Line Item Name / Notes";
+        this.MEDIAPLAN_LINE_ITEM_NAME = "Line Item Name";
         this.MEDIAPLAN_LINE_ITEM = "Line Item";
         this.MEDIAPLAN_RATE_TYPE = "Rate Type";
         this.MEDIAPLAN_BILLABLE_AMOUNT = "Billable Amount";
@@ -1168,7 +1168,7 @@ define(['angularAMD'], function(angularAMD) {
         this.IMPORT_LINE_ITEMS = "Import Line Items";
         this.EXPORT_LINE_ITEMS = "Export Line Items";
         this.NO_LINE_ITEMS_ERR = "You haven't added any Line Items for your Media Plan yet";
-        this.CREATE_ADGROUP_LINEITEM = "Create Ad Group for Line Item (optional)" ;
+        this.CREATE_ADGROUP_LINEITEM = "Create Ad Group for Line Item" ;
 
         this.MEDIAPLAN_ADD_CREDIT = "Add Credit";
         this.MEDIAPLAN_CREDIT_NAME = "Credit Name / Notes";
@@ -1177,7 +1177,7 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_FLIGHT_DATE_START = "Flight Date Start";
         this.MEDIAPLAN_FLIGHT_DATE_END = "Flight Date End";
         this.SAVE_CHANGES = "Save Changes";
-        this.SELECT_CONVERSION_PIXELS = "Select Conversion Pixel";
+        this.SELECT_CONVERSION_PIXELS = "Conversion Pixel";
         this.SELECT_SYSTEM_OF_RECORD = "System of Record";
         this.AD_GRP_NAME="Ad Group Name";
         this.TOTAL_BILLABLE_AMOUNT = 'Total Billable Amount';

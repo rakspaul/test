@@ -1598,14 +1598,31 @@
 			margin-left: 8px;
 		}
 		.dropdown-menu {
-			padding: 0;
-			max-height: 200px;
-			overflow: auto;
+			padding: 5px 0;
+            box-shadow: 0 1px 7px rgba(0,0,0,.15)!important;
+            -webkit-box-shadow: 0 1px 7px rgba(0,0,0,.15)!important;
+            width: auto;
+            min-width: 100%;
+            max-width: 340px;
+            max-height: 280px;
+            overflow: auto;
+            margin-top: 3px;
+            margin-left: 0;
+            border: 1px solid #ccd2da;
+            border-radius: 1px;
 			li {
-				padding: 5px;
-				cursor: default;
+                color: #21252b;
+                font-family: Avenir,sans-serif;
+                font-size: 14px;
+                overflow: hidden;
+                cursor: pointer;
+                width: 100%;
+                line-height: 100%;
+                padding: 9px 15px;
 				&:hover {
-					background: #F5F9FD;
+                    color: #21252b;
+                    text-decoration: none;
+                    background-color: #E1EDF9;
 				}
 			}
 		}

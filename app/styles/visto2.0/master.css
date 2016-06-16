@@ -539,7 +539,7 @@ strong {
 }
 .popUpCue {
   position: absolute;
-  z-index: 2;
+  z-index: 20;
   left: 9px;
   top: 70px;
   background: #fff;

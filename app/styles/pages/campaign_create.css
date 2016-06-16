@@ -2068,10 +2068,61 @@
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
   color: #428bca;
 }
-#campaignCreate .firstWrapper .masterContainer .createItemList {
+#campaignCreate .firstWrapper .masterContainer .createItemList,
+#campaignCreate .firstWrapper .masterContainer .editItemList {
   background: #FEFBF0;
   padding: 0 10px 10px 10px;
-  margin-top: 30px ;
+  margin-top: 10px ;
+}
+#campaignCreate .firstWrapper .masterContainer .createItemList .listItemValues,
+#campaignCreate .firstWrapper .masterContainer .editItemList .listItemValues,
+#campaignCreate .firstWrapper .masterContainer .createItemList .listItemSmallValues,
+#campaignCreate .firstWrapper .masterContainer .editItemList .listItemSmallValues {
+  width: 135px ;
+  float: left;
+  margin-right: 10px ;
+}
+#campaignCreate .firstWrapper .masterContainer .createItemList .listItemSmallValues,
+#campaignCreate .firstWrapper .masterContainer .editItemList .listItemSmallValues {
+  width: 100px ;
+}
+#campaignCreate .firstWrapper .masterContainer .createItemList .listItemSmallValues input[type="text"],
+#campaignCreate .firstWrapper .masterContainer .editItemList .listItemSmallValues input[type="text"] {
+  padding-right: 10px ;
+}
+#campaignCreate .firstWrapper .masterContainer .createItemList .listItemFirstRow .eachListItemFirstRow,
+#campaignCreate .firstWrapper .masterContainer .editItemList .listItemFirstRow .eachListItemFirstRow {
+  float: left;
+  width: 405px ;
+  margin-right: 10px ;
+}
+#campaignCreate .firstWrapper .masterContainer .createItemList .dateContainer,
+#campaignCreate .firstWrapper .masterContainer .editItemList .dateContainer {
+  width: 150px ;
+}
+#campaignCreate .firstWrapper .masterContainer .createItemList .showConfirmPopupCreate,
+#campaignCreate .firstWrapper .masterContainer .editItemList .showConfirmPopupCreate {
+  left: -30px;
+  top: auto;
+  bottom: 45px;
+}
+#campaignCreate .firstWrapper .masterContainer .createItemList .showConfirmPopupEdit,
+#campaignCreate .firstWrapper .masterContainer .editItemList .showConfirmPopupEdit {
+  left: -24px;
+  bottom: 44px;
+  top: auto;
+}
+#campaignCreate .firstWrapper .masterContainer .createItemList .common-loading-btn,
+#campaignCreate .firstWrapper .masterContainer .editItemList .common-loading-btn {
+  width: 120px ;
+}
+#campaignCreate .firstWrapper .masterContainer .createItemList .btn[disabled],
+#campaignCreate .firstWrapper .masterContainer .editItemList .btn[disabled] {
+  opacity: 0.65;
+}
+#campaignCreate .firstWrapper .masterContainer .createItemList .popUpCue .common-loading-btn,
+#campaignCreate .firstWrapper .masterContainer .editItemList .popUpCue .common-loading-btn {
+  width: 90px ;
 }
 #campaignCreate .firstWrapper .masterContainer .tableNormal {
   float: left;

@@ -36,7 +36,7 @@
   border: 1px solid #bfc9d7;
 }
 .table-responsive .vistoTable .thead .tr .th {
-  padding: 20px 15px 0;
+  padding: 20px 10px 0;
   vertical-align: top;
   min-height: 60px;
   font-family: "Avenir-bold";
@@ -83,7 +83,7 @@
 }
 .table-responsive .vistoTable .thead .childRow .td {
   background-color: #f7f7f7;
-  padding: 10px 15px;
+  padding: 10px 10px;
   font-family: "Avenir-bold";
   color: #57606d;
 }
@@ -126,7 +126,7 @@
   background: #fff;
   border-right: 1px solid rgba(191, 201, 215, 0.5);
   border-bottom: 1px solid rgba(191, 201, 215, 0.5);
-  padding: 10px 15px 0;
+  padding: 10px 10px 0;
   min-height: 65px;
 }
 .table-responsive .vistoTable .tbody .tr .td span,
@@ -212,7 +212,7 @@
 .table-responsive .vistoTable .tbody .childRow .td {
   background-color: #f7f7f7 !important;
   min-height: 36px;
-  padding: 7px 15px;
+  padding: 7px 10px;
 }
 .table-responsive .vistoTable .tbody .childRow .td input[type="checkbox"] {
   float: left;
@@ -246,7 +246,7 @@
 }
 .table-responsive .vistoTable .thead.thin .tr .th {
   min-height: 50px;
-  padding: 15px 15px 0;
+  padding: 15px 10px 0;
 }
 .table-responsive .vistoTable .thead.thin .tr .th input[type="checkbox"] {
   margin-right: 5px;
@@ -268,7 +268,7 @@
 }
 .table-responsive .yellowTable .thead .tr .th {
   min-height: 34px !important;
-  padding: 7px 15px 0 !important;
+  padding: 7px 10px 0 !important;
 }
 .table-responsive .yellowTable .tbody {
   border-bottom: 1px solid rgba(191, 201, 215, 0.5);
