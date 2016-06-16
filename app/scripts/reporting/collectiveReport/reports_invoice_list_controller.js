@@ -3,7 +3,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
     'reporting/models/domain_reports','common/services/data_service', 'common/moment_utils',
     'common/services/role_based_service', 'common/services/url_service', 'common/services/data_store_model',
     'common/controllers/confirmation_modal_controller','reporting/collectiveReport/report_schedule_delete_controller', 'workflow/controllers/ad_clone_controller',
-    'reporting/collectiveReport/reports_invoice_addAdjustment_controller', 'workflow/directives/custom_date_picker' ],
+    'reporting/collectiveReport/reports_invoice_addAdjustment_controller', 'reporting/collectiveReport/invoice_upload_SOR_controller','workflow/directives/custom_date_picker' ],
     function (angularAMD) {
         'use strict';
 
@@ -178,9 +178,22 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 };
 
                 $scope.showAddAdjustmentPopup = function (invoice) {
-                    $scope.addAdjustmentData = angular.copy(invoice);
                     var $modalInstance = $modal.open({
                         templateUrl: assets.html_add_credit_popup,
+                        controller: 'invoiceUploadSOR',
+                        scope: $scope,
+                        windowClass: 'edit-dialog',
+                        resolve: {
+                            getMediaPlansForClone: function () {
+                            }
+                        }
+                    });
+                };
+                $scope.showUploadSORPopUp = function(invoice){
+                    console.log("showUploadSORPopUp......");
+                    $scope.invoiceData = angular.copy(invoice);
+                    var $modalInstance = $modal.open({
+                        templateUrl: assets.html_invocie_upload_SOR,
                         controller: 'ReportsInvoiceAddAdjustmentController',
                         scope: $scope,
                         windowClass: 'edit-dialog',
@@ -190,7 +203,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         }
                     });
                 };
-
                 $scope.highlightTitleText = function (text, phrase) {
                     var keywordsArr,
                         keywords;
