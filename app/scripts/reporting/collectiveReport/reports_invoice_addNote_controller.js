@@ -8,6 +8,9 @@ define(['angularAMD',
         $scope.close = function(){
             $modalInstance.dismiss();
         }
+        $scope.save = function(){
+            $rootScope.$broadcast("saveNoteData",$scope.invoiceNote);
+        }
 
     });
 });

@@ -57,22 +57,22 @@
                             data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="true">
-                        <span class="text" data-ng-bind="filters.selectedStatus">
+                        <span class="text" data-ng-bind="selectedStatus ? selectedStatus : 'Select'">
                             Select Account
                         </span>
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" data-toggle="dropdown">
-                        <li class="available" data-ng-click="filters.selectStatus('Ready')">
+                        <li class="available" data-ng-click="selectStatus('Ready')">
                             <a>Ready</a>
                         </li>
-                        <li class="available" data-ng-click="filters.selectStatus('Review')">
+                        <li class="available" data-ng-click="selectStatus('Review')">
                             <a>Review</a>
                         </li>
-                        <li class="available" data-ng-click="filters.selectStatus('Upload')">
+                        <li class="available" data-ng-click="selectStatus('Upload')">
                             <a>Upload</a>
                         </li>
-                        <li class="available" data-ng-click="filters.selectStatus('Suspended')">
+                        <li class="available" data-ng-click="selectStatus('Suspended')">
                             <a>Suspended</a>
                         </li>
                     </ul>

@@ -2,7 +2,7 @@ define(['angularAMD',
         'reporting/collectiveReport/collective_report_model', 'common/utils', 'login/login_model',
         'common/services/constants_service', 'common/services/url_service', 'common/services/data_store_model',
         'common/services/data_service', 'common/moment_utils', 'common/controllers/confirmation_modal_controller',
-        'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
+        'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'workflow/services/account_service',
         'reporting/collectiveReport/report_schedule_delete_controller', 'reporting/collectiveReport/reports_invoice_addNote_controller',
         'reporting/collectiveReport/reports_invoice_addAdjustment_controller'],
     function (angularAMD) {
@@ -11,7 +11,7 @@ define(['angularAMD',
                                                                     collectiveReportModel, utils, loginModel,
                                                                     constants, urlService, dataStore,
                                                                     dataService, momentService, domainReports,
-                                                                    advertiserModel, brandsModel,
+                                                                    advertiserModel, brandsModel, accountsService,
                                                                     localStorageService) {
             var _curCtrl = this,
                 isSearch = false;
@@ -20,6 +20,7 @@ define(['angularAMD',
             $scope.clientName = loginModel.getSelectedClient() ? loginModel.getSelectedClient().name : '';
             console.log("$scope.loginModel.....",$scope.loginModel);
             $scope.advertiserName = advertiserModel.getAdvertiser().selectedAdvertiser ? advertiserModel.getAdvertiser().selectedAdvertiser.name : "All Advertisers";
+            $scope.noteData = {"notes":"","status":"Select Review"};
 
             console.log("$scope.advertiser....",$scope.advertiser);
             $scope.getInvoiceDetials = function(){
@@ -35,6 +36,15 @@ define(['angularAMD',
             $scope.getInvoiceDetials();
             $rootScope.$on("adjustmentAdded",function(){
                 $scope.getInvoiceDetials();
+            });
+            _curCtrl.saveNoteData = function(){
+                accountsService.invoiceSaveNote(loginModel.getSelectedClient().id,$routeParams.invoiceId, $scope.noteData).then(function(result){
+                },function(err){
+                })
+            }
+            $rootScope.$on("saveNoteData",function(e, invoiceNote){
+                $scope.noteData.notes = invoiceNote;
+                _curCtrl.saveNoteData();
             });
             $scope.showAddAdjustmentPopup = function (invoice) {
                 $scope.addAdjustmentData = angular.copy($scope.invoiceDetails);
@@ -63,6 +73,11 @@ define(['angularAMD',
                     }
                 });
             };
+            $scope.selectStatus = function(status){
+                $scope.selectedStatus = status;
+                $scope.noteData.status = status;
+                _curCtrl.saveNoteData();
+            }
 
         });
     }

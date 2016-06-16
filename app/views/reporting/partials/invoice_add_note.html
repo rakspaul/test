@@ -4,12 +4,12 @@
             <h3>Note</h3>
         </div>
         <div class="clearfix col-md-12 ">
-            <textarea></textarea>
+            <textarea data-ng-model="invoiceNote"></textarea>
         </div>
     </div>
     <div class="clearfix col-md-12 popup-btns-holder">
         <div ng-if="errSaveCredit" data-ng-bind="errSaveCreditMsg" class="errorText"></div>
-        <button class="btn btn-primary pull-right" ng-show="!adArchiveLoader" type="button" ng-click="saveCredit()"
+        <button class="btn btn-primary pull-right" ng-show="!adArchiveLoader" type="button" ng-click="save()"
                 >Save</button>
         <div ng-show ="adArchiveLoader" class="pull-right common-loading-btn" ></div>
         <button class="secondary_txt" type="button" data-dismiss="modal" ng-click="close()" >Cancel</button>

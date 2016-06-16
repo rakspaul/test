@@ -381,7 +381,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     var params = this.buildParams(queryObj);
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?' + params;
                 }
-
             }
         ]);
     }
