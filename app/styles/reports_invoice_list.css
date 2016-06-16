@@ -70,6 +70,14 @@
 .btn-primary.adjustmentBtnType:hover {
   background: #e1edf9 !important;
 }
+.file_upload_icon {
+  background: url(/images/cdesk/dragging_files.png) no-repeat 100px;
+  padding: 90px 100px;
+  background-color: #FFF;
+  border: 1px dashed rgba(0, 0, 0, 0.19);
+  width: 90%;
+  margin: 20px auto 0;
+}
 .reports-invoice-list .report_list_table {
   margin-bottom: 40px ;
   background: #fff;

@@ -218,9 +218,9 @@
                 <!--Table Head-->
                 <div class="thead">
                     <div class="tr">
-                        <div class="col-md-5 th" data-ng-bind="textConstants.INVOICE_REPORT_MEDIA_PLAN"></div>
+                        <div class="col-md-4 th" data-ng-bind="textConstants.INVOICE_REPORT_MEDIA_PLAN"></div>
                         <div class="col-md-1 th" data-ng-bind="textConstants.INVOICE_REPORT_STATUS"></div>
-                        <div class="col-md-1 th" data-ng-bind="textConstants.INVOICE_REPORT_DATE"></div>
+                        <div class="col-md-2 th" data-ng-bind="textConstants.INVOICE_REPORT_DATE"></div>
                         <div class="col-md-1 th" data-ng-bind="textConstants.INVOICE_REPORT_SPEND"></div>
                         <div class="col-md-1 th" data-ng-bind="textConstants.INVOICE_REPORT_ADJUSTMENTS"></div>
                         <div class="col-md-1 th" data-ng-bind="textConstants.INVOICE_REPORT_BILLABLE"></div>
@@ -249,7 +249,7 @@
 <script type="text/ng-template" id="invoiceTpl">
     <div class="rowHover parentWrap">
         <!--Invoice Name-->
-        <div class="col-md-5 td tableTd media-plan-name-wrapper" style="min-height: 80px">
+        <div class="col-md-4 td tableTd media-plan-name-wrapper" style="min-height: 80px">
             <span class="icon-arrow-down-thick" ng-click="toggleInvocieLists(mediaPlan, $index, $event)"></span>
             <div class="col-md-9 media-plan-name" data-ng-bind="mediaPlan.campaignName"></div>
             <div class="col-md-2 more-options">
@@ -265,7 +265,7 @@
             </div>
         </div>
         <div class="col-md-1 td tableTd" data-ng-bind="mediaPlan.status" style="min-height: 80px;"></div>
-        <div class="col-md-1 td tableTd invoice-date" data-ng-bind="mediaPlan.invoiceDate" style="min-height: 80px;"></div>
+        <div class="col-md-2 td tableTd invoice-date" data-ng-bind="mediaPlan.invoiceDate" style="min-height: 80px;"></div>
         <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.spend |number:0)" style="min-height: 80px;"></div>
         <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.credits | number:0)" style="min-height: 80px;"></div>
         <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.spend - mediaPlan.credits |number:0)" style="min-height: 80px;"></div>
@@ -286,9 +286,9 @@
         </div>
         <div class="rowHover1 parentWrap" ng-repeat="invoice in mediaPlan.invoices track by $index">
             <div class="tr childRow adsList">
-                <div class="col-md-5 td">
+                <div class="col-md-4 td">
                     <div class="col-md-9 media-plan-name" ng-bind="invoice.invoiceDate + ' Invoice Report'" data-ng-click="showInvoiceReport(invoice.invoiceId)"></div>
-                    <div class="col-md-3 more-options">
+                    <div class="col-md-3 more-options" ng-show="invoice.invoiceStatus != 'Upload'">
                         <div class="dropdown-workflow">
                             <div class="dropdown hideOption1">
                             <span data-toggle="dropdown">
@@ -298,8 +298,9 @@
                             </span>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a style="cursor: not-allowed; color: #939eaf;text-align: left;"
-                                           disabled ng-bind-html="textConstants.INVOICE_VIEW_REPORT"></a>
+                                        <a style="text-align:left;"
+                                           data-ng-click="showInvoiceReport(invoice.invoiceId)"
+                                           ng-bind-html="textConstants.INVOICE_VIEW_REPORT"></a>
                                     </li>
                                     <li data-ng-click="showAddAdjustmentPopup(invoice)">
                                         <a data-ng-bind="textConstants.INVOICE_REPORT_ADD_ADJUSTMENT"></a>
@@ -315,7 +316,35 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-3 more-options" ng-show="invoice.invoiceStatus == 'Upload'">
+                        <div class="dropdown-workflow">
+                            <div class="dropdown hideOption1">
+                            <span data-toggle="dropdown">
+                                <div class="option-horizontal">
+                                    <span class="dotClass"></span><span class="dotClass"></span><span class="dotClass"></span>
+                                </div>
+                            </span>
+                                <ul class="dropdown-menu" style="width:340px">
+                                    <li class="headerDownload" ng-click="">
+                                        <a>
+                                            <div class="pull-left icon-upload" style="margin-right: 10px;"></div>
+                                            <div class="pull-left"
+                                                 ng-click="showUploadSORPopUp(invoice)" data-ng-bind="textConstants.INVOICE_UPLOAD_SOR"></div>
+                                        </a>
+                                    </li>
+                                    <li class="headerDownload" ng-click="">
+                                        <a>
+                                            <div class="pull-left icon-download" style="margin-right: 10px;"></div>
+                                            <div class="pull-left"
+                                                 ng-click="downloadSORReport(invoice)" data-ng-bind="textConstants.INVOICE_DOWNLOAD_SOR"></div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <div class="col-md-1 td" ng-bind="invoice.invoiceStatus"></div>
                 <div class="col-md-2 td" ng-bind="invoice.invoiceDate"></div>
                 <div class="col-md-1 td text-right" ng-bind="constants.currencySymbol + (invoice.spend | number:0)"></div>
                 <div class="col-md-1 td text-right" ng-bind="constants.currencySymbol + (invoice.credits | number:0)"></div>

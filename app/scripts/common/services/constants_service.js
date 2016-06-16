@@ -1190,6 +1190,8 @@ define(['angularAMD'], function(angularAMD) {
         this.ADJUSTMENTS = "Adjustments" ;
         this.INVOICE_REPORT_ADD_ADJUSTMENT = "Add Adjustment to Invoice Report";
         this.INVOICE_DOWNLOAD = "Download Invoice Report";
+        this.INVOICE_UPLOAD_SOR = "Upload System of Record(SOR) Results";
+        this.INVOICE_DOWNLOAD_SOR = "Download Line Items Requiring(SOR) Results";
         this.CREDIT_ADD_SUCCESS = "Credit added/updated successfully";
         this.CREDIT_ADD_ERR = "Error in adding/updating the credit ";
         this.INVOICE_VIEW_REPORT = "View Invoice Report ";
@@ -1202,6 +1204,7 @@ define(['angularAMD'], function(angularAMD) {
         this.INVOICE_REPORT_BILLABLE = "Billable";
         this.INVOICE_REPORT_ACCOUNT = "Account/Advertiser";
         this.INVOICE_ADD_ADJUSTMENT = "Add Another Adjustment";
+
 
     });
 });
