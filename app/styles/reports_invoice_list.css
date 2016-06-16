@@ -59,7 +59,7 @@
 .popupHeading {
   font-size: 20px;
   font-family: 'Avenir';
-  margin: 0 30px 20px;
+  margin: 0 0px 20px;
 }
 .paddingLeftFive {
   padding-left: 5px;
@@ -69,22 +69,17 @@
 }
 .uploadSORPopup .modal-dialog .accountTitleTag {
   margin-bottom: 20px;
-  padding-left: 12px;
 }
 .uploadSORPopup .modal-dialog .icon-download {
   margin-right: 10px;
 }
 .uploadSORPopup .modal-dialog .popupHeading {
-  margin: 0 0 25px 12px;
-  padding: 0;
+  margin: 0 0 25px 0px;
 }
-.uploadSORPopup .modal-dialog .modal-header .close {
-  margin: -22px -15px 0 0;
-}
-.uploadSORPopup .modal-dialog .file_upload_icon-holder {
+.uploadSORPopup .modal-dialog .file_upload_icon_holder {
   margin-top: 20px ;
 }
-.uploadSORPopup .modal-dialog .file_upload_icon-holder .file_upload_icon {
+.uploadSORPopup .modal-dialog .file_upload_icon_holder .file_upload_icon {
   padding: 60px 100px;
   text-align: center;
   margin: 0;
@@ -98,6 +93,9 @@
 }
 .btn-primary.adjustmentBtnType:hover {
   background: #e1edf9 !important;
+}
+.modal-header .close-side {
+  margin: -22px -15px 0 0;
 }
 .file_upload_icon {
   background: url(/images/cdesk/dragging_files.png) no-repeat 100px;

@@ -1,7 +1,7 @@
 <div class=" clearfix popup-holder">
-    <div class="modal-header">
+    <div class="clearfix modal-header">
 
-        <button type="button" class="close" data-dismiss="modal"
+        <button type="button" class="close close-side" data-dismiss="modal"
                 ng-click="close()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -32,8 +32,8 @@
                              ng-click="downloadSORReport(invoice)" data-ng-bind="textConstants.INVOICE_DOWNLOAD_SOR"></div>
                 </div>
         </div>
-        <div class="col-md-12 popupHeading">Upload System of Record (SOR) Results</div>
-        <div class="col-md-12 ">
+        <div class="col-md-12 zeroPadding popupHeading">Upload System of Record (SOR) Results</div>
+        <div class="col-md-12 zeroPadding">
 
             <div class="col-md-8 zeroPadding">
                 <div class="pull-left">
@@ -49,7 +49,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12 file_upload_icon-holder">
+        <div class="col-md-12 zeroPadding file_upload_icon_holder">
             <div ng-show="!progress" ngf-drop="" ngf-select="" ng-model="$parent.file" ng-model-rejected="$parent.rejFiles" name="file" ngf-multiple="false" ngf-allow-dir="false" class="drop-box ng-pristine ng-untouched ng-valid" ngf-drag-over-class="dragover" ngf-accept="'.csv'" ngf-max-size="10000000">
 
                 <div class="file_upload_icon" >

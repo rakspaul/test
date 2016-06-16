@@ -1,9 +1,13 @@
 <div class=" clearfix popup-holder">
     <div class="clearfix modal-header">
-
-        
-
-        <div class="col-md-11 zeroPadding">
+        <button type="button" class="close close-side" data-dismiss="modal"
+                ng-click="close()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+    <div class="modal-body col-md-12">
+       <div class="col-md-11 zeroPadding">
             <div class="pull-left accountTitleTag" style="margin-bottom:20px;">
             <span class="tagTitle">Account:</span>
             <span>{{mediaPlanList[0].account}}</span>
@@ -20,15 +24,7 @@
                 <span class="ng-binding" data-ng-bind="addAdjustmentData.invoiceId"></span>
             </div>
         </div>
-        <button type="button" class="close" data-dismiss="modal"
-                ng-click="close()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="popupHeading" data-ng-bind="textConstants.ADJUSTMENTS">
-      
-    </div>
-    <div class="modal-body col-md-12">
+        <div class="popupHeading" data-ng-bind="textConstants.ADJUSTMENTS"></div>
         <h2 class="modal-title" id="myModalLabel" data-ng-bind="Adjustments"></h2>
         <div class="col-md-12 zeroPadding" style="margin-bottom:20px;">
 
