@@ -34,7 +34,7 @@
         </a>
         <span ng-if="selectedCampaign.lineItemfile" class="pull-left" ng-bind="selectedCampaign.lineItemfile.name"></span>
         <a ng-if="selectedCampaign.lineItemfile" class="icon-clear pull-left" ng-click="clearFileSelected()" ></a>
-        <a  class="btn btn-primary pull-right" ng-click="uploadFileChosenLineItem($parent.mode);" ng-show ="!bulkUploadItemLoaderEdit">Upload</a>
+        <a ng-disabled="selectedCampaign.lineItemfile?false:true" class="btn btn-primary pull-right" ng-click="uploadFileChosenLineItem($parent.mode);" ng-show ="!bulkUploadItemLoaderEdit">Upload</a>
         <div ng-show ="bulkUploadItemLoaderEdit" class="pull-right common-loading-btn" ></div>
         <a class="btn btn-link pull-right" ng-click="clearFileSelected()">Cancel</a>
         <div class="popUpCue" data-ng-show="showConfirmPopupBulkUpload" style="left: 74%;top: -170px;">
@@ -356,10 +356,10 @@
                 <h1 class="pull-left" data-ng-bind="textConstants.UPLOAD_COMPLETE"></h1>
             </div>
             <div class="popup-content" >
-                <span class="successText" ng-bind="$parent.successfulRecords.length+' Line Items have been created successfully.'"></span>
+                <span class="successText" ng-bind="successfulLineItemCount+' Line Items have been created successfully.'"></span>
             </div>
             <div class="popup-content" >
-                <span class="errorText" ng-bind="$parent.errorRecords.length+'record(s) failed.'"> </span>
+                <span class="errorText" ng-bind="errorLineItemCount+'record(s) failed.'"> </span>
             </div>
             <div ng-show="$parent.errorRecords.length" class="popup-content" >
                 <a class="pull-left download_error_log" >
