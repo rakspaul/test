@@ -191,13 +191,12 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     });
                 };
                 $scope.showUploadSORPopUp = function(invoice){
-                    console.log("showUploadSORPopUp......");
                     $scope.invoiceData = angular.copy(invoice);
                     var $modalInstance = $modal.open({
                         templateUrl: assets.html_invocie_upload_SOR,
                         controller: 'ReportsInvoiceAddAdjustmentController',
                         scope: $scope,
-                        windowClass: 'edit-dialog',
+                        windowClass: 'edit-dialog uploadSORPopup',
                         resolve: {
                             getMediaPlansForClone: function () {
                             }

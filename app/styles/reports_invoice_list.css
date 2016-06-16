@@ -56,10 +56,39 @@
   -moz-border-radius: 0 2px 2px 0 ;
   -webkitborder-radius: 0 2px 2px 0 ;
 }
-.adjustmentHeading {
+.popupHeading {
   font-size: 20px;
   font-family: 'Avenir';
   margin: 0 30px 20px;
+}
+.paddingLeftFive {
+  padding-left: 5px;
+}
+.uploadSORPopup .modal-dialog {
+  width: 80% ;
+}
+.uploadSORPopup .modal-dialog .accountTitleTag {
+  margin-bottom: 20px;
+  padding-left: 12px;
+}
+.uploadSORPopup .modal-dialog .icon-download {
+  margin-right: 10px;
+}
+.uploadSORPopup .modal-dialog .popupHeading {
+  margin: 0 0 25px 12px;
+  padding: 0;
+}
+.uploadSORPopup .modal-dialog .modal-header .close {
+  margin: -22px -15px 0 0;
+}
+.uploadSORPopup .modal-dialog .file_upload_icon-holder {
+  margin-top: 20px ;
+}
+.uploadSORPopup .modal-dialog .file_upload_icon-holder .file_upload_icon {
+  padding: 60px 100px;
+  text-align: center;
+  margin: 0;
+  width: 100%;
 }
 .btn-primary.adjustmentBtnType,
 .btn-primary.adjustmentBtnType:hover {
@@ -217,4 +246,7 @@
 }
 .reports-invoice-list .invoiceTitleTag span.tagTitle {
   color: #FF6600;
+}
+.report_list_table .adsList .pillsWrap {
+  padding-top: 10px ;
 }
