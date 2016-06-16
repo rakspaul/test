@@ -13,6 +13,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             CONST_POST_CLICK_CPA = 'Post-Click CPA',
             oldLineItem,
             oldLineItemIndex;
+
         $scope.CONST_COGS_PERCENT = 'COGS+ %';
         $scope.CONST_FLAT_FEE = 'Flat Fee';
         $scope.pixelSelected = {};
@@ -24,6 +25,9 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         $scope.showUploadRecordsMessageLineItems = false;
         $scope.selectedCampaign.lineItemfile;
         $scope.selectedCampaign.rejectedFiles;
+        $scope.successfulLineItemCount=0;
+        $scope.errorLineItemCount=0;
+
         // edit mode - save media plan along with line item
         $scope.showConfirmPopupCreate = false;
         $scope.showConfirmPopupEdit = false;
@@ -65,7 +69,8 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         }
         var lineItemCreateBulkUpload=function () {
             for(var index=0;index<$scope.correctLineItems.length;index++) {
-                var newItem = {};
+                var errorFound=false;
+                newItem = {};
                 newItem.lineItemType={};
                 newItem.name = $scope.correctLineItems[index].name;
                 console.log("RateType::",$scope.type);
@@ -79,16 +84,13 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 newItem.adGroupName = $scope.correctLineItems[index].adGroupName;
                 newItem.billableAmount = $scope.correctLineItems[index].billableAmount;
                 newItem.volume = $scope.correctLineItems[index].volume;
-                // in case pricerate is 30% markup remove the Markup
-                //if (typeof $scope.pricingRate === "string") {
-                //    newItem.pricingRate = Number($scope.billingRate.split('%')[0]);
-                //} else {
                 newItem.pricingRate = Number($scope.correctLineItems[index].billingRate);
-                // }
                 newItem.startTime = momentService.utcToLocalTime($scope.correctLineItems[index].startTime);
                 newItem.endTime = momentService.utcToLocalTime($scope.correctLineItems[index].endTime);
                 if(newItem.startTime < $scope.selectedCampaign.startTime || newItem.endTime > $scope.selectedCampaign.endTime){
-                    return false;
+                    $scope.successfulLineItemCount=$scope.successfulLineItemCount-1;
+                    $scope.errorLineItemCount=$scope.errorLineItemCount+1;
+                    errorFound=true;
                 }
                 newItem.campaignId = (campaignId === '-999') ? '-999' : campaignId;
 
@@ -109,12 +111,14 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 }
 
                 if (doesLineItemExceedBudget(newItem.billableAmount, $scope.Campaign.deliveryBudget)) {
-                    return false;
+                    $scope.successfulLineItemCount=$scope.successfulLineItemCount-1;
+                    $scope.errorLineItemCount=$scope.errorLineItemCount+1;
+                    errorFound=true;
                 }
-
-                $scope.lineItems.lineItemList.push(newItem);
-                $scope.calculateLineItemTotal();
-                // $scope.selectedCampaign.resetLineItemParameters();
+                if(!errorFound){
+                    $scope.lineItems.lineItemList.push(newItem);
+                    $scope.calculateLineItemTotal();
+                }
 
             }
         }
@@ -150,6 +154,8 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                             $scope.verifiedItems=response.data.data.success;
                             $scope.$parent.errorRecords = response.data.data.failure;
                             $scope.$parent.errorRecordsFileName = response.data.data.logFileDownloadLink;
+                            $scope.successfulLineItemCount=$scope.$parent.successfulRecords.length;
+                            $scope.errorLineItemCount=$scope.$parent.errorRecords.length;
                             if ($scope.$parent.errorRecords.length > 0) {
                                 $scope.$parent.bulkUploadResultHeader += ' - Errors found';
                             }
@@ -165,7 +171,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                             }
                             console.log($scope.correctLineItems);
                             /*Function insert verified line items to newItem and push to lineItems.lineItemList array to display on UI*/
-                            lineItemCreateBulkUpload($scope.correctLineItems);
+                            lineItemCreateBulkUpload();
                             $scope.clearFileSelected();
                             //bulk upload loader
 
@@ -196,6 +202,8 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                             $scope.$parent.successfulRecords = response.data.data.success;
                             $scope.$parent.errorRecords = response.data.data.failure;
                             $scope.$parent.errorRecordsFileName = response.data.data.logFileDownloadLink;
+                            $scope.successfulLineItemCount=$scope.$parent.successfulRecords.length;
+                            $scope.errorLineItemCount=$scope.$parent.errorRecords.length;
                             if ($scope.$parent.errorRecords.length > 0) {
                                 $scope.$parent.bulkUploadResultHeader += ' - Errors found';
                             }
