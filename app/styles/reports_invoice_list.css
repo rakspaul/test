@@ -41,17 +41,34 @@
   width: 710px;
 }
 .adjustmentBtnType {
-  border: 1px solid #dde6eb;
+  border: 1px solid #BFC9D7;
   line-height: 33px;
   text-align: center;
 }
-.edit {
-  background: url(/images/cdesk/edit_blue.png) no-repeat right center;
-  cursor: pointer;
-  display: inline-block;
-  height: 18px;
-  margin-left: 10px;
-  width: 20px;
+.adjustmentBtnType:first-child {
+  border-radius: 2px 0px 0px 2px ;
+  -moz-border-radius: 2px 0px 0px 2px ;
+  -webkit-border-radius: 2px 0px 0px 2px ;
+  border-right: 0px ;
+}
+.adjustmentBtnType:last-child {
+  border-radius: 0 2px 2px 0 ;
+  -moz-border-radius: 0 2px 2px 0 ;
+  -webkitborder-radius: 0 2px 2px 0 ;
+}
+.adjustmentHeading {
+  font-size: 20px;
+  font-family: 'Avenir';
+  margin: 0 30px 20px;
+}
+.btn-primary.adjustmentBtnType,
+.btn-primary.adjustmentBtnType:hover {
+  background: #DCE6F1;
+  color: #333;
+  border-color: #BFC9D7;
+}
+.btn-primary.adjustmentBtnType:hover {
+  background: #e1edf9 !important;
 }
 .reports-invoice-list .report_list_table {
   margin-bottom: 40px ;

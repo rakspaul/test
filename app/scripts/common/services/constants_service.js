@@ -1187,6 +1187,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CLIENT_LOADED = "clientLoaded";
         // Invoice Report
         this.INVOICE_REPORT = "Invoice Reports";
+        this.ADJUSTMENTS = "Adjustments" ;
         this.INVOICE_REPORT_ADD_ADJUSTMENT = "Add Adjustment to Invoice Report";
         this.INVOICE_DOWNLOAD = "Download Invoice Report";
         this.CREDIT_ADD_SUCCESS = "Credit added/updated successfully";
