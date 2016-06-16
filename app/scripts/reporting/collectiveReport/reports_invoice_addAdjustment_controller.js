@@ -9,10 +9,12 @@ define(['angularAMD',
         $scope.errSaveCredit = false;
         var _currCtrl = this;
         _currCtrl.clear = function(){
-            $scope.addAdjustmentData.adjustmentList = [];
+            $scope.addAdjustmentData.adjustments = [];
         }
         $scope.enableCrORDrBtn = function(){
-            _.each($scope.addAdjustmentData.adjustmentList, function(item, i){
+            console.log("enableCrORDrBtn.....",$scope.addAdjustmentData.adjustments);
+            _.each($scope.addAdjustmentData.adjustments, function(item, i){
+                console.log("item.transactionType......"+item.transactionType+"......."+i);
                 $(".adjustmentCnt").children().eq(i).find("."+item.transactionType).addClass("btn-primary");
             });
         }
@@ -24,17 +26,17 @@ define(['angularAMD',
             if(!tar.hasClass("btn-primary")){
                 tar.addClass("btn-primary");
                 tar.siblings("."+disable).removeClass("btn-primary");
-                $scope.addAdjustmentData.adjustmentList[index].transactionType = enable
+                $scope.addAdjustmentData.adjustments[index].transactionType = enable
             }
         }
         $scope.addCredit = function(){
             $scope.errSaveCredit = false;
             $('.adjustmentCnt').scrollTop($(".adjustmentCnt")[0].scrollHeight);
-            $scope.addAdjustmentData.adjustmentList.push({});                        // Inserting one more empty row for the add credit input field.
+            $scope.addAdjustmentData.adjustments.push({});                        // Inserting one more empty row for the add credit input field.
         }
         $scope.removeCredit = function(index){
             $scope.errSaveCredit = false;
-            $scope.addAdjustmentData.adjustmentList = _.filter($scope.addAdjustmentData.lists, function(item, i){
+            $scope.addAdjustmentData.adjustments = _.filter($scope.addAdjustmentData.lists, function(item, i){
                return index != i;
             });
         }
@@ -47,7 +49,7 @@ define(['angularAMD',
             var ret = false,
                 err = "";
             $scope.errSaveCredit = false;
-            _.each($scope.addAdjustmentData.adjustmentList, function(item){
+            _.each($scope.addAdjustmentData.adjustments, function(item){
                 if(!ret && (!item.amount || !item.name)){
                     ret = true;
                     $scope.errSaveCredit = true;
@@ -61,7 +63,7 @@ define(['angularAMD',
         }
         $scope.saveCredit = function(){
             if(_currCtrl.verifyInputs()) return true;
-            var data = {"adjustments": angular.copy($scope.addAdjustmentData.adjustmentList)};
+            var data = {"adjustments": angular.copy($scope.addAdjustmentData.adjustments)};
             dataService
                 .post(urlService.saveInvoiceListCredits($scope.addAdjustmentData.invoiceId), data, {'Content-Type': 'application/json'})
                 .then(function (result) {
