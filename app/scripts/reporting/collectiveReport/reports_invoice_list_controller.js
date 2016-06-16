@@ -182,7 +182,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     $scope.addAdjustmentData = angular.copy(invoice);
                     var $modalInstance = $modal.open({
                         templateUrl: assets.html_add_credit_popup,
-                        controller: 'invoiceUploadSOR',
+                        controller: 'ReportsInvoiceAddAdjustmentController',
                         scope: $scope,
                         windowClass: 'edit-dialog',
                         resolve: {
@@ -195,7 +195,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     $scope.invoiceData = angular.copy(invoice);
                     var $modalInstance = $modal.open({
                         templateUrl: assets.html_invocie_upload_SOR,
-                        controller: 'ReportsInvoiceAddAdjustmentController',
+                        controller: 'invoiceUploadSOR',
                         scope: $scope,
                         windowClass: 'edit-dialog uploadSORPopup',
                         resolve: {
