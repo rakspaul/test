@@ -138,7 +138,7 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
                     return '00:00:00';
                 }
             }
-        }
+        };
 
         // Convert UTC to local time (EST, GMT, etc. when loading data for edit.
         this.utcToLocalTime = function(dateTime, dtFormat) {
