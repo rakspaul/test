@@ -556,22 +556,19 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $('.cap_no input').attr('checked', 'checked');
                 $('.spend_evenly input').attr('checked', 'checked');
 
+                var pacingType = responseData.pacingType;
+
+                if (pacingType !== 'EVENLY') {
+                    $('.spend_asap').addClass('active');
+                    $('.spend_asap input').attr('checked', 'checked');
+                    $('.spend_evenly').removeClass('active');
+                }
+
                 if (responseData.frequencyCaps && responseData.frequencyCaps.length >= 1) {
                     angular.forEach(responseData.frequencyCaps, function (frequencyCap) {
-                        var pacingType,
-                            freqType;
+                        var freqType;
 
-                        if (frequencyCap.targetType === 'ALL') {
-                            pacingType = frequencyCap.pacingType;
 
-                            if (pacingType !== 'EVENLY') {
-                                $('.spend_asap').addClass('active');
-                                $('.spend_asap input').attr('checked', 'checked');
-                                $('.spend_evenly').removeClass('active');
-                            }
-                        }
-
-                        if (frequencyCap.targetType === 'PER_USER') {
                             $scope.adData.setCap = true;
                             $('.cap_yes').addClass('active');
                             $('.cap_no').removeClass('active');
@@ -585,7 +582,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             } else if (freqType === 'DAILY') {
                                 $scope.selectedFreq = 'Daily';
                             }
-                        }
                     });
                 }
 
@@ -673,24 +669,22 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     freqDefaultCapObj,
                     selectedFreqObj;
 
-                if (formData.budgetAmount) {
-                    freqDefaultCapObj = {'frequencyType': 'LIFETIME'};
-                    freqDefaultCapObj.quantity = Math.ceil(Number(formData.budgetAmount));
-                    freqDefaultCapObj.capType = budgetType.toUpperCase();
-                    freqDefaultCapObj.pacingType = formData.pacingType;
-                    freqDefaultCapObj.targetType = 'ALL';
-                    freqCap.push(freqDefaultCapObj);
-                }
+                // if (formData.budgetAmount) {
+                    // freqDefaultCapObj = {'frequencyType': 'LIFETIME'};
+                    // freqDefaultCapObj.quantity = Math.ceil(Number(formData.budgetAmount));
+                    // freqDefaultCapObj.capType = budgetType.toUpperCase();
+                //     freqDefaultCapObj.pacingType = formData.pacingType;
+                //     freqDefaultCapObj.targetType = 'ALL';
+                //     freqCap.push(freqDefaultCapObj);
+                // }
 
                 isSetCap = formData.setCap ? true : false;
 
                 if (isSetCap && formData.quantity) {
                     selectedFreqObj = {};
-                    selectedFreqObj.capType = 'IMPRESSIONS';
+
                     selectedFreqObj.frequencyType = formData.frequencyType.toUpperCase();
                     selectedFreqObj.quantity = Number(formData.quantity);
-                    selectedFreqObj.targetType = 'PER_USER';
-                    selectedFreqObj.pacingType = 'EVENLY';
                     freqCap.push(selectedFreqObj);
                 }
 
@@ -1274,6 +1268,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         if (getfreqCapParams(formData).length > 0) {
                             postAdDataObj.frequencyCaps = getfreqCapParams(formData);
                         }
+
+                        postAdDataObj.pacingType = formData.pacingType;
 
                         if (formData.budgetType && formData.budgetAmount) {
                             postAdDataObj.budgetType = formData.budgetType;
