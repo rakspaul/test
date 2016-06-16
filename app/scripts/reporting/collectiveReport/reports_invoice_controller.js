@@ -22,7 +22,7 @@ define(['angularAMD',
             $scope.advertiserName = advertiserModel.getAdvertiser().selectedAdvertiser ? advertiserModel.getAdvertiser().selectedAdvertiser.name : "All Advertisers";
 
             console.log("$scope.advertiser....",$scope.advertiser);
-            _curCtrl.getInvoiceDetials = function(){
+            $scope.getInvoiceDetials = function(){
                 dataService.fetch(urlService.getInvoiceDetials($routeParams.invoiceId)).then(function(result){
                    console.log("result......",result);
                     if(result.status == "success" || result.status == "OK"){
@@ -32,10 +32,13 @@ define(['angularAMD',
 
                 });
             }
-            _curCtrl.getInvoiceDetials();
-
+            $scope.getInvoiceDetials();
+            $rootScope.$on("adjustmentAdded",function(){
+                $scope.getInvoiceDetials();
+            });
             $scope.showAddAdjustmentPopup = function (invoice) {
                 $scope.addAdjustmentData = angular.copy($scope.invoiceDetails);
+                $scope.addAdjustmentData.invoiceId = $routeParams.invoiceId;
                 var $modalInstance = $modal.open({
                     templateUrl: assets.html_add_credit_popup,
                     controller: 'ReportsInvoiceAddAdjustmentController',

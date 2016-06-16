@@ -36,7 +36,7 @@ define(['angularAMD',
         }
         $scope.removeCredit = function(index){
             $scope.errSaveCredit = false;
-            $scope.addAdjustmentData.adjustments = _.filter($scope.addAdjustmentData.lists, function(item, i){
+            $scope.addAdjustmentData.adjustments = _.filter($scope.addAdjustmentData.adjustments, function(item, i){
                return index != i;
             });
         }
@@ -69,8 +69,10 @@ define(['angularAMD',
                 .then(function (result) {
                     $scope.close();
                     if(result.status == "OK" || result.status == "success"){
+                   //     $scope.getInvoiceData();
+                   //     $scope.getInvoiceDetials();
+                        $rootScope.$broadcast("adjustmentAdded")
                         $rootScope.setErrAlertMessage(constants.CREDIT_ADD_SUCCESS, 0);
-                        $scope.getInvoiceData();
                     }else{
                         $rootScope.setErrAlertMessage(constants.CREDIT_ADD_ERR);
                     }
