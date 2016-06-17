@@ -1,8 +1,132 @@
+#invoice_data_filter{
+  border-top: 1px dotted #ccc;
+  padding: 21px 0 0 0 !important;
+  margin-top: 17px;
+  .icon-calendar{
+    top: -38px;
+    right: 13px;
+    border-left: solid 1px #ccc;
+    height: 38px;
+    width: 20px;
+    padding: 10px 0 0 8px;
+  }
+  .filterInputCommon{
+    position: relative;
+    float: left;
+    margin-right: 5px;
+  }
+  .filterInputClass1{
+    width: 135px;
+  }
+  .filterInputClass2{
+    width: 90px;
+    margin-top: 32px;
+  }
+  .filterInputClassBtn{
+    width: 85px;
+    margin: 32px 0 0 0px !important;
+  }
+}
+.dotClass{
+  display: inline-block;
+  height: 5px;
+  width: 5px !important;
+  background: #5D5D5D;
+  margin: 0 2px;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+}
+
+.rowHover1 {
+    background-color: #f7f7f7;
+    .hideOption1 {
+        display:none;
+    }
+    .childRow:hover {
+        background-color: #f7f7f7;
+        .hideOption1 {
+            display:block;
+        }
+    }
+}
+
+.add-adjust-modal-dialog{
+  width: 710px
+}
+.adjustmentBtnType {
+  border: 1px solid #BFC9D7;
+  line-height: 33px;
+  text-align: center;
+}
+
+.adjustmentBtnType:first-child {
+  border-radius: 2px 0px 0px 2px ;
+  -moz-border-radius: 2px 0px 0px 2px ;
+  -webkit-border-radius: 2px 0px 0px 2px ;
+  border-right : 0px ;
+}
+.adjustmentBtnType:last-child {
+  border-radius: 0 2px 2px 0 ;
+  -moz-border-radius: 0 2px 2px 0 ;
+  -webkitborder-radius: 0 2px 2px 0 ;
+
+}
+.popupHeading {
+  font-size: 20px;
+  font-family: 'Avenir';
+  margin: 0 0px 20px;
+}
+.paddingLeftFive {
+    padding-left:5px;
+}
+.uploadSORPopup .modal-dialog {
+  width: 970px ;
+  .accountTitleTag {
+    margin-bottom:20px;
+  }
+  .icon-download {
+    margin-right: 10px;
+  }
+  .popupHeading {
+    margin: 0 0 25px 0px;
+  }
+
+  .file_upload_icon_holder {
+    margin-top: 20px ;
+    .file_upload_icon {
+      padding: 60px 100px;
+      text-align: center;
+      margin: 0;
+      width: 100%;
+    }
+  }
+}
+.btn-primary.adjustmentBtnType , .btn-primary.adjustmentBtnType:hover  {
+    background: #DCE6F1;
+    color: #333;
+    border-color: #BFC9D7;
+}
+.btn-primary.adjustmentBtnType:hover {
+  background : #e1edf9 !important;
+}
+.modal-header .close-side {
+    margin : -22px -15px 0 0 ;
+}
+.file_upload_icon {
+  background: url(/images/cdesk/dragging_files.png) no-repeat 100px;
+  padding: 90px 100px;
+  background-color: #FFF;
+  border: 1px dashed rgba(0,0,0,.19);
+  width: 90%;
+  margin: 20px auto 0;
+}
 .reports-invoice-list {
 
   .report_list_table {
     margin-bottom: 40px ;
     background: #fff;
+
     .table-header {
       border-bottom: 2px solid #939eae;
     }
@@ -22,15 +146,7 @@
       border-left:1px none rgba(191, 201, 215, 0.5);
 
     }
-    .hideOption1 {
-      display:none;
-    }
-    .rowHover1:hover {
-      background-color: #FF6600;
-      .hideOption1 {
-        display:block;
-      }
-    }
+
     .common-sort-icon {
       display: inline-block;
     }
@@ -46,25 +162,16 @@
       }
     }
 
+   .hideOption1 {display:none;}
 
-    .hideOption1 {
-      display:none;
-    }
-    .rowHover1:hover {
-      background-color: #FF6600;
-      .hideOption1 {
-        display:block;
-      }
-    }
-
-    .inner-row {
+    .rowHover1 {
       background-color: #f7f7f7;
-      .hideOption {
-        display:block;
+      .hideOption1 {
+        display:none;
       }
-      .rowHover:hover {
+      .childRow:hover {
         background-color: #f7f7f7;
-        .hideOption {
+        .hideOption1 {
           display:block;
         }
       }
@@ -156,3 +263,11 @@
   }
 
 }
+.report_list_table {
+  .adsList {
+    .pillsWrap {
+      padding-top: 10px ;
+    }
+  }
+}
+

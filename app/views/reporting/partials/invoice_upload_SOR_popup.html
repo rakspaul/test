@@ -1,0 +1,70 @@
+<div class=" clearfix popup-holder">
+    <div class="clearfix modal-header">
+
+        <button type="button" class="close close-side" data-dismiss="modal"
+                ng-click="close()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+        
+    </div>
+    
+    <div class="col-md-12 modal-body">
+        <div class="col-md-12 zeroPadding">
+                <div class="pull-left accountTitleTag" >
+                    <span class="tagTitle">Account:</span>
+                    <span>{{mediaPlanList[0].account}}</span>
+                    <span class="slash-divider paddingLeftFive" >/</span>
+                </div>
+                <div class="pull-left paddingLeftFive" >
+                    <span class="tagTitle">Advertiser:</span>
+                    <span>{{mediaPlanList[0].advertiser}}</span>
+                    <span class="slash-divider paddingLeftFive" >/</span>
+                </div>
+
+                <div class="pull-left paddingLeftFive">
+                    <span class="tagTitle">Invoice ID:</span>
+                    <span class="ng-binding" data-ng-bind="invoiceData.invoiceId"></span>
+                </div>
+                <div class="pull-right headerDownload" >
+                        <div class="pull-left icon-download" ></div>
+                        <div class="pull-left"
+                             ng-click="downloadSORReport(invoice)" data-ng-bind="textConstants.INVOICE_DOWNLOAD_SOR"></div>
+                </div>
+        </div>
+        <div class="col-md-12 zeroPadding popupHeading">Upload System of Record (SOR) Results</div>
+        <div class="col-md-12 zeroPadding">
+
+            <div class="col-md-8 zeroPadding">
+                <div class="pull-left">
+                    <span class="greyTxt">Media Plan</span> <br>
+                    <span data-ng-bind="invoiceData.invoiceName"></span>
+                </div>
+
+            </div>
+            <div class="pull-right zeroPadding">
+                <div class="pull-left">
+                    <span class="greyTxt">Invoice Month</span> <br>
+                    <span data-ng-bind="invoiceData.invoiceDate"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 zeroPadding file_upload_icon_holder">
+            <div ng-show="!progress" ngf-drop="" ngf-select="" ng-model="$parent.file" ng-model-rejected="$parent.rejFiles" name="file" ngf-multiple="false" ngf-allow-dir="false" class="drop-box ng-pristine ng-untouched ng-valid" ngf-drag-over-class="dragover" ngf-accept="'.csv'" ngf-max-size="10000000">
+
+                <div class="file_upload_icon" >
+                        <span class="img_table_txt" >
+                            Drag and drop your completed Creative Record Template or <a id="fileupload" href="javascript:void(0);">Browse</a>
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix col-md-12 popup-btns-holder">
+        <div ng-if="errSaveCredit" data-ng-bind="errSaveCreditMsg" class="errorText"></div>
+        <button class="btn btn-primary pull-right" ng-show="!adArchiveLoader" type="button" ng-click="saveCredit()"
+                >Save</button>
+        <div ng-show ="adArchiveLoader" class="pull-right common-loading-btn" ></div>
+        <button class="secondary_txt" type="button" data-dismiss="modal" ng-click="close()" >Cancel</button>
+    </div>
+</div> <!-- end of popup-holder -->
