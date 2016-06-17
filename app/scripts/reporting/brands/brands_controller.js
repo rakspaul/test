@@ -9,8 +9,9 @@ define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_se
         $scope.textConstants = constants;
         // $scope.advertiser = advertiserModel.getSelectedAdvertiser();
 
-        $scope.advertiser_id = $routeParams.advertiser_id;
-        console.log('$scope.advertiser_id', $scope.advertiser_id);
+        // used to enable the brands drop-down
+        $scope.advertiser_id = $routeParams.advertiserId;
+        // console.log('$scope.advertiser_id', $scope.advertiser_id);
 
         // $scope.isDashbboardBrand = subAccountModel.isDashboardSubAccount();
         // var isLeafNode = localStorageService.masterClient.get().isLeafNode;
@@ -28,7 +29,7 @@ define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_se
           //         $scope.brands = brandsData;
           //     }, searchCriteria, search);
           // }
-            brandsModel.fetchBrandList($routeParams.subAccountId || $routeParams.accountId, $routeParams.advertiser_id).then(function() {
+            brandsModel.fetchBrandList($routeParams.subAccountId || $routeParams.accountId, $routeParams.advertiserId).then(function() {
                 $scope.brands = brandsModel.getBrandList();
                 console.log('$scope.brands', $scope.brands.length);
                 if (brandsModel.allowedBrand($routeParams.brand_id)) {
@@ -55,7 +56,7 @@ define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_se
            //  brandsModel.callBrandBroadcast(brand, advertiser, event_type);
            // //grunt analytics.track(loginModel.getUserRole(), constants.GA_BRAND_SELECTED, brand.name, loginModel.getLoginName());
            //  $scope.selectedBrand = null;
-            brandsModel.changeBrand($routeParams.accountId, $routeParams.subAccountId, $routeParams.advertiser_id, brand);
+            brandsModel.changeBrand($routeParams.accountId, $routeParams.subAccountId, $routeParams.advertiserId, brand);
         };
 
 

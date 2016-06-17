@@ -198,6 +198,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                         url += "/sa/" + subAccountService.getSubAccounts()[0].id;
                     }
                 }
+                ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
+                ($routeParams.advertiserId > 0) && ($routeParams.brandId >= 0) && (url += '/b/' + $routeParams.brandId);
                 url += '/mediaplans'
             } else if (page === 'reportsSubPage') {
                 var reportName = url;
@@ -208,6 +210,9 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     });
                     if (leafSubAccount) {
                         url += "/sa/" + $routeParams.subAccountId;
+                        // All Advertisers id is -1 and don't show it in the URL
+                        ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
+                        ($routeParams.advertiserId > 0 && $routeParams.brandId >= 0) && (url += '/b/' + $routeParams.brandId);
                     } else {
                         url += "/sa/" + subAccountService.getSubAccounts()[0].id;
                     }
@@ -220,8 +225,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 url += reportName;
             }
 
-            $routeParams.advertiser_id && (url += '?advertiser_id=' + $routeParams.advertiser_id);
-            $routeParams.advertiser_id && $routeParams.brand_id && (url += '&brand_id=' + $routeParams.brand_id);
             console.log('header_controller', 'url', url);
             $location.url(url);
         };

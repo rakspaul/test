@@ -70,24 +70,24 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
                         advertiserData.advertiserList = _.map(result.data.data, function(a) {
                             return {'id': a.id, 'name': a.name};
                         });
-                        advertiserData.advertiserList = _.sortBy(advertiserData.advertiserList, 'name');
-                        previousAccountId = accountId;
+                        advertiserData.advertiserList = _.sortBy(advertiserData.advertiserList, 'name')
+                        advertiserData.advertiserList.unshift(advertiserData.allAdvertiserObject);
                         console.log('fetchAdvertiserList is fetched');
                     } else {
-                        // TODO return failure
+                        advertiserData.advertiserList = [advertiserData.allAdvertiserObject];
                     }
+                    previousAccountId = accountId;
                     deferred.resolve();
                 });
                 return deferred.promise;
             },
 
             allowedAdvertiser: function(advertiserId) {
-                // var accountIdParam = subAccountIdParam();
                 if (advertiserId) {
                     advertiserData.selectedAdvertiser = _.find(advertiserData.advertiserList, function(a) {
                         return advertiserId == a.id;
                     });
-                    if (advertiserData.selectedAdvertiser.id) {
+                    if (advertiserData.selectedAdvertiser) {
                         // loginModel.setSelectedClient(selectedAccount);
                         return true;
                     } else {
@@ -154,9 +154,9 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
             changeAdvertiser: function(accountId, subAccountId, advertiser) {
 
                 var url = '/a/' + accountId;
-                if (subAccountId) {
-                     url += '/sa/' + subAccountId;
-                }
+                subAccountId && (url += '/sa/' + subAccountId);
+                // All Advertisers id is -1 and don't show it in the URL
+                (advertiser.id > 0) && (url += '/adv/' + advertiser.id);
                 var page = pageFinder($location.path());
                 if (page.isDashboardPage()) {
                     url += '/dashboard';
@@ -166,11 +166,8 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
                     var reportName = _.last($location.path().split('/'));
                     url += '/mediaplans/reports/' + reportName;
                 }
-                url += '?advertiser_id=' + advertiser.id;
                 console.log('change the url', url);
-                // $location.url(url);
-                // TODO: make sure $location.url works instead of windlow.location
-                window.location = url;
+                $location.url(url);
             }
 
             // callAdvertiserBroadcast: function (advertiser, event_type) {

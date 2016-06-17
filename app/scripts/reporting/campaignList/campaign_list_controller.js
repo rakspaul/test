@@ -131,9 +131,9 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     if ($routeParams.subAccountId) {
                         url += "/sa/" + $routeParams.subAccountId;
                     }
+                    url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
                     url += '/mediaplans/' + campaign.id + '/overview';
-                    $routeParams.advertiser_id && (url += '?advertiser_id=' + $routeParams.advertiser_id);
-                    $routeParams.advertiser_id && $routeParams.brand_id && (url += '&brand_id=' + $routeParams.brand_id);
+                    console.log('url', url);
                     $location.url(url);
                 };
 

@@ -1143,11 +1143,9 @@ function (angularAMD) {
             if ($routeParams.subAccountId) {
                 url += "/sa/" + $routeParams.subAccountId;
             }
-            url += "/mediaplans/" + $routeParams.campaignId + '/performance';
-            $routeParams.advertiser_id && (url += '?advertiser_id=' + $routeParams.advertiser_id);
-            $routeParams.advertiser_id && $routeParams.brand_id && (url += '&brand_id=' + $routeParams.brand_id);
-            strategy && (url += url.indexOf('?') > 0 ? '&' : '?');
-            strategy && (url += 'li_id=' + strategy.id);
+            ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
+            ($routeParams.advertiserId > 0 && $routeParams.brandId >= 0) && (url += '/b/' + $routeParams.brandId);
+            url += "/mediaplans/" + $routeParams.campaignId + '/li/' + strategy.id + '/performance';
             console.log('url', url);
             $location.url(url);
         };

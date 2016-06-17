@@ -5,7 +5,8 @@ define(['angularAMD', 'reporting/brands/brands_service', 'common/services/consta
         var brand = {
             brandList: [],
             selectedBrand: {id: -1, name: constants.ALL_BRANDS},
-            allBrandObject: {id: -1, name: constants.ALL_BRANDS}
+            allBrandObject: {id: -1, name: constants.ALL_BRANDS},
+            unknownBrandObject: {id: 0, name: 'Unknown'}
         },
         previousAdvertiserId;
 
@@ -63,7 +64,7 @@ define(['angularAMD', 'reporting/brands/brands_service', 'common/services/consta
             //     }
             // },
             fetchBrandList: function(accountId, advertiserId) {
-                if (previousAdvertiserId != accountId) {
+                if (previousAdvertiserId != advertiserId) {
                     this.reset();
                 }
                 var deferred = $q.defer();
@@ -79,24 +80,29 @@ define(['angularAMD', 'reporting/brands/brands_service', 'common/services/consta
                         brand.brandList = _.map(result.data.data, function(a) {
                             return {'id': a.id, 'name': a.name};
                         });
-                        brand.brandList = _.sortBy(brand.brandList, 'name');
-                        previousAdvertiserId = advertiserId;
+                        brand.brandList = _.sortBy(brand.brandList, 'name')
+                        brand.brandList.unshift(brand.allBrandObject);
                         console.log('fetchBrandList is fetched');
                     } else {
-                        // TODO return failure
+                        brand.brandList = [brand.allBrandObject];
                     }
+                    previousAdvertiserId = advertiserId;
                     deferred.resolve();
                 });
                 return deferred.promise;
             },
 
             allowedBrand: function(brandId) {
+                if (brandId == 0) {
+                    brand.selectedBrand = brand.unknownBrandObject;
+                    return true;
+                }
                 // var accountIdParam = subAccountIdParam();
                 if (brandId) {
                     brand.selectedBrand = _.find(brand.brandList, function(b) {
                         return brandId == b.id;
                     });
-                    if (brand.selectedBrand.id) {
+                    if (brand.selectedBrand) {
                         return true;
                     } else {
                         return false;
@@ -168,9 +174,11 @@ define(['angularAMD', 'reporting/brands/brands_service', 'common/services/consta
             changeBrand: function(accountId, subAccountId, advertiserId, brand) {
 
                 var url = '/a/' + accountId;
-                if (subAccountId) {
-                     url += '/sa/' + subAccountId;
-                }
+                subAccountId && (url += '/sa/' + subAccountId);
+                // All Advertisers id is -1 and don't show it in the URL
+                (advertiserId > 0) && (url += '/adv/' + advertiserId);
+                (brand.id > 0) && (url += '/b/' + brand.id);
+
                 var page = pageFinder($location.path());
                 if (page.isDashboardPage()) {
                     url += '/dashboard';
@@ -180,11 +188,8 @@ define(['angularAMD', 'reporting/brands/brands_service', 'common/services/consta
                     var reportName = _.last($location.path().split('/'));
                     url += '/mediaplans/reports/' + reportName;
                 }
-                url += '?advertiser_id=' + advertiserId + '&brand_id=' + brand.id;
                 console.log('change the url', url);
-                // $location.url(url);
-                // TODO: make sure $location.url works instead of windlow.location
-                window.location = url;
+                $location.url(url);
             }
 
             // callBrandBroadcast: function (brand, advertiser, event_type) {

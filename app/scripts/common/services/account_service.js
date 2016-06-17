@@ -1,8 +1,10 @@
 define(['angularAMD', 'workflow/services/workflow_service'], function (angularAMD) {
-    angularAMD.service('accountService', function ($rootScope, $location, $q, $route, $timeout, workflowService, subAccountService, featuresService) {
+    angularAMD.service('accountService', function ($rootScope, $location, $q, $route, $timeout, workflowService, 
+        subAccountService, RoleBasedService, featuresService) {
 
         var accountList = [],
-            selectedAccount;
+            selectedAccount,
+            accountDataMap = {};
 
         var pageFinder = function(path) {
             var pageName;
@@ -118,6 +120,31 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                         });
                     }
                 }
+            },
+
+            fetchAccountData: function(accountId) {
+                var deferred = $q.defer();
+                if (accountDataMap.id == accountId) {
+                    console.log('fetchAccountData ', 'already fetched');
+                    $timeout(function() {
+                        deferred.resolve();
+                    }, 5);
+                    return deferred.promise;
+                }
+                workflowService.getClientData(accountId).then(function(response) {
+                    if (response && response.data.data) {
+                        RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
+                        RoleBasedService.setCurrencySymbol();
+                        featuresService.setFeatureParams(response.data.data.features);
+                        accountDataMap.id = accountId;
+                        console.log('fetchAccountData is fetched');
+
+                        deferred.resolve();
+                    } else {
+                        deferred.reject('account data not found');
+                    }
+                });
+                return deferred.promise;
             }
 
         }

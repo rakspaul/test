@@ -123,6 +123,9 @@ define(['angularAMD','reporting/common/d3/gantt_chart','reporting/models/gantt_c
                             c.state = tasks.state;
                             c.kpiStatus = tasks.kpi_status;
                             c.taskName = count;
+                            c.client_id = tasks.client_id;
+                            c.advertiser_id = tasks.advertiser_id;
+                            c.brand_id = tasks.brand_id;
                             brands.push(count);
                             campaigns.push(c);
                         });

@@ -249,10 +249,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
             //$scope.$parent.isFetchStrategiesCalled = false;
             // $scope.setCampaign(campaign);
 
-            if(campaign.id == 0) {
-                 resetSearchCriteria();
-                 $scope.fetchCampaigns(false, false);
-            }
+            // if(campaign.id == 0) {
+            //      resetSearchCriteria();
+            //      $scope.fetchCampaigns(false, false);
+            // }
 
             $('.campaigns_list').hide();
             //grunt analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
@@ -262,10 +262,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
             if ($routeParams.subAccountId) {
                 url += "/sa/" + $routeParams.subAccountId;
             }
+            
+            url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
             var reportName = _.last($location.path().split('/'));
             url += "/mediaplans/" + campaign.campaign_id + '/' + reportName;
-            $routeParams.advertiser_id && (url += '?advertiser_id=' + $routeParams.advertiser_id);
-            $routeParams.advertiser_id && $routeParams.brand_id && (url += '&brand_id=' + $routeParams.brand_id);
             console.log('url', url);
             $location.url(url);
         }

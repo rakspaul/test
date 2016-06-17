@@ -27,8 +27,8 @@ define(['angularAMD','../../common/services/url_service','common/services/data_s
         campaign.selectedCampaign.endDate = (_campaign.endDate == undefined) ? _campaign.end_date : _campaign.endDate;
         campaign.selectedCampaign.cost_transparency = _campaign.cost_transparency;
         campaign.selectedCampaign.redirectWidget = _campaign.type || '';
-        campaign.selectedCampaign.advertiser = _campaign.advertiser;
-        campaign.selectedCampaign.brand = _campaign.brand;
+        campaign.selectedCampaign.advertiser_id = _campaign.advertiser_id;
+        campaign.selectedCampaign.brand_id = _campaign.brand_id;
 
         if (campaign.selectedCampaign.kpi == 'null' || campaign.selectedCampaign.kpi == null 
           || campaign.selectedCampaign.kpi == undefined || campaign.selectedCampaign.kpi == 'NA') {
@@ -47,24 +47,9 @@ define(['angularAMD','../../common/services/url_service','common/services/data_s
         kpiSelectModel.setSelectedKpi(campaign.selectedCampaign.kpi);
         if (campaign.selectedCampaign.name) {
           if (fileIndex == undefined) {
-            console.log('campaign.selectedCampaign', campaign.selectedCampaign);
-            console.log('campaign.selectedCampaign.advertiser', campaign.selectedCampaign.advertiser);
-            console.log('campaign.selectedCampaign.brand', campaign.selectedCampaign.brand);
             $(".campaign_name_selected").text(campaign.selectedCampaign.name);
             $(".campaign_name_selected").prop('title', campaign.selectedCampaign.name);
             $("#campaignDropdown").val(campaign.selectedCampaign.name);
-
-            // if (campaign.selectedCampaign.advertiser) {
-            //     $('#advertiser_name_selected').text(campaign.selectedCampaign.advertiser.name);
-            //     $('#advertisersDropdown').attr('placeholder', campaign.selectedCampaign.advertiser.name).val('');
-            //     advertiserModel.setSelectedAdvertisers(campaign.selectedCampaign.advertiser);
-            // }
-
-            // if (campaign.selectedCampaign.brand) {
-            //     $("#brand_name_selected").text(campaign.selectedCampaign.brand.name);
-            //     $('#brandsDropdown').attr('placeholder', campaign.selectedCampaign.brand.name).val('');
-            //     brandsModel.setSelectedBrand(campaign.selectedCampaign.brand);
-            // }
           } else {
             var campaignElems = $($(".campaign_name_selected")[fileIndex]);
             campaignElems.text(campaign.selectedCampaign.name);
@@ -78,8 +63,8 @@ define(['angularAMD','../../common/services/url_service','common/services/data_s
     campaign.getCampaigns = function (searchCriteria) {
       // var clientId = loginModel.getSelectedClient().id;
       var clientId = $routeParams.subAccountId || $routeParams.accountId,
-          advertiserId = $routeParams.advertiser_id || -1,
-          brandId = $routeParams.brand_id || -1;
+          advertiserId = $routeParams.advertiserId || -1,
+          brandId = ($routeParams.brandId && $routeParams.brandId >= 0) ? $routeParams.brandId : -1;
 
       var url = urlService.APICampaignDropDownList(clientId, advertiserId, brandId, searchCriteria);
       return dataService.fetch(dataService.append(url, searchCriteria)).then(function (response) {

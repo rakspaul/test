@@ -1,6 +1,6 @@
 define(['angularAMD','common/services/constants_service','reporting/brands/brands_model','login/login_model', 'common/services/role_based_service' ],function (angularAMD) {
   'use strict';
-  angularAMD.service("bubbleChart", function($rootScope,$locale, $location, constants, brandsModel, loginModel, RoleBasedService) {
+  angularAMD.service("bubbleChart", function($rootScope,$locale, $location, $routeParams, constants, brandsModel, loginModel, RoleBasedService) {
 
         var brands_svg = {},
             campaigns_svg = {} ,
@@ -224,7 +224,8 @@ define(['angularAMD','common/services/constants_service','reporting/brands/brand
                     toolTipY : pathData['curveEndY'],
                     objectType : (spanId == 'brands')? 'brands' : 'campaigns',
                     advertiserId: node.advertiser_id,
-                    advertiserName: node.advertiser_name
+                    advertiserName: node.advertiser_name,
+                    clientId: node.client_id
                 };
                 formattedData.push(object);
             }
@@ -552,13 +553,19 @@ define(['angularAMD','common/services/constants_service','reporting/brands/brand
 
             node.on("click", function(obj) {
                //grunt analytics.track(loginModel.getUserRole(), 'dashboard_bubblechart_widget', (obj.objectType === 'brands' ? 'brand_bubble_clicked' : 'campaign_bubble_clicked_' + obj.status), loginModel.getLoginName());
-                if(obj.objectType == 'brands'){
+                if(obj.objectType == 'brands') {
                     tooltip.style("display", "none");
                     // $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, obj);
-                    var url = $location.path();
-                    obj.advertiserId && (url += '?advertiser_id=' + obj.advertiserId);
-                    obj.brandId && obj.brandId && (url += '&brand_id=' + obj.brandId);
-                    window.location = url;
+                    var url = "/a/" + $routeParams.accountId;
+                    if ($routeParams.subAccountId) {
+                        url += "/sa/" + obj.clientId;
+                    } else {
+                        url = '/a/' + obj.clientId;
+                    }
+                    url += '/adv/' + obj.advertiserId;
+                    url += '/b/' + obj.brandId + '/dashboard';
+                    console.log('url', url);
+                    $location.url(url);
                 }
             });
 

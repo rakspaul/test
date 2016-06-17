@@ -35,19 +35,13 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         };
 
         $scope.selectStrategy = function(strategy) {
-            var url = $location.path();
-            $routeParams.li_id = strategy.id;
-            var requiredParams = _.pick($routeParams, 'li_id', 'advertiser_id', 'brand_id');
-            if (strategy.id == -1) {
-                requiredParams = _.omit(requiredParams, 'li_id');
+            var url = "/a/" + $routeParams.accountId;
+            if ($routeParams.subAccountId) {
+                url += "/sa/" + $routeParams.subAccountId;
             }
-
-            var params = _.map(requiredParams, function(value, name) {
-                return name + '=' + value;
-            });
-            if (params.length > 0) {
-                url += '?' + params.join('&');
-            }
+            ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
+            ($routeParams.advertiserId > 0 && $routeParams.brandId >= 0) && (url += '/b/' + $routeParams.brandId);
+            url += "/mediaplans/" + $routeParams.campaignId + '/li/' + strategy.id + '/performance';
             console.log('url', url);
             $location.url(url);
         }

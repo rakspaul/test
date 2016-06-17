@@ -64,11 +64,11 @@ define(['angularAMD'], function (angularAMD) {
       };
 
       this.getSelectAdvertiserId = function() {
-          return $routeParams.advertiser_id || -1;
+          return $routeParams.advertiserId || -1;
       };
 
       this.getSelectedBrandId = function() {
-          return $routeParams.brand_id || -1;
+          return $routeParams.brandId || -1;
       };
 
       this.getSelectedCampaignId = function() {
