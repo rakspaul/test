@@ -649,7 +649,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     tooltipText += ', Tech Fees: N/A';
                 }
 
-                tooltipText += '<p>extra</p>'
                 return $sce.trustAsHtml(tooltipText);
             };
 
