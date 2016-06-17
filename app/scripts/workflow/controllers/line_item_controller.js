@@ -25,14 +25,15 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         $scope.showUploadRecordsMessageLineItems = false;
         $scope.selectedCampaign.lineItemfile;
         $scope.selectedCampaign.rejectedFiles;
-        $scope.successfulLineItemCount=0;
-        $scope.errorLineItemCount=0;
+
 
         // edit mode - save media plan along with line item
         $scope.showConfirmPopupCreate = false;
         $scope.showConfirmPopupEdit = false;
         $scope.showConfirmPopupBulkUpload = false;
         $scope.correctLineItems=[];
+        $scope.successfulLineItemCount=0;
+        $scope.errorLineItemCount=0;
 
 
 
@@ -66,6 +67,10 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             if($scope.selectedCampaign.lineItemfile && action=='edit'){
                 $('.common_file_upload_container').hide();
             }
+        }
+        var resetSuccessErrorCount=function () {
+            $scope.successfulLineItemCount=0;
+            $scope.errorLineItemCount=0;
         }
         var lineItemCreateBulkUpload=function () {
             for(var index=0;index<$scope.correctLineItems.length;index++) {
@@ -117,6 +122,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 }
                 if(!errorFound){
                     $scope.lineItems.lineItemList.push(newItem);
+                    validateMediaPlanDates();
                     $scope.calculateLineItemTotal();
                 }
 
@@ -149,6 +155,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                             fileFormDataName: 'lineitemList',
                             file: $scope.selectedCampaign.lineItemfile
                         }).then(function (response) {
+                            resetSuccessErrorCount();
                             $scope.bulkUploadItemLoaderEdit = false;
                             $scope.$parent.successfulRecords = response.data.data.success;
                             $scope.verifiedItems=response.data.data.success;
@@ -199,6 +206,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                             fileFormDataName: 'lineitemList',
                             file: $scope.selectedCampaign.lineItemfile
                         }).then(function (response) {
+                            resetSuccessErrorCount();
                             $scope.$parent.successfulRecords = response.data.data.success;
                             $scope.$parent.errorRecords = response.data.data.failure;
                             $scope.$parent.errorRecordsFileName = response.data.data.logFileDownloadLink;
@@ -270,6 +278,61 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         };
 
 /*---END------BULK LineItem Upload Section---------*/
+        var validateMediaPlanDates=function () {
+            var startDatelow = [],
+                endDateHigh = [],
+                ascending,
+                descending,
+                i,
+                lowestStartTime,
+                ind,
+                startDateElem = $('#startDateInput'),
+                endDateElem = $('#endDateInput'),
+                highestEndTime,
+                today = momentService.utcToLocalTime();
+
+
+            /*startDate input Element*/
+            for(i in $scope.lineItems.lineItemList){
+                if($scope.lineItems.lineItemList[i].startTime){
+                    startDatelow.push($scope.lineItems.lineItemList[i].startTime);
+                }
+            }
+            //method to find lowest startTime
+            ascending = _.sortBy(startDatelow, function (o) {
+                return o;
+            });
+            if (ascending.length > 0) {
+                lowestStartTime = ascending[0];
+                startDateElem.datepicker('setStartDate', today);
+                startDateElem.datepicker('setEndDate', lowestStartTime);
+            } else {
+                startDateElem.datepicker('setStartDate', $scope.selectedCampaign.startTime);
+                startDateElem.datepicker('setEndDate', $scope.selectedCampaign.endTime);
+            }
+
+            /*endDate input Element*/
+            for(ind in $scope.lineItems.lineItemList) {
+                if ($scope.lineItems.lineItemList[ind].endTime) {
+                    endDateHigh.push($scope.lineItems.lineItemList[ind].endTime);
+                }
+            }
+            descending = _.sortBy(endDateHigh, function (o) {
+                return o;
+            });
+
+            descending.reverse();
+
+            if (descending.length > 0) {
+                highestEndTime =descending[0];
+                endDateElem.datepicker('setStartDate', highestEndTime);
+             //   endDateElem.datepicker('setEndDate', $scope.campaignEndTime);
+            } else {
+                endDateElem.datepicker('setStartDate',$scope.selectedCampaign.endTime);
+             //   endDateElem.datepicker('setEndDate', $scope.campaignEndTime);
+            }
+
+        }
 
         $scope.showNewLineItemForm = function () {
             $scope.selectedCampaign.createItemList = true;
@@ -291,10 +354,12 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
                     $scope.lineItems.lineItemList.push(newItem);
                     $scope.selectedCampaign.resetLineItemParameters();
+                    validateMediaPlanDates();
                 }
             } else {
                 newItem = createEditLineItemObj(oldLineItem);
                 $scope.lineItems.lineItemList.push(newItem);
+                validateMediaPlanDates();
             }
             $scope.calculateLineItemTotal();
         };
@@ -473,6 +538,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             if (lineItemObj) {
                 newItem.id = lineItemObj.id;
                 newItem.updatedAt = lineItemObj.updatedAt;
+                newItem.hasInFlightAds = lineItemObj.hasInFlightAds;
             }
 
             $scope.calculateLineItemTotal();
@@ -505,6 +571,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             if (lineItemObj) {
                 newItem.id = lineItemObj.id;
                 newItem.updatedAt = lineItemObj.updatedAt;
+                newItem.hasInFlightAds = lineItemObj.hasInFlightAds;
             }
             //$scope.calculateLineItemTotal();
             return newItem;
@@ -793,6 +860,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             $scope.editLineItem.pricingRate = lineItem.pricingRate;
             $scope.editLineItem.billableAmount = lineItem.billableAmount;
             $scope.editLineItem.volume = lineItem.volume;
+            $scope.editLineItem.hasInFlightAds = lineItem.hasInFlightAds;
 
             //if pixel is empty show select from list in edit section for create/edit mode
             if(_.isEmpty($scope.editLineItem.pixelSelected)){
