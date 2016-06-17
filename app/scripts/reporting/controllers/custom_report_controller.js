@@ -23,9 +23,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         var winHeight = $(window).height();
         $(".custom_response_screenshot_container").css('min-height', winHeight - 464);
 
-        var metricKey = ['dimensions', 'delivery_metrics', 'cost_metrics', 'pacing_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics', 'quality_metrics', 'filters'];
-        var metricKey1 = ['dimension', 'delivery_metrics', 'cost_metrics', 'pacing_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics', 'quality_metrics'];
-        var metricsTab = ['delivery', 'cost', 'booked', 'engagement', 'video', 'quality', 'pacing']
+        var metricKey = ['dimensions', 'delivery_metrics', 'cost_metrics', 'pacing_metrics', 'booked_metrics', 'video_metrics', 'quality_metrics', 'filters'];
+        var metricKey1 = ['dimension', 'delivery_metrics', 'cost_metrics', 'pacing_metrics', 'booked_metrics','video_metrics', 'quality_metrics'];
+        var metricDataKey = ['dimension', 'delivery_metrics', 'cost_metrics', 'pacing_metrics', 'booked_metrics','video_metrics', 'quality_data']
+        var metricsTab = ['delivery', 'cost', 'video', 'quality', 'pacing']
 
         var metricCategoryKeys = ['delivery_metrics','cost_metrics','video_metrics','quality_metrics','pacing_metrics'];
         var metricVarKeys = ['deliveryMetrics','costMetrics','videoMetrics','qualityMetrics','pacingMetrics']
@@ -261,6 +262,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 if(metricsCategorizedKey.quality_metrics.display_metrics !== undefined) {
                     metricsCategorizedKey['quality_metrics'] = (metricsCategorizedKey.quality_metrics.display_metrics).concat(metricsCategorizedKey.quality_metrics.video_metrics);
                 }
+
                 _.each(selectedMetrics,function(selMet){
                     _.each(metricCategoryKeys,function(metrCatKey){
                         if($scope.metricKeyArr[metrCatKey] == undefined) {
@@ -325,7 +327,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
         };
 
-            _customctrl.getDataBasedOnMetricSelected = function (newData, selectedMetrics, typeofDimension, currIdx) {
+ /*           _customctrl.getDataBasedOnMetricSelected = function (newData, selectedMetrics, typeofDimension, currIdx) {
+                console.log('newData, selectedMetrics, typeofDimension, currIdx',newData, selectedMetrics, typeofDimension, currIdx)
 
                 if (!$scope.reportMetaData.hasOwnProperty(typeofDimension)) {
                     $scope.reportMetaData[typeofDimension] = {};
@@ -336,7 +339,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         $scope.reportMetaData[typeofDimension][currIdx]['delivery_metrics'] = [];
                     }
                 } else {
-
                     //initialize metrics if it's selected
                     _.each(metricCategoryKeys,function(mcKey){
                         var metricScopeVariable = mcKey.split('_')[0];
@@ -396,7 +398,14 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
                 });// end of newData each
                 $scope.metricValues = $scope.reportMetaData;
-            };
+            };*/
+
+            /*
+            *            if ($scope.selectedMetricsList.length < $scope.totalMetrics) {
+             _customctrl.getDataBasedOnMetricSelected(newData, selectedMetrics, typeofDimension, currIdx)
+             } else {
+             */
+
 
             _customctrl.getMetricValues = function (newData, selectedMetrics, typeofDimension, currIdx) {
                 var tmpArr = [];
@@ -408,17 +417,31 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 }
                 var found = false;
                 _.each(newData, function (d) {
-                    _.each(metricKey1, function (mkey) {
+                    _.each(metricDataKey, function (mkey) {
                         if (mkey != "dimension") {
                             _.each(d[mkey], function (value, key) {
-                                found = false;
-                                _.each(selectedMetrics, function (selMetItem) {
-                                    if (selMetItem.key == key) {
-                                        found = true;
+                                if(mkey == "quality_data") {
+                                    _.each(value,function(v,k){
+                                        found = false;
+                                        _.each(selectedMetrics, function (selMetItem) {
+                                            if (selMetItem.key == k) {
+                                                found = true;
+                                            }
+                                        });
+                                        if (!found) {
+                                            delete d[mkey][key][k];
+                                        }
+                                    })
+                                } else {
+                                    found = false;
+                                    _.each(selectedMetrics, function (selMetItem) {
+                                        if (selMetItem.key == key) {
+                                            found = true;
+                                        }
+                                    });
+                                    if (!found) {
+                                        delete d[mkey][key];
                                     }
-                                });
-                                if (!found) {
-                                    delete d[mkey][key];
                                 }
                             });
                         }
@@ -426,7 +449,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     if (typeof currIdx !== 'undefined' && currIdx >= 0) {
                         $scope.reportMetaData[typeofDimension][currIdx].push(d);
                     } else {
-                        // remove below comment - sapna
                         $scope.reportMetaData[typeofDimension].push(d);
                     }
                 })
@@ -480,8 +502,25 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 if($scope.totalMetrics === $scope.selectedMetricsList.length) {
                     metricsString = 'all';
                 } else {
+                    _.each(metricsTab,function(mtab){
+                        if($scope[mtab+'Metrics'].isAllSelected) {
+                            metricsString += mtab+"_metrics:all";
+                            metricsString += '~';
+                        } else if($scope[mtab+'Metrics'].minOneSelected){
+                            metricsString += mtab+"_metrics:";
+                            _.each($scope[mtab+'Metrics'],function(eachObj,index){
+                                if(eachObj.selected) {
+                                    metricsString += eachObj.key+',';
+                                }
+                            })
+                            metricsString = metricsString.replace(/,\s*$/, "");
+                            metricsString += '~';
+                        }
+                    })
+
+
                     //delivery metrics
-                    if($scope.deliveryMetrics.isAllSelected) {
+                    /*if($scope.deliveryMetrics.isAllSelected) {
                         metricsString += "delivery_metrics:all";
                         metricsString += '~';
                     } else if($scope.deliveryMetrics.minOneSelected){
@@ -554,8 +593,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         })
                         metricsString = metricsString.replace(/,\s*$/, "");
                         metricsString += '~';
-                    }
-                }
+                    }*/
+                }//end of else
                 metricsString = metricsString.replace(/~\s*$/, "");
                 params += "&metric_list="+metricsString;
 
@@ -714,7 +753,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
             var firstTabDetected = false;
             _.each(metricsInTabOrder,function(mTab){
+                console.log('resetReportDataCnt mTab',mTab)
                 if(($scope[mTab+'Metrics'].minOneSelected) && !firstTabDetected) {
+                    console.log("$scope[mTab+'Metrics'].minOneSelected",$scope[mTab+'Metrics'].minOneSelected)
                     firstTabDetected = true;
                     $(".custom_report_response_table").hide();
                     $("#"+mTab+"_table").show();
@@ -1082,7 +1123,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         }
 
         $scope.showDataForClikedDimension = function(ev, value, rowIndex, loadMore) {
-            console.log('u r calling me',ev, value, rowIndex, loadMore)
             var winHeight = $(window).height() - 160;
           //  $(".custom_report_scroll").css({"min-height": winHeight});
 
@@ -1610,7 +1650,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
 
             $scope.setAllMetrics = function() {
-                if ($scope.deliveryMetrics.isAllSelected && ($scope.costMetrics.isAllSelected || !$scope.showCost) && $scope.engagementMetrics.isAllSelected && $scope.videoMetrics.isAllSelected && ($scope.qualityMetrics.isAllSelected || !$scope.showQuality)) {
+                if ($scope.deliveryMetrics.isAllSelected && ($scope.costMetrics.isAllSelected || !$scope.showCost) && $scope.videoMetrics.isAllSelected && ($scope.qualityMetrics.isAllSelected || !$scope.showQuality)) {
                     $scope.allMetrics = true;
                 } else {
                     $scope.allMetrics = false;
@@ -1747,7 +1787,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
 
             //Engagement Metrics
-            $scope.onEngagementMetrClick = function(index) {
+            /*$scope.onEngagementMetrClick = function(index) {
                 var totalMetricSelected = 0;
                 if (index == undefined) {
                     _.each($scope.engagementMetrics, function(eachObj) {
@@ -1774,7 +1814,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 } else {
                     $scope.allMetrics = false;
                 }
-            }
+            }*/
 
             //Display video Metrics
             $scope.onVedioMetrClick = function(index) {
@@ -1890,7 +1930,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 }
 
                 //engagement metrics
-                var selectedEngMetrics = [];
+               /* var selectedEngMetrics = [];
                 _.each($scope.engagementMetrics, function(eachObj) {
                     if (eachObj.selected) {
                         selectedEngMetrics.push(eachObj.key);
@@ -1903,7 +1943,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 $scope.reports.reportDefinition.metrics['Engagement'] = [];
                 if (selectedEngMetrics.length > 0) {
                     $scope.reports.reportDefinition.metrics['Engagement'] = selectedEngMetrics;
-                }
+                }*/
 
                 //video metrics
                 var selectedVideoMetrics = [];
@@ -2430,7 +2470,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             //Get custom metrics
             getCustomReportMetrics();
 
-            var metricsTabIdTab = ["delivery_table", "cost_table", "engagement_table", "video_table", "quality_table","pacing_table"];
+            var metricsTabIdTab = ["delivery_table", "cost_table", "video_table", "quality_table","pacing_table"];
             metricsTabIdTab.forEach(function(id){
                 $("#"+id+" .custom_report_scroll").scroll(function(){
                     $(".custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row").css({"left": "-" + $("#"+id+" .custom_report_scroll").scrollLeft() + "px"});
