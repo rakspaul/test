@@ -6,7 +6,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         'common/controllers/accounts/accounts_add_or_edit_controller', 'workflow/directives/custom_date_picker'],
     function (angularAMD) {
         angularAMD.controller('AccountsController', function ($scope, $rootScope, $modal, $compile, constants,
-                                                              accountsService, momentService, loginModel) {
+                                                              accountsService, momentService, loginModel, $sce) {
             var _currCtrl = this;
 
             _currCtrl.verifyPixelInput = function () {
@@ -626,14 +626,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     serviceFeesType = client.serviceFeesBillingTypeId,
                     serviceFees = client.serviceFeesBillingValue;
 
-                if (techFees) {
-                    tooltipText = 'Tech Fees: ' + currencySymbol + techFees;
-                } else {
-                    tooltipText = 'Tech Fees: N/A';
-                }
-
                 if (serviceFees) {
-                    tooltipText += ', Service Fees: ';
+                    if (serviceFeesType === 6) {
+                        tooltipText += 'Service Fees (COGS+ %' + '): ';
+                    } else {
+                        tooltipText += 'Service Fees (CPM' + '): ';
+                    }
 
                     // If service Fees Type is COGS+ %
                     if (serviceFeesType === 6) {
@@ -642,10 +640,17 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                         tooltipText += currencySymbol + serviceFees;
                     }
                 } else {
-                    tooltipText += ', Service Fees: N/A';
+                    tooltipText += 'Service Fees: N/A';
                 }
 
-                return tooltipText;
+                if (techFees) {
+                    tooltipText += ', Tech Fees: ' + currencySymbol + techFees;
+                } else {
+                    tooltipText += ', Tech Fees: N/A';
+                }
+
+                tooltipText += '<p>extra</p>'
+                return $sce.trustAsHtml(tooltipText);
             };
 
             $scope.fetchAllClients();

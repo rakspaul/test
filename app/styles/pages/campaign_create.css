@@ -3917,7 +3917,7 @@
 }
 .users-creation-page .tooltip,
 .accounts-page .tooltip {
-  width: 150px;
+  min-width: 150px;
 }
 .users-creation-page .tooltip > .tooltip-inner,
 .accounts-page .tooltip > .tooltip-inner {
