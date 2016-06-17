@@ -473,6 +473,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             if (lineItemObj) {
                 newItem.id = lineItemObj.id;
                 newItem.updatedAt = lineItemObj.updatedAt;
+                newItem.hasInFlightAds = lineItemObj.hasInFlightAds;
             }
 
             $scope.calculateLineItemTotal();
@@ -505,6 +506,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             if (lineItemObj) {
                 newItem.id = lineItemObj.id;
                 newItem.updatedAt = lineItemObj.updatedAt;
+                newItem.hasInFlightAds = lineItemObj.hasInFlightAds;
             }
             //$scope.calculateLineItemTotal();
             return newItem;
@@ -793,6 +795,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             $scope.editLineItem.pricingRate = lineItem.pricingRate;
             $scope.editLineItem.billableAmount = lineItem.billableAmount;
             $scope.editLineItem.volume = lineItem.volume;
+            $scope.editLineItem.hasInFlightAds = lineItem.hasInFlightAds;
 
             //if pixel is empty show select from list in edit section for create/edit mode
             if(_.isEmpty($scope.editLineItem.pixelSelected)){
