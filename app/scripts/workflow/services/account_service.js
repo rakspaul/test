@@ -378,67 +378,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 );
             },
 
-            getIABCategoryForAdv: function (clientId, advId) {
-                return dataService.fetch(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/advertisers/' + advId +
-                        '/iab_categories',
-                    {cache: false}
-                );
-            },
-
-            saveIABCategoryForAdv: function (clientId, advId, data) {
-                return dataService.post(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/advertisers/' + advId +
-                        '/iab_categories',
-                    data,
-                    {'Content-Type': 'application/json'}
-                );
-            },
-
-            getAdChoiceDataFromAdv: function (clientId, advId) {
-                return dataService.fetch(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/ad_choices?advertiser_id=' + advId,
-                    {cache: false}
-                );
-            },
-
-            saveAdChoiceDataForAdv: function (clientId, advId, data) {
-                return dataService.post(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/ad_choices?advertiser_id=' + advId,
-                    data,
-                    {'Content-Type': 'application/json'}
-                );
-            },
-
-            getBillingDataForAdv: function (clientId, advId) {
-                return dataService.fetch(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId +
-                    '/advertisers/' + advId +
-                    '/billing',
-                    {cache: false}
-                );
-            },
-
-            saveBillingDataForAdv: function (clientId, advId, data) {
-                return dataService.post(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId +
-                    '/advertisers/' + advId +
-                    '/billing',
-                    data,
-                    {'Content-Type': 'application/json'}
-                );
-            },
-
             downloadAdminAdvPixel: function (clientId, advId) {
                 return dataService.fetch(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
