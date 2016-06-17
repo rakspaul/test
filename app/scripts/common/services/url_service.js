@@ -333,7 +333,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/invoices/'+invoiceId;
                 };
                 this.getInvoiceData = function (invoiceReports, queryStr) {
-                    console.log("Url services...."+queryStr);
                     var clientId =  loginModel.getSelectedClient().id,
                         url;
                     if (invoiceReports.isSearched) {
@@ -343,11 +342,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                             '/invoices/search' +
                             '?advertiser_id=' + invoiceReports.advertiserId +
                             '&brand_id=' + invoiceReports.brandId +
-//                            '&start_date=' + moment(invoiceReports.startDate).format(constants.DATE_UTC_SHORT_FORMAT) +
-//                            '&end_date=' + moment(invoiceReports.endDate).format(constants.DATE_UTC_SHORT_FORMAT) +
-//                            // Page number & page size hard-coded for now
-//                            '&page_num='+invoiceReports.page_num+
-//                            '&page_size=50' +
                             '&search_term=' + invoiceReports.searchTerm + queryStr;
                     } else {
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
@@ -356,13 +350,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                             '/invoices/list' +
                             '?advertiser_id=' + invoiceReports.advertiserId +
                             '&brand_id=' + invoiceReports.brandId + queryStr;
-//                            '&start_date=' + moment(invoiceReports.startDate).format(constants.DATE_UTC_SHORT_FORMAT) +
-//                            '&end_date=' + moment(invoiceReports.endDate).format(constants.DATE_UTC_SHORT_FORMAT) +
-//                            // Page number & page size hard-coded for now
-//                            '&page_num='+invoiceReports.page_num+
-//                            '&page_size=50';
                     }
-
                     return url;
                 };
 

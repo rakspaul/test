@@ -14,7 +14,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                      domainReports, dataService, momentService,
                      RoleBasedService, urlService, dataStore,
                      $sce, $window/*, momentService, $q*/) {
-                console.log("Invoice report ctrl");
                 var _currCtrl = this;
                 _currCtrl.last_page = false;
                 $scope.invoiceReports = {
@@ -26,14 +25,10 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     page_num: 1
                 };
                 _currCtrl.resetDateToInit = function(){
-                    console.log("constants.DATE_US_FORMAT...",constants.DATE_US_FORMAT);
                     $scope.invoiceReports.startDate = moment().subtract(365, 'day').format(constants.DATE_UTC_SHORT_FORMAT);
                     $scope.invoiceReports.endDate = moment().format(constants.DATE_UTC_SHORT_FORMAT);
                     $("#startDateInput").val($scope.invoiceReports.startDate);
                     $("#endDateInput").val($scope.invoiceReports.endDate);
-                    //$('#startDateInput').datepicker('setDate', $scope.invoiceReports.startDate);
-                    //$('#endDateInput').datepicker('setDate',$scope.invoiceReports.endDate);
-                  //  $('#startDateInput').datepicker('setDate', momentService.todayDate('YYYY-MM-DD'));
                 }
                 _currCtrl.resetPagination = function(){
                     _currCtrl.last_page = false;
@@ -128,11 +123,14 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     $scope.invoiceReports.clientId = loginModel.getSelectedClient().id,
                         $scope.getInvoiceData(0);
                 });
-                $scope.goClick = function(){
-//                    $("#startDateInput").val() && ($scope.invoiceReports.startDate = $("#startDateInput").val());
-//                    $("#endDateInput").val() && ($scope.invoiceReports.endDate = $("#endDateInput").val());
-//                    $scope.getInvoiceData(0);
-                }
+
+                /*
+                Event Received from reports_invoice_addAdjustment_controller.js file
+                 */
+                $rootScope.$on("adjustmentAdded",function(){
+                    $scope.getInvoiceData(0);
+                });
+
                 //Search Hide / Show
                 $scope.searchShowInput = function () {
                     var searchInputForm = $('.searchInputForm');
@@ -303,7 +301,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     $scope.filters["selectedGeneratedOn"] = "Custom Dates";
                 });
                 $scope.showInvoiceReport = function(invoiceId){
-                    console.log("showInvoiceReport..."+invoiceId);
                     $location.url('/v1sto/invoices/'+invoiceId);
                 }
                 $(document).ready(function () {

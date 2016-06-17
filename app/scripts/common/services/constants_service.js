@@ -1051,7 +1051,7 @@ define(['angularAMD'], function(angularAMD) {
 
        // this.EVENT_CLIENT_CHANGED = 'eventClientChanged';
         //this.EVENT_CLIENT_CHANGED_FROM_DASHBOARD = 'advertiserChangedFromDashboard';
-        this.INVOICE_CREDIT_FIELD_EMPTY = "Please enter valid Notes and Amounts";
+        this.INVOICE_ADJUSTMENT_FIELD_EMPTY = "Please enter valid Type, Notes, Amounts";
 
         this.EVENT_SUB_ACCOUNT_CHANGED = 'eventSubAccountChanged';
         this.EVENT_SUB_ACCOUNT_CHANGED_FROM_DASHBOARD = 'SubAccountChangedFromDashboard';

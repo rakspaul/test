@@ -440,7 +440,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             invoiceSaveNote: function (clientId, invoiceId, data) {
               //  var clientId =  loginModel.getSelectedClient().id;
                 return dataService.post(
-                        vistoconfig.apiPaths.apiSerivicesUrl_NEW +'/clients/'+clientId+'/invoices/'+invoiceId+'/noteStatus',
+                        vistoconfig.apiPaths.apiSerivicesUrl_NEW +'/clients/'+clientId+'/invoices/'+invoiceId+'/notesStatus',
                     data,
                     {'Content-Type': 'application/json'}
                 );

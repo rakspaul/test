@@ -1,4 +1,4 @@
-
+<div class="report-invoice">
 <div class="reports-invoice-list">
 
 
@@ -12,18 +12,18 @@
 
     <div class="col-md-12 zeroPadding">
         <div class="pull-left accountTitleTag" style="margin-bottom:20px;">
-            <span class="tagTitle">Account:</span>
+            <span class="tagTitle" data-ng-bind="'Account:'"></span>
             <span>Visto QA</span>
             <span class="slash-divider" style="padding-left:5px;">/</span>
         </div>
         <div class="pull-left" style="padding-left:5px;">
-            <span class="tagTitle">Advertiser:</span>
+            <span class="tagTitle" data-ng-bind="'Advertiser:'"></span>
             <span>Lickety Splitz</span>
             <span class="slash-divider" style="padding-left:5px;">/</span>
         </div>
 
         <div class="pull-left" style="padding-left:5px;">
-            <span class="tagTitle">Invoice ID:</span>
+            <span class="tagTitle" data-ng-bind="'Invoice ID:'"></span>
             <span class="ng-binding">7</span>
         </div>
     </div>
@@ -34,7 +34,8 @@
 
 <div class="col-md-12 zeroPadding">
     <div class="col-md-8 zeroPadding">
-    <h1 data-ng-bind="invoiceDetails.generatedOn + ' Invoice Report' + '  |  ' + invoiceDetails.invoiceName"></h1>
+    <h1 class="mainTittle"
+        data-ng-bind="invoiceDetails.generatedOn + ' Invoice Report' + '  |  ' + invoiceDetails.invoiceName"></h1>
     </div>
 
 
@@ -44,7 +45,11 @@
         <div class="col-md-4 zeroPadding">
             <div class="col-md-12 zeroPadding btn_list_filters centerAlign" style="margin-bottom:15px;">
                 <div class="btn-group create" role="group" aria-label="...">
-                    <a role="button" class="btn btn-default"><span class="icon-download"></span><span data-ng-bind="textConstants.DOWNLOAD" class="ng-binding">Create</span></a>
+                    <a role="button" class="btn btn-default">
+                        <span class="icon-download"></span>
+                        <span data-ng-bind="textConstants.DOWNLOAD"
+                              class="ng-binding">Create</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -57,23 +62,21 @@
                             data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="true">
-                        <span class="text" data-ng-bind="selectedStatus ? selectedStatus : 'Select'">
-                            Select Account
-                        </span>
+                        <span class="text" data-ng-bind="noteData.status ? noteData.status : 'Select'"></span>
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" data-toggle="dropdown">
                         <li class="available" data-ng-click="selectStatus('Ready')">
-                            <a>Ready</a>
+                            <a data-ng-bind="'Ready'"></a>
                         </li>
                         <li class="available" data-ng-click="selectStatus('Review')">
-                            <a>Review</a>
+                            <a data-ng-bind="'Review'"></a>
                         </li>
                         <li class="available" data-ng-click="selectStatus('Upload')">
-                            <a>Upload</a>
+                            <a data-ng-bind="'Upload'"></a>
                         </li>
                         <li class="available" data-ng-click="selectStatus('Suspended')">
-                            <a>Suspended</a>
+                            <a data-ng-bind="'Suspended'"></a>
                         </li>
                     </ul>
                 </div>
@@ -94,44 +97,44 @@
 
         <div class="col-md-2 zeroPadding">
             <div class="pull-left">
-                <span class="greyTxt">Generated</span> <br>
+                <span class="greyTxt" data-ng-bind="'Generated'"></span> <br>
                 <span data-ng-bind="invoiceDetails.generatedOn"></span>
             </div>
         </div>
 
         <div class="col-md-1">
             <div class="pull-left">
-                <span class="greyTxt">PO#</span> <br>
-                <span data-ng-bind="invoiceDetails.po">Beta</span>
+                <span class="greyTxt" data-ng-bind="'PO#'"></span> <br>
+                <span data-ng-bind="invoiceDetails.po" data-ng-bind="'Beta'"></span>
             </div>
         </div>
 
         <div class="col-md-1">
             <div class="pull-left">
-                <span class="greyTxt">Spend</span> <br>
-                <span data-ng-bind="invoiceDetails.spendTotal">Beta</span>
+                <span class="greyTxt" data-ng-bind="'Spend'"></span> <br>
+                <span data-ng-bind="invoiceDetails.spendTotal"></span>
             </div>
         </div>
 
         <div class="col-md-1">
             <div class="pull-left">
-                <span class="greyTxt">Adjustments</span> <br>
-                <span data-ng-bind="invoiceDetails.adjustmentTotal">Beta</span>
+                <span class="greyTxt" data-ng-bind="'Adjustments'"></span> <br>
+                <span data-ng-bind="invoiceDetails.adjustmentTotal"></span>
             </div>
         </div>
 
         <div class="col-md-1">
             <div class="pull-left">
-                <span class="greyTxt">Billable</span> <br>
-                <span data-ng-bind="invoiceDetails.billable">Beta</span>
+                <span class="greyTxt" data-ng-bind="'Billable'"></span> <br>
+                <span data-ng-bind="invoiceDetails.billable"></span>
             </div>
         </div>
 
         <div class="col-md-6">
             <div class="pull-left">
-                <span class="greyTxt">Note</span>
-                <span class="glyphicon glyphicon-pencil" data-ng-click="showAddNotePopup()" style="margin-right:10px ;font-size:12px"></span> <br>
-                <span  data-ng-bind="invoiceDetails.description">-</span>
+                <span class="greyTxt" data-ng-bind="'Note'"></span>
+                <span class="glyphicon glyphicon-pencil noteEditIcon" data-ng-click="showAddNotePopup()" style=""></span> <br>
+                <span  data-ng-bind="invoiceDetails.description" class="noteOmitter">-</span>
             </div>
         </div>
     </div>
@@ -141,11 +144,11 @@
     <div class="vistoTable" id="visto_table">
         <div class="thead thin">
             <div class="tr">
-                <div class="col-md-4 th">Line Item</div>
-                <div class="col-md-2 th">Rate</div>
-                <div class="col-md-2 th">Billable Units</div>
-                <div class="col-md-2 th">Invoiced Value</div>
-                <div class="col-md-2 th">Contracted Value</div>
+                <div class="col-md-4 th" data-ng-bind="'Line Item'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Rate'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Billable Units'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Invoiced Value'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Contracted Value'"></div>
             </div>
         </div>
         <div class="tbody" style="max-height:350px;">
@@ -222,4 +225,4 @@
 </div>
 
 </div>
-
+</div>

@@ -16,36 +16,47 @@ define(['angularAMD',
             var _curCtrl = this,
                 isSearch = false;
 
-            console.log("Invoice Report..."+$routeParams.invoiceId);
             $scope.clientName = loginModel.getSelectedClient() ? loginModel.getSelectedClient().name : '';
-            console.log("$scope.loginModel.....",$scope.loginModel);
             $scope.advertiserName = advertiserModel.getAdvertiser().selectedAdvertiser ? advertiserModel.getAdvertiser().selectedAdvertiser.name : "All Advertisers";
-            $scope.noteData = {"notes":"","status":"Select Review"};
+            $scope.noteData = {"notes":"","status":"Ready"};
 
-            console.log("$scope.advertiser....",$scope.advertiser);
-            $scope.getInvoiceDetials = function(){
+            //Get the details of the invoice
+            _curCtrl.getInvoiceDetials = function(){
                 dataService.fetch(urlService.getInvoiceDetials($routeParams.invoiceId)).then(function(result){
-                   console.log("result......",result);
                     if(result.status == "success" || result.status == "OK"){
                         $scope.invoiceDetails = result.data.data;
+                        $scope.noteData.notes = $scope.invoiceDetails.description;
+                        $scope.noteData.status = $scope.invoiceDetails.status;
                     }
                 },function(err){
 
                 });
             }
-            $scope.getInvoiceDetials();
+            _curCtrl.getInvoiceDetials();
+
+            /* Event Received from  reports_invoice_addAdjustment_controller.js file
+               Purpose : adjustment data is saved, get the fresh invoice details data*/
             $rootScope.$on("adjustmentAdded",function(){
-                $scope.getInvoiceDetials();
+                _curCtrl.getInvoiceDetials();
             });
-            _curCtrl.saveNoteData = function(){
+
+            // Save the note and status information
+            _curCtrl.saveNoteAndStatus = function(){
                 accountsService.invoiceSaveNote(loginModel.getSelectedClient().id,$routeParams.invoiceId, $scope.noteData).then(function(result){
+                    if(result.status == "success" || result.status == "OK"){
+                        _curCtrl.getInvoiceDetials();
+                    }
                 },function(err){
                 })
             }
+
+            /* Event Received from  reports_invoice_addNote_controller.js file
+             Purpose : adjustment data is saved, get the fresh invoice details data*/
             $rootScope.$on("saveNoteData",function(e, invoiceNote){
-                $scope.noteData.notes = invoiceNote;
-                _curCtrl.saveNoteData();
+                _curCtrl.saveNoteAndStatus();
             });
+
+            //PopUp window to add credit or debit to the adjustment
             $scope.showAddAdjustmentPopup = function (invoice) {
                 $scope.addAdjustmentData = angular.copy($scope.invoiceDetails);
                 $scope.addAdjustmentData.invoiceId = $routeParams.invoiceId;
@@ -60,23 +71,27 @@ define(['angularAMD',
                     }
                 });
             };
+
+            //PopUp window to add note to the invoice
             $scope.showAddNotePopup = function (invoice) {
                 $scope.addAdjustmentData = angular.copy(invoice);
                 var $modalInstance = $modal.open({
                     templateUrl: assets.html_add_note_popup,
                     controller: 'ReportsInvoiceAddNoteController',
                     scope: $scope,
-                    windowClass: 'edit-dialog',
+                    windowClass: 'edit-dialog invoice_note_popUp',
                     resolve: {
                         getMediaPlansForClone: function () {
                         }
                     }
                 });
             };
+
+            //Change the status
             $scope.selectStatus = function(status){
                 $scope.selectedStatus = status;
                 $scope.noteData.status = status;
-                _curCtrl.saveNoteData();
+                _curCtrl.saveNoteAndStatus();
             }
 
         });

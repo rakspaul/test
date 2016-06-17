@@ -10,12 +10,12 @@
        <div class="col-md-11 zeroPadding">
             <div class="pull-left accountTitleTag" style="margin-bottom:20px;">
             <span class="tagTitle">Account:</span>
-            <span>{{mediaPlanList[0].account}}</span>
+            <span data-ng-bind="clientName"></span>
             <span class="slash-divider" style="padding-left:5px;">/</span>
            </div>
             <div class="pull-left" style="padding-left:5px;">
                 <span class="tagTitle">Advertiser:</span>
-                <span>{{mediaPlanList[0].advertiser}}</span>
+                <span data-ng-bind="advertiserName"></span>
                 <span class="slash-divider" style="padding-left:5px;">/</span>
             </div>
 
@@ -37,17 +37,17 @@
             </div>
             <div class="col-md-3 zeroPadding">
                 <div class="pull-left">
-                    <span class="greyTxt">Invoice Month</span> <br>
-                    <span>April 2016</span>
+                    <span class="greyTxt" data-ng-bind="'Invoice Month'"></span> <br>
+                    <span data-ng-bind="addAdjustmentData.invoiceDate"></span>
                 </div>
             </div>
         </div>
        <div class="col-md-12 zeroPadding adjustmentCnt" style="margin-bottom:20px;max-height:317px;overflow:auto;">
-           <div data-ng-repeat="adjustment in addAdjustmentData.adjustments track by adjustment.id" style="width: 100%;height: 65px;">
-               <span class="delete_row" ng-click="removeCredit($index)" aria-label="Close" style="display:inline-block;margin-top:30px;">
+           <div data-ng-repeat="adjustment in addAdjustmentData.adjustments" style="width: 100%;height: 65px;">
+               <span class="delete_row" ng-click="removeAdjustment($index)" aria-label="Close" style="display:inline-block;margin-top:30px;">
                </span>
                <div class="col-md-2 zeroPadding" style="margin-right: 10px;">
-                   <span class="greyTxt">Type</span>
+                   <span class="greyTxt" data-ng-bind="'Type'"></span>
                    <div class="col-md-12 zeroPadding">
                    <div class="col-md-6 zeroPadding btn adjustmentBtnType cr"
                         data-ng-bind="'Credit'"
@@ -67,27 +67,29 @@
                              remove-special-character="remove-special-character"
                              ng-model="addAdjustmentData.adjustments[$index].name"
                              maxlength="250"
-                             ng-keyup="creditInputKeyUp()"
+                             ng-keyup="adjustmentInputKeyUp()"
                              autofocus="" /></span>
                </div>
                <div class="col-md-3 zeroPadding" style="margin: -1px 0 0 10px;">
-                   <span class="greyTxt">Amount</span> <br>
-                   <span class="currencySymWLabel" style="margin-top: -12px;" data-ng-bind="constants.currencySymbol"></span>
+                   <span class="greyTxt" data-ng-bind="'Amount'"></span> <br>
+                   <span class="currencySymWLabel" style="margin-top: -12px;" data-ng-bind="textConstant.currencySymbol"></span>
                    <input style="text-indent: 9px;margin:0;padding: 10px 12px 7px 12px;" type="text" class="form-control"
-                          ng-model="addAdjustmentData.adjustments[$index].amount" fraction-numbers="fraction-numbers" name="amount" />
+                          ng-model="addAdjustmentData.adjustments[$index].amount"
+                          ng-keyup="adjustmentInputKeyUp()"
+                          fraction-numbers="fraction-numbers" name="amount" />
                </div>
            </div>
     </div>
     <div class="col-md-12 zeroPadding">
-        <a data-toggle="tab" role="tab" class="btn btn-default ng-binding" ng-click="addCredit()" data-ng-bind="textConstants.INVOICE_ADD_ADJUSTMENT"></a>
+        <a data-toggle="tab" role="tab" class="btn btn-default ng-binding" ng-click="addAdjustment()" data-ng-bind="textConstants.INVOICE_ADD_ADJUSTMENT"></a>
     </div>
     </div>
 
     <div class="clearfix col-md-12 popup-btns-holder">
-           <div ng-if="errSaveCredit" data-ng-bind="errSaveCreditMsg" class="errorText"></div>
-           <button class="btn btn-primary pull-right" ng-show="!adArchiveLoader" type="button" ng-click="saveCredit()"
-            >Save Credit</button>
+           <div ng-if="errSaveAdjustment" data-ng-bind="errSaveAdjustmentMsg" class="errorText"></div>
+           <button class="btn btn-primary pull-right" ng-show="!adArchiveLoader" type="button" ng-click="saveAdjustment()"
+                   data-ng-bind="'Save'"></button>
             <div ng-show ="adArchiveLoader" class="pull-right common-loading-btn" ></div>
-        <button class="secondary_txt" type="button" data-dismiss="modal" ng-click="close()" >Cancel</button>
+        <button class="secondary_txt" type="button" data-dismiss="modal" ng-click="close()" data-ng-bind="'Cancel'"></button>
     </div>
 </div> <!-- end of popup-holder -->

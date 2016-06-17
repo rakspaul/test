@@ -4,14 +4,23 @@
             <h3>Note</h3>
         </div>
         <div class="clearfix col-md-12 ">
-            <textarea data-ng-model="invoiceNote"></textarea>
+            <textarea data-ng-model="noteData.notes"
+                      placeholder="Add Note upto 125 Characters"
+                      maxlength="125"></textarea>
         </div>
     </div>
     <div class="clearfix col-md-12 popup-btns-holder">
         <div ng-if="errSaveCredit" data-ng-bind="errSaveCreditMsg" class="errorText"></div>
-        <button class="btn btn-primary pull-right" ng-show="!adArchiveLoader" type="button" ng-click="save()"
-                >Save</button>
+        <button class="btn btn-primary pull-right"
+                ng-show="!adArchiveLoader"
+                type="button"
+                ng-click="save()"
+                data-ng-bind="'Save'"></button>
         <div ng-show ="adArchiveLoader" class="pull-right common-loading-btn" ></div>
-        <button class="secondary_txt" type="button" data-dismiss="modal" ng-click="close()" >Cancel</button>
+        <button class="secondary_txt"
+                type="button"
+                data-dismiss="modal"
+                ng-click="close()"
+                data-ng-bind="'Cancel'"></button>
     </div>
 </div> <!-- end of popup-holder -->
