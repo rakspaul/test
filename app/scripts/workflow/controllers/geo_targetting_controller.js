@@ -1863,6 +1863,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     regionIncluded = saveGeoData.regions.included;
                     if(saveGeoData.countries.selected.length === 0) {
                         $scope.selectedSubTab = 'regions';
+                        geoTargeting.triggerGeoNavTab('geo');
                         geoTargeting.triggerGeoSubNavTab('region');
                         geoTargeting.toggleSwitch(regionIncluded, 'geo')
                     }
@@ -1874,6 +1875,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     citiesIncluded = saveGeoData.cities.included;
                     if(saveGeoData.countries.selected.length === 0 && saveGeoData.regions.selected.length === 0) {
                         $scope.selectedSubTab = 'cities';
+                        geoTargeting.triggerGeoNavTab('geo');
                         geoTargeting.triggerGeoSubNavTab('city');
                         geoTargeting.toggleSwitch(citiesIncluded, 'geo');
                     }
@@ -1911,6 +1913,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     regionIncluded = geoTargets.REGION.isIncluded;
                     if(!geoTargets.COUNTRY) {
                         $scope.selectedSubTab = 'regions';
+                        geoTargeting.triggerGeoNavTab('geo');
                         geoTargeting.triggerGeoSubNavTab('region');
                         geoTargeting.toggleSwitch(regionIncluded, 'geo')
                     }
@@ -1922,6 +1925,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     citiesIncluded = geoTargets.CITY.isIncluded;
                     if(!geoTargets.COUNTRY && !geoTargets.REGION) {
                         $scope.selectedSubTab = 'cities';
+                        geoTargeting.triggerGeoNavTab('geo');
                         geoTargeting.triggerGeoSubNavTab('city');
                         geoTargeting.toggleSwitch(citiesIncluded, 'geo');
                     }
