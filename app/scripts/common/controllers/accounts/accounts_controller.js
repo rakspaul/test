@@ -644,9 +644,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 }
 
                 if (techFees) {
-                    tooltipText += ', Tech Fees: ' + currencySymbol + techFees;
+                    tooltipText += ',  Tech Fees (CPM): ' + currencySymbol + techFees;
                 } else {
-                    tooltipText += ', Tech Fees: N/A';
+                    tooltipText += ',  Tech Fees: N/A';
                 }
 
                 return $sce.trustAsHtml(tooltipText);
