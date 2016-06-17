@@ -23,8 +23,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         var winHeight = $(window).height();
         $(".custom_response_screenshot_container").css('min-height', winHeight - 464);
 
-        var metricKey = ['dimensions', 'delivery_metrics', 'cost_metrics', 'pacing_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics', 'quality_metrics', 'pacing_metrics', 'filters'];
-        var metricKey1 = ['dimension', 'delivery_metrics', 'cost_metrics', 'pacing_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics', 'quality_metrics', 'pacing_metrics'];
+        var metricKey = ['dimensions', 'delivery_metrics', 'cost_metrics', 'pacing_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics', 'quality_metrics', 'filters'];
+        var metricKey1 = ['dimension', 'delivery_metrics', 'cost_metrics', 'pacing_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics', 'quality_metrics'];
         var metricsTab = ['delivery', 'cost', 'booked', 'engagement', 'video', 'quality', 'pacing']
 
         var metricCategoryKeys = ['delivery_metrics','cost_metrics','video_metrics','quality_metrics','pacing_metrics'];
@@ -398,22 +398,18 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 $scope.metricValues = $scope.reportMetaData;
             };
 
-        _customctrl.getMetricValues = function(newData, selectedMetrics, typeofDimension, currIdx) {
-
-            var tmpArr = [];
-            if ($scope.selectedMetricsList.length < $scope.totalMetrics) {
-                _customctrl.getDataBasedOnMetricSelected(newData, selectedMetrics, typeofDimension, currIdx)
-            } else {
+            _customctrl.getMetricValues = function (newData, selectedMetrics, typeofDimension, currIdx) {
+                var tmpArr = [];
                 if (!$scope.reportMetaData.hasOwnProperty(typeofDimension)) $scope.reportMetaData[typeofDimension] = [];
                 if (typeof currIdx !== 'undefined' && currIdx >= 0) {
-                    if(!$scope.reportMetaData[typeofDimension].hasOwnProperty(currIdx)) {
+                    if (!$scope.reportMetaData[typeofDimension].hasOwnProperty(currIdx)) {
                         $scope.reportMetaData[typeofDimension][currIdx] = [];
                     }
                 }
                 var found = false;
-                _.each(newData, function(d) {
-                    _.each(metricKey1, function(mkey){
-                        if(mkey != "dimension") {
+                _.each(newData, function (d) {
+                    _.each(metricKey1, function (mkey) {
+                        if (mkey != "dimension") {
                             _.each(d[mkey], function (value, key) {
                                 found = false;
                                 _.each(selectedMetrics, function (selMetItem) {
@@ -435,8 +431,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     }
                 })
                 _customctrl.getDataBasedOnTabSelected($scope.activeTab, typeofDimension, currIdx)
-            }
-        };
+            };
 
         _customctrl.getSelectedAdditionalFilter = function(dimensionIds) {
             var filterArr = [];
@@ -1087,6 +1082,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         }
 
         $scope.showDataForClikedDimension = function(ev, value, rowIndex, loadMore) {
+            console.log('u r calling me',ev, value, rowIndex, loadMore)
             var winHeight = $(window).height() - 160;
           //  $(".custom_report_scroll").css({"min-height": winHeight});
 
