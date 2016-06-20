@@ -40,7 +40,7 @@
         data-ng-bind="invoiceDetails.generatedOn + ' Invoice Report' + '  |  ' + invoiceDetails.invoiceName"></h1>
     </div>
 
-    <div class="col-md-4">
+    <div class="pull-right">
        <!-- <div class="col-md-4 zeroPadding">
             <div class="col-md-12 zeroPadding btn_list_filters centerAlign"
                  style="margin-bottom:15px;"
@@ -58,11 +58,12 @@
         <div class="pull-left dropdown-workflow">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle"
+                        style="border-right: 0 !important; border-top-right-radius: 0; border-bottom-right-radius: 0;"
                         type="button"
                         data-toggle="dropdown"
                         aria-haspopup="true"
                         aria-expanded="true">
-                    <span class="icon-download"></span>
+                    <span class="pull-left icon-download" style="margin-right: 10px;"></span>
                     <span class="text">Download</span>
                     <span class="icon-arrow-down"></span>
                 </button>
@@ -98,9 +99,10 @@
         </div>
 
 
-        <div class="pull-right dropdown-workflow" data-ng-show="isDataLoaded && !isUploadStatus">
+        <div class="pull-left dropdown-workflow" data-ng-show="isDataLoaded && !isUploadStatus">
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle"
+                            style="border-top-left-radius: 0; border-bottom-left-radius: 0;"
                             type="button"
                             data-toggle="dropdown"
                             aria-haspopup="true"
@@ -112,60 +114,54 @@
                         <li class="available" data-ng-click="selectStatus('Ready')" style="border-bottom:1px solid #F2F2F2;">
                             <a>
                                 <div class="col-md-3 zeroPadding">
-                                    <span class="icon-check" style="width:30px";></span>
-                                    <span style="width:50px;">Ready</span>
+                                    <span class="icon-check pull-left" style="width:30px; margin-top: -1px; color: #4CC94A;"></span>
+                                    <span class="pull-left" style="width: auto;">Ready</span>
                                 </div>
 
                                 <div class="col-md-9 zeroPadding">
                                     <span>The Invoice Report is ready for download</span>
                                 </div>
                             </a>
-
                         </li>
 
                         <li class="available" data-ng-click="selectStatus('Review')" style="border-bottom:1px solid #F2F2F2;">
                             <a>
                                 <div class="col-md-3 zeroPadding">
-                                    <span class="icon-inline-edit"  style="width:30px";></span>
-                                    <span style="width:50px;">Review</span>
+                                    <span class="icon-inline-edit pull-left" style="width:30px; margin-top: -1px;"></span>
+                                    <span class="pull-left" style="width: auto;">Review</span>
                                 </div>
 
                                 <div class="col-md-9 zeroPadding">
                                     <span>The Invoice Report has been updated by an external <br>upload and must be reviewed.</span>
                                 </div>
                             </a>
-
                         </li>
-
-                        <li class="available" data-ng-click="selectStatus('Upload')" style="border-bottom:1px solid #F2F2F2;">
-                            <a>
-                                <div class="col-md-3 zeroPadding">
-                                    <span class="icon-warning"  style="width:30px";></span>
-                                    <span style="width:50px;">Upload</span>
-                                </div>
-
-                                <div class="col-md-9 zeroPadding">
-                                    <span>The Invoice Report requires modification by Uploaded <br> System of Record (SOR) Results</span>
-                                </div>
-                            </a>
-
-                        </li>
-
+                        
                         <li class="available" data-ng-click="selectStatus('Closed')" style="border-bottom:0px solid #F2F2F2;">
                             <a>
                                 <div class="col-md-3 zeroPadding">
-                                    <span class="icon-locked"  style="width:30px";> </span>
-                                    <span style="width:50px;">Closed</span>
+                                    <span class="icon-locked pull-left" style="width:30px; margin-top: -1px;"></span>
+                                    <span class="pull-left" style="width: auto;">Closed</span>
                                 </div>
 
                                 <div class="col-md-9 zeroPadding">
                                     <span>The Invoice Report has been reviewed and accepted. <br> Reports with Closed status cannot</span>
                                 </div>
                             </a>
-
                         </li>
 
+                        <li class="available" data-ng-click="selectStatus('Upload')" style="border-bottom:1px solid #F2F2F2;">
+                            <a>
+                                <div class="col-md-3 zeroPadding">
+                                    <span class="icon-warning pull-left" style="width:30px; margin-top: -1px; color: #F47E2A;"></span>
+                                    <span class="pull-left" style="width: auto;">Upload</span>
+                                </div>
 
+                                <div class="col-md-9 zeroPadding">
+                                    <span>The Invoice Report requires modification by Uploaded <br> System of Record (SOR) Results</span>
+                                </div>
+                            </a>
+                        </li>
                         <!-- <li class="available" data-ng-click="selectStatus('Review')">
                             <a data-ng-bind="textConstants.INVOICE_DROPDWON_REVIEW"></a>
                         </li>
@@ -174,11 +170,6 @@
                         <li class="available" data-ng-click="selectStatus('Upload')">
                             <a data-ng-bind="textConstants.INVOICE_DROPDWON_CLOSED"></a>
                         </li> -->
-
-
-
-
-
                     </ul>
                 </div>
             </div>
