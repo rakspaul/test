@@ -14,6 +14,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 hide: true
             });
         }
+        $scope.checkBudgetMinLimit=function (campaignBudget) {
+            if($scope.lineItems.lineItemList){
+                var maxBillabaleAmt=Math.max.apply(Math,$scope.lineItems.lineItemList.map(function(o){return o.billableAmount;}))
+                if(maxBillabaleAmt>campaignBudget){
+                    $scope.Campaign.totalBudget=Number(maxBillabaleAmt);
+                    $scope.$parent.ComputeCost();
+                }
+            }
+        }
 
         $scope.removeCostDimension = function(event) {
             var elem = $(event.target),
