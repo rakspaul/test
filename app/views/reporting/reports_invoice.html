@@ -1,3 +1,5 @@
+<popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
+           ng-init="init('flashMessage','WF_USER_CREATION_FAIL')"></popup-msg>
 <div class="report-invoice">
 <div class="reports-invoice-list">
 
@@ -43,18 +45,33 @@
 
         <div class="col-md-3 zeroPadding"></div>
         <div class="col-md-4 zeroPadding">
-            <div class="col-md-12 zeroPadding btn_list_filters centerAlign" style="margin-bottom:15px;">
+            <div class="col-md-12 zeroPadding btn_list_filters centerAlign"
+                 style="margin-bottom:15px;"
+                 data-ng-click="download()">
                 <div class="btn-group create" role="group" aria-label="...">
                     <a role="button" class="btn btn-default">
                         <span class="icon-download"></span>
                         <span data-ng-bind="textConstants.DOWNLOAD"
-                              class="ng-binding">Create</span>
+                              class="ng-binding"></span>
                     </a>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-5 zeroPadding">
+        <div class="col-md-4 zeroPadding"
+             data-ng-show="isDataLoaded && isUploadStatus">
+            <div class="col-md-12 zeroPadding btn_list_filters centerAlign"
+                 style="margin-bottom:15px;"
+                 data-ng-click="showUploadSORPopUp(invoiceDetails)">
+                <div class="btn-group create" role="group" aria-label="...">
+                    <a role="button" class="btn btn-default">
+                        <span class="icon-upload"></span>
+                        <span data-ng-bind="'Upload'"
+                              class="ng-binding"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 zeroPadding" data-ng-show="isDataLoaded && !isUploadStatus">
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle"
@@ -67,16 +84,13 @@
                     </button>
                     <ul class="dropdown-menu" data-toggle="dropdown">
                         <li class="available" data-ng-click="selectStatus('Ready')">
-                            <a data-ng-bind="'Ready'"></a>
+                            <a data-ng-bind="textConstants.INVOICE_DROPDWON_READY"></a>
                         </li>
                         <li class="available" data-ng-click="selectStatus('Review')">
-                            <a data-ng-bind="'Review'"></a>
+                            <a data-ng-bind="textConstants.INVOICE_DROPDWON_REVIEW"></a>
                         </li>
                         <li class="available" data-ng-click="selectStatus('Upload')">
-                            <a data-ng-bind="'Upload'"></a>
-                        </li>
-                        <li class="available" data-ng-click="selectStatus('Suspended')">
-                            <a data-ng-bind="'Suspended'"></a>
+                            <a data-ng-bind="textConstants.INVOICE_DROPDWON_CLOSED"></a>
                         </li>
                     </ul>
                 </div>
@@ -98,14 +112,14 @@
         <div class="col-md-2 zeroPadding">
             <div class="pull-left">
                 <span class="greyTxt" data-ng-bind="'Generated'"></span> <br>
-                <span data-ng-bind="invoiceDetails.generatedOn"></span>
+                <span data-ng-bind="invoiceDetails.invoiceDate"></span>
             </div>
         </div>
 
         <div class="col-md-1">
             <div class="pull-left">
                 <span class="greyTxt" data-ng-bind="'PO#'"></span> <br>
-                <span data-ng-bind="invoiceDetails.po" data-ng-bind="'Beta'"></span>
+                <span data-ng-bind="invoiceDetails.po"></span>
             </div>
         </div>
 

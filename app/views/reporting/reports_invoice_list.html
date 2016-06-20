@@ -64,17 +64,23 @@
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available" data-ng-click="filters.selectStatus('All')">
+                            <a data-ng-bind="'All'"></a>
+                        </li>
                         <li class="available" data-ng-click="filters.selectStatus('Ready')">
-                            <a>Ready</a>
+                            <a data-ng-bind="'Ready'"></a>
                         </li>
                         <li class="available" data-ng-click="filters.selectStatus('Review')">
-                            <a>Review</a>
+                            <a data-ng-bind="'Review'"></a>
                         </li>
                         <li class="available" data-ng-click="filters.selectStatus('Upload')">
-                            <a>Upload</a>
+                            <a data-ng-bind="'Upload'"></a>
                         </li>
                         <li class="available" data-ng-click="filters.selectStatus('Suspended')">
-                            <a>Suspended</a>
+                            <a data-ng-bind="'Suspended'"></a>
+                        </li>
+                        <li class="available" data-ng-click="filters.selectStatus('Closed')">
+                            <a data-ng-bind="'Closed'"></a>
                         </li>
                     </ul>
                 </div>
@@ -336,7 +342,7 @@
                                         <a>
                                             <div class="pull-left icon-download" style="margin-right: 10px;"></div>
                                             <div class="pull-left"
-                                                 ng-click="downloadSORReport(invoice)" data-ng-bind="textConstants.INVOICE_DOWNLOAD_SOR"></div>
+                                                 ng-click="downloadSORReport(mediaPlan)" data-ng-bind="textConstants.INVOICE_DOWNLOAD_SOR"></div>
                                         </a>
                                     </li>
                                 </ul>

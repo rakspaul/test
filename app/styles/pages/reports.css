@@ -57,6 +57,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   width: 585px;
+  white-space: nowrap;
 }
 .report-invoice .mainTittle {
   text-overflow: ellipsis;

@@ -364,6 +364,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
                     return url+'/clients/'+clientId+'/invoices/campaign_id/'+campaignId+'/download';
                 }
+                this.downloadTemplateWithCampaignId = function(campaignId){
+                    var clientId =  loginModel.getSelectedClient().id,
+                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
+                    return url+'/clients/'+clientId+'/invoices/campaign_id/'+campaignId+'/templatedownload';
+                }
+                this.downloadInvoiceWithId = function(invoiceId){
+                    var clientId =  loginModel.getSelectedClient().id,
+                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
+                    return url+'/clients/'+clientId+'/invoices/'+invoiceId+'/download';
+                }
                 this.getCampaignSpend = function(queryObj) {
                     //query_id = 14
                     var params = this.buildParams(queryObj);
