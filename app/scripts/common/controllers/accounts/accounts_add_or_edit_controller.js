@@ -282,16 +282,18 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 });
             }
             $scope.getClientCode = function(){
-                accountsService
-                    .getUserClientCode($scope.clientName).then(function(result){
-                        if(result.status == "OK" || result.status == "success"){
-                            var res = result.data.data;
-                            if(res.length){
-                                $scope.codeList = res;
+                if($scope.clientName) {
+                    accountsService
+                        .getUserClientCode($scope.clientName).then(function (result) {
+                            if (result.status == "OK" || result.status == "success") {
+                                var res = result.data.data;
+                                if (res.length) {
+                                    $scope.codeList = res;
+                                }
                             }
-                        }
-                    },function(err){
-                    });
+                        }, function (err) {
+                        });
+                }
             }
             $scope.setSelectedClientType = function (type) {
                 $scope.clientType = type;

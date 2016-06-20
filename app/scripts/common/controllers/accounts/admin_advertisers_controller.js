@@ -86,15 +86,18 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $(".setSelectedAdvertiserCode").removeClass("disabled");
             }
             _curCtrl.getAdvertiserCode = function(){
-                accountsService
-                    .getUserAdvertiserCode($scope.advertiserName).then(function(result){
-                        if(result.status == "OK" || result.status == "success"){
-                            var res = result.data.data;
-                            if(res.length){
-                                $scope.codeList = res;
+                if($scope.advertiserName) {
+                    accountsService
+                        .getUserAdvertiserCode($scope.advertiserName).then(function (result) {
+                            if (result.status == "OK" || result.status == "success") {
+                                var res = result.data.data;
+                                if (res.length) {
+                                    $scope.codeList = res;
+                                }
                             }
-                        }
-                    },function(err){});
+                        }, function (err) {
+                        });
+                }
             }
 
             $scope.leaveFocusAddAdvertiser = function(){
