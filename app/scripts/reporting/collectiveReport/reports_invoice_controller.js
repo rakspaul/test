@@ -4,7 +4,7 @@ define(['angularAMD',
         'common/services/data_service', 'common/moment_utils', 'common/controllers/confirmation_modal_controller',
         'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'workflow/services/account_service',
         'reporting/collectiveReport/report_schedule_delete_controller', 'reporting/collectiveReport/reports_invoice_addNote_controller',
-        'reporting/collectiveReport/reports_invoice_addAdjustment_controller'],
+        'reporting/collectiveReport/reports_invoice_addAdjustment_controller', 'reporting/collectiveReport/invoice_upload_SOR_controller'],
     function (angularAMD) {
         'use strict';
         angularAMD.controller('reportsInvoiceController', function ($scope,$filter, $location, $modal, $rootScope, $routeParams, $q, $timeout,
@@ -16,17 +16,24 @@ define(['angularAMD',
             var _curCtrl = this,
                 isSearch = false;
 
+            _curCtrl.invoiceId = $routeParams.invoiceId;
+
             $scope.clientName = loginModel.getSelectedClient() ? loginModel.getSelectedClient().name : '';
             $scope.advertiserName = advertiserModel.getAdvertiser().selectedAdvertiser ? advertiserModel.getAdvertiser().selectedAdvertiser.name : "All Advertisers";
             $scope.noteData = {"notes":"","status":"Ready"};
+            $scope.isDataLoaded = false;
 
             //Get the details of the invoice
             _curCtrl.getInvoiceDetials = function(){
+                var res;
                 dataService.fetch(urlService.getInvoiceDetials($routeParams.invoiceId)).then(function(result){
                     if(result.status == "success" || result.status == "OK"){
-                        $scope.invoiceDetails = result.data.data;
+                        res = result.data.data;
+                        $scope.invoiceDetails = res;
                         $scope.noteData.notes = $scope.invoiceDetails.description;
                         $scope.noteData.status = $scope.invoiceDetails.status;
+                        $scope.isDataLoaded = true;
+                        $scope.isUploadStatus = (res.status == "Upload") ? true : false;
                     }
                 },function(err){
 
@@ -93,6 +100,40 @@ define(['angularAMD',
                 $scope.noteData.status = status;
                 _curCtrl.saveNoteAndStatus();
             }
+
+            //Download CSV or template
+            $scope.download = function(){
+                var url="",
+                    successMsg =  ($scope.noteData.status != "Upload") ? constants.INVOICE_REPORT_DONWLOAD_SUCCESS : constants.INVOICE_TEMPLATE_DOWNLOAD_SUCCESS,
+                    errMsg = ($scope.noteData.status != "Upload") ? constants.INVOICE_REPORT_DONWLOAD_ERR : constants.INVOICE_TEMPLATE_DOWNLOAD_ERR;
+                url = ($scope.noteData.status != "Upload") ? urlService.downloadInvoiceWithId(_curCtrl.invoiceId) : urlService.downloadTemplateWithCampaignId($scope.invoiceDetails.campaignId);
+                dataService
+                    .downloadFile(url)
+                    .then(function (res) {
+                        if (res.status === 'OK' || res.status === 'success') {
+                            saveAs(res.file, res.fileName);
+                            $rootScope.setErrAlertMessage(successMsg, 0);
+                        } else {
+                            $rootScope.setErrAlertMessage(errMsg);
+                        }
+                    }, function (err) {
+                        $rootScope.setErrAlertMessage(errMsg);
+                    });
+            }
+
+            $scope.showUploadSORPopUp = function(invoice){
+                $scope.invoiceData = angular.copy(invoice);
+                var $modalInstance = $modal.open({
+                    templateUrl: assets.html_invocie_upload_SOR,
+                    controller: 'invoiceUploadSOR',
+                    scope: $scope,
+                    windowClass: 'edit-dialog uploadSORPopup',
+                    resolve: {
+                        getMediaPlansForClone: function () {
+                        }
+                    }
+                });
+            };
 
         });
     }

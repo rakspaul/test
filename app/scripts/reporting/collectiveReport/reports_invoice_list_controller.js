@@ -60,7 +60,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 }
                 _currCtrl.getQueryStr = function(){
                     var queryStr = '&page_num='+$scope.invoiceReports.page_num+'&page_size=50';
-                    queryStr += $scope.filters.selectedStatusCode && '&status='+$scope.filters.selectedStatusCode;
+                    queryStr += ($scope.filters.selectedStatusCode && $scope.filters.selectedStatusCode != "All") ? '&status='+$scope.filters.selectedStatusCode : '';
                     $("#startDateInput").val() && (queryStr += '&start_date='+$("#startDateInput").val());
                     $("#endDateInput").val() && (queryStr += '&end_date='+$("#endDateInput").val());
                     return queryStr;
@@ -261,15 +261,35 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 saveAs(result.file, result.fileName);
+                                $rootScope.setErrAlertMessage(constants.INVOICE_REPORT_DONWLOAD_SUCCESS, 0);
+                            }else{
+                                $rootScope.setErrAlertMessage(constants.INVOICE_REPORT_DONWLOAD_ERR);
                             }
+                        },function(err){
+                            $rootScope.setErrAlertMessage(constants.INVOICE_REPORT_DONWLOAD_ERR);
                         });
                 };
+                $scope.downloadSORReport = function(data){
+                    var url = urlService.downloadTemplateWithCampaignId(data.campaignId);
+                    dataService
+                        .downloadFile(url)
+                        .then(function (result) {
+                            if (result.status === 'OK' || result.status === 'success') {
+                                saveAs(result.file, result.fileName);
+                                $rootScope.setErrAlertMessage(constants.INVOICE_TEMPLATE_DOWNLOAD_SUCCESS, 0);
+                            }else{
+                                $rootScope.setErrAlertMessage(constants.INVOICE_TEMPLATE_DOWNLOAD_ERR);
+                            }
+                        },function(err){
+                            $rootScope.setErrAlertMessage(constants.INVOICE_TEMPLATE_DOWNLOAD_ERR);
+                        });
+                }
                 $scope.filters = {
                     "selectedStatus" : "Select Status",
                     "selectedStatusCode" : "",
                     "selectStatus": function(status){
                         this.selectedStatus = status;
-                        this.selectedStatusCode = status.toLowerCase();
+                        this.selectedStatusCode = status;
                     },
                     "selectedGeneratedOn" : "Select TimeFrame",
                     "selectGeneratedOn": function(timeFrame){

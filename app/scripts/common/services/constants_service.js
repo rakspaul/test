@@ -1212,7 +1212,12 @@ define(['angularAMD'], function(angularAMD) {
         this.INVOICE_REPORT_BILLABLE = "Billable";
         this.INVOICE_REPORT_ACCOUNT = "Account/Advertiser";
         this.INVOICE_ADD_ADJUSTMENT = "Add Another Adjustment";
-
-
+        this.INVOICE_REPORT_DONWLOAD_SUCCESS = "Invoice report donwloaded successfully";
+        this.INVOICE_TEMPLATE_DOWNLOAD_SUCCESS = "Template downloaded successfully";
+        this.INVOICE_REPORT_DONWLOAD_ERR = "Error in Invoice report donwload";
+        this.INVOICE_TEMPLATE_DOWNLOAD_ERR = "Error in Template download";
+        this.INVOICE_DROPDWON_READY = "Ready      The Invoice Report is ready for download";
+        this.INVOICE_DROPDWON_REVIEW = "Review    The Invoice Report has been updated by an external upload and must be reviwed";
+        this.INVOICE_DROPDWON_CLOSED = "Closed    The Invoice Report has been reviwed and accepted. Reports with closed Status cannot be modified";
     });
 });
