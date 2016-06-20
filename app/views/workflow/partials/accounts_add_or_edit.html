@@ -75,6 +75,8 @@
                        placeholder="Add Code"
                        data-ng-model="customClientCode"
                        data-ng-blur="leaveFocusCustomClientCode()"
+                       remove-special-character="remove-special-character"
+                       maxlength="5"
                        data-toggle="dropdown">
                 <div>
                     <span class="errorText" ng-if="clientCodeExist" data-ng-bind="textConstants.CLIENT_CODE_EXIST"></span>
