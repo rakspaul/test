@@ -70,6 +70,8 @@
                        placeholder="Add Code"
                        data-ng-model="customAdvertiserCode"
                        data-ng-blur="leaveFocusCustomAdvertiserCode()"
+                       remove-special-character="remove-special-character"
+                       maxlength="5"
                        data-toggle="dropdown">
                 <div>
                     <span class="errorText codeExist" ng-if="advertiserCodeExist" data-ng-bind="textConstants.ADVERTISER_CODE_EXIST"></span>
