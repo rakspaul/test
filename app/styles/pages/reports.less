@@ -38,6 +38,53 @@
     width:284px
   }
 }
+
+/* Link: v1sto/invoices/invoiceId
+   Content: LineItem, Adjustments
+*/
+.report-invoice{
+  .noteOmitter{
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 585px;
+  }
+  .mainTittle{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 842px;
+    white-space: nowrap;
+  }
+  .noteEditIcon{
+    margin-right:10px;
+    font-size:12px;
+    cursor:pointer;
+  }
+}
+
+/* Link: v1sto/invoices
+   Content: MediaPlan, Invoices
+*/
+.report_list_table {
+  .mediaPlanHyperLink:hover {
+    text-decoration: underline;
+    color: #0978c9;
+    cursor: pointer;
+  }
+}
+
+/* Link: v1sto/invoices/invoiceId
+   Type: PopUp window on click on Note Edit
+   Content: MediaPlan, Invoices
+*/
+.invoice_note_popUp{
+  textarea::-webkit-input-placeholder {
+    line-height:56px;
+    text-align: center;
+  }
+}
+
+
 .each_cost_col {
   .tooltip_holder {
     display: inline;

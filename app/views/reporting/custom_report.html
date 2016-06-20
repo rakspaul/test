@@ -1097,7 +1097,7 @@
                  ng-bind="customeReportData.research_cost == -1 ? 'NA' : (customeReportData.research_cost | number:0)"></div>
 
             <!--%Margin   margin-->
-            <div class="each_col_cost"
+            <div class="each_col_cost"  ng-if="customeReportData.margin != null "
                  ng-bind="customeReportData.margin != null?(customeReportData.margin | number:0):'-'"></div>
         </script>
 
@@ -1266,7 +1266,7 @@
             </div>
 
             <!--+-Impressions diff_impressions-->
-            <div class="each_col"
+            <div class="each_col" ng-if="customeReportData.diff_impressions != null"
                  data-ng-bind="customeReportData.diff_impressions == null  ? 'NA' : (customeReportData.diff_impressions | number:0)">
             </div>
 
@@ -1286,7 +1286,7 @@
             </div>
 
             <!--+/- Revenue  diff_revenue-->
-            <div class="each_col"
+            <div class="each_col" ng-if="customeReportData.diff_revenue != null"
                  ng-bind="customeReportData.diff_revenue == null ? 'NA' : +(customeReportData.diff_revenue | number:0)">
             </div>
 

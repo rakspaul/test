@@ -3,7 +3,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
     'reporting/models/domain_reports','common/services/data_service', 'common/moment_utils',
     'common/services/role_based_service', 'common/services/url_service', 'common/services/data_store_model',
     'common/controllers/confirmation_modal_controller','reporting/collectiveReport/report_schedule_delete_controller', 'workflow/controllers/ad_clone_controller',
-    'reporting/collectiveReport/reports_invoice_addCredit_controller', 'workflow/directives/custom_date_picker' ],
+    'reporting/collectiveReport/reports_invoice_addAdjustment_controller', 'reporting/collectiveReport/invoice_upload_SOR_controller','workflow/directives/custom_date_picker' ],
     function (angularAMD) {
         'use strict';
 
@@ -25,12 +25,10 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     page_num: 1
                 };
                 _currCtrl.resetDateToInit = function(){
-                    $scope.invoiceReports.startDate = moment().subtract(365, 'day').format(constants.DATE_US_FORMAT);
-                    $scope.invoiceReports.endDate = moment().format(constants.DATE_US_FORMAT);
+                    $scope.invoiceReports.startDate = moment().subtract(365, 'day').format(constants.DATE_UTC_SHORT_FORMAT);
+                    $scope.invoiceReports.endDate = moment().format(constants.DATE_UTC_SHORT_FORMAT);
                     $("#startDateInput").val($scope.invoiceReports.startDate);
                     $("#endDateInput").val($scope.invoiceReports.endDate);
-                    $('#startDateInput').datepicker('setDate', $scope.invoiceReports.startDate);
-                    $('#endDateInput').datepicker('setDate',$scope.invoiceReports.endDate);
                 }
                 _currCtrl.resetPagination = function(){
                     _currCtrl.last_page = false;
@@ -38,7 +36,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     $scope.mediaPlanList = [];
                 }
                 _currCtrl.resetPagination();
-                $scope.addCreditData = {}
+                $scope.addAdjustmentData = {}
                 _currCtrl.postProcessMediaPlanData = function(){
                     _.each($scope.mediaPlanList, function(mediaPlan, mp_i){
                         mediaPlan.invoiceDate = momentService.newMoment(mediaPlan.invoiceDate).format('DD MMM YYYY')
@@ -60,12 +58,19 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     $scope.mediaPlanList[mp_i].invoices = angular.copy(_currCtrl.resMediaPanList[mp_i].invoices);
                     $scope["loadMoreInvoice_"+mp_i] = false;
                 }
+                _currCtrl.getQueryStr = function(){
+                    var queryStr = '&page_num='+$scope.invoiceReports.page_num+'&page_size=50';
+                    queryStr += $scope.filters.selectedStatusCode && '&status='+$scope.filters.selectedStatusCode;
+                    $("#startDateInput").val() && (queryStr += '&start_date='+$("#startDateInput").val());
+                    $("#endDateInput").val() && (queryStr += '&end_date='+$("#endDateInput").val());
+                    return queryStr;
+                }
                 $scope.getInvoiceData = function(isLoadMore){
                     $scope.fetching = true;
                     !isLoadMore && _currCtrl.resetPagination();
                     $scope.noDataFound = false;
                         dataService
-                            .fetch(urlService.getInvoiceData($scope.invoiceReports))
+                            .fetch(urlService.getInvoiceData($scope.invoiceReports, _currCtrl.getQueryStr()))
                             .then(function (result) {
                                 $scope.fetching = false;
                                 ($scope.invoiceReports.page_num == 1) && ($scope.noDataFound = true);
@@ -117,11 +122,14 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     $scope.invoiceReports.clientId = loginModel.getSelectedClient().id,
                         $scope.getInvoiceData(0);
                 });
-                $scope.goClick = function(){
-                    $("#startDateInput").val() && ($scope.invoiceReports.startDate = $("#startDateInput").val());
-                    $("#endDateInput").val() && ($scope.invoiceReports.endDate = $("#endDateInput").val());
+
+                /*
+                Event Received from reports_invoice_addAdjustment_controller.js file
+                 */
+                $rootScope.$on("adjustmentAdded",function(){
                     $scope.getInvoiceData(0);
-                }
+                });
+
                 //Search Hide / Show
                 $scope.searchShowInput = function () {
                     var searchInputForm = $('.searchInputForm');
@@ -167,11 +175,11 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     }
                 };
 
-                $scope.showAddCreditPopup = function (invoice) {
-                    $scope.addCreditData.invoice = angular.copy(invoice);
+                $scope.showAddAdjustmentPopup = function (invoice) {
+                    $scope.addAdjustmentData = angular.copy(invoice);
                     var $modalInstance = $modal.open({
                         templateUrl: assets.html_add_credit_popup,
-                        controller: 'ReportsInvoiceAddCreditController',
+                        controller: 'ReportsInvoiceAddAdjustmentController',
                         scope: $scope,
                         windowClass: 'edit-dialog',
                         resolve: {
@@ -180,7 +188,19 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         }
                     });
                 };
-
+                $scope.showUploadSORPopUp = function(invoice){
+                    $scope.invoiceData = angular.copy(invoice);
+                    var $modalInstance = $modal.open({
+                        templateUrl: assets.html_invocie_upload_SOR,
+                        controller: 'invoiceUploadSOR',
+                        scope: $scope,
+                        windowClass: 'edit-dialog uploadSORPopup',
+                        resolve: {
+                            getMediaPlansForClone: function () {
+                            }
+                        }
+                    });
+                };
                 $scope.highlightTitleText = function (text, phrase) {
                     var keywordsArr,
                         keywords;
@@ -244,7 +264,44 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                             }
                         });
                 };
-
+                $scope.filters = {
+                    "selectedStatus" : "Select Status",
+                    "selectedStatusCode" : "",
+                    "selectStatus": function(status){
+                        this.selectedStatus = status;
+                        this.selectedStatusCode = status.toLowerCase();
+                    },
+                    "selectedGeneratedOn" : "Select TimeFrame",
+                    "selectGeneratedOn": function(timeFrame){
+                        var o = utils.getEndAndStartDate(timeFrame);
+                        this.selectedGeneratedOn = o.displayTimeFrame;
+                        $('#startDateInput').datepicker('update', o.startDate);
+                        $('#endDateInput').datepicker('update', o.endDate);
+                    },
+                    "selectedMetrics": "Select Metrics",
+                    "selectMetrics": function(metrics){
+                        this.selectedMetrics = metrics;
+                    },
+                    "lowValue": "",
+                    "highValue": "",
+                    apply: function(){
+                        $scope.getInvoiceData(0);
+                    },
+                    clear: function(){
+                        this.selectedStatus = "Select Status";
+                        this.selectedStatusCode = "";
+                        this.selectedGeneratedOn = "Select TimeFrame";
+                        this.selectedMetrics = "Select Metrics";
+                        this.lowValue = "";
+                        this.highValue = "";
+                    }
+                }
+                $('#startDateInput,#endDateInput').on('changeDate', function() {
+                    $scope.filters["selectedGeneratedOn"] = "Custom Dates";
+                });
+                $scope.showInvoiceReport = function(invoiceId){
+                    $location.url('/v1sto/invoices/'+invoiceId);
+                }
                 $(document).ready(function () {
                     _currCtrl.resetDateToInit();
                     $(window).unbind('scroll');

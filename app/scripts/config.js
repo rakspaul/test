@@ -145,7 +145,9 @@ assets.admin_accounts_subclient = '/views/workflow/partials/creative_add_bulk.ht
 assets.html_clone_campaign_popup = '/views/workflow/partials/clone_campaign_popup.html';
 assets.html_ad_campaign_popup = '/views/workflow/partials/clone_ad_popup.html';
 
-assets.html_add_credit_popup = '/views/reporting/partials/add_credit_popup.html';
+assets.html_add_credit_popup = '/views/reporting/partials/add_invoice_adjustment_popup.html';
+assets.html_invocie_upload_SOR = '/views/reporting/partials/invoice_upload_SOR_popup.html';
+assets.html_add_note_popup = '/views/reporting/partials/invoice_add_note.html';
 //Admin page
 
 assets.html_admin_home = '/views/workflow/admin_home.html';

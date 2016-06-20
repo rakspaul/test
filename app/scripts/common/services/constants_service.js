@@ -1056,7 +1056,7 @@ define(['angularAMD'], function(angularAMD) {
 
        // this.EVENT_CLIENT_CHANGED = 'eventClientChanged';
         //this.EVENT_CLIENT_CHANGED_FROM_DASHBOARD = 'advertiserChangedFromDashboard';
-        this.INVOICE_CREDIT_FIELD_EMPTY = "Please enter valid Notes and Amounts";
+        this.INVOICE_ADJUSTMENT_FIELD_EMPTY = "Please enter valid Type, Notes, Amounts";
 
         this.EVENT_SUB_ACCOUNT_CHANGED = 'eventSubAccountChanged';
         this.EVENT_SUB_ACCOUNT_CHANGED_FROM_DASHBOARD = 'SubAccountChangedFromDashboard';
@@ -1195,17 +1195,24 @@ define(['angularAMD'], function(angularAMD) {
         this.CLIENT_LOADED = "clientLoaded";
         // Invoice Report
         this.INVOICE_REPORT = "Invoice Reports";
-        this.INVOICE_REPORT_ADD_CREDIT = "Add Credit to Invoice Report";
+        this.ADJUSTMENTS = "Adjustments" ;
+        this.INVOICE_REPORT_ADD_ADJUSTMENT = "Add Adjustment to Invoice Report";
+        this.INVOICE_DOWNLOAD = "Download Invoice Report";
+        this.INVOICE_UPLOAD_SOR = "Upload System of Record(SOR) Results";
+        this.INVOICE_DOWNLOAD_SOR = "Download Line Items Requiring(SOR) Results";
         this.CREDIT_ADD_SUCCESS = "Credit added/updated successfully";
         this.CREDIT_ADD_ERR = "Error in adding/updating the credit ";
         this.INVOICE_VIEW_REPORT = "View Invoice Report ";
         this.INVOICE_VIEW_REPORT_ALL = "View All Invoice Reports";
         this.INVOICE_REPORT_MEDIA_PLAN = "Media Plan (Expand to see invoice reports)";
+        this.INVOICE_REPORT_STATUS = "Status";
         this.INVOICE_REPORT_DATE = "Invoice Date";
-        this.INVOICE_REPORT_SPEND = "Spend";
-        this.INVOICE_REPORT_CREDITS = "Credits";
+        this.INVOICE_REPORT_SPEND = "Total Spend";
+        this.INVOICE_REPORT_ADJUSTMENTS = "Adjustments";
         this.INVOICE_REPORT_BILLABLE = "Billable";
         this.INVOICE_REPORT_ACCOUNT = "Account/Advertiser";
+        this.INVOICE_ADD_ADJUSTMENT = "Add Another Adjustment";
+
 
     });
 });

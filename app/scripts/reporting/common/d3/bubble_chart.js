@@ -42,36 +42,36 @@ define(['angularAMD','common/services/constants_service','reporting/brands/brand
         var getRepString = function(x ,r) {
             //if(isNaN(x)) return x;
             var y = Math.abs(x);
-
+            
             if(y < 999) {
                 return  constants.currencySymbol + ((r > 55) ? x.toFixed(2) : x.toFixed(0));
             }
             if(y < 9999) {
                 var  x = x/1000 ;
 
-                return  constants.currencySymbol + ((r >55) ? x.toFixed(2)  : x.toFixed(0))+ "k";
+                return  constants.currencySymbol + ((r >55) ? x.toFixed(2)  : x.toFixed(0))+ "K";
             }
 
             if(y < 1000000) {
                 var x = x/1000;
 
-                return constants.currencySymbol + ((r >55) ? x.toFixed(2) : x.toFixed(0)) + "k";
+                return constants.currencySymbol + ((r >55) ? x.toFixed(2) : x.toFixed(0)) + "K";
             }
             if( y < 10000000) {
                 var x = x/1000000 ;
 
-                return constants.currencySymbol + ((r >55) ? x.toFixed(2)  : x.toFixed(0)) + "m";
+                return constants.currencySymbol + ((r >55) ? x.toFixed(2)  : x.toFixed(0)) + "M";
             }
 
             if(y < 1000000000) {
                 var x = x/1000000 ;
 
-                return constants.currencySymbol +  ((r >55) ? x.toFixed(2)  : x.toFixed(0)) + "m";
+                return constants.currencySymbol +  ((r >55) ? x.toFixed(2)  : x.toFixed(0)) + "M";
             }
 
             if(y < 1000000000000) {
                 var x= x/1000000000 ;
-                return constants.currencySymbol +  ((r >55) ? x.toFixed(2)  : x.toFixed(0 )) + "b";
+                return constants.currencySymbol +  ((r >55) ? x.toFixed(2)  : x.toFixed(0 )) + "B";
             }
 
             return "1T+";

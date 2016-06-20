@@ -29,7 +29,13 @@
                 </span>
                 <div class="pull-left account-name" data-ng-click="AddOrEditAccountModal('edit', client)">
                     <span class="pull-left" data-ng-bind="client.name"></span>
-                    <span class="pull-left icon-usd"
+                    <style>
+                        .tooltip-inner {
+                            white-space:pre;
+                            max-width: none;
+                        }
+                    </style>
+                    <span class="pull-left icon-usd" data-html="true"
                           tooltip="{{feesTooltip(client)}}"
                           tooltip-placement="right"
                           style="margin: 1px 0 0 5px;">

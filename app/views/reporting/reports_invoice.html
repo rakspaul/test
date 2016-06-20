@@ -1,5 +1,228 @@
+<div class="report-invoice">
+<div class="reports-invoice-list">
 
 
-<h1> View Invoice Report Page</h1>
+<div class=" clearfix popup-holder">
+<div class="modal-header zeroPadding" style="margin-top:30px;">
+
+    <!-- <button type="button" class="close" data-dismiss="modal"
+            ng-click="close()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button> -->
+
+    <div class="col-md-12 zeroPadding">
+        <div class="pull-left accountTitleTag" style="margin-bottom:20px;">
+            <span class="tagTitle" data-ng-bind="'Account:'"></span>
+            <span>Visto QA</span>
+            <span class="slash-divider" style="padding-left:5px;">/</span>
+        </div>
+        <div class="pull-left" style="padding-left:5px;">
+            <span class="tagTitle" data-ng-bind="'Advertiser:'"></span>
+            <span>Lickety Splitz</span>
+            <span class="slash-divider" style="padding-left:5px;">/</span>
+        </div>
+
+        <div class="pull-left" style="padding-left:5px;">
+            <span class="tagTitle" data-ng-bind="'Invoice ID:'"></span>
+            <span class="ng-binding">7</span>
+        </div>
+    </div>
+  </div>
+</div>
 
 
+
+<div class="col-md-12 zeroPadding">
+    <div class="col-md-8 zeroPadding">
+    <h1 class="mainTittle"
+        data-ng-bind="invoiceDetails.generatedOn + ' Invoice Report' + '  |  ' + invoiceDetails.invoiceName"></h1>
+    </div>
+
+
+    <div class="col-md-4">
+
+        <div class="col-md-3 zeroPadding"></div>
+        <div class="col-md-4 zeroPadding">
+            <div class="col-md-12 zeroPadding btn_list_filters centerAlign" style="margin-bottom:15px;">
+                <div class="btn-group create" role="group" aria-label="...">
+                    <a role="button" class="btn btn-default">
+                        <span class="icon-download"></span>
+                        <span data-ng-bind="textConstants.DOWNLOAD"
+                              class="ng-binding">Create</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5 zeroPadding">
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle"
+                            type="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="true">
+                        <span class="text" data-ng-bind="noteData.status ? noteData.status : 'Select'"></span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available" data-ng-click="selectStatus('Ready')">
+                            <a data-ng-bind="'Ready'"></a>
+                        </li>
+                        <li class="available" data-ng-click="selectStatus('Review')">
+                            <a data-ng-bind="'Review'"></a>
+                        </li>
+                        <li class="available" data-ng-click="selectStatus('Upload')">
+                            <a data-ng-bind="'Upload'"></a>
+                        </li>
+                        <li class="available" data-ng-click="selectStatus('Suspended')">
+                            <a data-ng-bind="'Suspended'"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+    </div>
+</div>
+
+
+    <!-- 3rd Row -->
+    <div class="col-md-12 zeroPadding" style="margin-top:20px; margin-bottom:20px;">
+
+        <div class="col-md-2 zeroPadding">
+            <div class="pull-left">
+                <span class="greyTxt" data-ng-bind="'Generated'"></span> <br>
+                <span data-ng-bind="invoiceDetails.generatedOn"></span>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="pull-left">
+                <span class="greyTxt" data-ng-bind="'PO#'"></span> <br>
+                <span data-ng-bind="invoiceDetails.po" data-ng-bind="'Beta'"></span>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="pull-left">
+                <span class="greyTxt" data-ng-bind="'Spend'"></span> <br>
+                <span data-ng-bind="invoiceDetails.spendTotal"></span>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="pull-left">
+                <span class="greyTxt" data-ng-bind="'Adjustments'"></span> <br>
+                <span data-ng-bind="invoiceDetails.adjustmentTotal"></span>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="pull-left">
+                <span class="greyTxt" data-ng-bind="'Billable'"></span> <br>
+                <span data-ng-bind="invoiceDetails.billable"></span>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="pull-left">
+                <span class="greyTxt" data-ng-bind="'Note'"></span>
+                <span class="glyphicon glyphicon-pencil noteEditIcon" data-ng-click="showAddNotePopup()" style=""></span> <br>
+                <span  data-ng-bind="invoiceDetails.description" class="noteOmitter">-</span>
+            </div>
+        </div>
+    </div>
+    <!-- 3rd row over -->
+
+<div class="table-responsive user-list animated" id="table_responsive" style="margin-bottom: 30px;">
+    <div class="vistoTable" id="visto_table">
+        <div class="thead thin">
+            <div class="tr">
+                <div class="col-md-4 th" data-ng-bind="'Line Item'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Rate'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Billable Units'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Invoiced Value'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Contracted Value'"></div>
+            </div>
+        </div>
+        <div class="tbody" style="max-height:350px;">
+            <!--   <div class="tr ng-scope" ng-repeat="lineItem in invoiceDetails.lineitems">
+            data-ng-bind="lineItem.rate" name, billableUnits, value, contractedValue
+            -->
+            <div class="tr ng-scope" data-ng-repeat="lineItem in invoiceDetails.lineitems">
+                <div class="td col-md-4" data-ng-bind="lineItem.name"></div>
+                <div class="td col-md-2" data-ng-bind="lineItem.rate"></div>
+                <div class="col-md-2 td text-right tableTd" data-ng-bind="lineItem.billableUnits"></div>
+
+                <div class="col-md-2 td text-right tableTd" data-ng-bind="lineItem.value"></div>
+                <div class="col-md-2 td text-right tableTd" data-ng-bind="lineItem.contractedValue"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- <div class="col-md-12 zeroPadding">
+    <h1>Adjustment</h1>
+    <a class="btn btn-default" ng-click="showAddAdjustmentPopup()">
+        <span class="icon-plus"></span>
+        <span>User</span>
+    </a>
+</div> -->
+
+<div class="col-md-12 zeroPadding btn_list_filters centerAlign" style="margin-bottom:15px;">
+    <div class="btn-group create" role="group" aria-label="...">
+        <a role="button" class="btn btn-default" ng-click="showAddAdjustmentPopup()"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE" class="ng-binding">Create</span></a>
+        <button type="button" class="btn btn-default" style="display: none"><span class="icon-inline-edit"></span><span data-ng-bind="textConstants.EDIT" class="ng-binding">Edit</span></button>
+
+
+        <!-- Don't remove
+
+        <div class="btn btn-default zeroPadding dropdown-workflow pull-left">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle moreOptCreative" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="padding-right: 18px;">
+                    <span class="icon-more-options"></span>
+                </button>
+                <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
+                    <li><a class="text-left ng-binding" role="button" ng-click="showBulkCreateSection();">Upload</a></li>
+                    <li class="disabled"><a class="text-left">Test</a></li>
+                </ul>
+            </div>
+        </div> -->
+    </div>
+   </div>
+
+
+<div class="col-md-12 zeroPadding centerAlign">
+<div class="table-responsive user-list animated" id="table_responsive" style="margin-bottom: 30px;">
+    <div class="vistoTable" id="visto_table">
+        <div class="thead thin">
+            <div class="tr">
+                <div class="col-md-6 th" data-ng-bind="'Adjustment'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Added By'"></div>
+                <div class="col-md-2 th" data-ng-bind="'When'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Amount'"></div>
+            </div>
+        </div>
+        <div class="tbody thin" style="max-height:350px;">
+
+            <div class="tr" style="border:1px solid #F2F2F2;" data-ng-repeat="adjustment in invoiceDetails.adjustments">
+                <div class="td col-md-6" data-ng-bind="adjustment.name"></div>
+                <div class="td col-md-2" data-ng-bind="adjustment.addedBy"></div>
+                <div class="td col-md-2" data-ng-bind="adjustment.addedOn"></div>
+                <div class="td col-md-2" data-ng-bind="adjustment.amount"></div>
+
+            </div>
+    </div>
+</div>
+</div>
+
+</div>
+</div>
