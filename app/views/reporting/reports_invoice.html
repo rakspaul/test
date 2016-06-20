@@ -2,8 +2,6 @@
            ng-init="init('flashMessage','WF_USER_CREATION_FAIL')"></popup-msg>
 <div class="report-invoice">
 <div class="reports-invoice-list">
-
-
 <div class=" clearfix popup-holder">
 <div class="modal-header zeroPadding" style="margin-top:30px;">
 
@@ -31,9 +29,6 @@
     </div>
   </div>
 </div>
-
-
-
 <div class="col-md-12 zeroPadding">
     <div class="col-md-8 zeroPadding">
     <h1 class="mainTittle"
@@ -68,22 +63,22 @@
                     <span class="icon-arrow-down"></span>
                 </button>
                 <ul class="dropdown-menu" data-toggle="dropdown" style="left:initial; right:0px;">
-                    <li class="available">
+                    <li class="available" style="width:320px;">
                         <a>
-                            Test
+                            <span class="icon-download pull-left" style="width:30px;"></span>
+                            <span class="pull-left" style="width: auto;">Download Invoice Report</span>
                         </a>
-                        <a>
-                            Test 2
-                        </a>
-
                     </li>
+                    <li class="available" style="width:320px;">
+                        <a>
+                            <span class="icon-download pull-left" style="width:30px;"></span>
+                            <span class="pull-left" style="width: auto;">Download Invoice Results Template</span>
+                        </a>
+                    </li>
+
                 </ul>
             </div>
         </div>
-
-
-
-
        <div class="pull-left" data-ng-show="isDataLoaded && isUploadStatus">
             <div class="col-md-12 zeroPadding btn_list_filters centerAlign"
                  style="margin-bottom:15px;"
@@ -136,7 +131,7 @@
                                 </div>
                             </a>
                         </li>
-                        
+
                         <li class="available" data-ng-click="selectStatus('Closed')" style="border-bottom:0px solid #F2F2F2;">
                             <a>
                                 <div class="col-md-3 zeroPadding">
@@ -258,8 +253,6 @@
     </div>
 
 </div>
-
-
 <!-- <div class="col-md-12 zeroPadding">
     <h1>Adjustment</h1>
     <a class="btn btn-default" ng-click="showAddAdjustmentPopup()">
