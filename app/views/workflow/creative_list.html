@@ -93,7 +93,7 @@
 			    <div class="tbody">
 				<div ng-if="!creativeListLoading" ng-repeat="creativeData in successfulRecords" class="tr oneDimensionRow creativeUploadedNow" ng-include="'creativeTpl'">
 				</div>
-				<div ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives" class="tr oneDimensionRow tableFormat" ng-include="'creativeTpl'">
+				<div ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives" class="tr oneDimensionRow" ng-include="'creativeTpl'">
 				</div>
 
 				<!--Sample Child / A Class "childRow" needs to be added to the data if its a Child-->
@@ -264,9 +264,9 @@
 		<span ng-if="!creativeData.isTracking"> <img ng-if="!(creativeData.isTracking)" style="max-height: 35px;max-width: 70px;" ng-src="{{creativeData.adServer.iconURL}}"/> </span>
 		</div>
 		<!--Sizes-->
-		<div class="col-md-1 td">
+		<div class="col-md-1 td text-center">
 			<span data-ng-bind="creativeData.size.size|lowercase"></span>
-	    	<div class="size-box" ng-style="{width:creativeData.width, height:creativeData.height}"></div>
+	    	<!--div class="size-box" ng-style="{width:creativeData.width, height:creativeData.height}"></div-->
 		</div>
 		<!--Advertiser-->
 		<div class="col-md-2 td">
