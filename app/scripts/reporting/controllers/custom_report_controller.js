@@ -1143,8 +1143,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     return false;
                 }
 
-                var value = escape($.trim(value)),
-                    currentRowIndex = Number(currFirtDimensionElem.attr("data-result-row"));
+                //var value = escape($.trim(value));
+                var currentRowIndex = Number(currFirtDimensionElem.attr("data-result-row"));
 
                 if(_customctrl.isReportLastPage_2D[currentRowIndex]){
                     currFirtDimensionElem.addClass('active');
