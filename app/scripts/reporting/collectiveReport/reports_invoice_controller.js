@@ -98,6 +98,15 @@ define(['angularAMD',
             $scope.selectStatus = function(status){
                 $scope.selectedStatus = status;
                 $scope.noteData.status = status;
+                if($scope.noteData.status == "Ready" || $scope.noteData.status == "Review") {
+                    _curCtrl.saveNoteAndStatus();
+                }else{
+                    $scope.confirmationPopUp = true;
+                    $scope.update_status_msg = ($scope.noteData.status == "Closed") ? constants.INVOICE_CONFIRM_CLOSE : constants.INVOICE_CONFIRM_UPLOAD;
+                }
+            }
+
+            $scope.updateStatus = function(){
                 _curCtrl.saveNoteAndStatus();
             }
 

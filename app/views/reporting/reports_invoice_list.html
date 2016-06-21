@@ -49,6 +49,12 @@
 
     <!-- Date filter -->
     <div class="col-md-12" id="invoice_data_filter" class="collapse">
+
+
+
+
+
+
         <div class="filterInputCommon filterInputClass1">
             <label class="col-sm-12 greyTxt">Status</label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
@@ -159,6 +165,8 @@
                 ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
         </div>
 
+       <!-- Will add it in future -->
+        <div style="display:none;">
         <div class="filterInputCommon filterInputClass1">
             <label class="col-sm-12 greyTxt">Metrics</label>
             <div class="dropdown-workflow">
@@ -203,6 +211,13 @@
                    class="form-control"
                    data-ng-model="filters.highValue">
         </div>
+        </div>
+
+
+
+
+
+
         <div class="filterInputCommon filterInputClassBtn">
             <a href=""
                style="margin-left: 10px;"
@@ -294,7 +309,7 @@
             <div class="tr childRow adsList">
                 <div class="col-md-4 td">
                     <div class="col-md-9 media-plan-name mediaPlanHyperLink" ng-bind="invoice.invoiceDate + ' Invoice Report'" data-ng-click="showInvoiceReport(invoice.invoiceId)"></div>
-                    <div class="col-md-3 more-options" ng-show="invoice.invoiceStatus != 'Upload'">
+                    <div class="col-md-3 more-options">
                         <div class="dropdown-workflow">
                             <div class="dropdown hideOption1">
                             <span data-toggle="dropdown">
@@ -318,20 +333,7 @@
                                                ng-click="invoiceReports.download($event, invoice)" data-ng-bind="textConstants.INVOICE_DOWNLOAD"></div>
                                         </a>
                                     </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 more-options" ng-show="invoice.invoiceStatus == 'Upload'">
-                        <div class="dropdown-workflow">
-                            <div class="dropdown hideOption1">
-                            <span data-toggle="dropdown">
-                                <div class="option-horizontal">
-                                    <span class="dotClass"></span><span class="dotClass"></span><span class="dotClass"></span>
-                                </div>
-                            </span>
-                                <ul class="dropdown-menu" style="width:340px">
-                                    <li class="headerDownload" ng-click="">
+                                    <li class="headerDownload" ng-click="" ng-show="invoice.invoiceStatus == 'Upload'">
                                         <a>
                                             <div class="pull-left icon-upload" style="margin-right: 10px;"></div>
                                             <div class="pull-left"
