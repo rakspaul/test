@@ -49,12 +49,6 @@
 
     <!-- Date filter -->
     <div class="col-md-12" id="invoice_data_filter" class="collapse">
-
-
-
-
-
-
         <div class="filterInputCommon filterInputClass1">
             <label class="col-sm-12 greyTxt">Status</label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
@@ -212,12 +206,6 @@
                    data-ng-model="filters.highValue">
         </div>
         </div>
-
-
-
-
-
-
         <div class="filterInputCommon filterInputClassBtn">
             <a href=""
                style="margin-left: 10px;"
@@ -317,20 +305,21 @@
                                     <span class="dotClass"></span><span class="dotClass"></span><span class="dotClass"></span>
                                 </div>
                             </span>
-                                <ul class="dropdown-menu">
+                                <ul class="dropdown-menu" style="width:350px;">
                                     <li>
                                         <a style="text-align:left;"
                                            data-ng-click="showInvoiceReport(invoice.invoiceId)"
                                            ng-bind-html="textConstants.INVOICE_VIEW_REPORT"></a>
                                     </li>
-                                    <li data-ng-click="showAddAdjustmentPopup(invoice)">
-                                        <a data-ng-bind="textConstants.INVOICE_REPORT_ADD_ADJUSTMENT"></a>
+                                    <li>
+                                        <a style="text-align:left;"
+                                           data-ng-click="showAddAdjustmentPopup(invoice)" ng-bind-html="textConstants.INVOICE_REPORT_ADD_ADJUSTMENT"></a>
                                     </li>
                                     <li class="headerDownload" ng-click="">
                                         <a>
                                             <div class="pull-left icon-download" style="margin-right: 10px;"></div>
                                             <div class="pull-left"
-                                               ng-click="invoiceReports.download($event, invoice)" data-ng-bind="textConstants.INVOICE_DOWNLOAD"></div>
+                                                 ng-click="invoiceReports.download($event, invoice)" data-ng-bind="textConstants.INVOICE_DOWNLOAD"></div>
                                         </a>
                                     </li>
                                     <li class="headerDownload" ng-click="" ng-show="invoice.invoiceStatus == 'Upload'">
@@ -343,8 +332,7 @@
                                     <li class="headerDownload" ng-click="">
                                         <a>
                                             <div class="pull-left icon-download" style="margin-right: 10px;"></div>
-                                            <div class="pull-left"
-                                                 ng-click="downloadSORReport(mediaPlan)" data-ng-bind="textConstants.INVOICE_DOWNLOAD_SOR"></div>
+                                            <div class="pull-left" ng-click="downloadSORReport(mediaPlan)">Download Line Items Requiring (S0R) Results</div>
                                         </a>
                                     </li>
                                 </ul>

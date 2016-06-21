@@ -1199,7 +1199,7 @@ define(['angularAMD'], function(angularAMD) {
         this.INVOICE_REPORT_ADD_ADJUSTMENT = "Add Adjustment to Invoice Report";
         this.INVOICE_DOWNLOAD = "Download Invoice Report";
         this.INVOICE_UPLOAD_SOR = "Upload System of Record(SOR) Results";
-        this.INVOICE_DOWNLOAD_SOR = "Download Line Items Requiring(SOR) Results";
+        this.INVOICE_DOWNLOAD_SOR = "Download Line Items Requiring (SOR) Results";
         this.CREDIT_ADD_SUCCESS = "Credit added/updated successfully";
         this.CREDIT_ADD_ERR = "Error in adding/updating the credit ";
         this.INVOICE_VIEW_REPORT = "View Invoice Report ";
@@ -1216,10 +1216,12 @@ define(['angularAMD'], function(angularAMD) {
         this.INVOICE_TEMPLATE_DOWNLOAD_SUCCESS = "Template downloaded successfully";
         this.INVOICE_REPORT_DONWLOAD_ERR = "Error in Invoice report donwload";
         this.INVOICE_TEMPLATE_DOWNLOAD_ERR = "Error in Template download";
-        this.INVOICE_DROPDWON_READY = "Ready      The Invoice Report is ready for download";
-        this.INVOICE_DROPDWON_REVIEW = "Review    The Invoice Report has been updated by an external upload and must be reviwed";
-        this.INVOICE_DROPDWON_CLOSED = "Closed    The Invoice Report has been reviwed and accepted. Reports with closed Status cannot be modified";
+        this.INVOICE_DROPDWON_READY = "The Invoice Report is ready for download";
+        this.INVOICE_DROPDWON_REVIEW = "The Invoice Report has been updated by an external upload and must be reviwed";
+        this.INVOICE_DROPDWON_CLOSED = "The Invoice Report has been reviwed and accepted. Reports with closed Status cannot be modified";
+        this.INVOICE_DROPDWON_UPLOAD = "The Invoice Report requires modification by Uploaded <br> System of Record (SOR) Results";
         this.INVOICE_CONFIRM_CLOSE = "Do you want to close the invoice permanently.";
         this.INVOICE_CONFIRM_UPLOAD = "Once the invoice status changed to upload, user must upload the file to change the status.";
+
     });
 });
