@@ -118,17 +118,17 @@
              ng-show="campaigns.cdbDataMap[campaign.orderId].impressions">
             <div class="each_metric_graph_details">
                 <span class="detail_val" ng-bind="campaigns.cdbDataMap[campaign.orderId].impressions |
-                    nrFormat"></span>
+                    nrFormatDigits:0"></span>
                 <span ng-bind="textConstants.IMP_WITH_DOT"></span>
             </div>
             <div class="each_metric_graph_details metric_graph_details_ctr">
                 <span class="detail_val" ng-bind="(campaigns.cdbDataMap[campaign.orderId].ctr |
-                    number:2)+'%'"></span>
+                    number:3)+'%'"></span>
                 <span ng-bind="textConstants.CTR"></span>
             </div>
             <div class="each_metric_graph_details metric_graph_details_action"
                  ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
-                <span class="detail_val" ng-bind="(campaigns.cdbDataMap[campaign.orderId].action_rate | number:2)+'%'">
+                <span class="detail_val" ng-bind="(campaigns.cdbDataMap[campaign.orderId].action_rate | number:3)+'%'">
                 </span>
                 <span ng-bind="textConstants.ACTION_RATE_R_CAPS"></span>
             </div>
@@ -138,7 +138,7 @@
                      ng-mouseover="VTCpopup($event, 1)"
                      ng-mouseout="VTCpopup($event, 0)">
                     <span class="detail_val"
-                          ng-bind="(campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate | number :2)+'%'">
+                          ng-bind="(campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate | number :3)+'%'">
                     </span>
                     <span ng-bind="textConstants.VTC"></span>
                 </div>

@@ -60,11 +60,11 @@
     <div ng-switch-when=true>
         <div class="each_cost_col first_col">
             <span class="pull-left text-center showMobile" ng-bind="textConstants.IMP_WITH_DOT"></span>
-            <span class="pull-left text-center" ng-bind="(campaigns.costList[campaign.orderId].getImpressions() | nrFormat : '' : 0)"></span>
+            <span class="pull-left text-center" ng-bind="(campaigns.costList[campaign.orderId].getImpressions() | nrFormatdigits:0 : '' : 0)"></span>
         </div>
         <div class="each_cost_col second_col">
             <span class="pull-left text-center showMobile" ng-bind="campaigns.selectedCostType|uppercase">{{textConstants.CPA}}</span>
-            <span class="pull-left text-center" ng-bind="(campaigns.selectedCostType=='vtc' && campaigns.costList[campaign.orderId]['vtc_100'] != null) ?  (campaigns.costList[campaign.orderId]['vtc_100']  | number:2) : (campaigns.costList[campaign.orderId][campaigns.selectedCostType]  | kpiFormatter : campaigns.selectedCostType)"></span>
+            <span class="pull-left text-center" ng-bind="(campaigns.selectedCostType=='vtc' && campaigns.costList[campaign.orderId]['vtc_100'] != null) ?  (campaigns.costList[campaign.orderId]['vtc_100']  | number:3) : (campaigns.costList[campaign.orderId][campaigns.selectedCostType]  | kpiFormatter : campaigns.selectedCostType)"></span>
         </div>
         <div class="each_cost_col three_col">
             <span class="pull-left text-center showMobile" ng-bind="textConstants.INVENTORY"></span>
