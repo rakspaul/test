@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    <div class="col-md-12 common_file_upload_container" style="display:none">
+    <div ng-hide="selectedCampaign.lineItemfile" class="col-md-12 common_file_upload_container" style="display:none">
         <div class="clearfix common_file_upload">
             <div ngf-drop ngf-select="fileSelected(selectedCampaign.lineItemfile,$parent.mode)" ng-model="selectedCampaign.lineItemfile" name="lineItemfile" ng-model-rejected="selectedCampaign.rejectedFiles" ngf-multiple="false" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.csv'" ngf-max-size='10000000'>
             <!--<div ngf-drop ngf-select="" ng-model="selectedCampaign.lineItemfile" name="lineItemfile" ng-model-rejected="rejFiles" ngf-multiple="false" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.csv'" ngf-max-size='10000000'>-->
