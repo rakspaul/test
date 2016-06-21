@@ -309,7 +309,7 @@
             <div class="tr childRow adsList">
                 <div class="col-md-4 td">
                     <div class="col-md-9 media-plan-name mediaPlanHyperLink" ng-bind="invoice.invoiceDate + ' Invoice Report'" data-ng-click="showInvoiceReport(invoice.invoiceId)"></div>
-                    <div class="col-md-3 more-options" ng-show="invoice.invoiceStatus != 'Upload'">
+                    <div class="col-md-3 more-options">
                         <div class="dropdown-workflow">
                             <div class="dropdown hideOption1">
                             <span data-toggle="dropdown">
@@ -333,20 +333,7 @@
                                                ng-click="invoiceReports.download($event, invoice)" data-ng-bind="textConstants.INVOICE_DOWNLOAD"></div>
                                         </a>
                                     </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 more-options" ng-show="invoice.invoiceStatus == 'Upload'">
-                        <div class="dropdown-workflow">
-                            <div class="dropdown hideOption1">
-                            <span data-toggle="dropdown">
-                                <div class="option-horizontal">
-                                    <span class="dotClass"></span><span class="dotClass"></span><span class="dotClass"></span>
-                                </div>
-                            </span>
-                                <ul class="dropdown-menu" style="width:340px">
-                                    <li class="headerDownload" ng-click="">
+                                    <li class="headerDownload" ng-click="" ng-show="invoice.invoiceStatus == 'Upload'">
                                         <a>
                                             <div class="pull-left icon-upload" style="margin-right: 10px;"></div>
                                             <div class="pull-left"

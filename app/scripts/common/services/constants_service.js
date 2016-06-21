@@ -1219,5 +1219,7 @@ define(['angularAMD'], function(angularAMD) {
         this.INVOICE_DROPDWON_READY = "Ready      The Invoice Report is ready for download";
         this.INVOICE_DROPDWON_REVIEW = "Review    The Invoice Report has been updated by an external upload and must be reviwed";
         this.INVOICE_DROPDWON_CLOSED = "Closed    The Invoice Report has been reviwed and accepted. Reports with closed Status cannot be modified";
+        this.INVOICE_CONFIRM_CLOSE = "Do you want to close the invoice permanently.";
+        this.INVOICE_CONFIRM_UPLOAD = "Once the invoice status changed to upload, user must upload the file to change the status.";
     });
 });
