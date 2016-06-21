@@ -147,7 +147,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
                         var clientId = ($scope.selectedCampaign.clientId)? $scope.selectedCampaign.clientId:loginModel.getSelectedClient().id;
                     var url= vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertiser/' + $scope.selectedCampaign.advertiserId
-                        + '/lineitems/parseCSV?campaignEndDate='+$scope.selectedCampaign.endTime;
+                        + '/lineitems/parseCSV?campaignEndDate='+$scope.selectedCampaign.endTime+'&campaignStartDate='+$scope.selectedCampaign.startTime+'&campaignTotalBudget='+$scope.Campaign.totalBudget;
 
                     (function(file) {
                         Upload.upload({

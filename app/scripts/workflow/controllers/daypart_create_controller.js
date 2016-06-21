@@ -559,6 +559,7 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
             var daytimeObj;
             $scope.saveDayPartFlag = false;
             $scope.customFlag = false;
+            $scope.intermediateChange=false;
             switch (value) {
                 case 0:
                     $scope.Schedule.customLength = 0;
