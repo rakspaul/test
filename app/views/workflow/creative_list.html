@@ -223,20 +223,22 @@
 			<span ng-if="(creativeData.noOfAds > 0)" class="icon-arrow-down-thick" ng-click="toggleCreativeAds(this,creativeData.id, $index,$event)"></span>
 			<span ng-if="(creativeData.noOfAds === 0)" style="width: 25px; height: 30px; float: left;"></span>
 			<a href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)" tooltip="{{creativeData.name}}" data-ng-bind="creativeData.name.length>0? (creativeData.name | textEllipsis: 40 ):''"></a>
-			<div class="pull-right" ng-hide="creativeData.creativeFormat === 'VIDEO'">
-                            <div class="dropdown-workflow">
-                                <div class="dropdown hideOption">
-				    <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="icon-more-options"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a target="_blank" ng-href="/creative/{{creativeData.id}}/preview" ng-bind-html="textConstants.PREVIEW"></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+			
+            <!--Preview DDL-->
+            <!--<div class="pull-right" ng-hide="creativeData.creativeFormat === 'VIDEO'">-->
+            <!--    <div class="dropdown-workflow">-->
+            <!--        <div class="dropdown hideOption">-->
+            <!--            <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+            <!--                <span class="icon-more-options"></span>-->
+            <!--            </button>-->
+            <!--            <ul class="dropdown-menu">-->
+            <!--                <li>-->
+            <!--                    <a target="_blank" ng-href="/creative/{{creativeData.id}}/preview" ng-bind-html="textConstants.PREVIEW"></a>-->
+            <!--                </li>-->
+            <!--            </ul>-->
+            <!--        </div>-->
+            <!--    </div>-->
+            <!--</div>-->
 
 			<div class="col-md-12 text-left zeroPadding">
 				    <div class="incompleteCreative" ng-show="creativeData.creativeState === 'INCOMPLETE'">
@@ -289,7 +291,7 @@
 				<span ng-if="(adData.messageType==='ERROR')" class="icon-warning error" title="{{adData.message}}"></span>
 				<span ng-if="(adData.messageType==='WARNING')" class="icon-warning" title="{{adData.message}}"></span>
 				<a ng-click="redirectAdEditPage(adData)" tooltip="{{adData.campaignName}}/{{adData.adName}}">{{adData.campaignName | textEllipsis: 50}} / {{adData.adName | textEllipsis: 50}}</a>
-                <!--The Ad Doesnt Need A Preview BTN-->
+                <!--Preview BTN-->
                 <!--<div class="pull-right" ng-hide="creativeData.creativeFormat === 'VIDEO'">-->
                 <!--    <div class="dropdown-workflow">-->
                 <!--        <div class="dropdown hideOption">-->
