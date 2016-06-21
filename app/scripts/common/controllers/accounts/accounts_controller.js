@@ -451,20 +451,27 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.activeEditAdvertiserTab = 'basic';
                 $scope.clientObj = client;
                 $scope.advObj = advObj;
+
                 if ($scope.isEditMode) {
                     $scope.selectedAdvertiserId = advObj.id;
                     $scope.selectedAdvertiser = advObj.name;
                     $scope.setSelectedAdvertiserCode = advObj.code;
+
                     accountsService
                         .getAdvertiserUnderClient(client.id, advObj.id)
                         .then(function (res) {
+                            var result;
+
                             loadTemplate = true;
 
                             if (res.data.status === 'OK' && res.data.statusCode === 200) {
-                                $scope.selectedAdvertiserId = res.data.data.id ? res.data.data.id : advObj.id;
-                                $scope.selectedAdvertiser = res.data.data.name ? res.data.data.name : advObj.name;
-                                $scope.advertiserData.lookbackImpressions = res.data.data.lookbackImpressions;
-                                $scope.advertiserData.lookbackClicks = res.data.data.lookbackClicks;
+                                result = res.data.data;
+                                $scope.savedAdvertiserData = result;
+
+                                $scope.selectedAdvertiserId = result.id ? result.id : advObj.id;
+                                $scope.selectedAdvertiser = result.name ? result.name : advObj.name;
+                                $scope.advertiserData.lookbackImpressions = result.lookbackImpressions;
+                                $scope.advertiserData.lookbackClicks = result.lookbackClicks;
                             }
 
                             getPixelsData(client.id,advObj.id);
@@ -559,7 +566,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.allBrands = [];
                 $scope.allAdvertiser = [];
                 $scope.dropdownCss.display = 'none';
-                $scope.setSelectedAdvertiserCode = "";
+                $scope.setSelectedAdvertiserCode = '';
                 accountsService.setToBeEditedAdvertiser(null);
                 accountsService.setToBeEditedBrand(null);
                 accountsService.setToBeEditedClient(null);

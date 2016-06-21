@@ -108,7 +108,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     campaignSelectModel.setSelectedCampaign(campaignData);
                 });
 
-                $scope.viewReports = function (campaign) {
+                $scope.viewReports = function (campaign, source) {
                     var selectedCampaign = {
                         id: campaign.id,
                         name: campaign.name,
@@ -123,6 +123,10 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
                     //$location.path('/performance');//reportOverview
                     $location.path('/mediaplans/' + campaign.id);
+                    if (source === 'campaignCard') {
+                        $('.main_navigation .each_nav_link').removeClass('active_tab');
+                        $('#reports_nav_link').addClass('active_tab');
+                    }
                 };
 
                 $scope.loadMoreStrategies = function (campaignId) {

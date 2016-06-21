@@ -13,14 +13,6 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
 
         _currCtrl.downloadPixelIds = [];
 
-        _currCtrl.clearAdvInputField = function () {
-            $scope.advertiserAddOrEditData.enableAdChoice = false;
-            $scope.advertiserAddOrEditData.adChoiceCode = '';
-            _currCtrl.isAdChoiceInClient = false;
-            _currCtrl.isAdChoiceInAdv = false;
-            $scope.advertiserAddOrEditData.resAdChoiceData = {};
-        };
-
         _currCtrl.getIABCategoryList = function () {
             accountsService
                 .getIABCategoryList()
@@ -29,6 +21,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                         $scope.advertiserAddOrEditData.IABCategoryList = res.data.data;
                     }
                 }, function (err) {
+                    console.log('Error = ', err);
                 });
         };
 
@@ -46,194 +39,6 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                 });
         };
 
-        _currCtrl.getIABCategory = function () {
-            accountsService
-                .getIABCategoryForAdv($scope.client.id, $scope.selectedAdvertiserId)
-                .then(function (res) {
-                    var result = res.data.data;
-
-                    _currCtrl.isAdChoiceInClient = false;
-
-                    if ((res.status === 'OK' || res.status === 'success') && res.data.data && res.data.data.id) {
-                        _currCtrl.isAdChoiceInClient = true;
-                        $scope.advertiserAddOrEditData.selectedIABCategory = result.groupName;
-                        $scope.advertiserAddOrEditData.selectedIABCategoryId = result.groupId;
-
-                        if (result.groupId !== result.id) {
-                            $scope.advertiserAddOrEditData.selectedIABSubCategory = result.name;
-                            $scope.advertiserAddOrEditData.selectedIABSubCategoryId = result.id;
-                        }
-
-                        _currCtrl.getIABSubCategoryList($scope.advertiserAddOrEditData.selectedIABCategoryId);
-                    }
-                }, function (err) {
-                    console.log('Error = ', err);
-                });
-        };
-
-        _currCtrl.saveIABCategory = function () {
-            var id = $scope.advertiserAddOrEditData.selectedIABSubCategoryId ?
-                    $scope.advertiserAddOrEditData.selectedIABSubCategoryId :
-                    $scope.advertiserAddOrEditData.selectedIABCategoryId,
-                reqBody = {
-                    iabId: id
-                };
-
-            accountsService
-                .saveIABCategoryForAdv($scope.client.id, $scope.selectedAdvertiserId, reqBody)
-                .then(null, function (err) {
-                    console.log('Error = ', err);
-                });
-        };
-
-        _currCtrl.getAdChoiceDataFromClient = function () {
-            accountsService
-                .getAdChoiceDataFromClient($scope.client.id, $scope.selectedAdvertiserId)
-                .then(function (res) {
-                    _currCtrl.isAdChoiceInClient = false;
-
-                    if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
-                        _currCtrl.isAdChoiceInClient = true;
-                        $scope.advertiserAddOrEditData.enableAdChoice = res.data.data.enabled;
-                        $scope.advertiserAddOrEditData.adChoiceCode = res.data.data.code;
-                        $scope.advertiserAddOrEditData.resAdChoiceData = res.data.data;
-                    }
-                }, function (err) {
-                    console.log('Error = ', err);
-                });
-        };
-
-        _currCtrl.getAdChoiceData = function () {
-            accountsService
-                .getAdChoiceDataFromAdv($scope.client.id, $scope.selectedAdvertiserId)
-                .then(function (resAdv) {
-                    _currCtrl.isAdChoiceInAdv = false;
-
-                    if ((resAdv.status === 'OK' || resAdv.status === 'success') && resAdv.data.data) {
-                        _currCtrl.isAdChoiceInAdv = true;
-                        $scope.advertiserAddOrEditData.enableAdChoice = resAdv.data.data.enabled;
-                        $scope.advertiserAddOrEditData.adChoiceCode = resAdv.data.data.code;
-                        $scope.advertiserAddOrEditData.resAdChoiceData = resAdv.data.data;
-                    } else {
-                        _currCtrl.getAdChoiceDataFromClient();
-                    }
-                }, function (err) {
-                    _currCtrl.getAdChoiceDataFromClient();
-                    console.log('Error = ', err);
-                });
-        };
-
-        _currCtrl.saveAdChoiceData = function () {
-            var reqBody = {
-                enabled: $scope.advertiserAddOrEditData.enableAdChoice,
-                code: $scope.advertiserAddOrEditData.adChoiceCode
-            };
-            if (reqBody.enabled !== $scope.advertiserAddOrEditData.resAdChoiceData.enabled ||
-                reqBody.code !== $scope.advertiserAddOrEditData.resAdChoiceData.code) {
-                accountsService
-                    .saveAdChoiceDataForAdv($scope.client.id, $scope.selectedAdvertiserId, reqBody)
-                    .then(null, function (err) {
-                        console.log('Error = ', err);
-                    });
-            }
-        };
-
-        _currCtrl.getBillingData = function () {
-            accountsService
-                .getBillingDataForAdv($scope.client.id, $scope.selectedAdvertiserId)
-                .then(function (res) {
-                    var result = res.data.data;
-
-                    if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
-                        _.each(result, function (item) {
-                            switch (item.billedFor) {
-                                case 'TECH_FEES':
-                                    $scope.billingData.techFees.billingTypeId = item.billingTypeId;
-                                    $scope.billingData.techFees.billingTypeName = 'CPM';
-                                    $scope.billingData.techFees.billingValue = item.billingValue;
-                                    break;
-
-                                case 'SERVICE_FEES':
-                                    $scope.billingData.serviceFees.billingTypeId = item.billingTypeId;
-
-                                    if (parseInt(item.billingTypeId) === 8) {
-                                        $scope.billingData.serviceFees.billingTypeName = 'CPM';
-                                    } else if (parseInt(item.billingTypeId) === 6) {
-                                        $scope.billingData.serviceFees.billingTypeName = 'COG+ %';
-                                    }
-
-                                    $scope.billingData.serviceFees.billingValue = item.billingValue;
-                                    break;
-
-                                case 'COST':
-                                    $scope.billingData.cost.billingTypeId = item.billingTypeId;
-
-                                    if (parseInt(item.billingTypeId) === 6) {
-                                        $scope.billingData.cost.billingTypeName = 'COG+ %';
-                                    }
-
-                                    $scope.billingData.cost.billingValue = item.billingValue;
-                                    break;
-                            }
-                        });
-                    }
-                }, function (err) {
-                    console.log('Error = ', err);
-                });
-        };
-
-        _currCtrl.saveBillingData = function () {
-            var list = [],
-                idx = 0,
-                reqBody;
-
-            if ($scope.billingData.techFees.billingValue) {
-                list[idx++] = {
-                    billedFor: 'TECH_FEES',
-                    billingTypeId: $scope.billingData.techFees.billingTypeId,
-                    billingValue: $scope.billingData.techFees.billingValue
-                };
-            }
-
-            if ($scope.billingData.serviceFees.billingValue) {
-                list[idx++] = {
-                    billedFor: 'SERVICE_FEES',
-                    billingTypeId: $scope.billingData.serviceFees.billingTypeId,
-                    billingValue: $scope.billingData.serviceFees.billingValue
-                };
-            }
-
-            if ($scope.billingData.cost.billingValue) {
-                list[idx++] = {
-                    billedFor: 'COST',
-                    billingTypeId: $scope.billingData.cost.billingTypeId,
-                    billingValue: $scope.billingData.cost.billingValue
-                };
-            }
-
-            _.each(list, function (item) {
-                item.clientId = $scope.client.id;
-                item.advertiserId = $scope.selectedAdvertiserId;
-            });
-
-            reqBody = {
-                list: list
-            };
-
-            accountsService
-                .saveBillingDataForAdv($scope.client.id, $scope.selectedAdvertiserId, reqBody)
-                .then(null, function (err) {
-                    console.log('Error = ', err);
-                });
-        };
-
-        _currCtrl.saveAdnlData = function () {
-            _currCtrl.saveAdChoiceData();
-            _currCtrl.saveIABCategory();
-            // TODO: save for BillingMethods
-            _currCtrl.saveBillingData();
-        };
-
         _currCtrl.verifyCreateAdvInputs = function () {
             var ret = true,
                 errMsg = 'Error';
@@ -243,11 +48,6 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
             if (!$scope.selectedAdvertiserId || $scope.selectedAdvertiserId === '') {
                 $rootScope.setErrAlertMessage(constants.EMPTY_ADV_SELECTION);
                 return false;
-            }
-
-            if ($scope.advertiserAddOrEditData.enableAdChoice && !$scope.advertiserAddOrEditData.adChoiceCode) {
-                errMsg = constants.EMPTY_ADCHOICE_CODE;
-                ret = false;
             }
 
             if (!$scope.advertiserAddOrEditData.selectedIABCategory ||
@@ -265,17 +65,56 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
 
         function createAdvertiserUnderClient(advId) {
             var requestData = {
+                clientId: $scope.client.id,
                 lookbackImpressions : 14,
-                lookbackClicks : 14
+                lookbackClicks : 14,
+                adChoice: '',
+                iabCategoryId: null,
+                techBillingTypeId: null,
+                techBillingValue: null,
+                serviceBillingTypeId: null,
+                serviceBillingValue: null,
+                costBillingTypeId: null,
+                costBillingValue: null
             };
+
             if(!$scope.isEditMode){
-                requestData['code'] = $scope.setSelectedAdvertiserCode == "Others" ? $scope.customAdvertiserCode : $scope.setSelectedAdvertiserCode;
+                requestData.code = $scope.setSelectedAdvertiserCode === 'Others' ?
+                    $scope.customAdvertiserCode :
+                    $scope.setSelectedAdvertiserCode;
             }
+
+            if ($scope.advertiserAddOrEditData.adChoiceCode) {
+                requestData.adChoice = $scope.advertiserAddOrEditData.adChoiceCode;
+
+                if ($scope.advertiserAddOrEditData.selectedIABSubCategoryId) {
+                    requestData.iabCategoryId = Number($scope.advertiserAddOrEditData.selectedIABSubCategoryId);
+                } else {
+                    if ($scope.advertiserAddOrEditData.selectedIABCategory) {
+                        requestData.iabCategoryId = Number($scope.advertiserAddOrEditData.selectedIABCategoryId);
+                    }
+                }
+
+                if ($scope.billingData.techFees.billingValue) {
+                    requestData.techBillingTypeId = Number($scope.billingData.techFees.billingTypeId);
+                    requestData.techBillingValue = Number($scope.billingData.techFees.billingValue);
+                }
+
+                if ($scope.billingData.serviceFees.billingValue) {
+                    requestData.serviceBillingTypeId = Number($scope.billingData.serviceFees.billingTypeId);
+                    requestData.serviceBillingValue = Number($scope.billingData.serviceFees.billingValue);
+                }
+
+                if ($scope.billingData.cost.billingValue) {
+                    requestData.costBillingTypeId = Number($scope.billingData.cost.billingTypeId);
+                    requestData.costBillingValue = Number($scope.billingData.cost.billingValue);
+                }
+            }
+
             accountsService
                 .createAdvertiserUnderClient($scope.client.id, advId, requestData)
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
-                        _currCtrl.saveAdnlData();
                         $scope.fetchAllAdvertisersforClient($scope.client.id);
                         $scope.resetBrandAdvertiserAfterEdit();
                         $scope.close();
@@ -357,7 +196,6 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                 .createPixelsUnderAdvertiser(clientId, advId, getRequestDataforPixel(clientId, advId))
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
-                        // $scope.fetchAllAdvertisersforClient($scope.client.id);
                         $scope.fetchAllClients();
                         $scope.resetBrandAdvertiserAfterEdit();
                         $scope.close();
@@ -473,9 +311,6 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
         };
         $scope.selectedRateType = 'Select';
 
-        $scope.advertiserAddOrEditData.selectedIABCategory = 'Select';
-        $scope.advertiserAddOrEditData.selectedIABSubCategory = 'Select';
-
         $scope.selectedBillingTypeChanged = function (billingType, billedFor) {
             if (billedFor === 'SERVICE_FEES') {
                 $scope.billingData.serviceFees.billingTypeId = billingType.id;
@@ -500,7 +335,6 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
         $scope.close = function () {
             $scope.resetBrandAdvertiserAfterEdit();
             $modalInstance.dismiss();
-            _currCtrl.clearAdvInputField();
             $scope.advertiserAddOrEditData.duplicatePixelName = false;
         };
 
@@ -515,13 +349,6 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
         $scope.selectIABSubCategory = function (type) {
             $scope.advertiserAddOrEditData.selectedIABSubCategory = type.name;
             $scope.advertiserAddOrEditData.selectedIABSubCategoryId = type.id;
-        };
-
-        $scope.getAdnlData = function () {
-            _currCtrl.getAdChoiceData();
-            _currCtrl.getIABCategory();
-            // TODO: get data for BillingMethods
-            _currCtrl.getBillingData();
         };
 
         $scope.saveAdvertisers = function () {
@@ -606,14 +433,14 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
             });
         };
 
-
         $scope.leaveFocusCustomAdvertiserCode = function(){
             accountsService.checkAdvertiserCodeExist($scope.customAdvertiserCode).then(function(result){
                 if (result.status === 'OK' || result.status === 'success') {
                     $scope.advertiserCodeExist = result.data.data.isExists
                 }
             },function(err){});
-        }
+        };
+
         $scope.selectAdvertiser = function (advertiser) {
             $scope.selectedAdvertiserId = advertiser.id;
             $scope.selectedAdvertiser = advertiser.name;
@@ -621,7 +448,8 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
 
         $scope.selectAdvertiserCode = function(ev, code){
             $scope.setSelectedAdvertiserCode = code;
-        }
+        };
+
         //Search Hide / Show
         $scope.searchShowInput = function () {
             var searchInputForm = $('.searchInputForm');
@@ -652,17 +480,56 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                 $('popup-msg').appendTo(document.body);
             });
 
-        _currCtrl.clearAdvInputField();
         _currCtrl.getIABCategoryList();
 
         getBillingTypes();
 
         if ($scope.isEditMode) {
-            $scope.getAdnlData();
+            // Prefill saved data for editing
+            $scope.selectedAdvertiserId = $scope.savedAdvertiserData.advertiserId;
+
+            // 1. Ad Choice
+            $scope.advertiserAddOrEditData.adChoiceCode = $scope.savedAdvertiserData.adChoice;
+
+            // 2. IAB Category
+            $scope.advertiserAddOrEditData.selectedIABCategory = $scope.savedAdvertiserData.iabCategory.groupName;
+            $scope.advertiserAddOrEditData.selectedIABCategoryId = $scope.savedAdvertiserData.iabCategory.groupId;
+            $scope.advertiserAddOrEditData.selectedIABSubCategory = $scope.savedAdvertiserData.iabCategory.name;
+            $scope.advertiserAddOrEditData.selectedIABSubCategoryId = $scope.savedAdvertiserData.iabCategory.id;
+            _currCtrl.getIABSubCategoryList($scope.advertiserAddOrEditData.selectedIABCategoryId);
+
+            // 3. Billing
+            if ($scope.savedAdvertiserData.techBillingTypeId) {
+                $scope.billingData.techFees.billingTypeId = $scope.savedAdvertiserData.techBillingTypeId;
+                $scope.billingData.techFees.billingTypeName = 'CPM';
+                $scope.billingData.techFees.billingValue = $scope.savedAdvertiserData.techBillingValue;
+            }
+
+            if ($scope.savedAdvertiserData.serviceBillingTypeId) {
+                $scope.billingData.serviceFees.billingTypeId = $scope.savedAdvertiserData.serviceBillingTypeId;
+                if (parseInt($scope.savedAdvertiserData.serviceBillingTypeId) === 8) {
+                    $scope.billingData.serviceFees.billingTypeName = 'CPM';
+                } else if (parseInt($scope.savedAdvertiserData.serviceBillingTypeId) === 6) {
+                    $scope.billingData.serviceFees.billingTypeName = 'COG+ %';
+                }
+                $scope.billingData.serviceFees.billingValue = $scope.savedAdvertiserData.serviceBillingValue;
+            }
+
+            if ($scope.savedAdvertiserData.costBillingTypeId) {
+                $scope.billingData.cost.billingTypeId = $scope.savedAdvertiserData.costBillingTypeId;
+                if (parseInt($scope.savedAdvertiserData.costBillingTypeId) === 6) {
+                    $scope.billingData.cost.billingTypeName = 'COG+ %';
+                }
+                $scope.billingData.cost.billingValue = $scope.savedAdvertiserData.costBillingValue;
+            }
 
             setTimeout(function () {
                 $('#advertiser, .setSelectedAdvertiserCode').addClass('disabled');
             }, 100);
+        } else {
+            // Create mode
+            $scope.advertiserAddOrEditData.selectedIABCategory = 'Select';
+            $scope.advertiserAddOrEditData.selectedIABSubCategory = 'Select';
         }
 
         $scope.$on('$locationChangeSuccess', function () {

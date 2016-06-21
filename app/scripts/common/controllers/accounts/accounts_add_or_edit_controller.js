@@ -130,15 +130,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                     respBody.serviceFeesBillingTypeId = $scope.billingData.serviceFees.billingTypeId;
                     respBody.serviceFeesBillingValue = $scope.billingData.serviceFees.billingValue;
                 }
-/*
- techFees: {
- name: 'Tech Fees',
- value: 'TECH_FEES',
- billingTypeId: '8',
- billingTypeName: 'CPM',
- billingValue: null
- },
- */
+
                 return respBody;
             }
 
