@@ -62,14 +62,14 @@
                     <span class="text">Download</span>
                     <span class="icon-arrow-down"></span>
                 </button>
-                <ul class="dropdown-menu" data-toggle="dropdown" style="left:initial; right:0px;">
+                <ul class="dropdown-menu" data-toggle="dropdown" style="left:initial; right:0px; overflow:hidden;">
                     <li class="available" style="width:320px;">
                         <a>
                             <span class="icon-download pull-left" style="width:30px;"></span>
                             <span class="pull-left" style="width: auto;">Download Invoice Report</span>
                         </a>
                     </li>
-                    <li class="available" style="width:320px;">
+                    <li class="available" style="width:345px;">
                         <a>
                             <span class="icon-download pull-left" style="width:30px;"></span>
                             <span class="pull-left" style="width: auto;" data-ng-bind="'Download (SOR) Results Invoice Template'"></span>
@@ -92,8 +92,6 @@
                 </div>
             </div>
         </div>
-
-
         <div class="pull-left dropdown-workflow" data-ng-show="isDataLoaded && !isUploadStatus">
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle"
@@ -118,7 +116,6 @@
                                 </div>
                             </a>
                         </li>
-
                         <li class="available" data-ng-click="selectStatus('Review')" style="border-bottom:1px solid #F2F2F2;">
                             <a>
                                 <div class="col-md-3 zeroPadding">
@@ -132,7 +129,7 @@
                             </a>
                         </li>
 
-                        <li class="available" data-ng-click="selectStatus('Closed')" style="border-bottom:0px solid #F2F2F2;">
+                        <li class="available" data-ng-click="selectStatus('Closed')" style="border-bottom:1px solid #F2F2F2;">
                             <a>
                                 <div class="col-md-3 zeroPadding">
                                     <span class="icon-locked pull-left" style="width:30px; margin-top: -1px;"></span>
@@ -145,7 +142,7 @@
                             </a>
                         </li>
 
-                        <li class="available" data-ng-click="selectStatus('Upload')" style="border-bottom:1px solid #F2F2F2;">
+                        <li class="available" data-ng-click="selectStatus('Upload')" style="border-bottom:0px solid #F2F2F2;">
                             <a>
                                 <div class="col-md-3 zeroPadding">
                                     <span class="icon-warning pull-left" style="width:30px; margin-top: -1px; color: #F47E2A;"></span>
@@ -153,26 +150,14 @@
                                 </div>
 
                                 <div class="col-md-9 zeroPadding">
-                                    <span>The Invoice Report requires modification by Uploaded <br> System of Record (SOR) Results</span>
+                                    <span >The Invoice Report requires modification by Uploaded <br> System of Record (SOR) Results</span>
                                 </div>
                             </a>
                         </li>
-                        <!-- <li class="available" data-ng-click="selectStatus('Review')">
-                            <a data-ng-bind="textConstants.INVOICE_DROPDWON_REVIEW"></a>
-                        </li>
-
-
-                        <li class="available" data-ng-click="selectStatus('Upload')">
-                            <a data-ng-bind="textConstants.INVOICE_DROPDWON_CLOSED"></a>
-                        </li> -->
                     </ul>
                 </div>
             </div>
-
-
-
-
-    </div>
+         </div>
 
     </div>
 </div>
