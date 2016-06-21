@@ -189,6 +189,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }
                 }, createCampaign.errorHandler);
             },
+
             fetchRateTypes: function () {
                 if($scope.selectedCampaign.advertiserId){
                     workflowService.getRatesTypes($scope.selectedCampaign.clientId,$scope.selectedCampaign.advertiserId).then(function (result) {
@@ -197,11 +198,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             workflowService.setRateTypes(angular.copy($scope.type));
                         }
                     })
-                    this.fetchBillingTypeValue();
+                    //this.fetchBillingTypeValue();
                 }
-
-
             },
+
             fetchBillingTypeValue: function () {
                 if($scope.selectedCampaign.advertiserId){
                     workflowService.getBillingTypeValue($scope.selectedCampaign.clientId,$scope.selectedCampaign.advertiserId).then(function (result) {
@@ -521,7 +521,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 endDateElem.datepicker("setStartDate", endTime);
                 endDateElem.datepicker("update", endTime);
             }
-            if (moment(startTime).isAfter(endTime, 'day')) {
+            if (startTime && moment(startTime).isAfter(endTime, 'day')) {
                 endDateElem.datepicker("update", startTime);
             }
         };
@@ -916,37 +916,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
         });
 
-
-        //$scope.$on("$locationChangeStart", function (event, next, current) {
-        //    if ($scope.cloneMediaPlanName) {
-        //        $modalInstance = $modal.open({
-        //            templateUrl: assets.html_confirmation_modal,
-        //            controller: 'ConfirmationModalController',
-        //            scope: $scope,
-        //            windowClass: 'delete-dialog',
-        //            resolve: {
-        //                headerMsg: function () {
-        //                    return $scope.textConstants.MEDIA_PLAN_CLONE;
-        //                },
-        //                mainMsg: function () {
-        //                    return $scope.textConstants.MEDIA_PLAN_WARNING_MESSAGE
-        //                },
-        //                buttonName: function () {
-        //                    return 'Ok';
-        //                },
-        //                execute: function () {
-        //                    return function () {
-        //                        $scope.cloneMediaPlanName = null;
-        //                        $location.path((next.substring($location.absUrl().length - $location.url().length)));
-        //                    }
-        //                }
-        //            }
-        //        });
-        //        event.preventDefault();
-        //    }
-        //});
-
-
         $scope.$watch('selectedCampaign.endTime',function(newVal,oldVal){
             if(selectedAdvertiser){
                 if(createCampaign.campaignData && createCampaign.campaignData.pixels){
@@ -955,7 +924,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.$broadcast('fetch_pixels');
                 }
             }
-
             //set the flag to save the media plan along with line item
             if($scope.mode === 'edit'){
                 if (typeof oldVal === 'undefined') return;
