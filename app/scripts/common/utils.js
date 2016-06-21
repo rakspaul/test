@@ -900,14 +900,14 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             return $filter('number')(input, 3) + '%';
                         } else if (kpiType.toLowerCase() === 'cpc' || kpiType.toLowerCase() === 'cpa' ||
                             kpiType.toLowerCase() === 'cpm') {
-                            return constants.currencySymbol + $filter('number')(input, 2);
+                            return constants.currencySymbol + $filter('number')(input, 3);
                         } else if (kpiType.toLowerCase() === 'actions' || kpiType.toLowerCase() === 'clicks' ||
                             kpiType.toLowerCase() === 'impressions' || kpiType.toLowerCase() === 'delivery') {
                             return $filter('number')(input, 0);
                         } else if (kpiType.toLowerCase() === 'vtc' && !precision) {
                             return $filter('number')(input, 0) + '%';
                         } else if (kpiType.toLowerCase() === 'vtc' && precision) {
-                            return $filter('number')(input, 2) + '%';
+                            return $filter('number')(input, 3) + '%';
                         } else {
                             //unknown kpiType
                             return $filter('number')(input, 0);
@@ -1167,9 +1167,10 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     if(!val) {
                         return '-';
                     } else if (type.toLowerCase() === 'delivery (impressions)') {
-                        return (val.toFixed(2)).toLocaleString();
+                        return (val.toFixed(0)).toLocaleString();
                     } else {
-                        val = (val >0 && val <1) ? val.toFixed(4):val.toFixed(2);
+                       // val = (val >0 && val <1) ? val.toFixed(4):val.toFixed(2);
+                        val = val.toFixed(3);
 
                         return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' ||
                             type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ?
@@ -1275,6 +1276,40 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
 
                     if (y < 1000000000000) {
                         return (value / 1000000000).toFixed(2) + 'B';
+                    }
+
+                    return '1T+';
+                };
+            })
+            // formatting with number of digits to be present after decimal
+            .filter('nrFormatDigits', function () {
+                return function (value, key) {
+                    var y = Math.abs(value);
+
+                    if (y <= 0) {
+                        return y;
+                    }
+
+                    key = key || 0;
+
+                    if (y < 9999) {
+                        return value.toFixed(key);
+                    }
+
+                    if (y < 1000000) {
+                        return (value / 1000).toFixed(key) + 'K';
+                    }
+
+                    if (y < 10000000) {
+                        return (value / 1000000).toFixed(key) + 'M';
+                    }
+
+                    if (y < 1000000000) {
+                        return (value / 1000000).toFixed(key) + 'M';
+                    }
+
+                    if (y < 1000000000000) {
+                        return (value / 1000000000).toFixed(key) + 'B';
                     }
 
                     return '1T+';
