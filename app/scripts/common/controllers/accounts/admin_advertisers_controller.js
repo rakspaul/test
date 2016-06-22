@@ -58,7 +58,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     var code = ($scope.setSelectedAdvertiserCode == 'Others') ? $scope.customAdvertiserCode : $scope.setSelectedAdvertiserCode;
                     accountsService.createAdvertiser({name: $scope.advertiserName, code: code}).then(function (res) {
                         if (res.status === 'CREATED' || res.status === 'success') {
-                            $scope.clearEdit();
                             $scope.advertiserName = "";
                             $scope.fetchAllAdvertisers();
                             $rootScope.setErrAlertMessage(constants.SUCCESS_CREATE_ADVERTISER, 0);
