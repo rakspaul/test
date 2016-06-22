@@ -144,10 +144,10 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 if($scope.selectedCampaign.lineItemfile){
                     //bulk upload loader flag
                     $scope.bulkUploadItemLoaderEdit = true;
-
-                        var clientId = ($scope.selectedCampaign.clientId)? $scope.selectedCampaign.clientId:loginModel.getSelectedClient().id;
+                    var budget=$scope.Campaign.totalBudget ? $scope.Campaign.totalBudget :0
+                    var clientId = ($scope.selectedCampaign.clientId)? $scope.selectedCampaign.clientId:loginModel.getSelectedClient().id;
                     var url= vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertiser/' + $scope.selectedCampaign.advertiserId
-                        + '/lineitems/parseCSV?campaignEndDate='+$scope.selectedCampaign.endTime+'&campaignStartDate='+$scope.selectedCampaign.startTime+'&campaignTotalBudget='+$scope.Campaign.totalBudget;
+                        + '/lineitems/parseCSV?campaignEndDate='+$scope.selectedCampaign.endTime+'&campaignStartDate='+$scope.selectedCampaign.startTime+'&campaignTotalBudget='+ budget;
 
                     (function(file) {
                         Upload.upload({
@@ -269,6 +269,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         $scope.clearFileSelected=function(){
             $('.upload_files_selected_container').slideUp();
             $(".common_file_upload_container").slideUp();
+            $('.common_file_upload_container').hide();
             $scope.selectedCampaign.lineItemfile=undefined;
         }
         /*Reset the error notification for wrong file or large file */
