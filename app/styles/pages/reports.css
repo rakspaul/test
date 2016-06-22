@@ -4478,7 +4478,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin: 100px auto 110px ;
 }
 .custom_report_response_page .custom_report_response_table .custom_report_scroll {
- /* overflow: auto ;*/
+  overflow: auto ;
 }
 .custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row {
   position: absolute;
