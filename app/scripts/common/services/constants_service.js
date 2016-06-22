@@ -1222,6 +1222,7 @@ define(['angularAMD'], function(angularAMD) {
         this.INVOICE_DROPDWON_UPLOAD = "The Invoice Report requires modification by Uploaded <br> System of Record (SOR) Results";
         this.INVOICE_CONFIRM_CLOSE = "Do you want to close the invoice permanently.";
         this.INVOICE_CONFIRM_UPLOAD = "Once the invoice status changed to upload, user must upload the file to change the status.";
+        this.CODE_FIELD_EMPTY = "Please add code";
 
     });
 });
