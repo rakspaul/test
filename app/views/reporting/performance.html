@@ -330,10 +330,10 @@
 
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data">{{((screenData.vtc_25 >0)|| (screenData.vtc_25 == 0)) ? (screenData.vtc_25 | nrFormatDigits:3) : '-'}}</div>
-                <div class="vid_quartile_data">{{((screenData.vtc_50 >0)|| (screenData.vtc_50 == 0)) ? (screenData.vtc_50 | nrFormatDigits:3) : '-'}}</div>
-                <div class="vid_quartile_data">{{((screenData.vtc_75 >0)|| (screenData.vtc_75 == 0)) ? (screenData.vtc_75 | nrFormatDigits:3) : '-'}}</div>
-                <div class="vid_quartile_data">{{((screenData.vtc_100 >0)|| (screenData.vtc_100 == 0)) ? (screenData.vtc_100 | nrFormatDigits:3) : '-'}}</div>
+                <div class="vid_quartile_data">{{((screenData.vtc_25 >0)|| (screenData.vtc_25 == 0)) ? (screenData.vtc_25 | nrFormatDigits:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((screenData.vtc_50 >0)|| (screenData.vtc_50 == 0)) ? (screenData.vtc_50 | nrFormatDigits:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((screenData.vtc_75 >0)|| (screenData.vtc_75 == 0)) ? (screenData.vtc_75 | nrFormatDigits:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((screenData.vtc_100 >0)|| (screenData.vtc_100 == 0)) ? (screenData.vtc_100 | nrFormatDigits:2) : '-'}}</div>
             </div>
         </div>
         <div class="each_col third_col {{screenData.kpi_type === 'VTC' ? 'bold' : ''}}">
@@ -341,7 +341,7 @@
         </div>
     </div>
     <div class="each_col forth_col {{screenData.kpi_type === 'CTR' ? 'bold' : ''}}">
-        {{((screenData.ctr >0)|| (screenData.ctr == 0)) ? ((screenData.ctr | number:2)+'%') : '-'}}
+        {{((screenData.ctr >0)|| (screenData.ctr == 0)) ? ((screenData.ctr | number:3)+'%') : '-'}}
     </div>
     <div class="each_col fifth_col {{screenData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}">
         {{((screenData.action_rate >0)|| (screenData.action_rate == 0)) ? ((screenData.action_rate | number:3)+'%') : '-'}}
@@ -387,10 +387,10 @@
 
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data">{{((daysofweekData.vtc_25 >0)|| (daysofweekData.vtc_25 == 0)) ? (daysofweekData.vtc_25 | nrFormatDigits:3) : '-'}}</div>
-                <div class="vid_quartile_data">{{((daysofweekData.vtc_50 >0)|| (daysofweekData.vtc_50 == 0)) ? (daysofweekData.vtc_50 | nrFormatDigits:3) : '-'}}</div>
-                <div class="vid_quartile_data">{{((daysofweekData.vtc_75 >0)|| (daysofweekData.vtc_75 == 0)) ? (daysofweekData.vtc_75 | nrFormatDigits:3) : '-'}}</div>
-                <div class="vid_quartile_data">{{((daysofweekData.vtc_100 >0)|| (daysofweekData.vtc_100 == 0)) ? (daysofweekData.vtc_100 | nrFormatDigits:3) : '-'}}</div>
+                <div class="vid_quartile_data">{{((daysofweekData.vtc_25 >0)|| (daysofweekData.vtc_25 == 0)) ? (daysofweekData.vtc_25 | nrFormatDigits:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((daysofweekData.vtc_50 >0)|| (daysofweekData.vtc_50 == 0)) ? (daysofweekData.vtc_50 | nrFormatDigits:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((daysofweekData.vtc_75 >0)|| (daysofweekData.vtc_75 == 0)) ? (daysofweekData.vtc_75 | nrFormatDigits:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((daysofweekData.vtc_100 >0)|| (daysofweekData.vtc_100 == 0)) ? (daysofweekData.vtc_100 | nrFormatDigits:2) : '-'}}</div>
             </div>
         </div>
         <div class="each_col third_col {{daysofweekData.kpi_type === 'VTC' ? 'bold' : ''}}">
@@ -435,10 +435,10 @@
 
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data">{{((formatData.vtc_25 >0)|| (formatData.vtc_25 == 0)) ? (formatData.vtc_25 | nrFormatDigits:3) : '-'}}</div>
-                <div class="vid_quartile_data">{{((formatData.vtc_50 >0)|| (formatData.vtc_50 == 0)) ? (formatData.vtc_50 | nrFormatDigits:3) : '-'}}</div>
-                <div class="vid_quartile_data">{{((formatData.vtc_75 >0)|| (formatData.vtc_75 == 0)) ? (formatData.vtc_75 | nrFormatDigits:3) : '-'}}</div>
-                <div class="vid_quartile_data">{{((formatData.vtc_100 >0)|| (formatData.vtc_100 == 0)) ? (formatData.vtc_100 | nrFormatDigits:3) : '-'}}</div>
+                <div class="vid_quartile_data">{{((formatData.vtc_25 >0)|| (formatData.vtc_25 == 0)) ? (formatData.vtc_25 | nrFormatDigits:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((formatData.vtc_50 >0)|| (formatData.vtc_50 == 0)) ? (formatData.vtc_50 | nrFormatDigits:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((formatData.vtc_75 >0)|| (formatData.vtc_75 == 0)) ? (formatData.vtc_75 | nrFormatDigits:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((formatData.vtc_100 >0)|| (formatData.vtc_100 == 0)) ? (formatData.vtc_100 | nrFormatDigits:2) : '-'}}</div>
             </div>
         </div>
         <div class="each_col third_col {{formatData.kpi_type === 'VTC' ? 'bold' : ''}}">
@@ -485,10 +485,10 @@
         </div>
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data">{{((creativesData.vtc_25 >0)|| (creativesData.vtc_25 == 0)) ? (creativesData.vtc_25 | nrFormatDigits:3) : '-'}}</div>
-                <div class="vid_quartile_data">{{((creativesData.vtc_50 >0)|| (creativesData.vtc_50 == 0)) ? (creativesData.vtc_50 | nrFormatDigits:3) : '-'}}</div>
-                <div class="vid_quartile_data">{{((creativesData.vtc_75 >0)|| (creativesData.vtc_75 == 0)) ? (creativesData.vtc_75 | nrFormatDigits:3) : '-'}}</div>
-                <div class="vid_quartile_data">{{((creativesData.vtc_100 >0)|| (creativesData.vtc_100 == 0)) ? (creativesData.vtc_100 | nrFormatDigits:3) : '-'}}</div>
+                <div class="vid_quartile_data">{{((creativesData.vtc_25 >0)|| (creativesData.vtc_25 == 0)) ? (creativesData.vtc_25 | nrFormatDigits:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((creativesData.vtc_50 >0)|| (creativesData.vtc_50 == 0)) ? (creativesData.vtc_50 | nrFormatDigits:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((creativesData.vtc_75 >0)|| (creativesData.vtc_75 == 0)) ? (creativesData.vtc_75 | nrFormatDigits:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((creativesData.vtc_100 >0)|| (creativesData.vtc_100 == 0)) ? (creativesData.vtc_100 | nrFormatDigits:2) : '-'}}</div>
             </div>
         </div>
         <div class="each_col third_col {{creativesData.kpi_type === 'VTC' ? 'bold' : ''}}">
@@ -539,10 +539,10 @@
     </div>
     <div class="vid_data_hdr">
         <div>
-            <div class="vid_quartile_data">{{((adsizesData.vtc_25 >0)|| (adsizesData.vtc_25 == 0))? (adsizesData.vtc_25 | nrFormatDigits:3) : '-'}}</div>
-            <div class="vid_quartile_data">{{((adsizesData.vtc_50 >0)|| (adsizesData.vtc_50 == 0)) ? (adsizesData.vtc_50 | nrFormatDigits:3) : '-'}}</div>
-            <div class="vid_quartile_data">{{((adsizesData.vtc_75 >0)|| (adsizesData.vtc_75 == 0)) ? (adsizesData.vtc_75 | nrFormatDigits:3) : '-'}}</div>
-            <div class="vid_quartile_data">{{((adsizesData.vtc_100 >0)|| (adsizesData.vtc_100 == 0)) ? (adsizesData.vtc_100 | nrFormatDigits:3) : '-'}}</div>
+            <div class="vid_quartile_data">{{((adsizesData.vtc_25 >0)|| (adsizesData.vtc_25 == 0))? (adsizesData.vtc_25 | nrFormatDigits:2) : '-'}}</div>
+            <div class="vid_quartile_data">{{((adsizesData.vtc_50 >0)|| (adsizesData.vtc_50 == 0)) ? (adsizesData.vtc_50 | nrFormatDigits:2) : '-'}}</div>
+            <div class="vid_quartile_data">{{((adsizesData.vtc_75 >0)|| (adsizesData.vtc_75 == 0)) ? (adsizesData.vtc_75 | nrFormatDigits:2) : '-'}}</div>
+            <div class="vid_quartile_data">{{((adsizesData.vtc_100 >0)|| (adsizesData.vtc_100 == 0)) ? (adsizesData.vtc_100 | nrFormatDigits:2) : '-'}}</div>
         </div>
     </div>
     <div class="each_col third_col {{adsizesData.kpi_type === 'VTC' ? 'bold' : ''}}">
