@@ -41,19 +41,18 @@ function (angularAMD) {
             clientId = vistoconfig.getSelectedAccountId(),
             advertiserId = vistoconfig.getSelectAdvertiserId(),
             brandId = vistoconfig.getSelectedBrandId(),
-            campaignId = vistoconfig.getSelectedCampaignId,
+            campaignId = vistoconfig.getSelectedCampaignId(),
 
             url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                '/clients/' + clientId +
-                '/campaigns/' + campaignId,
+                '/clients/' + clientId + '/campaigns/' + campaignId,
             eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function (event, args) {
                 var callbackFunctionName = args.loadingFlag === 2  ?  $scope.refreshGraph : $scope.getCdbChartData;
                 dataStore.deleteFromCache(urlService.APIActionData(clientId, campaignId));
                 updateActionItems(callbackFunctionName, args.loadingFlag, args.showExternal);
             }),
             callRefreshGraphData = $rootScope.$on('callRefreshGraphData', function (event,args) {
-            $scope.refreshGraph(args);
-        });
+                $scope.refreshGraph(args);
+            });
 
         function getCustomQueryParams(queryId) {
             var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
@@ -1216,31 +1215,41 @@ function (angularAMD) {
         };
 
         $scope.setGraphData = function (campaign, type) {
-            if (campaign) {
-                campaign.type = type;
-                campaignSelectModel.setSelectedCampaign(campaign);
-                strategySelectModel.setSelectedStrategy(vistoconfig.LINE_ITEM_DROPDWON_OBJECT);
-                kpiSelectModel.setSelectedKpi(campaign.kpiType);
-            }
+            // if (campaign) {
+            //     campaign.type = type;
+            //     campaignSelectModel.setSelectedCampaign(campaign);
+            //     strategySelectModel.setSelectedStrategy(vistoconfig.LINE_ITEM_DROPDWON_OBJECT);
+            //     kpiSelectModel.setSelectedKpi(campaign.kpiType);
+            // }
 
-            $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
+            // $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
 
             // grunt       analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS,
             // (type === 'view_report' ? type: type + '_widget'), loginModel.getLoginName());
 
-            if (type === 'cost') {
-                utils.goToLocation(vistoconfig.COST_LINK);
-            } else if (type === 'quality' || type === 'videoViewability') {
-                utils.goToLocation(vistoconfig.QUALITY_LINK);
-            } else if (type === 'inventory') {
-                utils.goToLocation(vistoconfig.INVENTORY_LINK);
-            } else if (type === 'platform') {
-                utils.goToLocation(vistoconfig.PLATFORM_LINK);
-            } else if (type === 'view_report' || type === 'formats' || type === 'screens' || type === 'adsizes') {
-                utils.goToLocation(vistoconfig.PERFORMANCE_LINK);
-            } else {
-                utils.goToLocation(vistoconfig.OPTIMIZATION_LINK);
+            var url = "/a/" + $routeParams.accountId;
+            if ($routeParams.subAccountId) {
+                url += "/sa/" + $routeParams.subAccountId;
             }
+            ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
+            ($routeParams.advertiserId > 0 && $routeParams.brandId >= 0) && (url += '/b/' + $routeParams.brandId);
+            url += "/mediaplans/" + $routeParams.campaignId;
+
+            if (type === 'cost') {
+                url += '/cost';
+            } else if (type === 'quality' || type === 'videoViewability') {
+                url += '/quality';
+            } else if (type === 'inventory') {
+                url += '/inventory';
+            } else if (type === 'platform') {
+                url += '/platform';
+            } else if (type === 'view_report' || type === 'formats' || type === 'screens' || type === 'adsizes') {
+                url += '/performance';
+            } else {
+                url += '/Optimization';
+            }
+            console.log('url', url);
+            $location.url(url);
         };
 
         $scope.watchActionFilter = function (filter, showExternal) {

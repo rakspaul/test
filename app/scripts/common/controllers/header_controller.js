@@ -5,7 +5,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
     angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location, $modal, $routeParams,
                                                         constants, loginModel, domainReports, RoleBasedService, workflowService, 
                                                         featuresService, accountService, subAccountService, subAccountModel, 
-                                                        localStorageService, advertiserModel, brandsModel, strategySelectModel) {
+                                                        localStorageService, advertiserModel, brandsModel, strategySelectModel,
+                                                        pageFinder, urlBuilder) {
         // var featurePermission = function () {
         //         $scope.fparams = featuresService.getFeatureParams();
         //         $scope.showMediaPlanTab = $scope.fparams[0].mediaplan_list;
@@ -194,12 +195,12 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     });
                     if (leafSubAccount) {
                         url += "/sa/" + $routeParams.subAccountId;
+                        ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
+                        ($routeParams.advertiserId > 0) && ($routeParams.brandId >= 0) && (url += '/b/' + $routeParams.brandId);
                     } else {
                         url += "/sa/" + subAccountService.getSubAccounts()[0].id;
                     }
                 }
-                ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
-                ($routeParams.advertiserId > 0) && ($routeParams.brandId >= 0) && (url += '/b/' + $routeParams.brandId);
                 url += '/mediaplans'
             } else if (page === 'reportsSubPage') {
                 var reportName = url;
@@ -223,6 +224,14 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     url += "/mediaplans/reports";
                 }
                 url += reportName;
+            } else if (page == 'customReports') {
+                var reportName = url;
+                url = "/a/" + $routeParams.accountId;
+                url += reportName;
+            } else if (page == 'uploadReports') {
+                url = urlBuilder.uploadReportsUrl();
+            } else if (page == 'uploadedReportsList') {
+                url = urlBuilder.uploadReportsListUrl();
             }
 
             console.log('header_controller', 'url', url);

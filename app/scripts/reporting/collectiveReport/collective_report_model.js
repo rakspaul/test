@@ -9,24 +9,25 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
             'dataStore', function (urlService, dataService, advertiserModel, brandsModel,dataStore) {
                 var reportList = {},
 
-                    getReportList = function (callback) {
-                        var selectedCampaginObj = JSON.parse(localStorage.getItem('selectedCampaignAll')),
-                            selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaignAll')),
-                            advertiserId = advertiserModel.getSelectedAdvertiser().id,
-                            brandId = brandsModel.getSelectedBrand().id,
-                            url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ?
-                                selectedCampagin.id : -1);
+                    getReportList = function (clientId, advertiserId, brandId, campaignId) {
+                        // var selectedCampaginObj = JSON.parse(localStorage.getItem('selectedCampaignAll')),
+                        //     selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaignAll')),
+                        //     advertiserId = advertiserModel.getSelectedAdvertiser().id,
+                        //     brandId = brandsModel.getSelectedBrand().id,
+                        var url = urlService.APIReportList(clientId, advertiserId, brandId, campaignId);
+                        console.log('getReportList', 'fetching the url', url);
+                        return dataService.getReportListData(url)
 
-                        return dataService
-                            .getReportListData(url)
-                            .then(function (response) {
-                                callback(response.data);
-                                return response.data;
-                            });
+                        // return dataService
+                        //     .getReportListData(url)
+                        //     .then(function (response) {
+                        //         callback(response.data);
+                        //         return response.data;
+                        //     });
                     },
 
-                    deleteReport = function (fileId, callback) {
-                        var url = urlService.APIDeleteReport(fileId);
+                    deleteReport = function (clientId, reportId, callback) {
+                        var url = urlService.APIDeleteReport(clientId, reportId);
 
                         return dataService
                             .delete(url)
@@ -171,7 +172,7 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                     };
 
                 return {
-                    reportList: getReportList,
+                    getReportList: getReportList,
                     deleteReport: deleteReport,
                     getScheduleReportList: getScheduleReportList,
                     deleteScheduledReport:deleteScheduledReport,

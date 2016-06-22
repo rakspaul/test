@@ -4,7 +4,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
 
     angularAMD.controller('CampaignSelectController', function ($location, $scope, $rootScope, $routeParams,
                                                                 campaignSelectModel, constants, brandsModel,
-                                                                loginModel, utils, strategySelectModel) {
+                                                                loginModel, utils, strategySelectModel, pageFinder) {
 
         console.log('CampaignSelectController initialized');
 
@@ -254,6 +254,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
             //      $scope.fetchCampaigns(false, false);
             // }
 
+            $scope.selectedObj = campaign;
             $('.campaigns_list').hide();
             //grunt analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
             // e.preventDefault();
@@ -264,10 +265,20 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
             }
             
             url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
-            var reportName = _.last($location.path().split('/'));
-            url += "/mediaplans/" + campaign.campaign_id + '/' + reportName;
-            console.log('url', url);
-            $location.url(url);
+            url += "/mediaplans/" + campaign.campaign_id;
+            var page = pageFinder.pageBuilder($location.path())
+            if (page.isCannedReportsPage()) {
+                var reportName = _.last($location.path().split('/'));
+                url += '/' +reportName;
+                console.log('url', url);
+                $location.url(url);
+            } else if (page.isUploadReportsPage()) {
+                // do nothing
+            } else if (page.isUploadedReportsListPage()) {
+                url += '/reports/list';
+                console.log('url', url);
+                $location.url(url);
+            }
         }
         // $('.campaigns_list').on('click', 'li', function (e) {
             

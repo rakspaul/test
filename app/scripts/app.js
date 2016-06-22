@@ -319,6 +319,67 @@ define(['common'], function (angularAMD) {
         return deferred.promise;
     };
 
+    var uploadReportsHeaderResolver = function($q, $location, $route, accountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel) {
+        var deferred = $q.defer();
+
+        var params = $route.current.params;
+        accountService.fetchAccountList().then(function() {
+            if (accountService.allowedAccount($route.current.params.accountId)) {
+                accountService.fetchAccountData($route.current.params.accountId).then(function() {
+                    collectiveReportModel.getReportList(params.accountId, params.advertiserId || -1, params.brandId || -1, params.campaignId || -1).then(function(response) {
+                        if (response && response.data.data) {
+                            deferred.resolve(response.data.data);
+                        } else {
+                            deferred.resolve([]);
+                        }
+                        params.campaignId && campaignSelectModel.fetchCampaign(params.accountId, params.campaignId);
+                        !params.campaignId && campaignSelectModel.setSelectedCampaign({id: -1, name: 'All Media Plans', kpi: 'ctr', startDate: '-1', endDate: '-1'});
+                        params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel);
+                        params.advertiserId && params.brandId && fetchCurrentBrand($location, $route, brandsModel);
+                    });
+                });
+            } else {
+                console.log('account not allowed');
+                $location.url('/tmp')
+            }
+        });
+        return deferred.promise;
+    };
+
+    var uploadReportsHeaderResolver2 = function($q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel) {
+        var deferred = $q.defer();
+
+        var params = $route.current.params;
+        accountService.fetchAccountList().then(function() {
+            if (accountService.allowedAccount($route.current.params.accountId)) {
+                subAccountService.fetchSubAccountList($route.current.params.accountId).then(function() {
+                    if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
+                        accountService.fetchAccountData($route.current.params.accountId).then(function(response) {
+                            collectiveReportModel.getReportList(params.subAccountId, params.advertiserId || -1, params.brandId || -1, params.campaignId || -1).then(function(response) {
+                                if (response && response.data.data) {
+                                    deferred.resolve(response.data.data);
+                                } else {
+                                    deferred.resolve([]);
+                                }
+                                params.campaignId && campaignSelectModel.fetchCampaign(params.subAccountId, params.campaignId);
+                                !params.campaignId && campaignSelectModel.setSelectedCampaign({id: -1, name: 'All Media Plans', kpi: 'ctr', startDate: '-1', endDate: '-1'});
+                                params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel);
+                                params.advertiserId && params.brandId && fetchCurrentBrand($location, $route, brandsModel);
+                            });
+                        });
+                    } else {
+                        console.log('dashboard account not allowed');
+                        $location.url('/tmp')
+                    }
+                });
+            } else {
+                console.log('account not allowed');
+                $location.url('/tmp')
+            }
+        });
+        return deferred.promise;
+    };
+
     app.config(function ($routeProvider, $httpProvider) {
             $routeProvider.caseInsensitiveMatch = true;
 
@@ -1025,6 +1086,228 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
+                .when('/a/:accountId/customreport', angularAMD.route({
+                    templateUrl: assets.html_custom_report,
+                    title: 'Report Builder',
+                    controller: 'CustomReportController',
+                    controllerUrl: 'reporting/controllers/custom_report_controller',
+                    showHeader : true,
+                    bodyclass: 'custom_report_page',
+                    resolve: {
+                        check: function ($location, featuresService) {
+                            featuresService.setGetFeatureParams('scheduled_reports');
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/customreport/edit/:reportId', angularAMD.route({
+                    templateUrl: assets.html_custom_report,
+                    title: 'Report Builder',
+                    controller: 'CustomReportController',
+                    controllerUrl: 'reporting/controllers/custom_report_controller',
+                    showHeader : true,
+                    bodyclass: 'custom_report_page',
+                    resolve: {
+                        check: function ($location, featuresService) {
+                            featuresService.setGetFeatureParams('scheduled_reports');
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/reports/upload', angularAMD.route({
+                    templateUrl: assets.html_custom_report_upload,
+                    title: 'Upload Custom Reports',
+                    controller: 'CustomReportUploadController',
+                    controllerUrl: 'reporting/controllers/custom_report_upload_controller',
+                    showHeader : true,
+                    css: assets.css_custom_reports,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, advertiserModel, brandsModel) {
+                            return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel, brandsModel);
+                        }
+                        // check: function ($location, featuresService) {
+                        //     featuresService.setGetFeatureParams('collective_insights');
+                        // }
+                    }
+                }))
+
+                .when('/a/:accountId/adv/:advertiserId/reports/upload', angularAMD.route({
+                    templateUrl: assets.html_custom_report_upload,
+                    title: 'Upload Custom Reports',
+                    controller: 'CustomReportUploadController',
+                    controllerUrl: 'reporting/controllers/custom_report_upload_controller',
+                    showHeader : true,
+                    css: assets.css_custom_reports,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, advertiserModel, brandsModel) {
+                            return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel, brandsModel);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/sa/:subAccountId/reports/upload', angularAMD.route({
+                    templateUrl: assets.html_custom_report_upload,
+                    title: 'Upload Custom Reports',
+                    controller: 'CustomReportUploadController',
+                    controllerUrl: 'reporting/controllers/custom_report_upload_controller',
+                    showHeader : true,
+                    css: assets.css_custom_reports,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, subAccountService, advertiserModel, brandsModel) {
+                            return mediaplansHeaderResolver2($q, $location, $route, accountService, subAccountService, advertiserModel, brandsModel);
+                        }
+                        // check: function ($location, featuresService) {
+                        //     featuresService.setGetFeatureParams('collective_insights');
+                        // }
+                    }
+                }))
+
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/reports/upload', angularAMD.route({
+                    templateUrl: assets.html_custom_report_upload,
+                    title: 'Upload Custom Reports',
+                    controller: 'CustomReportUploadController',
+                    controllerUrl: 'reporting/controllers/custom_report_upload_controller',
+                    showHeader : true,
+                    css: assets.css_custom_reports,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, subAccountService, advertiserModel, brandsModel) {
+                            return mediaplansHeaderResolver2($q, $location, $route, accountService, subAccountService, advertiserModel, brandsModel);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/reports/list', angularAMD.route({
+                    templateUrl: assets.html_collective_report_listing,
+                    title: 'Collective Insights',
+                    controller: 'CollectiveReportListingController',
+                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    showHeader : true,
+                    css: assets.css_custom_reports,
+                    resolve: {
+                        reportsList: function($q, $location, $route, accountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel) {
+                            return uploadReportsHeaderResolver($q, $location, $route, accountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel);
+                        }
+                        // check: function ($location, featuresService) {
+                        //     featuresService.setGetFeatureParams('collective_insights');
+                        // }
+                    }
+                }))
+
+
+                .when('/a/:accountId/adv/:advertiserId/reports/list', angularAMD.route({
+                    templateUrl: assets.html_collective_report_listing,
+                    title: 'Collective Insights',
+                    controller: 'CollectiveReportListingController',
+                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    showHeader : true,
+                    css: assets.css_custom_reports,
+                    resolve: {
+                        reportsList: function($q, $location, $route, accountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel) {
+                            return uploadReportsHeaderResolver($q, $location, $route, accountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/adv/:advertiserId/b/:brandId/reports/list', angularAMD.route({
+                    templateUrl: assets.html_collective_report_listing,
+                    title: 'Collective Insights',
+                    controller: 'CollectiveReportListingController',
+                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    showHeader : true,
+                    css: assets.css_custom_reports,
+                    resolve: {
+                        reportsList: function($q, $location, $route, accountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel) {
+                            return uploadReportsHeaderResolver($q, $location, $route, accountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/reports/list', angularAMD.route({
+                    templateUrl: assets.html_collective_report_listing,
+                    title: 'Collective Insights',
+                    controller: 'CollectiveReportListingController',
+                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    showHeader : true,
+                    css: assets.css_custom_reports,
+                    resolve: {
+                        reportsList: function($q, $location, $route, accountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel) {
+                            return uploadReportsHeaderResolver($q, $location, $route, accountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/sa/:subAccountId/reports/list', angularAMD.route({
+                    templateUrl: assets.html_collective_report_listing,
+                    title: 'Collective Insights',
+                    controller: 'CollectiveReportListingController',
+                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    showHeader : true,
+                    css: assets.css_custom_reports,
+                    resolve: {
+                        reportsList: function($q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel) {
+                            return uploadReportsHeaderResolver2($q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel);
+                        }
+                        // check: function ($location, featuresService) {
+                        //     featuresService.setGetFeatureParams('collective_insights');
+                        // }
+                    }
+                }))
+
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/reports/list', angularAMD.route({
+                    templateUrl: assets.html_collective_report_listing,
+                    title: 'Collective Insights',
+                    controller: 'CollectiveReportListingController',
+                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    showHeader : true,
+                    css: assets.css_custom_reports,
+                    resolve: {
+                        reportsList: function($q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel) {
+                            return uploadReportsHeaderResolver2($q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/reports/list', angularAMD.route({
+                    templateUrl: assets.html_collective_report_listing,
+                    title: 'Collective Insights',
+                    controller: 'CollectiveReportListingController',
+                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    showHeader : true,
+                    css: assets.css_custom_reports,
+                    resolve: {
+                        reportsList: function($q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel) {
+                            return uploadReportsHeaderResolver2($q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/reports/list', angularAMD.route({
+                    templateUrl: assets.html_collective_report_listing,
+                    title: 'Collective Insights',
+                    controller: 'CollectiveReportListingController',
+                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    showHeader : true,
+                    css: assets.css_custom_reports,
+                    resolve: {
+                        reportsList: function($q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel) {
+                            return uploadReportsHeaderResolver2($q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/reports/schedules', angularAMD.route({
+                    templateUrl: assets.html_reports_schedule_list,
+                    title: 'Scheduled Reports',
+                    controller: 'ReportsScheduleListController',
+                    controllerUrl: 'reporting/collectiveReport/reports_schedule_list_controller',
+                    showHeader : true,
+                    css: assets.css_reports_schedule_list,
+                    resolve: {
+                        check: function ($location, featuresService) {
+                            featuresService.setGetFeatureParams('scheduled_reports');
+                        }
+                    }
+                }))
                 // .when('/optimization', angularAMD.route({
                 //     templateUrl: assets.html_optimization,
                 //     title: 'Reports - Optimization Impact',
@@ -1100,75 +1383,75 @@ define(['common'], function (angularAMD) {
                 //     //css: 'assets/stylesheets/platform.css'
                 // }))
 
-                .when('/customreport', angularAMD.route({
-                    templateUrl: assets.html_custom_report,
-                    title: 'Report Builder',
-                    controller: 'CustomReportController',
-                    controllerUrl: 'reporting/controllers/custom_report_controller',
-                    showHeader : true,
-                    bodyclass: 'custom_report_page',
-                    resolve: {
-                        check: function ($location, featuresService) {
-                            featuresService.setGetFeatureParams('scheduled_reports');
-                        }
-                    }
-                }))
+                // .when('/customreport', angularAMD.route({
+                //     templateUrl: assets.html_custom_report,
+                //     title: 'Report Builder',
+                //     controller: 'CustomReportController',
+                //     controllerUrl: 'reporting/controllers/custom_report_controller',
+                //     showHeader : true,
+                //     bodyclass: 'custom_report_page',
+                //     resolve: {
+                //         check: function ($location, featuresService) {
+                //             featuresService.setGetFeatureParams('scheduled_reports');
+                //         }
+                //     }
+                // }))
 
-                .when('/customreport/edit/:reportId', angularAMD.route({
-                    templateUrl: assets.html_custom_report,
-                    title: 'Report Builder',
-                    controller: 'CustomReportController',
-                    controllerUrl: 'reporting/controllers/custom_report_controller',
-                    showHeader : true,
-                    bodyclass: 'custom_report_page',
-                    resolve: {
-                        check: function ($location, featuresService) {
-                            featuresService.setGetFeatureParams('scheduled_reports');
-                        }
-                    }
-                }))
+                // .when('/customreport/edit/:reportId', angularAMD.route({
+                //     templateUrl: assets.html_custom_report,
+                //     title: 'Report Builder',
+                //     controller: 'CustomReportController',
+                //     controllerUrl: 'reporting/controllers/custom_report_controller',
+                //     showHeader : true,
+                //     bodyclass: 'custom_report_page',
+                //     resolve: {
+                //         check: function ($location, featuresService) {
+                //             featuresService.setGetFeatureParams('scheduled_reports');
+                //         }
+                //     }
+                // }))
 
-                .when('/reports/upload', angularAMD.route({
-                    templateUrl: assets.html_custom_report_upload,
-                    title: 'Upload Custom Reports',
-                    controller: 'CustomReportUploadController',
-                    controllerUrl: 'reporting/controllers/custom_report_upload_controller',
-                    showHeader : true,
-                    css: assets.css_custom_reports,
-                    resolve: {
-                        check: function ($location, featuresService) {
-                            featuresService.setGetFeatureParams('collective_insights');
-                        }
-                    }
-                }))
+                // .when('/reports/upload', angularAMD.route({
+                //     templateUrl: assets.html_custom_report_upload,
+                //     title: 'Upload Custom Reports',
+                //     controller: 'CustomReportUploadController',
+                //     controllerUrl: 'reporting/controllers/custom_report_upload_controller',
+                //     showHeader : true,
+                //     css: assets.css_custom_reports,
+                //     resolve: {
+                //         check: function ($location, featuresService) {
+                //             featuresService.setGetFeatureParams('collective_insights');
+                //         }
+                //     }
+                // }))
 
-                .when('/reports/list', angularAMD.route({
-                    templateUrl: assets.html_collective_report_listing,
-                    title: 'Collective Insights',
-                    controller: 'CollectiveReportListingController',
-                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
-                    showHeader : true,
-                    css: assets.css_custom_reports,
-                    resolve: {
-                        check: function ($location, featuresService) {
-                            featuresService.setGetFeatureParams('collective_insights');
-                        }
-                    }
-                }))
+                // .when('/reports/list', angularAMD.route({
+                //     templateUrl: assets.html_collective_report_listing,
+                //     title: 'Collective Insights',
+                //     controller: 'CollectiveReportListingController',
+                //     controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                //     showHeader : true,
+                //     css: assets.css_custom_reports,
+                //     resolve: {
+                //         check: function ($location, featuresService) {
+                //             featuresService.setGetFeatureParams('collective_insights');
+                //         }
+                //     }
+                // }))
 
-                .when('/reports/schedules', angularAMD.route({
-                    templateUrl: assets.html_reports_schedule_list,
-                    title: 'Scheduled Reports',
-                    controller: 'ReportsScheduleListController',
-                    controllerUrl: 'reporting/collectiveReport/reports_schedule_list_controller',
-                    showHeader : true,
-                    css: assets.css_reports_schedule_list,
-                    resolve: {
-                        check: function ($location, featuresService) {
-                            featuresService.setGetFeatureParams('scheduled_reports');
-                        }
-                    }
-                }))
+                // .when('/reports/schedules', angularAMD.route({
+                //     templateUrl: assets.html_reports_schedule_list,
+                //     title: 'Scheduled Reports',
+                //     controller: 'ReportsScheduleListController',
+                //     controllerUrl: 'reporting/collectiveReport/reports_schedule_list_controller',
+                //     showHeader : true,
+                //     css: assets.css_reports_schedule_list,
+                //     resolve: {
+                //         check: function ($location, featuresService) {
+                //             featuresService.setGetFeatureParams('scheduled_reports');
+                //         }
+                //     }
+                // }))
 
                 .when('/v1sto/invoices', angularAMD.route({
                     templateUrl: assets.html_reports_invoice_list,

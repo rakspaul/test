@@ -1,6 +1,7 @@
 define(['angularAMD', 'reporting/brands/brands_service', 'common/services/constants_service', 'reporting/subAccount/sub_account_model'], function (angularAMD) {
     'use strict';
-    angularAMD.service("brandsModel", function ($q, $timeout, $location, brandsService, constants, subAccountModel, localStorageService, workflowService) {
+    angularAMD.service("brandsModel", function ($q, $timeout, $location, brandsService, constants, subAccountModel, 
+        localStorageService, workflowService, pageFinder) {
 
         var brand = {
             brandList: [],
@@ -20,30 +21,6 @@ define(['angularAMD', 'reporting/brands/brands_service', 'common/services/consta
         brand.enable = true;
         brand.cssClass = "";
         // var brands = [brand.allBrandObject];
-//TODO: to be moved to new service
-        var pageFinder = function(path) {
-            var pageName;
-            if (path.endsWith('dashboard')) {
-                pageName = 'dashboard';
-            } else if (path.endsWith('mediaplans')) {
-                pageName = 'mediaplans';
-            } else if (path.split('/').indexOf('mediaplans') > 0) {
-                pageName = 'reports';
-            }
-
-            return {
-                isDashboardPage: function() {
-                    return pageName == 'dashboard';
-                },
-                isMediaplansPage: function() {
-                    return pageName == 'mediaplans';
-                },
-                isReportsPage: function() {
-                    return pageName == 'reports';
-                }
-            };
-        };
-
 
         return {
             // getBrands: function (success, searchCritera, search) {
@@ -172,24 +149,12 @@ define(['angularAMD', 'reporting/brands/brands_service', 'common/services/consta
             },
 
             changeBrand: function(accountId, subAccountId, advertiserId, brand) {
-
                 var url = '/a/' + accountId;
                 subAccountId && (url += '/sa/' + subAccountId);
                 // All Advertisers id is -1 and don't show it in the URL
                 (advertiserId > 0) && (url += '/adv/' + advertiserId);
                 (brand.id > 0) && (url += '/b/' + brand.id);
-
-                var page = pageFinder($location.path());
-                if (page.isDashboardPage()) {
-                    url += '/dashboard';
-                } else if (page.isMediaplansPage()) {
-                    url += '/mediaplans';
-                } else if (page.isReportsPage()) {
-                    var reportName = _.last($location.path().split('/'));
-                    url += '/mediaplans/reports/' + reportName;
-                }
-                console.log('change the url', url);
-                $location.url(url);
+                $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
             }
 
             // callBrandBroadcast: function (brand, advertiser, event_type) {

@@ -8,13 +8,13 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
     function (angularAMD) {
     'use strict';
-        angularAMD.controller('CustomReportUploadController', function ($modal,dataStore, $timeout, $location, $rootScope, $scope, $route, $window,
+        angularAMD.controller('CustomReportUploadController', function ($modal, dataStore, $timeout, $location, $rootScope, $scope, $route, $window,
                                                                         campaignSelectModel, strategySelectModel, kpiSelectModel,
                                                                         utils, dataService,   requestCanceller,
                                                                         constants, timePeriodModel, loginModel,
                                                                         advertiserModel, urlService, collectiveReportModel,
-                                                                        brandsModel, vistoconfig,
-                                                                        domainReports, reportsUploadList,Upload) {
+                                                                        brandsModel, vistoconfig, accountService,
+                                                                        domainReports, reportsUploadList, Upload, urlBuilder) {
 
       $scope.textConstants = constants;
       $scope.completed = false;
@@ -34,7 +34,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         $scope.errorMsgCustomRptName = false;
       }
 
-       $scope.isLeafNode =  loginModel.getMasterClient().isLeafNode;
+       // $scope.isLeafNode =  loginModel.getMasterClient().isLeafNode;
+       $scope.isLeafNode = accountService.getSelectedAccount().isLeafNode;
 
       $scope.timeoutReset = function(){
 
@@ -52,19 +53,19 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
       $scope.campaignList = [{ id: -1, name : 'Loading...'}];
 
-       var getCampaings = function() {
-           var selectedBrand = brandsModel.getSelectedBrand();
-           campaignSelectModel.getCampaigns(selectedBrand.id).then(function(response){
-               $scope.campaignList = response;
-           });
-       }
+       // var getCampaings = function() {
+       //     var selectedBrand = brandsModel.getSelectedBrand();
+       //     campaignSelectModel.getCampaigns(selectedBrand.id).then(function(response){
+       //         $scope.campaignList = response;
+       //     });
+       // }
 
-       $rootScope.$on('filterChanged',function(event, args){
-              if(args.from == 'customReportUpload') {
-                  getCampaings();
-                  $rootScope.$broadcast('CAMPAIGN_CHANGE');
-              }
-       })
+       // $rootScope.$on('filterChanged',function(event, args){
+       //        if(args.from == 'customReportUpload') {
+       //            getCampaings();
+       //            $rootScope.$broadcast('CAMPAIGN_CHANGE');
+       //        }
+       // })
 
 
       $scope.isDisabled = function(campaignId){
@@ -90,7 +91,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
       $scope.reportTypeList = [{name: "PCAR"},{name: "MCAR"},{name: "Monthly"},{name: "Custom"}];
 
-      $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+      $scope.selectedCampaign = {id: -1, name: 'Select Campaign'};
 
       //reset files
       reportsUploadList.list =[];
@@ -98,7 +99,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
       $scope.test="Upload Reports";
       $scope.$watch('files', function () {
-       $scope.prepareUpload($scope.files);
+          $scope.prepareUpload($scope.files);
       });
       // $scope.$watch('file', function () {
       //  $scope.upload([$scope.file]);
@@ -135,15 +136,15 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
       $scope.prepareUpload = function (files) {
 
            if (files && files.length) {
-             $scope.loaded =0;
-             $scope.total = files.length;
-               for (var i = 0; i < files.length; i++) {
+              $scope.loaded =0;
+              $scope.total = files.length;
+              for (var i = 0; i < files.length; i++) {
                    var file = files[i];
                    file.notes = "";
                    file.campaignId = ""; //temp
                    file.reportType= "PCAR"; //default - PCAR
                    file.reportName = "";
-                   file.selectedCampaign = campaignSelectModel.getSelectedCampaign();
+                   // file.selectedCampaign = {id: -1, name: 'Select Campaign'};
                    reportsUploadList.add(file);
                    //TODO: assign data in service
                }
@@ -211,7 +212,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                //url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
                                //TODO: move url ro url service
                                 //url: 'http://dev-desk.collective-media.net/api/reporting/v2/uploadedreports/upload',
-                                url: urlService.APIUploadReport(),
+                                url: urlService.APIUploadReport(vistoconfig.getSelectedAccountId()),
                                 fields: {
                                     'reportType': file.reportType,
                                     'reportName': file.reportName,
@@ -282,6 +283,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
               $scope.total = 1;
               $scope.uploadedCount = 0;
               $scope.errorCount = 0;
+                              
               $scope.resetMessages();
                   if(file.status === undefined || file.status!= "success") {
                       (function(file) {
@@ -289,7 +291,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                              //url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
                              //TODO: move url ro url service
                               //url: 'http://dev-desk.collective-media.net/api/reporting/v2/uploadedreports/upload',
-                              url: urlService.APIUploadReport(),
+                              url: urlService.APIUploadReport(vistoconfig.getSelectedAccountId()),
                               fields: {
                                   'reportType': file.reportType,
                                   'reportName': file.reportName,
@@ -432,7 +434,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
                     return function() {
                         $scope.deleteProgress = true;
-                        collectiveReportModel.deleteReport(reportId, function(response){
+                        collectiveReportModel.deleteReport(vistoconfig.getSelectedAccountId(), reportId, function(response) {
                              if(response.status_code == 200) {
                                reportsUploadList.list.splice(key, 1);
                                $scope.reportsUploadList = reportsUploadList.list;
@@ -460,15 +462,16 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
     }; //end of local delete
 
 
-    $scope.goToReportList = function() {
-        var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaign')),
-            advertiserId = advertiserModel.getSelectedAdvertiser().id,
-            brandId = brandsModel.getSelectedBrand().id,
-            url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ? selectedCampagin.id : -1);
-        if(url) {
-            dataStore.deleteFromCache(url);
-        }
-        $location.path('/reports/list');
+    $scope.goToUploadReportsList = function() {
+        $location.url(urlBuilder.uploadReportsListUrl());
+        // var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaign')),
+        //     advertiserId = advertiserModel.getSelectedAdvertiser().id,
+        //     brandId = brandsModel.getSelectedBrand().id,
+        //     url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ? selectedCampagin.id : -1);
+        // if(url) {
+        //     dataStore.deleteFromCache(url);
+        // }
+        // $location.path('/reports/list');
     }
 
 

@@ -195,37 +195,37 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         campaingId + '/lineitems/meta';
                 };
 
-                this.APIReportList = function (advertiserId, brandId, campaignId) {
-                    var clientId =  loginModel.getSelectedClient().id;
+                this.APIReportList = function (clientId, advertiserId, brandId, campaignId) {
+                    // var clientId =  loginModel.getSelectedClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/uploadedreports/listreports?advertiser_id=' + advertiserId + '&brand_id=' + brandId +
                         (campaignId > 0 ? '&campaign_id=' + campaignId : '');
                 };
 
-                this.APIUploadReport = function () {
-                    var clientId =  loginModel.getSelectedClient().id;
+                this.APIUploadReport = function (clientId) {
+                    // var clientId =  loginModel.getSelectedClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/uploadedreports/upload';
                 };
 
-                this.APIDeleteReport = function (reportId) {
-                    var clientId =  loginModel.getSelectedClient().id;
+                this.APIDeleteReport = function (clientId, reportId) {
+                    // var clientId =  loginModel.getSelectedClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/uploadedreports/' + reportId;
                 };
 
-                this.APIEditReport = function (reportId) {
-                    var clientId =  loginModel.getSelectedClient().id;
+                this.APIEditReport = function (clientId, reportId) {
+                    // var clientId =  loginModel.getSelectedClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/uploadedreports/' + reportId;
                 };
 
-                this.APIDownloadReport = function (reportId) {
-                    var clientId =  loginModel.getSelectedClient().id;
+                this.APIDownloadReport = function (clientId, reportId) {
+                    // var clientId =  loginModel.getSelectedClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/uploadedreports/download/' + reportId;

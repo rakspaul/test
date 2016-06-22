@@ -45,18 +45,18 @@ define(['angularAMD','../../common/services/url_service','common/services/data_s
         //   }
         // }
         kpiSelectModel.setSelectedKpi(campaign.selectedCampaign.kpi);
-        if (campaign.selectedCampaign.name) {
-          if (fileIndex == undefined) {
-            $(".campaign_name_selected").text(campaign.selectedCampaign.name);
-            $(".campaign_name_selected").prop('title', campaign.selectedCampaign.name);
-            $("#campaignDropdown").val(campaign.selectedCampaign.name);
-          } else {
-            var campaignElems = $($(".campaign_name_selected")[fileIndex]);
-            campaignElems.text(campaign.selectedCampaign.name);
-            campaignElems.attr('campaignId', campaign.selectedCampaign.id)
-            $(".campaignDropdown").val(campaign.selectedCampaign.name);
-          }
-        }
+        // if (campaign.selectedCampaign.name) {
+        //   if (fileIndex == undefined) {
+        //     $(".campaign_name_selected").text(campaign.selectedCampaign.name);
+        //     $(".campaign_name_selected").prop('title', campaign.selectedCampaign.name);
+        //     $("#campaignDropdown").val(campaign.selectedCampaign.name);
+        //   } else {
+        //     var campaignElems = $($(".campaign_name_selected")[fileIndex]);
+        //     campaignElems.text(campaign.selectedCampaign.name);
+        //     campaignElems.attr('campaignId', campaign.selectedCampaign.id)
+        //     $(".campaignDropdown").val(campaign.selectedCampaign.name);
+        //   }
+        // }
       }
     };
 

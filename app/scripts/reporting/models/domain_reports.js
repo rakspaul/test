@@ -45,15 +45,16 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                     activeTab: document.location.pathname.substring(1)
                 }
             },
+
             getCustomReportsTabs: function () {
-                var tabs = [];
-                var fParams = featuresService.getFeatureParams();
+                var tabs = [],
+                    fParams = featuresService.getFeatureParams();
 
                 if(fParams[0]['scheduled_reports'] === true) {
-                    tabs.push({ href:'reports/schedules', title: 'My Reports'});
+                    tabs.push({ href:'reports/schedules', title: 'My Reports', type: 'customReports'});
                 }
                 if (fParams[0]['collective_insights'] === true) {
-                    tabs.push({href: 'reports/list', title: 'Collective Insights'});
+                    tabs.push({href: 'reports/list', title: 'Collective Insights', type: 'uploadedReportsList'});
                 }
 
                 return {
@@ -384,6 +385,24 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
+    angularAMD.directive('uploadReportsFiltersHeader', ['$location', '$rootScope', '$http', '$compile', 'constants',
+        'loginModel', 'accountService', function ($location, $rootScope, $http, $compile, constants, loginModel, accountService) {
+        return {
+            controller: function ($scope, $cookieStore, $location) {
+            },
+            restrict: 'EAC',
+            templateUrl: assets.html_upload_reports_filters_header,
+            link: function (scope, element, attrs) {
+                scope.textConstants = constants;
+                var masterClient = accountService.getSelectedAccount();
+                scope.isLeafNode = true;
+                if(masterClient.isLeafNode == false) {
+                    scope.isLeafNode = false;
+                }
+            }
+        };
+    }]);
+
     angularAMD.directive('dashboardFiltersHeader', ['$location', '$rootScope', '$http', '$compile', 'constants',
         'loginModel', 'accountService', function ($location, $rootScope, $http, $compile, constants, loginModel, accountService) {
         return {
@@ -398,13 +417,6 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 if(masterClient.isLeafNode == false) {
                     scope.isLeafNode = false;
                 }
-                // var masterClientChanged = $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function (event, args) {
-                //     scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
-                // });
-
-                // var masterClientChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
-                //     scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
-                // });
             }
         };
     }]);

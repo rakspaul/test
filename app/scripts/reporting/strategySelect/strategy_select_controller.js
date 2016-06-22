@@ -41,7 +41,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             }
             ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
             ($routeParams.advertiserId > 0 && $routeParams.brandId >= 0) && (url += '/b/' + $routeParams.brandId);
-            url += "/mediaplans/" + $routeParams.campaignId + '/li/' + strategy.id + '/performance';
+            url += "/mediaplans/" + $routeParams.campaignId + '/li/' + strategy.id + '/';
+            var reportName = _.last($location.path().split('/'));
+            url += reportName;
+
             console.log('url', url);
             $location.url(url);
         }

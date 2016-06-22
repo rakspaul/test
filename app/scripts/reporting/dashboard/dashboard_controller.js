@@ -1,6 +1,6 @@
 define(['angularAMD','common/services/constants_service','reporting/dashboard/dashboard_model','reporting/brands/brands_model', 'reporting/advertiser/advertiser_model','reporting/campaignSelect/campaign_select_model','login/login_model','reporting/common/d3/bubble_chart_directive','reporting/common/d3/gauge_directive', 'reporting/subAccount/sub_account_model'],function (angularAMD) {
     'use strict';
-    angularAMD.controller('DashboardController', function ($scope, $rootScope, $location, constants, dashboardModel, brandsModel, advertiserModel, campaignSelectModel ,loginModel, subAccountModel, subAccountService) {
+    angularAMD.controller('DashboardController', function ($scope, $rootScope, $routeParams, $location, constants, dashboardModel, brandsModel, advertiserModel, campaignSelectModel ,loginModel, subAccountModel, subAccountService) {
 
         $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
         $(".main_navigation").find('.active').removeClass('active').end().find('#dashboard_nav_link').addClass('active');
@@ -37,7 +37,15 @@ define(['angularAMD','common/services/constants_service','reporting/dashboard/da
             //     selectBrand(brandsModel.getAllBrand(), 'clicked');
             // }
             // $scope.brandSelectedFromBubble = false;
-            window.location = $location.path();
+            var url = "/a/" + $routeParams.accountId;
+            if ($routeParams.subAccountId) {
+                url += "/sa/" + $routeParams.subAccountId;
+            }
+            ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
+            url += '/dashboard';
+            console.log('url', url);
+            $location.url(url);
+
         };
 
         $scope.statusDropdown = function (status, event_type) {

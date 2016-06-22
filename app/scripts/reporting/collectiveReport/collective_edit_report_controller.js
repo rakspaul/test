@@ -11,12 +11,12 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/
                                                                      campaignSelectModel, dataService, urlService,
                                                                      advertiserModel, brandsModel, constants,
                                                                      collectiveReportModel, utils, dataStore,
-                                                                     report,reportIndex, vistoconfig) {
+                                                                     report, reportIndex, vistoconfig) {
         $scope.report = report;
         $scope.editScreenBusy = false;
         $scope.editedObj = angular.copy(report);
 
-        $scope.close = function(){
+        $scope.close = function() {
             $modalInstance.dismiss();
         };
 
@@ -32,7 +32,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/
 
         $scope.updateReport = function() {
             $scope.editScreenBusy = true;
-            dataService.post(urlService.APIEditReport(report.id), $scope.editedData,{'Content-Type': 'application/json'}).then(function(response) {
+            dataService.post(urlService.APIEditReport(vistoconfig.getSelectedAccountId(), report.id), $scope.editedData,{'Content-Type': 'application/json'}).then(function(response) {
                 $scope.editedObj.reportType = $scope.editedData.reportType;
                 $scope.editedObj.reportName = $scope.editedData.reportName;
                 $scope.editedObj.campaignId = $scope.editedData.campaignId;
@@ -41,16 +41,16 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/
                 $scope.reportList[reportIndex] = $scope.editedObj;
                 $scope.editScreenBusy = false;
                 $scope.close();
-                $rootScope.setErrAlertMessage(constants.reportEditSuccess,0);
-                var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaign')),
-                    advertiserId = vistoconfig.getSelectAdvertiserId(),
-                    brandId = vistoconfig.getSelectedBrandId(),
-                    url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ? selectedCampagin.id : -1);
-                if(url) {
-                    dataStore.deleteFromCache(url);
-                }
+                $rootScope.setErrAlertMessage(constants.reportEditSuccess, 0);
+                // var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaign')),
+                //     advertiserId = vistoconfig.getSelectAdvertiserId(),
+                //     brandId = vistoconfig.getSelectedBrandId(),
+                //     url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ? selectedCampagin.id : -1);
+                // if(url) {
+                //     dataStore.deleteFromCache(url);
+                // }
                 $scope.$parent.sort.descending = true;
-                $scope.$parent.getReports();
+                // $scope.$parent.getReports();
             },function(error) {
                 $scope.editScreenBusy = false;
                 $rootScope.setErrAlertMessage(constants.reportEditFailed);
@@ -82,18 +82,18 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/
                     },
                     deleteAction: function() {
                         return function() {
-                            collectiveReportModel.deleteReport(report.id, function (response) {
+                            collectiveReportModel.deleteReport(vistoconfig.getSelectedAccountId(), report.id, function (response) {
                                 if (response.status_code == 200) {
                                     $scope.reportList.splice(reportIndex, 1);
                                     //to avoid listing report getting encached, remove that url from cache.
-                                    var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaign')),
-                                        advertiserId = vistoconfig.getSelectAdvertiserId(),
-                                        brandId = vistoconfig.getSelectedBrandId(),
-                                        url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ? selectedCampagin.id : -1);
-                                    if(url) {
-                                        dataStore.deleteFromCache(url);
-                                    }
-                                    $rootScope.setErrAlertMessage(constants.reportDeleteSuccess,0);
+                                    // var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaign')),
+                                    //     advertiserId = vistoconfig.getSelectAdvertiserId(),
+                                    //     brandId = vistoconfig.getSelectedBrandId(),
+                                    //     url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ? selectedCampagin.id : -1);
+                                    // if(url) {
+                                    //     dataStore.deleteFromCache(url);
+                                    // }
+                                    $rootScope.setErrAlertMessage(constants.reportDeleteSuccess, 0);
                                 } else {
                                     $rootScope.setErrAlertMessage(constants.reportDeleteFailed);
                                 }

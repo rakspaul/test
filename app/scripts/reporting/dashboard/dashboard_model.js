@@ -80,6 +80,7 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
 
     var getData = function () {
         dashboardData.brandSelected = vistoconfig.getSelectedBrandId() != -1;
+        dashboardData.selectedBrand = brandsModel.getSelectedBrand().name;
         return dashboardData;
     };
 

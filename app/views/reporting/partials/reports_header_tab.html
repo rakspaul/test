@@ -1,7 +1,7 @@
 <!-- <div class="pull-left breadcrumb_campaign"><a href="/campaigns/{{selectedCampaign.id}}">{{textConstants.CAPAIGN_DETAILS}}</a></div> -->
 <div class="clearfix reports_sub_menu_dd_holder">
     <div class="pull-left" data-ng-if="buildReport">
-        <a data-ng-click="NavigateToTab('/customreport', $event , 'reportsSubPage')"
+        <a data-ng-click="NavigateToTab('/customreport', $event , 'customReports')"
            class="clearfix new_report_generate_btn">
             <span class="icon-report-builder"></span>
             <span class="icon_txt" data-ng-bind="textConstants.BUILD_REPORT"></span>
@@ -40,11 +40,11 @@
              data-ng-class="{'active_tab': tab.href == customFilters.activeTab}">
             <a href="javascript:void(0);"
                class="pull-left reports_list_link"
-               data-ng-click="NavigateToTab('/'+ tab.href, $event, 'reportsSubPage')"
+               data-ng-click="NavigateToTab('/'+ tab.href, $event, tab.type)"
                data-ng-bind="tab.title">
             </a>
             <div class="upload_icon"
-                 data-ng-click="NavigateToTab('/reports/upload', $event)"
+                 data-ng-click="NavigateToTab('/reports/upload', $event, 'uploadReports')"
                  data-ng-show="tab.title==textConstants.COLLECTIVE_INSIGHTS">
             </div>
         </div>
