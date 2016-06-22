@@ -1162,7 +1162,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             });
 
             $scope.$on("$locationChangeSuccess", function() {
-                $(document).unbind('change');
+                $(document).unbind('changeDate');
             });
         });
     }

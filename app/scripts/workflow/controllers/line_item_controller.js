@@ -291,24 +291,32 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 highestEndTime,
                 today = momentService.utcToLocalTime();
 
-
             /*startDate input Element*/
-            for(i in $scope.lineItems.lineItemList){
-                if($scope.lineItems.lineItemList[i].startTime){
-                    startDatelow.push($scope.lineItems.lineItemList[i].startTime);
-                }
-            }
-            //method to find lowest startTime
-            ascending = _.sortBy(startDatelow, function (o) {
-                return o;
-            });
-            if (ascending.length > 0) {
-                lowestStartTime = ascending[0];
-                startDateElem.datepicker('setStartDate', today);
-                startDateElem.datepicker('setEndDate', lowestStartTime);
+            if ($scope.selectedCampaign.status === 'IN_FLIGHT' || $scope.selectedCampaign.status === 'ENDED') { //TODO
             } else {
-                startDateElem.datepicker('setStartDate', $scope.selectedCampaign.startTime);
-                startDateElem.datepicker('setEndDate', $scope.selectedCampaign.endTime);
+
+                for (i in $scope.lineItems.lineItemList) {
+                    if ($scope.lineItems.lineItemList[i].startTime) {
+                        startDatelow.push($scope.lineItems.lineItemList[i].startTime);
+                    }
+                }
+
+                //method to find lowest startTime
+                ascending = _.sortBy(startDatelow, function (o) {
+                    return o;
+                });
+
+
+                if (ascending.length > 0) {
+                    lowestStartTime = ascending[0];
+                    startDateElem.datepicker('setStartDate', today);
+                    startDateElem.datepicker('setEndDate', lowestStartTime);
+
+
+                } else {
+                    startDateElem.datepicker('setStartDate', $scope.selectedCampaign.startTime);
+                    startDateElem.datepicker('setEndDate', $scope.selectedCampaign.endTime);
+                }
             }
 
             /*endDate input Element*/
@@ -331,6 +339,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 endDateElem.datepicker('setStartDate',$scope.selectedCampaign.endTime);
              //   endDateElem.datepicker('setEndDate', $scope.campaignEndTime);
             }
+
 
         }
 
