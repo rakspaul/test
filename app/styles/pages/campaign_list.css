@@ -1071,13 +1071,16 @@ input[type="submit"] {
   width: 119px;
 }
 .campaign_status_icon {
-  margin-top: 5px;
+  margin-top: 4px;
   margin-right: 8px ;
   width: 16px;
   height: 16px;
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
+}
+.campaign_status_icon.icon-archive {
+  margin-top: 3px;
 }
 .cost_cols_holder .first_col,
 .cost_cols_holder .second_col {
@@ -1511,6 +1514,10 @@ input[type="submit"] {
 }
 .dashboard_outer_container .total_campaign_list_holder .each_campaign_holder:first-child .each_campaign_list_container {
   border-top: 0px ;
+}
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container.true_archive .days_over,
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container.true_archive .days_over:after {
+  background: #57606D;
 }
 .dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container {
   padding: 20px;

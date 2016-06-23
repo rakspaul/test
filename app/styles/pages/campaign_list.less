@@ -1036,13 +1036,16 @@ button, i, input[type="submit"] {
   //width: 140px;
 }
 .campaign_status_icon {
-  margin-top: 5px;
+  margin-top: 4px;
   margin-right: 8px ;
   width: 16px;
   height: 16px;
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
+}
+.campaign_status_icon.icon-archive {
+    margin-top: 3px;
 }
 .cost_cols_holder {
   .first_col , .second_col {
@@ -1503,6 +1506,11 @@ button, i, input[type="submit"] {
     }
     .each_campaign_holder:first-child .each_campaign_list_container {
       border-top : 0px ;
+    }
+    .each_campaign_list_container.true_archive {
+        .days_over, .days_over:after {
+            background: #57606D;
+        }
     }
   }
   .total_campaign_cost_holder {
