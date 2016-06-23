@@ -46,9 +46,9 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         var isSearch = false;
 
         var creativeList = {
-            getCreativesList: function (campaignId, formats, query,pageSize,pageNo) {
+            getCreativesList: function (clientId, formats, query,pageSize,pageNo) {
                 var advertiserId = advertiserModel.getSelectedAdvertiser().id;
-                workflowService.getCreativesforCreativeList(campaignId, formats, query,pageSize,pageNo,advertiserId, function (result) {
+                workflowService.getCreativesforCreativeList(clientId, formats, query, pageSize, pageNo,advertiserId, function (result) {
                     $scope.creativeListLoading = false;
                     $scope.creativesNotFound = false;
                     if($scope.creativeData['creatives'].length === 0 || query || pageNo == 1) {
@@ -239,17 +239,18 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 if (searchVal.length > 0) {
                     qryStr += 'query=' + searchVal;
                 }
+
+                var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+                var clientId = selectedClientObj.id;
                 if (searchVal.length > 2) {
                     $scope.creativeListLoading = true;
-                    var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
                     $scope.isCreativeSearched = true;
-                    creativeList.getCreativesList($scope.clientId, undefined, qryStr);
+                    creativeList.getCreativesList(clientId, undefined, qryStr);
                 } else if (searchVal.length == 0) {
                     $scope.creativeListLoading = false;
                     $scope.isCreativeSearched = false;
                     $scope.creativeData['creatives'].length = 0;
-                    var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-                    creativeList.getCreativesList($scope.clientId, '', '', 20, 1);
+                    creativeList.getCreativesList(clientId, '', '', 20, 1);
                 }
             }
         };
@@ -584,7 +585,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                     var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
 
                     if(selectedClientObj && (window.location.href.indexOf("creative/list") > -1)) {
-                        creativeList.getCreativesList($scope.clientId,'','',$scope.pageSize, $scope.pageNo);
+                        creativeList.getCreativesList(selectedClientObj.id,'','',$scope.pageSize, $scope.pageNo);
                         $scope.loadCreativeData=true;
                     }
                 }
