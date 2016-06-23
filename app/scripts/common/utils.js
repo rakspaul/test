@@ -1255,43 +1255,9 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     if (y <= 0) {
                         return y;
                     }
-
-                    key = key || 0;
-
-                    if (y < 9999) {
-                        return value.toFixed(key);
+                    if(key == undefined ) {
+                        key = 2 ;
                     }
-
-                    if (y < 1000000) {
-                        return (value / 1000).toFixed(2) + 'K';
-                    }
-
-                    if (y < 10000000) {
-                        return (value / 1000000).toFixed(2) + 'M';
-                    }
-
-                    if (y < 1000000000) {
-                        return (value / 1000000).toFixed(2) + 'M';
-                    }
-
-                    if (y < 1000000000000) {
-                        return (value / 1000000000).toFixed(2) + 'B';
-                    }
-
-                    return '1T+';
-                };
-            })
-            // formatting with number of digits to be present after decimal
-            .filter('nrFormatDigits', function () {
-                return function (value, key) {
-                    var y = Math.abs(value);
-
-                    if (y <= 0) {
-                        return y;
-                    }
-
-                    key = key || 0;
-
                     if (y < 9999) {
                         return value.toFixed(key);
                     }

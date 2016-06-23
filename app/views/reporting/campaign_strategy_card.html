@@ -112,7 +112,7 @@
             </div>
             <div class="clearfix metric_graph_details">
                 <div class="each_metric_graph_details" ng-if="strategy.totalImpressions">
-                    <span class="detail_val" ng-bind="strategy.totalImpressions | nrFormatDigits:0"></span>
+                    <span class="detail_val" ng-bind="strategy.totalImpressions | nrFormat:0"></span>
                     <span ng-bind="textConstants.IMP_WITH_DOT"></span>
                 </div>
                 <div class="each_metric_graph_details metric_graph_details_ctr" ng-if="strategy.ctr > 0">
@@ -158,7 +158,7 @@
                           ng-if="campaign.kpiValue || strategy.targetKPIImpressions">
                         <span ng-if="strategy.chart !== false"
                               ng-bind="campaign.kpiType.toLowerCase() === 'impressions' ?
-                                    (strategy.targetKPIImpressions|nrFormatDigits:0) :
+                                    (strategy.targetKPIImpressions|nrFormat:0) :
                                     (campaign.kpiValue | kpiFormatter:campaign.kpiType)">
                         </span>
                         <span class="icon_KPI" ng-if="strategy.chart !==false"></span>

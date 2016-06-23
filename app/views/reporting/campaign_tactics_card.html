@@ -101,7 +101,7 @@
                       </div>
                     <div class="clearfix metric_graph_details">
                         <div class="each_metric_graph_details" ng-if="tactic.chart != false">
-                            <span class="detail_val" ng-bind="tactic.totalImpressions | nrFormatDigits:0"></span>
+                            <span class="detail_val" ng-bind="tactic.totalImpressions | nrFormat:0"></span>
                             <span>{{textConstants.IMP_WITH_DOT}}</span>
                         </div>
                         <div class="each_metric_graph_details metric_graph_details_ctr"  ng-if="tactic.ctr > 0">

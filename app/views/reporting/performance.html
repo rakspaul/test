@@ -321,7 +321,7 @@
         {{screenData.dimension}}
     </div>
     <div class="each_col third_col {{screenData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}">
-        {{((screenData.impressions >0) || (screenData.impressions == 0)) ? (screenData.impressions | nrFormatDigits:0) : '-'}}
+        {{((screenData.impressions >0) || (screenData.impressions == 0)) ? (screenData.impressions | nrFormat:0) : '-'}}
     </div>
     <div class="vid_col" ng-show="adFormats.videoAds == true">
         <div class="each_col third_col">
@@ -330,10 +330,10 @@
 
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data">{{((screenData.vtc_25 >0)|| (screenData.vtc_25 == 0)) ? (screenData.vtc_25 | nrFormatDigits:2) : '-'}}</div>
-                <div class="vid_quartile_data">{{((screenData.vtc_50 >0)|| (screenData.vtc_50 == 0)) ? (screenData.vtc_50 | nrFormatDigits:2) : '-'}}</div>
-                <div class="vid_quartile_data">{{((screenData.vtc_75 >0)|| (screenData.vtc_75 == 0)) ? (screenData.vtc_75 | nrFormatDigits:2) : '-'}}</div>
-                <div class="vid_quartile_data">{{((screenData.vtc_100 >0)|| (screenData.vtc_100 == 0)) ? (screenData.vtc_100 | nrFormatDigits:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((screenData.vtc_25 >0)|| (screenData.vtc_25 == 0)) ? (screenData.vtc_25 | nrFormat:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((screenData.vtc_50 >0)|| (screenData.vtc_50 == 0)) ? (screenData.vtc_50 | nrFormat:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((screenData.vtc_75 >0)|| (screenData.vtc_75 == 0)) ? (screenData.vtc_75 | nrFormat:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((screenData.vtc_100 >0)|| (screenData.vtc_100 == 0)) ? (screenData.vtc_100 | nrFormat:2) : '-'}}</div>
             </div>
         </div>
         <div class="each_col third_col {{screenData.kpi_type === 'VTC' ? 'bold' : ''}}">
@@ -378,7 +378,7 @@
         {{daysofweekData.dimension}}
     </div>
     <div class="each_col third_col {{daysofweekData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}">
-        {{((daysofweekData.impressions >0)|| (daysofweekData.impressions == 0)) ? (daysofweekData.impressions | nrFormatDigits:0) : '-'}}
+        {{((daysofweekData.impressions >0)|| (daysofweekData.impressions == 0)) ? (daysofweekData.impressions | nrFormat:0) : '-'}}
     </div>
     <div class="vid_col" ng-show="adFormats.videoAds == true">
         <div class="each_col third_col">
@@ -387,10 +387,10 @@
 
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data">{{((daysofweekData.vtc_25 >0)|| (daysofweekData.vtc_25 == 0)) ? (daysofweekData.vtc_25 | nrFormatDigits:2) : '-'}}</div>
-                <div class="vid_quartile_data">{{((daysofweekData.vtc_50 >0)|| (daysofweekData.vtc_50 == 0)) ? (daysofweekData.vtc_50 | nrFormatDigits:2) : '-'}}</div>
-                <div class="vid_quartile_data">{{((daysofweekData.vtc_75 >0)|| (daysofweekData.vtc_75 == 0)) ? (daysofweekData.vtc_75 | nrFormatDigits:2) : '-'}}</div>
-                <div class="vid_quartile_data">{{((daysofweekData.vtc_100 >0)|| (daysofweekData.vtc_100 == 0)) ? (daysofweekData.vtc_100 | nrFormatDigits:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((daysofweekData.vtc_25 >0)|| (daysofweekData.vtc_25 == 0)) ? (daysofweekData.vtc_25 | nrFormat:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((daysofweekData.vtc_50 >0)|| (daysofweekData.vtc_50 == 0)) ? (daysofweekData.vtc_50 | nrFormat:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((daysofweekData.vtc_75 >0)|| (daysofweekData.vtc_75 == 0)) ? (daysofweekData.vtc_75 | nrFormat:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((daysofweekData.vtc_100 >0)|| (daysofweekData.vtc_100 == 0)) ? (daysofweekData.vtc_100 | nrFormat:2) : '-'}}</div>
             </div>
         </div>
         <div class="each_col third_col {{daysofweekData.kpi_type === 'VTC' ? 'bold' : ''}}">
@@ -426,7 +426,7 @@
         {{(formatData.dimension | toPascalCase)}}
     </div>
     <div class="each_col third_col {{formatData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}">
-        {{((formatData.impressions >0) || (formatData.impressions == 0)) ? (formatData.impressions | nrFormatDigits:0) : '-'}}
+        {{((formatData.impressions >0) || (formatData.impressions == 0)) ? (formatData.impressions | nrFormat:0) : '-'}}
     </div>
     <div class="vid_col" ng-show="adFormats.videoAds == true">
         <div class="each_col third_col">
@@ -435,10 +435,10 @@
 
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data">{{((formatData.vtc_25 >0)|| (formatData.vtc_25 == 0)) ? (formatData.vtc_25 | nrFormatDigits:2) : '-'}}</div>
-                <div class="vid_quartile_data">{{((formatData.vtc_50 >0)|| (formatData.vtc_50 == 0)) ? (formatData.vtc_50 | nrFormatDigits:2) : '-'}}</div>
-                <div class="vid_quartile_data">{{((formatData.vtc_75 >0)|| (formatData.vtc_75 == 0)) ? (formatData.vtc_75 | nrFormatDigits:2) : '-'}}</div>
-                <div class="vid_quartile_data">{{((formatData.vtc_100 >0)|| (formatData.vtc_100 == 0)) ? (formatData.vtc_100 | nrFormatDigits:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((formatData.vtc_25 >0)|| (formatData.vtc_25 == 0)) ? (formatData.vtc_25 | nrFormat:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((formatData.vtc_50 >0)|| (formatData.vtc_50 == 0)) ? (formatData.vtc_50 | nrFormat:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((formatData.vtc_75 >0)|| (formatData.vtc_75 == 0)) ? (formatData.vtc_75 | nrFormat:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((formatData.vtc_100 >0)|| (formatData.vtc_100 == 0)) ? (formatData.vtc_100 | nrFormat:2) : '-'}}</div>
             </div>
         </div>
         <div class="each_col third_col {{formatData.kpi_type === 'VTC' ? 'bold' : ''}}">
@@ -475,20 +475,20 @@
         {{ creativesData.dimension | formatUrl :15 }}
     </div>
     <div class="each_col third_col {{creativesData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}">
-        {{((creativesData.impressions >0)|| (creativesData.impressions == 0)) ? (creativesData.impressions | nrFormatDigits:0) : '-'}}
+        {{((creativesData.impressions >0)|| (creativesData.impressions == 0)) ? (creativesData.impressions | nrFormat:0) : '-'}}
         <!--{{creativesData.ctr | number:2}}%-->
     </div>
     <span  ng-if="adFormats.videoAds">
         <div class="each_col third_col">
-            <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormatDigits:0) : '-'}}-->
+            <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat:0) : '-'}}-->
             {{((creativesData.video_played >0)|| (creativesData.video_played == 0)) ? (creativesData.video_played | nrFormat) : '-'}}
         </div>
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data">{{((creativesData.vtc_25 >0)|| (creativesData.vtc_25 == 0)) ? (creativesData.vtc_25 | nrFormatDigits:2) : '-'}}</div>
-                <div class="vid_quartile_data">{{((creativesData.vtc_50 >0)|| (creativesData.vtc_50 == 0)) ? (creativesData.vtc_50 | nrFormatDigits:2) : '-'}}</div>
-                <div class="vid_quartile_data">{{((creativesData.vtc_75 >0)|| (creativesData.vtc_75 == 0)) ? (creativesData.vtc_75 | nrFormatDigits:2) : '-'}}</div>
-                <div class="vid_quartile_data">{{((creativesData.vtc_100 >0)|| (creativesData.vtc_100 == 0)) ? (creativesData.vtc_100 | nrFormatDigits:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((creativesData.vtc_25 >0)|| (creativesData.vtc_25 == 0)) ? (creativesData.vtc_25 | nrFormat:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((creativesData.vtc_50 >0)|| (creativesData.vtc_50 == 0)) ? (creativesData.vtc_50 | nrFormat:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((creativesData.vtc_75 >0)|| (creativesData.vtc_75 == 0)) ? (creativesData.vtc_75 | nrFormat:2) : '-'}}</div>
+                <div class="vid_quartile_data">{{((creativesData.vtc_100 >0)|| (creativesData.vtc_100 == 0)) ? (creativesData.vtc_100 | nrFormat:2) : '-'}}</div>
             </div>
         </div>
         <div class="each_col third_col {{creativesData.kpi_type === 'VTC' ? 'bold' : ''}}">
@@ -529,24 +529,24 @@
         {{ adsizesData.dimension | formatUrl :15 }}
     </div>
     <div class="each_col third_col {{adsizesData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}">
-        {{((adsizesData.impressions >0)|| (adsizesData.impressions == 0))? (adsizesData.impressions | nrFormatDigits:0) : '-'}}
+        {{((adsizesData.impressions >0)|| (adsizesData.impressions == 0))? (adsizesData.impressions | nrFormat:0) : '-'}}
         <!--{{creativesData.ctr | number:2}}%-->
     </div>
     <span  ng-if="adFormats.videoAds">
     <div class="each_col third_col">
-        <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormatDigits:0) : '-'}}-->
+        <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat:0) : '-'}}-->
         {{((adsizesData.video_played >0)|| (adsizesData.video_played == 0)) ? (adsizesData.video_played | nrFormat) : '-'}}
     </div>
     <div class="vid_data_hdr">
         <div>
-            <div class="vid_quartile_data">{{((adsizesData.vtc_25 >0)|| (adsizesData.vtc_25 == 0))? (adsizesData.vtc_25 | nrFormatDigits:2) : '-'}}</div>
-            <div class="vid_quartile_data">{{((adsizesData.vtc_50 >0)|| (adsizesData.vtc_50 == 0)) ? (adsizesData.vtc_50 | nrFormatDigits:2) : '-'}}</div>
-            <div class="vid_quartile_data">{{((adsizesData.vtc_75 >0)|| (adsizesData.vtc_75 == 0)) ? (adsizesData.vtc_75 | nrFormatDigits:2) : '-'}}</div>
-            <div class="vid_quartile_data">{{((adsizesData.vtc_100 >0)|| (adsizesData.vtc_100 == 0)) ? (adsizesData.vtc_100 | nrFormatDigits:2) : '-'}}</div>
+            <div class="vid_quartile_data">{{((adsizesData.vtc_25 >0)|| (adsizesData.vtc_25 == 0))? (adsizesData.vtc_25 | nrFormat:2) : '-'}}</div>
+            <div class="vid_quartile_data">{{((adsizesData.vtc_50 >0)|| (adsizesData.vtc_50 == 0)) ? (adsizesData.vtc_50 | nrFormat:2) : '-'}}</div>
+            <div class="vid_quartile_data">{{((adsizesData.vtc_75 >0)|| (adsizesData.vtc_75 == 0)) ? (adsizesData.vtc_75 | nrFormat:2) : '-'}}</div>
+            <div class="vid_quartile_data">{{((adsizesData.vtc_100 >0)|| (adsizesData.vtc_100 == 0)) ? (adsizesData.vtc_100 | nrFormat:2) : '-'}}</div>
         </div>
     </div>
     <div class="each_col third_col {{adsizesData.kpi_type === 'VTC' ? 'bold' : ''}}">
-        <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormatDigits:0) : '-'}}-->
+        <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat:0) : '-'}}-->
         {{((adsizesData.vtc_100 >0)|| (adsizesData.vtc_100 == 0))? ((adsizesData.vtc_100 | number:2)+'%') : '-'}}
     </div>
     </span>
@@ -593,12 +593,12 @@
 
 
             <!--Column 2-->
-            <strong class="col-md-2 text-right">{{((vendor.imps >0) || (vendor.imps == 0)) ? (vendor.imps | nrFormatDigits:0) : '-'}}</strong>
+            <strong class="col-md-2 text-right">{{((vendor.imps >0) || (vendor.imps == 0)) ? (vendor.imps | nrFormat:0) : '-'}}</strong>
 
             <!--Column 3-->
-            <strong class="col-md-2" data-ng-bind="getDiscrepancyImpsGap(vendor.imps, vendor.ad_id) | nrFormatDigits:0"></strong>
+            <strong class="col-md-2" data-ng-bind="getDiscrepancyImpsGap(vendor.imps, vendor.ad_id) | nrFormat:0"></strong>
 
-            <!--&lt;!&ndash;Column 4&ndash;&gt;vendor.imps?((selectedVendorImps - vendor.imps)/vendor.imps):0   ((      (!selectedVendorImps && !vendor.imps) ? 0 :    ) * 100 | nrFormatDigits:0 | positive) + '%'-->
+            <!--&lt;!&ndash;Column 4&ndash;&gt;vendor.imps?((selectedVendorImps - vendor.imps)/vendor.imps):0   ((      (!selectedVendorImps && !vendor.imps) ? 0 :    ) * 100 | nrFormat:0 | positive) + '%'-->
             <strong class="col-md-2 text-right" data-ng-bind="(getRateOfDiscrepancy(vendor.imps, vendor.ad_id) | setDecimal:0) + '%' "></strong>
         </div>
 
@@ -609,7 +609,7 @@
                 <span class="pull-left platform_logo_img"><img ng-src="{{performanceIconUrl(node.name)}}" err-src="/images/platform_favicons/platform_logo.png" style="max-width: 10px;"></span>
                 <span data-ng-bind="node.name" class="pull-left discrepancySecLevelName"></span>
 
-                <div class="col-md-2 text-right" ng-bind="((node.imps >0) || (node.imps == 0)) ? (node.imps | nrFormatDigits:0) : '-'" style="padding:0"></div>
+                <div class="col-md-2 text-right" ng-bind="((node.imps >0) || (node.imps == 0)) ? (node.imps | nrFormat:0) : '-'" style="padding:0"></div>
                 <!--<div class="col-md-2">0</div>-->
                 <!--<div class="col-md-2 text-right">0 %</div>-->
             </div>

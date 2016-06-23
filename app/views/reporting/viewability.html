@@ -269,13 +269,13 @@
                             </div>
 
                             <div class="each_col sec_col">
-                                {{ (selectedStrategy.id >= 0) ? (((viewData.view_metrics.videos_deliverable_imps >0)|| (viewData.view_metrics.videos_deliverable_imps == 0)) ? (viewData.view_metrics.videos_deliverable_imps | nrFormatDigits:0) : '-') :
-                                (((viewData.view_metrics.video_viewability_metrics.videos_deliverable_imps >0)|| (viewData.view_metrics.video_viewability_metrics.videos_deliverable_imps == 0)) ? (viewData.view_metrics.video_viewability_metrics.videos_deliverable_imps | nrFormatDigits:0) : '-')}}
+                                {{ (selectedStrategy.id >= 0) ? (((viewData.view_metrics.videos_deliverable_imps >0)|| (viewData.view_metrics.videos_deliverable_imps == 0)) ? (viewData.view_metrics.videos_deliverable_imps | nrFormat:0) : '-') :
+                                (((viewData.view_metrics.video_viewability_metrics.videos_deliverable_imps >0)|| (viewData.view_metrics.video_viewability_metrics.videos_deliverable_imps == 0)) ? (viewData.view_metrics.video_viewability_metrics.videos_deliverable_imps | nrFormat:0) : '-')}}
                             </div>
                             <div class="each_col third_col">
                                 <div class="sub_col">
-                                    <span>{{(selectedStrategy.id >= 0) ? (((viewData.view_metrics.videos_measurable_imps >0)|| (viewData.view_metrics.videos_measurable_imps == 0)) ? (viewData.view_metrics.videos_measurable_imps | nrFormatDigits:0) : '-') :
-                                        (((viewData.view_metrics.video_viewability_metrics.video_measurable_imps >0)|| (viewData.view_metrics.video_viewability_metrics.video_measurable_imps == 0)) ? (viewData.view_metrics.video_viewability_metrics.video_measurable_imps | nrFormatDigits:0) : '-')}}</span>
+                                    <span>{{(selectedStrategy.id >= 0) ? (((viewData.view_metrics.videos_measurable_imps >0)|| (viewData.view_metrics.videos_measurable_imps == 0)) ? (viewData.view_metrics.videos_measurable_imps | nrFormat:0) : '-') :
+                                        (((viewData.view_metrics.video_viewability_metrics.video_measurable_imps >0)|| (viewData.view_metrics.video_viewability_metrics.video_measurable_imps == 0)) ? (viewData.view_metrics.video_viewability_metrics.video_measurable_imps | nrFormat:0) : '-')}}</span>
                                     <span>{{(selectedStrategy.id >= 0) ? (((viewData.view_metrics.video_measurable_perc >0)|| (viewData.view_metrics.video_measurable_perc == 0)) ? ((viewData.view_metrics.video_measurable_perc | number:0)+'%') : '-') :
                                         (((viewData.view_metrics.video_viewability_metrics.video_measurable_perc >0)|| (viewData.view_metrics.video_viewability_metrics.video_measurable_perc == 0)) ? ((viewData.view_metrics.video_viewability_metrics.video_measurable_perc | number:0)+'%') : '-')}} </span>
                                 </div>
@@ -292,8 +292,8 @@
                                  </div>-->
 
                                 <div class="sub_col">
-                                    <span>{{(selectedStrategy.id >= 0) ? (((viewData.view_metrics.videos_viewable_imps >0)|| (viewData.view_metrics.videos_viewable_imps == 0)) ? (viewData.view_metrics.videos_viewable_imps | nrFormatDigits:0) : '-') :
-                                        (((viewData.view_metrics.video_viewability_metrics.videos_viewable_imps >0)|| (viewData.view_metrics.video_viewability_metrics.videos_viewable_imps == 0)) ? (viewData.view_metrics.video_viewability_metrics.videos_viewable_imps | nrFormatDigits:0) : '-')}}</span>
+                                    <span>{{(selectedStrategy.id >= 0) ? (((viewData.view_metrics.videos_viewable_imps >0)|| (viewData.view_metrics.videos_viewable_imps == 0)) ? (viewData.view_metrics.videos_viewable_imps | nrFormat:0) : '-') :
+                                        (((viewData.view_metrics.video_viewability_metrics.videos_viewable_imps >0)|| (viewData.view_metrics.video_viewability_metrics.videos_viewable_imps == 0)) ? (viewData.view_metrics.video_viewability_metrics.videos_viewable_imps | nrFormat:0) : '-')}}</span>
                                     <span>{{(selectedStrategy.id >= 0) ? (((viewData.view_metrics.video_viewable_perc >0)|| (viewData.view_metrics.video_viewable_perc == 0)) ? ((viewData.view_metrics.video_viewable_perc | number:0)+'%') : '-') :
                                         (((viewData.view_metrics.video_viewability_metrics.video_viewable_perc >0)|| (viewData.view_metrics.video_viewability_metrics.video_viewable_perc == 0)) ? ((viewData.view_metrics.video_viewability_metrics.video_viewable_perc | number:0)+'%') : '-')}}</span>
                                 </div>
@@ -335,11 +335,11 @@
                                         {{tactic.ad_name}}
                                     </div>
                                     <div class="each_col sec_col">
-                                        {{((tactic.videos_deliverable_imps >0)|| (tactic.videos_deliverable_imps == 0)) ? (tactic.videos_deliverable_imps | nrFormatDigits:0) : '-'}}
+                                        {{((tactic.videos_deliverable_imps >0)|| (tactic.videos_deliverable_imps == 0)) ? (tactic.videos_deliverable_imps | nrFormat:0) : '-'}}
                                     </div>
                                     <div class="each_col third_col">
                                         <div class="sub_col">
-                                            <span>{{((tactic.videos_measurable_imps >0)|| (tactic.videos_measurable_imps == 0)) ? (tactic.videos_measurable_imps | nrFormatDigits:0) : '-'}}</span>
+                                            <span>{{((tactic.videos_measurable_imps >0)|| (tactic.videos_measurable_imps == 0)) ? (tactic.videos_measurable_imps | nrFormat:0) : '-'}}</span>
                                             <span>{{((tactic.video_measurable_perc >0)|| (tactic.video_measurable_perc == 0)) ? ((tactic.video_measurable_perc | number:0)+'%') : '-'}}</span>
                                         </div>
                                     </div>
@@ -355,7 +355,7 @@
                                         </div>-->
 
                                         <div class="sub_col">
-                                            <span>{{((tactic.videos_viewable_imps >0)|| (tactic.videos_viewable_imps == 0)) ? (tactic.videos_viewable_imps | nrFormatDigits:0) : '-'}}</span>
+                                            <span>{{((tactic.videos_viewable_imps >0)|| (tactic.videos_viewable_imps == 0)) ? (tactic.videos_viewable_imps | nrFormat:0) : '-'}}</span>
                                             <span>{{((tactic.video_viewable_perc >0)|| (tactic.video_viewable_perc == 0)) ? ((tactic.video_viewable_perc | number:0)+'%') : '-'}}</span>
                                         </div>
 
