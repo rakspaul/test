@@ -1071,13 +1071,16 @@ input[type="submit"] {
   width: 119px;
 }
 .campaign_status_icon {
-  margin-top: 5px;
+  margin-top: 4px;
   margin-right: 8px ;
   width: 16px;
   height: 16px;
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
+}
+.campaign_status_icon.icon-archive {
+  margin-top: 3px;
 }
 .cost_cols_holder .first_col,
 .cost_cols_holder .second_col {
