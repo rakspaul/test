@@ -1,4 +1,4 @@
-<div class="col-md-12 each_campaign_list_container">
+<div class="col-md-12 each_campaign_list_container {{campaign.is_archived}}_archive">
     <!--Campaign Title-->
     <div class="col-md-12 zeroPadding">
         <!--Status Icon-->
@@ -48,15 +48,18 @@
                 </div>
                 <div ng-init="duration=campaign.durationLeft()"></div>
                 <div class="days_over" ng-style="{'width':campaign.durationCompletion() +'%'};">
-                    <span ng-if="duration == 'Yet to start'"
+                    <span ng-if="duration == 'Yet to start'" ng-hide="campaign.is_archived == true"
                           class="days_over_text start_text"
                           ng-bind="textConstants.YET_TO_START">
+                    </span>
+                    <span ng-if="campaign.is_archived == true" ng-bind="textConstants.WF_ARCHIVED"
+                          class="days_over_text start_text" style="color:#57606D;">
                     </span>
                     <span ng-if="duration == 'Ended'"
                           class="days_over_text ended_text"
                           ng-bind="textConstants.ENDED">
                     </span>
-                    <span ng-if="duration > 0"
+                    <span ng-if="duration > 0" ng-hide="campaign.is_archived == true"
                           ng-bind="duration + ' ' + textConstants.DAYS_LEFT"
                           class="days_over_text">
                     </span>

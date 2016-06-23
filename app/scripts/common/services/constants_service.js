@@ -603,6 +603,7 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_RESUME = "Resume";
         this.WF_MOVE_TO = "Move to";
         this.WF_ARCHIVE = "Archive";
+        this.WF_ARCHIVED = "Archived";
         this.WF_NOT_SET = "Not Set";
         this.CLOSE = "Close";
         this.WF_AD_SAVE_CLOSE = "Save & Close";

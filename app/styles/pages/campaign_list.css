@@ -1515,6 +1515,10 @@ input[type="submit"] {
 .dashboard_outer_container .total_campaign_list_holder .each_campaign_holder:first-child .each_campaign_list_container {
   border-top: 0px ;
 }
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container.true_archive .days_over,
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container.true_archive .days_over:after {
+  background: #57606D;
+}
 .dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container {
   padding: 20px;
 }
