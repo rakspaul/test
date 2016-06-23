@@ -1,13 +1,16 @@
-<div class="dropdown dropdown-workflow">
-    <span class="dropdown_ul_text " data-toggle="dropdown">
-        <a class="icon-download"></a>
-        <a class="download_anchor" id="performance_download_btn" href="">{{textConstants.DOWNLOAD_REPORT}}</a>
-        <a class="icon-arrow-down-thick"></a>
-    </span>
-    <ul class="dropdown_ul_perf dropdown-menu" id="performance_download" >
-        <li ng-repeat="report in download_report" class="{{report.className}} {{selectedCampaign.id == -1 ? 'disabled' : '' }}">
-            <a class="download_anchor" ng-click="(selectedCampaign.id !== -1 ? downloadPerformanceReport(report) : '')">{{report.label}}</a>
-        </li>
-      </ul>
+<div class="dropdown-workflow">
+    <div class="dropdown">
+        <button class="btn btn-default" data-toggle="dropdown">
+            <span class="icon-download"></span>
+            <span class="download_anchor" id="performance_download_btn" href="">{{textConstants.DOWNLOAD_REPORT}}</span>
+            <span class="icon-arrow-down"></span>
+        </button>
+        
+        <ul class="dropdown-menu" id="performance_download" style="left: initial; right: 0;">
+            <li ng-repeat="report in download_report" class="{{report.className}} {{selectedCampaign.id == -1 ? 'disabled' : '' }}">
+                <a ng-click="(selectedCampaign.id !== -1 ? downloadPerformanceReport(report) : '')">{{report.label}}</a>
+            </li>
+        </ul>
+    </div>
 </div>
 <span class="download-report-load-icon" ng-if="reportDownloadBusy">{{textConstants.DOWNLOADING}} </span>

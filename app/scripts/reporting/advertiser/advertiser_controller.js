@@ -44,9 +44,10 @@ define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils', '
             $scope.advertiserData = advertiserModel.getAdvertiser();
 
             $scope.selectAdvertiser = function (advertiser, event_type) {
-                advertiser.referedFrom = "";
+                advertiser.referedFrom = "";    
+                $("#advertisersDropDownList").hide() ;
 
-                    $('#advertiser_name_selected').text(advertiser.name);
+                $('#advertiser_name_selected').text(advertiser.name);
                 $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
                 $scope.advertiserData.showAll = true;
                 advertiserModel.setSelectedAdvertisers(advertiser);

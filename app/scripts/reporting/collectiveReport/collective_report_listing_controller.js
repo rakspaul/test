@@ -88,7 +88,13 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'rep
                         return constants.deleteReportHeader;
                     },
                     mainMsg: function() {
-                        return "Please note that this action affects '<span class='bold-font'>"+ $scope.reportList[index].fileName+"</span>'. The report will be deleted for both you and the marketer."
+                        if($scope.reportList[index].reportName) {
+                            return "Are you sure you want to delete '<span class='bold-font'>"+ $scope.reportList[index].reportType+"</span>' type report"+" '<span class='bold-font'>"+ $scope.reportList[index].reportName+"'</span>.";
+                        } else {
+                            return "Are you sure you want to delete '<span class='bold-font'>"+ $scope.reportList[index].reportType+"</span>' type report.";
+                        }
+
+
                     },
                     deleteAction: function() {
                         return function() {

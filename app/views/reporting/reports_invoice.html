@@ -1,0 +1,321 @@
+<popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
+           ng-init="init('flashMessage','WF_USER_CREATION_FAIL')"></popup-msg>
+<div class="report-invoice">
+<div class="reports-invoice-list">
+<div class=" clearfix popup-holder">
+<div class="modal-header zeroPadding" style="margin-top:30px;">
+
+    <!-- <button type="button" class="close" data-dismiss="modal"
+            ng-click="close()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button> -->
+
+    <div class="col-md-12 zeroPadding">
+        <div class="pull-left accountTitleTag" style="margin-bottom:20px;">
+            <span class="tagTitle" data-ng-bind="'Account:'"></span>
+            <span>Visto QA</span>
+            <span class="slash-divider" style="padding-left:5px;">/</span>
+        </div>
+        <div class="pull-left" style="padding-left:5px;">
+            <span class="tagTitle" data-ng-bind="'Advertiser:'"></span>
+            <span>Lickety Splitz</span>
+            <span class="slash-divider" style="padding-left:5px;">/</span>
+        </div>
+
+        <div class="pull-left" style="padding-left:5px;">
+            <span class="tagTitle" data-ng-bind="'Invoice ID:'"></span>
+            <span class="ng-binding">7</span>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="col-md-12 zeroPadding">
+    <div class="col-md-8 zeroPadding">
+    <h1 class="mainTittle"
+        data-ng-bind="invoiceDetails.generatedOn + ' Invoice Report' + '  |  ' + invoiceDetails.invoiceName"></h1>
+    </div>
+
+    <div class="pull-right">
+       <!-- <div class="col-md-4 zeroPadding">
+            <div class="col-md-12 zeroPadding btn_list_filters centerAlign"
+                 style="margin-bottom:15px;"
+                 data-ng-click="download()">
+                <div class="btn-group create" role="group" aria-label="...">
+                    <a role="button" class="btn btn-default">
+                        <span class="icon-download"></span>
+                        <span data-ng-bind="textConstants.DOWNLOAD"
+                              class="ng-binding"></span>
+                    </a>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="pull-left dropdown-workflow">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle"
+                        style="border-right: 0 !important; border-top-right-radius: 0; border-bottom-right-radius: 0;"
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="true">
+                    <span class="pull-left icon-download" style="margin-right: 10px;"></span>
+                    <span class="text">Download</span>
+                    <span class="icon-arrow-down"></span>
+                </button>
+                <ul class="dropdown-menu" data-toggle="dropdown" style="left:initial; right:0px; overflow:hidden;">
+                    <li class="available" style="width:320px;">
+                        <a>
+                            <span class="icon-download pull-left" style="width:30px;"></span>
+                            <span class="pull-left" style="width: auto;">Download Invoice Report</span>
+                        </a>
+                    </li>
+                    <li class="available" style="width:345px;">
+                        <a>
+                            <span class="icon-download pull-left" style="width:30px;"></span>
+                            <span class="pull-left" style="width: auto;" data-ng-bind="'Download (SOR) Results Invoice Template'"></span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+       <div class="pull-left" data-ng-show="isDataLoaded && isUploadStatus">
+            <div class="col-md-12 zeroPadding btn_list_filters centerAlign"
+                 style="margin-bottom:15px;"
+                 data-ng-click="showUploadSORPopUp(invoiceDetails)">
+                <div class="btn-group create" role="group" aria-label="...">
+                    <a role="button" class="btn btn-default">
+                        <span class="icon-upload"></span>
+                        <span data-ng-bind="'Upload'"
+                              class="ng-binding"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="pull-left dropdown-workflow" data-ng-show="isDataLoaded && !isUploadStatus">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle"
+                            style="border-top-left-radius: 0; border-bottom-left-radius: 0;"
+                            type="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="true">
+                        <span class="text" data-ng-bind="noteData.status ? noteData.status : 'Select'"></span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown" style="left:initial; right:0px; min-width:500px;">
+                        <li class="available" data-ng-click="selectStatus('Ready')" style="border-bottom:1px solid #F2F2F2;">
+                            <a>
+                                <div class="col-md-3 zeroPadding">
+                                    <span class="icon-check pull-left" style="width:30px; margin-top: -1px; color: #4CC94A;"></span>
+                                    <span class="pull-left" style="width: auto;">Ready</span>
+                                </div>
+
+                                <div class="col-md-9 zeroPadding">
+                                    <span>The Invoice Report is ready for download</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="available" data-ng-click="selectStatus('Review')" style="border-bottom:1px solid #F2F2F2;">
+                            <a>
+                                <div class="col-md-3 zeroPadding">
+                                    <span class="icon-inline-edit pull-left" style="width:30px; margin-top: -1px;"></span>
+                                    <span class="pull-left" style="width: auto;">Review</span>
+                                </div>
+
+                                <div class="col-md-9 zeroPadding">
+                                    <span>The Invoice Report has been updated by an external <br>upload and must be reviewed.</span>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="available" data-ng-click="selectStatus('Closed')" style="border-bottom:1px solid #F2F2F2;">
+                            <a>
+                                <div class="col-md-3 zeroPadding">
+                                    <span class="icon-locked pull-left" style="width:30px; margin-top: -1px;"></span>
+                                    <span class="pull-left" style="width: auto;">Closed</span>
+                                </div>
+
+                                <div class="col-md-9 zeroPadding">
+                                    <span>The Invoice Report has been reviewed and accepted. <br> Reports with Closed status cannot</span>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="available" data-ng-click="selectStatus('Upload')" style="border-bottom:0px solid #F2F2F2;">
+                            <a>
+                                <div class="col-md-3 zeroPadding">
+                                    <span class="icon-warning pull-left" style="width:30px; margin-top: -1px; color: #F47E2A;"></span>
+                                    <span class="pull-left" style="width: auto;">Upload</span>
+                                </div>
+
+                                <div class="col-md-9 zeroPadding">
+                                    <span >The Invoice Report requires modification by Uploaded <br> System of Record (SOR) Results</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+         </div>
+
+    </div>
+</div>
+
+
+    <!-- 3rd Row -->
+    <div class="col-md-12 zeroPadding" style="margin-top:20px; margin-bottom:20px;">
+
+        <div class="col-md-2 zeroPadding">
+            <div class="pull-left">
+                <span class="greyTxt" data-ng-bind="'Generated'"></span> <br>
+                <span data-ng-bind="invoiceDetails.invoiceDate"></span>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="pull-left">
+                <span class="greyTxt" data-ng-bind="'PO#'"></span> <br>
+                <span data-ng-bind="invoiceDetails.po"></span>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="pull-left">
+                <span class="greyTxt" data-ng-bind="'Spend'"></span> <br>
+                <span data-ng-bind="invoiceDetails.spendTotal"></span>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="pull-left">
+                <span class="greyTxt" data-ng-bind="'Adjustments'"></span> <br>
+                <span data-ng-bind="invoiceDetails.adjustmentTotal"></span>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="pull-left">
+                <span class="greyTxt" data-ng-bind="'Billable'"></span> <br>
+                <span data-ng-bind="invoiceDetails.billable"></span>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="pull-left">
+                <span class="greyTxt" data-ng-bind="'Note'"></span>
+                <span class="glyphicon glyphicon-pencil noteEditIcon" data-ng-click="showAddNotePopup()" style=""></span> <br>
+                <span  data-ng-bind="invoiceDetails.description" class="noteOmitter">-</span>
+            </div>
+        </div>
+    </div>
+    <!-- 3rd row over -->
+
+<div class="table-responsive user-list animated" id="table_responsive" style="margin-bottom: 10px;">
+    <div class="vistoTable" id="visto_table">
+        <div class="thead thin">
+            <div class="tr">
+                <div class="col-md-4 th" data-ng-bind="'Line Item'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Rate'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Billable Units'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Invoiced Value'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Contracted Value'"></div>
+            </div>
+        </div>
+        <div class="tbody" style="max-height:350px;">
+            <!--   <div class="tr ng-scope" ng-repeat="lineItem in invoiceDetails.lineitems">
+            data-ng-bind="lineItem.rate" name, billableUnits, value, contractedValue
+            -->
+            <div class="tr ng-scope" data-ng-repeat="lineItem in invoiceDetails.lineitems">
+                <div class="td col-md-4" data-ng-bind="lineItem.name"></div>
+                <div class="td col-md-2" data-ng-bind="lineItem.rate"></div>
+                <div class="col-md-2 td text-right tableTd" data-ng-bind="lineItem.billableUnits"></div>
+
+                <div class="col-md-2 td text-right tableTd" data-ng-bind="lineItem.value"></div>
+                <div class="col-md-2 td text-right tableTd" data-ng-bind="lineItem.contractedValue"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- <div class="col-md-12 zeroPadding">
+    <h1>Adjustment</h1>
+    <a class="btn btn-default" ng-click="showAddAdjustmentPopup()">
+        <span class="icon-plus"></span>
+        <span>User</span>
+    </a>
+</div> -->
+
+<div class="col-md-12 zeroPadding btn_list_filters centerAlign" style="margin-bottom:15px;">
+    <h2>Adjustments</h2>
+    <div class="btn-group create" role="group" aria-label="...">
+        <a role="button" class="btn btn-default" ng-click="showAddAdjustmentPopup()"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE" class="ng-binding">Create</span></a>
+        <button type="button" class="btn btn-default" style="display: none"><span class="icon-inline-edit"></span><span data-ng-bind="textConstants.EDIT" class="ng-binding">Edit</span></button>
+
+
+        <!-- Don't remove
+
+        <div class="btn btn-default zeroPadding dropdown-workflow pull-left">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle moreOptCreative" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="padding-right: 18px;">
+                    <span class="icon-more-options"></span>
+                </button>
+                <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
+                    <li><a class="text-left ng-binding" role="button" ng-click="showBulkCreateSection();">Upload</a></li>
+                    <li class="disabled"><a class="text-left">Test</a></li>
+                </ul>
+            </div>
+        </div> -->
+    </div>
+   </div>
+
+
+<div class="col-md-12 zeroPadding centerAlign">
+<div class="table-responsive user-list animated" id="table_responsive" style="margin-bottom: 30px;">
+    <div class="vistoTable" id="visto_table">
+        <div class="thead thin">
+            <div class="tr">
+                <div class="col-md-6 th" data-ng-bind="'Adjustment'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Added By'"></div>
+                <div class="col-md-2 th" data-ng-bind="'When'"></div>
+                <div class="col-md-2 th" data-ng-bind="'Amount'"></div>
+            </div>
+        </div>
+        <div class="tbody thin" style="max-height:350px;">
+
+            <div class="tr" style="border:1px solid #F2F2F2;" data-ng-repeat="adjustment in invoiceDetails.adjustments">
+                <div class="td col-md-6" data-ng-bind="adjustment.name"></div>
+                <div class="td col-md-2" data-ng-bind="adjustment.addedBy"></div>
+                <div class="td col-md-2" data-ng-bind="adjustment.addedOn"></div>
+                <div class="td col-md-2" data-ng-bind="adjustment.amount"></div>
+
+            </div>
+    </div>
+</div>
+</div>
+    <div class="common-popup-container" ng-show="confirmationPopUp">
+        <div class="popup">
+            <div class="popup-header-body">
+                <div class="clearfix">
+                    <h1 class="pull-left"
+                        ng-bind="update_status_msg"></h1>
+                    <span class="close unselectable" aria-hidden="true" ng-click="confirmationPopUp=false">x</span>
+                </div>
+                <div class="popup-content" ng-bind="archiveMessage"></div>
+            </div>
+            <div class="clearfix popup-footer">
+                <div type="button"
+                     ng-click="updateStatus('Yes');confirmationPopUp=false"
+                     class="common_primary_btn pull-right">
+                    Okay
+                </div>
+                <button type="button"
+                        ng-click="confirmationPopUp=false"
+                        class="secondary_txt pull-right">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

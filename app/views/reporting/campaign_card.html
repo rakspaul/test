@@ -69,7 +69,7 @@
         <div class="clearfix campaigns_list_buttons_holder">
             <a id="campaigns_view_report" ng-show="showReportsOverview"> <!-- href="/#/performance" -->
                 <div class="btn btn-default pull-right"
-                     ng-click="$parent.viewReports(campaign)"
+                     ng-click="$parent.viewReports(campaign, 'campaignCard')"
                      style="margin-left: 10px;"
                      ng-bind="textConstants.VIEW_REPORT">
                 </div>
@@ -87,7 +87,7 @@
     <div class="col-md-4 each_campaign_section metric_campaign_section">
         <div class="clearfix metric_graph_header">
             <span class="metric_title" ng-bind="textConstants.SPEND"></span>
-            <span class="metric_val" ng-bind="campaigns.cdbDataMap[campaign.orderId].getGrossRev() | currency"></span>
+            <span class="metric_val" ng-bind="campaign.spend| currency"></span>
         </div>
         <div class="metric_graph {{getSpendClass(campaign)}}">
             <div class="full_metric_graph">

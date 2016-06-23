@@ -20,6 +20,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_reports_login,
                     title: 'Login',
                     controller: 'loginController',
+                    showHeader : false,
                     controllerUrl: 'login/login_controller'
                 }))
 
@@ -27,6 +28,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_dashboard,
                     controller: 'DashboardController',
                     controllerUrl: 'reporting/dashboard/dashboard_controller',
+                    showHeader : true,
                     title: 'Dashboard',
                     bodyclass: 'dashboard_body',
                     resolve: {
@@ -41,6 +43,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_dashboard_2,
                     controller: 'DashboardController_2',
                     title: 'Dashboard 2.0',
+                    showHeader : true,
                     bodyclass: 'dashboard_2',
                     resolve: {}
                 }))
@@ -48,6 +51,8 @@ define(['common'], function (angularAMD) {
                 .when('/mediaplans', angularAMD.route({
                     templateUrl: assets.html_campaign_list,
                     title: 'Media Plan List',
+                    reloadOnSearch : false,
+                    showHeader : true,
                     resolve: {
                         check: function ($location, featuresService) {
                             //redirects to default page if it has no permission to access it
@@ -61,6 +66,7 @@ define(['common'], function (angularAMD) {
                     title: 'Reports Overview',
                     controller: 'CampaignDetailsController',
                     controllerUrl: 'reporting/controllers/campaign_details_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, featuresService,localStorageService) {
                             //redirects to default page if it has no permission to access it
@@ -77,6 +83,7 @@ define(['common'], function (angularAMD) {
                     title: 'Reports - Optimization Impact',
                     controller: 'OptimizationController',
                     controllerUrl: 'reporting/controllers/optimization_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, featuresService) {
                             //redirects to default page if it has no permission to access it
@@ -90,6 +97,7 @@ define(['common'], function (angularAMD) {
                     title: 'Reports - Inventory',
                     controller: 'InventoryController',
                     controllerUrl: 'reporting/controllers/inventory_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, featuresService,workflowService) {
                             //redirects to default page if it has no permission to access it
@@ -103,6 +111,7 @@ define(['common'], function (angularAMD) {
                     title: 'Reports - Quality',
                     controller: 'ViewabilityController',
                     controllerUrl: 'reporting/controllers/viewability_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, featuresService) {
                             //redirects to default page if it has no permission to access it
@@ -116,6 +125,7 @@ define(['common'], function (angularAMD) {
                     title: 'Reports - Cost',
                     controller: 'CostController',
                     controllerUrl: 'reporting/controllers/cost_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, loginModel, featuresService) {
                             // if  cost modal is opaque and some one trying to access cost direclty from the url
@@ -139,6 +149,7 @@ define(['common'], function (angularAMD) {
                     title: 'Reports - Platform',
                     controller: 'PlatformController',
                     controllerUrl: 'reporting/controllers/platform_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, featuresService) {
                             featuresService.setGetFeatureParams('platform');
@@ -152,6 +163,7 @@ define(['common'], function (angularAMD) {
                     title: 'Report Builder',
                     controller: 'CustomReportController',
                     controllerUrl: 'reporting/controllers/custom_report_controller',
+                    showHeader : true,
                     bodyclass: 'custom_report_page',
                     resolve: {
                         check: function ($location, featuresService) {
@@ -165,6 +177,7 @@ define(['common'], function (angularAMD) {
                     title: 'Report Builder',
                     controller: 'CustomReportController',
                     controllerUrl: 'reporting/controllers/custom_report_controller',
+                    showHeader : true,
                     bodyclass: 'custom_report_page',
                     resolve: {
                         check: function ($location, featuresService) {
@@ -178,6 +191,7 @@ define(['common'], function (angularAMD) {
                     title: 'Upload Custom Reports',
                     controller: 'CustomReportUploadController',
                     controllerUrl: 'reporting/controllers/custom_report_upload_controller',
+                    showHeader : true,
                     css: assets.css_custom_reports,
                     resolve: {
                         check: function ($location, featuresService) {
@@ -191,6 +205,7 @@ define(['common'], function (angularAMD) {
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
                     controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    showHeader : true,
                     css: assets.css_custom_reports,
                     resolve: {
                         check: function ($location, featuresService) {
@@ -204,6 +219,7 @@ define(['common'], function (angularAMD) {
                     title: 'Scheduled Reports',
                     controller: 'ReportsScheduleListController',
                     controllerUrl: 'reporting/collectiveReport/reports_schedule_list_controller',
+                    showHeader : true,
                     css: assets.css_reports_schedule_list,
                     resolve: {
                         check: function ($location, featuresService) {
@@ -217,8 +233,8 @@ define(['common'], function (angularAMD) {
                     title: 'Invoices Reports',
                     controller: 'ReportsInvoiceListController',
                     controllerUrl: 'reporting/collectiveReport/reports_invoice_list_controller',
+                    showHeader : true,
                     css: assets.css_reports_invoice_list,
-
                     resolve: {
                         check: function ($location, featuresService) {
                             featuresService.setGetFeatureParams('scheduled_reports');
@@ -226,11 +242,24 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
+                .when('/v1sto/invoices/:invoiceId', angularAMD.route({
+                    templateUrl: assets.html_reports_invoice,
+                    title: 'Media Plan - Overview',
+                    controller: 'reportsInvoiceController',
+                    showHeader : true,
+                    controllerUrl: 'reporting/collectiveReport/reports_invoice_controller',
+                    css: assets.css_reports_invoice_list,
+                    resolve: {
+                    }
+                }))
+
+
                 .when('/performance', angularAMD.route({
                     templateUrl: assets.html_performance,
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
                     controllerUrl: 'reporting/controllers/performance_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, featuresService) {
                             featuresService.setGetFeatureParams('performance');
@@ -243,6 +272,7 @@ define(['common'], function (angularAMD) {
                     title: 'Create - Media Plan',
                     controller: 'CreateCampaignController',
                     controllerUrl: '/scripts/workflow/controllers/campaign_create_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
                             var featuredFeatures = $rootScope.$on('features', function () {
@@ -275,6 +305,7 @@ define(['common'], function (angularAMD) {
                     title: 'Accounts',
                     controller: 'AccountsController',
                     controllerUrl: 'common/controllers/accounts/accounts_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, loginModel) {
                             if(!loginModel.getClientData().is_super_admin){
@@ -288,6 +319,7 @@ define(['common'], function (angularAMD) {
                     title: 'Users',
                     controller: 'UsersController',
                     controllerUrl: 'common/controllers/users/users_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, loginModel) {
                             if(!loginModel.getClientData().is_super_admin){
@@ -301,6 +333,7 @@ define(['common'], function (angularAMD) {
                     title: 'AdminBrands',
                     controller: 'AdminAdvertisersController',
                     controllerUrl: 'common/controllers/accounts/admin_brands_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, loginModel) {
                             if(!loginModel.getClientData().is_super_admin){
@@ -314,6 +347,7 @@ define(['common'], function (angularAMD) {
                     title: 'AdminAdvertisers',
                     controller: 'AdminUsersController',
                     controllerUrl: 'common/controllers/accounts/admin_advertisers_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, loginModel) {
                             if(!loginModel.getClientData().is_super_admin){
@@ -327,6 +361,7 @@ define(['common'], function (angularAMD) {
                     title: 'Edit - Media Plan',
                     controller: 'CreateCampaignController',
                     controllerUrl: 'workflow/controllers/campaign_create_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
                             var featuredFeatures = $rootScope.$on('features', function () {
@@ -349,6 +384,7 @@ define(['common'], function (angularAMD) {
                     title: 'Media Plan - Overview',
                     controller: 'CampaignOverViewController',
                     controllerUrl: 'workflow/controllers/campaign_overview_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
                             var featuredFeatures = $rootScope.$on('features', function () {
@@ -370,6 +406,7 @@ define(['common'], function (angularAMD) {
                     title: 'Media Plan - Ad Create',
                     controller: 'CampaignAdsCreateController',
                     controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
                             var featuredFeatures = $rootScope.$on('features', function () {
@@ -393,6 +430,7 @@ define(['common'], function (angularAMD) {
                     title: 'Media Plan - Ad Create',
                     controller: 'CampaignAdsCreateController',
                     controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
                             var featuredFeatures = $rootScope.$on('features', function () {
@@ -416,6 +454,7 @@ define(['common'], function (angularAMD) {
                     title: 'Media Plan - Ad Edit',
                     controller: 'CampaignAdsCreateController',
                     controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
                             var featuredFeatures = $rootScope.$on('features', function () {
@@ -439,6 +478,7 @@ define(['common'], function (angularAMD) {
                     title: 'Media Plan - Ad Edit',
                     controller: 'CampaignAdsCreateController',
                     controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
                             var featuredFeatures = $rootScope.$on('features', function () {
@@ -462,6 +502,7 @@ define(['common'], function (angularAMD) {
                     title: 'Add Creative',
                     controller: 'CreativeController',
                     controllerUrl: 'workflow/controllers/creative_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
                             var featuredFeatures = $rootScope.$on('features', function () {
@@ -483,6 +524,7 @@ define(['common'], function (angularAMD) {
                     title: 'Edit Creative',
                     controller: 'CreativeController',
                     controllerUrl: 'workflow/controllers/creative_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, featuresService, $rootScope) {
                             var featuredFeatures = $rootScope.$on('features', function () {
@@ -493,11 +535,24 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
+                .when('/creative/:creativeId/preview', angularAMD.route({
+                    templateUrl: assets.html_creative_preview,
+                    title: 'Preview Creative',
+                    controller: 'CreativePreviewController',
+                    controllerUrl: 'workflow/controllers/creative_preview_controller',
+                    showHeader : false,
+                    resolve: {
+                        check: function ($location,  $rootScope) {
+                        }
+                    }
+                }))
+
                 .when('/creative/list', angularAMD.route({
                     templateUrl: assets.html_creative_list,
                     title: 'Creative List',
                     controller: 'CreativeListController',
                     controllerUrl: 'workflow/controllers/creative_list_controller',
+                    showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
                             var featuredFeatures = $rootScope.$on('features', function () {
@@ -517,6 +572,7 @@ define(['common'], function (angularAMD) {
                 .when('/help', angularAMD.route({
                     templateUrl: assets.html_help,
                     title: 'Help - Online',
+                    showHeader : true,
                     controller: 'HelpController'
                 }))
 
@@ -552,7 +608,7 @@ define(['common'], function (angularAMD) {
         })
 
         .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore,
-                       workflowService, featuresService, subAccountModel, $window,localStorageService) {
+                       workflowService, featuresService, subAccountModel, $window,localStorageService,constants) {
             var handleLoginRedirection = function () {
                 var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
                     localStorageRedirect = localStorage.getItem('cdeskRedirect'),
@@ -575,6 +631,10 @@ define(['common'], function (angularAMD) {
                             $location.url(setDefaultPage);
                         }
                     }
+                },
+
+                broadCastClientLoaded = function() {
+                    $rootScope.$broadcast(constants.CLIENT_LOADED);
                 },
 
                 loginCheckFunc = function () {
@@ -629,6 +689,7 @@ define(['common'], function (angularAMD) {
                                             .getClientData(clientObj.id)
                                             .then(function (response) {
                                                 featuresService.setFeatureParams(response.data.data.features);
+                                                broadCastClientLoaded();
                                             });
 
                                         if (locationPath === '/login' || locationPath === '/') {
@@ -641,6 +702,7 @@ define(['common'], function (angularAMD) {
                                                 .getClientData(clientObj.id)
                                                 .then(function (response) {
                                                     featuresService.setFeatureParams(response.data.data.features);
+                                                    broadCastClientLoaded();
                                                 });
 
                                             if (locationPath === '/login' || locationPath === '/') {
@@ -681,19 +743,21 @@ define(['common'], function (angularAMD) {
                 routeChangeSuccessFunc = $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
                     var currentRoute = current.$$route;
 
+
                     if (currentRoute) {
                         $rootScope.title = currentRoute.title;
                         $rootScope.bodyclass = currentRoute.bodyclass || '';
+                        $rootScope.showHeader = currentRoute.showHeader;
                     }
 
                     if (loginModel.getLoginName()) {
                         //ga('set', 'dimension1', loginModel.getLoginName());
                     }
 
-                    if (!$cookieStore.get('cdesk_session')) {
-                        //remove header bar on login page
-                        $('.main_navigation_holder').hide();
-                    }
+                    //if (!$cookieStore.get('cdesk_session')) {
+                    //    //remove header bar on login page
+                    //    $('.main_navigation_holder').hide();
+                    //}
                 });
 
             $rootScope.version = version;
@@ -702,8 +766,10 @@ define(['common'], function (angularAMD) {
                 routeChangeSuccessFunc();
             });
 
+
             // If the internet is disconnected or connected, we show a popup notification
             $rootScope.online = navigator.onLine;
+
 
             $window.addEventListener('offline', function () {
                 $('html').append('<div class="slider-msg">You are offline now</div>');

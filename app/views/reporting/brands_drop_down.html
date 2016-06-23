@@ -1,7 +1,7 @@
 <div class="nav_filters_heading">Brand</div>
 <div class="brand_name_selected" id="brand_name_selected" ng-class="{no_pointer: advertiser &&  advertiser.id == -1}" ng-click="(advertiser &&  advertiser.id !== -1)   ? brandsDropdownClicked() : ''" title="{{brandData.selectedBrand.name}}" ng-bind="(brandData.selectedBrand.name ? brandData.selectedBrand.name : 'All Brands')" ></div>
 <div class="clearfix">
-  <div class="brandsDropdownSearch">
+  <div class="brandsDropdownSearch dropdown-workflow">
     <ul class="dropdown-menu" role="menu" id="brandsList">
       <div id="brandsDropdownDiv">
         <input class="dropdown-toggle inactive"  id="brandsDropdown"   ng-keyup="disableShowAll();" ng-model="selectedBrand.name"/>

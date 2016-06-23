@@ -4,7 +4,7 @@
             <div class="pull-left col-md-6 page_name">
                 Inventory Report
             </div>
-            <div class="pull-right col-md-6 download_report">
+            <div class="pull-right col-md-2 zeroPadding">
                 <download-report></download-report>
             </div>
         </div>
@@ -25,14 +25,14 @@
                         </div>
                         <div class="chart_details_cols_row inventory_chart_details_list clearfix">
 
-                            <div class="pull-right cpa_dropdown cpa_col">
+                            <div class="pull-right cpa_dropdown cpa_col dropdown-workflow">
                                 <div class="dropdown">
                                     <kpi-drop-down> </kpi-drop-down>
                                 </div>
                             </div>
                             <div class="pull-right imps_del_col">
-                                <span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>
-                                {{textConstants.IMP_WITH_DOT}}
+                                <span class="pull-right">{{textConstants.IMP_WITH_DOT}}</span>
+                                <span class="pull-right default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>
                             </div>
                         </div>
                     </div>

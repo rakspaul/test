@@ -52,5 +52,11 @@ define(['angularAMD'], function (angularAMD) {
 
       this.api = scala_api;
       this.apiPaths = urlPaths;
+      this.LINE_ITEM = "Line Item";
+      this.LINE_ITEM_DROPDWON_OBJECT = {
+          'name': 'All Line Items',
+          id: -1,
+          type: 'all'
+      };
   });
 });

@@ -77,7 +77,7 @@
 <!--=== Next Step Panel ===-->
 <div class="row">
     <span class="nextWrapper leftNavLink">
-         <button ng-show ="!$parent.adCreateLoader" ng-disabled="!adData.adName"
+         <button ng-show ="!$parent.adCreateLoader" data-ng-disabled="isSaveBtnEnable()"
                  ng-click="campaignAdSave(false)"
                  class="btn btn-primary"
                  data-ng-bind="textConstants.WF_AD_SAVE_CLOSE"></button>

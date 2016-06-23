@@ -58,6 +58,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                             '/campaigns/' + campaignId +
                             '/strategies/' + strategyId +
                             '/bydays/perf?' + durationQuery;
+                    } else if(type === 'lineitems'){
+                        urlPath =  vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                            '/clients/' + clientId +
+                            '/campaigns/' + campaignId +
+                            '/lineitems/' + strategyId +
+                            '/bydays/perf?' + durationQuery;
                     }
 
                     return this.fetch(urlPath);
@@ -74,27 +80,27 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getCdbTacticsChartData: function (campaignId, strategyId, tacticsId, timePeriod, filterStartDate,
+                getCdbTacticsChartData: function (campaignId, strategyId, adId, timePeriod, filterStartDate,
                                                   filterEndDate) {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
-                            '/strategies/' + strategyId +
-                            '/tactics/' + tacticsId +
+                            '/lineitems/' + strategyId +
+                            '/ads/' + adId +
                             '/bydays/perf?start_date=' + filterStartDate +
                             '&end_date=' + filterEndDate;
 
                     return this.fetch(url);
                 },
 
-                getStrategyTacticList: function (adGroupId) {
+                getStrategyTacticList: function (adGroupId, campaignId) {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
-                            '/ad_groups/' + adGroupId +
+                            '/campaigns/' + campaignId +
+                            '/lineitems/' + adGroupId +
                             '/ads';
-
                     return this.fetch(url);
                 },
 
@@ -127,13 +133,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getCustomReportData: function (campaign, queryString) {
+                getCustomReportData: function (reportId, queryString) {
                     var clientId = loginModel.getMasterClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                            '/clients/' + clientId +
-                            '/custom_reports/' + queryString;
-
-                    return this.fetch(url);
+                            '/clients/' + clientId + '/custom_reports/' + reportId;
+                    return this.post( url, queryString,undefined,false);
                 },
 
                 getVideoViewabilityData: function (campaign) {
@@ -226,13 +230,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
 
                     return this.put(url,data);
                 },
-                updateSavedReport: function (reportId,data) {
+
+                updateSavedReport: function (reportId, data) {
                     var url = urlService.updateSavedRpt(reportId);
 
                     return this.put(url,data);
                 },
 
-                append: function (url,paramsObj) {
+                append: function (url, paramsObj) {
                     var property;
 
                     for (property in paramsObj) {
@@ -308,10 +313,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     );
                 },
 
-                downloadFile: function (url) {
+                downloadFile: function (url,httpMethod,data,headers) {
                     $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+                    var httpMethod = httpMethod?httpMethod:'GET';
+                    var data = data?data:'';
+                    var headers = headers?headers:{'Content-Type': 'application/json'};
 
-                    return $http({url: url, method: 'GET', responseType: 'arraybuffer'}).then(
+                    return $http({url: url, method: httpMethod, data:data, responseType: 'arraybuffer',headers: headers}).then(
                         function (response) {
                             var objOnSuccess = {
                                 status: 'success',
@@ -412,15 +420,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     );
                 },
 
-                post: function (url, data, header) {
+                post: function (url, data, header,dataToJson) {
                     loginModel.checkCookieExpiry();
                     $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
-
                     return $http({
                         url: url,
                         method: 'POST',
                         cache: true,
-                        data: angular.toJson(data),
+                        data: !dataToJson?data:angular.toJson(data),
                         headers: (header ? header : {'Content-Type': 'text/plain'})
                     }).then(
                         function (response) {
@@ -447,7 +454,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                                 loginModel.forbidden();
                                 return errorObject;
                             } else if (error.status === 404) {
-                                errorObject.data.message = 'Network error.  Please contact support.'
+                                errorObject.data.message = 'Network error.  Please contact support.';
                                 return errorObject;
                             }
 
@@ -524,14 +531,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
 
                         function (error) {
                             if (error.status === 401) {
-                                errorObject.data.message = error.data.message
+                                errorObject.data.message = error.data.message;
                                 loginModel.unauthorized();
                                 return errorObject;
                             } else if (error.status === 403) {
                                 loginModel.forbidden();
                                 return errorObject;
                             } else if (error.status === 404) {
-                                errorObject.data.message = 'Network error.  Please contact support.'
+                                errorObject.data.message = 'Network error.  Please contact support.';
                                 return errorObject;
                             }
 

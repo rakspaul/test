@@ -1,14 +1,16 @@
 define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service','common/controllers/users/users_add_or_edit_controller','libs/modernizr-custom', 'libs/dlmenu'],function (angularAMD) {
     'use strict';
-    angularAMD.controller('UsersController', function ($scope,$rootScope,$timeout,constants,accountsService) {
+    angularAMD.controller('UsersController', function ($scope,$rootScope,$timeout,$filter,
+                                                       constants,accountsService) {
         $scope.textConstants = constants;
         $scope.UsersData={};
         $scope.userConsoleFormDetails={};
         $(".each_nav_link").removeClass("active_tab");
         $("#admin_nav_link").addClass("active_tab");
-        
+
         //Responsive Height
-        var winHeight = $(window).height();
+        var _curCtrl = this,
+            winHeight = $(window).height();
         $(".table-responsive .tbody").css("min-height", winHeight - 330);
 
         //Add or Edit Pop up for User
@@ -77,7 +79,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 accountsService.getUsers().then(function(res) {
                     $scope.loadUserList = false;
                     $scope.UsersData['users']= res.data.data;
-                    $scope.userTotal = _.size(res.data.data);
+                    _curCtrl.UsersData = $scope.UsersData['users'];
                 });
             }
         };
@@ -86,28 +88,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             usersList.getUsers();
         });
 
-        //Search Hide / Show
-        $scope.searchShowInput = function () {
-            var searchInputForm = $('.searchInputForm');
-
-            $('.searchInputBtn').hide();
-            $('.searchInputBtnInline').show();
-            searchInputForm.show();
-            searchInputForm.animate({width: '400px'}, 'fast');
-            setTimeout(function () {
-                $('.searchClearInputBtn').fadeIn();
-            }, 300);
-        };
-
-        $scope.searchHideInput = function () {
+        //Search Clear
+        $scope.searchHideInput = function (evt) {
             $('.searchInputForm input').val('');
-            $('.searchInputBtn').show();
-            $('.searchClearInputBtn, .searchInputBtnInline').hide();
-            $('.searchInputForm').animate({width: '34px'}, 'fast');
-            setTimeout(function () {
-                $('.searchInputForm').hide();
-            }, 100);
+            $scope.UsersData['users'] = _curCtrl.UsersData;
         };
+
         $scope.getRoleText = function(roleId){
             switch(roleId){
                 case 1: return "Super Admin";  break;
@@ -117,6 +103,15 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 default : return "Not Available"
             }
         }
+        $scope.searchFunc = function(e){
+            !$scope.usersSearch && ($scope.UsersData['users'] = _curCtrl.UsersData);
+            if (!e || e.keyCode === 13) {
+                $scope.UsersData['users'] = $filter('filter')(_curCtrl.UsersData, $scope.usersSearch);
+            }
+        }
+        $scope.$watch('UsersData.users', function(v) {
+            $scope.userTotal = _.size($scope.UsersData['users']);
+        });
         $('html').click(function(e) {
             if ($(e.target).closest('.searchInput').length === 0) {
                 $scope.searchHideInput();

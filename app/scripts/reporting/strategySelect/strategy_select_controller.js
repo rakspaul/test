@@ -1,9 +1,12 @@
-define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model','common/services/constants_service'
+define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model','common/services/constants_service',
+    'common/services/vistoconfig_service'
+
     ],function (angularAMD) {
 
     'use strict';
     angularAMD.controller('StrategySelectController', function ($scope, $rootScope,
-                                                                          campaignSelectModel ,strategySelectModel , constants ) {
+                                                                          campaignSelectModel ,strategySelectModel , constants,
+                                                                        vistoconfig) {
 
         $scope.strategyData = {
             strategies : {},

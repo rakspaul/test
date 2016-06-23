@@ -362,7 +362,54 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
 
                     return retVal;
                 }
-
+                function getEndAndStartDate(timeFrame){
+                    var o = {}
+                    switch (timeFrame) {
+                        case 'yesterday':
+                            o.startDate = moment().subtract(1, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.endDate = moment().format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.displayTimeFrame = "Yesterday";
+                            break;
+                        case 'last7days':
+                            o.startDate = moment().subtract(7, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.endDate = moment().subtract(0, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.displayTimeFrame = "Last 7 days";
+                            break;
+                        case 'last2Weeks':
+                            var startWeekDate = moment().startOf('week').subtract(1, 'day');
+                            o.endDate = startWeekDate.format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.startDate = startWeekDate.subtract('days', 13).format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.displayTimeFrame = "Last 2 weeks";
+                            break;
+                        case 'lastMonth':
+                            o.startDate =
+                                moment()
+                                    .subtract(1, 'months')
+                                    .endOf('month')
+                                    .format('YYYY-MM') + '-01';
+                            o.endDate =
+                                moment()
+                                    .subtract(1, 'months')
+                                    .endOf('month')
+                                    .format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.displayTimeFrame = "Last month";
+                            break;
+                        case 'lastQuater':
+                            o.startDate =
+                                moment()
+                                    .subtract(1, 'quarter')
+                                    .startOf('quarter')
+                                    .format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.endDate =
+                                moment()
+                                    .subtract(1, 'quarter')
+                                    .endOf('quarter')
+                                    .format(constants.DATE_UTC_SHORT_FORMAT);
+                            o.displayTimeFrame = "Last quarter";
+                            break;
+                    }
+                    return o;
+                }
                 return {
                     formatDate: formatDate,
                     makeTitle: makeTitle,
@@ -379,7 +426,8 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     convertToEST: convertToEST,
                     convertToUTC: convertToUTC,
                     hasItem: hasItem,
-                    getValueOfItem: getValueOfItem
+                    getValueOfItem: getValueOfItem,
+                    getEndAndStartDate: getEndAndStartDate
                 };
             }
         ]);
@@ -667,6 +715,52 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                 };
             })
 
+            .directive('validNumber', function() {
+                return {
+                    require: '?ngModel',
+                    link: function(scope, element, attrs, ngModelCtrl) {
+                        if(!ngModelCtrl) {
+                            return;
+                        }
+
+                        ngModelCtrl.$parsers.push(function(val) {
+                            if (angular.isUndefined(val)) {
+                                var val = '';
+                            }
+
+                            var clean = val.replace(/[^-0-9\.]/g, '');
+                            var negativeCheck = clean.split('-');
+                            var decimalCheck = clean.split('.');
+                            if(!angular.isUndefined(negativeCheck[1])) {
+                                negativeCheck[1] = negativeCheck[1].slice(0, negativeCheck[1].length);
+                                clean =negativeCheck[0] + '-' + negativeCheck[1];
+                                if(negativeCheck[0].length > 0) {
+                                    clean =negativeCheck[0];
+                                }
+
+                            }
+
+                            if(!angular.isUndefined(decimalCheck[1])) {
+                                decimalCheck[1] = decimalCheck[1].slice(0,2);
+                                clean =decimalCheck[0] + '.' + decimalCheck[1];
+                            }
+
+                            if (val !== clean) {
+                                ngModelCtrl.$setViewValue(clean);
+                                ngModelCtrl.$render();
+                            }
+                            return clean;
+                        });
+
+                        element.bind('keypress', function(event) {
+                            if(event.keyCode === 32) {
+                                event.preventDefault();
+                            }
+                        });
+                    }
+                };
+            })
+
             .directive('inputCommaSeparatorThousands', function ($filter) {
                 return {
                         require: '?ngModel',
@@ -752,6 +846,26 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                 };
             })
 
+            .directive('searchBox', function() {
+                return {
+                    restrict: 'A',
+                    require: 'ngModel',
+
+                    link: function (scope, element, attrs, modelCtrl) {
+                         var clearBtn = element.parent().find(".searchClearInputBtn");
+                        element.on('keyup blur', function (evt) {
+                            var searchInpVal = evt.target.value;
+                            clearBtn.toggle(Boolean(searchInpVal));
+                        });
+                        
+                        clearBtn.on('click', function(ev) {
+                            $(ev.currentTarget).hide();
+                        })
+                        
+                    }
+                };
+            })
+
             .filter('spliter', function () {
                 return function (input, splitIndex) {
                     // do some bounds checking here to ensure it has that index
@@ -783,7 +897,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
 
                     if (input && kpiType) {
                         if (kpiType.toLowerCase() === 'ctr') {
-                            return $filter('number')(input, 2) + '%';
+                            return $filter('number')(input, 3) + '%';
                         } else if (kpiType.toLowerCase() === 'cpc' || kpiType.toLowerCase() === 'cpa' ||
                             kpiType.toLowerCase() === 'cpm') {
                             return constants.currencySymbol + $filter('number')(input, 2);

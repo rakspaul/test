@@ -129,6 +129,18 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
 //                            if($scope.isCostModelTransparent ===  false) {
 //                                $scope.isCostModelTransparentMsg = $scope.strategyCostData[0].message;
 //                            }
+                            var marginPercentage = function(item) {
+                                if (item.gross_rev && item.gross_rev != 0) {
+                                    item.margin = item.margin * 100 / item.gross_rev;
+                                }
+                            };
+                            var sumTechFeesNServiceFees = function(item) {
+                                if (item.tech_fees == null && item.service_fees == null) {
+                                    item.tech_service_fees_total = null;
+                                } else {
+                                    item.tech_service_fees_total = (item.tech_fees == null ? 0 : item.tech_fees) + (item.service_fees == null ? 0 : item.service_fees);
+                                }
+                            };
                             _.each(data,function(item){
                                 if(item.ad_id == undefined || item.ad_id == -1){
                                     $scope.strategyCostBusy = false;
@@ -138,10 +150,14 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
                                     }
                                     if(!utils.hasItem($scope.strategyCostData,"campaign_id", item.campaign_id)) {
                                         item.kpi_type = $scope.selected_filters.campaign_default_kpi_type;
+                                        sumTechFeesNServiceFees(item);
+                                        marginPercentage(item);
                                         $scope.strategyCostData.push(item);
                                     }
                                 }else{
                                     if(!utils.hasItem($scope.tacticsCostData,"ad_id", item.ad_id)) {
+                                        sumTechFeesNServiceFees(item);
+                                        marginPercentage(item);
                                         $scope.tacticsCostData.push(item);
                                     }
                                 }
@@ -169,8 +185,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
         });
 
         var dataHeader = function() {
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? constants.MEDIA_PLAN_TOTAL : constants.AD_GROUP_TOTAL;
-            $scope.viewLabelTxt = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? constants.INCLUDES_FIXED_COSTS : constants.EXCLUDES_MEDIA_PLAN_FIXED_COSTS;
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ? constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
+            $scope.viewLabelTxt = Number($scope.selectedStrategy.id) === vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ? constants.INCLUDES_FIXED_COSTS : constants.EXCLUDES_MEDIA_PLAN_FIXED_COSTS;
         }
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
@@ -192,7 +208,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
         //creating download report url
         $scope.createDownloadReportUrl = function () {
             //var clientId =  loginModel.getSelectedClient().id;
-            //var urlPath = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
             $scope.strategyMarginValue = -1 ;
             $scope.strategyMarginUnit = constants.SYMBOL_PERCENT;
 

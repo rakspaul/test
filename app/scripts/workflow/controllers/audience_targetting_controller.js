@@ -28,6 +28,7 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
             left: '0'
         };
 
+        $scope.isAudienceTargetingSearched = false;
         $scope.showAudienceLoader = false;
 
         var editOneTimeFlag = false;
@@ -93,7 +94,8 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
                 //api call to fetch keywords
                 var params = {
                     'searchKey': key,
-                    'seatId': $scope.adData.platformSeatId
+                    'seatId': $scope.adData.platformSeatId,
+                    'sortColumn':name
                 }
 
                 audienceService
@@ -152,6 +154,7 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.showAudienceLoader = false;
+
                             var responseData = result.data.data;
                             audienceService.setAudience(responseData);
                             if (loadMoreFlag) {
@@ -211,8 +214,8 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
             initAudienceTargetting: function () {
                 _audienceTargetting.setSortColumn();
                 _audienceTargetting.setSortOrder();
-                _audienceTargetting.fetchAllSource();
-                _audienceTargetting.fetchAllCategories();
+            //    _audienceTargetting.fetchAllSource();
+            //    _audienceTargetting.fetchAllCategories();
             },
 
             resetSelectedFields: function () {
@@ -470,6 +473,7 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
         };
 
         $scope.selectKeyword = function (keyword) {
+            $scope.selectedKeywords=[];
             var input = $.trim($('#selectAud').find('.keyword-txt').val());
             // If user has not entered anything (blanks are trimmed off), don't do anything.
             if (!input) {
@@ -487,7 +491,6 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
             }
 
             $scope.audienceKeywords = [];
-            $('.keyword-txt').val('');
             _audienceTargetting.fetchAllAudience();
         };
 
@@ -499,15 +502,29 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
             _audienceTargetting.fetchAllAudience();
         };
 
+        $scope.clearKeywordSearch = function (evt) {
+            $scope.selectedKeywords=[];
+            $('.keyword-txt').val('');
+            evt && $(evt.target).hide();
+            if($scope.isAudienceTargetingSearched) {
+                $scope.isAudienceTargetingSearched = false;
+                _audienceTargetting.fetchAllAudience();
+            }
+        };
+
         //keyword user choice
         $scope.showKeywords = function (keyword, event) {
             $scope.pageNumber = 1;
             $scope.dropdownCss.display = keyword.length > 0 ? 'block' : 'none';
             if (event.which === 13) {
-                $scope.selectKeyword(keyword);// fetch audience
-                return false;
-            } else {
-                _audienceTargetting.fetchAllKeywords(keyword);
+                if(keyword.length){
+                    $scope.isAudienceTargetingSearched = true;
+                    $scope.selectKeyword(keyword);// fetch audience for keyword entered by user
+                    return false;
+                }else{
+                    $scope.clearKeywordSearch();// fetch all audience when user clears the textBox
+                }
+
             }
         };
 

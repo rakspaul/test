@@ -9,14 +9,14 @@
 			<span class="pull-left" style="margin-left: 10px;" data-ng-bind="textConstants.NEWCREATIVEALERT"></span>
 		</div>
 
-		
+
 		<div class="col-md-12 zeroPadding centerAlign">
 			<h1 class="col-md-12 zeroPadding" style="margin: 17px 0 25px" data-ng-bind="textConstants.CREATIVELIBRARY"></h1>
 		</div>
 
 		<div class="col-md-12 zeroPadding clearfix nav_filters" >
 				<!--<creative-drop-down></creative-drop-down>-->
-            <filter-directive ng-if="!isLeafNode" from="creativeList"></filter-directive> 
+            <filter-directive ng-if="!isLeafNode" from="creativeList"></filter-directive>
 		</div>
 
 		<div class="col-md-12 file_upload_container"
@@ -30,7 +30,7 @@
 				<a role="button" class="btn btn-default" ng-click="creativeCreate();"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span></a>
 				<button type="button" class="btn btn-default" style="display: none"><span class="icon-inline-edit"></span><span data-ng-bind="textConstants.EDIT"></span></button>
 				<button type="button" class="btn btn-default" ng-click="cancelDelete();"><span class="icon-archive"></span><span data-ng-bind="textConstants.ARCHIVE"></span></button>
-				<button type="button" class="btn btn-default" disabled="true"><span class="icon-copy"></span><span data-ng-bind="textConstants.CLONE"></span></button>
+				<!--<button type="button" class="btn btn-default" disabled="true"><span class="icon-copy"></span><span data-ng-bind="textConstants.CLONE"></span></button>-->
 
 				<div class="btn btn-default zeroPadding dropdown-workflow pull-left">
 					<div class="dropdown">
@@ -47,14 +47,17 @@
 
 			<!--Search Input-->
 			<div class="btn-group pull-right">
-				<button type="button" class="btn btn-default pull-right" style="display: none"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
+				<button type="button" class="btn btn-default pull-right" style="display: none">
+                    <span class="icon-filter" style="margin: -1px 0 0 0;"></span>
+                </button>
+
 				<div class="searchInput pull-right">
-					<a class="btn btn-default searchInputBtn" ng-click="searchShowInput()" style="height: 34px;">
+					<a class="btn btn-default searchInputBtnInline" ng-click="creativeSearchFunc()">
 						<span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
 					</a>
 					<div class="input-group searchInputForm" >
-						<input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="creativeSearchFunc()" placeholder="Search Creative By Name and Size..">
-						<div class="btn btn-default" style="width: 44px; height: 34px;" ng-click="searchHideInput()">
+						<input type="text" class="form-control" name="creativeSearch" search-box ng-model="creativeSearch" ng-keyup="creativeSearchFunc($event)" placeholder="Search Creative By Name and Size..">
+						<div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput($event)">
 							<span class="icon-clear" aria-hidden="true"></span>
 						</div>
 					</div>
@@ -213,23 +216,40 @@
     </div>
 </div>
 <script type="text/ng-template" id="creativeTpl">
-	<div class="parentWrap">
+	<div class="parentWrap" ng-mouseleave="clearHoverPreview();">
 		<!--Creative Name-->
 		<div class="col-md-4 td">
-		<input type="checkbox" ng-disabled="creativeData.pushedCount>0" ng-checked="creativeData.active" ng-click="selectedCreativeCheckbox(creativeData)"/>
-		<span ng-if="(creativeData.noOfAds > 0)" class="icon-arrow-down-thick" ng-click="toggleCreativeAds(this,creativeData.id, $index,$event)"></span>
-		<span ng-if="(creativeData.noOfAds === 0)" style="width: 25px; height: 30px; float: left;"></span>
-		<a href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)" tooltip="{{creativeData.name}}" data-ng-bind="creativeData.name.length>0? (creativeData.name | textEllipsis: 40 ):''"></a>
-	    <div class="col-md-12 text-left zeroPadding">
-	        <div class="incompleteCreative" ng-show="creativeData.creativeState === 'INCOMPLETE'">
-	            <div class="icon-statusdraft"></div>
-	            <span style="text-transform: capitalize;" data-ng-bind="creativeData.creativeState|lowercase">Incomplete</span>
-	        </div>
-	    </div>
-		<div class="script_tag">
-			<div ng-show = "IsVisible" class="ng-cloak" data-ng-bind="creativeData.tag"></div>
-			<div id="creativetagValue"><pre data-ng-bind="creativeData.tag"></pre></div>
-		</div>
+			<input type="checkbox" ng-disabled="creativeData.pushedCount>0" ng-checked="creativeData.active" ng-click="selectedCreativeCheckbox(creativeData)"/>
+			<span ng-if="(creativeData.noOfAds > 0)" class="icon-arrow-down-thick" ng-click="toggleCreativeAds(this,creativeData.id, $index,$event)"></span>
+			<span ng-if="(creativeData.noOfAds === 0)" style="width: 25px; height: 30px; float: left;"></span>
+			<a href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)" tooltip="{{creativeData.name}}" data-ng-bind="creativeData.name.length>0? (creativeData.name | textEllipsis: 40 ):''"></a>
+			
+            <!--Preview DDL-->
+            <!--<div class="pull-right" ng-hide="creativeData.creativeFormat === 'VIDEO'">-->
+            <!--    <div class="dropdown-workflow">-->
+            <!--        <div class="dropdown hideOption">-->
+            <!--            <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+            <!--                <span class="icon-more-options"></span>-->
+            <!--            </button>-->
+            <!--            <ul class="dropdown-menu">-->
+            <!--                <li>-->
+            <!--                    <a target="_blank" ng-href="/creative/{{creativeData.id}}/preview" ng-bind-html="textConstants.PREVIEW"></a>-->
+            <!--                </li>-->
+            <!--            </ul>-->
+            <!--        </div>-->
+            <!--    </div>-->
+            <!--</div>-->
+
+			<div class="col-md-12 text-left zeroPadding">
+				    <div class="incompleteCreative" ng-show="creativeData.creativeState === 'INCOMPLETE'">
+				    <div class="icon-statusdraft"></div>
+				    <span style="text-transform: capitalize;" data-ng-bind="creativeData.creativeState|lowercase">Incomplete</span>
+			</div>
+		    </div>
+			<div class="script_tag">
+				<div ng-show = "IsVisible" class="ng-cloak" data-ng-bind="creativeData.tag"></div>
+				<div id="creativetagValue"><pre data-ng-bind="creativeData.tag"></pre></div>
+			</div>
 		</div>
 		<!--Format-->
 		<div class="col-md-1 td text-center">
@@ -247,7 +267,8 @@
 		</div>
 		<!--Sizes-->
 		<div class="col-md-1 td text-center">
-		<span data-ng-bind="creativeData.size.size|lowercase"></span>
+			<span data-ng-bind="creativeData.size.size|lowercase"></span>
+	    	<!--div class="size-box" ng-style="{width:creativeData.width, height:creativeData.height}"></div-->
 		</div>
 		<!--Advertiser-->
 		<div class="col-md-2 td">
@@ -270,6 +291,21 @@
 				<span ng-if="(adData.messageType==='ERROR')" class="icon-warning error" title="{{adData.message}}"></span>
 				<span ng-if="(adData.messageType==='WARNING')" class="icon-warning" title="{{adData.message}}"></span>
 				<a ng-click="redirectAdEditPage(adData)" tooltip="{{adData.campaignName}}/{{adData.adName}}">{{adData.campaignName | textEllipsis: 50}} / {{adData.adName | textEllipsis: 50}}</a>
+                <!--Preview BTN-->
+                <!--<div class="pull-right" ng-hide="creativeData.creativeFormat === 'VIDEO'">-->
+                <!--    <div class="dropdown-workflow">-->
+                <!--        <div class="dropdown hideOption">-->
+                <!--            <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+                <!--                <span class="icon-more-options"></span>-->
+                <!--            </button>-->
+                <!--            <ul class="dropdown-menu">-->
+                <!--                <li>-->
+                <!--                    <a target="_blank" ng-href="/creative/{{creativeData.id}}/preview" ng-bind-html="textConstants.PREVIEW"></a>-->
+                <!--                </li>-->
+                <!--            </ul>-->
+                <!--        </div>-->
+                <!--    </div>-->
+                <!--</div>-->
 	        </div>
 	        <div class="col-md-2 td" data-ng-bind="adData.brandName"></div>
 	        <div class="col-md-1 td text-center" ><img ng-src="{{adData.platform.iconUrl}}"/></div>
@@ -277,3 +313,4 @@
 	    </div>
 	</div>
 </script>
+

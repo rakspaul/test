@@ -1,5 +1,5 @@
 define(['angularAMD','common/services/constants_service','workflow/services/workflow_service','common/moment_utils', 'login/login_model', 'reporting/advertiser/advertiser_model', 'workflow/controllers/bulk_creative_controller', 'workflow/directives/filter_directive'], function (angularAMD) {
-  angularAMD.controller('CreativeListController', function($scope, $rootScope, $routeParams, $route, $location, constants, domainReports, workflowService, momentService, loginModel, advertiserModel) {
+  angularAMD.controller('CreativeListController', function($scope, $rootScope, $routeParams, $route, $location, $window, constants, domainReports, workflowService, momentService, loginModel, advertiserModel) {
         var checkedCreativeArr=[];
         $scope.creativeAds={};
         $scope.creativeAds['creativeAdData'] = {};
@@ -22,7 +22,11 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.loadCreativeData=false;
         $scope.deletePopup=false;
         $scope.successfulRecords = [];
+        $scope.isCreativeSearched =  false;
         $scope.clientId = loginModel.getSelectedClient().id;
+
+        var creativeDataArr = $scope.creativeData['creatives'];
+
 
         //$scope.creativeData.creatives_count=1;
         //highlight the header menu - Dashborad, Campaigns, Reports
@@ -38,78 +42,6 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             'margin':'0 0 0 -15px',
             'z-index':'999'
         });
-
-        //viewPort Plugin Start
-        //**Abi Commented Future Sticky Header
-        //(function($){
-        //    /**
-        //     * Copyright 2012, Digital Fusion
-        //     * Licensed under the MIT license.
-        //     * http://teamdf.com/jquery-plugins/license/
-        //     * Git Link https://github.com/customd/jquery-visible
-        //     *
-        //     * @author Sam Sehnert
-        //     * @desc A small plugin that checks whether elements are within
-        //     *       the user visible viewport of a web browser.
-        //     *       only accounts for vertical position, not horizontal.
-        //     */
-        //    var $w = $(window);
-        //    $.fn.visible = function(partial,hidden,direction){
-        //
-        //        if (this.length < 1)
-        //            return;
-        //
-        //        var $t        = this.length > 1 ? this.eq(0) : this,
-        //            t         = $t.get(0),
-        //            vpWidth   = $w.width(),
-        //            vpHeight  = $w.height(),
-        //            direction = (direction) ? direction : 'both',
-        //            clientSize = hidden === true ? t.offsetWidth * t.offsetHeight : true;
-        //
-        //        if (typeof t.getBoundingClientRect === 'function'){
-        //
-        //            // Use this native browser method, if available.
-        //            var rec = t.getBoundingClientRect(),
-        //                tViz = rec.top    >= 0 && rec.top    <  vpHeight,
-        //                bViz = rec.bottom >  0 && rec.bottom <= vpHeight,
-        //                lViz = rec.left   >= 0 && rec.left   <  vpWidth,
-        //                rViz = rec.right  >  0 && rec.right  <= vpWidth,
-        //                vVisible   = partial ? tViz || bViz : tViz && bViz,
-        //                hVisible   = partial ? lViz || rViz : lViz && rViz;
-        //
-        //            if(direction === 'both')
-        //                return clientSize && vVisible && hVisible;
-        //            else if(direction === 'vertical')
-        //                return clientSize && vVisible;
-        //            else if(direction === 'horizontal')
-        //                return clientSize && hVisible;
-        //        } else {
-        //
-        //            var viewTop         = $w.scrollTop(),
-        //                viewBottom      = viewTop + vpHeight,
-        //                viewLeft        = $w.scrollLeft(),
-        //                viewRight       = viewLeft + vpWidth,
-        //                offset          = $t.offset(),
-        //                _top            = offset.top,
-        //                _bottom         = _top + $t.height(),
-        //                _left           = offset.left,
-        //                _right          = _left + $t.width(),
-        //                compareTop      = partial === true ? _bottom : _top,
-        //                compareBottom   = partial === true ? _top : _bottom,
-        //                compareLeft     = partial === true ? _right : _left,
-        //                compareRight    = partial === true ? _left : _right;
-        //
-        //            if(direction === 'both')
-        //                return !!clientSize && ((compareBottom <= viewBottom) && (compareTop >= viewTop)) && ((compareRight <= viewRight) && (compareLeft >= viewLeft));
-        //            else if(direction === 'vertical')
-        //                return !!clientSize && ((compareBottom <= viewBottom) && (compareTop >= viewTop));
-        //            else if(direction === 'horizontal')
-        //                return !!clientSize && ((compareRight <= viewRight) && (compareLeft >= viewLeft));
-        //        }
-        //    };
-        //
-        //})(jQuery);
-        //viewPort Plugin Ends
 
         var isSearch = false;
 
@@ -139,6 +71,14 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                         $scope.pageNo = Number(pageNo)+1;
                     }
                     $scope.creativeData.creatives_count += result.data.data.length;
+                    if(result.data.data.length == 0 && pageNo == 1) {
+                        $scope.creativesNotFound = true;
+                        $scope.loadCreativeData=false;
+                    }
+
+                    creativeDataArr = $scope.creativeData['creatives'];
+                    $scope.defineSize();
+
                 }, function (error) {
                     console.log('error');
                 });
@@ -174,6 +114,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 //            creativeList.errorHandler();
                 //        }
                 //    }, creativeList.errorHandler);
+
             },
             getCreativeAds:function(creativeId,index){
                 workflowService
@@ -276,7 +217,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             var adFormatMapper = {
                 'display': 'icon-image',
                 'video': 'icon-video',
-                'richmedia': 'icon-rich-media',
+                'rich media': 'icon-rich-media',
                 'social': 'icon-social'
             };
 
@@ -288,22 +229,28 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             return moment(date).format('DD MMM YYYY');
         };
 
-        $scope.creativeSearchFunc = function () {
-            isSearch = true;
-            var searchVal = $scope.creativeSearch,
-                qryStr = '';
-            //formats = 'VIDEO,RICHMEDIA,DISPLAY';
+        $scope.creativeSearchFunc = function (e) {
+            if (!e || e.keyCode === 13) {
 
-            if (searchVal.length > 0) {
-                qryStr += 'query=' + searchVal;
-            }
-            if(searchVal.length > 2){
-                var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-                creativeList.getCreativesList($scope.clientId, undefined, qryStr);
-            }else if(searchVal.length==0){
-                $scope.creativeData['creatives'].length = 0;
-                var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-                creativeList.getCreativesList($scope.clientId,'', '',20, 1);
+                isSearch = true;
+                var searchVal = $scope.creativeSearch,
+                    qryStr = '';
+
+                if (searchVal.length > 0) {
+                    qryStr += 'query=' + searchVal;
+                }
+                if (searchVal.length > 2) {
+                    $scope.creativeListLoading = true;
+                    var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+                    $scope.isCreativeSearched = true;
+                    creativeList.getCreativesList($scope.clientId, undefined, qryStr);
+                } else if (searchVal.length == 0) {
+                    $scope.creativeListLoading = false;
+                    $scope.isCreativeSearched = false;
+                    $scope.creativeData['creatives'].length = 0;
+                    var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+                    creativeList.getCreativesList($scope.clientId, '', '', 20, 1);
+                }
             }
         };
 
@@ -416,6 +363,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             $(".file_upload_container").slideDown();
             $(".moreOptCreative").find('span').remove();
             $(".moreOptCreative").html("<span class='icon-more-options'></span>");
+            //broadCast method for calling adServers for bulk Upload page.
+            $scope.$broadcast('bulkUploadSelected');
         }
 
         $scope.showSuccessBulkUpload = function() {
@@ -457,6 +406,13 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             //$scope.showViewTagPopup = true;
             //$scope.editorEnabled = false;
             //$scope.creativeTag = obj.tag;
+        };
+
+        $scope.previewCreative = function (creativeData) {
+            $scope.previewCreativeId = creativeData.id;
+            $scope.previewCreativeName = creativeData.name;
+            $scope.previewCreativeTag = creativeData.tag;
+            $window.open(window.location.host + "/creative/"+creativeData.id+"/preview", '_blank');
         };
 
         $scope.toggleCreativeAds=function(context,creativeId,index,event){
@@ -544,29 +500,54 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $('html').css('background', '#fff');
         $('.bodyWrap').css('width', '100%');
 
-        //Search Hide / Show
-        $scope.searchShowInput = function () {
-            $(".searchInputBtn").hide();
-            var searchInputForm = $(".searchInputForm");
-            searchInputForm.show();
-            searchInputForm.animate({width: '300px'}, 'fast');
-        };
-
-        $scope.searchHideInput = function () {
+        //Search Clear
+        $scope.searchHideInput = function (evt) {
             isSearch = false;
-            $(".searchInputForm").animate({width: '44px'}, 'fast');
             var inputSearch = $(".searchInputForm input");
             inputSearch.val('');
-            setTimeout(function(){ $(".searchInputForm").hide(); }, 300);
-            setTimeout(function(){ $(".searchInputBtn").fadeIn(); }, 300);
-            $scope.creativeData['creatives']=[];
-            var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-            creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
+            if($scope.isCreativeSearched) {
+                $scope.creativeData['creatives'] = [];
+                $scope.creativeListLoading = true;
+                var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+                creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id, '', '', 20, 1);
+            }
         };
 
         $scope.headerToggle = function () {
             $(".vistoTable .thead .childRow").toggle();
             $(".vistoTable .thead .icon-arrow-down-thick").toggleClass('arrowLookDown');
+        }
+
+        $scope.defineSize = function () {
+            var listSizeCreativeDataArr = creativeDataArr.map(function(sizeCreativeDataArr){return sizeCreativeDataArr.size.size});
+            for(var i = 0; i < listSizeCreativeDataArr.length; i++) {
+                    var widthHeight = listSizeCreativeDataArr[i].split("X") ;
+                    var maxWidth = 68  ;
+                    var maxHeight = 25 ;
+                    var ratio = 0;
+                    var width = widthHeight[0];
+                    var height =widthHeight[1];
+                    $scope.creativeData['creatives'][i].width = widthHeight[0];
+                    $scope.creativeData['creatives'][i].height = widthHeight[1];
+
+                    // Check if the current width is larger than the max
+                    if(width > maxWidth){
+                        ratio = maxWidth / width;
+                        $scope.creativeData['creatives'][i].width = maxWidth ;
+                        $scope.creativeData['creatives'][i].height = height * ratio ;
+                        height = height * ratio;
+                        width = width * ratio;
+                    }
+
+                    // Check if current height is larger than max
+                    if(height > maxHeight){
+                        ratio = maxHeight / height;
+                        $scope.creativeData['creatives'][i].height = maxHeight ;
+                        $scope.creativeData['creatives'][i].width =  width * ratio ;
+                        width = width * ratio;
+                        height = height * ratio;
+                    }
+                }
         }
 
         //Sticky Header
@@ -609,6 +590,11 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 }
             });
         });
+
+        //Clear Preview Mouse Out
+        $scope.clearHoverPreview = function() {
+            $(".hideOption").removeClass("open");
+        };
 
     });
 });

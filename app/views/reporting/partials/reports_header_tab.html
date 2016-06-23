@@ -1,32 +1,52 @@
 <!-- <div class="pull-left breadcrumb_campaign"><a href="/campaigns/{{selectedCampaign.id}}">{{textConstants.CAPAIGN_DETAILS}}</a></div> -->
 <div class="clearfix reports_sub_menu_dd_holder">
-    <div class="pull-left" ng-if="buildReport">
-        <a ng-click="NavigateToTab('/customreport', $event , 'reportsSubPage')"  class="clearfix new_report_generate_btn">
+    <div class="pull-left" data-ng-if="buildReport">
+        <a data-ng-click="NavigateToTab('/customreport', $event , 'reportsSubPage')"
+           class="clearfix new_report_generate_btn">
             <span class="icon-report-builder"></span>
-            <span class="icon_txt" ng-bind="textConstants.BUILD_REPORT"></span>
+            <span class="icon_txt" data-ng-bind="textConstants.BUILD_REPORT"></span>
         </a>
     </div>
     <div class="reports_sub_menu_dd canned_container">
-        <div class="header_tab_dd_subheading" ng-bind="textConstants.MEDIA_PLAN_REPORTS" ng-if="showMediaPlanReportHeading"></div>
-        <div class="header_tab_dropdown" id="reports_overview_tab" ng-show="showReportOverview">
-            <a href="javascript:void(0);" ng-click="NavigateToTab('', $event ,'reportOverview')" ng-bind="textConstants.REPORTS_OVERVIEW"></a>
+        <div class="header_tab_dd_subheading"
+             data-ng-bind="textConstants.MEDIA_PLAN_REPORTS"
+             data-ng-if="showMediaPlanReportHeading">
         </div>
-        <div ng-repeat="tab in filters.tabs track by $index" class="header_tab_dropdown"
-             ng-class="{'active_tab': tab.href == filters.activeTab}" id="{{tab.href}}">
-            <a ng-click="NavigateToTab('/'+ tab.href, $event , 'reportsSubPage')" id="performance_tab_{{tab.href}}" style="text-transform: capitalize;"
-               reportTitle="{{tab.title}}" id="performance_tab_{{tab.href}}" reportTitle="{{tab.title}}" ng-bind="tab.title">
-                </a>
+        <div class="header_tab_dropdown" id="reports_overview_tab" data-ng-show="showReportOverview">
+            <a href="javascript:void(0);"
+               data-ng-click="NavigateToTab('', $event ,'reportOverview')"
+               data-ng-bind="textConstants.REPORTS_OVERVIEW">
+            </a>
+        </div>
+        <div data-ng-repeat="tab in filters.tabs track by $index"
+             class="header_tab_dropdown"
+             data-ng-class="{'active_tab': tab.href == filters.activeTab}"
+             id="{{tab.href}}">
+            <a data-ng-click="NavigateToTab('/'+ tab.href, $event , 'reportsSubPage')"
+               id="performance_tab_{{tab.href}}"
+               style="text-transform: capitalize;"
+               reportTitle="{{tab.title}}"
+               data-ng-bind="tab.title">
+            </a>
         </div>
     </div>
     <div class="reports_sub_menu_dd custom_container">
-        <div class="header_tab_dd_subheading" ng-if="showCustomReportHeading" ng-bind="textConstants.CUSTOM_REPORTS"></div>
-        <div ng-repeat="tab in customFilters.tabs track by $index" class="clearfix header_tab_dropdown"
-             ng-class="{'active_tab': tab.href == customFilters.activeTab}">
-            <a href="javascript:void(0);" class="pull-left reports_list_link"
-               ng-click="NavigateToTab('/'+ tab.href, $event, 'reportsSubPage')" ng-bind="tab.title"></a>
-
-            <div class="upload_icon" ng-click="NavigateToTab('/reports/upload', $event)"
-                 ng-show="tab.title==textConstants.COLLECTIVE_INSIGHTS"></div>
+        <div class="header_tab_dd_subheading"
+             data-ng-if="showCustomReportHeading"
+             data-ng-bind="textConstants.CUSTOM_REPORTS">
+        </div>
+        <div data-ng-repeat="tab in customFilters.tabs track by $index"
+             class="clearfix header_tab_dropdown"
+             data-ng-class="{'active_tab': tab.href == customFilters.activeTab}">
+            <a href="javascript:void(0);"
+               class="pull-left reports_list_link"
+               data-ng-click="NavigateToTab('/'+ tab.href, $event, 'reportsSubPage')"
+               data-ng-bind="tab.title">
+            </a>
+            <div class="upload_icon"
+                 data-ng-click="NavigateToTab('/reports/upload', $event)"
+                 data-ng-show="tab.title==textConstants.COLLECTIVE_INSIGHTS">
+            </div>
         </div>
     </div>
 </div>

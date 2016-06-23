@@ -1,6 +1,8 @@
+<popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
+           ng-init="init('flashMessage','reportEditFailed')"></popup-msg>
 <div class="reports-invoice-list">
     <div class="col-md-12 zeroPadding">
-        <h1 style="margin-top: 30px; margin-bottom:25px;">Invoice Reports</h1>
+        <h1 style="margin-top: 30px; margin-bottom:25px;" data-ng-bind="textConstants.INVOICE_REPORT"></h1>
     </div>
     <div class="row">
         <div class="col-md-4">
@@ -8,73 +10,216 @@
                 <filters-header></filters-header>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="col-md-12">
-                <div class="each_section_custom_report" style="min-width: 384px;">
-                    <div>
-                        <div class="clearfix title_row_separator customDatesTimeframe">
-                            <div class="pull-left col-md-12">
-                                <div class="col-md-12 input-daterange input-group date pull-left">
-                                    <div class="col-md-12 dateWrapper">
-                                        <div class="col-md-6">
-                                            <input type="text"
-                                                   id="startDateInput"
-                                                   class="input-sm form-control timeframe"
-                                                   ng-model="invoiceReports.startDate"
-                                                   required>
-                                            <i class="icon-calendar glyphicon pull-right"></i>
-                                            <!-- <label ng-if="!invoiceReports.startDate"
-                                            style="display:block" class="errorLabel"
-                                             ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="text"
-                                                   id="endDateInput"
-                                                   class="input-sm form-control timeframe"
-                                                   ng-model="invoiceReports.endDate"
-                                                   required>
-                                            <i class="icon-calendar glyphicon pull-right"></i>
-                                            <!-- <label ng-if="!invoiceReports.endDate"
-                                                style="display:block" class="errorLabel"
-                                                ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
+
+        <!--Search-->
+        <div class="col-md-8">
             <div class="btn-group pull-right">
-                <button type="button" class="btn btn-default pull-right" style="display: none">
+                <button type="button" class="btn btn-default" style="display: none">
                     <span class="icon-filter" style="margin: -1px 0 0;"></span>
                 </button>
-                <div class="searchInput pull-right">
-                    <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
-                        <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
-                    </a>
-
+                <div class="searchInput" style="float:left">
                     <a class="btn btn-default searchInputBtnInline" ng-click="invoiceReportsSearchFunc()">
                         <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
                     </a>
                     <div class="input-group searchInputForm" >
                         <input type="text"
                                class="form-control"
+                               search-box
                                name="invoiceReportsSearch"
                                ng-keyup="invoiceReportsSearchFunc($event)"
                                ng-model="invoiceReports.searchTerm"
                                placeholder="Search Invoice Reports...">
-                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
+                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput($event)">
                             <span class="icon-clear" aria-hidden="true"></span>
                         </div>
                     </div>
                 </div>
+                <button type="button" class="btn btn-default"
+                        data-toggle="collapse"
+                        data-target="#invoice_data_filter"
+                        style="height:36px; border-top-left-radius: 0; border-bottom-left-radius: 0; border-left: 0;float:left"
+                        data-ng-click="clickedOnFilterIcon()">
+                    <span class="icon-filter" style="margin: -1px 0 0;"></span>
+                </button>
             </div>
+
+                <!-- attribute data-toogle="collapse"  attached to id="toggle-example"-->
         </div>
     </div>
 
+    <!-- Date filter -->
+    <div class="col-md-12" id="invoice_data_filter" class="collapse">
+        <div class="filterInputCommon filterInputClass1">
+            <label class="col-sm-12 greyTxt">Status</label>
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle"
+                            type="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="true">
+                        <span class="text" data-ng-bind="filters.selectedStatus">
+                            Select Account
+                        </span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available" data-ng-click="filters.selectStatus('All')">
+                            <a data-ng-bind="'All'"></a>
+                        </li>
+                        <li class="available" data-ng-click="filters.selectStatus('Ready')">
+                            <a data-ng-bind="'Ready'"></a>
+                        </li>
+                        <li class="available" data-ng-click="filters.selectStatus('Review')">
+                            <a data-ng-bind="'Review'"></a>
+                        </li>
+                        <li class="available" data-ng-click="filters.selectStatus('Upload')">
+                            <a data-ng-bind="'Upload'"></a>
+                        </li>
+                        <li class="available" data-ng-click="filters.selectStatus('Suspended')">
+                            <a data-ng-bind="'Suspended'"></a>
+                        </li>
+                        <li class="available" data-ng-click="filters.selectStatus('Closed')">
+                            <a data-ng-bind="'Closed'"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="filterInputCommon filterInputClass1">
+            <label class="col-sm-12 greyTxt">Generated On</label>
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle"
+                            type="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="true">
+                        <span class="text" data-ng-bind="filters.selectedGeneratedOn">
+                            Select Account
+                        </span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available" data-ng-click="filters.selectGeneratedOn('yesterday')">
+                            <a>Yesterday</a>
+                        </li>
+                        <li class="available" data-ng-click="filters.selectGeneratedOn('last7days')">
+                            <a>Last 7 days</a>
+                        </li>
+                        <li class="available" data-ng-click="filters.selectGeneratedOn('last2Weeks')">
+                            <a>Last 2 weeks</a>
+                        </li>
+                        <li class="available" data-ng-click="filters.selectGeneratedOn('lastMonth')">
+                            <a>Last month</a>
+                        </li>
+                        <li class="available" data-ng-click="filters.selectGeneratedOn('lastQuater')">
+                            <a>Last quater</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="filterInputCommon filterInputClass1">
+            <label class="col-sm-12 greyTxt">From</label>
+            <input type="text"
+                   id="startDateInput"
+                   class="input-sm form-control timeframe"
+                   custom-date-picker="{
+                                           format: 'yyyy-mm-dd',
+                                           orientation: 'auto',
+                                           autoclose: true,
+                                           todayHighlight: true,
+                                           forceParse: false
+                                       }"
+                   ng-model="invoiceReports.startDate"
+                   required>
+            <i class="icon-calendar glyphicon pull-right" style="top: -37px;right: 13px;border-left: solid 1px #ccc;height: 38px;width: 20px;padding:10px 0 0 8px;z-index:2;"></i>
+            <!-- <label ng-if="!invoiceReports.startDate"
+            style="display:block" class="errorLabel"
+             ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
+        </div>
+        <div class="filterInputCommon filterInputClass1">
+            <label class="col-sm-12 greyTxt">To</label>
+            <input type="text"
+                   id="endDateInput"
+                   custom-date-picker="{
+                                           format: 'yyyy-mm-dd',
+                                           orientation: 'auto',
+                                           autoclose: true,
+                                           todayHighlight: true,
+                                           forceParse: false
+                                       }"
+                   class="input-sm form-control timeframe"
+                   ng-model="invoiceReports.endDate"
+                   required>
+            <i class="icon-calendar glyphicon pull-right" style="top: -37px;right: 13px;border-left: solid 1px #ccc;height: 38px;width: 20px;padding:10px 0 0 8px;z-index:2;"></i>
+            <!-- <label ng-if="!invoiceReports.endDate"
+                style="display:block" class="errorLabel"
+                ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
+        </div>
+
+       <!-- Will add it in future -->
+        <div style="display:none;">
+        <div class="filterInputCommon filterInputClass1">
+            <label class="col-sm-12 greyTxt">Metrics</label>
+            <div class="dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle"
+                            type="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="true">
+                        <span class="text" data-ng-bind="filters.selectedMetrics">
+                            Select Account
+                        </span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available" data-ng-click="filters.selectMetrics('Total Spend')">
+                            <a>Total Spend</a>
+                        </li>
+                        <li class="available" data-ng-click="filters.selectMetrics('Adjustments')">
+                            <a>Adjustments</a>
+                        </li>
+                        <li class="available" data-ng-click="filters.selectMetrics('Billable')">
+                            <a>Billable</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="filterInputCommon filterInputClass1">
+            <label class="col-sm-12 greyTxt">Value:</label>
+            <input type="Text"
+                   class="form-control"
+                   placeholder="Between">
+        </div>
+        <div class="filterInputCommon filterInputClass2">
+            <input type="number"
+                   class="form-control"
+                   data-ng-model="filters.lowValue">
+        </div>
+        <div class="filterInputCommon filterInputClass2">
+            <input type="number"
+                   class="form-control"
+                   data-ng-model="filters.highValue">
+        </div>
+        </div>
+        <div class="filterInputCommon filterInputClassBtn">
+            <a href=""
+               style="margin-left: 10px;"
+               class="btn btn-default ng-binding"
+               ng-click="filters.apply()">Apply</a>
+        </div>
+        <div class="filterInputCommon filterInputClassBtn">
+            <a class="btn btn-default pull-right" role="button" ng-click="filters.clear()">
+                <div style="top:0px !important;" class="glyphicon glyphicon-repeat pull-left" aria-hidden="true"></div>
+                <span style="margin-left:6px;">Clear</span>
+            </a>
+        </div>
+        </div>
+    </div>
     <!--Table-->
     <div class="col-md-12 report_list_table zeroPadding centerAlign" style="margin: 20px 0 30px;">
         <div class="table-responsive" id="table_responsive">
@@ -82,61 +227,131 @@
                 <!--Table Head-->
                 <div class="thead">
                     <div class="tr">
-                        <div class="col-md-2 th">Account</div>
-                        <div class="col-md-2 th">Advertiser</div>
-                        <div class="col-md-4 th">Media Plan Name</div>
-                        <div class="col-md-2 th">Labels</div>
-                        <div class="col-md-2 th">Invoice Date</div>
+                        <div class="col-md-4 th" data-ng-bind="textConstants.INVOICE_REPORT_MEDIA_PLAN"></div>
+                        <div class="col-md-1 th" data-ng-bind="textConstants.INVOICE_REPORT_STATUS"></div>
+                        <div class="col-md-2 th" data-ng-bind="textConstants.INVOICE_REPORT_DATE"></div>
+                        <div class="col-md-1 th" data-ng-bind="textConstants.INVOICE_REPORT_SPEND"></div>
+                        <div class="col-md-1 th" data-ng-bind="textConstants.INVOICE_REPORT_ADJUSTMENTS"></div>
+                        <div class="col-md-1 th" data-ng-bind="textConstants.INVOICE_REPORT_BILLABLE"></div>
+                        <div class="col-md-2 th" data-ng-bind="textConstants.INVOICE_REPORT_ACCOUNT"></div>
                     </div>
                 </div>
-                <!--Table Body-->
-                <div class="tbody">
-                    <div class="tr oneDimensionRow">
-                        <div data-ng-repeat="invoice in invoiceData" class="rowHover parentWrap">
-                            <div class="col-md-2 td" ng-bind="invoice.account"></div>
-                            <div class="col-md-2 td" ng-bind="invoice.advertiser"></div>
-                            <div class="col-md-4 td media-plan-name-wrapper">
-                                <div class="col-md-9 media-plan-name" ng-bind-html="invoice.mediaPlanName"></div>
-                                <div class="col-md-3 more-options">
-                                    <div class="dropdown-workflow">
-                                        <div class="dropdown hideOption">
-                                            <span data-toggle="dropdown">
-                                                <div class="option-horizontal">
-                                                    <span></span><span></span><span></span>
-                                                </div>
-                                            </span>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a ng-bind-html="textConstants.EDIT"
-                                                       style="cursor: not-allowed; color: #939eaf;"
-                                                       disabled></a>
-                                                </li>
-                                                <li class="headerDownload" ng-click="">
-                                                    <span class="icon-download zeroPadding pull-left"></span>
-                                                    <a class="pull-left"
-                                                       ng-href="{{invoice.downloadLink}}"
-                                                       href="{{invoice.downloadLink}}"
-                                                       ng-click="invoiceReports.download($event)">Download</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2 td">
-                                <div class="pillsWrap">
-                                    <span class="labelPills{{addHighlightClass(label, '</mark>') ?
-                                                 ' search-highlight' : ''}}"
-                                          ng-repeat="label in invoice.labels track by $index"
-                                          ng-bind-html="label">
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-md-2 td invoice-date" ng-bind="invoice.invoiceDate"></div>
+
+                <div class="tbody invoice-tbody">
+                    <div class="tr oneDimensionRow" data-ng-show="!noDataFound">
+                        <div ng-if="!creativeListLoading" ng-repeat="mediaPlan in mediaPlanList" class="parentWrap" ng-include="'invoiceTpl'"
+                             data-row-index="{{$index}}">
                         </div>
+
+                    </div>
+                    <span ng-if="noDataFound" class="no-data-common ng-binding ng-scope" style="margin: 100px auto 110px;">
+                        <span class="data_not_found">Data not available</span>
+                    </span>
+                    <div ng-if="fetching" class="zeroPadding col-md-12">
+                        <div class="common-load-more" style="margin-top:20px; "></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script type="text/ng-template" id="invoiceTpl">
+    <div class="rowHover parentWrap">
+        <!--Invoice Name-->
+        <div class="col-md-4 td tableTd media-plan-name-wrapper" style="min-height: 80px">
+            <span class="icon-arrow-down-thick" ng-click="toggleInvocieLists(mediaPlan, $index, $event)"></span>
+            <div class="col-md-9 media-plan-name" data-ng-bind="mediaPlan.campaignName"></div>
+            <div class="col-md-2 more-options">
+                <div class="dropdown-workflow">
+                    <div class="dropdown hideOption">
+                        <div class="option-horizontal">
+                            <a class="pull-left" tooltip="Download all Invoice Reports" ng-click="invoiceReports.download($event, mediaPlan)">
+                                <span class="icon-download zeroPadding pull-left"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1 td tableTd" data-ng-bind="mediaPlan.status" style="min-height: 80px;"></div>
+        <div class="col-md-2 td tableTd invoice-date" data-ng-bind="mediaPlan.invoiceDate" style="min-height: 80px;"></div>
+        <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.spend |number:0)" style="min-height: 80px;"></div>
+        <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.credits | number:0)" style="min-height: 80px;"></div>
+        <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.spend - mediaPlan.credits |number:0)" style="min-height: 80px;"></div>
+        <div class="col-md-2 td tableTd" data-ng-bind="mediaPlan.account+'/'+mediaPlan.advertiser" style="min-height: 80px"></div>
+        <!-- <div class="col-md-2 td" ng-bind="mediaPlan.account +'/'+ mediaPlan.advertiser"></div> -->
+    </div>
+    <div style="display:none;" class="secondDimensionList">
+        <div class="tr childRow adsList" style="border: solid 1px #ccc;">
+            <div class="col-md-12">
+                <div class="pillsWrap">
+                            <span class="labelPills{{addHighlightClass(label, '</mark>') ?
+                                         ' search-highlight' : ''}}"
+                                  ng-repeat="label in mediaPlan.labels track by $index"
+                                  ng-bind-html="label">
+                            </span>
+                </div>
+            </div>
+        </div>
+        <div class="rowHover1 parentWrap" ng-repeat="invoice in mediaPlan.invoices track by $index">
+            <div class="tr childRow adsList">
+                <div class="col-md-4 td">
+                    <div class="col-md-9 media-plan-name mediaPlanHyperLink" ng-bind="invoice.invoiceDate + ' Invoice Report'" data-ng-click="showInvoiceReport(invoice.invoiceId)"></div>
+                    <div class="col-md-3 more-options">
+                        <div class="dropdown-workflow">
+                            <div class="dropdown hideOption1">
+                            <span data-toggle="dropdown">
+                                <div class="option-horizontal">
+                                    <span class="dotClass"></span><span class="dotClass"></span><span class="dotClass"></span>
+                                </div>
+                            </span>
+                                <ul class="dropdown-menu" style="width:350px;">
+                                    <li>
+                                        <a style="text-align:left;"
+                                           data-ng-click="showInvoiceReport(invoice.invoiceId)"
+                                           ng-bind-html="textConstants.INVOICE_VIEW_REPORT"></a>
+                                    </li>
+                                    <li>
+                                        <a style="text-align:left;"
+                                           data-ng-click="showAddAdjustmentPopup(invoice)" ng-bind-html="textConstants.INVOICE_REPORT_ADD_ADJUSTMENT"></a>
+                                    </li>
+                                    <li class="headerDownload" ng-click="">
+                                        <a>
+                                            <div class="pull-left icon-download" style="margin-right: 10px;"></div>
+                                            <div class="pull-left"
+                                                 ng-click="invoiceReports.download($event, invoice)" data-ng-bind="textConstants.INVOICE_DOWNLOAD"></div>
+                                        </a>
+                                    </li>
+                                    <li class="headerDownload" ng-click="" ng-show="invoice.invoiceStatus == 'Upload'">
+                                        <a>
+                                            <div class="pull-left icon-upload" style="margin-right: 10px;"></div>
+                                            <div class="pull-left"
+                                                 ng-click="showUploadSORPopUp(invoice)" data-ng-bind="textConstants.INVOICE_UPLOAD_SOR"></div>
+                                        </a>
+                                    </li>
+                                    <li class="headerDownload" ng-click="">
+                                        <a>
+                                            <div class="pull-left icon-download" style="margin-right: 10px;"></div>
+                                            <div class="pull-left" ng-click="downloadSORReport(mediaPlan)">Download Line Items Requiring (S0R) Results</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1 td" ng-bind="invoice.invoiceStatus"></div>
+                <div class="col-md-2 td" ng-bind="invoice.invoiceDate"></div>
+                <div class="col-md-1 td text-right" ng-bind="constants.currencySymbol + (invoice.spend | number:0)"></div>
+                <div class="col-md-1 td text-right" ng-bind="constants.currencySymbol + (invoice.credits | number:0)"></div>
+                <div class="col-md-1 td text-right" ng-bind="constants.currencySymbol +'  '+ (invoice.spend - invoice.credits | number:0)"></div>
+                <div class="col-md-2 td"></div>
+            </div>
+
+        </div><!-- rowHover invoice.credits | number:3 -->
+
+        <div class="col-md-12" ng-bind-html="textConstants.INVOICE_VIEW_REPORT_ALL" ng-show="loadMoreInvoice_{{$index}}" data-ng-click="loadMoreInvoice($index)"
+             style="text-align: center; padding-top:7px; height:36px; border: 1px solid rgba(191, 201, 215, 0.5);"></div>
+    </div>
+
+</script>

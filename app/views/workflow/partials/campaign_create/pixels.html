@@ -8,7 +8,7 @@
     <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;" data-ng-bind="textConstants.MEDIAPLAN_PIXEL_SELECT"></label>
 
     <div class="col-md-12 zeroPadding btn-group create" role="group" style="margin: 20px 0 10px 0;">
-        <span class="pull-left" data-ng-bind="textConstants.MEDIAPLAN_PIXEL_REQUIRED"></span>
+        <span class="pull-left" ng-bind-html="textConstants.MEDIAPLAN_PIXEL_REQUIRED"></span>
 
         <!--Search/Quickfilters Input-->
         <div class="col-md-12 zeroPadding" style="margin-top:20px;display:none" >
@@ -29,8 +29,9 @@
                         <input type="text"
                                class="form-control"
                                name="campaignsSearch"
+                               search-box
                                placeholder="Search Line Items..." ng-model="searchText">
-                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
+                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput($event)">
                             <span class="icon-clear" aria-hidden="true" style="margin: 0;"></span>
                         </div>
                     </div>
@@ -43,7 +44,7 @@
 
     <!--Pixel Table Sample Start-->
     <div class="table-responsive" id="table_responsive" style="margin: 10px 0;">
-        <div class="vistoTable" id="visto_table">
+        <div class="vistoTable pixelVistoTable" id="visto_table">
             <div class="thead thin">
                 <div class="tr">
                     <div class="th col-md-9">
@@ -63,7 +64,7 @@
                     </div>
                     <span class="td col-md-3" data-ng-bind="pixel.createdAt"></span>
                 </div>
-                <div ng-if="selectedCampaign.pixelList.length === 0" class="tr no-data-common">
+                <div ng-if="selectedCampaign.pixelList.length === 0" class="tr no-data-common" >
                     <div class="td" data-ng-bind="textConstants.DATANOTAVAILABLE"></div>
                 </div>
             </div>

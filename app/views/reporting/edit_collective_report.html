@@ -1,4 +1,4 @@
-<div class="popup-holder">
+<div class="popup-holder edit-report-popup-holder">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"
                 ng-click="close()" aria-label="Close">
@@ -7,12 +7,12 @@
         <h2 class="modal-title" id="myModalLabel">Edit Report</h2>
     </div>
     <div class="modal-body">
-        <div class="data_row">
+        <div class="data_row" ng-show="report.fileName">
             <span class="data_heading">File Name</span>
             <span class="data_value">{{report.fileName}}</span>
         </div>
 
-        <div class="data_row">
+        <div class="data_row" ng-show="report.fileSize">
             <span class="data_heading">Size</span>
             <span class="data_value">{{report.fileSize}}</span>
         </div>
@@ -20,7 +20,7 @@
         <div class="clearfix data_row {{editedData.reportType == 'Custom' ? 'custom_report_type' : ''}}">
             <div class="pull-left report-type-data">
                 <div class="data_heading">Report Type</div>
-                <div class="">
+                <div class="common_dropdown">
                     <div class="dropdown">
                         <span data-toggle="dropdown" class="dropdown_txt">{{editedData.reportType}}</span>
                         <ul class="dropdown-menu">
@@ -32,7 +32,7 @@
             </div>
             <div class="pull-right campaign-dd-data">
                 <div class="data_heading">Media Plan</div>
-                <div class="">
+                <div class="common_dropdown">
                     <div class="dropdown">
                         <span data-toggle="dropdown" class="dropdown_txt">{{editedData.campaignName}}</span>
                         <ul class="dropdown-menu">
@@ -51,7 +51,7 @@
             </div>
         </div>
 
-        
+
         </div><!-- end of modal_body -->
         <div class="clearfix popup-btns-holder">
             <span class="pull-left delete-option" ng-click="deleteReportModal();">Delete</span>
@@ -59,6 +59,6 @@
             <span class="secondary_txt" data-dismiss="modal" ng-click="close()" >
                 Cancel
             </span>
-           
+
         </div>
     </div> <!-- end of popup-holder -->

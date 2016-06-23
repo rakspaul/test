@@ -109,7 +109,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     // when strategyId = 0 qryObj.strategyId become false.
                     if (_.has(qryObj, 'strategyId') && qryObj.strategyId >= 0) {
-                        params += '&ad_group_id=' + qryObj.strategyId;
+                        params += '&lineitem_id=' + qryObj.strategyId;
                     }
 
                     return params;
@@ -118,7 +118,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 this.APIVistoCustomQuery = function (qryObj) {
                     var params = this.buildParams(qryObj),
                         qryUrl = qryObj.url ? qryObj.url : '/reportBuilder/customQuery';
-
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + qryUrl + '?' + params;
                 };
 
@@ -187,7 +186,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     var clientId =  loginModel.getSelectedClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' +
-                        campaingId + '/ad_groups/meta';
+                        campaingId + '/lineitems/meta';
                 };
 
                 this.APIReportList = function (advertiserId, brandId, campaignId) {
@@ -235,11 +234,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 };
 
                 //download option from the report builder
-                this.downloadGeneratedRpt = function (queryString) {
+                this.downloadGeneratedRpt = function (reportId) {
                     var clientId =  loginModel.getMasterClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
-                        '/custom_reports/' + queryString;
+                        '/custom_reports/download/' + reportId;
                 };
 
                 this.downloadSchdRpt = function (instanceId) {
@@ -329,37 +328,57 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 this.downloadAdminAdvPixel = function(clientId, advId){
                     return vistoconfig.apiPaths.WORKFLOW_API_URL+'/clients/'+clientId+'/advertisers/'+advId+'/pixels_download';
                 };
-                this.getInvoiceData = function (invoiceReports) {
-                    var clientId =  loginModel.getMasterClient().id,
+                this.getInvoiceDetials = function(invoiceId){
+                    var clientId =  loginModel.getSelectedClient().id;
+                    return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/invoices/'+invoiceId;
+                };
+                this.getInvoiceData = function (invoiceReports, queryStr) {
+                    var clientId =  loginModel.getSelectedClient().id,
                         url;
-
                     if (invoiceReports.isSearched) {
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             // '/clients/' + clientId +
-                            '/clients/' + '2' + // TODO: temp client ID
+                            '/clients/' + clientId +
                             '/invoices/search' +
                             '?advertiser_id=' + invoiceReports.advertiserId +
                             '&brand_id=' + invoiceReports.brandId +
-                            '&start_date=' + moment(invoiceReports.startDate).format(constants.DATE_UTC_SHORT_FORMAT) +
-                            '&end_date=' + moment(invoiceReports.endDate).format(constants.DATE_UTC_SHORT_FORMAT) +
-                            // Page number & page size hard-coded for now
-                            '&page_num=1&page_size=50' +
-                            '&search_term=' + invoiceReports.searchTerm;
+                            '&search_term=' + invoiceReports.searchTerm + queryStr;
                     } else {
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             // '/clients/' + clientId +
-                            '/clients/' + '2' + // TODO: temp client ID
+                            '/clients/' + clientId +
                             '/invoices/list' +
                             '?advertiser_id=' + invoiceReports.advertiserId +
-                            '&brand_id=' + invoiceReports.brandId +
-                            '&start_date=' + moment(invoiceReports.startDate).format(constants.DATE_UTC_SHORT_FORMAT) +
-                            '&end_date=' + moment(invoiceReports.endDate).format(constants.DATE_UTC_SHORT_FORMAT) +
-                            // Page number & page size hard-coded for now
-                            '&page_num=1&page_size=50';
+                            '&brand_id=' + invoiceReports.brandId + queryStr;
                     }
-
                     return url;
                 };
+
+                this.saveInvoiceListCredits = function(invoiceId){
+                    var clientId =  loginModel.getSelectedClient().id,
+                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
+                    return url+'/clients/'+clientId+'/invoices/'+invoiceId+'/adjustments';
+                }
+                this.downloadInvoiceCampaign = function(campaignId){
+                    var clientId =  loginModel.getSelectedClient().id,
+                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
+                    return url+'/clients/'+clientId+'/invoices/campaign_id/'+campaignId+'/download';
+                }
+                this.downloadTemplateWithCampaignId = function(campaignId){
+                    var clientId =  loginModel.getSelectedClient().id,
+                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
+                    return url+'/clients/'+clientId+'/invoices/campaign_id/'+campaignId+'/templatedownload';
+                }
+                this.downloadInvoiceWithId = function(invoiceId){
+                    var clientId =  loginModel.getSelectedClient().id,
+                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
+                    return url+'/clients/'+clientId+'/invoices/'+invoiceId+'/download';
+                }
+                this.getCampaignSpend = function(queryObj) {
+                    //query_id = 14
+                    var params = this.buildParams(queryObj);
+                    return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?' + params;
+                }
             }
         ]);
     }

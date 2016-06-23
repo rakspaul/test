@@ -43,9 +43,9 @@ assets.green_left_act = IMAGES_CALENDAR_PATH + 'cal_arrow_left_green_16x16_2x_ac
 assets.green_right = IMAGES_CALENDAR_PATH + 'cal_arrow_right_green_16x16_2x.png';
 assets.green_right_act = IMAGES_CALENDAR_PATH + 'cal_arrow_right_green_16x16_2x_active.png';
 
-assets.css_custom_reports = STYLESHEETS_PATH + 'custom_reports.css';
-assets.css_reports_schedule_list = STYLESHEETS_PATH + 'reports_schedule_list.css';
-assets.css_reports_invoice_list = STYLESHEETS_PATH + 'reports_invoice_list.css';
+assets.css_custom_reports = STYLESHEETS_PATH + 'pages/custom_reports.css';
+assets.css_reports_schedule_list = STYLESHEETS_PATH + 'pages/reports_schedule_list.css';
+assets.css_reports_invoice_list = STYLESHEETS_PATH + 'pages/reports_invoice_list.css';
 assets.css_visto_application = STYLESHEETS_PATH + 'visto_application.css';
 
 assets.html_campaign_details = '/views/reporting/campaign_details.html';
@@ -86,6 +86,7 @@ assets.html_help = '/views/reporting/help.html';
 assets.html_collective_report_listing = '/views/reporting/collective_report_listing.html';
 assets.html_reports_schedule_list = '/views/reporting/reports_schedule_list.html';
 assets.html_reports_invoice_list = '/views/reporting/reports_invoice_list.html';
+assets.html_reports_invoice = '/views/reporting/reports_invoice.html';
 assets.html_edit_collective_report = '/views/reporting/edit_collective_report.html';
 assets.html_delete_collective_report = '/views/reporting/delete_collective_report.html';
 assets.html_campaign_lst_filter = '/views/reporting/campaign_lst_filter.html';
@@ -117,6 +118,7 @@ assets.html_campaign_create = '/views/workflow/campaign_create.html';
 assets.html_campaign_create_ad = '/views/workflow/campaign_overview.html';
 assets.html_campaign_create_adBuild = '/views/workflow/campaign_ad_create.html';
 assets.html_creative = '/views/workflow/creative.html';
+assets.html_creative_preview = '/views/workflow/creative_preview.html';
 assets.html_creative_list = '/views/workflow/creative_list.html';
 assets.html_workflow_campaign_list = '/views/workflow/campaign_list.html';
 
@@ -143,7 +145,9 @@ assets.admin_accounts_subclient = '/views/workflow/partials/creative_add_bulk.ht
 assets.html_clone_campaign_popup = '/views/workflow/partials/clone_campaign_popup.html';
 assets.html_ad_campaign_popup = '/views/workflow/partials/clone_ad_popup.html';
 
-
+assets.html_add_credit_popup = '/views/reporting/partials/add_invoice_adjustment_popup.html';
+assets.html_invocie_upload_SOR = '/views/reporting/partials/invoice_upload_SOR_popup.html';
+assets.html_add_note_popup = '/views/reporting/partials/invoice_add_note.html';
 //Admin page
 
 assets.html_admin_home = '/views/workflow/admin_home.html';

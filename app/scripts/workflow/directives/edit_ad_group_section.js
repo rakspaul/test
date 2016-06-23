@@ -19,7 +19,8 @@ define(['angularAMD'], function (angularAMD) {
                         highestEndTime = momentService.utcToLocalTime(adGroupsData.adGroup.endTime),
                         getADsForGroupData = $scope.workflowData.getADsForGroupData[adGroupsIndex],
                         startDateElem = formElem.find('.adGrpStartDateInput'),
-                        endDateElem = formElem.find('.adGrpEndDateInput');
+                        endDateElem = formElem.find('.adGrpEndDateInput'),
+                        currentDate = moment().format(constants.DATE_US_FORMAT);
 
                     $scope.adgroupId = adGroupsData.adGroup.id;
                     $scope.adGroupName = adGroupsData.adGroup.name;
@@ -42,7 +43,7 @@ define(['angularAMD'], function (angularAMD) {
                     //reset the ad group max and min budget flag.
                     $scope.resetAdsBudgetsFlag();
 
-                    $scope.setLineItem(adGroupsData.adGroup.lineitemId);
+                    $scope.setLineItem(adGroupsData.adGroup);
 
                     $scope.adGroupMaxBudget = (Math.ceil($scope.workflowData.campaignData.deliveryBudget) -
                         adGroupsBudget) + Math.ceil(adsBudget) ;
@@ -51,10 +52,19 @@ define(['angularAMD'], function (angularAMD) {
                         $scope.extractor(getADsForGroupData, formElem);
                     } else {
                         $scope.resetAdsData();
-                        startDateElem.datepicker('setStartDate', $scope.campaignStartTime);
-                        startDateElem.datepicker('setEndDate', $scope.campaignEndTime);
+                        if(moment($scope.campaignStartTime).isBefore(currentDate)) {
+                            startDateElem.datepicker('setStartDate', currentDate);
+                            endDateElem.datepicker('setStartDate', highestEndTime);
 
-                        endDateElem.datepicker('setStartDate', $scope.campaignStartTime);
+                        } else if(moment($scope.campaignStartTime).isBefore(moment(startTime))) {
+                            startDateElem.datepicker('setStartDate', $scope.campaignStartTime);
+                            endDateElem.datepicker('setStartDate', highestEndTime);
+                        } else {
+                            startDateElem.datepicker('setStartDate', $scope.campaignStartTime);
+                            endDateElem.datepicker('setStartDate', $scope.campaignStartTime);
+                        }
+
+                        startDateElem.datepicker('setEndDate', $scope.campaignEndTime);
                         endDateElem.datepicker('setEndDate', $scope.campaignEndTime);
                     }
 
