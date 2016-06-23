@@ -81,12 +81,12 @@ define(['common'], function (angularAMD) {
                             }
                         });
                     } else {
-                        console.log('dashboard account not allowed');
+                        console.log('dashboard account ' + params.subAccountId + 'not allowed');
                         $location.url('/tmp')
                     }
                 });
             } else {
-                console.log('account not allowed');
+                console.log('account ' + params.accountId + ' not allowed');
                 $location.url('/tmp')
             }
         });
@@ -279,14 +279,14 @@ define(['common'], function (angularAMD) {
 
         var params = $route.current.params;
         accountService.fetchAccountList().then(function() {
-            if (accountService.allowedAccount($route.current.params.accountId)) {
-                accountService.fetchAccountData($route.current.params.accountId).then(function(response) {
+            if (accountService.allowedAccount(params.accountId)) {
+                accountService.fetchAccountData(params.accountId).then(function(response) {
                     deferred.resolve();
                     params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel);
                     params.advertiserId && params.brandId && fetchCurrentBrand($location, $route, brandsModel);
                 });
             } else {
-                console.log('account not allowed');
+                console.log('account ' + params.accountId + 'not allowed');
                 $location.url('/tmp')
             }
         });
@@ -298,10 +298,10 @@ define(['common'], function (angularAMD) {
 
         var params = $route.current.params;
         accountService.fetchAccountList().then(function() {
-            if (accountService.allowedAccount($route.current.params.accountId)) {
-                subAccountService.fetchSubAccountList($route.current.params.accountId).then(function() {
-                    if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                        accountService.fetchAccountData($route.current.params.accountId).then(function(response) {
+            if (accountService.allowedAccount(params.accountId)) {
+                subAccountService.fetchSubAccountList(params.accountId).then(function() {
+                    if (subAccountService.allowedSubAccount(params.subAccountId)) {
+                        accountService.fetchAccountData(params.accountId).then(function(response) {
                             deferred.resolve();
                             params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel);
                             params.advertiserId && params.brandId && fetchCurrentBrand($location, $route, brandsModel);
@@ -312,7 +312,7 @@ define(['common'], function (angularAMD) {
                     }
                 });
             } else {
-                console.log('account not allowed');
+                console.log('account ' + params.accountId + 'not allowed');
                 $location.url('/tmp')
             }
         });
@@ -368,12 +368,12 @@ define(['common'], function (angularAMD) {
                             });
                         });
                     } else {
-                        console.log('dashboard account not allowed');
+                        console.log('sub account ' + params.accountId + 'not allowed');
                         $location.url('/tmp')
                     }
                 });
             } else {
-                console.log('account not allowed');
+                console.log('account ' + params.accountId + ' not allowed');
                 $location.url('/tmp')
             }
         });
@@ -1086,6 +1086,23 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
+                .when('/a/:accountId/reports/schedules', angularAMD.route({
+                    templateUrl: assets.html_reports_schedule_list,
+                    title: 'Scheduled Reports',
+                    controller: 'ReportsScheduleListController',
+                    controllerUrl: 'reporting/collectiveReport/reports_schedule_list_controller',
+                    showHeader : true,
+                    css: assets.css_reports_schedule_list,
+                    resolve: {
+                        header: function($q, $location, $route, accountService, advertiserModel, brandsModel) {
+                            return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel, brandsModel);
+                        }
+                        // check: function ($location, featuresService) {
+                        //     featuresService.setGetFeatureParams('scheduled_reports');
+                        // }
+                    }
+                }))
+
                 .when('/a/:accountId/customreport', angularAMD.route({
                     templateUrl: assets.html_custom_report,
                     title: 'Report Builder',
@@ -1094,9 +1111,12 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     bodyclass: 'custom_report_page',
                     resolve: {
-                        check: function ($location, featuresService) {
-                            featuresService.setGetFeatureParams('scheduled_reports');
+                        header: function($q, $location, $route, accountService, advertiserModel, brandsModel) {
+                            return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel, brandsModel);
                         }
+                        // check: function ($location, featuresService) {
+                        //     featuresService.setGetFeatureParams('scheduled_reports');
+                        // }
                     }
                 }))
 
@@ -1108,9 +1128,12 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     bodyclass: 'custom_report_page',
                     resolve: {
-                        check: function ($location, featuresService) {
-                            featuresService.setGetFeatureParams('scheduled_reports');
+                        header: function($q, $location, $route, accountService, advertiserModel, brandsModel) {
+                            return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel, brandsModel);
                         }
+                        // check: function ($location, featuresService) {
+                        //     featuresService.setGetFeatureParams('scheduled_reports');
+                        // }
                     }
                 }))
 
@@ -1295,19 +1318,6 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/a/:accountId/reports/schedules', angularAMD.route({
-                    templateUrl: assets.html_reports_schedule_list,
-                    title: 'Scheduled Reports',
-                    controller: 'ReportsScheduleListController',
-                    controllerUrl: 'reporting/collectiveReport/reports_schedule_list_controller',
-                    showHeader : true,
-                    css: assets.css_reports_schedule_list,
-                    resolve: {
-                        check: function ($location, featuresService) {
-                            featuresService.setGetFeatureParams('scheduled_reports');
-                        }
-                    }
-                }))
                 // .when('/optimization', angularAMD.route({
                 //     templateUrl: assets.html_optimization,
                 //     title: 'Reports - Optimization Impact',

@@ -231,8 +231,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         '/uploadedreports/download/' + reportId;
                 };
 
-                this.scheduleReportsList = function () {
-                    var clientId =  loginModel.getMasterClient().id;
+                this.scheduleReportsList = function (clientId) {
+                    // var clientId =  loginModel.getMasterClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/reports/listReports';
                     // return 'http://ampqaapp001.ewr004.collective-media.net/
@@ -247,86 +247,86 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         '/custom_reports/download/' + reportId;
                 };
 
-                this.downloadSchdRpt = function (instanceId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                this.downloadSchdRpt = function (clientId, instanceId) {
+                    // var clientId =  loginModel.getMasterClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/scheduledreports/downloadReport/'+instanceId;
                 };
 
-                this.downloadSavedRpt = function (instanceId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                this.downloadSavedRpt = function (clientId, instanceId) {
+                    // var clientId =  loginModel.getMasterClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/savedreports/downloadReport/'+instanceId;
                 };
 
-                this.scheduledReport = function (reportId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                this.scheduledReport = function (clientId, reportId) {
+                    // var clientId =  loginModel.getMasterClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/scheduledreports/getReport/' + reportId;
                 };
 
-                this.savedReport = function (reportId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                this.savedReport = function (clientId, reportId) {
+                    // var clientId =  loginModel.getMasterClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/savedreports/getReport/' + reportId;
                 };
 
-                this.deleteSchdRpt = function (reportId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                this.deleteSchdRpt = function (clientId, reportId) {
+                    // var clientId =  loginModel.getMasterClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/scheduledreports/deleteReport/' + reportId;
                 };
 
-                this.deleteSavedRpt = function (reportId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                this.deleteSavedRpt = function (clientId, reportId) {
+                    // var clientId =  loginModel.getMasterClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/savedreports/deleteReport/' + reportId;
                 };
 
-                this.deleteInstanceOfSchdRpt = function (reportId, instanceId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                this.deleteInstanceOfSchdRpt = function (clientId, reportId, instanceId) {
+                    // var clientId =  loginModel.getMasterClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/scheduledreports/deleteInstance/' + reportId + '/' + instanceId;
                 };
 
-                this.createScheduledRpt = function () {
-                    var clientId =  loginModel.getMasterClient().id;
+                this.createScheduledRpt = function (clientId) {
+                    // var clientId =  loginModel.getMasterClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/scheduledreports/createReport';
                 };
 
-                this.createSaveRpt = function () {
-                    var clientId =  loginModel.getMasterClient().id;
+                this.createSavedRpt = function (clientId) {
+                    // var clientId =  loginModel.getMasterClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/savedreports/createReport';
                 };
 
 
-                this.archiveSchldRpt = function (reportId, instanceId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                this.archiveSchldRpt = function (clientId, reportId, instanceId) {
+                    // var clientId =  loginModel.getMasterClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/scheduledreports/archiveInstance/' + reportId + '/' + instanceId;
                 };
 
-                this.updateScheduledRpt = function (reportId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                this.updateScheduledRpt = function (clientId, reportId) {
+                    // var clientId =  loginModel.getMasterClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/scheduledreports/updateReport/' + reportId;
                 };
 
-                this.updateSavedRpt = function (reportId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                this.updateSavedRpt = function (clientId, reportId) {
+                    // var clientId =  loginModel.getMasterClient().id;
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/savedreports/updateReport/' + reportId;

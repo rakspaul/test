@@ -59,6 +59,10 @@ define(['angularAMD'], function (angularAMD) {
           type: 'all'
       };
 
+      this.getMasterClientId = function() {
+          return Number($routeParams.accountId);
+      };
+
       this.getSelectedAccountId = function() {
           return $routeParams.subAccountId || $routeParams.accountId;
       };

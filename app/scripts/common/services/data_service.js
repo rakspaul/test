@@ -123,18 +123,18 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getCustomReportMetrics :  function (campaign) {
-                    var clientId = loginModel.getMasterClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                getCustomReportMetrics :  function (clientId) {
+                    // var clientId = loginModel.getMasterClient().id,
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/reports/custom/meta';
 
                     return this.fetch(url);
                 },
 
-                getCustomReportData: function (reportId, queryString) {
-                    var clientId = loginModel.getMasterClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                getCustomReportData: function (clientId, reportId, queryString) {
+                    // var clientId = loginModel.getMasterClient().id,
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId + '/custom_reports/' + reportId;
                     return this.post( url, queryString,undefined,false);
                 },
@@ -215,23 +215,23 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 //         });
                 // },
 
-                createScheduleReport :  function (data) {
-                    return this.post( urlService.createScheduledRpt(), data, {'Content-Type': 'application/json'});
+                createScheduleReport :  function (clientId, data) {
+                    return this.post( urlService.createScheduledRpt(clientId), data, {'Content-Type': 'application/json'});
                 },
 
 
-                createSaveReport :  function (data) {
-                    return this.post( urlService.createSaveRpt(), data, {'Content-Type': 'application/json'});
+                createSaveReport :  function (clientId, data) {
+                    return this.post( urlService.createSaveRpt(clientId), data, {'Content-Type': 'application/json'});
                 },
 
-                updateScheduleReport: function (reportId,data) {
-                    var url = urlService.updateScheduledRpt(reportId);
+                updateScheduleReport: function (clientId, reportId, data) {
+                    var url = urlService.updateScheduledRpt(clientId, reportId);
 
                     return this.put(url,data);
                 },
 
-                updateSavedReport: function (reportId, data) {
-                    var url = urlService.updateSavedRpt(reportId);
+                updateSavedReport: function (clientId, reportId, data) {
+                    var url = urlService.updateSavedRpt(clientId, reportId);
 
                     return this.put(url,data);
                 },

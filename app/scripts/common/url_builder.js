@@ -2,6 +2,18 @@ define(['angularAMD'],
     function (angularAMD) {
         angularAMD.factory('urlBuilder', function ($location, $routeParams, subAccountService) {
             return {
+                customReportsUrl: function() {
+                    var url = "/a/" + $routeParams.accountId;
+                    url += '/customreport';
+                    console.log('url', url);
+                    return url;
+                },
+                customReportsListUrl: function() {
+                    var url = "/a/" + $routeParams.accountId;
+                    url += '/reports/schedules';
+                    console.log('url', url);
+                    return url;
+                },
                 uploadReportsUrl: function() {
                     var url = "/a/" + $routeParams.accountId;
                     if ($routeParams.subAccountId) {
@@ -17,6 +29,7 @@ define(['angularAMD'],
                         }
                     }
                     url += '/reports/upload';
+                    console.log('url', url);
                     return url;
                 },
                 uploadReportsListUrl: function() {
@@ -35,6 +48,7 @@ define(['angularAMD'],
                         }
                     }
                     url += '/reports/list';
+                    console.log('url', url);
                     return url;
                 }
 
