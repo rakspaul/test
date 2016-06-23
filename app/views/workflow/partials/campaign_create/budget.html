@@ -9,7 +9,7 @@
             <h3 data-ng-bind="textConstants.MEDIAPLAN_BUDGET"></h3>
             <div class="symbol-input">
                 <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                <input type="text" style="padding-left: 20px;" ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" ng-keyup="ComputeCost();checkBudgetMinLimit(Campaign.totalBudget);" valid-number autocomplete="off" required/>
+                <input type="text" style="padding-left: 20px;" ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" ng-keyup="ComputeCost();checkBudgetMinLimit(Campaign.totalBudget);" decorate-numbers valid-number autocomplete="off" required/>
             </div>
             <label ng-if="createCampaignForm.totalBudget.$error.required" class="txtError budgetError errorLabel" data-ng-bind="textConstants.TOTAL_BUDGET_REQUIRED"></label>
             <label ng-if="Campaign.totalBudget<=0" class="txtError budgetError" data-ng-bind="textConstants.TOTAL_BUDGET_GREATER_THAN_ZERO"></label>
@@ -37,7 +37,7 @@
 
 <div class="col-md-12 zeroPadding">
     <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="border-bottom: 1px solid rgba(191, 201, 215, 0.5); padding-bottom: 10px !important;" data-ng-bind="textConstants.MEDIAPLAN_MEASUREMENT_SETTING_COSTS"></label>
-    
+
     <div data-toggle="collapse" data-target="#costTracking" class="accordionDDL collapsed">
         <div class="icon-arrow-down-thick"></div>
         <span data-ng-bind="textConstants.MEDIAPLAN_COST_TRACKING"></span>
