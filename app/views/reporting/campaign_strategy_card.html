@@ -112,18 +112,18 @@
             </div>
             <div class="clearfix metric_graph_details">
                 <div class="each_metric_graph_details" ng-if="strategy.totalImpressions">
-                    <span class="detail_val" ng-bind="strategy.totalImpressions | nrFormat"></span>
+                    <span class="detail_val" ng-bind="strategy.totalImpressions | nrFormat:0"></span>
                     <span ng-bind="textConstants.IMP_WITH_DOT"></span>
                 </div>
                 <div class="each_metric_graph_details metric_graph_details_ctr" ng-if="strategy.ctr > 0">
-                    <span class="detail_val" ng-bind="(strategy.ctr | roundThisOff : 2) + '%'"></span>
+                    <span class="detail_val" ng-bind="(strategy.ctr | roundThisOff : 3) + '%'"></span>
                     <span ng-bind="textConstants.CTR"></span>
                 </div>
                 <!-- when action rate is present -->
                 <!-- <div class="each_metric_graph_details metric_graph_details_action"
                 ng-if="!strategy.adFormats.videoAds || strategy.vtc_rate === 0"> -->
                 <div class="each_metric_graph_details metric_graph_details_action" ng-if="strategy.vtc_rate === 0">
-                    <span class="detail_val" ng-bind="(strategy.actionRate | number : 2) + '%'">{{}}%</span>
+                    <span class="detail_val" ng-bind="(strategy.actionRate | number : 3) + '%'">{{}}%</span>
                     <span>{{textConstants.ACTION_RATE}}</span>
                 </div>
                 <!-- <div class="each_metric_graph_details  metric_graph_details_vtc"
@@ -131,7 +131,7 @@
                 <div class="each_metric_graph_details  metric_graph_details_vtc" ng-if="strategy.vtc_rate > 0">
                     <div class="quartile_details_VTC_btn" ng-mouseover="VTCpopup($event, 1)"
                          ng-mouseout="VTCpopup($event, 0)">
-                        <span class="detail_val" ng-bind="(strategy.vtc_rate | number : 2) + '%'"></span>
+                        <span class="detail_val" ng-bind="(strategy.vtc_rate | number : 3) + '%'"></span>
                         <span ng-bind="textConstants.VTC"></span>
                     </div>
                     <div class="quartile_details_VTC">
@@ -158,7 +158,7 @@
                           ng-if="campaign.kpiValue || strategy.targetKPIImpressions">
                         <span ng-if="strategy.chart !== false"
                               ng-bind="campaign.kpiType.toLowerCase() === 'impressions' ?
-                                    (strategy.targetKPIImpressions|nrFormat) :
+                                    (strategy.targetKPIImpressions|nrFormat:0) :
                                     (campaign.kpiValue | kpiFormatter:campaign.kpiType)">
                         </span>
                         <span class="icon_KPI" ng-if="strategy.chart !==false"></span>
