@@ -209,9 +209,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         //     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();  //update the selected Campaign
         // });
 
-        // $scope.$watch('selectedCampaign', function () {
-        //     $scope.createDownloadReportUrl();
-        // });
+        $scope.$watch('selectedCampaign', function () {
+            $scope.createDownloadReportUrl();
+        });
 
         //creating download report url
         $scope.createDownloadReportUrl = function () {
@@ -477,13 +477,13 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             _currCtrl.filter_download_report("cost");
         }
 
-        var featuredFeatures = $rootScope.$on('features', function () {
-            var fparams = featuresService.getFeatureParams();
-            $scope.showCostWidget = fparams[0]['cost'];
-            if(!$scope.showCostWidget){
-                _currCtrl.filter_download_report("cost");
-            }
-        });
+        // var featuredFeatures = $rootScope.$on('features', function () {
+        //     var fparams = featuresService.getFeatureParams();
+        //     $scope.showCostWidget = fparams[0]['cost'];
+        //     if(!$scope.showCostWidget){
+        //         _currCtrl.filter_download_report("cost");
+        //     }
+        // });
 
 
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {

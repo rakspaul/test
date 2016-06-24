@@ -377,11 +377,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             ];
         },
 
-        // cbCampaignSelected = function () {
-        //     console.log('cbCampaignSelected');
-        //     // getCampaignDetails(callStrategyChange); // As campaign is changed.Populate Campaing details and then get actionData for selected Campaign
-        //     callStrategyChange();
-        // },
+        cbCampaignSelected = function () {
+            // getCampaignDetails(callStrategyChange); // As campaign is changed.Populate Campaing details and then get actionData for selected Campaign
+            callStrategyChange();
+        },
 
         // getCampaignDetails = function (callback) {
         //     if ($scope.selectedCampaign && $scope.selectedCampaign.id != 0 && $scope.selectedCampaign.id != -1) {
@@ -434,10 +433,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         //     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ; //update the selected Campaign
         // });
 
-        // $scope.$watch('selectedCampaign', function() {
-        //     createDownloadReportUrl();
-        //     cbCampaignSelected(); // populate campaign kpi value by calling getCampaignDetails();
-        // });
+        $scope.$watch('selectedCampaign', function() {
+            createDownloadReportUrl();
+            cbCampaignSelected(); // populate campaign kpi value by calling getCampaignDetails();
+        });
 
         // $scope.$on(constants.EVENT_STRATEGY_CHANGED , function() {
         //     $scope.paramObj = $scope.paramObj || {};
@@ -474,11 +473,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event,strategy) {
             $scope.selected_filters.time_filter = strategy;
             callStrategyChange();
-
         });
 
-        callStrategyChange();
-        
         // $scope.$on('$destroy', function() {
         //     eventKpiChanged();
         // });

@@ -179,9 +179,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         //     $scope.videoMode = false;
         // });
 
-        // $scope.$watch('selectedCampaign', function() {
-        //     $scope.createDownloadReportUrl();
-        // });
+        $scope.$watch('selectedCampaign', function() {
+            $scope.createDownloadReportUrl();
+        });
 
         // $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
         //     $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;

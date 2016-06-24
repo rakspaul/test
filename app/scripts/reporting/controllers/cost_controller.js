@@ -182,9 +182,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
         //     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         // });
 
-        // $scope.$watch('selectedCampaign', function() {
-        //     $scope.createDownloadReportUrl();
-        // });
+        $scope.$watch('selectedCampaign', function() {
+            $scope.createDownloadReportUrl();
+        });
 
         var dataHeader = function() {
             $scope.strategyHeading = Number($scope.selectedStrategy.id) === vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ? constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;

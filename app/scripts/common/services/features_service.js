@@ -125,7 +125,7 @@ define(['angularAMD','workflow/services/workflow_service','common/services/visto
             setGetFeatureParams: function(feature_param) {
                 var self = this;
                 var setFparams = function() {
-                    var featureParams = getFeatureParams();
+                    var featureParams = self.getFeatureParams();
 
                     if((feature_param == 'dashboard') && (featureParams[0][feature_param] === false)) {
                         $location.url(vistoconfig.MEDIA_PLANS_LINK);

@@ -13,32 +13,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
         //         $scope.showReportTab = $scope.fparams[0].reports_tab;
         //     },
 
-        var pageFinder = function(path) {
-            var pageName;
-            if (path.endsWith('dashboard')) {
-                pageName = 'dashboard';
-            } else if (path.endsWith('mediaplans')) {
-                pageName = 'mediaplans';
-            } else if (path.split('/').indexOf('mediaplans') > 0) {
-                pageName = 'reports';
-            }
-
-            return {
-                isDashboardPage: function() {
-                    return pageName == 'dashboard';
-                },
-                isMediaplansPage: function() {
-                    return pageName == 'mediaplans';
-                },
-                isReportsPage: function() {
-                    return pageName == 'reports';
-                },
-                pageName: function() {
-                    return pageName;
-                }
-            };
-        };
-
         var showSelectedMasterClient = function (evt, clientName) {
                 var elem = $(evt.target);
                 $('.accountsList-dropdown-li').find('.selected-li').removeClass('selected-li');
@@ -245,14 +219,14 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             loginModel.logout();
         };
 
-        $scope.setDefaultReport = function (reportTitle) {
-            $('.header_tab_dropdown').removeClass('active_tab');
-            $('a[reportTitle="' + reportTitle + '"]').parent().addClass('active_tab');
-        };
+        // $scope.setDefaultReport = function (reportTitle) {
+        //     $('.header_tab_dropdown').removeClass('active_tab');
+        //     $('a[reportTitle="' + reportTitle + '"]').parent().addClass('active_tab');
+        // };
 
-        $rootScope.$on('callSetDefaultReport', function (event, args) {
-            $scope.setDefaultReport(args);
-        });
+        // $rootScope.$on('callSetDefaultReport', function (event, args) {
+        //     $scope.setDefaultReport(args);
+        // });
 
         if ($cookieStore.get('cdesk_session')) {
             workflowService
@@ -312,6 +286,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     $rootScope.accountsData = accountService.getAccounts();
                     accountService.getSelectedAccount() && ($scope.defaultAccountsName = accountService.getSelectedAccount().name);
                     $scope.multipleClient = $rootScope.accountsData.length > 1;
+                    $scope.pageName = pageFinder.pageBuilder($location.path()).pageName();
 
                     if (featuresService.getFeatureParams().length > 0) {
                         $scope.fparams = featuresService.getFeatureParams();
