@@ -1,6 +1,6 @@
 define(['../app','login/login_service','common/utils','common/services/constants_service','common/services/role_based_service','login/login_model'],function (app) {
     'use strict';
-    app.controller('loginController', function ($scope, $sce, $routeParams, $cookieStore, loginService, utils, constants, RoleBasedService, loginModel, accountService, subAccountService, dataService) {
+    app.controller('loginController', function ($scope, $sce, loginService, utils, constants, RoleBasedService, loginModel) {
         var browserNameList = '',
             supportedBrowser = [
                 {
@@ -21,15 +21,6 @@ define(['../app','login/login_service','common/utils','common/services/constants
                 }
             ];
 
-        var postLoginPage = function() {
-            var redirectPath = $cookieStore.get(constants.COOKIE_REDIRECT);
-            if (redirectPath) {
-                $cookieStore.remove(constants.COOKIE_REDIRECT);
-                window.location = redirectPath;
-            } else {
-                window.location = '/';
-            }
-        }
         $scope.textConstants = constants;
         $scope.loadingClass = '';
         $scope.loginErrorMsg = undefined;
@@ -60,7 +51,7 @@ define(['../app','login/login_service','common/utils','common/services/constants
                         loginModel.setClientData(user);
                         loginService.setCredentials(user);
                         RoleBasedService.setUserData(response);
-                        postLoginPage();
+                        document.location = '/';
                     } else {
                         $scope.error = response.data.message;
                         $scope.loginErrorMsg = response.data.message;

@@ -1,4 +1,3 @@
-<header></header>
 <div class="report_generator_and_response reports_upload_page">
 
 	    <div class="container">
@@ -65,7 +64,7 @@
 
 
         <div class="custom_report_response_page " ng-show="reportsUploadList.length">
-            <upload-reports-filters-header ng-if="!isLeafNode" from="customReportUpload"></upload-reports-filters-header>
+            <filter-directive ng-if="!isLeafNode" from="customReportUpload"></filter-directive>
 			        	<div class="upload_files_container {{(showStatus()) ? 'some_status' : ''}} "> <!-- add some_status when some status is there -->
 			              <div class="table_header clearfix" >
 							<span class="each-col status-col">Status</span>
@@ -121,9 +120,9 @@
 										<!-- ng-show="!progress" -->
 						  <span ng-click="(progress || disabledUpload) || upload()"  ng-show="!completed" class="common_primary_btn" ng-class="{'loading-icon': progress}" style="{{(progress || disabledUpload) ? 'opacity:0.3;cursor:default;' :''}}">Upload</span>
 
-							<a ng-show="!completed" ng-click="goToUploadReportsList()" class="secondary_txt">Cancel</a>
+							<a href="/reports/list"  ng-show="!completed" class="secondary_txt">Cancel</a>
 
-							<a ng-show="completed" ng-click="goToUploadReportsList()" class="common_primary_btn">Done</a>
+							<a ng-show="completed" ng-click="goToReportList()" class="common_primary_btn">Done</a>
 							<!-- href="/reports/list"  -->
 						</div>
 			          </div>

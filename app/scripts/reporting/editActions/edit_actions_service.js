@@ -1,11 +1,10 @@
 define(['angularAMD', '../../common/services/data_service', 'common/services/url_service'],
     function (angularAMD) {
     "use strict";
-    angularAMD.factory("editActionsService", ["dataService",'urlService', '$routeParams', function (dataService, urlService, $routeParams) {
+    angularAMD.factory("editActionsService", ["dataService",'urlService',  function (dataService,urlService) {
 
     var editAction = function (data) {
-      var clientId = $routeParams.subAccountId || $routeParams.accountId;
-      return dataService.put(urlService.APIeditAction(clientId, data.ad_id), data).then(function(response) {
+      return dataService.put(urlService.APIeditAction(data.ad_id), data).then(function(response) {
         if(response.status === "success") {
           return 1;
         } else {

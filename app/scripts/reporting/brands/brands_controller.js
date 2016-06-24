@@ -1,62 +1,46 @@
 define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_service','common/utils',
                     'common/services/constants_service','login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_directive','reporting/subAccount/sub_account_model'],function (angularAMD) {
-  angularAMD.controller('BrandsController', function ($scope, $rootScope, $routeParams, brandsModel, brandsService, utils, constants, loginModel, 
-    advertiserModel,subAccountModel,localStorageService) {
+  angularAMD.controller('BrandsController', function ($scope, $rootScope, brandsModel, brandsService, utils, constants, loginModel, advertiserModel,subAccountModel,localStorageService) {
         var search = false;
         var searchCriteria = utils.typeaheadParams,
             loadBrands = true;
 
         $scope.textConstants = constants;
-        // $scope.advertiser = advertiserModel.getSelectedAdvertiser();
+        $scope.advertiser =  advertiserModel.getSelectedAdvertiser();
 
-        // used to enable the brands drop-down
-        $scope.advertiser_id = $routeParams.advertiserId;
-        // console.log('$scope.advertiser_id', $scope.advertiser_id);
-
-        // $scope.isDashbboardBrand = subAccountModel.isDashboardSubAccount();
-        // var isLeafNode = localStorageService.masterClient.get().isLeafNode;
+        $scope.isDashbboardBrand = subAccountModel.isDashboardSubAccount();
+        var isLeafNode = localStorageService.masterClient.get().isLeafNode;
 
         function fetchBrands(searchCriteria, search) {
-          // if (loginModel.getUserId() == undefined) {
-          //     return;
-          // }
-          // if(loadBrands) {
-          //     searchCriteria.clientId = loginModel.getSelectedClient().id;
-          //     searchCriteria.advertiserId = advertiserModel.getAdvertiser().selectedAdvertiser.id;
-          //     search = false;
-          //     loadBrands = false;
-          //     brandsModel.getBrands(function(brandsData) {
-          //         $scope.brands = brandsData;
-          //     }, searchCriteria, search);
-          // }
-            brandsModel.fetchBrandList($routeParams.subAccountId || $routeParams.accountId, $routeParams.advertiserId).then(function() {
-                $scope.brands = brandsModel.getBrandList();
-                console.log('$scope.brands', $scope.brands.length);
-                if (brandsModel.allowedBrand($routeParams.brand_id)) {
-                    $scope.selectedBrand = brandsModel.getSelectedBrand();
-                } else {
-                    console.log('brand not allowed');
-                    $location.url('/tmp');
-                }
-            });
+          if (loginModel.getUserId() == undefined) {
+              return;
+          }
+          if(loadBrands) {
+              searchCriteria.clientId = loginModel.getSelectedClient().id;
+              searchCriteria.advertiserId = advertiserModel.getAdvertiser().selectedAdvertiser.id;
+              search = false;
+              loadBrands = false;
+              brandsModel.getBrands(function(brandsData) {
+                  $scope.brands = brandsData;
+              }, searchCriteria, search);
+          }
         }
 
-         // if((advertiserModel.getAdvertiser().selectedAdvertiser) && (advertiserModel.getAdvertiser().selectedAdvertiser.id)) {
-         //     $scope.brandData = brandsModel.getBrand();
-             // if($scope.isDashbboardBrand && !isLeafNode) {
-             //     $scope.brandData.selectedBrand = $scope.brandData.selectedDashboardBrand;
-             // }
-         // }
+         if((advertiserModel.getAdvertiser().selectedAdvertiser) && (advertiserModel.getAdvertiser().selectedAdvertiser.id)) {
+             $scope.brandData = brandsModel.getBrand();
+             if($scope.isDashbboardBrand && !isLeafNode) {
+                 $scope.brandData.selectedBrand = $scope.brandData.selectedDashboardBrand;
+             }
+         }
 
         $scope.selectBrand = function (brand, advertiser, event_type) {
             $("#brand_name_selected").text(brand.name);
             $('#brandsDropdown').attr('placeholder', brand.name).val('');
-           //  $scope.brandData.showAll = true;
-           //  brandsModel.setSelectedBrand(brand);
-           //  brandsModel.callBrandBroadcast(brand, advertiser, event_type);
-           // //grunt analytics.track(loginModel.getUserRole(), constants.GA_BRAND_SELECTED, brand.name, loginModel.getLoginName());
-           //  $scope.selectedBrand = null;
-            brandsModel.changeBrand($routeParams.accountId, $routeParams.subAccountId, $routeParams.advertiserId, brand);
+            $scope.brandData.showAll = true;
+            brandsModel.setSelectedBrand(brand);
+            brandsModel.callBrandBroadcast(brand, advertiser, event_type);
+           //grunt analytics.track(loginModel.getUserRole(), constants.GA_BRAND_SELECTED, brand.name, loginModel.getLoginName());
+            $scope.selectedBrand = null;
         };
 
 
@@ -78,7 +62,7 @@ define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_se
         };
 
 
-        // $scope.brandData = brandsModel.getBrand();
+        $scope.brandData = brandsModel.getBrand();
 
         $(function () {
             $("header").on('click', '#brandsDropdownDiv', function () {
@@ -86,23 +70,23 @@ define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_se
             });
         });
 
-        // $scope.$on(constants.EVENT_ADVERTISER_CHANGED, function(event, args) {
-        //     loadBrands = true;
-        //     console.log("args", args);
-        //     var advertiser = args.advertiser;
-        //     $scope.advertiser =  advertiser;
-        //     $scope.brandData.selectedBrand = {};
-        //     $scope.brandData.selectedBrand.name = '';
-        //     $scope.selectBrand(brandsModel.getBrand().allBrandObject, advertiser, args.event_type);
-        // });
+        $scope.$on(constants.EVENT_ADVERTISER_CHANGED, function(event, args) {
+            loadBrands = true;
+            console.log("args", args);
+            var advertiser = args.advertiser;
+            $scope.advertiser =  advertiser;
+            $scope.brandData.selectedBrand = {};
+            $scope.brandData.selectedBrand.name = '';
+            $scope.selectBrand(brandsModel.getBrand().allBrandObject, advertiser, args.event_type);
+        });
 
-        // var eventBrandChangedFromDashBoard = $rootScope.$on(constants.EVENT_BRAND_CHANGED_FROM_DASHBOARD, function (event, args) {
-        //     $scope.selectBrand(args.brand, args.advertiser, args.event_type);
-        // });
+        var eventBrandChangedFromDashBoard = $rootScope.$on(constants.EVENT_BRAND_CHANGED_FROM_DASHBOARD, function (event, args) {
+            $scope.selectBrand(args.brand, args.advertiser, args.event_type);
+        });
 
 
-        // $scope.$on('$destroy', function () {
-        //     eventBrandChangedFromDashBoard();
-        // });
+        $scope.$on('$destroy', function () {
+            eventBrandChangedFromDashBoard();
+        });
     });
 });
