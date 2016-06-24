@@ -10,8 +10,10 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 agency_id: undefined
             },
 
-            updateRedirectUrl = function (value) {
-                $cookieStore.put(constants.COOKIE_REDIRECT, value);
+            updateRedirectUrl = function (redirectPath) {
+                if (['/', '/login'].indexOf(redirectPath) == -1) {
+                    $cookieStore.put(constants.COOKIE_REDIRECT, redirectPath);
+                }
             };
 
         return {
@@ -178,12 +180,13 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 var redirectPath;
 
                 if (!$cookieStore.get('cdesk_session')) {
-                    redirectPath = localStorage.getItem('cdeskRedirect');
+                    // redirectPath = localStorage.getItem('cdeskRedirect');
                     localStorage.clear();
-                    localStorage.setItem('cdeskRedirect', redirectPath);
-                    if ($location.$$path !== '/login') {
-                        updateRedirectUrl($location.$$path);
-                    }
+                    // localStorage.setItem('cdeskRedirect', redirectPath);
+                    // if ($location.$$path !== '/login') {
+                    //     updateRedirectUrl($location.$$path);
+                    // }
+                    updateRedirectUrl($location.$$path);
                     $location.url('/login');
                     //remove header bar on login page
                     $('.main_navigation_holder').hide();
@@ -203,9 +206,10 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
             unauthorized: function () {
                 $cookieStore.remove('cdesk_session');
                 localStorage.clear();
-                if ($location.$$path !== '/login') {
-                    updateRedirectUrl($location.$$path);
-                }
+                // if ($location.$$path !== '/login') {
+                //     updateRedirectUrl($location.$$path);
+                // }
+                updateRedirectUrl($location.$$path);
                 $location.url('/login');
                 //remove header bar on login page
                 $('.main_navigation_holder').hide();

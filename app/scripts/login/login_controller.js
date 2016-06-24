@@ -1,6 +1,6 @@
 define(['../app','login/login_service','common/utils','common/services/constants_service','common/services/role_based_service','login/login_model'],function (app) {
     'use strict';
-    app.controller('loginController', function ($scope, $sce, loginService, utils, constants, RoleBasedService, loginModel, accountService, subAccountService, dataService) {
+    app.controller('loginController', function ($scope, $sce, $routeParams, $cookieStore, loginService, utils, constants, RoleBasedService, loginModel, accountService, subAccountService, dataService) {
         var browserNameList = '',
             supportedBrowser = [
                 {
@@ -22,25 +22,13 @@ define(['../app','login/login_service','common/utils','common/services/constants
             ];
 
         var postLoginPage = function() {
-            var preferredClientId = RoleBasedService.getUserData().preferred_client;
-            console.log('preferredClientId', preferredClientId);
-            dataService.updateRequestHeader();
-            accountService.fetchAccountList().then(function() {
-                var account, subAccount, url;
-                if (preferredClientId) {
-                    account = _.find(accountService.getAccounts(), function(client) {
-                        return client.id == preferredClientId;
-                    });
-                } else {
-                    account = accountService.getAccounts()[0];
-                }
-                if (account.isLeafNode) {
-                    url = '/a/' + account.id + '/dashboard';
-                } else {
-                    url = '/a/' + account.id + '/sa/' + account.id + '/dashboard';
-                }
-                window.location = url;
-            });
+            var redirectPath = $cookieStore.get(constants.COOKIE_REDIRECT);
+            if (redirectPath) {
+                $cookieStore.remove(constants.COOKIE_REDIRECT);
+                window.location = redirectPath;
+            } else {
+                window.location = '/';
+            }
         }
         $scope.textConstants = constants;
         $scope.loadingClass = '';

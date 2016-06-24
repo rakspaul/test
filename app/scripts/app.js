@@ -384,6 +384,37 @@ define(['common'], function (angularAMD) {
             $routeProvider.caseInsensitiveMatch = true;
 
             $routeProvider
+                .when('/', angularAMD.route({
+                    title: 'Bootstrapping the Visto',
+                    templateUrl: 'home.html',
+                    controller: function($cookieStore, $location, RoleBasedService, dataService, accountService) {
+                        console.log('controller is initialized');
+                        if ($cookieStore.get('cdesk_session')) {
+                            var preferredClientId = RoleBasedService.getUserData().preferred_client;
+                            console.log('preferredClientId', preferredClientId);
+                            dataService.updateRequestHeader();
+                            accountService.fetchAccountList().then(function() {
+                                var account, subAccount, url;
+                                if (preferredClientId) {
+                                    account = _.find(accountService.getAccounts(), function(client) {
+                                        return client.id == preferredClientId;
+                                    });
+                                } else {
+                                    account = accountService.getAccounts()[0];
+                                }
+                                if (account.isLeafNode) {
+                                    url = '/a/' + account.id + '/dashboard';
+                                } else {
+                                    url = '/a/' + account.id + '/sa/' + account.id + '/dashboard';
+                                }
+                                $location.url(url);
+                            });
+
+                        }
+                    },
+                    showHeader: false
+                }))
+
                 .when('/login', angularAMD.route({
                     templateUrl: assets.html_reports_login,
                     title: 'Login',
@@ -1844,35 +1875,35 @@ define(['common'], function (angularAMD) {
 
         .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore,
                        workflowService, featuresService, subAccountModel, $window,localStorageService,constants) {
-            var handleLoginRedirection = function () {
-                var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
-                    localStorageRedirect = localStorage.getItem('cdeskRedirect'),
-                    setDefaultPage;
+            // var handleLoginRedirection = function () {
+            //     var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
+            //         localStorageRedirect = localStorage.getItem('cdeskRedirect'),
+            //         setDefaultPage;
 
-                    if (localStorageRedirect) {
-                        cookieRedirect = localStorageRedirect;
-                    }
+            //         if (localStorageRedirect) {
+            //             cookieRedirect = localStorageRedirect;
+            //         }
 
-                    if ($cookieStore.get('cdesk_session')) {
-                        if (cookieRedirect) {
-                            cookieRedirect = cookieRedirect.replace('/', '');
-                        }
-                        if (cookieRedirect && cookieRedirect !== 'dashboard') {
-                            $location.url(cookieRedirect);
-                            $cookieStore.remove('cdesk_redirect');
-                            localStorage.removeItem('cdeskRedirect');
-                        } else {
-                            setDefaultPage = 'dashboard';
-                            $location.url(setDefaultPage);
-                        }
-                    }
-                },
+            //         if ($cookieStore.get('cdesk_session')) {
+            //             if (cookieRedirect) {
+            //                 cookieRedirect = cookieRedirect.replace('/', '');
+            //             }
+            //             if (cookieRedirect && cookieRedirect !== 'dashboard') {
+            //                 $location.url(cookieRedirect);
+            //                 $cookieStore.remove('cdesk_redirect');
+            //                 localStorage.removeItem('cdeskRedirect');
+            //             } else {
+            //                 setDefaultPage = 'dashboard';
+            //                 $location.url(setDefaultPage);
+            //             }
+            //         }
+            //     },
 
-                broadCastClientLoaded = function() {
-                    $rootScope.$broadcast(constants.CLIENT_LOADED);
-                },
+                // broadCastClientLoaded = function() {
+                //     $rootScope.$broadcast(constants.CLIENT_LOADED);
+                // },
 
-                loginCheckFunc = function () {
+                var loginCheckFunc = function () {
                     var locationPath = $location.path(),
                         authorizationKey,
                         clientObj,
@@ -1887,8 +1918,8 @@ define(['common'], function (angularAMD) {
                     }
 
                     dataService.updateRequestHeader();
-                    if ((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') === null ||
-                        localStorage.getItem('selectedClient') === undefined )) {
+                    // if ((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') === null ||
+                    //     localStorage.getItem('selectedClient') === undefined )) {
                         // userObj = RoleBasedService.getUserData().preferred_client;
                         // workflowService
                         //     .getClients()
@@ -1947,21 +1978,22 @@ define(['common'], function (angularAMD) {
                         //             }
                         //         } //end of then if
                         // });
-                    } else {
-                        if (loginModel.getSelectedClient) {
-                            if (locationPath === '/login' || locationPath === '/') {
-                                handleLoginRedirection();
-                            }
-                        }
-                    }
+                    // } else {
+                    //     if (loginModel.getSelectedClient) {
+                    //         if (locationPath === '/login' || locationPath === '/') {
+                    //             handleLoginRedirection();
+                    //         }
+                    //     }
+                    // }
 
                     // if cookie is not set
-                    if (!$cookieStore.get('cdesk_session')) {
-                        if ($location.path() !== '/login') {
-                            localStorage.setItem('cdeskRedirect', $location.url());
-                        }
-                        $location.url('/login');
-                    }
+                    // if (!$cookieStore.get('cdesk_session')) {
+                    //     if ($location.path() !== '/login') {
+                    //         localStorage.setItem('cdeskRedirect', $location.url());
+                    //     }
+                    //     $location.url('/login');
+                    // }
+                    loginModel.checkCookieExpiry();
 
                     // if some one try to change the authorization key or delete the key manually
                     // this is getting after successful login.
