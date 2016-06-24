@@ -1,60 +1,73 @@
 define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils', 'common/services/constants_service',
     'login/login_model', 'reporting/advertiser/advertiser_directive', 'reporting/subAccount/sub_account_model'],
     function (angularAMD) {
-        angularAMD.controller('AdvertiserController', function ($scope, $rootScope, advertiserModel, utils,
+        angularAMD.controller('AdvertiserController', function ($scope, $rootScope, $routeParams, $location, advertiserModel, utils,
                                                                 constants, loginModel,subAccountModel) {
             var search = false,
                 searchCriteria = utils.typeaheadParams,
-                loadAdvertisers = true,
+                loadAdvertisers = true
+                $scope.isExcludedByAdvertiserFilter = false;
 
-                eventBrandChangedFromDashBoard = $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD,
-                    function (event, args) {
-                        $scope.selectAdvertiser(args.advertiser, args.event_type);
-                    }
-                ),
+                // eventBrandChangedFromDashBoard = $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD,
+                //     function (event, args) {
+                //         $scope.selectAdvertiser(args.advertiser, args.event_type);
+                //     }
+                // ),
 
-                accountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
-                    var advertiser = advertiserModel.getAllAdvertiser();
+                // accountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
+                //     var advertiser = advertiserModel.getAllAdvertiser();
 
-                    loadAdvertisers = true;
-                    advertiser.referedFrom = 'selectedsubaccount';
-                    $scope.selectAdvertiser(advertiser);
-                    advertiserModel.setSelectedAdvertisers(advertiser);
-                    advertiserModel.callAdvertiserBroadcast(advertiser, args.event_type);
-                    // $rootScope.$broadcast('CAMPAIGN_CHANGE');
-                });
+                //     loadAdvertisers = true;
+                //     advertiser.referedFrom = 'selectedsubaccount';
+                //     $scope.selectAdvertiser(advertiser);
+                //     advertiserModel.setSelectedAdvertisers(advertiser);
+                //     advertiserModel.callAdvertiserBroadcast(advertiser, args.event_type);
+                //     // $rootScope.$broadcast('CAMPAIGN_CHANGE');
+                // });
 
             function fetchAdvertisers(searchCriteria, search) {
-                if (loginModel.getUserId() == undefined) {
-                    return;
-                }
+                // if (loginModel.getUserId() == undefined) {
+                //     return;
+                // }
 
-                if(loadAdvertisers) {
-                    searchCriteria.clientId = loginModel.getSelectedClient().id;
-                    search = false;
-                    loadAdvertisers = false;
-                    advertiserModel.getAdvertisers(function(advertisersData) {
-                        $scope.advertisers = advertisersData;
-                    }, searchCriteria, search);
-                }
+                // if(loadAdvertisers) {
+                //     searchCriteria.clientId = loginModel.getSelectedClient().id;
+                //     search = false;
+                //     loadAdvertisers = false;
+                //     advertiserModel.getAdvertisers(function(advertisersData) {
+                //         $scope.advertisers = advertisersData;
+                //     }, searchCriteria, search);
+                // }
+                advertiserModel.fetchAdvertiserList($routeParams.subAccountId || $routeParams.accountId).then(function() {
+                    $scope.advertisers = advertiserModel.getAdvertiserList();
+                    console.log('$scope.advertisers', $scope.advertisers.length);
+                    if (advertiserModel.allowedAdvertiser($routeParams.advertiser_id)) {
+                        $scope.selectedAdvertiser = advertiserModel.getSelectedAdvertiser();
+                    } else {
+                        console.log('advertiser not allowed');
+                        $location.url('/tmp');
+                    }
+                });
             }
 
             $scope.textConstants = constants;
 
-            $scope.advertiserData = advertiserModel.getAdvertiser();
+            // $scope.advertiserData = advertiserModel.getAdvertiser();
 
             $scope.selectAdvertiser = function (advertiser, event_type) {
-                advertiser.referedFrom = "";    
+                // advertiser.referedFrom = "";    
                 $("#advertisersDropDownList").hide() ;
 
                 $('#advertiser_name_selected').text(advertiser.name);
                 $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
-                $scope.advertiserData.showAll = true;
-                advertiserModel.setSelectedAdvertisers(advertiser);
-                if(!advertiser.referedFrom) {
-                    advertiserModel.callAdvertiserBroadcast(advertiser, event_type);
-                }
-                $scope.selectedAdvertiser = null;
+                // $scope.advertiserData.showAll = true;
+                // advertiserModel.setSelectedAdvertisers(advertiser);
+                // if(!advertiser.referedFrom) {
+                //     advertiserModel.callAdvertiserBroadcast(advertiser, event_type);
+                // }
+                // $scope.selectedAdvertiser = null;
+
+                advertiserModel.changeAdvertiser($routeParams.accountId, $routeParams.subAccountId, advertiser);
             };
 
             $scope.showAdvertisersDropDown = function () {
@@ -73,9 +86,9 @@ define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils', '
                 return utils.highlightSearch(text, search);
             };
 
-            $scope.$on('$destroy', function() {
-                accountChanged();
-            });
+            // $scope.$on('$destroy', function() {
+            //     accountChanged();
+            // });
 
             $(function () {
                 $('header').on('click', '#brandsDropdownDiv', function () {

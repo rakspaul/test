@@ -18,12 +18,13 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
         domainReports.highlightHeaderMenu();
         domainReports.highlightSubHeaderMenu();
 
-        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+        // $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+        // console.log('$scope.selectedCampaign', $scope.selectedCampaign);
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
         $scope.api_return_code = 200;
         $scope.strategyMarginValue = -1 ;
         $scope.strategyMarginUnit = constants.SYMBOL_PERCENT;
-        var selectedBrand = brandsModel.getSelectedBrand();
+        // var selectedBrand = brandsModel.getSelectedBrand();
 
         var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
@@ -56,7 +57,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
             cost: null
         };
 
-        $scope.init = function(){
+        $scope.init = function() {
             $scope.strategyCostData = [];
             $scope.tacticsCostData = [];
             $scope.tacticList = {};
@@ -87,8 +88,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
              }
         };
 
-       $scope.init();
-
         $scope.strategiesCostData = function (param) {
             $scope.strategyCostBusy = true;
             $scope.tacticCostBusy = false;
@@ -101,13 +100,16 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
                 $scope.tacticCostBusy = false;
             }
             $scope.api_return_code=200;
-            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
-            var queryObj = {
-                clientId: loginModel.getSelectedClient().id,
-                advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                brandId: brandsModel.getSelectedBrand().id,
-                dateFilter: datefilter
-            };
+            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
+                clientId = vistoconfig.getSelectedAccountId(),
+                advertiserId = vistoconfig.getSelectAdvertiserId(),
+                brandId = vistoconfig.getSelectedBrandId(),
+                queryObj = {
+                    clientId: clientId,
+                    advertiserId: advertiserId,
+                    brandId: brandId,
+                    dateFilter: datefilter
+                };
             if (_.has(param, 'strategyId') && param.strategyId >= 0) {
                 queryObj.queryId = 15; // cost_report_for_given_ad_group_id
                 queryObj.campaignId = param.campaignId,
@@ -175,10 +177,10 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
 
         };
 
-        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
-            $scope.init();
-            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
-        });
+        // $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
+        //     $scope.init();
+        //     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+        // });
 
         $scope.$watch('selectedCampaign', function() {
             $scope.createDownloadReportUrl();
@@ -247,9 +249,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
         };
 
 
-        $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
-            $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
-        });
+        // $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
+        //     $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+        // });
         $scope.$on('dropdown-arrow-clicked', function(event, args,sortorder) {
             $scope.sortType = "kpi_metrics."+args;
             $scope.sortTypeSubSort ="kpi_metrics."+args;
@@ -272,6 +274,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
 
             return isActive + " " + sortDirection;
         };
+
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
+        $scope.init();
+        $scope.callBackStrategyChange();
+
         // hot fix for the enabling the active link in the reports dropdown
         setTimeout(function(){
             $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ;

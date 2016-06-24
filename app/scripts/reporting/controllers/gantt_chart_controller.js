@@ -1,6 +1,6 @@
 define(['angularAMD','reporting/common/d3/gantt_chart','reporting/models/gantt_chart_model','common/services/constants_service','reporting/brands/brands_model','login/login_model', 'common/moment_utils' ],function (angularAMD) {
   'use strict';
-  angularAMD.controller('GanttChartController', function($scope, ganttChart, ganttChartModel, constants, brandsModel, loginModel, momentService) {
+  angularAMD.controller('GanttChartController', function($scope, ganttChart, ganttChartModel, constants, brandsModel, loginModel, momentService, vistoconfig) {
         var _curCtrl = this;
         _curCtrl.filter = undefined;
         $scope.dataFound = true;
@@ -9,7 +9,7 @@ define(['angularAMD','reporting/common/d3/gantt_chart','reporting/models/gantt_c
         $scope.calendar = function (filter) {
 
             $scope.selected = "quarter";
-            if (brandsModel.getSelectedBrand().id == -1) {
+            if (vistoconfig.getSelectedBrandId() == -1) {
                 _curCtrl.filter = filter;
                 $scope.init(null, filter);
             } else {
@@ -123,14 +123,17 @@ define(['angularAMD','reporting/common/d3/gantt_chart','reporting/models/gantt_c
                             c.state = tasks.state;
                             c.kpiStatus = tasks.kpi_status;
                             c.taskName = count;
+                            c.client_id = tasks.client_id;
+                            c.advertiser_id = tasks.advertiser_id;
+                            c.brand_id = tasks.brand_id;
                             brands.push(count);
                             campaigns.push(c);
                         });
                     });
 
-                    if (brandsModel.getSelectedBrand().id == -1) {
+                    if (vistoconfig.getSelectedBrandId() == -1) {
                         ganttChart.newCalendar(campaigns, brands);
-                    } else if (update || brandsModel.getSelectedBrand().id) {
+                    } else if (update || vistoconfig.getSelectedBrandId()) {
                         ganttChart.newCalendar(campaigns, brands, true);
                         $scope.brandNotSelected = false;
                     }
@@ -276,7 +279,7 @@ define(['angularAMD','reporting/common/d3/gantt_chart','reporting/models/gantt_c
 
         $scope.calendarWidgetInit = function(){
             $("#calendar_widget").scroll(function(){
-                if(brandsModel.getSelectedBrand().id != -1 && !$scope.loadingMore && !$scope.calendarBusy && !_curCtrl.calendarLastPage && ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight)) {
+                if(vistoconfig.getSelectedBrandId() != -1 && !$scope.loadingMore && !$scope.calendarBusy && !_curCtrl.calendarLastPage && ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight)) {
                     ganttChartModel.pageCount++;
                     $scope.loadMoreItems();
                 }

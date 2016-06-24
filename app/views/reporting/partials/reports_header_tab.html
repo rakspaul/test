@@ -1,7 +1,9 @@
 <!-- <div class="pull-left breadcrumb_campaign"><a href="/campaigns/{{selectedCampaign.id}}">{{textConstants.CAPAIGN_DETAILS}}</a></div> -->
 <div class="clearfix reports_sub_menu_dd_holder">
-    <div class="pull-left" data-ng-if="buildReport">
-        <a data-ng-click="NavigateToTab('/customreport', $event , 'reportsSubPage')"
+    <div class="pull-left" 
+        data-ng-class="{'active_tab': (customFilters.currentUrl.indexOf('/customreport') >= 0)}" 
+        data-ng-if="buildReport">
+        <a data-ng-click="NavigateToTab('', $event , 'customReports')"
            class="clearfix new_report_generate_btn">
             <span class="icon-report-builder"></span>
             <span class="icon_txt" data-ng-bind="textConstants.BUILD_REPORT"></span>
@@ -12,15 +14,9 @@
              data-ng-bind="textConstants.MEDIA_PLAN_REPORTS"
              data-ng-if="showMediaPlanReportHeading">
         </div>
-        <div class="header_tab_dropdown" id="reports_overview_tab" data-ng-show="showReportOverview">
-            <a href="javascript:void(0);"
-               data-ng-click="NavigateToTab('', $event ,'reportOverview')"
-               data-ng-bind="textConstants.REPORTS_OVERVIEW">
-            </a>
-        </div>
         <div data-ng-repeat="tab in filters.tabs track by $index"
              class="header_tab_dropdown"
-             data-ng-class="{'active_tab': tab.href == filters.activeTab}"
+             data-ng-class="{'active_tab': filters.currentUrl.endsWith(tab.href)}"
              id="{{tab.href}}">
             <a data-ng-click="NavigateToTab('/'+ tab.href, $event , 'reportsSubPage')"
                id="performance_tab_{{tab.href}}"
@@ -32,19 +28,19 @@
     </div>
     <div class="reports_sub_menu_dd custom_container">
         <div class="header_tab_dd_subheading"
-             data-ng-if="showCustomReportHeading"
-             data-ng-bind="textConstants.CUSTOM_REPORTS">
+             data-ng-bind="textConstants.CUSTOM_REPORTS"
+             data-ng-if="showCustomReportHeading">
         </div>
         <div data-ng-repeat="tab in customFilters.tabs track by $index"
              class="clearfix header_tab_dropdown"
-             data-ng-class="{'active_tab': tab.href == customFilters.activeTab}">
+             data-ng-class="{'active_tab': customFilters.currentUrl.endsWith(tab.href)}">
             <a href="javascript:void(0);"
                class="pull-left reports_list_link"
-               data-ng-click="NavigateToTab('/'+ tab.href, $event, 'reportsSubPage')"
+               data-ng-click="NavigateToTab('', $event, tab.type)"
                data-ng-bind="tab.title">
             </a>
             <div class="upload_icon"
-                 data-ng-click="NavigateToTab('/reports/upload', $event)"
+                 data-ng-click="NavigateToTab('', $event, 'uploadReports')"
                  data-ng-show="tab.title==textConstants.COLLECTIVE_INSIGHTS">
             </div>
         </div>

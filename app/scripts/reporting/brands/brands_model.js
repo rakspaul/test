@@ -1,73 +1,139 @@
 define(['angularAMD', 'reporting/brands/brands_service', 'common/services/constants_service', 'reporting/subAccount/sub_account_model'], function (angularAMD) {
     'use strict';
-    angularAMD.factory("brandsModel", function (brandsService, constants, subAccountModel, localStorageService) {
+    angularAMD.service("brandsModel", function ($q, $timeout, $location, brandsService, constants, subAccountModel, 
+        localStorageService, workflowService, pageFinder) {
 
-        var brand = {};
-        brand.allBrandObject = {id: -1, name: constants.ALL_BRANDS};
-        brand.selectedBrand = brand.allBrandObject;
-        brand.selectedDashboardBrand = brand.allBrandObject;
+        var brand = {
+            brandList: [],
+            selectedBrand: {id: -1, name: constants.ALL_BRANDS},
+            allBrandObject: {id: -1, name: constants.ALL_BRANDS},
+            unknownBrandObject: {id: 0, name: 'Unknown'}
+        },
+        previousAdvertiserId;
+
+        // var brand = {};
+        // brand.allBrandObject = {id: -1, name: constants.ALL_BRANDS};
+        // brand.selectedBrand = brand.allBrandObject;
+        // brand.selectedDashboardBrand = brand.allBrandObject;
         brand.showList = false;
         brand.styleDisplay = "block";
         brand.showAll = true;
         brand.enable = true;
         brand.cssClass = "";
-        var brands = [brand.allBrandObject];
+        // var brands = [brand.allBrandObject];
 
         return {
-            getBrands: function (success, searchCritera, search) {
-                if (searchCritera.advertiserId != -1) {
-                    brandsService.fetchBrands(searchCritera).then(function (response) {
-                        //Note: Here search represents, only matching entries list.
-                        var resData = response.data.data;
-                        if (search) {
-                            brands = [];
-                            brands.push(brand.allBrandObject);
-                        }
-                        brands = [{id: -1, name: constants.ALL_BRANDS}].concat(resData);//brands.concat(resData);
-                        brand.totalBrands = brands.length;
-                        success.call(this, brands);
-                    });
-                } else {
-                    success.call();
+            // getBrands: function (success, searchCritera, search) {
+            //     if (searchCritera.advertiserId != -1) {
+            //         brandsService.fetchBrands(searchCritera).then(function (response) {
+            //             //Note: Here search represents, only matching entries list.
+            //             var resData = response.data.data;
+            //             if (search) {
+            //                 brands = [];
+            //                 brands.push(brand.allBrandObject);
+            //             }
+            //             brands = [{id: -1, name: constants.ALL_BRANDS}].concat(resData);//brands.concat(resData);
+            //             brand.totalBrands = brands.length;
+            //             success.call(this, brands);
+            //         });
+            //     } else {
+            //         success.call();
+            //     }
+            // },
+            fetchBrandList: function(accountId, advertiserId) {
+                if (previousAdvertiserId != advertiserId) {
+                    this.reset();
                 }
-            },
-            setSelectedBrand: function (_brand) {
-                var isLeafNode = localStorageService.masterClient.get().isLeafNode;
-                var isDashboardSubaccount = subAccountModel.isDashboardSubAccount();
-
-                if (!isLeafNode && isDashboardSubaccount) {
-                    localStorageService.brand.setDashboard(_brand);
-                } else {
-                    brand.selectedBrand = _brand;
-                    localStorageService.brand.set(_brand);
+                var deferred = $q.defer();
+                if (brand.brandList.length > 0) {
+                    console.log('fetchBrandList ', 'already fetched');
+                    $timeout(function() {
+                        deferred.resolve();
+                    }, 10);
+                    return deferred.promise;
                 }
-            },
-            getSelectedBrand: function () {
-                var isLeafNode = localStorageService.masterClient.get().isLeafNode;
-                var isDashboardSubaccount = subAccountModel.isDashboardSubAccount();
-
-                if (!isLeafNode && isDashboardSubaccount) {
-                  var  brands = localStorageService.brand.getDashboard();
-                    if(brands !== null) {
-                        brand.selectedDashboardBrand = brands;
-                    }
-                    return brand.selectedDashboardBrand;
-                } else {
-                   var brands = localStorageService.brand.get();
-                    if(brands !== null) {
-                        brand.selectedBrand = brands;
+                workflowService.getBrands(accountId, advertiserId, 'read').then(function (result) {
+                    if (result && result.data.data.length > 0) {
+                        brand.brandList = _.map(result.data.data, function(a) {
+                            return {'id': a.id, 'name': a.name};
+                        });
+                        brand.brandList = _.sortBy(brand.brandList, 'name')
+                        brand.brandList.unshift(brand.allBrandObject);
+                        console.log('fetchBrandList is fetched');
                     } else {
-                        brand.selectedBrand = brand.allBrandObject;
+                        brand.brandList = [brand.allBrandObject];
                     }
-                    return  brand.selectedBrand;
+                    previousAdvertiserId = advertiserId;
+                    deferred.resolve();
+                });
+                return deferred.promise;
+            },
+
+            allowedBrand: function(brandId) {
+                if (brandId == 0) {
+                    brand.selectedBrand = brand.unknownBrandObject;
+                    return true;
                 }
+                // var accountIdParam = subAccountIdParam();
+                if (brandId) {
+                    brand.selectedBrand = _.find(brand.brandList, function(b) {
+                        return brandId == b.id;
+                    });
+                    if (brand.selectedBrand) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    brand.selectedBrand = brand.allBrandObject;
+                }
+                return true;
+            },            
+
+            // setSelectedBrand: function (_brand) {
+                // var isLeafNode = localStorageService.masterClient.get().isLeafNode;
+                // var isDashboardSubaccount = subAccountModel.isDashboardSubAccount();
+
+                // if (!isLeafNode && isDashboardSubaccount) {
+                //     localStorageService.brand.setDashboard(_brand);
+                // } else {
+                //     brand.selectedBrand = _brand;
+                //     localStorageService.brand.set(_brand);
+                // }
+                    // localStorageService.brand.set(_brand);
+            // },
+            getSelectedBrand: function () {
+                // var isLeafNode = localStorageService.masterClient.get().isLeafNode;
+                // var isDashboardSubaccount = subAccountModel.isDashboardSubAccount();
+
+                // if (!isLeafNode && isDashboardSubaccount) {
+                //   var  brands = localStorageService.brand.getDashboard();
+                //     if(brands !== null) {
+                //         brand.selectedDashboardBrand = brands;
+                //     }
+                //     return brand.selectedDashboardBrand;
+                // } else {
+                //    var brands = localStorageService.brand.get();
+                //     if(brands !== null) {
+                //         brand.selectedBrand = brands;
+                //     } else {
+                //         brand.selectedBrand = brand.allBrandObject;
+                //     }
+                //     return  brand.selectedBrand;
+                // }
+                return brand.selectedBrand;
             },
-            getBrand: function () {
-                return brand;
+            // getBrand: function () {
+            //     return brand;
+            // },
+            // getAllBrand: function () {
+            //     return brand.allBrandObject;
+            // },
+
+            getBrandList: function() {
+                return brand.brandList;
             },
-            getAllBrand: function () {
-                return brand.allBrandObject;
-            },
+
             disable: function () {
                 brand.enable = false;
                 brand.cssClass = "brands_filter_disabled";
@@ -77,13 +143,27 @@ define(['angularAMD', 'reporting/brands/brands_service', 'common/services/consta
                 brand.cssClass = "";
             },
 
-            callBrandBroadcast: function (brand, advertiser, event_type) {
-                brandsService.preForBrandBroadcast(brand, advertiser, event_type);
+            reset: function() {
+                brand.brandList = [];
+                brand.selectedBrand = {id: -1, name: constants.ALL_BRANDS};
             },
 
-            totalBrands: function () {
-                return brands.length - 1;
+            changeBrand: function(accountId, subAccountId, advertiserId, brand) {
+                var url = '/a/' + accountId;
+                subAccountId && (url += '/sa/' + subAccountId);
+                // All Advertisers id is -1 and don't show it in the URL
+                (advertiserId > 0) && (url += '/adv/' + advertiserId);
+                (brand.id > 0) && (url += '/b/' + brand.id);
+                $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
             }
+
+            // callBrandBroadcast: function (brand, advertiser, event_type) {
+            //     brandsService.preForBrandBroadcast(brand, advertiser, event_type);
+            // },
+
+            // totalBrands: function () {
+            //     return brands.length - 1;
+            // }
 
         };
     });

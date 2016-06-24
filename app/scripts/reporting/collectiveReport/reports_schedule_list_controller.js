@@ -4,10 +4,11 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
     'reporting/collectiveReport/report_schedule_delete_controller'],
     function (angularAMD) {
         'use strict';
-        angularAMD.controller('ReportsScheduleListController', function ($scope,$filter, $location, $modal, $rootScope,
+        angularAMD.controller('ReportsScheduleListController', function ($scope,$filter, $location, $modal, $rootScope, $routeParams,
                                                                         collectiveReportModel, utils, loginModel,
                                                                         constants, urlService, dataStore, domainReports,
-                                                                        dataService, momentService, $q, $timeout,localStorageService) {
+                                                                        dataService, momentService, $q, $timeout,localStorageService, 
+                                                                        vistoconfig, urlBuilder) {
             var _curCtrl = this,
                 isSearch = false;
 
@@ -155,7 +156,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 $scope.getScheduledReports();
             };
 
-            dataService.getCustomReportMetrics($scope.campaign).then(function (result) {
+            dataService.getCustomReportMetrics(vistoconfig.getMasterClientId()).then(function (result) {
                 $scope.displayName = result.data.data[0].display_name;
                 var jsonModifier = function (data) {
                     var arr = [];
@@ -247,17 +248,18 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     $scope.showScheduleListLoader = false;
                 };
 
-                //var queryStr = '?clientId='+loginModel.getSelectedClient().id;
-                var queryStr = '?clientId=' + loginModel.getMasterClient().id;
+                // var queryStr = '?clientId=' + loginModel.getMasterClient().id;
+                var queryStr = '?clientId=' + vistoconfig.getMasterClientId();
                 queryStr += _curCtrl.getFilterParam();
 
                 $scope.showScheduleListLoader = true;
-                collectiveReportModel.getScheduleReportList(scheduleReportListSucc, scheduleReportListError, queryStr);
+                collectiveReportModel.getScheduleReportList(scheduleReportListSucc, scheduleReportListError, vistoconfig.getMasterClientId(), queryStr);
             };
 
             $scope.reset_custom_report = function (event) {
                 localStorage.removeItem('customReport');
                 localStorageService.scheduleListReportType.remove();
+                $scope.gotoCustomReportPage();
             };
 
             //Dropdown Auto Positioning
@@ -286,7 +288,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
             $scope.downloadSchdReport = function (parentIndex, instanceIndex, instanceId) {
                 $scope.reportDownloadBusy = true;
-                dataService.downloadFile(urlService.downloadSchdRpt(instanceId)).then(function (response) {
+                dataService.downloadFile(urlService.downloadSchdRpt(vistoconfig.getMasterClientId(), instanceId)).then(function (response) {
                     if (response.status === 'success') {
                         saveAs(response.file, response.fileName);
                         $scope.reportDownloadBusy = false;
@@ -301,7 +303,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
             $scope.downloadSavedReport = function (parentIndex, instanceIndex, instanceId) {
                 $scope.reportDownloadBusy = true;
-                dataService.downloadFile(urlService.downloadSavedRpt(instanceId)).then(function (response) {
+                dataService.downloadFile(urlService.downloadSavedRpt(vistoconfig.getMasterClientId(), instanceId)).then(function (response) {
                     if (response.status === 'success') {
                         saveAs(response.file, response.fileName);
                         $scope.reportDownloadBusy = false;
@@ -351,7 +353,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                     errorFun = function (data) {
                                         $rootScope.setErrAlertMessage(data.message, data.message);
                                     };
-                                    collectiveReportModel.deleteSavedReport(successFun, errorFun, reportId);
+                                    collectiveReportModel.deleteSavedReport(successFun, errorFun, vistoconfig.getMasterClientId(), reportId);
                                 } else {
                                     successFun = function (data) {
                                         if (data.status_code === 200) {
@@ -365,7 +367,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                     errorFun = function (data) {
                                         $rootScope.setErrAlertMessage(data.message, data.message);
                                     };
-                                    collectiveReportModel.deleteScheduledReport(successFun, errorFun, reportId);
+                                    collectiveReportModel.deleteScheduledReport(successFun, errorFun, vistoconfig.getMasterClientId(), reportId);
                                 }
                             };
                         }
@@ -407,7 +409,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                     $rootScope.setErrAlertMessage(data.message, data.message);
                                 };
                                 collectiveReportModel
-                                    .deleteScheduledReportInstance(successFun, errorFun, reportId, instanceId);
+                                    .deleteScheduledReportInstance(successFun, errorFun, vistoconfig.getMasterClientId(), reportId, instanceId);
                             };
                         }
                     }
@@ -415,7 +417,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             };
 
             $scope.editSchdReport = function (reportId) {
-                var url = '/customreport/edit/' + reportId;
+                var url = '/a/' + $routeParams.accountId + '/customreport/edit/' + reportId;
 
                 localStorageService.scheduleListReportType.set('scheduled');
                 _.each($scope.schdReportList, function (item) {
@@ -423,7 +425,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         localStorageService.scheduleListReportType.set('Saved');
                     }
                 });
-                $location.path(url);
+                $location.url(url);
             };
 
             $scope.copyScheduleRpt = function (reportId, frequency) {
@@ -456,37 +458,37 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                 if (frequency === 'Saved') {
                                     copySuccess = function (data) {
                                         data.name = 'copy: ' + data.reportName;
-                                        // data.client_id = loginModel.getSelectedClient().id;
-                                        data.client_id = loginModel.getMasterClient().id;
+                                        // data.client_id = loginModel.getMasterClient().id;
+                                        data.client_id = vistoconfig.getMasterClientId();
                                         //   data.schedule = $scope.pre_formatCopySchData(data.schedule);
                                         collectiveReportModel.createSavedReport(function () {
                                             $scope.refreshReportList();
                                             $rootScope.setErrAlertMessage('Saved Report Copied Successfully', 0);
                                         }, function () {
                                             $rootScope.setErrAlertMessage('Error Copying Saved Report');
-                                        }, data);
+                                        }, data.client_id, data);
                                     };
                                     copyError = function () {
                                         $rootScope.setErrAlertMessage('Error Copying Saved Report');
                                     };
-                                    collectiveReportModel.getSaveRptDetail(copySuccess, copyError, reportId);
+                                    collectiveReportModel.getSaveRptDetail(copySuccess, copyError, vistoconfig.getMasterClientId(), reportId);
                                 } else {
                                     copySuccess = function (data) {
                                         data.name = 'copy: ' + data.name;
-                                       // data.client_id = loginModel.getSelectedClient().id;
-                                        data.client_id = loginModel.getMasterClient().id;
+                                        // data.client_id = loginModel.getMasterClient().id;
+                                        data.client_id = vistoconfig.getMasterClientId();
                                         data.schedule = $scope.pre_formatCopySchData(data.schedule);
                                         collectiveReportModel.createSchdReport(function () {
                                             $scope.refreshReportList();
                                             $rootScope.setErrAlertMessage('Schedule Report Copied Successfully', 0);
                                         }, function () {
                                             $rootScope.setErrAlertMessage('Error Copying Schedule Report');
-                                        }, data);
+                                        }, data.client_id, data);
                                     };
                                     copyError = function () {
                                         console.log('Copy error');
                                     };
-                                    collectiveReportModel.getSchdRptDetail(copySuccess, copyError, reportId);
+                                    collectiveReportModel.getSchdRptDetail(copySuccess, copyError, vistoconfig.getMasterClientId(), reportId);
                                 }
                             };
                         }
@@ -554,7 +556,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                         $rootScope.setErrAlertMessage('Error archiving scheduled report');
                                     };
                                 collectiveReportModel
-                                    .archiveSchdReport(archiveSuccess, archiveError, reportId, instanceId);
+                                    .archiveSchdReport(archiveSuccess, archiveError, vistoconfig.getMasterClientId(), reportId, instanceId);
                             };
                         }
                     }
@@ -572,12 +574,17 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             };
 
             $scope.refreshReportList = function () {
-                var url = urlService.scheduleReportsList();
+                // var url = urlService.scheduleReportsList();
 
-                if (url) {
-                    dataStore.deleteFromCache(url);
-                }
+                // if (url) {
+                //     dataStore.deleteFromCache(url);
+                // }
                 $scope.getScheduledReports();
+            };
+
+            $scope.gotoCustomReportPage = function() {
+                console.log('gotoCustomReportPage', 'urlBuilder.customReportsUrl()', urlBuilder.customReportsUrl());
+                $location.url(urlBuilder.customReportsUrl());
             };
 
             // SECTION FOR APPLYING FILTER IF THE APPROPRIATE QUERY PARAMS ARE PASSED IN THE URL.
@@ -632,7 +639,9 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 }
             } else {
                 // No params given, get all reports
-                $scope.getScheduledReports();
+                $timeout(function() {
+                    $scope.getScheduledReports();
+                }, 500);
             }
         });
     }

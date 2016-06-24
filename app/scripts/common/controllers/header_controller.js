@@ -2,17 +2,18 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
     'reporting/campaignSelect/campaign_select_model', 'common/services/role_based_service',
     'workflow/services/workflow_service', 'common/services/features_service',
     'reporting/subAccount/sub_account_model'], function (angularAMD) {
-    angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location, $modal,
-                                                        constants, loginModel, domainReports, campaignSelectModel,
-                                                        RoleBasedService, workflowService, featuresService,
-                                                        subAccountModel, localStorageService) {
-        var featurePermission = function () {
-                $scope.fparams = featuresService.getFeatureParams();
-                $scope.showMediaPlanTab = $scope.fparams[0].mediaplan_list;
-                $scope.showReportTab = $scope.fparams[0].reports_tab;
-            },
+    angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location, $modal, $routeParams,
+                                                        constants, loginModel, domainReports, RoleBasedService, workflowService, 
+                                                        featuresService, accountService, subAccountService, subAccountModel, 
+                                                        localStorageService, advertiserModel, brandsModel, strategySelectModel,
+                                                        pageFinder, urlBuilder) {
+        // var featurePermission = function () {
+        //         $scope.fparams = featuresService.getFeatureParams();
+        //         $scope.showMediaPlanTab = $scope.fparams[0].mediaplan_list;
+        //         $scope.showReportTab = $scope.fparams[0].reports_tab;
+        //     },
 
-            showSelectedMasterClient = function (evt, clientName) {
+        var showSelectedMasterClient = function (evt, clientName) {
                 var elem = $(evt.target);
                 $('.accountsList-dropdown-li').find('.selected-li').removeClass('selected-li');
                 elem.addClass('selected-li');
@@ -23,44 +24,45 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             },
 
             setMasterClientData = function (id, name,isLeafNode) {
-                localStorageService.masterClient.set({'id': id, 'name': name,'isLeafNode':isLeafNode});
+                // localStorageService.masterClient.set({'id': id, 'name': name,'isLeafNode':isLeafNode});
                 showSelectedMasterClient(event, name);
-                if (isLeafNode) {
-                    loginModel.setSelectedClient({'id': id, 'name': name});
-                    $scope.getClientData();
-                    $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {
-                        'client': loginModel.getSelectedClient().id,
-                        'event_type': 'clicked'
-                    });
-                } else {
-                    subAccountModel.fetchSubAccounts('MasterClientChanged',function () {
-                        $scope.getClientData();
-                        $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {
-                            'client': loginModel.getSelectedClient().id,
-                            'event_type': 'clicked'
-                        });
-                    });
-                }
+                // if (isLeafNode) {
+                //     loginModel.setSelectedClient({'id': id, 'name': name});
+                //     $scope.getClientData();
+                //     $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {
+                //         'client': loginModel.getSelectedClient().id,
+                //         'event_type': 'clicked'
+                //     });
+                // } else {
+                //     subAccountModel.fetchSubAccounts('MasterClientChanged',function () {
+                //         $scope.getClientData();
+                //         $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {
+                //             'client': loginModel.getSelectedClient().id,
+                //             'event_type': 'clicked'
+                //         });
+                //     });
+                // }
+                accountService.changeAccount({id: id, name: name, isLeafNode: isLeafNode});
                 $scope.defaultAccountsName = name;
             };
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
-        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
+        // $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
 
-        $scope.getClientData = function () {
-            clientId = localStorageService.masterClient.get().id;
-            workflowService
-                .getClientData(clientId)
-                .then(function (response) {
-                    //set the type of user here in RoleBasedService.js
-                    RoleBasedService.setClientRole(response);
-                    RoleBasedService.setCurrencySymbol();
-                    featuresService.setFeatureParams(response.data.data.features, 'headercontroller');
-                    $scope.filters = domainReports.getReportsTabs();
-                    $scope.customFilters = domainReports.getCustomReportsTabs();
-                });
-        };
+        // $scope.getClientData = function () {
+        //     clientId = localStorageService.masterClient.get().id;
+        //     workflowService
+        //         .getClientData(clientId)
+        //         .then(function (response) {
+        //             //set the type of user here in RoleBasedService.js
+        //             RoleBasedService.setClientRole(response);
+        //             RoleBasedService.setCurrencySymbol();
+        //             featuresService.setFeatureParams(response.data.data.features, 'headercontroller');
+        //             $scope.filters = domainReports.getReportsTabs();
+        //             $scope.customFilters = domainReports.getCustomReportsTabs();
+        //         });
+        // };
 
         $scope.set_account_name = function (event, id, name,isLeafNode) {
             var moduleObj = workflowService.getModuleInfo(),
@@ -85,7 +87,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
                             accountChangeAction: function () {
                                 return function () {
-                                    setMasterClientData(id, name,isLeafNode);
+                                    setMasterClientData(id, name, isLeafNode);
 
                                     if (!localStorageService.masterClient.get().isLeafNode) {
                                        subAccountModel.resetDashboardSubAccStorage();
@@ -104,11 +106,11 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     });
                 }
             } else {
-                setMasterClientData(id, name,isLeafNode);
+                setMasterClientData(id, name, isLeafNode);
 
-                if (!localStorageService.masterClient.get().isLeafNode) {
-                    subAccountModel.resetDashboardSubAccStorage();
-                }
+                // if (!localStorageService.masterClient.get().isLeafNode) {
+                //     subAccountModel.resetDashboardSubAccStorage();
+                // }
             }
         };
 
@@ -122,20 +124,27 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
         $scope.NavigateToTab = function (url, event, page) {
             $('.header_tab_dropdown').removeClass('active_tab active selected');
 
-            if (page === 'reportOverview') {
-                $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
+            advertiserModel.reset();
+            brandsModel.reset();
+            strategySelectModel.reset();
+            if (page === 'dashboard') {
+                // $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
 
-                if ($scope.selectedCampaign === -1) {
-                    url = '/mediaplans';
-                    $('.each_nav_link').removeClass('active_tab active selected');
-                    $('.reports_sub_menu_dd_holder').find('.active_tab').removeClass('active_tab');
-                    $('#campaigns_nav_link').addClass('active_tab');
-                } else {
-                    url = '/mediaplans/' + $scope.selectedCampaign;
-                    $('.each_nav_link').removeClass('active_tab active selected');
-                    $('#reports_overview_tab').addClass('active_tab');
-                    $('#reports_nav_link').addClass('active_tab');
-                }
+                // if ($scope.selectedCampaign === -1) {
+                //     url = '/mediaplans';
+                //     $('.each_nav_link').removeClass('active_tab active selected');
+                //     $('.reports_sub_menu_dd_holder').find('.active_tab').removeClass('active_tab');
+                //     $('#campaigns_nav_link').addClass('active_tab');
+                // } else {
+                //     url = '/mediaplans/' + $scope.selectedCampaign;
+                //     $('.each_nav_link').removeClass('active_tab active selected');
+                //     $('#reports_overview_tab').addClass('active_tab');
+                //     $('#reports_nav_link').addClass('active_tab');
+                // }
+                // $(".each_nav_link").removeClass('active_tab active selected');
+                // $("#reports_overview_tab").addClass("active_tab");
+                // $("#reports_nav_link").addClass("active_tab") ;
+                $location.url(urlBuilder.dashboardUrl());
             } else if (page === 'creativelist') {
                 $('.each_nav_link').removeClass('active_tab active selected');
                 url = '/creative/list';
@@ -145,17 +154,25 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 url = '/admin/accounts';
                 $('#admin_nav_link').addClass('active_tab');
             } else if (page === 'mediaplanList') {
-                $('.each_nav_link').removeClass('active_tab active selected');
-                url = '/mediaplans';
-                $('#campaigns_nav_link').addClass('active_tab');
+                // $(".each_nav_link").removeClass('active_tab active selected');
+                // url = '/mediaplans'
+                // $("#campaigns_nav_link").addClass("active_tab");
+                urlBuilder.gotoMediaplansListUrl();
             } else if (page === 'reportsSubPage') {
-                $('.reports_sub_menu_dd_holder').find('.active_tab').removeClass('active_tab');
-                $('.each_nav_link').removeClass('active_tab active selected');
-                $('#reports_nav_link').addClass('active_tab');
-                $(event.currentTarget).parent().addClass('active_tab');
+                // $(".reports_sub_menu_dd_holder").find(".active_tab").removeClass("active_tab") ;
+                // $(".each_nav_link").removeClass('active_tab active selected');
+                // $("#reports_nav_link").addClass("active_tab");
+                // $(event.currentTarget).parent().addClass('active_tab');
+                urlBuilder.gotoCannedReportsUrl(url);
+            } else if (page == 'customReports') {
+                $location.url(urlBuilder.customReportsUrl());
+            } else if (page == 'customReportsList') {
+                $location.url(urlBuilder.customReportsListUrl());
+            } else if (page == 'uploadReports') {
+                $location.url(urlBuilder.uploadReportsUrl());
+            } else if (page == 'uploadedReportsList') {
+                $location.url(urlBuilder.uploadReportsListUrl());
             }
-
-            $location.url(url);
         };
 
         $scope.show_hide_nav_dropdown = function (event, arg, behaviour) {
@@ -202,98 +219,110 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             loginModel.logout();
         };
 
-        $scope.setDefaultReport = function (reportTitle) {
-            $('.header_tab_dropdown').removeClass('active_tab');
-            $('a[reportTitle="' + reportTitle + '"]').parent().addClass('active_tab');
-        };
+        // $scope.setDefaultReport = function (reportTitle) {
+        //     $('.header_tab_dropdown').removeClass('active_tab');
+        //     $('a[reportTitle="' + reportTitle + '"]').parent().addClass('active_tab');
+        // };
 
-        $rootScope.$on('callSetDefaultReport', function (event, args) {
-            $scope.setDefaultReport(args);
-        });
+        // $rootScope.$on('callSetDefaultReport', function (event, args) {
+        //     $scope.setDefaultReport(args);
+        // });
 
         if ($cookieStore.get('cdesk_session')) {
             workflowService
                 .getClients()
                 .then(function (result) {
                     if (result && result.data.data.length > 0) {
-                        var preferred_client = RoleBasedService.getUserData().preferred_client,
-                            campaignsClientData = function (calledfrom) {
-                                if (Number($scope.selectedCampaign) === -1) {
-                                    campaignSelectModel
-                                        .getCampaigns(-1, {limit: 1, offset: 0})
-                                        .then(function (response) {
-                                            if (response.length > 0) {
-                                                $scope.selectedCampaign = response[0].campaign_id;
-                                            }
-                                        });
-                                }
-                                $scope.getClientData();
-                            };
+                        // var preferred_client = RoleBasedService.getUserData().preferred_client,
+                        //     campaignsClientData = function (calledfrom) {
+                        //         if (Number($scope.selectedCampaign) === -1) {
+                        //             campaignSelectModel
+                        //                 .getCampaigns(-1, {limit: 1, offset: 0})
+                        //                 .then(function (response) {
+                        //                     if (response.length > 0) {
+                        //                         $scope.selectedCampaign = response[0].campaign_id;
+                        //                     }
+                        //                 });
+                        //         }
+                        //         $scope.getClientData();
+                        //     };
 
-                        $scope.accountsData = [];
+                        // $scope.accountsData = [];
 
-                        _.each(result.data.data, function (org) {
-                            $scope.accountsData.push({
-                                id: org.id,
-                                name: org.name,
-                                isLeafNode: org.isLeafNode
-                            });
+                        // _.each(result.data.data, function (org) {
+                        //     $scope.accountsData.push({
+                        //         id: org.id,
+                        //         name: org.name,
+                        //         isLeafNode: org.isLeafNode
+                        //     });
 
-                            if (preferred_client !== undefined &&
-                                org.id === preferred_client &&
-                                !localStorageService.masterClient.get()) {
-                                localStorageService.masterClient.set(org.id, org.name, org.isLeafNode);
-                            }
-                        });
+                        //     if (preferred_client !== undefined &&
+                        //         org.id === preferred_client &&
+                        //         !localStorageService.masterClient.get()) {
+                        //         localStorageService.masterClient.set(org.id, org.name, org.isLeafNode);
+                        //     }
+                        // });
 
-                        if (preferred_client === 0 && !localStorageService.masterClient.get()) {
-                            localStorageService
-                                .masterClient
-                                .set(result.data.data[0].id, result.data.data[0].name, result.data.data[0].isLeafNode);
-                        }
+                        // if (preferred_client === 0 && !localStorageService.masterClient.get()) {
+                        //     localStorageService
+                        //         .masterClient
+                        //         .set(result.data.data[0].id, result.data.data[0].name, result.data.data[0].isLeafNode);
+                        // }
 
-                        if (result.data.data.length > 1) {
-                            $scope.multipleClient = true;
-                        } else {
-                            $scope.multipleClient = false;
-                        }
+                        // if (result.data.data.length > 1) {
+                        //     $scope.multipleClient = true;
+                        // } else {
+                        //     $scope.multipleClient = false;
+                        // }
 
-                        $scope.accountsData = _.sortBy($scope.accountsData, 'name');
+                        // $scope.accountsData = _.sortBy($scope.accountsData, 'name');
 
-                        if (localStorageService.masterClient.get() && localStorageService.masterClient.get().name) {
-                            $scope.defaultAccountsName = localStorageService.masterClient.get().name;
-                        } else {
-                            $scope.defaultAccountsName = $scope.accountsData[0].name;
-                        }
+                        // if (localStorageService.masterClient.get() && localStorageService.masterClient.get().name) {
+                        //     $scope.defaultAccountsName = localStorageService.masterClient.get().name;
+                        // } else {
+                        //     $scope.defaultAccountsName = $scope.accountsData[0].name;
+                        // }
 
-                        if (angular.isUndefined(loginModel.getSelectedClient()) ||
-                            loginModel.getSelectedClient() === null) {
-                            if (localStorageService.masterClient.get().isLeafNode) {
-                                loginModel.setSelectedClient({
-                                    id: localStorageService.masterClient.get().id,
-                                    name: localStorageService.masterClient.get().name
-                                });
+                    $rootScope.accountsData = accountService.getAccounts();
+                    accountService.getSelectedAccount() && ($scope.defaultAccountsName = accountService.getSelectedAccount().name);
+                    $scope.multipleClient = $rootScope.accountsData.length > 1;
+                    $scope.pageName = pageFinder.pageBuilder($location.path()).pageName();
 
-                                campaignsClientData(1);
-                            } else {
-                                subAccountModel.fetchSubAccounts('headerCtrl',function () {
-                                    campaignsClientData(2);
-                                });
-                            }
-                        } else {
-                            campaignsClientData(3);
-                        }
+                    if (featuresService.getFeatureParams().length > 0) {
+                        $scope.fparams = featuresService.getFeatureParams();
+                        $scope.showMediaPlanTab = $scope.fparams[0]['mediaplan_list'];
+                        $scope.showReportTab = $scope.fparams[0]['reports_tab'];
+                        $scope.filters = domainReports.getReportsTabs();
+                        $scope.customFilters = domainReports.getCustomReportsTabs();
+                    }
+                        // if (angular.isUndefined(loginModel.getSelectedClient()) ||
+                        //     loginModel.getSelectedClient() === null) {
+                        //     if (localStorageService.masterClient.get().isLeafNode) {
+                        //         loginModel.setSelectedClient({
+                        //             id: localStorageService.masterClient.get().id,
+                        //             name: localStorageService.masterClient.get().name
+                        //         });
+
+                        //         campaignsClientData(1);
+                        //     } else {
+                        //         subAccountModel.fetchSubAccounts('headerCtrl',function () {
+                        //             campaignsClientData(2);
+                        //         });
+                        //     }
+                        // } else {
+                        //     campaignsClientData(3);
+                        // }
                         //$rootScope.$broadcast(constants.ACCOUNT_CHANGED, clientId);
                     }
                 });
         }
 
         /* Start Feature Permission */
-        $rootScope.$on('features', function () {
-            featurePermission();
-            $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
-        });
-        featurePermission();
+        // $rootScope.$on('features', function () {
+        //     featurePermission();
+        //     $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
+        // });
+        // featurePermission();
         /* End Feature Permission */
 
         $(function () {

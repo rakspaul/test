@@ -10,8 +10,10 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 agency_id: undefined
             },
 
-            updateRedirectUrl = function (value) {
-                $cookieStore.put(constants.COOKIE_REDIRECT, value);
+            updateRedirectUrl = function (redirectPath) {
+                if (['/', '/login'].indexOf(redirectPath) == -1) {
+                    $cookieStore.put(constants.COOKIE_REDIRECT, redirectPath);
+                }
             };
 
         return {
@@ -36,13 +38,13 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 localStorage.setItem('selectedClient', JSON.stringify(data));
             },
 
-            getSelectedClient: function () {
-                return localStorage.getItem('selectedClient') && JSON.parse(localStorage.getItem('selectedClient'));
-            },
+            // getSelectedClient: function () {
+            //     return localStorage.getItem('selectedClient') && JSON.parse(localStorage.getItem('selectedClient'));
+            // },
 
-            setDashboardClient: function(data) {
-                localStorage.setItem('dashboardClient', JSON.stringify(data));
-            },
+            // setDashboardClient: function(data) {
+            //     localStorage.setItem('dashboardClient', JSON.stringify(data));
+            // },
 
             getDashboardClient: function() {
                 return localStorage.getItem('dashboardClient') && JSON.parse(localStorage.getItem('dashboardClient'));
@@ -78,6 +80,7 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
 
             setUser: function (user) {
                 data = user;
+                $cookieStore.put('cdesk_session', user);
 
                 // var time = moment().add(user.expiry_secs, 'seconds'),
                 // expiryTime = new Date(time);
@@ -177,12 +180,13 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 var redirectPath;
 
                 if (!$cookieStore.get('cdesk_session')) {
-                    redirectPath = localStorage.getItem('cdeskRedirect');
+                    // redirectPath = localStorage.getItem('cdeskRedirect');
                     localStorage.clear();
-                    localStorage.setItem('cdeskRedirect', redirectPath);
-                    if ($location.$$path !== '/login') {
-                        updateRedirectUrl($location.$$path);
-                    }
+                    // localStorage.setItem('cdeskRedirect', redirectPath);
+                    // if ($location.$$path !== '/login') {
+                    //     updateRedirectUrl($location.$$path);
+                    // }
+                    updateRedirectUrl($location.$$path);
                     $location.url('/login');
                     //remove header bar on login page
                     $('.main_navigation_holder').hide();
@@ -202,9 +206,10 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
             unauthorized: function () {
                 $cookieStore.remove('cdesk_session');
                 localStorage.clear();
-                if ($location.$$path !== '/login') {
-                    updateRedirectUrl($location.$$path);
-                }
+                // if ($location.$$path !== '/login') {
+                //     updateRedirectUrl($location.$$path);
+                // }
+                updateRedirectUrl($location.$$path);
                 $location.url('/login');
                 //remove header bar on login page
                 $('.main_navigation_holder').hide();

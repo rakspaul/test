@@ -1,5 +1,5 @@
 define(['angularAMD'], function (angularAMD) {
-  angularAMD.service("vistoconfig", function () {
+  angularAMD.service("vistoconfig", function ($routeParams) {
       var urlPaths = {
         apiSerivicesUrl: scala_api,
         apiSerivicesUrl_NEW:scala_api_NEW,
@@ -58,5 +58,29 @@ define(['angularAMD'], function (angularAMD) {
           id: -1,
           type: 'all'
       };
+
+      this.getMasterClientId = function() {
+          return Number($routeParams.accountId);
+      };
+
+      this.getSelectedAccountId = function() {
+          return $routeParams.subAccountId || $routeParams.accountId;
+      };
+
+      this.getSelectAdvertiserId = function() {
+          return $routeParams.advertiserId || -1;
+      };
+
+      this.getSelectedBrandId = function() {
+          return $routeParams.brandId || -1;
+      };
+
+      this.getSelectedCampaignId = function() {
+          return $routeParams.campaignId;
+      };
+
+      this.getSelectedStrategyId = function() {
+          return $routeParams.li_id;
+      };     
   });
 });

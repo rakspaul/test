@@ -83,7 +83,6 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
         };
 
-        $scope.init();
         //Function called to show Strategy list
         $scope.strategyViewData = function (param) {
           //  console.log('this is param from controller'+JSON.stringify(param));
@@ -94,14 +93,14 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 $scope.strategyBusy = false;
             }
             $scope.api_return_code = 200;
-            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
-            var queryObj = {
-                campaignId: $scope.selectedCampaign.id,
-                clientId:  loginModel.getSelectedClient().id,
-                advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                brandId: brandsModel.getSelectedBrand().id,
-                dateFilter: datefilter
-            };
+            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
+                queryObj = {
+                    campaignId: $scope.selectedCampaign.id,
+                    clientId: vistoconfig.getSelectedAccountId(),
+                    advertiserId: vistoconfig.getSelectAdvertiserId(),
+                    brandId: vistoconfig.getSelectedBrandId(),
+                    dateFilter: datefilter
+                };
             if(_.has(param, 'strategyId') && param.strategyId >= 0) {
                 queryObj['queryId'] =  13;
                 queryObj['strategyId'] = param.strategyId;
@@ -173,23 +172,23 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             ];
         };
 
-        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
-            $scope.init();
-            //update the selected Campaign
-            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
-            $scope.videoMode = false;
-        });
+        // $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
+        //     $scope.init();
+        //     //update the selected Campaign
+        //     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+        //     $scope.videoMode = false;
+        // });
 
         $scope.$watch('selectedCampaign', function() {
             $scope.createDownloadReportUrl();
         });
 
-        $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
-            $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
-            $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? constants.CAMPAIGN_TOTAL : constants.AD_GROUP_TOTAL;
-            $scope.callBackStrategyChange();
-        });
+        // $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
+        //     $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
+        //     $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
+        //     $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? constants.CAMPAIGN_TOTAL : constants.AD_GROUP_TOTAL;
+        //     $scope.callBackStrategyChange();
+        // });
 
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
@@ -247,6 +246,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $(".drop_list li").css("color", "#000");
         };
 
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
+        $scope.init();
+        $scope.callBackStrategyChange();
 
         $scope.$on('dropdown-arrow-clicked', function(event, args,sortorder) {
             $scope.sortType = "view_metrics."+args;
