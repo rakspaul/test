@@ -115,7 +115,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                     newItem.vendorConfigId = $scope.selectedCampaign.systemOfRecord[indexSor].id;
                 }
 
-                if (doesLineItemExceedBudget(newItem.billableAmount, $scope.Campaign.deliveryBudget)) {
+                if (doesLineItemExceedBudget(newItem.billableAmount, $scope.Campaign.totalBudget)) {
                     $scope.successfulLineItemCount=$scope.successfulLineItemCount-1;
                     $scope.errorLineItemCount=$scope.errorLineItemCount+1;
                     errorFound=true;
