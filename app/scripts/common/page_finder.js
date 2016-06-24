@@ -7,6 +7,10 @@ define(['angularAMD'],
                 pageName = 'dashboard';
             } else if (path.endsWith('mediaplans')) {
                 pageName = 'mediaplans';
+            } else if (path.endsWith('/reports/schedules')) {
+                pageName = 'customReportsList';
+            } else if (path.indexOf('/customreport') > 0) {
+                pageName = 'customReports';
             } else if (path.endsWith('/reports/list')) {
                 pageName = 'uploadedReportsList';
             } else if (path.endsWith('/reports/upload')) {
@@ -24,6 +28,12 @@ define(['angularAMD'],
                 },
                 isCannedReportsPage: function() {
                     return pageName == 'cannedReports';
+                },
+                isCustomReportsPage: function() {
+                    return pageName == 'customReports';  
+                },
+                isCustomReportsListPage: function() {
+                    return pageName == 'customReportsList';
                 },
                 isUploadReportsPage: function() {
                     return pageName == 'uploadReports';  
@@ -46,6 +56,10 @@ define(['angularAMD'],
                         url += '/reports/upload';
                     } else if (this.isUploadedReportsListPage()) {
                         url += '/reports/list';
+                    } else if (this.isCustomReportsPage()) {
+                        url += '/customreport';
+                    } else if (this.isCustomReportsListPage()) {
+                        url += '/reports/schedules';
                     }
                     console.log('url', url);
                     return url;

@@ -68,12 +68,17 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                     $location.url(url);
                 } else {
                     if (page.isDashboardPage()) {
+                        // fetch all the subaccounts including the leaf accounts
                         subAccountService.fetchDashboardSubAccountList(account.id).then(function() {
                             var subAccountId = subAccountService.getDashboadSubAccountList()[0].id;
                             url += '/sa/' + subAccountId;
                             $location.url(page.buildPage(url));
                         });
+                    } else if (page.isCustomReportsPage() || page.isCustomReportsListPage()) {
+                        // doesn't require the sub account id
+                        $location.url(page.buildPage(url));
                     } else {
+                        // fetch only the leaf subaccounts
                         subAccountService.fetchSubAccountList(account.id).then(function() {
                             var subAccountId = subAccountService.getSubAccounts()[0].id;
                             url += '/sa/' + subAccountId;

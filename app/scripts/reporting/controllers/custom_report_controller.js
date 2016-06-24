@@ -868,15 +868,15 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
             $scope.downloadCreateRepBuilder = function(parentIndex, instanceIndex, instanceId) {
                 $scope.reportDownloadBusy = true;
-                var dropdownElem = $("#reportBuilderForm");
-                var reportId = dropdownElem.find('.dd_txt').attr('data-template_id');
-                var params = _customctrl.createRequestParams(null, $scope.firstDimensionoffset, 1,0,'csv');
+                var dropdownElem = $("#reportBuilderForm"),
+                    reportId = dropdownElem.find('.dd_txt').attr('data-template_id'),
+                    params = _customctrl.createRequestParams(null, $scope.firstDimensionoffset, 1, 0, 'csv');
 
-                dataService.downloadFile(urlService.downloadGeneratedRpt(vistoconfig.getMasterClientId(), reportId),"POST",params,{'Content-Type': 'text/plain'}).then(function (response) {
+                dataService.downloadFile(urlService.downloadGeneratedRpt(vistoconfig.getMasterClientId(), reportId), "POST", params, {'Content-Type': 'text/plain'}).then(function (response) {
                     if (response.status === "success") {
                         saveAs(response.file, response.fileName);
                         $scope.reportDownloadBusy = false;
-                        $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn = momentService.reportDateFormat();
+                        // $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn = momentService.reportDateFormat();
                     } else {
                         $scope.reportDownloadBusy = false;
                         $rootScope.setErrAlertMessage("File couldn't be downloaded");

@@ -1,11 +1,15 @@
 define(['angularAMD', '../../login/login_model', 'common/services/role_based_service', 'common/services/constants_service', 'reporting/timePeriod/time_period_directive','reporting/subAccount/sub_account_directive'], function (angularAMD) {
-    angularAMD.factory("domainReports", ['loginModel', 'RoleBasedService', 'featuresService', function (loginModel, RoleBasedService, featuresService) {
+    angularAMD.factory("domainReports", ['$location', 'loginModel', 'RoleBasedService', 'featuresService', 
+        function ($location, loginModel, RoleBasedService, featuresService) {
 
         return {
             getReportsTabs: function () {
-                var tabs = [];
-                var fParams = featuresService.getFeatureParams();
+                var tabs = [],
+                    fParams = featuresService.getFeatureParams();
 
+                if (fParams[0]['report_overview'] === true) {
+                    tabs.push({href: 'overview', title: 'Reports Overview'});
+                }
                 if (fParams[0]['performance'] === true) {
                     tabs.push({href: 'performance', title: 'Performance'});
                 }
@@ -16,7 +20,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                     tabs.push({href: 'platform', title: 'Platform'});
                 }
                 if (fParams[0]['inventory'] === true) {
-                    tabs.push({href: 'inventory', title: 'inventory'});
+                    tabs.push({href: 'inventory', title: 'Inventory'});
                 }
                 if (fParams[0]['quality'] === true) {
                     tabs.push({href: 'quality', title: 'Quality'});
@@ -42,7 +46,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
 
                 return {
                     'tabs': tabs,
-                    activeTab: document.location.pathname.substring(1)
+                    currentUrl: $location.path()
                 }
             },
 
@@ -51,7 +55,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                     fParams = featuresService.getFeatureParams();
 
                 if(fParams[0]['scheduled_reports'] === true) {
-                    tabs.push({ href:'reports/schedules', title: 'My Reports', type: 'customReports'});
+                    tabs.push({ href:'reports/schedules', title: 'My Reports', type: 'customReportsList'});
                 }
                 if (fParams[0]['collective_insights'] === true) {
                     tabs.push({href: 'reports/list', title: 'Collective Insights', type: 'uploadedReportsList'});
@@ -59,7 +63,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
 
                 return {
                     'tabs': tabs,
-                    activeTab: document.location.pathname.substring(1)
+                    currentUrl: $location.path()
                 }
             },
             highlightHeaderMenu: function () {
@@ -111,20 +115,20 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 scope.showMediaPlanReportHeading = false;
                 var enableFeaturePermission = function () {
                     var fparams = featuresService.getFeatureParams();
-                    scope.showReportOverview = false;
+                    // scope.showReportOverview = false;
 
-                    var updateShowReportOverview = function() {
-                        if(fparams[0].report_overview && localStorageService.selectedCampaign.get() && localStorageService.selectedCampaign.get().id !== -1){
-                            scope.showReportOverview = true;
-                        } else {
-                            scope.showReportOverview = false;
-                        }
-                    }
-                    $timeout(updateShowReportOverview, 300);
+                    // var updateShowReportOverview = function() {
+                    //     if(fparams[0].report_overview && localStorageService.selectedCampaign.get() && localStorageService.selectedCampaign.get().id !== -1){
+                    //         scope.showReportOverview = true;
+                    //     } else {
+                    //         scope.showReportOverview = false;
+                    //     }
+                    // }
+                    // $timeout(updateShowReportOverview, 300);
 
-                    var subAccountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
-                        $timeout(updateShowReportOverview, 1500);
-                    });
+                    // var subAccountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
+                    //     $timeout(updateShowReportOverview, 1500);
+                    // });
 
                     scope.buildReport = fparams[0].scheduled_reports;
 

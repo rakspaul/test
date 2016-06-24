@@ -170,11 +170,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 // $(".each_nav_link").removeClass('active_tab active selected');
                 // $("#reports_overview_tab").addClass("active_tab");
                 // $("#reports_nav_link").addClass("active_tab") ;
-                url = "/a/" + $routeParams.accountId;
-                if ($routeParams.subAccountId) {
-                    url += "/sa/" + $routeParams.subAccountId;
-                }
-                url += '/dashboard';
+                $location.url(urlBuilder.dashboardUrl());
             } else if (page === 'creativelist') {
                 $('.each_nav_link').removeClass('active_tab active selected');
                 url = '/creative/list';
@@ -184,58 +180,25 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 url = '/admin/accounts';
                 $('#admin_nav_link').addClass('active_tab');
             } else if (page === 'mediaplanList') {
-                // $('.each_nav_link').removeClass('active_tab active selected');
-                // url = '/mediaplans';
-                // $('#campaigns_nav_link').addClass('active_tab');
-                var reportName = url;
-                url = "/a/" + $routeParams.accountId;
-                if ($routeParams.subAccountId) {
-                    var leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
-                        return a.id == $routeParams.subAccountId;
-                    });
-                    if (leafSubAccount) {
-                        url += "/sa/" + $routeParams.subAccountId;
-                        ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
-                        ($routeParams.advertiserId > 0) && ($routeParams.brandId >= 0) && (url += '/b/' + $routeParams.brandId);
-                    } else {
-                        url += "/sa/" + subAccountService.getSubAccounts()[0].id;
-                    }
-                }
-                url += '/mediaplans'
+                // $(".each_nav_link").removeClass('active_tab active selected');
+                // url = '/mediaplans'
+                // $("#campaigns_nav_link").addClass("active_tab");
+                urlBuilder.gotoMediaplansListUrl();
             } else if (page === 'reportsSubPage') {
-                var reportName = url;
-                url = "/a/" + $routeParams.accountId;
-                if ($routeParams.subAccountId) {
-                    var leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
-                        return a.id == $routeParams.subAccountId;
-                    });
-                    if (leafSubAccount) {
-                        url += "/sa/" + $routeParams.subAccountId;
-                        // All Advertisers id is -1 and don't show it in the URL
-                        ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
-                        ($routeParams.advertiserId > 0 && $routeParams.brandId >= 0) && (url += '/b/' + $routeParams.brandId);
-                    } else {
-                        url += "/sa/" + subAccountService.getSubAccounts()[0].id;
-                    }
-                }
-                if ($routeParams.campaignId) {
-                    url += "/mediaplans/" + $routeParams.campaignId;
-                } else {
-                    url += "/mediaplans/reports";
-                }
-                url += reportName;
+                // $(".reports_sub_menu_dd_holder").find(".active_tab").removeClass("active_tab") ;
+                // $(".each_nav_link").removeClass('active_tab active selected');
+                // $("#reports_nav_link").addClass("active_tab");
+                // $(event.currentTarget).parent().addClass('active_tab');
+                urlBuilder.gotoCannedReportsUrl(url);
             } else if (page == 'customReports') {
-                var reportName = url;
-                url = "/a/" + $routeParams.accountId;
-                url += reportName;
+                $location.url(urlBuilder.customReportsUrl());
+            } else if (page == 'customReportsList') {
+                $location.url(urlBuilder.customReportsListUrl());
             } else if (page == 'uploadReports') {
-                url = urlBuilder.uploadReportsUrl();
+                $location.url(urlBuilder.uploadReportsUrl());
             } else if (page == 'uploadedReportsList') {
-                url = urlBuilder.uploadReportsListUrl();
+                $location.url(urlBuilder.uploadReportsListUrl());
             }
-
-            console.log('header_controller', 'url', url);
-            $location.url(url);
         };
 
         $scope.show_hide_nav_dropdown = function (event, arg, behaviour) {
