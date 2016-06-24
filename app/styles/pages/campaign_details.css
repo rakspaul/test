@@ -4,6 +4,10 @@ body {
 .tooltip {
   word-wrap: break-word;
 }
+.tooltip .tooltip-inner {
+  word-wrap: break-word;
+  max-width: initial;
+}
 .no-chart,
 .no_data_found {
   color: #939ead;
