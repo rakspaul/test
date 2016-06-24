@@ -86,29 +86,29 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
 
             if ($scope.advertiserAddOrEditData.adChoiceCode) {
                 requestData.adChoice = $scope.advertiserAddOrEditData.adChoiceCode;
+            }
 
-                if ($scope.advertiserAddOrEditData.selectedIABSubCategoryId) {
-                    requestData.iabCategoryId = Number($scope.advertiserAddOrEditData.selectedIABSubCategoryId);
-                } else {
-                    if ($scope.advertiserAddOrEditData.selectedIABCategory) {
-                        requestData.iabCategoryId = Number($scope.advertiserAddOrEditData.selectedIABCategoryId);
-                    }
+            if ($scope.advertiserAddOrEditData.selectedIABSubCategoryId) {
+                requestData.iabCategoryId = Number($scope.advertiserAddOrEditData.selectedIABSubCategoryId);
+            } else {
+                if ($scope.advertiserAddOrEditData.selectedIABCategory) {
+                    requestData.iabCategoryId = Number($scope.advertiserAddOrEditData.selectedIABCategoryId);
                 }
+            }
 
-                if ($scope.billingData.techFees.billingValue) {
-                    requestData.techBillingTypeId = Number($scope.billingData.techFees.billingTypeId);
-                    requestData.techBillingValue = Number($scope.billingData.techFees.billingValue);
-                }
+            if ($scope.billingData.techFees.billingValue) {
+                requestData.techBillingTypeId = Number($scope.billingData.techFees.billingTypeId);
+                requestData.techBillingValue = Number($scope.billingData.techFees.billingValue);
+            }
 
-                if ($scope.billingData.serviceFees.billingValue) {
-                    requestData.serviceBillingTypeId = Number($scope.billingData.serviceFees.billingTypeId);
-                    requestData.serviceBillingValue = Number($scope.billingData.serviceFees.billingValue);
-                }
+            if ($scope.billingData.serviceFees.billingValue) {
+                requestData.serviceBillingTypeId = Number($scope.billingData.serviceFees.billingTypeId);
+                requestData.serviceBillingValue = Number($scope.billingData.serviceFees.billingValue);
+            }
 
-                if ($scope.billingData.cost.billingValue) {
-                    requestData.costBillingTypeId = Number($scope.billingData.cost.billingTypeId);
-                    requestData.costBillingValue = Number($scope.billingData.cost.billingValue);
-                }
+            if ($scope.billingData.cost.billingValue) {
+                requestData.costBillingTypeId = Number($scope.billingData.cost.billingTypeId);
+                requestData.costBillingValue = Number($scope.billingData.cost.billingValue);
             }
 
             accountsService
@@ -492,11 +492,26 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
             $scope.advertiserAddOrEditData.adChoiceCode = $scope.savedAdvertiserData.adChoice;
 
             // 2. IAB Category
-            $scope.advertiserAddOrEditData.selectedIABCategory = $scope.savedAdvertiserData.iabCategory.groupName;
-            $scope.advertiserAddOrEditData.selectedIABCategoryId = $scope.savedAdvertiserData.iabCategory.groupId;
-            $scope.advertiserAddOrEditData.selectedIABSubCategory = $scope.savedAdvertiserData.iabCategory.name;
-            $scope.advertiserAddOrEditData.selectedIABSubCategoryId = $scope.savedAdvertiserData.iabCategory.id;
-            _currCtrl.getIABSubCategoryList($scope.advertiserAddOrEditData.selectedIABCategoryId);
+            if ($scope.savedAdvertiserData.iabCategory) {
+                $scope.advertiserAddOrEditData.selectedIABCategory = $scope.savedAdvertiserData.iabCategory.groupName;
+                $scope.advertiserAddOrEditData.selectedIABCategory = $scope.savedAdvertiserData.iabCategory.groupName;
+                $scope.advertiserAddOrEditData.selectedIABCategoryId = $scope.savedAdvertiserData.iabCategory.groupId;
+
+                // If sub-category has been selected & saved
+                if ($scope.savedAdvertiserData.iabCategory.groupName !== $scope.savedAdvertiserData.iabCategory.name) {
+                    $scope.advertiserAddOrEditData.selectedIABSubCategory = $scope.savedAdvertiserData.iabCategory.name;
+                    $scope.advertiserAddOrEditData.selectedIABSubCategoryId = $scope.savedAdvertiserData.iabCategory.id;
+                } else {
+                    $scope.advertiserAddOrEditData.selectedIABSubCategory = 'Select';
+                    $scope.advertiserAddOrEditData.selectedIABSubCategoryId = null;
+                }
+                _currCtrl.getIABSubCategoryList($scope.advertiserAddOrEditData.selectedIABCategoryId);
+            } else {
+                $scope.advertiserAddOrEditData.selectedIABCategory = 'Select';
+                $scope.advertiserAddOrEditData.selectedIABCategoryId = null;
+                $scope.advertiserAddOrEditData.selectedIABSubCategory = 'Select';
+                $scope.advertiserAddOrEditData.selectedIABSubCategoryId = null;
+            }
 
             // 3. Billing
             if ($scope.savedAdvertiserData.techBillingTypeId) {
