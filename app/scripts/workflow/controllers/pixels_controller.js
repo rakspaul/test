@@ -42,7 +42,7 @@ define(['angularAMD' , 'workflow/services/workflow_service' , 'common/moment_uti
             };
 
             //select or unselect indiviual pixels
-            $scope.selectPixel = function (pixel) {
+            $scope.$parent.selectPixel = function (pixel) {
                 if(pixel){
                     var pixelIndex = _.findIndex($scope.selectedCampaign.selectedPixel, function (item) {
                         return item.id === pixel.id;
