@@ -5,11 +5,11 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
 ], function (angularAMD) {
     "use strict";
     //originally in models/campaign.js
-    angularAMD.factory("campaignListService", ['dataService', 'utils', 'modelTransformer', '$routeParams',
+    angularAMD.factory("campaignListService", ['dataService', 'utils', 'modelTransformer',
         'campaignModel', 'requestCanceller', 'constants',
         'momentService', 'domainReports', 'loginModel',
         'timePeriodModel', 'urlService', "line",
-        function (dataService, utils, modelTransformer, $routeParams,
+        function (dataService, utils, modelTransformer,
                   campaignModel, requestCanceller,
                   constants, momentInNetworkTZ, domainReports, loginModel,
                   timePeriodModel, urlService, line) {
@@ -40,7 +40,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                 return endDate.diff(startDate, 'days') + 1;
             };
 
-            var createTacticObject = function (clientId, campaign, strategyId, timePeriod, tacticData) {
+            var createTacticObject = function (tacticData, timePeriod, campaign, strategyId) {
                 var tacticObj = [],
                     status = '',
                     adSize = '',
@@ -105,17 +105,17 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                             filterEndDate = campaign.endDate;
                     }
 
-                    getTacticsCdbLineChart(clientId, campaign, strategyId, tactic_1, timePeriod, filterStartDate, filterEndDate);
+                    getTacticsCdbLineChart(tactic_1, timePeriod, campaign, strategyId, filterStartDate, filterEndDate);
                 });
                 return tacticObj;
             };
 
-            var getTacticList = function (clientId, campaign, strategy, timePeriod, callBackFunction) {
+            var getTacticList = function (strategy, timePeriod, campaign, callBackFunction) {
                 var loadingFlag = 1, tacticDataService;
                 if (strategy.id === 0) {
-                    tacticDataService = dataService.getUnassignedTacticList(clientId, campaign.id)
+                    tacticDataService = dataService.getUnassignedTacticList(campaign.id)
                 } else {
-                    tacticDataService = dataService.getStrategyTacticList(clientId, campaign.id, strategy.id)
+                    tacticDataService = dataService.getStrategyTacticList(strategy.id, campaign.id)
                 }
                 tacticDataService.then(function (response) {
                     var result = response.data,
@@ -125,9 +125,9 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                     if (result.status == "OK" && !angular.isString(data)) {
                         if (data.length >= 0) {
                             if (data.length <= pageSize) {
-                                strategy.strategyTactics = createTacticObject(clientId, campaign, strategy.id, timePeriod, data);
+                                strategy.strategyTactics = createTacticObject(data, timePeriod, campaign, strategy.id);
                             } else {
-                                strategy.strategyTactics = createTacticObject(clientId, campaign, strategy.id, timePeriod, data.slice(0, pageSize));
+                                strategy.strategyTactics = createTacticObject(data.slice(0, pageSize), timePeriod, campaign, strategy.id);
                                 strategy.strategyTacticsLoadMore = data.slice(pageSize);
                             }
                         }
@@ -137,9 +137,9 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
             };
 
 
-            var getTacticData = function (clientId, campaign, strategy, timePeriod, data) {
+            var getTacticData = function (strategy, timePeriod, campaign, data) {
                 //create tactic object and request cdb and metric data
-                var dataObj = createTacticObject(clientId, campaign, strategy.id, timePeriod, data);
+                var dataObj = createTacticObject(data, timePeriod, campaign, strategy.id);
                 return dataObj;
             };
 
@@ -164,7 +164,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                 }
             };
 
-            var getTacticsCdbLineChart = function (clientId, campaign, strategyId, tactic, timePeriod, filterStartDate, filterEndDate) {
+            var getTacticsCdbLineChart = function (tactic, timePeriod, campaign, strategyId, filterStartDate, filterEndDate) {
                 var kpiType = tactic.kpiType,
                     kpiValue = tactic.kpiValue,
                     kpiMap = {
@@ -173,7 +173,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                         'cpm': 'gross_ecpm'
                     };
 
-                dataService.getCdbTacticsChartData(clientId, campaign.orderId, strategyId, tactic.id, timePeriod, filterStartDate, filterEndDate).then(function (result) {
+                dataService.getCdbTacticsChartData(campaign.orderId, strategyId, tactic.id, timePeriod, filterStartDate, filterEndDate).then(function (result) {
                     if (result.status == "success" && !angular.isString(result.data)) {
                         if (kpiType != undefined || kpiType != null) {
                             var kpiTypeLower = angular.lowercase(kpiType);
@@ -222,7 +222,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                 });
             };
 
-            var createStrategyObject = function (clientId, campaign, timePeriod, strategyData, kpiType, kpiValue) {
+            var createStrategyObject = function (strategyData, timePeriod, campaign, kpiType, kpiValue) {
                 var strategyObj = [],
                     adSize = '',
                     keyValues = '',
@@ -256,7 +256,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                     strategy_1.daysSinceEnded = campaign.daysSinceEnded.bind(strategy_1);
 
                     strategyObj.push(strategy_1);
-                    getStrategyCdbLineChart(clientId, campaign, strategy_1, timePeriod, kpiType, kpiValue);
+                    getStrategyCdbLineChart(strategy_1, timePeriod, campaign, kpiType, kpiValue);
                 });
                 return strategyObj;
             };
@@ -279,8 +279,8 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                 strategy.map['ctr'] = strategyMetrics.ctr * 100;
             };
 
-            var getStrategyCdbLineChart = function (clientId, campaign, strategy, timePeriod, kpiType, kpiValue) {
-                dataService.getCdbChartData(clientId, campaign, timePeriod, 'lineitems', strategy.id).then(function (result) {
+            var getStrategyCdbLineChart = function (strategy, timePeriod, campaign, kpiType, kpiValue) {
+                dataService.getCdbChartData(campaign, timePeriod, 'lineitems', strategy.id).then(function (result) {
                     if (result.status == "success" && !angular.isString(result.data)) {
                         if (kpiType != undefined || kpiType != null) {
                             var kpiTypeLower = angular.lowercase(kpiType);
@@ -337,7 +337,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                 });
             };
 
-            var getStrategyList = function (clientId, campaign, timePeriod) {
+            var getStrategyListData = function (clientId, campaign, timePeriod) {
 
                 var kpiType = campaign.kpiType,
                     kpiValue = campaign.kpiValue,
@@ -362,10 +362,10 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                             //TO DO: separate list data call and data manipulation
 
                             if (data.length <= pageSize) {
-                                campaign.campaignStrategies = createStrategyObject(clientId, campaign, timePeriod, data, kpiType, kpiValue);
+                                campaign.campaignStrategies = createStrategyObject(data, timePeriod, campaign, kpiType, kpiValue);
                                 ;
                             } else {
-                                campaign.campaignStrategies = createStrategyObject(clientId, campaign, timePeriod, data.slice(0, pageSize), kpiType, kpiValue);
+                                campaign.campaignStrategies = createStrategyObject(data.slice(0, pageSize), timePeriod, campaign, kpiType, kpiValue);
                                 campaign.campaignStrategiesLoadMore = data.slice(pageSize);
                             }
                         }
@@ -373,9 +373,9 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                 });
             };
 
-            var getStrategyData = function (clientId, campaign, timePeriod, data) {
+            var getStrategyData = function (campaign, timePeriod, data) {
                 //this requests strategy data - invoked when requestStrategiesData is called from controller
-                var dataObj = createStrategyObject(clientId, campaign, timePeriod, data, campaign.kpiType, campaign.kpiValue);
+                var dataObj = createStrategyObject(data, timePeriod, campaign, campaign.kpiType, campaign.kpiValue);
                 // var campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
 
                 return dataObj;
@@ -423,8 +423,8 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                 return baseConfiguration;
             }
 
-            var getCdbLineChart = function (clientId, campaignObject, timePeriod, callback) {
-                dataService.getCdbChartData(clientId, campaignObject, timePeriod, 'campaigns', null).then(function (result) {
+            var getCdbLineChart = function (campaignObject, timePeriod, callback) {
+                dataService.getCdbChartData(campaignObject, timePeriod, 'campaigns', null).then(function (result) {
                     var cdData;
                     campaignObject.chart = true;
                     if (result.status == "success" && !angular.isString(result.data)) {
@@ -539,8 +539,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                     var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
                     var queryObj = {
                         queryId: 14, //14 : cost_report_for_one_or_more_campaign_ids
-                        // clientId: loginModel.getSelectedClient().id,
-                        clientId: $routeParams.subAccountId || $routeParams.accountId,
+                        clientId: loginModel.getSelectedClient().id,
                         campaignIds: campaignIds,
                         dateFilter: datefilter,
                         advertiserId: advertiserId,
@@ -552,24 +551,24 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                 },
 
                 //should be moved to campaign details service
-                getStrategiesList: function (clientId, campaign, timePeriod) {
+                getStrategiesData: function (clientId, campaign, timePeriod) {
                     //request list
-                    return getStrategyList(clientId, campaign, timePeriod);
+                    return getStrategyListData(clientId, campaign, timePeriod)
                 },
 
-                moreStrategiesData: function (clientId, campaign, timePeriod, data) {
+                requestStrategiesData: function (campaign, timePeriod, data) {
                     //request metrics and cdb data
-                    return getStrategyData(clientId, campaign, timePeriod, data);
+                    return getStrategyData(campaign, timePeriod, data)
                 },
 
-                getTacticsList: function (clientId, campaign, strategy, timePeriod, callBackFunction) {
+                requestTacticsList: function (strategy, timePeriod, campaign, callBackFunction) {
                     //request list
-                    return getTacticList(clientId, campaign, strategy, timePeriod, callBackFunction);
+                    return getTacticList(strategy, timePeriod, campaign, callBackFunction);
                 },
 
-                moreTacticsData: function (clientId, campaign, strategy, timePeriod, data) {
+                requestTacticsData: function (strategy, timePeriod, campaign, data) {
                     //request metrics and cdb data
-                    return getTacticData(clientId, campaign, strategy, timePeriod, data);
+                    return getTacticData(strategy, timePeriod, campaign, data);
                 }
             };
         }]);

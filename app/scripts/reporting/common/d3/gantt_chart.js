@@ -1,7 +1,6 @@
 define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],function (angularAMD) {
   'use strict';
-  angularAMD.service("ganttChart", ['$location', '$routeParams', '$rootScope', '$window', 'loginModel', 'brandsModel',  'vistoconfig',
-    function($location, $routeParams, $rootScope, $window, loginModel, brandsModel, vistoconfig) {
+  angularAMD.service("ganttChart", ['$location', '$rootScope', '$window', 'loginModel', 'brandsModel',  function($location, $rootScope, $window, loginModel, brandsModel) {
         this.createGanttChart = function() {
 
         };
@@ -716,19 +715,11 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                 var rectData = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
                 var rect = rectData.enter();
                 var rectGroup = rect.append("a")
-                                        .attr("xlink:href", function(d) {
+                                        .attr("xlink:href", function(d){
                                             if (d.type == "brand") {
                                                 return "javascript:void(0)";
                                             } else {
-                                                var url = "/a/" + $routeParams.accountId;
-                                                if ($routeParams.subAccountId) {
-                                                    url += "/sa/" + d.client_id;
-                                                } else {
-                                                    url = '/a/' + d.client_id;
-                                                }
-                                                url += '/adv/' + d.advertiser_id + '/b/' + (d.brand_id || 0);
-                                                url += '/mediaplans/' + d.id + '/overview';
-                                                return url;
+                                                return '/mediaplans/' + d.id;
                                             }
                                         })
                                         .style("text-decoration", "none")
@@ -742,20 +733,12 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                             //grunt analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', ('campaign_status_' + d.state + '_performance_' + d.kpiStatus), loginModel.getLoginName());
 
                             //on ^ + click / ⌘ + click - (supported keys)  d3.event.shiftKey, d3.event.altKey
-                            var url = "/a/" + $routeParams.accountId;
-                            if ($routeParams.subAccountId) {
-                                url += "/sa/" + d.client_id;
-                            } else {
-                                url = '/a/' + d.client_id;
-                            }
-                            url += '/adv/' + d.advertiser_id + '/b/' + (d.brand_id || 0);
-                            url += '/mediaplans/' + d.id + '/overview';
                             if (d3.event.ctrlKey || d3.event.metaKey) {
                                 //on supported key combination and click open in new tab
-                                $window.open(url);
+                                $window.open('/mediaplans/' + d.id);
                             } else {
                                 //on normal click open link in current tab
-                                $location.url(url);
+                                $location.url('/mediaplans/' + d.id);
                             }
 
                             $rootScope.$apply(); //TODO we need to remove this, added because of removing the hashtag
@@ -2332,7 +2315,7 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
             $(".div-chart > .chart").remove();
             $(".header-chart").remove();
             _.each(tasks, function(item, i){
-                if(item.id == vistoconfig.getSelectedBrandId()) {
+                if(item.id == brandsModel.getSelectedBrand().id){
                     tasks[i].startDate = o.startDate;
                     tasks[i].endDate = o.endDate;
                     if(i){

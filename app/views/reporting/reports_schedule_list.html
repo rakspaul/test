@@ -1,4 +1,4 @@
-<header></header>
+
 <!-- Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
 <popup-msg ng-show="flashMessage"
            ng-controller="popUpMsgCtr"
@@ -11,7 +11,7 @@
     <div id="searchList" class="col-md-12 zeroPadding">
     <div class="col-md-12 zeroPadding btn_list_filters">
         <div class="btn-group" role="group" aria-label="...">
-            <a role="button" class="btn btn-default" ng-click="reset_custom_report()">
+            <a role="button" class="btn btn-default" ng-click="reset_custom_report()" href="/customreport">
                 <span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span>
             </a>
         </div>

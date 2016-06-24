@@ -12,10 +12,9 @@
     <link rel="stylesheet" href="/styles/libs/bootstrap.min.css">
     <link rel="stylesheet" href="/styles/libs/ng-tags-input.min.css">
         <link rel="stylesheet" href="/styles/cdesk_application.css">
-    <!-- This is required for the cookieStore to create cookies with path set to /-->
-    <base href="/">
 </head>
 <body class='{{bodyclass}} {{productType}} {{customReport}}'>
+    <header ng-show="showHeader"></header>
 
     <div class="bodyWrap" ng-view></div>
 
