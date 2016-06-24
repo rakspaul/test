@@ -179,6 +179,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                             console.log($scope.correctLineItems);
                             /*Function insert verified line items to newItem and push to lineItems.lineItemList array to display on UI*/
                             lineItemCreateBulkUpload();
+                            associatePixels();
                             $scope.clearFileSelected();
                             //bulk upload loader
 
@@ -221,6 +222,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                                 if (results.status === 'success' && results.data.statusCode === 200) {
                                     $scope.lineItems.lineItemList = [];
                                     $scope.processLineItemEditMode(results.data.data);
+                                    associatePixels();
                                 }
                             });
                             $scope.clearFileSelected();
@@ -1095,6 +1097,24 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 return true;
             }
             return false;
+        }
+
+        function associatePixels (){
+            var pixelObjIndex;
+            for(var i = 0;i < $scope.lineItems.lineItemList.length; i++){
+                pixelObjIndex = _.findIndex($scope.selectedCampaign.pixelList,function(obj){
+                    return obj.id === $scope.lineItems.lineItemList[i].pixelId;
+                });
+
+                if(pixelObjIndex != -1) {
+                    var selectedIndex = _.findIndex( $scope.selectedCampaign.selectedPixel,function(item){
+                        return item.id===$scope.selectedCampaign.pixelList[pixelObjIndex];
+                    })
+                    if(selectedIndex==-1){
+                        $scope.$parent.selectPixel($scope.selectedCampaign.pixelList[pixelObjIndex]);
+                    }
+                }
+            }
         }
     });
 });
