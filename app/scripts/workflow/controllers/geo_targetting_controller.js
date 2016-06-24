@@ -1822,7 +1822,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.selectedRegions = [];
 
                 $scope.geoSelectedItems = {}
+
                 geoTargeting.selectedGeoItemArr = [];
+
+
 
                 geoTargeting.showHideExcAndIncSwitch();
             }
@@ -1972,6 +1975,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         });
 
         //on load reset geo targeting variables.
+        workflowService.resetSavedGeo();
         $scope.resetGeoTargeting();
 
         //reset geo targeting variables.
