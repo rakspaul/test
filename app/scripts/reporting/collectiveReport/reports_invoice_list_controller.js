@@ -129,7 +129,12 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 $rootScope.$on("adjustmentAdded",function(){
                     $scope.getInvoiceData(0);
                 });
-
+                /*
+                 Event Received from invoice_upload_SOR_controller.js file
+                 */
+                $rootScope.$on("uploadSuccess",function(){
+                    $scope.getInvoiceData(0);
+                });
                 //Search Hide / Show
                 $scope.searchShowInput = function () {
                     var searchInputForm = $('.searchInputForm');
@@ -188,8 +193,9 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         }
                     });
                 };
-                $scope.showUploadSORPopUp = function(invoice){
+                $scope.showUploadSORPopUp = function(invoice, campaignId){
                     $scope.invoiceData = angular.copy(invoice);
+                    $scope.invoiceData.campaignId = campaignId;
                     var $modalInstance = $modal.open({
                         templateUrl: assets.html_invocie_upload_SOR,
                         controller: 'invoiceUploadSOR',
