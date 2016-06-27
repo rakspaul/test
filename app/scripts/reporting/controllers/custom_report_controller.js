@@ -148,7 +148,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     selected : false
                 });
             });
-            $scope.totalDelMetrics = $scope.deliveryMetrics.length;
+            $scope.totalDeliveryMetrics = $scope.deliveryMetrics.length;
             $scope.deliveryMetrics.isAllSelected = false;
             $scope.deliveryMetrics.minOneSelected = false;
 
@@ -215,7 +215,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $scope.qualityMetrics.isAllSelected = false;
             $scope.qualityMetrics.minOneSelected = false;
 
-            $scope.totalMetrics = $scope.totalDelMetrics + $scope.totalCostMetrics+ $scope.totalVideoMetrics + $scope.totalQualityMetrics+$scope.totalPacingMetrics;
+            $scope.totalMetrics = $scope.totalDeliveryMetrics + $scope.totalCostMetrics+ $scope.totalVideoMetrics + $scope.totalQualityMetrics+$scope.totalPacingMetrics;
 
         }
 
@@ -1499,264 +1499,67 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 })
             }
 
-            //Delivery Metrics
-            $scope.onDeliveryMetrClick = function(index) {
+            $scope.onMetricClick = function(metricType,index) {
                 var totalMetricSelected = 0;
                 if (index == undefined) {
-                    _.each($scope.deliveryMetrics, function(eachObj) {
-                        eachObj.selected = $scope.deliveryMetrics.isAllSelected;
+                    _.each($scope[metricType], function(eachObj) {
+                        eachObj.selected = $scope[metricType].isAllSelected;
                     })
                 } else {
-                    $scope.deliveryMetrics[index].selected = !$scope.deliveryMetrics[index].selected;
+                    $scope[metricType][index].selected = !$scope[metricType][index].selected;
                 }
-                var selectedIndx = _.findIndex($scope.deliveryMetrics, function(eachObj) {
+                var selectedIndx = _.findIndex($scope[metricType], function(eachObj) {
                     if (eachObj.selected == true) {
                         totalMetricSelected++;
                     }
                 });
                 if (totalMetricSelected > 0) {
-                    $scope.deliveryMetrics.minOneSelected = true;
-                    if (totalMetricSelected == $scope.totalDelMetrics) {
-                        $scope.deliveryMetrics.isAllSelected = true;
-                        $scope.setAllMetrics();
-                    } else {
-                        $scope.deliveryMetrics.isAllSelected = false;
-                        $scope.allMetrics = false;
-                    }
-                } else {
-                    $scope.deliveryMetrics.minOneSelected = false;
-                    $scope.allMetrics = false;
-                }
-            }
-            $scope.customMetricsClick = function(index){
-                var totalMetricSelected = 0;
-                $scope.customMetrics[index].selected = !$scope.customMetrics[index].selected;
-                var selectedIndx = _.findIndex($scope.customMetrics, function(eachObj) {
-                    if (eachObj.selected == true) {
-                        totalMetricSelected++;
-                    }
-                }); // totalCustomMetrics
-                $scope.costMetrics.minOneSelected = false;
-                if (totalMetricSelected > 0) {
-                    $scope.customMetrics.minOneSelected = true;
-                    if (totalMetricSelected == $scope.totalCustomMetrics) {
-                        $scope.customMetrics.isAllSelected = true;
-                        $scope.setAllMetrics();
-                    } else {
-                        $scope.customMetrics.isAllSelected = false;
-                        $scope.allMetrics = false;
-                    }
-                } else {
-                    $scope.allMetrics = false;
-                }
-            }
-            //Cost Metrics
-            $scope.onCostMetrClick = function(index) {
-                var totalMetricSelected = 0;
-                if (index == undefined) {
-                    _.each($scope.costMetrics, function(eachObj) {
-                        eachObj.selected = $scope.costMetrics.isAllSelected;
-                    })
-                } else {
-                    $scope.costMetrics[index].selected = !$scope.costMetrics[index].selected;
-                }
-                var selectedIndx = _.findIndex($scope.costMetrics, function(eachObj) {
-                    if (eachObj.selected == true) {
-                        totalMetricSelected++;
-                    }
-                });
-                $scope.costMetrics.minOneSelected = false;
-                if (totalMetricSelected > 0) {
-                    $scope.costMetrics.minOneSelected = true;
-                    if (totalMetricSelected == $scope.totalCostMetrics) {
-                        $scope.costMetrics.isAllSelected = true;
-                        $scope.setAllMetrics();
-                    } else {
-                        $scope.costMetrics.isAllSelected = false;
-                        $scope.allMetrics = false;
-                    }
-                } else {
-                    $scope.allMetrics = false;
-                }
-            }
 
-            //pacing Metrics
-            $scope.onPacingMetrClick = function(index) {
-                var totalMetricSelected = 0;
-                if (index == undefined) {
-                    _.each($scope.pacingMetrics, function(eachObj) {
-                        eachObj.selected = $scope.pacingMetrics.isAllSelected;
-                    })
-                } else {
-                    $scope.pacingMetrics[index].selected = !$scope.pacingMetrics[index].selected;
-                }
-                var selectedIndx = _.findIndex($scope.pacingMetrics, function(eachObj) {
-                    if (eachObj.selected == true) {
-                        totalMetricSelected++;
-                    }
-                });
-                $scope.pacingMetrics.minOneSelected = false;
-                if (totalMetricSelected > 0) {
-                    $scope.pacingMetrics.minOneSelected = true;
-                    if (totalMetricSelected == $scope.totalPacingMetrics) {
-                        $scope.pacingMetrics.isAllSelected = true;
-                        $scope.setAllMetrics();
-                    } else {
-                        $scope.pacingMetrics.isAllSelected = false;
-                        $scope.allMetrics = false;
-                    }
-                } else {
-                    $scope.allMetrics = false;
-                }
-            }
+                    //eg: metricType = pacingMetrics, below 2 lines extracts only pacing and captailize first letter eg: Pacing
+                    var nameOfMetric = metricType.split(/(?=[A-Z])/)[0];
+                    nameOfMetric = nameOfMetric.toString().charAt(0).toUpperCase() + nameOfMetric.slice(1);
 
-            //Display video Metrics
-            $scope.onVedioMetrClick = function(index) {
-                var totalMetricSelected = 0;
-                if (index == undefined) {
-                    _.each($scope.videoMetrics, function(eachObj) {
-                        eachObj.selected = $scope.videoMetrics.isAllSelected;
-                    })
-                } else {
-                    $scope.videoMetrics[index].selected = !$scope.videoMetrics[index].selected;
-                }
-                var selectedIndx = _.findIndex($scope.videoMetrics, function(eachObj) {
-                    if (eachObj.selected == true) {
-                        totalMetricSelected++;
-                    }
-                });
-                $scope.videoMetrics.minOneSelected = false;
-                if (totalMetricSelected > 0) {
-                    $scope.videoMetrics.minOneSelected = true;
-                    if (totalMetricSelected == $scope.totalVideoMetrics) {
-                        $scope.videoMetrics.isAllSelected = true;
+                    $scope[metricType].minOneSelected = true;
+                    if (totalMetricSelected == $scope['total'+nameOfMetric+'Metrics']) {
+                        $scope[metricType].isAllSelected = true;
                         $scope.setAllMetrics();
                     } else {
-                        $scope.videoMetrics.isAllSelected = false;
+                        $scope[metricType].isAllSelected = false;
                         $scope.allMetrics = false;
                     }
                 } else {
-                    $scope.allMetrics = false;
-                }
-            }
-
-            //Quality Metrics
-            $scope.onQualityClick = function(index) {
-                var totalMetricSelected = 0;
-                if (index == undefined) {
-                    _.each($scope.qualityMetrics, function(eachObj) {
-                        eachObj.selected = $scope.qualityMetrics.isAllSelected;
-                    })
-                } else {
-                    $scope.qualityMetrics[index].selected = !$scope.qualityMetrics[index].selected;
-                }
-                var selectedIndx = _.findIndex($scope.qualityMetrics, function(eachObj) {
-                    if (eachObj.selected == true) {
-                        totalMetricSelected++;
-                    }
-                });
-                $scope.qualityMetrics.minOneSelected = false;
-                if (totalMetricSelected > 0) {
-                    $scope.qualityMetrics.minOneSelected = true;
-                    if (totalMetricSelected == $scope.totalQualityMetrics) {
-                        $scope.qualityMetrics.isAllSelected = true;
-                        $scope.setAllMetrics();
-                    } else {
-                        $scope.qualityMetrics.isAllSelected = false;
-                        $scope.allMetrics = false;
-                    }
-                } else {
+                    $scope[metricType].minOneSelected = false;
                     $scope.allMetrics = false;
                 }
             }
 
             //delivery Metrics
             $scope.saveMetrics = function() {
-                var selectedDeliveryMetrics = [];
+
                 $scope.selectedMetricsList = [];
-                _.each($scope.deliveryMetrics, function(eachObj) {
-                    if (eachObj.selected) {
-                        selectedDeliveryMetrics.push(eachObj.key);
-                        $scope.selectedMetricsList.push({
-                            'key': eachObj.key,
-                            'value': eachObj.value
-                        });
+
+                _.each(metricVarKeys,function(eachMetric){
+
+                    //eg: metricType = pacingMetrics, below 2 lines extracts only pacing and captailize first letter eg: Pacing
+                    var nameOfMetric = eachMetric.split(/(?=[A-Z])/)[0];
+                    nameOfMetric = nameOfMetric.toString().charAt(0).toUpperCase() + nameOfMetric.slice(1);
+
+                    var metricArray = [];
+                    _.each($scope[eachMetric], function(eachObj) {
+                        if (eachObj.selected) {
+                            metricArray.push(eachObj.key);
+                            $scope.selectedMetricsList.push({
+                                'key': eachObj.key,
+                                'value': eachObj.value
+                            });
+                        }
+                    });
+
+                    $scope.reports.reportDefinition.metrics[nameOfMetric] = [];
+                    if (metricArray.length > 0) {
+                        $scope.reports.reportDefinition.metrics[nameOfMetric] = metricArray;
                     }
                 });
-                $scope.reports.reportDefinition.metrics['Delivery'] = [];
-                if (selectedDeliveryMetrics.length > 0) {
-                    $scope.reports.reportDefinition.metrics['Delivery'] = selectedDeliveryMetrics;
-                }
-
-                //pacing Metrics
-                var selectedPacingMetrics = [];
-                    _.each($scope.pacingMetrics, function (eachObj) {
-                        if (eachObj.selected) {
-                            selectedPacingMetrics.push(eachObj.key);
-                            $scope.selectedMetricsList.push({
-                                'key': eachObj.key,
-                                'value': eachObj.value
-                            });
-                        }
-                    });
-
-                $scope.reports.reportDefinition.metrics['Pacing'] = [];
-                if (selectedPacingMetrics.length > 0) {
-                    $scope.reports.reportDefinition.metrics['Pacing'] = selectedPacingMetrics;
-                }
-
-                //cost Metrics
-                var selectedCostMetrics = [];
-                if($scope.showCost) {
-                    _.each($scope.costMetrics, function (eachObj) {
-                        if (eachObj.selected) {
-                            selectedCostMetrics.push(eachObj.key);
-                            $scope.selectedMetricsList.push({
-                                'key': eachObj.key,
-                                'value': eachObj.value
-                            });
-                        }
-                    });
-                }
-                $scope.reports.reportDefinition.metrics['Cost'] = [];
-                if (selectedCostMetrics.length > 0) {
-                    $scope.reports.reportDefinition.metrics['Cost'] = selectedCostMetrics;
-                }
-
-                //video metrics
-                var selectedVideoMetrics = [];
-                _.each($scope.videoMetrics, function(eachObj) {
-                    if (eachObj.selected) {
-                        selectedVideoMetrics.push(eachObj.key);
-                        $scope.selectedMetricsList.push({
-                            'key': eachObj.key,
-                            'value': eachObj.value
-                        });
-                    }
-                });
-                $scope.reports.reportDefinition.metrics['Video'] = [];
-                if (selectedVideoMetrics.length > 0) {
-                    $scope.reports.reportDefinition.metrics['Video'] = selectedVideoMetrics;
-                }
-
-                //quality metrics
-                var selectedQualityMetrics = [];
-                if($scope.showQuality) {
-                    _.each($scope.qualityMetrics, function(eachObj) {
-                        if (eachObj.selected) {
-                            selectedQualityMetrics.push(eachObj.key);
-                            $scope.selectedMetricsList.push({
-                                'key': eachObj.key,
-                                'value': eachObj.value
-                            });
-                        }
-                    });
-                }
-                $scope.reports.reportDefinition.metrics['Quality'] = [];
-                if (selectedQualityMetrics.length > 0) {
-                    $scope.reports.reportDefinition.metrics['Quality'] = selectedQualityMetrics;
-                }
-
                 $scope.setMetrixText('Custom');
                 $scope.cancelMetricView();
 
@@ -2072,100 +1875,30 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
                 //metrics
                 $scope.selectedMetricsList = [];
-                if (responseData.reportDefinition.metrics.Delivery) {
-                    _.each($scope.deliveryMetrics, function(each) {
-                        var deliveryMetricsObj = _.find(responseData.reportDefinition.metrics.Delivery, function(num) {
-                            return num == each.key;
-                        });
-                        if (deliveryMetricsObj == undefined) {
-                            each.selected = false;
-                            $scope.deliveryMetrics.isAllSelected = false;
-                            $scope.allMetrics = false;
-                        } else {
-                            $scope.selectedMetricsList.push({
-                                'key': each.key,
-                                'value': each.value
-                            });
-                            $scope.deliveryMetrics.minOneSelected = true;
-                        }
-                    });
-                }
+                _.each(metricVarKeys,function(eachMetric){
+                    //eg: metricType = pacingMetrics, below 2 lines extracts only pacing and captailize first letter eg: Pacing
+                    var nameOfMetric = eachMetric.split(/(?=[A-Z])/)[0];
+                    nameOfMetric = nameOfMetric.toString().charAt(0).toUpperCase() + nameOfMetric.slice(1);
 
-                if (responseData.reportDefinition.metrics.Pacing) {
-                    _.each($scope.pacingMetrics, function(each) {
-                        var pacingMetricsObj = _.find(responseData.reportDefinition.metrics.Pacing, function(num) {
-                            return num == each.key;
-                        });
-                        if (pacingMetricsObj == undefined) {
-                            each.selected = false;
-                            $scope.pacingMetrics.isAllSelected = false;
-                            $scope.allMetrics = false;
-                        } else {
-                            $scope.selectedMetricsList.push({
-                                'key': each.key,
-                                'value': each.value
+                    if (responseData.reportDefinition.metrics[nameOfMetric]) {
+                        _.each($scope[eachMetric], function(each) {
+                            var metricsObj = _.find(responseData.reportDefinition.metrics[nameOfMetric], function(num) {
+                                return num == each.key;
                             });
-                            $scope.pacingMetrics.minOneSelected = true;
-                        }
-                    });
-                }
-
-                if (responseData.reportDefinition.metrics.Cost && $scope.showCost) {
-                    _.each($scope.costMetrics, function(each) {
-                        var costMetricsObj = _.find(responseData.reportDefinition.metrics.Cost, function(num) {
-                            return num == each.key;
+                            if (metricsObj == undefined) {
+                                each.selected = false;
+                                $scope[eachMetric].isAllSelected = false;
+                                $scope.allMetrics = false;
+                            } else {
+                                $scope.selectedMetricsList.push({
+                                    'key': each.key,
+                                    'value': each.value
+                                });
+                                $scope[eachMetric].minOneSelected = true;
+                            }
                         });
-                        if (costMetricsObj == undefined) {
-                            each.selected = false;
-                            $scope.costMetrics.isAllSelected = false;
-                            $scope.allMetrics = false;
-                        } else {
-                            $scope.selectedMetricsList.push({
-                                'key': each.key,
-                                'value': each.value
-                            });
-                            $scope.costMetrics.minOneSelected = true;
-                        }
-                    });
-                }
-                if (responseData.reportDefinition.metrics.Video) {
-                    _.each($scope.videoMetrics, function(each) {
-                        var videoMetricsObj = _.find(responseData.reportDefinition.metrics.Video, function(num) {
-                            return num == each.key;
-                        });
-                        if (videoMetricsObj == undefined) {
-                            each.selected = false;
-                            $scope.videoMetrics.isAllSelected = false;
-                            $scope.allMetrics = false;
-                        } else {
-                            $scope.selectedMetricsList.push({
-                                'key': each.key,
-                                'value': each.value
-                            });
-                            $scope.videoMetrics.minOneSelected = true;
-                        }
-                    });
-                }
-
-                //Quality metrics
-                if (responseData.reportDefinition.metrics['Quality'] && $scope.showQuality) {
-                    _.each($scope.qualityMetrics, function(each) {
-                        var qualityObj = _.find(responseData.reportDefinition.metrics['Quality'], function(num) {
-                            return num == each.key;
-                        });
-                        if (qualityObj == undefined) {
-                            each.selected = false;
-                            $scope.qualityMetrics.isAllSelected = false;
-                            $scope.allMetrics = false;
-                        } else {
-                            $scope.selectedMetricsList.push({
-                                'key': each.key,
-                                'value': each.value
-                            });
-                            $scope.qualityMetrics.minOneSelected = true;
-                        }
-                    });
-                }
+                    }
+                })
 
                 var selectedMetricVarKeys = 0;
                 _.each(metricVarKeys,function(mvKeys){
@@ -2182,6 +1915,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 // }// end of success
                 // })
             } //end prefill data
+
             _customctrl.resetMetricsPopUp = function(){
                 $scope.allMetrics = true;
 
