@@ -115,7 +115,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                     newItem.vendorConfigId = $scope.selectedCampaign.systemOfRecord[indexSor].id;
                 }
 
-                if (doesLineItemExceedBudget(newItem.billableAmount, $scope.Campaign.deliveryBudget)) {
+                if (doesLineItemExceedBudget(newItem.billableAmount, $scope.Campaign.totalBudget)) {
                     $scope.successfulLineItemCount=$scope.successfulLineItemCount-1;
                     $scope.errorLineItemCount=$scope.errorLineItemCount+1;
                     errorFound=true;
@@ -179,6 +179,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                             console.log($scope.correctLineItems);
                             /*Function insert verified line items to newItem and push to lineItems.lineItemList array to display on UI*/
                             lineItemCreateBulkUpload();
+                            associatePixels();
                             $scope.clearFileSelected();
                             //bulk upload loader
 
@@ -221,6 +222,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                                 if (results.status === 'success' && results.data.statusCode === 200) {
                                     $scope.lineItems.lineItemList = [];
                                     $scope.processLineItemEditMode(results.data.data);
+                                    associatePixels();
                                 }
                             });
                             $scope.clearFileSelected();
@@ -358,7 +360,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                 if ($scope.lineItemName != '') {
                     newItem = createLineItemObj(lineItemObj);
 
-                    if(doesLineItemExceedBudget(newItem.billableAmount,$scope.Campaign.deliveryBudget)){
+                    if(doesLineItemExceedBudget(newItem.billableAmount,$scope.Campaign.totalBudget)){
                         return false;
                     }
 
@@ -386,7 +388,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             //tempBudget = Number(tempBudget) + Number(newItem.billableAmount);
             //if (tempBudget > $scope.Campaign.deliveryBudget) {
 
-            if(doesLineItemExceedBudget(newItem.billableAmount,$scope.Campaign.deliveryBudget)){
+            if(doesLineItemExceedBudget(newItem.billableAmount,$scope.Campaign.totalBudget)){
                 return false;
             }
 
@@ -458,7 +460,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
             //tempBudget = $scope.selectedCampaign.lineItemBillableAmountTotal;
             //tempBudget = (Number(tempBudget) - Number(oldLineItem.billableAmount)) + Number(newItem.billableAmount);
-            if(doesLineItemExceedBudget(newItem.billableAmount,$scope.Campaign.deliveryBudget)){
+            if(doesLineItemExceedBudget(newItem.billableAmount,$scope.Campaign.totalBudget)){
                 return false;
             }
 
@@ -789,7 +791,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         };
 
         $scope.updateLineItem = function (newItem) {
-            if(doesLineItemExceedBudget($scope.editLineItem.billableAmount,$scope.Campaign.deliveryBudget)){
+            if(doesLineItemExceedBudget($scope.editLineItem.billableAmount,$scope.Campaign.totalBudget)){
                 return false;
             }
 
@@ -1089,12 +1091,30 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
 
         //shows error message if line item billable amount exceed media plan budget
         // return true if the line item budget exceeds media plan budget
-        function doesLineItemExceedBudget(billableAmount,deliveryBudget){
-            if (Number(billableAmount) > deliveryBudget) {
+        function doesLineItemExceedBudget(billableAmount,totalBudget){
+            if (Number(billableAmount) > totalBudget) {
                 $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
                 return true;
             }
             return false;
+        }
+
+        function associatePixels (){
+            var pixelObjIndex;
+            for(var i = 0;i < $scope.lineItems.lineItemList.length; i++){
+                pixelObjIndex = _.findIndex($scope.selectedCampaign.pixelList,function(obj){
+                    return obj.id === $scope.lineItems.lineItemList[i].pixelId;
+                });
+
+                if(pixelObjIndex != -1) {
+                    var selectedIndex = _.findIndex( $scope.selectedCampaign.selectedPixel,function(item){
+                        return item.id===$scope.selectedCampaign.pixelList[pixelObjIndex];
+                    })
+                    if(selectedIndex==-1){
+                        $scope.$parent.selectPixel($scope.selectedCampaign.pixelList[pixelObjIndex]);
+                    }
+                }
+            }
         }
     });
 });
