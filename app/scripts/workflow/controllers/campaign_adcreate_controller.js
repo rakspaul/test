@@ -1358,9 +1358,25 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                     });
 
                                     postGeoTargetObj.ZIPCODE = {
-                                        isIncluded: true,
-                                        geoTargetList: zipPostArr
+                                        isIncluded: true
+                                       // geoTargetList: zipPostArr
                                     };
+                                    postGeoTargetObj.ZIPCODE.geoTargetList=[];
+                                    /*for future use, loop the number of countries present, and keep adding the respective zipcodes.*/
+
+                                    // for(var i in countriesSelected){
+                                    //     var x={};
+                                    //     x.countryCode=i.countryName;
+                                    //     x.zipcodes=i.zipcodes;
+                                    //     postGeoTargetObj.ZIPCODE.geoTargetList.push(x)
+                                    // }
+                                    
+                                    var countryZipcodeObj={
+                                        countryCode:'US',
+                                        zipcodes:zipPostArr
+                                    };
+                                    postGeoTargetObj.ZIPCODE.geoTargetList.push(countryZipcodeObj);
+
                                 }
                             } else {
                                 if ($scope.mode === 'edit') {
