@@ -83,8 +83,8 @@
                 </div>
             </a>
            <a href="/mediaplan/{{campaign.orderId}}/overview" id="campaigns_activity_btn" ng-show="showManageButton">
-                <div class="btn btn-default pull-right" ng-show="campaigns.dashboard.appliedFilterType !== 'archived'">
-                    <span ng-bind="textConstants.MANAGE"></span>
+               <div class="btn btn-default pull-right" ng-show="(campaigns.dashboard.appliedFilterType !== 'archived' && campaigns.dashboard.appliedFilterType !== 'all') || (campaigns.dashboard.appliedFilterType == 'all' && !campaign.is_archived)">
+                   <span ng-bind="textConstants.MANAGE"></span>
                 </div>
             </a>
 
