@@ -57,14 +57,15 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
             _currCtrl.verifyInput = function () {
                 var ret = true,
                     err = '';
-                if($scope.clientCodeExist){
-                    return false;
-                }
+                var code = $scope.setSelectedClientCode == "Others" ? $scope.customClientCode : $scope.setSelectedClientCode;
                 if (!$scope.clientType || $scope.clientType === '') {
                     err = constants.SELECT_CLIENT_TYPE;
                     ret = false;
                 } else if (!$scope.clientName || $scope.clientName === '') {
                     err = constants.SELECT_CLIENT_NAME;
+                    ret = false;
+                } else if(!code) {
+                    err = constants.CODE_FIELD_EMPTY;
                     ret = false;
                 } else if (!$scope.selectedCurrency || $scope.selectedCurrency === '') {
                     err = constants.SELECT_CURRENCY;
@@ -339,6 +340,8 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                                     $scope.billableAccountId = result.data.data.id;
                                     body = constructRequestBody();
                                     createClient(body);
+                                }else{
+                                    $rootScope.setErrAlertMessage(result.message);
                                 }
                             }, function (err) {
                                 console.log('Error = ', err);
@@ -352,6 +355,8 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                                     body.billableAccountId = res.data.data.billableAccountId;
                                     body.parentId = $scope.clientObj;
                                     createClient(body);
+                                }else{
+                                    $rootScope.setErrAlertMessage(result.message);
                                 }
                             }, function (err) {
                                 console.log('Error = ', err);
@@ -415,6 +420,12 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 }
             }
             // End Billing & Invoice
+
+            $modalInstance
+                .opened
+                .then(function () {
+                    $('popup-msg').appendTo(document.body);
+                });
         });
     }
 );

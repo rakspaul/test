@@ -13,23 +13,25 @@
         <div class="col-md-12 zeroPadding">
                 <div class="pull-left accountTitleTag" >
                     <span class="tagTitle">Account:</span>
-                    <span>{{mediaPlanList[0].account}}</span>
+                    <span data-ng-bind="clientName"></span>
                     <span class="slash-divider paddingLeftFive" >/</span>
                 </div>
                 <div class="pull-left paddingLeftFive" >
                     <span class="tagTitle">Advertiser:</span>
-                    <span>{{mediaPlanList[0].advertiser}}</span>
+                    <span data-ng-bind="advertiserName"></span>
                     <span class="slash-divider paddingLeftFive" >/</span>
                 </div>
 
                 <div class="pull-left paddingLeftFive">
                     <span class="tagTitle">Invoice ID:</span>
-                    <span class="ng-binding" data-ng-bind="invoiceData.invoiceId"></span>
+                    <span class="ng-binding" data-ng-bind="invoiceData.id ? invoiceData.id : invoiceData.invoiceId"></span>
                 </div>
-                <div class="pull-right headerDownload" >
+                <div class="pull-right headerDownload"
+                     ng-click="downloadSORReport(invoice)"
+                     style="cursor: pointer">
                         <div class="pull-left icon-download" ></div>
                         <div class="pull-left"
-                             ng-click="downloadSORReport(invoice)" data-ng-bind="textConstants.INVOICE_DOWNLOAD_SOR"></div>
+                              data-ng-bind="textConstants.INVOICE_DOWNLOAD_SOR"></div>
                 </div>
         </div>
         <div class="col-md-12 zeroPadding popupHeading">Upload System of Record (SOR) Results</div>
@@ -50,19 +52,45 @@
             </div>
         </div>
         <div class="col-md-12 zeroPadding file_upload_icon_holder">
-            <div ng-show="!progress" ngf-drop="" ngf-select="" ng-model="$parent.file" ng-model-rejected="$parent.rejFiles" name="file" ngf-multiple="false" ngf-allow-dir="false" class="drop-box ng-pristine ng-untouched ng-valid" ngf-drag-over-class="dragover" ngf-accept="'.csv'" ngf-max-size="10000000">
-
-                <div class="file_upload_icon" >
-                        <span class="img_table_txt" >
-                            Drag and drop your completed Creative Record Template or <a id="fileupload" href="javascript:void(0);">Browse</a>
-                        </span>
+            <div class="clearfix common_file_upload">
+                <div ngf-drop ngf-select="fileSelected(invoiceData.uploadFile,$parent.mode)" ng-model="invoiceData.uploadFile" name="uploadFile" ng-model-rejected="invoiceData.rejectedFiles" ngf-multiple="false" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.csv'" ngf-max-size='10000000'>
+                    <!--<div ngf-drop ngf-select="" ng-model="selectedCampaign.lineItemfile" name="lineItemfile" ng-model-rejected="rejFiles" ngf-multiple="false" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.csv'" ngf-max-size='10000000'>-->
+                    <div class="pull-left file_upload_icon" >
+                        <div class="img_table_txt">
+                            Drag and drop your completed (SOR) Results or <a id="fileupload" href="javascript:void(0);" >Browse</a>
+                        </div>
+                    </div>
+                    <div class="pull-left file_upload_text">
+                    </div>
                 </div>
+                <div ng-if="invoiceData.uploadFile.name">
+                    <span>File:</span>
+                    <span data-ng-bind="invoiceData.uploadFile.name"></span>
+                </div>
+                <div ngf-no-file-drop data-ng-bind="textConstants.INVOICE_UPLOAD_UNSUPPORTED"></div>
+            </div>
+            <div class="top_message_box {{(uploadErrorMsg || invoiceData.rejectedFiles.length > 0) ? 'red_msg' : ''}}" ng-show="uploadErrorMsg || invoiceData.rejectedFiles.length">
+            <span class="msg_box" style="margin: 160px auto;">
+                <span class="msg_icon">x</span>
+                <span class="msg_txt">
+                    <span ng-show="uploadErrorMsg"><span class="bold-font">Error. </span> {{uploadErrorMsg}}</span>
+                    <span ng-show="invoiceData.rejectedFiles.length"><span class="bold-font">Error. </span><span data-ng-bind="textConstants.INVOICE_UPLOAD_FILE_UNSUPPORTED"></span></span>
+
+                    <!-- {{(!successMsg)? 'Cannot upload files bigger than 10MB / Unsupported file format' : 'You have sucessfully uploaded '+ uploadedCount +' files '}} -->
+                    <div ng-show="invoiceData.rejectedFiles.length" ng-repeat="r in invoiceData.rejectedFiles">
+                        - {{r.name}} ({{r.size/1000000 | number:2}} MB)
+                    </div>
+                </span>
+                <span class="close_msg_box_holder">
+                    <span class="close_msg_box" ng-click="closeErrorMessage()">x</span>
+                </span>
+            </span>
             </div>
         </div>
     </div>
     <div class="clearfix col-md-12 popup-btns-holder">
         <div ng-if="errSaveCredit" data-ng-bind="errSaveCreditMsg" class="errorText"></div>
-        <button class="btn btn-primary pull-right" ng-show="!adArchiveLoader" type="button" ng-click="saveCredit()"
+        <button class="btn btn-primary pull-right" data-ng-disabled="!invoiceData.uploadFile" type="button" ng-click="uploadFile()"
                 >Save</button>
         <div ng-show ="adArchiveLoader" class="pull-right common-loading-btn" ></div>
         <button class="secondary_txt" type="button" data-dismiss="modal" ng-click="close()" >Cancel</button>

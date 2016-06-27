@@ -30,13 +30,22 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     }
                 });
             };
+
+            _curCtrl.verifyInput = function(){
+                var ret = true;
+                if(!$scope.advertiserName || $scope.advertiserName.trim() == ""){
+                    $rootScope.setErrAlertMessage(constants.ADVERTISER_FEILD_EMPTY);
+                    ret = false;
+                }
+                return ret;
+            }
             $scope.fetchAllAdvertisers();
 
             $scope.createAdvertiser = function(){
-                if(!$scope.advertiserName || $scope.advertiserName.trim() == ""){
-                    $rootScope.setErrAlertMessage(constants.ADVERTISER_FEILD_EMPTY);
+                if(!_curCtrl.verifyInput()){
                     return;
                 }
+
                 if($scope.isEditAdvertiser){
                     var requestBody = $scope.editRequestBody;
                     requestBody.name = $scope.advertiserName;
@@ -56,6 +65,10 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     });
                 }else {
                     var code = ($scope.setSelectedAdvertiserCode == 'Others') ? $scope.customAdvertiserCode : $scope.setSelectedAdvertiserCode;
+                    if(!code){
+                        $rootScope.setErrAlertMessage(constants.CODE_FIELD_EMPTY);
+                        return;
+                    }
                     accountsService.createAdvertiser({name: $scope.advertiserName, code: code}).then(function (res) {
                         if (res.status === 'CREATED' || res.status === 'success') {
                             $scope.advertiserName = "";

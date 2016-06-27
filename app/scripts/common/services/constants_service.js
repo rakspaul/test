@@ -1215,6 +1215,8 @@ define(['angularAMD'], function(angularAMD) {
         this.INVOICE_ADD_ADJUSTMENT = "Add Another Adjustment";
         this.INVOICE_REPORT_DONWLOAD_SUCCESS = "Invoice report donwloaded successfully";
         this.INVOICE_TEMPLATE_DOWNLOAD_SUCCESS = "Template downloaded successfully";
+        this.INVOICE_UPLOAD_UNSUPPORTED = "File Drag/Drop is not supported for this browser";
+        this.INVOICE_UPLOAD_FILE_UNSUPPORTED = "Cannot upload files bigger than 10MB / Unsupported file format";
         this.INVOICE_REPORT_DONWLOAD_ERR = "Error in Invoice report donwload";
         this.INVOICE_TEMPLATE_DOWNLOAD_ERR = "Error in Template download";
         this.INVOICE_DROPDWON_READY = "The Invoice Report is ready for download";
@@ -1223,6 +1225,7 @@ define(['angularAMD'], function(angularAMD) {
         this.INVOICE_DROPDWON_UPLOAD = "The Invoice Report requires modification by Uploaded <br> System of Record (SOR) Results";
         this.INVOICE_CONFIRM_CLOSE = "Do you want to close the invoice permanently.";
         this.INVOICE_CONFIRM_UPLOAD = "Once the invoice status changed to upload, user must upload the file to change the status.";
+        this.CODE_FIELD_EMPTY = "Please add code";
 
     });
 });

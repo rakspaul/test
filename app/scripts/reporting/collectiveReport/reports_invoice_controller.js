@@ -62,6 +62,9 @@ define(['angularAMD',
             $rootScope.$on("saveNoteData",function(e, invoiceNote){
                 _curCtrl.saveNoteAndStatus();
             });
+            $rootScope.$on("uploadSuccess",function(e, invoiceNote){
+                _curCtrl.getInvoiceDetials();
+            });
 
             //PopUp window to add credit or debit to the adjustment
             $scope.showAddAdjustmentPopup = function (invoice) {
@@ -111,11 +114,11 @@ define(['angularAMD',
             }
 
             //Download CSV or template
-            $scope.download = function(){
+            $scope.download = function(isInvoiceReport){
                 var url="",
-                    successMsg =  ($scope.noteData.status != "Upload") ? constants.INVOICE_REPORT_DONWLOAD_SUCCESS : constants.INVOICE_TEMPLATE_DOWNLOAD_SUCCESS,
-                    errMsg = ($scope.noteData.status != "Upload") ? constants.INVOICE_REPORT_DONWLOAD_ERR : constants.INVOICE_TEMPLATE_DOWNLOAD_ERR;
-                url = ($scope.noteData.status != "Upload") ? urlService.downloadInvoiceWithId(_curCtrl.invoiceId) : urlService.downloadTemplateWithCampaignId($scope.invoiceDetails.campaignId);
+                    successMsg =  isInvoiceReport ? constants.INVOICE_REPORT_DONWLOAD_SUCCESS : constants.INVOICE_TEMPLATE_DOWNLOAD_SUCCESS,
+                    errMsg = isInvoiceReport ? constants.INVOICE_REPORT_DONWLOAD_ERR : constants.INVOICE_TEMPLATE_DOWNLOAD_ERR;
+                url = isInvoiceReport ? urlService.downloadInvoiceWithId(_curCtrl.invoiceId) : urlService.downloadTemplateWithCampaignId($scope.invoiceDetails.campaignId);
                 dataService
                     .downloadFile(url)
                     .then(function (res) {
