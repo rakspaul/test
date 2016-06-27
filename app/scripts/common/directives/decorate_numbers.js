@@ -1,7 +1,7 @@
 define(['angularAMD'],function (angularAMD) {
     'use strict';
     //This is a common directive to add comma to a number
-    angularAMD.directive('decorateNumbers',function(){
+    angularAMD.directive('decorateNumbers',function(workflowService){
 
         return {
             restrict: 'A',
@@ -27,7 +27,6 @@ define(['angularAMD'],function (angularAMD) {
                         val = x[0] +'.'+x[1];
                     }
 
-                    console.log('x',  x,'val',  val,'ele.val', el.val());
                     // Add two decimal digits
                     var value = parseFloat(Math.round(val * 100) / 100).toFixed(2);
 
@@ -38,16 +37,10 @@ define(['angularAMD'],function (angularAMD) {
                     el.val(value);
                 });
 
+
+
                 function addCommas(nStr) {
-                    nStr += '';
-                    var x = nStr.split('.');
-                    var x1 = x[0];
-                    var x2 = x.length > 1 ? '.' + x[1] : '';
-                    var rgx = /(\d+)(\d{3})/;
-                    while (rgx.test(x1)) {
-                        x1 = x1.replace(rgx, '$1' + ',' + '$2');
-                    }
-                    return x1 + x2;
+                   return workflowService.addCommaToNumber(nStr);
                 }
 
                 function validate(evt, ele) {

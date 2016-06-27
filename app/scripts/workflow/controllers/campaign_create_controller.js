@@ -373,7 +373,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 //set Media Plan Budget & Margin
                 if (campaignData.totalBudget && campaignData.marginPercent >= 0) {
-                    $scope.Campaign.totalBudget = campaignData.totalBudget;
+                    $scope.Campaign.totalBudget = workflowService.addCommaToNumber(campaignData.totalBudget);
                     $scope.Campaign.marginPercent = campaignData.marginPercent;
                     $scope.ComputeCost();
                 }
@@ -597,7 +597,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.kpiValue = formData.kpiValue;
                 postDataObj.marginPercent = formData.marginPercent;
                 postDataObj.deliveryBudget = formData.deliveryBudget;
-                postDataObj.totalBudget = formData.totalBudget;
+                postDataObj.totalBudget = workflowService.stripCommaFromNumber(formData.totalBudget);
 
                 if ($scope.mode === 'create' || $scope.cloneMediaPlanName) {
                     postDataObj.lineItems = workflowService.processLineItemsObj(angular.copy($scope.lineItems.lineItemList));
