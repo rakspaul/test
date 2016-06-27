@@ -294,7 +294,7 @@
                                            class="squaredFourChkbox"
                                            id="delivery_chkbox"
                                            ng-model="deliveryMetrics.isAllSelected"
-                                           ng-click="onDeliveryMetrClick()">
+                                           ng-click="onMetricClick('deliveryMetrics')">
                                         Delivery
                                 </span>
 
@@ -303,7 +303,7 @@
                                      ng-repeat="delivery_metric in deliveryMetrics track by $index"
                                      id="{{delivery_metric.key}}"
                                      ng-class="{active:delivery_metric.selected}"
-                                     ng-click="onDeliveryMetrClick($index)"
+                                     ng-click="onMetricClick('deliveryMetrics',$index)"
                                      ng-bind-html="delivery_metric.value">
                                 </div>
                             </div>
@@ -315,7 +315,7 @@
                                            class="squaredFourChkbox"
                                            id="pacing_chkbox"
                                            ng-model="pacingMetrics.isAllSelected"
-                                           ng-click="onPacingMetrClick()"
+                                           ng-click="onMetricClick('pacingMetrics')"
                                     >
                                     Pacing
                                 </span>
@@ -325,7 +325,7 @@
                                      ng-repeat="pacing_metric in pacingMetrics track by $index"
                                      id="{{pacing_metric.key}}"
                                      ng-class="{active:pacing_metric.selected}"
-                                     ng-click="onPacingMetrClick($index)"
+                                     ng-click="onMetricClick('pacingMetrics',$index)"
                                      ng-bind-html="pacing_metric.value">
                                 </div>
                             </div>
@@ -338,7 +338,7 @@
                                            class="squaredFourChkbox"
                                            id="cost_chkbox"
                                            ng-model="costMetrics.isAllSelected"
-                                           ng-click="onCostMetrClick()">
+                                           ng-click="onMetricClick('costMetrics')">
                                         Cost tab
                                 </span>
 
@@ -347,7 +347,7 @@
                                      ng-repeat="cost_metric in costMetrics track by $index"
                                      id="{{cost_metric.key}}"
                                      ng-class="{active:cost_metric.selected}"
-                                     ng-click="onCostMetrClick($index)"
+                                     ng-click="onMetricClick('costMetrics',$index)"
                                      ng-bind-html="cost_metric.value">
                                 </div>
                             </div>
@@ -359,7 +359,7 @@
                                            class="squaredFourChkbox"
                                            id="video_chkbox"
                                            ng-model="videoMetrics.isAllSelected"
-                                           ng-click="onVedioMetrClick()">
+                                           ng-click="onMetricClick('videoMetrics')">
                                         Video
                                 </span>
 
@@ -368,7 +368,7 @@
                                      ng-repeat="video_metric in videoMetrics track by $index "
                                      id="{{video_metric.key}}"
                                      ng-class="{active:video_metric.selected}"
-                                     ng-click="onVedioMetrClick($index)"
+                                     ng-click="onMetricClick('videoMetrics',$index)"
                                      ng-bind-html="video_metric.value">
                                 </div>
                             </div>
@@ -380,7 +380,7 @@
                                            class="squaredFourChkbox"
                                            id="quality_chkbox"
                                            ng-model="qualityMetrics.isAllSelected"
-                                           ng-click="onQualityClick()">
+                                           ng-click="onMetricClick('qualityMetrics')">
                                         Quality
                                 </span>
 
@@ -389,7 +389,7 @@
                                      ng-repeat="quality_metrics in qualityMetrics track by $index"
                                      id="{{quality_metrics.key}}"
                                      ng-class="{active:quality_metrics.selected}"
-                                     ng-click="onQualityClick($index)"
+                                     ng-click="onMetricClick('qualityMetrics',$index)"
                                      ng-bind-html="quality_metrics.value">
                                 </div>
                             </div>
