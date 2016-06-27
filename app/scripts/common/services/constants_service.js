@@ -336,7 +336,7 @@ define(['angularAMD'], function(angularAMD) {
         this.METRICS = "Metrics";
         this.METRIC = "Metric";
         this.SELECTED_METRICS = "Selected Metrics";
-        this.LOAD_MORE_STRATEGIES = "Load More Lineitems";
+        this.LOAD_MORE_STRATEGIES = "Load more Line Items";
         this.LOAD_MORE_TACTICS = "Load More Ads";
 
         this.STATUS = "Status";
