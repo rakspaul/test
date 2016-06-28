@@ -2089,6 +2089,287 @@ tags-input .autocomplete {
     font-size: 14px ;
 }
 
+.marginLeft {
+	margin : 0 0 0 10px ;
+}
+.searchInputWithClear {
+	.iconSearchBtn {
+	   padding: 8px 7px 7px;
+	}
+	.inputWithClear {
+		position: relative;
+		> input {
+		padding-right: 45px ;
+		}
+		.iconClearHolder {
+			right: 1px;
+		   top: 1px;
+		   position: absolute;
+		   margin: 7px 15px 6px;
+		   cursor: pointer;
+		}
+	}
+}
+.selectedAtRight {
+      background: #edf2f8;
+      float: left;
+      margin-left: 2%;
+      //height: 476px;
+      overflow: auto ;
+      padding: 15px 20px;
+      width: 33%;
+
+      .selectedItems {
+          float: left;
+          height: 640px;
+          /*overflow: auto;*/
+        width: 100%;
+        max-height: 560px;
+
+        .segWrap {
+            border-bottom: 1px solid #bfc9d7;
+            float: left;
+            margin-top: 20px;
+            padding-bottom: 10px;
+            position: relative;
+            width: 100%;
+
+            &:first-child {
+                margin-top: 20px;
+            }
+
+            .icon-close {
+                cursor: pointer;
+                font-size: 9px;
+                height: 9px;
+                margin-right: 0;
+                margin-top: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 9px;
+                z-index: 10;
+            }
+
+            img {
+                clear: left;
+                float: left;
+                margin-right: 10px;
+            }
+
+            span {
+                float: left;
+                font-size: 12px;
+                margin-bottom: 10px;
+                word-wrap: break-word;
+                width: 100%;
+                &:first-child {
+                    clear: both;
+                    width: 90%;
+                }
+            }
+        }
+    }
+}
+
+ .listToBeSelected {
+    float: left;
+    width: 65%;
+    .listToBeSelectedTxt {
+    margin: 15px 0 0;
+    }
+    .columnOne {
+        border-right: 1px solid #fff !important;
+        padding-left: 0 !important;
+        text-align: center;
+        width: 6%;
+
+        .checkbox {
+            float: left;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            width: 100%;
+
+            input[type="checkbox"] {
+                float: none;
+                margin: 0;
+                text-align: center;
+            }
+        }
+    }
+
+    .columnTwo {
+        /* width: 30%;*/
+
+     }
+
+     .columnThree {
+         text-align: center;
+         /* width: 13%;*/
+
+         img {
+             margin-top: 13px;
+             text-align: center;
+         }
+     }
+
+     .columnFour {
+         /*width: 22%;*/
+     }
+
+     .columnFive {
+         /* width: 12%; */
+      }
+
+      .columnSix {
+          border-width: 0 !important;
+          /* width: 17%; */
+      }
+
+      .segBodyTable,
+      .segHeaderTable {
+          border: 1px solid #bfc9d7;
+          margin-top: 20px;
+          padding: 0;
+
+          .columnOne,
+          .columnTwo,
+          .columnThree,
+          .columnFour,
+          .columnFive,
+          .columnSix {
+              border-right: 1px solid #bfc9d7;
+              float: left;
+              height: 52px;
+              padding: 17px 5px 0 8px;
+
+              span {
+                  float: left;
+                  margin-top: 1px;
+                  overflow: hidden;
+                  text-align: left;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  width: 100%;
+              }
+              .toolTipAudienceSegment{
+                  width:auto;
+                  max-width: 100%;
+              }
+          }
+          .columnThree {
+              border-right: 0px solid #bfc9d7;
+          }
+      }
+
+      .segBodyWrap {
+          float: left;
+          height: 100%;
+          overflow: hidden;
+          width: 100%;
+
+          .segFixedWrap {
+              float:left;
+              height: 100%;
+              overflow: auto;
+              width: 100%;
+              max-height: 400px ;
+              border-bottom: solid 1px #bfc9d7;
+          }
+      }
+
+      .segmentHeader {
+          float: left;
+          width: 100%;
+          .searchInput {
+          width: 100%;
+          }
+          .multiDDL {
+              float: left;
+              position: relative;
+              width: 100%;
+
+              .icon-search {
+                  position: absolute;
+                  right: 10px;
+                  top: 42px;
+                  z-index: 10;
+              }
+          }
+
+          .sliderAmount {
+              border: 0;
+              margin-bottom: 11px;
+              margin-top: 5px;
+              text-align: center;
+          }
+
+          .ui-slider {
+              background: #dce6f1;
+              border-radius: 2px;
+              border-width: 0;
+
+              .ui-slider-handle {
+                  background: #fff;
+                  border: 1px solid #bfc9d7;
+                  border-radius: 2px;
+                  height: 35px;
+                  top: -12px;
+                  width: 13px;
+              }
+          }
+          
+        .searchInputBtn {
+            &:active, &:focus, &:hover, &:target {
+                border-width: 0px !important;
+            }
+        }
+          
+        .searchClearInputBtn {
+            right: 42px;
+            border-right: 1px solid #BFC9D7;
+            height: 36px;
+            background: transparent !important;
+            top: 0px;
+            &:active, &:focus, &:hover, &:target {
+                border-width: 0px !important;
+                border-right: 1px solid #BFC9D7 !important;
+            }
+            .icon-clear {
+                background: transparent !important;
+                top: 1px;
+            }
+        }
+      }
+
+      .segBodyTable {
+          border-top: 0;
+          margin: 0;
+      }
+
+      .segHeaderTable {
+          border-bottom: 2px solid #bfc9d7;
+
+          .columnOne,
+          .columnTwo,
+          .columnThree,
+          .columnFour,
+          .columnFive,
+          .columnSix {
+              border-width: 0 !important;
+              padding-top: 15px;
+          }
+      }
+
+      .segTotal {
+          color: #939eae;
+          float: left;
+          font-size: 14px;
+          padding-top: 5px;
+      }
+  }
+
 /*Dropdown which has search input box*/
 .dropdown-menu-with-search {
 	padding-top: 0 ;
