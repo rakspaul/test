@@ -109,6 +109,24 @@ define(['angularAMD'], function(angularAMD) {
         this.DELETE_CREATIVES = "Are you sure you want to archive creatives?"
         this.CPMV = "CPMv";
 
+        this.OPEN_EXCHANGE =  "Open Exchange" ;
+        this.DEAL = "Deal" ;
+        this.DIRECT = "Direct" ;
+        this.PLACEMENT = "Placement" ;
+        this.GROUP = "Group" ;
+        this.PUBLISHER = "Publisher" ;
+        this.SELECT_TYPE = "Select Type" ;
+        this.CHOOSE_TARGETTED_PLACEMENTS = "Choose targeted placements from the list below" ;
+        this.CAMPAIGN_PRIORITY = "Campaign Priority" ;
+        this.BID_CPM = "Bid CPM" ;
+        this.ENTER_DEAL_ID = "You have chosen to bid with private deal. Enter the Deal ID below for the chosen Platform" ;
+        this.SAVE_SETTINGS = "Save Settings" ;
+        this.BACK_TO_PLATFORMS = "Back to Platforms" ;
+        this.BUYING_PLATFORM = "Buying Platform" ;
+        this.DEAL_ID = "Deal ID" ;
+        this.MIN_CPM = 'Min. CPM';
+        this.MAX_CPM = 'Max. CPM';
+
         this.COLLECTIVE_INSIGHTS = "Collective Insights";
         this.UPLOAD_REPORT = "Upload Report";
         this.REPORT_LABEL ='Report';

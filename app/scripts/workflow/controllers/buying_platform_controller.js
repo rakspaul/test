@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'workflow/services/platform_custom_module'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'workflow/services/platform_custom_module', 'workflow/controllers/direct_Inventory_controller'], function (angularAMD) {
     angularAMD.controller('BuyingPlatformController', function ($scope, $timeout, $modal, $filter, $rootScope, constants, workflowService, platformCustomeModule) {
 
         var tempPlatform,
@@ -235,14 +235,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.selectPlatform = function (event, platform, seat) {
             $scope.defaultPlatform = platform;
+            $scope.adData.resetInventroy(); //reseting the direct inevntory data while changing the data;
             _buyingPlatform._selectPlatform(event, platform, seat);
         };
 
         $scope.selectTrackingIntegrations = function (trackingIntegration) {
-            //if($scope.adData.platformId==undefined){
-            //    _buyingPlatform.resetCreatives();
-            //}
-
             $scope.showtrackingSetupInfoPopUp = false;
             $scope.$parent.postPlatformDataObj = [];
 
@@ -251,11 +248,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.$parent.TrackingIntegrationsSelected = true;
             $scope.selectedPlatform = {};
             $scope.selectedPlatform[trackingIntegration.id] = trackingIntegration.displayName;
-
-            //remove creatives only if Full integrations is changed to Tracking-only
-            //if ($scope.wasFullIntegration() >= 0) {
-            //    _buyingPlatform.resetCreatives();
-            //}
 
             // To populate the newly selected Platform in sideBar
             $scope.adData.platform = trackingIntegration.displayName;
@@ -266,6 +258,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.platformCustomInputs = function () {
             var platformWrap = $('.platWrap');
+            $scope.adData.customInpNameSpaceList = [];
 
             workflowService
                 .getPlatformCustomInputs($scope.adData.platformId)
@@ -293,6 +286,24 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             } else {
                                 _buyingPlatform.showCustomFieldBox();
                                 // maintain state of building platform strategy when user selects it navigates to other places
+
+                                if(platformCustomeJson.platformCustomInputNamespaceList && platformCustomeJson.platformCustomInputNamespaceList.length >1) {
+                                    $scope.adData.customInpNameSpaceList =  platformCustomeJson.platformCustomInputNamespaceList;
+                                    if(!$scope.$parent.postPlatformDataObj || $scope.$parent.postPlatformDataObj.length === 0) {
+                                        _.each($scope.adData.customInpNameSpaceList, function (obj, idx) {
+                                            obj.className = idx == 0 ? 'active' : '';
+                                        })
+                                    } else {
+
+                                        _.each($scope.adData.customInpNameSpaceList, function (obj, idx) {
+                                            obj.className = (obj.name === $scope.inventoryTabSelected) ? 'active' : '';
+                                        })
+
+                                        $timeout(function() {
+                                            $("#"+$scope.inventoryTabSelected).click();
+                                        }, 100)
+                                    }
+                                }
 
                                 if (oldPlatformName !== $scope.adData.platform) {
                                     oldPlatformName = workflowService.getPlatform().displayName;
@@ -343,23 +354,61 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.$parent.switchPlatform = function (event) {
+            if(event) { //clicked on back to platform link
+                $scope.adData.resetInventroy();
+            }
             $scope.resetPartialSaveAlertMessage();
             $scope.$broadcast('switchPlatformFunc');
         };
 
+        $scope.$parent.showRespectiveSection = function (event, type) {
+            var elem = $(event.target);
+            elem.closest(".btn-group").find(".active").removeClass("active");
+            elem.closest(".btn").addClass("active");
+            $(".eachBuyingSection").hide();
+            $("." + type + "_div").show();
+            _.each(['buying_strategy_div' , 'appnexus_deal_div', 'appnexus_direct_div'], function(id) {
+                if(id === (type + "_div")) {
+                    $("."+id).find("input, select").removeAttr('disabled');
+                } else {
+                    $("."+id).find("input, select").attr("disabled", "disabled");
+                }
+            })
+            $scope.inventoryTabSelected = type;
+            if (type === 'appnexus_direct') {
+                $rootScope.$broadcast('directInvenotry', $scope.adData);
+            }
+        };
+
         $scope.$parent.saveCustomeFieldForPlatform = function (flag) {
             var customFieldErrorElem = $('.customFieldErrorMsg'),
-                customPlatformFormData = $('#customPlatformForm').serializeArray();
+                customPlatformFormData = $('#customPlatformForm').serializeArray(),
+                selectedPlacementsData,
+                selectedPlacementIds;
 
             $scope.$parent.postPlatformDataObj = [];
+
             if (customFieldErrorElem.length === 0 && customPlatformFormData.length > 0) {
                 _.each(customPlatformFormData, function (data) {
                     var d = data.name.split('$$');
 
-                    $scope.$parent.postPlatformDataObj.push({
-                        'platformCustomInputId': Number(d[1]),
-                        'value': data.value
-                    });
+                    if(d.length >1 && $.trim(data.value) !== '') {
+                        $scope.$parent.postPlatformDataObj.push({
+                            'platformCustomInputId': Number(d[1]),
+                            'value': data.value
+                        });
+                    }
+
+                    if(d[0] === 'placements') {
+                        if($scope.inventoryTabSelected && $scope.inventoryTabSelected === 'appnexus_direct') {
+                            selectedPlacementsData = $scope.adData.directInvenotryData.placements.selected;
+                            selectedPlacementIds = _.pluck(selectedPlacementsData, 'sourceId');
+                            $scope.$parent.postPlatformDataObj.push({
+                                'platformCustomInputId': Number(d[1]),
+                                'value': selectedPlacementIds.join(",")
+                            });
+                        }
+                    }
                 });
             } else {
                 if ($scope.workflowData.adsData &&
@@ -371,6 +420,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             if ($scope.mode == 'edit') {
                 localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.$parent.postPlatformDataObj));
             }
+
+
 
             $scope.switchPlatform();
             if (!flag && customFieldErrorElem.length === 0) {
