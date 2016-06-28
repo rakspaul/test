@@ -272,6 +272,24 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         result.data.data = workflowService.platformCreateObj(result.data.data);
                         if (result.data.data.customInputJson != '') {
                             platformCustomeJson = JSON.parse(result.data.data.customInputJson);
+                            if(platformCustomeJson.platformCustomInputNamespaceList && platformCustomeJson.platformCustomInputNamespaceList.length >1) {
+                                $scope.adData.customInpNameSpaceList =  platformCustomeJson.platformCustomInputNamespaceList;
+                                if(!$scope.$parent.postPlatformDataObj || $scope.$parent.postPlatformDataObj.length === 0) {
+                                    _.each($scope.adData.customInpNameSpaceList, function (obj, idx) {
+                                        obj.className = idx == 0 ? 'active' : '';
+                                    })
+                                } else {
+
+                                    _.each($scope.adData.customInpNameSpaceList, function (obj, idx) {
+                                        obj.className = (obj.name === $scope.inventoryTabSelected) ? 'active' : '';
+                                    })
+
+                                    $timeout(function() {
+                                        $("#"+$scope.inventoryTabSelected).click();
+                                    }, 100)
+                                }
+                            }
+
                             if ($scope.mode === 'edit') {
                                 _buyingPlatform.showCustomFieldBox();
 
@@ -287,23 +305,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 _buyingPlatform.showCustomFieldBox();
                                 // maintain state of building platform strategy when user selects it navigates to other places
 
-                                if(platformCustomeJson.platformCustomInputNamespaceList && platformCustomeJson.platformCustomInputNamespaceList.length >1) {
-                                    $scope.adData.customInpNameSpaceList =  platformCustomeJson.platformCustomInputNamespaceList;
-                                    if(!$scope.$parent.postPlatformDataObj || $scope.$parent.postPlatformDataObj.length === 0) {
-                                        _.each($scope.adData.customInpNameSpaceList, function (obj, idx) {
-                                            obj.className = idx == 0 ? 'active' : '';
-                                        })
-                                    } else {
-
-                                        _.each($scope.adData.customInpNameSpaceList, function (obj, idx) {
-                                            obj.className = (obj.name === $scope.inventoryTabSelected) ? 'active' : '';
-                                        })
-
-                                        $timeout(function() {
-                                            $("#"+$scope.inventoryTabSelected).click();
-                                        }, 100)
-                                    }
-                                }
 
                                 if (oldPlatformName !== $scope.adData.platform) {
                                     oldPlatformName = workflowService.getPlatform().displayName;
