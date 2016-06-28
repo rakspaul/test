@@ -15,8 +15,8 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
             var platformHTML = '<div class="col-md-12 platformHeading zeroPadding">';
             platformHTML += '<div class="col-md-8 zeroPadding">' + pJson.displayName + '<br/>';
             platformHTML += '</div>';
-            platformHTML += ' <div class="col-md-4 zeroPadding pull-left clearLeft"><a href="javascript:void(0);">' +
-                pJson.subName + '</a></div>';
+            platformHTML += ' <div class="col-md-4 zeroPadding pull-left clearLeft"><span>' +
+                pJson.subName + '</span></div>';
             platformHTML += '</div>';
             elem.append(platformHTML);
         };

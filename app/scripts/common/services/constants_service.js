@@ -765,7 +765,8 @@ define(['angularAMD'], function(angularAMD) {
         this.MORESELF = 'More Self Service options coming soon';
         this.CANTFIND = 'Can\'t find what you are looking for?';
         this.TRACKINT = 'Tracking Integrations';
-        this.MOREPLATAVAIL = 'More Platforms Available';
+        this.MOREPLATAVAIL = 'Tracking Only Integrations';
+        this.NOPLATAVAIL = 'No Platforms Configured';
         this.CHGPLAT = 'Change Platform?';
         this.OKAY = 'Okay';
 
