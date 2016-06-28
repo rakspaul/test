@@ -26,20 +26,22 @@
             <input type="hidden" name="platformSeatId" value="{{adData.platformSeatId}}">
             </div>
         </div>
-        <div class="col-md-6 platformHolder">
+        <!-- <div class="col-md-6 platformHolder">
             <span data-ng-bind="textConstants.MORESELF"></span>
             <a href="" data-ng-bind="textConstants.CANTFIND"></a>
+        </div> -->
+        <div class="no-data-common" ng-if="workflowData.platforms.length == 0"  data-ng-bind="textConstants.NOPLATAVAIL">
         </div>
         <div class="col-md-6" style="margin-top: 150px;" ng-if="!workflowData.platforms">
             <div class="common-loading-area"></div>
         </div>
     </div>
-    <div class="offeringsWrap">
+    <div class="offeringsWrap" ng-if="workflowData.tracking_integrations[0].length > 0" >
         <div class="col-md-12" style="padding: 30px;">
             <!--<span data-ng-bind="textConstants.TRACKINT"></span> <br />-->
             <span class="one-time-sixteen" data-ng-bind="textConstants.MOREPLATAVAIL"></span>
         </div>
-        <div class="container">
+        <div class="container"  >
             <br>
             <div id="myCarousel" class="carousel slide" data-ride="carousel">
                 <!-- Wrapper for slides -->
