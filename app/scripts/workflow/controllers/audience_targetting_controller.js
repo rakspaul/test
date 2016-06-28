@@ -524,7 +524,6 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
                 }else{
                     $scope.clearKeywordSearch();// fetch all audience when user clears the textBox
                 }
-
             }
         };
 

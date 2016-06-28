@@ -1,12 +1,13 @@
 define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) {
     'use strict';
-    angularAMD.factory('platformCustomeModule', function ($timeout, $locale, constants ) {
+    angularAMD.factory('platformCustomeModule', function ($timeout, $locale, constants) {
         var _self = this,
             textConstants = constants,
             widgetTypeMapper = {
                 'checkbox' : 'checkbox',
                 'textbox' : 'number',
-                'hidden' : 'hidden'
+                'hidden' : 'hidden',
+                'placement_widget': 'hidden'
             };
 
         //private method
@@ -166,7 +167,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 inputWrapper.append(inputListHTML);
             }
 
-            if (inputList.platformCustomWidgetType === 'CHECKBOX' || inputList.platformCustomWidgetType === 'TEXTBOX' || inputList.platformCustomWidgetType === 'HIDDEN') {
+            if (inputList.platformCustomWidgetType === 'CHECKBOX' || inputList.platformCustomWidgetType === 'TEXTBOX' || inputList.platformCustomWidgetType === 'HIDDEN' || inputList.platformCustomWidgetType === 'PLACEMENT_WIDGET') {
                 platformCustomWidgetType = inputList.platformCustomWidgetType;
                 type = widgetTypeMapper[platformCustomWidgetType.toLowerCase()];
                 //type = platformCustomWidgetType === 'CHECKBOX' ? 'checkbox' : 'number';
@@ -388,16 +389,34 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
         };
 
         var init = function (platformCustomeJson, elem, adPlatformCustomInputs) {
-            elem.html('');
+            $(".platformHeading, .form-individual-section").remove(); //remvoing the build markup for platform.
 
+            var tabElem;
+            _self.customPlatformWithTab = false;
             _self.elem = elem;
             _self.adPlatformCustomInputs= adPlatformCustomInputs;
             _self.platformCustomInputNamespaceList = _.sortBy(platformCustomeJson.platformCustomInputNamespaceList, 'displayOrder') ;
             _self.platformCustomInputActivationOrderList = platformCustomeJson.platformCustomInputActivationOrderList;
 
-            _.each(_self.platformCustomInputNamespaceList, function (pJson) {
-                platformHeader(pJson, elem);
-                buildFormControl(pJson, elem);
+            if(_self.platformCustomInputNamespaceList.length > 1 ){ // if namespace is greater than 1.
+                _self.customPlatformWithTab = true;
+                $(".eachBuyingSection").not('.staticMarkup').remove();
+            } 
+            _.each(_self.platformCustomInputNamespaceList, function (pJson, idx) {
+                if(_self.customPlatformWithTab) {
+                    tabElem = $("<div />").prependTo(elem).addClass('eachBuyingSection').addClass(pJson.name+"_div");
+
+                    platformHeader(pJson, tabElem);
+                    buildFormControl(pJson, tabElem);
+
+                    if(idx > 0) {
+                        $("."+ pJson.name+"_div").find("input, select").attr("disabled", "disabled");
+                    }
+
+                } else {
+                    platformHeader(pJson, elem);
+                    buildFormControl(pJson, elem);
+                }
             });
         };
 

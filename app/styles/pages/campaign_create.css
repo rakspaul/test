@@ -3590,6 +3590,12 @@
   width: 930px;
   z-index: 111111;
 }
+#campaignCreate .platformSlide .platform-custom .eachBuyingSection {
+  display: none ;
+}
+#campaignCreate .platformSlide .platform-custom .buying_strategy_div {
+  display: block;
+}
 #campaignCreate .platformSlide .platform-custom .adHeader {
   margin: 20px 0 10px;
 }

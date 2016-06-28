@@ -1133,10 +1133,22 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 },
                 getLineItemBulkData: function(){
                     return lineitemDetailsBulk ;
+                },
+
+                getPublisher : function(params) {
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/vendors/' + params.vendorId + '/seats/' + params.seatId +'/publishers';
+                    return dataService.fetch(url);
+                },
+
+                getUnitSize : function(params) {
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/sizes';
+                    return dataService.fetch(url);
+                },
+
+                getPlacement : function(data, params) {
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/vendors/' + data.vendorId + '/seats/' + data.seatId +'/placements' + params;
+                    return dataService.fetch(url);
                 }
-
-
-
             };
         });
     }
