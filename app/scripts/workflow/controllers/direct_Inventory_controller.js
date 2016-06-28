@@ -87,6 +87,30 @@ define(['angularAMD'],function (angularAMD) {
                                 $scope.adData.directInvenotryData.placements.data_not_found = true;
                             }
                         }
+
+                        if ($scope.mode === 'edit') {
+                            console.log($scope.$parent.postPlatformDataObj);
+
+                            var placementList = _.filter($scope.$parent.postPlatformDataObj, function (obj) {
+                                return obj.platformCustomInputId === 80
+                            })
+
+                            if (placementList.length > 0) {
+
+                                var placementIds = placementList[0].value.split(',').map(function(item) {
+                                    return parseInt(item, 10);
+                                });
+
+                                _.each($scope.adData.directInvenotryData.placements.data, function (data, idx) {
+                                    if(_.contains(placementIds,data.id)) {
+                                        $scope.adData.directInvenotryData.placements.data[idx].isChecked = true;
+                                        $scope.adData.directInvenotryData.placements.data[idx].isIncluded = true;
+                                        $scope.adData.directInvenotryData.placements.selected.push(data);
+                                    }
+                                })
+                            }
+                        }
+
                     }, function() {
 
                     })
@@ -147,7 +171,7 @@ define(['angularAMD'],function (angularAMD) {
             }
         };
 
-        $scope.clearAllSelectedPlacements = function () {
+        $scope.adData.clearAllSelectedPlacements = function () {
             if($scope.adData.directInvenotryData.placements.data && $scope.adData.directInvenotryData.placements.data.length >0) {
                 directInventory.resetPlacement();
                 $scope.selectAllPlacement = false;
@@ -199,11 +223,13 @@ define(['angularAMD'],function (angularAMD) {
         };
 
         $scope.adData.resetInventroy = function() {
-            $scope.clearAllSelectedPlacements();
-            $(".appnexus_direct_div.staticMarkup").hide();
-            $timeout(function() {
-                $(".buying_strategy").trigger('click');
-            }, 100);
+            if(!$scope.$parent.postPlatformDataObj) {
+                $scope.adData.clearAllSelectedPlacements();
+                $(".appnexus_direct_div.staticMarkup").hide();
+                $timeout(function () {
+                    $(".buying_strategy").trigger('click');
+                }, 100);
+            }
         };
 
         $scope.filterPlacements = function(filterType, filterText) {
@@ -225,9 +251,15 @@ define(['angularAMD'],function (angularAMD) {
 
             directInventory.publisher($scope.urlData);
             //directInventory.unitSize($scope.urlData);
-            $scope.adData.directInvenotryData.placements.params = _.extend({}, defaultParams);
-            $scope.adData.directInvenotryData.placements.fetching = true;
-            $scope.adData.directInvenotryData.placements.data = [];
+
+            if($scope.$parent.postPlatformDataObj && $scope.mode ==='create') {
+
+            } else {
+                $scope.adData.directInvenotryData.placements.params = _.extend({}, defaultParams);
+                $scope.adData.directInvenotryData.placements.fetching = true;
+                $scope.adData.directInvenotryData.placements.data = [];
+            }
+
             directInventory.placement($scope.urlData, $scope.adData.directInvenotryData.placements.params);
         })
     })

@@ -37,7 +37,7 @@
                                         </a>
 
                                         <div class="input-group searchInputForm">
-                                            <input type="text" class="form-control searchBox" search-box ng-model="searchKeyword"  ng-keyup="search($event, searchKeyword)" placeholder="Search for Publishers" autocomplete="off">
+                                            <input type="text" class="form-control searchBox" search-box ng-model="searchKeyword"  ng-keyup="search($event, searchKeyword)" placeholder="Search for Placements" autocomplete="off">
                                             <div class="btn btn-default searchClearInputBtn">
                                                 <span class="icon-clear" aria-hidden="true" ></span>
                                             </div>
@@ -108,8 +108,8 @@
                             </div>
 
                             <div class="selectedAtRight">
-                                <span class="pull-left" data-ng-bind="textConstants.SELECTED_SEGMENTS"></span>
-                                <a class="pull-right" ng-click="clearAllSelectedPlacements()" data-ng-bind="textConstants.CLEARALL"></a>
+                                <span class="pull-left" data-ng-bind="textConstants.SELECTED_PLACEMENTS"></span>
+                                <a class="pull-right" ng-click="adData.clearAllSelectedPlacements()" data-ng-bind="textConstants.CLEARALL"></a>
 
                                 <div class="selectedItems">
                                     <div class="segWrap"  ng-repeat="placement in adData.directInvenotryData.placements.selected">

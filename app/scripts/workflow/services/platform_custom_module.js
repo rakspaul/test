@@ -401,7 +401,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
             if(_self.platformCustomInputNamespaceList.length > 1 ){ // if namespace is greater than 1.
                 _self.customPlatformWithTab = true;
                 $(".eachBuyingSection").not('.staticMarkup').remove();
-            } 
+            }
             _.each(_self.platformCustomInputNamespaceList, function (pJson, idx) {
                 if(_self.customPlatformWithTab) {
                     tabElem = $("<div />").prependTo(elem).addClass('eachBuyingSection').addClass(pJson.name+"_div");
@@ -409,7 +409,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                     platformHeader(pJson, tabElem);
                     buildFormControl(pJson, tabElem);
 
-                    if(idx > 0) {
+                    if(!adPlatformCustomInputs && idx > 0) {
                         $("."+ pJson.name+"_div").find("input, select").attr("disabled", "disabled");
                     }
 
