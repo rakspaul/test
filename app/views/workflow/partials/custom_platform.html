@@ -31,14 +31,14 @@
                                 </div>
                                 <div class="segmentHeader" >
                                     <span class="greyTxt col-md-12 zeroPadding" data-ng-bind="textConstants.KEYWORD"></span>
+                                    <div class="col-md-12 zeroPadding searchInput">
+                                        <a class="btn btn-default searchInputBtnInline" ng-click="search($event, searchKeyword)" type="button">
+                                            <span class="icon-search" aria-hidden="true"></span>
+                                        </a>
 
-                                    <div class="searchInputWithClear col-md-12 zeroPadding" >
-                                        <div class="btn btn-default col-md-1 pull-right iconSearchBtn" >
-                                            <span class="icon-search" aria-hidden="true" ></span>
-                                        </div>
-                                        <div class="col-md-11 zeroPadding inputWithClear" >
-                                            <input type="text" class="form-control keyword-txt" name="keywordText" search-box ng-model="searchKeyword" ng-keyup="search($event, searchKeyword)" placeholder="Search for Publishers" autocomplete="off">
-                                            <div class="iconClearHolder">
+                                        <div class="input-group searchInputForm">
+                                            <input type="text" class="form-control searchBox" search-box ng-model="searchKeyword"  ng-keyup="search($event, searchKeyword)" placeholder="Search for Publishers" autocomplete="off">
+                                            <div class="btn btn-default searchClearInputBtn">
                                                 <span class="icon-clear" aria-hidden="true" ></span>
                                             </div>
                                         </div>
