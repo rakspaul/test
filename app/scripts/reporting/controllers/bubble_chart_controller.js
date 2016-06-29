@@ -1,6 +1,15 @@
-define(['angularAMD','login/login_model','login/login_service','reporting/common/d3/bubble_chart','reporting/models/bubble_chart_model','reporting/brands/brands_model','common/services/constants_service'],function (angularAMD) {
-  'use strict';
-  angularAMD.controller('BubbleChartController', function ($scope, $cookieStore, $location, loginModel, loginService, bubbleChart, bubbleChartModel, brandsModel, constants) {
+define(['angularAMD',
+    'login/login_model','login/login_service','reporting/common/d3/bubble_chart',
+    'reporting/models/bubble_chart_model','reporting/brands/brands_model','common/services/constants_service',
+    'reporting/advertiser/advertiser_model'],function (angularAMD) {
+    'use strict';
+    angularAMD.controller('BubbleChartController', function ($scope, $cookieStore, $location,
+        loginModel, loginService, bubbleChart,
+        bubbleChartModel, brandsModel, constants,
+        advertiserModel) {
+
+        var _curCtrl = this;
+        _curCtrl.defaultFilter = {advertiserId: -1, brandId: -1, dateFilter: "life_time"}
         $scope.data = {
             brandData: {},
             campaignDataForSelectedBrand: {},
@@ -30,9 +39,17 @@ define(['angularAMD','login/login_model','login/login_service','reporting/common
             });
         }
 
-        function getSpendDataForBrands() {
-            $scope.spendBusy = true;
+        function getSpendDataForAdvertisers() {
+            var o = {};
+            o.advertiserId = advertiserModel.getSelectedAdvertiser().id;
+            o.brandId = brandsModel.getSelectedBrand().id;
+            o.dateFilter = constants.PERIOD_LIFE_TIME;
 
+            (JSON.stringify(o) == JSON.stringify(_curCtrl.defaultFilter)) ? getSpendDataForAdvertisersWithDefaultValue() : getSpendDataForAdvertisersWithValue(o);
+            $scope.spendBusy = true;
+        }
+
+        function getSpendDataForAdvertisersWithDefaultValue(){
             // Fetch the new data now.
             bubbleChartModel.getBubbleChartData().then(function () {
                 $scope.spendBusy = false;
@@ -45,7 +62,33 @@ define(['angularAMD','login/login_model','login/login_service','reporting/common
                     $scope.dataFound = true;
                     // $("#data_not_available").hide();
                     $scope.data.brandData = bubbleChartModel.getbubbleWidgetData()['brandData'];
+                    bubbleChart.updateBubbleChartData("brands", $scope.data.brandData);
+                    $scope.budget_top_title = bubbleChartModel.getbubbleWidgetData()['budget_top_title'];
 
+                }
+
+            },function(err){
+                dataNotFound();
+            });
+        }
+        function dataNotFound(){
+            $scope.spendBusy = false;
+            d3.select("#brands_svg").remove();
+            d3.select("#campaigns_svg").remove();
+            $scope.dataFound = false;
+        }
+        function getSpendDataForAdvertisersWithValue(o){
+            bubbleChartModel.getAdvertiserBubbleChartData(o).then(function () {
+                $scope.spendBusy = false;
+                if (bubbleChartModel.getbubbleWidgetData()['dataNotAvailable'] == true) {
+                    d3.select("#brands_svg").remove();
+                    d3.select("#campaigns_svg").remove();
+                    $scope.dataFound = false;
+
+                } else {
+                    $scope.dataFound = true;
+                    // $("#data_not_available").hide();
+                    $scope.data.brandData = bubbleChartModel.getbubbleWidgetData()['brandData'];
 
                     if (brandsModel.getSelectedBrand().id == -1) {
                         bubbleChart.updateBubbleChartData("brands", $scope.data.brandData);
@@ -65,11 +108,13 @@ define(['angularAMD','login/login_model','login/login_service','reporting/common
                     }
                 }
 
+            },function(err){
+                dataNotFound();
             });
         }
 
         if (brandsModel.getSelectedBrand().id == -1)
-            getSpendDataForBrands();
+            getSpendDataForAdvertisers();
         else
             getSpendDataForCampaigns();
 
@@ -77,7 +122,7 @@ define(['angularAMD','login/login_model','login/login_service','reporting/common
             bubbleChart.cleaningBubbleChart("brands");
             bubbleChart.cleaningBubbleChart("campaigns");
             if (brandsModel.getSelectedBrand().id == -1)// All brands is selected
-                getSpendDataForBrands()
+                getSpendDataForAdvertisers();
             else
                 getSpendDataForCampaigns();
         };
