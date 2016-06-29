@@ -118,11 +118,24 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
         this.localTimeToUTC = function(dateTime, type) {
             var clientUTCTime,
                 currentUTCTime,
-                timeSuffix = (type === 'startTime' ? this.getStartDateSuffix(dateTime, type) : '23:59:59'),
                 tz = this.getTimezoneName() === constants.TIMEZONE_UK ? 'GMT' : 'EST',
-                finalDateTime = Date.parse(dateTime + ' ' + timeSuffix + ' ' + tz);
+		isSelectedDateToday;
+                //timeSuffix = (type === 'startTime' ? this.getStartDateSuffix(dateTime, type) : '23:59:59'),
+                //finalDateTime = Date.parse(dateTime + ' ' + timeSuffix + ' ' + tz);
 
-            clientUTCTime = moment(finalDateTime).tz('UTC');
+            //clientUTCTime = moment(finalDateTime).tz('UTC');
+	    isSelectedDateToday = moment(dateTime).isSame(new Date(), "day");
+	    if (type === 'startTime' && isSelectedDateToday) {
+	        clientUTCTime = moment.utc().seconds(600);
+	    } else if (type === 'startTime' ) {
+	        clientUTCTime = Date.parse(dateTime + ' ' + '00:00:00' + ' ' + tz);
+	        clientUTCTime = moment(clientUTCTime).tz('UTC');
+	    } else {
+	        clientUTCTime = Date.parse(dateTime + ' ' + '23:59:59' + ' ' + tz);
+	        clientUTCTime = moment(clientUTCTime).tz('UTC');
+	    }
+
+/*
             currentUTCTime = moment.utc();
 
             if(type === 'startTime') {
@@ -130,7 +143,8 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
                     clientUTCTime = currentUTCTime.seconds(600);
                 }
             }
-            return clientUTCTime.format(constants.DATE_UTC_FORMAT);
+*/
+            return moment(clientUTCTime).format(constants.DATE_UTC_FORMAT);
         };
 
         this.getStartDateSuffix = function(dateTime, type){
