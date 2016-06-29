@@ -116,16 +116,25 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
         // Convert local time (EST, GMT, etc.) to UTC before sending to backend for saving.
         // Also, startTime is forced to beginning of day & endTime to end of day.
         this.localTimeToUTC = function(dateTime, type) {
-            var timeSuffix = (type === 'startTime' ? this.getStartDateSuffix(dateTime, type) : '23:59:59'),
+            var clientUTCTime,
+                currentUTCTime,
+                timeSuffix = (type === 'startTime' ? this.getStartDateSuffix(dateTime, type) : '23:59:59'),
                 tz = this.getTimezoneName() === constants.TIMEZONE_UK ? 'GMT' : 'EST',
                 finalDateTime = Date.parse(dateTime + ' ' + timeSuffix + ' ' + tz);
+
+            clientUTCTime = moment(finalDateTime).tz('UTC');
+            currentUTCTime = moment.utc();
+
+            if(type === 'startTime') {
+                if (clientUTCTime < currentUTCTime) {
+                    clientUTCTime = currentUTCTime.seconds(600);
+                }
+            }
 
             return moment(finalDateTime).tz('UTC').format(constants.DATE_UTC_FORMAT);
         };
 
         this.getStartDateSuffix = function(dateTime, type){
-            // this is to solve the problem arising from start date convertion to UTC
-            // if the type is start time and date selected is today then we need to take the current time not the default 00:00:00
             if(type === 'startTime'){
                 var isSelectedDateToday = moment(dateTime).isSame(new Date(), "day");
                 if(isSelectedDateToday){
