@@ -126,7 +126,7 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
             currentUTCTime = moment.utc();
 
             if(type === 'startTime') {
-                if (clientUTCTime < currentUTCTime) {
+                if (clientUTCTime.valueOf() < currentUTCTime.valueOf()) {
                     clientUTCTime = currentUTCTime.seconds(600);
                 }
             }
