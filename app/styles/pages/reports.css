@@ -2705,7 +2705,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header div.each_col,
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container div.each_col {
-  width: 75px  ;
+  width: 78px  ;
 }
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header div.each_col.first_col,
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container div.each_col.first_col {
