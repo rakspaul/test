@@ -150,7 +150,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 clientId:  loginModel.getSelectedClient().id,
                 advertiserId: advertiserModel.getSelectedAdvertiser().id,
                 brandId: brandsModel.getSelectedBrand().id,
-                dateFilter: ($scope.selected_tab == "bydiscrepancy") ? "life_time" : datefilter,
+                dateFilter: datefilter,
                 tab: $scope.selected_tab
             };
             var tab = _.compact(_.pluck(performaceTabMap, [param.tab]))[0];
