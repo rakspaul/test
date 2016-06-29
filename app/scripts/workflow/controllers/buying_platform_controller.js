@@ -462,7 +462,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             _buyingPlatform.fetchPlatforms(platform);
         });
 
-        $scope.$on('switchPlatformFunc', function () {
+        $scope.$on('switchPlatformFunc', function (obj,tab) {
             var customFieldErrorElem = $('.customFieldErrorMsg'),
                 $modalInstance;
 
@@ -499,8 +499,17 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 });
                 return false;
             }
+            console.log($("input[name=platformSeatId]").val());
+            if($scope.adData.platform != undefined && (tab != undefined && tab[0] === '#buying')){
+                // _buyingPlatform.showCustomFieldBox();
+                // console.log($("input[platformSeatId]").val());
+                var seadId =  $("input[name=platformSeatId]").val();
+                $('#seatId_'+seadId).trigger('click');
+                // $('#').trigger('click')
+            } else {
+                _buyingPlatform.hideCustomPlatformBox();
 
-            _buyingPlatform.hideCustomPlatformBox();
+            }
         });
 
 

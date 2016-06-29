@@ -9,7 +9,7 @@
         <div ng-repeat="platform in workflowData.platforms" class="platformSeats">
             <div class="col-md-6 platformHolder"
                  ng-repeat="seat in platform.seats"
-                 ng-click="!platform.active ? '' : selectPlatform($event, platform, seat)">
+                 ng-click="!platform.active ? '' : selectPlatform($event, platform, seat)" id="seatId_{{seat.id}}">
             <img ng-src="{{platform.iconUrl}}"/>
             <p data-ng-bind="platform.displayName +' '+ seat.name"></p>
             <!--<span ng-bind-html="platform.summary"></span>-->

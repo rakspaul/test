@@ -1370,7 +1370,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                     //     x.zipcodes=i.zipcodes;
                                     //     postGeoTargetObj.ZIPCODE.geoTargetList.push(x)
                                     // }
-                                    
+
                                     var countryZipcodeObj={
                                         countryCode:'US',
                                         zipcodes:zipPostArr
@@ -1720,7 +1720,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $(target).animate({'bottom': '0px'}, '10');
 
                 //$scope.$broadcast('closeAddCreativePage');
-                $scope.$broadcast('switchPlatformFunc');
+                $scope.$broadcast('switchPlatformFunc',[target]);
             });
 
             $scope.changeStatus = function () {
