@@ -130,8 +130,7 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
                     clientUTCTime = currentUTCTime.seconds(600);
                 }
             }
-
-            return moment(finalDateTime).tz('UTC').format(constants.DATE_UTC_FORMAT);
+            return clientUTCTime.format(constants.DATE_UTC_FORMAT);
         };
 
         this.getStartDateSuffix = function(dateTime, type){
