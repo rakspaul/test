@@ -270,12 +270,12 @@
             <span class="plat_name" title="{{platform.platform_name}}">{{platform.platform_name}}</span>
         </div>
         <div class="each_col third_col {{platform.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}">
-            {{((platform.impressions >0)|| (platform.impressions == 0))? (platform.impressions | nrFormat:0) : '-'}}
+            {{((platform.impressions >0)|| (platform.impressions == 0))? (platform.impressions | number:0) : '-'}}
         </div>
 
         <div class="vid_col" ng-show="adFormats.videoAds == true">
             <div class="each_col third_col">
-                {{((platform.video_played >0)|| (platform.video_played == 0))? (platform.video_played | nrFormat) :
+                {{((platform.video_played >0)|| (platform.video_played == 0))? (platform.video_played | number:0) :
                 '-'}}
             </div>
 
@@ -354,18 +354,18 @@
         </div>
 
         <div class="each_col third_col impressions_col">
-            <span>{{((platform.video_view_impressions >0)|| (platform.video_view_impressions == 0))? (platform.video_view_impressions | nrFormat:0) : '-'}}</span>
+            <span>{{((platform.video_view_impressions >0)|| (platform.video_view_impressions == 0))? (platform.video_view_impressions | number:0) : '-'}}</span>
         </div>
         <div class="each_col third_col measurable_col">
             <div class="sub_col">
-                <span>{{((platform.video_view_measurable >0)|| (platform.video_view_measurable == 0))? (platform.video_view_measurable | nrFormat:0) : '-'}}</span>
+                <span>{{((platform.video_view_measurable >0)|| (platform.video_view_measurable == 0))? (platform.video_view_measurable | number:0) : '-'}}</span>
                 <span>{{((platform.video_view_measurable_perc >0)|| (platform.video_view_measurable_perc == 0)) ? ((platform.video_view_measurable_perc | number:0)+'%') : '-'}}</span>
             </div>
         </div>
 
         <div class="each_col forth_col">
             <div class="sub_col">
-                <span> {{((platform.video_viewable_impressions >0)|| (platform.video_viewable_impressions == 0))? (platform.video_viewable_impressions | nrFormat:0) : '-'}}</span>
+                <span> {{((platform.video_viewable_impressions >0)|| (platform.video_viewable_impressions == 0))? (platform.video_viewable_impressions | number:0) : '-'}}</span>
                 <span> {{((platform.video_viewable_impressions_perc >0)|| (platform.video_viewable_impressions_perc == 0)) ? ((platform.video_viewable_impressions_perc | number:0)+'%') : '-'}}</span>
             </div>
         </div>
@@ -390,7 +390,7 @@
 
         <div class="col-md-11 zeroPadding">
             <div class="col-md-1 zeroPadding text-left">{{((platform.impressions >0)|| (platform.impressions == 0))?
-                (platform.impressions | nrFormat:0) : '-'}}
+                (platform.impressions | number:0) : '-'}}
             </div>
             <div
                 class="col-md-1 zeroPadding text-left {{platform.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}">
@@ -437,17 +437,17 @@
 
         <div class="each_col third_col impressions_col">
             {{((platform.other_view_impressions >0)|| (platform.other_view_impressions == 0))?
-            (platform.other_view_impressions | nrFormat:0) : '-'}}
+            (platform.other_view_impressions | number:0) : '-'}}
         </div>
         <div class="each_col third_col measurable_col">
             <div class="sub_col">
-                <span> {{((platform.other_view_measurable >0)|| (platform.other_view_measurable == 0))? (platform.other_view_measurable | nrFormat) : '-'}}</span>
+                <span> {{((platform.other_view_measurable >0)|| (platform.other_view_measurable == 0))? (platform.other_view_measurable | number:0) : '-'}}</span>
                 <span>{{((platform.other_view_measurable_perc >0)|| (platform.other_view_measurable_perc == 0)) ? ((platform.other_view_measurable_perc | number:0)+'%') : '-'}}</span>
             </div>
         </div>
         <div class="each_col forth_col">
             <div class="sub_col">
-                <span> {{((platform.other_viewable_impressions >0)|| (platform.other_viewable_impressions == 0))? (platform.other_viewable_impressions | nrFormat:0) : '-'}}</span>
+                <span> {{((platform.other_viewable_impressions >0)|| (platform.other_viewable_impressions == 0))? (platform.other_viewable_impressions | number:0) : '-'}}</span>
                 <span>{{((platform.other_viewable_impressions_perc >0)|| (platform.other_viewable_impressions_perc == 0)) ? ((platform.other_viewable_impressions_perc | number:0)+'%') : '-'}}</span>
             </div>
         </div>
