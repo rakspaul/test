@@ -255,9 +255,24 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.adData.platformName = trackingIntegration.name;
         };
 
+        var getplatformCustomNameSpace =  function(customPlatformData) {
+            var ids = _.pluck(customPlatformData, 'platformCustomInputId');
+            var value;
+            _.each($scope.adData.customInpNameSpaceList, function(customInpNameSpaceList) {
+                _.each(customInpNameSpaceList.platformCustomInputGroupList, function(platformCustomInputGroupList) {
+                    var inputObj = _.filter(platformCustomInputGroupList.platformCustomInputList , function(obj) { return _.indexOf(ids, obj.id) !== -1});
+                    if(!value && inputObj.length>0) {
+                        value =  customInpNameSpaceList.name;
+                    }
+                })
+            })
+            return value;
+        }
+
 
         $scope.platformCustomInputs = function () {
-            var platformWrap = $('.platWrap');
+            var platformWrap = $('.platWrap'),
+                tabName = 'buying_strategy';
             $scope.adData.customInpNameSpaceList = [];
 
             workflowService
@@ -274,42 +289,37 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             platformCustomeJson = JSON.parse(result.data.data.customInputJson);
                             if(platformCustomeJson.platformCustomInputNamespaceList && platformCustomeJson.platformCustomInputNamespaceList.length >1) {
                                 $scope.adData.customInpNameSpaceList =  platformCustomeJson.platformCustomInputNamespaceList;
-                                if(!$scope.$parent.postPlatformDataObj || $scope.$parent.postPlatformDataObj.length === 0) {
-                                    _.each($scope.adData.customInpNameSpaceList, function (obj, idx) {
-                                        obj.className = idx == 0 ? 'active' : '';
-                                    })
-                                } else {
-
-                                    _.each($scope.adData.customInpNameSpaceList, function (obj, idx) {
-                                        obj.className = (obj.name === $scope.inventoryTabSelected) ? 'active' : '';
-                                    })
-
-                                    $timeout(function() {
-                                        $("#"+$scope.inventoryTabSelected).click();
-                                    }, 100)
-                                }
+                                _.each($scope.adData.customInpNameSpaceList, function (obj, idx) {
+                                    obj.className = idx == 0 ? 'active' : '';
+                                })
                             }
 
+                            _buyingPlatform.showCustomFieldBox();
+
                             if ($scope.mode === 'edit') {
-                                _buyingPlatform.showCustomFieldBox();
-
                                 adPlatformCustomInputsLocalStorageValue = localStorage.getItem('adPlatformCustomInputs');
-
-                                adPlatformCustomInputs =
+                                $scope.$parent.postPlatformDataObj =
                                     (adPlatformCustomInputsLocalStorageValue &&
                                     JSON.parse(adPlatformCustomInputsLocalStorageValue)) ||
                                     platformCustomeJson;
+                            }
 
-                                platformCustomeModule.init(platformCustomeJson, platformWrap, adPlatformCustomInputs);
+                            if($scope.$parent.postPlatformDataObj) {
+                                tabName = getplatformCustomNameSpace($scope.$parent.postPlatformDataObj);
+                                if(tabName) {
+                                    $timeout(function () {
+                                        $("#" + tabName).click();
+                                    }, 500)
+                                }
+
+                                platformCustomeModule.init(platformCustomeJson, platformWrap, $scope.$parent.postPlatformDataObj);
+
                             } else {
-                                _buyingPlatform.showCustomFieldBox();
-                                // maintain state of building platform strategy when user selects it navigates to other places
-
-
-                                if (oldPlatformName !== $scope.adData.platform) {
+                                if (oldPlatformName !== $scope.adData.platform) { // maintain state of building platform strategy when user selects it navigates to other places
                                     oldPlatformName = workflowService.getPlatform().displayName;
                                     platformCustomeModule.init(platformCustomeJson, platformWrap);
-                                } else if (!$scope.$parent.postPlatformDataObj) {
+
+                                } else if (!$scope.$parent.postPlatformDataObj || $scope.$parent.postPlatformDataObj.length === 0) {
                                     platformCustomeModule.init(platformCustomeJson, platformWrap);
                                 }
                             }
@@ -418,11 +428,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.$parent.postPlatformDataObj = $scope.workflowData.adsData.adPlatformCustomInputs;
                 }
             }
+
+
             if ($scope.mode == 'edit') {
                 localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.$parent.postPlatformDataObj));
             }
 
-
+            if($scope.inventoryTabSelected !== 'appnexus_direct') {
+                $scope.adData.clearAllSelectedPlacements();
+            }
 
             $scope.switchPlatform();
             if (!flag && customFieldErrorElem.length === 0) {

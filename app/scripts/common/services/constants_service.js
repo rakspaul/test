@@ -954,7 +954,7 @@ define(['angularAMD'], function(angularAMD) {
         this.OR = 'Or';
         this.IS = 'Is';
         this.ISNOT = 'Is Not';
-        this.SELECTED_SEGMENTS = 'Selected Segments';
+        this.SELECTED_PLACEMENTS = 'Selected Placements';
         this.DONE = 'Done';
 
         //Day Targeting
