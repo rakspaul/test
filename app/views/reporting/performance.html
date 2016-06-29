@@ -592,6 +592,7 @@
             </strong>
 
 
+
             <!--Column 2-->
             <strong class="col-md-2 text-right">{{((vendor.imps >0) || (vendor.imps == 0)) ? (vendor.imps | number:0) : '-'}}</strong>
 
@@ -607,7 +608,9 @@
 
             <div class="col-md-12 zeroPadding discrepancySecLevelRow" data-ng-repeat="node in vendor.nodes" >
                 <span class="pull-left platform_logo_img"><img ng-src="{{performanceIconUrl(node.name)}}" err-src="/images/platform_favicons/platform_logo.png" style="max-width: 10px;"></span>
-                <span data-ng-bind="node.name" class="pull-left discrepancySecLevelName"></span>
+                <span data-ng-bind="node.name" class="pull-left discrepancySecLevelName""></span>
+
+               <span class="pull-left text-left" style="width: 57px;">{{vendor.category}}</span>
 
                 <div class="col-md-2 text-right" ng-bind="((node.imps >0) || (node.imps == 0)) ? (node.imps | number:0) : '-'" style="padding:0"></div>
                 <!--<div class="col-md-2">0</div>-->

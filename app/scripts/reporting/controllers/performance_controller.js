@@ -536,7 +536,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                     $('.icon_text_holder').removeClass( "active" );
                 }
                 $scope.selected_tab = tab_id[0];
-                $scope.isStrategyDropDownShow = ($scope.selected_tab == "bydiscrepancy") ? false : true;
+               // $scope.isStrategyDropDownShow = ($scope.selected_tab == "bydiscrepancy") ? false : true;
                 $(".reports_tabs_holder").find(".active").removeClass("active");
                 $(this).addClass("active");
                 $(".reports_block").hide();
