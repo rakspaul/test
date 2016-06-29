@@ -123,12 +123,12 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
                 timeSuffix = (type === 'startTime' ? '00:00:00' : '23:59:59');
 
             if(type === 'startTime' && isSelectedDateToday) {
-                clientUTCTime = moment.utc().seconds(600);
+                clientUTCTime = moment.utc().seconds(60);
             } else {
                 parseDateTime = Date.parse(dateTime + ' ' + timeSuffix + ' ' + tz);
                 clientUTCTime = moment(parseDateTime).tz('UTC');
             }
-            
+
             return moment(clientUTCTime).format(constants.DATE_UTC_FORMAT);
         };
 
