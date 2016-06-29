@@ -499,13 +499,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 });
                 return false;
             }
-            console.log($("input[name=platformSeatId]").val());
             if($scope.adData.platform != undefined && (tab != undefined && tab[0] === '#buying')){
-                // _buyingPlatform.showCustomFieldBox();
-                // console.log($("input[platformSeatId]").val());
                 var seadId =  $("input[name=platformSeatId]").val();
                 $('#seatId_'+seadId).trigger('click');
-                // $('#').trigger('click')
             } else {
                 _buyingPlatform.hideCustomPlatformBox();
 
