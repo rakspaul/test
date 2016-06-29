@@ -12,9 +12,6 @@ body {
 .zeroPadding {
   padding: 0 !important;
 }
-.adChoices textarea {
-  resize: both;
-}
 .zeroMargin {
   margin: 0 !important;
 }
@@ -27,8 +24,14 @@ body {
 .clearLeft {
   clear: left;
 }
+.clearRight {
+  clear: left;
+}
 .clearBoth {
   clear: both;
+}
+.fullWidth {
+  width: 100%;
 }
 .bottomBorder {
   border-bottom: 1px solid #bfc9d7;
