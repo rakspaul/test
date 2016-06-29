@@ -9,7 +9,7 @@
             <h3 data-ng-bind="textConstants.MEDIAPLAN_BUDGET"></h3>
             <div class="symbol-input">
                 <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                <input type="text" style="padding-left: 20px;" ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" ng-keyup="ComputeCost();checkBudgetMinLimit(Campaign.totalBudget);" decorate-numbers valid-number autocomplete="off" required/>
+                <input type="text" style="padding-left: 20px;" ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" ng-keyup="ComputeCost();checkBudgetMinLimit(Campaign.totalBudget);" fcsa-number="{  }" valid-number autocomplete="off" required/>
             </div>
             <label ng-if="createCampaignForm.totalBudget.$error.required" class="txtError budgetError errorLabel" data-ng-bind="textConstants.TOTAL_BUDGET_REQUIRED"></label>
             <label ng-if="Campaign.totalBudget<=0" class="txtError budgetError" data-ng-bind="textConstants.TOTAL_BUDGET_GREATER_THAN_ZERO"></label>

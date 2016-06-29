@@ -373,7 +373,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 //set Media Plan Budget & Margin
                 if (campaignData.totalBudget && campaignData.marginPercent >= 0) {
-                    $scope.Campaign.totalBudget = workflowService.addCommaToNumber(campaignData.totalBudget);
+                    $scope.Campaign.totalBudget = campaignData.totalBudget;
                     $scope.Campaign.marginPercent = campaignData.marginPercent;
                     $scope.ComputeCost();
                 }
