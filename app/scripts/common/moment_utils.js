@@ -117,47 +117,19 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
         // Also, startTime is forced to beginning of day & endTime to end of day.
         this.localTimeToUTC = function(dateTime, type) {
             var clientUTCTime,
-                currentUTCTime,
+                parseDateTime,
                 tz = this.getTimezoneName() === constants.TIMEZONE_UK ? 'GMT' : 'EST',
-		isSelectedDateToday;
-                //timeSuffix = (type === 'startTime' ? this.getStartDateSuffix(dateTime, type) : '23:59:59'),
-                //finalDateTime = Date.parse(dateTime + ' ' + timeSuffix + ' ' + tz);
+                isSelectedDateToday = moment(dateTime).isSame(new Date(), "day"),
+                timeSuffix = (type === 'startTime' ? '00:00:00' : '23:59:59');
 
-            //clientUTCTime = moment(finalDateTime).tz('UTC');
-	    isSelectedDateToday = moment(dateTime).isSame(new Date(), "day");
-	    if (type === 'startTime' && isSelectedDateToday) {
-	        clientUTCTime = moment.utc().seconds(600);
-	    } else if (type === 'startTime' ) {
-	        clientUTCTime = Date.parse(dateTime + ' ' + '00:00:00' + ' ' + tz);
-	        clientUTCTime = moment(clientUTCTime).tz('UTC');
-	    } else {
-	        clientUTCTime = Date.parse(dateTime + ' ' + '23:59:59' + ' ' + tz);
-	        clientUTCTime = moment(clientUTCTime).tz('UTC');
-	    }
-
-/*
-            currentUTCTime = moment.utc();
-
-            if(type === 'startTime') {
-                if (clientUTCTime.valueOf() < currentUTCTime.valueOf()) {
-                    clientUTCTime = currentUTCTime.seconds(600);
-                }
+            if(type === 'startTime' && isSelectedDateToday) {
+                clientUTCTime = moment.utc().seconds(600);
+            } else {
+                parseDateTime = Date.parse(dateTime + ' ' + timeSuffix + ' ' + tz);
+                clientUTCTime = moment(parseDateTime).tz('UTC');
             }
-*/
+            
             return moment(clientUTCTime).format(constants.DATE_UTC_FORMAT);
-        };
-
-        this.getStartDateSuffix = function(dateTime, type){
-            if(type === 'startTime'){
-                var isSelectedDateToday = moment(dateTime).isSame(new Date(), "day");
-                if(isSelectedDateToday){
-                    // set current time
-                    return moment(new Date()).format('HH:mm:ss')
-                } else {
-                    // set the default 00:00:00
-                    return '00:00:00';
-                }
-            }
         };
 
         // Convert UTC to local time (EST, GMT, etc. when loading data for edit.
