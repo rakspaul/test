@@ -1011,9 +1011,9 @@
                 'more_dimension_col' :
                 ' '}}">
             <span
-                ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();"
+                ng-click="deepLinking.routeToLink($event,customeReportData.level,$index); $event.stopPropagation();"
                 ng-if="customeReportData.value"
-                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"></span>
+                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}" style="cursor:pointer;"></span>
             </div>
 
             <!----- Delivery report data ------------------------>

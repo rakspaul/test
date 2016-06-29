@@ -95,7 +95,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         */
 
         $scope.sortReverse  = false;
-        $scope.sortType = 'abcdefghijklmnopqrstuvwxyz';
+        $scope.sortType = 'value';
         $scope.clickToSort = function(dm) {
             $scope.sortType = dm;
             $scope.sortReverse = !$scope.sortReverse;
@@ -944,19 +944,92 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     retVal = true;
                 }
             }
-            /*if(retVal || !_.isEqual(oldJSON.filters,newJSON.filters) || !_.isEqual(oldJSON.metrics,newJSON.metrics) || !_.isEqual(oldJSON.timeframe,newJSON.timeframe)){
-                retVal = true;
-            }*/
             return retVal;
         }
 
+
+        $scope.deepLinking = (function() {
+                return {
+                    mediaplan: function(dimension,curRowIndx,curSecDimIndx) {
+                        console.log('its media plan')
+                            var mediaPlanId;
+
+                            if(dimension == "first_dimension"){
+                                var mediaPlanId = $scope.reportMetaData[dimension][curRowIndx].dimension.id;
+                            }else {
+                                var mediaPlanId = $scope.reportMetaData[dimension][curRowIndx][curSecDimIndx].dimension.id;
+                            }
+                            if(mediaPlanId) {
+                                $location.url('mediaplan/'+mediaPlanId+'/overview');
+                            }
+
+                    },
+                    ad: function(dimension,curRowIndx,curSecDimIndx) {
+                        var dataObj;
+                        if(dimension == "first_dimension"){
+                            dataObj = $scope.reportMetaData[dimension][curRowIndx].dimension;
+                        } else {
+                            dataObj = $scope.reportMetaData[dimension][curRowIndx][curSecDimIndx].dimension;
+                        }
+                        var adGroupId = dataObj.ad_group_id;
+                        var mediaPlanId = dataObj.campaign_id;
+                        var adId = dataObj.id;
+                        var lineItemId = dataObj.lineitem_id;
+
+                        if((adGroupId !== -1) && (mediaPlanId !== -1) && (adId !== -1) && (lineItemId !== -1)) {
+                            $location.url('mediaplan/'+mediaPlanId+'/lineItem/'+lineItemId+'/adGroup/'+adGroupId+'/ads/'+adId+'/edit');
+                        }
+                    },
+
+                    setSubAccount: function(id,name) {
+                        loginModel.setSelectedClient({ id: id, name: name});
+                    },
+
+                    routeToLink: function(ev,dimension,curSecDimIndx) {
+                        var currFirtDimensionElem = $(ev.target).parents(".reportData");
+                        var currentRowIndex = Number(currFirtDimensionElem.attr("data-result-row"));
+                        var metricObj = $scope.metricValues['first_dimension'][$scope.activeTab][currentRowIndex];
+                        var subAccountId;
+                        var subAccountName;
+
+                        if(dimension == "first_dimension"){
+                            subAccountId = $scope.reportMetaData[dimension][currentRowIndex].dimension.client_id;
+                            subAccountName = $scope.reportMetaData[dimension][currentRowIndex].dimension.clientName;
+                            metricObj = $scope.metricValues[dimension][$scope.activeTab][currentRowIndex];
+                        }else {
+                            subAccountId = $scope.reportMetaData[dimension][currentRowIndex][curSecDimIndx].dimension.client_id;
+                            subAccountName = $scope.reportMetaData[dimension][currentRowIndex][curSecDimIndx].dimension.clientName;
+                            metricObj = $scope.metricValues[dimension][currentRowIndex][$scope.activeTab][curSecDimIndx];
+                        }
+
+                        if((metricObj instanceof Object) && ((metricObj.type == "campaign_name") || (metricObj.type == "ad_name"))) {
+                            if(subAccountId && subAccountName) {
+                                $scope.deepLinking.setSubAccount(subAccountId,subAccountName);
+                            }
+                        }
+
+                        if((metricObj instanceof Object) && (metricObj.type == "campaign_name")) {
+                            $scope.deepLinking.mediaplan(dimension,currentRowIndex,curSecDimIndx);
+                        }
+
+                        if((metricObj instanceof Object) && (metricObj.type == "ad_name")){
+                            $scope.deepLinking.ad(dimension,currentRowIndex,curSecDimIndx)
+                        }
+
+                        return false;
+                    }
+
+                }
+
+            }
+        )();
+
         $scope.showDataForClikedDimension = function(ev, value, rowIndex, loadMore) {
             var winHeight = $(window).height() - 160;
-
             var currFirtDimensionElem = $(ev.target).parents(".reportData");
             var currSecondDimensionElem = currFirtDimensionElem.find('.second_dimension_row_holder');
-
             var initiallyActiveTab = $scope.activeTab;
+            var currentRowIndex = Number(currFirtDimensionElem.attr("data-result-row"));
 
             if(!currFirtDimensionElem.hasClass('treeOpen') && _customctrl.isInputsChangedAfterGenerate(_customctrl.inputDataOnGenerate, $scope.createData().reportDefinition) && $scope.isReportForMultiDimension !== false){
                 $rootScope.setErrAlertMessage("Please regenerate the page, input data had changed");
@@ -970,8 +1043,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 if (!$scope.isReportForMultiDimension) {
                     return false;
                 }
-
-                var currentRowIndex = Number(currFirtDimensionElem.attr("data-result-row"));
 
                 if(_customctrl.isReportLastPage_2D[currentRowIndex]){
                     currFirtDimensionElem.addClass('active');
