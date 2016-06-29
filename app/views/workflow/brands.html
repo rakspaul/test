@@ -4,18 +4,20 @@
 <div class="users-creation-page" ng-controller='AdminAdvertisersController'>
     <!--Header-->
     <div class="col-md-12 zeroPadding heading" style="margin: 30px 0;">
-        <h1 class="zeroMargin">Brands</h1>
-        <div class="col-md-12 zeroPadding" style="margin-top: 30px;">
+        <h1 class="zeroMargin pull-left">Brands</h1>
+        
+        <div class="pull-right btn-group create" role="group" aria-label="...">
+            <a class="btn btn-default" ng-click="createBrand()">
+                <span class="icon-plus"></span>
+                <span data-ng-bind="isEditBrand ? 'Update' : 'Create'"></span>
+            </a>
+        </div>
+        
+        <div class="col-md-12 zeroPadding">
             <label class="col-sm-12 greyTxt">Brand Name</label>
-            <input type="text" class="pull-left clearLeft" placeholder="Add Name" id="brandNameInp" ng-model="brandName"
-                   ng-keyup="mode == 'create' ? showDropdown() : ''" style="width:500px; border-top-right-radius: 0px; border-bottom-right-radius: 0;" ng-class="{'edit-input':isEditBrand}">
-            <div class="pull-left btn-group create" role="group" aria-label="...">
-                <a class="btn btn-default" ng-click="createBrand()" style="border-left: 0; border-radius: 0;">
-                    <span class="icon-plus"></span>
-                    <span data-ng-bind="isEditBrand ? 'Update' : 'Create'"></span>
-                </a>
-                <!--<admin-header></admin-header>-->
-            </div>
+            <input type="text" class="pull-left clearLeft col-md-3" placeholder="Add Name" id="brandNameInp" ng-model="brandName"
+                   ng-keyup="mode == 'create' ? showDropdown() : ''" style="border-top-right-radius: 0px; border-bottom-right-radius: 0;" ng-class="{'edit-input':isEditBrand}">
+            
             <span class="delete_row" ng-show="isEditBrand"
                   data-ng-click="isEditBrand=false;brandName=''"
                   style="position: absolute;top: 32px;left: 470px;"></span>
