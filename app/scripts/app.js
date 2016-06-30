@@ -1,3 +1,4 @@
+'use strict';
 define(['common'], function (angularAMD) {
     angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
         .controller('CarouselController', ['$scope', '$timeout', '$transition', '$q', 'ngFileUpload',
