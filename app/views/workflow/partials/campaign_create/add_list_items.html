@@ -6,7 +6,7 @@
     <div class="col-md-5" style="background: #F0F0F0; padding: 0 10px 10px 10px;">
         <div class="col-md-4 zeroPadding">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_BUDGET"></label>
-            <span class="col-md-12 zeroPadding">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget? Campaign.totalBudget:0}}</span>
+            <span class="col-md-12 zeroPadding">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget? (Campaign.totalBudget| number:2 ):0}}</span>
         </div>
         <div class="col-md-4 zeroPadding">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_MARGIN"></label>
@@ -14,7 +14,7 @@
         </div>
         <div class="col-md-4 zeroPadding">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_DELIVERY_BUDGET"></label>
-            <span class="col-md-12 zeroPadding">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget?Campaign.deliveryBudget:0}}</span>
+            <span class="col-md-12 zeroPadding">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget?(Campaign.deliveryBudget| number:2 ):0}}</span>
         </div>
     </div>
 
@@ -321,7 +321,7 @@
         </div>
     </div>
     <!--Item List Table Sample Start-->
-    <span class="col-md-12 text-right total-billable-amount">Total Billable Amount: {{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{selectedCampaign.lineItemBillableAmountTotal}}</span>
+    <span class="col-md-12 text-right total-billable-amount">Total Billable Amount: {{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{selectedCampaign.lineItemBillableAmountTotal | number:2}}</span>
 
     <label class="col-sm-12 labelQuestTxt showAddCreditForm" ng-click="showAddCreditForm()" ng-hide="true">
         <span class="icon-arrow-down-thick"></span>Add Credits (0)
