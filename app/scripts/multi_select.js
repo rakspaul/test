@@ -1,3 +1,4 @@
+'use strict';
 angular.module('ui.multiselect', [])
 
   //from bootstrap-ui typeahead parser
@@ -12,8 +13,8 @@ angular.module('ui.multiselect', [])
         var match = input.match(TYPEAHEAD_REGEXP), modelMapper, viewMapper, source;
         if (!match) {
           throw new Error(
-            "Expected typeahead specification in form of '_modelValue_ (as _label_)? for _item_ in _collection_'" +
-              " but got '" + input + "'.");
+            'Expected typeahead specification in form of "_modelValue_ (as _label_)? for _item_ in _collection_"' +
+              ' but got "' + input + '".');
         }
 
         return {
@@ -87,8 +88,7 @@ angular.module('ui.multiselect', [])
           scope.$watch(function () {
             return parsedResult.source(originalScope);
           }, function (newVal) {
-            if (angular.isDefined(newVal))
-              parseModel();
+              (angular.isDefined(newVal)) && (parseModel());
           }, true);
 
           //watch model change
@@ -109,7 +109,9 @@ angular.module('ui.multiselect', [])
           function parseModel() {
             scope.items.length = 0;
             var model = parsedResult.source(originalScope);
-            if(!angular.isDefined(model)) return;
+            if(!angular.isDefined(model)){
+                return;
+            }
             for (var i = 0; i < model.length; i++) {
               var local = {};
               local[parsedResult.itemName] = model[i];
@@ -126,12 +128,14 @@ angular.module('ui.multiselect', [])
           element.append($compile(popUpEl)(scope));
 
           function getHeaderText() {
-            if (is_empty(modelCtrl.$modelValue)) return scope.header = '';
+            if (is_empty(modelCtrl.$modelValue)){
+                return scope.header = '';
+            }
             if (isMultiple) {
                var selected_item ='';
                var data_selected = modelCtrl.$modelValue;
-               for(i=0;i < data_selected.length;i++){
-                  selected_item = selected_item + data_selected[i].name +",";
+               for(var i=0;i < data_selected.length;i++){
+                  selected_item = selected_item + data_selected[i].name +',';
                }
                if(selected_item.length > 0 ){
                   selected_item = selected_item.substring(0, selected_item.length - 1);
@@ -151,16 +155,26 @@ angular.module('ui.multiselect', [])
           }
 
           function is_empty(obj) {
-            if (!obj) return true;
-            if (obj.length && obj.length > 0) return false;
-            for (var prop in obj) if (obj[prop]) return false;
+            if (!obj){
+                return true;
+            }
+            if (obj.length && obj.length > 0){
+                return false;
+            }
+            for (var prop in obj){
+                if (obj[prop]){
+                    return false;
+                }
+            }
             return true;
-          };
+          }
 
           scope.valid = function validModel() {
-            if(!required) return true;
+            if(!required){
+                return true;
+            }
             var value = modelCtrl.$modelValue;
-            return (angular.isArray(value) && value.length > 0) || (!angular.isArray(value) && value != null);
+            return (angular.isArray(value) && value.length > 0) || (!angular.isArray(value) && value !== null);
           };
 
           function selectSingle(item) {
@@ -184,15 +198,15 @@ angular.module('ui.multiselect', [])
             if (isMultiple) {
               value = [];
               angular.forEach(scope.items, function (item) {
-                if (item.checked) value.push(item.model);
-              })
+                  ((item.checked) && value.push(item.model));
+              });
             } else {
               angular.forEach(scope.items, function (item) {
                 if (item.checked) {
                   value = item.model;
                   return false;
                 }
-              })
+              });
             }
             modelCtrl.$setViewValue(value);
           }
@@ -217,7 +231,9 @@ angular.module('ui.multiselect', [])
           }
 
           scope.checkAll = function () {
-            if (!isMultiple) return;
+            if (!isMultiple){
+                return;
+            }
             angular.forEach(scope.items, function (item) {
               item.checked = true;
             });
@@ -239,7 +255,7 @@ angular.module('ui.multiselect', [])
               selectMultiple(item);
               if(modelCtrl.$modelValue)
               {
-                if(modelCtrl.$modelValue.length == 0){
+                if(modelCtrl.$modelValue.length === 0){
                   scope.toggleSelectAll(false);
                 }
                 if(scope.items){
@@ -249,7 +265,7 @@ angular.module('ui.multiselect', [])
                 }
               }
             }
-          }
+          };
         }
       };
     }])
@@ -279,8 +295,9 @@ angular.module('ui.multiselect', [])
         };
 
         function clickHandler(event) {
-          if (elementMatchesAnyInArray(event.target, element.find(event.target.tagName)))
-            return;
+          if (elementMatchesAnyInArray(event.target, element.find(event.target.tagName))) {
+              return;
+          }
           element.removeClass('open');
           $document.unbind('click', clickHandler);
           scope.$apply();
@@ -289,16 +306,16 @@ angular.module('ui.multiselect', [])
         scope.focus = function focus(){
           var searchBox = element.find('input')[0];
           //searchBox.focus();
-        }
+        };
 
         scope.clearCheckbox = function(){
 
         };
-         $rootScope.$on("clear",function(){
+         $rootScope.$on('clear',function(){
            scope.selectedAll = true;
            scope.uncheckAll();
          });
-           $rootScope.$on("removeOptions",function(event,args){
+           $rootScope.$on('removeOptions',function(event,args){
             //scope.selectedAll = true;
             if(scope.datashow == 2 ){
              scope.selectedAll = true;
@@ -313,7 +330,7 @@ angular.module('ui.multiselect', [])
                //scope.header = '';
              }
           });
-            $rootScope.$on("showOptions",function(event,args){
+            $rootScope.$on('showOptions',function(event,args){
 
             if(scope.datashow == 2 || scope.datashow == 3  ){
 
@@ -326,7 +343,7 @@ angular.module('ui.multiselect', [])
            }
           });
         scope.toggleSelectAll = function(flag){
-          if(flag == false){
+          if(flag === false){
             scope.selectedAll = true;
             scope.uncheckAll();
           }else{
@@ -335,14 +352,16 @@ angular.module('ui.multiselect', [])
             scope.checkAll();
           }
 
-        }
+        };
 
         var elementMatchesAnyInArray = function (element, elementArray) {
-          for (var i = 0; i < elementArray.length; i++)
-            if (element == elementArray[i])
-              return true;
+          for (var i = 0; i < elementArray.length; i++) {
+              if (element == elementArray[i]) {
+                  return true;
+              }
+          }
           return false;
-        }
+        };
       }
-    }
+    };
   }]);
