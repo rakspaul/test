@@ -593,9 +593,10 @@
                 <span ng-bind="vendor.nodes.length > 1 ? vendor.category : vendor.nodes[0].name" style="margin-left: 2px"></span>
             </strong>
 
+            <strong class="col-md-2 text-left">{{(vendor.nodes.length ==1) ? (vendor.category) : ''}}</strong>
 
             <!--Column 2-->
-            <strong class="col-md-2 text-right">{{((vendor.imps >0) || (vendor.imps == 0)) ? (vendor.imps | number:0) : '-'}}</strong>
+            <strong class="col-md-2 zeroPadding text-left">{{((vendor.imps >0) || (vendor.imps == 0)) ? (vendor.imps | number:0) : '-'}}</strong>
 
             <!--Column 3-->
             <strong class="col-md-2" data-ng-bind="getDiscrepancyImpsGap(vendor.imps, vendor.ad_id) | number:0"></strong>
