@@ -11,7 +11,7 @@ define(['angularAMD',
         var _curCtrl = this;
         _curCtrl.defaultFilter = {advertiserId: -1, brandId: -1, dateFilter: "life_time"}
         $scope.data = {
-            brandData: {},
+            advertiserData: {},
             campaignDataForSelectedBrand: {},
             campaignDataForAllBrands: []
         };
@@ -61,8 +61,8 @@ define(['angularAMD',
                 } else {
                     $scope.dataFound = true;
                     // $("#data_not_available").hide();
-                    $scope.data.brandData = bubbleChartModel.getbubbleWidgetData()['brandData'];
-                    bubbleChart.updateBubbleChartData("brands", $scope.data.brandData);
+                    $scope.data.advertiserData = bubbleChartModel.getbubbleWidgetData()['advertiserData'];
+                    bubbleChart.updateBubbleChartData("brands", $scope.data.advertiserData);
                     $scope.budget_top_title = bubbleChartModel.getbubbleWidgetData()['budget_top_title'];
 
                 }
@@ -88,24 +88,25 @@ define(['angularAMD',
                 } else {
                     $scope.dataFound = true;
                     // $("#data_not_available").hide();
-                    $scope.data.brandData = bubbleChartModel.getbubbleWidgetData()['brandData'];
+                    $scope.data.advertiserData = bubbleChartModel.getbubbleWidgetData()['advertiserData'];
 
                     if (brandsModel.getSelectedBrand().id == -1) {
-                        bubbleChart.updateBubbleChartData("brands", $scope.data.brandData);
+                        bubbleChart.updateBubbleChartData("brands", $scope.data.advertiserData);
                         $scope.budget_top_title = bubbleChartModel.getbubbleWidgetData()['budget_top_title'];
                     }
 
-                    for (var i in $scope.data.brandData) {
-                        var brand = $scope.data.brandData[i];
-
-                        bubbleChartModel.getBubbleChartDataForCampaignWithOutCanceller(brand.id).then(function (result) {
-                            var obj = {
-                                brandId: brand.id,
-                                campaigns: result
-                            };
-                            $scope.data.campaignDataForAllBrands.push(obj);
-                        });
-                    }
+                    // Not using it anywhere
+//                    for (var i in $scope.data.brandData) {
+//                        var brand = $scope.data.brandData[i];
+//
+//                        bubbleChartModel.getBubbleChartDataForCampaignWithOutCanceller(brand.id).then(function (result) {
+//                            var obj = {
+//                                brandId: brand.id,
+//                                campaigns: result
+//                            };
+//                            $scope.data.campaignDataForAllBrands.push(obj);
+//                        });
+//                    }
                 }
 
             },function(err){

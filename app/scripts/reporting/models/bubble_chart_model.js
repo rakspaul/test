@@ -13,7 +13,7 @@ define(['angularAMD',
                                      constants, loginModel, advertiserModel,
                                      subAccountModel) {
     var bubbleWidgetData = {
-      brandData: {},
+      advertiserData: {},
       dataNotAvailable: true,
       budget_top_title: {},
       campaignDataForSelectedBrand: {},
@@ -41,7 +41,7 @@ define(['angularAMD',
 
           if (data.length > 0) {
             bubbleWidgetData['dataNotAvailable'] = false;
-            bubbleWidgetData['brandData'] = data;
+            bubbleWidgetData['advertiserData'] = data;
             bubbleWidgetData['budget_top_title'] = (total_advertisers >= 5) ? "(Top 5 advertisers)" : "(All Advertisers)";
           } else {
             bubbleWidgetData['dataNotAvailable'] = true;
@@ -49,7 +49,7 @@ define(['angularAMD',
         } else {
           bubbleWidgetData['dataNotAvailable'] = true;
         }
-        return bubbleWidgetData['brandData'];
+        return bubbleWidgetData['advertiserData'];
       })
     };
 
@@ -68,7 +68,7 @@ define(['angularAMD',
                 }).reverse().slice(0, 5).value();
                 if (data.length > 0) {
                     bubbleWidgetData['dataNotAvailable'] = false;
-                    bubbleWidgetData['brandData'] = data;
+                    bubbleWidgetData['advertiserData'] = data;
                     bubbleWidgetData['budget_top_title'] = (total_advertisers >= 5) ? "(Top 5 advertisers)" : "(All Advertisers)";
                 } else {
                     bubbleWidgetData['dataNotAvailable'] = true;
@@ -76,7 +76,7 @@ define(['angularAMD',
             } else {
                 bubbleWidgetData['dataNotAvailable'] = true;
             }
-            return bubbleWidgetData['brandData'];
+            return bubbleWidgetData['advertiserData'];
         });
     };
     // getBubbleChartDataForCampaign
