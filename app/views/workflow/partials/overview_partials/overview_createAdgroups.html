@@ -101,7 +101,7 @@
                     </label>
                     <div class="form-group col-md-3" style="padding: 0 10px 0 0;" show-errors>
                         <span class="currencyFly">$</span>
-                        <input type="number"
+                        <input type="text"
                                class="form-control"
                                id="budgetIndividualAdGroup"
                                name="adIGroupBudget"
@@ -109,6 +109,9 @@
                                data-ng-value="adIGroupBudget"
                                min-value="{{adGroupMinBudget}}"
                                max-value="{{adGroupMaxBudget}}"
+                               fcsa-number="{  }"
+                               fraction-numbers
+                               valid-number
                                required data-ng-keyup="validateAdGroupSpend($event)">
                     </div>
                     <label data-ng-if="createNewAdGrp.adIGroupBudget.$error.required"

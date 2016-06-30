@@ -1,6 +1,6 @@
 define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'common/moment_utils',
         'common/services/vistoconfig_service', 'workflow/controllers/get_adgroups_controller',
-        'workflow/directives/edit_ad_group_section', 'login/login_model', 'workflow/controllers/campaign_clone_controller', 'workflow/controllers/mediaplan_archive_controller'],
+        'workflow/directives/edit_ad_group_section', 'login/login_model', 'workflow/controllers/campaign_clone_controller', 'workflow/controllers/mediaplan_archive_controller','common/directives/decorate_numbers'],
     function (angularAMD) {
         angularAMD.controller('CampaignOverViewController', function ($scope, $modal, $rootScope, $routeParams,
                                                                       $timeout, $location, $route, constants,
@@ -997,7 +997,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     postCreateAdObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
                     postCreateAdObj.createdAt = '';
                     postCreateAdObj.updatedAt = formData.adgroupId ? formData.updatedAt : '';
-                    postCreateAdObj.deliveryBudget = formData.adIGroupBudget;
+                    postCreateAdObj.deliveryBudget = workflowService.stripCommaFromNumber(formData.adIGroupBudget);
                     postCreateAdObj.lineitemId = Number(formData.lineitemId);
                     postCreateAdObj.labels = _.pluck(JSON.parse(formData.ad_label), 'label');
 
