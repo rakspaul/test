@@ -6,7 +6,7 @@
     <div class="col-md-5" style="background: #F0F0F0; padding: 0 10px 10px 10px;">
         <div class="col-md-4 zeroPadding">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_BUDGET"></label>
-            <span class="col-md-12 zeroPadding">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget? Campaign.totalBudget:0}}</span>
+            <span class="col-md-12 zeroPadding">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget? (Campaign.totalBudget| number:2 ):0}}</span>
         </div>
         <div class="col-md-4 zeroPadding">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_MARGIN"></label>
@@ -14,7 +14,7 @@
         </div>
         <div class="col-md-4 zeroPadding">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_DELIVERY_BUDGET"></label>
-            <span class="col-md-12 zeroPadding">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget?Campaign.deliveryBudget:0}}</span>
+            <span class="col-md-12 zeroPadding">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget?(Campaign.deliveryBudget| number:2 ):0}}</span>
         </div>
     </div>
 
@@ -179,7 +179,7 @@
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
             <div class="rate-input-field symbol-input col-md-12 zeroPadding">
                 <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate"   valid-number ng-change="calculateVolume('create')"/>
+                <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate"  fcsa-number="{  }" valid-number ng-change="calculateVolume('create')"/>
             </div>
 
             <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
@@ -187,7 +187,7 @@
 
         <div class="listItemValues" ng-show="amountFlag">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_BILLABLE_AMOUNT"></label>
-            <div class="col-md-12 zeroPadding symbol-input"><span class="symbol" >{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span><input type="text" class="col-md-12" placeholder="" ng-model="$parent.billableAmount" valid-number  ng-change="calculateVolume('create')" style="padding-left:20px"/>
+            <div class="col-md-12 zeroPadding symbol-input"><span class="symbol" >{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span><input type="text" class="col-md-12" placeholder="" ng-model="$parent.billableAmount" fcsa-number="{  }" valid-number  ng-change="calculateVolume('create')" style="padding-left:20px"/>
             </div>
         </div>
         <div class="listItemSmallValues" ng-show="volumeFlag">
@@ -197,7 +197,7 @@
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="lineItemType.name === 'CPCV'">Completed</label>
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="lineItemType.name === 'Post-Click CPA' || lineItemType.name === 'Post-Impression CPA' || lineItemType.name === 'Total CPA'">Actions</label>
 
-            <input type="text" class="col-md-12 form-control" placeholder="" ng-model="$parent.volume" whole-number-only ng-readonly="true"/>
+            <input type="text" class="col-md-12 form-control" placeholder="" ng-model="$parent.volume"  whole-number-only ng-readonly="true"/>
         </div>
 
         <!--Row 2-->
@@ -321,7 +321,7 @@
         </div>
     </div>
     <!--Item List Table Sample Start-->
-    <span class="col-md-12 text-right total-billable-amount">Total Billable Amount: {{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{selectedCampaign.lineItemBillableAmountTotal}}</span>
+    <span class="col-md-12 text-right total-billable-amount">Total Billable Amount: {{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{selectedCampaign.lineItemBillableAmountTotal | number:2}}</span>
 
     <label class="col-sm-12 labelQuestTxt showAddCreditForm" ng-click="showAddCreditForm()" ng-hide="true">
         <span class="icon-arrow-down-thick"></span>Add Credits (0)
@@ -413,13 +413,13 @@
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
             <div class="rate-input-field symbol-input col-md-12 zeroPadding">
                 <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="editLineItem.pricingRate" ng-readonly="rateReadOnlyEdit" name="lineItemRate" fraction-numbers autocomplete="off" ng-change="calculateVolume('edit')">
+                <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="editLineItem.pricingRate" ng-readonly="rateReadOnlyEdit" name="lineItemRate" fraction-numbers autocomplete="off" fcsa-number="{  }"  ng-change="calculateVolume('edit')">
             </div>
         </div>
 
         <div class="listItemValues" ng-show="amountFlagEdit">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_BILLABLE_AMOUNT"></label>
-            <div class="col-md-12 zeroPadding symbol-input"><span class="symbol" >{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span><input type="text" class="col-md-12" placeholder="" ng-model="editLineItem.billableAmount" valid-number ng-change="calculateVolume('edit')" style="padding-left:20px" autocomplete="off"/>
+            <div class="col-md-12 zeroPadding symbol-input"><span class="symbol" >{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span><input type="text" class="col-md-12" placeholder="" ng-model="editLineItem.billableAmount" fcsa-number="{  }"  valid-number ng-change="calculateVolume('edit')" style="padding-left:20px" autocomplete="off"/>
             </div>
         </div>
         <div class="listItemSmallValues" ng-show="volumeFlagEdit">
