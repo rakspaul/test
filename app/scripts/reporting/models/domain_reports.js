@@ -71,27 +71,12 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
 
 
             checkForCampaignFormat: function (adFormats) {
-                var adSupportVideo = false;
-                var adSupportDisplay = false;
-
-                var videoAds = function () {
-                    return _.indexOf(adFormats, "VIDEO") != -1;
-                }
-                if (adFormats && adFormats.length > 0) {
-                    if (videoAds() && adFormats.length > 1) {
-                        adSupportVideo = true;
-                        adSupportDisplay = true;
-                    } else {
-                        if (videoAds() && adFormats.length === 1) {
-                            adSupportVideo = true;
-                            adSupportDisplay = false;
-                        } else {
-                            adSupportDisplay = true;
-                        }
-                    }
-                }
-
-                return {'videoAds': adSupportVideo, 'displayAds': adSupportDisplay}
+                adFormats = _.flatten(adFormats);
+                var videoAdsExists = _.contains(adFormats, 'VIDEO'),
+                    displayAdsExists = true;
+                // Ex: ['VIDEO'], ['VIDEO', 'SOCIAL'], ['VIDEO', 'SOCIAL', 'RICH_MEDIA']
+                displayAdsExists = !(videoAdsExists && adFormats.length == 1);
+                return {'videoAds': videoAdsExists, 'displayAds': displayAdsExists};
             }
 
         };
