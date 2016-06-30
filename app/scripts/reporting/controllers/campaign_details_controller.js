@@ -303,20 +303,14 @@ function (angularAMD) {
                         kpi: $scope.campaign.kpi_type.toLowerCase()
                     };
 
-                    //console.log($scope.adFormats);
                     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
                     campaignSelectModel.setSelectedCampaign(selectedCampaign);
 
                     /*   Fetch Spend Start */
-                    var queryObj = {
-                        'queryId':14,
-                        'clientId':loginModel.getSelectedClient().id,
-                        'advertiserId':advertiserModel.getSelectedAdvertiser().id,
-                        'brandId':brandsModel.getSelectedBrand().id,
-                        'dateFilter':'life_time',
-                        'campaignIds':$scope.campaign.id
-                    };
-                    var spendUrl = urlService.getCampaignSpend(queryObj);
+                    var params = getCustomQueryParams(14);
+                    delete params.campaignId;
+                    params.campaignIds = $scope.campaign.id;
+                    var spendUrl = urlService.getCampaignSpend(params);
 
                     dataService.fetch(spendUrl).then(function(response) {
                         if(response.data){
@@ -552,19 +546,12 @@ function (angularAMD) {
         };
 
         $scope.getCostBreakdownData  = function (campaign) { //get cost break down data
-            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
-                params = {
-                    queryId: 14, //cost_report_for_one_or_more_campaign_ids
-                    clientId: loginModel.getSelectedClient().id,
-                    campaignIds: campaign.orderId,
-                    dateFilter: datefilter,
-                    advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                    brandId: brandsModel.getSelectedBrand().id
-                },
-                url = urlService.APIVistoCustomQuery(params);
+            var params = getCustomQueryParams(14);
+            delete params.campaignId;
+            params.campaignIds = campaign.orderId;
 
             dataService
-                .fetch(url)
+                .fetch(urlService.APIVistoCustomQuery(params))
                 .then(function (result) {
                     var costData,
                         inventoryCostPercent,
@@ -652,20 +639,15 @@ function (angularAMD) {
         };
 
         $scope.getInventoryGraphData  = function (campaign) {
-            var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_INVENTORY_CATEGORIES);
+            var params = getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_INVENTORY_CATEGORIES);
 
             dataService
                 .fetch(urlService.APIVistoCustomQuery(params))
                 .then(function (result) {
-                    var kpIType = kpiSelectModel.selectedKpi,
+                    var kpIType = kpiSelectModel.selectedKpi.toLowerCase(),
                         inventoryData,
+                        hasVideoAds,
                         sortedData;
-
-                    kpIType = kpIType.toLowerCase();
-
-                    if(kpIType === "action rate") {
-                        kpIType = 'action_rate';
-                    }
 
                     $scope.loadingInventoryFlag = false;
 
@@ -676,45 +658,34 @@ function (angularAMD) {
                             (result.data.data.length > 0 )) {
                             inventoryData = result.data.data;
                         }
+                        //for a vedio campaign, if set(default) kPI is vtc and dosen’t have video data.
+                        // we are showing data not found.
+                        hasVideoAds = $scope.adFormats && kpIType.toLowerCase() === 'vtc' && !$scope.adFormats.videoAds;
 
-                        if (inventoryData && inventoryData.length > 0) {
+                        if (inventoryData && inventoryData.length > 0 && !hasVideoAds) {
+                            _.each(inventoryData, function (obj) {
+                                obj.vtc = obj.vtc_100;
+                                obj['action rate'] = obj.action_rate;
+                            });
                             // This Sorts the Data order by CTR or CPA
                             sortedData = _.sortBy(inventoryData, kpIType);
-
-                            sortedData =
-                                (kpIType === 'cpa' ||
-                                kpIType === 'cpm' ||
-                                kpIType === 'cpc') ? sortedData: sortedData.reverse();
-
+                            sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpIType) ? sortedData : sortedData.reverse();
                             sortedData = _.sortBy(sortedData, function (obj) {
                                 return obj[kpIType] === 0;
                             });
                             sortedData  = sortedData.slice(0, 3);
 
-                            _.each(sortedData, function (data, idx) {
-                                var kpiData;
+                            $scope.chartDataInventory = _.map(sortedData, function (data) {
+                                var kpiData = data[kpIType];
 
-                                if (kpIType === 'vtc') {
-                                    kpiData = data.vtc_100;
-                                } else {
-                                    kpiData = data[kpIType];
-                                }
-
-                                if (kpIType === 'ctr' || kpIType === 'action_rate') {
-                                    kpiData = parseFloat(kpiData.toFixed(4));
-                                } else if (kpIType === 'cpm' || kpIType === 'cpc' ||
-                                    kpIType === 'vtc') {
-                                    kpiData = parseFloat(kpiData.toFixed(2));
-                                }
-
-                                $scope.chartDataInventory.push({
+                                return {
                                     'gross_env' : '',
                                     'className' : '',
                                     'icon_url' : '',
                                     'type' : data.dimension,
                                     'value' : kpiData,
                                     'kpiType' : kpIType
-                                });
+                                };
                             });
                         }
                     }
@@ -731,17 +702,15 @@ function (angularAMD) {
 
         // Screen Widget Start
         $scope.getScreenGraphData  = function (campaign) {
-            var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_SCREENS);
+            var params = getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_SCREENS);
 
             dataService.fetch(urlService.APIVistoCustomQuery(params)).then(function (result) {
                 var kpiModel = kpiSelectModel.selectedKpi,
                     screensDataPerfMtcs,
                     screensData,
                     screenResponseData,
-                    adFormats,
                     hasVideoAds,
-                    sortedData,
-                    screenTypeMap;
+                    sortedData;
 
                 $scope.loadingScreenFlag = false;
 
@@ -749,43 +718,39 @@ function (angularAMD) {
                     screensData = [];
                     $scope.chartDataScreen = [];
                     screenResponseData = result.data.data;
-                    adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
                     //for a video campaign, if set(default) kPI is vtc and dosen’t have video data.
                     // we are showing data not found.
-                    hasVideoAds = adFormats && kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds;
+                    hasVideoAds = $scope.adFormats && kpiModel.toLowerCase() === 'vtc' && !$scope.adFormats.videoAds;
+
                     if (screenResponseData && screenResponseData.length > 0 && !hasVideoAds) {
                         screensDataPerfMtcs = _.filter(screenResponseData, function (obj) {
                             return obj.dimension.toLowerCase() !== 'unknown';
                         });
-                        _.each(screensDataPerfMtcs,function (obj) {
-                           if (obj.video_metrics) {
-                                obj.vtc = obj.video_metrics.vtc_rate;
-                           }
-                           screensData.push(obj);
+                        screensData = _.map(screensDataPerfMtcs, function (obj) {
+                            obj.vtc = obj.vtc_100;
+                            obj['action rate'] = obj.action_rate;
+                            return obj;
                         });
                         // This Sorts the Data order by CTR or CPA
                         sortedData = _.sortBy(screensData, kpiModel);
-                        sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm' ||
-                            kpiModel.toLowerCase() === 'cpc') ? sortedData: sortedData.reverse();
+                        sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpiModel) ? sortedData : sortedData.reverse();
                         sortedData = _.sortBy(sortedData, function (obj) {
                             return obj[kpiModel] === 0;
                         });
                         sortedData  = sortedData.slice(0, 3);
 
-                        screenTypeMap = vistoconfig.screenTypeMap;
-
-                        _.each(sortedData, function (data, idx) {
-                            var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100): data[kpiModel],
+                        $scope.chartDataScreen = _.map(sortedData, function (data) {
+                            var kpiData = data[kpiModel],
                                 screenType = data.dimension.toLowerCase();
 
-                            $scope.chartDataScreen.push({
+                            return {
                                 'gross_env': data.gross_rev,
-                                className: screenTypeMap[screenType],
+                                className: vistoconfig.screenTypeMap[screenType],
                                 'icon_url': '',
                                 'type': data.dimension,
                                 'value': kpiData,
                                 kpiType: kpiModel
-                            });
+                            };
                         });
                     }
                 }
@@ -808,10 +773,8 @@ function (angularAMD) {
                 .fetch(urlService.APIVistoCustomQuery(params))
                 .then(function (result) {
                     var kpiModel = kpiSelectModel.selectedKpi,
-                        adSizeDataPerfMtrcs,
                         adSizeData,
                         adSizeResponseData,
-                        adFormats,
                         hasVideoAds,
                         sortedData;
 
@@ -821,39 +784,35 @@ function (angularAMD) {
                         adSizeData = [];
                         $scope.chartDataAdSize = [];
                         adSizeResponseData = result.data.data;
-                        adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
                         //for a vedio campaign, if set(default) kPI is vtc and dosen’t have video data.
                         // we are showing data not found.
-                        hasVideoAds = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds;
-
+                        hasVideoAds = $scope.adFormats && kpiModel.toLowerCase() === 'vtc' && !$scope.adFormats.videoAds;
+                        
                         if (adSizeResponseData && adSizeResponseData.length > 0 && !hasVideoAds) {
-                            adSizeDataPerfMtrcs = adSizeResponseData;
-                            _.each(adSizeDataPerfMtrcs,function (obj) {
-                                if (obj.video_metrics) {
-                                    obj.vtc = obj.video_metrics.vtc_rate;
-                                }
-                                adSizeData.push(obj);
+                            adSizeData = _.map(adSizeResponseData, function (obj) {
+                                obj.vtc = obj.vtc_100;
+                                obj['action rate'] = obj.action_rate;
+                                return obj;
                             });
 
                             // This Sorts the Data order by CTR or CPA
                             sortedData = _.sortBy(adSizeData, kpiModel);
-                            sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm' ||
-                                kpiModel.toLowerCase() === 'cpc') ? sortedData: sortedData.reverse();
+                            sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpiModel) ? sortedData : sortedData.reverse();
                             sortedData = _.sortBy(sortedData, function (obj) {
                                 return obj[kpiModel] === 0;
                             });
                             sortedData  = sortedData.slice(0, 3);
-                            _.each(sortedData, function (data, idx) {
-                                var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100): data[kpiModel];
+                            $scope.chartDataAdSize = _.map(sortedData, function (data) {
+                                var kpiData = data[kpiModel];
 
-                                $scope.chartDataAdSize.push({
+                                return {
                                     'gross_env': data.gross_rev,
                                     className: '',
                                     'icon_url': '',
                                     'type': data.dimension.toLowerCase(),
                                     'value': kpiData,
                                     kpiType: kpiModel
-                                });
+                                };
                             });
                         }
                     }
@@ -881,11 +840,9 @@ function (angularAMD) {
                 .fetch(urlService.APIVistoCustomQuery(params))
                 .then(function (result) {
                     var kpiData,
-                        //chartData,
                         resultData,
                         sortedData,
                         platformData = [],
-                        adFormats,
                         hasVideoAds;
 
                     $scope.loadingPlatformFlag = false;
@@ -896,44 +853,40 @@ function (angularAMD) {
                         // Step 2 Data Mod Restructure of the Array on memory
                         resultData = result.data.data;
                         platformData = [];
-                        // TODO: Get the formats from ad groups meta response
-                        adFormats = domainReports.checkForCampaignFormat(result.data.data.adFormats);
                         //for a vedio campaign, if set(default) kPI is vtc and dosen’t have video data.
                         // we are showing data not found.
-                        hasVideoAds = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds;
-
-                        if (resultData && !hasVideoAds) {
-                            _.each(resultData,function (obj) {
-                                if (obj.video_metrics) {
-                                    obj.vtc = obj.video_metrics.vtc_rate;
-                                }
-                                platformData.push(obj);
+                        hasVideoAds = $scope.adFormats && kpiModel.toLowerCase() === 'vtc' && !$scope.adFormats.videoAds;
+                        
+                        if (resultData && resultData.length > 0 && !hasVideoAds) {
+                            platformData = _.map(resultData, function (obj) {
+                                obj['action rate'] = obj.action_rate;
+                                return obj;
                             });
+
                             // This Sorts the Data order by CTR or CPA
                             sortedData = _.sortBy(platformData, kpiModel);
-                            sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm' ||
-                                kpiModel.toLowerCase() === 'cpc') ? sortedData: sortedData.reverse();
+                            sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpiModel) ? sortedData : sortedData.reverse();
                             sortedData = _.sortBy(sortedData, function (obj) {
                                 return obj[kpiModel] === 0;
                             });
-                            sortedData  = sortedData.slice(0, 3);
+                            sortedData = sortedData.slice(0, 3);
 
-                            _.each(sortedData, function (data, idx) {
+                            $scope.chartDataPlatform = _.map(sortedData, function(data) {
                                 var type = data.platform_name,
                                     icon_url = data.platform_icon_url === 'Unknown' ?
                                         'platform_logo.png' :
                                         type.toLowerCase().replace(/ /g, '_') + '.png';
 
-                                kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100): data[kpiModel];
+                                kpiData = data[kpiModel];
                                 icon_url = '/images/platform_favicons/' + icon_url;
-                                $scope.chartDataPlatform.push({
+                                return {
                                     'gross_env': data.gross_rev,
                                     'className': '',
                                     'icon_url': icon_url,
                                     'type': type,
                                     'value': kpiData,
                                     kpiType: kpiModel
-                                });
+                                };
                             });
                         }
                     }
@@ -949,10 +902,10 @@ function (angularAMD) {
         };
         // Platform Widget Ends
 
-        $scope.getFormatsGraphData  = function (campaign) {
+        $scope.getFormatsGraphData = function (campaign) {
             var formats,
                 formatTypeMap = vistoconfig.formatTypeMap,
-                params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_FORMATS);
+                params = getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_FORMATS);
 
             dataService
                 .fetch(urlService.APIVistoCustomQuery(params))
@@ -962,7 +915,6 @@ function (angularAMD) {
                         formatDataPerfMtrcs,
                         formatData,
                         formatResponseData,
-                        adFormats,
                         hasVideoAds,
                         sortedData;
 
@@ -972,45 +924,40 @@ function (angularAMD) {
                         formatData = [];
                         $scope.chartDataFormat = [];
                         formatResponseData = result.data.data;
-                        adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
                         //for a vedio campaign, if set(default) kPI is vtc and dosen’t have video data.
                         // we are showing data not found.
-                        hasVideoAds = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds;
+                        hasVideoAds = $scope.adFormats && kpiModel.toLowerCase() === 'vtc' && !$scope.adFormats.videoAds;
 
                         if (formatResponseData && formatResponseData.length > 0 && !hasVideoAds) {
                             formatDataPerfMtrcs = _.filter(formatResponseData, function (obj) {
                                 return obj.dimension.toLowerCase() !== 'unknown';
                             });
-
-                            _.each(formatDataPerfMtrcs,function (obj) {
-                                if (obj.video_metrics) {
-                                    obj.vtc = obj.video_metrics.vtc_rate;
-                                }
-                                formatData.push(obj);
+                            formatData = _.map(formatDataPerfMtrcs, function (obj) {
+                                obj.vtc = obj.vtc_100;
+                                obj['action rate'] = obj.action_rate;
+                                return obj
                             });
 
                             // This Sorts the Data order by CTR or CPA
                             sortedData = _.sortBy(formatData, kpiModel);
-                            sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm' ||
-                                kpiModel.toLowerCase() === 'cpc') ? sortedData: sortedData.reverse();
+                            sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpiModel) ? sortedData : sortedData.reverse();
                             sortedData = _.sortBy(sortedData, function (obj) {
                                 return obj[kpiModel] === 0;
                             });
-                            sortedData  = sortedData.slice(0, 3);
-                            _.each(sortedData, function (data, idx) {
-                                var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel],
-
+                            sortedData = sortedData.slice(0, 3);
+                            $scope.chartDataFormat = _.map(sortedData, function (data) {
+                                var kpiData = data[kpiModel],
                                 //It removes empty space and makes a single word and then convert to lower case
-                                  screenType = data.dimension.replace(/ /g,'').toLowerCase();
+                                screenType = data.dimension.replace(/ /g,'').toLowerCase();
 
-                                $scope.chartDataFormat.push({
+                                return {
                                     'gross_env': data.gross_rev,
                                     className: formatTypeMap[screenType],
                                     'icon_url': '',
                                     'type': data.dimension.toLowerCase(),
                                     'value': kpiData,
                                     kpiType: kpiModel
-                                });
+                                };
                             });
                         }
                     }

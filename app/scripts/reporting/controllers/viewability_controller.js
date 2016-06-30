@@ -20,10 +20,6 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
         $scope.strategyLoading =  true;
         $scope.api_return_code = 200;
-        var redirectWidget = $scope.selectedCampaign.redirectWidget;
-        if(redirectWidget) {
-            $scope.videoMode = redirectWidget === "videoViewability";
-        }
         $scope.sortType     = '-view_metrics.ias_imps_delivered'; // set the default sort type
         $scope.sortTypeForVidView     = '-view_metrics.video_viewability_metrics.videos_deliverable_imps'; // set the default sort type
         $scope.sortReverse  = false; // set the default sort order
@@ -116,12 +112,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                     if(result.data != '' ){ // if data not empty
                         strategiesList = result.data.data;
                         $scope.viewData = strategiesList;
-                        $scope.videoMode = true;
                         $scope.strategyBusy = false;
-                        $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data.adFormats);
-                        if($scope.adFormats.displayAds && !$scope.adFormats.videoAds) {
-                            $scope.videoMode = false;
-                        }
                         ($scope.selectedStrategy.id >= 0) && (
                             _.each(strategiesList.viewability_metrics, function(item){
                                 if(item.ad_group_id == -1 && item.ad_id == -1){
@@ -177,14 +168,19 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.init();
             //update the selected Campaign
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
-            $scope.videoMode = false;
         });
 
         $scope.$watch('selectedCampaign', function() {
             $scope.createDownloadReportUrl();
         });
 
-        $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
+        var extractAdFormats =  function() {
+            $scope.adFormats = domainReports.checkForCampaignFormat(strategySelectModel.allAdFormats());
+            $scope.videoMode = $scope.adFormats && $scope.adFormats.videoAds;
+        };
+
+        $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event, strategy) {
+            extractAdFormats();
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
             $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? constants.CAMPAIGN_TOTAL : constants.AD_GROUP_TOTAL;

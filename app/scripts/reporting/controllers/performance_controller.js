@@ -299,35 +299,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.createDownloadReportUrl();
         });
 
-        var extractAdFormats=  function() {
-            var strategyObj = strategySelectModel.getStrategyObj();
-            var selectedStrategyObj = strategySelectModel.getSelectedStrategy();
-            if(strategyObj.strategies && strategyObj.strategies.length > 0) {
-                if (Number(selectedStrategyObj.id) === -1) {
-                    var adFormatsArr = [];
-                    _.each(strategyObj.strategies, function (obj) {
-                        if(obj.ad_formats && obj.ad_formats.length >0) {
-                            _.each(obj.ad_formats, function (value) {
-                                adFormatsArr.push(value)
-                            });
-                        }
-                    })
-                    adFormatsArr = _.compact(_.uniq(adFormatsArr))
-                    $scope.adFormats = domainReports.checkForCampaignFormat(adFormatsArr);
-
-                } else {
-                    adFormatsArr = _.filter(strategyObj.strategies, function (obj) {
-                        return obj.id === Number(selectedStrategyObj.id)
-                    });
-                    if (adFormatsArr && adFormatsArr.length > 0) {
-                        $scope.adFormats = domainReports.checkForCampaignFormat(adFormatsArr[0].ad_formats);
-                    }
-                }
-                if ($scope.adFormats.length > 0 && $scope.adFormats.displayAds && !$scope.adFormats.videoAds) {
-                    $scope.videoMode = false;
-                }
-            }
-        }
+        var extractAdFormats =  function() {
+            $scope.adFormats = domainReports.checkForCampaignFormat(strategySelectModel.allAdFormats());
+            $scope.videoMode = $scope.adFormats && $scope.adFormats.videoAds;
+        };
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             var selectedStrategyObj = strategySelectModel.getSelectedStrategy();

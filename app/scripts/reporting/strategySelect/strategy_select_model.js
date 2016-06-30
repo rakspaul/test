@@ -51,9 +51,24 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
                 strategyObj.strategies = {};
                 strategyObj.selectedStrategy.id = -1;
                 strategyObj.selectedStrategy.name = 'Loading...';
+            },
+            allAdFormats: function() {
+                var result;
+                if(strategyObj.strategies && strategyObj.strategies.length > 0) {
+                    if (Number(strategyObj.selectedStrategy.id) === -1) {
+                        var adFormatsArr = _.map(strategyObj.strategies, function(strategy) {
+                            return strategy.ad_formats || [];
+                        });
+                        result = _.uniq(_.flatten(adFormatsArr));
+                    } else {
+                        var selectedStrategy = _.find(strategyObj.strategies, function (strategy) {
+                            return strategy.id === Number(strategyObj.selectedStrategy.id);
+                        });
+                        result = selectedStrategy ? selectedStrategy.ad_formats : [];
+                    }
+                }
+                return result || [];
             }
-
-
         };
     }]);
 });
