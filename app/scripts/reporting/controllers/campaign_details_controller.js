@@ -665,6 +665,7 @@ function (angularAMD) {
                         if (inventoryData && inventoryData.length > 0 && !hasVideoAds) {
                             _.each(inventoryData, function (obj) {
                                 obj.vtc = obj.vtc_100;
+                                obj['action rate'] = obj.action_rate;
                             });
                             // This Sorts the Data order by CTR or CPA
                             sortedData = _.sortBy(inventoryData, kpIType);
@@ -676,12 +677,6 @@ function (angularAMD) {
 
                             $scope.chartDataInventory = _.map(sortedData, function (data) {
                                 var kpiData = data[kpIType];
-
-                                if (kpIType === 'ctr' || kpIType === 'action_rate') {
-                                    kpiData = parseFloat(kpiData.toFixed(4));
-                                } else if (_.contains(['cpm', 'cpc', 'vtc'], kpIType)) {
-                                    kpiData = parseFloat(kpiData.toFixed(2));
-                                }
 
                                 return {
                                     'gross_env' : '',
@@ -733,6 +728,7 @@ function (angularAMD) {
                         });
                         screensData = _.map(screensDataPerfMtcs, function (obj) {
                             obj.vtc = obj.vtc_100;
+                            obj['action rate'] = obj.action_rate;
                             return obj;
                         });
                         // This Sorts the Data order by CTR or CPA
@@ -795,6 +791,7 @@ function (angularAMD) {
                         if (adSizeResponseData && adSizeResponseData.length > 0 && !hasVideoAds) {
                             adSizeData = _.map(adSizeResponseData, function (obj) {
                                 obj.vtc = obj.vtc_100;
+                                obj['action rate'] = obj.action_rate;
                                 return obj;
                             });
 
@@ -861,7 +858,10 @@ function (angularAMD) {
                         hasVideoAds = $scope.adFormats && kpiModel.toLowerCase() === 'vtc' && !$scope.adFormats.videoAds;
                         
                         if (resultData && resultData.length > 0 && !hasVideoAds) {
-                            platformData = resultData;
+                            platformData = _.map(resultData, function (obj) {
+                                obj['action rate'] = obj.action_rate;
+                                return obj;
+                            });
 
                             // This Sorts the Data order by CTR or CPA
                             sortedData = _.sortBy(platformData, kpiModel);
@@ -870,6 +870,7 @@ function (angularAMD) {
                                 return obj[kpiModel] === 0;
                             });
                             sortedData = sortedData.slice(0, 3);
+
                             $scope.chartDataPlatform = _.map(sortedData, function(data) {
                                 var type = data.platform_name,
                                     icon_url = data.platform_icon_url === 'Unknown' ?
@@ -933,6 +934,7 @@ function (angularAMD) {
                             });
                             formatData = _.map(formatDataPerfMtrcs, function (obj) {
                                 obj.vtc = obj.vtc_100;
+                                obj['action rate'] = obj.action_rate;
                                 return obj
                             });
 

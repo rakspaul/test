@@ -876,14 +876,14 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
             .filter('dashboardKpiFormatter', function ($filter, constants) {
                 return function (input, kpiType) {
                     if (input && kpiType) {
-                        if (kpiType.toLowerCase() === 'ctr' || kpiType.toLowerCase() === 'action_rate') {
+                        kpiType = kpiType.toLowerCase();
+                        if (kpiType === 'ctr' || kpiType === 'action_rate' || kpiType === 'action rate') {
                             return input + '%';
-                        } else if (kpiType.toLowerCase() === 'vtc') {
+                        } else if (kpiType === 'vtc') {
                             return input + '%';
-                        } else if (kpiType.toLowerCase() === 'cpc' || kpiType.toLowerCase() === 'cpa' ||
-                            kpiType.toLowerCase() === 'cpm') {
+                        } else if (kpiType === 'cpc' || kpiType === 'cpa' || kpiType === 'cpm') {
                             return constants.currencySymbol + input;
-                        } else if (kpiType.toLowerCase() === 'gross_rev' || kpiType.toLowerCase() === 'impressions') {
+                        } else if (kpiType === 'gross_rev' || kpiType === 'impressions') {
                             return input + '%';
                         }
                     }
@@ -896,17 +896,16 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     RoleBasedService.setCurrencySymbol();
 
                     if (input && kpiType) {
-                        if (kpiType.toLowerCase() === 'ctr') {
+                        kpiType = kpiType.toLowerCase()
+                        if (kpiType === 'ctr' || kpiType === 'action_rate' || kpiType === 'action rate') {
                             return $filter('number')(input, 3) + '%';
-                        } else if (kpiType.toLowerCase() === 'cpc' || kpiType.toLowerCase() === 'cpa' ||
-                            kpiType.toLowerCase() === 'cpm') {
+                        } else if (kpiType === 'cpc' || kpiType === 'cpa' || kpiType === 'cpm') {
                             return constants.currencySymbol + $filter('number')(input, 3);
-                        } else if (kpiType.toLowerCase() === 'actions' || kpiType.toLowerCase() === 'clicks' ||
-                            kpiType.toLowerCase() === 'impressions' || kpiType.toLowerCase() === 'delivery') {
+                        } else if (kpiType === 'actions' || kpiType === 'clicks' || kpiType === 'impressions' || kpiType === 'delivery') {
                             return $filter('number')(input, 0);
-                        } else if (kpiType.toLowerCase() === 'vtc' && !precision) {
+                        } else if (kpiType === 'vtc' && !precision) {
                             return $filter('number')(input, 0) + '%';
-                        } else if (kpiType.toLowerCase() === 'vtc' && precision) {
+                        } else if (kpiType === 'vtc' && precision) {
                             return $filter('number')(input, 3) + '%';
                         } else {
                             //unknown kpiType
