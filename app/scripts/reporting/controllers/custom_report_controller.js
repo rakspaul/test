@@ -951,17 +951,17 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         $scope.deepLinking = (function() {
                 return {
                     mediaplan: function(dimension,curRowIndx,curSecDimIndx) {
-                        console.log('its media plan')
                             var mediaPlanId;
 
-                            if(dimension == "first_dimension"){
+                            if(dimension == "first_dimension" ){
                                 var mediaPlanId = $scope.reportMetaData[dimension][curRowIndx].dimension.id;
                             }else {
                                 var mediaPlanId = $scope.reportMetaData[dimension][curRowIndx][curSecDimIndx].dimension.id;
                             }
-                            if(mediaPlanId) {
+                            if(mediaPlanId && $scope.isMediaPlanAccessible) {
                                 $location.url('mediaplan/'+mediaPlanId+'/overview');
                             }
+                        return false;
 
                     },
                     ad: function(dimension,curRowIndx,curSecDimIndx) {
@@ -976,7 +976,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         var adId = dataObj.id;
                         var lineItemId = dataObj.lineitem_id;
 
-                        if((adGroupId !== -1) && (mediaPlanId !== -1) && (adId !== -1) && (lineItemId !== -1)) {
+                        if((adGroupId !== -1) && (mediaPlanId !== -1) && (adId !== -1) && (lineItemId !== -1) && ($scope.isAdAccessible)) {
                             $location.url('mediaplan/'+mediaPlanId+'/lineItem/'+lineItemId+'/adGroup/'+adGroupId+'/ads/'+adId+'/edit');
                         }
                     },
@@ -985,7 +985,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         loginModel.setSelectedClient({ id: id, name: name});
                     },
 
-                    routeToLink: function(ev,dimension,curSecDimIndx) {
+                    routeToLink: function(ev,dimension,curSecDimIndx) { console.log('sapna:  ',$scope.reports.reportDefinition.dimensions.primary);
                         var currFirtDimensionElem = $(ev.target).parents(".reportData");
                         var currentRowIndex = Number(currFirtDimensionElem.attr("data-result-row"));
                         var metricObj = $scope.metricValues['first_dimension'][$scope.activeTab][currentRowIndex];
@@ -1017,8 +1017,20 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         }
 
                         return false;
-                    }
+                    },
 
+                    isClickable: function(event,dimensionType) {
+                        var elem = $(event.target).parents(".reportData");
+                        elem.removeClass('clickCursor');
+                        if(($scope.isMediaPlanAccessible) && (dimensionType == "campaign_name")) {
+                            elem.addClass('clickCursor');
+                        } else if(($scope.isAdAccessible) && (dimensionType == "ad_name")) {
+                            elem.addClass('clickCursor');
+                        } else {
+                            elem.removeClass('clickCursor');
+                            return false;
+                        }
+                    }
                 }
 
             }
@@ -2061,13 +2073,18 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 _customctrl.showCost_permission();
                 getCustomReportMetrics();
             });
+
             _customctrl.showCost_permission = function(){
                 var fparams = featuresService.getFeatureParams();
+
                 $scope.showCost = fparams[0]['cost'];
                 $scope.showQuality = fparams[0]['quality'];
                 $scope.showPerformance = fparams[0]['performance'];
                 $scope.showInventory = fparams[0]['inventory'];
                 $scope.showPlatform = fparams[0]['platform'];
+                $scope.isMediaPlanAccessible  = fparams[0]['create_mediaplan'];
+                $scope.isAdAccessible = fparams[0]['ad_setup']
+                console.log("permissions:  ",$scope.isMediaPlanAccessible,$scope.isAdAccessible)
 
                 if(!$scope.showCost || !$scope.showQuality){
                     $scope.totalMetrics -= $scope.totalCostMetrics;

@@ -1013,7 +1013,7 @@
             <span
                 ng-click="deepLinking.routeToLink($event,customeReportData.level,$index); $event.stopPropagation();"
                 ng-if="customeReportData.value"
-                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}" style="cursor:pointer;"></span>
+                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"  ng-mouseover="deepLinking.isClickable($event,customeReportData.type)"></span>
             </div>
 
             <!----- Delivery report data ------------------------>
@@ -1044,9 +1044,9 @@
             <!---- Dimension report data ------------------------>
             <div class="each_col tree_dimension_col {{customeReportData.level === 'first_dimension' ?'more_dimension_col' :' '}}">
             <span
-                ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();"
+                ng-click="deepLinking.routeToLink($event,customeReportData.level,$index); $event.stopPropagation();"
                 ng-if="customeReportData.value"
-                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"></span>
+                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}" ng-mouseover="deepLinking.isClickable($event,customeReportData.type)"></span>
             </div>
             <!--Ad Serving  ad_serving_cost-->
             <div class="each_col_cost" ng-if="customeReportData.ad_servicing_cost>=-1"
@@ -1115,9 +1115,9 @@
                 'more_dimension_col' :
                 ' '}}">
             <span
-                ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();"
+                ng-click="deepLinking.routeToLink($event,customeReportData.level,$index); $event.stopPropagation();"
                 ng-if="customeReportData.value"
-                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"></span>
+                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}" ng-mouseover="deepLinking.isClickable($event,customeReportData.type)"></span>
             </div>
             <!--Video Plays  ad_starts-->
             <div class="each_col" ng-if="customeReportData.ad_starts>=-1"
@@ -1175,9 +1175,9 @@
                 'more_dimension_col' :
                 ' '}}">
             <span
-                ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();"
+                ng-click="deepLinking.routeToLink($event,customeReportData.level,$index); $event.stopPropagation();"
                 ng-if="customeReportData.value"
-                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"></span>
+                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}" ng-mouseover="deepLinking.isClickable($event,customeReportData.type)"></span>
             </div>
             <div class="each_col" ng-if="customeReportData.display_delivered_imps>=-1"
                  ng-bind="customeReportData.display_delivered_imps == -1 ? 'NA' : (customeReportData.display_delivered_imps | number:0)">
@@ -1251,9 +1251,9 @@
                 'more_dimension_col' :
                 ' '}}">
             <span
-                ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();"
+                ng-click="deepLinking.routeToLink($event,customeReportData.level,$index); $event.stopPropagation();"
                 ng-if="customeReportData.value"
-                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"></span>
+                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}" ng-mouseover="deepLinking.isClickable($event,customeReportData.type)"></span>
             </div>
             <!--Booked Impressions booked_impressions-->
             <div class="each_col" ng-if="customeReportData.booked_impressions>=-1"
