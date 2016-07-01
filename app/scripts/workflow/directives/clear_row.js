@@ -1,4 +1,4 @@
-define(['angularAMD'],function (angularAMD) {
+define(['angularAMD'],function (angularAMD) { // jshint ignore:line
     'use strict';
 
     angularAMD.directive('clearrow',function() {
@@ -9,8 +9,7 @@ define(['angularAMD'],function (angularAMD) {
                 scope.Schedule.customLength -= 1;
                 scope.changeDayTime();
                 scope.$apply();
-            })
-
+            });
         };
     });
 });
