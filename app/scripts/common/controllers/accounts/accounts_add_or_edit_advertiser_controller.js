@@ -131,7 +131,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                             $rootScope.setErrAlertMessage('Advertiser added successfully', 0);
                         }
                     }else{
-                        $rootScope.setErrAlertMessage(result.message);
+                        $rootScope.setErrAlertMessage(result.data.data.message);
                     }
                 }, function (err) {
                     $scope.close();
