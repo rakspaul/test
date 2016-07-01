@@ -138,7 +138,8 @@ define(['angularAMD'],function (angularAMD) {
                                 }
 
                                 url += 'ads/'+responseData.id+'/edit';
-
+                                console.log('requestData == ',requestData.ad_group);
+                                clone.updateLocalStorage(requestData.ad_group);
                                 $scope.close();
                                 $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_CLONE_SUCCESS, 0);
                                 $timeout(function(){
@@ -157,6 +158,13 @@ define(['angularAMD'],function (angularAMD) {
                          $location.url('/mediaplans');
                      }
                      console.log(errData);
+                 },
+                 updateLocalStorage: function (newAdGroupId) {
+                     console.log($scope.adGroupList);
+                     var adGroupObjIndex = _.findIndex($scope.adGroupList,function(group){
+                         return group.adGroup.id === newAdGroupId;
+                     })
+                    localStorageService.adGroupDetails.set($scope.adGroupList[adGroupObjIndex].adGroup);
                  }
         }
 
