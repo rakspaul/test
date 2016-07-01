@@ -116,26 +116,20 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
         // Convert local time (EST, GMT, etc.) to UTC before sending to backend for saving.
         // Also, startTime is forced to beginning of day & endTime to end of day.
         this.localTimeToUTC = function(dateTime, type) {
-            var timeSuffix = (type === 'startTime' ? this.getStartDateSuffix(dateTime, type) : '23:59:59'),
+            var clientUTCTime,
+                parseDateTime,
                 tz = this.getTimezoneName() === constants.TIMEZONE_UK ? 'GMT' : 'EST',
-                finalDateTime = Date.parse(dateTime + ' ' + timeSuffix + ' ' + tz);
+                isSelectedDateToday = moment(dateTime).isSame(new Date(), "day"),
+                timeSuffix = (type === 'startTime' ? '00:00:00' : '23:59:59');
 
-            return moment(finalDateTime).tz('UTC').format(constants.DATE_UTC_FORMAT);
-        };
-
-        this.getStartDateSuffix = function(dateTime, type){
-            // this is to solve the problem arising from start date convertion to UTC
-            // if the type is start time and date selected is today then we need to take the current time not the default 00:00:00
-            if(type === 'startTime'){
-                var isSelectedDateToday = moment(dateTime).isSame(new Date(), "day");
-                if(isSelectedDateToday){
-                    // set current time
-                    return moment(new Date()).format('HH:mm:ss')
-                } else {
-                    // set the default 00:00:00
-                    return '00:00:00';
-                }
+            if(type === 'startTime' && isSelectedDateToday) {
+                clientUTCTime = moment.utc().seconds(60);
+            } else {
+                parseDateTime = Date.parse(dateTime + ' ' + timeSuffix + ' ' + tz);
+                clientUTCTime = moment(parseDateTime).tz('UTC');
             }
+
+            return moment(clientUTCTime).format(constants.DATE_UTC_FORMAT);
         };
 
         // Convert UTC to local time (EST, GMT, etc. when loading data for edit.

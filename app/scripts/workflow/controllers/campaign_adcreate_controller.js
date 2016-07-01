@@ -1403,6 +1403,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                             postGeoTargetObj.DMA.geoTargetList =
                                                 _.pluck(postGeoTargetObj.DMA.geoTargetList, 'id');
                                         }
+
+                                        if (postGeoTargetObj.ZIP_CODE) {
+                                            postGeoTargetObj.ZIPCODE = {
+                                                isIncluded: true,
+                                                geoTargetList: _.pluck(postGeoTargetObj.ZIP_CODE.geoTargetList, 'code')
+                                            };
+
+                                            delete postGeoTargetObj.ZIP_CODE;
+                                        }
                                     }
 
                                     postAdDataObj.targets.geoTargets = postGeoTargetObj;
