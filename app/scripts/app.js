@@ -1,16 +1,9 @@
-'use strict';
-define(['common'], function (angularAMD) {
-    angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
-        .controller('CarouselController', ['$scope', '$timeout', '$transition', '$q', 'ngFileUpload',
-            function ($scope, $timeout, $transition, $q) {
-        }])
-        .directive('carousel', [function () {
-            return {};
-        }]);
+define(['common'], function (angularAMD) { // jshint ignore:line
+    'use strict';
 
-    var app = angular.module('vistoApp', ['ngRoute', 'ngCookies', 'tmh.dynamicLocale', 'ui.bootstrap', 'uiSwitch',
-        'door3.css', 'ngFileUpload', 'ngSanitize', 'ui.multiselect', 'highcharts-ng', 'ui.bootstrap.showErrors',
-        'ngTagsInput']);
+    var app = angular.module('vistoApp', ['ngRoute', 'ngCookies', 'tmh.dynamicLocale', // jshint ignore:line
+        'ui.bootstrap', 'uiSwitch', 'door3.css', 'ngFileUpload', 'ngSanitize', 'ui.multiselect',
+        'highcharts-ng', 'ui.bootstrap.showErrors', 'ngTagsInput']);
 
     app
         .config(function ($routeProvider, $httpProvider) {
@@ -18,7 +11,7 @@ define(['common'], function (angularAMD) {
 
             $routeProvider
                 .when('/login', angularAMD.route({
-                    templateUrl: assets.html_reports_login,
+                    templateUrl: assets.html_reports_login, // jshint ignore:line
                     title: 'Login',
                     controller: 'loginController',
                     showHeader : false,
@@ -26,7 +19,7 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/dashboard', angularAMD.route({
-                    templateUrl: assets.html_dashboard,
+                    templateUrl: assets.html_dashboard, // jshint ignore:line
                     controller: 'DashboardController',
                     controllerUrl: 'reporting/dashboard/dashboard_controller',
                     showHeader : true,
@@ -41,7 +34,7 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/dashboard_2', angularAMD.route({
-                    templateUrl: assets.html_dashboard_2,
+                    templateUrl: assets.html_dashboard_2, // jshint ignore:line
                     controller: 'DashboardController_2',
                     title: 'Dashboard 2.0',
                     showHeader : true,
@@ -50,7 +43,7 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/mediaplans', angularAMD.route({
-                    templateUrl: assets.html_campaign_list,
+                    templateUrl: assets.html_campaign_list, // jshint ignore:line
                     title: 'Media Plan List',
                     reloadOnSearch : false,
                     showHeader : true,
@@ -63,7 +56,7 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/mediaplans/:campaignId', angularAMD.route({
-                    templateUrl: assets.html_campaign_details,
+                    templateUrl: assets.html_campaign_details, // jshint ignore:line
                     title: 'Reports Overview',
                     controller: 'CampaignDetailsController',
                     controllerUrl: 'reporting/controllers/campaign_details_controller',
@@ -72,7 +65,8 @@ define(['common'], function (angularAMD) {
                         check: function ($location, featuresService,localStorageService) {
                             //redirects to default page if it has no permission to access it
                             featuresService.setGetFeatureParams('report_overview');
-                            if(localStorageService.selectedCampaign.get() && localStorageService.selectedCampaign.get().id == -1)  {
+                            if(localStorageService.selectedCampaign.get() &&
+                                localStorageService.selectedCampaign.get().id === -1)  {
                                 $location.url('/mediaplans');
                             }
                         }
@@ -80,7 +74,7 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/optimization', angularAMD.route({
-                    templateUrl: assets.html_optimization,
+                    templateUrl: assets.html_optimization, // jshint ignore:line
                     title: 'Reports - Optimization Impact',
                     controller: 'OptimizationController',
                     controllerUrl: 'reporting/controllers/optimization_controller',
@@ -94,13 +88,13 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/inventory', angularAMD.route({
-                    templateUrl: assets.html_inventory,
+                    templateUrl: assets.html_inventory, // jshint ignore:line
                     title: 'Reports - Inventory',
                     controller: 'InventoryController',
                     controllerUrl: 'reporting/controllers/inventory_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, featuresService,workflowService) {
+                        check: function ($location, featuresService) {
                             //redirects to default page if it has no permission to access it
                             featuresService.setGetFeatureParams('inventory');
                         }
@@ -108,7 +102,7 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/quality', angularAMD.route({
-                    templateUrl: assets.html_viewability,
+                    templateUrl: assets.html_viewability, // jshint ignore:line
                     title: 'Reports - Quality',
                     controller: 'ViewabilityController',
                     controllerUrl: 'reporting/controllers/viewability_controller',
@@ -122,7 +116,7 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/cost', angularAMD.route({
-                    templateUrl: assets.html_cost,
+                    templateUrl: assets.html_cost, // jshint ignore:line
                     title: 'Reports - Cost',
                     controller: 'CostController',
                     controllerUrl: 'reporting/controllers/cost_controller',
@@ -146,7 +140,7 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/platform', angularAMD.route({
-                    templateUrl: assets.html_platform,
+                    templateUrl: assets.html_platform, // jshint ignore:line
                     title: 'Reports - Platform',
                     controller: 'PlatformController',
                     controllerUrl: 'reporting/controllers/platform_controller',
@@ -160,7 +154,7 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/customreport', angularAMD.route({
-                    templateUrl: assets.html_custom_report,
+                    templateUrl: assets.html_custom_report, // jshint ignore:line
                     title: 'Report Builder',
                     controller: 'CustomReportController',
                     controllerUrl: 'reporting/controllers/custom_report_controller',
@@ -174,7 +168,7 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/customreport/edit/:reportId', angularAMD.route({
-                    templateUrl: assets.html_custom_report,
+                    templateUrl: assets.html_custom_report, // jshint ignore:line
                     title: 'Report Builder',
                     controller: 'CustomReportController',
                     controllerUrl: 'reporting/controllers/custom_report_controller',
@@ -188,12 +182,12 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/reports/upload', angularAMD.route({
-                    templateUrl: assets.html_custom_report_upload,
+                    templateUrl: assets.html_custom_report_upload, // jshint ignore:line
                     title: 'Upload Custom Reports',
                     controller: 'CustomReportUploadController',
                     controllerUrl: 'reporting/controllers/custom_report_upload_controller',
                     showHeader : true,
-                    css: assets.css_custom_reports,
+                    css: assets.css_custom_reports, // jshint ignore:line
                     resolve: {
                         check: function ($location, featuresService) {
                             featuresService.setGetFeatureParams('collective_insights');
@@ -202,12 +196,12 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/reports/list', angularAMD.route({
-                    templateUrl: assets.html_collective_report_listing,
+                    templateUrl: assets.html_collective_report_listing, // jshint ignore:line
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
                     controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
                     showHeader : true,
-                    css: assets.css_custom_reports,
+                    css: assets.css_custom_reports, // jshint ignore:line
                     resolve: {
                         check: function ($location, featuresService) {
                             featuresService.setGetFeatureParams('collective_insights');
@@ -216,12 +210,12 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/reports/schedules', angularAMD.route({
-                    templateUrl: assets.html_reports_schedule_list,
+                    templateUrl: assets.html_reports_schedule_list, // jshint ignore:line
                     title: 'Scheduled Reports',
                     controller: 'ReportsScheduleListController',
                     controllerUrl: 'reporting/collectiveReport/reports_schedule_list_controller',
                     showHeader : true,
-                    css: assets.css_reports_schedule_list,
+                    css: assets.css_reports_schedule_list, // jshint ignore:line
                     resolve: {
                         check: function ($location, featuresService) {
                             featuresService.setGetFeatureParams('scheduled_reports');
@@ -230,12 +224,12 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/v1sto/invoices', angularAMD.route({
-                    templateUrl: assets.html_reports_invoice_list,
+                    templateUrl: assets.html_reports_invoice_list, // jshint ignore:line
                     title: 'Invoices Reports',
                     controller: 'ReportsInvoiceListController',
                     controllerUrl: 'reporting/collectiveReport/reports_invoice_list_controller',
                     showHeader : true,
-                    css: assets.css_reports_invoice_list,
+                    css: assets.css_reports_invoice_list, // jshint ignore:line
                     resolve: {
                         check: function ($location, featuresService) {
                             featuresService.setGetFeatureParams('scheduled_reports');
@@ -244,19 +238,19 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/v1sto/invoices/:invoiceId', angularAMD.route({
-                    templateUrl: assets.html_reports_invoice,
+                    templateUrl: assets.html_reports_invoice, // jshint ignore:line
                     title: 'Media Plan - Overview',
                     controller: 'reportsInvoiceController',
                     showHeader : true,
                     controllerUrl: 'reporting/collectiveReport/reports_invoice_controller',
-                    css: assets.css_reports_invoice_list,
+                    css: assets.css_reports_invoice_list, // jshint ignore:line
                     resolve: {
                     }
                 }))
 
 
                 .when('/performance', angularAMD.route({
-                    templateUrl: assets.html_performance,
+                    templateUrl: assets.html_performance, // jshint ignore:line
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
                     controllerUrl: 'reporting/controllers/performance_controller',
@@ -269,14 +263,14 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/mediaplan/create', angularAMD.route({
-                    templateUrl: assets.html_campaign_create,
+                    templateUrl: assets.html_campaign_create, // jshint ignore:line
                     title: 'Create - Media Plan',
                     controller: 'CreateCampaignController',
                     controllerUrl: '/scripts/workflow/controllers/campaign_create_controller',
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            var featuredFeatures = $rootScope.$on('features', function () {
+                            $rootScope.$on('features', function () {
                                 featuresService.setGetFeatureParams('create_mediaplan');
                             });
 
@@ -290,82 +284,88 @@ define(['common'], function (angularAMD) {
                         }
                     }
                 }))
+
                 .when('/admin/home', angularAMD.route({
-                    templateUrl: assets.html_admin_home,
+                    templateUrl: assets.html_admin_home, // jshint ignore:line
                     title: 'AdminHome',
                     resolve: {
                         check: function ($location, loginModel) {
-                            if(!loginModel.getClientData().is_super_admin){
+                            if(!loginModel.getClientData().is_super_admin) {
                                 $location.url('/dashboard');
                             }
                         }
                     }
                 }))
+
                 .when('/admin/accounts', angularAMD.route({
-                    templateUrl: assets.html_accounts,
+                    templateUrl: assets.html_accounts, // jshint ignore:line
                     title: 'Accounts',
                     controller: 'AccountsController',
                     controllerUrl: 'common/controllers/accounts/accounts_controller',
                     showHeader : true,
                     resolve: {
                         check: function ($location, loginModel) {
-                            if(!loginModel.getClientData().is_super_admin){
+                            if(!loginModel.getClientData().is_super_admin) {
                                 $location.url('/dashboard');
                             }
                         }
                     }
                 }))
+
                 .when('/admin/users', angularAMD.route({
-                    templateUrl: assets.html_users,
+                    templateUrl: assets.html_users, // jshint ignore:line
                     title: 'Users',
                     controller: 'UsersController',
                     controllerUrl: 'common/controllers/users/users_controller',
                     showHeader : true,
                     resolve: {
                         check: function ($location, loginModel) {
-                            if(!loginModel.getClientData().is_super_admin){
+                            if(!loginModel.getClientData().is_super_admin) {
                                 $location.url('/dashboard');
                             }
                         }
                     }
                 }))
+
                 .when('/admin/brands', angularAMD.route({
-                    templateUrl: assets.html_brands,
+                    templateUrl: assets.html_brands, // jshint ignore:line
                     title: 'AdminBrands',
                     controller: 'AdminAdvertisersController',
                     controllerUrl: 'common/controllers/accounts/admin_brands_controller',
                     showHeader : true,
                     resolve: {
                         check: function ($location, loginModel) {
-                            if(!loginModel.getClientData().is_super_admin){
+                            if(!loginModel.getClientData().is_super_admin) {
                                 $location.url('/dashboard');
                             }
                         }
                     }
                 }))
+
                 .when('/admin/advertisers', angularAMD.route({
-                    templateUrl: assets.html_advertisers,
+                    templateUrl: assets.html_advertisers, // jshint ignore:line
                     title: 'AdminAdvertisers',
                     controller: 'AdminUsersController',
                     controllerUrl: 'common/controllers/accounts/admin_advertisers_controller',
                     showHeader : true,
                     resolve: {
                         check: function ($location, loginModel) {
-                            if(!loginModel.getClientData().is_super_admin){
+                            if(!loginModel.getClientData().is_super_admin) {
                                 $location.url('/dashboard');
                             }
                         }
                     }
                 }))
+
                 .when('/mediaplan/:campaignId/edit', angularAMD.route({
-                    templateUrl: assets.html_campaign_create,
+                    templateUrl: assets.html_campaign_create, // jshint ignore:line
                     title: 'Edit - Media Plan',
                     controller: 'CreateCampaignController',
                     controllerUrl: 'workflow/controllers/campaign_create_controller',
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            var featuredFeatures = $rootScope.$on('features', function () {
+                            $rootScope.$on('features', function () {
                                 featuresService.setGetFeatureParams('mediaplan_hub');
                             });
 
@@ -381,14 +381,14 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/mediaplan/:campaignId/overview', angularAMD.route({
-                    templateUrl: assets.html_campaign_create_ad,
+                    templateUrl: assets.html_campaign_create_ad, // jshint ignore:line
                     title: 'Media Plan - Overview',
                     controller: 'CampaignOverViewController',
                     controllerUrl: 'workflow/controllers/campaign_overview_controller',
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            var featuredFeatures = $rootScope.$on('features', function () {
+                            $rootScope.$on('features', function () {
                                 featuresService.setGetFeatureParams('mediaplan_hub');
                             });
 
@@ -403,14 +403,14 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/mediaplan/:campaignId/ads/create', angularAMD.route({
-                    templateUrl: assets.html_campaign_create_adBuild,
+                    templateUrl: assets.html_campaign_create_adBuild, // jshint ignore:line
                     title: 'Media Plan - Ad Create',
                     controller: 'CampaignAdsCreateController',
                     controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            var featuredFeatures = $rootScope.$on('features', function () {
+                            $rootScope.$on('features', function () {
                                 featuresService.setGetFeatureParams('ad_setup');
                             });
 
@@ -427,14 +427,14 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/create', angularAMD.route({
-                    templateUrl: assets.html_campaign_create_adBuild,
+                    templateUrl: assets.html_campaign_create_adBuild, // jshint ignore:line
                     title: 'Media Plan - Ad Create',
                     controller: 'CampaignAdsCreateController',
                     controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            var featuredFeatures = $rootScope.$on('features', function () {
+                            $rootScope.$on('features', function () {
                                 featuresService.setGetFeatureParams('mediaplan_hub');
                             });
 
@@ -451,14 +451,14 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/mediaplan/:campaignId/ads/:adId/edit', angularAMD.route({
-                    templateUrl: assets.html_campaign_create_adBuild,
+                    templateUrl: assets.html_campaign_create_adBuild, // jshint ignore:line
                     title: 'Media Plan - Ad Edit',
                     controller: 'CampaignAdsCreateController',
                     controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            var featuredFeatures = $rootScope.$on('features', function () {
+                            $rootScope.$on('features', function () {
                                 featuresService.setGetFeatureParams('ad_setup');
                             });
 
@@ -474,39 +474,40 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/:adId/edit', angularAMD.route({
-                    templateUrl: assets.html_campaign_create_adBuild,
-                    title: 'Media Plan - Ad Edit',
-                    controller: 'CampaignAdsCreateController',
-                    controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
-                    showHeader : true,
-                    resolve: {
-                        check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            var featuredFeatures = $rootScope.$on('features', function () {
-                                featuresService.setGetFeatureParams('mediaplan_hub');
-                            });
+                .when('/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/:adId/edit', angularAMD
+                    .route({
+                        templateUrl: assets.html_campaign_create_adBuild, // jshint ignore:line
+                        title: 'Media Plan - Ad Edit',
+                        controller: 'CampaignAdsCreateController',
+                        controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
+                        showHeader : true,
+                        resolve: {
+                            check: function ($location, workflowService, constants, featuresService, $rootScope) {
+                                $rootScope.$on('features', function () {
+                                    featuresService.setGetFeatureParams('mediaplan_hub');
+                                });
 
-                            workflowService.setMode('edit');
-                            workflowService.setIsAdGroup(true);
-                            workflowService.setModuleInfo({
-                                moduleName: 'WORKFLOW',
-                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
-                                redirect: true
-                            });
-                            featuresService.setGetFeatureParams('mediaplan_hub');
+                                workflowService.setMode('edit');
+                                workflowService.setIsAdGroup(true);
+                                workflowService.setModuleInfo({
+                                    moduleName: 'WORKFLOW',
+                                    warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
+                                    redirect: true
+                                });
+                                featuresService.setGetFeatureParams('mediaplan_hub');
+                            }
                         }
-                    }
-                }))
+                    }))
 
                 .when('/creative/add', angularAMD.route({
-                    templateUrl: assets.html_creative,
+                    templateUrl: assets.html_creative, // jshint ignore:line
                     title: 'Add Creative',
                     controller: 'CreativeController',
                     controllerUrl: 'workflow/controllers/creative_controller',
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            var featuredFeatures = $rootScope.$on('features', function () {
+                            $rootScope.$on('features', function () {
                                 featuresService.setGetFeatureParams('creative_list');
                             });
 
@@ -521,14 +522,14 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/creative/:creativeId/edit', angularAMD.route({
-                    templateUrl: assets.html_creative,
+                    templateUrl: assets.html_creative, // jshint ignore:line
                     title: 'Edit Creative',
                     controller: 'CreativeController',
                     controllerUrl: 'workflow/controllers/creative_controller',
                     showHeader : true,
                     resolve: {
                         check: function ($location, featuresService, $rootScope) {
-                            var featuredFeatures = $rootScope.$on('features', function () {
+                            $rootScope.$on('features', function () {
                                 featuresService.setGetFeatureParams('creative_list');
                             });
                             featuresService.setGetFeatureParams('creative_list');
@@ -537,26 +538,26 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/creative/:creativeId/preview', angularAMD.route({
-                    templateUrl: assets.html_creative_preview,
+                    templateUrl: assets.html_creative_preview, // jshint ignore:line
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',
                     controllerUrl: 'workflow/controllers/creative_preview_controller',
                     showHeader : false,
                     resolve: {
-                        check: function ($location,  $rootScope) {
+                        check: function () {
                         }
                     }
                 }))
 
                 .when('/creative/list', angularAMD.route({
-                    templateUrl: assets.html_creative_list,
+                    templateUrl: assets.html_creative_list, // jshint ignore:line
                     title: 'Creative List',
                     controller: 'CreativeListController',
                     controllerUrl: 'workflow/controllers/creative_list_controller',
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            var featuredFeatures = $rootScope.$on('features', function () {
+                            $rootScope.$on('features', function () {
                                 featuresService.setGetFeatureParams('creative_list');
                             });
 
@@ -571,7 +572,7 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/help', angularAMD.route({
-                    templateUrl: assets.html_help,
+                    templateUrl: assets.html_help, // jshint ignore:line
                     title: 'Help - Online',
                     showHeader : true,
                     controller: 'HelpController'
@@ -663,7 +664,8 @@ define(['common'], function (angularAMD) {
 
                                 if ((result && result.data.data.length > 0)) {
                                     if (userObj && userObj.preferred_client) {
-                                        matchedClientsobj = _.find(result.data.data, function (obj) {
+                                        matchedClientsobj =
+                                            _.find(result.data.data, function (obj) { // jshint ignore:line
                                             return obj.id === userObj.preferred_client;
                                         });
                                     }
@@ -698,7 +700,7 @@ define(['common'], function (angularAMD) {
                                         }
                                     } else {
                                         //set subAccount
-                                        subAccountModel.fetchSubAccounts('MasterClientChanged',function(){
+                                        subAccountModel.fetchSubAccounts('MasterClientChanged',function() {
                                             workflowService
                                                 .getClientData(clientObj.id)
                                                 .then(function (response) {
@@ -741,7 +743,7 @@ define(['common'], function (angularAMD) {
                     loginCheckFunc();
                 }),
 
-                routeChangeSuccessFunc = $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+                routeChangeSuccessFunc = $rootScope.$on('$routeChangeSuccess', function (event, current) {
                     var currentRoute = current.$$route;
 
 
@@ -751,9 +753,9 @@ define(['common'], function (angularAMD) {
                         $rootScope.showHeader = currentRoute.showHeader;
                     }
 
-                    if (loginModel.getLoginName()) {
+                    /*if (loginModel.getLoginName()) {
                         //ga('set', 'dimension1', loginModel.getLoginName());
-                    }
+                    }*/
 
                     //if (!$cookieStore.get('cdesk_session')) {
                     //    //remove header bar on login page
@@ -761,21 +763,19 @@ define(['common'], function (angularAMD) {
                     //}
                 });
 
-            $rootScope.version = version;
+            $rootScope.version = version; // jshint ignore:line
             $rootScope.$on('$destroy', function () {
                 locationChangeStartFunc();
                 routeChangeSuccessFunc();
             });
 
-
             // If the internet is disconnected or connected, we show a popup notification
             $rootScope.online = navigator.onLine;
-
 
             $window.addEventListener('offline', function () {
                 $('html').append('<div class="slider-msg">You are offline now</div>');
                 $('.slider-msg').show();
-                setTimeout(function(){
+                setTimeout(function() {
                     $('.slider-msg').fadeOut('slow');
                 }, 3000);
                 $rootScope.$apply(function() {
@@ -786,7 +786,7 @@ define(['common'], function (angularAMD) {
             $window.addEventListener('online', function () {
                 $('html').append('<div class="slider-msg">You are online now</div>');
                 $('.slider-msg').show() ;
-                setTimeout(function(){
+                setTimeout(function() {
                     $('.slider-msg').fadeOut('slow') ;
                 }, 3000);
                 $rootScope.$apply(function() {
@@ -797,3 +797,4 @@ define(['common'], function (angularAMD) {
 
     return angularAMD.bootstrap(app);
 });
+
