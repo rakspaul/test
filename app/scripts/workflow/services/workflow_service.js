@@ -1278,6 +1278,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         '/placements' + params;
 
                     return dataService.fetch(url);
+                },
+
+                validateZipCodes :  function(params) {
+                    return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/vendors/' + params.vendorId +
+                        '/zipcodes/validate',
+                        params.data,
+                        {'Content-Type': 'application/json'}
+                    );
                 }
             };
         });
