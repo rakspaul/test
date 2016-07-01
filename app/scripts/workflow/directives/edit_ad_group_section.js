@@ -1,14 +1,17 @@
-define(['angularAMD'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) { // jshint ignore:line
     'use strict';
+
     angularAMD.directive('editAdGroupSection', function ($http, $compile) {
         return {
             restrict:'EAC',
-            controller : function($scope, momentService, workflowService, constants) {
+
+            controller : function ($scope, momentService, workflowService, constants) {
                 $scope.editAdGroupFlag = false;
-                $scope.processAdGroupEditData = function(formElem, adGroupsData, adGroupsIndex) {
+
+                $scope.processAdGroupEditData = function (formElem, adGroupsData, adGroupsIndex) {
                     //total budget for ad group
                     var campaignGetAdGroupsData = $scope.workflowData.campaignGetAdGroupsData,
-                        adGroupsBudget = campaignGetAdGroupsData.reduce(function(memo, obj) {
+                        adGroupsBudget = campaignGetAdGroupsData.reduce(function (memo, obj) {
                             return memo + obj.adGroup.deliveryBudget;
                         }, 0),
 
@@ -20,11 +23,11 @@ define(['angularAMD'], function (angularAMD) {
                         getADsForGroupData = $scope.workflowData.getADsForGroupData[adGroupsIndex],
                         startDateElem = formElem.find('.adGrpStartDateInput'),
                         endDateElem = formElem.find('.adGrpEndDateInput'),
-                        currentDate = moment().format(constants.DATE_US_FORMAT);
+                        currentDate = moment().format(constants.DATE_US_FORMAT); // jshint ignore:line
 
                     $scope.adgroupId = adGroupsData.adGroup.id;
                     $scope.adGroupName = adGroupsData.adGroup.name;
-                    $scope.tags = workflowService.recreateLabels(_.uniq(adGroupsData.labels));
+                    $scope.tags = workflowService.recreateLabels(_.uniq(adGroupsData.labels)); // jshint ignore:line
                     $scope.adIGroupBudget = adGroupsData.adGroup.deliveryBudget;
                     $scope.updatedAt = adGroupsData.adGroup.updatedAt;
                     $scope.adGroupMinBudget = adGroupsData.adGroup.bookedSpend;
@@ -33,8 +36,8 @@ define(['angularAMD'], function (angularAMD) {
 
                     //total budget for no ad group
                     if (campaignAdsData) {
-                        adsBudget = campaignAdsData.reduce(function(memo, obj) {
-                            return memo + (obj.cost ||0);
+                        adsBudget = campaignAdsData.reduce(function (memo, obj) {
+                            return memo + (obj.cost || 0);
                         }, 0);
                     } else {
                         adsBudget = 0;
@@ -52,11 +55,10 @@ define(['angularAMD'], function (angularAMD) {
                         $scope.extractor(getADsForGroupData, formElem);
                     } else {
                         $scope.resetAdsData();
-                        if(moment($scope.campaignStartTime).isBefore(currentDate)) {
+                        if (moment($scope.campaignStartTime).isBefore(currentDate)) { // jshint ignore:line
                             startDateElem.datepicker('setStartDate', currentDate);
                             endDateElem.datepicker('setStartDate', highestEndTime);
-
-                        } else if(moment($scope.campaignStartTime).isBefore(moment(startTime))) {
+                        } else if (moment($scope.campaignStartTime).isBefore(moment(startTime))) { // jshint ignore:line
                             startDateElem.datepicker('setStartDate', $scope.campaignStartTime);
                             endDateElem.datepicker('setStartDate', highestEndTime);
                         } else {
@@ -73,10 +75,10 @@ define(['angularAMD'], function (angularAMD) {
                 };
             },
 
-            link: function($scope, element, attrs) {
+            link: function ($scope, element, attrs) {
                 var template;
 
-                element.bind('click', function() {
+                element.bind('click', function () {
                     $('.editAdgroupDiv').hide();
                     $('.adgroupDiv').show();
                     $('.overlay').hide();
@@ -85,7 +87,7 @@ define(['angularAMD'], function (angularAMD) {
                     element.closest('.adGroup').find('.editAdgroupDiv').show();
                     element.closest('.adGroup').find('.overlay').show();
                     $http
-                        .get(assets.html_edit_adgroup)
+                        .get(assets.html_edit_adgroup) // jshint ignore:line
                         .then(function (tmpl) {
                             var labels,
                                 i,
