@@ -1,12 +1,13 @@
 var angObj = angObj || {};
 
 define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service', 'common/moment_utils',
-        'login/login_model', 'common/controllers/accounts/accounts_add_or_edit_advertiser_controller',
-        'common/controllers/accounts/accounts_add_or_edit_brand_controller',
+        'login/login_model', 'common/utils',
+        'common/controllers/accounts/accounts_add_or_edit_advertiser_controller', 'common/controllers/accounts/accounts_add_or_edit_brand_controller',
         'common/controllers/accounts/accounts_add_or_edit_controller', 'workflow/directives/custom_date_picker'],
     function (angularAMD) {
-        angularAMD.controller('AccountsController', function ($scope, $rootScope, $modal, $compile, constants,
-                                                              accountsService, momentService, loginModel, $sce) {
+        angularAMD.controller('AccountsController', function ($scope, $rootScope, $modal, $compile, $sce,
+                                                              constants, accountsService, momentService,
+                                                              loginModel, utils) {
             var _currCtrl = this;
 
             _currCtrl.verifyPixelInput = function () {
@@ -18,27 +19,21 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     return false;
                 }
 
-                if (!item.name || item.name === '') {
+                if (!item.name) {
                     errMsg = constants.EMPTY_PIXEL_FIELD;
                     ret = false;
-                } else if (!item.pixelType || item.pixelType === '') {
+                } else if (!item.pixelType) {
                     errMsg = constants.EMPTY_PIXEL_TYPE;
                     ret = false;
-                } else if (!item.expiryDate || item.expiryDate === '') {
+                } else if (!item.expiryDate) {
                     errMsg = constants.EMPTY_PIXEL_EXPIREAT;
                     ret = false;
-                } else if (!item.impLookbackWindow || item.impLookbackWindow === '') {
+                } else if (!item.impLookbackWindow) {
                     errMsg = constants.EMPTY_LOOKBACK_IMPRESSION;
                     ret = false;
-                } else if (!item.clickLookbackWindow || item.clickLookbackWindow === '') {
+                } else if (!item.clickLookbackWindow) {
                     errMsg = constants.EMPTY_LOOKBACK_CLICK;
                     ret = false;
-                } else if(item.pixelCode){
-                    var pattern = new RegExp(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/);
-                    if (item.pixelCode.length > 20 || pattern.test(item.pixelCode)) {
-                        errMsg = constants.EMPTY_PIXEL_CODE;
-                        ret = false;
-                    }
                 }
 
                 if (!ret) {
@@ -86,7 +81,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 pixelDate: momentService.todayDate('YYYY-MM-DD')
             };
             $scope.leavefocusPixelName = function(name){
-                $scope.pixelFormData.pixelCode = name.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                $scope.pixelFormData.pixelCode = name.replace(utils.regExp().removeSpecialCharacterAndSpaces, '');
             }
             function getPixelsData(clientId, advId) {
                 accountsService
@@ -499,7 +494,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
                 var int = setInterval(function () {
                     var $modalInstance;
-
+                    ($scope.isEditMode && !$scope.savedAdvertiserData && (loadTemplate = false));
                     if (loadTemplate) {
                         clearInterval(int);
 
