@@ -985,7 +985,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         loginModel.setSelectedClient({ id: id, name: name});
                     },
 
-                    routeToLink: function(ev,dimension,curSecDimIndx) { console.log('sapna:  ',$scope.reports.reportDefinition.dimensions.primary);
+                    routeToLink: function(ev,dimension,curSecDimIndx) {
                         var currFirtDimensionElem = $(ev.target).parents(".reportData");
                         var currentRowIndex = Number(currFirtDimensionElem.attr("data-result-row"));
                         var metricObj = $scope.metricValues['first_dimension'][$scope.activeTab][currentRowIndex];
@@ -2084,7 +2084,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 $scope.showPlatform = fparams[0]['platform'];
                 $scope.isMediaPlanAccessible  = fparams[0]['create_mediaplan'];
                 $scope.isAdAccessible = fparams[0]['ad_setup']
-                console.log("permissions:  ",$scope.isMediaPlanAccessible,$scope.isAdAccessible)
 
                 if(!$scope.showCost || !$scope.showQuality){
                     $scope.totalMetrics -= $scope.totalCostMetrics;
