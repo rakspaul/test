@@ -22,6 +22,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.textconstants = constants;
         $scope.zipCodeTabSelected = false;
+        $scope.zipCodeLoader = false;
 
         $(window).resize(function () {
             $scope.divHeightCalculation();
@@ -765,6 +766,68 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }, 100)
             },
 
+            validateZipCodes :  function(zipCodes, callback) {
+                var params = {
+                    'vendorId' : $scope.adData.platformId,
+                    'data' :  {
+                        'country_code' : 'US',
+                        'zip_codes' : zipCodes.join(',')
+                    }
+                }
+
+                workflowService
+                    .validateZipCodes(params)
+                    .then(function (result) {
+                        var responseData = result.data.data;
+                        callback && callback(responseData);
+                        console.log("responseData", responseData);
+                    }, function (error) {
+                        console.log('error');
+                    });
+            },
+
+
+            addZipCode : function (zipCodes, obj) {
+                var addedZipCodeList,
+                    addedZipCodes,
+                    zipCodesObj;
+
+                addedZipCodeList = $scope.geoData.zip.selected; //already added zip codes
+                addedZipCodes = zipWrapper.getAllAddedZipCode(addedZipCodeList);
+                zipCodesObj = zipCode.checkZipCodes(zipCodes, addedZipCodes);
+
+                _.each(zipCodesObj.duplicate, function (removeval) {
+                    _.each(addedZipCodeList, function (obj, idx) {
+                        if (obj) {
+                            _.each(obj.added, function (val) {
+                                if (removeval === val) {
+                                    addedZipCodeList.splice(idx, 1);
+                                }
+                            });
+                        }
+                    });
+                });
+
+
+                _.each(zipCodesObj.removed, function (removeval) {
+                    _.each(addedZipCodeList, function (obj, idx) {
+                        if (obj) {
+                            _.each(obj.added, function (val) {
+                                if (removeval === val) {
+                                    addedZipCodeList.splice(idx, 1);
+                                }
+                            });
+                        }
+                    });
+                });
+                $scope.zipCodesObj = zipCodesObj;
+                $scope.adData.zipCodes = '';
+
+                if ($scope.zipCodesObj.added && $scope.zipCodesObj.added.length > 0) {
+                    $scope.geoData.zip.selected.push(zipCodesObj);
+                }
+            },
+
             toggleSwitch : function(flag, mainTab) {
                 var toggleElem = $("." + mainTab + '-toggle');
                 toggleElem.bootstrapToggle(flag ? 'on' : 'off');
@@ -1191,7 +1254,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
                 $scope.adData.zipCodes = zipEditable.toString();
 
-                $scope.addZipCode({zipEditInit : true});
+                geoTargeting.addZipCode($scope.adData.zipCodes, {zipEditInit : true});
             },
 
             resetZipCode: function () {
@@ -1662,55 +1725,32 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
         };
 
-        $scope.addZipCode = function (obj) {
-            var values = $scope.adData.zipCodes,
-                zipCodeList = $scope.geoData.zip.selected,
-                addedZipCodes = zipWrapper.getAllAddedZipCode(zipCodeList),
-                zipCodesObj = zipCode.checkZipCodes(values, addedZipCodes);
+        $scope.checkZipCodes =  function() {
+            var zipCodes = $scope.adData.zipCodes,
+                validZipCodes;
+            $scope.zipCodeLoader = true;
 
-            _.each(zipCodesObj.duplicate, function (removeval) {
-                _.each(zipCodeList, function (obj, idx) {
-                    if (obj) {
-                        _.each(obj.added, function (val) {
-                            if (removeval === val) {
-                                zipCodeList.splice(idx, 1);
-                            }
-                        });
-                    }
-                });
-            });
+            zipCodes = zipCodes.split(/[ ,]+/);
+            geoTargeting.validateZipCodes(zipCodes , function(data) {
+                $scope.zipCodeLoader = false;
+                if (data.length > 0) {
+                    $rootScope.setErrAlertMessage(data + ' zip code' + (data.length >1 ? 's are' : ' is') + '  not valid.');
 
+                    validZipCodes = data[0].split(' ').map(function (item) {
+                        return parseInt(item, 10);
+                    });
 
-            _.each(zipCodesObj.removed, function (removeval) {
-                _.each(zipCodeList, function (obj, idx) {
-                    if (obj) {
-                        _.each(obj.added, function (val) {
-                            if (removeval === val) {
-                                zipCodeList.splice(idx, 1);
-                            }
-                        });
-                    }
-                });
-            });
-            $scope.zipCodesObj = zipCodesObj;
-            $scope.adData.zipCodes = '';
-            if (obj && obj.zipEditInit) {
-                //dont show any error and info messages.
-            } else {
-                if ($scope.zipCodesObj.info && $scope.zipCodesObj.info.length > 0) {
-                    $rootScope.setErrAlertMessage(zipCodesObj.info[0], 0, 0, 'info');
+                    zipCodes = zipCodes.map(function (item) {
+                        return parseInt(item, 10);
+                    });
+
+                    zipCodes = _.difference(zipCodes, validZipCodes);
                 }
 
-                if ($scope.zipCodesObj.error && $scope.zipCodesObj.error.length > 0) {
-                    $rootScope.setErrAlertMessage(zipCodesObj.error[0]);
+                geoTargeting.addZipCode(zipCodes.join(','))
+            });
 
-                }
-            }
-            if ($scope.zipCodesObj.added && $scope.zipCodesObj.added.length > 0) {
-                $scope.geoData.zip.selected.push(zipCodesObj);
-            }
-        };
-
+        }
 
         $scope.hideConfirmBox = function () {
             $scope.showConfirmBox = false;

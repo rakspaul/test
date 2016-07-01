@@ -1359,23 +1359,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                     postGeoTargetObj.ZIPCODE = {
                                         isIncluded: true
-                                       // geoTargetList: zipPostArr
                                     };
                                     postGeoTargetObj.ZIPCODE.geoTargetList=[];
-                                    /*for future use, loop the number of countries present, and keep adding the respective zipcodes.*/
-
-                                    // for(var i in countriesSelected){
-                                    //     var x={};
-                                    //     x.countryCode=i.countryName;
-                                    //     x.zipcodes=i.zipcodes;
-                                    //     postGeoTargetObj.ZIPCODE.geoTargetList.push(x)
-                                    // }
-
-                                    var countryZipcodeObj={
+                                    postGeoTargetObj.ZIPCODE.geoTargetList.push({
                                         countryCode:'US',
                                         zipcodes:zipPostArr
-                                    };
-                                    postGeoTargetObj.ZIPCODE.geoTargetList.push(countryZipcodeObj);
+                                    });
 
                                 }
                             } else {
@@ -1407,9 +1396,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                         if (postGeoTargetObj.ZIP_CODE) {
                                             postGeoTargetObj.ZIPCODE = {
                                                 isIncluded: true,
-                                                geoTargetList: _.pluck(postGeoTargetObj.ZIP_CODE.geoTargetList, 'code')
                                             };
-
+                                            postGeoTargetObj.ZIPCODE.geoTargetList=[];
+                                            postGeoTargetObj.ZIPCODE.geoTargetList.push({
+                                                countryCode:'US',
+                                                zipcodes: _.pluck(postGeoTargetObj.ZIP_CODE.geoTargetList, 'code')
+                                            });
                                             delete postGeoTargetObj.ZIP_CODE;
                                         }
                                     }
