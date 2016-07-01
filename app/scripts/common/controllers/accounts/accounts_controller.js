@@ -33,9 +33,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 } else if (!item.clickLookbackWindow || item.clickLookbackWindow === '') {
                     errMsg = constants.EMPTY_LOOKBACK_CLICK;
                     ret = false;
-                } else if (!item.pixelCode || item.pixelCode === '') {
-                    errMsg = constants.EMPTY_PIXEL_CODE;
-                    ret = false;
                 } else if(item.pixelCode){
                     var pattern = new RegExp(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/);
                     if (item.pixelCode.length > 20 || pattern.test(item.pixelCode)) {
@@ -88,7 +85,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 pixelName: '',
                 pixelDate: momentService.todayDate('YYYY-MM-DD')
             };
-
+            $scope.leavefocusPixelName = function(name){
+                $scope.pixelFormData.pixelCode = name.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+            }
             function getPixelsData(clientId, advId) {
                 accountsService
                     .getPixelsUnderAdvertiser(clientId, advId)
