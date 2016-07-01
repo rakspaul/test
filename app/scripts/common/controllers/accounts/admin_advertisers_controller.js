@@ -45,7 +45,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 if(!_curCtrl.verifyInput()){
                     return;
                 }
-                var nickname = $scope.nickname ? $scope.nickname : $scope.advertiserName;
+                var nickname = $scope.nickname || $scope.advertiserName;
                 if($scope.isEditAdvertiser){
                     var requestBody = $scope.editRequestBody;
                     requestBody.name = $scope.advertiserName;
@@ -91,7 +91,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.editRequestBody = obj;
                 $scope.advertiserName = obj.name;
                 $scope.setSelectedAdvertiserCode = obj.code;
-                $scope.nickname = obj.nickname ? obj.nickname : obj.name;
+                $scope.nickname = obj.nickname || obj.name;
                 $(".setSelectedAdvertiserCode").addClass("disabled");
             }
             $scope.clearEdit = function(){
