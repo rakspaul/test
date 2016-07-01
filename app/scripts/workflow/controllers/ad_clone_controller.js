@@ -160,7 +160,6 @@ define(['angularAMD'],function (angularAMD) {
                      console.log(errData);
                  },
                  updateLocalStorage: function (newAdGroupId) {
-                     console.log($scope.adGroupList);
                      var adGroupObjIndex = _.findIndex($scope.adGroupList,function(group){
                          return group.adGroup.id === newAdGroupId;
                      })
