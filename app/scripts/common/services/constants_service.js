@@ -1156,7 +1156,7 @@ define(['angularAMD'], function(angularAMD) {
 
         // Media Plan Setup: 2 Pixels
         this.MEDIAPLAN_PIXEL_SELECT = "Select Conversion Pixels (Optional)";
-        this.MEDIAPLAN_PIXEL_REQUIRED = "A Conversion Pixel is required for tracking and reporting<br> conversions and for CPA billing.";
+        this.MEDIAPLAN_PIXEL_REQUIRED = "Conversion Pixels are required for conversion reports and CPA billing.";
         this.MEDIAPLAN_PIXEL_SELECTED = "Selected Pixels";
         this.MEDIAPLAN_PIXEL_LIST = 'Pixels in list';
 
