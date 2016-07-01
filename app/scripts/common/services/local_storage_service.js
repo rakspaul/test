@@ -55,6 +55,16 @@ define(['angularAMD'], function (angularAMD) {
                  remove: function() {
                      return localStorage.removeItem('campaignListFilter');
                  }
+             },
+             adGroupDetails: {
+                 set: function(adGroup) {
+                     localStorage.setItem('unallocatedAmount', JSON.stringify(adGroup.deliveryBudget - adGroup.bookedSpend));
+                     localStorage.setItem('groupBudget', JSON.stringify(adGroup.deliveryBudget));
+
+                 },
+                 get: function(){
+
+                 }
              }
          }
 
