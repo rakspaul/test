@@ -1082,7 +1082,8 @@ define(['angularAMD'], function(angularAMD) {
         this.EVENT_SUB_ACCOUNT_CHANGED_FROM_DASHBOARD = 'SubAccountChangedFromDashboard';
         this.EVENT_MASTER_CLIENT_CHANGED = 'eventMasterClientChanged';
         this.SUB_ACCOUNT = "Sub-Account";
-
+        this.NICK_NAME = "Nick Name";
+        this.ACCOUNT_NICKNAME = "Account Nickname:";
         this.ADMIN_ADD_PERMISSION = "Please add permission";
         this.ADMIN_SELECT_CLIENT = "Please select the client";
         this.ADMIN_ADD_ADVERTISER_PERMISSION = "Please add permission for the client";
