@@ -1,4 +1,4 @@
-define(['angularAMD',
+define(['angularAMD', // jshint ignore:line
     'angular-route',
     'angular-cookies',
     'angular-resource',
