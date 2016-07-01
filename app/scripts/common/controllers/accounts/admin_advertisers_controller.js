@@ -45,10 +45,11 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 if(!_curCtrl.verifyInput()){
                     return;
                 }
-
+                var nickname = $scope.nickname ? $scope.nickname : $scope.advertiserName;
                 if($scope.isEditAdvertiser){
                     var requestBody = $scope.editRequestBody;
                     requestBody.name = $scope.advertiserName;
+                    requestBody.nickname = nickname;
                     accountsService.updateAdvertiser(requestBody.id, requestBody).then(function (res) {
                         if (res.status === 'CREATED' || res.status === 'success') {
                             $scope.clearEdit();
@@ -69,7 +70,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                         $rootScope.setErrAlertMessage(constants.CODE_FIELD_EMPTY);
                         return;
                     }
-                    accountsService.createAdvertiser({name: $scope.advertiserName, code: code}).then(function (res) {
+                    accountsService.createAdvertiser({name: $scope.advertiserName, code: code, nickname:nickname}).then(function (res) {
                         if (res.status === 'CREATED' || res.status === 'success') {
                             $scope.clearEdit();
                             $scope.fetchAllAdvertisers();
@@ -90,6 +91,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.editRequestBody = obj;
                 $scope.advertiserName = obj.name;
                 $scope.setSelectedAdvertiserCode = obj.code;
+                $scope.nickname = obj.nickname ? obj.nickname : obj.name;
                 $(".setSelectedAdvertiserCode").addClass("disabled");
             }
             $scope.clearEdit = function(){
@@ -97,6 +99,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.advertiserName='';
                 $scope.setSelectedAdvertiserCode = false;
                 $scope.customAdvertiserCode = "";
+                $scope.nickname = "";
                 $(".setSelectedAdvertiserCode").removeClass("disabled");
             }
             _curCtrl.getAdvertiserCode = function(){

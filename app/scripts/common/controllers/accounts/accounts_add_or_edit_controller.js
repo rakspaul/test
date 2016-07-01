@@ -120,7 +120,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                     respBody.billableAccountId = $scope.billableAccountId;
                     respBody.code = $scope.setSelectedClientCode == "Others" ? $scope.customClientCode : $scope.setSelectedClientCode;
                 }
-
+                respBody.nickname = $scope.nickname ? $scope.nickname : $scope.clientName;
                 // TODO: This has to be modified to match with the new API
                 if ($scope.billingData.techFees.billingValue) {
                     respBody.techFeesBillingTypeId = $scope.billingData.techFees.billingTypeId;
@@ -392,6 +392,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 $scope.selectedCountry = $scope.clientObj.country && $scope.clientObj.country.name;
                 $scope.timezone = $scope.clientObj.timezone;
                 $scope.setSelectedClientCode = $scope.clientObj.code;
+                $scope.nickname = $scope.clientObj.nickname ? $scope.clientObj.nickname : $scope.clientObj.name;
 
                 _currCtrl.getAdnlData();
 
