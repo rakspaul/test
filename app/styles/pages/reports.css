@@ -1125,7 +1125,7 @@ div.strategy_total_container .discrepancyTplRow {
   margin-bottom: 10px ;
 }
 div.strategy_total_container .discrepancyTplRow .discrepancyName {
-  width: 150px;
+  width: 250px;
 }
 div.strategy_total_container div.strategy_total_container_header {
   background: #f5f9fd;
@@ -1140,7 +1140,7 @@ div.strategy_total_container div.strategy_total_container_header .discrepancySec
   margin-left: 25px;
 }
 div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .discrepancySecLevelName {
-  width: 130px;
+  width: 225px;
 }
 div.strategy_total_container div.strategy_total_container_header .rowHasSubRow {
   cursor: pointer;
