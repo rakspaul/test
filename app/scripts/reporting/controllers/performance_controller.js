@@ -26,6 +26,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $scope.sortTypebycreatives     = '-impressions';
         $scope.sortTypebyadsizes     = '-impressions';
         $scope.sortTypeScreens     = '-impressions';
+        $scope.sortTypediscrepancy     = '-imps';
 
         var performaceTabMap = [ {'byscreens' : 'Screen'}, {'byformats' : 'Format'}, {'byplatforms' : 'Platform'}, {'bydaysofweek' : 'DOW'}, {'bycreatives' : 'Creatives'}, {'byadsizes' : 'Adsizes'}];
 
@@ -168,6 +169,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.creativeBusy = true;
             $scope.adSizesBusy = true;
             $scope.showPerfMetrix = false;
+            $scope.discrepancyBusy = true;
 
 
             var errorHandlerForPerformanceTab = function() {
@@ -194,6 +196,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                         $scope.dowBusy = false;
                         $scope.creativeBusy = false;
                         $scope.adSizesBusy = false;
+                        $scope.discrepancyBusy = false;
 
                         if (Number($scope.selectedStrategy.id) >= 0) {
                             // Ad group total
