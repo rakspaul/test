@@ -1,6 +1,7 @@
-define(['angularAMD'],function (angularAMD) {
-    angularAMD.factory('fileReader', ['$q', function ($q) {
+define(['angularAMD'], function (angularAMD) { // jshint ignore:line
+    'use strict';
 
+    angularAMD.factory('fileReader', ['$q', function ($q) {
         function onLoad(reader, deferred, scope) {
             return function () {
                 scope.$apply(function () {
@@ -18,6 +19,8 @@ define(['angularAMD'],function (angularAMD) {
         }
 
         function onProgress(reader, scope) {
+            console.log(reader);
+
             return function (event) {
                 scope.$broadcast('fileProgress', {
                     total: event.total,

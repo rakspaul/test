@@ -1,4 +1,4 @@
-define(['angularAMD'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) { // jshint ignore:line
     'use strict';
 
     angularAMD.factory('videoService', function () {

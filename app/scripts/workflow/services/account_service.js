@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_service',
+define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_service', // jshint ignore:line
     'common/services/constants_service', 'common/services/request_cancel_service'], function (angularAMD) {
     'use strict';
 
@@ -274,18 +274,26 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             getUserClients: function () {
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients');
             },
+
             getUserClientCode: function (clientName) {
-                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/codes/generate?name='+clientName);
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/codes/generate?name=' + clientName);
             },
+
             checkClientCodeExist: function (code) {
-                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/codes/'+code+'/exists');
+                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/codes/' + code + '/exists');
             },
+
             getUserAdvertiserCode: function (advertiserName) {
-                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers/codes/generate?name='+advertiserName);
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/advertisers/codes/generate?name=' + advertiserName);
             },
+
             checkAdvertiserCodeExist: function (code) {
-                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers/codes/'+code+'/exists');
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/advertisers/codes/' + code + '/exists');
             },
+
             getUserAdvertiser: function () {
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers');
             },
@@ -319,7 +327,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             },
 
             getRoleName: function (roleId) {
-                return (_.invert(role_template_id))[roleId];
+                return (_.invert(role_template_id))[roleId];  // jshint ignore:line
             },
 
             createUser: function (userObj) {
@@ -387,14 +395,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     {cache: false}
                 );
             },
+
             invoiceSaveNote: function (clientId, invoiceId, data) {
               //  var clientId =  loginModel.getSelectedClient().id;
                 return dataService.post(
-                        vistoconfig.apiPaths.apiSerivicesUrl_NEW +'/clients/'+clientId+'/invoices/'+invoiceId+'/notesStatus',
+                        vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                        '/clients/' + clientId + '/invoices/' + invoiceId + '/notesStatus',
                     data,
                     {'Content-Type': 'application/json'}
                 );
-            },
+            }
         };
     });
 });
