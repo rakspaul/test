@@ -1,16 +1,18 @@
-define(['angularAMD','common/services/vistoconfig_service','common/services/data_service','common/services/constants_service','workflow/services/workflow_service','login/login_model'],function (angularAMD) {
+define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_service', // jshint ignore:line
+    'common/services/constants_service', 'workflow/services/workflow_service' ,
+    'login/login_model'], function (angularAMD) {
     'use strict';
-    angularAMD.factory('audienceService', function(vistoconfig, dataService, constants, workflowService,loginModel) {
 
-        var audience;
-        var source;
-        var keywords;
-        var selAudiences;
-        var andOrStatus;
-        var dayPartData;
-        var dayTimeSelectedObj;
-        var daytimeArrObj;
-        var dayArr;
+    angularAMD.factory('audienceService', function (vistoconfig, dataService, constants, workflowService, loginModel) {
+        var audience,
+            source,
+            keywords,
+            selAudiences,
+            andOrStatus,
+            dayPartData,
+            dayTimeSelectedObj,
+            daytimeArrObj,
+            dayArr;
 
         return {
             setAudience: function (aud) {
@@ -30,43 +32,57 @@ define(['angularAMD','common/services/vistoconfig_service','common/services/data
                     keywords = params.selectedKeywords,
                     source = params.selectedSource,
                     classification = params.selectedCategory,
-                    seatId = params.seatId,
                     clientId =  loginModel.getSelectedClient().id,
-                    url;
+                    url,
+                    i,
+                    j;
 
-                //url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' + workflowService.getPlatform().id + '/seats/' + seatId + '/segments?pageNo=' + pageNo + '&pageSize=' + pageSize;
-                url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/segments?pageNo=' + pageNo + '&pageSize=' + pageSize;
+                // url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' +
+                // workflowService.getPlatform().id + '/seats/' + seatId + '/segments?pageNo=' + pageNo +
+                // '&pageSize=' + pageSize;
 
-                if (sortCol && sortCol != '') {
+                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + clientId +
+                    '/segments?pageNo=' + pageNo +
+                    '&pageSize=' + pageSize;
+
+                if (sortCol && sortCol !== '') {
                     url += '&sortBy=' + sortCol;
                 }
 
-                if (sortOrder && sortOrder != '') {
+                if (sortOrder && sortOrder !== '') {
                     url += '&sortOrder=' + sortOrder;
                 }
 
                 if (keywords && keywords.length > 0) {
                     url += '&query=';
-                    for (var i = 0; i < keywords.length; i++) {
+
+                    for (i = 0; i < keywords.length; i++) {
                         url += keywords[i];
-                        if (i + 1 < keywords.length)
+
+                        if (i + 1 < keywords.length) {
                             url += '--';
+                        }
                     }
                 }
 
                 if (source && source.length > 0) {
                     url += '&sources=';
-                    for (var i = 0; i < source.length; i++) {
+
+                    for (i = 0; i < source.length; i++) {
                         url += source[i].id;
-                        if (i + 1 < source.length)
+
+                        if (i + 1 < source.length) {
                             url += ',';
+                        }
                     }
                 }
 
                 if (classification && classification.length > 0) {
                     url += '&classifiers=';
-                    for (var i = 0; i < classification.length; i++) {
-                        for (var j = 0; j < classification[i].subCategories.length; j++) {
+
+                    for (i = 0; i < classification.length; i++) {
+                        for (j = 0; j < classification[i].subCategories.length; j++) {
                             url += classification[i].subCategories[j].id;
                             if (j + 1 < classification[i].subCategories.length) {
                                 url += ',';
@@ -83,12 +99,18 @@ define(['angularAMD','common/services/vistoconfig_service','common/services/data
             },
 
             fetchAudienceSource: function (seatId) {
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id+'/vendors/'+workflowService.getPlatform().id + '/seats/' + seatId + '/segments/sources';
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + loginModel.getSelectedClient().id +
+                    '/vendors/' + workflowService.getPlatform().id +
+                    '/seats/' + seatId +
+                    '/segments/sources';
+
                 return dataService.fetch(url, {cache: false});
             },
 
             fetchAudienceCategories: function () {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/segments/categories';
+
                 return dataService.fetch(url, {cache: false});
             },
 
@@ -102,11 +124,17 @@ define(['angularAMD','common/services/vistoconfig_service','common/services/data
 
             fetchAudiencekeywords: function (params) {
                 var searchKey = params.searchKey,
-                    seatId = params.seatId,
+                    // seatId = params.seatId,
                     url;
 
-                //url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id+'/vendors/'+workflowService.getPlatform().id + '/seats/' + seatId + '/segments/keywords?search='+searchKey;
-                url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id+'/segments?query='+searchKey;
+                // url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id +
+                // '/vendors/'+workflowService.getPlatform().id + '/seats/' + seatId +
+                // '/segments/keywords?search='+searchKey;
+
+                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + loginModel.getSelectedClient().id +
+                    '/segments?query=' + searchKey;
+
                 return dataService.fetch(url, {cache: false});
             },
 
@@ -132,43 +160,43 @@ define(['angularAMD','common/services/vistoconfig_service','common/services/data
             },
 
             setAndOr: function (status) {
-                andOrStatus = status
+                andOrStatus = status;
             },
 
             getAndOr: function () {
                 return andOrStatus;
             },
 
-            setDayPartData:function(dataObj){
+            setDayPartData: function (dataObj) {
                 dayPartData=dataObj;
             },
 
-            getDayPartdata:function(){
+            getDayPartdata: function () {
                 return dayPartData;
             },
 
-            resetDayPartdata:function(){
+            resetDayPartdata: function () {
                 dayPartData = null;
             },
 
-            setDayPartDispObj: function(daytimeArr,dayTimeSelected){
+            setDayPartDispObj: function (daytimeArr, dayTimeSelected) {
                 daytimeArrObj = daytimeArr;
                 dayTimeSelectedObj = dayTimeSelected;
             },
 
-            getDaytimeObj: function(){
+            getDaytimeObj: function () {
                 return daytimeArrObj;
             },
 
-            getDayTimeSelectedObj: function(){
+            getDayTimeSelectedObj: function () {
                 return dayTimeSelectedObj;
             },
 
-            setDayTimeArr: function(arr){
+            setDayTimeArr: function (arr) {
                 dayArr = arr;
             },
 
-            getDayTimeArr: function(){
+            getDayTimeArr: function () {
                 return dayArr;
             }
         };
