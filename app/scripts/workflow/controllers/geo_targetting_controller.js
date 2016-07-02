@@ -767,11 +767,19 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             validateZipCodes :  function(zipCodes, callback) {
-                var params = {
+                var arr,
+                    start,
+                    end,
+                    i,
+                    zipCodeArr = [],
+                    params;
+
+                zipCodeArr = rangeValue(zipCodes);
+                params = {
                     'vendorId' : $scope.adData.platformId,
                     'data' :  {
                         'country_code' : 'US',
-                        'zip_codes' : zipCodes.join(',')
+                        'zip_codes' : zipCodeArr.join(',')
                     }
                 }
 
@@ -1021,6 +1029,28 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.geoData.regions.queryParams = _.extend({}, defaultParams);
                 this.list();
             }
+        };
+
+        var rangeValue = function(list) {
+            var start,
+                end,
+                i,
+                tmpArr= [];
+
+            _.each(list , function(item) {
+                item = item.split('-');
+                if (item.length > 1) {
+                    start = Number(item[0]);
+                    end = Number(item[1]);
+                    for (i = start; i <= end; i++) {
+                        tmpArr.push(i);
+                    }
+                } else {
+                    tmpArr.push(Number(item[0]));
+                }
+            })
+
+            return tmpArr;
         };
 
         //For GEO - Cities related methods
@@ -1727,24 +1757,19 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.checkZipCodes =  function() {
             var zipCodes = $scope.adData.zipCodes,
-                validZipCodes;
-            $scope.zipCodeLoader = true;
+                validZipCodes,
+                zipCodesList = [];
 
+            $scope.zipCodeLoader = true;
             zipCodes = zipCodes.split(/[ ,]+/);
             geoTargeting.validateZipCodes(zipCodes , function(data) {
                 $scope.zipCodeLoader = false;
-                if (data.length > 0) {
+                if (data && data.length > 0) {
                     $rootScope.setErrAlertMessage(data + ' zip code' + (data.length >1 ? 's are' : ' is') + '  not valid.');
-
-                    validZipCodes = data[0].split(' ').map(function (item) {
+                    validZipCodes = data.map(function (item) {
                         return parseInt(item, 10);
                     });
-
-                    zipCodes = zipCodes.map(function (item) {
-                        return parseInt(item, 10);
-                    });
-
-                    zipCodes = _.difference(zipCodes, validZipCodes);
+                    zipCodes = _.difference(rangeValue(zipCodes), validZipCodes);
                 }
 
                 geoTargeting.addZipCode(zipCodes.join(','))

@@ -217,10 +217,11 @@
             <div id="zip" class="col-md-12 zeroPadding targetting-each-content" style="display:none;">
                 <textarea class="form-control" id="zipCodes" name="zipCodes" ng-model="adData.zipCodes" rows="3" placeholder="Separate zip / postal codes by comma. Use hyphens to denote ranges."></textarea>
                 <div class="col-md-12 zeroPadding">
-                    <button type="button" ng-click="addZipCode()" ng-disabled="!adData.zipCodes" class="btn btn-default pull-right">
+                    <button data-ng-show="!zipCodeLoader" type="button" ng-click="checkZipCodes()" ng-disabled="!adData.zipCodes" class="btn btn-default pull-right">
                         <img ng-src="/images/workflow/icon_target.svg" alt="" height="15" />
                         <span data-ng-bind="textConstants.INCLUDE"></span>
                     </button>
+                    <div data-ng-show="zipCodeLoader" class="pull-right common-loading-btn "></div>
                 </div>
             </div>
             <!---- end Zip Container ---------->
