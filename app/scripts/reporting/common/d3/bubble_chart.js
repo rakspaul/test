@@ -1,8 +1,12 @@
-define(['angularAMD','common/services/constants_service','reporting/brands/brands_model','login/login_model', 'common/services/role_based_service' ],function (angularAMD) {
+define(['angularAMD',
+    'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model',
+    'common/services/role_based_service', 'reporting/advertiser/advertiser_model' ],function (angularAMD) {
   'use strict';
-  angularAMD.service("bubbleChart", function($rootScope,$locale,constants, brandsModel, loginModel, RoleBasedService) {
+  angularAMD.service("bubbleChart", function($rootScope,$locale,
+                                             constants, brandsModel, loginModel,
+                                             RoleBasedService, advertiserModel) {
 
-        var brands_svg = {},
+        var advertisers_svg = {},
             campaigns_svg = {} ,
             chartData = {},
             node = {} , blueGradient = {}, orangeGradient = {}, greenGradient = {} ,  greyGradient = {};
@@ -12,7 +16,7 @@ define(['angularAMD','common/services/constants_service','reporting/brands/brand
         var tooltipBackGroundColor = "#FEFFFE";
 
         var colors = {
-            brands : {
+            advertisers : {
                 circleFill : "#0F62BC ",
                 spendFillLight :  "url(#blueGradient)",
                 spendPathOutline :   "#085f9f"
@@ -218,11 +222,11 @@ define(['angularAMD','common/services/constants_service','reporting/brands/brand
                     cx : positions[i][0],
                     cy : positions[i][1],
                     r : computedRadius,
-                    status : (spanId == 'brands') ? 'brands' :  node.kpi_status ,
+                    status : (spanId == 'advertisers') ? 'advertisers' :  node.kpi_status ,
                     pathData : pathData['lineData'],
                     toolTipX : pathData['curveEndX'],
                     toolTipY : pathData['curveEndY'],
-                    objectType : (spanId == 'brands')? 'brands' : 'campaigns',
+                    objectType : (spanId == 'advertisers')? 'advertisers' : 'campaigns',
                     advertiserId: node.advertiser_id,
                     advertiserName: node.advertiser_name
                 };
@@ -234,8 +238,7 @@ define(['angularAMD','common/services/constants_service','reporting/brands/brand
         };
 
         function updateBubbleChartData( spanId, data){
-
-            $("#brands").show();
+            $("#advertisers").show();
             $("#campaigns").hide();
             this.spendData = data ;
             createBubbleChart.call(this, spanId, this.spendData);
@@ -246,35 +249,33 @@ define(['angularAMD','common/services/constants_service','reporting/brands/brand
         this.updateBubbleChartData = updateBubbleChartData ;
 
         function createBubbleChart(spanId, data) {
-
-                brands_svg = {},
+                advertisers_svg = {},
                 campaigns_svg = {} ,
                 chartData = {},
                 node = {} ;
 
-            d3.select("#brands_svg").remove();
+            d3.select("#advertisers_svg").remove();
             d3.select("#campaigns_svg").remove();
 
 
-            if(spanId == "brands"){
-                $("#brands").show();
+            if(spanId == "advertisers"){
+                $("#advertisers").show();
                 $("#campaigns").hide();
 
-                 brands_svg  = d3.select("#brands").append("svg")
+                advertisers_svg  = d3.select("#advertisers").append("svg")
                     .attr("width", 350)
                     .attr("height", 280)
                     .attr("id",  spanId + "_svg")
                     .append("g");
 
                  chartData =  dataFormatting(data,spanId) ;
-
-                 node = brands_svg.selectAll(".node")
+                 node = advertisers_svg.selectAll(".node")
                     .data(chartData)
                     .enter()
                     .append("g")
                     .attr("class" , "node") ;
 
-                blueGradient = getGradient(brands_svg, "blueGradient", "#1F9FF4" , "25%", "#1B7FE2" , "75%");
+                blueGradient = getGradient(advertisers_svg, "blueGradient", "#1F9FF4" , "25%", "#1B7FE2" , "75%");
 
                 var tooltip = d3.select(".dashboard_budget_graph_holder .dashboard_perf_graph")
                     .append("div")
@@ -301,7 +302,7 @@ define(['angularAMD','common/services/constants_service','reporting/brands/brand
 
 
             } else if(spanId == "campaigns"){
-                $("#brands").hide();
+                $("#advertisers").hide();
                 $("#campaigns").show();
 
                  campaigns_svg  = d3.select("#campaigns").append("svg")
@@ -357,10 +358,10 @@ define(['angularAMD','common/services/constants_service','reporting/brands/brand
 
             node.append("circle")
                 .attr("id", function(d){
-                  return (d.objectType == 'brands' ? "brands_" + d.id + "_circle" : "campaigns_" + d.id + "_circle" ) ;
+                  return (d.objectType == 'advertisers' ? "advertisers_" + d.id + "_circle" : "campaigns_" + d.id + "_circle" ) ;
                 })
                 .style("fill", function(d){
-                  return  (d.objectType == 'brands') ? colors.brands.circleFill : ((d.status.toLowerCase() == 'ontrack') ? colors.campaigns.onTrack.circleFill : ( d.status.toLowerCase() == 'underperforming') ? colors.campaigns.underPerforming.circleFill : colors.campaigns.others.circleFill );
+                  return  (d.objectType == 'advertisers') ? colors.advertisers.circleFill : ((d.status.toLowerCase() == 'ontrack') ? colors.campaigns.onTrack.circleFill : ( d.status.toLowerCase() == 'underperforming') ? colors.campaigns.underPerforming.circleFill : colors.campaigns.others.circleFill );
                 })
                 .attr("r" , function(d){
                     return d.r ;
@@ -371,13 +372,13 @@ define(['angularAMD','common/services/constants_service','reporting/brands/brand
 
             node.append("path")
                 .attr("id", function(d){
-                return ( d.objectType == 'brands' ) ? 'brands_'+  d.id +"_path" : 'campaigns_' +  d.id +"_path" ;
+                return ( d.objectType == 'advertisers' ) ? 'advertisers_'+  d.id +"_path" : 'campaigns_' +  d.id +"_path" ;
                 })
                 .attr("d",function(d){
                     return lineFunction(d.pathData);
                 })
                 .attr("fill",  function(d){
-                    return  (d.objectType == 'brands') ? colors.brands.spendFillLight : ((d.status.toLowerCase() == 'ontrack') ? colors.campaigns.onTrack.spendFillLight : (( d.status.toLowerCase() == 'underperforming') ? colors.campaigns.underPerforming.spendFillLight : colors.campaigns.others.spendFillLight)); //colors.campaigns.underPerforming.spendFillLight );
+                    return  (d.objectType == 'advertisers') ? colors.advertisers.spendFillLight : ((d.status.toLowerCase() == 'ontrack') ? colors.campaigns.onTrack.spendFillLight : (( d.status.toLowerCase() == 'underperforming') ? colors.campaigns.underPerforming.spendFillLight : colors.campaigns.others.spendFillLight)); //colors.campaigns.underPerforming.spendFillLight );
                 });
 
 
@@ -484,9 +485,9 @@ define(['angularAMD','common/services/constants_service','reporting/brands/brand
                 node.selectAll("circle").attr('opacity',0.4);
                 node.selectAll("path").attr('opacity', 0.4);
 
-                var focusedObjId = (focused_obj.objectType == 'brands')? "brands_"+focused_obj.id : "campaigns_"+focused_obj.id ;
+                var focusedObjId = (focused_obj.objectType == 'advertisers')? "advertisers_"+focused_obj.id : "campaigns_"+focused_obj.id ;
 
-               //grunt analytics.track(loginModel.getUserRole(), 'dashboard_bubblechart_widget', (focused_obj.objectType === 'brands' ? 'brand_bubble_hover' : 'campaign_bubble_hover_' + obj.status), loginModel.getLoginName());
+               //grunt analytics.track(loginModel.getUserRole(), 'dashboard_bubblechart_widget', (focused_obj.objectType === 'advertisers' ? 'brand_bubble_hover' : 'campaign_bubble_hover_' + obj.status), loginModel.getLoginName());
 
                 d3.select("#"+focusedObjId + "_circle").attr('opacity', 1);
                 d3.select("#"+focusedObjId + "_path").attr('opacity', 1);
@@ -494,9 +495,9 @@ define(['angularAMD','common/services/constants_service','reporting/brands/brand
                 d3.select( "#"+ focusedObjId + "_path")
                     .attr('id', focusedObjId + "_path")
                     .attr('opacity', 1)
-                   .attr("stroke" , (focused_obj.objectType == 'brands') ? colors.brands.spendPathOutline : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendPathOutline : (focused_obj.status.toLowerCase() == 'underperforming' ? colors.campaigns.underPerforming.spendPathOutline  : colors.campaigns.others.spendPathOutline  ))) // colors.campaigns.underPerforming.spendPathOutline ))
+                   .attr("stroke" , (focused_obj.objectType == 'advertisers') ? colors.advertisers.spendPathOutline : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendPathOutline : (focused_obj.status.toLowerCase() == 'underperforming' ? colors.campaigns.underPerforming.spendPathOutline  : colors.campaigns.others.spendPathOutline  ))) // colors.campaigns.underPerforming.spendPathOutline ))
                      .attr("stroke-width", 3)
-                   .attr("fill", (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : (focused_obj.status.toLowerCase() == 'underperforming' ? colors.campaigns.underPerforming.spendFillLight  : colors.campaigns.others.spendFillLight  )  )) ; //colors.campaigns.underPerforming.spendFillLight ));
+                   .attr("fill", (focused_obj.objectType == 'advertisers') ? colors.advertisers.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : (focused_obj.status.toLowerCase() == 'underperforming' ? colors.campaigns.underPerforming.spendFillLight  : colors.campaigns.others.spendFillLight  )  )) ; //colors.campaigns.underPerforming.spendFillLight ));
 
 
 
@@ -533,7 +534,7 @@ define(['angularAMD','common/services/constants_service','reporting/brands/brand
                 };
 
 
-                var focusedObjId = (focused_obj.objectType == 'brands')? "brands_"+focused_obj.id : "campaigns_"+focused_obj.id ;
+                var focusedObjId = (focused_obj.objectType == 'advertisers')? "advertisers_"+focused_obj.id : "campaigns_"+focused_obj.id ;
 
                 node.selectAll("circle").attr('opacity',1);
                 node.selectAll("path").attr('opacity', 1);
@@ -542,19 +543,21 @@ define(['angularAMD','common/services/constants_service','reporting/brands/brand
 
                 d3.select("#"+ id_to_remove)
                     .attr('opacity', 1)
-                    .attr("stroke" , (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : (focused_obj.status.toLowerCase() == 'underperforming' ? colors.campaigns.underPerforming.spendFillLight  : colors.campaigns.others.spendFillLight  )   )) //colors.campaigns.underPerforming.spendFillLight ))
+                    .attr("stroke" , (focused_obj.objectType == 'advertisers') ? colors.advertisers.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : (focused_obj.status.toLowerCase() == 'underperforming' ? colors.campaigns.underPerforming.spendFillLight  : colors.campaigns.others.spendFillLight  )   )) //colors.campaigns.underPerforming.spendFillLight ))
                     .attr("stroke-width", 0.2)
-                    .attr("fill", (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight :  (focused_obj.status.toLowerCase() == 'underperforming' ? colors.campaigns.underPerforming.spendFillLight  : colors.campaigns.others.spendFillLight  )  ));//colors.campaigns.underPerforming.spendFillLight ));
+                    .attr("fill", (focused_obj.objectType == 'advertisers') ? colors.advertisers.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight :  (focused_obj.status.toLowerCase() == 'underperforming' ? colors.campaigns.underPerforming.spendFillLight  : colors.campaigns.others.spendFillLight  )  ));//colors.campaigns.underPerforming.spendFillLight ));
 
               return  tooltip.style("display", "none");
 
             });
 
             node.on("click", function(obj) {
-               //grunt analytics.track(loginModel.getUserRole(), 'dashboard_bubblechart_widget', (obj.objectType === 'brands' ? 'brand_bubble_clicked' : 'campaign_bubble_clicked_' + obj.status), loginModel.getLoginName());
-                if(obj.objectType == 'brands'){
+               //grunt analytics.track(loginModel.getUserRole(), 'dashboard_bubblechart_widget', (obj.objectType === 'advertisers' ? 'brand_bubble_clicked' : 'campaign_bubble_clicked_' + obj.status), loginModel.getLoginName());
+                if(obj.objectType == 'advertisers'){
                     tooltip.style("display", "none");
-                    $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, obj);
+                    d3.select("#advertisers_svg").empty();
+                    d3.select("#campaigns_svg").empty();
+                    $rootScope.$broadcast(constants.BUBBLE_ADVERTISER_CLICKED, obj);
                 }
             });
 
