@@ -8,7 +8,7 @@ define(['common'], function (angularAMD) { // jshint ignore:line
         .directive('carousel', [function () {
             return {};
         }]);
-    
+
     var app = angular.module('vistoApp', ['ngRoute', 'ngCookies', 'tmh.dynamicLocale', // jshint ignore:line
         'ui.bootstrap', 'uiSwitch', 'door3.css', 'ngFileUpload', 'ngSanitize', 'ui.multiselect',
         'highcharts-ng', 'ui.bootstrap.showErrors', 'ngTagsInput']);
@@ -616,6 +616,10 @@ define(['common'], function (angularAMD) { // jshint ignore:line
                     maxLength: 127
                 });
         })
+
+        .config(['$compileProvider', function ($compileProvider) {
+            $compileProvider.debugInfoEnabled(false); //https://docs.angularjs.org/guide/production
+        }])
 
         .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore,
                        workflowService, featuresService, subAccountModel, $window,localStorageService,constants) {
