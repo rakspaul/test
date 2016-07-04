@@ -684,7 +684,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     selectedFreqObj = {};
 
                     selectedFreqObj.frequencyType = formData.frequencyType.toUpperCase();
-                    selectedFreqObj.quantity = Number(formData.quantity);
+                    selectedFreqObj.quantity = Number(workflowService.stripCommaFromNumber(formData.quantity));
                     freqCap.push(selectedFreqObj);
                 }
 
@@ -1167,7 +1167,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             }
 
                             if (obj.value === '$AD_KPI_VALUE') {
-                                obj.value = $scope.adData.targetValue;
+                                obj.value = workflowService.stripCommaFromNumber($scope.adData.targetValue);
 
                             }
                         });
@@ -1246,11 +1246,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                         if (formData.targetValue){
                             postAdDataObj.kpiType=formData.primaryKpi.toUpperCase();
-                            postAdDataObj.kpiValue=formData.targetValue;
+                            postAdDataObj.kpiValue=workflowService.stripCommaFromNumber(formData.targetValue);
                         }
 
                         if (formData.unitCost) {
-                            postAdDataObj.rateValue = formData.unitCost;
+                            postAdDataObj.rateValue = workflowService.stripCommaFromNumber(formData.unitCost);
 
                             if (formData.unitCost && formData.unitType === '') {
                                 postAdDataObj.rateType = 'CPM';
@@ -1260,7 +1260,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         }
 
                         if (formData.totalAdBudget){
-                            postAdDataObj.totalBudget = formData.totalAdBudget;
+                            postAdDataObj.totalBudget = workflowService.stripCommaFromNumber(formData.totalAdBudget);
                             postAdDataObj.enabledBudgetCalculation =
                                 ($('#targetUnitCost_squaredFour').prop('checked') === false) ? false : true;
                         }
@@ -1273,7 +1273,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                         if (formData.budgetType && formData.budgetAmount) {
                             postAdDataObj.budgetType = formData.budgetType;
-                            postAdDataObj.budgetValue = Number(formData.budgetAmount);
+                            postAdDataObj.budgetValue = Number(workflowService.stripCommaFromNumber(formData.budgetAmount));
                         }
 
                         if (formData.platformId) {
