@@ -1125,7 +1125,7 @@ div.strategy_total_container .discrepancyTplRow {
   margin-bottom: 10px ;
 }
 div.strategy_total_container .discrepancyTplRow .discrepancyName {
-  width: 150px;
+  width: 250px;
 }
 div.strategy_total_container div.strategy_total_container_header {
   background: #f5f9fd;
@@ -1140,7 +1140,7 @@ div.strategy_total_container div.strategy_total_container_header .discrepancySec
   margin-left: 25px;
 }
 div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .discrepancySecLevelName {
-  width: 130px;
+  width: 225px;
 }
 div.strategy_total_container div.strategy_total_container_header .rowHasSubRow {
   cursor: pointer;
@@ -4615,7 +4615,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin-top: 0px ;
 }
 .custom_report_response_page .custom_report_response_table .reportData.active .more_dimension_col {
-  cursor: pointer;
+  /*cursor: pointer;*/
 }
 .custom_report_response_page .custom_report_response_table .reportData.active .more_dimension_col:after {
   content: "";
@@ -4642,7 +4642,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .reportData.hasBreakdown .more_dimension_col {
   padding-left: 20px ;
-  cursor: pointer;
+  /*cursor: pointer;*/
 }
 .custom_report_response_page .custom_report_response_table .heading_row {
   font-family: "Avenir-bold";
@@ -5009,4 +5009,10 @@ body.custom_report_page .bodyWrap {
 }
 .quality_page_holder .smallSreenScrollContainer {
   margin-top: 30px ;
+}
+.clickCursor {
+  cursor: pointer;
+}
+.clickCursor .more_dimension_col {
+  cursor: pointer;
 }

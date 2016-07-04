@@ -15,7 +15,6 @@
         <h2 class="modal-title" id="myModalLabel" data-ng-bind="showUserModeText()"></h2>
         <div data-ng-bind="'Client ( ' + clientObj.name + ' )'"></div>
     </div>
-
     <!--Body-->
     <div class="modal-body">
         <!--Basic Form-->
@@ -295,6 +294,7 @@
                                class="form-control"
                                maxlength="50"
                                data-ng-model="pixelFormData.name"
+                               data-ng-blur="leavefocusPixelName(pixelFormData.name)"
                                data-ng-keyup="checkDuplicatePixel(pixelFormData.name)">
                         <label class="errorText"
                                style="margin-top: 6px"
@@ -364,15 +364,6 @@
                                 </i>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group col-md-12" style="padding: 0" >
-                        <label class="col-sm-12 greyTxt" for="pixelCode">Pixel Code</label>
-                        <textarea id="pixelCode" class="form-control"
-                                  data-ng-model="pixelFormData.pixelCode"
-                                  data-ng-disabled="pixelIndex !== null &&
-                                                 advertiserData.pixels[pixelIndex].isFeedData === true"
-                                  data-ng-trim="true">
-                        </textarea>
                     </div>
                     <div class="form-group col-md-2 clearLeft" style="padding: 0 15px 0 0;">
                         <label class="col-sm-12 greyTxt">Impression Look Back:</label>

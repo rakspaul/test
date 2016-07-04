@@ -10,6 +10,11 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
 
                     return relevantDigits <= 3 ? suffixes[relevantDigits] : suffixes[0];
                 },
+                    regExp = function(){
+                        return {
+                            removeSpecialCharacterAndSpaces : /[&\/\\#,+()$~%.'":*?<>{} ]/g
+                        }
+                    }
 
                     convertToEST = function (date, format) {
                         var d1,
@@ -412,6 +417,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                 }
                 return {
                     formatDate: formatDate,
+                    regExp: regExp,
                     makeTitle: makeTitle,
                     roundOff: roundOff,
                     goToLocation: goToLocation,
