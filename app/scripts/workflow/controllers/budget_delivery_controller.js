@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service', 'common/moment_utils',
+define(['angularAMD', 'common/services/constants_service', 'common/moment_utils', // jshint ignore:line
     'workflow/directives/ng_upload_hidden', 'workflow/directives/custom_date_picker'], function (angularAMD) {
     angularAMD.controller('BudgetDeliveryController', function ($scope, constants, momentService, workflowService) {
         var unallocatedAmount = 0,
@@ -14,22 +14,27 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         $scope.adData.unitCost = '';
         $scope.adData.totalAdBudget = '';
         $scope.adData.budgetAmount = '';
-        /*Kpi Types in an array of objects, sorted alphabetically*/
-        $scope.adData.primaryKpiList=[{kpiType:'ACTION RATE', displayName:'Action Rate'},
-                                       {kpiType:'CPA', displayName:'CPA'},
-                                       {kpiType:'CPC', displayName:'CPC'},
-                                       {kpiType:'CPM', displayName:'CPM'},
-                                       {kpiType:'CTR', displayName:'CTR'},
-                                       {kpiType:'IMPRESSIONS', displayName:'Impressions'},
-                                       {kpiType:'VTC', displayName:'VTC'}];
+
+        //Kpi Types in an array of objects, sorted alphabetically
+        $scope.adData.primaryKpiList = [
+            {kpiType:'ACTION RATE', displayName:'Action Rate'},
+            {kpiType:'CPA',         displayName:'CPA'},
+            {kpiType:'CPC',         displayName:'CPC'},
+            {kpiType:'CPM',         displayName:'CPM'},
+            {kpiType:'CTR',         displayName:'CTR'},
+            {kpiType:'IMPRESSIONS', displayName:'Impressions'},
+            {kpiType:'VTC',         displayName:'VTC'}
+        ];
 
         $scope.ImpressionPerUserValidator = function () {
             var impressionPerUser = Number($scope.adData.quantity),
                 totalImpression;
 
             $scope.budgetErrorObj.impressionPerUserValidator = false;
+
             if ($scope.adData.budgetType.toUpperCase() === 'IMPRESSIONS' && impressionPerUser >= 0) {
                 totalImpression = Number($scope.adData.budgetAmount);
+
                 if (impressionPerUser > totalImpression) {
                     $scope.budgetErrorObj.impressionPerUserValidator = true;
                 }
@@ -38,32 +43,35 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
 
         $scope.calculateTotalAdBudget = function () {
             var campaignData;
-            if(($scope.adData.primaryKpi.toUpperCase()=='CTR'|| $scope.adData.primaryKpi.toUpperCase()=='VTC' || $scope.adData.primaryKpi.toUpperCase()=='ACTION RATE')&& Number($scope.adData.targetValue)>100){
+
+            if (($scope.adData.primaryKpi.toUpperCase() === 'CTR' ||
+                    $scope.adData.primaryKpi.toUpperCase() ===' VTC' ||
+                    $scope.adData.primaryKpi.toUpperCase() === 'ACTION RATE'
+                ) &&
+                Number($scope.adData.targetValue)>100) {
                 $scope.adData.targetValue=100;
             }
 
-            if($scope.adData.primaryKpi.toUpperCase() === 'IMPRESSIONS') {
+            if ($scope.adData.primaryKpi.toUpperCase() === 'IMPRESSIONS') {
                 $scope.adData.targetValue = Math.round($scope.adData.targetValue);
             }
 
             if ($('#targetUnitCost_squaredFour').prop('checked') &&
                 ($scope.adData.primaryKpi).toUpperCase() === 'IMPRESSIONS' && $scope.unitName === 'CPM') {
                 if ($scope.adData.targetValue >= 0 && $scope.adData.unitCost >= 0) {
-
                     $scope.adData.totalAdBudget =
                         Number((Number($scope.adData.targetValue) * Number($scope.adData.unitCost)) / 1000);
                 }
             }
 
             campaignData = $scope.workflowData.campaignData;
-            if($scope.mode=='edit'){
-                unallocatedAmount = Number(localStorage.getItem('unallocatedAmount')) + Number($scope.workflowData.adsData.totalBudget);
 
-            }else{
+            if ($scope.mode === 'edit') {
+                unallocatedAmount = Number(localStorage.getItem('unallocatedAmount')) +
+                    Number($scope.workflowData.adsData.totalBudget);
+            } else {
                 unallocatedAmount = Number(localStorage.getItem('unallocatedAmount'));
-
             }
-            //var unallocatedAmount = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0));
 
             // new budget calculation
             if (workflowService.getIsAdGroup() === false) {
@@ -101,15 +109,13 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         };
 
         $scope.checkForPastDate = function (startDate, endDate) {
-            endDate = moment(endDate).format(constants.DATE_US_FORMAT);
+            endDate = moment(endDate).format(constants.DATE_US_FORMAT); // jshint ignore:line
 
-            return moment().isAfter(endDate, 'day');
+            return moment().isAfter(endDate, 'day'); // jshint ignore:line
         };
 
         $scope.handleEndFlightDate = function (data) {
             var endDateElem = $('#endDateInput'),
-                startDateElem = $('#startDateInput'),
-                startDate = data.startTime,
                 endDate = data.endTime,
                 adsDate = JSON.parse(localStorage.getItem('adsDates')),
                 changeDate;
@@ -119,15 +125,16 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                 endDate = adsDate.adEndDate;
                 changeDate = endDate;
                 $scope.adData.endTime = changeDate;
-                if (moment().isAfter(endDate)) {
-                    endDateElem.datepicker('setStartDate', moment().format(constants.DATE_US_FORMAT));
+
+                if (moment().isAfter(endDate)) { // jshint ignore:line
+                    endDateElem.datepicker('setStartDate',
+                        moment().format(constants.DATE_US_FORMAT)); // jshint ignore:line
                 }
             }
         };
 
         $scope.handleStartFlightDate = function (data) {
             var endDateElem = $('#endDateInput'),
-                startDateElem = $('#startDateInput'),
                 startDate = data.startTime,
                 endDate = data.endTime,
                 campaignEndTime,
@@ -149,32 +156,38 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                     endDateElem
                         .removeAttr('disabled')
                         .css({'background': 'transparent'});
-                    changeDate = moment(startDate).format(constants.DATE_US_FORMAT);
+
+                    changeDate = moment(startDate).format(constants.DATE_US_FORMAT); // jshint ignore:line
                     endDateElem.datepicker('setStartDate', changeDate);
 
                     if (location.href.indexOf('adGroup') > -1) {
-                        endDateElem.datepicker('setEndDate', momentService.utcToLocalTime(localStorage.getItem('edTime')));
+                        endDateElem.datepicker('setEndDate',
+                            momentService.utcToLocalTime(localStorage.getItem('edTime')));
                     } else {
                         endDateElem.datepicker('setEndDate', campaignEndTime);
                     }
+
                     endDateElem.datepicker('update', changeDate);
                 }
             } else {
-                changeDate = moment(startDate).format(constants.DATE_US_FORMAT);
+                changeDate = moment(startDate).format(constants.DATE_US_FORMAT); // jshint ignore:line
                 adsDate = JSON.parse(localStorage.getItem('adsDates'));
 
                 // if start Date is in Past
                 if (!startDate && adsDate) {
                     changeDate = startDate = adsDate.adStartDate;
                     $scope.adData.startTime = changeDate;
-                    if (moment().isAfter(endDate, 'day')) {
-                        endDateElem.datepicker('setStartDate', moment().format(constants.DATE_US_FORMAT));
+
+                    if (moment().isAfter(endDate, 'day')) { // jshint ignore:line
+                        endDateElem
+                            .datepicker('setStartDate',
+                            moment().format(constants.DATE_US_FORMAT)); // jshint ignore:line
                     }
                 } else {
                     endDateElem.datepicker('setStartDate', changeDate);
                 }
 
-                if (moment(startDate).isAfter(endDate, 'day')) {
+                if (moment(startDate).isAfter(endDate, 'day')) { // jshint ignore:line
                     endDateElem.datepicker('update', changeDate);
                 }
             }
@@ -192,6 +205,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                 startDate = adsDate.adStartDate;
                 endDate = adsDate.adEndDate;
             }
+
             // ads start Date in Past
             if (campaignStartTime > startDate) {
                 startDateElem.datepicker('setStartDate', campaignStartTime);
@@ -206,7 +220,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
             }
 
             // ads start Date in Past
-            if (moment(endDate).isAfter(campaignEndTime, 'day')) {
+            if (moment(endDate).isAfter(campaignEndTime, 'day')) { // jshint ignore:line
                 endDateElem.datepicker('setEndDate', endDate);
                 endDateElem.datepicker('setStartDate', endDate);
                 endDateElem.datepicker('update', endDate);
@@ -217,13 +231,14 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
             }
 
             // this is to disable the enddate before today
-            currentDate = moment().format(constants.DATE_US_FORMAT);
+            currentDate = moment().format(constants.DATE_US_FORMAT); // jshint ignore:line
+
             if (startDate < currentDate) {
                 endDateElem.datepicker('setStartDate', currentDate);
             }
         };
 
-        $scope.resetBudgetField = function (bookingType) {
+        $scope.resetBudgetField = function () {
             $scope.adData.budgetAmount = '';
             $scope.budgetErrorObj.mediaCostValidator = '';
             $scope.budgetErrorObj.availableRevenueValidator = '';
@@ -243,7 +258,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
 
         $scope.select_kpi = function (event, type) {
             var elem = $(event.target),
-            impressionsHolder = $('.impressions_holder');
+                impressionsHolder = $('.impressions_holder');
 
             $scope.adData.primaryKpi = type;
             $scope.adData.targetValue = '';
@@ -252,7 +267,8 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
             elem.closest('.symbolAbs').find('.KPI_symbol').show();
             elem.closest('.symbolAbs').find('.VTC_per').hide();
             elem.closest('.symbolAbs').find('.target_val_input').removeClass('target_val_input_vtc');
-            elem.closest('.symbolAbs').find('.KPI_symbol').removeClass("perSymbol");
+            elem.closest('.symbolAbs').find('.KPI_symbol').removeClass('perSymbol');
+
             if (type !== 'IMPRESSIONS') {
                 $('#targetUnitCost_squaredFour').prop('checked', false);
 
@@ -275,10 +291,10 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
 
                 $('.external_chkbox').hide();
 
-                if (type === 'VTC' || type === 'CTR' || type=='ACTION RATE') {
+                if (type === 'VTC' || type === 'CTR' || type === 'ACTION RATE') {
                     elem.closest('.symbolAbs')
                         .find('.KPI_symbol')
-                        .addClass("perSymbol")
+                        .addClass('perSymbol')
                         .html('%');
                 }
             } else {
@@ -288,7 +304,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                     $('.external_chkbox').show();
                     impressionsHolder.find('input[type="checkbox"]').attr('disabled', false);
                     $('#targetUnitCost_squaredFour').prop('checked', true);
-                    $('.budget_holder_input').find('input[type="text"]').attr('disabled', true);//.addClass('disabled-field') ;
+                    $('.budget_holder_input').find('input[type="text"]').attr('disabled', true);
                     impressionsHolder.find('.external_chkbox').removeClass('disabled');
                 }
             }
@@ -297,7 +313,6 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         $scope.select_unitType = function (event, type) {
             var impressionsHolder = $('.impressions_holder');
 
-            //  $scope.adData.unitType.name = type;
             $scope.unitName=type;
             $scope.adData.unitCost = '';
             $scope.adData.totalAdBudget = '';
@@ -306,14 +321,19 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                 $('.external_chkbox').hide();
                 $('#targetUnitCost_squaredFour').prop('checked', false);
                 impressionsHolder.find('input[type="checkbox"]').attr('disabled', true);
-                $('.budget_holder_input').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+
+                $('.budget_holder_input')
+                    .find('input[type="text"]')
+                    .attr('disabled', false)
+                    .removeClass('disabled-field');
+
                 impressionsHolder.find('.external_chkbox').addClass('disabled');
             } else {
                 if (($scope.adData.primaryKpi).toUpperCase() === 'IMPRESSIONS') {
                     $('.external_chkbox').show();
                     impressionsHolder.find('input[type="checkbox"]').attr('disabled', false);
                     $('#targetUnitCost_squaredFour').prop('checked', true);
-                    $('.budget_holder_input').find('input[type="text"]').attr('disabled', true);//.addClass('disabled-field') ;
+                    $('.budget_holder_input').find('input[type="text"]').attr('disabled', true);
                     impressionsHolder.find('.external_chkbox').removeClass('disabled');
                 }
             }
@@ -327,10 +347,10 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                 campaignEndTime = momentService.utcToLocalTime(campaignData.endTime),
                 adGroupStartDate,
                 adGroupEndDate,
-                currentDate = moment().format(constants.DATE_US_FORMAT);
+                currentDate = moment().format(constants.DATE_US_FORMAT); // jshint ignore:line
 
-            if (moment().isAfter(campaignStartTime, 'day')) {
-                campaignStartTime = moment().format(constants.DATE_US_FORMAT);
+            if (moment().isAfter(campaignStartTime, 'day')) { // jshint ignore:line
+                campaignStartTime = moment().format(constants.DATE_US_FORMAT); // jshint ignore:line
             }
 
             $scope.mode === 'edit' && endDateElem.removeAttr('disabled').css({'background': 'transparent'});
@@ -386,7 +406,6 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                 $scope.budgetErrorObj.availableRevenueValidator = false;
                 $scope.budgetErrorObj.mediaCostValidator = false;
             }
-            //  $scope.adBudgetValidator();
         });
     });
 });
