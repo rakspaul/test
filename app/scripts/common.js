@@ -50,7 +50,7 @@ define(['angularAMD', // jshint ignore:line
     'reporting/timePeriod/time_period_pick_controller',
     'common/controllers/popup_msg_controller',
     'common/controllers/confirmation_modal_controller',
-    'common/account_change_controller',
+    'common/controllers/account_change_controller',
     'common/popup_msg',
     'common/moment_utils',
     'common/filter',
