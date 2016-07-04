@@ -10,7 +10,7 @@ module.exports =function(grunt) {
                 removeCommentsFromCDATA: true,
                 removeEmptyAttributes: true,
                 removeOptionalTags: true,
-                removeRedundantAttributes: true,
+                removeRedundantAttributes: false,
                 useShortDoctype: true
             },
             files: [{
