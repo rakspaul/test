@@ -273,10 +273,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-1 td tableTd" data-ng-bind="mediaPlan.status" style="min-height: 80px;"></div>
+        <div class="col-md-1 td tableTd" data-ng-bind="mediaPlan.invoiceStatus" style="min-height: 80px;"></div>
         <div class="col-md-2 td tableTd invoice-date" data-ng-bind="mediaPlan.invoiceDate" style="min-height: 80px;"></div>
         <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.spend |number:0)" style="min-height: 80px;"></div>
-        <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.credits | number:0)" style="min-height: 80px;"></div>
+        <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.adjustmentValue | number:0)" style="min-height: 80px;"></div>
         <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.spend - mediaPlan.credits |number:0)" style="min-height: 80px;"></div>
         <div class="col-md-2 td tableTd" data-ng-bind="mediaPlan.account+'/'+mediaPlan.advertiser" style="min-height: 80px"></div>
         <!-- <div class="col-md-2 td" ng-bind="mediaPlan.account +'/'+ mediaPlan.advertiser"></div> -->
@@ -343,7 +343,7 @@
                 <div class="col-md-1 td" ng-bind="invoice.invoiceStatus"></div>
                 <div class="col-md-2 td" ng-bind="invoice.invoiceDate"></div>
                 <div class="col-md-1 td text-right" ng-bind="constants.currencySymbol + (invoice.spend | number:0)"></div>
-                <div class="col-md-1 td text-right" ng-bind="constants.currencySymbol + (invoice.credits | number:0)"></div>
+                <div class="col-md-1 td text-right" ng-bind="constants.currencySymbol + (invoice.adjustmentValue | number:0)"></div>
                 <div class="col-md-1 td text-right" ng-bind="constants.currencySymbol +'  '+ (invoice.spend - invoice.credits | number:0)"></div>
                 <div class="col-md-2 td"></div>
             </div>
