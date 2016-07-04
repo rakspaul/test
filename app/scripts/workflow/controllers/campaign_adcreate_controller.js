@@ -1514,6 +1514,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
             $scope.changePlatform = function (platformId) {
                 $timeout(function() {
+                    $scope.isPlatformId = platformId;
+                    $scope.isPlatformSelected = platformId ? true : false;
                     $scope.$broadcast('renderTargetingUI', platformId);
                 }, 100);
             };
