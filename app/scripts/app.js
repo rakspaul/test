@@ -1,6 +1,14 @@
 define(['common'], function (angularAMD) { // jshint ignore:line
     'use strict';
 
+    angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
+        .controller('CarouselController', ['$scope', '$timeout', '$transition', '$q', 'ngFileUpload',
+            function ($scope, $timeout, $transition, $q) {
+            }])
+        .directive('carousel', [function () {
+            return {};
+        }]);
+    
     var app = angular.module('vistoApp', ['ngRoute', 'ngCookies', 'tmh.dynamicLocale', // jshint ignore:line
         'ui.bootstrap', 'uiSwitch', 'door3.css', 'ngFileUpload', 'ngSanitize', 'ui.multiselect',
         'highcharts-ng', 'ui.bootstrap.showErrors', 'ngTagsInput']);
