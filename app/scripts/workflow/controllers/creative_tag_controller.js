@@ -1,15 +1,17 @@
 
-define(['angularAMD','common/services/constants_service','workflow/services/workflow_service'],function (angularAMD) {
-  angularAMD.controller('CreativeTagController', function($scope, constants, workflowService) {
+define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
+    'workflow/services/workflow_service'], function (angularAMD) {
+    angularAMD.controller('CreativeTagController', function ($scope, constants, workflowService) {
         var addFromLibrary = {
             modifyCreativesData: function (respData) {
                 var arr;
 
-                _.each(respData, function (data) {
+                _.each(respData, function (data) { // jshint ignore:line
                     if ($scope.$parent.selectedArr.length > 0) {
-                        arr = _.filter($scope.$parent.selectedArr, function (obj) {
+                        arr = _.filter($scope.$parent.selectedArr, function (obj) { // jshint ignore:line
                             return obj.id === data.id;
                         });
+
                         if (arr.length > 0) {
                             data.checked = arr[0].checked;
                         }
@@ -17,6 +19,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                         data.checked = false;
                     }
                 });
+
                 return respData;
             },
 
@@ -32,38 +35,49 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 // remove spaces.
                 //format = format.replace(/\s/g, '');
                 workflowService
-                    .getCreatives(clientID,adId, format, query, {cache: false},state,function(result){
+                    .getCreatives(clientID,adId, format, query, {cache: false}, state, function (result){
                         var responseData,
                             selectedCreative;
 
                         $scope.creativesLibraryData.creativesData = [];
+
                         if (result.status === 'OK' || result.status === 'success' && result.data.data.length > 0) {
                             responseData = result.data.data;
                             $scope.creativeListLoading = false;
-                            $scope.creativesLibraryData.creativesData = addFromLibrary.modifyCreativesData(responseData);
+                            $scope.creativesLibraryData.creativesData =
+                                addFromLibrary.modifyCreativesData(responseData);
+
                             if ($scope.mode === 'edit') {
-                                _.each($scope.$parent.selectedArr, function (obj) {
+                                _.each($scope.$parent.selectedArr, function (obj) { // jshint ignore:line
                                     var idx;
 
                                     obj.checked = true;
                                     $('#' + obj.id).attr('checked', true);
-                                    idx = _.findIndex($scope.creativesLibraryData.creativesData, function (item) {
-                                        return item.id === obj.id;
-                                    });
+
+                                    idx = _.findIndex( // jshint ignore:line
+                                        $scope.creativesLibraryData.creativesData,
+                                        function (item) {
+                                            return item.id === obj.id;
+                                        }
+                                    );
+
                                     selectedCreative = $scope.creativesLibraryData.creativesData[idx];
+
                                     if (selectedCreative) {
                                         selectedCreative.checked = true;
                                     }
                                 });
                             }
-                        }else if(result.status === 'OK' || result.status === 'success' && result.data.data.length == 0){
+                        } else if(result.status === 'OK' ||
+                            result.status === 'success' &&
+                            result.data.data.length === 0){
                             $scope.loadingFlag = false;
 
                         }
-                    },function(error){
-                    addFromLibrary.errorHandler(error);
-                    $scope.loadingFlag = false;
-                });
+                    }, function (error){
+                        addFromLibrary.errorHandler(error);
+                        $scope.loadingFlag = false;
+                    });
             },
 
             errorHandler: function (/*errData*/) {
@@ -73,7 +87,12 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         };
 
         $scope.creativeSearchFunc = function () {
-            var format;
+            var format,
+                campaignId,
+                advertiserId,
+                searchVal,
+                qryStr = '',
+                formats;
 
             if ($scope.adData.adFormat === constants.WF_RICH_MEDIA) {
                 format = constants.WF_RICH_MEDIA_SEARCH;
@@ -85,16 +104,16 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 format = constants.WF_SOCIAL_SEARCH;
             }
 
-            var campaignId = $scope.workflowData.campaignData.clientId,
-                advertiserId = $scope.workflowData.campaignData.advertiserId,
-                searchVal = $scope.adData.creativeSearch,
-                qryStr = '',
-                formats = format;
+            campaignId = $scope.workflowData.campaignData.clientId;
+            advertiserId = $scope.workflowData.campaignData.advertiserId;
+            searchVal = $scope.adData.creativeSearch;
+            formats = format;
 
             if (searchVal.length > 0) {
                 qryStr += '&query=' + searchVal;
             }
-            addFromLibrary.getCreativesFromLibrary(campaignId, advertiserId,formats, qryStr,'READY');
+
+            addFromLibrary.getCreativesFromLibrary(campaignId, advertiserId, formats, qryStr, 'READY');
         };
 
         $scope.saveCreativeTags = function () {
@@ -110,26 +129,32 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
             $scope.showHidePopup = false;
             $scope.changeStatus();
+
             if ($scope.preDeleteArr.length > 0) {
-                $scope.preDeleteArr = _.uniq($scope.preDeleteArr);
-                _.each($scope.preDeleteArr, function (obj) {
+                $scope.preDeleteArr = _.uniq($scope.preDeleteArr); // jshint ignore:line
+
+                _.each($scope.preDeleteArr, function (obj) { // jshint ignore:line
                     obj.checked = true;
                     $scope.$parent.selectedArr.push(obj);
                     $('#' + obj.id).attr('checked', true);
                 });
             }
+
             if ($scope.preSelectArr.length > 0) {
-                $scope.preSelectArr = _.uniq($scope.preSelectArr);
-                _.each($scope.preSelectArr, function (obj) {
-                    idx = _.findIndex($scope.$parent.selectedArr, function (item) {
+                $scope.preSelectArr = _.uniq($scope.preSelectArr); // jshint ignore:line
+
+                _.each($scope.preSelectArr, function (obj) { // jshint ignore:line
+                    idx = _.findIndex($scope.$parent.selectedArr, function (item) { // jshint ignore:line
                         return item.id === obj.id;
                     });
+
                     $scope.$parent.selectedArr.splice(idx, 1);
                     $('#' + obj.id).attr('checked', false);
                 });
             }
+
             $scope.preSelectArr = [];
-            $scope.$parent.selectedArr = _.uniq($scope.$parent.selectedArr);
+            $scope.$parent.selectedArr = _.uniq($scope.$parent.selectedArr); // jshint ignore:line
             $scope.updateCreativeData($scope.$parent.selectedArr);
         };
 
@@ -141,16 +166,20 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
             // temporary user old selected status before cancel
             screenTypeObj.userSelectedEvent = checkbox.checked;
-            selectedChkBox = _.filter($scope.$parent.selectedArr, function (obj) {
+
+            selectedChkBox = _.filter($scope.$parent.selectedArr, function (obj) { // jshint ignore:line
                 return obj.id === screenTypeObj.id;
             });
+
             if (selectedChkBox.length > 0) {
-                idx = _.findIndex($scope.$parent.selectedArr, function (item) {
+                idx = _.findIndex($scope.$parent.selectedArr, function (item) { // jshint ignore:line
                     return item.id === screenTypeObj.id;
                 });
-                preIdx = _.findIndex($scope.preDeleteArr, function (item) {
+
+                preIdx = _.findIndex($scope.preDeleteArr, function (item) { // jshint ignore:line
                     return item.id === screenTypeObj.id;
                 });
+
                 $scope.$parent.selectedArr.splice(idx, 1);
                 if (preIdx === -1) {
                     $scope.preDeleteArr.push(screenTypeObj);
@@ -163,6 +192,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
         $scope.emptyCreativesFlag = true;
         $scope.loadingFlag = true;
+
         $scope.$on('updateNewCreative', function () {
             var creativeTag = workflowService.getNewCreative();
 
@@ -191,7 +221,9 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
             $scope.showHidePopup = true;
             $scope.creativeListLoading = true;
-            addFromLibrary.getCreativesFromLibrary(campaignId,advertiserId, $scope.adData.adFormat.toUpperCase(),'','READY');
+
+            addFromLibrary
+                .getCreativesFromLibrary(campaignId, advertiserId, $scope.adData.adFormat.toUpperCase(), '', 'READY');
         });
 
         $scope.$on('removeCreativeTags', function ($event, arg) {
@@ -201,10 +233,10 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 currIndx;
 
             if (selectedCreativeTag.length > 0) {
-                idx = _.findLastIndex($scope.$parent.selectedArr, function(obj){
+                idx = _.findLastIndex($scope.$parent.selectedArr, function (obj) { // jshint ignore:line
                     return obj.id === Number(selectedCreativeTag[0].id);
                 });
-                //_.findLastIndex($scope.selectedArr, selectedCreativeTag[0]);
+
                 $scope.$parent.selectedArr.splice(idx, 1);
                 if (actionFrom !== 'popup') {
                     $scope.updateCreativeData($scope.$parent.selectedArr);
@@ -212,7 +244,11 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                     //insert into predelete array
                     $scope.preDeleteArr.push(selectedCreativeTag[0]);
                 }
-                currIndx = _.findLastIndex($scope.creativesLibraryData.creativesData, {'id': selectedCreativeTag[0].id});
+
+                currIndx = _.findLastIndex($scope.creativesLibraryData.creativesData, { // jshint ignore:line
+                    id: selectedCreativeTag[0].id
+                });
+
                 if ($scope.creativesLibraryData.creativesData[currIndx]) {
                     $scope.creativesLibraryData.creativesData[currIndx].checked = false;
                 }

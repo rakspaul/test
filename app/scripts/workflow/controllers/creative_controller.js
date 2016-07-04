@@ -1,6 +1,6 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service',
-    'workflow/services/creative_custom_module', 'login/login_model', 'workflow/directives/creative_drop_down',
-    'workflow/directives/ng_upload_hidden'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
+    'workflow/services/workflow_service', 'workflow/services/creative_custom_module', 'login/login_model',
+    'workflow/directives/creative_drop_down', 'workflow/directives/ng_upload_hidden'], function (angularAMD) {
     angularAMD.controller('CreativeController', function ($scope, $rootScope, $routeParams, $location, constants,
                                                          workflowService, creativeCustomModule, loginModel) {
         $scope.IncorrectClickThru=false;
@@ -16,20 +16,23 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.creativeEditData = result.data.data;
 
-                            // $scope.creativeEditData = workflowService.getCreativeEditData();
-
                             if ($scope.creativeEditData) {
                                 $scope.name = $scope.creativeEditData.name;
                                 $scope.advertiserName = $scope.creativeEditData.advertiser.name;
                                 $scope.subAccountName = $scope.creativeEditData.client.name;
                                 $scope.creative.advertiserId = $scope.creativeEditData.advertiserId;
+
                                 $scope.brandName =
                                     $scope.creativeEditData.brand ? $scope.creativeEditData.brand.name : 'Select Brand';
+
                                 $scope.creative.brandId =
                                     $scope.creativeEditData.brand ? $scope.creativeEditData.brandId : '';
+
                                 $scope.selectedAdServer = $scope.creativeEditData.adServer;
+
                                 $scope.selectedAdServer.id =
                                     $scope.creativeEditData.adServer ? $scope.creativeEditData.adServer.id : '';
+
                                 $scope.creativeFormat = $scope.creativeEditData.creativeFormat;
                                 $scope.pushedCount = $scope.creativeEditData.pushedCount;
                                 $scope.associatedAdCount = $scope.creativeEditData.noOfAds;
@@ -42,6 +45,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 // make call to set the format type here
                                 // inturn makes call to get possible templates
                                 $scope.adFormatSelection($scope.creativeFormat,'editCreativeTypeSet');
+
                                 if (!($scope.pushedCount > 0 || $scope.associatedAdCount > 0)) {
                                     resetFormats($scope.selectedAdServer,$scope.creativeAdServers);
                                 }
@@ -50,6 +54,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 $scope.creativeEditData.vendorCreativeTemplate ?
                                     $scope.onTemplateSelected($scope.creativeEditData.vendorCreativeTemplate,
                                         $scope.creativeEditData.creativeCustomInputs,'editCreativeTypeSet') : '';
+
                                 $scope.tag = $scope.creativeEditData.tag;
                                 $scope.adData.creativeSize = $scope.creativeEditData.size;
 
@@ -113,7 +118,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data;
-                                $scope.advertisers = _.sortBy(responseData, 'name');
+                                $scope.advertisers = _.sortBy(responseData, 'name'); // jshint ignore:line
                             } else {
                                 creatives.errorHandler(result);
                             }
@@ -128,7 +133,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data;
-                                $scope.brands = _.sortBy(responseData, 'name');
+                                $scope.brands = _.sortBy(responseData, 'name'); // jshint ignore:line
                             } else {
                                 creatives.errorHandler(result);
                             }
@@ -173,9 +178,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             resetFormats = function (adserver, allAdserverData) {
                 var index,
                     i;
+
                 //for processeditMode
                 if (allAdserverData && allAdserverData.length > 0) {
-                    index = _.findIndex(allAdserverData, function (obj) {
+                    index = _.findIndex(allAdserverData, function (obj) { // jshint ignore:line
                         return Number(obj.id) === Number(adserver.id);
                     });
 
@@ -183,9 +189,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 for (i = 0; i < adserver.formats.length; i++) {
-                    index = _.findIndex($scope.creativeSizeData.adFormats, function (obj) {
-                        return (obj.name).toUpperCase() === angular.uppercase(adserver.formats[i]);
-                    });
+                    index = _.findIndex($scope.creativeSizeData.adFormats, // jshint ignore:line
+                        function (obj) {
+                            return (obj.name).toUpperCase() ===
+                                angular.uppercase(adserver.formats[i]); // jshint ignore:line
+                        });
 
                     if (index >= 0) {
                         $scope.creativeSizeData.adFormats[index].disabled = false;
@@ -205,8 +213,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         if (result.status === 'OK' || result.status === 'success') {
                             responseData = result.data.data;
                             $scope.creativeAdServers = responseData;
-
-                            //creatives.fetchAdFormats();
 
                             $scope.creativeSizeData.adFormats = [
                                 {id: 1, name: 'Display',    active: false, disabled: true},
@@ -244,8 +250,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             validateUrl= function (url) {
                 var re = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
                 validTag = true;
-                if(url!=''){
-                    if(url && re.test(url)) {
+
+                if (url !== ''){
+                    if (url && re.test(url)) {
                         postCrDataObj.clickthroughURL = url;
                         $scope.IncorrectClickThru=false;
                         validTag = true;
@@ -255,8 +262,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }
                 }
             };
-
-        // $scope.creativeFormat = 'DISPLAY';
 
         $scope.creative = {};
         $scope.adData = {};
@@ -347,7 +352,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     creatives.fetchAdvertisers(data.id);
                     reset.advertiser();
                     reset.brand();
-                    getAdServersInLibraryPage($scope.creative.clientId)
+                    getAdServersInLibraryPage($scope.creative.clientId);
                     break;
 
                 case 'advertiser':
@@ -368,10 +373,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         // function on adFormat selected
         $scope.adFormatSelection = function (adFormatName,flag) {
-            var index = _.findIndex($scope.creativeSizeData.adFormats, function (obj) {
-                    return (obj.name).toUpperCase() ===
-                        (adFormatName).toUpperCase();
-                    // return angular.uppercase(obj.name) === angular.uppercase(adFormatName)
+            var index = _.findIndex($scope.creativeSizeData.adFormats, function (obj) { // jshint ignore:line
+                    return (obj.name).toUpperCase() === (adFormatName).toUpperCase();
                 }),
                 i;
 
@@ -388,7 +391,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.creativeSizeData.adFormats[index].active = true;
             }
 
-            $scope.creativeFormat = angular.uppercase(adFormatName);
+            $scope.creativeFormat = angular.uppercase(adFormatName); // jshint ignore:line
 
             // CreativeLibrary page, get templates
             if (!$scope.adPage && $scope.selectedAdServer) {
@@ -396,7 +399,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 //In edit mode, do not let to change templateType from full-tracking or vice versa if ads count > 0.
                 if ($scope.creativeMode === 'edit' && $scope.associatedAdCount > 0) {
-                    // $scope.getTemplates($scope.selectedAdServer,adFormatName,$scope.creativeEditData.isTracking);
                     $scope.getTemplates($scope.selectedAdServer,adFormatName);
                 } else {
                     $scope.getTemplates($scope.selectedAdServer,adFormatName);
@@ -458,8 +460,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         // This function is triggered when adFormat is changes in SelectType page of Ad create
         $scope.$on('adFormatChanged', function (event, adType) {
-            var index = _.findIndex($scope.creativeSizeData.adFormats, function (obj) {
-                    return angular.uppercase(obj.name) === angular.uppercase(adType);
+            var index = _.findIndex($scope.creativeSizeData.adFormats, function (obj) { // jshint ignore:line
+                    return angular.uppercase(obj.name) === angular.uppercase(adType); // jshint ignore:line
                 }),
                 i,
                 responseData;
@@ -474,7 +476,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.creativeSizeData.adFormats[index].disabled = false;
             }
 
-            $scope.creativeFormat = angular.uppercase(adType);
+            $scope.creativeFormat = angular.uppercase(adType); // jshint ignore:line
 
             // function to get the possible ad servers for the adFormat selected
             // (Create Ad flow, format is prefilled in this case)
@@ -485,7 +487,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         responseData = result.data.data;
                         $scope.creativeAdServers = responseData;
                     } else {
-                        console.log('failed to get Adservers');
                         creatives.errorHandler(result);
                     }
                 }, creatives.errorHandler);
@@ -500,8 +501,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.creativeSizeData.tagTypes = [];
             $scope.CreativeTemplate = templateJson;
 
-            // $scope.TrackingIntegrationsSelected = templateJson.isTracking;
-
             $scope.adData.creativeTemplate = templateJson.id;
             creativeCustomModule.init(templateJson, creativeTemplateWrap, $scope, customFieldsDataEditMode);
 
@@ -514,8 +513,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             if (templateJson) {
                 for (i = 0; i < templateJson.supportedTags.length; i++) {
-                    index = _.findIndex($scope.creativeSizeData.tagTypes, function (obj) {
-                        return (obj.name).toUpperCase() === angular.uppercase(templateJson.supportedTags[i])
+                    index = _.findIndex($scope.creativeSizeData.tagTypes, function (obj) { // jshint ignore:line
+                        return (obj.name).toUpperCase() ===
+                            angular.uppercase(templateJson.supportedTags[i]); // jshint ignore:line
                     });
 
                     if (index >= 0) {
@@ -527,7 +527,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 if (flag === 'editCreativeTypeSet') {
                     // set the seleted Tag type first time
-                    index = _.findIndex($scope.creativeSizeData.tagTypes, function (obj) {
+                    index = _.findIndex($scope.creativeSizeData.tagTypes, function (obj) { // jshint ignore:line
                         return (obj.name).replace(/\s+/g, '').toUpperCase() ===
                             ($scope.creativeEditData.creativeType).replace(/\s+/g, '').toUpperCase();
                     });
@@ -585,8 +585,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             // In creative List Page to create new creative
             if (!$scope.adPage) {
                 // instead of trigerring here, trigger when the user selects sub account, with sub account ID
-               // getAdServersInLibraryPage();
-
                 if ($scope.showSubAccount) {
                     creatives.fetchSubAccounts();
                 } else {
@@ -601,7 +599,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var formData,
                 indexArr = [],
                 formDataObj,
-                validCreativeUrl,
                 i,
                 templateArr,
                 listArr = [
@@ -624,15 +621,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             if (form.$valid) {
                 formDataObj = $('#formCreativeCreate').serializeArray();
-                formData = _.object(_.pluck(formDataObj, 'name'), _.pluck(formDataObj, 'value'));
+                formData = _.object(_.pluck(formDataObj, 'name'), _.pluck(formDataObj, 'value')); // jshint ignore:line
                 postCrDataObj = {};
                 postCrDataObj.name = formData.name;
                 postCrDataObj.clientId = $scope.creative.clientId;
                 postCrDataObj.advertiserId = formData.advertiserId;
                 postCrDataObj.brandId = formData.brandId;
-
-                //  postCrDataObj.isTracking = $scope.TrackingIntegrationsSelected;
-
                 postCrDataObj.adServerId = formData.creativeAdServer;
                 postCrDataObj.creativeFormat = $scope.creativeFormat.toUpperCase();
                 postCrDataObj.sslEnable = 'true';
@@ -642,21 +636,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postCrDataObj.vendorCreativeTemplateId = formData.creativeTemplate;
 
                 validateScriptTag(formData.tag);
+
                 // validate if the click thru url is valid
                 validateUrl(formData.clickUrl);
 
-                //if ($scope.TrackingIntegrationsSelected) {
-                //  postCrDataObj.tag = '%%TRACKER%%';
-                //    validTag = true;
-                //} else {
-                //validateScriptTag(formData.tag);
-                // }
-
                 if (validTag) {
-                //    validCreativeUrl = true;
                     $('#invalidUrl').remove();
 
-                    for (i = 0; i< formDataObj.length; i++) {
+                    for (i = 0; i < formDataObj.length; i++) {
                         if (listArr.indexOf(formDataObj[i].name) >= 0) {
                             // contains all indexes of static Markup which will have to be removed
                             // before adding to the list.
@@ -671,21 +658,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                     $scope.IncorrectTag = false;
 
-                    postCrDataObj.creativeCustomInputs = _.map(templateArr, function (data) {
+                    postCrDataObj.creativeCustomInputs = _.map(templateArr, function (data) { // jshint ignore:line
                         var d = data.name.split('$$');
-
-                        //if (d[0] === 'clickthrough_url.clickthrough_url' && data.value !== '') {
-                        //    // validate if the url is valid
-                        //    validCreativeUrl = workflowService.validateUrl(data.value);
-                        //
-                        //    if (validCreativeUrl === false) {
-                        //        $('[name = "' + data.name + '"]')
-                        //            .parent()
-                        //            .append('<label id="invalidUrl" ' +
-                        //                'class="col-sm-12 control-label errorLabel" ' +
-                        //                'style="display: block">Please enter a valid url.</label>');
-                        //    }
-                        //}
 
                         return {
                             creativeCustomInputId: Number(d[1]),
@@ -693,9 +667,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         };
                     });
 
-                  //  if (validCreativeUrl) {
-                        $scope.creativeSave(postCrDataObj);
-                  //  }
+                    $scope.creativeSave(postCrDataObj);
                 }
             }
         };
@@ -740,8 +712,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             $rootScope.setErrAlertMessage($scope.Message,1);
                         }
                     });
-
-                //localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS);
             } else {
                 postCrDataObj.updatedAt = $scope.creativeEditData.updatedAt;
 
@@ -752,8 +722,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.addedSuccessfully = true;
                             $scope.Message = 'Creative Added Successfully';
-
-                            // workflowService.setNewCreative(result.data.data);
 
                             // redirect user after successful saving
                             $scope.cancelBtn();

@@ -9,9 +9,11 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                             var selectedLists,
                                 idx;
 
-                            $scope.workflowData.inventoryData = result.data.data.sort(function(a, b) {
-                                return (a.name > b.name) ? 1 : -1;
-                            });
+                            if (_.isArray(result.data.data)) { // jshint ignore:line
+                                $scope.workflowData.inventoryData = result.data.data.sort(function(a, b) {
+                                    return (a.name > b.name) ? 1 : -1;
+                                });
+                            }
 
                             // Search filter for domain names list (used together with domainAction)
                             $scope.adData = $scope.adData || {};

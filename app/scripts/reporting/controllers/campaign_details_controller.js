@@ -787,7 +787,7 @@ function (angularAMD) {
                         //for a vedio campaign, if set(default) kPI is vtc and dosen’t have video data.
                         // we are showing data not found.
                         hasVideoAds = $scope.adFormats && kpiModel.toLowerCase() === 'vtc' && !$scope.adFormats.videoAds;
-                        
+
                         if (adSizeResponseData && adSizeResponseData.length > 0 && !hasVideoAds) {
                             adSizeData = _.map(adSizeResponseData, function (obj) {
                                 obj.vtc = obj.vtc_100;
@@ -856,7 +856,7 @@ function (angularAMD) {
                         //for a vedio campaign, if set(default) kPI is vtc and dosen’t have video data.
                         // we are showing data not found.
                         hasVideoAds = $scope.adFormats && kpiModel.toLowerCase() === 'vtc' && !$scope.adFormats.videoAds;
-                        
+
                         if (resultData && resultData.length > 0 && !hasVideoAds) {
                             platformData = _.map(resultData, function (obj) {
                                 obj['action rate'] = obj.action_rate;
@@ -1486,9 +1486,6 @@ function (angularAMD) {
                 };
 
             carouselLeft.hide();
-            /*if (RoleBasedService.getUserRole().locale === 'en-gb') {
-             carouselRight.hide();
-             }*/
 
             carouselRight.click(function () {
                 if (carouselItem.length === 8) {

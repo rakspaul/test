@@ -892,9 +892,11 @@ define(['angularAMD', 'workflow/services/audience_service', // jshint ignore:lin
         $scope.returnTime = function (time) {
             var index;
 
+            time = Number(time);
+
             if (time >= 0) {
                 index = _.findIndex($scope.getStartTimes, function (item) { // jshint ignore:line
-                    return item.time === time;
+                    return Number(item.time) === time;
                 });
                 if ($scope.twelve) {
                     return $scope.getStartTimes[index].twelveHrFormat;
