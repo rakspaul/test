@@ -255,20 +255,125 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 }
             },
 
-            init = function (creativeTemplate, elem, scope, editModeData) {
-                elem.html('');
-                _self.elem = elem;
+         init=function(creativeTemplate,elem,scope,editModeData){
+// var temp=
+//
+// {
+//     "platformCustomInputNamespaceList": [
+//         {
+//             "id": 3,
+//             "name": "DoubleClick_Campaign_Manager_Standard_Display/Rich_Media",
+//             "displayOrder": 1,
+//             "platformCustomInputGroupList": [
+//                 {
+//                     "id": 55,
+//                     "name": "tags",
+//                     "platformCustomInputGroupType": "VERTICAL_BOX",
+//                     "platformCustomInputChildrenGroupList": [],
+//                     "platformCustomInputList": [
+//                         {
+//                             "id": 84,
+//                             "name": "tags.tag",
+//                             "displayName": "Secure Tag (SSL compatible)",
+//                             "platformCustomInputType": "STRING",
+//                             "platformCustomWidgetType": "TEXTAREA",
+//                             "rangeJson": "{\"tag\": \"\"}",
+//                             "isMandatory": true,
+//                             "displayOrder": 1,
+//                             "defaultValue": "",
+//                             "description": "NA",
+//                             "decorator": "NA",
+//                             "decoratorOrientation": "NA",
+//                             "decoratorInclusion": false,
+//                             "nameOrientation": "TOP",
+//                             "dependentGroups": false,
+//                             "createdAt": "2016-07-03T23:58:44.653Z",
+//                             "updatedAt": "2016-07-03T23:58:44.653Z"
+//                         }
+//                     ],
+//                     "isActivated": true,
+//                     "createdAt": "2016-07-03T23:58:22.612Z",
+//                     "updatedAt": "2016-07-03T23:58:22.612Z"
+//                 },
+//                 {
+//                     "id": 61,
+//                     "name": "tag_types",
+//                     "platformCustomInputGroupType": "VERTICAL_BOX",
+//                     "platformCustomInputChildrenGroupList": [],
+//                     "platformCustomInputList": [
+//                         {
+//                             "id": 88,
+//                             "name": "tag_types.tag_type",
+//                             "displayName": "Tag Type",
+//                             "platformCustomInputType": "SELECT",
+//                             "platformCustomWidgetType": "TOGGLE",
+//                             "rangeJson": "HTML,JS",
+//                             "isMandatory": true,
+//                             "displayOrder": 1,
+//                             "defaultValue": "",
+//                             "description": "NA",
+//                             "decorator": "NA",
+//                             "decoratorOrientation": "NA",
+//                             "decoratorInclusion": false,
+//                             "nameOrientation": "TOP",
+//                             "dependentGroups": false,
+//                             "createdAt": "2016-07-03T23:58:44.653Z",
+//                             "updatedAt": "2016-07-03T23:58:44.653Z"
+//                         }
+//                     ],
+//                     "isActivated": true,
+//                     "createdAt": "2016-07-03T23:58:22.629Z",
+//                     "updatedAt": "2016-07-03T23:58:22.629Z"
+//                 },
+//                 {
+//                     "id": 67,
+//                     "name": "clickthrough_url",
+//                     "platformCustomInputGroupType": "VERTICAL_BOX",
+//                     "platformCustomInputChildrenGroupList": [],
+//                     "platformCustomInputList": [
+//                         {
+//                             "id": 92,
+//                             "name": "clickthrough_url.clickthrough_url",
+//                             "displayName": "Clickthrough URL",
+//                             "platformCustomInputType": "STRING",
+//                             "platformCustomWidgetType": "TEXTBOX",
+//                             "rangeJson": "{\"clickthrough_url\": \"\"}",
+//                             "isMandatory": false,
+//                             "displayOrder": 1,
+//                             "defaultValue": "",
+//                             "description": "NA",
+//                             "decorator": "NA",
+//                             "decoratorOrientation": "NA",
+//                             "decoratorInclusion": false,
+//                             "nameOrientation": "TOP",
+//                             "dependentGroups": false,
+//                             "createdAt": "2016-07-03T23:58:44.653Z",
+//                             "updatedAt": "2016-07-03T23:58:44.653Z"
+//                         }
+//                     ],
+//                     "isActivated": true,
+//                     "createdAt": "2016-07-03T23:58:22.635Z",
+//                     "updatedAt": "2016-07-03T23:58:22.635Z"
+//                 }
+//             ],
+//             "displayName": "DoubleClick Campaign Manager - Standard Display/Rich Media",
+//             "subName": "",
+//             "createdAt": "2016-03-14T08:18:33.987Z",
+//             "updatedAt": "2016-03-14T08:18:33.987Z"
+//         }
+//     ],
+//     "platformCustomInputActivationOrderList": []
+// }
 
-                _self.creativeCustomInputNamespaceList = creativeTemplate ?
-                    creativeTemplate
-                        .creativeTemplateCustomInputJson
-                        .platformCustomInputNamespaceList : '';
 
-                _self.creativeCustomInputGroupList = creativeTemplate ?
-                    creativeTemplate
-                        .creativeTemplateCustomInputJson
-                        .platformCustomInputNamespaceList[0]
-                        .platformCustomInputGroupList : '';
+            elem.html('');
+            _self.elem = elem;
+            //_self.adPlatformCustomInputs= adPlatformCustomInputs;
+             _self.creativeCustomInputNamespaceList = creativeTemplate? creativeTemplate.creativeTemplateCustomInputJson.platformCustomInputNamespaceList:'';
+           // _self.creativeCustomInputNamespaceList = temp? temp.platformCustomInputNamespaceList:'';
+            //_self.creativeCustomInputGroupList = temp?temp.platformCustomInputNamespaceList[0].platformCustomInputGroupList:'';
+             _self.creativeCustomInputGroupList = creativeTemplate?creativeTemplate.creativeTemplateCustomInputJson.platformCustomInputNamespaceList[0].platformCustomInputGroupList:'';
+            console.log(_self.creativeCustomInputGroupList);
 
                 _.each(_self.creativeCustomInputGroupList, function (pJson) { // jshint ignore:line
                     buildFormControl(pJson, elem,scope,editModeData);

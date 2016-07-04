@@ -7,14 +7,32 @@
     <div class="clearfix">
         <button type="button"
                 class="btn btn-default pull-left"
-                ng-disabled="adData.adFormat === undefined"
+                ng-disabled="adData.adFormat === undefined ||!$parent.isPlatformSelected"
                 ng-click="showPopup()"
                 data-ng-bind="textConstants.ADDEXISTNG"></button>
         <button type="button"
                 class="btn btn-default pull-left"
+                ng-disabled="!$parent.isPlatformSelected"
                 ng-click="showCreateNewWindow()"
                 style="margin-left: 10px;"
                 data-ng-bind="textConstants.CREATENEW"></button>
+    </div>
+</div>
+<!--=== Targeting Type ===-->
+<div class="col-md-12 zeroPadding dropdown-workflow">
+    <div class="col-md-3 zeroPadding">
+        <div class="dropdown ddlSetTarget msgPopupHolder">
+            <div class="msgPopup" data-ng-show="!$parent.isPlatformSelected">
+                <div class="msg" data-ng-bind="textConstants.ENABLETARGETINGAD"></div>
+                <div class="btn-holder">
+                    <a data-target="#buying"
+                       data-toggle="tab" style="width: auto; margin: 0;"
+                       class="pull-right btn btn-primary leftNavLink"
+                       data-ng-bind="textConstants.SELECTPLATFORM">
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
