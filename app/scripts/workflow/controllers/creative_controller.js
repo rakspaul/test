@@ -40,8 +40,8 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                                 $scope.isTrackingCreative=$scope.creativeEditData.isTracking;
 
                                 // set the creativeTag Type
-                                $scope.creativeType = $scope.creativeEditData.creativeType.toUpperCase();
-                                $scope.creativeTagSelected('',$scope.creativeEditData.creativeType);
+                               /* $scope.creativeType = $scope.creativeEditData.creativeType.toUpperCase();
+                                $scope.creativeTagSelected('',$scope.creativeEditData.creativeType);*/
 
                                 // make call to set the format type here
                                 // inturn makes call to get possible templates
@@ -52,8 +52,8 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                                 }
 
                                 //make call to generate Template
-                                $scope.creativeEditData.vendorCreativeTemplate ?
-                                    $scope.onTemplateSelected($scope.creativeEditData.vendorCreativeTemplate,
+                                $scope.creativeEditData.creativeTemplate ?
+                                    $scope.onTemplateSelected($scope.creativeEditData.creativeTemplate,
                                         $scope.creativeEditData.creativeCustomInputs,'editCreativeTypeSet') : '';
 
                                 $scope.tag = $scope.creativeEditData.tag;
@@ -514,32 +514,32 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 {id: 3, name: 'VAST', active: false, disabled:true}
             ];
 
-            if (templateJson) {
-                for (i = 0; i < templateJson.supportedTags.length; i++) {
-                    index = _.findIndex($scope.creativeSizeData.tagTypes, function (obj) { // jshint ignore:line
-                        return (obj.name).toUpperCase() ===
-                            angular.uppercase(templateJson.supportedTags[i]); // jshint ignore:line
-                    });
-
-                    if (index >= 0) {
-                        $scope.creativeSizeData.tagTypes[index].disabled = false;
-                    } else {
-                        $scope.creativeSizeData.tagTypes[index].disabled = true;
-                    }
-                }
-
-                if (flag === 'editCreativeTypeSet') {
-                    // set the seleted Tag type first time
-                    index = _.findIndex($scope.creativeSizeData.tagTypes, function (obj) { // jshint ignore:line
-                        return (obj.name).replace(/\s+/g, '').toUpperCase() ===
-                            ($scope.creativeEditData.creativeType).replace(/\s+/g, '').toUpperCase();
-                    });
-
-                    if (index >= 0) {
-                        $scope.creativeSizeData.tagTypes[index].active = true;
-                    }
-                }
-            }
+            // if (templateJson) {
+            //     for (i = 0; i < templateJson.supportedTags.length; i++) {
+            //         index = _.findIndex($scope.creativeSizeData.tagTypes, function (obj) { // jshint ignore:line
+            //             return (obj.name).toUpperCase() ===
+            //                 angular.uppercase(templateJson.supportedTags[i]); // jshint ignore:line
+            //         });
+            //
+            //         if (index >= 0) {
+            //             $scope.creativeSizeData.tagTypes[index].disabled = false;
+            //         } else {
+            //             $scope.creativeSizeData.tagTypes[index].disabled = true;
+            //         }
+            //     }
+            //
+            //     if (flag === 'editCreativeTypeSet') {
+            //         // set the seleted Tag type first time
+            //         index = _.findIndex($scope.creativeSizeData.tagTypes, function (obj) { // jshint ignore:line
+            //             return (obj.name).replace(/\s+/g, '').toUpperCase() ===
+            //                 ($scope.creativeEditData.creativeType).replace(/\s+/g, '').toUpperCase();
+            //         });
+            //
+            //         if (index >= 0) {
+            //             $scope.creativeSizeData.tagTypes[index].active = true;
+            //         }
+            //     }
+            // }
         };
 
         $scope.creativePopularSizes = [
