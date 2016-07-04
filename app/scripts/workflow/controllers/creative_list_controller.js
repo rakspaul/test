@@ -6,7 +6,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                                                              $window, constants, domainReports, workflowService,
                                                              momentService, loginModel, advertiserModel) {
         var checkedCreativeArr=[],
-            creativeDataArr = $scope.creativeData.creatives,
+            creativeDataArr,
             winHeight = $(window).height(),
             isSearch = false,
 
