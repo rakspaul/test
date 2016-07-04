@@ -741,7 +741,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/advertisers/' + advertiserId +
-                        '/domain_lists?sortBy=name&sortOrder=asc';
+                        '/inventory_lists?inventoryType=DOMAIN&sortBy=name&sortOrder=asc';
 
                     return dataService.fetch(url);
                 },
@@ -754,7 +754,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     return vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/advertisers/' + advertiserId +
-                        '/domain_lists/upload' + domainIdstr;
+                        '/inventory_lists/upload' + domainIdstr;
                 },
 
                 getPlatformCustomInputs: function (platformId) {

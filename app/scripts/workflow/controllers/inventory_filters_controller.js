@@ -301,6 +301,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                                     fields: {
                                         'name': $scope.adData.listName,
                                         'domainAction': $scope.adData.inventory.domainAction,
+                                        'inventoryType' : 'DOMAIN',
                                         'updatedAt': $scope.adData.inventory ? $scope.adData.inventory.updatedAt : ''
                                     },
                                     fileFormDataName: 'domainList',
