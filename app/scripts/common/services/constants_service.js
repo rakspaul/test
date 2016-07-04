@@ -56,7 +56,6 @@ define(['angularAMD'], function(angularAMD) {
         this.EVENT_TIMEPERIOD_CHANGED = 'timePeriodChanged';
         this.EVENT_ACTION_CREATED = 'actionCreated';
         this.NAVIGATION_FROM_CAMPAIGNS = 'navigationFromCampaigns';
-        this.BUBBLE_BRAND_CLICKED = 'bubbleBrandClicked';
         this.BUBBLE_ADVERTISER_CLICKED = 'bubbleAdvertiserClicked';
         this.EVENT_STATUS_FILTER_CHANGED = 'statusFilterChanged';
         this.GA_DASHBOARD = 'dashboard-widget';
