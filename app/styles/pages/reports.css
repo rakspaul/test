@@ -5011,8 +5011,8 @@ body.custom_report_page .bodyWrap {
   margin-top: 30px ;
 }
 .clickCursor {
-    cursor:pointer;
+  cursor: pointer;
 }
 .clickCursor .more_dimension_col {
-    cursor:pointer;
+  cursor: pointer;
 }

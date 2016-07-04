@@ -53,6 +53,8 @@ define(['angularAMD', // jshint ignore:line
     'common/account_change_controller',
     'common/popup_msg',
     'common/moment_utils',
+    'common/filter_utils',
+    'common/directive_utils',
     'workflow/controllers/campaign_create_controller',
     'workflow/controllers/line_item_controller',
     'reporting/collectiveReport/reports_schedule_list_controller',
