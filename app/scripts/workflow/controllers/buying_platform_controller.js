@@ -287,7 +287,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         result.data.data = workflowService.platformCreateObj(result.data.data);
                         if (result.data.data.customInputJson != '') {
                             platformCustomeJson = JSON.parse(result.data.data.customInputJson);
-                            if(platformCustomeJson.platformCustomInputNamespaceList && platformCustomeJson.platformCustomInputNamespaceList.length >1) {
+                            if(platformCustomeJson.platformCustomInputNamespaceList && platformCustomeJson.platformCustomInputNamespaceList.length >2) {
                                 $scope.adData.customInpNameSpaceList =  platformCustomeJson.platformCustomInputNamespaceList;
                                 _.each($scope.adData.customInpNameSpaceList, function (obj, idx) {
                                     obj.className = idx == 0 ? 'active' : '';

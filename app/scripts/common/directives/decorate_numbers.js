@@ -100,15 +100,11 @@ define(['angularAMD'],function (angularAMD) {
                 }
                 isValid = makeIsValid(options);
                 ngModelCtrl.$parsers.unshift(function(viewVal) {
-                    console.log("$parsers")
-                    console.log("viewVal", viewVal);
                     // $timeout(function(){
                         var noCommasVal;
                         noCommasVal = viewVal.replace(/,/g, '');
-                    console.log("noCommasVal", noCommasVal);
                         if (isValid(noCommasVal) || !noCommasVal) {
                             ngModelCtrl.$setValidity('fcsaNumber', true);
-                            console.log("if noCommasVal", noCommasVal);
                             return noCommasVal;
                         } else {
                             ngModelCtrl.$setValidity('fcsaNumber', false);
@@ -118,71 +114,56 @@ define(['angularAMD'],function (angularAMD) {
 
                 });
                 ngModelCtrl.$formatters.push(function(val) {
-                    console.log("--------------$formatters-------------------")
-                    console.log("val", val);
                     if ((options.nullDisplay != null) && (!val || val === '')) {
                         return options.nullDisplay;
                     }
                     if ((val == null) || !isValid(val)) {
                         return val;
                     }
-                    console.log("val1", val);
 
                     ngModelCtrl.$setValidity('fcsaNumber', true);
                     val = addCommasToInteger(val.toString());
                     if (options.prepend != null) {
                         val = "" + options.prepend + val;
-                        console.log("val3", val);
 
                     }
                     if (options.append != null) {
                         val = "" + val + options.append;
-                        console.log("val4", val);
 
                     }
                     return val;
                 });
                 elem.on('blur', function() {
-                    console.log("blur ----- -");
 
                     var formatter, viewValue, _i, _len, _ref;
                     viewValue = ngModelCtrl.$modelValue;
-                    console.log("viewValue",viewValue);
 
                     if ((viewValue == null) || !isValid(viewValue)) {
                         return;
                     }
-                    console.log("viewValue1",viewValue);
 
                     _ref = ngModelCtrl.$formatters;
                     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                         formatter = _ref[_i];
                         viewValue = formatter(viewValue);
                     }
-                    console.log("viewValue2",viewValue);
 
                     ngModelCtrl.$viewValue = viewValue;
-                    console.log("viewValue3",viewValue);
 
                     return ngModelCtrl.$render();
                 });
                 elem.on('focus', function() {
-                    console.log("focus ====== ");
                     var val;
                     val = elem.val();
-                    console.log("val ==",val);
                     if (options.prepend != null) {
                         val = val.replace(options.prepend, '');
                     }
-                    console.log("val1 ==",val);
 
                     if (options.append != null) {
                         val = val.replace(options.append, '');
                     }
-                    console.log("val2 ==",val);
 
                     elem.val(val.replace(/,/g, ''));
-                    console.log("val3 ==",val);
 
                     return elem[0].select();
                 });
