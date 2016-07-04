@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--http://mailonline.github.io/videojs-vast-vpaid/index_4.html# -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link href="http://vjs.zencdn.net/4.7.1/video-js.css" rel="stylesheet">
+    <script src="/scripts/libs/jquery.js"></script>
+
+    <!--[if lt IE 9]><script src="/scripts/workflow/vast-video/es5.js"></script><![endif]-->
+    <script src="/scripts/workflow/vast-video/video.js"></script>
+    <script src="/scripts/workflow/vast-video/videojs.ads.js"></script>
+
+    <script src="/scripts/workflow/vast-video/vast-client.js"></script>
+    <script src="/scripts/workflow/vast-video/videojs.vast.js"></script>
+</head>
+<body>
+
+<div class="example-video-container">
+    <video id="vid2" class="video-js vjs-default-skin" autoplay controls preload="auto"
+           poster="/scripts/workflow/vast-video/video-poster.jpg"
+           data-setup='{}'
+           width='640'
+           height='400'
+    >
+        <source src="http://video-js.zencoder.com/oceans-clip.mp4" type='video/mp4'>
+        <source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm'>
+        <source src="http://video-js.zencoder.com/oceans-clip.ogv" type='video/ogg'>
+        <p>Video Playback Not Supported</p>
+    </video>
+</div>
+
+<script>
+    $(function() {
+        var vid2 = videojs('vid2');
+        vid2.muted(true);
+        vid2.ads();
+        vid2.vast({
+            url: 'https://ad.doubleclick.net/ddm/pfadx/N318802.271411COLLECTIVE/B9479708.130119672;sz=0x0;ord=[timestamp];dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;dcmt=text/xml'
+        });
+    })
+
+</script>
+
+</body>
+</html>
+

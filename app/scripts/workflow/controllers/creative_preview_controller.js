@@ -2,17 +2,37 @@ define(['angularAMD', 'workflow/services/workflow_service', 'login/login_model']
     function (angularAMD) {
     angularAMD.controller('CreativePreviewController', function ($scope, $rootScope, $routeParams, $location,
                                                          workflowService, loginModel) {
+        $scope.creativePreviewUrl = true;
+
         var creativeId = $routeParams.creativeId,
 
-            extractCreativeTag =  function(data) {
+            extractTagUrl =  function(tag) {
+                var url
+                if (tag.match(/<SCRIPT.*?SRC="(.*?)"/i) || tag.match(/<SCRIPT.*?SRC='(.*?)'/i)) {
+                    url = (tag.match(/<SCRIPT.*?SRC="(.*?)"/i) || tag.match(/<SCRIPT.*?SRC='(.*?)'/i))[1];
+                } else if (tag.match(/<script.*?src="(.*?)"/i) || tag.match(/<script.*?src='(.*?)'/i)) {
+                    url = (tag.match(/<script.*?src="(.*?)"/i) || tag.match(/<script.*?src='(.*?)'/i))[1];
+                }
+                return url || tag;
+            },
+
+            buildCreativeTagPreviewContainer = function(data) {
                 var tag = data.tag,
-                    iframe,
-                    html;
+                    type = data.creativeType,
+                    iframe;
 
                 if( tag) {
                     iframe = document.createElement('iframe');
-                    html = '<body>' + tag + '</body>';
-                    iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(html);
+                    if(data.creativeFormat === 'VIDEO') {
+                        if(!extractTagUrl(tag)) {
+                            $scope.creativePreviewUrl = false;
+                        } else {
+                            localStorage.setItem('creativeTag', extractTagUrl(tag)); //setting creative tag in local storage to use while video preview.
+                            iframe.src = '/views/workflow/vast-video-preview.html';
+                        }
+                    } else {
+                        iframe.src = 'data:text/html;charset=utf-8,' + encodeURI('<body>' + tag + '</body>');
+                    }
                     iframe.width = '1000';
                     iframe.height = '1000';
                     iframe.frameBorder='0';
@@ -23,13 +43,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'login/login_model']
                         console.log('script loaded', res);
                     });
                 }
-            },
-
-            buildCreativeTagPreviewContainer = function(creativeData) {
-                extractCreativeTag(creativeData);
             };
 
-        $scope.creativePreviewUrl = true;
 
         function loadScript(url, callback) { // jshint ignore:line
             var script = document.createElement('script');
