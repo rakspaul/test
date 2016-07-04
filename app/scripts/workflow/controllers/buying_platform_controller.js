@@ -3,6 +3,9 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
     'workflow/controllers/direct_Inventory_controller'], function (angularAMD) {
     angularAMD.controller('BuyingPlatformController', function ($scope, $timeout, $modal, $filter, $rootScope,
                                                                 constants, workflowService, platformCustomeModule) {
+
+        $scope.adData.customPlatformLoader = false;
+
         var tempPlatform,
             storedResponse,
             oldPlatformName,
@@ -322,6 +325,11 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
             $scope.adData.customInpNameSpaceList = [];
 
+            platformWrap.html('');
+
+            $scope.adData.customInpNameSpaceList = [];
+            $scope.adData.customPlatformLoader = true;
+            _buyingPlatform.showCustomFieldBox();
             workflowService
                 .getPlatformCustomInputs($scope.adData.platformId)
                 .then(function (result) {
@@ -329,6 +337,9 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                         adPlatformCustomInputsLocalStorageValue;
 
                     if (result.status === 'OK' || result.status === 'success') {
+
+                        $scope.adData.customPlatformLoader = false;
+
                         //invoke wrapper
                         result.data.data = workflowService.platformCreateObj(result.data.data);
 
@@ -345,7 +356,6 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                                 });
                             }
 
-                            _buyingPlatform.showCustomFieldBox();
 
                             if ($scope.mode === 'edit') {
                                 adPlatformCustomInputsLocalStorageValue =
@@ -522,7 +532,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             _buyingPlatform.fetchPlatforms(platform);
         });
 
-        $scope.$on('switchPlatformFunc', function (obj,tab) {
+        $scope.$on('switchPlatformFunc', function (obj, tab) {
             var customFieldErrorElem = $('.customFieldErrorMsg'),
                 $modalInstance,
                 seatId;
