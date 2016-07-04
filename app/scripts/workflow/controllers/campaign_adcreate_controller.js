@@ -1803,7 +1803,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $scope.adData.setSizes = $scope.sizeString;
             };
 
-            $scope.resetCreatives = function () {
+            $scope.resetCreatives = function () { 
                 // Reset creatives if any had been selected.
                 if ($scope.adData.setSizes !== constants.WF_NOT_SET) {
                     $scope.selectedArr.length = 0;
