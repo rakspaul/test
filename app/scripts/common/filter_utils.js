@@ -1,8 +1,6 @@
-define(['angularAMD','common/services/constants_service', 'common/services/role_based_service'],
-    function (angularAMD) {
-
+define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
+    'common/services/role_based_service'], function (angularAMD) {
         angularAMD
-
             .filter('spliter', function () {
                 return function (input, splitIndex) {
                     // do some bounds checking here to ensure it has that index
@@ -14,6 +12,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                 return function (input, kpiType) {
                     if (input && kpiType) {
                         kpiType = kpiType.toLowerCase();
+
                         if (kpiType === 'ctr' || kpiType === 'action_rate' || kpiType === 'action rate') {
                             return input + '%';
                         } else if (kpiType === 'vtc') {
@@ -29,16 +28,19 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
 
             .filter('kpiFormatter', function ($filter, constants, $locale, RoleBasedService) {
                 return function (input, kpiType, precision) {
-                    //constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
                     RoleBasedService.setCurrencySymbol();
 
                     if (input && kpiType) {
-                        kpiType = kpiType.toLowerCase()
+                        kpiType = kpiType.toLowerCase();
+
                         if (kpiType === 'ctr' || kpiType === 'action_rate' || kpiType === 'action rate') {
                             return $filter('number')(input, 3) + '%';
                         } else if (kpiType === 'cpc' || kpiType === 'cpa' || kpiType === 'cpm') {
                             return constants.currencySymbol + $filter('number')(input, 3);
-                        } else if (kpiType === 'actions' || kpiType === 'clicks' || kpiType === 'impressions' || kpiType === 'delivery') {
+                        } else if (kpiType === 'actions' ||
+                            kpiType === 'clicks' ||
+                            kpiType === 'impressions' ||
+                            kpiType === 'delivery') {
                             return $filter('number')(input, 0);
                         } else if (kpiType === 'vtc' && !precision) {
                             return $filter('number')(input, 0) + '%';
@@ -52,12 +54,13 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         if (kpiType.toLowerCase() === 'impressions') {
                             return 0;
                         }
+
                         return 'NA';
                     }
                 };
             })
 
-            .filter('setDecimal', function ($filter) {
+            .filter('setDecimal', function () {
                 return function (input, places) {
                     var factor;
 
@@ -76,13 +79,6 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     return str.toLowerCase().replace(/['']/g, '').replace(/\W+/g, ' ').replace(/ (.)/g, function ($1) {
                         return $1.toUpperCase();
                     }).replace(/ /g, '');
-                    /*if (!input) {
-                        return '';
-                    }
-                    input = input.charAt(0).toUpperCase() + input.substr(1);
-                    return input.replace(/(\-[a-z])/g, function ($1) {
-                        return $1.toUpperCase().replace('-', '');
-                    });*/
                 };
             })
 
@@ -180,7 +176,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         symbol = '';
                     }
 
-                    if(places !== undefined) {
+                    if (places !== undefined) {
                         return symbol + $filter('number')(input, places);
                     }
 
@@ -247,7 +243,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     var _date = new Date(input),
                         formatDate = '';
 
-                    if (moment(_date).diff(moment(), 'days') === 0) {
+                    if (moment(_date).diff(moment(), 'days') === 0) { // jshint ignore:line
                         //today - format 01:29 PM
                         formatDate = $filter('date')(_date, 'h:mm a');
                     } else {
@@ -265,9 +261,10 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         icon = input;
 
                     if (!input) {
-                        icon = defaultIcon || assets.platform_icon;
+                        icon = defaultIcon || assets.platform_icon; // jshint ignore:line
                         _style = 'background:url("' + icon + '") no-repeat scroll 0 0 rgba(0, 0, 0, 0);' +
                             'width: 17px;' + 'height: 17px;' + 'display: inline-block;' + 'background-size:17px;"';
+
                         return _style;
                     }
                 };
@@ -305,7 +302,6 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     } else if (type.toLowerCase() === 'delivery (impressions)') {
                         return (val.toFixed(0)).toLocaleString();
                     } else {
-                       // val = (val >0 && val <1) ? val.toFixed(4):val.toFixed(2);
                         val = val.toFixed(3);
 
                         return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' ||
@@ -321,7 +317,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                 return function (val, type) {
                     RoleBasedService.setCurrencySymbol();
 
-                    if(!val) {
+                    if (!val) {
                         return '-';
                     } else if (type.toLowerCase() === 'delivery (impressions)') {
                         return val.toLocaleString();
@@ -376,6 +372,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     var present = array.filter(function (item) {
                             return item[key];
                         }),
+
                         empty = array.filter(function (item) {
                             return !item[key];
                         });
@@ -391,9 +388,11 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     if (y <= 0) {
                         return y;
                     }
-                    if(key == undefined ) {
+
+                    if(key === undefined ) {
                         key = 2 ;
                     }
+
                     if (y < 9999) {
                         return value.toFixed(key);
                     }
@@ -420,7 +419,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
 
             // i18n of currency fails when the currency symbol comes at the end of the value
             .filter('nrFormatWithCurrency', function ($filter) {
-                return function (value, key) {
+                return function (value) {
                     var y = Math.abs(value);
 
                     if (y < 9999) {
@@ -448,7 +447,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
             })
 
             .filter('reportDateFilter', function ($filter, momentService) {
-                return function (value, key) {
+                return function (value) {
                     return momentService.reportDateFormat(value);
                 };
             })
@@ -480,7 +479,5 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     return Math.abs(input);
                 };
             });
-
-
     }
 );
