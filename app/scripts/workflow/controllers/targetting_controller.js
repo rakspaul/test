@@ -1,10 +1,9 @@
-define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/audience_service'],
-    function (angularAMD) {
+define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:line
+    'workflow/services/audience_service'], function (angularAMD) {
         angularAMD.controller('targettingController', function ($scope, $rootScope, $timeout, workflowService,
                                                                audienceService, videoService) {
 
-            var _targeting = this,
-                targeting = {};
+            var _targeting = this;
 
             $scope.showDeleteConfirmationPopup = false;
             $scope.adData.isGeographySelected = false;
@@ -16,21 +15,21 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
             $scope.isDayPartTriggered = false;
 
             _targeting.showAudienceInfo =  function () {
-                var fetchedObj = angular.copy(workflowService.getAdsDetails()),
+                var fetchedObj = angular.copy(workflowService.getAdsDetails()), // jshint ignore:line
                     previouslySelectedAudience = fetchedObj.targets.segmentTargets.segmentList;
 
                 $scope.audienceDataForPreview = [];
 
-                _.each(previouslySelectedAudience, function (audienceObj) {
+                _.each(previouslySelectedAudience, function (audienceObj) { // jshint ignore:line
                     audienceObj.segment.isIncluded = audienceObj.isIncluded;
                     $scope.audienceDataForPreview.push(audienceObj.segment);
                 });
 
-                audienceService.setSelectedAudience(angular.copy($scope.audienceDataForPreview));
+                audienceService.setSelectedAudience(angular.copy($scope.audienceDataForPreview)); // jshint ignore:line
             };
 
             _targeting.setTargetingForPreview = function (targetingName) {
-                var fetchedObj = angular.copy(workflowService.getAdsDetails());
+                var fetchedObj = angular.copy(workflowService.getAdsDetails()); // jshint ignore:line
 
                 $scope.selectedTargeting = {};
                 $scope.adData.targetName = targetingName;
@@ -57,7 +56,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                         $scope.adData.isDaypartSelected = true;
 
                         if (fetchedObj && fetchedObj.targets.adDaypartTargets &&
-                            _.size(fetchedObj.targets.adDaypartTargets) > 0 &&
+                            _.size(fetchedObj.targets.adDaypartTargets) > 0 && // jshint ignore:line
                             $scope.mode === 'edit' &&  !$scope.isDayPartTriggered) {
                             $timeout(function () {
                                 $scope.$broadcast('updateDayPart', true);
@@ -132,7 +131,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                 $scope.adData.isAudienceSelected = null;
 
                 if ($scope.mode === 'edit') {
-                    adData = angular.copy(workflowService.getAdsDetails());
+                    adData = angular.copy(workflowService.getAdsDetails()); // jshint ignore:line
                     adData.targets.segmentTargets.segmentList = null;
                     workflowService.setAdsDetails(adData);
                     audienceService.resetAudienceData();
@@ -169,7 +168,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                 localStorage.removeItem('daytimeArr');
 
                 if ($scope.mode === 'edit') {
-                    adData = angular.copy(workflowService.getAdsDetails());
+                    adData = angular.copy(workflowService.getAdsDetails()); // jshint ignore:line
                     adData.targets.adDaypartTargets = null;
                     audienceService.resetDayPartdata();
                     workflowService.setAdsDetails(adData);
@@ -227,6 +226,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                         excludeLabel.push(str);
                     }
                 }
+
                 if (data.CITY &&  data.CITY.geoTargetList.length > 0) {
                     if (data.CITY.isIncluded) {
                         includedCount += data.CITY.geoTargetList.length;
@@ -270,6 +270,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
             $scope.selectGeoTarget = function () {
                 colResize();
                 $scope.$broadcast('trigger.Geo');
+
                 // show targeting in side bar
                 _targeting.setTargetingForPreview('Geography');
             };
@@ -284,7 +285,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                 $scope.$broadcast('reset.Geo');
 
                 if ($scope.mode === 'edit') {
-                    adData = angular.copy(workflowService.getAdsDetails());
+                    adData = angular.copy(workflowService.getAdsDetails()); // jshint ignore:line
                     adData.targets.geoTargets = null;
                     workflowService.setAdsDetails(adData);
                 }
@@ -308,11 +309,11 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                     videoData.videoTargets.positions.length > 0 ||
                     videoData.videoTargets.playbackMethods.length > 0)) {
                     $scope.adData.videoPreviewData.sizes =
-                        _.pluck(videoData.videoTargets.sizes, 'name').join(', ');
+                        _.pluck(videoData.videoTargets.sizes, 'name').join(', '); // jshint ignore:line
                     $scope.adData.videoPreviewData.positions =
-                        _.pluck(videoData.videoTargets.positions, 'name').join(', ');
+                        _.pluck(videoData.videoTargets.positions, 'name').join(', '); // jshint ignore:line
                     $scope.adData.videoPreviewData.playbackMethods =
-                        _.pluck(videoData.videoTargets.playbackMethods, 'name').join(', ');
+                        _.pluck(videoData.videoTargets.playbackMethods, 'name').join(', '); // jshint ignore:line
                 }
             };
 
@@ -330,7 +331,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                 videoService.saveVideoData(null);
 
                 if ($scope.mode === 'edit') {
-                    adData = angular.copy(workflowService.getAdsDetails());
+                    adData = angular.copy(workflowService.getAdsDetails()); // jshint ignore:line
                     adData.targets.videoTargets= null;
                     workflowService.setAdsDetails(adData);
                 }
@@ -432,7 +433,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
                 $scope.isDaypartTargetEnabled = false;
                 $scope.isVideoTargetEnabled = false;
 
-                angular.forEach(platform.vendorCapabilities, function (vendorCapability) {
+                angular.forEach(platform.vendorCapabilities, function (vendorCapability) { // jshint ignore:line
                     switch (vendorCapability.capability) {
                         case 'Geo Targeting':
                             $scope.isGeoTargetEnabled = true;

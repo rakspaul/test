@@ -1,6 +1,7 @@
-define(['angularAMD' , 'workflow/services/workflow_service' ],
+define(['angularAMD' , 'workflow/services/workflow_service' ], // jshint ignore:line
     function(angularAMD) {
-        angularAMD.controller('ArchiveController', function($scope , workflowService,$rootScope ,$location,vistoconfig) {
+        angularAMD.controller('ArchiveController', function($scope , workflowService, $rootScope ,$location,
+                                                            vistoconfig) {
             $scope.campaignArchive = false;
 
             // archive campaign
@@ -23,8 +24,6 @@ define(['angularAMD' , 'workflow/services/workflow_service' ],
                 workflowService
                     .deleteCampaign(campaignId)
                     .then(function (result) {
-                        var campaignName;
-
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.campaignArchive = false;
                             $scope.campaignArchiveLoader = false;
@@ -36,7 +35,6 @@ define(['angularAMD' , 'workflow/services/workflow_service' ],
                         }
                     }, campaignArchiveErrorHandler);
             };
-
-            // end of archive controller
         });
-    });
+    }
+);
