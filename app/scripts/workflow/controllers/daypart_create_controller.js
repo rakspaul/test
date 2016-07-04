@@ -1,6 +1,6 @@
-define(['angularAMD','workflow/services/audience_service','workflow/services/workflow_service', 'workflow/directives/clear_row'],function (angularAMD) {
-  angularAMD.controller('daypartController', function($scope, $timeout,audienceService, workflowService) {
-
+define(['angularAMD', 'workflow/services/audience_service', // jshint ignore:line
+    'workflow/services/workflow_service', 'workflow/directives/clear_row'], function (angularAMD) {
+  angularAMD.controller('daypartController', function ($scope, $timeout, audienceService, workflowService) {
         var _dayPartTargetting = this;
 
         $scope.Schedule = {
@@ -8,10 +8,9 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
             daytimeArr: []
         };
 
-
         $scope.customFlag = false;
         $scope.timeSelected = 'All days and times';
-        $scope.modeSet=workflowService.getMode();
+        $scope.modeSet = workflowService.getMode();
         $scope.intermediateChange=false;
         $scope.selectedDays = [];
         $scope.twelve = true;
@@ -78,30 +77,32 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
         audienceService.setDayPartDispObj(null, null);
 
         _dayPartTargetting = {
-            setHoursType : function(clock) {
+            setHoursType: function (clock) {
                 if (clock === '24 HR') { // trigger 24/12 hrs
-                    angular.element('#24hr').trigger('click');
-                }
-                else {
-                    angular.element('#12hr').trigger('click');
-                }
-            },
-
-            setTimeZone : function(timeZone) {
-                if (angular.lowercase(timeZone) === 'end user') {
-                    $('.advertiserClass').parent().removeClass('active');
-                    $('.endUserClass').parent().addClass('active');
-                    $('.endUserClass').attr('checked', 'checked');
-                    $scope.timezoneFormat = angular.lowercase(timeZone);
+                    angular.element('#24hr').trigger('click'); // jshint ignore:line
                 } else {
-                    $('.endUserClass').parent().removeClass('active');
-                    $('.advertiserClass').parent().addClass('active');
-                    $('.advertiserClass').attr('checked', 'checked');
-                    $scope.timezoneFormat = angular.lowercase(timeZone);
+                    angular.element('#12hr').trigger('click'); // jshint ignore:line
                 }
             },
 
-            convertToScheduleObj : function (day, dayArr) {
+            setTimeZone: function (timeZone) {
+                var endUserClass = $('.endUserClass'),
+                    advertiserClass = $('.advertiserClass');
+
+                if (angular.lowercase(timeZone) === 'end user') { // jshint ignore:line
+                    $('.advertiserClass').parent().removeClass('active');
+                    endUserClass.parent().addClass('active');
+                    endUserClass.attr('checked', 'checked');
+                    $scope.timezoneFormat = angular.lowercase(timeZone); // jshint ignore:line
+                } else {
+                    endUserClass.parent().removeClass('active');
+                    advertiserClass.parent().addClass('active');
+                    advertiserClass.attr('checked', 'checked');
+                    $scope.timezoneFormat = angular.lowercase(timeZone); // jshint ignore:line
+                }
+            },
+
+            convertToScheduleObj: function (day, dayArr) {
                 var a = dayArr,
                     b = dayArr,
                     c = [],
@@ -115,7 +116,8 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                     if (value > 1) {
                         c.push(key - 1);
                     }
-                })
+                });
+
                 if (c.length === 0) {
                     keys1[0] = {};
                     keys1[0].stTime = a[0];
@@ -131,6 +133,7 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                         keys1[i].edTime = a[c[i]] + 1;
                         keys1[i].day = day;
                         b.splice(0, c[i] + 1);
+
                         if (keys1[i].edTime === 24 && keys1[i].stTime === 23) {
                             keys1[i].edTime = 0;
                         }
@@ -140,124 +143,155 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                     keys1[lastKey].stTime = a[a.length - 1];
                     keys1[lastKey].edTime = a[a.length - 1] + 1;
                     keys1[lastKey].day = day;
+
                     if (keys1[lastKey].edTime === 24 && keys1[lastKey].stTime === 23) {
                         keys1[lastKey].edTime = 0;
                     }
                 }
+
                 return keys1;
             },
 
-            recreateCustomObj : function (day, dayArr) {
+            recreateCustomObj: function (day, dayArr) {
                 var obj,
                     i;
+
                 switch(day) {
                     case 'Monday':
                         obj = _dayPartTargetting.convertToScheduleObj('Monday', dayArr);
+
                         for (i in obj) {
                             $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
+
                             if (Number(obj[i].edTime) === 24) {
                                 obj[i].stTime = 24;
                                 $scope.Schedule.daytimeArr.push(obj[i]);
                                 $scope.Schedule.dayPart.push(obj[i]);
-                            }else {
+                            } else {
                                 $scope.Schedule.daytimeArr.push(obj[i]);
                                 $scope.Schedule.dayPart.push(obj[i]);
                             }
                         }
+
                         break;
+
                     case 'Tuesday':
                         obj = _dayPartTargetting.convertToScheduleObj('Tuesday', dayArr);
+
                         for (i in obj) {
                             $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
+
                             if (Number(obj[i].edTime) === 24) {
                                 obj[i].stTime = 24;
                                 $scope.Schedule.daytimeArr.push(obj[i]);
                                 $scope.Schedule.dayPart.push(obj[i]);
-                            }else {
+                            } else {
                                 $scope.Schedule.daytimeArr.push(obj[i]);
                                 $scope.Schedule.dayPart.push(obj[i]);
                             }
                         }
+
                         break;
+
                     case 'Wednesday':
                         obj = _dayPartTargetting.convertToScheduleObj('Wednesday', dayArr);
+
                         for (i in obj) {
                             $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
+
                             if (Number(obj[i].edTime) === 24) {
                                 obj[i].stTime = 24;
                                 $scope.Schedule.daytimeArr.push(obj[i]);
                                 $scope.Schedule.dayPart.push(obj[i]);
-                            }else {
+                            } else {
                                 $scope.Schedule.daytimeArr.push(obj[i]);
                                 $scope.Schedule.dayPart.push(obj[i]);
                             }
                         }
+
                         break;
+
                     case 'Thursday':
                         obj = _dayPartTargetting.convertToScheduleObj('Thursday', dayArr);
+
                         for (i in obj) {
                             $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
+
                             if (Number(obj[i].edTime) === 24) {
                                 obj[i].stTime = 24;
                                 $scope.Schedule.daytimeArr.push(obj[i]);
                                 $scope.Schedule.dayPart.push(obj[i]);
-                            }else {
+                            } else {
                                 $scope.Schedule.daytimeArr.push(obj[i]);
                                 $scope.Schedule.dayPart.push(obj[i]);
                             }
                         }
+
                         break;
+
                     case 'Friday':
                         obj = _dayPartTargetting.convertToScheduleObj('Friday', dayArr);
+
                         for (i in obj) {
                             $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
+
                             if (Number(obj[i].edTime) === 24) {
                                 obj[i].stTime = 24;
                                 $scope.Schedule.daytimeArr.push(obj[i]);
                                 $scope.Schedule.dayPart.push(obj[i]);
-                            }else {
+                            } else {
                                 $scope.Schedule.daytimeArr.push(obj[i]);
                                 $scope.Schedule.dayPart.push(obj[i]);
                             }
                         }
+
                         break;
+
                     case 'Saturday':
                         obj = _dayPartTargetting.convertToScheduleObj('Saturday', dayArr);
+
                         for (i in obj) {
                             $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
+
                             if (Number(obj[i].edTime) === 24) {
                                 obj[i].stTime = 24;
                                 $scope.Schedule.daytimeArr.push(obj[i]);
                                 $scope.Schedule.dayPart.push(obj[i]);
-                            }else {
+                            } else {
                                 $scope.Schedule.daytimeArr.push(obj[i]);
                                 $scope.Schedule.dayPart.push(obj[i]);
                             }
                         }
+
                         break;
+
                     case 'Sunday':
                         obj = _dayPartTargetting.convertToScheduleObj('Sunday', dayArr);
+
                         for (i in obj) {
                             $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
+
                             if (Number(obj[i].edTime) === 24) {
                                 obj[i].stTime = 24;
                                 $scope.Schedule.daytimeArr.push(obj[i]);
                                 $scope.Schedule.dayPart.push(obj[i]);
-                            }else {
+                            } else {
                                 $scope.Schedule.daytimeArr.push(obj[i]);
                                 $scope.Schedule.dayPart.push(obj[i]);
                             }
                         }
+
                         break;
                 }
             },
 
-            generateDayArr : function (day) {
+            generateDayArr: function (day) {
                 var index,
                     diff,
                     i;
 
                 $scope.arrName = [];
+
                 for (i in day) {
                     if (Number(day[i].stTime) === 24) {
                         for (index = 0; index < 24; index++) {
@@ -271,9 +305,11 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                         }
                     }
                 }
+
                 $scope.arrName = $scope.arrName.filter( function ( item, index, inputArray) {
                     return inputArray.indexOf(item) === index;
                 });
+
                 return $scope.arrName;
             },
 
@@ -286,6 +322,7 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                     $(this).hide();
                 });
             },
+
             showDayPartTargetBox: function () {
                 $('#dayTargeting')
                     .show()
@@ -295,23 +332,25 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                     opacity: '1.0'
                 }, 'slow');
             }
-        }
-
+        };
 
         $scope.deleteDayPartTarget = function () {
+            var fetchedObj = workflowService.getAdsDetails();
+
             audienceService.resetDayPartdata();
             audienceService.setDayPartDispObj(null,null);
             $scope.Schedule.dayPart = [];
-            $scope.Schedule.daytimeArr.length=0;
+            $scope.Schedule.daytimeArr.length = 0;
             $scope.Schedule.customLength = 0;
 
             $scope.Schedule.dayTimeSelected(0);
-            audienceService.setDayTimeArr(angular.copy($scope.Schedule.daytimeArr));
+            audienceService.setDayTimeArr(angular.copy($scope.Schedule.daytimeArr)); // jshint ignore:line
             $scope.adData.isDaypartSelected=false;
-            var fetchedObj = workflowService.getAdsDetails();
-            if(fetchedObj) {
+
+            if (fetchedObj) {
                 fetchedObj.targets.adDaypartTargets = [];
             }
+
             workflowService.setAdsDetails(fetchedObj);
         };
 
@@ -320,13 +359,18 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
             var fetchedObj =  workflowService.getAdsDetails(),
                 scheduleObj;
 
-            if (fetchedObj.targets && fetchedObj.targets.adDaypartTargets && _.size(fetchedObj.targets.adDaypartTargets) > 0) {
-                _dayPartTargetting.setTimeZone(fetchedObj.targets.adDaypartTargets.timeZone)
-                if (angular.lowercase(fetchedObj.targets.adDaypartTargets.dayTime) === angular.lowercase('Custom Schedule')) {
+            if (fetchedObj.targets &&
+                fetchedObj.targets.adDaypartTargets &&
+                _.size(fetchedObj.targets.adDaypartTargets) > 0) { // jshint ignore:line
+                _dayPartTargetting.setTimeZone(fetchedObj.targets.adDaypartTargets.timeZone);
+
+                if (angular.lowercase(fetchedObj.targets.adDaypartTargets.dayTime) === // jshint ignore:line
+                    angular.lowercase('Custom Schedule')) { // jshint ignore:line
                     scheduleObj = fetchedObj.targets.adDaypartTargets.schedule;
                     $scope.Schedule.daytimeArr.length = 0;
                     $scope.Schedule.dayPart.length=0;
-                    _.each(scheduleObj, function (obj) {
+
+                    _.each(scheduleObj, function (obj) { // jshint ignore:line
                         var i;
 
                         for (i in obj) {
@@ -335,39 +379,47 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                             }
                         }
                     });
+
                     $scope.Schedule.dayTimeSelected(7);
                 } else {
                     $scope.dayTimeSelected = fetchedObj.targets.adDaypartTargets.dayTime;
+
                     switch($scope.dayTimeSelected) {
                         case 'All days and times':
                             $scope.Schedule.dayTimeSelected(0);
                             break;
+
                         case 'Weekday (M-F)':
                             $scope.Schedule.dayTimeSelected(1);
                             break;
+
                         case 'Weekend (S,S)':
                             $scope.Schedule.dayTimeSelected(2);
                             break;
+
                         case 'Business hours (M-F, 9:00AM-5:00PM)':
                             $scope.Schedule.dayTimeSelected(3);
                             break;
+
                         case 'TV Primetime (8:00PM-11:00PM)':
                             $scope.Schedule.dayTimeSelected(4);
                             break;
+
                         case 'Early Morning (5:00AM-7:00AM)':
                             $scope.Schedule.dayTimeSelected(5);
                             break;
+
                         case 'Late Night (11:00PM-1:00AM)':
                             $scope.Schedule.dayTimeSelected(6);
                             break;
                     }
                 }
-                _dayPartTargetting.setHoursType(fetchedObj.targets.adDaypartTargets.clock)
+
+                _dayPartTargetting.setHoursType(fetchedObj.targets.adDaypartTargets.clock);
             }
 
             $scope.saveDayPart(isRedirectFlag);
         });
-
 
         $scope.timeFormat = function (event, time) {
             var target = $(event.target),
@@ -376,6 +428,7 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
             parentElem.find('label').removeClass('active');
             target.parent().addClass('active');
             target.attr('checked', 'checked');
+
             if (time === 12) {
                 $scope.twelve = true;
                 $scope.clock = '12 hr';
@@ -395,39 +448,41 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
             $scope.timezoneFormat=type;
         };
 
-        $scope.setSelectedDayparts = function(){
+        $scope.setSelectedDayparts = function (){
+            var daypartObj = localStorage.getItem('dayPart'),
+                selectedDayTime = localStorage.getItem('dayTimeSelected'),
+                dayTimeArr = localStorage.getItem('daytimeArr'),
+                previouslySavedData = audienceService.getDayPartdata();
+
             $scope.Schedule.dayPart = [];
             $scope.dayTimeSelected = [];
             $scope.Schedule.daytimeArr = [];
 
-            var daypartObj = localStorage.getItem("dayPart");
-            var selectedDayTime = localStorage.getItem("dayTimeSelected");
-            var dayTimeArr = localStorage.getItem("daytimeArr");
-
-            if(selectedDayTime)
+            if (selectedDayTime) {
                 $scope.dayTimeSelected = JSON.parse(selectedDayTime);
+            }
 
-            var previouslySavedData = audienceService.getDayPartdata();
-            if(daypartObj) {
+            if (daypartObj) {
                 $scope.Schedule.dayPart = JSON.parse(daypartObj);
             }
 
-            if(dayTimeArr) {
+            if (dayTimeArr) {
                 $scope.Schedule.daytimeArr = JSON.parse(dayTimeArr);
             }
 
-            if(!daypartObj && !selectedDayTime && !dayTimeArr){
+            if (!daypartObj && !selectedDayTime && !dayTimeArr){
                 $scope.timeSelected = 'All days and times';
-                $scope.Schedule.dayTimeSelected(0)
+                $scope.Schedule.dayTimeSelected(0);
             }
 
-            if(previouslySavedData){
-                $timeout(function(){
+            if (previouslySavedData){
+                $timeout(function (){
                     _dayPartTargetting.setHoursType(previouslySavedData.clock.toUpperCase());
-                },200)
+                }, 200);
+
                 _dayPartTargetting.setTimeZone(previouslySavedData.timeZone);
             }
-        }
+        };
 
         // Closes Daypart Targeting View
         $scope.resetDayPartTargetingVariables = function () {
@@ -451,40 +506,52 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                 thursday,
                 friday,
                 saturday,
-                i;
+                i,
+                dayPart,
+                dayTimeSelected,
+                daytimeArr;
 
             adDaypartTargets.dayTime = $scope.dayTimeSelected;
             adDaypartTargets.isIncluded=true;
             adDaypartTargets.timeZone = $scope.timezoneFormat;
             adDaypartTargets.clock = $scope.clock;
-            sunday = _.filter($scope.Schedule.dayPart, function (obj) {
+
+            sunday = _.filter($scope.Schedule.dayPart, function (obj) { // jshint ignore:line
                 return obj.day === 'Sunday';
             });
+
             $scope.Sunday = _dayPartTargetting.generateDayArr(sunday);
-            monday = _.filter($scope.Schedule.dayPart, function (obj) {
+            monday = _.filter($scope.Schedule.dayPart, function (obj) { // jshint ignore:line
                 return obj.day === 'Monday';
             });
+
             $scope.Monday = _dayPartTargetting.generateDayArr(monday);
-            tuesday = _.filter($scope.Schedule.dayPart, function (obj) {
+            tuesday = _.filter($scope.Schedule.dayPart, function (obj) { // jshint ignore:line
                 return obj.day === 'Tuesday';
             });
+
             $scope.Tuesday = _dayPartTargetting.generateDayArr(tuesday);
-            wednesday = _.filter($scope.Schedule.dayPart, function (obj) {
+            wednesday = _.filter($scope.Schedule.dayPart, function (obj) { // jshint ignore:line
                 return obj.day === 'Wednesday';
             });
+
             $scope.Wednesday = _dayPartTargetting.generateDayArr(wednesday);
-            thursday = _.filter($scope.Schedule.dayPart, function (obj) {
+            thursday = _.filter($scope.Schedule.dayPart, function (obj) { // jshint ignore:line
                 return obj.day === 'Thursday';
             });
+
             $scope.Thursday = _dayPartTargetting.generateDayArr(thursday);
-            friday = _.filter($scope.Schedule.dayPart, function (obj) {
+            friday = _.filter($scope.Schedule.dayPart, function (obj) { // jshint ignore:line
                 return obj.day === 'Friday';
             });
+
             $scope.Friday = _dayPartTargetting.generateDayArr(friday);
-            saturday = _.filter($scope.Schedule.dayPart, function (obj) {
+            saturday = _.filter($scope.Schedule.dayPart, function (obj) { // jshint ignore:line
                 return obj.day === 'Saturday';
             });
+
             $scope.Saturday = _dayPartTargetting.generateDayArr(saturday);
+
             // Add custom day array to dayPart Object
             adDaypartTargets.schedule={
                 'Sunday':$scope.Sunday,
@@ -504,22 +571,24 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                     $scope.Schedule.dayPart[i].endTime =  $scope.returnTime($scope.Schedule.dayPart[i].edTime);
                 }
             }
-            var dayPart = angular.copy($scope.Schedule.dayPart);
-            var dayTimeSelected= angular.copy($scope.dayTimeSelected);
+
+            dayPart = angular.copy($scope.Schedule.dayPart); // jshint ignore:line
+            dayTimeSelected= angular.copy($scope.dayTimeSelected); // jshint ignore:line
             audienceService.setDayPartDispObj(dayPart,dayTimeSelected);
-            var adDaypartTargets= angular.copy(adDaypartTargets);
+            adDaypartTargets= angular.copy(adDaypartTargets); // jshint ignore:line
             audienceService.setDayPartData(adDaypartTargets);
-            var daytimeArr= angular.copy($scope.Schedule.daytimeArr);
+            daytimeArr= angular.copy($scope.Schedule.daytimeArr); // jshint ignore:line
             audienceService.setDayTimeArr(daytimeArr);
 
-            localStorage.setItem("dayPart", JSON.stringify(dayPart));
-            localStorage.setItem("dayTimeSelected", JSON.stringify(dayTimeSelected));
-            localStorage.setItem("adDaypartTargets", JSON.stringify(adDaypartTargets));
-            localStorage.setItem("daytimeArr", JSON.stringify(daytimeArr));
+            localStorage.setItem('dayPart', JSON.stringify(dayPart));
+            localStorage.setItem('dayTimeSelected', JSON.stringify(dayTimeSelected));
+            localStorage.setItem('adDaypartTargets', JSON.stringify(adDaypartTargets));
+            localStorage.setItem('daytimeArr', JSON.stringify(daytimeArr));
 
             $scope.$parent.saveDayPartForPreview();
-            if(!isRedirectFlag)
-                _dayPartTargetting.hideDayPartTargetingBox();
+            if (!isRedirectFlag) {
+                _dayPartTargetting.hideDayPartTargetingBox(); // jshint ignore:line
+            }
         };
 
         $scope.selectday = function (index,day) {
@@ -543,7 +612,7 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
         $scope.changeDayTime = function () {
             $scope.dayTimeSelected = 'Custom schedule';
             $scope.customFlag = true;
-            if($scope.Schedule.daytimeArr.length ===0 ) {
+            if ($scope.Schedule.daytimeArr.length ===0 ) {
                 $scope.saveDayPartFlag = true;
             }
         };
@@ -556,10 +625,14 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
         };
 
         $scope.Schedule.dayTimeSelected = function (value, event) {
-            var daytimeObj;
+            var daytimeObj,
+                dayParts,
+                resetCustomSchedule;
+
             $scope.saveDayPartFlag = false;
             $scope.customFlag = false;
             $scope.intermediateChange=false;
+
             switch (value) {
                 case 0:
                     $scope.Schedule.customLength = 0;
@@ -574,8 +647,10 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                         {day: 'Friday',    startTime: 'All Day'},
                         {day: 'Saturday',  startTime: 'All Day'}
                     ];
+
                     $scope.Schedule.daytimeArr = daytimeObj;
                     $scope.Schedule.dayPart = [];
+
                     $scope.Schedule.dayPart = [
                         {day: 'Sunday',    stTime: '24'},
                         {day: 'Monday',    stTime: '24'},
@@ -585,8 +660,10 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                         {day: 'Friday',    stTime: '24'},
                         {day: 'Saturday',  stTime: '24'}
                     ];
+
                     $scope.Schedule.customLength = 7;
                     break;
+
                 case 1:
                     $scope.Schedule.customLength = 0;
                     $scope.Schedule.daytimeArr = [];
@@ -599,8 +676,10 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                         {day: 'Thursday',  startTime: 'All Day'},
                         {day: 'Friday',    startTime: 'All Day'}
                     ];
+
                     $scope.Schedule.daytimeArr = daytimeObj;
                     $scope.Schedule.dayPart = [];
+
                     $scope.Schedule.dayPart = [
                         {day: 'Monday',    stTime: '24'},
                         {day: 'Tuesday',   stTime: '24'},
@@ -608,27 +687,35 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                         {day: 'Thursday',  stTime: '24'},
                         {day: 'Friday',    stTime: '24'}
                     ];
+
                     $scope.Schedule.customLength = 5;
                     break;
+
                 case 2:
                     $scope.Schedule.customLength = 0;
                     $scope.Schedule.daytimeArr = [];
-                    $scope.dayTimeSelected = 'Weekend (S,S)';
+                    $scope.dayTimeSelected = 'Weekend (S, S)';
+
                     daytimeObj = [
                         {day: 'Saturday', startTime: 'All Day'},
                         {day: 'Sunday',   startTime: 'All Day'}
                     ];
+
                     $scope.Schedule.daytimeArr = daytimeObj;
                     $scope.Schedule.dayPart = [];
+
                     $scope.Schedule.dayPart = [
                         {day: 'Saturday', stTime: '24'},
                         {day: 'Sunday',   stTime: '24'}
                     ];
+
                     break;
+
                 case 3:
                     $scope.Schedule.customLength = 0;
                     $scope.Schedule.daytimeArr = [];
                     $scope.dayTimeSelected = 'Business hours (M-F, 9:00AM-5:00PM)';
+
                     daytimeObj = [
                         {day: 'Monday',    startTime: '9:00AM', endTime: '5:00PM'},
                         {day: 'Tuesday',   startTime: '9:00AM', endTime: '5:00PM'},
@@ -636,8 +723,10 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                         {day: 'Thursday',  startTime: '9:00AM', endTime: '5:00PM'},
                         {day: 'Friday',    startTime: '9:00AM', endTime: '5:00PM'}
                     ];
+
                     $scope.Schedule.daytimeArr = daytimeObj;
                     $scope.Schedule.dayPart = [];
+
                     $scope.Schedule.dayPart = [
                         {day: 'Monday',    stTime: '9', edTime: '17'},
                         {day: 'Tuesday',   stTime: '9', edTime: '17'},
@@ -645,12 +734,15 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                         {day: 'Thursday',  stTime: '9', edTime: '17'},
                         {day: 'Friday',    stTime: '9', edTime: '17'}
                     ];
+
                     $scope.Schedule.customLength = 5;
                     break;
+
                 case 4:
                     $scope.Schedule.customLength = 0;
                     $scope.Schedule.daytimeArr = [];
                     $scope.dayTimeSelected = 'TV Primetime (8:00PM-11:00PM)';
+
                     daytimeObj = [
                         {day: 'Sunday',    startTime: '8:00PM', endTime: '11:00PM'},
                         {day: 'Monday',    startTime: '8:00PM', endTime: '11:00PM'},
@@ -660,8 +752,10 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                         {day: 'Friday',    startTime: '8:00PM', endTime: '11:00PM'},
                         {day: 'Saturday',  startTime: '8:00PM', endTime: '11:00PM'}
                     ];
+
                     $scope.Schedule.daytimeArr = daytimeObj;
                     $scope.Schedule.dayPart = [];
+
                     $scope.Schedule.dayPart = [
                         {day: 'Sunday',    stTime: '20', edTime: '23'},
                         {day: 'Monday',    stTime: '20', edTime: '23'},
@@ -671,11 +765,14 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                         {day: 'Friday',    stTime: '20', edTime: '23'},
                         {day: 'Saturday',  stTime: '20', edTime: '23'}
                     ];
+
                     $scope.Schedule.customLength = 7;
                     break;
+
                 case 5:
                     $scope.Schedule.daytimeArr = [];
                     $scope.dayTimeSelected = 'Early Morning (5:00AM-7:00AM)';
+
                     daytimeObj = [
                         {day: 'Sunday',    startTime: '5:00AM', endTime: '7:00AM'},
                         {day: 'Monday',    startTime: '5:00AM', endTime: '7:00AM'},
@@ -685,8 +782,10 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                         {day: 'Friday',    startTime: '5:00AM', endTime: '7:00AM'},
                         {day: 'Saturday',  startTime: '5:00AM', endTime: '7:00AM'}
                     ];
+
                     $scope.Schedule.daytimeArr = daytimeObj;
                     $scope.Schedule.dayPart = [];
+
                     $scope.Schedule.dayPart = [
                         {day: 'Sunday',    stTime: '5', edTime: '7'},
                         {day: 'Monday',    stTime: '5', edTime: '7'},
@@ -696,12 +795,15 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                         {day: 'Friday',    stTime: '5', edTime: '7'},
                         {day: 'Saturday',  stTime: '5', edTime: '7'}
                     ];
+
                     $scope.Schedule.customLength = 7;
                     break;
+
                 case 6:
                     $scope.Schedule.customLength = 0;
                     $scope.Schedule.daytimeArr = [];
                     $scope.dayTimeSelected = 'Late Night (11:00PM-1:00AM)';
+
                     daytimeObj = [
                         {day: 'Sunday',    startTime: '12:00AM',  endTime: '1:00AM'},
                         {day: 'Sunday',    startTime: '11:00PM',  endTime: '12:00AM'},
@@ -718,8 +820,10 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                         {day: 'Saturday',  startTime: '12:00AM',  endTime: '1:00AM'},
                         {day: 'Saturday',  startTime: '11:00PM',  endTime: '12:00AM'}
                     ];
+
                     $scope.Schedule.daytimeArr = daytimeObj;
                     $scope.Schedule.dayPart = [];
+
                     $scope.Schedule.dayPart = [
                         {day: 'Sunday',    stTime: '0',  edTime: '1'},
                         {day: 'Sunday',    stTime: '23', edTime: '0'},
@@ -736,28 +840,32 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
                         {day: 'Saturday',  stTime: '0',  edTime: '1'},
                         {day: 'Saturday',  stTime: '23', edTime: '0'}
                     ];
+
                     $scope.Schedule.customLength = 14;
                     break;
+
                 case 7:
                     $scope.dayTimeSelected = 'Custom schedule';
-                    $scope.storedResponse = angular.copy(workflowService.getAdsDetails());
-                    var dayParts = $scope.storedResponse && $scope.storedResponse.targets.adDaypartTargets;
-                    var resetCustomSchedule = function() {
+                    $scope.storedResponse = angular.copy(workflowService.getAdsDetails()); // jshint ignore:line
+                    dayParts = $scope.storedResponse && $scope.storedResponse.targets.adDaypartTargets;
+                    resetCustomSchedule = function () {
                         $scope.Schedule.dayPart = [];
                         $scope.customFlag = true;
                         $scope.intermediateChange=true;
                         $scope.Schedule.daytimeArr = [];
-                    }
+                    };
 
-                    if ($scope.modeSet!=='edit' && dayParts && dayParts.dayTime !== 'CUSTOM SCHEDULE') { //for Edit since we dont have any response
+                    if ($scope.modeSet!=='edit' && dayParts && dayParts.dayTime !== 'CUSTOM SCHEDULE') {
+                        //for Edit since we dont have any response
                         resetCustomSchedule();
                     }
 
-                    if(event) { //for create since we dont have any response
+                    if (event) {
+                        //for create since we dont have any response
                         resetCustomSchedule();
                     }
 
-                    if($scope.Schedule.daytimeArr.length ===0 ) {
+                    if ($scope.Schedule.daytimeArr.length ===0 ) {
                         $scope.saveDayPartFlag = true;
                     }
 
@@ -766,14 +874,13 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
         };
 
         $scope.selectTime = function (time) {
-            var daytimeArr = $scope.Schedule.daytimeArr,
-                dayTimeSelected = $scope.dayTimeSelected,
-                timeMatched;
+            var timeMatched;
 
-            $scope.tmpDayTimeSelected = dayTimeSelected;
-            timeMatched = _.filter($scope.Schedule.daytimeArr, function (obj) {
+            $scope.tmpDayTimeSelected =  $scope.dayTimeSelected;
+            timeMatched = _.filter($scope.Schedule.daytimeArr, function (obj) { // jshint ignore:line
                 return obj.startTime === time;
             });
+
             if (timeMatched.length === 0) {
                 $scope.dayTimeSelected = '';
                 $scope.timeSelected = 'Custom schedule';
@@ -786,8 +893,8 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
             var index;
 
             if (time >= 0) {
-                index = _.findIndex($scope.getStartTimes, function (item) {
-                    return item.time == time;
+                index = _.findIndex($scope.getStartTimes, function (item) { // jshint ignore:line
+                    return item.time === time;
                 });
                 if ($scope.twelve) {
                     return $scope.getStartTimes[index].twelveHrFormat;
@@ -797,7 +904,7 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
             }
         };
 
-        $scope.clearDayPart = function() {
+        $scope.clearDayPart = function () {
             $scope.Schedule.dayPart=[];
             $scope.Schedule.daytimeArr=[];
             $scope.Schedule.customLength = 0;
@@ -805,15 +912,16 @@ define(['angularAMD','workflow/services/audience_service','workflow/services/wor
             $scope.changeDayTime();
         };
 
-        $scope.$on('triggerDayPart', function() {
+        $scope.$on('triggerDayPart', function () {
             var moduleDeleted = workflowService.getDeleteModule();
-            if(_.indexOf(moduleDeleted, 'dayParting') !== -1) {
+
+            if (_.indexOf(moduleDeleted, 'dayParting') !== -1) { // jshint ignore:line
                 workflowService.resetDeleteModule();
                 audienceService.resetDayPartdata();
                 $scope.deleteDayPartTarget();
             }
             _dayPartTargetting.showDayPartTargetBox();
-        })
+        });
 
         $scope.resetDayPartTargetingVariables();
 

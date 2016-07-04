@@ -1,8 +1,7 @@
-define(['angularAMD', 'workflow/services/workflow_service', 'common/services/constants_service',
+define(['angularAMD', 'workflow/services/workflow_service', 'common/services/constants_service', // jshint ignore:line
     'workflow/services/video_service'], function (angularAMD) {
     angularAMD.controller('VideoTargettingController', function ($scope, $timeout, audienceService, workflowService,
                                                                  constants, videoService) {
-
         var _videoTargeting = {
                 init: function () {
                     $scope.isVideoTargetingCancelled = false;
@@ -48,8 +47,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
                 removeSelectedDimension: function () {
                     if ($scope.selectedDimension && $scope.selectedDimension.length > 0) {
-                        _.each($scope.dimensionArr, function (obj, index) {
-                            if (_.indexOf($scope.selectedDimension, obj.key) !== -1) {
+                        _.each($scope.dimensionArr, function (obj, index) { // jshint ignore:line
+                            if (_.indexOf($scope.selectedDimension, obj.key) !== -1) { // jshint ignore:line
                                 $scope.dimensionArr[index].active = false;
                             }
                         });
@@ -60,7 +59,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                     var videoPreviewData = $scope.adData.videoPreviewData;
 
                     if (videoPreviewData &&
-                        (videoPreviewData.sizes || videoPreviewData.positions || videoData.playbackMethods)) {
+                        (videoPreviewData.sizes ||
+                            videoPreviewData.positions ||
+                            videoData.playbackMethods // jshint ignore:line
+                        )) {
                         return true;
                     }
 
@@ -69,9 +71,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
                 setVideoData: function (data, type, index) {
                     $scope[type + 'Data'] = data;
+
                     switch (type) {
                         case 'sizes':
-                            $scope.sizesLabels[index] = _.keys(data);
+                            $scope.sizesLabels[index] = _.keys(data); // jshint ignore:line
                             videoService.setPlayerSize(data);
                             break;
 
@@ -95,7 +98,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                         selectedDimensionTemp.push(type);
                     }
 
-                    if (_.indexOf($scope.selectedDimension, type) === -1) {
+                    if (_.indexOf($scope.selectedDimension, type) === -1) { // jshint ignore:line
                         $scope.selectedDimension.push(type);
 
                         workflowService
@@ -133,7 +136,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                                     if (videoTargets.sizes.length > 1) {
                                         sizeValue = 'Specific Size';
                                     } else {
-                                        sizeNameList = _.pluck(videoTargets.sizes, 'name');
+                                        sizeNameList = _.pluck(videoTargets.sizes, 'name'); // jshint ignore:line
 
                                         if (sizeNameList.length > 0 && sizeNameList[0] === 'Any') {
                                             sizeValue = 'Any';
@@ -172,7 +175,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
                     _videoTargeting.showBox();
 
-                    if (_.isEmpty($scope.adData.videoPreviewData)) {
+                    if (_.isEmpty($scope.adData.videoPreviewData)) { // jshint ignore:line
                         $scope.adData.additionalDimension = [];
                         $scope.adData.videoTargets = {};
                         $scope.additionalDimension = [];
@@ -200,7 +203,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                         }
 
                         if (videoTargets) {
-                            _.each($scope.videoTypes, function (type, index) {
+                            _.each($scope.videoTypes, function (type, index) { // jshint ignore:line
                                 _videoTargeting.addAdditionalDimension(type, videoTargets, 'edit');
                                 _videoTargeting.getVideoTargetsType(type, index);
                                 _videoTargeting.setVideoData(videoTargets[type], type, index);
@@ -248,7 +251,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                     }
 
                     // This is to ensure there's no duplicate entries under any circumstances
-                    $scope.selectedDimension = _.unique($scope.selectedDimension);
+                    $scope.selectedDimension = _.unique($scope.selectedDimension); // jshint ignore:line
                 }
             },
 
@@ -296,6 +299,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
             tempArr = $.extend(true, [], $scope.additionalDimension);
             n = $scope.additionalDimension.length;
+
             for (i = 0; i < n; i++) {
                 if ($scope.additionalDimension[i].tags.data === undefined ||
                     ($scope.additionalDimension[i].tags.data && $scope.additionalDimension[i].tags.data.length === 0)) {
@@ -352,14 +356,14 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             $scope.adData.videoTargets.sizes = [];
 
             if (type === 'Specific Size') {
-                _.each($scope.additionalDimension, function (obj) {
+                _.each($scope.additionalDimension, function (obj) { // jshint ignore:line
                     if (obj.tags.type === 'sizes') {
                         obj.tags.value = 'Specific Size';
                         obj.tags.data = null;
                     }
                 });
             } else {
-                _.each($scope.additionalDimension, function (obj) {
+                _.each($scope.additionalDimension, function (obj) { // jshint ignore:line
                     if (obj.tags.type === 'sizes') {
                         obj.tags.value = 'Any';
                         obj.tags.data = null;
@@ -367,7 +371,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                 });
 
                 playerSizeList = videoService.getPlayerSize(null, type);
-                _.each(playerSizeList, function (obj) {
+                _.each(playerSizeList, function (obj) { // jshint ignore:line
                     obj.targetId = obj.id;
                 });
 
@@ -392,7 +396,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
         $scope.videoDimensionTagChanged = function (tag, type, action) {
             var index = 0,
-                pos = _.findIndex($scope.adData.videoTargets[type], function (obj) {
+                pos = _.findIndex($scope.adData.videoTargets[type], function (obj) { // jshint ignore:line
                     return obj.id === tag.id;
                 });
 
