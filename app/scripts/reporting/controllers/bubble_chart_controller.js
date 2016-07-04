@@ -21,10 +21,10 @@ define(['angularAMD',
             $scope.spendBusy = true;
 
             // Fetch the new data now.
-            bubbleChartModel.getBubbleChartDataForCampaign(brandsModel.getSelectedBrand().id).then(function () {
+            bubbleChartModel.getBubbleChartDataForCampaign().then(function () {
                 $scope.spendBusy = false;
                 if (bubbleChartModel.getbubbleWidgetData()['dataNotAvailable'] == true) {
-                    d3.select("#brands_svg").remove();
+                    d3.select("#advertisers_svg").remove();
                     d3.select("#campaigns_svg").remove();
                     $scope.dataFound = false;
                 } else {
@@ -45,7 +45,7 @@ define(['angularAMD',
             o.brandId = brandsModel.getSelectedBrand().id;
             o.dateFilter = constants.PERIOD_LIFE_TIME;
 
-            (JSON.stringify(o) == JSON.stringify(_curCtrl.defaultFilter)) ? getSpendDataForAdvertisersWithDefaultValue() : getSpendDataForAdvertisersWithValue(o);
+            (JSON.stringify(o) == JSON.stringify(_curCtrl.defaultFilter)) ? getSpendDataForAdvertisersWithDefaultValue() : getSpendDataForCampaigns(o);
             $scope.spendBusy = true;
         }
 
@@ -54,7 +54,7 @@ define(['angularAMD',
             bubbleChartModel.getBubbleChartData().then(function () {
                 $scope.spendBusy = false;
                 if (bubbleChartModel.getbubbleWidgetData()['dataNotAvailable'] == true) {
-                    d3.select("#brands_svg").remove();
+                    d3.select("#advertisers_svg").remove();
                     d3.select("#campaigns_svg").remove();
                     $scope.dataFound = false;
 
@@ -62,7 +62,7 @@ define(['angularAMD',
                     $scope.dataFound = true;
                     // $("#data_not_available").hide();
                     $scope.data.advertiserData = bubbleChartModel.getbubbleWidgetData()['advertiserData'];
-                    bubbleChart.updateBubbleChartData("brands", $scope.data.advertiserData);
+                    bubbleChart.updateBubbleChartData("advertisers", $scope.data.advertiserData);
                     $scope.budget_top_title = bubbleChartModel.getbubbleWidgetData()['budget_top_title'];
 
                 }
@@ -73,56 +73,20 @@ define(['angularAMD',
         }
         function dataNotFound(){
             $scope.spendBusy = false;
-            d3.select("#brands_svg").remove();
+            d3.select("#advertisers_svg").remove();
             d3.select("#campaigns_svg").remove();
             $scope.dataFound = false;
         }
-        function getSpendDataForAdvertisersWithValue(o){
-            bubbleChartModel.getAdvertiserBubbleChartData(o).then(function () {
-                $scope.spendBusy = false;
-                if (bubbleChartModel.getbubbleWidgetData()['dataNotAvailable'] == true) {
-                    d3.select("#brands_svg").remove();
-                    d3.select("#campaigns_svg").remove();
-                    $scope.dataFound = false;
-
-                } else {
-                    $scope.dataFound = true;
-                    // $("#data_not_available").hide();
-                    $scope.data.advertiserData = bubbleChartModel.getbubbleWidgetData()['advertiserData'];
-
-                    if (brandsModel.getSelectedBrand().id == -1) {
-                        bubbleChart.updateBubbleChartData("brands", $scope.data.advertiserData);
-                        $scope.budget_top_title = bubbleChartModel.getbubbleWidgetData()['budget_top_title'];
-                    }
-
-                    // Not using it anywhere
-//                    for (var i in $scope.data.brandData) {
-//                        var brand = $scope.data.brandData[i];
-//
-//                        bubbleChartModel.getBubbleChartDataForCampaignWithOutCanceller(brand.id).then(function (result) {
-//                            var obj = {
-//                                brandId: brand.id,
-//                                campaigns: result
-//                            };
-//                            $scope.data.campaignDataForAllBrands.push(obj);
-//                        });
-//                    }
-                }
-
-            },function(err){
-                dataNotFound();
-            });
-        }
-
-        if (brandsModel.getSelectedBrand().id == -1)
+        if (advertiserModel.getSelectedAdvertiser().id == -1)
             getSpendDataForAdvertisers();
         else
             getSpendDataForCampaigns();
 
         $scope.refresh = function () {
-            bubbleChart.cleaningBubbleChart("brands");
+
+            bubbleChart.cleaningBubbleChart("advertisers");
             bubbleChart.cleaningBubbleChart("campaigns");
-            if (brandsModel.getSelectedBrand().id == -1)// All brands is selected
+            if (advertiserModel.getSelectedAdvertiser().id == -1)// All Advertisers is selected
                 getSpendDataForAdvertisers();
             else
                 getSpendDataForCampaigns();

@@ -53,32 +53,6 @@ define(['angularAMD',
       })
     };
 
-    this.getAdvertiserBubbleChartData = function (o) {
-        var isDashboardSubAccount = subAccountModel.isDashboardSubAccount();
-        o.clientId = subAccountModel.getDashboardAccountId();
-        o.campaignStatus = dashboardModel.campaignStatusToSend();
-        var url = urlService.APISpendWidgetForCampaigns(o);
-
-        return dataService.fetch(url).then(function (response) {
-            if (response.data && response.data.data.campaigns.length > 0) {
-                var res = response.data.data.campaigns;
-                var total_advertisers = res.length;
-                var data = _.chain(res).sortBy(function (d) {
-                    return d.budget;
-                }).reverse().slice(0, 5).value();
-                if (data.length > 0) {
-                    bubbleWidgetData['dataNotAvailable'] = false;
-                    bubbleWidgetData['advertiserData'] = data;
-                    bubbleWidgetData['budget_top_title'] = (total_advertisers >= 5) ? "(Top 5 advertisers)" : "(All Advertisers)";
-                } else {
-                    bubbleWidgetData['dataNotAvailable'] = true;
-                }
-            } else {
-                bubbleWidgetData['dataNotAvailable'] = true;
-            }
-            return bubbleWidgetData['advertiserData'];
-        });
-    };
     // getBubbleChartDataForCampaign
     this.getBubbleChartDataForCampaign = function (selectedBrand) {
       var clientId = loginModel.getSelectedClient().id;
@@ -88,7 +62,7 @@ define(['angularAMD',
       var queryObj = {
         "clientId": subAccountModel.getDashboardAccountId(),
         "advertiserId": advertiserModel.getSelectedAdvertiser().id,
-        "brandId": ((selectedBrand == undefined) ? -1 : selectedBrand),
+        "brandId": brandsModel.getSelectedBrand().id,
         "dateFilter": constants.PERIOD_LIFE_TIME,
         "campaignStatus": dashboardModel.campaignStatusToSend()
       };
@@ -127,7 +101,7 @@ define(['angularAMD',
           var queryObj = {
               "clientId": subAccountModel.getDashboardAccountId(),
               "advertiserId": advertiserModel.getSelectedAdvertiser().id,
-              "brandId": ((selectedBrand == undefined) ? -1 : selectedBrand),
+              "brandId": brandsModel.getSelectedBrand().id,
               "dateFilter": constants.PERIOD_LIFE_TIME,
               "campaignStatus": dashboardModel.campaignStatusToSend()
           };

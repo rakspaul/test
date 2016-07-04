@@ -22,14 +22,15 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
                 platformWrapper: function (platform) {
                     var selectedSeats,
-                        selectedPlatformIndex = _.findIndex($scope.workflowData.platforms, // jshint ignore:line
-                            function (item) {
+                        selectedSeat,
+
+                        selectedPlatformIndex =
+                            _.findIndex($scope.workflowData.platforms, function (item) { // jshint ignore:line
                                 return item.id === platform.id;
-                            }
-                        );
+                            });
 
                     if (selectedPlatformIndex !== -1) {
-                        var selectedSeat = _.findIndex( // jshint ignore:line
+                        selectedSeat = _.findIndex( // jshint ignore:line
                             $scope.workflowData.platforms[selectedPlatformIndex].seats,
                             function (item) {
                                 return item.id === platform.vendorSeatId;
@@ -111,6 +112,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                                     $scope.workflowData.platforms = responseData.fullIntegrationsPlatforms;
                                     _buyingPlatform.trackingPlatformCarouselData(responseData);
                                 }
+
                             } else {
                                 _buyingPlatform.errorHandler(result);
                             }
@@ -183,6 +185,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
                             //reseting the custom field values on change of platform.
                             $scope.$parent.postPlatformDataObj = null;
+
                             localStorage.removeItem('adPlatformCustomInputs');
                         }
                     }
@@ -264,29 +267,26 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 }
             },
 
-            getplatformCustomNameSpace =  function (customPlatformData) {
-                var ids = _.pluck(customPlatformData, 'platformCustomInputId'), // jshint ignore:line
+            getplatformCustomNameSpace =  function(customPlatformData) {
+                var ids = _.pluck(customPlatformData, 'platformCustomInputId'),// jshint ignore:line
                     value;
 
-                _.each( // jshint ignore:line
-                    $scope.adData.customInpNameSpaceList,
-                    function (customInpNameSpaceList) {
-                        _.each( // jshint ignore:line
-                            customInpNameSpaceList.platformCustomInputGroupList,
-                            function (platformCustomInputGroupList) {
-                                var inputObj = _.filter( // jshint ignore:line
-                                    platformCustomInputGroupList.platformCustomInputList,
-                                    function (obj) {
-                                        return _.indexOf(ids, obj.id) !== -1; // jshint ignore:line
-                                    });
-
-                                if (!value && inputObj.length > 0) {
-                                    value =  customInpNameSpaceList.name;
+                _.each($scope.adData.customInpNameSpaceList, function(customInpNameSpaceList) { // jshint ignore:line
+                    _.each(// jshint ignore:line
+                        customInpNameSpaceList.platformCustomInputGroupList,
+                        function(platformCustomInputGroupList) {
+                            var inputObj = _.filter( // jshint ignore:line
+                                platformCustomInputGroupList.platformCustomInputList,
+                                function(obj) {
+                                    return _.indexOf(ids, obj.id) !== -1; // jshint ignore:line
                                 }
+                            );
+
+                            if (!value && inputObj.length>0) {
+                                value =  customInpNameSpaceList.name;
                             }
-                        );
-                    }
-                );
+                        });
+                });
 
                 return value;
             };
@@ -331,20 +331,18 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                     if (result.status === 'OK' || result.status === 'success') {
                         //invoke wrapper
                         result.data.data = workflowService.platformCreateObj(result.data.data);
+
                         if (result.data.data.customInputJson !== '') {
                             platformCustomeJson = JSON.parse(result.data.data.customInputJson);
 
                             if (platformCustomeJson.platformCustomInputNamespaceList &&
-                                platformCustomeJson.platformCustomInputNamespaceList.length > 1) {
+                                platformCustomeJson.platformCustomInputNamespaceList.length > 2) {
                                 $scope.adData.customInpNameSpaceList =
                                     platformCustomeJson.platformCustomInputNamespaceList;
 
-                                _.each( // jshint ignore:line
-                                    $scope.adData.customInpNameSpaceList,
-                                    function (obj, idx) {
-                                        obj.className = idx === 0 ? 'active' : '';
-                                    }
-                                );
+                                _.each($scope.adData.customInpNameSpaceList, function (obj, idx) { // jshint ignore:line
+                                    obj.className = idx === 0 ? 'active' : '';
+                                });
                             }
 
                             _buyingPlatform.showCustomFieldBox();
@@ -396,6 +394,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             $scope.$parent.postPlatformDataObj = null;
             localStorage.removeItem('adPlatformCustomInputs');
             _buyingPlatform.setPlatform(null, tempPlatform, tempPlatform.seats[0]);
+
             storedResponse.targets.geoTargets = {};
             $rootScope.$broadcast('resetTargeting');
             $scope.platformCustomInputs();
@@ -403,7 +402,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
         $scope.showTrackingSetupInfoPopUp = function (event, trackingIntegration) {
             var relativeX = $(event.target).closest('.offeringWrap').offset().left -
-                    $(event.target).closest('.carousel-inner').offset().left + 50;
+                $(event.target).closest('.carousel-inner').offset().left + 50;
 
             $scope.trackingIntegration = trackingIntegration;
 
@@ -420,8 +419,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
         };
 
         $scope.$parent.switchPlatform = function (event) {
-            if (event) {
-                //clicked on back to platform link
+            if (event) { //clicked on back to platform link
                 $scope.adData.resetInventroy();
             }
 
@@ -434,21 +432,20 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
             elem.closest('.btn-group').find('.active').removeClass('active');
             elem.closest('.btn').addClass('active');
+
             $('.eachBuyingSection').hide();
             $('.' + type + '_div').show();
 
             _.each(['buying_strategy_div' , 'appnexus_deal_div', 'appnexus_direct_div'], // jshint ignore:line
-                function (id) {
+                function(id) {
                     if (id === (type + '_div')) {
                         $('.'+id).find('input, select').removeAttr('disabled');
                     } else {
                         $('.'+id).find('input, select').attr('disabled', 'disabled');
                     }
-                }
-            );
+                });
 
             $scope.inventoryTabSelected = type;
-
             if (type === 'appnexus_direct') {
                 $rootScope.$broadcast('directInvenotry', $scope.adData);
             }
@@ -466,7 +463,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 _.each(customPlatformFormData, function (data) { // jshint ignore:line
                     var d = data.name.split('$$');
 
-                    if (d.length > 1 && $.trim(data.value) !== '') {
+                    if (d.length >1 && $.trim(data.value) !== '') {
                         $scope.$parent.postPlatformDataObj.push({
                             platformCustomInputId: Number(d[1]),
                             value: data.value
@@ -506,7 +503,6 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             if (!flag && customFieldErrorElem.length === 0) {
                 $scope.triggerTargetting();
             }
-
         };
 
         $scope.showtrackingSetupInfoPopUp = false;
@@ -528,10 +524,11 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
         $scope.$on('switchPlatformFunc', function (obj,tab) {
             var customFieldErrorElem = $('.customFieldErrorMsg'),
-                $modalInstance;
+                $modalInstance,
+                seatId;
 
             if (customFieldErrorElem.length > 0) {
-                $modalInstance = $modal.open({ // jshint ignore:line
+                $modalInstance = $modal.open({
                     templateUrl: assets.html_confirmation_modal, // jshint ignore:line
                     controller: 'ConfirmationModalController',
                     scope: $scope,
@@ -557,10 +554,9 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                                 $('.customFieldErrorMsg').remove();
 
                                 if (customPlatformForm && customPlatformForm.length > 0) {
-                                    $('#customPlatformForm')[0].reset();
-
+                                    customPlatformForm[0].reset();
                                     $timeout(function () {
-                                        $('#customPlatformForm').find('select').trigger('change');
+                                        customPlatformForm.find('select').trigger('change');
                                     }, 200);
                                 }
 
@@ -569,12 +565,12 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                         }
                     }
                 });
+
                 return false;
             }
 
             if ($scope.adData.platform !== undefined && (tab !== undefined && tab[0] === '#buying')){
-                var seatId =  $('input[name=platformSeatId]').val();
-
+                seatId =  $('input[name=platformSeatId]').val();
                 $('#seatId_'+seatId).trigger('click');
             } else {
                 _buyingPlatform.hideCustomPlatformBox();
