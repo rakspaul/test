@@ -17,6 +17,7 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
     dashboardData.totalCampaigns = 0;
     dashboardData.totalBrands = 0;
     dashboardData.toolTip = '';
+    dashboardData.selectedAdvertiser = advertiserModel.getSelectedAdvertiser().name;
 
     var setTitle = function () {
         dashboardData.title = 'Showing ';
@@ -53,10 +54,10 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
     };
 
     function addCampaigns() {
-        var selectedBrand = brandsModel.getSelectedBrand().name;
+        var selectedAdvertiser = advertiserModel.getSelectedAdvertiser().name
         dashboardData.titleSecondPart = dashboardData.selectedStatus + ' Media Plans for ';
-        if (selectedBrand === constants.ALL_BRANDS) {
-            dashboardData.titleSecondPart += constants.ALL_BRANDS;
+        if (selectedAdvertiser === constants.ALL_ADVERTISERS) {
+            dashboardData.titleSecondPart += constants.ALL_ADVERTISERS;
         }
     };
 
@@ -68,7 +69,14 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
             dashboardData.brandSelected = true;
         }
     };
-
+    var setAdvertiser = function(advertiser){
+        dashboardData.selectedAdvertiser = advertiser.name;
+        if (advertiser.name === constants.ALL_ADVERTISERS) {
+            dashboardData.advertiserSelected = false;
+        } else {
+            dashboardData.advertiserSelected = true;
+        }
+    }
     var getData = function () {
         return dashboardData;
     };
@@ -87,6 +95,7 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
     return {
         setTitle: setTitle,
         setSelectedBrand: setBrand,
+        setSelectedAdvertiser: setAdvertiser,
         getData: getData,
         campaignStatusToSend: campaignStatusToSend
     };
