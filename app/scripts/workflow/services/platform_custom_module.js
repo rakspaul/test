@@ -25,26 +25,26 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 elem.append(platformHTML);
             },
 
-            selectPlatform = function (selectedValue, inputList, platformCustomInputChildrenGroupList, dependentItems) {
+            selectPlatform = function (selectedValue, inputList, platformCustomInputChildrenGroupList, dependentItems, elem) {
                 var activationOrderList,
                     selectedOrderList,
                     platformCustomInputGroupId,
                     item,
 
-                    platformCustomInputGroupFunc = function (orderList) {
-                        platformCustomInputGroupId = orderList.platformCustomInputGroupId;
+                platformCustomInputGroupFunc = function (orderList, elem) {
+                    platformCustomInputGroupId = orderList.platformCustomInputGroupId;
 
-                        item = _.filter(platformCustomInputChildrenGroupList, function (obj) { // jshint ignore:line
-                            return obj.id === platformCustomInputGroupId;
-                        });
+                    item = _.filter(platformCustomInputChildrenGroupList, function (obj) { // jshint ignore:line
+                        return obj.id === platformCustomInputGroupId;
+                    });
 
-                        if (item.length > 0) {
-                            item =  item[0];
-                            item.relationWith = dependentItems;
-                        }
+                    if (item.length > 0) {
+                        item =  item[0];
+                        item.relationWith = dependentItems;
+                    }
 
-                        createPlatformCustomInputList(item, _self.elem);
-                    };
+                    createPlatformCustomInputList(item, elem/*_self.elem*/);
+                };
 
                 if (dependentItems === 'selectBoxchkDependentItems') {
                     _self
@@ -77,7 +77,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
 
                 if (selectedOrderList.length > 0) {
                     _.each(selectedOrderList, function (orderList) { // jshint ignore:line
-                        platformCustomInputGroupFunc(orderList);
+                        platformCustomInputGroupFunc(orderList, elem);
                     });
                 }
             },
@@ -90,7 +90,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 });
             },
 
-            createInputElem = function (inputList, inputGroupList, idx) {
+            createInputElem = function (inputList, inputGroupList, idx, elem) {
                 var inputWrapper,
                     options,
                     inputListHTML,
@@ -158,7 +158,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                                 if (inputList.dependentGroups) {
                                     selectPlatform(this.value, inputList,
                                         inputGroupList.platformCustomInputChildrenGroupList,
-                                        'selectBoxchkDependentItems');
+                                        'selectBoxchkDependentItems', elem);
                                 }
                             });
 
@@ -369,7 +369,9 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
 
             createPlatformCustomInputList =  function (inputGroupList, elem, noGroup) {
                 var groupContainer,
-                    platformCustomInputList;
+                    platformCustomInputList,
+                    newInpElem,
+                    inpElemList = [];
 
                 _self.inputGroupList = inputGroupList;
                 platformCustomInputList =
@@ -381,17 +383,15 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                             .addClass('form-group col-md-12 zeroPadding')
                             .addClass(noGroup ? 'form-individual-section' : '');
                 }
-
                 _.each(platformCustomInputList, function (inputList, idx) { // jshint ignore:line
-                    groupContainer.append(createInputElem(inputList, inputGroupList, idx, 'group'));
+                    newInpElem = createInputElem(inputList, inputGroupList, idx, elem, 'group');
+                    if(inputList.platformCustomWidgetType === 'HIDDEN') {
+                        newInpElem.hide();
+                    }
+                    inpElemList.push(newInpElem);
                 });
 
-                if (_.filter(platformCustomInputList, function (obj) { // jshint ignore:line
-                        return obj.platformCustomWidgetType === 'HIDDEN';
-                    }).length > 0) {
-                    groupContainer.hide();
-                }
-
+                groupContainer.append(inpElemList);
                 elem.append(groupContainer);
             },
 
@@ -433,7 +433,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                     platformCustomeJson.platformCustomInputActivationOrderList;
 
                 // if namespace is greater than 1.
-                if (_self.platformCustomInputNamespaceList.length > 1 ) {
+                if (_self.platformCustomInputNamespaceList.length > 2 ) {
                     _self.customPlatformWithTab = true;
                     $('.eachBuyingSection').not('.staticMarkup').remove();
                 }
