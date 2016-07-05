@@ -8,7 +8,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'login/login_model',
             campaignId = $routeParams.campaignId,
             adId = $routeParams.adId,
             clientId = $routeParams.clientId,
-            advertiserId = $routeParams.adv;
+            advertiserId = $routeParams.advertiserId;
 
 
 
