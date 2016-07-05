@@ -125,11 +125,11 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                 },
 
                 //get search box value
-                searchGeo: function (searchtxt, type) {
+                searchGeo: function (filterValue, type) {
                     //reset geoData array
                     $scope.adData.directInvenotryData.placements.data = [];
                     this.resetPlacement();
-                    $scope.adData.directInvenotryData.placements.params[type ? type : 'search'] = searchtxt;
+                    $scope.adData.directInvenotryData.placements.params[type ? type : 'search'] = filterValue;
                     $scope.adData.directInvenotryData.placements.fetching = true;
                     $scope.adData.directInvenotryData.placements.data_not_found = false;
                     directInventory.placement($scope.urlData, $scope.adData.directInvenotryData.placements.params);
@@ -265,11 +265,11 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
             }
         };
 
-        $scope.filterPlacements = function (filterType, filterText) {
-            if (filterType === 'All') {
-                directInventory.searchGeo();
+        $scope.filterPlacements = function (filterType, filterValue) {
+            if (filterValue === -1) {
+                directInventory.searchGeo('', filterType);
             } else {
-                directInventory.searchGeo(filterText, filterType);
+                directInventory.searchGeo(filterValue, filterType);
             }
         };
 
