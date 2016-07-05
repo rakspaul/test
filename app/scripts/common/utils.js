@@ -72,6 +72,23 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         return title;
                     },
 
+                    validateUrl = function (url) {
+                    var re =
+                        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+
+                    return re.test(url);
+                    },
+
+                    validateTag = function (scriptTag) {
+                        var pattern = new RegExp(/.*(https:).*/),
+                            tagLower = scriptTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
+                        if (tagLower.match(pattern)) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    },
+
                     highlightSearch = function (text, search) {
                         if (!search) {
                             return $sce.trustAsHtml(text);
@@ -478,7 +495,9 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     convertToUTC: convertToUTC,
                     hasItem: hasItem,
                     getValueOfItem: getValueOfItem,
-                    getEndAndStartDate: getEndAndStartDate
+                    getEndAndStartDate: getEndAndStartDate,
+                    validateUrl:validateUrl,
+                    validateTag:validateTag
                 };
             }
         ]);

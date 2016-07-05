@@ -11,7 +11,11 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                     supportedTag,
                     LabelHtml,
                     fieldLabel,
-                    toggleLabel;
+                    toggleLabel,
+                    activeToggleIdx,
+                    inputRadio,
+                    target,
+                    parentElem;
 
                 if (inputList.platformCustomWidgetType === 'TOGGLE') {
                     inputWrapper =
@@ -89,8 +93,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
 
                     //Make active when idx = 0
                     _.each(options, function (option,idx) { // jshint ignore:line
-                        var activeToggleIdx,
-                            inputRadio;
+
 
                         // set for edit
                         if (inputList.defaultValue !== '') {
@@ -107,7 +110,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                                 .addClass((supportedTag.indexOf(option) == -1 )?'disabled':'')
                                 .text(option)
                                 .on('click', function () {
-                                    var target = $(event.target),
+                                     target = $(event.target),
                                         parentElem =  target.parents('.miniToggle');
 
                                     parentElem
