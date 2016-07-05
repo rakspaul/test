@@ -57,7 +57,7 @@
 
             <div class="col-md-9 zeroPadding inventory_upload_btn" style="margin: 20px 0 0;">
                 <button class="pull-left btn btn-default"
-                        style="margin: 0 0 20px 0;"
+                        style="margin-bottom:20px;"
                         ng-click="showInventoryModal()"
                         ng-show="workflowData.inventoryData.length > 0 ?  true : false"
                         data-ng-bind="textConstants.INVENTORY_SELECT_FROM_EXISTING">
@@ -78,7 +78,7 @@
                         ngf-accept="'.csv,.txt'" ngf-multiple="false" ngf-allow-dir="false"
                         data-ng-bind="textConstants.INVENTORY_UPLOAD_NEW_APP">
                 </button>
-                <span class="grey_txt" data-ng-bind="textConstants.CSVTXTFILE"></span>
+                <span class="greyTxt pull-left" data-ng-bind="textConstants.CSVTXTFILE"></span>
 
             </div>
         </div>
