@@ -1263,6 +1263,15 @@
                 ng-if="customeReportData.value"
                 ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}" ng-mouseover="deepLinking.isClickable($event,customeReportData.type)"></span>
             </div>
+            <!--Start Date start_time-->
+            <div class="each_col" ng-if="customeReportData.start_time!=''"
+                 ng-bind="customeReportData.start_time == '' ? 'NA' : (customeReportData.start_time)">
+            </div>
+            <!--End Date end_time-->
+            <div class="each_col" ng-if="customeReportData.end_time!=''"
+                 ng-bind="customeReportData.end_time == '' ? 'NA' : (customeReportData.end_time)">
+            </div>
+
             <!--Booked Impressions booked_impressions-->
             <div class="each_col" ng-if="customeReportData.booked_impressions>=-1"
                  ng-bind="customeReportData.booked_impressions == -1 ? 'NA' : (customeReportData.booked_impressions | number:0)">
