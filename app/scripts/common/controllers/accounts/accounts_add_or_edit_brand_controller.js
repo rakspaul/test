@@ -1,34 +1,11 @@
 var angObj = angObj || {};
 
-define(['angularAMD','../../../workflow/services/account_service','reporting/models/domain_reports', '../../services/constants_service'],
-    function (angularAMD) {
+define(['angularAMD', '../../../workflow/services/account_service', // jshint ignore:line
+    'reporting/models/domain_reports', '../../services/constants_service'], function (angularAMD) {
         'use strict';
 
         angularAMD.controller('AccountsAddOrEditBrand', function ($scope, $rootScope, $modalInstance,
             accountsService, domainReports, constants ) {
-            $scope.close=function () {
-                $modalInstance.dismiss();
-                $scope.resetBrandAdvertiserAfterEdit();
-            };
-
-            $scope.saveBrands = function () {
-                var brandObj,
-                    body,
-                    requestData;
-                if(!$scope.selectedBrandId || $scope.selectedBrandId == ""){
-                    $rootScope.setErrAlertMessage(constants.EMPTY_BRAND_SELECTION);
-                    return false;
-                }
-                if ($scope.mode === 'edit') {
-                    // Code to Edit the brand
-//            } else if ($scope.selectedBrandId !== '') {
-//                //when user does select and existing brand under a advertiser
-//                createBrandUnderAdvertiser($scope.selectedBrandId);
-                } else {
-                    createBrandUnderAdvertiser($scope.selectedBrandId)
-                }
-            };
-
             function createBrandUnderAdvertiser(brandId) {
                 accountsService
                     .createBrandUnderAdvertiser($scope.client.id, $scope.advertiser.id, brandId)
@@ -41,11 +18,11 @@ define(['angularAMD','../../../workflow/services/account_service','reporting/mod
                         }
                     }, function (err) {
                         $scope.close();
-                        $rootScope.setErrAlertMessage('Error in creating brand under advertiser.');
+                        $rootScope.setErrAlertMessage('Error in creating brand under advertiser: ' + err);
                     });
             }
 
-            function constructRequestBody(obj) {
+            function constructRequestBody(obj) { // jshint ignore:line
                 var respBody = {};
 
                 if ($scope.mode === 'edit' && obj) {
@@ -57,5 +34,21 @@ define(['angularAMD','../../../workflow/services/account_service','reporting/mod
                 }
                 return respBody;
             }
+
+            $scope.close=function () {
+                $modalInstance.dismiss();
+                $scope.resetBrandAdvertiserAfterEdit();
+            };
+
+            $scope.saveBrands = function () {
+                if (!$scope.selectedBrandId || $scope.selectedBrandId === ''){
+                    $rootScope.setErrAlertMessage(constants.EMPTY_BRAND_SELECTION);
+                    return false;
+                }
+
+                if ($scope.mode !== 'edit') {
+                    createBrandUnderAdvertiser($scope.selectedBrandId);
+                }
+            };
         });
     });

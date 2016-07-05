@@ -226,6 +226,3 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
         };
     });
 });
-
-
-

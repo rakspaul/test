@@ -1,8 +1,8 @@
 var angObj = angObj || {};
 
-define(['angularAMD', '../../../workflow/services/account_service', '../../services/constants_service',
-    'common/moment_utils', 'workflow/directives/custom_date_picker', 'common/services/data_service',
-    'common/services/url_service'], function (angularAMD) {
+define(['angularAMD', '../../../workflow/services/account_service', // jshint ignore:line
+    '../../services/constants_service', 'common/moment_utils', 'workflow/directives/custom_date_picker',
+    'common/services/data_service', 'common/services/url_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('AccountsAddOrEditAdvertiser', function ($scope, $rootScope, $modalInstance,
@@ -42,9 +42,11 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
         _currCtrl.verifyCreateAdvInputs = function () {
             var ret = true,
                 errMsg = 'Error';
-            if($scope.advertiserCodeExist){
+
+            if ($scope.advertiserCodeExist){
                 return false;
             }
+
             if (!$scope.selectedAdvertiserId || $scope.selectedAdvertiserId === '') {
                 $rootScope.setErrAlertMessage(constants.EMPTY_ADV_SELECTION);
                 return false;
@@ -78,7 +80,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                 costBillingValue: null
             };
 
-            if(!$scope.isEditMode){
+            if (!$scope.isEditMode){
                 requestData.code = $scope.setSelectedAdvertiserCode === 'Others' ?
                     $scope.customAdvertiserCode :
                     $scope.setSelectedAdvertiserCode;
@@ -130,7 +132,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                         } else {
                             $rootScope.setErrAlertMessage('Advertiser added successfully', 0);
                         }
-                    }else{
+                    } else {
                         $rootScope.setErrAlertMessage(result.data.data.message);
                     }
                 }, function (err) {
@@ -145,7 +147,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                 });
         }
 
-        function addPixeltoAdvertiserUnderClient(clientId, advId) {
+        function addPixeltoAdvertiserUnderClient(clientId, advId) { // jshint ignore:line
             var requestData = {
                 lookbackImpressions: Number($scope.advertiserData.lookbackImpressions),
                 lookbackClicks: Number($scope.advertiserData.lookbackClicks)
@@ -168,7 +170,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
         }
 
         function getRequestDataforPixel(clientId, advertiserId) {
-            _.each($scope.advertiserData.pixels, function (item, index) {
+            _.each($scope.advertiserData.pixels, function (item, index) { // jshint ignore:line
                 $scope.advertiserData.pixels[index] = {
                     name: item.name,
                     clientId: clientId,
@@ -210,7 +212,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                 });
         }
 
-        function constructRequestBody(obj) {
+        function constructRequestBody(obj) { // jshint ignore:line
             var respBody = {};
 
             if ($scope.mode === 'edit' && obj) {
@@ -311,6 +313,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                 billingTypesArr: []
             }
         };
+
         $scope.selectedRateType = 'Select';
 
         $scope.selectedBillingTypeChanged = function (billingType, billedFor) {
@@ -381,7 +384,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                 .downloadFile(url)
                 .then(function (res) {
                     if (res.status === 'OK' || res.status === 'success') {
-                        saveAs(res.file, res.fileName);
+                        saveAs(res.file, res.fileName); // jshint ignore:line
                         $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_SUCCESS, 0);
                     } else {
                         $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_ERR);
@@ -400,9 +403,10 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                     _currCtrl.downloadPixelIds.push(pixelId);
                 }
             } else {
-                _currCtrl.downloadPixelIds = _.filter(_currCtrl.downloadPixelIds, function (item) {
-                    return item !== pixelId;
-                });
+                _currCtrl.downloadPixelIds =
+                    _.filter(_currCtrl.downloadPixelIds, function (item) { // jshint ignore:line
+                        return item !== pixelId;
+                    });
 
                 if (!_currCtrl.downloadPixelIds.length) {
                     $scope.advertiserData.disableDownLoadPixel = true;
@@ -417,7 +421,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
 
             if (checkBoxes.prop('checked')) {
                 $scope.advertiserData.disableDownLoadPixel = false;
-                _currCtrl.downloadPixelIds = _.pluck($scope.advertiserData.pixels, 'id');
+                _currCtrl.downloadPixelIds = _.pluck($scope.advertiserData.pixels, 'id'); // jshint ignore:line
             } else {
                 $scope.advertiserData.disableDownLoadPixel = true;
                 _currCtrl.downloadPixelIds = [];
@@ -427,20 +431,24 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
         $scope.checkDuplicatePixel = function (name) {
             $scope.advertiserAddOrEditData.duplicatePixelName = false;
 
-            _.each($scope.advertiserData.pixels, function (item, i) {
+            _.each($scope.advertiserData.pixels, function (item, i) { // jshint ignore:line
                 if (!$scope.advertiserAddOrEditData.duplicatePixelName) {
                     $scope.advertiserAddOrEditData.duplicatePixelName =
-                        ((item.name === name) && ($scope.pixelIndex != i)) ? true : false;
+                        ((item.name === name) && ($scope.pixelIndex !== i)) ? true : false;
                 }
             });
         };
 
         $scope.leaveFocusCustomAdvertiserCode = function(){
-            accountsService.checkAdvertiserCodeExist($scope.customAdvertiserCode).then(function(result){
-                if (result.status === 'OK' || result.status === 'success') {
-                    $scope.advertiserCodeExist = result.data.data.isExists
-                }
-            },function(err){});
+            accountsService
+                .checkAdvertiserCodeExist($scope.customAdvertiserCode)
+                .then(function(result){
+                    if (result.status === 'OK' || result.status === 'success') {
+                        $scope.advertiserCodeExist = result.data.data.isExists;
+                    }
+                }, function (err) {
+                    console.log('Error = ', err);
+                });
         };
 
         $scope.selectAdvertiser = function (advertiser) {
@@ -462,7 +470,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
             searchInputForm.animate({width: '250px'}, 'fast');
         };
 
-        $scope.searchHideInput = function (evt) {
+        $scope.searchHideInput = function () {
             $('.searchInputForm input').val('');
             $('.searchInputBtn').show();
             $('.searchClearInputBtn, .searchInputBtnInline').hide();
@@ -507,6 +515,7 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
                     $scope.advertiserAddOrEditData.selectedIABSubCategory = 'Select';
                     $scope.advertiserAddOrEditData.selectedIABSubCategoryId = null;
                 }
+
                 _currCtrl.getIABSubCategoryList($scope.advertiserAddOrEditData.selectedIABCategoryId);
             } else {
                 $scope.advertiserAddOrEditData.selectedIABCategory = 'Select';
@@ -524,11 +533,13 @@ define(['angularAMD', '../../../workflow/services/account_service', '../../servi
 
             if ($scope.savedAdvertiserData.serviceBillingTypeId) {
                 $scope.billingData.serviceFees.billingTypeId = $scope.savedAdvertiserData.serviceBillingTypeId;
+
                 if (parseInt($scope.savedAdvertiserData.serviceBillingTypeId) === 8) {
                     $scope.billingData.serviceFees.billingTypeName = 'CPM';
                 } else if (parseInt($scope.savedAdvertiserData.serviceBillingTypeId) === 6) {
                     $scope.billingData.serviceFees.billingTypeName = 'COG+ %';
                 }
+
                 $scope.billingData.serviceFees.billingValue = $scope.savedAdvertiserData.serviceBillingValue;
             }
 
