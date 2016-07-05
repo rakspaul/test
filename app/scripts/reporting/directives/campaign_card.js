@@ -102,7 +102,11 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                             var url = '';
                             campaignSelectModel.setSelectedCampaign({id: campaign.id,name: campaign.name,startDate: campaign.startDate,endDate: campaign.endDate,kpi: campaign.kpiType});
                             if(showManageButton){
-                                url = filterType !== 'archived' ? '/mediaplan/' + campaign.orderId + '/overview' : '/mediaplans/' + campaign.orderId;
+                                if(campaign.is_archived) {
+                                    url = '/mediaplans/' + campaign.orderId;
+                                } else {
+                                    url = '/mediaplan/' + campaign.orderId + '/overview';
+                                }
                             } else {
                                 url = '/mediaplans/' + campaign.orderId;
                             }
