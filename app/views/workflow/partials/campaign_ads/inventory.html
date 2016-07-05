@@ -168,6 +168,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Body Ends -->
     </div>
 </div>
@@ -254,6 +255,13 @@
                 <h1 ng-bind="'Select from existing ' +
                                 (adData.inventory.domainAction === 'INCLUDE' ? 'Whitelists' : 'Blacklists')">
                 </h1>
+                <div class="pull-right allTypeLists">
+                  <div class="btn-group create" role="group" aria-label="...">
+                      <button type="button" class="btn btn-default active" ><span data-ng-bind="textConstants.ALL_LISTS"></span></button>
+                      <button type="button" class="btn btn-default" ><span data-ng-bind="textConstants.DOMAIN_LISTS"></span></button>
+                      <button type="button" class="btn btn-default" ><span data-ng-bind="textConstants.APP_LISTS"></span></button>
+                    </div>
+                </div>
             </div>
             <div class="popBody">
                 <div class="col-md-6">
