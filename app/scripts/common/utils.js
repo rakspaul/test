@@ -1,20 +1,21 @@
-define(['angularAMD','common/services/constants_service', 'common/services/role_based_service'],
+define(['angularAMD','common/services/constants_service', 'common/services/role_based_service'], // jshint ignore:line
     function (angularAMD) {
-        angularAMD.factory('utils', ["$location", "$sce", "constants", "RoleBasedService",
-            function ($location, $sce, constants, RoleBasedService) {
+        angularAMD.factory('utils', ['$location', '$sce', 'constants',
+            function ($location, $sce, constants) {
                 var formatDate = function (input) {
-                    var date = new Date(input),
-                        dayOfMonth = date.getDate(),
-                        suffixes = ['th', 'st', 'nd', 'rd'],
-                        relevantDigits = (dayOfMonth < 30) ? dayOfMonth % 20 : dayOfMonth % 30;
+                        var date = new Date(input),
+                            dayOfMonth = date.getDate(),
+                            suffixes = ['th', 'st', 'nd', 'rd'],
+                            relevantDigits = (dayOfMonth < 30) ? dayOfMonth % 20 : dayOfMonth % 30;
 
-                    return relevantDigits <= 3 ? suffixes[relevantDigits] : suffixes[0];
-                },
-                    regExp = function(){
+                        return relevantDigits <= 3 ? suffixes[relevantDigits] : suffixes[0];
+                    },
+
+                    regExp = function () {
                         return {
                             removeSpecialCharacterAndSpaces : /[&\/\\#,+()$~%.'":*?<>{} ]/g
-                        }
-                    }
+                        };
+                    },
 
                     convertToEST = function (date, format) {
                         var d1,
@@ -29,15 +30,14 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             tz = 'UTC';
                             finalDate = d2[1] + '/' + d2[2] + '/' + d2[0] + ' ' + date.slice(11, 19) + ' ' + tz;
                             parsedDate = Date.parse(finalDate);
-
                         }
 
                         if (date === '') {
-                            return moment().format(format);
+                            return moment().format(format); // jshint ignore:line
                         } else if (format === '') {
-                            return moment(parsedDate).tz('EST').format(constants.DATE_US_FORMAT);
+                            return moment(parsedDate).tz('EST').format(constants.DATE_US_FORMAT); // jshint ignore:line
                         } else {
-                            return moment(parsedDate).tz('EST').format(format);
+                            return moment(parsedDate).tz('EST').format(format); // jshint ignore:line
                         }
                     },
 
@@ -46,7 +46,8 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             tz = 'EST',
                             finalDate = date + ' ' + timeSuffix + ' ' + ' ' + tz;
 
-                        return moment(Date.parse(finalDate)).tz('UTC').format(constants.DATE_UTC_FORMAT);
+                        return moment(Date.parse(finalDate)).tz('UTC') // jshint ignore:line
+                            .format(constants.DATE_UTC_FORMAT);
                     },
 
                     reportTypeOptions = function () {
@@ -65,6 +66,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         for (i = 0; i < input.length; i++) {
                             title += '<a id="a"' + (i + 1) + '>' + input[i] + '</a>';
                         }
+
                         title += '</div>';
 
                         return title;
@@ -75,7 +77,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             return $sce.trustAsHtml(text);
                         }
 
-                        return $sce.trustAsHtml(unescape(text.replace(new RegExp(escape(search), 'gi'),
+                        return $sce.trustAsHtml(window.unescape(text.replace(new RegExp(window.escape(search), 'gi'),
                             '<span class="brand_search_highlight">$&</span>')));
                     },
 
@@ -111,6 +113,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         }
 
                         temp = obj.constructor();
+
                         for (key in obj) {
                             if (obj.hasOwnProperty(key)) {
                                 temp[key] = clone(obj[key]);
@@ -126,11 +129,9 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         offset: constants.DEFAULT_OFFSET_START
                     },
 
-                    /**
-                     * Note: You can provide limit, offset and key as arguments for initializing.
-                     * Please follow the above order for initialization.
-                     * Will consider first three parameters only.
-                     */
+                    // Note: You can provide limit, offset and key as arguments for initializing.
+                    // Please follow the above order for initialization.
+                    // Will consider first three parameters only.
                     VTCpopupfunc = function (event, flag) {
                         var elem = $(event.target),
                             leftPos,
@@ -143,21 +144,26 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             leftPosTactic;
 
                         elem.closest('.each_campaign_list_container').find('.quartile_details_VTC').show();
+
                         if (flag === 1) {
                             leftPos = elem
                                 .closest('.each_campaign_list_container')
                                 .find('.quartile_details_VTC_btn')
                                 .offset()
                                 .left;
+
                             vtcContainer = elem
                                 .closest('.each_campaign_list_container')
                                 .find('.quartile_details_VTC')
                                 .outerWidth() / 2;
+
                             vtcBtnContainer = elem
                                 .closest('.each_campaign_list_container')
                                 .find('.quartile_details_VTC_btn')
                                 .outerWidth() / 2;
+
                             leftPosNumber = leftPos - vtcContainer + vtcBtnContainer;
+
                             elem
                                 .closest('.each_campaign_list_container')
                                 .find('.quartile_details_VTC')
@@ -172,6 +178,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                                     .find('.quartile_details_VTC_btn')
                                     .offset()
                                     .top;
+
                                 elem
                                     .closest('.each_campaign_list_container')
                                     .find('.quartile_details_VTC')
@@ -181,10 +188,13 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                                     .closest('.each_campaign_list_container')
                                     .find('.quartile_details_VTC_btn')
                                     .offset();
+
                                 parentPos = elem
                                     .closest('.tactics_linkage_lines')
                                     .offset();
+
                                 leftPosTactic = childPos.left - parentPos.left - vtcContainer + vtcBtnContainer;
+
                                 elem
                                     .closest('.each_campaign_list_container')
                                     .find('.quartile_details_VTC')
@@ -203,15 +213,13 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     },
 
                     detectBrowserInfo = function () {
-                        var //nVer = navigator.appVersion,
-                            nAgt = navigator.userAgent,
+                        var nAgt = navigator.userAgent,
                             browserName = navigator.appName,
                             fullVersion = '' + parseFloat(navigator.appVersion),
                             majorVersion = parseInt(navigator.appVersion, 10),
                             nameOffset,
                             verOffset,
                             ix,
-                            //browserInfo = {},
                             re;
 
                         switch (true) {
@@ -221,6 +229,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                                 browserName = 'Opera';
                                 fullVersion = nAgt.substring(verOffset + 4);
                                 break;
+
                             // In older Opera, the true version is after 'Opera' or after 'Version'
                             case (nAgt.indexOf('Opera') !== -1):
                                 verOffset = nAgt.indexOf('Opera');
@@ -230,12 +239,14 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                                     fullVersion = nAgt.substring(verOffset + 8);
                                 }
                                 break;
+
                             // In MSIE, the true version is after 'MSIE' in userAgent
                             case (nAgt.indexOf('MSIE') !== -1):
                                 verOffset = nAgt.indexOf('MSIE');
                                 browserName = 'Internet Explorer';
                                 fullVersion = nAgt.substring(verOffset + 5);
                                 break;
+
                             //IE 11 and Above
                             case (nAgt.indexOf('Trident/') !== -1):
                                 browserName = 'Internet Explorer';
@@ -244,33 +255,41 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                                     fullVersion = (RegExp.$1);
                                 }
                                 break;
+
                             // In Chrome, the true version is after 'Chrome'
                             case (nAgt.indexOf('Chrome') !== -1):
                                 verOffset = nAgt.indexOf('Chrome');
                                 browserName = 'Chrome';
                                 fullVersion = nAgt.substring(verOffset + 7);
                                 break;
+
                             // In Safari, the true version is after 'Safari' or after 'Version'
                             case (nAgt.indexOf('Safari') !== -1):
                                 browserName = 'Safari';
                                 verOffset = nAgt.indexOf('Safari');
                                 fullVersion = nAgt.substring(verOffset + 7);
+
                                 if ((verOffset = nAgt.indexOf('Version')) !== -1) {
                                     fullVersion = nAgt.substring(verOffset + 8);
                                 }
+
                                 break;
+
                             // In Firefox, the true version is after 'Firefox'
                             case (nAgt.indexOf('Firefox') !== -1):
                                 verOffset = nAgt.indexOf('Firefox');
                                 browserName = 'Firefox';
                                 fullVersion = nAgt.substring(verOffset + 8);
                                 break;
+
                             case ((nameOffset = nAgt.lastIndexOf(' ') + 1) < (verOffset = nAgt.lastIndexOf('/'))):
                                 browserName = nAgt.substring(nameOffset, verOffset);
                                 fullVersion = nAgt.substring(verOffset + 1);
+
                                 if (browserName.toLowerCase() === browserName.toUpperCase()) {
                                     browserName = navigator.appName;
                                 }
+
                                 break;
                         }
 
@@ -315,12 +334,16 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                                 if (!isNaN(arguments[i])) {
                                     search.limit = arguments[i];
                                 }
+
                                 break;
+
                             case 1:
                                 if (!isNaN(arguments[i])) {
                                     search.offset = arguments[i];
                                 }
+
                                 break;
+
                             case 2:
                                 search.key = arguments[i];
                                 break;
@@ -344,11 +367,11 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     return results;
                 }
 
-                function hasItem(data, key, val){
+                function hasItem(data, key, val) {
                     var retVal = false;
 
-                    _.each(data,function(item){
-                        if(item[key] === val){
+                    _.each(data, function (item) { // jshint ignore:line
+                        if(item[key] === val) {
                             retVal = true;
                         }
                     });
@@ -356,65 +379,87 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     return retVal;
                 }
 
-                function getValueOfItem(data, key){
+                function getValueOfItem(data, key) {
                     var retVal = '';
 
-                    _.each(data, function (item) {
-                        if (item['key'] === key.trim()) {
+                    _.each(data, function (item) { // jshint ignore:line
+                        if (item.key === key.trim()) {
                             retVal = item.value;
                         }
                     });
 
                     return retVal;
                 }
-                function getEndAndStartDate(timeFrame){
-                    var o = {}
+
+                function getEndAndStartDate(timeFrame) {
+                    var o = {},
+                        startWeekDate;
+
                     switch (timeFrame) {
                         case 'yesterday':
-                            o.startDate = moment().subtract(1, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
-                            o.endDate = moment().format(constants.DATE_UTC_SHORT_FORMAT);
-                            o.displayTimeFrame = "Yesterday";
+                            o.startDate = moment() // jshint ignore:line
+                                .subtract(1, 'days')
+                                .format(constants.DATE_UTC_SHORT_FORMAT);
+
+                            o.endDate = moment().format(constants.DATE_UTC_SHORT_FORMAT); // jshint ignore:line
+                            o.displayTimeFrame = 'Yesterday';
                             break;
+
                         case 'last7days':
-                            o.startDate = moment().subtract(7, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
-                            o.endDate = moment().subtract(0, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
-                            o.displayTimeFrame = "Last 7 days";
+                            o.startDate = moment() // jshint ignore:line
+                                .subtract(7, 'days')
+                                .format(constants.DATE_UTC_SHORT_FORMAT);
+
+                            o.endDate = moment() // jshint ignore:line
+                                .subtract(0, 'days')
+                                .format(constants.DATE_UTC_SHORT_FORMAT); // jshint ignore:line
+
+                            o.displayTimeFrame = 'Last 7 days';
                             break;
+
                         case 'last2Weeks':
-                            var startWeekDate = moment().startOf('week').subtract(1, 'day');
+                            startWeekDate = moment().startOf('week').subtract(1, 'day'); // jshint ignore:line
                             o.endDate = startWeekDate.format(constants.DATE_UTC_SHORT_FORMAT);
                             o.startDate = startWeekDate.subtract('days', 13).format(constants.DATE_UTC_SHORT_FORMAT);
-                            o.displayTimeFrame = "Last 2 weeks";
+                            o.displayTimeFrame = 'Last 2 weeks';
                             break;
+
                         case 'lastMonth':
                             o.startDate =
-                                moment()
+                                moment() // jshint ignore:line
                                     .subtract(1, 'months')
                                     .endOf('month')
                                     .format('YYYY-MM') + '-01';
+
                             o.endDate =
-                                moment()
+                                moment() // jshint ignore:line
                                     .subtract(1, 'months')
                                     .endOf('month')
                                     .format(constants.DATE_UTC_SHORT_FORMAT);
-                            o.displayTimeFrame = "Last month";
+
+                            o.displayTimeFrame = 'Last month';
                             break;
+
                         case 'lastQuater':
                             o.startDate =
-                                moment()
+                                moment() // jshint ignore:line
                                     .subtract(1, 'quarter')
                                     .startOf('quarter')
                                     .format(constants.DATE_UTC_SHORT_FORMAT);
+
                             o.endDate =
-                                moment()
+                                moment() // jshint ignore:line
                                     .subtract(1, 'quarter')
                                     .endOf('quarter')
                                     .format(constants.DATE_UTC_SHORT_FORMAT);
-                            o.displayTimeFrame = "Last quarter";
+
+                            o.displayTimeFrame = 'Last quarter';
                             break;
                     }
+
                     return o;
                 }
+
                 return {
                     formatDate: formatDate,
                     regExp: regExp,
@@ -437,7 +482,6 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                 };
             }
         ]);
-
 
         $.fn.scrollWithInDiv = function () {
             this.bind('mousewheel DOMMouseScroll', function (e) {

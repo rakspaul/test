@@ -1,44 +1,48 @@
-define(['angularAMD','common/services/constants_service', 'common/services/role_based_service'],
+define(['angularAMD','common/services/constants_service', 'common/services/role_based_service'], // jshint ignore:line
     function (angularAMD) {
-       
-
         angularAMD
             .directive('welcomeUser', function (common) {
                 return {
                     restrict: 'AE',
+
                     scope: {
                         username: '@username'
                     },
+
                     template: '<div class="navbar" role="navigation">' +
                         '<div class="container-fluid">' +
-                        '<div class="navbar-header col-xs-6 col-sm-2 col-md-3">' +
-                        '<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">' +
-                        '<span class="sr-only">Toggle navigation</span>' +
-                        '<span class="icon-bar"></span>' +
-                        '<span class="icon-bar"></span>' +
-                        '<span class="icon-bar"></span>' +
-                        '</button>' +
-                        '<a id="logo" class="navbar-brand" href="#">Collective Media</a>' +
+                            '<div class="navbar-header col-xs-6 col-sm-2 col-md-3">' +
+                                '<button type="button" ' +
+                                    'class="navbar-toggle" ' +
+                                    'data-toggle="collapse" ' +
+                                    'data-target=".navbar-collapse">' +
+                                    '<span class="sr-only">Toggle navigation</span>' +
+                                    '<span class="icon-bar"></span>' +
+                                    '<span class="icon-bar"></span>' +
+                                    '<span class="icon-bar"></span>' +
+                                '</button>' +
+                                '<a id="logo" class="navbar-brand" href="#">Collective Media</a>' +
+                            '</div>' +
+                            '<span class="navbar-brand col-xs-4 col-sm-6 col-md-6 applicationName">' +
+                                common.title +
+                            '</span>' +
+                            '<div class="navbar-collapse collapse">' +
+                                '<ul class="nav navbar-nav navbar-right">' +
+                                    '<li><a class="buttonRegularText" >Welcome, {{username}}</a></li>' +
+                                '</ul>' +
+                            '</div>' +
                         '</div>' +
-                        '<span class="navbar-brand col-xs-4 col-sm-6 col-md-6 applicationName">' + common.title + '</span>' +
-                        '<div class="navbar-collapse collapse" >' +
-                        '<ul class="nav navbar-nav navbar-right">' +
-                        '<li><a class="buttonRegularText" >Welcome, {{username}}</a></li>' +
-                        '</ul>' +
-                        '<!--<loader class="loading-spinner-holder" data-loading >Loading...</loader>-->' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>'
+                    '</div>'
                 };
             })
 
             .directive('loader', function ($http) {
-                angular.element('#ngViewPlaceHolder').hide();
+                angular.element('#ngViewPlaceHolder').hide(); // jshint ignore:line
 
                 return {
                     restrict: 'AEC',
 
-                    link: function (scope, elm, attrs) {
+                    link: function (scope, elm) {
                         scope.isLoading = function () {
                             return $http.pendingRequests.length > 0;
                         };
@@ -46,10 +50,10 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         scope.$watch(scope.isLoading, function (v) {
                             if (v) {
                                 elm.show();
-                                angular.element('#ngViewPlaceHolder').hide();
+                                angular.element('#ngViewPlaceHolder').hide(); // jshint ignore:line
                             } else {
                                 elm.hide();
-                                angular.element('#ngViewPlaceHolder').show();
+                                angular.element('#ngViewPlaceHolder').show(); // jshint ignore:line
                             }
                         });
                     }
@@ -60,7 +64,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                 return {
                     restrict: 'A',
 
-                    link: function (scope, $elm, attrs) {
+                    link: function () {
                         if ($routeParams.to) {
                             window.setTimeout(function () {
                                 if ($routeParams.to.length) {
@@ -106,50 +110,106 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         updateTo: '='
                     },
 
-                    template: '<ul class="nav navbar-nav">' +
-                        '<li class="dropdown">' +
-                        '<a class="dropdown-toggle" data-toggle="dropdown">' +
-                        '<span id="measuresLabel" >{{measures}}</span>' +
-                        '</a>' +
-                        '<ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="measuresOptions">' +
-                        '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="IMPRESSIONS">' +
-                        ' IMPRESSIONS </a></li>' +
-                        '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CTR"> CTR </a></li>' +
-                        '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CVR"> CVR </a></li>' +
-                        '</ul>' +
-                        '</li>' +
-                        '<li> BY </li>' +
-                        '<li class="dropdown">' +
-                        '<a class="dropdown-toggle" data-toggle="dropdown">' +
-                        '<span id="dimensionLabel">{{dimensions}}</span>' +
-                        '</a>' +
-                        '<ul id="dimensionOptions" aria-labelledby="myTabDrop1" role="menu" class="dropdown-menu">' +
-                        '<li><a data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="AGE"> AGE </a></li>' +
-                        '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="GENDER">' +
-                        'GENDER </a></li>' +
-                        '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="INMARKET">' +
-                        'INMARKET </a></li>' +
-                        '</ul>' +
-                        '</li>' +
+                    template:
+                        '<ul class="nav navbar-nav">' +
+                            '<li class="dropdown">' +
+                                '<a class="dropdown-toggle" data-toggle="dropdown">' +
+                                    '<span id="measuresLabel" >{{measures}}</span>' +
+                                '</a>' +
+                                '<ul class="dropdown-menu" ' +
+                                    'role="menu" ' +
+                                    'aria-labelledby="myTabDrop1" ' +
+                                    'id="measuresOptions">' +
+                                    '<li>' +
+                                        '<a href="javascript://" ' +
+                                            'tabindex="-1" ' +
+                                            'role="tab" ' +
+                                            'data-toggle="" ' +
+                                            'rel="IMPRESSIONS">' +
+                                            ' IMPRESSIONS ' +
+                                        '</a>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<a href="javascript://" ' +
+                                            'tabindex="-1" ' +
+                                            'role="tab" ' +
+                                            'data-toggle="" ' +
+                                            'rel="CTR">' +
+                                            ' CTR ' +
+                                        '</a>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<a href="javascript://" ' +
+                                            'tabindex="-1" ' +
+                                            'role="tab" ' +
+                                            'data-toggle="" ' +
+                                            'rel="CVR">' +
+                                            ' CVR ' +
+                                        '</a>' +
+                            '       </li>' +
+                                '</ul>' +
+                            '</li>' +
+                            '<li> BY </li>' +
+                            '<li class="dropdown">' +
+                                '<a class="dropdown-toggle" data-toggle="dropdown">' +
+                                    '<span id="dimensionLabel">{{dimensions}}</span>' +
+                                '</a>' +
+                                '<ul id="dimensionOptions" ' +
+                                    'aria-labelledby="myTabDrop1" ' +
+                                    'role="menu" ' +
+                                    'class="dropdown-menu">' +
+                                    '<li>' +
+                                        '<a data-toggle="" ' +
+                                            'role="tab" ' +
+                                            'tabindex="-1" ' +
+                                            'href="javascript://" ' +
+                                            'rel="AGE">' +
+                                            ' AGE ' +
+                                        '</a>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<a style="" ' +
+                                            'data-toggle="" ' +
+                                            'role="tab" ' +
+                                            'tabindex="-1" ' +
+                                            'href="javascript://" ' +
+                                            'rel="GENDER">' +
+                                            'GENDER' +
+                                        '</a>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<a style="" ' +
+                                            'data-toggle="" ' +
+                                            'role="tab" ' +
+                                            'tabindex="-1" ' +
+                                            'href="javascript://" ' +
+                                            'rel="INMARKET">' +
+                                            'INMARKET' +
+                                        '</a>' +
+                                    '</li>' +
+                                '</ul>' +
+                            '</li>' +
                         '</ul>' +
                         '<button type="button" class="close" data-dismiss="widget">' +
-                        '<span aria-hidden="true">&times;</span>' +
-                        '<span class="sr-only">Close</span>' +
+                            '<span aria-hidden="true">&times;</span>' +
+                            '<span class="sr-only">Close</span>' +
                         '</button>',
 
-                    link: function ($scope, elem, attrs) {
-                        elem.find('#measuresOptions li a').bind('click', function (e) {
+                    link: function ($scope, elem) {
+                        elem.find('#measuresOptions li a').bind('click', function () {
                             var measureText = $(this).attr('rel');
 
                             elem.find('#measuresLabel').html(measureText);
+
                             $scope.$apply($scope.$parent.changeAudienceKPI(measureText.toLowerCase(),
                                 elem.find('#dimensionLabel').text().toLowerCase(), $scope.updateTo));
                         });
 
-                        elem.find('#dimensionOptions li a').bind('click', function (e) {
+                        elem.find('#dimensionOptions li a').bind('click', function () {
                             var dimensionText = $(this).attr('rel');
 
                             elem.find('#dimensionLabel').html(dimensionText);
+
                             $scope.$apply($scope.$parent.changeAudienceKPI(
                                 elem.find('#measuresLabel').text().toLowerCase(),
                                 dimensionText.toLowerCase(), $scope.updateTo)
@@ -173,40 +233,92 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         updateTo: '='
                     },
 
-                    template: '<ul class="nav navbar-nav">' +
-                        '<li class="dropdown">' +
-                        '<a class="dropdown-toggle" data-toggle="dropdown">' +
-                        '<span id="measuresLabel" >{{measures}}</span>' +
-                        '</a>' +
-                        '<ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="measuresOptions">' +
-                        '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="IMPRESSIONS">' +
-                        'IMPRESSIONS </a></li>' +
-                        '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CTR"> CTR </a></li>' +
-                        '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CVR"> CVR </a></li>' +
-                        '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="SPEND">' +
-                        'SPEND </a></li>' +
-                        '</ul>' +
-                        '</li>' +
-                        '<li> BY </li>' +
-                        '<li class="dropdown">' +
-                        '<a class="dropdown-toggle" data-toggle="dropdown">' +
-                        '<span id="dimensionLabel">{{dimensions}}</span>' +
-                        '</a>' +
-                        '<ul id="dimensionOptions" aria-labelledby="myTabDrop1" role="menu" class="dropdown-menu">' +
-                        '<li><a data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="REGION">' +
-                        'REGION </a></li>' +
-                        '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="SITES">' +
-                        'SITES </a></li>' +
-                        '</ul>' +
-                        '</li>' +
+                    template:
+                        '<ul class="nav navbar-nav">' +
+                            '<li class="dropdown">' +
+                                '<a class="dropdown-toggle" data-toggle="dropdown">' +
+                                    '<span id="measuresLabel" >{{measures}}</span>' +
+                                '</a>' +
+                                '<ul class="dropdown-menu" ' +
+                                    'role="menu" ' +
+                                    'aria-labelledby="myTabDrop1" ' +
+                                    'id="measuresOptions">' +
+                                    '<li>' +
+                                        '<a href="javascript://" ' +
+                                            'tabindex="-1" ' +
+                                            'role="tab" ' +
+                                            'data-toggle="" ' +
+                                            'rel="IMPRESSIONS">' +
+                                            'IMPRESSIONS' +
+                                        '</a>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<a href="javascript://" ' +
+                                            'tabindex="-1" ' +
+                                            'role="tab" ' +
+                                            'data-toggle="" ' +
+                                            'rel="CTR">' +
+                                            'CTR' +
+                                        '</a>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<a href="javascript://" ' +
+                                            'tabindex="-1" ' +
+                                            'role="tab" ' +
+                                            'data-toggle="" ' +
+                                            'rel="CVR">' +
+                                            ' CVR ' +
+                                        '</a>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<a href="javascript://" ' +
+                                            'tabindex="-1" ' +
+                                            'role="tab" ' +
+                                            'data-toggle="" ' +
+                                            'rel="SPEND">' +
+                                            'SPEND' +
+                                        '</a>' +
+                                    '</li>' +
+                                '</ul>' +
+                            '</li>' +
+                            '<li> BY </li>' +
+                            '<li class="dropdown">' +
+                                '<a class="dropdown-toggle" data-toggle="dropdown">' +
+                                    '<span id="dimensionLabel">{{dimensions}}</span>' +
+                                '</a>' +
+                                '<ul id="dimensionOptions" ' +
+                                    'aria-labelledby="myTabDrop1" ' +
+                                    'role="menu" ' +
+                                    'class="dropdown-menu">' +
+                                    '<li>' +
+                                        '<a data-toggle="" ' +
+                                            'role="tab" ' +
+                                            'tabindex="-1" ' +
+                                            'href="javascript://" ' +
+                                            'rel="REGION">' +
+                                            'REGION' +
+                                        '</a>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<a style="" ' +
+                                            'data-toggle="" ' +
+                                            'role="tab" ' +
+                                            'tabindex="-1" ' +
+                                            'href="javascript://" ' +
+                                            'rel="SITES">' +
+                                            'SITES' +
+                                        '</a>' +
+                                    '</li>' +
+                                '</ul>' +
+                            '</li>' +
                         '</ul>' +
                         '<button type="button" class="close" data-dismiss="widget">' +
-                        '<span aria-hidden="true">&times;</span>' +
-                        '<span class="sr-only">Close</span>' +
+                            '<span aria-hidden="true">&times;</span>' +
+                            '<span class="sr-only">Close</span>' +
                         '</button>',
 
-                    link: function ($scope, elem, attrs) {
-                        elem.find('#measuresOptions li a').bind('click', function (e) {
+                    link: function ($scope, elem) {
+                        elem.find('#measuresOptions li a').bind('click', function () {
                             var measureText = $(this).attr('rel');
 
                             elem.find('#measuresLabel').html(measureText);
@@ -214,7 +326,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                                 elem.find('#dimensionLabel').text().toLowerCase(), $scope.updateTo));
                         });
 
-                        elem.find('#dimensionOptions li a').bind('click', function (e) {
+                        elem.find('#dimensionOptions li a').bind('click', function () {
                             var dimensionText = $(this).attr('rel');
 
                             elem.find('#dimensionLabel').html(dimensionText);
@@ -236,13 +348,19 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         lstCampaign: '='
                     },
 
-                    template: '<span ng-show="(txt.length > txtLength)" tooltip-placement="top" tooltip="{{txt}}" ' +
-                        'ng-bind-html="txtHtml|limitTo:txtLength  + \'...\'"></span>' +
-                        '<span  class="campaign_name_txt" ng-show="(txt.length <= txtLength)" ng-bind-html="txtHtml">' +
+                    template:
+                        '<span ng-show="(txt.length > txtLength)" ' +
+                            'tooltip-placement="top" ' +
+                            'tooltip="{{txt}}" ' +
+                            'ng-bind-html="txtHtml|limitTo:txtLength  + \'...\'">' +
+                        '</span>' +
+                        '<span  class="campaign_name_txt" ' +
+                            'ng-show="(txt.length <= txtLength)" ' +
+                            'ng-bind-html="txtHtml">' +
                         '</span>',
 
-                    link: function (scope, element, attrs, modelCtrl) {
-                        element.on('click', function (event) {
+                    link: function (scope, element) {
+                        element.on('click', function () {
                             campaignListService.setListCampaign(scope.lstCampaign);
                         });
                     }
@@ -258,10 +376,12 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         className: '@className'
                     },
 
-                    template: '<span ng-show="(txt.length > 0 )" ' +
-                                    'tooltip-placement="bottom" ' +
-                                    'tooltip="{{txt}}" ' +
-                                    'class="{{className}}"></span>'
+                    template:
+                        '<span ng-show="(txt.length > 0 )" ' +
+                            'tooltip-placement="bottom" ' +
+                            'tooltip="{{txt}}" ' +
+                            'class="{{className}}">' +
+                        '</span>'
                 };
             })
 
@@ -269,7 +389,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                 return {
                     restrict: 'A',
 
-                    link: function (scope, element, attrs, modelCtrl) {
+                    link: function (scope, element) {
                         element.on('keypress keyup blur', function (evt) {
                             var charCode = (evt.which) ? evt.which : window.event.keyCode;
 
@@ -288,29 +408,31 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
             .directive('validNumber', function() {
                 return {
                     require: '?ngModel',
+
                     link: function(scope, element, attrs, ngModelCtrl) {
                         if(!ngModelCtrl) {
                             return;
                         }
 
                         ngModelCtrl.$parsers.push(function(val) {
-                            if (angular.isUndefined(val)) {
-                                var val = '';
+                            var clean = val.replace(/[^-0-9\.]/g, ''),
+                                negativeCheck = clean.split('-'),
+                                decimalCheck = clean.split('.');
+
+                            if (angular.isUndefined(val)) { // jshint ignore:line
+                                val = '';
                             }
 
-                            var clean = val.replace(/[^-0-9\.]/g, '');
-                            var negativeCheck = clean.split('-');
-                            var decimalCheck = clean.split('.');
-                            if(!angular.isUndefined(negativeCheck[1])) {
+                            if (!angular.isUndefined(negativeCheck[1])) { // jshint ignore:line
                                 negativeCheck[1] = negativeCheck[1].slice(0, negativeCheck[1].length);
                                 clean =negativeCheck[0] + '-' + negativeCheck[1];
+
                                 if(negativeCheck[0].length > 0) {
                                     clean =negativeCheck[0];
                                 }
-
                             }
 
-                            if(!angular.isUndefined(decimalCheck[1])) {
+                            if (!angular.isUndefined(decimalCheck[1])) { // jshint ignore:line
                                 decimalCheck[1] = decimalCheck[1].slice(0,2);
                                 clean =decimalCheck[0] + '.' + decimalCheck[1];
                             }
@@ -333,29 +455,24 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
 
             .directive('inputCommaSeparatorThousands', function ($filter) {
                 return {
-                        require: '?ngModel',
-                        link: function (scope, elem, attrs, ctrl) {
+                    require: '?ngModel',
 
-                            if (!ctrl) {
-                                return;
+                    link: function (scope, elem, attrs, ctrl) {
+                        if (!ctrl) {
+                            return;
+                        }
+
+                        ctrl.$parsers.unshift(function (viewValue) {
+                            var plainNumber = viewValue.replace(/[\,\.]/g, ''),
+                                b = $filter('number')(plainNumber);
+
+                            if ( b !== 0 ) {
+                                elem.val(b);
                             }
 
-                            // ctrl.$formatters.unshift(function () {
-                            //     return $filter('number')(ctrl.$modelValue);
-                            // });
-                            ///[\,\.]/g, ''
-
-                            ctrl.$parsers.unshift(function (viewValue) {
-                                var plainNumber = viewValue.replace(/[\,\.]/g, ''),
-                                    b = $filter('number')(plainNumber);
-                                if( b != 0 ) {
-                                    elem.val(b);
-                                }
-
-                                return plainNumber;
-
-                            });
-                        }
+                            return plainNumber;
+                        });
+                    }
                 };
             })
 
@@ -363,7 +480,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                 return {
                     restrict: 'A',
 
-                    link: function (scope, element, attrs, modelCtrl) {
+                    link: function (scope, element) {
                         element.on('keypress keyup blur', function (evt) {
                             var charCode = (evt.which) ? evt.which : window.event.keyCode;
 
@@ -393,6 +510,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             }
 
                             transformedInput = inputValue.replace(/[^a-zA-Z0-9 _-]/gi, '');
+
                             if (transformedInput !== inputValue) {
                                 modelCtrl.$setViewValue(transformedInput);
                                 modelCtrl.$render();
@@ -421,24 +539,20 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     restrict: 'A',
                     require: 'ngModel',
 
-                    link: function (scope, element, attrs, modelCtrl) {
-                         var clearBtn = element.parent().find(".searchClearInputBtn");
+                    link: function (scope, element) {
+                         var clearBtn = element.parent().find('.searchClearInputBtn');
+
                         element.on('keyup blur', function (evt) {
                             var searchInpVal = evt.target.value;
+
                             clearBtn.toggle(Boolean(searchInpVal));
                         });
-                        
+
                         clearBtn.on('click', function(ev) {
                             $(ev.currentTarget).hide();
-                        })
-                        
+                        });
                     }
                 };
-            })
-
-           
-
-
-       
+            });
     }
 );
