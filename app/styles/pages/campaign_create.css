@@ -1920,9 +1920,9 @@
   cursor: not-allowed;
 }
 #campaignCreate .firstWrapper .masterContainer .tableEdit .dropdown-toggle.btn[disabled] .icon-arrow-down {
-  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eee 65%);
-  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eee 65%);
-  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #eee 54%);
+  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eeeeee 65%);
+  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eeeeee 65%);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #eeeeee 54%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eee', endColorstr='#eee', GradientType=1);
 }
 #campaignCreate .firstWrapper .masterContainer .showAddCreditForm {
@@ -3033,16 +3033,6 @@
   margin: 3px 0 10px 0;
   width: auto;
 }
-#campaignCreate .firstWrapper .masterContainer .marginCal .calTable .onlyShowValue {
-  float: left !important;
-  margin: 0 !important;
-  width: 100%;
-  border-radius: 2px;
-  background: #E6E6E6;
-  border: 1px solid #BFC9D7;
-  text-align: left;
-  padding: 7px 10px;
-}
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable span {
   float: left;
   margin: 0 0 0 5px;
@@ -3338,6 +3328,9 @@
 }
 #campaignCreate .platformSlide .platform-custom .eachBuyingSection .platformHeading {
   margin-top: 30px;
+}
+#campaignCreate .platformSlide .platform-custom .eachBuyingSection .onlyShowValue {
+  width: 100px ;
 }
 #campaignCreate .platformSlide .platform-custom .buying_strategy_div {
   display: block;
