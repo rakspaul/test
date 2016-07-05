@@ -758,8 +758,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     campaignOverView.getAdsInAdGroup($routeParams.campaignId, adGrpId, index);
                 }
             };
-
-            $scope.createAdGrp = function () {
+            //reset and open ad group box
+            $scope.createAdGroup = function () {
                 var adGroupCreateformElem = $('.adGroupSelectionWrap').find('.adGroupCreate').find('form'),
                     campaignAdsData,
                     startDateElem,
@@ -783,6 +783,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 $scope.showCreateAdGrp = !$scope.showCreateAdGrp;
                 adGroupCreateformElem[0].reset();
+                
+                //TODO need to optimise the below 2 lines
+                $scope.adIGroupBudget = '';
+                $('#budgetIndividualAdGroup').val('');
+
                 $scope.$broadcast('show-errors-reset');
                 $('.adGroupSelectionWrap, .singleCardWrap').toggleClass('active');
                 $scope.createGroupMessage = false;
@@ -953,7 +958,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             };
 
-            $scope.createAdGroup = function (event) {
+            $scope.saveAdGroup = function (event) {
                 var formElem,
                     formData,
                     dataArray = [],
