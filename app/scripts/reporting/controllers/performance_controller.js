@@ -266,9 +266,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             if(!imps1 && !imps2){
                 return "0";
             }
-            var G_imps, L_imps;
-            (imps1 > imps2) ? (G_imps = imps1, L_imps = imps2) : (G_imps = imps2, L_imps = imps1);
-            return ((imps2 > imps1) ? "-" : '') + ((G_imps - L_imps) / G_imps) * 100;
+            return ((imps2 - imps1) / imps2) * 100;
         }
 
         $scope.getDiscrepancyImpsGap = function(vendorImps, adId){
@@ -286,9 +284,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                         }
                     });
                 }
-                return (vendorImps - _customctrl.selectedVendorImps[adId]);
+                return (_customctrl.selectedVendorImps[adId] - vendorImps);
             }else{
-                return (vendorImps - $scope.selectedVendorImps);
+                return ($scope.selectedVendorImps - vendorImps);
             }
         }
 
