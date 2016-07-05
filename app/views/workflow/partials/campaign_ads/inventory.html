@@ -126,7 +126,7 @@
                          id="{{'sort-icon-holder-' + inventory.id}}"
                          style="display: inline-block;
                          margin-top: 5px;">
-                        <span class="pull-left" data-ng-bind="(inventory.type === 'DOMAIN')?textConstants.DOMAIN:textConstants.APP"></span>
+                        <span class="pull-left" data-ng-bind="(inventory.inventoryType === 'DOMAIN')?textConstants.DOMAIN:textConstants.APP"></span>
                         <span class="pull-left common-sort-icon ascending"></span>
                     </div>
                 </div>
@@ -259,9 +259,9 @@
                 </h1>
                 <div class="pull-right allTypeLists">
                   <div class="btn-group create" role="group" aria-label="...">
-                      <button type="button" class="btn btn-default active" ><span data-ng-bind="textConstants.ALL_LISTS"></span></button>
-                      <button type="button" class="btn btn-default" ><span data-ng-bind="textConstants.DOMAIN_LISTS"></span></button>
-                      <button type="button" class="btn btn-default" ><span data-ng-bind="textConstants.APP_LISTS"></span></button>
+                      <button type="button" class="btn btn-default active" data-ng-click="filterInventoryList('ALL')"><span data-ng-bind="textConstants.ALL_LISTS"></span></button>
+                      <button type="button" class="btn btn-default" data-ng-click="filterInventoryList('DOMAIN')"><span data-ng-bind="textConstants.DOMAIN_LISTS"></span></button>
+                      <button type="button" class="btn btn-default" data-ng-click="filterInventoryList('APP')"><span data-ng-bind="textConstants.APP_LISTS"></span></button>
                     </div>
                 </div>
             </div>
@@ -278,7 +278,7 @@
                     </div>
                     <ul class="col-md-12 zeroPadding domain-lists">
                         <li ng-repeat="inventoryData in workflowData.inventoryData |
-                            filter: {domainAction: adData.inventory.domainAction, name: adData.domainListsSearch}"
+                            filter: {domainAction: adData.inventory.domainAction, name: adData.domainListsSearch,inventoryType: inventry.inventoryType}"
                             class="selected">
                             <input class="checkboxcls"
                                    type="checkbox"

@@ -748,7 +748,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/advertisers/' + advertiserId +
-                        '/inventory_lists?inventoryType=DOMAIN&sortBy=name&sortOrder=asc';
+                        '/inventory_lists?inventoryType=ALL&sortBy=name&sortOrder=asc';
 
                     return dataService.fetch(url);
                 },
