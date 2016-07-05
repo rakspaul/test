@@ -14,17 +14,17 @@
 
     <!--Column 3-->
     <div class="col-md-5" style="padding-left:106px;">
-        <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.12); margin-bottom: 10px; text-align:center; padding: 0 0 10px 0;">
+        <div class="col-md-12 dropdown-workflow compareDropdownCnt">
             <span >Compare To</span>
 
-            <span class="dropdown" style="text-align:left;">
-                <button style="padding: 0px; border-width: 0; background: #fff !important; margin-top: 1px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <span class="dropdown dropdownCmp">
+                <button style="" class="btn btn-default dropdown-toggle compareToButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <span class="text" ng-bind="selectedVendor ? selectedVendor : 'All Types'" style="color:#313233;"></span>
-                    <span class="icon-arrow-down" style="font-size: 9px; color: #000;"></span>
+                    <span class="icon-arrow-down icon" style=""></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
                     <li ng-repeat="vendor in vendorList">
-                        <a ng-click="select_vender_option(vendor.name)" ng-bind="vendor.name" style="padding:0px;"></a>
+                        <a ng-click="select_vender_option(vendor.name)" ng-bind="vendor.name" ></a>
                     </li>
                 </ul>
                 <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden />
