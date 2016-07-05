@@ -13,6 +13,10 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             _curCtrl.verifyInput = function () {
                 var ret = true;
 
+                if ($scope.advertiserCodeExist) {
+                   return false;
+                }
+
                 if (!$scope.advertiserName || $scope.advertiserName.trim() === '') {
                     $rootScope.setErrAlertMessage(constants.ADVERTISER_FEILD_EMPTY);
                     ret = false;

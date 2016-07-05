@@ -1065,23 +1065,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     return labelArr;
                 },
 
-                validateUrl: function (url) {
-                    var re =
-                        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
-
-                    return re.test(url);
-                },
-
-                validateTag:function (scriptTag) {
-                    var pattern = new RegExp(/.*(https:).*/),
-                            tagLower = scriptTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
-                        if (tagLower.match(pattern)) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                },
-
                 processVendorConfig: function (data) {
                     var processedData = {},
                         i,
