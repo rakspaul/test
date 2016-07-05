@@ -1,2 +1,1 @@
-
-var advertiserModule = angular.module('advertiserModule', ['commonModule','lrInfiniteScroll']);
+var advertiserModule = angular.module('advertiserModule', ['commonModule', 'lrInfiniteScroll']); // jshint ignore:line
