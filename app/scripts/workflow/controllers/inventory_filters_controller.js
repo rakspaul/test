@@ -167,8 +167,9 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 InventoryFiltersView.getAdvertisersDomainList(args[0].clientId, args[0].advertiserId);
             });
 
-            $scope.selectFiles = function(files, action) {
+            $scope.selectFiles = function(files, action,type) {
                 if (files) {
+                    (type === 'DOMAIN')?$scope.fileType = 'DOMAIN':$scope.fileType = 'APP'
                     if (files.length > 0) {
                         // Prevent window from scrolling while popup overlay is showing
                         $('body').css({
@@ -294,7 +295,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 $scope.showExistingListPopup = false;
             };
 
-            $scope.uploadDomain = function() {
+            $scope.uploadDomain = function(uploadType) {
                 var domainId = $scope.adData.inventory && $scope.adData.inventory.id || null,
                     files = $scope.files,
                     i,
@@ -318,7 +319,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                                     fields: {
                                         'name': $scope.adData.listName,
                                         'domainAction': $scope.adData.inventory.domainAction,
-                                        'inventoryType' : 'DOMAIN',
+                                        'inventoryType' : uploadType ,
                                         'updatedAt': $scope.adData.inventory ? $scope.adData.inventory.updatedAt : ''
                                     },
 

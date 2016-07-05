@@ -800,6 +800,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CSVTXTFILE = '(.csv, .txt file)';
         this.DOMAINLIST = 'Domain List';
         this.DOMAIN = 'Domain';
+        this.APP = 'App';
         this.UPLOAD_BLACK_LIST = 'Upload Blacklist';
         this.UPLOAD_WHITE_LIST = 'Upload Whitelist';
         this.FILENAME = 'File Name';
@@ -812,7 +813,8 @@ define(['angularAMD'], function(angularAMD) {
         this.LISTYPEMOD = 'List type cannot be modified. ';
         this.IMPORT = 'Import';
         this.INVENTORY_REPLACE_CURRENT_LIST = 'Replace Current List';
-        this.INVENTORY_UPLOAD_NEW = 'Upload New';
+        this.INVENTORY_UPLOAD_NEW_DOMAIN = 'Upload Domain list';
+        this.INVENTORY_UPLOAD_NEW_APP = 'Upload App List';
         this.INVENTORY_SELECTED_DOMAIN_LISTS = 'Selected domain Lists';
         this.INVENTORY_SELECT_FROM_EXISTING = 'Select from Existing';
         this.ACTIVITIES = 'Activities';
