@@ -555,19 +555,23 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 },
 
                 getCreativeData: function (id, client_id) {
-                    var clientId;
-
-                    if (client_id) {
-                        clientId = client_id;
-                    } else {
-                        clientId = loginModel.getSelectedClient().id;
-                    }
+                    var clientId = client_id || loginModel.getSelectedClient().id,
+                        qryStr = '/clients/' + clientId + '/creatives/' + id;
 
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/creatives/' + id);
                 },
 
+                getCreativePreViewData : function(params) {
+                    var str,
+                        qryStr;
+
+                    str = (params.campaignId && params.adId) ? ('?campaignId/' + params.campaignId + '/adId/' + params.adId) : '';
+                    qryStr = '/clients/' + params.clientId + '/advertisers/'+ params.advertiserId + '/creatives/' + params.creativeId + '/preview' + str;
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        qryStr );
+                },
 
                 forceSaveCreatives: function (clientId, adId, data) {
                     clientId = loginModel.getSelectedClient().id;
