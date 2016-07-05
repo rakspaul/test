@@ -891,8 +891,12 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.PAUSED = 'Paused';
         this.CHOOSEONE = 'Choose One';
         this.BROWSER = 'Browser';
+        this.APP = 'App';
         this.APPS = 'Apps';
         this.NEXT = 'Next';
+        this.APP_LISTS = 'App Lists';
+        this.DOMAIN_LISTS = 'Domain Lists';
+        this.ALL_LISTS = 'All Lists';
         this.STEPSETTING = '1. Setting';
         this.STEPBUYINGPLAT = '2. Buying Platform';
         this.STEPTARGETTING = '3. Targetting';
