@@ -1,8 +1,8 @@
 define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
     'workflow/services/workflow_service', 'workflow/services/creative_custom_module', 'login/login_model',
-    'workflow/directives/creative_drop_down', 'workflow/directives/ng_upload_hidden'], function (angularAMD) {
+    'common/utils', 'workflow/directives/creative_drop_down', 'workflow/directives/ng_upload_hidden'], function (angularAMD) {
     angularAMD.controller('CreativeController', function ($scope, $rootScope, $routeParams, $location, constants,
-                                                         workflowService, creativeCustomModule, loginModel) {
+                                                         workflowService, creativeCustomModule, loginModel, utils) {
         $scope.IncorrectClickThru=false;
         var validTag = false,
             postCrDataObj = {},
@@ -705,7 +705,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
                         if (d[0] === 'clickthrough_url.clickthrough_url' && data.value !== '') {
                            // validate if the url is valid
-                           validCreativeUrl = workflowService.validateUrl(data.value);
+                           validCreativeUrl = utils.validateUrl(data.value);
 
                            if (validCreativeUrl === false) {
                                $('[name = "' + data.name + '"]')
@@ -725,7 +725,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                                         'class="col-sm-12 control-label errorLabel" ' +
                                         'style="display: block">Please enter a Script tag.</label>');
                             }else{
-                                validateTag = workflowService.validateTag(data.value);
+                                validateTag = utils.validateTag(data.value);
                                 if (validateTag === false) {
                                     $('[name = "' + data.name + '"]')
                                         .parent()
