@@ -497,6 +497,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
         // Generate the Template
         $scope.onTemplateSelected = function (templateJson, customFieldsDataEditMode, flag) {
+            console.log(templateJson);
             var creativeTemplateWrap = $('.creativeTemplate'),
                 i,
                 index;
@@ -505,15 +506,34 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             $scope.CreativeTemplate = templateJson;
             $scope.isTrackingCreative = templateJson.isTracking;
             $scope.adData.creativeTemplate = templateJson.id;
+
+            if(templateJson){
+                var supportedList=''
+                for(var i=0;i<templateJson.supportedTags.length;i++){
+                    supportedList=(supportedList.length>0)?(supportedList+','+templateJson.supportedTags[i]):templateJson.supportedTags[i];
+                }
+                console.log(supportedList)
+                if(templateJson.creativeTemplateCustomInputJson && templateJson.creativeTemplateCustomInputJson.platformCustomInputNamespaceList[0] && templateJson.creativeTemplateCustomInputJson.platformCustomInputNamespaceList[0].platformCustomInputGroupList.length>0){
+                  var  inputElements=templateJson.creativeTemplateCustomInputJson.platformCustomInputNamespaceList[0].platformCustomInputGroupList;
+                    for(var i=0;i<inputElements.length;i++){
+                        if(inputElements[i].name='tag_types' && inputElements[i].platformCustomInputList){
+                            inputElements[i].platformCustomInputList[0].supportedTags=supportedList;
+                        }
+                    }
+                }
+                console.log(templateJson);
+                templateJson.creativeTemplateCustomInputJson.platformCustomInputNamespaceList[0].platformCustomInputGroupList=inputElements;
+            }
+
             creativeCustomModule.init(templateJson, creativeTemplateWrap, $scope, customFieldsDataEditMode);
 
             //code to enable the supported tagTypes for the particular template
-            $scope.creativeSizeData.tagTypes = [
-                {id: 1, name: 'HTML', active: false, disabled:true},
-                {id: 2, name: 'JS',   active: false, disabled:true},
-                {id: 3, name: 'VAST', active: false, disabled:true}
-            ];
-
+            // $scope.creativeSizeData.tagTypes = [
+            //     {id: 1, name: 'HTML', active: false, disabled:true},
+            //     {id: 2, name: 'JS',   active: false, disabled:true},
+            //     {id: 3, name: 'VAST', active: false, disabled:true}
+            // ];
+            //
             // if (templateJson) {
             //     for (i = 0; i < templateJson.supportedTags.length; i++) {
             //         index = _.findIndex($scope.creativeSizeData.tagTypes, function (obj) { // jshint ignore:line
@@ -539,7 +559,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             //             $scope.creativeSizeData.tagTypes[index].active = true;
             //         }
             //     }
-            // }
+            //  }
         };
 
         $scope.creativePopularSizes = [
@@ -641,6 +661,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                  postCrDataObj.sizeId = formData.creativeSize;
                 // postCrDataObj.creativeType = formData.creativeType;
                  postCrDataObj.creativeTemplateId = formData.creativeTemplate;
+                postCrDataObj.creativeCustomInputs=[];
 /*newly commented
                 validateScriptTag(formData.tag);
 
@@ -679,7 +700,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
                     $scope.IncorrectTag = false;
 
-                    postCrDataObj.creativeCustomInputs = _.map(templateArr, function (data) { // jshint ignore:line
+                var creativeCustomInputsArr= _.map(templateArr, function (data) { // jshint ignore:line
                         var d = data.name.split('$$');
 
                         if (d[0] === 'clickthrough_url.clickthrough_url' && data.value !== '') {
@@ -715,14 +736,21 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                             }
 
                         }
+                        if(data.value!==''){
+                            return {
+                                creativeCustomInputId: Number(d[1]),
+                                value: data.value
+                            };
+                        }
 
-                        return {
-                            creativeCustomInputId: Number(d[1]),
-                            value: data.value
-                        };
                     });
 
                     if (validCreativeUrl && validateTag) {
+                        _.each(creativeCustomInputsArr,function (obj) {
+                            if(obj){
+                                postCrDataObj.creativeCustomInputs.push(obj)
+                            }
+                        })
                         $scope.creativeSave(postCrDataObj);
                     }
                 //}

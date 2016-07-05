@@ -8,6 +8,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
             createInputElem = function (inputList, idx, scope) {
                 var inputWrapper,
                     options,
+                    supportedTag,
                     LabelHtml,
                     fieldLabel,
                     toggleLabel;
@@ -80,6 +81,9 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                     // Split the range Json to get all possible values for toggle
                     options = inputList.rangeJson.split(',');
 
+                    //split the supported tags into an array
+                    supportedTag=inputList.supportedTags.split(',');
+
                     // for each value to be shown on toggle
                     toggleLabel='';
 
@@ -100,6 +104,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                                 .addClass('btn btn-default')
                                 .addClass((activeToggleIdx >= 0) ? ((activeToggleIdx === idx) ? 'active' : '') :
                                     (inputList.defaultValue !== '') ? '' : (idx === 0?'active':''))
+                                .addClass((supportedTag.indexOf(option) == -1 )?'disabled':'')
                                 .text(option)
                                 .on('click', function () {
                                     var target = $(event.target),

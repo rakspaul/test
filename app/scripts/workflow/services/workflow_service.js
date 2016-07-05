@@ -526,7 +526,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 },
 
                 getTemplates: function (adServer, format,platformId) {
-                  var executionId = platformId?'&executionPlatform='+platformId:'';
+                  var executionId = platformId?'&executionVendorId='+platformId:'';
                         return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/vendors/' + adServer.id +
                             '/templates?format=' + format.toUpperCase() + executionId);
@@ -594,7 +594,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         url,
                         canceller;
                     state = state ? '&status=READY' : '',
-                    platformId = platformId ? '&executionPlatform='+platformId : '';
+                    platformId = platformId ? '&executionVendorId='+platformId : '';
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
