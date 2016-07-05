@@ -1,23 +1,26 @@
-define(['../app','login/login_service','common/utils','common/services/constants_service','common/services/role_based_service','login/login_model'],function (app) {
+define(['../app','login/login_service','common/utils','common/services/constants_service', // jshint ignore:line
+    'common/services/role_based_service','login/login_model'],function (app) {
     'use strict';
-    app.controller('loginController', function ($scope, $sce, loginService, utils, constants, RoleBasedService, loginModel) {
+
+    app.controller('loginController', function ($scope, $sce, loginService, utils, constants, RoleBasedService,
+                                                loginModel) {
         var browserNameList = '',
             supportedBrowser = [
                 {
                     name: 'Chrome',
-                    'version': 36
+                    version: 36
                 },
                 {
                     name: 'Firefox',
-                    'version': 35
+                    version: 35
                 },
                 {
                     name: 'Internet Explorer',
-                    'version': 10
+                    version: 10
                 },
                 {
                     name: 'Safari',
-                    'version': 8
+                    version: 8
                 }
             ];
 
@@ -25,7 +28,7 @@ define(['../app','login/login_service','common/utils','common/services/constants
         $scope.loadingClass = '';
         $scope.loginErrorMsg = undefined;
         $scope.loginError = false;
-        $scope.version = version;
+        $scope.version = version; // jshint ignore:line
         $scope.showMessage = undefined;
         $scope.browserMessage = undefined;
         $scope.disabledFormFields = undefined;
@@ -42,6 +45,7 @@ define(['../app','login/login_service','common/utils','common/services/constants
                 $scope.dataLoading = true;
                 $scope.resetValidation();
                 $scope.loadingClass = 'loading';
+
                 loginService.loginAction($scope.username, $scope.password, function (response) {
                     var user;
 
@@ -56,6 +60,7 @@ define(['../app','login/login_service','common/utils','common/services/constants
                         $scope.error = response.data.message;
                         $scope.loginErrorMsg = response.data.message;
                         $scope.password = '';
+
                         switch ($scope.error) {
                             case 'Password invalid':
                             case 'User does not exist':
@@ -63,8 +68,8 @@ define(['../app','login/login_service','common/utils','common/services/constants
                                 break;
                             default:
                                 $scope.loginError = true;
-                            //$scope.loginErrorMsg = 'Network Problems';
                         }
+
                         $scope.loadingClass = '';
                         $scope.dataLoading = false;
                     }
@@ -87,16 +92,17 @@ define(['../app','login/login_service','common/utils','common/services/constants
         $scope.getBrowserNameList = function (supportedBrowser) {
             var lastCommaIndex;
 
-            browserNameList = _.pluck(supportedBrowser, 'name').join(',');
+            browserNameList = _.pluck(supportedBrowser, 'name').join(','); // jshint ignore:line
             lastCommaIndex = browserNameList.lastIndexOf(',');
             browserNameList = browserNameList.substr(0, lastCommaIndex) + ' or ' +
                 browserNameList.substr(lastCommaIndex + 1);
+
             return browserNameList + '.';
         };
 
         $scope.checkoutBrowserInfo = function () {
             var browserInfo = utils.detectBrowserInfo(),
-                findData = _.where(supportedBrowser, {
+                findData = _.where(supportedBrowser, { // jshint ignore:line
                     name: browserInfo.browserName
                 });
 

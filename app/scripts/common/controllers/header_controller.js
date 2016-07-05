@@ -1,6 +1,6 @@
-define(['angularAMD', 'common/services/constants_service', 'login/login_model', 'reporting/models/domain_reports',
-    'reporting/campaignSelect/campaign_select_model', 'common/services/role_based_service',
-    'workflow/services/workflow_service', 'common/services/features_service',
+define(['angularAMD', 'common/services/constants_service', 'login/login_model', // jshint ignore:line
+    'reporting/models/domain_reports', 'reporting/campaignSelect/campaign_select_model',
+    'common/services/role_based_service', 'workflow/services/workflow_service', 'common/services/features_service',
     'reporting/subAccount/sub_account_model'], function (angularAMD) {
     angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location, $modal,
                                                         constants, loginModel, domainReports, campaignSelectModel,
@@ -14,6 +14,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
             showSelectedMasterClient = function (evt, clientName) {
                 var elem = $(evt.target);
+
                 $('.accountsList-dropdown-li').find('.selected-li').removeClass('selected-li');
                 elem.addClass('selected-li');
                 $('.accountsList').find('.dd_txt').text(clientName);
@@ -22,34 +23,48 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $('#user-menu').show();
             },
 
-            setMasterClientData = function (id, name,isLeafNode) {
-                localStorageService.masterClient.set({'id': id, 'name': name,'isLeafNode':isLeafNode});
+            setMasterClientData = function (id, name, isLeafNode) {
+                localStorageService.masterClient.set({
+                    id: id,
+                    name: name,
+                    isLeafNode: isLeafNode
+                });
+
                 showSelectedMasterClient(event, name);
+
                 if (isLeafNode) {
-                    loginModel.setSelectedClient({'id': id, 'name': name});
+                    loginModel.setSelectedClient({
+                        id: id,
+                        name: name
+                    });
+
                     $scope.getClientData();
+
                     $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {
-                        'client': loginModel.getSelectedClient().id,
-                        'event_type': 'clicked'
+                        client: loginModel.getSelectedClient().id,
+                        event_type: 'clicked'
                     });
                 } else {
-                    subAccountModel.fetchSubAccounts('MasterClientChanged',function () {
+                    subAccountModel.fetchSubAccounts('MasterClientChanged', function () {
                         $scope.getClientData();
+
                         $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {
-                            'client': loginModel.getSelectedClient().id,
-                            'event_type': 'clicked'
+                            client: loginModel.getSelectedClient().id,
+                            event_type: 'clicked'
                         });
                     });
                 }
+
                 $scope.defaultAccountsName = name;
             };
 
         $scope.user_name = loginModel.getUserName();
-        $scope.version = version;
+        $scope.version = version; // jshint ignore:line
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
 
         $scope.getClientData = function () {
-            clientId = localStorageService.masterClient.get().id;
+            var clientId = localStorageService.masterClient.get().id;
+
             workflowService
                 .getClientData(clientId)
                 .then(function (response) {
@@ -69,7 +84,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             if (moduleObj && moduleObj.moduleName === 'WORKFLOW') {
                 if (localStorageService.masterClient.get().id !== id) {
                     $modalInstance = $modal.open({
-                        templateUrl: assets.html_change_account_warning,
+                        templateUrl: assets.html_change_account_warning, // jshint ignore:line
                         controller: 'AccountChangeController',
                         scope: $scope,
                         windowClass: 'delete-dialog',
@@ -179,7 +194,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             }
         };
 
-        $scope.hide_navigation_dropdown = function (event) {
+        $scope.hide_navigation_dropdown = function () {
             var mainMenuHolder = $('.main_navigation_holder');
 
             setTimeout(function () {
@@ -215,9 +230,12 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             workflowService
                 .getClients()
                 .then(function (result) {
+                    var preferredClient,
+                        campaignsClientData;
+
                     if (result && result.data.data.length > 0) {
-                        var preferred_client = RoleBasedService.getUserData().preferred_client,
-                            campaignsClientData = function (calledfrom) {
+                        preferredClient = RoleBasedService.getUserData().preferred_client,
+                            campaignsClientData = function () {
                                 if (Number($scope.selectedCampaign) === -1) {
                                     campaignSelectModel
                                         .getCampaigns(-1, {limit: 1, offset: 0})
@@ -227,26 +245,27 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                                             }
                                         });
                                 }
+
                                 $scope.getClientData();
                             };
 
                         $scope.accountsData = [];
 
-                        _.each(result.data.data, function (org) {
+                        _.each(result.data.data, function (org) { // jshint ignore:line
                             $scope.accountsData.push({
                                 id: org.id,
                                 name: org.name,
                                 isLeafNode: org.isLeafNode
                             });
 
-                            if (preferred_client !== undefined &&
-                                org.id === preferred_client &&
+                            if (preferredClient !== undefined &&
+                                org.id === preferredClient &&
                                 !localStorageService.masterClient.get()) {
                                 localStorageService.masterClient.set(org.id, org.name, org.isLeafNode);
                             }
                         });
 
-                        if (preferred_client === 0 && !localStorageService.masterClient.get()) {
+                        if (preferredClient === 0 && !localStorageService.masterClient.get()) {
                             localStorageService
                                 .masterClient
                                 .set(result.data.data[0].id, result.data.data[0].name, result.data.data[0].isLeafNode);
@@ -258,7 +277,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                             $scope.multipleClient = false;
                         }
 
-                        $scope.accountsData = _.sortBy($scope.accountsData, 'name');
+                        $scope.accountsData = _.sortBy($scope.accountsData, 'name'); // jshint ignore:line
 
                         if (localStorageService.masterClient.get() && localStorageService.masterClient.get().name) {
                             $scope.defaultAccountsName = localStorageService.masterClient.get().name;
@@ -266,7 +285,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                             $scope.defaultAccountsName = $scope.accountsData[0].name;
                         }
 
-                        if (angular.isUndefined(loginModel.getSelectedClient()) ||
+                        if (angular.isUndefined(loginModel.getSelectedClient()) || // jshint ignore:line
                             loginModel.getSelectedClient() === null) {
                             if (localStorageService.masterClient.get().isLeafNode) {
                                 loginModel.setSelectedClient({
@@ -283,18 +302,18 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                         } else {
                             campaignsClientData(3);
                         }
-                        //$rootScope.$broadcast(constants.ACCOUNT_CHANGED, clientId);
                     }
                 });
         }
 
-        /* Start Feature Permission */
+        // Start Feature Permission
         $rootScope.$on('features', function () {
             featurePermission();
             $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
         });
+
         featurePermission();
-        /* End Feature Permission */
+        // End Feature Permission
 
         $(function () {
             var closeMenuPopUs = function (event) {
@@ -403,6 +422,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 }
 
                 regionTooltipId = $(event.target).closest('li').attr('id');
+
                 if (regionTooltip.is(':visible') && regionTooltipId !== 'cityTab' && event.target.id !== 'tab_region') {
                     regionTooltip.hide();
                 }
@@ -413,7 +433,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     event.target.id !== 'sliding_dropdown_btn') {
                     quickFilters.toggle('slide', {direction: 'left'}, 500);
                 }
-
             };
 
             $(document).click(function (event) {
@@ -446,10 +465,16 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     winWidthMaster = $('body').width();
 
                 $('.mobileNavWrap, .mobileNav').css('height', winHeightMaster - 50);
-                mobileHideFunc.css({'height': winHeightMaster, 'width': winWidthMaster - 200});
+
+                mobileHideFunc.css({
+                    height: winHeightMaster,
+                    width: winWidthMaster - 200
+                });
+
                 $('.mobileNavWrap').show();
                 mobileHideFunc.fadeIn();
                 $('.mobileNav').show('slide', {direction: 'left'}, 300);
+
                 $('.icon-hamburger').css({
                     '-ms-transform': 'rotate(90deg)',
                     '-webkit-transform': 'rotate(90deg)',

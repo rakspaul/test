@@ -1,13 +1,13 @@
 var angObj = angObj || {};
 
-define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service', 'common/moment_utils',
-        'login/login_model', 'common/utils',
-        'common/controllers/accounts/accounts_add_or_edit_advertiser_controller', 'common/controllers/accounts/accounts_add_or_edit_brand_controller',
-        'common/controllers/accounts/accounts_add_or_edit_controller', 'workflow/directives/custom_date_picker'],
+define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service', // jshint ignore:line
+    'common/moment_utils', 'login/login_model', 'common/utils',
+    'common/controllers/accounts/accounts_add_or_edit_advertiser_controller',
+    'common/controllers/accounts/accounts_add_or_edit_brand_controller',
+    'common/controllers/accounts/accounts_add_or_edit_controller', 'workflow/directives/custom_date_picker'],
     function (angularAMD) {
-        angularAMD.controller('AccountsController', function ($scope, $rootScope, $modal, $compile, $sce,
-                                                              constants, accountsService, momentService,
-                                                              loginModel, utils) {
+        angularAMD.controller('AccountsController', function ($scope, $rootScope, $modal, $compile, $sce, constants,
+                                                              accountsService, momentService, loginModel, utils) {
             var _currCtrl = this;
 
             _currCtrl.verifyPixelInput = function () {
@@ -80,9 +80,11 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 pixelName: '',
                 pixelDate: momentService.todayDate('YYYY-MM-DD')
             };
+
             $scope.leavefocusPixelName = function(name){
                 $scope.pixelFormData.pixelCode = name.replace(utils.regExp().removeSpecialCharacterAndSpaces, '');
-            }
+            };
+
             function getPixelsData(clientId, advId) {
                 accountsService
                     .getPixelsUnderAdvertiser(clientId, advId)
@@ -90,7 +92,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                         if (res.data.status === 'OK' || res.data.status === 'success') {
                             $scope.advertiserData.pixels = res.data.data;
 
-                            _.each($scope.advertiserData.pixels, function (item, i) {
+                            _.each($scope.advertiserData.pixels, function (item, i) { // jshint ignore:line
                                 $scope.advertiserData.pixels[i].pixelTypeName =
                                     (item.pixelType === 'PAGE_VIEW') ? 'Action - Page View' :
                                         (item.pixelType === 'AUDIENCE_CREATION') ?
@@ -107,7 +109,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                                 $scope.advertiserData.clickLookbackWindow = item.clickLookbackWindow;
                             });
                         }
-                    },function (err) {
+                    },function () {
                     });
             }
 
@@ -173,8 +175,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
             $scope.showPixelTab = function () {
                 $scope.activeEditAdvertiserTab = 'pixel';
-                $('.createPixel, #pixelsCnt').show();
 
+                $('.createPixel, #pixelsCnt').show();
                 $('.basicForm, .IABForm').hide();
                 $('.miniTabLinks.sub .btn').removeClass('active');
                 $('.miniTabLinks.sub .subPixels').addClass('active');
@@ -183,8 +185,10 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
             $scope.addPixel = function () {
                 _currCtrl.setCalanderSetting();
+
                 $('#pixelExpDate').datepicker('setStartDate', momentService.getCurrentYear().toString());
                 $('.pixelCreate').slideDown();
+
                 $scope.pixelFormData.impLookbackWindow = $scope.pixelFormData.clickLookbackWindow = 14;
             };
 
@@ -204,7 +208,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                             'clickLookbackWindow'
                         ];
 
-                        _.each(keyArr,function (v) {
+                        _.each(keyArr,function (v) { // jshint ignore:line
                             $scope.advertiserData.pixels[$scope.pixelIndex][v] =  $scope.pixelFormData[v];
                         });
                     } else {
@@ -217,9 +221,10 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             };
 
             $scope.removePixel = function () {
-                $scope.advertiserData.pixels = _.filter($scope.advertiserData.pixels,function (item, i) {
-                    return i !== $scope.pixelIndex;
-                });
+                $scope.advertiserData.pixels =
+                    _.filter($scope.advertiserData.pixels,function (item, i) { // jshint ignore:line
+                        return i !== $scope.pixelIndex;
+                    });
 
                 $scope.clearPixel();
             };
@@ -257,10 +262,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.activeEditAdvertiserTab = 'iab';
             };
 
-            // TODO: Code for Add??
-            /*$scope.addIAB = function () {
-            };*/
-
             $scope.resetFlashMessage = function () {
                 $rootScope.setErrAlertMessage('', 0);
             };
@@ -268,7 +269,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.show_advertisers = function (event, clientId) {
                 var elem = $(event.target);
 
-                elem.closest('.each-account-details').find('.advertiser-list').toggle() ;
+                elem.closest('.each-account-details').find('.advertiser-list').toggle();
                 elem.closest('.each-account-details').find('.particular-account-box').toggleClass('open');
                 $scope.fetchAllAdvertisersforClient(clientId);
             };
@@ -310,6 +311,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                                             advertisersLoader: false
                                         };
                                     }
+
                                     $scope.clientId = clientId;
                                     $scope.clientsDetails[clientId].subclients = result;
                                 } else {
@@ -326,7 +328,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.show_advertisers_resp_brands = function (event, client, brand) {
                 var elem = $(event.target);
 
-                elem.closest('.each-advertiser').find('.advertiser-resp-brands-list').toggle() ;
+                elem.closest('.each-advertiser').find('.advertiser-resp-brands-list').toggle();
                 $scope.fetchBrands(client, brand);
             };
 
@@ -391,7 +393,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                             $('#client_' + clientId + '_adv').slideDown();
                         }, 25);
 
-                        index = _.findIndex($scope.clientsDetails, function (item) {
+                        index = _.findIndex($scope.clientsDetails, function (item) { // jshint ignore:line
                             return item.id === clientId;
                         });
 
@@ -488,18 +490,21 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                             $scope.advertiserData.clientId = client.id;
                             $scope.advertisersList = res.data.data;
                         }
-                    },function (err) {
+                    }, function (err) {
+                        console.log('Error = ', err);
                         loadTemplate = true;
                     });
 
                 var int = setInterval(function () {
                     var $modalInstance;
+
                     ($scope.isEditMode && !$scope.savedAdvertiserData && (loadTemplate = false));
+
                     if (loadTemplate) {
                         clearInterval(int);
 
                         $modalInstance = $modal.open({
-                            templateUrl: assets.html_accounts_add_or_edit_advertiser,
+                            templateUrl: assets.html_accounts_add_or_edit_advertiser, // jshint ignore:line
                             controller: 'AccountsAddOrEditAdvertiser',
                             scope: $scope,
                             windowClass: 'edit-dialog modalAccountRedx',
@@ -523,10 +528,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.advertiserId = advObj.id;
                 $('html, body').animate({scrollTop: 0}, 30);
 
-                // TODO: Code for edit brand???
-                /*if (mode === 'edit') {
-                }*/
-
                 accountsService
                     .getAdvertisersBrand(client.id, advObj.id)
                     .then(function (res) {
@@ -536,7 +537,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     });
 
                 modalInstance = $modal.open({
-                    templateUrl: assets.html_accounts_add_or_edit_brand,
+                    templateUrl: assets.html_accounts_add_or_edit_brand, // jshint ignore:line
                     controller: 'AccountsAddOrEditBrand',
                     scope: $scope,
                     windowClass: 'edit-dialog modalAccountRedx',
@@ -594,7 +595,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.clientObj = clientObj;
 
                 $modalInstance = $modal.open({
-                    templateUrl: assets.html_accounts_add_or_edit,
+                    templateUrl: assets.html_accounts_add_or_edit, // jshint ignore:line
                     controller: 'AccountsAddOrEdit',
                     scope: $scope,
                     windowClass: 'edit-dialog modalAccountRedx',
