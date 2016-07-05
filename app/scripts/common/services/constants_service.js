@@ -1,5 +1,5 @@
-define(['angularAMD'], function(angularAMD) {
-    angularAMD.service("constants", function($locale) {
+define(['angularAMD'], function(angularAMD) { // jshint ignore:line
+    angularAMD.service('constants', function($locale) {
         this.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
         this.CAMPAIGN_LIST_CANCELLER = 10;
         this.CAMPAIGN_FILTER_CANCELLER = 1;
@@ -8,9 +8,7 @@ define(['angularAMD'], function(angularAMD) {
         this.COST_CANCELLER = 2;
         this.DASHBOARD_CANCELLER = 3;
         this.GAUGE_CANCELLER = 4;
-        this.DASHBOARD_CAMPAIGNS_COUNT_CANCELLER = 5;
         this.SPEND_CHART_CANCELLER = 51;
-        this.SCREEN_CHART_CANCELLER = 52;
         this.BUBBLE_CHART_CAMPAIGN_CANCELLER = 53;
         this.INVENTORY_STRATEGY_CANCELLER = 54;
         this.INVENTORY_TACTC_CANCELLER = 55;
@@ -89,57 +87,56 @@ define(['angularAMD'], function(angularAMD) {
         this.GA_USER_CAMPAIGN_SELECTION = 'user_campaign_selection';
         this.GA_USER_STRATEGY_SELECTION = 'user_strategy_selection';
         this.GAUGE_PERFORMANCE = 1;
-        this.COOKIE_REDIRECT = "cdesk_redirect";
-        this.COOKIE_SESSION = "cdesk_session";
-        this.SPEND = "Spend";
-        this.IMPRESSIONS = "Impressions";
-        this.CTR = "CTR";
-        this.VTC = "VTC";
-        this.CPM = "CPM";
-        this.ESTREACH = "Estimated Pool Size";
-        this.CPC = "CPC";
-        this.CPA = "CPA";
-        this.ACTION_RATE = "Action Rate";
-        this.SCREENS = "Screens";
-        this.FORMATS = "Formats";
-        this.PLATFORMS = "Platforms";
-        this.CREATIVES = "Creatives";
-        this.VIDEO_PLAYS = "Video Plays";
-        this.AD_SIZES = "Ad Sizes";
-        this.DELETE_CREATIVES = "Are you sure you want to archive creatives?"
-        this.CPMV = "CPMv";
+        this.COOKIE_REDIRECT = 'cdesk_redirect';
+        this.COOKIE_SESSION = 'cdesk_session';
+        this.SPEND = 'Spend';
+        this.IMPRESSIONS = 'Impressions';
+        this.CTR = 'CTR';
+        this.VTC = 'VTC';
+        this.CPM = 'CPM';
+        this.ESTREACH = 'Estimated Pool Size';
+        this.CPC = 'CPC';
+        this.CPA = 'CPA';
+        this.ACTION_RATE = 'Action Rate';
+        this.SCREENS = 'Screens';
+        this.FORMATS = 'Formats';
+        this.PLATFORMS = 'Platforms';
+        this.CREATIVES = 'Creatives';
+        this.VIDEO_PLAYS = 'Video Plays';
+        this.AD_SIZES = 'Ad Sizes';
+        this.DELETE_CREATIVES = 'Are you sure you want to archive creatives?';
+        this.CPMV = 'CPMv';
 
-        this.OPEN_EXCHANGE =  "Open Exchange" ;
-        this.DEAL = "Deal" ;
-        this.DIRECT = "Direct" ;
-        this.PLACEMENT = "Placement" ;
-        this.GROUP = "Group" ;
-        this.PUBLISHER = "Publisher" ;
-        this.SELECT_TYPE = "Select Type" ;
-        this.CHOOSE_TARGETTED_PLACEMENTS = "Choose targeted placements from the list below" ;
-        this.CAMPAIGN_PRIORITY = "Campaign Priority" ;
-        this.BID_CPM = "Bid CPM" ;
-        this.ENTER_DEAL_ID = "You have chosen to bid with private deal. Enter the Deal ID below for the chosen Platform" ;
-        this.SAVE_SETTINGS = "Save Settings" ;
-        this.BACK_TO_PLATFORMS = "Back to Platforms" ;
-        this.BUYING_PLATFORM = "Buying Platform" ;
-        this.DEAL_ID = "Deal ID" ;
+        this.OPEN_EXCHANGE =  'Open Exchange';
+        this.DEAL = 'Deal';
+        this.DIRECT = 'Direct';
+        this.PLACEMENT = 'Placement';
+        this.GROUP = 'Group';
+        this.PUBLISHER = 'Publisher';
+        this.SELECT_TYPE = 'Select Type';
+        this.CHOOSE_TARGETTED_PLACEMENTS = 'Choose targeted placements from the list below';
+        this.CAMPAIGN_PRIORITY = 'Campaign Priority';
+        this.BID_CPM = 'Bid CPM';
+        this.SAVE_SETTINGS = 'Save Settings';
+        this.BACK_TO_PLATFORMS = 'Back to Platforms';
+        this.BUYING_PLATFORM = 'Buying Platform';
+        this.DEAL_ID = 'Deal ID';
         this.MIN_CPM = 'Min. CPM';
         this.MAX_CPM = 'Max. CPM';
 
-        this.COLLECTIVE_INSIGHTS = "Collective Insights";
-        this.UPLOAD_REPORT = "Upload Report";
+        this.COLLECTIVE_INSIGHTS = 'Collective Insights';
+        this.UPLOAD_REPORT = 'Upload Report';
         this.REPORT_LABEL ='Report';
         this.ADD_KEYWORDS ='Add Keywords (optional)';
         this.SELECT_DIMENTION ='Select Dimension(s)';
         this.ALL_TYPES ='All Types';
         this.AT_ANY_TIME ='At any time';
 
-        this.SCHEDULED_REPORTS = "My Reports";
-        this.REPORT_TYPES = "Report Types";
-        this.GENERATED = "Generated";
-        this.REPORT_GENERATED = "Report Generated";
-        this.DIMENSIONS_FIVE = "Dimensions (select up to 5)";
+        this.SCHEDULED_REPORTS = 'My Reports';
+        this.REPORT_TYPES = 'Report Types';
+        this.GENERATED = 'Generated';
+        this.REPORT_GENERATED = 'Report Generated';
+        this.DIMENSIONS_FIVE = 'Dimensions (select up to 5)';
         this.SCHEDULE_LABEL = 'Schedule';
         this.GENERATE_LABEL ='Generate';
         this.SAVE_LABEL ='Save';
@@ -158,9 +155,9 @@ define(['angularAMD'], function(angularAMD) {
         this.SCHEDULER_UPDATE = 'Do you want to update the Schedule report ?';
         this.SAVED_UPDATE = 'Do you want to update the Saved report ?';
         this.REPORT_BUILDER_TIMEFRAME ='Select Timeframe';
-        this.SCHEDULE_LIST_REPORT_TYPE = "Report Types";
-        this.SCHEDULE_LIST_DATE = "Report Generated";
-        this.SCHEDULE_LIST_DIMENSIONS = "Dimensions";
+        this.SCHEDULE_LIST_REPORT_TYPE = 'Report Types';
+        this.SCHEDULE_LIST_DATE = 'Report Generated';
+        this.SCHEDULE_LIST_DIMENSIONS = 'Dimensions';
         this.REPORT_CHOOSE_BREAKDOWN = 'Choose Dimension';
         this.REPORT_ADDITIONAL_FILTERS = 'Additional Filters';
         this.REPORT_ADD_FILTERS = 'Add Filters';
@@ -177,14 +174,14 @@ define(['angularAMD'], function(angularAMD) {
             'Custom dates'
         ];
         this.REPORT_LIST_GENERATEON = [
-            { key:"Yesterday", value:"Yesterday"},
-            { key:"Last7Days", value:"Last 7 days"},
-            { key:"Last2Weeks", value:'Last 2 weeks'},
-            { key:"LastMonth", value:"Last month"},
-            { key:"LastQuater", value:"Last quarter"}
+            { key:'Yesterday', value:'Yesterday'},
+            { key:'Last7Days', value:'Last 7 days'},
+            { key:'Last2Weeks', value:'Last 2 weeks'},
+            { key:'LastMonth', value:'Last month'},
+            { key:'LastQuater', value:'Last quarter'}
         ];
         this.REPORT_LIST_REPORTTYPES = ['Once', 'Daily', 'Weekly', 'Monthly', 'Saved'];
-        this.REPORT_LIST_DIMENSION_COUNT = "Already five dimensions had been selected";
+        this.REPORT_LIST_DIMENSION_COUNT = 'Already five dimensions had been selected';
         this.AD_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully created';
         this.MEDIA_PLAN_DRAFT = ' Save changes to Media Plan set-up?';
         this.MEDIA_PLAN_NOT_DRAFT = 'Save changes to Media Plan set-up and repush to execution <br> platform(s)?';
@@ -318,121 +315,122 @@ define(['angularAMD'], function(angularAMD) {
         this.TOP_THREE = 'Top 3';
         this.QUALITY = 'Quality';
         this.VIEWABILITY = 'Viewability';
-        this.INVENTORY = "Inventory";
-        this.AD_SIZE = "Ad Size";
+        this.INVENTORY = 'Inventory';
+        this.AD_SIZE = 'Ad Size';
 
-        this.TOP = "Top";
-        this.NO_LINKED_STRATEGIES = "No Linked Ad Groups";
-        this.ALL = "All";
-        this.ONE_S = "1s";
-        this.FIVE_S = "5s";
-        this.FIFTEEN_S = "15s";
-        this.CAMPAIGN_OVERVIEW = "Media Plan Overview";
-        this.KPI = "KPI";
-        this.DATA = "Data";
-        this.AD_SERVING = "Ad Serving";
-        this.AD_START_IMPS = "Ad Start Imps.";
-        this.CREATIVE = "Creative";
-        this.RESEARCH = "Research";
-        this.OTHER = "Other";
-        this.AD_VERIFICATION = "Ad Verification";
-        this.COLLECTIVECOST = "Cost";
-        this.TRANSPARENT_PLATFORM_FEE_CHARGED = "Transparent platform fee charged by Collective for technology and services associated with programmatic media activity";
-        this.TOTAL_COST = "Total Cost";
-        this.TOTAL_MARGIN = "Total Margin";
-        this.TOTAL_CLICKS = "Total Clicks";
-        this.TOTAL_VIEW = "Total View";
-        this.TOTAL_EVENTS = "Total Events";
-        this.TOTAL_SPEND = "Total Spend";
-        this.CONVERSIONS = "Conversions";
-        this.DELIVERY = "Delivery";
+        this.TOP = 'Top';
+        this.NO_LINKED_STRATEGIES = 'No Linked Ad Groups';
+        this.ALL = 'All';
+        this.ONE_S = '1s';
+        this.FIVE_S = '5s';
+        this.FIFTEEN_S = '15s';
+        this.CAMPAIGN_OVERVIEW = 'Media Plan Overview';
+        this.KPI = 'KPI';
+        this.DATA = 'Data';
+        this.AD_SERVING = 'Ad Serving';
+        this.AD_START_IMPS = 'Ad Start Imps.';
+        this.CREATIVE = 'Creative';
+        this.RESEARCH = 'Research';
+        this.OTHER = 'Other';
+        this.AD_VERIFICATION = 'Ad Verification';
+        this.COLLECTIVECOST = 'Cost';
+        this.TOTAL_COST = 'Total Cost';
+        this.TOTAL_MARGIN = 'Total Margin';
+        this.TOTAL_CLICKS = 'Total Clicks';
+        this.TOTAL_VIEW = 'Total View';
+        this.TOTAL_EVENTS = 'Total Events';
+        this.TOTAL_SPEND = 'Total Spend';
+        this.CONVERSIONS = 'Conversions';
+        this.DELIVERY = 'Delivery';
 
-        this.CAMPAIGN = "Media Plan";
+        this.CAMPAIGN = 'Media Plan';
 
-        this.FLIGHT_DATES = "Flight Dates";
-        this.METRICS_LIFE_TIME = "Metrics (Lifetime)";
-        this.METRICS = "Metrics";
-        this.METRIC = "Metric";
-        this.SELECTED_METRICS = "Selected Metrics";
-        this.LOAD_MORE_STRATEGIES = "Load more Line Items";
-        this.LOAD_MORE_TACTICS = "Load More Ads";
+        this.FLIGHT_DATES = 'Flight Dates';
+        this.METRICS_LIFE_TIME = 'Metrics (Lifetime)';
+        this.METRICS = 'Metrics';
+        this.METRIC = 'Metric';
+        this.SELECTED_METRICS = 'Selected Metrics';
+        this.LOAD_MORE_STRATEGIES = 'Load more Line Items';
+        this.LOAD_MORE_TACTICS = 'Load More Ads';
 
-        this.STATUS = "Status";
-        this.CALENDAR = "Calendar";
-        this.MOST_RELEVANT_CAMPAIGN = "Most Relevant Media Plans";
-        this.CAMPAIGN_STATUS = "Media Plan Status";
-        this.PERFORMANCE_STATUS = "Performance Status";
-        this.ON_TRACK = "On Track";
-        this.END_DATES = "End Dates";
-        this.SORT_BY = "Sort by";
-        this.WEEK = "Week";
-        this.MONTH = "Month";
-        this.QUARTER = "Quarter";
-        this.YEAR = "Year";
+        this.STATUS = 'Status';
+        this.CALENDAR = 'Calendar';
+        this.MOST_RELEVANT_CAMPAIGN = 'Most Relevant Media Plans';
+        this.CAMPAIGN_STATUS = 'Media Plan Status';
+        this.PERFORMANCE_STATUS = 'Performance Status';
+        this.ON_TRACK = 'On Track';
+        this.END_DATES = 'End Dates';
+        this.SORT_BY = 'Sort by';
+        this.WEEK = 'Week';
+        this.MONTH = 'Month';
+        this.QUARTER = 'Quarter';
+        this.YEAR = 'Year';
 
-        this.DASHBOARD = "Dashboard";
-        this.CAMPAIGNS = this.MEDIA_PLAN = "Media Plans";
-        this.CREATE_CAMPAIGN = "Create";
-        this.REPORTS = "Reports";
-        this.HELLO = "Hello";
-        this.ABOUT = "About";
-        this.LOGOUT = "Log Out";
+        this.DASHBOARD = 'Dashboard';
+        this.CAMPAIGNS = this.MEDIA_PLAN = 'Media Plans';
+        this.CREATE_CAMPAIGN = 'Create';
+        this.REPORTS = 'Reports';
+        this.HELLO = 'Hello';
+        this.ABOUT = 'About';
+        this.LOGOUT = 'Log Out';
 
-        this.CATEGORIES = "Categories";
-        this.DOMAINS = "Domains";
-        this.DELIVERED = "Delivered";
-        this.DELIVERED_IMPS = "Delivered Imps";
-        this.VIEW_MODE = "Media Type";
-        this.VIDEO_PLAYS = "Video Plays";
-        this.VIDEO_VIEWS = "Video Views";
-        this.MEASURED_AS_HUNDRED_PERCENT_VIDEO_PLAYED_DIVIDED_BY_AD_START = "Measured as 100% Video played divided by Ad start ";
-        this.VIDEO_PLAY_COMPLETION_AND_VIDEO_VIEWABILITY_AT_THE_VARIOUS_QUARTILES_OF_THE_AD = "Video Viewability at various quartiles of the Ad";
-        this.INSUFFICIENT_DATA_POINTS_TO_RENDER_GRAPH = "Insufficient data points to render graph";
-        this.VIDEO_VIEWABILITY = "Video Viewability";
-        this.VIEWABLE_IMPS = "Viewable Imps.";
+        this.CATEGORIES = 'Categories';
+        this.DOMAINS = 'Domains';
+        this.DELIVERED = 'Delivered';
+        this.DELIVERED_IMPS = 'Delivered Imps';
+        this.VIEW_MODE = 'Media Type';
+        this.VIDEO_PLAYS = 'Video Plays';
+        this.VIDEO_VIEWS = 'Video Views';
+        this.MEASURED_AS_HUNDRED_PERCENT_VIDEO_PLAYED_DIVIDED_BY_AD_START =
+            'Measured as 100% Video played divided by Ad start ';
+        this.VIDEO_PLAY_COMPLETION_AND_VIDEO_VIEWABILITY_AT_THE_VARIOUS_QUARTILES_OF_THE_AD =
+            'Video Viewability at various quartiles of the Ad';
+        this.INSUFFICIENT_DATA_POINTS_TO_RENDER_GRAPH = 'Insufficient data points to render graph';
+        this.VIDEO_VIEWABILITY = 'Video Viewability';
+        this.VIEWABLE_IMPS = 'Viewable Imps.';
 
-        this.SEE_DATES = "See Dates";
-        this.BEFORE = "Before";
-        this.AFTER = "After";
-        this.OPTIMIZATION_TYPE = "Optimization Type";
-        this.DATE_OPTIMIZED = "Date Optimized";
-        this.METRIC = "Metric";
-        this.DATE_FROM = "Date from";
-        this.DATE_TO = "Date to";
-        this.VALUE = "Value";
-        this.BEFORE_VALUE = "Before Value";
-        this.AFTER_VALUE = "After Value";
-        this.CHANGE_IN_PERCENTAGE = "Change %";
-        this.UPLOAD_COMPLETE = "Upload Complete";
-        this.DOWNLOAD_ERROR_LOG = "Download Error Log";
+        this.SEE_DATES = 'See Dates';
+        this.BEFORE = 'Before';
+        this.AFTER = 'After';
+        this.OPTIMIZATION_TYPE = 'Optimization Type';
+        this.DATE_OPTIMIZED = 'Date Optimized';
+        this.METRIC = 'Metric';
+        this.DATE_FROM = 'Date from';
+        this.DATE_TO = 'Date to';
+        this.VALUE = 'Value';
+        this.BEFORE_VALUE = 'Before Value';
+        this.AFTER_VALUE = 'After Value';
+        this.CHANGE_IN_PERCENTAGE = 'Change %';
+        this.UPLOAD_COMPLETE = 'Upload Complete';
+        this.DOWNLOAD_ERROR_LOG = 'Download Error Log';
 
-        this.DAYS_OF_WEEK = "Days of Week";
-        this.DISCREPANCY = "Discrepancy";
-        this.COST = "Cost";
-        this.BASED_ONLY_ON_MEASURABLE_IMPS = "Based only on Measurable Imps";
-        this.BASED_ONLY_ON_VIEWABLE_IMPS = "Based only on Viewable Imps";
-        this.VIEWABLE = "Viewable";
-        this.MEASURABLE = "Measurable";
-        this.SUSPICIOUS_ACTIVITY = "Suspicious Activity";
-        this.SSL_ERROR_MESSAGE = "Please enter a SSL compatible tag.";
+        this.DAYS_OF_WEEK = 'Days of Week';
+        this.DISCREPANCY = 'Discrepancy';
+        this.COST = 'Cost';
+        this.BASED_ONLY_ON_MEASURABLE_IMPS = 'Based only on Measurable Imps';
+        this.BASED_ONLY_ON_VIEWABLE_IMPS = 'Based only on Viewable Imps';
+        this.VIEWABLE = 'Viewable';
+        this.MEASURABLE = 'Measurable';
+        this.SUSPICIOUS_ACTIVITY = 'Suspicious Activity';
+        this.SSL_ERROR_MESSAGE = 'Please enter a SSL compatible tag.';
 
-        this.STRATEGY = "Ad Group";
-        this.LINE_ITEM = "Line Item";
+        this.STRATEGY = 'Ad Group';
+        this.LINE_ITEM = 'Line Item';
 
-        this.PLATFORM_NAME = "Platform Name";
-        this.COLLECTIVE_FEE = "Collective Fee";
+        this.PLATFORM_NAME = 'Platform Name';
+        this.COLLECTIVE_FEE = 'Collective Fee';
 
-        this.SUSPICIOUS = "Suspicious";
-        this.TOTAL = "Total";
+        this.SUSPICIOUS = 'Suspicious';
+        this.TOTAL = 'Total';
 
-        this.SCREEN = "Screen";
-        this.SELECT_ALL_SMALL_A = "Select all";
+        this.SCREEN = 'Screen';
+        this.SELECT_ALL_SMALL_A = 'Select all';
 
-        this.FORGOT_PASSWORD = "Forgot Password";
+        this.FORGOT_PASSWORD = 'Forgot Password';
         this.FORGOT_PASSWORD_CONTACT_ACCOUNT_MANAGER = 'Contact your Account Manager to reset your password';
-        this.COPY_RIGHTS = "Copyright &copy; 2016 Collective, Inc. All Rights Reserved";
-        this.ABOUT_US = "About Us";
-        this.USERNAME_OR_PASSWORD_INCORRECT = "The Username/Password is incorrect";
+        this.COPY_RIGHTS = 'Copyright &copy; 2016 Collective, Inc. All Rights Reserved';
+        this.ABOUT_US = 'About Us';
+        this.USERNAME_OR_PASSWORD_INCORRECT = 'The Username/Password is incorrect';
 
         this.STRATEGY = 'Ad Group';
 
@@ -573,7 +571,8 @@ define(['angularAMD'], function(angularAMD) {
         this.YESTERDAY = 'Yesterday';
         this.WF_NOT_SET = 'Not Set';
         this.REPORT_BUILDER = 'Report Builder';
-        this.REPORT_BUILDER_SUBTITLE = 'Select Dimension(s), Timeframe and any additional parameters to generate your report';
+        this.REPORT_BUILDER_SUBTITLE =
+            'Select Dimension(s), Timeframe and any additional parameters to generate your report';
         this.CREATED_BY = 'Created by';
         this.DISTRIBUTED_TO = 'Distributed to';
         this.REPORT_NAME = 'Report Name';
@@ -585,67 +584,74 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_CREATIVE_TAG_ALREADY_EXISTS =
             'This tag already exists in your Creative Tag Library. Save a Creative anyway?';
         this.WF_DUPLICATE_TAG = 'Duplicate Tag';
-        this.WF_INVALID_CREATIVE_TAG = 'You have entered an invalid tag. Please review this tag carefully and try again';
+        this.WF_INVALID_CREATIVE_TAG =
+            'You have entered an invalid tag. Please review this tag carefully and try again';
         this.WF_INVALID_CREATIVE_TAG_TRACKER = 'Please include the %%TRACKER%% macro to save the tag';
         this.WF_CREATIVE_TAG_UPDATE_ERROR = 'Unable to update creative';
         this.WF_CREATIVE_FORCESAVE = 'Unable to forceSave creative';
         this.WF_VIEW_TAG_LABEL = 'View Tag';
         this.WF_ADD_TARGETING_LABEL = 'Add Targeting';
-        this.WF_CREATIVE_FORMAT_LABEL = 'Creative Format'
-        this.WF_MANDATORY_CREATIVE_FORMAT = "Please select the creative format.";
-        this.WF_MANDATORY_CREATIVE_NAME = "Please enter a name for the creative."
-        this.WF_INVALID_CLICKTHRU = "Please enter a valid url."
-        this.WF_AD_ARCHIVE_SUCCESS = "Ad Archived Successfully"
-        this.WF_AD_ARCHIVE_FAILURE = "Ad Archive Unsuccessful"
-        this.WF_CAMPAIGN_ARCHIVE_SUCCESS = "Media Plan Archived Successfully"
-        this.WF_CAMPAIGN_ARCHIVE_FAILURE = "Media Plan Archive Unsuccessful"
-        this.WF_AD_PAUSE_FAILURE = "Ad Pause Failed"
-        this.WF_AD_PAUSE_SUCCESS = "Ad Paused Successfully"
-        this.WF_AD_RESUME_FAILURE = "Ad Resume Failed"
-        this.WF_AD_RESUME_SUCCESS = "Ad Resumed Successfully"
-        this.WF_AD_PAUSE_MESSAGE = "Are you sure you want to pause delivery ?"
-        this.WF_AD_UPDATE = "Ad Update";
-        this.WF_PAUSE_AD = "Pause Ad";
-        this.WF_RESUME_AD = "Resume Ad";
-        this.WF_ARCHIVE_AD = "We're sorry.";
-        this.WF_ARCHIVE_CAMPAIGN = "We're sorry.";
-        this.WF_REDIRECT_USER_FOR_ARCHIVED_AD = "You are unable to edit this archived Ad. Click 'Continue' to return to Campaign Overview Screen";
-        this.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN = "You are unable to edit this archived Media Plan. Click 'Continue' to return to Media Plan List Screen";
-        this.WF_SELECT_MEDIA_PLAN = "Media Plan";
-        this.WF_SELECT_AD_GROUP = "Ad Group";
-        this.WF_NO_AD_GROUP = "No Ad Group";
-        this.WF_CLONE_THIS_AD = "Clone this Ad to";
-        this.WF_CLONE_AD = "Clone Ad";
-        this.WF_CLONE = "Clone";
-        this.WF_PAUSE = "Pause";
-        this.WF_RESUME = "Resume";
-        this.WF_MOVE_TO = "Move to";
-        this.WF_ARCHIVE = "Archive";
-        this.WF_ARCHIVED = "Archived";
-        this.WF_NOT_SET = "Not Set";
-        this.CLOSE = "Close";
-        this.WF_AD_SAVE_CLOSE = "Save & Close";
-        this.WF_AD_SAVE_CONTINUE = "Save & Continue";
-        this.WF_NAME_CAMPAIGN_TXT = "Tell us about your Media Plan?";
-        this.WF_ENTER_NAME_CAMPAIGN = "Please enter a name for the Media Plan.";
-        this.WF_CAMPAIGN_FOR = "Who is the Media Plan for?";
-        this.WF_CAMPAIGN_OBJECTIVES = "Media Plan Objectives";
-        this.WF_PURCHASE_ORDER = "Purchase Order";
+        this.WF_CREATIVE_FORMAT_LABEL = 'Creative Format';
+        this.WF_MANDATORY_CREATIVE_FORMAT = 'Please select the creative format.';
+        this.WF_MANDATORY_CREATIVE_NAME = 'Please enter a name for the creative.';
+        this.WF_INVALID_CLICKTHRU = 'Please enter a valid url.';
+        this.WF_AD_ARCHIVE_SUCCESS = 'Ad Archived Successfully';
+        this.WF_AD_ARCHIVE_FAILURE = 'Ad Archive Unsuccessful';
+        this.WF_CAMPAIGN_ARCHIVE_SUCCESS = 'Media Plan Archived Successfully';
+        this.WF_CAMPAIGN_ARCHIVE_FAILURE = 'Media Plan Archive Unsuccessful';
+        this.WF_AD_PAUSE_FAILURE = 'Ad Pause Failed';
+        this.WF_AD_PAUSE_SUCCESS = 'Ad Paused Successfully';
+        this.WF_AD_RESUME_FAILURE = 'Ad Resume Failed';
+        this.WF_AD_RESUME_SUCCESS = 'Ad Resumed Successfully';
+        this.WF_AD_PAUSE_MESSAGE = 'Are you sure you want to pause delivery ?';
+        this.WF_AD_UPDATE = 'Ad Update';
+        this.WF_PAUSE_AD = 'Pause Ad';
+        this.WF_RESUME_AD = 'Resume Ad';
+        this.WF_ARCHIVE_AD = 'We\'re sorry.';
+        this.WF_ARCHIVE_CAMPAIGN = 'We\'re sorry.';
+        this.WF_REDIRECT_USER_FOR_ARCHIVED_AD =
+            'You are unable to edit this archived Ad. Click \'Continue\' to return to Campaign Overview Screen';
+        this.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN =
+            'You are unable to edit this archived Media Plan. Click \'Continue\' to return to Media Plan List Screen';
+        this.WF_SELECT_MEDIA_PLAN = 'Media Plan';
+        this.WF_SELECT_AD_GROUP = 'Ad Group';
+        this.WF_NO_AD_GROUP = 'No Ad Group';
+        this.WF_CLONE_THIS_AD = 'Clone this Ad to';
+        this.WF_CLONE_AD = 'Clone Ad';
+        this.WF_CLONE = 'Clone';
+        this.WF_PAUSE = 'Pause';
+        this.WF_RESUME = 'Resume';
+        this.WF_MOVE_TO = 'Move to';
+        this.WF_ARCHIVE = 'Archive';
+        this.WF_ARCHIVED = 'Archived';
+        this.WF_NOT_SET = 'Not Set';
+        this.CLOSE = 'Close';
+        this.WF_AD_SAVE_CLOSE = 'Save & Close';
+        this.WF_AD_SAVE_CONTINUE = 'Save & Continue';
+        this.WF_NAME_CAMPAIGN_TXT = 'Tell us about your Media Plan?';
+        this.WF_ENTER_NAME_CAMPAIGN = 'Please enter a name for the Media Plan.';
+        this.WF_CAMPAIGN_FOR = 'Who is the Media Plan for?';
+        this.WF_CAMPAIGN_OBJECTIVES = 'Media Plan Objectives';
+        this.WF_PURCHASE_ORDER = 'Purchase Order';
 
-        this.reportDownloadSuccess = "Report Downloaded Successfully";
-        this.reportDownloadFailed = "Report Download Failed";
+        this.reportDownloadSuccess = 'Report Downloaded Successfully';
+        this.reportDownloadFailed = 'Report Download Failed';
 
-        this.reportEditSuccess = "Edited Report Successfully";
-        this.reportEditFailed = "Edit Report Failed";
+        this.reportEditSuccess = 'Edited Report Successfully';
+        this.reportEditFailed = 'Edit Report Failed';
 
-        this.reportDeleteSuccess = "Deleted Report Successfully";
-        this.reportDeleteFailed = "Deleting Report Failed";
-        this.deleteReportHeader = "Delete Report";
-        this.accountChangeHeader = "Account Change";
-        this.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE = "Switching accounts will discard any unsaved changes. Do you wish to continue?";
-        this.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE = "Switching accounts will reload the page. Do you wish to continue?";
-        this.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE = "Switching accounts will discard any unsaved changes. Do you wish to continue?";
-        this.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE = "Switching accounts will discard any unsaved changes. Do you wish to continue?";
+        this.reportDeleteSuccess = 'Deleted Report Successfully';
+        this.reportDeleteFailed = 'Deleting Report Failed';
+        this.deleteReportHeader = 'Delete Report';
+        this.accountChangeHeader = 'Account Change';
+        this.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE =
+            'Switching accounts will discard any unsaved changes. Do you wish to continue?';
+        this.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE =
+            'Switching accounts will reload the page. Do you wish to continue?';
+        this.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE =
+            'Switching accounts will discard any unsaved changes. Do you wish to continue?';
+        this.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE =
+            'Switching accounts will discard any unsaved changes. Do you wish to continue?';
         this.CAMPAIGN_ARCHIVE_MESSAGES = 'Do you want to Archive / Delete the Media Plan?';
         this.ACCOUNT_CHANGED = 'accountChanged';
 
@@ -735,8 +741,8 @@ define(['angularAMD'], function(angularAMD) {
         this.FLIGHTPASSED = 'Media Plan flight date has passed';
         this.ADGROUP_FLIGHTPASSED = 'Ad flight dates cannot be edited';
         this.ADGROUP_FLIGHTPASSED_NO_NEW_ADS = 'Extend the Ad Group flight dates to create Ads';
-        this.BUDGET_EXCEEDED = "Cannot create Ad Group as the Media Plan does not have sufficient budget",
-        this.MEDIAPLAN_FLIGHTPASSED_NO_NEW_ADS = "Cannot create Ad Group as Media Plan has ended",
+        this.BUDGET_EXCEEDED = 'Cannot create Ad Group as the Media Plan does not have sufficient budget',
+        this.MEDIAPLAN_FLIGHTPASSED_NO_NEW_ADS = 'Cannot create Ad Group as Media Plan has ended',
         this.SETUPBUDGET = 'How do you want to budget your Ad?';
         this.MEASUREBUDGET = 'How will you measure success for your Ad?';
         this.TRACKBUDGET = 'How do you want to track your Ad?';
@@ -773,7 +779,8 @@ define(['angularAMD'], function(angularAMD) {
         //Ad Create: 4 Targeting
         this.SETTARGETING = 'Set Targeting';
         this.TARGETAUDCHOOSE = 'Which target audience should I choose for my ad?';
-        this.ENABLETARGETINGAD = 'To enable Targeting for this ad, you must first set a Buying Platform. Select one now?';
+        this.ENABLETARGETINGAD =
+            'To enable Targeting for this ad, you must first set a Buying Platform. Select one now?';
         this.SELECTPLATFORM = 'Select Platform';
         this.AUDSEGMENTS = 'Audience Segments';
         this.REACHAUD = 'Reach the right audience by selecting focus segments';
@@ -848,7 +855,7 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_USER_EDIT_FAIL = 'Unable to update User';
         this.CLIENT_CODE_EXIST = 'Already exists. Please choose a different Client Code.';
         this.ADVERTISER_CODE_EXIST = 'Please choose a different Advertiser Code.';
-        this.CODE_VERIFICATION = "Please enter valid 5 alphanumeric character";
+        this.CODE_VERIFICATION = 'Please enter valid 5 alphanumeric characters';
 
         //Overview Page
         this.ADVERTISER = 'Advertiser';
@@ -869,7 +876,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CREATEAD = 'Create Ad';
         this.CREATEADGRP = 'Create Ad Group';
         this.SETADGRP = 'Ad Group Setup';
-        this.EDITADGRP = 'Ad Group Edit'
+        this.EDITADGRP = 'Ad Group Edit';
         this.NAMEADGROUP = 'What is the name of your Ad Group?';
         this.ADGROUPNAME = 'Ad Group Name';
         this.ENTERADGRP = 'Please enter a name for the ad group.';
@@ -903,8 +910,8 @@ define(['angularAMD'], function(angularAMD) {
         this.MAXCOST = 'Max Cost';
         this.MEDIAPLANUPD = 'Media Plan Update';
         this.MEDIAPLANCLONE = 'Clone Media Plan';
-        this.NEWMEDIAPLANNAME = 'New Media Plan Name' ;
-        this.CLONEMEDIAPLANNAMEERR = 'already exists for this advertiser. Please enter a unique Media Plan name.' ;
+        this.NEWMEDIAPLANNAME = 'New Media Plan Name';
+        this.CLONEMEDIAPLANNAMEERR = 'already exists for this advertiser. Please enter a unique Media Plan name.';
         this.DUPLICATELINEITEMS = 'Duplicate Line Items';
         this.DUPLICATEADGROUPS = 'Duplicate Ads & Ad Groups';
         this.AUTOMATICADJUSTFLIGHTDATES = 'Automatically adjust flight dates.';
@@ -919,7 +926,9 @@ define(['angularAMD'], function(angularAMD) {
 
         //media plans
         this.NO_CATEGORY_FOR_SELECTED_ADVERISER = 'No category available for selected advertiser.';
-        this.CPA_CONVERSION_MESSAGE = 'All conversion pixels set for CPA line items in your spreadsheet will be automatically associated with this Media Plan.'
+        this.CPA_CONVERSION_MESSAGE =
+            'All conversion pixels set for CPA line items in your spreadsheet will be automatically associated with ' +
+            'this Media Plan.';
 
         //Overview: Create Ad Groups
         this.CREATEADGROUP = 'Create Ad Group';
@@ -932,11 +941,11 @@ define(['angularAMD'], function(angularAMD) {
         this.ADGROUPMAXIMUMBUDGETMSG = 'Please enter a budget value less than the available media plan budget.';
         this.WHATFLIGHTDATES = 'What are the Flight Dates?';
         this.PLEASESELSTARTDATE = 'Please select the start Date.';
-        this.EXPORT_CONVERSION_PIXELS = 'Export All Conversion Pixels' ;
-        this.TAGS_FOR_TRACKING_ONLY_ADS = 'Export Ad Tags' ;
-        this.MAX_SPEND_FOR_ADGROUP = 'Maximum Spend for Ad Group' ;
-        this.LINE_ITEM = 'Line Item' ;
-        this.MAX_YOU_CAN_SPEND = "What's the maximum you can spend for your Ad Group?" ;
+        this.EXPORT_CONVERSION_PIXELS = 'Export All Conversion Pixels';
+        this.TAGS_FOR_TRACKING_ONLY_ADS = 'Export Ad Tags';
+        this.MAX_SPEND_FOR_ADGROUP = 'Maximum Spend for Ad Group';
+        this.LINE_ITEM = 'Line Item';
+        this.MAX_YOU_CAN_SPEND = 'What\'s the maximum you can spend for your Ad Group?';
 
 
 
@@ -992,7 +1001,7 @@ define(['angularAMD'], function(angularAMD) {
 
         //Geo Targeting
         this.GEOGRAPHY = 'Geography';
-        this.SAVE_GEOGRAPHY = 'Save Geography' ;
+        this.SAVE_GEOGRAPHY = 'Save Geography';
         this.COUNTRY = 'Country';
         this.INCZIP = 'Including zip / postal codes is going to limit your geographic targeting significantly.';
         this.ZIP_CODE_LABEL = 'Separate zip / postal codes by comma. Use hyphens to denote ranges.';
@@ -1002,9 +1011,15 @@ define(['angularAMD'], function(angularAMD) {
         this.METRO = 'METRO';
         this.ZIPPOSTCODE = 'ZIP / POSTAL CODE';
 
-        this.NOT_SELECTED_COUNTRY_NOTE = 'Once you have set your targeting at the region level, you cannot select any countries for inclusion or exclusion';
-        this.NOT_SELECTED_REGION_NOTE = 'Once you have set your targeting at the city level, you cannot select any regions for inclusion or exclusion';
-        this.NOT_SELECTED_COUNTRY_REGION_NOTE = 'Once you have set your targeting at the city level, you cannot select any countries for inclusion or exclusion';
+        this.NOT_SELECTED_COUNTRY_NOTE =
+            'Once you have set your targeting at the region level, you cannot select any countries for inclusion or ' +
+            'exclusion';
+        this.NOT_SELECTED_REGION_NOTE =
+            'Once you have set your targeting at the city level, you cannot select any regions for inclusion or ' +
+            'exclusion';
+        this.NOT_SELECTED_COUNTRY_REGION_NOTE =
+            'Once you have set your targeting at the city level, you cannot select any countries for inclusion or ' +
+            'exclusion';
 
         this.REGION = 'Region';
         this.CITY = 'City';
@@ -1049,7 +1064,8 @@ define(['angularAMD'], function(angularAMD) {
 
         this.VIDEO_TARGETING = 'Video Targeting';
         this.SAVE_VIDEO_TARGETING = 'Save Video Targeting';
-        this.VIDEO_PLACENMENT_AND_PLAYERS = 'Specify the types of placements and players where you would like your video ad to appear';
+        this.VIDEO_PLACENMENT_AND_PLAYERS =
+            'Specify the types of placements and players where you would like your video ad to appear';
 
         //Creative List
         this.NEWCREATIVEALERT = 'New Creative has been created successfully.';
@@ -1076,176 +1092,181 @@ define(['angularAMD'], function(angularAMD) {
 
        // this.EVENT_CLIENT_CHANGED = 'eventClientChanged';
         //this.EVENT_CLIENT_CHANGED_FROM_DASHBOARD = 'advertiserChangedFromDashboard';
-        this.INVOICE_ADJUSTMENT_FIELD_EMPTY = "Please enter valid Type, Notes, Amounts";
+        this.INVOICE_ADJUSTMENT_FIELD_EMPTY = 'Please enter valid Type, Notes, Amounts';
 
         this.EVENT_SUB_ACCOUNT_CHANGED = 'eventSubAccountChanged';
         this.EVENT_SUB_ACCOUNT_CHANGED_FROM_DASHBOARD = 'SubAccountChangedFromDashboard';
         this.EVENT_MASTER_CLIENT_CHANGED = 'eventMasterClientChanged';
-        this.SUB_ACCOUNT = "Sub-Account";
-        this.NICK_NAME = "Nick Name";
-        this.ACCOUNT_NICKNAME = "Account Nickname:";
-        this.ADMIN_ADD_PERMISSION = "Please add permission";
-        this.ADMIN_SELECT_CLIENT = "Please select the client";
-        this.ADMIN_ADD_ADVERTISER_PERMISSION = "Please add permission for the client";
-        this.ERR_EDIT_USER_DATA = "Unable to get the user data";
-        this.CLIENTID_EXIST = "Client ID is already selected, please select another id.";
-        this.ADVERTISERID_EXIST = "Advertiser ID is already selected, please select another id.";
-        this.ADMIN_PAGE_PERMISSION = "Admin has access to all features";
-        this.ERR_CREATE_ADVERTISER = "Failed to create the advertiser";
-        this.SUCCESS_CREATE_ADVERTISER = "Advertiser successfully created";
-        this.SUCCESS_UPDATED_ADVERTISER = "Advertiser updated successfully";
-        this.ERR_UPDATE_ADVERTISER = "Failed to update the advertiser";
-        this.ERR_CREATE_BRAND = "Failed to create the brand";
-        this.SUCCESS_CREATE_BRAND = "Brand successfully created";
-        this.BRAND_FEILD_EMPTY = "Please add brand name";
-        this.ADVERTISER_FEILD_EMPTY = "Please add advertiser name";
-        this.EMPTY_ADV_SELECTION = "Please select the advertiser";
-        this.EMPTY_BRAND_SELECTION = "Please select the brand";
-        this.EMPTY_LOOKBACK_IMPRESSION = "Please add some value for impression look back field";
-        this.EMPTY_LOOKBACK_CLICK = "Please add some value for click look back field";
-        this.EMPTY_PIXEL_FIELD = "Please add pixel name";
-        this.EMPTY_PIXEL_TYPE = "Please select the pixel type";
-        this.EMPTY_PIXEL_EXPIREAT = "Please select the pixel expiration date";
-        this.EMPTY_PIXEL_CODE = "Please add some pixel code without any special characters, max character limit 20"
-        this.EMPTY_BRAND_LIST = "No Brands available for the advertiser";
-        this.ERR_ADD_PIXEL = "Error in adding pixel";
-        this.EMPTY_CLIENT_LIST = "No Clients available for the client";
-        this.SELECT_CLIENT_TYPE = "Please select the client type";
-        this.SELECT_CLIENT_NAME = "Please select the client name";
-        this.SELECT_CURRENCY = "Please select the currency";
-        this.SELECT_GEOGRAPHY = "Please select the geography";
-        this.SELECT_TIMEZONE = "Please select the timezone";
-        this.EMPTY_ADCHOICE_CODE = "Please add code for ad-choice";
-        this.EMPTY_IAB_CATEGORY = "Please select some category";
-        this.EMPTY_IAB_SUB_CATEGORY = "Please select some sub-category";
-        this.PIXEL_DOWNLOAD_SUCCESS = "Pixel downloaded successfully";
-        this.PIXEL_DOWNLOAD_ERR = "Error in downloading pixel";
+        this.SUB_ACCOUNT = 'Sub-Account';
+        this.NICK_NAME = 'Nick Name';
+        this.ACCOUNT_NICKNAME = 'Account Nickname:';
+        this.ADMIN_ADD_PERMISSION = 'Please add permission';
+        this.ADMIN_SELECT_CLIENT = 'Please select the client';
+        this.ADMIN_ADD_ADVERTISER_PERMISSION = 'Please add permission for the client';
+        this.ERR_EDIT_USER_DATA = 'Unable to get the user data';
+        this.CLIENTID_EXIST = 'Client ID is already selected, please select another id.';
+        this.ADVERTISERID_EXIST = 'Advertiser ID is already selected, please select another id.';
+        this.ADMIN_PAGE_PERMISSION = 'Admin has access to all features';
+        this.ERR_CREATE_ADVERTISER = 'Failed to create the advertiser';
+        this.SUCCESS_CREATE_ADVERTISER = 'Advertiser successfully created';
+        this.SUCCESS_UPDATED_ADVERTISER = 'Advertiser updated successfully';
+        this.ERR_UPDATE_ADVERTISER = 'Failed to update the advertiser';
+        this.ERR_CREATE_BRAND = 'Failed to create the brand';
+        this.SUCCESS_CREATE_BRAND = 'Brand successfully created';
+        this.BRAND_FEILD_EMPTY = 'Please add brand name';
+        this.ADVERTISER_FEILD_EMPTY = 'Please add advertiser name';
+        this.EMPTY_ADV_SELECTION = 'Please select the advertiser';
+        this.EMPTY_BRAND_SELECTION = 'Please select the brand';
+        this.EMPTY_LOOKBACK_IMPRESSION = 'Please add some value for impression look back field';
+        this.EMPTY_LOOKBACK_CLICK = 'Please add some value for click look back field';
+        this.EMPTY_PIXEL_FIELD = 'Please add pixel name';
+        this.EMPTY_PIXEL_TYPE = 'Please select the pixel type';
+        this.EMPTY_PIXEL_EXPIREAT = 'Please select the pixel expiration date';
+        this.EMPTY_PIXEL_CODE = 'Please add some pixel code without any special characters, max character limit 20';
+        this.EMPTY_BRAND_LIST = 'No Brands available for the advertiser';
+        this.ERR_ADD_PIXEL = 'Error in adding pixel';
+        this.EMPTY_CLIENT_LIST = 'No Clients available for the client';
+        this.SELECT_CLIENT_TYPE = 'Please select the client type';
+        this.SELECT_CLIENT_NAME = 'Please select the client name';
+        this.SELECT_CURRENCY = 'Please select the currency';
+        this.SELECT_GEOGRAPHY = 'Please select the geography';
+        this.SELECT_TIMEZONE = 'Please select the timezone';
+        this.EMPTY_ADCHOICE_CODE = 'Please add code for ad-choice';
+        this.EMPTY_IAB_CATEGORY = 'Please select some category';
+        this.EMPTY_IAB_SUB_CATEGORY = 'Please select some sub-category';
+        this.PIXEL_DOWNLOAD_SUCCESS = 'Pixel downloaded successfully';
+        this.PIXEL_DOWNLOAD_ERR = 'Error in downloading pixel';
 
         this.SELECT_DIMENSION = 'Select a Dimension';
         this.SELECT_SIZE = 'Select Size';
 
 
         // Creative Setup
-        this.SAVE_CREATIVE = "Save Creative";
-        this.CREATIVE_SETUP = "Creative Setup";
-        this.CREATIVE_FOR = "Who is this Creative for?";
-        this.CREATIVE_USING = "What Creative are you using?";
-        this.CREATIVE_AD_SERVER = "Ad Server";
-        this.CREATIVE_CHANNEL = "Channel";
-        this.CREATIVE_TEMPLATE = "Creative Template";
-        this.CREATIVE_SECURE_TAG = "Secure Tag (SSL compatible)";
-        this.CREATIVE_SSL_COMPATIBLE = "SSL compatible";
-        this.CREATIVE_SIZE = "Size";
-        this.CREATIVE_TYPE = "Type";
-        this.CREATIVE_ERR_NAME = "Please enter a name for the creative.";
-        this.CREATIVE_ERR_SUBACCOUNT = "Please select the SubAccount.";
-        this.CREATIVE_ERR_ADVERTISER = "Please select the Advertiser";
-        this.CREATIVE_ERR_AD_SERVER_SIZE = "Please select the Ad Server Size";
-        this.CREATIVE_ERR_AD_FORMAT = "Please select the Ad Format";
-        this.CREATIVE_ERR_SSL = "Please enter a SSL compatible tag.";
-        this.CREATIVE_ERR_SIZE = "Please select the creative size.";
-        this.CREATIVE_ERR_TAG_TYPE = "Please select the creative Tag Type.";
+        this.SAVE_CREATIVE = 'Save Creative';
+        this.CREATIVE_SETUP = 'Creative Setup';
+        this.CREATIVE_FOR = 'Who is this Creative for?';
+        this.CREATIVE_USING = 'What Creative are you using?';
+        this.CREATIVE_AD_SERVER = 'Ad Server';
+        this.CREATIVE_CHANNEL = 'Channel';
+        this.CREATIVE_TEMPLATE = 'Creative Template';
+        this.CREATIVE_SECURE_TAG = 'Secure Tag (SSL compatible)';
+        this.CREATIVE_SSL_COMPATIBLE = 'SSL compatible';
+        this.CREATIVE_SIZE = 'Size';
+        this.CREATIVE_TYPE = 'Type';
+        this.CREATIVE_ERR_NAME = 'Please enter a name for the creative.';
+        this.CREATIVE_ERR_SUBACCOUNT = 'Please select the SubAccount.';
+        this.CREATIVE_ERR_ADVERTISER = 'Please select the Advertiser';
+        this.CREATIVE_ERR_AD_SERVER_SIZE = 'Please select the Ad Server Size';
+        this.CREATIVE_ERR_AD_FORMAT = 'Please select the Ad Format';
+        this.CREATIVE_ERR_SSL = 'Please enter a SSL compatible tag.';
+        this.CREATIVE_ERR_SIZE = 'Please select the creative size.';
+        this.CREATIVE_ERR_TAG_TYPE = 'Please select the creative Tag Type.';
 
         // Media Plan Setup: 1 About
-        this.MEDIAPLAN_FOR = "Who is the Media Plan for?";
-        this.MEDIAPLAN_NAME = "Media Plan Name";
-        this.ABOUTMEDIAPLAN = "Tell us about your Media Plan";
+        this.MEDIAPLAN_FOR = 'Who is the Media Plan for?';
+        this.MEDIAPLAN_NAME = 'Media Plan Name';
+        this.ABOUTMEDIAPLAN = 'Tell us about your Media Plan';
         this.MEDIAPLAN_LABELS = 'Labels (Optional)';
         this.MEDIAPLAN_PURCHASE_ORDER = 'Purchase Order (Optional)';
-        this.MEDIAPLAN_RUN = "When do you want your Media Plan to run?";
+        this.MEDIAPLAN_RUN = 'When do you want your Media Plan to run?';
         this.TARGET = 'Target';
 
         // Media Plan Setup: 2 Pixels
-        this.MEDIAPLAN_PIXEL_SELECT = "Select Conversion Pixels (Optional)";
-        this.MEDIAPLAN_PIXEL_REQUIRED = "Conversion Pixels are required for conversion reports and CPA billing.";
-        this.MEDIAPLAN_PIXEL_SELECTED = "Selected Pixels";
+        this.MEDIAPLAN_PIXEL_SELECT = 'Select Conversion Pixels (Optional)';
+        this.MEDIAPLAN_PIXEL_REQUIRED = 'Conversion Pixels are required for conversion reports and CPA billing.';
+        this.MEDIAPLAN_PIXEL_SELECTED = 'Selected Pixels';
         this.MEDIAPLAN_PIXEL_LIST = 'Pixels in list';
 
         // Media Plan Setup: 3 Budget
-        this.MEDIAPLAN_BUDGET_MEASURE = "Budget & Measure";
-        this.MEDIAPLAN_BUDGET = "Media Plan Budget";
-        this.MEDIAPLAN_MARGIN = "Margin (Optional)";
-        this.MEDIAPLAN_DELIVERY_BUDGET = "Delivery Budget";
-        this.MEDIAPLAN_MEASUREMENT_SETTING_COSTS = "Measurement Settings and Costs";
-        this.MEDIAPLAN_ACCOUNT_MEASUREMENT_SETTING = "Account / Advertiser Measurement Settings";
-        this.MEDIAPLAN_GENERATE_INVOICES = "The systems used to calculate costs and generate invoices";
-        this.MEDIAPLAN_COST_TRACKING = "Cost Tracking |";
-        this.MEDIAPLAN_COST_MEASURED = "The Costs that will be measured in Cost Attribution reports and are factored into COGS+ Billing";
-        this.MEDIAPLAN_ADD_ADDITIONAL_COSTS = "Add Additional Costs (Optional)";
-        this.MEDIAPLAN_METRIC = "Metric";this.MEDIAPLAN_VENDOR = "Vendor";
-        this.MEDIAPLAN_CONFIGURATION = "Configuration";
-        this.MEDIAPLAN_CHANNELS = "Channels";
-        this.MEDIAPLAN_CATEGORY = "Category";
-        this.MEDIAPLAN_OFFERING = "Offering";
-        this.MEDIAPLAN_RATE = "Rate";
-        this.MEDIAPLAN_PRICING = "Pricing";
-        this.MEDIAPLAN_SETUP_LINE_ITEMS = "Setup Line Items";
-        this.MEDIAPLAN_LINE_ITEM_NAME = "Line Item Name";
-        this.MEDIAPLAN_LINE_ITEM = "Line Item";
-        this.MEDIAPLAN_RATE_TYPE = "Rate Type";
-        this.MEDIAPLAN_BILLABLE_AMOUNT = "Billable Amount";
-        this.MEDIAPLAN_VOLUME = "Volume";
-        this.MEDIAPLAN_FLIGHT_DATES = "Flight Dates";
-        this.IMPORT_LINE_ITEMS = "Import Line Items";
-        this.EXPORT_LINE_ITEMS = "Export Line Items";
-        this.NO_LINE_ITEMS_ERR = "You haven't added any Line Items for your Media Plan yet";
-        this.CREATE_ADGROUP_LINEITEM = "Create Ad Group for Line Item" ;
+        this.MEDIAPLAN_BUDGET_MEASURE = 'Budget & Measure';
+        this.MEDIAPLAN_BUDGET = 'Media Plan Budget';
+        this.MEDIAPLAN_MARGIN = 'Margin (Optional)';
+        this.MEDIAPLAN_DELIVERY_BUDGET = 'Delivery Budget';
+        this.MEDIAPLAN_MEASUREMENT_SETTING_COSTS = 'Measurement Settings and Costs';
+        this.MEDIAPLAN_ACCOUNT_MEASUREMENT_SETTING = 'Account / Advertiser Measurement Settings';
+        this.MEDIAPLAN_GENERATE_INVOICES = 'The systems used to calculate costs and generate invoices';
+        this.MEDIAPLAN_COST_TRACKING = 'Cost Tracking |';
+        this.MEDIAPLAN_COST_MEASURED =
+            'The Costs that will be measured in Cost Attribution reports and are factored into COGS+ Billing';
+        this.MEDIAPLAN_ADD_ADDITIONAL_COSTS = 'Add Additional Costs (Optional)';
+        this.MEDIAPLAN_METRIC = 'Metric';
+        this.MEDIAPLAN_VENDOR = 'Vendor';
+        this.MEDIAPLAN_CONFIGURATION = 'Configuration';
+        this.MEDIAPLAN_CHANNELS = 'Channels';
+        this.MEDIAPLAN_CATEGORY = 'Category';
+        this.MEDIAPLAN_OFFERING = 'Offering';
+        this.MEDIAPLAN_RATE = 'Rate';
+        this.MEDIAPLAN_PRICING = 'Pricing';
+        this.MEDIAPLAN_SETUP_LINE_ITEMS = 'Setup Line Items';
+        this.MEDIAPLAN_LINE_ITEM_NAME = 'Line Item Name';
+        this.MEDIAPLAN_LINE_ITEM = 'Line Item';
+        this.MEDIAPLAN_RATE_TYPE = 'Rate Type';
+        this.MEDIAPLAN_BILLABLE_AMOUNT = 'Billable Amount';
+        this.MEDIAPLAN_VOLUME = 'Volume';
+        this.MEDIAPLAN_FLIGHT_DATES = 'Flight Dates';
+        this.IMPORT_LINE_ITEMS = 'Import Line Items';
+        this.EXPORT_LINE_ITEMS = 'Export Line Items';
+        this.NO_LINE_ITEMS_ERR = 'You haven\'t added any Line Items for your Media Plan yet';
+        this.CREATE_ADGROUP_LINEITEM = 'Create Ad Group for Line Item';
 
-        this.MEDIAPLAN_ADD_CREDIT = "Add Credit";
-        this.MEDIAPLAN_CREDIT_NAME = "Credit Name / Notes";
-        this.MEDIAPLAN_AMOUNT = "Amount";
-        this.MEDIAPLAN_ADD_ANOTHER_CREDIT = "Add Another Credit";
-        this.MEDIAPLAN_FLIGHT_DATE_START = "Flight Date Start";
-        this.MEDIAPLAN_FLIGHT_DATE_END = "Flight Date End";
-        this.SAVE_CHANGES = "Save Changes";
-        this.SELECT_CONVERSION_PIXELS = "Conversion Pixel";
-        this.SELECT_SYSTEM_OF_RECORD = "System of Record";
-        this.AD_GRP_NAME="Ad Group Name";
+        this.MEDIAPLAN_ADD_CREDIT = 'Add Credit';
+        this.MEDIAPLAN_CREDIT_NAME = 'Credit Name / Notes';
+        this.MEDIAPLAN_AMOUNT = 'Amount';
+        this.MEDIAPLAN_ADD_ANOTHER_CREDIT = 'Add Another Credit';
+        this.MEDIAPLAN_FLIGHT_DATE_START = 'Flight Date Start';
+        this.MEDIAPLAN_FLIGHT_DATE_END = 'Flight Date End';
+        this.SAVE_CHANGES = 'Save Changes';
+        this.SELECT_CONVERSION_PIXELS = 'Conversion Pixel';
+        this.SELECT_SYSTEM_OF_RECORD = 'System of Record';
+        this.AD_GRP_NAME='Ad Group Name';
         this.TOTAL_BILLABLE_AMOUNT = 'Total Billable Amount';
 
         this.MEDIA_PLAN_CLONE ='Media Plan Clone';
-        this.MEDIA_PLAN_WARNING_MESSAGE = 'You will lose your changes if you leave this page. Are you sure?'
+        this.MEDIA_PLAN_WARNING_MESSAGE = 'You will lose your changes if you leave this page. Are you sure?';
 
-        this.MEDIA_PLAN_TOTAL = "Media Plan total*:";
-        this.AD_GROUP_TOTAL = "Ad Group total*:";
-        this.CAMPAIGN_TOTAL = "Campaign total*:";
-        this.LINE_ITME_TOTAL = "Line item total*:"
-        this.INCLUDES_FIXED_COSTS = "*Includes fixed costs";
-        this.EXCLUDES_MEDIA_PLAN_FIXED_COSTS = "*Excludes Media Plan fixed costs";
+        this.MEDIA_PLAN_TOTAL = 'Media Plan total*:';
+        this.AD_GROUP_TOTAL = 'Ad Group total*:';
+        this.CAMPAIGN_TOTAL = 'Campaign total*:';
+        this.LINE_ITME_TOTAL = 'Line item total*:';
+        this.INCLUDES_FIXED_COSTS = '*Includes fixed costs';
+        this.EXCLUDES_MEDIA_PLAN_FIXED_COSTS = '*Excludes Media Plan fixed costs';
 
-        this.CLIENT_LOADED = "clientLoaded";
+        this.CLIENT_LOADED = 'clientLoaded';
+
         // Invoice Report
-        this.INVOICE_REPORT = "Invoice Reports";
-        this.ADJUSTMENTS = "Adjustments" ;
-        this.INVOICE_REPORT_ADD_ADJUSTMENT = "Add Adjustment to Invoice Report";
-        this.INVOICE_DOWNLOAD = "Download Invoice Report";
-        this.INVOICE_UPLOAD_SOR = "Upload System of Record(SOR) Results";
-        this.INVOICE_DOWNLOAD_SOR = "Download Line Items Requiring (SOR) Results";
-        this.CREDIT_ADD_SUCCESS = "Credit added/updated successfully";
-        this.CREDIT_ADD_ERR = "Error in adding/updating the credit ";
-        this.INVOICE_VIEW_REPORT = "View Invoice Report ";
-        this.INVOICE_VIEW_REPORT_ALL = "View All Invoice Reports";
-        this.INVOICE_REPORT_MEDIA_PLAN = "Media Plan (Expand to see invoice reports)";
-        this.INVOICE_REPORT_STATUS = "Status";
-        this.INVOICE_REPORT_DATE = "Invoice Date";
-        this.INVOICE_REPORT_SPEND = "Total Spend";
-        this.INVOICE_REPORT_ADJUSTMENTS = "Adjustments";
-        this.INVOICE_REPORT_BILLABLE = "Billable";
-        this.INVOICE_REPORT_ACCOUNT = "Account/Advertiser";
-        this.INVOICE_ADD_ADJUSTMENT = "Add Another Adjustment";
-        this.INVOICE_REPORT_DONWLOAD_SUCCESS = "Invoice report donwloaded successfully";
-        this.INVOICE_TEMPLATE_DOWNLOAD_SUCCESS = "Template downloaded successfully";
-        this.INVOICE_UPLOAD_UNSUPPORTED = "File Drag/Drop is not supported for this browser";
-        this.INVOICE_UPLOAD_FILE_UNSUPPORTED = "Cannot upload files bigger than 10MB / Unsupported file format";
-        this.INVOICE_REPORT_DONWLOAD_ERR = "Error in Invoice report donwload";
-        this.INVOICE_TEMPLATE_DOWNLOAD_ERR = "Error in Template download";
-        this.INVOICE_DROPDWON_READY = "The Invoice Report is ready for download";
-        this.INVOICE_DROPDWON_REVIEW = "The Invoice Report has been updated by an external upload and must be reviwed";
-        this.INVOICE_DROPDWON_CLOSED = "The Invoice Report has been reviwed and accepted. Reports with closed Status cannot be modified";
-        this.INVOICE_DROPDWON_UPLOAD = "The Invoice Report requires modification by Uploaded <br> System of Record (SOR) Results";
-        this.INVOICE_CONFIRM_CLOSE = "Do you want to close the invoice permanently.";
-        this.INVOICE_CONFIRM_UPLOAD = "Once the invoice status changed to upload, user must upload the file to change the status.";
-        this.CODE_FIELD_EMPTY = "Please add code";
-
+        this.INVOICE_REPORT = 'Invoice Reports';
+        this.ADJUSTMENTS = 'Adjustments';
+        this.INVOICE_REPORT_ADD_ADJUSTMENT = 'Add Adjustment to Invoice Report';
+        this.INVOICE_DOWNLOAD = 'Download Invoice Report';
+        this.INVOICE_UPLOAD_SOR = 'Upload System of Record(SOR) Results';
+        this.INVOICE_DOWNLOAD_SOR = 'Download Line Items Requiring (SOR) Results';
+        this.CREDIT_ADD_SUCCESS = 'Credit added/updated successfully';
+        this.CREDIT_ADD_ERR = 'Error in adding/updating the credit ';
+        this.INVOICE_VIEW_REPORT = 'View Invoice Report ';
+        this.INVOICE_VIEW_REPORT_ALL = 'View All Invoice Reports';
+        this.INVOICE_REPORT_MEDIA_PLAN = 'Media Plan (Expand to see invoice reports)';
+        this.INVOICE_REPORT_STATUS = 'Status';
+        this.INVOICE_REPORT_DATE = 'Invoice Date';
+        this.INVOICE_REPORT_SPEND = 'Total Spend';
+        this.INVOICE_REPORT_ADJUSTMENTS = 'Adjustments';
+        this.INVOICE_REPORT_BILLABLE = 'Billable';
+        this.INVOICE_REPORT_ACCOUNT = 'Account/Advertiser';
+        this.INVOICE_ADD_ADJUSTMENT = 'Add Another Adjustment';
+        this.INVOICE_REPORT_DONWLOAD_SUCCESS = 'Invoice report donwloaded successfully';
+        this.INVOICE_TEMPLATE_DOWNLOAD_SUCCESS = 'Template downloaded successfully';
+        this.INVOICE_UPLOAD_UNSUPPORTED = 'File Drag/Drop is not supported for this browser';
+        this.INVOICE_UPLOAD_FILE_UNSUPPORTED = 'Cannot upload files bigger than 10MB / Unsupported file format';
+        this.INVOICE_REPORT_DONWLOAD_ERR = 'Error in Invoice report donwload';
+        this.INVOICE_TEMPLATE_DOWNLOAD_ERR = 'Error in Template download';
+        this.INVOICE_DROPDWON_READY = 'The Invoice Report is ready for download';
+        this.INVOICE_DROPDWON_REVIEW = 'The Invoice Report has been updated by an external upload and must be reviwed';
+        this.INVOICE_DROPDWON_CLOSED =
+            'The Invoice Report has been reviwed and accepted. Reports with closed Status cannot be modified';
+        this.INVOICE_DROPDWON_UPLOAD =
+            'The Invoice Report requires modification by Uploaded <br> System of Record (SOR) Results';
+        this.INVOICE_CONFIRM_CLOSE = 'Do you want to close the invoice permanently.';
+        this.INVOICE_CONFIRM_UPLOAD =
+            'Once the invoice status changed to upload, user must upload the file to change the status.';
+        this.CODE_FIELD_EMPTY = 'Please add code';
     });
 });

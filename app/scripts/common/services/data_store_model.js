@@ -1,65 +1,77 @@
-define(['angularAMD', '../utils'], function (angularAMD) {
-  angularAMD.service("dataStore", function (utils) {
-    "use strict";
+define(['angularAMD', '../utils'], function(angularAMD) { // jshint ignore:line
+    angularAMD.service('dataStore', function() {
+        'use strict';
 
-    var CachedObject = function (val) {
-      this.cachedOn = new Date();
-      this.value = val;
-      this.expiryTime = 30 * 60 * 1000 // 30 mins in milliseconds
-      this.isStale = function () {
-        var dataAge = new Date() - this.cachedOn
-        if (dataAge > this.expiryTime) return true;
-        return false;
-      }
-      //get time until this data object's expiry in milliseconds
-      this.getRemainingTime = function () {
-        return this.expiryTime - (new Date() - this.cachedOn);
-      }
-    }
+        var CachedObject = function(val) {
+            this.cachedOn = new Date();
+            this.value = val;
 
+            // 30 mins in milliseconds
+            this.expiryTime = 30 * 60 * 1000;
 
-      this.responseByUrl = {} // key is url itself - It will be used when same url is to be queried
+            this.isStale = function() {
+                var dataAge = new Date() - this.cachedOn;
 
-      this.enableCache = true;
+                if (dataAge > this.expiryTime) {
+                    return true;
+                }
 
-      this.addObject = function (key, carrier, object, forced) {
-        if (this.enableCache === false) {
-          return;
-        }
-        var existing = carrier[key];
-        if (existing == undefined || existing.isStale() === true || forced === true) {
-          carrier[key] = this.getCacheableObject(object)
-        }
-      };
+                return false;
+            };
 
-      this.getCacheableObject = function (object) {
-        return new CachedObject(object)
-      };
+            //get time until this data object's expiry in milliseconds
+            this.getRemainingTime = function() {
+                return this.expiryTime - (new Date() - this.cachedOn);
+            };
+        };
 
-      this.cacheByUrl = function (url, response) {
-        this.addObject(url, this.responseByUrl, response)
-      };
+        // key is url itself - It will be used when same url is to be queried
+        this.responseByUrl = {};
 
-      this.getCachedByUrl = function (url) {
-        var response = this.responseByUrl[url]
-        if (response != undefined && response.isStale() === false) {
-          // console.log('found saved response for url ' + url + ' Expiry Time: ' + utils.roundOff(response.getRemainingTime()/1000/60, 2) + "mins")
-          return response;
-        }
-        return undefined
-      };
+        this.enableCache = true;
 
-      this.deleteFromCache = function (url) {
-        // console.log('force delete from cache for url: ' + url);
-        this.responseByUrl[url] = undefined
-      };
+        this.addObject = function(key, carrier, object, forced) {
+            var existing = carrier[key];
 
-      this.deleteAllCachedCampaignListUrls = function () {
-        for (var url in this.responseByUrl) {
-          if (url.indexOf('/campaigns/bystate') > -1) {
-            this.deleteFromCache(url);
-          }
-        }
-      };
-  });
+            if (this.enableCache === false) {
+                return;
+            }
+
+            if (existing === undefined || existing.isStale() === true || forced === true) {
+                carrier[key] = this.getCacheableObject(object);
+            }
+        };
+
+        this.getCacheableObject = function(object) {
+            return new CachedObject(object);
+        };
+
+        this.cacheByUrl = function(url, response) {
+            this.addObject(url, this.responseByUrl, response);
+        };
+
+        this.getCachedByUrl = function(url) {
+            var response = this.responseByUrl[url];
+
+            if (response !== undefined && response.isStale() === false) {
+                return response;
+            }
+
+            return undefined;
+        };
+
+        this.deleteFromCache = function(url) {
+            this.responseByUrl[url] = undefined;
+        };
+
+        this.deleteAllCachedCampaignListUrls = function() {
+            var url;
+
+            for (url in this.responseByUrl) {
+                if (url.indexOf('/campaigns/bystate') > -1) {
+                    this.deleteFromCache(url);
+                }
+            }
+        };
+    });
 });
