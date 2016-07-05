@@ -37,10 +37,11 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                                 $scope.pushedCount = $scope.creativeEditData.pushedCount;
                                 $scope.associatedAdCount = $scope.creativeEditData.noOfAds;
                                 $scope.clickUrl=$scope.creativeEditData.clickthroughURL;
+                                $scope.isTrackingCreative=$scope.creativeEditData.isTracking;
 
                                 // set the creativeTag Type
-                                $scope.creativeType = $scope.creativeEditData.creativeType.toUpperCase();
-                                $scope.creativeTagSelected('',$scope.creativeEditData.creativeType);
+                               /* $scope.creativeType = $scope.creativeEditData.creativeType.toUpperCase();
+                                $scope.creativeTagSelected('',$scope.creativeEditData.creativeType);*/
 
                                 // make call to set the format type here
                                 // inturn makes call to get possible templates
@@ -51,8 +52,8 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                                 }
 
                                 //make call to generate Template
-                                $scope.creativeEditData.vendorCreativeTemplate ?
-                                    $scope.onTemplateSelected($scope.creativeEditData.vendorCreativeTemplate,
+                                $scope.creativeEditData.creativeTemplate ?
+                                    $scope.onTemplateSelected($scope.creativeEditData.creativeTemplate,
                                         $scope.creativeEditData.creativeCustomInputs,'editCreativeTypeSet') : '';
 
                                 $scope.tag = $scope.creativeEditData.tag;
@@ -229,39 +230,41 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                             creatives.errorHandler(result);
                         }
                     });
-            },
 
-            validateScriptTag = function (scriptTag) {
-                var pattern = new RegExp(/.*(https:).*/),
-                    tagLower = scriptTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
-
-                if (tagLower.match(pattern)) {
-                    postCrDataObj.tag = scriptTag;
-                    validTag = true;
-                } else {
-                    validTag = false;
-                    $scope.IncorrectTag = true;
-                    $scope.IncorrectTagMessage =
-                        'You have entered an invalid Javascript tag.Please review carefully and try again';
-                    console.log('Incorrect tag');
-                }
-            },
-
-            validateUrl= function (url) {
-                var re = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
-                validTag = true;
-
-                if (url !== ''){
-                    if (url && re.test(url)) {
-                        postCrDataObj.clickthroughURL = url;
-                        $scope.IncorrectClickThru=false;
-                        validTag = true;
-                    }else{
-                        validTag = false;
-                        $scope.IncorrectClickThru=true;
-                    }
-                }
             };
+
+            // validateScriptTag = function (scriptTag) {
+            //     var pattern = new RegExp(/.*(https:).*/),
+            //         tagLower = scriptTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
+            //
+            //     if (tagLower.match(pattern)) {
+            //         postCrDataObj.tag = scriptTag;
+            //         validTag = true;
+            //     } else {
+            //         validTag = false;
+            //         $scope.IncorrectTag = true;
+            //         $scope.IncorrectTagMessage =
+            //             'You have entered an invalid Javascript tag.Please review carefully and try again';
+            //         console.log('Incorrect tag');
+            //     }
+            // },
+            //
+            // validateUrl= function (url) {
+            //     var re = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+            //     validTag = true;
+            //     if(url!=''){
+            //         if(url && re.test(url)) {
+            //             postCrDataObj.clickthroughURL = url;
+            //             $scope.IncorrectClickThru=false;
+            //             validTag = true;
+            //         }else{
+            //             validTag = false;
+            //             $scope.IncorrectClickThru=true;
+            //         }
+            //     }
+            // };
+
+        // $scope.creativeFormat = 'DISPLAY';
 
         $scope.creative = {};
         $scope.adData = {};
@@ -433,16 +436,16 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
             // function to get the possible templates in adCreate Page)
             if ($scope.adPage) {
-                $scope.getTemplates(adServer,$scope.creativeFormat);
+                $scope.getTemplates(adServer,$scope.creativeFormat,$scope.isPlatformId);
             }
         };
 
         // get Templates
-        $scope.getTemplates = function (vendor,format) {
+        $scope.getTemplates = function (vendor,format,platformId) {
             var responseData;
 
             workflowService
-                .getTemplates(vendor,format)
+                .getTemplates(vendor,format,platformId)
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         responseData = result.data.data;
@@ -494,49 +497,69 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
         // Generate the Template
         $scope.onTemplateSelected = function (templateJson, customFieldsDataEditMode, flag) {
+            console.log(templateJson);
             var creativeTemplateWrap = $('.creativeTemplate'),
                 i,
                 index;
 
             $scope.creativeSizeData.tagTypes = [];
             $scope.CreativeTemplate = templateJson;
-
+            $scope.isTrackingCreative = templateJson.isTracking;
             $scope.adData.creativeTemplate = templateJson.id;
+
+            if(templateJson){
+                var supportedList=''
+                for(var i=0;i<templateJson.supportedTags.length;i++){
+                    supportedList=(supportedList.length>0)?(supportedList+','+templateJson.supportedTags[i]):templateJson.supportedTags[i];
+                }
+                console.log(supportedList)
+                if(templateJson.creativeTemplateCustomInputJson && templateJson.creativeTemplateCustomInputJson.platformCustomInputNamespaceList[0] && templateJson.creativeTemplateCustomInputJson.platformCustomInputNamespaceList[0].platformCustomInputGroupList.length>0){
+                  var  inputElements=templateJson.creativeTemplateCustomInputJson.platformCustomInputNamespaceList[0].platformCustomInputGroupList;
+                    for(var i=0;i<inputElements.length;i++){
+                        if(inputElements[i].name='tag_types' && inputElements[i].platformCustomInputList){
+                            inputElements[i].platformCustomInputList[0].supportedTags=supportedList;
+                        }
+                    }
+                }
+                console.log(templateJson);
+                templateJson.creativeTemplateCustomInputJson.platformCustomInputNamespaceList[0].platformCustomInputGroupList=inputElements;
+            }
+
             creativeCustomModule.init(templateJson, creativeTemplateWrap, $scope, customFieldsDataEditMode);
 
             //code to enable the supported tagTypes for the particular template
-            $scope.creativeSizeData.tagTypes = [
-                {id: 1, name: 'HTML', active: false, disabled:true},
-                {id: 2, name: 'JS',   active: false, disabled:true},
-                {id: 3, name: 'VAST', active: false, disabled:true}
-            ];
-
-            if (templateJson) {
-                for (i = 0; i < templateJson.supportedTags.length; i++) {
-                    index = _.findIndex($scope.creativeSizeData.tagTypes, function (obj) { // jshint ignore:line
-                        return (obj.name).toUpperCase() ===
-                            angular.uppercase(templateJson.supportedTags[i]); // jshint ignore:line
-                    });
-
-                    if (index >= 0) {
-                        $scope.creativeSizeData.tagTypes[index].disabled = false;
-                    } else {
-                        $scope.creativeSizeData.tagTypes[index].disabled = true;
-                    }
-                }
-
-                if (flag === 'editCreativeTypeSet') {
-                    // set the seleted Tag type first time
-                    index = _.findIndex($scope.creativeSizeData.tagTypes, function (obj) { // jshint ignore:line
-                        return (obj.name).replace(/\s+/g, '').toUpperCase() ===
-                            ($scope.creativeEditData.creativeType).replace(/\s+/g, '').toUpperCase();
-                    });
-
-                    if (index >= 0) {
-                        $scope.creativeSizeData.tagTypes[index].active = true;
-                    }
-                }
-            }
+            // $scope.creativeSizeData.tagTypes = [
+            //     {id: 1, name: 'HTML', active: false, disabled:true},
+            //     {id: 2, name: 'JS',   active: false, disabled:true},
+            //     {id: 3, name: 'VAST', active: false, disabled:true}
+            // ];
+            //
+            // if (templateJson) {
+            //     for (i = 0; i < templateJson.supportedTags.length; i++) {
+            //         index = _.findIndex($scope.creativeSizeData.tagTypes, function (obj) { // jshint ignore:line
+            //             return (obj.name).toUpperCase() ===
+            //                 angular.uppercase(templateJson.supportedTags[i]); // jshint ignore:line
+            //         });
+            //
+            //         if (index >= 0) {
+            //             $scope.creativeSizeData.tagTypes[index].disabled = false;
+            //         } else {
+            //             $scope.creativeSizeData.tagTypes[index].disabled = true;
+            //         }
+            //     }
+            //
+            //     if (flag === 'editCreativeTypeSet') {
+            //         // set the seleted Tag type first time
+            //         index = _.findIndex($scope.creativeSizeData.tagTypes, function (obj) { // jshint ignore:line
+            //             return (obj.name).replace(/\s+/g, '').toUpperCase() ===
+            //                 ($scope.creativeEditData.creativeType).replace(/\s+/g, '').toUpperCase();
+            //         });
+            //
+            //         if (index >= 0) {
+            //             $scope.creativeSizeData.tagTypes[index].active = true;
+            //         }
+            //     }
+            //  }
         };
 
         $scope.creativePopularSizes = [
@@ -599,6 +622,8 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             var formData,
                 indexArr = [],
                 formDataObj,
+                validCreativeUrl,
+                validateTag,
                 i,
                 templateArr,
                 listArr = [
@@ -622,26 +647,43 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             if (form.$valid) {
                 formDataObj = $('#formCreativeCreate').serializeArray();
                 formData = _.object(_.pluck(formDataObj, 'name'), _.pluck(formDataObj, 'value')); // jshint ignore:line
+                console.log(formData);
                 postCrDataObj = {};
                 postCrDataObj.name = formData.name;
                 postCrDataObj.clientId = $scope.creative.clientId;
                 postCrDataObj.advertiserId = formData.advertiserId;
                 postCrDataObj.brandId = formData.brandId;
+                postCrDataObj.isTracking = $scope.isTrackingCreative;
                 postCrDataObj.adServerId = formData.creativeAdServer;
                 postCrDataObj.creativeFormat = $scope.creativeFormat.toUpperCase();
                 postCrDataObj.sslEnable = 'true';
-                postCrDataObj.tag = '%%TRACKER%%';
-                postCrDataObj.sizeId = formData.creativeSize;
-                postCrDataObj.creativeType = formData.creativeType;
-                postCrDataObj.vendorCreativeTemplateId = formData.creativeTemplate;
-
+                // postCrDataObj.tag = '%%TRACKER%%';
+                 postCrDataObj.sizeId = formData.creativeSize;
+                // postCrDataObj.creativeType = formData.creativeType;
+                 postCrDataObj.creativeTemplateId = formData.creativeTemplate;
+                postCrDataObj.creativeCustomInputs=[];
+/*newly commented
                 validateScriptTag(formData.tag);
 
                 // validate if the click thru url is valid
                 validateUrl(formData.clickUrl);
+<<<<<<< Updated upstream
 
                 if (validTag) {
+ */
+                //if ($scope.TrackingIntegrationsSelected) {
+                //  postCrDataObj.tag = '%%TRACKER%%';
+                //    validTag = true;
+                //} else {
+                //validateScriptTag(formData.tag);
+                // }
+
+               // if (validTag) {
+
+                    validCreativeUrl = true;
+                    validateTag=true;
                     $('#invalidUrl').remove();
+                    $('#invalidScript').remove();
 
                     for (i = 0; i < formDataObj.length; i++) {
                         if (listArr.indexOf(formDataObj[i].name) >= 0) {
@@ -658,17 +700,60 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
                     $scope.IncorrectTag = false;
 
-                    postCrDataObj.creativeCustomInputs = _.map(templateArr, function (data) { // jshint ignore:line
+                var creativeCustomInputsArr= _.map(templateArr, function (data) { // jshint ignore:line
                         var d = data.name.split('$$');
 
-                        return {
-                            creativeCustomInputId: Number(d[1]),
-                            value: data.value
-                        };
+                        if (d[0] === 'clickthrough_url.clickthrough_url' && data.value !== '') {
+                           // validate if the url is valid
+                           validCreativeUrl = workflowService.validateUrl(data.value);
+
+                           if (validCreativeUrl === false) {
+                               $('[name = "' + data.name + '"]')
+                                   .parent()
+                                   .append('<label id="invalidUrl" ' +
+                                       'class="col-sm-12 control-label errorLabel" ' +
+                                       'style="display: block">Please enter a valid url.</label>');
+                           }
+                        }
+                        if(d[0]=== 'tags.tag' ){
+                            // validate if the url is valid
+                            if(data.value == ''){
+                                validateTag=false;
+                                $('[name = "' + data.name + '"]')
+                                    .parent()
+                                    .append('<label id="invalidScript" ' +
+                                        'class="col-sm-12 control-label errorLabel" ' +
+                                        'style="display: block">Please enter a Script tag.</label>');
+                            }else{
+                                validateTag = workflowService.validateTag(data.value);
+                                if (validateTag === false) {
+                                    $('[name = "' + data.name + '"]')
+                                        .parent()
+                                        .append('<label id="invalidScript" ' +
+                                            'class="col-sm-12 control-label errorLabel" ' +
+                                            'style="display: block">Please enter a valid Script tag.</label>');
+                                }
+                            }
+
+                        }
+                        if(data.value!==''){
+                            return {
+                                creativeCustomInputId: Number(d[1]),
+                                value: data.value
+                            };
+                        }
+
                     });
 
-                    $scope.creativeSave(postCrDataObj);
-                }
+                    if (validCreativeUrl && validateTag) {
+                        _.each(creativeCustomInputsArr,function (obj) {
+                            if(obj){
+                                postCrDataObj.creativeCustomInputs.push(obj)
+                            }
+                        })
+                        $scope.creativeSave(postCrDataObj);
+                    }
+                //}
             }
         };
 

@@ -255,9 +255,12 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                     }
                 }
 
-                if (inputList.platformCustomWidgetType === 'LABEL') {
+                if (inputList.platformCustomWidgetType === 'LABEL' || inputList.platformCustomWidgetType === 'TEXTBOX_READ') {
                     inputWrapper.removeClass('form-group-section');
                     LabelHtml = $('<span />').addClass('pull-left clearLeft').text(inputList.defaultValue);
+                    if(inputList.platformCustomWidgetType === 'TEXTBOX_READ') {
+                        LabelHtml.addClass('onlyShowValue');
+                    }
                     inputWrapper.append(LabelHtml);
                 }
 

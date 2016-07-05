@@ -8,6 +8,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
             createInputElem = function (inputList, idx, scope) {
                 var inputWrapper,
                     options,
+                    supportedTag,
                     LabelHtml,
                     fieldLabel,
                     toggleLabel;
@@ -80,6 +81,9 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                     // Split the range Json to get all possible values for toggle
                     options = inputList.rangeJson.split(',');
 
+                    //split the supported tags into an array
+                    supportedTag=inputList.supportedTags.split(',');
+
                     // for each value to be shown on toggle
                     toggleLabel='';
 
@@ -100,6 +104,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                                 .addClass('btn btn-default')
                                 .addClass((activeToggleIdx >= 0) ? ((activeToggleIdx === idx) ? 'active' : '') :
                                     (inputList.defaultValue !== '') ? '' : (idx === 0?'active':''))
+                                .addClass((supportedTag.indexOf(option) == -1 )?'disabled':'')
                                 .text(option)
                                 .on('click', function () {
                                     var target = $(event.target),
@@ -255,20 +260,15 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 }
             },
 
-            init = function (creativeTemplate, elem, scope, editModeData) {
-                elem.html('');
-                _self.elem = elem;
-
-                _self.creativeCustomInputNamespaceList = creativeTemplate ?
-                    creativeTemplate
-                        .creativeTemplateCustomInputJson
-                        .platformCustomInputNamespaceList : '';
-
-                _self.creativeCustomInputGroupList = creativeTemplate ?
-                    creativeTemplate
-                        .creativeTemplateCustomInputJson
-                        .platformCustomInputNamespaceList[0]
-                        .platformCustomInputGroupList : '';
+         init=function(creativeTemplate,elem,scope,editModeData){
+            elem.html('');
+            _self.elem = elem;
+            //_self.adPlatformCustomInputs= adPlatformCustomInputs;
+             _self.creativeCustomInputNamespaceList = creativeTemplate? creativeTemplate.creativeTemplateCustomInputJson.platformCustomInputNamespaceList:'';
+           // _self.creativeCustomInputNamespaceList = temp? temp.platformCustomInputNamespaceList:'';
+            //_self.creativeCustomInputGroupList = temp?temp.platformCustomInputNamespaceList[0].platformCustomInputGroupList:'';
+             _self.creativeCustomInputGroupList = creativeTemplate?creativeTemplate.creativeTemplateCustomInputJson.platformCustomInputNamespaceList[0].platformCustomInputGroupList:'';
+            console.log(_self.creativeCustomInputGroupList);
 
                 _.each(_self.creativeCustomInputGroupList, function (pJson) { // jshint ignore:line
                     buildFormControl(pJson, elem,scope,editModeData);

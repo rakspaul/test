@@ -57,27 +57,29 @@
 
             <div class="col-md-9 zeroPadding inventory_upload_btn" style="margin: 20px 0 0;">
                 <button class="pull-left btn btn-default"
-                        style="margin: 0 0 20px 0;"
+                        style="margin-bottom:20px;"
                         ng-click="showInventoryModal()"
                         ng-show="workflowData.inventoryData.length > 0 ?  true : false"
                         data-ng-bind="textConstants.INVENTORY_SELECT_FROM_EXISTING">
                 </button>
-                <span class="greyTxt pull-left"
-                      style="margin: 0 15px;"
-                      ng-show="workflowData.inventoryData.length > 0 ?  true : false">
-                    or
-                </span>
+                <!--1-->
                 <!-- TODO: Temp, put CSS in stylesheet -->
                 <span class="no-domain-list-found greyTxt"
                       ng-bind="textConstants.NO_DOMAIN_LIST_FOUND"
                       style="padding: 0 0 10px !important; display: block;"
                       ng-show="workflowData.inventoryData.length === 0 ?  true : false">
                 </span>
-                <button class="pull-left btn btn-default" ngf-select="selectFiles($files, 'INVENTORY_CREATE')"
+                <button class="pull-left btn btn-default" ngf-select="selectFiles($files, 'INVENTORY_CREATE','DOMAIN')"
                         ngf-accept="'.csv,.txt'" ngf-multiple="false" ngf-allow-dir="false"
-                        data-ng-bind="textConstants.INVENTORY_UPLOAD_NEW">
+                        data-ng-bind="textConstants.INVENTORY_UPLOAD_NEW_DOMAIN">
                 </button>
-                <span class="grey_txt" data-ng-bind="textConstants.CSVTXTFILE"></span>
+
+                <button class="pull-left btn btn-default" ngf-select="selectFiles($files, 'INVENTORY_CREATE','APP')"
+                        ngf-accept="'.csv,.txt'" ngf-multiple="false" ngf-allow-dir="false"
+                        data-ng-bind="textConstants.INVENTORY_UPLOAD_NEW_APP">
+                </button>
+                <span class="greyTxt pull-left" data-ng-bind="textConstants.CSVTXTFILE"></span>
+
             </div>
         </div>
         <!-- Header Ends -->
@@ -124,7 +126,7 @@
                          id="{{'sort-icon-holder-' + inventory.id}}"
                          style="display: inline-block;
                          margin-top: 5px;">
-                        <span class="pull-left" data-ng-bind="textConstants.DOMAIN"></span>
+                        <span class="pull-left" data-ng-bind="(inventory.type === 'DOMAIN')?textConstants.DOMAIN:textConstants.APP"></span>
                         <span class="pull-left common-sort-icon ascending"></span>
                     </div>
                 </div>
@@ -168,6 +170,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Body Ends -->
     </div>
 </div>
@@ -228,7 +231,7 @@
                 <button type="button"
                         class="btn btn-primary pull-right"
                         ng-disabled="!adData.listName.length || (files && files.length === 0)"
-                        ng-click="uploadDomain()"
+                        ng-click="uploadDomain((fileType === 'DOMAIN')?'DOMAIN':'APP')"
                         data-ng-bind="textConstants.IMPORT">
                 </button>
                 <button type="button"
@@ -254,6 +257,13 @@
                 <h1 ng-bind="'Select from existing ' +
                                 (adData.inventory.domainAction === 'INCLUDE' ? 'Whitelists' : 'Blacklists')">
                 </h1>
+                <div class="pull-right allTypeLists">
+                  <div class="btn-group create" role="group" aria-label="...">
+                      <button type="button" class="btn btn-default active" ><span data-ng-bind="textConstants.ALL_LISTS"></span></button>
+                      <button type="button" class="btn btn-default" ><span data-ng-bind="textConstants.DOMAIN_LISTS"></span></button>
+                      <button type="button" class="btn btn-default" ><span data-ng-bind="textConstants.APP_LISTS"></span></button>
+                    </div>
+                </div>
             </div>
             <div class="popBody">
                 <div class="col-md-6">

@@ -534,6 +534,10 @@
   float: right;
   margin: 0;
 }
+.popInventoryLib .inventoryLib .headerLib .allTypeLists .btn-default {
+  float: left;
+  margin-left: -1px;
+}
 .popInventoryLib .inventoryLib .headerLib h1 {
   float: left;
   color: #000;

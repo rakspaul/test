@@ -525,10 +525,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         '/vendors?format=' + adFormat.toUpperCase());
                 },
 
-                getTemplates: function (adServer, format) {
+                getTemplates: function (adServer, format,platformId) {
+                  var executionId = platformId?'&executionVendorId='+platformId:'';
                         return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/vendors/' + adServer.id +
-                            '/templates?format=' + format.toUpperCase());
+                            '/templates?format=' + format.toUpperCase() + executionId);
                 },
 
                 getCreativeSizes: function () {
@@ -555,19 +556,23 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 },
 
                 getCreativeData: function (id, client_id) {
-                    var clientId;
-
-                    if (client_id) {
-                        clientId = client_id;
-                    } else {
-                        clientId = loginModel.getSelectedClient().id;
-                    }
+                    var clientId = client_id || loginModel.getSelectedClient().id,
+                        qryStr = '/clients/' + clientId + '/creatives/' + id;
 
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/creatives/' + id);
                 },
 
+                getCreativePreViewData : function(params) {
+                    var str,
+                        qryStr;
+
+                    str = (params.campaignId && params.adId) ? ('?campaignId/' + params.campaignId + '/adId/' + params.adId) : '';
+                    qryStr = '/clients/' + params.clientId + '/advertisers/'+ params.advertiserId + '/creatives/' + params.creativeId + '/preview' + str;
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        qryStr );
+                },
 
                 forceSaveCreatives: function (clientId, adId, data) {
                     clientId = loginModel.getSelectedClient().id;
@@ -582,18 +587,20 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     );
                 },
 
-                getCreatives: function (clientId,adId, formats, query, cacheObj, state, success, failure) {
+                getCreatives: function (clientId,adId, formats, query, cacheObj, state, platformId, success,
+                                        failure) {
                     var queryStr = query ? query : '',
                         creativeFormats = formats ? '?creativeFormat=' + formats : '',
                         url,
                         canceller;
-
-                    state = state ? '&status=READY' : '';
+                    state = state ? '&status=READY' : '',
+                    platformId = platformId ? '&executionVendorId='+platformId : '';
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/advertisers/' + adId +
-                        '/creatives' + creativeFormats + queryStr  + state;
+                    //    '/creatives' + creativeFormats + queryStr + intTracking + state;
+                        '/creatives' + creativeFormats + queryStr  + state + platformId;
 
                     canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
 
@@ -1063,6 +1070,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
                     return re.test(url);
+                },
+
+                validateTag:function (scriptTag) {
+                    var pattern = new RegExp(/.*(https:).*/),
+                            tagLower = scriptTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
+                        if (tagLower.match(pattern)) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                 },
 
                 processVendorConfig: function (data) {

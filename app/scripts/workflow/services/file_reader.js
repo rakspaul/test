@@ -29,7 +29,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
             };
         }
 
-        function getReader(deferred, scope) {
+        function  getReader(deferred, scope) {
             var reader = new FileReader();
 
             reader.onload = onLoad(reader, deferred, scope);
@@ -38,7 +38,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
             return reader;
         }
 
-        function readAsText(file, scope) {
+        function  readAsText(file, scope) {
             var deferred = $q.defer(),
                 reader = getReader(deferred, scope);
 

@@ -176,6 +176,12 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
                     $rootScope.$broadcast('targettingCapability', platform);
                 },
+                 resetCreatives:function () {
+                    $scope.adData.setSizes = constants.WF_NOT_SET;
+                    $scope.creativeData.creativeInfo = 'undefined';
+                    $scope.$parent.selectedArr.length = 0;
+
+                },
 
                 setPlatform: function (event, platform, seat) {
                     $scope.selectedPlatform = {};
@@ -185,6 +191,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                     if (event && !$scope.changePlatformPopup) {
                         if ($scope.adData && platform.id !== $scope.adData.platformId) {
                             $rootScope.$broadcast('resetTargeting');
+                            _buyingPlatform.resetCreatives();
 
                             //reseting the custom field values on change of platform.
                             $scope.$parent.postPlatformDataObj = null;
@@ -299,6 +306,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
             //reseting the direct inevntory data while changing the data;
             $scope.adData.resetInventroy();
+
 
             _buyingPlatform._selectPlatform(event, platform, seat);
         };
