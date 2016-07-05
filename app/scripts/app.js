@@ -545,7 +545,7 @@ define(['common'], function (angularAMD) { // jshint ignore:line
                     }
                 }))
 
-                .when('/creative/:creativeId/preview', angularAMD.route({
+                .when('/clientId/:clientId/adv/:advertiserId/creative/:creativeId/preview', angularAMD.route({
                     templateUrl: assets.html_creative_preview, // jshint ignore:line
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',
@@ -556,6 +556,19 @@ define(['common'], function (angularAMD) { // jshint ignore:line
                         }
                     }
                 }))
+
+                .when('/clientId/:clientId/adv/:advertiserId/campaignId/:campaignId/adId/:adId/creative/:creativeId/preview', angularAMD.route({
+                    templateUrl: assets.html_creative_preview, // jshint ignore:line
+                    title: 'Preview Creative',
+                    controller: 'CreativePreviewController',
+                    controllerUrl: 'workflow/controllers/creative_preview_controller',
+                    showHeader : false,
+                    resolve: {
+                        check: function () {
+                        }
+                    }
+                }))
+
 
                 .when('/creative/list', angularAMD.route({
                     templateUrl: assets.html_creative_list, // jshint ignore:line

@@ -1,10 +1,16 @@
-define(['angularAMD', 'workflow/services/workflow_service', 'login/login_model'], // jshint ignore:line
+define(['angularAMD', 'workflow/services/workflow_service', 'login/login_model', 'reporting/advertiser/advertiser_model'], // jshint ignore:line
     function (angularAMD) {
     angularAMD.controller('CreativePreviewController', function ($scope, $rootScope, $routeParams, $location,
-                                                         workflowService, loginModel) {
+                                                         workflowService, loginModel, advertiserModel) {
         $scope.creativePreviewUrl = true;
 
         var creativeId = $routeParams.creativeId,
+            campaignId = $routeParams.campaignId,
+            adId = $routeParams.adId,
+            clientId = $routeParams.clientId,
+            advertiserId = $routeParams.adv;
+
+
 
             extractTagUrl =  function(tag) {
                 var url
@@ -70,15 +76,24 @@ define(['angularAMD', 'workflow/services/workflow_service', 'login/login_model']
             document.getElementsByTagName('head')[0].appendChild(script);
         }
 
+        var params = {
+            'campaignId' : campaignId,
+            'adId' : adId,
+            'creativeId' : creativeId,
+            'clientId' : clientId,
+            'advertiserId' : advertiserId
+        }
+
         workflowService
-            .getCreativeData(creativeId,loginModel.getSelectedClient().id)
+            .getCreativePreViewData(params)
             .then(function (result) {
                 if (result.status === 'OK' || result.status === 'success') {
                     $scope.creativePreviewData = result.data.data;
                     console.log($scope.creativePreviewData);
                     buildCreativeTagPreviewContainer($scope.creativePreviewData);
                 } else {
-                    console.log('No data Available to edit');
+                    $scope.creativePreviewUrl = false;
+                    console.log("err")
                 }
             });
     });
