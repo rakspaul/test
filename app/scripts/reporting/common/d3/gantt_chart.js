@@ -188,6 +188,8 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
             };
 
             function gantt(tasks, timeDomainString) {
+                
+                $(".div-header-chart .header-chart, svg.chart").remove();
 
                 initTimeDomain(tasks);
                 initAxis(timeDomainString);
