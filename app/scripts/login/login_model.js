@@ -1,4 +1,4 @@
-define(['angularAMD','../common/services/constants_service'], function (angularAMD) {
+define(['angularAMD','common/services/constants_service'], function (angularAMD) {
     angularAMD.service("loginModel", function ($cookieStore, $location, $http, constants) {
         var data = {
                 user_id: undefined,

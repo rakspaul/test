@@ -8,7 +8,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
     'workflow/controllers/video_targetting_controller', 'workflow/controllers/inventory_filters_controller',
     'workflow/controllers/creative_controller', 'workflow/controllers/creative_list_controller',
     'workflow/controllers/creative_tag_controller', 'workflow/services/platform_custom_module',
-    'common/services/zip_code', 'workflow/controllers/ad_clone_controller'],
+    'workflow/controllers/ad_clone_controller'],
     function (angularAMD) {
         angularAMD.controller('CampaignAdsCreateController', function ($scope, $modal, $rootScope, $routeParams,
                                                                        $locale, $location,  $filter, $timeout,
