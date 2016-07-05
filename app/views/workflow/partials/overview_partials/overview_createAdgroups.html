@@ -12,7 +12,7 @@
                                               !isMinimumAdGroupBudget ||
                                               !isMaximumAdGroupBudget ||
                                               adIGroupBudget === 0)"
-                            data-ng-click="createAdGroup($event)"
+                            data-ng-click="saveAdGroup($event)"
                             data-ng-bind="textConstants.WF_AD_SAVE_CLOSE"
                             data-ng-show="!loadingBtn">
                     </button>
@@ -193,12 +193,12 @@
                                           !isMinimumAdGroupBudget ||
                                           !isMaximumAdGroupBudget ||
                                           adIGroupBudget === 0)"
-                        data-ng-click="createAdGroup($event)"
+                        data-ng-click="saveAdGroup($event)"
                         data-ng-bind="textConstants.SAVE"
                         data-ng-show="!loadingBtn">
                 </button>
                 <span class="pull-right secondary_txt"
-                      data-ng-click="createAdGrp();"
+                      data-ng-click="createAdGroup();"
                       data-ng-bind="textConstants.CANCEL">
                 </span>
             </div>
