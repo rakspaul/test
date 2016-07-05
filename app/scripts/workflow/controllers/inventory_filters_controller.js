@@ -766,7 +766,11 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             };
             $scope.inventry = {};
             $scope.inventry.inventoryType = '';
-            $scope.filterInventoryList = function(type){
+            $scope.filterInventoryList = function(event , type){
+                //remove style
+                var elem = $(event.target) ;
+                $(".allTypeLists").find(".active").removeClass("active");
+                elem.addClass("active");
                 if(type === 'ALL')
                     type = '';
 

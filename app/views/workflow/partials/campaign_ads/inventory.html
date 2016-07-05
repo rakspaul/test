@@ -259,9 +259,9 @@
                 </h1>
                 <div class="pull-right allTypeLists">
                   <div class="btn-group create" role="group" aria-label="...">
-                      <button type="button" class="btn btn-default active" data-ng-click="filterInventoryList('ALL')"><span data-ng-bind="textConstants.ALL_LISTS"></span></button>
-                      <button type="button" class="btn btn-default" data-ng-click="filterInventoryList('DOMAIN')"><span data-ng-bind="textConstants.DOMAIN_LISTS"></span></button>
-                      <button type="button" class="btn btn-default" data-ng-click="filterInventoryList('APP')"><span data-ng-bind="textConstants.APP_LISTS"></span></button>
+                      <button type="button" class="btn btn-default active" data-ng-click="filterInventoryList($event ,'ALL')"><span data-ng-bind="textConstants.ALL_LISTS"></span></button>
+                      <button type="button" class="btn btn-default" data-ng-click="filterInventoryList($event,'DOMAIN')"><span data-ng-bind="textConstants.DOMAIN_LISTS"></span></button>
+                      <button type="button" class="btn btn-default" data-ng-click="filterInventoryList($event,'APP')"><span data-ng-bind="textConstants.APP_LISTS"></span></button>
                     </div>
                 </div>
             </div>
