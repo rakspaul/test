@@ -233,6 +233,14 @@
   box-shadow: none;
   padding: 7px 10px 7px 48px;
 }
+.table-responsive .vistoTable .tbody .secondDimensionCreativeList .childRow .td:first-child {
+  padding: 4px 10px 4px 48px;
+  line-height: 25px;
+  height: 21px;
+}
+.table-responsive .vistoTable .tbody .secondDimensionCreativeList .childRow .td:first-child .hideOption .dropdown-toggle {
+  line-height: normal;
+}
 .table-responsive .vistoTable .tbody .parentWrap {
   float: left;
   width: 100%;

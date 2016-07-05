@@ -349,7 +349,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                             if (platformCustomeJson.platformCustomInputNamespaceList &&
                                 platformCustomeJson.platformCustomInputNamespaceList.length > 2) {
                                 $scope.adData.customInpNameSpaceList =
-                                    platformCustomeJson.platformCustomInputNamespaceList;
+                                    _.sortBy(platformCustomeJson.platformCustomInputNamespaceList, 'displayOrder');
 
                                 _.each($scope.adData.customInpNameSpaceList, function (obj, idx) { // jshint ignore:line
                                     obj.className = idx === 0 ? 'active' : '';
