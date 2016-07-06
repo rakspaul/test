@@ -1,13 +1,14 @@
-define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils', 'common/services/constants_service',
-    'login/login_model', 'reporting/advertiser/advertiser_directive', 'reporting/subAccount/sub_account_model'],
-    function (angularAMD) {
+define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils', // jshint ignore:line
+    'common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_directive',
+    'reporting/subAccount/sub_account_model'], function (angularAMD) {
         angularAMD.controller('AdvertiserController', function ($scope, $rootScope, advertiserModel, utils,
-                                                                constants, loginModel,subAccountModel) {
+                                                                constants, loginModel) {
             var search = false,
                 searchCriteria = utils.typeaheadParams,
                 loadAdvertisers = true,
 
-                eventBrandChangedFromDashBoard = $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD,
+                eventBrandChangedFromDashBoard = // jshint ignore:line
+                    $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD,
                     function (event, args) {
                         $scope.selectAdvertiser(args.advertiser, args.event_type);
                     }
@@ -25,7 +26,7 @@ define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils', '
                 });
 
             function fetchAdvertisers(searchCriteria, search) {
-                if (loginModel.getUserId() == undefined) {
+                if (loginModel.getUserId() === undefined) {
                     return;
                 }
 
@@ -40,12 +41,11 @@ define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils', '
             }
 
             $scope.textConstants = constants;
-
             $scope.advertiserData = advertiserModel.getAdvertiser();
 
             $scope.selectAdvertiser = function (advertiser, event_type) {
-                advertiser.referedFrom = "";    
-                $("#advertisersDropDownList").hide() ;
+                advertiser.referedFrom = '';
+                $('#advertisersDropDownList').hide() ;
 
                 $('#advertiser_name_selected').text(advertiser.name);
                 $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
