@@ -764,6 +764,18 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
 
                 $scope.currentRemoveDomainListPopup.css({'display': 'block'});
             };
+            $scope.inventry = {};
+            $scope.inventry.inventoryType = '';
+            $scope.filterInventoryList = function(event , type){
+                //remove style
+                var elem = $(event.target) ;
+                $(".allTypeLists").find(".active").removeClass("active");
+                elem.addClass("active");
+                if(type === 'ALL')
+                    type = '';
+
+                $scope.inventry.inventoryType = type;
+            }
 
             $(window).on('click', function (e) {
                 if (!($(e.target).hasClass('icon-trash') ||
