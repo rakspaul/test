@@ -1660,6 +1660,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
             $scope.adGroupName = null;
             $scope.adData.platformSeatId = null;
 
+            $scope.adData.domainEnable = false;
+            $scope.adData.appEnable = false;
+
             RoleBasedService.setCurrencySymbol();
             $scope.tags = [];
             localStorage.setItem('campaignData', '');

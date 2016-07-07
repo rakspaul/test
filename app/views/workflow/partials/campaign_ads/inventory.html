@@ -71,12 +71,14 @@
                 </span>
                 <button class="pull-left btn btn-default" ngf-select="selectFiles($files, 'INVENTORY_CREATE','DOMAIN')"
                         ngf-accept="'.csv,.txt'" ngf-multiple="false" ngf-allow-dir="false"
-                        data-ng-bind="textConstants.INVENTORY_UPLOAD_NEW_DOMAIN">
+                        data-ng-bind="textConstants.INVENTORY_UPLOAD_NEW_DOMAIN" style="display: block"
+                        data-ng-disabled="!adData.domainEnable">
                 </button>
 
                 <button class="pull-left btn btn-default" ngf-select="selectFiles($files, 'INVENTORY_CREATE','APP')"
                         ngf-accept="'.csv,.txt'" ngf-multiple="false" ngf-allow-dir="false"
-                        data-ng-bind="textConstants.INVENTORY_UPLOAD_NEW_APP">
+                        data-ng-bind="textConstants.INVENTORY_UPLOAD_NEW_APP" style="display: block"
+                        data-ng-disabled="!adData.appEnable">
                 </button>
                 <span class="greyTxt pull-left" data-ng-bind="textConstants.CSVTXTFILE"></span>
 
