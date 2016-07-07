@@ -305,7 +305,6 @@
   border: 1px solid #ccd2da;
 }
 .popup-holder textarea {
-  border: 1px solid #dde6eb;
   background-color: #ffffff;
   font-size: 14px;
   color: #939ead;
@@ -555,7 +554,6 @@
   color: #007ac9;
 }
 .popContainerHolder .popContainer .textarea_edit_holder textarea {
-  border: solid 1px #007ac9;
   padding: 20px;
   margin: 0px 0 20px;
   width: 100%;
