@@ -188,8 +188,12 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
             };
 
             function gantt(tasks, timeDomainString) {
-                
+                $("#calendarHolder").hide();
                 $(".div-header-chart .header-chart, svg.chart").remove();
+                
+                setTimeout(function(){
+                    $("#calendarHolder").show();
+                }, 500);
 
                 initTimeDomain(tasks);
                 initAxis(timeDomainString);
