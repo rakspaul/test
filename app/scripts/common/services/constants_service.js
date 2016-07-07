@@ -804,7 +804,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.SELECTEXISTING = 'Select from Existing';
         this.NO_DOMAIN_LIST_FOUND = 'No domain list found.';
         this.UPLOADDOMAINLIST = 'Upload Domain List';
-        this.CSVTXTFILE = 'Only CSV or TXT allowed';
+        this.CSVTXTFILE = 'Only CSV allowed';
         this.DOMAINLIST = 'Domain List';
         this.DOMAIN = 'Domain';
         this.APP = 'App';
