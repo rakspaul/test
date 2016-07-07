@@ -1234,7 +1234,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 },
 
                 stripCommaFromNumber: function (num) {
-                    return num.replace(',', '');
+                    return String(num).replace(',', '');
                 },
 
                 addCommaToNumber: function (nStr) {
