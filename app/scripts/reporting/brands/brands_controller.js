@@ -20,7 +20,11 @@ define(['angularAMD', 'reporting/brands/brands_model', 'reporting/brands/brands_
                 return;
             }
             if(loadBrands) {
-                searchCriteria.clientId = loginModel.getSelectedClient().id;
+                if($scope.isDashbboardBrand && !isLeafNode) {
+                    searchCriteria.clientId = subAccountModel.getDashboardAccountId();
+                } else {
+                    searchCriteria.clientId = loginModel.getSelectedClient().id;
+                }
                 searchCriteria.advertiserId = advertiserModel.getAdvertiser().selectedAdvertiser.id;
                 search = false;
                 loadBrands = false;
