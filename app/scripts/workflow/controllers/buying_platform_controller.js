@@ -364,7 +364,6 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                                 });
                             }
 
-
                             if ($scope.mode === 'edit') {
                                 adPlatformCustomInputsLocalStorageValue =
                                     localStorage.getItem('adPlatformCustomInputs');
