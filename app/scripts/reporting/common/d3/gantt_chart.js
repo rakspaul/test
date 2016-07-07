@@ -1,6 +1,6 @@
 define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],function (angularAMD) {
-  'use strict';
-  angularAMD.service("ganttChart", ['$location', '$rootScope', '$window', 'loginModel', 'brandsModel',  function($location, $rootScope, $window, loginModel, brandsModel) {
+    'use strict';
+    angularAMD.service("ganttChart", ['$location', '$rootScope', '$window', 'loginModel', 'brandsModel',  function($location, $rootScope, $window, loginModel, brandsModel) {
         this.createGanttChart = function() {
 
         };
@@ -67,13 +67,13 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
             };
 
             /**
-            * calculate adjustment pixels
-            *
-            * @param object campaignObj - campaign object
-            * @param object counterObj - counter object
-            * @return number padding - new adjustment pixels
-            *
-            */
+             * calculate adjustment pixels
+             *
+             * @param object campaignObj - campaign object
+             * @param object counterObj - counter object
+             * @return number padding - new adjustment pixels
+             *
+             */
             var calculateBrandAdjustment= function(campaignObj, counterObj) {
                 if(campaignObj.type == "brand") {
                     counterObj.counter++;
@@ -190,7 +190,7 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
             function gantt(tasks, timeDomainString) {
                 $("#calendarHolder").hide();
                 $(".div-header-chart .header-chart, svg.chart").remove();
-                
+
                 setTimeout(function(){
                     $("#calendarHolder").show();
                 }, 500);
@@ -198,16 +198,16 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                 initTimeDomain(tasks);
                 initAxis(timeDomainString);
 
-                 var svgHeader = d3.select("#calendar_widget")
+                var svgHeader = d3.select("#calendar_widget")
                     .select(".div-header-chart")
-                        .style("position","absolute")
-                        .style("top","0px")
-                        .style("left","24px")
+                    .style("position","absolute")
+                    .style("top","0px")
+                    .style("left","24px")
                     .append("svg")
                     //TODO - check if needed for cross browser support
-                     // .attr({xmlns: "http://www.w3.org/2000/svg",
-                     //        xlink: "http://www.w3.org/1999/xlink",
-                     //    })
+                    // .attr({xmlns: "http://www.w3.org/2000/svg",
+                    //        xlink: "http://www.w3.org/1999/xlink",
+                    //    })
                     .attr("class", "header-chart")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", 47)
@@ -220,9 +220,9 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                 var svg = d3.select("#calendar_widget").select(".div-chart")
                     .append("svg")
                     //TODO - check if needed for cross browser support
-                     // .attr({xmlns: "http://www.w3.org/2000/svg",
-                     //        xlink: "http://www.w3.org/1999/xlink",
-                     //    })
+                    // .attr({xmlns: "http://www.w3.org/2000/svg",
+                    //        xlink: "http://www.w3.org/1999/xlink",
+                    //    })
                     .attr("class", "chart")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height - margin.top - margin.bottom)
@@ -247,8 +247,8 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                     .transition()
                     .call(xAxis)
                     .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:14px;").attr("x", function(d) {
-                        return 10
-                    });
+                    return 10
+                });
 
                 svgHeader.append("g").attr("class", "y axis").transition().call(yAxis);
 
@@ -258,8 +258,8 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                     .transition()
                     .call(xAxis)
                     .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:14px;").attr("x", function(d) {
-                        return 10
-                    });
+                    return 10
+                });
 
                 svg.append("g").attr("class", "y axis").transition().call(yAxis);
 
@@ -368,7 +368,7 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                         } //dragInitiated check ends
                     })
                     .on('dragend', function() {
-                         if(d3.event.sourceEvent.which == 1) {
+                        if(d3.event.sourceEvent.which == 1) {
                             //end the drag check
                             dragInitiated = false;
                         }
@@ -394,14 +394,14 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                 };
 
                 /**
-                * Check if campaign is in the PAST view of the calendar timeline
-                *
-                * @param date calendarStart The start date of calendar timeline
-                * @param date campaignStartDate
-                * @param date campaignEndDate
-                * @return bool True if it is in the past
-                *              False if it is not
-                */
+                 * Check if campaign is in the PAST view of the calendar timeline
+                 *
+                 * @param date calendarStart The start date of calendar timeline
+                 * @param date campaignStartDate
+                 * @param date campaignEndDate
+                 * @return bool True if it is in the past
+                 *              False if it is not
+                 */
                 var isPastView = function (calendarStart, campaignStartDate, campaignEndDate) {
 
                     if( moment(calendarStart).toDate() >= moment(campaignEndDate).toDate() ) {
@@ -413,14 +413,14 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                 };
 
                 /**
-                * Check if campaign is in the FUTURE view of the calendar timeline
-                *
-                * @param date calendarEnd The end date of calendar timeline
-                * @param date campaignStartDate
-                * @param date campaignEndDate
-                * @return bool True if it is in the future
-                *              False if it is not
-                */
+                 * Check if campaign is in the FUTURE view of the calendar timeline
+                 *
+                 * @param date calendarEnd The end date of calendar timeline
+                 * @param date campaignStartDate
+                 * @param date campaignEndDate
+                 * @return bool True if it is in the future
+                 *              False if it is not
+                 */
                 var isFutureView = function (calendarEnd, campaignStartDate, campaignEndDate) {
 
                     if( moment(calendarEnd).toDate() <= moment(campaignStartDate).toDate() ) {
@@ -530,21 +530,21 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                         var e, f;
                         switch(tDomainString){
                             case "year":
-                                        e = moment(d.startDate).startOf('year').startOf('day').unix()*1000;
-                                        f = moment(e).add(1, 'year').unix()*1000;
-                                        break;
+                                e = moment(d.startDate).startOf('year').startOf('day').unix()*1000;
+                                f = moment(e).add(1, 'year').unix()*1000;
+                                break;
                             case "month":
-                                        e = moment(d.startDate).startOf('month').startOf('day').unix()*1000;
-                                        f = moment(e).add(31, 'days').endOf('day').unix()*1000;
-                                        break;
+                                e = moment(d.startDate).startOf('month').startOf('day').unix()*1000;
+                                f = moment(e).add(31, 'days').endOf('day').unix()*1000;
+                                break;
                             case "quarter":
-                                        e = moment(d.startDate).startOf('quarter').startOf('day').unix()*1000;
-                                        f = moment(e).add(1, 'quarters').unix()*1000;
-                                        break;
+                                e = moment(d.startDate).startOf('quarter').startOf('day').unix()*1000;
+                                f = moment(e).add(1, 'quarters').unix()*1000;
+                                break;
                             case "today":
-                                        e = moment(d.startDate).startOf('week').startOf('day').unix()*1000;
-                                        f = moment(e).add(1, 'weeks').endOf('day').unix()*1000;
-                                        break;
+                                e = moment(d.startDate).startOf('week').startOf('day').unix()*1000;
+                                f = moment(e).add(1, 'weeks').endOf('day').unix()*1000;
+                                break;
                         }
                         //scroll navigation reset
                         navigationButtonControl("#cal_next", "enabled");
@@ -558,18 +558,18 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                         //select the marker tooltip's date text and make it visible
                         var container_primary = d3.select(this.parentNode).select("text.past-marker-text");
                         container_primary.style('display', function(d) {
-                                return "block";
+                            return "block";
                         });
                         container_primary.style("shape-rendering", "crispEdges");
                         //select the marker tooltip's details text and make it visible
                         var container = d3.select(this.parentNode).select("text.past-marker-text-details");
                         container.style('display', function(d) {
-                                return "block";
+                            return "block";
                         });
 
                         var tdEdges = gantt.timeDomain();
                         if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
-                             //if right marker - calculate position
+                            //if right marker - calculate position
 
                             var bbox = 0,
                                 textWidth = 0,
@@ -623,11 +623,11 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                         var container = d3.select(this.parentNode).select("text.past-marker-text");
                         var pastMarkerText = "";
                         container.style('display', function(d) {
-                                return "none";
+                            return "none";
                         });
                         container = d3.select(this.parentNode).select("text.past-marker-text-details");
                         container.style('display', function(d) {
-                                return "none";
+                            return "none";
                         });
 
                         var im= d3.select(this);
@@ -691,7 +691,7 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                         //get width of text element using BBox
                         var bbox = container.node().getBBox();
                         //add offset and padding
-                      //  var textWidth = bbox.width + offset + padding;
+                        //  var textWidth = bbox.width + offset + padding;
                         var textWidth = pastMarkerTextX+(pastMarkerText ? pastMarkerText.length : 0) + offset + padding;
                         //hide the tooltip content
                         container.style('display', function(d) {
@@ -721,18 +721,18 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                 var rectData = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
                 var rect = rectData.enter();
                 var rectGroup = rect.append("a")
-                                        .attr("xlink:href", function(d){
-                                            if (d.type == "brand") {
-                                                return "javascript:void(0)";
-                                            } else {
-                                                return '/mediaplans/' + d.id;
-                                            }
-                                        })
-                                        .style("text-decoration", "none")
-                                        .on("click", function(d){
-                                            d3.event.preventDefault();
-                                        })
-                .append("g").attr("class", "node")
+                    .attr("xlink:href", function(d){
+                        if (d.type == "brand") {
+                            return "javascript:void(0)";
+                        } else {
+                            return '/mediaplans/' + d.id;
+                        }
+                    })
+                    .style("text-decoration", "none")
+                    .on("click", function(d){
+                        d3.event.preventDefault();
+                    })
+                    .append("g").attr("class", "node")
                     .on("click", function(d) {
                         if (d.type != "brand") {
 
@@ -752,9 +752,9 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                         }
                     })
 
-                //on mouseover tanstitions for campaigns
-                //resize and display the campaign text
-                .on('mouseover', function(d) {
+                    //on mouseover tanstitions for campaigns
+                    //resize and display the campaign text
+                    .on('mouseover', function(d) {
                         var width = (x(d.endDate) - x(d.startDate));
                         //character count of the camapaign name
                         var stringLength = d.name.length;
@@ -1124,7 +1124,7 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                     .transition()
                     .attr("transform", markerTransform);
 
-                    //body-header
+                //body-header
                 ganttChartHeaderGroup.select("rect.marker_body")
                     .attr("x", 0)
                     .attr("y", 4)
@@ -1176,9 +1176,9 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                     .transition()
                     .attr("transform", markerTransform);
 
-                    //for year, quarter, month - marker
-                    ganttChartGroup.select("rect.date_marker")
-                     .attr("x", 0)
+                //for year, quarter, month - marker
+                ganttChartGroup.select("rect.date_marker")
+                    .attr("x", 0)
                     .attr("y", 47)
                     .attr("class", "date_marker")
                     .style("shape-rendering", "crispEdges")
@@ -1239,38 +1239,38 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                 //Stroke - Bottom for the campaign (1px #ccd2da)
                 campaignsBottomStroke
                     .transition()
-                        .delay(0)
-                        .attr("y2", function(d){
-                            var padding = calculateBrandAdjustment(d, counterObj.strokeY2);
-                            if (d.type == "brand") {
-                                return 0;
+                    .delay(0)
+                    .attr("y2", function(d){
+                        var padding = calculateBrandAdjustment(d, counterObj.strokeY2);
+                        if (d.type == "brand") {
+                            return 0;
+                        } else {
+                            return y(d.taskName) + CAMPAIGN_HEIGHT - padding;
+                        }
+                    })
+                    .attr("x2", function(d) {
+                        if (d.type == "brand") {
+                            return 0;
+                        } else {
+                            var width = x(d.endDate) - x(d.startDate);
+                            if(width > 0) {
+                                return width ;
                             } else {
-                                return y(d.taskName) + CAMPAIGN_HEIGHT - padding;
-                            }
-                        })
-                        .attr("x2", function(d) {
-                            if (d.type == "brand") {
                                 return 0;
-                            } else {
-                                var width = x(d.endDate) - x(d.startDate);
-                                if(width > 0) {
-                                    return width ;
-                                } else {
-                                    return 0;
-                                }
                             }
-                        })
+                        }
+                    })
 
                 var translateVisualElements = function(a, type) {
                     if (type == "node") {
                         a.transition()
                             .delay(0).attr("transform", function(d){
-                                if(d.type == "brand") {
-                                    return "translate(0," + y(d.taskName) + ")";
-                                } else {
-                                    return "translate(" + x(d.startDate) + "," + y(d.taskName) + ")";
-                                }
-                            });
+                            if(d.type == "brand") {
+                                return "translate(0," + y(d.taskName) + ")";
+                            } else {
+                                return "translate(" + x(d.startDate) + "," + y(d.taskName) + ")";
+                            }
+                        });
 
                     } else if (type == "body") {
                         a.transition()
@@ -1279,13 +1279,13 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                                     return 0;
                                 else {
                                     var width = (x(d.endDate) - x(d.startDate)) - 4;
-                                        if(!isFuture(tdEdges[1], d.endDate) && isPast(tdEdges[0], d.startDate)) {
-                                            width = width + 4;
-                                        } else if(isFuture(tdEdges[1], d.endDate) && !isPast(tdEdges[0], d.startDate)) {
-                                            width = width + 2;
-                                        }else if(!isFuture(tdEdges[1], d.endDate) && !isPast(tdEdges[0], d.startDate)) {
-                                            width = width + 4;
-                                        }
+                                    if(!isFuture(tdEdges[1], d.endDate) && isPast(tdEdges[0], d.startDate)) {
+                                        width = width + 4;
+                                    } else if(isFuture(tdEdges[1], d.endDate) && !isPast(tdEdges[0], d.startDate)) {
+                                        width = width + 2;
+                                    }else if(!isFuture(tdEdges[1], d.endDate) && !isPast(tdEdges[0], d.startDate)) {
+                                        width = width + 4;
+                                    }
 
                                     if (width >= 0)
                                         return (width);
@@ -1293,9 +1293,9 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                                         return 0;
                                 }
                             })
-                             .attr("x", function(d){
+                            .attr("x", function(d){
                                 if(isPast(tdEdges[0], d.startDate)) {
-                                        return 2;
+                                    return 2;
                                 } else {
                                     return 0;
                                 }
@@ -1335,7 +1335,7 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                             })
                             .attr("x", function(d){
                                 if(isPast(tdEdges[0], d.startDate)) {
-                                        return 0;
+                                    return 0;
                                 } else {
                                     return 0;
                                 }
@@ -1369,32 +1369,32 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                                     }
                                 }
                             })
-                        .attr("width", function(d) {
-                            if (d.type == "brand") {
-                                return 0;
-                            } else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined || d.kpiStatus === "Unknown") {
-                                if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
-                                    return 25;
-                                } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
-                                    return 25;
+                            .attr("width", function(d) {
+                                if (d.type == "brand") {
+                                    return 0;
+                                } else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined || d.kpiStatus === "Unknown") {
+                                    if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
+                                        return 25;
+                                    } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
+                                        return 25;
+                                    } else {
+                                        return 0;
+                                    }
                                 } else {
                                     return 0;
                                 }
-                            } else {
-                                return 0;
-                            }
-                        })
-                        .attr("transform", function(d) {
-                            if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
-                                return  "translate(0," + y(d.taskName) + ")";
-                            } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
-                                return  "translate(480," + y(d.taskName) + ")";
-                            }
-                            //TODO - check if this is required in corner cases - will take it up during calendar refactoring
-                            // else {
-                            //     return  "translate(-100," + y(d.taskName) + ")";
-                            // }
-                        });
+                            })
+                            .attr("transform", function(d) {
+                                if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
+                                    return  "translate(0," + y(d.taskName) + ")";
+                                } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
+                                    return  "translate(480," + y(d.taskName) + ")";
+                                }
+                                //TODO - check if this is required in corner cases - will take it up during calendar refactoring
+                                // else {
+                                //     return  "translate(-100," + y(d.taskName) + ")";
+                                // }
+                            });
                     } else if(type == "node-marker") {
                         a.transition()
                             .delay(0)
@@ -1417,7 +1417,7 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                 var translateGraphicElements = function(a, type) {
                     if (type == "brand_name") {
                         //a.transition()
-                           // .delay(0).attr("transform", rectTransform);
+                        // .delay(0).attr("transform", rectTransform);
 
                     } else if (type == "text") {
                         a.transition()
@@ -2074,8 +2074,8 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
 
 
             } else {
-                        //disable 'next' navigation button
-                        navigationButtonControl("#cal_next", "disabled");
+                //disable 'next' navigation button
+                navigationButtonControl("#cal_next", "disabled");
             }
 
 
@@ -2185,14 +2185,14 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                     gantt.timeDomain([moment().startOf('year'), moment().endOf('year')]);
                     break;
 
-                    // case "next":
-                    //     format = "%d";
-                    //     gantt.timeDomain([getEndDate(), d3.time.day.offset(getEndDate(), +7)]);
-                    //     break;
-                    //  case "prev":
-                    //     format = "%d";
-                    //     gantt.timeDomain([d3.time.day.offset(getEndDate(), -7), getEndDate()]);
-                    //     break;
+                // case "next":
+                //     format = "%d";
+                //     gantt.timeDomain([getEndDate(), d3.time.day.offset(getEndDate(), +7)]);
+                //     break;
+                //  case "prev":
+                //     format = "%d";
+                //     gantt.timeDomain([d3.time.day.offset(getEndDate(), -7), getEndDate()]);
+                //     break;
                 default:
                     format = "%H:%M"
 
@@ -2332,7 +2332,7 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                 }
             });
             _.each(task,function(item){
-                 tasks.push(item);
+                tasks.push(item);
             });
 
             taskNames = taskNames.concat(taskName);

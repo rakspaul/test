@@ -1,34 +1,59 @@
-define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'common/utils', 'login/login_model',
-    'common/services/constants_service', 'common/services/url_service', 'common/services/data_store_model',
-    'common/services/data_service', 'common/moment_utils', 'common/controllers/confirmation_modal_controller',
-    'reporting/collectiveReport/report_schedule_delete_controller'],
+define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'common/utils', // jshint ignore:line
+    'login/login_model', 'common/services/constants_service', 'common/services/url_service',
+    'common/services/data_store_model', 'common/services/data_service', 'common/moment_utils',
+    'common/controllers/confirmation_modal_controller', 'reporting/collectiveReport/report_schedule_delete_controller'],
     function (angularAMD) {
         'use strict';
+
         angularAMD.controller('ReportsScheduleListController', function ($scope,$filter, $location, $modal, $rootScope,
-                                                                        collectiveReportModel, utils, loginModel,
-                                                                        constants, urlService, dataStore, domainReports,
-                                                                        dataService, momentService, $q, $timeout,localStorageService) {
+                                                                         collectiveReportModel, utils, loginModel,
+                                                                         constants, urlService, dataStore,
+                                                                         domainReports, dataService, momentService,
+                                                                         $q, $timeout, localStorageService) {
             var _curCtrl = this,
-                isSearch = false;
+                isSearch = false,
+                urlQueries = $location.search(),
+                reportName = '',
+                dateFilter = '',
+
+                dateFiltersObj = {
+                    yesterday: 'Yesterday',
+                    last_7_days: 'Last7Days',
+                    last_2_weeks: 'Last2Weeks',
+                    last_month: 'LastMonth',
+                    last_quarter: 'LastQuater'
+                },
+
+                isValidQueryParamFilter = false;
 
             _curCtrl.filters = {};
             _curCtrl.isFilterExpanded = false;
-            _curCtrl.mapToDisplayName = function(data){
-                var data = data.split(","),
-                    retVal = '';
-                _.each(data, function(dim){
+
+            _curCtrl.mapToDisplayName = function (data) {
+                var retVal = '';
+
+                data = data.split(',');
+
+                _.each(data, function (dim) { // jshint ignore:line
                     dim = dim.trim();
                     retVal += $scope.displayName[dim] + ',';
-                })
+                });
+
                 retVal = retVal.slice(0, -1);
+
                 return retVal;
-            }
+            };
+
             _curCtrl.preProccessListData = function (schdReportList) {
-                _.each(schdReportList, function (item) {
+                _.each(schdReportList, function (item) { // jshint ignore:line
                     item.dimensions = item.hasOwnProperty('primaryDimension') && item.primaryDimension ?
-                        _curCtrl.mapToDisplayName(item.primaryDimension) : '';
+                        _curCtrl.mapToDisplayName(item.primaryDimension) :
+                        '';
+
                     item.dimensions += item.hasOwnProperty('secondaryDimension') && item.primaryDimension ?
-                        ',' + _curCtrl.mapToDisplayName(item.secondaryDimension) : '';
+                        ',' + _curCtrl.mapToDisplayName(item.secondaryDimension) :
+                        '';
+
                     if (item.lastRunDate) {
                         item.lastRunDate = momentService.newMoment(item.lastRunDate).format('YYYY-MM-DD');
                     }
@@ -38,10 +63,12 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             _curCtrl.getFilterParam = function () {
                 var queryStr,
                     startDate,
+                    startWeekDate,
                     endDate,
                     dimensionNames;
 
                 _curCtrl.filters.reportDimensions = [];
+
                 if ($scope.dimensionFilterModel.length > 0 && $scope.dimensionFilterModel[0].key!== 'ALL') {
                     dimensionNames = $scope.dimensionFilterModel.map(function (item) {
                         return item.key;
@@ -50,51 +77,68 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 }
 
                 queryStr = _curCtrl.filters.reportType ? '&reportType=' + _curCtrl.filters.reportType : '';
-                //queryStr += $scope.filters.generated ? '&generated='+$scope.filters.generated : '';
+
                 queryStr += _curCtrl.filters.reportDimensions ?
                     '&reportDimensions=' + _curCtrl.filters.reportDimensions : '';
+
                 queryStr += _curCtrl.filters.reportName ? '&reportName=' + _curCtrl.filters.reportName : '';
 
                 if (_curCtrl.filters.generated) {
                     switch (_curCtrl.filters.generated) {
                         case 'Yesterday':
-                            startDate = moment().subtract(1, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
-                            endDate = moment().format(constants.DATE_UTC_SHORT_FORMAT);
+                            startDate = moment() // jshint ignore:line
+                                .subtract(1, 'days')
+                                .format(constants.DATE_UTC_SHORT_FORMAT);
+
+                            endDate = moment().format(constants.DATE_UTC_SHORT_FORMAT); // jshint ignore:line
                             break;
+
                         case 'Last7Days':
-                            startDate = moment().subtract(7, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
-                            endDate = moment().subtract(0, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
+                            startDate = moment() // jshint ignore:line
+                                .subtract(7, 'days')
+                                .format(constants.DATE_UTC_SHORT_FORMAT);
+
+                            endDate = moment() // jshint ignore:line
+                                .subtract(0, 'days')
+                                .format(constants.DATE_UTC_SHORT_FORMAT);
+
                             break;
+
                         case 'Last2Weeks':
-                            var startWeekDate = moment().startOf('week').subtract(1, 'day');
+                            startWeekDate = moment().startOf('week').subtract(1, 'day'); // jshint ignore:line
                             endDate = startWeekDate.format(constants.DATE_UTC_SHORT_FORMAT);
                             startDate = startWeekDate.subtract('days', 13).format(constants.DATE_UTC_SHORT_FORMAT);
                             break;
+
                         case 'LastMonth':
                             startDate =
-                                moment()
+                                moment() // jshint ignore:line
                                     .subtract(1, 'months')
                                     .endOf('month')
                                     .format('YYYY-MM') + '-01';
+
                             endDate =
-                                moment()
+                                moment() // jshint ignore:line
                                     .subtract(1, 'months')
                                     .endOf('month')
                                     .format(constants.DATE_UTC_SHORT_FORMAT);
                             break;
+
                         case 'LastQuater':
                             startDate =
-                                moment()
+                                moment() // jshint ignore:line
                                     .subtract(1, 'quarter')
                                     .startOf('quarter')
                                     .format(constants.DATE_UTC_SHORT_FORMAT);
+
                             endDate =
-                                moment()
+                                moment() // jshint ignore:line
                                     .subtract(1, 'quarter')
                                     .endOf('quarter')
                                     .format(constants.DATE_UTC_SHORT_FORMAT);
                             break;
                     }
+
                     queryStr += '&startDate='+startDate+'&endDate='+endDate;
                 }
 
@@ -103,13 +147,16 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
             $scope.noOfSchldInstToShow = 3;
             $scope.scheduleInstCount = [];
+
             $scope.sort = {
                 descending: true
             };
+
             $scope.filters = {};
             $scope.sortReverse = false;
             $scope.showScheduleListLoader = false;
             $scope.textconstants = constants;
+
             $scope.dimensionFilterModel = [
                 {
                     key: 'ALL',
@@ -124,8 +171,10 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 var dropDownFilters = ['reportType', 'generated', 'reportDimensions'];
 
                 _curCtrl.isFilterExpanded = !_curCtrl.isFilterExpanded;
-                _.each(dropDownFilters,function (d) {
+
+                _.each(dropDownFilters,function (d) { // jshint ignore:line
                     _curCtrl.isFilterExpanded ? $scope.filters[d] = null : delete $scope.filters[d];
+
                     if (_curCtrl.isFilterExpanded) {
                         $scope.filters[d] = null;
                         _curCtrl.filters[d] = null;
@@ -139,7 +188,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             $scope.clearFilters = function () {
                 var filters = ['reportType', 'generated', 'reportDimensions', 'reportName'];
 
-                _.each(filters, function (d) {
+                _.each(filters, function (d) { // jshint ignore:line
                     $scope.filters[d] = null;
                     _curCtrl.filters[d] = null;
                 });
@@ -155,27 +204,31 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 $scope.getScheduledReports();
             };
 
-            dataService.getCustomReportMetrics($scope.campaign).then(function (result) {
-                $scope.displayName = result.data.data[0].display_name;
-                var jsonModifier = function (data) {
-                    var arr = [];
+            dataService
+                .getCustomReportMetrics($scope.campaign)
+                .then(function (result) {
+                    var jsonModifier = function (data) {
+                        var arr = [];
 
-                    _.each(data, function (obj) {
-                        var d = obj.split(':');
-                        arr.push({ 'key': d[0], 'value': $scope.displayName[d[0]] });
-                    });
+                        _.each(data, function (obj) { // jshint ignore:line
+                            var d = obj.split(':');
+                            arr.push({
+                                key: d[0],
+                                value: $scope.displayName[d[0]]
+                            });
+                        });
 
-                    return arr;
-                };
+                        return arr;
+                    };
 
-                $scope.customeDimension = jsonModifier(result.data.data[0].dimensions);
-            });
-
-            $scope.loadDimensionsList = function ($query) {
-                return $scope.customeDimension.filter(function(dimension) {
-                    return dimension['value'].toLowerCase().indexOf($query.toLowerCase()) != -1;
+                    $scope.displayName = result.data.data[0].display_name;
+                    $scope.customeDimension = jsonModifier(result.data.data[0].dimensions);
                 });
 
+            $scope.loadDimensionsList = function ($query) {
+                return $scope.customeDimension.filter(function (dimension) {
+                    return dimension.value.toLowerCase().indexOf($query.toLowerCase()) !== -1;
+                });
             };
 
             $scope.addDimensionFilter = function () {
@@ -186,6 +239,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     //as it is always going to be the first element
                     $scope.dimensionFilterModel.splice(0, 1);
                 }
+
                 return true;
             };
 
@@ -195,8 +249,11 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     $scope.dimensionFilterModel = [
                         {
                             key: 'ALL',
-                            value: 'All Dimensions'}];
+                            value: 'All Dimensions'
+                        }
+                    ];
                 }
+
                 return true;
             };
 
@@ -208,10 +265,12 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                             _curCtrl.filters[key] = value;
                             $scope.getScheduledReports();
                             break;
+
                         case 'reportType':
                             $scope.filters[key] = value;
                             _curCtrl.filters[key] = value;
                             break;
+
                         default:
                             $scope.filters[key] = utils.getValueOfItem(constants.REPORT_LIST_GENERATEON, value);
                             _curCtrl.filters[key] = value;
@@ -221,55 +280,58 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
             $scope.getScheduledReports = function () {
                 var scheduleReportListSucc = function (schdReportList) {
-                    var instances,
-                        i;
+                        var instances,
+                            i;
 
-                    function mapElCallback (el) {
-                        if (el.completedOn) {
-                            el.completedOn =
-                                momentService.utcToLocalTime(el.completedOn, constants.DATE_UTC_SHORT_FORMAT);
+                        function mapElCallback (el) {
+                            if (el.completedOn) {
+                                el.completedOn =
+                                    momentService.utcToLocalTime(el.completedOn, constants.DATE_UTC_SHORT_FORMAT);
+                            }
                         }
-                    }
 
-                    $scope.showScheduleListLoader = false;
-                    _curCtrl.preProccessListData(schdReportList);
-                    $scope.schdReportList = schdReportList;
+                        $scope.showScheduleListLoader = false;
+                        _curCtrl.preProccessListData(schdReportList);
+                        $scope.schdReportList = schdReportList;
 
-                    // $scope.sortSchdlReport();
-                    for (i = 0; i < $scope.schdReportList.length; i++) {
-                        $scope.scheduleInstCount[i] = $scope.noOfSchldInstToShow;
-                        instances = $scope.schdReportList[i].instances;
-                        instances.map(mapElCallback);
-                    }
-                };
+                        // $scope.sortSchdlReport();
+                        for (i = 0; i < $scope.schdReportList.length; i++) {
+                            $scope.scheduleInstCount[i] = $scope.noOfSchldInstToShow;
+                            instances = $scope.schdReportList[i].instances;
+                            instances.map(mapElCallback);
+                        }
+                    },
 
-                var scheduleReportListError = function () {
-                    $scope.showScheduleListLoader = false;
-                };
+                    scheduleReportListError = function () {
+                        $scope.showScheduleListLoader = false;
+                    },
 
-                //var queryStr = '?clientId='+loginModel.getSelectedClient().id;
-                var queryStr = '?clientId=' + loginModel.getMasterClient().id;
+                    queryStr = '?clientId=' + loginModel.getMasterClient().id;
+
                 queryStr += _curCtrl.getFilterParam();
 
                 $scope.showScheduleListLoader = true;
                 collectiveReportModel.getScheduleReportList(scheduleReportListSucc, scheduleReportListError, queryStr);
             };
 
-            $scope.reset_custom_report = function (event) {
+            $scope.reset_custom_report = function () {
                 localStorage.removeItem('customReport');
                 localStorageService.scheduleListReportType.remove();
             };
 
             //Dropdown Auto Positioning
-            $scope.redirect_or_open_2nd_dimension = function (event, index,reportId,freq) {
+            $scope.redirect_or_open_2nd_dimension = function (event, index, reportId, freq) {
                 var elem;
+
                 if (freq && freq === 'Saved') {
                     $scope.editSchdReport(reportId);
                 } else {
                     elem = $(event.target);
+
                     if (!elem.closest('.row').hasClass('open')) {
                         $scope.scheduleInstCount[index] = $scope.noOfSchldInstToShow;
                     }
+
                     elem.closest('.row').toggleClass('open');
                     elem.closest('.row').find('.inner-row').toggle();
                 }
@@ -279,45 +341,46 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 $scope.scheduleInstCount[index] = count;
             };
 
-            //$scope.sortSchdlReport = function () {
-              //  $scope.schdReportList = $filter('orderBy')($scope.schdReportList, 'name', $scope.sort.descending);
-              //  $scope.sort.descending = !$scope.sort.descending;
-            //};
-
             $scope.downloadSchdReport = function (parentIndex, instanceIndex, instanceId) {
                 $scope.reportDownloadBusy = true;
-                dataService.downloadFile(urlService.downloadSchdRpt(instanceId)).then(function (response) {
-                    if (response.status === 'success') {
-                        saveAs(response.file, response.fileName);
-                        $scope.reportDownloadBusy = false;
-                        $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn =
-                            momentService.reportDateFormat();
-                    } else {
-                        $scope.reportDownloadBusy = false;
-                        $rootScope.setErrAlertMessage('File couldn\'t be downloaded');
-                    }
-                });
+
+                dataService
+                    .downloadFile(urlService.downloadSchdRpt(instanceId))
+                    .then(function (response) {
+                        if (response.status === 'success') {
+                            saveAs(response.file, response.fileName); // jshint ignore:line
+                            $scope.reportDownloadBusy = false;
+                            $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn =
+                                momentService.reportDateFormat();
+                        } else {
+                            $scope.reportDownloadBusy = false;
+                            $rootScope.setErrAlertMessage('File couldn\'t be downloaded');
+                        }
+                    });
             };
 
             $scope.downloadSavedReport = function (parentIndex, instanceIndex, instanceId) {
                 $scope.reportDownloadBusy = true;
-                dataService.downloadFile(urlService.downloadSavedRpt(instanceId)).then(function (response) {
-                    if (response.status === 'success') {
-                        saveAs(response.file, response.fileName);
-                        $scope.reportDownloadBusy = false;
-                        $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn =
-                            momentService.reportDateFormat();
-                    } else {
-                        $scope.reportDownloadBusy = false;
-                        $rootScope.setErrAlertMessage('File couldn\'t be downloaded');
-                    }
-                });
+
+                dataService
+                    .downloadFile(urlService.downloadSavedRpt(instanceId))
+                    .then(function (response) {
+                        if (response.status === 'success') {
+                            saveAs(response.file, response.fileName); // jshint ignore:line
+                            $scope.reportDownloadBusy = false;
+                            $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn =
+                                momentService.reportDateFormat();
+                        } else {
+                            $scope.reportDownloadBusy = false;
+                            $rootScope.setErrAlertMessage('File couldn\'t be downloaded');
+                        }
+                    });
             };
 
             //Delete scheduled report Pop up
             $scope.deleteSchdRpt = function (reportId, frequency) {
-                var $modalInstance = $modal.open({
-                    templateUrl: assets.html_delete_collective_report,
+                var $modalInstance = $modal.open({ // jshint ignore:line
+                    templateUrl: assets.html_delete_collective_report, // jshint ignore:line
                     controller: 'ReportScheduleDeleteController',
                     scope: $scope,
                     windowClass: 'delete-dialog',
@@ -348,9 +411,11 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                             $rootScope.setErrAlertMessage(data.message, data.message);
                                         }
                                     };
+
                                     errorFun = function (data) {
                                         $rootScope.setErrAlertMessage(data.message, data.message);
                                     };
+
                                     collectiveReportModel.deleteSavedReport(successFun, errorFun, reportId);
                                 } else {
                                     successFun = function (data) {
@@ -362,9 +427,11 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                             $rootScope.setErrAlertMessage(data.message, data.message);
                                         }
                                     };
+
                                     errorFun = function (data) {
                                         $rootScope.setErrAlertMessage(data.message, data.message);
                                     };
+
                                     collectiveReportModel.deleteScheduledReport(successFun, errorFun, reportId);
                                 }
                             };
@@ -375,8 +442,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
             //Delete scheduled report Pop up
             $scope.deleteSchdRptInstance = function (reportId, instanceId) {
-                var $modalInstance = $modal.open({
-                    templateUrl: assets.html_delete_collective_report,
+                var $modalInstance = $modal.open({ // jshint ignore:line
+                    templateUrl: assets.html_delete_collective_report, // jshint ignore:line
                     controller: 'ReportScheduleDeleteController',
                     scope: $scope,
                     windowClass: 'delete-dialog',
@@ -387,7 +454,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         },
 
                         mainMsg: function () {
-                            return 'Are you sure you want to delete instance of Scheduled Report'
+                            return 'Are you sure you want to delete instance of Scheduled Report';
                         },
 
                         deleteAction: function () {
@@ -396,16 +463,18 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
                             return function () {
                                 successFun = function (data) {
-                                    if (data.status_code == 200) {
+                                    if (data.status_code === 200) {
                                         $scope.refreshReportList();
                                         $rootScope.setErrAlertMessage('Scheduler deleted Successfully', 0);
                                     } else {
                                         $rootScope.setErrAlertMessage(data.message, data.message);
                                     }
                                 };
+
                                 errorFun = function (data) {
                                     $rootScope.setErrAlertMessage(data.message, data.message);
                                 };
+
                                 collectiveReportModel
                                     .deleteScheduledReportInstance(successFun, errorFun, reportId, instanceId);
                             };
@@ -418,17 +487,19 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 var url = '/customreport/edit/' + reportId;
 
                 localStorageService.scheduleListReportType.set('scheduled');
-                _.each($scope.schdReportList, function (item) {
+
+                _.each($scope.schdReportList, function (item) { // jshint ignore:line
                     if (reportId === item.reportId && item.frequency === 'Saved') {
                         localStorageService.scheduleListReportType.set('Saved');
                     }
                 });
+
                 $location.path(url);
             };
 
             $scope.copyScheduleRpt = function (reportId, frequency) {
-                var $modalInstance = $modal.open({
-                    templateUrl: assets.html_confirmation_modal,
+                var $modalInstance = $modal.open({ // jshint ignore:line
+                    templateUrl: assets.html_confirmation_modal, // jshint ignore:line
                     controller: 'ConfirmationModalController',
                     scope: $scope,
                     windowClass: 'delete-dialog',
@@ -456,9 +527,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                 if (frequency === 'Saved') {
                                     copySuccess = function (data) {
                                         data.name = 'copy: ' + data.reportName;
-                                        // data.client_id = loginModel.getSelectedClient().id;
                                         data.client_id = loginModel.getMasterClient().id;
-                                        //   data.schedule = $scope.pre_formatCopySchData(data.schedule);
+
                                         collectiveReportModel.createSavedReport(function () {
                                             $scope.refreshReportList();
                                             $rootScope.setErrAlertMessage('Saved Report Copied Successfully', 0);
@@ -466,16 +536,18 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                             $rootScope.setErrAlertMessage('Error Copying Saved Report');
                                         }, data);
                                     };
+
                                     copyError = function () {
                                         $rootScope.setErrAlertMessage('Error Copying Saved Report');
                                     };
+
                                     collectiveReportModel.getSaveRptDetail(copySuccess, copyError, reportId);
                                 } else {
                                     copySuccess = function (data) {
                                         data.name = 'copy: ' + data.name;
-                                       // data.client_id = loginModel.getSelectedClient().id;
                                         data.client_id = loginModel.getMasterClient().id;
                                         data.schedule = $scope.pre_formatCopySchData(data.schedule);
+
                                         collectiveReportModel.createSchdReport(function () {
                                             $scope.refreshReportList();
                                             $rootScope.setErrAlertMessage('Schedule Report Copied Successfully', 0);
@@ -483,9 +555,11 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                             $rootScope.setErrAlertMessage('Error Copying Schedule Report');
                                         }, data);
                                     };
+
                                     copyError = function () {
                                         console.log('Copy error');
                                     };
+
                                     collectiveReportModel.getSchdRptDetail(copySuccess, copyError, reportId);
                                 }
                             };
@@ -495,20 +569,24 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             };
 
             $scope.pre_formatCopySchData = function (schData) {
-                var o = $.extend({}, schData);
+                var o = $.extend({}, schData),
+                    diffDays;
 
                 schData.startDate = momentService.newMoment(schData.startDate).format('YYYY-MM-DD');
                 schData.endDate = momentService.newMoment(schData.endDate).format('YYYY-MM-DD');
                 o.startDate = momentService.todayDate('YYYY-MM-DD');
+
                 if (momentService.isSameOrAfter(schData.startDate, o.startDate)) {
                     return schData;
                 }
+
                 if ($scope.valueWithDefault(schData,'frequency','') !== 'Once') {
-                    var diffDays = momentService.dateDiffInDays(schData.startDate,schData.endDate);
+                    diffDays = momentService.dateDiffInDays(schData.startDate,schData.endDate);
                     o.endDate = momentService.addDays('YYYY-MM-DD', diffDays);
                 } else {
                     o.endDate = o.startDate;
                 }
+
                 return o;
             };
 
@@ -520,13 +598,14 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         e = e.toLowerCase().trim();
                         o = typeof o[e] !== 'undefined' ? o[e] : d;
                     });
+
                     return o;
                 })(argArr.split(',')) : d;
             };
 
             $scope.archiveSchdRpt = function (reportId, instanceId) {
-                var $modalInstance = $modal.open({
-                    templateUrl: assets.html_confirmation_modal,
+                var $modalInstance = $modal.open({ // jshint ignore:line
+                    templateUrl: assets.html_confirmation_modal, // jshint ignore:line
                     controller: 'ConfirmationModalController',
                     scope: $scope,
                     windowClass: 'delete-dialog',
@@ -550,9 +629,11 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                         $scope.refreshReportList();
                                         $rootScope.setErrAlertMessage('Schedule Report Archived Successfully', 0);
                                     },
+
                                     archiveError = function () {
                                         $rootScope.setErrAlertMessage('Error archiving scheduled report');
                                     };
+
                                 collectiveReportModel
                                     .archiveSchdReport(archiveSuccess, archiveError, reportId, instanceId);
                             };
@@ -562,8 +643,9 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             };
 
             //Search Clear
-            $scope.searchHideInput = function (evt) {
+            $scope.searchHideInput = function () {
                 var inputSearch = $('.searchInputForm input');
+
                 delete $scope.filters.searchText;
                 isSearch = false;
                 inputSearch.val('');
@@ -581,24 +663,12 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             };
 
             // SECTION FOR APPLYING FILTER IF THE APPROPRIATE QUERY PARAMS ARE PASSED IN THE URL.
-            var urlQueries = $location.search(),
-                reportName = '',
-                dateFilter = '',
-                dateFiltersObj = {
-                    yesterday: 'Yesterday',
-                    last_7_days: 'Last7Days',
-                    last_2_weeks: 'Last2Weeks',
-                    last_month: 'LastMonth',
-                    last_quarter: 'LastQuater'
-                },
-                isValidQueryParamFilter = false;
-
             // If any query param is given, check if there's at least 1 valid query param.
             // URL & QUERY PARAM FORMAT: reports/schedules?report_name=reportnamestring&date_filter=datevalue
             // report_name values: Any string
             // date_filter values: yesterday, last_7_days, last_2_weeks, last_month, last_quarter
             // Example URL: reports/schedules?report_name=pattest&date_filter=last_7_days
-            if (!(_.isEmpty(urlQueries))) {
+            if (!(_.isEmpty(urlQueries))) { // jshint ignore:line
                 reportName = urlQueries.report_name;
                 dateFilter = urlQueries.date_filter;
 
@@ -611,8 +681,11 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     // Filter on filter name if it is given
                     if (reportName) {
                         $timeout(function () {
-                            angular.element('.searchInput .searchInputBtn').triggerHandler('click');
-                            angular.element('#creativeSearch').val(reportName);
+                            angular // jshint ignore:line
+                                .element('.searchInput .searchInputBtn')
+                                .triggerHandler('click');
+
+                            angular.element('#creativeSearch').val(reportName); // jshint ignore:line
                             $scope.select_filter_option('reportName', reportName);
                         }, 1);
                     }
@@ -622,8 +695,9 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         dateFilter = dateFiltersObj[dateFilter];
                         $('button[data-target="#schedule_report_filter"]').trigger('click');
                         $scope.select_filter_option('generated', dateFilter);
+
                         $timeout(function () {
-                            angular.element('#applyFilter').triggerHandler('click');
+                            angular.element('#applyFilter').triggerHandler('click'); // jshint ignore:line
                         }, 1);
                     }
                 } else {
