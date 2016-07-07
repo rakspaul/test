@@ -2,7 +2,6 @@
     <a class="btn btn-link subBasics active" data-ng-click="basicForm()">Basic</a>
     <a class="btn btn-link subPixels" data-ng-click="showPixelTab()">Pixels</a>
 </div>
-
 <div class="popup-holder accounts-popup">
     <!--Header-->
     <div class="modal-header">
@@ -240,7 +239,7 @@
                 </div>
             </div>
         </div>
-        <div id="pixelsCnt" data-ng-if="activeEditAdvertiserTab === 'pixel'">
+        <div id="pixelsCnt" data-ng-if="activeEditAdvertiserTab == 'pixel'">
             <div class="col-md-12 zeroPadding" style="margin-top: 15px;">
                 <h1 class="pull-left zeroMargin">Pixels</h1>
                 <div class="btn-group create pull-right" role="group" aria-label="...">
@@ -398,9 +397,11 @@
                     </div>
                     
                     <!--Segment Name-->
-                    <div class="pull-left">
-                        <label class="greyTxt pull-left" style="padding-top: 0px !important;">Segment Name:</label>
-                        <span class="pull-left clearLeft">Thisisfourtyfivecharactersyesssssssssssssssss</span>
+                    <div class="pull-left" data-ng-if="pixelFormData.segmentName">
+                        <label class="greyTxt pull-left" style="padding-top: 0px !important;"
+                              >Segment Name:</label>
+                        <span class="pull-left clearLeft"
+                              data-ng-bind="pixelFormData.segmentName"></span>
                     </div>
                     
                     <a class="pull-right btn btn-default"
@@ -418,9 +419,6 @@
                         Remove Pixel
                     </a>
                 </div>
-            </div>
-
-            <!--Pixel List Table-->
             <div class="pixelTable">
                 <div class="table-responsive user-list animated" id="table_responsive">
                     <div class="vistoTable" id="visto_table">
@@ -468,6 +466,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
         <!-- TODO: Which of the following data-ng-if is valid? -->

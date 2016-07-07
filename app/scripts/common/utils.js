@@ -13,7 +13,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
 
                     regExp = function () {
                         return {
-                            removeSpecialCharacterAndSpaces : /[&\/\\#,+()$~%.'":*?<>{} ]/g
+                            removeSpecialCharacterAndSpaces : /[&\/\\#,+()@!^$~%.'":*?<>{} ]/g
                         };
                     },
 
