@@ -29,7 +29,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
 
                             if ($scope.mode === 'edit') {
                                 $scope.savedDomainListIds =
-                                    $scope.getAd_result.targets.domainTargets.inheritedList.ADVERTISER;
+                                    $scope.getAd_result.targets.domainTargets.inheritedDomainList.ADVERTISER;
 
                                 $scope.savedDomainAction = $scope.getAd_result.domainAction || 'INCLUDE';
 
@@ -400,7 +400,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 if (responseData &&
                     responseData.targets &&
                     responseData.targets.domainTargets &&
-                    responseData.targets.domainTargets.inheritedList.ADVERTISER) {
+                    responseData.targets.domainTargets.inheritedDomainList.ADVERTISER) {
                     // Make the first item of SelectedLists if at least 1 item has been selected,
                     // else the first item of the Advertiser domain list is the default
                     $scope.adData.inventory =
