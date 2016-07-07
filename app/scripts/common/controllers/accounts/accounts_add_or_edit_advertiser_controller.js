@@ -573,10 +573,12 @@ define(['angularAMD', '../../../workflow/services/account_service', // jshint ig
         $scope.$watchGroup(['pixelFormData.pixelCode', 'pixelFormData.pixelType', ], function(newvalue, oldValue){
            $scope.pixelFormData.segmentName = '';
            if(newvalue[0] && newvalue[1] && $scope.setSelectedAdvertiserCode){
-               var pixelTypeCode = (newvalue[1] === 'RETARGETING') ? 'rt' :
-                                   (newvalue[1] === 'AUDIENCE_CREATION') ? 'll' :
-                                   (newvalue[1] === 'PAGE_VIEW') ? 'cv' : '';
-               $scope.pixelFormData.segmentName = 'visto-'+pixelTypeCode+'-'+$scope.selectedClientCode+'-'
+               var pixelTypeCode = {
+                   'RETARGETING' : 'rt',
+                   'AUDIENCE_CREATION' : 'll',
+                   'PAGE_VIEW' : 'cv'
+               }
+               $scope.pixelFormData.segmentName = 'visto-'+pixelTypeCode[newvalue[1]]+'-'+$scope.selectedClientCode+'-'
                                                    +$scope.setSelectedAdvertiserCode+'-'
                                                    +$scope.pixelFormData.pixelCode;
            }
