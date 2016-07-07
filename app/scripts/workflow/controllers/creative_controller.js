@@ -856,7 +856,9 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
         $scope.cancelBtn = function () {
             var winHeight = $(window).height() - 126;
-
+            if($scope.adPage){
+                $rootScope.$broadcast('creativePopUpClosed');
+            }
             $scope.$broadcast('closeAddCreativePage');
             $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
         };

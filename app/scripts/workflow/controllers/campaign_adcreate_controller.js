@@ -1080,6 +1080,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 workflowService.setCreativeEditData(null);
                 $('#formCreativeCreate')[0].reset();
                 $scope.isAddCreativePopup = true;
+                $scope.enableOnlyCreativeTab=true;
 
                 // new call has to be made when platforms are changed hence seletion on new template.
                 // therefore broadcast to reset
@@ -1624,6 +1625,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
             $scope.unchecking = false;
             $scope.enableSaveBtn = true;
             $scope.isAddCreativePopup = false;
+            $scope.enableOnlyCreativeTab=false;
 
             //To show hide view tag in creatives listing
             $scope.IsVisible = false;
@@ -1808,6 +1810,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     $scope.updateCreativeData($scope.selectedArr);
                 }
             };
+            $scope.$on('creativePopUpClosed',function () {
+                $scope.enableOnlyCreativeTab=false;
+            });
         });
     }
 );
