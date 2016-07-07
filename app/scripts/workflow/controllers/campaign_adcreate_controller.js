@@ -1447,7 +1447,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         if ($scope.adData.inventory && !$scope.TrackingIntegrationsSelected) {
                             domainTargetObj = postAdDataObj.targets.domainTargets = {};
 
-                            domainTargetObj.inheritedList = {
+                            domainTargetObj.inheritedDomainList = {
                                 'ADVERTISER': domainListIds
                             };
 
