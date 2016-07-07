@@ -104,7 +104,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
 
                                     _.each($scope.adData.directInvenotryData.placements.data, // jshint ignore:line
                                         function (data, idx) {
-                                        if (_.contains(placementIds,data.id)) { // jshint ignore:line
+                                        if (_.contains(placementIds, Number(data.sourceId))) { // jshint ignore:line
                                             $scope.adData.directInvenotryData.placements.data[idx].isChecked = true;
                                             $scope.adData.directInvenotryData.placements.data[idx].isIncluded = true;
                                             $scope.adData.directInvenotryData.placements.selected.push(data);
