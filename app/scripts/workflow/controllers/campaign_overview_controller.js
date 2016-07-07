@@ -674,7 +674,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                     } else if (creative.length > 1) {
                         $scope.sizeString = '';
                         for (i in creative) {
-                            creativeSizeArr.push(creative[i].size.size);
+                            creative[i].size ? creativeSizeArr.push(creative[i].size.size):'';
                         }
 
                         $scope.sizeString = creativeSizeArr;
@@ -780,7 +780,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
                 $scope.showCreateAdGrp = !$scope.showCreateAdGrp;
                 adGroupCreateformElem[0].reset();
-                
+
                 //TODO need to optimise the below 2 lines
                 $scope.adIGroupBudget = '';
                 $('#budgetIndividualAdGroup').val('');
