@@ -432,8 +432,11 @@ define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:lin
                 $scope.isAudienceTargetEnabled = false;
                 $scope.isDaypartTargetEnabled = false;
                 $scope.isVideoTargetEnabled = false;
-
+                $scope.adData.domainEnable = false;
+                $scope.adData.appEnable = false;
+                
                 angular.forEach(platform.vendorCapabilities, function (vendorCapability) { // jshint ignore:line
+                    console.log("vendorCapability.capability",vendorCapability.subCapability)
                     switch (vendorCapability.capability) {
                         case 'Geo Targeting':
                             $scope.isGeoTargetEnabled = true;
@@ -450,6 +453,15 @@ define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:lin
                         case 'Video Creative Serving':
                             $scope.isVideoTargetEnabled = true;
                             break;
+
+                        case 'Inventory Targeting':
+                            if(vendorCapability.subCapability === 'By App'){
+                                $scope.adData.appEnable = true;
+                            }
+                            if(vendorCapability.subCapability === 'By Domain'){
+                                $scope.adData.domainEnable = true;
+                            }
+
                     }
                 });
             });

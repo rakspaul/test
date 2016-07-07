@@ -658,7 +658,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 postCrDataObj.creativeFormat = $scope.creativeFormat.toUpperCase();
                 postCrDataObj.sslEnable = 'true';
                 // postCrDataObj.tag = '%%TRACKER%%';
-                 postCrDataObj.sizeId = formData.creativeSize;
+                 postCrDataObj.sizeId = formData.creativeSize ? formData.creativeSize :'';
                 // postCrDataObj.creativeType = formData.creativeType;
                  postCrDataObj.creativeTemplateId = formData.creativeTemplate;
                 postCrDataObj.creativeCustomInputs=[];

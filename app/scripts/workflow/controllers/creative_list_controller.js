@@ -527,10 +527,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
         };
 
         $scope.defineSize = function () {
-            var listSizeCreativeDataArr = creativeDataArr.map(function (sizeCreativeDataArr) {
-                    return sizeCreativeDataArr.size.size;
-                }),
-
+            var listSizeCreativeDataArr=[],
                 i,
                 widthHeight,
                 maxWidth,
@@ -538,6 +535,16 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 ratio,
                 width,
                 height;
+
+                sizeListArr = creativeDataArr.map(function (sizeCreativeDataArr) {
+                    if(sizeCreativeDataArr.size)
+                        return  sizeCreativeDataArr.size.size;
+                });
+
+                var listSizeCreativeDataArr = sizeListArr.filter(function(item){
+                    return  typeof item === 'string';
+                });
+
 
             for (i = 0; i < listSizeCreativeDataArr.length; i++) {
                     widthHeight = listSizeCreativeDataArr[i].split('X');

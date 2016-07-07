@@ -61,6 +61,20 @@
                            href="javascript:void(0);"
                            ng-click="creativeData.isTracking ? '': ShowHide(creativeData)"
                            data-ng-bind="creativeData.name"></a>
+                        <div class="pull-right">
+                            <div class="dropdown-workflow">
+                                <div class="dropdown hideOption">
+                                    <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="icon-more-options"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" style="padding: 10px;">
+                                        <li>
+                                            <a target="_blank" ng-href="/clientId/{{creativeData.clientId}}/adv/{{creativeData.advertiserId}}/creative/{{creativeData.id}}/preview" ng-bind-html="textConstants.PREVIEW"></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                         <!--<div style="width:350px;word-wrap:break-word;height:100px;">-->
                             <!--<div ng-show="IsVisible" class="ng-cloak">-->
                                 <!--{{creativeData.tag}}-->

@@ -795,7 +795,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                             if (filterStatus === undefined) {
                                 $tmpSavedFilter = localStorageService.campaignListFilter.get(); // jshint ignore:line
 
-                                if ($tmpSavedFilter !== undefined) { // jshint ignore:line
+                                if ($tmpSavedFilter) { // jshint ignore:line
                                     this.setQuickFilter($tmpSavedFilter); // jshint ignore:line
                                 } else {
                                     this.setQuickFilter(constants.ALL_CONDITION);

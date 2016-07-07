@@ -286,7 +286,6 @@
             <!--Create Pixel Form-->
             <div class="pixelCreate" style="display: none">
                 <div class="delete_row delete_row_pixel" data-ng-click="clearPixel()"></div>
-                <div class="pixelLayer" >
                     <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                         <label class="col-sm-12 greyTxt" for="pixelName">Pixel Name:</label>
                         <input type="text"
@@ -397,6 +396,13 @@
                                 data-ng-model="pixelFormData.description">
                         </textarea>
                     </div>
+                    
+                    <!--Segment Name-->
+                    <div class="pull-left">
+                        <label class="greyTxt pull-left" style="padding-top: 0px !important;">Segment Name:</label>
+                        <span class="pull-left clearLeft">Thisisfourtyfivecharactersyesssssssssssssssss</span>
+                    </div>
+                    
                     <a class="pull-right btn btn-default"
                        style="margin-bottom: 15px;"
                        data-ng-click="savePixel()"
