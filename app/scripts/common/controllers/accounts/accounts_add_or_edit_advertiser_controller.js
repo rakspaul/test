@@ -454,6 +454,7 @@ define(['angularAMD', '../../../workflow/services/account_service', // jshint ig
         $scope.selectAdvertiser = function (advertiser) {
             $scope.selectedAdvertiserId = advertiser.id;
             $scope.selectedAdvertiser = advertiser.name;
+            $scope.setSelectedAdvertiserCode = advertiser.code;
         };
 
         $scope.selectAdvertiserCode = function(ev, code){
@@ -568,6 +569,18 @@ define(['angularAMD', '../../../workflow/services/account_service', // jshint ig
             if ($(e.target).closest('.searchInput').length === 0) {
                 $scope.searchHideInput();
             }
+        });
+        $scope.$watchGroup(['pixelFormData.pixelCode', 'pixelFormData.pixelType', ], function(newvalue, oldValue){
+           $scope.pixelFormData.segmentName = '';
+           if(newvalue[0] && newvalue[1] && $scope.setSelectedAdvertiserCode){
+               var pixelTypeCode = (newvalue[1] === 'RETARGETING') ? 'rt' :
+                                   (newvalue[1] === 'AUDIENCE_CREATION') ? 'll' :
+                                   (newvalue[1] === 'PAGE_VIEW') ? 'cv' : '';
+               $scope.pixelFormData.segmentName = 'visto-'+pixelTypeCode+'-'+$scope.selectedClientCode+'-'
+                                                   +$scope.setSelectedAdvertiserCode+'-'
+                                                   +$scope.pixelFormData.pixelCode;
+           }
+
         });
     });
 });

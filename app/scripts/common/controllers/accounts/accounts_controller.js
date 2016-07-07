@@ -9,7 +9,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         angularAMD.controller('AccountsController', function ($scope, $rootScope, $modal, $compile, $sce, constants,
                                                               accountsService, momentService, loginModel, utils) {
             var _currCtrl = this;
-
             _currCtrl.verifyPixelInput = function () {
                 var ret = true,
                     errMsg = 'Error',
@@ -82,7 +81,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             };
 
             $scope.leavefocusPixelName = function(name){
-                $scope.pixelFormData.pixelCode = name.replace(utils.regExp().removeSpecialCharacterAndSpaces, '');
+                $scope.pixelFormData.pixelCode = (name.replace(utils.regExp().removeSpecialCharacterAndSpaces, '')).substring(0,24);
             };
 
             function getPixelsData(clientId, advId) {
@@ -171,6 +170,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
                 $('.basicForm, .IABForm').show();
                 $('.createPixel, #pixelsCnt').hide();
+                $scope.clearPixel();
             };
 
             $scope.showPixelTab = function () {
@@ -447,6 +447,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.activeEditAdvertiserTab = 'basic';
                 $scope.clientObj = client;
                 $scope.advObj = advObj;
+                $scope.selectedClientCode = client.code;
 
                 if ($scope.isEditMode) {
                     $scope.selectedAdvertiserId = advObj.id;
