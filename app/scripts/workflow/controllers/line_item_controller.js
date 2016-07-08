@@ -697,7 +697,9 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
         };
 
         $scope.$parent.updateLineItemInEditMode = function () {
-            var newItem;
+            var newItem,
+                utcStartTime,
+                utcEndTime;
 
             // this hack is to make it work in edit mode when media plan save is requierd prior to line item
             // check if we have saved line item details in service or create a new line item object
@@ -730,8 +732,13 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                     newItem = createEditLineItemObj(angular.copy(oldLineItem)); // jshint ignore:line
                 }
 
-                newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
-                newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+                utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
+                utcStartTime = (moment(newItem.startTime).isSame($scope.modifiedLineItemAPIStartTime, "day")) ?   $scope.lineItemAPIStartTime : utcStartTime;
+                newItem.startTime = utcStartTime;
+
+                utcEndTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+                utcEndTime = (moment(newItem.endTime).isSame($scope.modifiedLineItemAPIEndTime, "day"))  ? $scope.lineItemAPIEndTime :  utcEndTime;
+                newItem.endTime = utcEndTime;
 
                 // in case pricerate is 30% markup remove the Markup
                 if (typeof newItem.pricingRate === 'string') {
@@ -1111,12 +1118,11 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 $scope.pricingRate = item.billingRate;
 
                 //line start Date
+                $scope.lineItemAPIStartTime = item.startTime;
                 $scope.lineItemStartDate = momentService.utcToLocalTime(item.startTime);
 
                 //line Item End Date
-                $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime);
-
-                 //line Item End Date
+                $scope.lineItemAPIEndTime = item.endTime;
                 $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime);
 
                 if ( $scope.campaignDate ) {
@@ -1139,6 +1145,9 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                                 $scope.lineItemdiffDays);
                     }
                 }
+
+                $scope.modifiedLineItemAPIStartTime = $scope.lineItemStartDate;
+                $scope.modifiedLineItemAPIEndTime = $scope.lineItemEndDate;
 
                 campaignId = item.campaignId;
                 $scope.createNewLineItem('create', item);

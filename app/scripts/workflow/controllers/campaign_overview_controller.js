@@ -2,7 +2,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
     'workflow/services/workflow_service', 'common/moment_utils', 'common/services/vistoconfig_service',
     'workflow/controllers/get_adgroups_controller', 'workflow/directives/edit_ad_group_section',
     'login/login_model', 'workflow/controllers/campaign_clone_controller',
-    'workflow/controllers/mediaplan_archive_controller', 'common/directives/decorate_numbers'],
+    'workflow/controllers/mediaplan_archive_controller', 'common/directives/decorate_numbers', 'workflow/directives/ng_upload_hidden'],
     function (angularAMD) {
         angularAMD.controller('CampaignOverViewController', function ($scope, $modal, $rootScope, $routeParams,
                                                                       $timeout, $location, $route, constants,
@@ -961,6 +961,8 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                     dataArray = [],
                     i,
                     postCreateAdObj,
+                    utcStartTime,
+                    utcEndTime;
 
                     adGroupSaveErrorHandler = function (data) {
                         var errMsg,
@@ -996,8 +998,21 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                     formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value')); // jshint ignore:line
                     postCreateAdObj = {};
                     postCreateAdObj.name = formData.adGroupName;
-                    postCreateAdObj.startTime = momentService.localTimeToUTC(formData.startTime, 'startTime');
-                    postCreateAdObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
+
+                    utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime');
+
+                    if($scope.adGroupData.editAdGroupFlag) {
+                        utcStartTime = (moment(formData.startTime).isSame($scope.adGroupData.modifiedAdGroupAPIStartTime, "day")) ?   $scope.adGroupData.modifiedAdGroupAPIStartTime : utcStartTime;
+                    }
+                    postCreateAdObj.startTime = utcStartTime;
+
+                    utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
+
+                    if($scope.adGroupData.editAdGroupFlag) {
+                        utcEndTime = (moment(formData.endTime).isSame($scope.adGroupData.modifiedAdGroupAPIEndTime, "day"))  ? $scope.adGroupData.modifiedAdGroupAPIEndTime :  utcEndTime;
+                    }
+                    postCreateAdObj.endTime = utcEndTime;
+
                     postCreateAdObj.createdAt = '';
                     postCreateAdObj.updatedAt = formData.adgroupId ? formData.updatedAt : '';
                     postCreateAdObj.deliveryBudget = workflowService.stripCommaFromNumber(formData.adIGroupBudget);
