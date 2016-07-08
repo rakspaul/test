@@ -129,17 +129,28 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 },
 
                 getBrands: function (client_id, advertiserId, accessLevel) {
+
                     var clientId = loginModel.getSelectedClient().id,
+                        isDashboardSubAccount = false,
+                        locationPath = $location.url(),
+                        isLeafNode = localStorageService.masterClient.get().isLeafNode,
                         url;
+
+                    if ((locationPath === '/dashboard') || (locationPath === '/')) {
+                        isDashboardSubAccount = true;
+                    }
 
                     if (client_id) {
                         clientId = client_id;
                     }
+                    if (isDashboardSubAccount && !isLeafNode) {
+                        clientId = localStorageService.advertiser.getDashboard().clientId;
+                        if(!clientId) {
+                            console.log("Error: Its dashboard but client id is undefined, check dashboardAdvertiser");
+                        }
+                    }
 
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/advertisers/' + advertiserId +
-                        '/brands';
+                    url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advertiserId + '/brands';
 
                     if (accessLevel) {
                         url = url + '?access_level=' + accessLevel;
