@@ -1085,10 +1085,10 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                         start = Number(item[0]);
                         end = Number(item[1]);
                         for (i = start; i <= end; i++) {
-                            tmpArr.push(i);
+                            tmpArr.push(String(i));
                         }
                     } else {
-                        tmpArr.push(Number(item[0]));
+                        tmpArr.push(item[0]);
                     }
                 });
 
@@ -1844,7 +1844,8 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
         $scope.checkZipCodes =  function () {
             var zipCodes = $scope.adData.zipCodes,
-                validZipCodes;
+                validZipCodes,
+                zipCodesRange;
 
             $scope.zipCodeLoader = true;
             zipCodes = zipCodes.split(/[ ,]+/);
@@ -1860,7 +1861,11 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                         return parseInt(item, 10);
                     });
 
-                    zipCodes = _.difference(rangeValue(zipCodes), validZipCodes); // jshint ignore:line
+                    zipCodesRange = rangeValue(zipCodes).map(function (item) {
+                        return parseInt(item, 10);
+                    });
+
+                    zipCodes = _.difference(zipCodesRange, validZipCodes); // jshint ignore:line
                 }
 
                 geoTargeting.addZipCode(zipCodes.join(','));
