@@ -31,6 +31,14 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                                 $scope.savedDomainListIds =
                                     $scope.getAd_result.targets.domainTargets.inheritedDomainList.ADVERTISER;
 
+                                //
+                                // $scope.savedDomainListIds.concat
+                                if($scope.savedDomainListIds){
+                                    $scope.savedDomainListIds = $scope.savedDomainListIds.concat($scope.getAd_result.targets.appTargets.inheritedAppList.ADVERTISER);
+                                } else {
+                                    $scope.savedDomainListIds = $scope.getAd_result.targets.appTargets.inheritedAppList.ADVERTISER
+                                }
+                                //-------
                                 $scope.savedDomainAction = $scope.getAd_result.domainAction || 'INCLUDE';
 
                                 if ($scope.savedDomainListIds && $scope.savedDomainListIds.length) {
@@ -295,6 +303,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 $scope.showExistingListPopup = false;
             };
 
+
+
             $scope.uploadDomain = function(uploadType) {
                 var domainId = $scope.adData.inventory && $scope.adData.inventory.id || null,
                     files = $scope.files,
@@ -396,7 +406,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
 
             $scope.$on('updateInventory', function() {
                 var responseData = workflowService.getAdsDetails();
-
                 if (responseData &&
                     responseData.targets &&
                     responseData.targets.domainTargets &&

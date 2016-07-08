@@ -1308,6 +1308,25 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         params.data,
                         {'Content-Type': 'application/json'}
                     );
+                },
+
+                segrigateInventory: function (selectedList){
+
+                    var inventryListObj = {},
+                        domainList = [],
+                        appList = [];
+                    _.each(selectedList,function(item){
+                        if(item.inventoryType === 'DOMAIN'){
+                            domainList.push(item.domainListId);
+                        };
+                        if(item.inventoryType === 'APP'){
+                            appList.push(item.domainListId);
+                        };
+                    })
+                    inventryListObj.domainList = domainList;
+                    inventryListObj.appList = appList;
+                    return inventryListObj;
+
                 }
             };
         });
