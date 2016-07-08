@@ -290,9 +290,8 @@
                         <input type="text"
                                id="pixelName"
                                class="form-control"
-                               maxlength="50"
+                               maxlength="128"
                                data-ng-model="pixelFormData.name"
-                               data-ng-blur="leavefocusPixelName(pixelFormData.name)"
                                data-ng-keyup="checkDuplicatePixel(pixelFormData.name)">
                         <label class="errorText"
                                style="margin-top: 6px"
@@ -397,7 +396,7 @@
                     </div>
                     
                     <!--Segment Name-->
-                    <div class="pull-left" data-ng-if="pixelFormData.segmentName">
+                    <div class="pull-left" data-ng-if="pixelFormData.segmentName && isEditMode">
                         <label class="greyTxt pull-left" style="padding-top: 0px !important;"
                               >Segment Name:</label>
                         <span class="pull-left clearLeft"

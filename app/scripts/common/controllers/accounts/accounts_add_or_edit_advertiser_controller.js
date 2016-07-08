@@ -183,8 +183,7 @@ define(['angularAMD', '../../../workflow/services/account_service', // jshint ig
                     updatedAt: item.updatedAt,
                     impLookbackWindow: item.impLookbackWindow,
                     clickLookbackWindow: item.clickLookbackWindow,
-                    expiryDate: momentService.localTimeToUTC(item.expiryDate, 'endTime'),
-                    pixelCode: item.pixelCode
+                    expiryDate: momentService.localTimeToUTC(item.expiryDate, 'endTime')
                 };
 
                 if (item.id) {
@@ -569,20 +568,6 @@ define(['angularAMD', '../../../workflow/services/account_service', // jshint ig
             if ($(e.target).closest('.searchInput').length === 0) {
                 $scope.searchHideInput();
             }
-        });
-        $scope.$watchGroup(['pixelFormData.pixelCode', 'pixelFormData.pixelType', ], function(newvalue, oldValue){
-           $scope.pixelFormData.segmentName = '';
-           if(newvalue[0] && newvalue[1] && $scope.setSelectedAdvertiserCode){
-               var pixelTypeCode = {
-                   'RETARGETING' : 'rt',
-                   'AUDIENCE_CREATION' : 'll',
-                   'PAGE_VIEW' : 'cv'
-               }
-               $scope.pixelFormData.segmentName = 'visto-'+pixelTypeCode[newvalue[1]]+'-'+$scope.selectedClientCode+'-'
-                                                   +$scope.setSelectedAdvertiserCode+'-'
-                                                   +$scope.pixelFormData.pixelCode;
-           }
-
         });
     });
 });
