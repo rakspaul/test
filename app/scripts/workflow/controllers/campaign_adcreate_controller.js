@@ -870,7 +870,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 return goalMapper[goal.toLowerCase()];
             };
 
-            $scope.getPlatformIconName = function (platform) {
+            $scope.getPlatformIconName = function (platform) {   
                 var platformMapper = {
                     'visto bidder': 'Visto_fav_icon',
                     'visto bidder - test': 'Visto_fav_icon',
@@ -908,7 +908,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     'pulsepoint': 'pulsepoint-logo',
                     'rubicon': 'rubicon-logo',
                     'the trade desk': 'thetradedesk',
-                    'adx' : 'doubleclick-DFP'
+                    'adx' : 'doubleclick-DFP',
+                    'visto tracker':'Visto_fav_icon'
                 };
 
                 if (platform) {
