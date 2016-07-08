@@ -452,6 +452,12 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 };
             })
 
+            .filter('formatDate',function($filter,momentService){
+                return function(value,format) {
+                    return momentService.formatDate(value,format);
+                };
+            })
+
             .filter('textEllipsis', function () {
                 return function (input, len) {
                     var dispName;

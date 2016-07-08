@@ -157,6 +157,10 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
                     return moment(parsedDate).tz(tz).format(format); // jshint ignore:line
                 }
             };
+
+            this.formatDate = function(dateTime,format) {
+                return moment(dateTime).format(format);
+            }
         }]);
     }
 );
