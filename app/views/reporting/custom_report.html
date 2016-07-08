@@ -1265,11 +1265,11 @@
             </div>
             <!--Start Date start_time-->
             <div class="each_col" ng-if="customeReportData.start_time!=''"
-                 ng-bind="customeReportData.start_time == '' ? 'NA' : (customeReportData.start_time)">
+                 ng-bind="(customeReportData.start_time && (customeReportData.start_time != 'NA')) ? (customeReportData.start_time | formatDate:'D MMM YYYY'): 'NA'">
             </div>
             <!--End Date end_time-->
             <div class="each_col" ng-if="customeReportData.end_time!=''"
-                 ng-bind="customeReportData.end_time == '' ? 'NA' : (customeReportData.end_time)">
+                 ng-bind="(customeReportData.end_time && (customeReportData.end_time != 'NA')) ? (customeReportData.end_time | formatDate:'D MMM YYYY'):'NA'">
             </div>
 
             <!--Booked Impressions booked_impressions-->
