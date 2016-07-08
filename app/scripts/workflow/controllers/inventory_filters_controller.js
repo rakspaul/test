@@ -295,6 +295,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 $scope.showExistingListPopup = false;
             };
 
+
+
             $scope.uploadDomain = function(uploadType) {
                 var domainId = $scope.adData.inventory && $scope.adData.inventory.id || null,
                     files = $scope.files,
@@ -396,7 +398,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
 
             $scope.$on('updateInventory', function() {
                 var responseData = workflowService.getAdsDetails();
-
+                console.log('responseLisrt',responseData);
                 if (responseData &&
                     responseData.targets &&
                     responseData.targets.domainTargets &&
