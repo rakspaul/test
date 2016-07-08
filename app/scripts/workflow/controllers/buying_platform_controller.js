@@ -480,13 +480,6 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 _.each(customPlatformFormData, function (data) { // jshint ignore:line
                     var d = data.name.split('$$');
 
-                    if (d.length >1 && $.trim(data.value) !== '') {
-                        $scope.$parent.postPlatformDataObj.push({
-                            platformCustomInputId: Number(d[1]),
-                            value: data.value
-                        });
-                    }
-
                     if (d[0] === 'placements') {
                         if ($scope.inventoryTabSelected && $scope.inventoryTabSelected === 'appnexus_direct') {
                             selectedPlacementsData = $scope.adData.directInvenotryData.placements.selected;
@@ -495,6 +488,13 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                             $scope.$parent.postPlatformDataObj.push({
                                 platformCustomInputId: Number(d[1]),
                                 value: selectedPlacementIds.join(',')
+                            });
+                        }
+                    } else {
+                        if (d.length >1 && $.trim(data.value) !== '') {
+                            $scope.$parent.postPlatformDataObj.push({
+                                platformCustomInputId: Number(d[1]),
+                                value: data.value
                             });
                         }
                     }
