@@ -122,21 +122,25 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
         $scope.isMediaPlanNameExist = function (event){
             var target =  event.target,
                 cloneMediaPlanName = target.value,
-                advertiserId = $scope.workflowData.campaignData.advertiserId;
+                advertiserId = $scope.workflowData.campaignData.advertiserId,
+                cloneObj={
+                    advertiserId:advertiserId,
+                    cloneMediaPlanName:cloneMediaPlanName
+                }
+
 
             $scope.checkUniqueNameNotFound = true;
             $scope.cloneMediaPlanExists = false;
 
             if (advertiserId) {
                 workflowService
-                    .checkforUniqueMediaPlan(advertiserId, cloneMediaPlanName)
+                    .checkforUniqueMediaPlan(cloneObj)
                     .then(function (results) {
                         if (results.status === 'OK' || results.status === 'success') {
                             var responseData = results.data.data;
                             $scope.cloneMediaPlanExists = responseData.isExists;
 
                         }
-
                         $scope.checkUniqueNameNotFound = false;
                     });
             }

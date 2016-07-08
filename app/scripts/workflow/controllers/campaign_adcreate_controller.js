@@ -870,7 +870,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 return goalMapper[goal.toLowerCase()];
             };
 
-            $scope.getPlatformIconName = function (platform) {
+            $scope.getPlatformIconName = function (platform) {   
                 var platformMapper = {
                     'visto bidder': 'Visto_fav_icon',
                     'visto bidder - test': 'Visto_fav_icon',
@@ -908,7 +908,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     'pulsepoint': 'pulsepoint-logo',
                     'rubicon': 'rubicon-logo',
                     'the trade desk': 'thetradedesk',
-                    'adx' : 'doubleclick-DFP'
+                    'adx' : 'doubleclick-DFP',
+                    'visto tracker':'Visto_fav_icon'
                 };
 
                 if (platform) {
@@ -1136,8 +1137,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     segmentObj,
                     dayPart,
                     domainTargetObj,
+                    appTargetObj,
                     i,
                     domainListIds = [],
+                    appListsIds = [],
                     adData,
                     videoTargetsData,
 
@@ -1269,7 +1272,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         if (creativesData && creativesData.creatives) {
                             _.each(creativesData.creatives, // jshint ignore:line
                                 function (obj) {
-                                    obj.sizeId = obj.size ? obj.size.id :'';
+                                    obj.sizeId = obj.size.id;
                                 });
 
                             postAdDataObj.creatives = _.pluck(creativesData.creatives, 'id'); // jshint ignore:line
@@ -1440,11 +1443,26 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         }
 
                         // Inventory filters section
-                        _.each($scope.workflowData.selectedLists, function (value) { // jshint ignore:line
-                            domainListIds[domainListIds.length] = value.domainListId;
-                        });
+                        // _.each($scope.workflowData.selectedLists, function (value) { // jshint ignore:line
+                        //     domainListIds[domainListIds.length] = value.domainListId;
+                        // });
 
-                        if ($scope.adData.inventory && !$scope.TrackingIntegrationsSelected) {
+                       
+                        var inventoryLists = workflowService.segrigateInventory($scope.workflowData.selectedLists);
+
+                        domainListIds.length = 0;
+                        appListsIds.length = 0;
+
+                        if(inventoryLists.domainList.length > 0){
+                            domainListIds = inventoryLists.domainList;
+                        }
+
+                        if (inventoryLists.appList.length > 0){
+                            appListsIds = inventoryLists.appList;
+                        }
+
+                        //domains save
+                        if ($scope.adData.inventory && !$scope.TrackingIntegrationsSelected && domainListIds.length > 0) {
                             domainTargetObj = postAdDataObj.targets.domainTargets = {};
 
                             domainTargetObj.inheritedDomainList = {
@@ -1454,6 +1472,19 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                             postAdDataObj.domainInherit = 'APPEND';
                             postAdDataObj.domainAction = $scope.adData.inventory.domainAction;
                         }
+
+                        //app save
+                        if ($scope.adData.inventory && !$scope.TrackingIntegrationsSelected && appListsIds.length > 0) {
+                            appTargetObj = postAdDataObj.targets.appTargets = {};
+
+                            appTargetObj.inheritedAppList = {
+                                'ADVERTISER': appListsIds
+                            };
+
+                            postAdDataObj.appInherit = 'APPEND';
+                            postAdDataObj.appAction = $scope.adData.inventory.domainAction;
+                        }
+                        // end of inventory save
 
                         //custom field section.
                         if (!$scope.TrackingIntegrationsSelected) {
@@ -1741,14 +1772,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     result,
                     i;
 
-                if (typeof selectedCreatives.creatives !== 'undefined' || selectedCreatives.creatives.length>0) {
+                if (typeof selectedCreatives.creatives !== 'undefined') {
                     if (selectedCreatives.creatives.length === 1) {
-                        $scope.sizeString = selectedCreatives.creatives[0].size ? selectedCreatives.creatives[0].size.size:'';
+                        $scope.sizeString = selectedCreatives.creatives[0].size.size;
                     } else if (selectedCreatives.creatives.length > 1) {
                         $scope.sizeString = '';
 
                         for (i in selectedCreatives.creatives) {
-                            if(selectedCreatives.creatives[i].size)
                             creativeSizeArrC.push(selectedCreatives.creatives[i].size.size);
                         }
 

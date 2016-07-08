@@ -56,6 +56,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                             .attr({
                                 placeholder: (inputList.defaultValue !== '') ? '' : inputList.displayName,
                                 'ng-required': inputList.isMandatory ? true : false,
+                                'data-ng-blur': (inputList.name == 'tags.tag') ? "leaveFocusCreativeTag()" : '',
                                 'ng-model': (inputList.defaultValue !== '') ?
                                     inputList.defaultValue :
                                     inputList.displayName,

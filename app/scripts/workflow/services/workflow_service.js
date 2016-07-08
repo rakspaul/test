@@ -129,17 +129,28 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 },
 
                 getBrands: function (client_id, advertiserId, accessLevel) {
+
                     var clientId = loginModel.getSelectedClient().id,
+                        isDashboardSubAccount = false,
+                        locationPath = $location.url(),
+                        isLeafNode = localStorageService.masterClient.get().isLeafNode,
                         url;
+
+                    if ((locationPath === '/dashboard') || (locationPath === '/')) {
+                        isDashboardSubAccount = true;
+                    }
 
                     if (client_id) {
                         clientId = client_id;
                     }
+                    if (isDashboardSubAccount && !isLeafNode) {
+                        clientId = localStorageService.advertiser.getDashboard().clientId;
+                        if(!clientId) {
+                            console.log("Error: Its dashboard but client id is undefined, check dashboardAdvertiser");
+                        }
+                    }
 
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/advertisers/' + advertiserId +
-                        '/brands';
+                    url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advertiserId + '/brands';
 
                     if (accessLevel) {
                         url = url + '?access_level=' + accessLevel;
@@ -442,20 +453,19 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     );
                 },
 
-                checkforUniqueMediaPlan : function (subAccountId, advertiserId, cloneMediaPlanName) {
+                checkforUniqueMediaPlan : function (cloneObj) {
                     var clientId,
                         url;
 
-                    if (subAccountId) {
-                        clientId = subAccountId;
+                    if (cloneObj.subAccountId) {
+                        clientId = cloneObj.subAccountId;
                     } else {
                         clientId = loginModel.getSelectedClient().id;
                     }
-
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
-                        '/advertisers/' + advertiserId +
-                        '/campaigns/unique_name?name='+cloneMediaPlanName;
+                        '/advertisers/' + cloneObj.advertiserId +
+                        '/campaigns/unique_name?name='+cloneObj.cloneMediaPlanName;
 
                     return dataService.fetch(url);
                 },
@@ -605,6 +615,17 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
 
                     return dataService.fetchCancelable(url, canceller, success, failure);
+                },
+
+                validateCreative: function(o){
+
+                    return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL +
+                            '/clients/' + o.clientId +
+                            '/advertisers/' + o.advertiserId + '/creatives/validate',
+                        o.data,
+                        {'Content-Type': 'application/json'}
+                    );
+
                 },
 
                 deleteCreatives: function (clientId, data) {
@@ -1234,7 +1255,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 },
 
                 stripCommaFromNumber: function (num) {
-                    return num.replace(',', '');
+                    return String(num).replace(',', '');
                 },
 
                 addCommaToNumber: function (nStr) {
@@ -1287,6 +1308,25 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         params.data,
                         {'Content-Type': 'application/json'}
                     );
+                },
+
+                segrigateInventory: function (selectedList){
+
+                    var inventryListObj = {},
+                        domainList = [],
+                        appList = [];
+                    _.each(selectedList,function(item){
+                        if(item.inventoryType === 'DOMAIN'){
+                            domainList.push(item.domainListId);
+                        };
+                        if(item.inventoryType === 'APP'){
+                            appList.push(item.domainListId);
+                        };
+                    })
+                    inventryListObj.domainList = domainList;
+                    inventryListObj.appList = appList;
+                    return inventryListObj;
+
                 }
             };
         });
