@@ -617,6 +617,17 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     return dataService.fetchCancelable(url, canceller, success, failure);
                 },
 
+                validateCreative: function(o){
+
+                    return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL +
+                            '/clients/' + o.clientId +
+                            '/advertisers/' + o.advertiserId + '/creatives/validate',
+                        o.data,
+                        {'Content-Type': 'application/json'}
+                    );
+
+                },
+
                 deleteCreatives: function (clientId, data) {
                     return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/clients/' + clientId +
