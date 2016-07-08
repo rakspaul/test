@@ -2,9 +2,7 @@ define(['angularAMD',
         'workflow/services/workflow_service', 'login/login_model', 'reporting/advertiser/advertiser_model',
         'common/services/local_storage_service'], // jshint ignore:line
     function (angularAMD) {
-        angularAMD.controller('CreativePreviewController', function ($scope, $rootScope, $routeParams, $location,
-            workflowService, loginModel, advertiserModel,
-            localStorageService) {
+        angularAMD.controller('CreativePreviewController', function ($scope, $rootScope, $routeParams, $location, workflowService, loginModel, advertiserModel, localStorageService) {
             $scope.creativePreviewUrl = true;
 
             var creativeId = $routeParams.creativeId,
@@ -14,8 +12,7 @@ define(['angularAMD',
                 advertiserId = $routeParams.advertiserId;
 
 
-
-            extractTagUrl =  function(tag) {
+            extractTagUrl = function (tag) {
                 var url
                 if (tag.match(/<SCRIPT.*?SRC="(.*?)"/i) || tag.match(/<SCRIPT.*?SRC='(.*?)'/i)) {
                     url = (tag.match(/<SCRIPT.*?SRC="(.*?)"/i) || tag.match(/<SCRIPT.*?SRC='(.*?)'/i))[1];
@@ -25,15 +22,15 @@ define(['angularAMD',
                 return url || tag;
             },
 
-                buildCreativeTagPreviewContainer = function(data) {
+                buildCreativeTagPreviewContainer = function (data) {
                     var tag = data.tag,
                         type = data.creativeType,
                         iframe;
 
-                    if( tag) {
+                    if (tag) {
                         iframe = document.createElement('iframe');
-                        if(data.creativeFormat === 'VIDEO') {
-                            if(!extractTagUrl(tag)) {
+                        if (data.creativeFormat === 'VIDEO') {
+                            if (!extractTagUrl(tag)) {
                                 $scope.creativePreviewUrl = false;
                             } else {
                                 localStorage.setItem('creativeTag', extractTagUrl(tag)); //setting creative tag in local storage to use while video preview.
@@ -44,11 +41,11 @@ define(['angularAMD',
                         }
                         iframe.width = '1000';
                         iframe.height = '1000';
-                        iframe.frameBorder='0';
+                        iframe.frameBorder = '0';
 
                         $('#creativePreviewContainer').append(iframe);
 
-                        $.getScript($scope.creativePreviewUrl, function(res) {
+                        $.getScript($scope.creativePreviewUrl, function (res) {
                             console.log('script loaded', res);
                         });
                     }
@@ -80,27 +77,27 @@ define(['angularAMD',
             }
 
             var params = {
-                'campaignId' : campaignId,
-                'adId' : adId,
-                'creativeId' : creativeId,
-                'clientId' : clientId,
-                'advertiserId' : advertiserId
+                'campaignId': campaignId,
+                'adId': adId,
+                'creativeId': creativeId,
+                'clientId': clientId,
+                'advertiserId': advertiserId
             }
 
-            if(params.creativeId == -1){
+            if (params.creativeId == -1) {
 
                 $scope.creativePreviewData = localStorageService.creativeTag.get();
                 buildCreativeTagPreviewContainer($scope.creativePreviewData);
                 $scope.creativePreviewUrl = true;
 
-            }else {
+            } else {
 
                 workflowService
                     .getCreativePreViewData(params)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.creativePreviewData = result.data.data;
-                            console.log($scope.creativePreviewData);
+                            $rootScope.title = $scope.creativePreviewData.name;
                             buildCreativeTagPreviewContainer($scope.creativePreviewData);
                         } else {
                             $scope.creativePreviewUrl = false;
