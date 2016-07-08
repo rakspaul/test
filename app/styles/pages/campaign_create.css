@@ -2157,28 +2157,29 @@
                                     }*/
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon {
-  border: 1px solid #C6C9CE;
-  border-radius: 2px;
   float: left;
   margin-right: 10px;
   cursor: pointer;
 }
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon:hover {
-  border: 1px solid rgba(87, 96, 109, 0.3);
-}
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon:hover .icon-plus,
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon:hover .icon-minus {
-  color: #2c9aec;
-}
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .icon-minus,
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .icon-plus {
-  color: #57606d;
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .icon-toggleopen,
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .icon-toggleclose {
   float: left;
-  font-size: 12px;
+  font-size: 24px;
   height: 24px;
-  padding: 6px;
   top: 0;
   width: 24px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .icon-toggleclose {
+  color: #bfc9d7;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .icon-toggleclose:hover {
+  color: #939eae;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .icon-toggleopen {
+  color: #004d86;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .icon-toggleopen:hover {
+  color: #0563a9;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle h2.adGroupTxt {
   color: #000;
@@ -3846,7 +3847,7 @@
 }
 .users-creation-page .heading,
 .accounts-page .heading {
-  margin: 15px 0;
+  margin: 0 0 30px 0;
 }
 .users-creation-page .heading .common_primary_btn,
 .accounts-page .heading .common_primary_btn {

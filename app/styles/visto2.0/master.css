@@ -194,15 +194,13 @@ strong {
   height: 100%;
   background: #fff;
 }
-.workflowPreloader img {
+.workflowPreloader .loader {
   position: relative;
   z-index: 10;
-  top: 50%;
-  left: 50%;
-  margin-left: -32px;
-  margin-top: -32px;
-  -webkit-filter: hue-rotate(22deg);
-  filter: hue-rotate(22deg);
+  top: 50% !important;
+  left: 50% !important;
+  margin-left: -26px !important;
+  margin-top: -26px !important;
 }
 .workflowPreloader .adSavePre {
   position: absolute;
@@ -265,7 +263,7 @@ strong {
 }
 .form-control {
   border-radius: 1px !important;
-  border: 1px solid #ccd2da;
+  border: 1px solid #BFC9D7;
   -webkit-appearance: none;
 }
 .successMessage {

@@ -305,7 +305,6 @@
   border: 1px solid #ccd2da;
 }
 .popup-holder textarea {
-  border: 1px solid #dde6eb;
   background-color: #ffffff;
   font-size: 14px;
   color: #939ead;
@@ -555,7 +554,6 @@
   color: #007ac9;
 }
 .popContainerHolder .popContainer .textarea_edit_holder textarea {
-  border: solid 1px #007ac9;
   padding: 20px;
   margin: 0px 0 20px;
   width: 100%;
@@ -1163,16 +1161,7 @@
   border-left: solid 8px transparent;
   border-top: 0;
   border-right: solid 8px transparent;
-  opacity: 0;
-  -webkit-animation: fadeIn ease-in 1;
-  -moz-animation: fadeIn ease-in 1;
-  animation: fadeIn ease-in 1;
-  -webkit-animation-fill-mode: forwards;
-  -moz-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  -webkit-animation-duration: .55s;
-  -moz-animation-duration: .55s;
-  animation-duration: .55s;
+  opacity: 1;
 }
 .main_navigation_holder .profile-photo-tab.selected:after {
   content: "";

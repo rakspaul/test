@@ -421,8 +421,9 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
         $scope.toggleCreativeAds=function (context, creativeId, index, event) {
             var elem = $(event.target);
 
-            if (elem.hasClass('icon-arrow-down-open')) {
-                elem.removeClass('icon-arrow-down-open');
+            if (elem.hasClass('icon-toggleopen')) {
+                elem.removeClass('icon-toggleopen');
+                elem.addClass('icon-toggleclose');
                 elem.closest('.oneDimensionRow').find('.secondDimensionList').hide();
                 elem.closest('.oneDimensionRow').removeClass('visible');
 
@@ -430,7 +431,8 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                     $('.childRowHead').hide();
                 }
             } else {
-                elem.addClass('icon-arrow-down-open');
+                elem.addClass('icon-toggleopen');
+                elem.removeClass('icon-toggleclose');
                 elem.closest('.oneDimensionRow').find('.secondDimensionList').show();
                 elem.closest('.oneDimensionRow').addClass('visible');
                 creativeList.getCreativeAds(creativeId, index);
@@ -523,7 +525,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
         $scope.headerToggle = function () {
             $('.vistoTable .thead .childRow').toggle();
-            $('.vistoTable .thead .icon-arrow-down-thick').toggleClass('arrowLookDown');
+            $('.vistoTable .thead .icon-toggleclose').toggleClass('arrowLookDown');
         };
 
         $scope.defineSize = function () {

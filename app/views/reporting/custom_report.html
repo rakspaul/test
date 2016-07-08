@@ -1010,7 +1010,7 @@
         </div>
 
         <script type="text/ng-template" id="deliveryTpl">
-            <div class="each_col {{customeReportData.level === 'first_dimension' ?'more_dimension_arrow' :'tree_string'}}"
+            <div class="each_col {{customeReportData.level === 'first_dimension' ?'more_dimension_arrow icon-toggleclose' :'tree_string'}}"
                  ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();">
             </div>
 
@@ -1045,7 +1045,7 @@
 
         <!----- Cost report data ------------------------>
         <script type="text/ng-template" id="costTpl">
-            <div class="each_col {{customeReportData.level === 'first_dimension' ?'more_dimension_arrow' :'tree_string'}}"
+            <div class="each_col {{customeReportData.level === 'first_dimension' ?'more_dimension_arrow icon-toggleclose' :'tree_string'}}"
                  ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();">
             </div>
 
@@ -1113,7 +1113,7 @@
         <!----- video report data ------------------------>
         <script type="text/ng-template" id="videoTpl">
             <div class="each_col {{customeReportData.level === 'first_dimension' ?
-                'more_dimension_arrow' :
+                'more_dimension_arrow icon-toggleclose' :
                 'tree_string'}}"
                  ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();">
             </div>
@@ -1173,7 +1173,7 @@
         <!----- Quality Display report data ------------------------>
         <script type="text/ng-template" id="qualityTpl">
             <div class="each_col {{customeReportData.level === 'first_dimension' ?
-                'more_dimension_arrow' :
+                'more_dimension_arrow icon-toggleclose' :
                 'tree_string'}}"
                  ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();">
             </div>
@@ -1249,7 +1249,7 @@
         <!----- Pacing report data ------------------------>
         <script type="text/ng-template" id="pacingTpl">
             <div class="each_col {{customeReportData.level === 'first_dimension' ?
-                'more_dimension_arrow' :
+                'more_dimension_arrow icon-toggleclose' :
                 'tree_string'}}"
                  ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();">
             </div>
