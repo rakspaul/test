@@ -20,8 +20,6 @@
                           data-ng-bind="textConstants.CANCEL"
                           data-ng-click="cancelEditAdGroup()">
                     </span>
-                    <input type="hidden" name="adgroupId" data-ng-model="adgroupId" data-ng-update-hidden>
-                    <input type="hidden" name="updatedAt" data-ng-model="updatedAt" data-ng-update-hidden>
             </div>
 
             <!--Name Ad Group-->
@@ -207,6 +205,8 @@
                  data-ng-bind="createAdGroupMessage">
             </div>
         </div>
+        <input type="hidden" name="adgroupId" data-ng-model="adgroupId" ng-update-hidden>
+        <input type="hidden" name="updatedAt" data-ng-model="updatedAt" ng-update-hidden>
     </form>
 </div>
 

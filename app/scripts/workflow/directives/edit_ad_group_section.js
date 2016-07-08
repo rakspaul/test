@@ -18,12 +18,19 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
                         //total budget for no ad group
                         campaignAdsData  = $scope.workflowData.campaignAdsData,
                         adsBudget,
-                        startTime = momentService.utcToLocalTime(adGroupsData.adGroup.startTime),
-                        highestEndTime = momentService.utcToLocalTime(adGroupsData.adGroup.endTime),
+                        startTime,
+                        highestEndTime,
                         getADsForGroupData = $scope.workflowData.getADsForGroupData[adGroupsIndex],
                         startDateElem = formElem.find('.adGrpStartDateInput'),
                         endDateElem = formElem.find('.adGrpEndDateInput'),
                         currentDate = moment().format(constants.DATE_US_FORMAT); // jshint ignore:line
+
+
+                    $scope.adGroupData.modifiedAdGroupAPIStartTime = adGroupsData.adGroup.startTime;
+                    $scope.adGroupData.modifiedAdGroupAPIEndTime = adGroupsData.adGroup.endTime;
+
+                    startTime = momentService.utcToLocalTime(adGroupsData.adGroup.startTime);
+                    highestEndTime = momentService.utcToLocalTime(adGroupsData.adGroup.endTime);
 
                     $scope.adgroupId = adGroupsData.adGroup.id;
                     $scope.adGroupName = adGroupsData.adGroup.name;
@@ -70,6 +77,8 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
                         endDateElem.datepicker('setEndDate', $scope.campaignEndTime);
                     }
 
+
+
                     startDateElem.datepicker('update', startTime);
                     endDateElem.datepicker('update', highestEndTime);
                 };
@@ -100,7 +109,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
                             $scope.adGroupsData = JSON.parse(attrs.adGroupData);
 
                             $scope.adGroupsIndex = JSON.parse(attrs.adGroupIndex);
-                            $scope.editAdGroupFlag = true;
+                            $scope.adGroupData.editAdGroupFlag = true;
                             $scope.showCreateAdGrp = true;
                             formElem = element.closest('.adGroup').find('.editAdgroupDiv form');
 

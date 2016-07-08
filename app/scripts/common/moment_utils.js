@@ -123,15 +123,16 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
             this.localTimeToUTC = function(dateTime, type) {
                 var clientUTCTime,
                     parseDateTime,
+                    currentUTCTime,
                     tz = this.getTimezoneName() === constants.TIMEZONE_UK ? 'GMT' : 'EST',
-                    isSelectedDateToday = moment(dateTime).isSame(new Date(), 'day'), // jshint ignore:line
                     timeSuffix = (type === 'startTime' ? '00:00:00' : '23:59:59');
 
-                if(type === 'startTime' && isSelectedDateToday) {
-                    clientUTCTime = moment.utc().seconds(60); // jshint ignore:line
-                } else {
-                    parseDateTime = Date.parse(dateTime + ' ' + timeSuffix + ' ' + tz);
-                    clientUTCTime = moment(parseDateTime).tz('UTC'); // jshint ignore:line
+                parseDateTime = Date.parse(dateTime + ' ' + timeSuffix + ' ' + tz);
+                clientUTCTime = moment(parseDateTime).tz('UTC'); // jshint ignore:line
+                currentUTCTime  = moment.utc();
+
+                if(moment(clientUTCTime).isBefore(currentUTCTime)) {
+                    clientUTCTime = moment(currentUTCTime).seconds(10);
                 }
 
                 return moment(clientUTCTime).format(constants.DATE_UTC_FORMAT); // jshint ignore:line
