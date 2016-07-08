@@ -406,7 +406,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
 
             $scope.$on('updateInventory', function() {
                 var responseData = workflowService.getAdsDetails();
-                console.log('responseLisrt',responseData);
                 if (responseData &&
                     responseData.targets &&
                     responseData.targets.domainTargets &&

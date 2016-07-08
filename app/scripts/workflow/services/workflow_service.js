@@ -1295,7 +1295,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         domainList = [],
                         appList = [];
                     _.each(selectedList,function(item){
-                        console.log(item.inventoryType );
                         if(item.inventoryType === 'DOMAIN'){
                             domainList.push(item.domainListId);
                         };
