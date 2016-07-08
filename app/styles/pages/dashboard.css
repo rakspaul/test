@@ -117,12 +117,12 @@
   display: block;
 }
 .main_dashboard .status_filter {
-  line-height: 20px;
+  padding-top: 10px;
   font-size: 14px;
   margin-left: 20px ;
 }
 .main_dashboard .status_filter .status_filter_dd {
-  margin-top: 1px ;
+  margin-top: 8px ;
   position: relative;
   cursor: pointer;
 }
