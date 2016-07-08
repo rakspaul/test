@@ -33,7 +33,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 integrationObj.displayName = platform.name;
                 integrationObj.iconUrl = platform.iconURL;
                 integrationObj.customInputJson = platform.vendorExecutionPlatform.customInputJson;
-                integrationObj.fullIntegration = platform.vendorExecutionPlatform.fullIntegration;
+                integrationObj.executionVendorType = platform.vendorExecutionPlatform.executionVendorType;
                 integrationObj.active = true; // TODO hardcoded true for now...
                 integrationObj.summary = platform.description;
                 integrationObj.vendorCapabilities = platform.vendorCapabilities;
@@ -535,11 +535,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         '/vendors?format=' + adFormat.toUpperCase());
                 },
 
-                getTemplates: function (adServer, format,platformId) {
-                  var executionId = platformId?'&executionVendorId='+platformId:'';
+                getTemplates: function (adServer, format,executionVendorType) {
+                  var executionVendorType = executionVendorType?'&executionVendorType='+executionVendorType:'';
                         return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/vendors/' + adServer.id +
-                            '/templates?format=' + format.toUpperCase() + executionId);
+                            '/templates?format=' + format.toUpperCase() + executionVendorType);
                 },
 
                 getCreativeSizes: function () {
@@ -597,20 +597,20 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     );
                 },
 
-                getCreatives: function (clientId,adId, formats, query, cacheObj, state, platformId, success,
+                getCreatives: function (clientId,adId, formats, query, cacheObj, state, executionPlatformType, success,
                                         failure) {
                     var queryStr = query ? query : '',
                         creativeFormats = formats ? '?creativeFormat=' + formats : '',
                         url,
                         canceller;
                     state = state ? '&status=READY' : '',
-                    platformId = platformId ? '&executionVendorId='+platformId : '';
+                        executionPlatformType = executionPlatformType ? '&executionVendorType='+executionPlatformType : '';
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/advertisers/' + adId +
                     //    '/creatives' + creativeFormats + queryStr + intTracking + state;
-                        '/creatives' + creativeFormats + queryStr  + state + platformId;
+                        '/creatives' + creativeFormats + queryStr  + state + executionPlatformType;
 
                     canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
 
@@ -1052,7 +1052,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         i;
 
                     for (i = 0; i < resp.length; i++) {
-                        if (resp[i].vendorExecutionPlatform.fullIntegration) {
+                        if (resp[i].vendorExecutionPlatform.executionVendorType=='FULL INTEGRATION') {
                             //full integration platform
                             platforms.fullIntegrationsPlatforms.push(createObj(resp[i]));
                         } else {

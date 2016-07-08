@@ -31,13 +31,11 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                     // Reset flag variable as it has served its purpose
                     $scope.$parent.adFormatChanged = false;
                 }
-                var platformId=$scope.isPlatformId;
-               // console.log("wedhuewdhuehd",$scope.isPlatformId);
-
+                var executionPlatformType=workflowService.getPlatform().executionVendorType;
                 // remove spaces.
                 //format = format.replace(/\s/g, '');
                 workflowService
-                    .getCreatives(clientID,adId, format, query, {cache: false},state,platformId,function(result){
+                    .getCreatives(clientID,adId, format, query, {cache: false},state,executionPlatformType,function(result){
                         var responseData,
                             selectedCreative;
 

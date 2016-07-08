@@ -438,16 +438,16 @@ define(['angularAMD',
 
             // function to get the possible templates in adCreate Page)
             if ($scope.adPage) {
-                $scope.getTemplates(adServer,$scope.creativeFormat,$scope.isPlatformId);
+                $scope.getTemplates(adServer,$scope.creativeFormat,workflowService.getPlatform().executionVendorType);
             }
         };
 
         // get Templates
-        $scope.getTemplates = function (vendor,format,platformId) {
+        $scope.getTemplates = function (vendor,format,executionVendorType) {
             var responseData;
 
             workflowService
-                .getTemplates(vendor,format,platformId)
+                .getTemplates(vendor,format,executionVendorType)
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         responseData = result.data.data;
