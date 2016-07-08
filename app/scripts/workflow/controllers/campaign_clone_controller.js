@@ -129,7 +129,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
 
             if (advertiserId) {
                 workflowService
-                    .checkforUniqueMediaPlan(advertiserId, cloneMediaPlanName)
+                    .checkforUniqueMediaPlan('',advertiserId, cloneMediaPlanName)
                     .then(function (results) {
                         if (results.status === 'OK' || results.status === 'success') {
                             var responseData = results.data.data;
