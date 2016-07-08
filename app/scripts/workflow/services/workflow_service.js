@@ -442,20 +442,19 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     );
                 },
 
-                checkforUniqueMediaPlan : function (subAccountId, advertiserId, cloneMediaPlanName) {
+                checkforUniqueMediaPlan : function (cloneObj) {
                     var clientId,
                         url;
 
-                    if (subAccountId) {
-                        clientId = subAccountId;
+                    if (cloneObj.subAccountId) {
+                        clientId = cloneObj.subAccountId;
                     } else {
                         clientId = loginModel.getSelectedClient().id;
                     }
-
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
-                        '/advertisers/' + advertiserId +
-                        '/campaigns/unique_name?name='+cloneMediaPlanName;
+                        '/advertisers/' + cloneObj.advertiserId +
+                        '/campaigns/unique_name?name='+cloneObj.cloneMediaPlanName;
 
                     return dataService.fetch(url);
                 },

@@ -877,10 +877,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 cloneMediaPlanName = $scope.selectedCampaign.campaignName,
                 subAccountId=$scope.selectedCampaign.clientId,
                 advertiserId = $scope.selectedCampaign.advertiserId,
-                url;
+                url,
+                cloneObjValue={
+                    subAccountId:subAccountId,
+                    advertiserId:advertiserId,
+                    cloneMediaPlanName:cloneMediaPlanName
+                };
+
             $scope.checkUniqueMediaPlanNameNotFound = true;
             if($scope.selectedCampaign.oldCampaignName != cloneMediaPlanName && advertiserId) {
-                workflowService.checkforUniqueMediaPlan(subAccountId,advertiserId, cloneMediaPlanName).then(function (results) {
+                workflowService.checkforUniqueMediaPlan(cloneObjValue).then(function (results) {
                     $scope.checkUniqueMediaPlanNameNotFound = false;
                     if (results.status === 'OK' || results.status === 'success') {
                         var responseData = results.data.data;
