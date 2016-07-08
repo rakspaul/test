@@ -82,6 +82,12 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
                 },
 
                 get: function () {}
+            },
+
+            advertiser: {
+                getDashboard: function() {
+                    return localStorage.getItem('dashboardAdvertiser') && JSON.parse(localStorage.getItem('dashboardAdvertiser'));
+                }
             }
         };
     });
