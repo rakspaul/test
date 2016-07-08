@@ -96,6 +96,15 @@
   z-index: 10;
   cursor: pointer;
 }
+#creative .creativeList .creativeTemplate .creativePreviewBtn {
+  position: relative;
+  float: left;
+  margin: 9px 0 0 10px;
+}
+#creative .creativeList .creativeTemplate .creativePreviewBtn a {
+  border: 1px solid rgba(191, 201, 215, 0.5);
+  padding: 10px;
+}
 #creative .emptyCreativesFlag td {
   border-width: 0;
 }

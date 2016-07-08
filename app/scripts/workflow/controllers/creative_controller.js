@@ -1,8 +1,10 @@
-define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
-    'workflow/services/workflow_service', 'workflow/services/creative_custom_module', 'login/login_model',
-    'common/utils', 'workflow/directives/creative_drop_down', 'workflow/directives/ng_upload_hidden'], function (angularAMD) {
-    angularAMD.controller('CreativeController', function ($scope, $rootScope, $routeParams, $location, constants,
-                                                         workflowService, creativeCustomModule, loginModel, utils) {
+define(['angularAMD',
+    'common/services/constants_service', 'workflow/services/workflow_service', 'workflow/services/creative_custom_module',
+    'login/login_model', 'common/utils', 'common/services/local_storage_service',
+    'workflow/directives/creative_drop_down', 'workflow/directives/ng_upload_hidden'], function (angularAMD) {
+    angularAMD.controller('CreativeController', function ($scope, $rootScope, $routeParams, $location,
+                                                         constants, workflowService, creativeCustomModule,
+                                                         loginModel, utils, localStorageService) {
         $scope.IncorrectClickThru=false;
         var validTag = false,
             postCrDataObj = {},
@@ -526,6 +528,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             }
 
             creativeCustomModule.init(templateJson, creativeTemplateWrap, $scope, customFieldsDataEditMode);
+            creativeTagTemplateLoaded();
 
             //code to enable the supported tagTypes for the particular template
             // $scope.creativeSizeData.tagTypes = [
@@ -561,6 +564,48 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             //     }
             //  }
         };
+
+        /*
+         Purpose: This method will get invoked once the template(Creative tag, Type, ClickThorugh URL) elements are loaded
+         */
+        function creativeTagTemplateLoaded(){
+
+            validateCreativeTag();
+
+        }
+
+        /*
+         Purpose: Bind the event to the textarea on the creative tag,
+         on leaving the focus fire the API to validate
+         */
+        function validateCreativeTag(){
+
+            $('textarea[name*="tags.tag"]').on("blur", function() {
+                var _self = this,
+                    o = {
+                        advertiserId : $scope.creative.advertiserId,
+                        clientId : loginModel.getSelectedClient().id,
+                        data: {
+                            tag: $(this).val(),
+                            format: $scope.adData.adFormat
+                        }
+                    },
+                    creativeTag = $(this).val();
+                $(_self).next(".errorText, .creativePreviewBtn").remove();
+                workflowService.validateCreative(o).then(function(res){
+                    if(res.status == "OK" || res.status == "success"){
+                        localStorageService.creativeTag.set({tag: res.data.data.tag, creativeType: $scope.adData.adFormat});
+                        var url = '/clientId/'+ o.clientId + '/adv/' + o.advertiserId + '/creative/-1/preview';
+                        ele = '<div class="creativePreviewBtn"><a target="_blank" href="'+ url +'">Preview</a></div>';
+                        $(_self).after(ele);
+                    }else{
+                        $(_self).after('<span class = "errorText" style="margin-left:10px">'+res.data.data.message+'</span>');
+                    }
+                },function(err){
+
+                });
+            });
+        }
 
         $scope.creativePopularSizes = [
             {id: 16, size: '300x250'},
