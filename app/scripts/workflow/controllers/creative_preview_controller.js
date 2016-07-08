@@ -89,7 +89,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'login/login_model',
             .then(function (result) {
                 if (result.status === 'OK' || result.status === 'success') {
                     $scope.creativePreviewData = result.data.data;
-                    console.log($scope.creativePreviewData);
+                    $rootScope.title = $scope.creativePreviewData.name;
                     buildCreativeTagPreviewContainer($scope.creativePreviewData);
                 } else {
                     $scope.creativePreviewUrl = false;

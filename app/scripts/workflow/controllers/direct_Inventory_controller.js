@@ -90,26 +90,42 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                                 }
                             }
 
-                            if ($scope.mode === 'edit') {
-                                placementList =
-                                    _.filter($scope.$parent.postPlatformDataObj, // jshint ignore:line
-                                        function (obj) {
-                                            return obj.platformCustomInputId === 80;
-                                        });
+                            if($scope.adData.directInvenotryData.placements.selected.length >0) {
+                                var placementIds = _.pluck($scope.adData.directInvenotryData.placements.selected, 'sourceId');
+                                placementIds = placementIds.map(function (item) {
+                                    return parseInt(item, 10);
+                                });
 
-                                if (placementList.length > 0) {
-                                    placementIds = placementList[0].value.split(',').map(function (item) {
-                                        return parseInt(item, 10);
-                                    });
-
-                                    _.each($scope.adData.directInvenotryData.placements.data, // jshint ignore:line
-                                        function (data, idx) {
+                                _.each($scope.adData.directInvenotryData.placements.data, // jshint ignore:line
+                                    function (data, idx) {
                                         if (_.contains(placementIds, Number(data.sourceId))) { // jshint ignore:line
                                             $scope.adData.directInvenotryData.placements.data[idx].isChecked = true;
                                             $scope.adData.directInvenotryData.placements.data[idx].isIncluded = true;
-                                            $scope.adData.directInvenotryData.placements.selected.push(data);
                                         }
                                     });
+
+                            } else {
+                                if ($scope.$parent.postPlatformDataObj || $scope.mode === 'edit') {
+                                    placementList =
+                                        _.filter($scope.$parent.postPlatformDataObj, // jshint ignore:line
+                                            function (obj) {
+                                                return obj.platformCustomInputId === 80;
+                                            });
+
+                                    if (placementList.length > 0) {
+                                        placementIds = placementList[0].value.split(',').map(function (item) {
+                                            return parseInt(item, 10);
+                                        });
+
+                                        _.each($scope.adData.directInvenotryData.placements.data, // jshint ignore:line
+                                            function (data, idx) {
+                                                if (_.contains(placementIds, Number(data.sourceId))) { // jshint ignore:line
+                                                    $scope.adData.directInvenotryData.placements.data[idx].isChecked = true;
+                                                    $scope.adData.directInvenotryData.placements.data[idx].isIncluded = true;
+                                                    $scope.adData.directInvenotryData.placements.selected.push(data);
+                                                }
+                                            });
+                                    }
                                 }
                             }
                         }, function () {});
@@ -132,6 +148,8 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                     $scope.adData.directInvenotryData.placements.params[type ? type : 'search'] = filterValue;
                     $scope.adData.directInvenotryData.placements.fetching = true;
                     $scope.adData.directInvenotryData.placements.data_not_found = false;
+                    $scope.adData.directInvenotryData.placements.no_more_data = true;
+                    $scope.adData.directInvenotryData.placements.params.pageNo = 1;
                     directInventory.placement($scope.urlData, $scope.adData.directInvenotryData.placements.params);
                 }
             };
@@ -255,14 +273,54 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
         };
 
         $scope.adData.resetInventroy = function () {
-            if (!$scope.$parent.postPlatformDataObj) {
-                $scope.adData.clearAllSelectedPlacements();
-                $('.appnexus_direct_div.staticMarkup').hide();
+            var placementList,
+                placementIds;
 
+            if (!$scope.$parent.postPlatformDataObj) {
+
+                $scope.adData.clearAllSelectedPlacements();
                 $timeout(function () {
                     $('.buying_strategy').trigger('click');
                 }, 100);
+
+            } else { //click on back to platform when selected placement list is not empty
+                if($scope.adData.directInvenotryData.placements.selected.length >0) {
+                    placementList =
+                        _.filter($scope.$parent.postPlatformDataObj, // jshint ignore:line
+                            function (obj) {
+                                return obj.platformCustomInputId === 80;
+                            });
+
+                    if (placementList.length > 0) {
+                        placementIds = placementList[0].value.split(',').map(function (item) {
+                            return parseInt(item, 10);
+                        });
+
+                        var newUnsavedItemFound  = _.filter($scope.adData.directInvenotryData.placements.selected, function(item) {
+                            return _.contains(placementIds, Number(item.sourceId))
+                        });
+
+                        if(newUnsavedItemFound.length >0) {
+                            $scope.adData.directInvenotryData.placements.selected = newUnsavedItemFound;
+                        }
+
+                        var placementIds = _.pluck($scope.adData.directInvenotryData.placements.selected, 'sourceId');
+                        placementIds = placementIds.map(function (item) {
+                            return parseInt(item, 10);
+                        });
+
+                        _.each($scope.adData.directInvenotryData.placements.data, // jshint ignore:line
+                            function (data, idx) {
+                                if (!_.contains(placementIds, Number(data.sourceId))) { // jshint ignore:line
+                                    $scope.adData.directInvenotryData.placements.data[idx].isChecked = false;
+                                    $scope.adData.directInvenotryData.placements.data[idx].isIncluded = false;
+                                }
+                            });
+                    }
+                }
             }
+
+            $('.appnexus_direct_div.staticMarkup').hide();
         };
 
         $scope.filterPlacements = function (filterType, filterValue) {
