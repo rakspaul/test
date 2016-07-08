@@ -9,6 +9,11 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         angularAMD.controller('AccountsController', function ($scope, $rootScope, $modal, $compile, $sce, constants,
                                                               accountsService, momentService, loginModel, utils) {
             var _currCtrl = this;
+            _currCtrl.pixelTypeCode = {
+                'RETARGETING' : 'rt',
+                'AUDIENCE_CREATION' : 'll',
+                'PAGE_VIEW' : 'cv'
+            }
             _currCtrl.verifyPixelInput = function () {
                 var ret = true,
                     errMsg = 'Error',
@@ -80,10 +85,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 pixelDate: momentService.todayDate('YYYY-MM-DD')
             };
 
-            $scope.leavefocusPixelName = function(name){
-                $scope.pixelFormData.pixelCode = (name.replace(utils.regExp().removeSpecialCharacterAndSpaces, '')).substring(0,24);
-            };
-
             function getPixelsData(clientId, advId) {
                 accountsService
                     .getPixelsUnderAdvertiser(clientId, advId)
@@ -124,7 +125,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 name: '',
                 pixelType: '',
                 expiryDate: '',
-                pixelCode: '',
                 description: '',
                 pixelTypeName: 'Select Pixel Type'
             };
@@ -202,7 +202,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                             'name',
                             'pixelType',
                             'expiryDate',
-                            'pixelCode',
                             'description',
                             'impLookbackWindow',
                             'clickLookbackWindow'
@@ -230,10 +229,14 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             };
 
             $scope.editPixel = function (index, pixel) {
+
                 $('.pixelCreate').slideDown();
                 $('#pixelExpDate').datepicker('setStartDate', momentService.getCurrentYear().toString());
                 $scope.pixelIndex = index;
                 $scope.pixelFormData = JSON.parse(JSON.stringify(pixel));
+                $scope.pixelFormData.segmentName = 'visto-' + _currCtrl.pixelTypeCode[$scope.pixelFormData.pixelType] + '-'
+                                                   + $scope.selectedClientCode + '-' + $scope.setSelectedAdvertiserCode + '-'
+                                                   + $scope.pixelFormData.pixelCode;
             };
 
             $scope.clearPixel = function () {
@@ -244,7 +247,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     pixelType: '',
                     expiryDate: '',
                     description: '',
-                    pixelCode: '',
                     pixelTypeName: 'Select Pixel Type',
                     impLookbackWindow: '',
                     clickLookbackWindow: ''
@@ -571,7 +573,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     name: '',
                     pixelType: '',
                     expiryDate: '',
-                    pixelCode: '',
                     description: '',
                     pixelTypeName: 'Select Pixel Type'
                 };
