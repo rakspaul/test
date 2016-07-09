@@ -111,13 +111,13 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
         var slideUp = function() {
             $('#reportBuilderForm').slideUp(600);
-            $("#dynamicHeader > a > span").removeClass("icon-minus").addClass('icon-plus');
+            $("#dynamicHeader > a > span").removeClass("icon-toggleopen").addClass('icon-toggleclose');
             $("#dynamicHeader").addClass("smaller");
         }
 
         var slideDown = function() {
             $('#reportBuilderForm').slideDown(600);
-            $("#dynamicHeader > a > span").removeClass('icon-plus').addClass("icon-minus");
+            $("#dynamicHeader > a > span").removeClass('icon-toggleclose').addClass("icon-toggleopen");
         }
 
         _customctrl.setCustomMetrics = function(data){
@@ -618,7 +618,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 $(window).unbind('scroll');
                 $(".img_table_container").hide();
                 $(".custom_report_response_page").show();
-                $(".hasBreakdown").removeClass("active").removeClass("treeOpen").removeClass("noDataOpen");
+                $(".hasBreakdown").removeClass("active").removeClass("treeOpen").removeClass("noDataOpen").addClass("manny");
                 $("html, body").animate({
                     scrollTop: 0
                 });
@@ -906,6 +906,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         _customctrl.hideSecondDimensionData = function(firtDimensionElem, secondDimensionElem) {
             secondDimensionElem.hide();
             firtDimensionElem.removeClass('active treeOpen noDataOpen');
+            firtDimensionElem.find(".more_dimension_arrow").addClass('icon-toggleclose');
         };
 
         $scope.fetchMoreSecondDimensionData = function(ev, value, rowIndex, loadMore) {
@@ -1101,7 +1102,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                 }
                             }
                         }
-                        currFirtDimensionElem.addClass('treeOpen')
+                        currFirtDimensionElem.addClass('treeOpen');
+                        currFirtDimensionElem.find(".more_dimension_arrow").removeClass('icon-toggleclose').addClass('icon-toggleopen');
                     } else {
                         _.each($scope.secondDimensionReportLoading,function(value,sdrlkey){
                             _.each(value,function(value,key,obj){

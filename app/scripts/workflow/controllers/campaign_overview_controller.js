@@ -728,7 +728,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 if (context.showHideToggle) {
                     //Closes
                     elem.closest('.adGroup').removeClass('openInstance').addClass('closedInstance');
-                    elem.closest('.collapseIcon span').removeClass('icon-minus').addClass('icon-plus');
+                    elem.closest('.collapseIcon span').removeClass('icon-toggleopen').addClass('icon-toggleclose');
                     context.showHideToggle = !context.showHideToggle;
                     $scope.isAdGroupOpen = false;
                 } else {
@@ -749,7 +749,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                     }
 
                     elem.closest('.adGroup').removeClass('closedInstance').addClass('openInstance');
-                    elem.closest('.collapseIcon span').removeClass('icon-plus').addClass('icon-minus');
+                    elem.closest('.collapseIcon span').removeClass('icon-toggleclose').addClass('icon-toggleopen');
                     context.showHideToggle = !context.showHideToggle;
                     $scope.isAdGroupOpen = true;
                     campaignOverView.getAdsInAdGroup($routeParams.campaignId, adGrpId, index);

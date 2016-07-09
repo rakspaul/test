@@ -133,7 +133,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             $('.page_filters').find('.filter_dropdown_open').removeClass('filter_dropdown_open');
             $('#cdbDropdown').hide();
         };
-
+        
         $scope.NavigateToTab = function (url, event, page) {
             $('.header_tab_dropdown').removeClass('active_tab active selected');
 
@@ -155,6 +155,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $('.each_nav_link').removeClass('active_tab active selected');
                 url = '/creative/list';
                 $('#creative_nav_link').addClass('active_tab');
+                //$('#creative_nav_link .arrowSelect').show();
             } else if (page === 'adminOverview') {
                 $('.each_nav_link').removeClass('active_tab active selected');
                 url = '/admin/accounts';
@@ -199,7 +200,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
             setTimeout(function () {
                 $('.each_nav_link.active .arrowSelect').fadeIn();
-            }, 800);
+            }, 400);
 
             setTimeout(function () {
                 if (!(mainMenuHolder.is(':hover') ||
@@ -210,7 +211,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     $('#reports-menu, #admin-menu, #user-menu').css('min-height',0).slideUp('fast');
                     mainMenuHolder.find('.selected').removeClass('selected');
                 }
-            }, 800);
+            }, 400);
         };
 
         $scope.logout = function () {

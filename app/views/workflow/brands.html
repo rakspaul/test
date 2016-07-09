@@ -13,6 +13,33 @@
             </a>
         </div>
         
+        <!--Search Input-->
+        <div class="btn-group pull-right" style="margin-right: 10px;">
+            <button type="button" class="btn btn-default pull-right" style="display: none">
+                <span class="icon-filter" style="margin: -1px 0 0;"></span>
+            </button>
+
+            <div class="searchInput pull-right">
+                <a class="btn btn-default searchInputBtnInline" ng-click="campaignSearchFunc()">
+                    <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+                </a>
+                <div class="input-group searchInputForm" >
+                    <input type="text"
+                           class="form-control"
+                           name="usersSearch"
+                           ng-model="usersSearch"
+                           ng-keyup="searchFunc($event)"
+                           search-box
+                           placeholder="Search Brands...">
+                    <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
+                        <span class="icon-clear" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </div>
+        </div >
+
+        <span class="pull-right" style="font-size: 12px; margin: 9px 10px 0 0;"><span data-ng-bind="brandsTotal"></span> Brands</span>
+    
         <div class="col-md-12 zeroPadding">
             <label class="col-sm-12 greyTxt">Brand Name</label>
             <input type="text" class="pull-left clearLeft col-md-3" placeholder="Add Name" id="brandNameInp" ng-model="brandName"
@@ -21,35 +48,6 @@
             <span class="delete_row" ng-show="isEditBrand"
                   data-ng-click="isEditBrand=false;brandName=''"
                   style="position: absolute;top: 32px;left: 470px;"></span>
-            <!--Quick Filters-->
-            <!--<div campaign-list-filter-directive campaigns="campaigns" class="pull-right"></div>-->
-
-            <!--Search Input-->
-            <div class="btn-group pull-right">
-                <button type="button" class="btn btn-default pull-right" style="display: none">
-                    <span class="icon-filter" style="margin: -1px 0 0;"></span>
-                </button>
-
-                <div class="searchInput pull-right">
-                    <a class="btn btn-default searchInputBtnInline" ng-click="campaignSearchFunc()">
-                        <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
-                    </a>
-                    <div class="input-group searchInputForm" >
-                        <input type="text"
-                               class="form-control"
-                               name="usersSearch"
-                               ng-model="usersSearch"
-                               ng-keyup="searchFunc($event)"
-                               search-box
-                               placeholder="Search Brands...">
-                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
-                            <span class="icon-clear" aria-hidden="true"></span>
-                        </div>
-                    </div>
-                </div>
-            </div >
-
-            <span class="pull-right" style="font-size: 12px; margin: 9px 10px 0 0;"><span data-ng-bind="brandsTotal"></span> Brands</span>
         </div>
     </div>
 

@@ -2606,30 +2606,29 @@
                             }
 
                             .collapseIcon {
-                                border: 1px solid #C6C9CE;
-                                border-radius: 2px;
                                 float: left;
                                 margin-right: 10px;
                                 cursor: pointer;
 
-                                &:hover {
-                                    border: 1px solid rgba(87, 96, 109, .3);
-
-                                    .icon-plus,
-                                    .icon-minus {
-                                        color: #2c9aec;
-                                    }
-                                }
-
-                                .icon-minus,
-                                .icon-plus {
-                                    color: #57606d;
+                                .icon-toggleopen,
+                                .icon-toggleclose {
                                     float: left;
-                                    font-size: 12px;
+                                    font-size: 24px;
                                     height: 24px;
-                                    padding: 6px;
                                     top: 0;
                                     width: 24px;
+                                }
+                                .icon-toggleclose {
+                                    color: #bfc9d7;
+                                    &:hover {
+                                        color: #939eae;
+                                    }
+                                }
+                                .icon-toggleopen {
+                                    color: #004d86;
+                                    &:hover {
+                                        color: #0563a9;
+                                    }
                                 }
                             }
 
@@ -4610,7 +4609,7 @@
     }
 
     .heading {
-        margin: 15px 0;
+        margin: 0 0 30px 0;
 
         .common_primary_btn {
             margin: 10px 0px 0 0;
