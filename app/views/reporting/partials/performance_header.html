@@ -8,7 +8,7 @@
 
 
 <div class="each_col third_col" >
-    <span class="icon_text_holder" ng-class="sortClassFunction('-impressions',sortTypebyPerformance,sortReverseForPerfImps)" ng-click="sortTypebyPerformance = '-impressions'; sortTypebyPerformanceSubSort='impressions'; sortReverse = sortReverseForPerfImps; sortReverseForPerfImps = !sortReverseForPerfImps;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-impressions',sortTypebyPerformance,sortReverseForPerfImps)" ng-click="sortTypebyPerformance = '-impressions'; sortTypebyPerformanceSubSort='impressions'; sortReverse = sortReverseForPerfImps; sortReverseForPerfImps = !sortReverseForPerfImps;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</span>
 
 </div>
 
@@ -31,13 +31,13 @@
 
     <div class="each_col third_col" ng-class="{vid_none_hdr:adFormats.videoAds == false,vid_show:adFormats.videoAds == true}">
         <span class="vid_sub_col_hdr" class="icon_text_holder" ng-class="sortClassFunction('vtc_100',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'vtc_100';sortTypebyPerformanceSubSort='vtc_100'; sortReverse = !sortReverse;removeKpiActive();">
-            <span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}</span>
+            <span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}</span>
 
     </div>
 </div>
 <div class="each_col forth_col">
     <span class="icon_text_holder"  ng-class="sortClassFunction('ctr',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'ctr'; sortTypeSubSort ='ctr'; sortReverse = !sortReverse;removeKpiActive();" >
-        <span class="default-kpi-header-icon ng-scope icon_text_holder"  tooltip={{textConstants.PRIMARY_KPI}} ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'ctr'"></span>
+        <span class="default-kpi-header-icon ng-scope icon_text_holder"  tooltip={{textConstants.PRIMARY_KPI}} ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() == 'ctr'"></span>
         {{textConstants.CTR}}
     </span>
 </div>

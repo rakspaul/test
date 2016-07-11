@@ -1,7 +1,8 @@
-define(['angularAMD','../../login/login_model', 'reporting/models/screen_chart_model','common/services/constants_service'],function (angularAMD) {
-  'use strict';
-  angularAMD.controller('ScreenChartController', function ($scope, loginModel, screenChartModel, constants) {
+define(['angularAMD','../../login/login_model', 'reporting/models/screen_chart_model', // jshint ignore:line
+    'common/services/constants_service'], function (angularAMD) {
+    'use strict';
 
+    angularAMD.controller('ScreenChartController', function ($scope, loginModel, screenChartModel, constants) {
         $scope.dataFound = true;
         $scope.screenWidgetData = screenChartModel.getScreenWidgetData();
         $scope.screenBusy = false;
@@ -10,27 +11,19 @@ define(['angularAMD','../../login/login_model', 'reporting/models/screen_chart_m
             return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
         };
 
-        $scope.$on(constants.EVENT_BRAND_CHANGED, function (event, args) {
+        $scope.$on(constants.EVENT_BRAND_CHANGED, function () {
             if (!$scope.screenBusy) {
                 $scope.refresh();
             }
-
         });
 
-      /*$scope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED, function (event, args) {
-          if (!$scope.screenBusy) {
-              $scope.refresh();
-          }
-
-      });*/
-
-        $scope.$on(constants.EVENT_STATUS_FILTER_CHANGED, function (event, args) {
+        $scope.$on(constants.EVENT_STATUS_FILTER_CHANGED, function () {
             $scope.refresh();
         });
 
         $scope.refresh = function () {
             $scope.cleanScreenWidget();
-            screenChartModel.getScreenWidgetData()['chartData'] = {};
+            screenChartModel.getScreenWidgetData().chartData = {};
             $scope.getScreenAndFormatData();
         };
 
@@ -39,15 +32,16 @@ define(['angularAMD','../../login/login_model', 'reporting/models/screen_chart_m
                 screenChartModel.setScreenWidgetFormat(obj);
                 return;
             }
-            if (obj == "Platforms") {
-                $(".dashboard_screens_graph_holder").addClass("dashboard_screens_platform");
+
+            if (obj === 'Platforms') {
+                $('.dashboard_screens_graph_holder').addClass('dashboard_screens_platform');
             } else {
-                $(".dashboard_screens_graph_holder").removeClass("dashboard_screens_platform");
+                $('.dashboard_screens_graph_holder').removeClass('dashboard_screens_platform');
             }
+
             $scope.cleanScreenWidget();
             screenChartModel.setScreenWidgetFormat(obj);
-            screenChartModel.getScreenWidgetData()['chartData'] = {};
-            //grunt analytics.track(loginModel.getUserRole(), 'screens_and_formats_widget', obj.toLowerCase() + '_selected', loginModel.getLoginName());
+            screenChartModel.getScreenWidgetData().chartData = {};
             $scope.getScreenAndFormatData();
         };
 
@@ -56,30 +50,34 @@ define(['angularAMD','../../login/login_model', 'reporting/models/screen_chart_m
                 screenChartModel.setScreenWidgetMetric(obj);
                 return;
             }
+
             $scope.cleanScreenWidget();
             screenChartModel.setScreenWidgetMetric(obj);
-    //grunt        analytics.track(loginModel.getUserRole(), 'screens_and_formats_widget', obj.toLowerCase() + '_metric_selected', loginModel.getLoginName());
             $scope.updateScreenChartData();
         };
 
         $scope.updateScreenChartData = function () {
-            $(".DashBoradScreenWidget").show();
-            $scope.screenData = screenChartModel.dataModifyForScreenChart(screenChartModel.getScreenWidgetData()['responseData']);
+            $('.DashBoradScreenWidget').show();
+
+            $scope.screenData =
+                screenChartModel.dataModifyForScreenChart(screenChartModel.getScreenWidgetData().responseData);
         };
 
         $scope.cleanScreenWidget = function () {
-            d3.select(".barChart").remove();
-            $(".DashBoradScreenWidget").hide();
+            d3.select('.barChart').remove(); // jshint ignore:line
+            $('.DashBoradScreenWidget').hide();
         };
 
         $scope.getScreenAndFormatData = function () {
             $scope.screenBusy = true;
-            screenChartModel.getScreenChartData().then(function (result) {
-                $scope.screenBusy = false;
-                $scope.dataFound = true;
-                $(".DashBoradScreenWidget").show();
-                $scope.updateScreenChartData();
-            });
+            screenChartModel
+                .getScreenChartData()
+                .then(function () {
+                    $scope.screenBusy = false;
+                    $scope.dataFound = true;
+                    $('.DashBoradScreenWidget').show();
+                    $scope.updateScreenChartData();
+                });
         };
 
         $scope.init = function () {
@@ -87,6 +85,5 @@ define(['angularAMD','../../login/login_model', 'reporting/models/screen_chart_m
         };
 
         $scope.init();
-
     });
 });

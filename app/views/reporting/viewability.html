@@ -70,7 +70,7 @@
 
                             <div class="dropdown kpi-dd-holder">
                                 <kpi-drop-down> </kpi-drop-down>
-                                &lt;!&ndash;<report-filters selected-filter="selected_filters" list-object="filters.kpiTypes"&ndash;&gt;
+                                &lt;!&ndash;<report-filters selected-filter="selectedFilters" list-object="filters.kpiTypes"&ndash;&gt;
                                 &lt;!&ndash;flag="kpitypes"></report-filters>&ndash;&gt;
                             </div>
 
@@ -115,8 +115,8 @@
                                     {{((viewData.view_metrics.susp_activity_perc >0)|| (viewData.view_metrics.susp_activity_perc == 0))? ((viewData.view_metrics.susp_activity_perc | number:2)+'%') : '-'}}
                                 </div>
                                 <!--<div class="each_col seventh_col">
-                                    {{viewData.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:
-                                    selected_filters.kpi_type}}
+                                    {{viewData.view_metrics[selectedFilters.kpi_type.toLowerCase()] | appendDollor:
+                                    selectedFilters.kpi_type}}
                                 </div>-->
                             </div>
                             <div class="all_strategies_holder">
@@ -156,8 +156,8 @@
                                             {{((tactic.susp_activity_perc >0)|| (tactic.susp_activity_perc == 0))? ((tactic.susp_activity_perc | number:2)+'%') : '-'}}
                                         </div>
                                         <!--<div class="each_col seventh_col">
-                                            {{tactic.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:
-                                            selected_filters.kpi_type}}
+                                            {{tactic.view_metrics[selectedFilters.kpi_type.toLowerCase()] | appendDollor:
+                                            selectedFilters.kpi_type}}
                                         </div>-->
 
                                     </div>

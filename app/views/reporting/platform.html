@@ -322,12 +322,12 @@
         </div>
     </span>
         <div ng-if="adFormats.videoAds"
-             class="each_col eight_col {{platform.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}"
+             class="each_col eight_col {{platform.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
              ng-class="{vid_none:adFormats.videoAds == false}">
             <span
-                ng-if="selected_filters.kpi_type=='ctr'||selected_filters.kpi_type=='vtc'||selected_filters.kpi_type=='action_rate'">{{((platform.cpm >0)|| (platform.cpm == 0)) ? (platform.cpm | currency:undefined:3) : '-'}}</span>
+                ng-if="selectedFilters.kpi_type=='ctr'||selectedFilters.kpi_type=='vtc'||selectedFilters.kpi_type=='action_rate'">{{((platform.cpm >0)|| (platform.cpm == 0)) ? (platform.cpm | currency:undefined:3) : '-'}}</span>
             <span
-                ng-if="selected_filters.kpi_type=='cpm'||selected_filters.kpi_type=='cpc'||selected_filters.kpi_type=='cpa'">{{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor:selected_filters2.kpi_type}}</span>
+                ng-if="selectedFilters.kpi_type=='cpm'||selectedFilters.kpi_type=='cpc'||selectedFilters.kpi_type=='cpa'">{{platform[selectedFilters.kpi_type.toLowerCase()] | appendDollor:selectedFilters2.kpi_type}}</span>
         </div>
     </div>
 </script>
@@ -393,10 +393,10 @@
                 (platform.impressions | number:0) : '-'}}
             </div>
             <div
-                class="col-md-1 zeroPadding text-left {{platform.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}">
-                {{selected_filters.kpi_type.toLowerCase() === 'vtc'?
-                platform['vtc_100']:platform[selected_filters.kpi_type.toLowerCase()] | appendDollor :
-                selected_filters.kpi_type.toLowerCase() }}
+                class="col-md-1 zeroPadding text-left {{platform.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}">
+                {{selectedFilters.kpi_type.toLowerCase() === 'vtc'?
+                platform['vtc_100']:platform[selectedFilters.kpi_type.toLowerCase()] | appendDollor :
+                selectedFilters.kpi_type.toLowerCase() }}
             </div>
             <div class="col-md-1 zeroPadding text-center">{{((platform.inventory_cost >0)|| (platform.inventory_cost ==
                 0))? (platform.inventory_cost | nrFormatWithCurrency:0) : '-'}}
@@ -455,8 +455,8 @@
             {{((platform.other_view_imps_suspicious_perc >0)|| (platform.other_view_imps_suspicious_perc == 0)) ?
             ((platform.other_view_imps_suspicious_perc | number:2)+'%') : '-'}}
         </div>
-        <!-- <div class="each_col seventh_col {{platform.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}">
-             {{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
+        <!-- <div class="each_col seventh_col {{platform.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}">
+             {{platform[selectedFilters.kpi_type.toLowerCase()] | appendDollor: selectedFilters.kpi_type}}
          </div>-->
     </div>
 </script>
