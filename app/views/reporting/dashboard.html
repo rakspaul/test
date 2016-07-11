@@ -22,9 +22,9 @@
           <div class="pull-right status_filter dropdown-workflow">
               <div class="dd_heading" ng-bind="textConstants.STATUS"></div>
               <div class="dropdown status_filter_dd">
-              <span class="dropdown_ul_text " data-toggle="dropdown">
+              <span class="dropdown_ul_text" data-toggle="dropdown">
                   <span ng-bind="data.selectedStatus"></span>
-                  <span class="arrow_img"></span>
+                  <span class="icon-arrow-solid-down"></span>
               </span>
                   <ul class="dropdown_ul dropdown-menu ">
                       <li ng-repeat="elem in data.statusDropdownValues track by $index"
@@ -118,7 +118,7 @@
                           <div class="pull-right dropdown" id="dashboard_metric_dd" style="width: auto;">
                             <span class="dropdown_ul_text" data-toggle="dropdown">
                               <span>{{selectedFilter()}}</span>
-                              <span class="arrow_img"></span>
+                              <span class="icon-arrow-solid-down"></span>
                             </span>
                             <ul class="dropdown_ul dropdown-menu">
                                 <li ng-click="calendar('end_date')" ng-bind="textConstants.END_DATES"></li>
