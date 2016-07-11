@@ -163,7 +163,7 @@
                 <div class="dropdown">
                     <button style="width:100%;" class="btn btn-default dropdown-toggle lineItemType" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="rateTypeReadOnly">
                         <span class="text" >{{(lineItemType )?lineItemType.name:'Select From List'}}</span>
-                        <span class="icon-arrow-down"></span>
+                        <span class="icon-arrow-solid-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown" name="lineItemType">
                         <li class="available" ng-repeat="t in type"  ng-click="setLineItem(t,'create')"><a>{{t.name}}</a></li
@@ -235,7 +235,7 @@
                     <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_SYSTEM_OF_RECORD"></label>
                     <button style="width:100%;" class="btn btn-default dropdown-toggle systemOfRecordName" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
                         <span class="text" >{{(systemOfRecordSelected )?systemOfRecordSelected.name:'Select from list'}}</span>
-                        <span class="icon-arrow-down"></span>
+                        <span class="icon-arrow-solid-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown" name="lineItemType">
                         <li class="available" ng-repeat="sor in selectedCampaign.systemOfRecord"  ng-click="setSystemOfRecord(sor,'create')"><a>{{sor.name}}</a></li>
@@ -250,7 +250,7 @@
                     <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_CONVERSION_PIXELS"></label>
                     <button style="width:100%;" class="btn btn-default dropdown-toggle pixelType" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
                         <span class="text" >{{(pixelSelected )?pixelSelected.name:'Select from list'}}</span>
-                        <span class="icon-arrow-down"></span>
+                        <span class="icon-arrow-solid-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="pixelsList" data-toggle="dropdown" name="lineItemType">
                         <li class="available" ng-repeat="pixel in selectedCampaign.selectedPixel"  ng-click="setPixels(pixel,'create')"><a>{{pixel.name}}</a></li>
@@ -269,7 +269,7 @@
                     <span class="col-md-12 zeroPadding">Media Plan changes will be saved, before Line Item is created.</span>
                     <a href="javascript:void(0);"
                        class="leftNavLink pull-right btn btn-primary"
-                       data-ng-click="saveCampaign('create')"
+                       data-ng-click="saveCampaign('create', true)"
                        data-ng-bind="textConstants.CONTINUE" ng-show ="!createNewLineItemLoader">
                     </a>
                     <div ng-show ="createNewLineItemLoader" class="pull-right common-loading-btn" ></div>
@@ -324,7 +324,7 @@
     <span class="col-md-12 text-right total-billable-amount">Total Billable Amount: {{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{selectedCampaign.lineItemBillableAmountTotal | number:2}}</span>
 
     <label class="col-sm-12 labelQuestTxt showAddCreditForm" ng-click="showAddCreditForm()" ng-hide="true">
-        <span class="icon-arrow-down-thick"></span>Add Credits (0)
+        <span class="icon-arrow-solid-down"></span>Add Credits (0)
     </label>
 
     <div class="col-md-12 addCreditForm">
@@ -397,7 +397,7 @@
                 <div class="dropdown" ng-class="(rateTypeReadOnlyEdit)?'dropdownDisabled':''">
                     <button style="width:100%;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="rateTypeReadOnlyEdit">
                         <span class="text">{{editLineItem.lineItemType.name}}</span>
-                        <span class="icon-arrow-down"></span>
+                        <span class="icon-arrow-solid-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown">
                         <li class="available" ng-repeat="t in type" ng-hide="disableFlatFeeEdit && t.name === CONST_FLAT_FEE" ng-click="setLineItem(t,'edit')"><a>{{t.name}}</a></li>
@@ -468,7 +468,7 @@
                         <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_SYSTEM_OF_RECORD"></label>
                         <button style="width:100%;" class="btn btn-default dropdown-toggle systemOfRecordNameEdit" ng-disabled="editLineItem.hasInFlightAds" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
                             <span class="text" >{{(editLineItem.systemOfRecordSelected )?editLineItem.systemOfRecordSelected.name:'Select from list'}}</span>
-                            <span class="icon-arrow-down"></span>
+                            <span class="icon-arrow-solid-down"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown" name="lineItemType">
                             <li class="available" ng-repeat="sor in selectedCampaign.systemOfRecord"  ng-click="setSystemOfRecord(sor,'edit')"><a>{{sor.name}}</a></li>
@@ -483,7 +483,7 @@
                         <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_CONVERSION_PIXELS"></label>
                         <button style="width:100%;" class="btn btn-default dropdown-toggle pixelTypeEdit" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="gf">
                             <span class="text" >{{(editLineItem.pixelSelected )?editLineItem.pixelSelected.name:'Select from list'}}</span>
-                            <span class="icon-arrow-down"></span>
+                            <span class="icon-arrow-solid-down"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="lineType" id="pixelEdit" data-toggle="dropdown" name="pixelType">
                             <li class="available" ng-repeat="pixel in selectedCampaign.selectedPixel"  ng-click="setPixels(pixel,'edit')"><a>{{pixel.name}}</a></li>

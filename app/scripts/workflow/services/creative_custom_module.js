@@ -158,7 +158,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                             '<span class="text"' +
                                 'ng-bind="adData.creativeSize ? adData.creativeSize.size : &quot;Select Size&quot;">' +
                             '</span>'+
-                            '<span class="icon-arrow-down"></span>'+
+                            '<span class="icon-arrow-solid-down"></span>'+
                             '</button>'+
                             '<ul class="dropdown-menu dropdown-search" aria-labelledby="sel1" id="sel1">' +
                             '<li class="searchBar">' +

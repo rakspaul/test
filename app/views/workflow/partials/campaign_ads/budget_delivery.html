@@ -15,7 +15,7 @@
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <span class="text">{{((adData.primaryKpi).toLowerCase()!='impressions')?(adData.primaryKpi):'Impressions'}}</span>
-                        <span class="icon-arrow-down"></span>
+                        <span class="icon-arrow-solid-down"></span>
                     </button>
                     <ul class="dropdown-menu" data-toggle="dropdown">
                         <li  ng-repeat="kpi in adData.primaryKpiList" class="available" ng-click="select_kpi($event , kpi.kpiType);" >
@@ -46,7 +46,7 @@
                  <div class="dropdown">
                       <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                            <span class="text">{{adData.unitType.name ? adData.unitType.name :'CPM'}}</span>
-                           <span class="icon-arrow-down"></span>
+                           <span class="icon-arrow-solid-down"></span>
                       </button>
                       <ul class="dropdown-menu" aria-labelledby="unitcostType"  id="unitcostType" data-toggle="dropdown">
                            <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available" ng-click="select_unitType($event,unitType.name);">
@@ -201,7 +201,7 @@
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <span class="text">{{selectedFreq ? selectedFreq :'Daily'}}</span>
-                            <span class="icon-arrow-down"></span>
+                            <span class="icon-arrow-solid-down"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="frequencyType" id="frequencyType" name='frequencyType' ng-disabled="!adData.setCap" data-toggle="dropdown">
                             <li><a data-value="Daily" ng-click="frequencySelected('Daily')" data-ng-bind="textConstants.DAILY"></a></li>

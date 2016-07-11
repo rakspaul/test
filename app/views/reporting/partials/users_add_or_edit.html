@@ -91,7 +91,7 @@
                                         aria-expanded="true"
                                         data-ng-click="openAccountsDropdown($event);">
                                     <span class="text" data-ng-bind="permissions[$index].clientName"></span>
-                                    <span class="icon-arrow-down"></span>
+                                    <span class="icon-arrow-solid-down"></span>
                                 </button>
                                 <ul class="dropdown-menu clientDropdownCnt"
                                     id="clientDropdown_0"
@@ -100,7 +100,7 @@
                                         <a data-ng-click="selectClientOption(client.id, client.name, accountIndex)"
                                            data-ng-bind="client.name">
                                         </a>
-                                        <span class="icon-arrow-down icon-arrow-right"
+                                        <span class="icon-arrow-solid-down icon-arrow-right"
                                               data-ng-click="getSubClientList(client.id, client.name, 0, accountIndex)"
                                               data-ng-if="!client.isLeafNode">
                                         </span>
@@ -189,7 +189,7 @@
                                         <span class="text"
                                               data-ng-bind="permissions[$parent.$index].resources[$index].advertiserName">
                                         </span>
-                                        <span class="icon-arrow-down"></span>
+                                        <span class="icon-arrow-solid-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="accountType">
                                         <li data-ng-repeat="advertiser in dropdownList[$parent.$index].advertisers">
@@ -214,7 +214,7 @@
                                         <span class="text"
                                               data-ng-bind="permissions[$parent.$index].resources[$index].brandName">
                                         </span>
-                                        <span class="icon-arrow-down"></span>
+                                        <span class="icon-arrow-solid-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="accountType">
                                         <li data-ng-repeat="brand in dropdownList[$parent.$index][$index].brands">
@@ -241,7 +241,7 @@
                                                       "permissions[$parent.$index].resources[$index].permissionName"
                                               class="text">
                                         </span>
-                                        <span class="icon-arrow-down"></span>
+                                        <span class="icon-arrow-solid-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="accountType">
                                         <li data-ng-repeat="list in dropdownList[$parent.$index].permission">

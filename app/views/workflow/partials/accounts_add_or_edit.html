@@ -18,7 +18,7 @@
                         <span class="text" data-ng-bind="clientType ? clientType : 'Select Account'">
                             Select Account
                         </span>
-                        <span class="icon-arrow-down"></span>
+                        <span class="icon-arrow-solid-down"></span>
                     </button>
                     <ul class="dropdown-menu" data-toggle="dropdown">
                         <li class="available" data-ng-click="setSelectedClientType('MARKETER')">
@@ -56,7 +56,7 @@
                             aria-haspopup="true"
                             aria-expanded="true">
                         <span class="text" data-ng-bind="setSelectedClientCode ? setSelectedClientCode : 'Select Code'"></span>
-                        <span class="icon-arrow-down"></span>
+                        <span class="icon-arrow-solid-down"></span>
                     </button>
                     <ul class="dropdown-menu" data-toggle="dropdown">
                         <li class="available" data-ng-repeat="code in codeList" data-ng-click="selectClientCode($event,code)">
@@ -105,7 +105,7 @@
                         <span class="text" data-ng-bind="selectedCurrency ? selectedCurrency : 'Select Currency'">
                             Select Currency
                         </span>
-                        <span class="icon-arrow-down"></span>
+                        <span class="icon-arrow-solid-down"></span>
                     </button>
                     <ul class="dropdown-menu" data-toggle="dropdown">
                         <li class="available"
@@ -129,7 +129,7 @@
                             aria-haspopup="true"
                             aria-expanded="true">
                         <span class="text" data-ng-bind="selectedCountry ? selectedCountry : 'Select Geography'"></span>
-                        <span class="icon-arrow-down"></span>
+                        <span class="icon-arrow-solid-down"></span>
                     </button>
                     <ul class="dropdown-menu" data-toggle="dropdown">
                         <li class="available"
@@ -154,7 +154,7 @@
                         <span class="text"
                               data-ng-bind="timezones[timezone] ? timezones[timezone] : 'Select Time zone'">
                         </span>
-                        <span class="icon-arrow-down"></span>
+                        <span class="icon-arrow-solid-down"></span>
                     </button>
                     <ul class="dropdown-menu" data-toggle="dropdown">
                         <li class="available"
@@ -245,7 +245,7 @@
                                 aria-haspopup="true"
                                 aria-expanded="true">
                             <span class="text" data-ng-bind="billingData.serviceFees.billingTypeName"></span>
-                            <span class="icon-arrow-down" style="margin-left: 192px"></span>
+                            <span class="icon-arrow-solid-down" style="margin-left: 192px"></span>
                         </button>
                         <ul class="dropdown-menu" data-toggle="dropdown">
                             <li class="available" data-ng-repeat="billingType in billingData.billingTypesArr">

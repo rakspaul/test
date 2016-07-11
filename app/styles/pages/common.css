@@ -897,7 +897,7 @@
   top: 5px;
   right: -3px;
 }
-.nav_filters .dropdown .dropdown_name_selected .icon-arrow-down {
+.nav_filters .dropdown .dropdown_name_selected .icon-arrow-solid-down {
   font-size: 10px;
   color: #000;
   height: 4px;
@@ -1097,7 +1097,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  background: url("/images/cdesk/common_down_arrow.png") no-repeat right center;
 }
 .nav_filters .campaign_name_selected {
   height: 30px;
@@ -1108,7 +1107,16 @@
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
-  background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px;
+}
+.nav_filters .icon-arrow-solid-down {
+  position: absolute;
+  z-index: 2;
+  top: 2px;
+  right: 0px;
+  cursor: pointer;
+  width: 12px;
+  height: 12px;
+  font-size: 12px;
 }
 .nav_filters .brandsDropdownSearch {
   position: relative;
@@ -1450,6 +1458,16 @@
   display: inline-block;
   float: right;
   margin-left: 8px;
+}
+.common_dropdown .dropdown .icon-arrow-solid-down {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  width: 12px;
+  height: 12px;
+  font-size: 12px;
 }
 .common_dropdown .dropdown .dropdown-menu {
   padding: 5px 0;

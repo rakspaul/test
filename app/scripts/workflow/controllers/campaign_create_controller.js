@@ -117,6 +117,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         var createCampaign = {
             campaignData: {},
+
             clients: function () {
                 workflowService.getClients().then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
@@ -232,12 +233,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 });
             },
 
-            fetchBillingTypesAndValues: function () {
-                //workflowService.getBillingTypeAndValue($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId).then(function (result) {
-                //    $scope.selectedCampaign.costAttributes = workflowService.processCostAttr(result.data.data);
-                //});
-            },
-
             fetchLineItemDetails: function (campaignId) {
                 workflowService.getLineItem(campaignId, true).then(function (results) {
                     if (results.status === 'success' && results.data.statusCode === 200) {
@@ -252,12 +247,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             prefillMediaPlan: function (campaignData) {
-                var startDateElem,
-                    flightDateObj;
-
-                this.campaignData = campaignData;
-
-                startDateElem = $('#startDateInput');
+                 var flightDateObj = {
+                     startTime: momentService.utcToLocalTime(campaignData.startTime),
+                     endTime: momentService.utcToLocalTime(campaignData.endTime)
+                 };
 
                 //media plan name
                 if (campaignData.name) {
@@ -274,19 +267,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.selectedCampaign.clientId = loginModel.getSelectedClient().id;
                 }
 
-
                 //set Advertiser
                 if (campaignData.advertiserId && campaignData.advertiserName) {
                     $scope.selectedCampaign.advertiserName = campaignData.advertiserName;
                     $scope.selectedCampaign.advertiserId = campaignData.advertiserId;
                     var advertiserObj = {'id': campaignData.advertiserId, 'name': campaignData.advertiserName}; // to be removed
                     $scope.selectHandler('advertiser', advertiserObj, null)
-                    //$scope.selectHandler('advertiser', campaignData.advertiser, null)
-
                 }
-
-                //fetch rates based on advertiser and client
-                //createCampaign.fetchRateTypes()
 
                 //set Brand
                 if (campaignData.brandId && campaignData.brandName) {
@@ -307,11 +294,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.mediaPlanAPIStartTime = campaignData.startTime;
                 $scope.mediaPlanAPIEndTime = campaignData.endTime;
 
-                flightDateObj = {
-                    startTime: momentService.utcToLocalTime(campaignData.startTime),
-                    endTime: momentService.utcToLocalTime(campaignData.endTime)
-                }
-
                 if( $scope.campaignDate ) {
                     $scope.periodDays = momentService.dateDiffInDays(flightDateObj.startTime,flightDateObj.endTime)   ;
                 }
@@ -330,7 +312,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     flightDateObj.endTime = momentService.addDaysCustom(flightDateObj.startTime, 'MM/DD/YYYY', $scope.periodDays);
                 }
 
-
                 //set startDate
                 if (flightDateObj.startTime) {
                     $scope.selectedCampaign.startTime = $scope.modifiedMediaPlanAPIStartTime = flightDateObj.startTime ;
@@ -342,7 +323,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.initiateDatePicker();
                     $scope.handleFlightDate(flightDateObj);
                 }
-
 
                 //set updateAt value in hidden field.
                 if (campaignData.updatedAt) {
@@ -367,11 +347,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if (campaignData.kpiValue) {
                     $scope.selectedCampaign.kpiValue = campaignData.kpiValue;
                 }
-
-                //set Pixel Dara - this call will be made in watch section
-                //if (campaignData.pixels && campaignData.pixels.length > 0) {
-                //    $scope.$broadcast('fetch_pixels', campaignData.pixels);
-                //}
 
                 //set Media Plan Budget & Margin
                 if (campaignData.totalBudget && campaignData.marginPercent >= 0) {
@@ -402,13 +377,56 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.editCampaignData = campaignData;
             }
         };
+
+        $scope.initiateDatePicker = function () {
+            var campaignStartTime,
+                currentDateTime,
+                startDateElem = $('#startDateInput'),
+                endDateElem = $('#endDateInput'),
+                today = momentService.utcToLocalTime();
+
+            if ($scope.mode == 'edit' || $scope.campaignDate ) {
+
+                campaignStartTime = $scope.selectedCampaign.startTime;
+                currentDateTime = momentService.utcToLocalTime();
+
+                if (moment(campaignStartTime).isAfter(currentDateTime)) {
+
+                    startDateElem.datepicker("setStartDate", currentDateTime);
+                    startDateElem.datepicker("update", campaignStartTime);
+                    startDateElem.datepicker("setEndDate", campaignStartTime);
+
+                } else {
+
+                    startDateElem.datepicker("setStartDate", campaignStartTime);
+                    startDateElem.datepicker("setEndDate", campaignStartTime);
+                    startDateElem.datepicker("update", campaignStartTime);
+                }
+
+            } else {
+
+                $scope.selectedCampaign.startTime = today;
+                $scope.selectedCampaign.endTime = today;
+
+                startDateElem.datepicker("setStartDate", today);
+                startDateElem.datepicker("update", today);
+
+                endDateElem.datepicker("setStartDate", today);
+                endDateElem.datepicker("update", today);
+            }
+
+        };
+
         $scope.percentageValueCheck = function (value) {
+
             if (($scope.kpiName.toUpperCase() == 'CTR' || $scope.kpiName.toUpperCase() == 'VTC' || $scope.kpiName.toUpperCase() == 'ACTION RATE') && Number(value) > 100) {
                 $scope.selectedCampaign.kpiValue = 100;
             }
+
         }
 
         $scope.calculateEffective = function () {
+
             for (var ind = 0; ind < $scope.Campaign.kpiArr.length; ind++) {
                 if ($scope.Campaign.kpiArr[ind].isPrimary || $scope.Campaign.kpiArr[ind].isPrimary == "true") {
                     if (angular.uppercase($scope.Campaign.kpiArr[ind].kpiType) == "IMPRESSIONS" || angular.uppercase($scope.Campaign.kpiArr[ind].kpiType) == "VIEWABLE IMPRESSIONS") {
@@ -425,6 +443,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }
                 }
             }
+
         };
 
 
@@ -478,7 +497,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     workflowService.setSelectedAdvertiser(selectedAdvertiser);
 
                     if ($scope.mode === 'create') {
-                        $("#brandDDL").parents('.dropdown').find('button').html("Select Brand <span class='icon-arrow-down'></span>");
+                        $("#brandDDL").parents('.dropdown').find('button').html("Select Brand <span class='icon-arrow-solid-down'></span>");
                     }
                     $scope.isMediaPlanNameExist();
                     createCampaign.fetchBrands($scope.selectedCampaign.clientId, data.id);
@@ -488,7 +507,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     createCampaign.fetchVendorConfigs();
                     createCampaign.fetchSystemOfRecord(); // for line item system of record
                     $scope.selectedCampaign.resetLineItemParameters(); //close new line item and reset all its fields
-                    createCampaign.fetchBillingTypesAndValues();  //make call to fetch billing type and values
                     createCampaign.fetchRateTypes(); // fetch rates for line item based on advertiser and client
                     $scope.$broadcast('fetch_pixels');
                     break;
@@ -545,7 +563,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
         };
 
-        $scope.saveCampaign = function (lineItemMode) {
+        $scope.saveCampaign = function (lineItemMode, saveMediaPlanBeforeLineItem) {
+
+            saveMediaPlanBeforeLineItem  = saveMediaPlanBeforeLineItem || false;
+
             $scope.$broadcast('show-errors-check-validity');
 
             var formElem,
@@ -591,17 +612,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 utcStartTime = momentService.localTimeToUTC($scope.selectedCampaign.startTime, 'startTime');
-                if($scope.mode ==='edit') {
-                    utcStartTime = (moment($scope.selectedCampaign.startTime).isSame($scope.modifiedMediaPlanAPIStartTime, "day")) ?   $scope.mediaPlanAPIStartTime : utcStartTime;
-                }
-                postDataObj.startTime = utcStartTime;
-
                 utcEndTime = momentService.localTimeToUTC($scope.selectedCampaign.endTime, 'endTime');
                 if($scope.mode ==='edit') {
+                    utcStartTime = (moment($scope.selectedCampaign.startTime).isSame($scope.modifiedMediaPlanAPIStartTime, "day")) ?   $scope.mediaPlanAPIStartTime : utcStartTime;
                     utcEndTime = (moment($scope.selectedCampaign.endTime).isSame($scope.modifiedMediaPlanAPIEndTime, "day"))  ? $scope.mediaPlanAPIEndTime :  utcEndTime;
                 }
+
+                postDataObj.startTime = utcStartTime;
                 postDataObj.endTime = utcEndTime;
-                
+
                 postDataObj.kpiType = formData.kpi;
                 postDataObj.kpiValue = formData.kpiValue;
                 postDataObj.marginPercent = formData.marginPercent;
@@ -646,18 +665,24 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.bulkUploadItemLoader = true;
                 }
 
-
                 workflowService[($scope.mode === 'edit' && !$scope.cloneMediaPlanName) ? 'updateCampaign' : 'saveCampaign'](postDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         workflowService.setMediaPlanClone(null);
                         $scope.cloneMediaPlanName = null;
-                        $scope.selectedCampaign.resetLineItemParameters();
+
+                        if(!saveMediaPlanBeforeLineItem) {
+                            $scope.selectedCampaign.resetLineItemParameters();
+                        }
+
                         $scope.editLineItem = {};
                         if(($scope.mode === 'create') && ($scope.mediaPlanOverviewClient != undefined)) {
                             loginModel.setSelectedClient($scope.mediaPlanOverviewClient);
                         }
                         if($scope.saveMediaPlan && lineItemMode){
-                            $rootScope.setErrAlertMessage('Media plan successfully' + ($scope.mode === 'edit' ? ' updated ' : ' created ') , 0);
+
+                            if(!saveMediaPlanBeforeLineItem) {
+                                $rootScope.setErrAlertMessage('Media plan successfully' + ($scope.mode === 'edit' ? ' updated ' : ' created '), 0);
+                            }
                             $scope.saveMediaPlan = false;
                             $scope.selectedCampaign.updatedAt = result.data.data.updatedAt;
                             //trigger save the line item now after successful updation of media plan
@@ -722,34 +747,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
 
-        //***************** Date Picker ********************
-        $scope.initiateDatePicker = function () {
-            var startDateElem = $('#startDateInput');
-            var endDateElem = $('#endDateInput');
-            var today = momentService.utcToLocalTime();
-            if ($scope.mode == 'edit' || $scope.campaignDate ) {
-                var campaignStartTime = $scope.selectedCampaign.startTime;
-                var currentDateTime = momentService.utcToLocalTime();
-                if (moment(campaignStartTime).isAfter(currentDateTime)) {
-                    startDateElem.datepicker("setStartDate", currentDateTime);
-                    startDateElem.datepicker("update", campaignStartTime);
-                    startDateElem.datepicker("setEndDate", campaignStartTime);
-                } else {
-                    startDateElem.datepicker("setStartDate", campaignStartTime);
-                    startDateElem.datepicker("update", campaignStartTime);
-                    startDateElem.datepicker("setEndDate", campaignStartTime);
-                }
-            } else {
-                $scope.selectedCampaign.startTime = today;
-                $scope.selectedCampaign.endTime = today;
 
-                startDateElem.datepicker("setStartDate", today);
-                startDateElem.datepicker("update", today);
-
-                endDateElem.datepicker("setStartDate", today);
-                endDateElem.datepicker("update", today);
-            }
-        };
 
         $scope.showHideDropdownWithSearch = function(event) {
             var elem = $(event.target);
@@ -777,7 +775,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             // This is for the drop down list. Perhaps adding this to a more general controller
             $(document).on('click', '.dropdown-menu li.available a', function () {
-                $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
+                $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-solid-down"></span>');
                 $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
             });
             $('.dropdown-workflow a').each(function () {
@@ -862,7 +860,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         //Show Add Credits
         $scope.showAddCreditForm = function () {
             $(".addCreditForm").toggle();
-            $(".showAddCreditForm .icon-arrow-down-thick").toggleClass("active");
+            $(".showAddCreditForm .icon-arrow-solid-down").toggleClass("active");
         };
 
 

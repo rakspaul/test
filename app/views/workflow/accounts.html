@@ -23,7 +23,7 @@
              data-ng-class="[(clientsDetails[client.id].advertisers.length ===  0) ? 'no-data-open' : '',
                             (clientsDetails[client.id].advertisers.length) > 0 ? 'data-loaded' : '']">
             <div class="clearfix">
-                <span class="pull-left icon-arrow-down-thick"
+                <span class="pull-left icon-arrow-solid-down"
                       data-ng-if="client.isLeafNode || client.hasChildren"
                       data-ng-click="getSubClientList($event, client);">
                 </span>
