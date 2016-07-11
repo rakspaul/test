@@ -599,7 +599,7 @@ define(['angularAMD',
                         ele = '<div class="creativePreviewBtn"><a target="_blank" href="'+ url +'">Preview</a></div>';
                         $(_self).after(ele);
                     }else{
-                        $(_self).after('<span class = "errorText" style="margin-left:10px">'+res.data.data.message+'</span>');
+                       // $(_self).after('<span class = "errorText" style="margin-left:10px">'+res.data.data.message+'</span>');
                     }
                 },function(err){
 
