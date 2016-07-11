@@ -132,7 +132,7 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
                 currentUTCTime  = moment.utc();
 
                 if(moment(clientUTCTime).isBefore(currentUTCTime)) {
-                    clientUTCTime = moment(currentUTCTime).seconds(10);
+                    clientUTCTime = moment(currentUTCTime).add(10, 'seconds');
                 }
 
                 return moment(clientUTCTime).format(constants.DATE_UTC_FORMAT); // jshint ignore:line
