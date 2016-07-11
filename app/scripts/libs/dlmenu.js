@@ -3427,7 +3427,7 @@
 			classes: {
 
 				// Icons
-				toggleIcon: 'icon-arrow-down-thick',
+				toggleIcon: 'icon-arrow-solid-down',
 
 				backIcon: 'dropdown-icon-back',
 				closeIcon: 'dropdown-icon-close',

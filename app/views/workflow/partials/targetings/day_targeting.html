@@ -2,7 +2,7 @@
 	<div class="col-md-12 zeroPadding breadcrumbs" style="margin-bottom: 20px;">
 		<div class="pull-left">
 			<h5 ng-click="resetDayTargetingVariables();" data-ng-bind="textConstants.TARGETING"></h5>
-			<span class="icon-arrow-down"></span>
+			<span class="icon-arrow-solid-down"></span>
 			<h5 style="cursor: default;" data-ng-bind="textConstants.DAYPART"></h5>
 			<span class="pull-left" style="clear: left; font-size: 12px;" data-ng-bind="textConstants.DAFAULTADNOTE"></span>
 		</div>
@@ -20,7 +20,7 @@
 				<div class="form-group dropdown">
 					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="dayTimeSelected ? dayTimeSelected : timeSelected">
 						<!--<span class="text">{{dayTimeSelected ? dayTimeSelected : timeSelected}}</span>-->
-						<!--<span class="icon-arrow-down"></span>-->
+						<!--<span class="icon-arrow-solid-down"></span>-->
 					</button>
 					<ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTimeSelection" data-toggle="dropdown">
 						<li class="available" ng-click="Schedule.dayTimeSelected(0, $event)" ng-init="Schedule.dayTimeSelected(0)" ><a value="0" data-ng-bind="textConstants.ALLDAYTIMES"></a></li>
@@ -96,7 +96,7 @@
                             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" ng-bind="Schedule.dayPart[$index]['day']" aria-haspopup="true" aria-expanded="true">
                                 <!--<span class="text">{{dayObj.day ? dayObj.day: Sunday}}</span>-->
                                 <!--<span class="text">{{dayObj.day ? dayObj.day: Sunday}}</span>-->
-                                <span class="icon-arrow-down"></span>
+                                <span class="icon-arrow-solid-down"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dayTime" id="selectDay" data-toggle="dropdown">
                                 <li class="available"><a ng-click="selectday($index,'Sunday')" data-ng-bind="textConstants.SUNDAY"></a></li>
@@ -128,7 +128,7 @@
                             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" ng-bind="returnTime(Schedule.dayPart[$index]['stTime'])" aria-expanded="true">
                                 <!--<span class="text " ng-bind-html="returnTime(Schedule.dayPart[$index]['stTime'])">returnTime(Schedule.dayPart[$index]['stTime'])</span>-->
                                 <!--<span class="text">{{dayObj.startTime ? dayObj.startTime : 'All Day'}}</span>-->
-                                <span class="icon-arrow-down"></span>
+                                <span class="icon-arrow-solid-down"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dayTime" id="startTime" data-toggle="dropdown">
                                 <li class="available" ng-click="selectStartTime($parent.$index,time.time)" ng-value="time.time" ng-repeat="time in getStartTimes"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>

@@ -802,7 +802,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                         $('.lineItemType')
                             .html('<span class="text" data-ng-bind="lineItemType.name">' +
                                 $scope.lineItemType.name +
-                                '</span> <span class="icon-arrow-down"></span>'
+                                '</span> <span class="icon-arrow-solid-down"></span>'
                             );
                     }
 
@@ -840,7 +840,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
                     $('.systemOfRecordName')
                         .html('<span class="text" data-ng-bind="systemOfRecordSelected.name">' +
-                            'Select from list</span><span class="icon-arrow-down"></span>');
+                            'Select from list</span><span class="icon-arrow-solid-down"></span>');
 
                     $scope.showSystemOfRecord = false;
                 } else if (CONST_POST_IMPRESSION_CPA === $scope.lineItemType.name ||
@@ -936,19 +936,19 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             $('.lineItemType')
                 .html(
                     '<span class="text" data-ng-bind="lineItemType.name">Select Type</span>' +
-                    '<span class="icon-arrow-down"></span>'
+                    '<span class="icon-arrow-solid-down"></span>'
                 );
 
             $('.pixelType')
                 .html(
                     '<span class="text" data-ng-bind="pixelSelected.name">Select from list</span>' +
-                    '<span class="icon-arrow-down"></span>'
+                    '<span class="icon-arrow-solid-down"></span>'
                 );
 
             $('.systemOfRecordName')
                 .html(
                     '<span class="text" data-ng-bind="systemOfRecordSelected.name">Select from list</span>' +
-                    '<span class="icon-arrow-down"></span>'
+                    '<span class="icon-arrow-solid-down"></span>'
                 );
 
             $scope.volume = '';

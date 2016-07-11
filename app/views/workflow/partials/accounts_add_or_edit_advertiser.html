@@ -31,7 +31,7 @@
                             <span class="text"
                                   data-ng-bind="selectedAdvertiser ? selectedAdvertiser : 'Select Advertiser'">
                             </span>
-                            <span class="icon-arrow-down"></span>
+                            <span class="icon-arrow-solid-down"></span>
                         </button>
                         <ul class="dropdown-menu" data-toggle="dropdown">
                             <li class="available"
@@ -80,7 +80,7 @@
                                     <span class="text"
                                           data-ng-bind="advertiserAddOrEditData.selectedIABCategory">
                                     </span>
-                                    <span class="icon-arrow-down"></span>
+                                    <span class="icon-arrow-solid-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" data-toggle="dropdown">
                                     <li class="available"
@@ -103,7 +103,7 @@
                                     <span class="text"
                                           data-ng-bind="advertiserAddOrEditData.selectedIABSubCategory">
                                     </span>
-                                    <span class="icon-arrow-down"></span>
+                                    <span class="icon-arrow-solid-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" data-toggle="dropdown">
                                     <li class="available"
@@ -175,7 +175,7 @@
                                         aria-haspopup="true"
                                         aria-expanded="true">
                                     <span class="text" data-ng-bind="billingData.serviceFees.billingTypeName"></span>
-                                    <span class="icon-arrow-down" style="margin-left:172px"></span>
+                                    <span class="icon-arrow-solid-down" style="margin-left:172px"></span>
                                 </button>
                                 <ul class="dropdown-menu" data-toggle="dropdown">
                                     <li class="available"
@@ -213,7 +213,7 @@
                                         aria-haspopup="true"
                                         aria-expanded="true">
                                     <span class="text" data-ng-bind="billingData.cost.billingTypeName"></span>
-                                    <span class="icon-arrow-down"></span>
+                                    <span class="icon-arrow-solid-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" data-toggle="dropdown">
                                     <li class="available"
@@ -311,7 +311,7 @@
                                     aria-haspopup="true"
                                     aria-expanded="true">
                                 <span class="text" data-ng-bind="pixelFormData.pixelTypeName"></span>
-                                <span class="icon-arrow-down"></span>
+                                <span class="icon-arrow-solid-down"></span>
                             </button>
                             <ul class="dropdown-menu"
                                 aria-labelledby="unitcostType"
@@ -445,7 +445,7 @@
                             <!--Table Sample-->
                             <div class="tr" data-ng-repeat="pixel in advertiserData.pixels">
                                 <div class="td col-md-5">
-                                    <a data-ng-bind="pixel.name" data-ng-click="editPixel($index, pixel);"></a>
+                                    <a data-ng-bind="pixel.name | textEllipsis: 40" data-ng-click="editPixel($index, pixel);"></a>
                                 </div>
                                 <div class="td col-md-3">
                                     <span data-ng-bind="pixel.pixelType"></span>

@@ -875,8 +875,8 @@ define(['angularAMD',
             $('#formCreativeCreate')[0].reset();
             $scope.IncorrectTag = false;
             $scope.addedSuccessfully = false;
-            $('#formatType').html('Select Format<span class="icon-arrow-down"></span>');
-            $('#creativeSize').html('Select Size<span class="icon-arrow-down"></span>');
+            $('#formatType').html('Select Format<span class="icon-arrow-solid-down"></span>');
+            $('#creativeSize').html('Select Size<span class="icon-arrow-solid-down"></span>');
             $scope.$broadcast('show-errors-reset');
 
             if ($location.path() === '/creative/add'|| ($scope.creativeMode === 'edit' && !$scope.adPage)) {

@@ -131,7 +131,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                 },
 
                 resetPublisherDropDown : function() {
-                    $("#publisher_drop_down").find("button").html('<span class="text" data-ng-bind="textConstants.SELECT_TYPE">Select Type</span><span class="icon-arrow-down"></span>')
+                    $("#publisher_drop_down").find("button").html('<span class="text" data-ng-bind="textConstants.SELECT_TYPE">Select Type</span><span class="icon-arrow-solid-down"></span>')
                 },
 
                 //get search box value

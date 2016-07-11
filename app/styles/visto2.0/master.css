@@ -124,7 +124,7 @@ a:hover {
 .breadcrumbs h5:first-child:hover {
   color: #0978C9;
 }
-.breadcrumbs .icon-arrow-down {
+.breadcrumbs .icon-arrow-solid-down {
   float: left;
   -ms-transform: rotate(270deg);
   -webkit-transform: rotate(270deg);

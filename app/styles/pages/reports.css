@@ -769,8 +769,8 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   float: left;
   font-size: 14px;
 }
-.common_reports_container .icon-arrow-down-thick,
-.breadcrumb_campaign_strategy .icon-arrow-down-thick {
+.common_reports_container .icon-arrow-solid-down,
+.breadcrumb_campaign_strategy .icon-arrow-solid-down {
   float: left;
   color: #000;
   font-size: 9px;
@@ -1172,7 +1172,7 @@ div.strategy_total_container div.strategy_total_container_header .discrepancySec
 div.strategy_total_container div.strategy_total_container_header .rowHasSubRow {
   cursor: pointer;
 }
-div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow .icon-arrow-down {
+div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow .icon-arrow-solid-down {
   font-size: 9px;
   color: #000;
   -ms-transform: rotate(-90deg);
@@ -1182,7 +1182,7 @@ div.strategy_total_container div.strategy_total_container_header .discrepancyTpl
 div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow .platform_logo_img {
   margin-right: 8px ;
 }
-div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow.open .icon-arrow-down {
+div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow.open .icon-arrow-solid-down {
   -ms-transform: rotate(0deg);
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
@@ -3786,6 +3786,15 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #kpi_dropdown .dropdown_ul_text .default-kpi-header-icon,
 .cpa_dropdown .dropdown_ul_text .default-kpi-header-icon {
   float: left;
+}
+#kpi_dropdown .dropdown_ul_text .icon-arrow-solid-down,
+.cpa_dropdown .dropdown_ul_text .icon-arrow-solid-down {
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  margin: 1px 0 0 7px;
+  position: static;
 }
 .viewability_header .kpi-dd-holder {
   padding-right: 13px;
