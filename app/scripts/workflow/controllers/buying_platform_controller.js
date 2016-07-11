@@ -480,15 +480,24 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 _.each(customPlatformFormData, function (data) { // jshint ignore:line
                     var d = data.name.split('$$');
 
-                    if (d[0] === 'placements') {
+                    if (d[0] === 'placements' || d[0] === 'placements_display') {
                         if ($scope.inventoryTabSelected && $scope.inventoryTabSelected === 'appnexus_direct') {
                             selectedPlacementsData = $scope.adData.directInvenotryData.placements.selected;
                             selectedPlacementIds = _.pluck(selectedPlacementsData, 'sourceId'); // jshint ignore:line
 
-                            $scope.$parent.postPlatformDataObj.push({
-                                platformCustomInputId: Number(d[1]),
-                                value: selectedPlacementIds.join(',')
-                            });
+                            if(d[0] === 'placements') {
+                                $scope.$parent.postPlatformDataObj.push({
+                                    platformCustomInputId: Number(d[1]),
+                                    value: selectedPlacementIds.join(',')
+                                });
+                            }
+
+                            if(d[0] === 'placements_display') {
+                                $scope.$parent.postPlatformDataObj.push({
+                                    platformCustomInputId: Number(d[1]),
+                                    value: JSON.stringify(selectedPlacementsData)
+                                });
+                            }
                         }
                     } else {
                         if (d.length >1 && $.trim(data.value) !== '') {
