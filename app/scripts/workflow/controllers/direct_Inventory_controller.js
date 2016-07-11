@@ -109,6 +109,18 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                         }, function () {});
                 },
 
+                resetDirectInventory : function() {
+                    $scope.adData.directInvenotryData.placements.params =
+                        _.extend({}, defaultParams); // jshint ignore:line
+
+                    $scope.adData.directInvenotryData.placements.fetching = true;
+                    $scope.adData.directInvenotryData.placements.data = [];
+                    $scope.adData.directInvenotryData.placements.selected = [];
+                    $scope.selectAllPlacement = false;
+                    $scope.searchKeyword = null;
+                    directInventory.resetPublisherDropDown();
+                },
+
                 resetPlacementData: function () {
                     var i;
 
@@ -204,19 +216,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
         $scope.adData.clearAllSelectedPlacements = function () {
             if ($scope.adData.directInvenotryData.placements.selected &&
                 $scope.adData.directInvenotryData.placements.selected.length > 0) {
-
-                $scope.adData.directInvenotryData.placements.params =
-                    _.extend({}, defaultParams); // jshint ignore:line
-
-                $scope.adData.directInvenotryData.placements.fetching = true;
-                $scope.adData.directInvenotryData.placements.data = [];
-                $scope.adData.directInvenotryData.placements.selected = [];
-
-                $scope.selectAllPlacement = false;
-                $scope.searchKeyword = null;
-
-                directInventory.resetPublisherDropDown();
-
+                directInventory.resetDirectInventory();
                 directInventory.placement($scope.urlData, $scope.adData.directInvenotryData.placements.params);
             }
         };
@@ -325,24 +325,17 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
         };
 
         $rootScope.$on('directInvenotry', function (event, args) {
+            var placementList,
+                placementsData,
+                placementIds;
+
             $scope.urlData = {
                 vendorId: args.platformId,
                 seatId: args.platformSeatId
             };
 
-            var placementList,
-                placementsData,
-                placementIds;
-
             directInventory.publisher($scope.urlData);
-
-            $scope.adData.directInvenotryData.placements.params =
-                _.extend({}, defaultParams); // jshint ignore:line
-
-            $scope.adData.directInvenotryData.placements.fetching = true;
-            $scope.adData.directInvenotryData.placements.data = [];
-            $scope.adData.directInvenotryData.placements.selected = [];
-            directInventory.resetPublisherDropDown();
+            directInventory.resetDirectInventory();
 
             if ($scope.$parent.postPlatformDataObj && $scope.$parent.postPlatformDataObj.length >0) {
                 placementList =
