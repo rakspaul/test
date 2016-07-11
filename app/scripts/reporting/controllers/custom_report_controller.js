@@ -198,13 +198,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
 
             //Quality metrics
-            $scope.qualityMetricsData = [];
-            if(metricsData.quality_metrics && metricsData.quality_metrics.display_metrics !== undefined) {
-                $scope.qualityMetricsData = (metricsData.quality_metrics.display_metrics).concat(metricsData.quality_metrics.video_metrics);
-            }
-
+            var qualityMetricsData = metricsData.quality_metrics;
             $scope.qualityMetrics = [];
-            _.each($scope.qualityMetricsData, function(key) {
+            _.each(qualityMetricsData, function(key) {
                 $scope.qualityMetrics.push({
                     key : key,
                     value : $scope.displayName[key],
@@ -259,9 +255,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $scope.metricKeyArr = {}
             if ($scope.selectedMetricsList.length < $scope.totalMetrics) {
                 var metricsCategorizedKey = angular.copy(data.metrics);
-                if(metricsCategorizedKey.quality_metrics.display_metrics !== undefined) {
-                    metricsCategorizedKey['quality_metrics'] = (metricsCategorizedKey.quality_metrics.display_metrics).concat(metricsCategorizedKey.quality_metrics.video_metrics);
-                }
 
                 _.each(selectedMetrics,function(selMet){
                     _.each(metricCategoryKeys,function(metrCatKey){
@@ -277,11 +270,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 //when all the metrics is selected
                 var metricsType = ['deliveryMetrics', 'costMetrics', 'videoMetrics', 'qualityMetrics','pacingMetrics'];
                 var arr = angular.copy(data.dim_specific_metrics.hasOwnProperty(selectedDim) ? data.dim_specific_metrics[selectedDim] : data.metrics);
-
-                //merge dispaly and video
-                if(arr.quality_metrics && arr.quality_metrics.display_metrics !== undefined) {
-                    arr['quality_metrics'] = (arr.quality_metrics.display_metrics).concat(arr.quality_metrics.video_metrics);
-                }
 
                 _.each(metricKey1, function(v) {
                     $scope.metricKeyArr[v] = [];
@@ -315,11 +303,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             _.each(data, function(d, index) {
                 d.dimension.level = typeofDimension
                 d.dimension.idx = index
-                if (activeTab === 'quality_metrics') {
-                    tabData = _.extend({}, d['quality_data']['display_data'],d['quality_data']['video_data']);
-                }else {
-                    tabData = d[activeTab];
-                }
+                tabData = d[activeTab];
                 _.extend(tabData, d['dimension']);
                 activeTabDataObj.push(tabData);
             });
@@ -340,7 +324,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     _.each(metricDataKey, function (mkey) {
                         if (mkey != "dimension") {
                             _.each(d[mkey], function (value, key) {
-                                if(mkey == "quality_data") {
+/*                                if(mkey == "quality_data") {
                                     _.each(value,function(v,k){
                                         found = false;
                                         _.each(selectedMetrics, function (selMetItem) {
@@ -352,7 +336,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                             delete d[mkey][key][k];
                                         }
                                     })
-                                } else {
+                                } else {*/
                                     found = false;
                                     _.each(selectedMetrics, function (selMetItem) {
                                         if (selMetItem.key == key) {
@@ -362,7 +346,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                     if (!found) {
                                         delete d[mkey][key];
                                     }
-                                }
+                                //}
                             });
                         }
                     });

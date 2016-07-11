@@ -392,7 +392,7 @@
                                         Quality
                                 </span>
 
-                                <div class="col-md-6 metricData"
+                                <div class="col-md-12 metricData"
                                      relationIds='Quality'
                                      ng-repeat="quality_metrics in qualityMetrics track by $index"
                                      id="{{quality_metrics.key}}"
@@ -1187,62 +1187,41 @@
                 ng-if="customeReportData.value"
                 ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}" ng-mouseover="deepLinking.isClickable($event,customeReportData.type)"></span>
             </div>
-            <div class="each_col" ng-if="customeReportData.display_delivered_imps>=-1"
-                 ng-bind="customeReportData.display_delivered_imps == -1 ? 'NA' : (customeReportData.display_delivered_imps | number:0)">
+            <div class="each_col" ng-if="customeReportData.measurable_imps>=-1"
+                 ng-bind="customeReportData.measurable_imps == -1 ? 'NA' : (customeReportData.measurable_imps | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.display_measurable_imps>=-1"
-                 ng-bind="customeReportData.display_measurable_imps == -1 ? 'NA' : (customeReportData.display_measurable_imps | number:0)">
+            <div class="each_col" ng-if="customeReportData.measurable_perc>=-1"
+                 ng-bind="customeReportData.measurable_perc == -1 ? 'NA' : (customeReportData.measurable_perc | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.display_measurable_perc>=-1"
-                 data-ng-bind="customeReportData.display_measurable_perc == -1 ? 'NA' : (customeReportData.display_measurable_perc | number:0)+'%'">
+            <div class="each_col" ng-if="customeReportData.viewable_imps>=-1"
+                 data-ng-bind="customeReportData.viewable_imps == -1 ? 'NA' : (customeReportData.viewable_imps | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.display_viewable_imps>=-1"
-                 ng-bind="customeReportData.display_viewable_imps == -1 ? 'NA' : (customeReportData.display_viewable_imps | number:0)">
+            <div class="each_col" ng-if="customeReportData.viewable_perc>=-1"
+                 ng-bind="customeReportData.viewable_perc == -1 ? 'NA' : (customeReportData.viewable_perc | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.display_viewable_perc>=-1"
-                 data-ng-bind="customeReportData.display_viewable_perc == -1 ? 'NA' : (customeReportData.display_viewable_perc | number:0) + '%'">
+            <div class="each_col" ng-if="customeReportData.viewable_imps_5s>=-1"
+                 data-ng-bind="customeReportData.viewable_imps_5s == -1 ? 'NA' : (customeReportData.viewable_imps_5s | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.display_viewable_imps_5s>=-1"
-                 ng-bind="customeReportData.display_viewable_imps_5s == -1 ? 'NA' : (customeReportData.display_viewable_imps_5s | number:0)">
+            <div class="each_col" ng-if="customeReportData.viewable_imps_15s>=-1"
+                 ng-bind="customeReportData.viewable_imps_15s == -1 ? 'NA' : (customeReportData.viewable_imps_15s | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.display_viewable_imps_15s>=-1"
-                 ng-bind="customeReportData.display_viewable_imps_15s == -1 ? 'NA' : (customeReportData.display_viewable_imps_15s | number:0)">
+            <div class="each_col" ng-if="customeReportData.suspicious_imps>=-1"
+                 ng-bind="customeReportData.suspicious_imps == -1 ? 'NA' : (customeReportData.suspicious_imps | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.display_suspicious_imps>=-1"
-                 ng-bind="customeReportData.display_suspicious_imps | number:0">
+            <div class="each_col" ng-if="customeReportData.suspicious_act_perc>=-1"
+                 ng-bind="customeReportData.suspicious_act_perc == -1 ? 'NA' : (customeReportData.suspicious_act_perc | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.display_suspicious_act_perc>=-1"
-                 ng-bind="customeReportData.display_suspicious_act_perc == -1 ? 'NA' : (customeReportData.display_suspicious_act_perc | number:2)">
+            <div class="each_col" ng-if="customeReportData.viewable_25>=-1"
+                 ng-bind="customeReportData.viewable_25 == -1 ? 'NA' : (customeReportData.viewable_25 | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.video_viewable_imps>=-1"
-                 ng-bind="customeReportData.video_viewable_imps == -1 ? 'NA' : (customeReportData.video_viewable_imps | number:0)">
+            <div class="each_col" ng-if="customeReportData.viewable_50>=-1"
+                 ng-bind="customeReportData.viewable_50 == -1 ? 'NA' : (customeReportData.viewable_50 | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.video_completion_25>=-1"
-                 ng-bind="customeReportData.video_completion_25 == -1 ? 'NA' : (customeReportData.video_completion_25 | number:0)">
+            <div class="each_col" ng-if="customeReportData.viewable_75>=-1"
+                 ng-bind="customeReportData.viewable_75 == -1 ? 'NA' : (customeReportData.viewable_75 | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.video_completion_50>=-1"
-                 ng-bind="customeReportData.video_completion_50 == -1 ? 'NA' : (customeReportData.video_completion_50 | number:0)">
-            </div>
-            <div class="each_col" ng-if="customeReportData.video_completion_75>=-1"
-                 ng-bind="customeReportData.video_completion_75 == -1 ? 'NA' : (customeReportData.video_completion_75 | number:0)">
-            </div>
-            <div class="each_col" ng-if="customeReportData.video_completion_100>=-1"
-                 ng-bind="customeReportData.video_completion_100 == -1 ? 'NA' : (customeReportData.video_completion_100 | number:0)">
-            </div>
-            <div class="each_col" ng-if="customeReportData.video_viewable_25>=-1"
-                 ng-bind="customeReportData.video_viewable_25 == -1 ? 'NA' : (customeReportData.video_viewable_25 | number:0)">
-            </div>
-            <div class="each_col" ng-if="customeReportData.video_viewable_50>=-1"
-                 ng-bind="customeReportData.video_viewable_50 == -1 ? 'NA' : (customeReportData.video_viewable_50 | number:0)">
-            </div>
-            <div class="each_col" ng-if="customeReportData.video_viewable_75>=-1"
-                 ng-bind="customeReportData.video_viewable_75 == -1 ? 'NA' : (customeReportData.video_viewable_75 | number:0)">
-            </div>
-            <div class="each_col" ng-if="customeReportData.video_viewable_100>=-1"
-                 ng-bind="customeReportData.video_viewable_100 == -1 ? 'NA' : (customeReportData.video_viewable_100 | number:0)">
-            </div>
-            <div class="each_col" ng-if="customeReportData.video_suspicious_imps>=-1"
-                 ng-bind="customeReportData.video_suspicious_imps == -1 ? 'NA' : (customeReportData.video_suspicious_imps |  number:0)">
+            <div class="each_col" ng-if="customeReportData.viewable_100>=-1"
+                 ng-bind="customeReportData.viewable_100 == -1 ? 'NA' : (customeReportData.viewable_100 | number:0)">
             </div>
         </script>
 
