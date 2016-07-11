@@ -1147,6 +1147,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     videoTargetsData,
                     utcStartTime,
                     utcEndTime,
+                    inventoryLists,
 
                     wrapperToReplaceCustomPlatformHiddenValues = function(customPlatformData) {
                         _.each(customPlatformData, function(obj) { // jshint ignore:line
@@ -1454,13 +1455,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                             }
                         }
 
-                        // Inventory filters section
-                        // _.each($scope.workflowData.selectedLists, function (value) { // jshint ignore:line
-                        //     domainListIds[domainListIds.length] = value.domainListId;
-                        // });
-
-                       
-                        var inventoryLists = workflowService.segrigateInventory($scope.workflowData.selectedLists);
+                        inventoryLists = workflowService.segrigateInventory($scope.workflowData.selectedLists);
 
                         domainListIds.length = 0;
                         appListsIds.length = 0;
