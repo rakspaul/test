@@ -60,7 +60,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                                 'ng-model': (inputList.defaultValue !== '') ?
                                     inputList.defaultValue :
                                     inputList.displayName,
-                                style: 'width: 66.66666667%;',
+                                style: 'width: 66.66666667%;float:none;',
                                 rows: (inputList.platformCustomWidgetType === 'TEXTAREA') ? '15' : '',
                                 name: inputList.name + '$$' + inputList.id,
                                 value: (inputList.defaultValue !== '') ? inputList.defaultValue : ''

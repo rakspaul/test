@@ -426,12 +426,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 }
 
                 if (responseData.startTime) {
-                    $scope.adData.startTime = momentService.utcToLocalTime(responseData.startTime);
+                    $scope.apiStartTime = responseData.startTime;
+                    $scope.adData.startTime = $scope.modifiedAPIStartTime = momentService.utcToLocalTime(responseData.startTime);
                     dateObj.adStartDate = $scope.adData.startTime;
                 }
 
                 if (responseData.endTime) {
-                    $scope.adData.endTime = momentService.utcToLocalTime(responseData.endTime);
+                    $scope.apiEndTime = responseData.endTime;
+                    $scope.adData.endTime = $scope.modifiedAPIEndTime = momentService.utcToLocalTime(responseData.endTime);
                     dateObj.adEndDate = $scope.adData.endTime;
                 }
 
@@ -870,7 +872,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 return goalMapper[goal.toLowerCase()];
             };
 
-            $scope.getPlatformIconName = function (platform) {   
+            $scope.getPlatformIconName = function (platform) {
                 var platformMapper = {
                     'visto bidder': 'Visto_fav_icon',
                     'visto bidder - test': 'Visto_fav_icon',
@@ -1143,6 +1145,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     appListsIds = [],
                     adData,
                     videoTargetsData,
+                    utcStartTime,
+                    utcEndTime,
+                    inventoryLists,
 
                     wrapperToReplaceCustomPlatformHiddenValues = function(customPlatformData) {
                         _.each(customPlatformData, function(obj) { // jshint ignore:line
@@ -1202,11 +1207,19 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     }
 
                     if (formData.startTime) {
-                        postAdDataObj.startTime = momentService.localTimeToUTC(formData.startTime, 'startTime');
+                        utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime');
+                        if($scope.mode ==='edit') { //fixed for CW-4102
+                            utcStartTime = (moment(formData.startTime).isSame($scope.modifiedAPIStartTime, "day")) ?   $scope.apiStartTime : utcStartTime;
+                        }
+                        postAdDataObj.startTime = utcStartTime
                     }
 
                     if (formData.endTime) {
-                        postAdDataObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
+                        utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
+                        if($scope.mode ==='edit') { //fixed for CW-4102
+                            utcEndTime = (moment(formData.endTime).isSame($scope.modifiedAPIEndTime, "day"))  ? $scope.apiEndTime :  utcEndTime;
+                        }
+                        postAdDataObj.endTime = utcEndTime;
                     }
 
                     postAdDataObj.lineitemId = $scope.adData.lineItemId;
@@ -1442,13 +1455,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                             }
                         }
 
-                        // Inventory filters section
-                        // _.each($scope.workflowData.selectedLists, function (value) { // jshint ignore:line
-                        //     domainListIds[domainListIds.length] = value.domainListId;
-                        // });
-
-                       
-                        var inventoryLists = workflowService.segrigateInventory($scope.workflowData.selectedLists);
+                        inventoryLists = workflowService.segrigateInventory($scope.workflowData.selectedLists);
 
                         domainListIds.length = 0;
                         appListsIds.length = 0;

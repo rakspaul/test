@@ -1,8 +1,8 @@
 <div class="col-md-12 adGroupCreate" data-ng-show="showCreateAdGrp">
     <form id="createNewAdGrp" name="createNewAdGrp" novalidate>
         <div class="adGroupCreateForm">
-            <h1 class="col-md-12 zeroPadding" data-ng-if="!editAdGroupFlag" data-ng-bind="textConstants.SETADGRP"></h1>
-            <div class="clearfix" data-ng-if="editAdGroupFlag">
+            <h1 class="col-md-12 zeroPadding" data-ng-if="!adGroupData.editAdGroupFlag" data-ng-bind="textConstants.SETADGRP"></h1>
+            <div class="clearfix" data-ng-if="adGroupData.editAdGroupFlag">
                     <h1 class="col-md-4 zeroPadding" data-ng-bind="textConstants.EDITADGRP"></h1>
                     <span class="pull-right common-loading-btn" style="width: 61px;" data-ng-show="loadingBtn"></span>
                     <button type="submit"
@@ -20,8 +20,6 @@
                           data-ng-bind="textConstants.CANCEL"
                           data-ng-click="cancelEditAdGroup()">
                     </span>
-                    <input type="hidden" name="adgroupId" data-ng-model="adgroupId" data-ng-update-hidden>
-                    <input type="hidden" name="updatedAt" data-ng-model="updatedAt" data-ng-update-hidden>
             </div>
 
             <!--Name Ad Group-->
@@ -184,7 +182,7 @@
             </div>
 
             <!--Save / Cancel-->
-            <div class="col-md-6" style="padding: 62px 0 0 0;" data-ng-if="!editAdGroupFlag">
+            <div class="col-md-6" style="padding: 62px 0 0 0;" data-ng-if="!adGroupData.editAdGroupFlag">
                 <span class="pull-right common-loading-btn" style="width: 61px;" data-ng-show="loadingBtn"></span>
                 <button type="submit"
                         class="btn btn-primary pull-right"
@@ -207,6 +205,8 @@
                  data-ng-bind="createAdGroupMessage">
             </div>
         </div>
+        <input type="hidden" name="adgroupId" data-ng-model="adgroupId" ng-update-hidden>
+        <input type="hidden" name="updatedAt" data-ng-model="updatedAt" ng-update-hidden>
     </form>
 </div>
 

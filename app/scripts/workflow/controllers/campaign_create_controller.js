@@ -252,7 +252,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             prefillMediaPlan: function (campaignData) {
-                var startDateElem;
+                var startDateElem,
+                    flightDateObj;
+
                 this.campaignData = campaignData;
 
                 startDateElem = $('#startDateInput');
@@ -302,17 +304,17 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.tags = workflowService.recreateLabels(campaignData.labels);
                 }
 
-                var flightDateObj = {
+                $scope.mediaPlanAPIStartTime = campaignData.startTime;
+                $scope.mediaPlanAPIEndTime = campaignData.endTime;
+
+                flightDateObj = {
                     startTime: momentService.utcToLocalTime(campaignData.startTime),
                     endTime: momentService.utcToLocalTime(campaignData.endTime)
                 }
 
                 if( $scope.campaignDate ) {
-
                     $scope.periodDays = momentService.dateDiffInDays(flightDateObj.startTime,flightDateObj.endTime)   ;
                 }
-
-
 
                 $scope.newdiffDays =  momentService.dateDiffInDays(flightDateObj.startTime ,$scope.campaignDate)  ;
 
@@ -331,12 +333,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 //set startDate
                 if (flightDateObj.startTime) {
-                    $scope.selectedCampaign.startTime = flightDateObj.startTime ;
+                    $scope.selectedCampaign.startTime = $scope.modifiedMediaPlanAPIStartTime = flightDateObj.startTime ;
                 }
 
                 //set endDate
                 if (flightDateObj.endTime) {
-                    $scope.selectedCampaign.endTime = flightDateObj.endTime  ;
+                    $scope.selectedCampaign.endTime = $scope.modifiedMediaPlanAPIEndTime = flightDateObj.endTime;
                     $scope.initiateDatePicker();
                     $scope.handleFlightDate(flightDateObj);
                 }
@@ -548,18 +550,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             var formElem,
                 formData,
-                postDataObj;
+                postDataObj,
+                utcStartTime,
+                utcEndTime;
 
             if ($scope.lineItems.lineItemList.length == 0) {
                 $rootScope.setErrAlertMessage('Please create a Line Item');
                 return false;
             }
 
-            //removing validation of total billable amount for now
-            //if ($scope.selectedCampaign.lineItemBillableAmountTotal > $scope.Campaign.deliveryBudget) {
-            //    $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
-            //    return false;
-            //}
             if ($scope.mode === 'edit' && $scope.editCampaignData.bookedSpend > $scope.Campaign.deliveryBudget) {
                 $rootScope.setErrAlertMessage('Booked Spent should not exceed the campaign budget');
                 return false;
@@ -591,8 +590,18 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     postDataObj.purchaseOrder = formData.purchaseOrder;
                 }
 
-                postDataObj.startTime = momentService.localTimeToUTC($scope.selectedCampaign.startTime, 'startTime');
-                postDataObj.endTime = momentService.localTimeToUTC($scope.selectedCampaign.endTime, 'endTime');
+                utcStartTime = momentService.localTimeToUTC($scope.selectedCampaign.startTime, 'startTime');
+                if($scope.mode ==='edit') {
+                    utcStartTime = (moment($scope.selectedCampaign.startTime).isSame($scope.modifiedMediaPlanAPIStartTime, "day")) ?   $scope.mediaPlanAPIStartTime : utcStartTime;
+                }
+                postDataObj.startTime = utcStartTime;
+
+                utcEndTime = momentService.localTimeToUTC($scope.selectedCampaign.endTime, 'endTime');
+                if($scope.mode ==='edit') {
+                    utcEndTime = (moment($scope.selectedCampaign.endTime).isSame($scope.modifiedMediaPlanAPIEndTime, "day"))  ? $scope.mediaPlanAPIEndTime :  utcEndTime;
+                }
+                postDataObj.endTime = utcEndTime;
+                
                 postDataObj.kpiType = formData.kpi;
                 postDataObj.kpiValue = formData.kpiValue;
                 postDataObj.marginPercent = formData.marginPercent;

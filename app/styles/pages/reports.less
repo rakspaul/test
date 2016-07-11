@@ -4182,28 +4182,31 @@ only screen and (min-device-pixel-ratio: 2) {
     /*.collapseIcon{
         visibility: hidden;
     }*/
-    .icon-minus,
-    .icon-plus {
-        color: #57606d;
+    .icon-toggleclose,
+    .icon-toggleopen {
         float: left;
-        font-size: 13px;
+        font-size: 24px;
         height: 24px;
-        padding: 6px;
+        padding: 0px;
         top: 0;
         width: 24px;
-        border: 1px solid #C6C9CE;
-        border-radius: 2px;
         float: left;
-       /* margin-right: 10px;
-        margin-left: 18px;
-        margin-top: 17px; */
-        &:hover{
-            color: #428bca;
-        }
         &:before{
             top: -1px;
             position: relative;
             left: -1px;
+        }
+    }
+    .icon-toggleclose {
+        color: #bfc9d7;
+        &:hover {
+            color: #939eae;
+        }
+    }
+    .icon-toggleopen {
+        color: #004d86;
+        &:hover {
+            color: #0563a9;
         }
     }
 
@@ -4749,18 +4752,22 @@ only screen and (min-device-pixel-ratio: 2) {
 
     .each_col.more_dimension_arrow {
       display: none;
-      background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
-      height: 11px;
+      height: 12px;
       width: 12px;
+      font-size: 12px;
       min-width: 12px;
       max-width: 12px;
       padding-bottom: 2px;
       cursor: pointer;
       position: absolute;
-      top: 0;
+      top: 5px;
       left: 0;
       z-index: 3;
-      margin-top : 3px ;
+      margin-top: 3px;
+      color: #bfc9d7;
+      &:hover {
+        color: #939eae;
+      }
     }
 
     .second_dimension_row_holder {
@@ -4816,12 +4823,12 @@ only screen and (min-device-pixel-ratio: 2) {
             -moz-border-radius: 50%;
             -webkit-border-radius: 50%;
             position: absolute;
-            top: 13px;
+            top: 12px;
             right: 0;
             background-color: rgb(147, 158, 173);
             width: 5px;
             height: 5px;
-
+            z-index: 10;
           }
         }
       }
@@ -4878,18 +4885,20 @@ only screen and (min-device-pixel-ratio: 2) {
     }
     .reportData.active {
       .more_dimension_arrow  {
-        background-image: url("/images/cdesk/common_down_arrow.png") ;
-        margin-top: 0px ;
+        color: #004d86;
+        &:hover {
+            color: #0563a9;
+        }
       }
       .more_dimension_col {
         /*cursor: pointer;*/
         &:after {
           content: "";
-          height: 100%;
+          height: 17px;
           width: 1px;
           border-left: dashed 1px rgb(149, 161, 169) ;
           position: absolute;
-          top: 0;
+          top: 18px;
           left: 5px;
           z-index: 1;
           margin-bottom: 30px;
@@ -4898,7 +4907,7 @@ only screen and (min-device-pixel-ratio: 2) {
     }
     .reportData.noDataOpen {
       .more_dimension_arrow {
-        margin-top: 3px ;
+        opacity: .4;
       }
       .more_dimension_col {
         &:after {
@@ -4976,12 +4985,12 @@ only screen and (min-device-pixel-ratio: 2) {
     }
     .each_col {
       display: table-cell;
-      width: 150px;
-      min-width: 150px;
-      max-width: 150px;
+      width: 160px;
+      min-width: 160px;
+      max-width: 160px;
       word-wrap: break-word;
-      padding-right: 20px;/*
-      padding-bottom: 15px;*/
+      padding-right: 15px;
+      //padding-bottom: 15px;
       text-align: right;
     }
 
@@ -5197,13 +5206,11 @@ div.reports_tabs_content_container {
   cursor: default;
 }
 .page_top_header {
-  margin: 21px 0 0px;
+  margin: 30px 0 0 0;
   padding: 0 ;
   .page_name {
-    color: #21252b ;
-    padding: 0 ;
-    font-size: 26px ;
-    font-family: "Avenir-bold";
+    margin-top: 0;
+    padding: 0;
   }
 }
 body.custom_report_page {

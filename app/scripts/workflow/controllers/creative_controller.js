@@ -438,16 +438,16 @@ define(['angularAMD',
 
             // function to get the possible templates in adCreate Page)
             if ($scope.adPage) {
-                $scope.getTemplates(adServer,$scope.creativeFormat,$scope.isPlatformId);
+                $scope.getTemplates(adServer,$scope.creativeFormat,workflowService.getPlatform().executionVendorType);
             }
         };
 
         // get Templates
-        $scope.getTemplates = function (vendor,format,platformId) {
+        $scope.getTemplates = function (vendor,format,executionVendorType) {
             var responseData;
 
             workflowService
-                .getTemplates(vendor,format,platformId)
+                .getTemplates(vendor,format,executionVendorType)
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         responseData = result.data.data;
@@ -599,7 +599,7 @@ define(['angularAMD',
                         ele = '<div class="creativePreviewBtn"><a target="_blank" href="'+ url +'">Preview</a></div>';
                         $(_self).after(ele);
                     }else{
-                        $(_self).after('<span class = "errorText" style="margin-left:10px">'+res.data.data.message+'</span>');
+                       // $(_self).after('<span class = "errorText" style="margin-left:10px">'+res.data.data.message+'</span>');
                     }
                 },function(err){
 

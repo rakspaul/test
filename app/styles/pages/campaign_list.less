@@ -1123,9 +1123,12 @@ button, i, input[type="submit"] {
     }
   }
   .campaign_list_header {
-    margin-right: 0px ;
+    margin: 0px ;
     width: 100%;
     clear: both;
+    h1 {
+        margin-top: 30px;
+    }
     .nav_filters {
       width: auto ;
       #brandsList {
@@ -2514,21 +2517,21 @@ button, i, input[type="submit"] {
           border-right: solid 8px transparent;
         }
       }
-//      .each_nav_link.active#creative_nav_link {
-//        .arrowSelect {
-//          content: "";
-//          position: absolute;
-//          display: block;
-//          bottom: -15px;
-//          left: 35%;
-//          height: 0;
-//          width: 0;
-//          border: solid 6px #EDF2F8;
-//          border-left: solid 8px transparent;
-//          border-top: 0;
-//          border-right: solid 8px transparent;
-//        }
-//      }
+      .each_nav_link.active#creative_nav_link {
+        .arrowSelect {
+          content: "";
+          position: absolute;
+          display: block;
+          bottom: -15px;
+          left: 35%;
+          height: 0;
+          width: 0;
+          border: solid 6px #fff;
+          border-left: solid 8px transparent;
+          border-top: 0;
+          border-right: solid 8px transparent;
+        }
+      }
       #reports_nav_link {
         position: relative;
         height: 34px ;
@@ -2984,8 +2987,12 @@ button, i, input[type="submit"] {
 
 
   .nav_filters_heading {
-    color: #939eaf ;
-    font-size: 12px;
+    color: #939eae !important;
+    padding: 10px 0 5px 0 !important;
+    text-align: left;
+    font-size: 12px !important;
+    font-weight: normal;
+    margin: 0;
     text-transform: capitalize;
   }
   .brand_name_selected {
@@ -3135,9 +3142,6 @@ button, i, input[type="submit"] {
     }
   }
 }
-.dropdown_filters_holder {
-  margin : 10px 0 ;
-}
 .quick_filters_holder {
   .filters_selection_holder {
     .quick_filter {
@@ -3153,11 +3157,6 @@ button, i, input[type="submit"] {
         border: 1px solid #BFC9D7;
         border-radius: 2px;
         min-height: 36px;
-
-        //When search is added uncomment below
-        border-left: 0px;
-        border-bottom-left-radius: 0;
-        border-top-left-radius: 0;
       }
       .sliding_dropdown_btn:hover, .sliding_dropdown_btn:active, .sliding_dropdown_btn:focus {
         background-color:#DCE6F1;
