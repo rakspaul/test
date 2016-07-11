@@ -1,10 +1,9 @@
 define(['common'], function (angularAMD) { // jshint ignore:line
     'use strict';
 
-    angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
+    angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition']) // jshint ignore:line
         .controller('CarouselController', ['$scope', '$timeout', '$transition', '$q', 'ngFileUpload',
-            function ($scope, $timeout, $transition, $q) {
-            }])
+            function () {}])
         .directive('carousel', [function () {
             return {};
         }]);
@@ -557,7 +556,8 @@ define(['common'], function (angularAMD) { // jshint ignore:line
                     }
                 }))
 
-                .when('/clientId/:clientId/adv/:advertiserId/campaignId/:campaignId/adId/:adId/creative/:creativeId/preview', angularAMD.route({
+                .when('/clientId/:clientId/adv/:advertiserId/campaignId/:campaignId/adId/:adId/creative/' +
+                    ':creativeId/preview', angularAMD.route({
                     templateUrl: assets.html_creative_preview, // jshint ignore:line
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',
@@ -679,7 +679,7 @@ define(['common'], function (angularAMD) { // jshint ignore:line
                     }
 
                     dataService.updateRequestHeader();
-                    if ((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') === null ||
+                    if ((loginModel.getauth_token()) && (localStorage.getItem('selectedClient') === null ||
                         localStorage.getItem('selectedClient') === undefined )) {
                         userObj = JSON.parse(localStorage.getItem('userObj'));
                         workflowService
@@ -758,7 +758,7 @@ define(['common'], function (angularAMD) { // jshint ignore:line
 
                     // if some one try to change the authorization key or delete the key manually
                     // this is getting after successful login.
-                    if ($cookieStore.get('cdesk_session') && authorizationKey !== loginModel.getAuthToken()) {
+                    if ($cookieStore.get('cdesk_session') && authorizationKey !== loginModel.getauth_token()) {
                         loginModel.unauthorized();
                     }
                 },

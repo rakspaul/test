@@ -8,11 +8,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 data: {message: 'Error'}
             };
 
-            $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+            $http.defaults.headers.common.Authorization = loginModel.getauth_token();
 
             return {
                 updateRequestHeader: function () {
-                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
                 },
 
                 getSingleCampaign: function (urlPath) {
@@ -292,7 +292,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 },
 
                 downloadFile: function (url, httpMethod, data, headers) {
-                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
                     httpMethod = httpMethod ? httpMethod : 'GET';
                     data = data ? data : '';
                     headers = headers ? headers: {'Content-Type': 'application/json'};
@@ -393,7 +393,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
 
                 post: function (url, data, header,dataToJson) {
                     loginModel.checkCookieExpiry();
-                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
 
                     return $http({
                         url: url,
@@ -438,7 +438,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
 
                 put: function (url, data) {
                     loginModel.checkCookieExpiry();
-                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
 
                     return $http
                         .put(url, angular.toJson(data)) // jshint ignore:line
@@ -473,7 +473,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
 
                 delete: function (url, data, header) {
                     loginModel.checkCookieExpiry();
-                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
 
                     return $http({
                         url: url,

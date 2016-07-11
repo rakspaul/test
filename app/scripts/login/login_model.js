@@ -160,7 +160,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
                 }
             },
 
-            getAuthToken: function () {
+            getauth_token: function () {
                 if ($cookieStore.get('cdesk_session')) {
                     data.auth_token = $cookieStore.get('cdesk_session').auth_token;
                     return $cookieStore.get('cdesk_session').auth_token;

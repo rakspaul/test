@@ -20,7 +20,7 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
 
         var formatTypeMap = vistoconfig.formatTypeMap  ;
 
-        var usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
+        var usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().uiExclusions;
         if(usrRole && usrRole.ui_modules) {
             screenWidgetData.formatDropDown =  _.filter(screenWidgetData.formatDropDown, function(obj, idx) {
                 obj = obj.slice(0, obj.length-1);

@@ -32,7 +32,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                     });
                 }
 
-                var usrRole = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
+                var usrRole = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().uiExclusions;
                 if (usrRole && usrRole.ui_modules) {
                     tabs = _.filter(tabs, function (obj, idx) {
                         return _.indexOf(usrRole.ui_modules, obj.href) == -1
@@ -208,7 +208,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                         campaignId: $scope.selectedCampaign.id,
                         advertiserId: advertiserModel.getSelectedAdvertiser().id,
                         brandId: brandsModel.getSelectedBrand().id,
-                        dateFilter: 'life_time',//$scope.selected_filters.time_filter,
+                        dateFilter: 'life_time',//$scope.selectedFilters.time_filter,
                         download_config_id: report.download_config_id
                     }
 
