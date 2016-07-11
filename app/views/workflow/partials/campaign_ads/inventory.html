@@ -117,7 +117,7 @@
                     </div>
                     <button class="btn btn-default pull-right"
                             ng-click="workflowData.assignCurrentInventory(inventory)"
-                            ngf-select="selectFiles($files, 'INVENTORY_UPDATE')"
+                            ngf-select="selectFiles($files, 'INVENTORY_UPDATE', inventory.inventoryType)"
                             ngf-accept="'.csv,.txt'"
                             ngf-multiple="false"
                             ngf-allow-dir="false"

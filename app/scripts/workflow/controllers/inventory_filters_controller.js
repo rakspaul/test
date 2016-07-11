@@ -175,9 +175,9 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 InventoryFiltersView.getAdvertisersDomainList(args[0].clientId, args[0].advertiserId);
             });
 
-            $scope.selectFiles = function(files, action,type) {
+            $scope.selectFiles = function(files, action, type) {
                 if (files) {
-                    (type === 'DOMAIN')?$scope.fileType = 'DOMAIN':$scope.fileType = 'APP'
+                    (type === 'DOMAIN') ? $scope.fileType = 'DOMAIN': $scope.fileType = 'APP';
                     if (files.length > 0) {
                         // Prevent window from scrolling while popup overlay is showing
                         $('body').css({
