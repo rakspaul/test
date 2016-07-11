@@ -32,10 +32,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                     today = momentService.utcToLocalTime();
 
                 // startDate input Element
-                if ($scope.selectedCampaign.status === 'IN_FLIGHT' || $scope.selectedCampaign.status === 'ENDED') {
-                    //TODO
-                    console.log('TODO');
-                } else {
+                if (!_.contains(['IN_FLIGHT', 'ENDED'], $scope.selectedCampaign.status)) {
                     for (i in $scope.lineItems.lineItemList) {
                         if ($scope.lineItems.lineItemList[i].startTime) {
                             startDatelow.push($scope.lineItems.lineItemList[i].startTime);
@@ -49,7 +46,6 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
                     if (ascending.length > 0) {
                         lowestStartTime = ascending[0];
-                        startDateElem.datepicker('setStartDate', today);
                         startDateElem.datepicker('setEndDate', lowestStartTime);
                     } else {
                         startDateElem.datepicker('setStartDate', $scope.selectedCampaign.startTime);
