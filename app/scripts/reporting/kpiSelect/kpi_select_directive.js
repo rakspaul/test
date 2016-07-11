@@ -14,7 +14,7 @@ define(['angularAMD','common/services/constants_service','reporting/kpiSelect/kp
                 scope.whichCaller = attrs;
                 scope.$watch('type', function(newValue, oldValue) {
                     if(newValue !== oldValue) {
-                        scope.setSelectedKpi(newValue)//selected_filters.kpi_type = newValue;
+                        scope.setSelectedKpi(newValue)//selectedFilters.kpi_type = newValue;
                     }
                 })
             }

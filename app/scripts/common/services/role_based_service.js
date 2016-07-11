@@ -34,7 +34,7 @@ define(['angularAMD', '../moment_utils', 'common/services/constants_service'], /
 
                 if (response.data.data.i18n) {
                     clientRoleObj.locale = response.data.data.i18n.locale;
-                    clientRoleObj.ui_exclusions = uiExclusion(response.data.data.i18n.ui_exclusions);
+                    clientRoleObj.uiExclusions = uiExclusion(response.data.data.i18n.uiExclusions);
                     clientRoleObj.currency = response.data.data.i18n.currency;
                 }
 
