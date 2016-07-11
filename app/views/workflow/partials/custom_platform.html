@@ -69,7 +69,7 @@
                                 <div class="col-md-3 zeroPadding">
                                     <label class="col-sm-12 greyTxt zeroPadding"
                                            data-ng-bind="textConstants.PUBLISHER"></label>
-                                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                                    <div class="col-md-12 zeroPadding dropdown-workflow" id="publisher_drop_down">
                                         <div class="dropdown">
                                             <button class="btn btn-default dropdown-toggle" type="button"
                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
@@ -121,10 +121,12 @@
                                             </div>
                                             <div class="columnTwo col-md-3">
                                                     <span class="toolTipAudienceSegment"
+                                                          title="{{placement.name}}"
                                                           data-ng-bind="placement.name"></span>
                                             </div>
                                             <div class="columnTwo col-md-3">
                                                     <span class="toolTipAudienceSegment"
+                                                          title="{{placement.placementGroup}}"
                                                           data-ng-bind="placement.placementGroup"></span>
                                             </div>
                                             <div class="columnThree col-md-5">
@@ -136,7 +138,7 @@
                                     <div class="common-loading-area"
                                          ng-show="adData.directInvenotryData.placements.load_more_data"></div>
                                     <div class="no-data-common"
-                                         ng-show="adData.directInvenotryData.placements.data_not_found"
+                                         ng-show="!adData.directInvenotryData.placements.fetching && adData.directInvenotryData.placements.data_not_found"
                                          data-ng-bind="textConstants.DATANOTAVAILABLE"></div>
                                 </div>
                             </div>
@@ -147,10 +149,9 @@
                             <span class="pull-left" data-ng-bind="textConstants.SELECTED_PLACEMENTS"></span>
                             <a class="pull-right" ng-click="adData.clearAllSelectedPlacements()"
                                data-ng-bind="textConstants.CLEARALL"></a>
-
                             <div class="selectedItems">
                                 <div class="segWrap"
-                                     ng-repeat="placement in adData.directInvenotryData.placements.selected">
+                                     ng-repeat="placement in adData.directInvenotryData.placements.selected track by placement.id">
                                         <span
                                             data-ng-bind="(placement.name) + ' : ' + (placement.placementGroup) + ' : ' + (placement.publisher)"></span>
                                     <div style="clear:both"></div>

@@ -6,7 +6,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
             restrict:'EAC',
 
             controller : function ($scope, momentService, workflowService, constants) {
-                $scope.editAdGroupFlag = false;
+                $scope.adGroupData.editAdGroupFlag = false;
 
                 $scope.processAdGroupEditData = function (formElem, adGroupsData, adGroupsIndex) {
                     //total budget for ad group
