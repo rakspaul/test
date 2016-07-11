@@ -127,7 +127,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                         }
                     };
 
-                    this.resetFilters = function () {
+                    this.resetFilters = function (type) {
                         this.campaignList = [];
                         this.timePeriod = 'life_time';
                         this.busy = true;
@@ -138,8 +138,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                         };
 
                         this.sortParam = 'start_date';
-                        this.sortDirection = 'desc';
-                        this.dashboard.quickFilterSelectedCount = 0;
+                        (type !== 'sort') && (this.sortDirection = 'desc');
                         this.dashboard.quickFilterSelectedCount = 0;
                         this.resetCostBreakdown.call(this);
                     };
@@ -277,43 +276,46 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
 
                                                 spendUrl = urlService.getCampaignSpend(queryObj),
                                                 contextThis = this;
+                                            contextThis.push(campaign);
+                                            self.busy = false;
+                                            (function(campaign) {
+                                                dataService
+                                                    .fetch(spendUrl)
+                                                    .then(function (response) {
+                                                        self.busy = false;
 
-                                            dataService
-                                                .fetch(spendUrl)
-                                                .then(function(response) {
-                                                    self.busy = false;
-
-                                                    if (response.data){
-                                                        campaign.spend = response.data.data[0].gross_rev;
-                                                    } else {
-                                                        campaign.spend = 0;
-                                                    }
-                                                    contextThis.push(campaign);
-
-                                                    if (campaign.kpi_type === 'null') {
-                                                        campaign.kpi_type = 'CTR';
-                                                        campaign.kpi_value = 0;
-                                                    }
-
-                                                    campaignListService.getCdbLineChart(campaign, self.timePeriod,
-                                                        function (cdbData) {
-                                                            if (cdbData) {
-                                                                self.cdbDataMap[campaign.orderId] =
-                                                                    modelTransformer.transform(
-                                                                        cdbData,
-                                                                        campaignCDBData
-                                                                    );
-
-                                                                self.cdbDataMap[campaign.orderId].modified_vtc_metrics =
-                                                                    campaignListService.vtcMetricsJsonModifier(
-                                                                        self.cdbDataMap[campaign.orderId].video_metrics
-                                                                    );
-                                                            }
+                                                        if (response.data) {
+                                                            campaign.spend = response.data.data[0].gross_rev;
+                                                        } else {
+                                                            campaign.spend = 0;
                                                         }
-                                                    );
-                                                }, function () {
-                                                    self.busy = false;
-                                                });
+                                                        //    contextThis.push(campaign);
+
+                                                        if (campaign.kpi_type === 'null') {
+                                                            campaign.kpi_type = 'CTR';
+                                                            campaign.kpi_value = 0;
+                                                        }
+
+                                                        campaignListService.getCdbLineChart(campaign, self.timePeriod,
+                                                            function (cdbData) {
+                                                                if (cdbData) {
+                                                                    self.cdbDataMap[campaign.orderId] =
+                                                                        modelTransformer.transform(
+                                                                            cdbData,
+                                                                            campaignCDBData
+                                                                        );
+
+                                                                    self.cdbDataMap[campaign.orderId].modified_vtc_metrics =
+                                                                        campaignListService.vtcMetricsJsonModifier(
+                                                                            self.cdbDataMap[campaign.orderId].video_metrics
+                                                                        );
+                                                                }
+                                                            }
+                                                        );
+                                                    }, function () {
+                                                        self.busy = false;
+                                                    });
+                                            }(campaign));
                                         }, self.campaignList);
 
                                         //as we change the brand, we are updating the campaign model as well.
@@ -608,7 +610,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                                 }
                             }
 
-                            this.resetFilters();
+                            this.resetFilters('sort');
 
                             !this.sortDirection && (this.sortDirection = 'asc');
                             this.sortParam = fieldName;
