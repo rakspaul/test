@@ -334,14 +334,14 @@
 .adCreateMaster #targetting .targetingSlide .dayRow {
   margin-bottom: 10px;
 }
-.adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-down:before {
+.adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-solid-down:before {
   float: right;
   font-size: 10px;
   margin-right: -3px;
   margin-top: 2px;
 }
-.adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-down:before .icon-arrow-down,
-.adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-down:before span.icon-arrow-down:before {
+.adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-solid-down:before .icon-arrow-solid-down,
+.adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-solid-down:before span.icon-arrow-solid-down:before {
   display: none !important;
 }
 .adCreateMaster #targetting .targetingSlide .dayRow .dailyRow,
@@ -1683,7 +1683,7 @@
   margin-bottom: 5px;
   cursor: pointer;
 }
-#campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(-90deg);
   /* Firefox */
@@ -1701,7 +1701,7 @@
   float: left;
   color: #000;
 }
-#campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-down-thick.active {
+#campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-solid-down.active {
   /* Safari */
   -webkit-transform: rotate(0deg);
   /* Firefox */
@@ -1748,7 +1748,7 @@
 #campaignCreate .firstWrapper .masterContainer .accordionDDL span:last-child {
   font-style: italic;
 }
-#campaignCreate .firstWrapper .masterContainer .accordionDDL .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .accordionDDL .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(0deg);
   /* Firefox */
@@ -1769,7 +1769,7 @@
 #campaignCreate .firstWrapper .masterContainer .accordionDDL:first-child {
   border-top: 1px solid rgba(191, 201, 215, 0.5);
 }
-#campaignCreate .firstWrapper .masterContainer .accordionDDL.collapsed .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .accordionDDL.collapsed .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(-90deg);
   /* Firefox */
@@ -1809,7 +1809,7 @@
 #campaignCreate .firstWrapper .masterContainer .accordionDDL span:last-child {
   font-style: italic;
 }
-#campaignCreate .firstWrapper .masterContainer .accordionDDL .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .accordionDDL .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(0deg);
   /* Firefox */
@@ -1830,7 +1830,7 @@
 #campaignCreate .firstWrapper .masterContainer .accordionDDL:first-child {
   border-top: 1px solid rgba(191, 201, 215, 0.5);
 }
-#campaignCreate .firstWrapper .masterContainer .accordionDDL.collapsed .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .accordionDDL.collapsed .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(-90deg);
   /* Firefox */
@@ -1920,17 +1920,17 @@
   opacity: 1 ;
   cursor: not-allowed;
 }
-#campaignCreate .firstWrapper .masterContainer .tableEdit .dropdown-toggle.btn[disabled] .icon-arrow-down {
-  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eeeeee 65%);
-  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eeeeee 65%);
-  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #eeeeee 54%);
+#campaignCreate .firstWrapper .masterContainer .tableEdit .dropdown-toggle.btn[disabled] .icon-arrow-solid-down {
+  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eee 65%);
+  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eee 65%);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #eee 54%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eee', endColorstr='#eee', GradientType=1);
 }
 #campaignCreate .firstWrapper .masterContainer .showAddCreditForm {
   margin-bottom: 5px;
   cursor: pointer;
 }
-#campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(-90deg);
   /* Firefox */
@@ -1948,7 +1948,7 @@
   float: left;
   color: #000;
 }
-#campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-down-thick.active {
+#campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-solid-down.active {
   /* Safari */
   -webkit-transform: rotate(0deg);
   /* Firefox */
@@ -1995,7 +1995,7 @@
 #campaignCreate .firstWrapper .masterContainer .accordionDDL span:last-child {
   font-style: italic;
 }
-#campaignCreate .firstWrapper .masterContainer .accordionDDL .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .accordionDDL .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(0deg);
   /* Firefox */
@@ -2016,7 +2016,7 @@
 #campaignCreate .firstWrapper .masterContainer .accordionDDL:first-child {
   border-top: 1px solid rgba(191, 201, 215, 0.5);
 }
-#campaignCreate .firstWrapper .masterContainer .accordionDDL.collapsed .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .accordionDDL.collapsed .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(-90deg);
   /* Firefox */
@@ -2056,7 +2056,7 @@
 #campaignCreate .firstWrapper .masterContainer .accordionDDL span:last-child {
   font-style: italic;
 }
-#campaignCreate .firstWrapper .masterContainer .accordionDDL .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .accordionDDL .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(0deg);
   /* Firefox */
@@ -2077,7 +2077,7 @@
 #campaignCreate .firstWrapper .masterContainer .accordionDDL:first-child {
   border-top: 1px solid rgba(191, 201, 215, 0.5);
 }
-#campaignCreate .firstWrapper .masterContainer .accordionDDL.collapsed .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .accordionDDL.collapsed .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(-90deg);
   /* Firefox */
@@ -3350,7 +3350,7 @@
   margin-bottom: 30px;
   margin-top: 30px;
 }
-#campaignCreate .platformSlide .platform-custom .breadcrumbs .icon-arrow-down {
+#campaignCreate .platformSlide .platform-custom .breadcrumbs .icon-arrow-solid-down {
   float: left;
   margin: 30px 10px 10px 10px;
   -ms-transform: rotate(270deg);
@@ -3700,8 +3700,8 @@
 .accounts-page .advertiser-name {
   cursor: pointer;
 }
-.users-creation-page .icon-arrow-down-thick,
-.accounts-page .icon-arrow-down-thick {
+.users-creation-page .icon-arrow-solid-down,
+.accounts-page .icon-arrow-solid-down {
   float: left;
   font-size: 9px;
   width: 9px;
@@ -3719,8 +3719,8 @@
   /* Internet Explorer */
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
-.users-creation-page .icon-arrow-down-thick.active,
-.accounts-page .icon-arrow-down-thick.active {
+.users-creation-page .icon-arrow-solid-down.active,
+.accounts-page .icon-arrow-solid-down.active {
   /* Safari */
   -webkit-transform: rotate(0deg);
   /* Firefox */

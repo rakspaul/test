@@ -478,7 +478,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     workflowService.setSelectedAdvertiser(selectedAdvertiser);
 
                     if ($scope.mode === 'create') {
-                        $("#brandDDL").parents('.dropdown').find('button').html("Select Brand <span class='icon-arrow-down'></span>");
+                        $("#brandDDL").parents('.dropdown').find('button').html("Select Brand <span class='icon-arrow-solid-down'></span>");
                     }
                     $scope.isMediaPlanNameExist();
                     createCampaign.fetchBrands($scope.selectedCampaign.clientId, data.id);
@@ -777,7 +777,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             // This is for the drop down list. Perhaps adding this to a more general controller
             $(document).on('click', '.dropdown-menu li.available a', function () {
-                $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
+                $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-solid-down"></span>');
                 $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
             });
             $('.dropdown-workflow a').each(function () {
@@ -862,7 +862,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         //Show Add Credits
         $scope.showAddCreditForm = function () {
             $(".addCreditForm").toggle();
-            $(".showAddCreditForm .icon-arrow-down-thick").toggleClass("active");
+            $(".showAddCreditForm .icon-arrow-solid-down").toggleClass("active");
         };
 
 

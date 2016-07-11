@@ -213,14 +213,14 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             };
 
             $scope.toggleInvocieLists=function (mediaPlan, index) {
-                var sel = $('div[data-row-index='+index+'] .icon-arrow-down-thick');
+                var sel = $('div[data-row-index='+index+'] .icon-arrow-solid-down');
 
-                if (sel.hasClass('icon-arrow-down-open')) {
-                    sel.removeClass('icon-arrow-down-open');
+                if (sel.hasClass('icon-arrow-solid-down-open')) {
+                    sel.removeClass('icon-arrow-solid-down-open');
                     $('div[data-row-index='+index+'] .secondDimensionList').hide() ;
                     sel.closest('.oneDimensionRow').removeClass('visible') ;
                 } else {
-                    sel.addClass('icon-arrow-down-open') ;
+                    sel.addClass('icon-arrow-solid-down-open') ;
                     $('div[data-row-index='+index+'] .secondDimensionList').show() ;
                 }
             };

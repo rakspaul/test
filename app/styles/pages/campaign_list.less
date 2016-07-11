@@ -2215,7 +2215,7 @@ button, i, input[type="submit"] {
           font-size: 11px;
           margin-top: 4px;
         }
-        .icon-arrow-down-thick {
+        .icon-arrow-solid-down {
           color: #fff;
           margin-top: 2px;
         }
@@ -2262,7 +2262,7 @@ button, i, input[type="submit"] {
           overflow: hidden;
           text-overflow: ellipsis;
         }
-        .icon-arrow-down-thick {
+        .icon-arrow-solid-down {
           color: #fff;
         }
       }
@@ -2777,9 +2777,19 @@ button, i, input[type="submit"] {
     }
   }
   .timeline_dd {
-    background: url("/images/cdesk/common_down_arrow.png") no-repeat right 4px ;
-    padding-right: 20px ;
-    max-width: 140px ;
+    //background: url("/images/cdesk/common_down_arrow.png") no-repeat right 4px ;
+    background: none;
+    padding-right: 0px;
+    min-width: 70px;
+    width: 100%;
+    float: left;
+    background: none;
+    .icon-arrow-solid-down {
+        display: inline-block;
+        position: static;
+        float: right;
+        margin: 3px 0 0 8px;
+    }
   }
   .each_filter {
     margin-top: 0px ;
@@ -2984,8 +2994,6 @@ button, i, input[type="submit"] {
   }
 /*}*/
 
-
-
   .nav_filters_heading {
     color: #939eae !important;
     padding: 10px 0 5px 0 !important;
@@ -3006,7 +3014,7 @@ button, i, input[type="submit"] {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      background: url("/images/cdesk/common_down_arrow.png") no-repeat right center;
+      //background: url("/images/cdesk/common_down_arrow.png") no-repeat right center;
   }
   .campaign_name_selected {
     height: 20px ;
@@ -3017,7 +3025,17 @@ button, i, input[type="submit"] {
     overflow: hidden;
     text-overflow : ellipsis ;
     cursor: pointer;
-    background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px ;
+    //background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px ;
+  }
+  .icon-arrow-solid-down {
+    position: absolute;
+    z-index: 2;
+    top: 2px;
+    right: 0px;
+    cursor: pointer;
+    width: 12px;
+    height: 12px;
+    font-size: 12px;
   }
   .brandsDropdownSearch {
     position: relative;
@@ -3098,7 +3116,8 @@ button, i, input[type="submit"] {
     }
   }
   #strategy_dropdown {
-    background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px ;
+    //background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px ;
+    background: none;
     padding-right: 20px ;
   }
   #campaignsDropdownDiv {

@@ -500,7 +500,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     $('#unitcostType')
                         .parents('.dropdown')
                         .find('.btn')
-                        .html($scope.adData.unitType.name + '<span class="icon-arrow-down"></span>');
+                        .html($scope.adData.unitType.name + '<span class="icon-arrow-solid-down"></span>');
                 }
 
                 $('.cap_no input').attr('checked', 'checked');
@@ -1628,7 +1628,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 $(this)
                     .parents('.dropdown')
                     .find('.btn')
-                    .html($(this).text() + '<span class="icon-arrow-down"></span>');
+                    .html($(this).text() + '<span class="icon-arrow-solid-down"></span>');
 
                 $(this)
                     .parents('.dropdown')
