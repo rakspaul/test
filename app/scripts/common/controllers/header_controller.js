@@ -23,7 +23,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $('#user-menu').show();
             },
 
-            setMasterClientData = function (id, name, isLeafNode) {
+            setMasterClientData = function (id, name, isLeafNode, event) {
                 localStorageService.masterClient.set({
                     id: id,
                     name: name,
@@ -99,8 +99,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                             },
 
                             accountChangeAction: function () {
-                                return function () {
-                                    setMasterClientData(id, name,isLeafNode);
+                                return function (evt) {
+                                    setMasterClientData(id, name,isLeafNode, event);
 
                                     if (!localStorageService.masterClient.get().isLeafNode) {
                                        subAccountModel.resetDashboardSubAccStorage();
@@ -119,7 +119,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     });
                 }
             } else {
-                setMasterClientData(id, name,isLeafNode);
+                setMasterClientData(id, name,isLeafNode, event);
 
                 if (!localStorageService.masterClient.get().isLeafNode) {
                     subAccountModel.resetDashboardSubAccStorage();
