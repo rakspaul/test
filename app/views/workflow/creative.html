@@ -43,7 +43,7 @@
 
                     <div class="form-group col-md-8" show-errors>
                         <label for="name" class="greyTxt" style="margin-top: 0;">Creative Name</label>
-                        <input type="text" class="form-control ng-pristine ng-valid" remove-special-character ='remove-special-character' id="name" name="name" ng-model="name" placeholder="Enter up to 250 characters, no punctuation or special characters." required>
+                        <input type="text" class="form-control ng-pristine ng-valid"  id="name" name="name" ng-model="name" placeholder="Enter up to 250 characters, no punctuation or special characters." remove-special-character="remove-special-character" required>
                         <label ng-if="formCreativeCreate.name.$error.required"  class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.WF_MANDATORY_CREATIVE_NAME"></label>
                     </div>
                     <div class="col-md-12 zeroPadding clearfix nav_filters" style="display:none;">
@@ -186,7 +186,7 @@
                         </div>
                         <div class="label-txt pull-left" style="margin: 1px 0 0 10px;" data-ng-bind="textConstants.CREATIVE_SSL_COMPATIBLE"></div>
                     </div>
-                    <div ng-if='!isTrackingCreative' class="form-group col-md-4" show-errors style="clear: left;">
+                    <div ng-if="templateType=='NORMAL'" class="form-group col-md-4" show-errors style="clear: left;">
                         <label for="sel1" class="greyTxt" data-ng-bind="textConstants.CREATIVE_SIZE"></label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
