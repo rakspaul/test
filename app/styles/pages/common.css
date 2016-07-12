@@ -1436,8 +1436,12 @@
   height: 30px;
   background: url("/images/loading.gif") no-repeat;
 }
+.posRelative {
+  position: relative;
+}
 .common_dropdown .dropdown {
   min-width: 120px;
+  max-width: 120px;
   border: solid 1px #dde6eb;
   border-radius: 2px;
   -moz-border-radius: 2px;
@@ -1450,6 +1454,14 @@
   cursor: default;
   padding: 5px 10px;
   display: block;
+}
+.common_dropdown .dropdown .dropdown_ul_text .dd_txt {
+  width: 90%;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  float: left;
 }
 .common_dropdown .dropdown .arrow_img {
   background: url("/images/cdesk/common_down_arrow.png") no-repeat center center;
