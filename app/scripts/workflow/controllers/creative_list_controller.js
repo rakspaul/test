@@ -73,7 +73,6 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                                 creativeList.errorHandler();
                             }
                         });
-
                 },
 
                 deleteCreatives:function (clientId, creativeIds) {
@@ -517,8 +516,10 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             if ($scope.isCreativeSearched) {
                 $scope.creativeData.creatives = [];
                 $scope.creativeListLoading = true;
+
                 selectedClientObj = // jshint ignore:line
                     localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+
                 creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id, '', '', 20, 1);
             }
         };
@@ -529,23 +530,24 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
         };
 
         $scope.defineSize = function () {
-            var listSizeCreativeDataArr=[],
+            var listSizeCreativeDataArr = [],
                 i,
                 widthHeight,
                 maxWidth,
                 maxHeight,
                 ratio,
                 width,
-                height;
+                height,
 
                 sizeListArr = creativeDataArr.map(function (sizeCreativeDataArr) {
-                    if(sizeCreativeDataArr.size)
+                    if (sizeCreativeDataArr.size) {
                         return  sizeCreativeDataArr.size.size;
+                    }
                 });
 
-                var listSizeCreativeDataArr = sizeListArr.filter(function(item){
-                    return  typeof item === 'string';
-                });
+            listSizeCreativeDataArr = sizeListArr.filter(function (item) {
+                return  typeof item === 'string';
+            });
 
 
             for (i = 0; i < listSizeCreativeDataArr.length; i++) {
@@ -579,7 +581,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 }
         };
 
-        //Sticky Header
+        // Sticky Header
         $(window).scroll(function () {
             var vistoTable =  $('.vistoTable');
 
