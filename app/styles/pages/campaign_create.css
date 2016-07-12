@@ -2682,9 +2682,9 @@
   margin-top: 10px !important;
   width: 100%;
   /*
-                .emptyValueTxt {
-                    color: #f47e2a;
-                }*/
+                                .emptyValueTxt {
+                                    color: #f47e2a;
+                                }*/
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .accountTitleTag {
   float: left;
@@ -3399,7 +3399,7 @@
 }
 #campaignCreate .platformSlide .platform-custom .platWrap {
   /* max-height: 500px;
-                overflow-y: auto;*/
+                 overflow-y: auto;*/
 }
 #campaignCreate .platformSlide .platform-custom .platWrap .form-group {
   clear: left;
