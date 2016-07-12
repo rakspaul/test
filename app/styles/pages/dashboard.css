@@ -556,10 +556,10 @@
   text-align: center;
 }
 .main_dashboard .dashboard_perf_graph #dashboardContainer .onTrackPerc {
-  fill: #F47E2A !important;
+  fill: #47AB1D !important;
 }
 .main_dashboard .dashboard_perf_graph #dashboardContainer .underPerc {
-  fill: #47AB1D !important;
+  fill: #F47E2A !important;
 }
 .main_dashboard .dashboard_perf_graph .data_not_available {
   text-align: center;
