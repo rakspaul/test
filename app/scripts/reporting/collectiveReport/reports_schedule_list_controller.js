@@ -144,7 +144,29 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
                 return queryStr;
             };
+            _curCtrl.getmetaData = function() {
+                dataService
+                    .getCustomReportMetrics($scope.campaign)
+                    .then(function (result) {
+                        var jsonModifier = function (data) {
+                            var arr = [];
 
+                            _.each(data, function (obj) { // jshint ignore:line
+                                var d = obj.split(':');
+                                arr.push({
+                                    key: d[0],
+                                    value: $scope.displayName[d[0]]
+                                });
+                            });
+
+                            return arr;
+                        };
+
+                        $scope.displayName = result.data.data[0].display_name;
+                        $scope.customeDimension = jsonModifier(result.data.data[0].dimensions);
+                        $scope.getScheduledReports();
+                    });
+            }
             $scope.noOfSchldInstToShow = 3;
             $scope.scheduleInstCount = [];
 
@@ -204,26 +226,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 $scope.getScheduledReports();
             };
 
-            dataService
-                .getCustomReportMetrics($scope.campaign)
-                .then(function (result) {
-                    var jsonModifier = function (data) {
-                        var arr = [];
-
-                        _.each(data, function (obj) { // jshint ignore:line
-                            var d = obj.split(':');
-                            arr.push({
-                                key: d[0],
-                                value: $scope.displayName[d[0]]
-                            });
-                        });
-
-                        return arr;
-                    };
-
-                    $scope.displayName = result.data.data[0].display_name;
-                    $scope.customeDimension = jsonModifier(result.data.data[0].dimensions);
-                });
 
             $scope.loadDimensionsList = function ($query) {
                 return $scope.customeDimension.filter(function (dimension) {
@@ -702,11 +704,12 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     }
                 } else {
                     // No valid params, get all reports
-                    $scope.getScheduledReports();
+                    $scope.displayName ? $scope.getScheduledReports() : _curCtrl.getmetaData();
                 }
             } else {
                 // No params given, get all reports
-                $scope.getScheduledReports();
+                //$scope.getScheduledReports();
+                $scope.displayName ? $scope.getScheduledReports() : _curCtrl.getmetaData();
             }
         });
     }

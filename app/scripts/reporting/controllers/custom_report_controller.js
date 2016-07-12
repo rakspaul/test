@@ -1893,6 +1893,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
 
                                                 if (localStorageService.scheduleListReportType.get() === 'Saved') {
                                                     $scope.reports.name = $scope.reportData.reportName;
+                                                    $scope.reports.reportDefinition.timeframe.type = "Custom Dates";
                                                     $scope.generateReport();
                                                     slideUp();
                                                     $('#dynamicHeader').addClass('smaller');
