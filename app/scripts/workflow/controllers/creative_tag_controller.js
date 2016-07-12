@@ -35,7 +35,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                     $scope.$parent.adFormatChanged = false;
                 }
 
-                executionPlatformType = workflowService.getPlatform().executionVendorType;
+                executionPlatformType = workflowService.getVendorExecutionType();
 
                 workflowService
                     .getCreatives(clientID,adId, format, query, {cache: false}, state, executionPlatformType,

@@ -23,7 +23,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 lineitemDetails = null,
                 lineitemDetailsEdit = null,
                 lineitemDetailsBulk = null,
-                advertiserBillingVal;
+                advertiserBillingVal,
+                executionType;
 
             function createObj(platform) {
                 var integrationObj = {};
@@ -910,7 +911,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 setPlatformSeat: function (platformSeat) {
                     seat = platformSeat;
                 },
-
+                setVendorExecutionType:function (vendorExecutionType) {
+                    executionType=vendorExecutionType;
+                },
+                getVendorExecutionType:function () {
+                    return executionType;
+                },
                 getPlatform: function () {
                     return platform;
                 },
