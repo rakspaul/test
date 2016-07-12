@@ -44,7 +44,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                                     // redirect user to media plan list screen if new or edited ad
                                     // is from archived campaign
                                     if (responseData.isArchived){
-                                        $scope.redirectFlag = true;
+                                        $scope.isMediaPlanArchive = true;
                                     }
 
                                     $scope.workflowData.campaignData = responseData;
@@ -83,7 +83,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
 
                                                     //redirect user to campaingn overview screen if ad is archived
                                                     if ($scope.getAd_result.isArchived){
-                                                        $scope.redirectFlag = true;
+                                                        $scope.isMediaPlanArchive = true;
                                                         $scope.archivedAdFlag = true;
                                                     }
 
@@ -132,7 +132,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                                                                 //redirect user to campaingn overview screen
                                                                 // if ad is archived
                                                                 if ($scope.getAd_result.isArchived) {
-                                                                    $scope.redirectFlag = true;
+                                                                    $scope.isMediaPlanArchive = true;
                                                                     $scope.archivedAdFlag = true;
                                                                 }
 
@@ -664,7 +664,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
             $scope.redirectUser = function (isAdArchived) {
                 var url;
 
-                $scope.redirectFlag = false;
+                $scope.isMediaPlanArchive = false;
                 $scope.archivedAdFlag = false;
                 $scope.archivedCampaignFlag = false;
 
@@ -672,7 +672,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     if ($scope.workflowData.campaignData.isArchived) {
                         url = vistoconfig.MEDIA_PLANS_LINK;
                     } else {
-                        $scope.redirectFlag = false;
+                        $scope.isMediaPlanArchive = false;
                         $scope.archivedAdFlag = false;
                         url = 'mediaplan/' + $scope.campaignId + '/overview';
                     }
@@ -1688,7 +1688,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
             $scope.adData.setSizes = constants.WF_NOT_SET;
             $scope.dayPartTotal = 0;
             $scope.isPlatformSelected = false;
-            $scope.redirectFlag = false;
+            $scope.isMediaPlanArchive = false;
             $scope.archivedAdFlag = false;
             $scope.archivedCampaignFlag = false;
             $scope.showCloneAdPopup = false;
