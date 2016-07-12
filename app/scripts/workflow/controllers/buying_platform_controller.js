@@ -201,6 +201,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                     }
 
                     workflowService.setPlatform(platform);
+                    workflowService.setVendorExecutionType(platform.executionVendorType);
 
                     if (seat) {
                         workflowService.setPlatformSeat(seat);
@@ -325,6 +326,9 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             $scope.adData.platform = trackingIntegration.displayName;
             $scope.adData.platformId = trackingIntegration.id;
             $scope.adData.platformName = trackingIntegration.name;
+            
+            workflowService.setVendorExecutionType(trackingIntegration.executionVendorType)
+
         };
 
         $scope.platformCustomInputs = function () {
