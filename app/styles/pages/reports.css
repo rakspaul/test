@@ -790,6 +790,10 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .breadcrumb_campaign_strategy .dropdown_type1 {
   color: #313233;
 }
+.common_reports_container .dropdown_type1 #campaigns_list,
+.breadcrumb_campaign_strategy .dropdown_type1 #campaigns_list {
+  top: -20px;
+}
 .common_reports_container .dropdown_type1 .dropdown-menu,
 .breadcrumb_campaign_strategy .dropdown_type1 .dropdown-menu {
   width: 660px ;
@@ -841,6 +845,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   width: 450px;
   max-height: 200px;
   overflow: auto;
+  margin-top: 23px;
 }
 .common_reports_container .performance_selection,
 .breadcrumb_campaign_strategy .performance_selection {
@@ -3838,6 +3843,15 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #kpi_dropdown .default-kpi-header-icon {
   float: left;
   background-position: left top;
+}
+#kpi_dropdown .default-kpi-header-icon {
+  width: 14px ;
+}
+#kpi_dropdown .dropdown_ul_text {
+  padding-right: 0px ;
+}
+#kpi_dropdown .dropdown_ul_text .icon-arrow-solid-down {
+  margin-left: 3px;
 }
 /*  end of reports login page */
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2) {
