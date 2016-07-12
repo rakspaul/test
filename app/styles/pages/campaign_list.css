@@ -2201,7 +2201,7 @@ input[type="submit"] {
   margin-top: 4px;
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown_ul_text .icon-arrow-solid-down {
-  color: #fff;
+  color: #939EAE;
   margin-top: 2px;
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details li {
@@ -2246,7 +2246,7 @@ input[type="submit"] {
   text-overflow: ellipsis;
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown_ul_text .icon-arrow-solid-down {
-  color: #fff;
+  color: #939EAE;
 }
 .main_navigation_holder .main_nav_dropdown .logout-option-link {
   width: 100%;
@@ -2734,6 +2734,7 @@ input[type="submit"] {
   position: static;
   float: right;
   margin: 3px 0 0 8px;
+  color: #939EAE;
 }
 .nav_filters .each_filter {
   margin-top: 0px ;
@@ -2960,9 +2961,10 @@ input[type="submit"] {
   top: 2px;
   right: 0px;
   cursor: pointer;
-  width: 12px;
-  height: 12px;
-  font-size: 12px;
+  width: 10px;
+  height: 10px;
+  font-size: 10px;
+  color: #939EAE;
 }
 .nav_filters .brandsDropdownSearch {
   position: relative;
