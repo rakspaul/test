@@ -67,7 +67,7 @@
 .dropdown-workflow span.icon-arrow-solid-down,
 .dropdown-workflow .icon-search {
   font-size: 10px;
-  color: #000;
+  color: #939EAE;
   height: 34px;
   width: 10px;
   margin: 0 10px;
@@ -134,12 +134,12 @@
 }
 .dropdown-workflow .dropdown-menu li span .icon-arrow-solid-down,
 .dropdown-workflow .dropdown-menu-search li span .icon-arrow-solid-down {
-  font-size: 9px;
-  width: 9px;
-  height: 9px;
+  font-size: 10px;
+  width: 10px;
+  height: 10px;
   padding: 0;
   margin: 5px 10px 5px 3px;
-  color: #363d49;
+  color: #939EAE;
   float: none;
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
@@ -325,6 +325,7 @@
   width: 10px;
   height: 10px;
   font-size: 10px;
+  color: #939EAE;
   z-index: 999;
 }
 .dropdown-multi .childTier .tierHeader span {
@@ -359,6 +360,7 @@
   width: 10px !important;
   height: 10px !important;
   font-size: 10px;
+  color: #939EAE;
   right: 15px !important;
   padding: 0;
   display: inline-block;
@@ -409,7 +411,7 @@
 }
 .dropdown-search li a .icon-arrow-solid-down {
   font-size: 10px;
-  color: #000;
+  color: #939EAE;
   height: 10px;
   width: 10px;
   text-align: center;

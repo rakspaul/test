@@ -339,6 +339,7 @@
   font-size: 10px;
   margin-right: -3px;
   margin-top: 2px;
+  color: #939EAE;
 }
 .adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-solid-down:before .icon-arrow-solid-down,
 .adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-solid-down:before span.icon-arrow-solid-down:before {
@@ -1699,7 +1700,7 @@
   height: 10px;
   margin: 5px 5px 0 0;
   float: left;
-  color: #000;
+  color: #939EAE;
 }
 #campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-solid-down.active {
   /* Safari */
@@ -1763,7 +1764,7 @@
   font-size: 10px;
   height: 10px;
   width: 10px;
-  color: #000;
+  color: #939EAE;
   margin: 2px 5px 0 0;
 }
 #campaignCreate .firstWrapper .masterContainer .accordionDDL:first-child {
@@ -1824,7 +1825,7 @@
   font-size: 10px;
   height: 10px;
   width: 10px;
-  color: #000;
+  color: #939EAE;
   margin: 2px 5px 0 0;
 }
 #campaignCreate .firstWrapper .masterContainer .accordionDDL:first-child {
@@ -1946,7 +1947,7 @@
   height: 10px;
   margin: 5px 5px 0 0;
   float: left;
-  color: #000;
+  color: #939EAE;
 }
 #campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-solid-down.active {
   /* Safari */
@@ -2010,7 +2011,7 @@
   font-size: 10px;
   height: 10px;
   width: 10px;
-  color: #000;
+  color: #939EAE;
   margin: 2px 5px 0 0;
 }
 #campaignCreate .firstWrapper .masterContainer .accordionDDL:first-child {
@@ -2071,7 +2072,7 @@
   font-size: 10px;
   height: 10px;
   width: 10px;
-  color: #000;
+  color: #939EAE;
   margin: 2px 5px 0 0;
 }
 #campaignCreate .firstWrapper .masterContainer .accordionDDL:first-child {
@@ -3703,10 +3704,11 @@
 .users-creation-page .icon-arrow-solid-down,
 .accounts-page .icon-arrow-solid-down {
   float: left;
-  font-size: 9px;
-  width: 9px;
-  height: 9px;
+  font-size: 10px;
+  width: 10px;
+  height: 10px;
   cursor: pointer;
+  color: #939EAE;
   margin: 5px 10px 0 0;
   /* Safari */
   -webkit-transform: rotate(-90deg);

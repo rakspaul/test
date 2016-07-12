@@ -130,6 +130,7 @@ a:hover {
   -webkit-transform: rotate(270deg);
   transform: rotate(270deg);
   margin: 11px 10px 0 10px;
+  color: #939EAE;
 }
 .labelQuestTxt {
   color: #21252b;
