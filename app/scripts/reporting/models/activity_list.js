@@ -1,7 +1,9 @@
-define(['angularAMD', 'reporting/models/activity_list'],function (angularAMD) {
-    "use strict";
-  var ActivityList = function() {
-    this.data = {};
-  }
-  angularAMD.service('activityList', ActivityList);
+define(['angularAMD', 'reporting/models/activity_list'], function (angularAMD) { // jshint ignore:line
+    'use strict';
+
+    var ActivityList = function() {
+        this.data = {};
+    };
+
+    angularAMD.service('activityList', ActivityList);
 });
