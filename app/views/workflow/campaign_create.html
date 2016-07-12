@@ -191,12 +191,30 @@
                 </div>
             </div>
 
+            <div class="common-popup-container" data-ng-show="isMediaPlanArchive">
+                <div class="popup">
+                    <div class="popup-header-body">
+                        <div class="clearfix">
+                            <h1 class="pull-left" data-ng-bind="textConstants.WF_ARCHIVE_CAMPAIGN"></h1>
+                        </div>
+                        <div class="popup-content" data-ng-bind="textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN"></div>
+                    </div>
+                    <div class="clearfix popup-footer">
+                        <button type="button"
+                                data-ng-click="redirectUserFromArchivedCampaign()"
+                                class="common_primary_btn pull-right">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <div class="common-popup-container" ng-show="campaignArchive" ng-controller="ArchiveController">
                 <div class="popup">
                     <div class="popup-header-body">
                         <div class="clearfix">
                             <h1 class="pull-left">Media Plan Update</h1>
-                            <span class="close unselectable" aria-hidden="true" ng-click="cancelArchiveCampaign()" >x</span>
+                            <span class="close unselectable" aria-hidden="true" ng-click="redirectUserFromArchivedCampaign()" >x</span>
                         </div>
                         <div class="popup-content">
                             {{textConstants.CAMPAIGN_ARCHIVE_MESSAGES}}

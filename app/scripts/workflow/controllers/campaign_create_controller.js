@@ -1,5 +1,5 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'login/login_model', 'common/moment_utils', 'workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden', 'workflow/controllers/pixels_controller', 'workflow/controllers/budget_controller', 'workflow/controllers/line_item_controller', 'common/controllers/confirmation_modal_controller', 'workflow/directives/custom_date_picker', 'workflow/controllers/mediaplan_archive_controller','common/directives/decorate_numbers'], function (angularAMD) {
-    angularAMD.controller('CreateCampaignController', function ($scope, $window, $rootScope, $filter, $routeParams, $locale, $location, $timeout, $modal, constants, workflowService, loginModel, momentService, localStorageService) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'common/services/vistoconfig_service', 'login/login_model', 'common/moment_utils', 'workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden', 'workflow/controllers/pixels_controller', 'workflow/controllers/budget_controller', 'workflow/controllers/line_item_controller', 'common/controllers/confirmation_modal_controller', 'workflow/directives/custom_date_picker', 'workflow/controllers/mediaplan_archive_controller','common/directives/decorate_numbers'], function (angularAMD) {
+    angularAMD.controller('CreateCampaignController', function ($scope, $window, $rootScope, $filter, $routeParams, $locale, $location, $timeout, $modal, constants, workflowService, vistoconfig, loginModel, momentService, localStorageService) {
 
         $scope.selectedKeywords = [];
         $scope.platformKeywords = [];
@@ -11,8 +11,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.Campaign = {
             kpiArr: [],
             costArr: []
-
         };
+
         $scope.selectedCampaign = {};
         $scope.tags = [];
         $scope.saveCampaignClicked = false;
@@ -38,6 +38,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.lineTarget = '';
         $scope.campaignDate = '' ;
         $scope.flightDateChosen = '' ;
+        $scope.isMediaPlanArchive =  false;
 
         $scope.checkUniqueMediaPlanNameNotFound = false;
         $scope.executionPlatforms = [];
@@ -76,7 +77,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.showPixelsListEdit = false;
         $scope.disableFlatFeeEdit = false; // this is to hide flat fee in edit mode
         $scope.showSystemOfRecordEdit = true;
-
 
         $scope.editLineItem = {};
         $scope.vendorConfig = [];
@@ -212,8 +212,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         }
                     })
                 }
-
-
             },
 
             fetchVendorConfigs: function () {
@@ -449,8 +447,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.processEditCampaignData = function () {
             workflowService.getCampaignData($scope.campaignId).then(function (result) {
-
                 if (result.status === "OK" || result.status === "success") {
+                    if (result.data.data.isArchived) {
+                        $scope.isMediaPlanArchive = true;
+                    }
+
                     createCampaign.prefillMediaPlan(result.data.data);
                 }
             });
@@ -746,15 +747,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $rootScope.setErrAlertMessage('', 0);
         };
 
-
-
-
         $scope.showHideDropdownWithSearch = function(event) {
             var elem = $(event.target);
             elem.closest(".dropdown").find(".dropdown-menu-with-search").toggle() ;
         }
-
-
 
         $scope.validateDateLineItem = function (date, dateType) {
             if ('startdate' === dateType) {
@@ -915,6 +911,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.lineItems.lineItemList = [];
             $scope.selectedCampaign.selectedPixel = [];
         }
+
+        $scope.redirectUserFromArchivedCampaign = function () {
+            $scope.isMediaPlanArchive = false;
+            $location.url(vistoconfig.MEDIA_PLANS_LINK);
+        };
 
         $scope.redirectToOverViewPage = function (campaignId) {
             workflowService.setMediaPlanClone(null);
