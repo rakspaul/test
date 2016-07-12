@@ -99,7 +99,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                             },
 
                             accountChangeAction: function () {
-                                return function (evt) {
+                                return function () {
                                     setMasterClientData(id, name,isLeafNode, event);
 
                                     if (!localStorageService.masterClient.get().isLeafNode) {
