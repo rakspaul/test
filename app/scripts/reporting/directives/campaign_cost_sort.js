@@ -1,7 +1,6 @@
-define(['angularAMD', '../../common/services/constants_service'
-
-],function (angularAMD) {
+define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) { // jshint ignore:line
     'use strict';
+
     angularAMD.directive('campaignCostSort', function (constants) {
         return {
             restrict:'EAC',
@@ -10,13 +9,11 @@ define(['angularAMD', '../../common/services/constants_service'
                 campaigns: '='
             },
 
-            templateUrl: assets.html_campaign_cost_filters,
+            templateUrl: assets.html_campaign_cost_filters, // jshint ignore:line
 
-            link: function ($scope, element, attrs) {
+            link: function ($scope) {
                 $scope.textConstants = constants;
-
             }
         };
     });
-
 });

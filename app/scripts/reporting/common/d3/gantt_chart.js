@@ -719,7 +719,7 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'], // 
                         height = CALENDAR_HEIGHT - margin.top - margin.bottom + 20,
                         width = CALENDAR_WIDTH - margin.right - margin.left - 5,
 
-                        //for drag and panning
+                    //for drag and panning
                         selection = selection || d3.select('body'), // jshint ignore:line
 
                         tickFormat = '%d',
@@ -774,9 +774,9 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'], // 
                             .domain(taskTypes)
                             .rangeRoundBands([0, 450]),
 
-                        // TODO - add scroll
-                        // d3.scale.ordinal().domain(taskTypes).rangeRoundBands(
-                        // [ 0, height - margin.top - margin.bottom ], .1);
+                    // TODO - add scroll
+                    // d3.scale.ordinal().domain(taskTypes).rangeRoundBands(
+                    // [ 0, height - margin.top - margin.bottom ], .1);
 
                         xAxis = d3 // jshint ignore:line
                             .svg
@@ -1071,10 +1071,10 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'], // 
                                                 moment(td[1]).toDate()) { // jshint ignore:line
                                                 if (moment(_.first(data).endDate).toDate() > // jshint ignore:line
                                                     moment(td[1] - scale * // jshint ignore:line
-                                                    d3.event.dx).toDate()) { // jshint ignore:line
+                                                        d3.event.dx).toDate()) { // jshint ignore:line
                                                     gantt.timeDomain([td[0] - scale * // jshint ignore:line
-                                                        d3.event.dx, td[1] - scale * // jshint ignore:line
-                                                        d3.event.dx]); // jshint ignore:line
+                                                    d3.event.dx, td[1] - scale * // jshint ignore:line
+                                                    d3.event.dx]); // jshint ignore:line
                                                 } else if (
                                                     moment(_.first(data).endDate).toDate() < // jshint ignore:line
                                                     moment(td[1] - scale/10) // jshint ignore:line
@@ -1433,8 +1433,8 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'], // 
                             })
                             .on('mouseout', function () {
                                 var container = d3 // jshint ignore:line
-                                        .select(this.parentNode)
-                                        .select('text.past-marker-text'),
+                                    .select(this.parentNode)
+                                    .select('text.past-marker-text'),
 
                                     im,
                                     tdEdges;
@@ -1506,8 +1506,8 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'], // 
                             .attr('class', 'past-marker-text-details')
                             .attr('x', function () {
                                 var container = d3 // jshint ignore:line
-                                        .select(this.parentNode)
-                                        .select('text.past-marker-text'),
+                                    .select(this.parentNode)
+                                    .select('text.past-marker-text'),
                                     offset = 54,
                                     padding = 16,
                                     textWidth,
@@ -1589,10 +1589,10 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'], // 
                                     container,
                                     width = (x(d.endDate) - x(d.startDate)),
 
-                                    // character count of the camapaign name
+                                // character count of the camapaign name
                                     stringLength = d.name.length,
 
-                                    // considering each character takes 12px
+                                // considering each character takes 12px
                                     newWidth = stringLength * 12;
 
                                 // if qualifying element
@@ -1747,7 +1747,7 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'], // 
                             .attr('class', 'text_container')
                             .attr('style', 'cursor:pointer')
                             .attr('class', function (d) {
-                                if (taskStatus[d.kpiStatus] === null) {
+                                if (taskStatus[d.kpiStatus] === undefined || taskStatus[d.kpiStatus] === null) {
                                     return 'bar campaigns';
                                 }
 
@@ -1830,10 +1830,10 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'], // 
                             .text(function (d) {
                                 var fitCount,
 
-                                    // width of the container
+                                // width of the container
                                     width = (x(d.endDate) - x(d.startDate)),
 
-                                    // character count of the camapaign name
+                                // character count of the camapaign name
                                     stringLength = d.name.length;
 
                                 if (width > 25) {
@@ -2360,7 +2360,7 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'], // 
 
                                             width = (x(d.endDate) - x(d.startDate)),
 
-                                            //character count of the camapaign name
+                                        //character count of the camapaign name
                                             stringLength = d.name.length;
 
                                         if (width > 25) {

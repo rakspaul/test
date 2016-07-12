@@ -434,9 +434,9 @@ define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:lin
                 $scope.isVideoTargetEnabled = false;
                 $scope.adData.domainEnable = false;
                 $scope.adData.appEnable = false;
-                
+
                 angular.forEach(platform.vendorCapabilities, function (vendorCapability) { // jshint ignore:line
-                    console.log("vendorCapability.capability",vendorCapability.subCapability)
+                    //console.log("vendorCapability.capability",vendorCapability.subCapability)
                     switch (vendorCapability.capability) {
                         case 'Geo Targeting':
                             $scope.isGeoTargetEnabled = true;
