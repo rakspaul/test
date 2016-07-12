@@ -1209,14 +1209,14 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
 
                         if (dimension === 'first_dimension') {
                             subAccountId = $scope.reportMetaData[dimension][currentRowIndex].dimension.client_id;
-                            subAccountName = $scope.reportMetaData[dimension][currentRowIndex].dimension.clientName;
+                            subAccountName = $scope.reportMetaData[dimension][currentRowIndex].dimension.client_name;
                             metricObj = $scope.metricValues[dimension][$scope.activeTab][currentRowIndex];
                         } else {
                             subAccountId = $scope.reportMetaData[dimension][currentRowIndex][curSecDimIndx]
                                 .dimension.client_id;
 
                             subAccountName = $scope.reportMetaData[dimension][currentRowIndex][curSecDimIndx]
-                                .dimension.clientName;
+                                .dimension.client_name;
 
                             metricObj = $scope.metricValues[dimension][currentRowIndex][$scope.activeTab]
                                 [curSecDimIndx];
