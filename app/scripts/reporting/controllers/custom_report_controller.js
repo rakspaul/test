@@ -2312,6 +2312,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
 
                     if ($scope.buttonLabel === 'Update') {
                         $scope.updateSchdReport();
+                        $scope.generateReport('Generate');
+                        $('.collapseIcon').css('visibility', 'visible');
                     } else if ($scope.buttonLabel === 'Generate') {
                         $scope.generateBtnDisabled = true;
                         $scope.generateReport('Generate');
