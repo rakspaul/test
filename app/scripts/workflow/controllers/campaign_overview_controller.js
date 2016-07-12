@@ -40,7 +40,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                             if (result.status === 'OK' || result.status === 'success') {
                                 //redirect user to media plan list screen if campaign is archived campaign
                                 if (result.data.data.isArchived) {
-                                    $scope.redirectFlag = true;
+                                    $scope.isMediaPlanArchive = true;
                                 }
 
                                 responseData = result.data.data;
@@ -369,7 +369,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             $scope.showPushAdsLoader = false;
             $scope.brand = [];
             $scope.performance = [];
-            $scope.redirectFlag = false;
+            $scope.isMediaPlanArchive =  false;
             localStorage.setItem('campaignData', '');
             $scope.tags = [];
             $scope.loadingBtn = false;
@@ -628,7 +628,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             };
 
             $scope.redirectUserFromArchivedCampaign = function () {
-                $scope.redirectFlag = false;
+                $scope.isMediaPlanArchive = false;
                 $location.url(vistoconfig.MEDIA_PLANS_LINK);
             };
 
@@ -755,7 +755,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                     campaignOverView.getAdsInAdGroup($routeParams.campaignId, adGrpId, index);
                 }
             };
-            
+
             //reset and open ad group box
             $scope.createAdGroup = function () {
                 var adGroupCreateformElem = $('.adGroupSelectionWrap').find('.adGroupCreate').find('form'),

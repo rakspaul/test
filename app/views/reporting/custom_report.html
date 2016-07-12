@@ -43,7 +43,7 @@
                             <div class="pull-left custom_report_filter custom_report_breakdown">
                                 <div class="common_dropdown">
                                     <div class="dropdown">
-                                        <div class="dropdown_ul_text" data-toggle="dropdown" title="{{reports.reportDefinition.dimensions.primary.name ?
+                                        <div class="dropdown_ul_text clearfix" data-toggle="dropdown" title="{{reports.reportDefinition.dimensions.primary.name ?
                                                   reports.reportDefinition.dimensions.primary.name :
                                                   textConstants.REPORT_CHOOSE_BREAKDOWN}}">
                                             <span class="dd_txt"
@@ -51,7 +51,7 @@
                                                   id="{{showDefaultDimension.key}}"
                                                   ng-bind-html="reports.reportDefinition.dimensions.primary.name ?
                                                   reports.reportDefinition.dimensions.primary.name :
-                                                  textConstants.REPORT_CHOOSE_BREAKDOWN | textEllipsis: 15">
+                                                  textConstants.REPORT_CHOOSE_BREAKDOWN | textEllipsis: 16">
                                             </span>
                                             <span class="icon-arrow-solid-down"></span>
                                         </div>
@@ -83,7 +83,7 @@
                                 <div class="pull-left custom_report_filter custom_report_breakdown">
                                     <div class="common_dropdown">
                                         <div class="dropdown">
-                                            <div class="dropdown_ul_text" data-toggle="dropdown" title="{{reports.reportDefinition.dimensions.secondary.name ?
+                                            <div class="dropdown_ul_text clearfix" data-toggle="dropdown" title="{{reports.reportDefinition.dimensions.secondary.name ?
                                                       reports.reportDefinition.dimensions.secondary.name :
                                                       textConstants.REPORT_CHOOSE_BREAKDOWN}}">
                                                 <span class="dd_txt"
@@ -91,7 +91,7 @@
                                                       id="{{showDefaultDimension.key}}"
                                                       ng-bind-html="reports.reportDefinition.dimensions.secondary.name ?
                                                       reports.reportDefinition.dimensions.secondary.name :
-                                                      textConstants.REPORT_CHOOSE_BREAKDOWN | textEllipsis: 15">
+                                                      textConstants.REPORT_CHOOSE_BREAKDOWN | textEllipsis: 16">
                                                 </span>
                                                 <span class="icon-arrow-solid-down"></span>
                                             </div>
@@ -148,7 +148,7 @@
                                     <div class="pull-left custom_filter_dropdown custom_report_breakdown">
                                         <div class="common_dropdown">
                                             <div class="dropdown">
-                                                <div class="dropdown_ul_text" data-toggle="dropdown">
+                                                <div class="dropdown_ul_text clearfix" data-toggle="dropdown">
                                                     <span class="dd_txt"
                                                           ng-bind-html="addFilts.name ?
                                                           addFilts.name :
@@ -211,7 +211,7 @@
                     <div class="pull-left timeframe_selector">
                         <div class="common_dropdown">
                             <div class="dropdown">
-                                <span class="dropdown_ul_text" data-toggle="dropdown">
+                                <span class="dropdown_ul_text clearfix" data-toggle="dropdown">
                                     <span class="dd_txt"
                                           id="date-selected-txt"
                                           ng-bind-html="reports.reportDefinition.timeframe.type ?
@@ -466,7 +466,7 @@
                                 <div>
                                     <div class="common_dropdown">
                                         <div class="dropdown">
-                                 <span class="dropdown_ul_text" data-toggle="dropdown">
+                                 <span class="dropdown_ul_text clearfix" data-toggle="dropdown">
                                     <span class="dd_txt frequency"
                                           id="date-selected-txt"
                                           ng-bind-html="reports.schedule.frequency ?
@@ -510,7 +510,7 @@
                                 <div>
                                     <div class="common_dropdown">
                                         <div class="dropdown">
-                                 <span class="dropdown_ul_text" data-toggle="dropdown">
+                                 <span class="dropdown_ul_text clearfix" data-toggle="dropdown">
                                     <span class="dd_txt"
                                           id="date-selected-txt"
                                           ng-bind-html="reports.schedule.occurance ?
@@ -536,7 +536,7 @@
                                 <div>
                                     <div class="common_dropdown">
                                         <div class="dropdown">
-                                            <span class="dropdown_ul_text" data-toggle="dropdown">
+                                            <span class="dropdown_ul_text clearfix" data-toggle="dropdown">
                                                 <span class="dd_txt"
                                                       id="date-selected-txt"
                                                       ng-bind-html="reports.schedule.occurance ?
@@ -562,7 +562,7 @@
                                 <div>
                                     <div class="common_dropdown">
                                         <div class="dropdown">
-                                 <span class="dropdown_ul_text" data-toggle="dropdown">
+                                 <span class="dropdown_ul_text clearfix" data-toggle="dropdown">
                                     <span class="dd_txt"
                                           id="date-selected-txt"
                                           ng-bind-html="textConstants.SELECT">
@@ -752,7 +752,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
+                        <div ng-if="fetching" class="common-load-more"></div>
                     </div>
                     <div class="custom_report_response_table" id="cost_table" style="display:none;"
                          ng-show="showCost && metricKeyArr.cost_metrics.length">
@@ -813,7 +813,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
+                        <div ng-if="fetching" class="common-load-more"></div>
                     </div>
 
                     <div class="custom_report_response_table" id="video_table" style="display:none;"
@@ -874,7 +874,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
+                        <div ng-if="fetching" class="common-load-more"></div>
                     </div>
 
                     <!-- Quality metrics -->
@@ -939,7 +939,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
+                        <div ng-if="fetching" class="common-load-more"></div>
                     </div>
 
                     <!-- Pacing metrics -->
@@ -1002,7 +1002,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-if="fetching" class="common-load-more" style="margin-top: -40px"></div>
+                        <div ng-if="fetching" class="common-load-more"></div>
                     </div>
                 </div>
             </div>

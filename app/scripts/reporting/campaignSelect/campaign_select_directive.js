@@ -64,7 +64,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
                          }
                     } else {
                         target = $(event.target);
-                        campaignListElem = target.parent().find('.campaigns_list');
+                        campaignListElem = target.closest(".dropdown_type1_holder").find('.campaigns_list');
 
                         if (campaignListElem.css('display') === 'block') {
                             campaignListElem.hide();
@@ -79,7 +79,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
                     // to close the other media plan dropdown which is open
                     mediaplanDdOpen.removeClass('mediaplan-dd-open') ;
                     $('.report-type-col .dropdown-menu').hide() ;
-                    elem.siblings('.dropdown_type1').addClass('mediaplan-dd-open') ;
+                    elem.closest(".dropdown_type1_holder").find('.dropdown_type1').addClass('mediaplan-dd-open') ;
                     $('.dropdown_type1').not('.mediaplan-dd-open').hide() ;
                     mediaplanDdOpen.show() ;
                 });
