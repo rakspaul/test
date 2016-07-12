@@ -1,9 +1,19 @@
-define(['angularAMD','common/services/url_service','reporting/timePeriod/time_period_model','common/services/data_service','reporting/brands/brands_model','reporting/dashboard/dashboard_model','common/services/request_cancel_service','common/services/constants_service','login/login_model','reporting/advertiser/advertiser_model', 'reporting/subAccount/sub_account_model'],function (angularAMD) {
-  'use strict';
-  angularAMD.service('bubbleChartModel', ['urlService', 'timePeriodModel', 'dataService', 'brandsModel', 'dashboardModel', 'requestCanceller', 'constants', 'loginModel','advertiserModel','subAccountModel', function (urlService, timePeriodModel, dataService, brandsModel, dashboardModel, requestCanceller, constants, loginModel,advertiserModel,subAccountModel) {
-
+define(['angularAMD',
+    'common/services/url_service', 'reporting/timePeriod/time_period_model', 'common/services/data_service',
+    'reporting/brands/brands_model', 'reporting/dashboard/dashboard_model', 'common/services/request_cancel_service',
+    'common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_model',
+    'reporting/subAccount/sub_account_model'], function (angularAMD) {
+    'use strict';
+    angularAMD.service('bubbleChartModel', [
+        'urlService', 'timePeriodModel', 'dataService',
+        'brandsModel', 'dashboardModel', 'requestCanceller',
+        'constants', 'loginModel', 'advertiserModel',
+        'subAccountModel', function (urlService, timePeriodModel, dataService,
+                                     brandsModel, dashboardModel, requestCanceller,
+                                     constants, loginModel, advertiserModel,
+                                     subAccountModel) {
     var bubbleWidgetData = {
-      brandData: {},
+      advertiserData: {},
       dataNotAvailable: true,
       budget_top_title: {},
       campaignDataForSelectedBrand: {},
@@ -24,22 +34,22 @@ define(['angularAMD','common/services/url_service','reporting/timePeriod/time_pe
       //var canceller = requestCanceller.initCanceller(constants.SPEND_CHART_CANCELLER);
       return dataService.fetch(url).then(function (response) {
         if (response.data && response.data.data.length > 0) {
-          var total_brands = response.data.data.length;
+          var total_advertisers = response.data.data.length;
           var data = _.chain(response.data.data).sortBy(function (d) {
             return d.budget;
           }).reverse().slice(0, 5).value();
 
           if (data.length > 0) {
             bubbleWidgetData['dataNotAvailable'] = false;
-            bubbleWidgetData['brandData'] = data;
-            bubbleWidgetData['budget_top_title'] = (total_brands >= 5) ? "(Top 5 brands)" : "(All Brands)";
+            bubbleWidgetData['advertiserData'] = data;
+            bubbleWidgetData['budget_top_title'] = (total_advertisers >= 5) ? "(Top 5 advertisers)" : "(All Advertisers)";
           } else {
             bubbleWidgetData['dataNotAvailable'] = true;
           }
         } else {
           bubbleWidgetData['dataNotAvailable'] = true;
         }
-        return bubbleWidgetData['brandData'];
+        return bubbleWidgetData['advertiserData'];
       })
     };
 
@@ -52,7 +62,7 @@ define(['angularAMD','common/services/url_service','reporting/timePeriod/time_pe
       var queryObj = {
         "clientId": subAccountModel.getDashboardAccountId(),
         "advertiserId": advertiserModel.getSelectedAdvertiser().id,
-        "brandId": ((selectedBrand == undefined) ? -1 : selectedBrand),
+        "brandId": brandsModel.getSelectedBrand().id,
         "dateFilter": constants.PERIOD_LIFE_TIME,
         "campaignStatus": dashboardModel.campaignStatusToSend()
       };
@@ -91,7 +101,7 @@ define(['angularAMD','common/services/url_service','reporting/timePeriod/time_pe
           var queryObj = {
               "clientId": subAccountModel.getDashboardAccountId(),
               "advertiserId": advertiserModel.getSelectedAdvertiser().id,
-              "brandId": ((selectedBrand == undefined) ? -1 : selectedBrand),
+              "brandId": brandsModel.getSelectedBrand().id,
               "dateFilter": constants.PERIOD_LIFE_TIME,
               "campaignStatus": dashboardModel.campaignStatusToSend()
           };

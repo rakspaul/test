@@ -27,7 +27,7 @@
         &.active:focus {
             outline: 0 none;
             background-color: #DCE6F1 !important;
-            span.icon-arrow-down,
+            span.icon-arrow-solid-down,
             .icon-search {
               background: none;
             }
@@ -45,7 +45,7 @@
         &:not(.label-btn):hover {
             background-color: #E1EDF9 !important;
             border: 1px solid #BFC9D7 !important;
-            span.icon-arrow-down,
+            span.icon-arrow-solid-down,
             .icon-search {
               background: none;
             }
@@ -55,7 +55,7 @@
             background-color: #DCE6F1 !important;
             border: 1px solid #BFC9D7 !important;
             box-shadow: none;
-            span.icon-arrow-down,
+            span.icon-arrow-solid-down,
             .icon-search {
               background: none;
             }
@@ -69,7 +69,7 @@
         }
     }
 
-    span.icon-arrow-down,
+    span.icon-arrow-solid-down,
     .icon-search {
       font-size: 10px;
       color: #000;
@@ -83,6 +83,20 @@
       padding: 12px 0;
       display: inline-block;
       right: 0;
+      /* Safari */
+        -webkit-transform: rotate(0deg);
+    
+        /* Firefox */
+        -moz-transform: rotate(0deg);
+    
+        /* IE */
+        -ms-transform: rotate(0deg);
+    
+        /* Opera */
+        -o-transform: rotate(0deg);
+    
+        /* Internet Explorer */
+        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
     }
 
     .dropdown-menu>li>a,
@@ -129,7 +143,7 @@
                     margin: 4px 10px 0 0;
                 }
 
-                .icon-arrow-down-thick {
+                .icon-arrow-solid-down {
                     font-size: 9px;
                     width: 9px;
                     height: 9px;
@@ -148,7 +162,7 @@
                     transition: .3s ease-in-out;
                 }
 
-                .icon-arrow-down-thick.active {
+                .icon-arrow-solid-down.active {
                     -webkit-transform: rotate(0deg);
                     -moz-transform: rotate(0deg);
                     -o-transform: rotate(0deg);
@@ -304,7 +318,7 @@
 }
 
 .dropdown-multi {
-    .icon-arrow-down, .icon-arrow-right {
+    .icon-arrow-solid-down, .icon-arrow-right {
         background: transparent !important;
         cursor: pointer;
     }
@@ -330,7 +344,7 @@
             cursor: pointer;
             border-bottom: 1px solid #ccd2da;
             margin-bottom: 10px;
-            .icon-arrow-down {
+            .icon-arrow-solid-down {
                 position: absolute;
                 left: 15px;
                 top: 12px;
@@ -367,7 +381,7 @@
                     padding: 3px 15px;
                     color: #21252b;
                 }
-                .icon-arrow-down {
+                .icon-arrow-solid-down {
                     width: 10px !important;
                     height: 10px !important;
                     font-size: 10px;
@@ -429,7 +443,7 @@
                 margin: 0;
             }
 
-            .icon-arrow-down-thick {
+            .icon-arrow-solid-down {
                 font-size: 10px;
                 color: #000;
                 height: 10px;
@@ -443,7 +457,7 @@
                 transform: rotate(-90deg);
             }
 
-            .icon-arrow-down-thick.active {
+            .icon-arrow-solid-down.active {
                 -webkit-transform: rotate(0deg);
                 -moz-transform: rotate(0deg);
                 -o-transform: rotate(0deg);

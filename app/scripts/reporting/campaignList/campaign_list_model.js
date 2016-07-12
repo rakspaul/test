@@ -1,15 +1,15 @@
-define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/services/transformer_service',
-    'reporting/models/campaign_cdb_data', 'reporting/models/campaign_cost', 'common/services/request_cancel_service',
-    'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model',
-    'reporting/advertiser/advertiser_model', 'common/services/url_service', 'common/services/vistoconfig_service','../../common/services/data_service'],
-    function (angularAMD) {
+define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint ignore:line
+    'common/services/transformer_service', 'reporting/models/campaign_cdb_data', 'reporting/models/campaign_cost',
+    'common/services/request_cancel_service', 'common/services/constants_service', 'reporting/brands/brands_model',
+    'login/login_model', 'reporting/advertiser/advertiser_model', 'common/services/url_service',
+    'common/services/vistoconfig_service','../../common/services/data_service'], function (angularAMD) {
         //originally part of controllers/campaign_controller.js
-        angularAMD.factory('campaignListModel', ['$route','$rootScope', '$location', 'campaignListService', 'modelTransformer',
-            'campaignCDBData', 'campaignCost', 'requestCanceller', 'constants', 'brandsModel', 'loginModel',
-            'advertiserModel', 'urlService', 'vistoconfig','dataService','localStorageService',
-            function ($route,$rootScope, $location, campaignListService, modelTransformer, campaignCDBData, campaignCost,
-                      requestCanceller, constants, brandsModel, loginModel, advertiserModel, urlService, vistoconfig,dataService,localStorageService) {
-                //var scrollFlag = 1;
+        angularAMD.factory('campaignListModel', ['$route','$rootScope', '$location', 'campaignListService',
+            'modelTransformer', 'campaignCDBData', 'campaignCost', 'requestCanceller', 'constants', 'brandsModel',
+            'loginModel', 'advertiserModel', 'urlService', 'vistoconfig','dataService','localStorageService',
+            function ($route,$rootScope, $location, campaignListService, modelTransformer, campaignCDBData,
+                      campaignCost, requestCanceller, constants, brandsModel, loginModel, advertiserModel, urlService,
+                      vistoconfig,dataService,localStorageService) {
                 var Campaigns = function () {
                     this.getCapitalizeString = function (string) {
                         return string[0].toUpperCase() + string.substring(1);
@@ -23,13 +23,15 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         };
                     };
 
-                    this.timePeriodList = [this.createTimePeriodObject('Last 7 days', 'last_week'),
+                    this.timePeriodList = [
+                        this.createTimePeriodObject('Last 7 days', 'last_week'),
                         this.createTimePeriodObject('Last 30 days', 'last_month'),
                         this.createTimePeriodObject('Lifetime', 'life_time', 'active')
                     ];
 
                     this.selectedTimePeriod = this.timePeriodList[2];
-                    this.displayTimePeriod = angular.uppercase(this.selectedTimePeriod.display);
+                    this.displayTimePeriod =
+                        angular.uppercase(this.selectedTimePeriod.display); // jshint ignore:line
 
                     this.sortFieldList = [
                         {display: 'Media Plan', key: 'campaign_name'},
@@ -125,13 +127,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         }
                     };
 
-
-                   /* //by default active filter will be applied - (active)
-                    this.appliedQuickFilter = constants.ALL_CONDITION;
-                    this.appliedQuickFilterText = constants.ALL;
-                    this.dashboard.status.active.all = constants.ACTIVE;*/
-
-                    this.resetFilters = function () {
+                    this.resetFilters = function (type) {
                         this.campaignList = [];
                         this.timePeriod = 'life_time';
                         this.busy = true;
@@ -142,10 +138,8 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         };
 
                         this.sortParam = 'start_date';
-                        this.sortDirection = 'desc';
+                        (type !== 'sort') && (this.sortDirection = 'desc');
                         this.dashboard.quickFilterSelectedCount = 0;
-                        this.dashboard.quickFilterSelectedCount = 0;
-                        //this.brandId = brandsModel.getSelectedBrand().id;
                         this.resetCostBreakdown.call(this);
                     };
 
@@ -188,8 +182,6 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                             if (performanceTab.hasClass('active') === true) {
                                 this.tabActivation.performanceTab = 1;
                                 fetchCampaigns.call(this);
-                            } else {
-                                //fetchCostBreakdown.call(this);
                             }
                         },
 
@@ -223,28 +215,39 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         fetchCampaigns = function () {
                             var self,
                                 url;
+
                             // check scroller only inside container
                             findScrollerFromContainer.call(this);
+
                             if ((!this.performanceParams.lastPage && (this.dashboard.filterTotal > 0) ||
                                 (this.scrollFlag > 0)) || this.searchTerm) {
-                                this.scrollFlag = 0; //Reseting scrollFlag
+                                //Reseting scrollFlag
+                                this.scrollFlag = 0;
+
                                 self = this;
                                 self.noData = false;
                                 url = _campaignServiceUrl.call(this);
 
                                 campaignListService.getCampaigns(url, function (result) {
                                     var data = result.data.data;
-                                    if (data && data[0] && data[0].count) { // The total count is now returned as part of the main result set
+
+                                    if (data && data[0] && data[0].count) {
+                                        // The total count is now returned as part of the main result set
                                         self.dashboard.quickFilterSelectedCount = data[0].count;
-                                        if (!self.dashboard.originalFilterTotal) { // This stores the original total count on first load
+
+                                        if (!self.dashboard.originalFilterTotal) {
+                                            // This stores the original total count on first load
                                             self.dashboard.originalFilterTotal = data[0].count;
                                         }
-                                        self.noData = self.dashboard.quickFilterSelectedCount ? false : true; // Show / Hide 'No Relevant Media Plans' display
+
+                                        // Show / Hide 'No Relevant Media Plans' display
+                                        self.noData = self.dashboard.quickFilterSelectedCount ? false : true;
                                     } else {
                                         self.noData = true;
                                     }
 
-                                    if( self.noData) { // when there is no data for busy flag should be false as default is true.
+                                    if (self.noData) {
+                                        // when there is no data for busy flag should be false as default is true.
                                         self.busy = false;
                                     }
 
@@ -261,51 +264,58 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                         var campaignData = campaignListService.setActiveInactiveCampaigns(data,
                                             timePeriodApiMapping(self.timePeriod));
 
-                                        angular.forEach(campaignData, function (campaign) {
+                                        angular.forEach(campaignData, function (campaign) { // jshint ignore:line
                                             var queryObj = {
-                                                'queryId':14,
-                                                'clientId':loginModel.getSelectedClient().id,
-                                                'advertiserId':advertiserModel.getSelectedAdvertiser().id,
-                                                'brandId':brandsModel.getSelectedBrand().id,
-                                                'dateFilter':'life_time',
-                                                'campaignIds':campaign.id
-                                            };
-                                            var spendUrl = urlService.getCampaignSpend(queryObj);
+                                                    queryId: 14,
+                                                    clientId: loginModel.getSelectedClient().id,
+                                                    advertiserId: advertiserModel.getSelectedAdvertiser().id,
+                                                    brandId: brandsModel.getSelectedBrand().id,
+                                                    dateFilter: 'life_time',
+                                                    campaignIds: campaign.id
+                                                },
 
-                                            var contextThis = this;
+                                                spendUrl = urlService.getCampaignSpend(queryObj),
+                                                contextThis = this;
+                                            contextThis.push(campaign);
+                                            self.busy = false;
+                                            (function(campaign) {
+                                                dataService
+                                                    .fetch(spendUrl)
+                                                    .then(function (response) {
+                                                        self.busy = false;
 
-                                            dataService.fetch(spendUrl).then(function(response) {
-                                                self.busy = false;
-                                                if(response.data){
-                                                    campaign.spend = response.data.data[0].gross_rev;
-                                                } else {
-                                                    campaign.spend = 0;
-                                                }
-                                                contextThis.push(campaign);
-
-                                                //self.costIds += campaign.orderId + ',';
-                                                //compareCostDates.call(self, campaign.startDate, campaign.endDate);
-                                                if (campaign.kpi_type === 'null') {
-                                                    campaign.kpi_type = 'CTR';
-                                                    campaign.kpi_value = 0;
-                                                }
-                                                campaignListService.getCdbLineChart(campaign, self.timePeriod,
-                                                    function (cdbData) {
-                                                        if (cdbData) {
-                                                            self.cdbDataMap[campaign.orderId] =
-                                                                modelTransformer.transform(cdbData, campaignCDBData);
-                                                            self.cdbDataMap[campaign.orderId].modified_vtc_metrics =
-                                                                campaignListService.vtcMetricsJsonModifier(
-                                                                    self.cdbDataMap[campaign.orderId].video_metrics
-                                                                );
+                                                        if (response.data) {
+                                                            campaign.spend = response.data.data[0].gross_rev;
+                                                        } else {
+                                                            campaign.spend = 0;
                                                         }
-                                                    }
-                                                );
-                                            }, function (result) {
-                                                self.busy = false;
-                                            });
+                                                        //    contextThis.push(campaign);
 
+                                                        if (campaign.kpi_type === 'null') {
+                                                            campaign.kpi_type = 'CTR';
+                                                            campaign.kpi_value = 0;
+                                                        }
 
+                                                        campaignListService.getCdbLineChart(campaign, self.timePeriod,
+                                                            function (cdbData) {
+                                                                if (cdbData) {
+                                                                    self.cdbDataMap[campaign.orderId] =
+                                                                        modelTransformer.transform(
+                                                                            cdbData,
+                                                                            campaignCDBData
+                                                                        );
+
+                                                                    self.cdbDataMap[campaign.orderId].modified_vtc_metrics =
+                                                                        campaignListService.vtcMetricsJsonModifier(
+                                                                            self.cdbDataMap[campaign.orderId].video_metrics
+                                                                        );
+                                                                }
+                                                            }
+                                                        );
+                                                    }, function () {
+                                                        self.busy = false;
+                                                    });
+                                            }(campaign));
                                         }, self.campaignList);
 
                                         //as we change the brand, we are updating the campaign model as well.
@@ -322,17 +332,20 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         hasCampaignId = function (campaignData, id) {
                             var retVal = false;
 
-                            _.each(campaignData, function (item) {
+                            _.each(campaignData, function (item) { // jshint ignore:line
                                 if (item.id === id) {
                                     retVal = true;
                                 }
                             });
+
                             return retVal;
                         },
 
                         fetchCostBreakdown = function () {
                             findScrollerFromContainer.call(this);
-                            if (!this.CBdownParams.lastPage && (this.dashboard.filterTotal > 0) &&
+
+                            if (!this.CBdownParams.lastPage &&
+                                (this.dashboard.filterTotal > 0) &&
                                 (this.scrollFlag > 0)) {
                                 var self,
                                     url;
@@ -340,6 +353,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 //Reseting scrollFlag
                                 this.scrollFlag = 0;
                                 this.busy = true;
+
                                 $('#load_more').show();
                                 self = this;
                                 url = _campaignServiceUrl.call(this, 'costBreakdown');
@@ -358,30 +372,35 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                     }
 
                                     self.CBdownParams.nextPage += 1;
-                                    if (data.length > 0) {
-                                        //var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
-                                        campaignData = campaignListService.setActiveInactiveCampaigns(data,
-                                            timePeriodApiMapping(self.timePeriod));
 
-                                        angular.forEach(campaignData, function (campaign) {
+                                    if (data.length > 0) {
+                                        campaignData = campaignListService.setActiveInactiveCampaigns(
+                                            data,
+                                            timePeriodApiMapping(self.timePeriod)
+                                        );
+
+                                        angular.forEach(campaignData, function (campaign) { // jshint ignore:line
                                             if (!hasCampaignId(this, campaign.id)) {
                                                 this.push(campaign);
                                             }
+
                                             self.costIds += campaign.orderId + ',';
                                             compareCostDates.call(self, campaign.startDate, campaign.endDate);
+
                                             if (campaign.kpi_type === 'null') {
                                                 campaign.kpi_type = 'CTR';
                                                 campaign.kpi_value = 0;
                                             }
                                         }, self.costBreakdownList);
 
-                                        //as we change the brand, we are updating the campaign model as well.
+                                        // as we change the brand, we are updating the campaign model as well.
                                         if (brandsModel.getSelectedBrand().id !== -1 && self.costBreakdownList.length) {
                                             $rootScope.$broadcast('updateCampaignAsBrandChange',
                                                 self.costBreakdownList[0]);
                                         }
 
                                         self.costIds = self.costIds.substring(0, self.costIds.length - 1);
+
                                         if (self.costIds !== '') {
                                             fetchCostData.call(self);
                                             self.costIds = '';
@@ -389,7 +408,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                     } else {
                                         self.CBdownParams.lastPage = true;
                                     }
-                                }, function (result) {
+                                }, function () {
                                     self.busy = false;
                                 });
                             }
@@ -443,23 +462,18 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 url += '&brand_id=' + brandId;
                             }
 
-                            // timePeriod, clientId, advertiserId, brandId, status
-                            // var url = urlService.APICampaignCountsSummary(this.timePeriod,
-                            // selectedClientId,advertiserId,brandId);
-
                             campaignListService.getDashboardData(url, function (result) {
                                 self.dashboard.busy = false;
                                 requestCanceller.resetCanceller(constants.DASHBOARD_CANCELLER);
-                                if (result.status === 'success' && !angular.isString(result.data)) {
+
+                                if (result.status === 'success' &&
+                                    !angular.isString(result.data)) { // jshint ignore:line
                                     // active is an object with total, ontrack and underperforming
                                     self.dashboard.active = result.data.data.active;
                                     self.dashboard.draft = result.data.data.draft;
                                     self.dashboard.ready = result.data.data.ready;
                                     self.dashboard.completed = result.data.data.completed.total;
                                     self.dashboard.archived = result.data.data.archived;
-                                    // self.dashboard.paused = result.data.data.paused;
-                                    // self.dashboard.allOtherTotal =
-                                    // result.data.data.na.total != undefined ? result.data.data.na.total : 0;
                                     self.dashboard.total = result.data.data.total;
                                     self.dashboard.all = result.data.data.all;
                                     self.noData = true;
@@ -486,6 +500,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                             self.resetFilters();
                                         }
                                     }
+
                                     self.totalCount = result.data.data.total;
                                 }
                             });
@@ -497,39 +512,39 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 brandId = brandsModel.getSelectedBrand().id,
 
                                 hideLoader = function () {
-                                    _.each(costidsList, function (value) {
-                                        self.costList[value].costDataLoading = false
+                                    _.each(costidsList, function (value) { // jshint ignore:line
+                                        self.costList[value].costDataLoading = false;
                                     });
                                 },
 
                                 costidsList = this.costIds.split(',');
 
-                            _.each(costidsList, function (value) {
+                            _.each(costidsList, function (value) { // jshint ignore:line
                                 self.costList[value] = {
                                     costDataLoading: true
                                 };
                             });
 
                             campaignListService.getCampaignCostData(this.costIds,
-                                moment(this.costDate.startDate).format('YYYY-MM-DD'),
-                                moment(this.costDate.endDate).format('YYYY-MM-DD'),
+                                moment(this.costDate.startDate).format('YYYY-MM-DD'), // jshint ignore:line
+                                moment(this.costDate.endDate).format('YYYY-MM-DD'), // jshint ignore:line
                                 advertiserId, brandId,
 
                                 function (result) {
                                     if (result.status === 'success' &&
-                                        !angular.isString(result.data) &&
+                                        !angular.isString(result.data) && // jshint ignore:line
                                         result.data.data.length > 0) {
-                                        angular.forEach(result.data.data, function (cost) {
+                                        angular.forEach(result.data.data, function (cost) { // jshint ignore:line
                                             self.costList[cost.campaign_id] =
                                                 modelTransformer.transform(cost, campaignCost);
+
                                             self.costList[cost.campaign_id].cost_transparency = true;
                                             hideLoader();
                                         });
                                     } else {
                                         hideLoader();
                                     }
-                                },
-                                function () {
+                                }, function () {
                                     hideLoader();
                                 }
                             );
@@ -550,8 +565,6 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                             resetCostBreakdown.call(this);
                             this.scrollFlag = 1;
                             fetchData.call(this);
-                            // grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_STATUS_FILTER,
-                            // (state ? state : type), loginModel.getLoginName());
                         },
 
                         filterCostType = function (type) {
@@ -560,7 +573,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
 
                         filterByTimePeriod = function (timePeriod) {
                             this.selectedTimePeriod = timePeriod;
-                            this.displayTimePeriod = angular.uppercase(timePeriod.display);
+                            this.displayTimePeriod = angular.uppercase(timePeriod.display); // jshint ignore:line
 
                             $('#cdbDropdown').toggle();
                             this.timePeriodList.forEach(function (period) {
@@ -571,7 +584,8 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 }
                             });
 
-                            filters.timePeriod && (this.timePeriod = timePeriod.key);
+                            filters.timePeriod && (this.timePeriod = timePeriod.key); // jshint ignore:line
+
                             //populating dashboard filter with new data
                             fetchDashboardData.call(this);
                         },
@@ -592,17 +606,11 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                             if (this.sortParam) {
                                 if (this.sortParam === fieldName) {
                                     sortDirection = toggleSortDirection(this.sortDirection);
-                                    // this.resetSortParams();
-                                    this.resetFilters();
                                     this.sortDirection = sortDirection;
-                                } else {
-                                    //this.resetSortParams();
-                                    this.resetFilters();
                                 }
-                            } else {
-                                //this.resetSortParams();
-                                this.resetFilters();
                             }
+
+                            this.resetFilters('sort');
 
                             !this.sortDirection && (this.sortDirection = 'asc');
                             this.sortParam = fieldName;
@@ -617,14 +625,12 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                             });
 
                             this.scrollFlag = 1;
-                            //fetchCampaigns.call(this);
                             fetchData.call(this);
-                            // grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_LIST_SORTING,
-                            // (fieldName + '_' + (sortDirection ? sortDirection : 'asc')), loginModel.getLoginName());
                         },
 
                         setActiveSortElement = function (fieldName) {
                             this.sortParam = fieldName;
+
                             this.sortFieldList.forEach(function (field) {
                                 if (fieldName === field.key) {
                                     field.className = 'active';
@@ -651,25 +657,15 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         },
 
                         editCampaign = function (campaign, status) {
-                            /*
-                             ga('send', 'event', 'edit-campaign', 'click', campaign.campaignTitle, {
-                             'hitCallback': function() {
-                             document.location = '/#/campaigns/' + campaign.orderId;
-                             }
-                             });
-                             */
-                            // grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_CARD_ACTIVITY,
-                            // constants.GA_CAMPAIGN_ACTIVITY_BUBBLE_COUNT, loginModel.getLoginName(),
-                            // campaign.actionsCount);
-
                             if (status === false) {
                                 $location.path('/mediaplans/' + campaign.orderId);
                             }
                         },
 
                         campaignReports = function (campaign) {
-                            ga('send', 'event', 'campaign-report', 'click', campaign.campaignTitle, {
-                                'hitCallback': function () {
+                            ga('send', 'event', 'campaign-report', 'click', // jshint ignore:line
+                                campaign.campaignTitle, {
+                                hitCallback: function () {
                                     $location.path('reports/reports/' + campaign.orderId);
                                 }
                             });
@@ -702,7 +698,6 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                             switch (filterToApply) {
                                 case constants.ACTIVE_CONDITION:
                                     this.appliedQuickFilterText = constants.INFLIGHT_LABEL;
-
                                     this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                                     this.dashboard.status.active.bothItem = constants.ACTIVE;
                                     type = constants.ACTIVE;
@@ -748,16 +743,6 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                     type = constants.READY.toLowerCase();
                                     break;
 
-                                /*
-                                case constants.PAUSED_CONDITION:
-                                    this.appliedQuickFilterText = constants.PAUSED;
-                                    this.dashboard.quickFilterSelectedCount =
-                                        this.dashboard[constants.PAUSED.toLowerCase()];
-                                    this.dashboard.status.paused= constants.ACTIVE;
-                                    type = constants.PAUSED.toLowerCase();
-                                    break;
-                                */
-
                                 case constants.COMPLETED_CONDITION:
                                     this.appliedQuickFilterText = constants.ENDED;
                                     this.dashboard.quickFilterSelectedCount =
@@ -799,25 +784,21 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                             this.scrollFlag = 1;
                             fetchData.call(this);
 
-                            if(filterToApply == 'all') {
+                            if (filterToApply === 'all') {
                                 $location.search('filter', null);
                             } else {
                                 $location.search('filter', filterToApply);
                             }
-
-                            // grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_STATUS_FILTER,
-                            // (kpiStatus ? kpiStatus : type), loginModel.getLoginName());
                         },
 
                         initializeFilter = function () {
-                            var currentLocation = $location.url();
-                            var filterStatus = $location.url().split("filter=")[1];
+                            var filterStatus = $location.url().split('filter=')[1];
 
-                            if (filterStatus == undefined) {
-                                $tmpSavedFilter = localStorageService.campaignListFilter.get();
+                            if (filterStatus === undefined) {
+                                $tmpSavedFilter = localStorageService.campaignListFilter.get(); // jshint ignore:line
 
-                                if($tmpSavedFilter != undefined) {
-                                    this.setQuickFilter($tmpSavedFilter);
+                                if ($tmpSavedFilter) { // jshint ignore:line
+                                    this.setQuickFilter($tmpSavedFilter); // jshint ignore:line
                                 } else {
                                     this.setQuickFilter(constants.ALL_CONDITION);
                                 }
@@ -827,8 +808,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         },
 
                         _campaignServiceUrl = function (from) {
-                            var clientId = loginModel.getSelectedClient().id,
-                                nextPageNumber,
+                            var nextPageNumber,
                                 params;
 
                             if (from === 'costBreakdown') {
@@ -889,9 +869,9 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
 
                         timePeriodApiMapping = function (key) {
                             var apiObj = {
-                                'last_week': 'last_7_days',
-                                'last_month': 'last_30_days',
-                                'life_time': 'life_time'
+                                last_week: 'last_7_days',
+                                last_month: 'last_30_days',
+                                life_time: 'life_time'
                             };
 
                             return apiObj[key];

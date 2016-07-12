@@ -1,4 +1,4 @@
-define(['angularAMD','../../common/services/constants_service'],function (angularAMD) {
+define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) { // jshint ignore:line
 
     angularAMD.directive('campaignListFilterDirective', function (constants) {
         return {
@@ -8,23 +8,29 @@ define(['angularAMD','../../common/services/constants_service'],function (angula
                 campaigns: '='
             },
 
-            templateUrl: assets.html_campaign_lst_filter,
+            templateUrl: assets.html_campaign_lst_filter, // jshint ignore:line
 
-            link: function ($scope, element, attrs) {
+            link: function ($scope) {
+                var quickFilters = $('.sliding_dropdown_container_quick');
+
                 $scope.constants = constants;
-                quickFilters = $(".sliding_dropdown_container_quick");
-                $(".sliding_dropdown_btn , .close_sliding_dropdown, .filterClick ").click( function() {
-                    $('.sliding_dropdown_container_quick').toggle('slide', { direction: "right" }, 500);
+
+                $('.sliding_dropdown_btn , .close_sliding_dropdown, .filterClick').click( function() {
+                    $('.sliding_dropdown_container_quick').toggle('slide', { direction: 'right' }, 500);
                 });
 
                 $(document).mouseup(function (e){
-                    if (quickFilters.is(':visible') == true) {
-                        e.stopImmediatePropagation();
-                        var container = $(".sliding_dropdown_container_quick");
+                    var container;
 
-                        if (!container.is(e.target) // if the target of the click isn't the container...
-                            && container.has(e.target).length === 0) // ... nor a descendant of the container
-                        { container.toggle('slide', { direction: "right" }, 500); }
+                    if (quickFilters.is(':visible') === true) {
+                        e.stopImmediatePropagation();
+                        container = $('.sliding_dropdown_container_quick');
+
+                        // if the target of the click isn't the container...
+                        // ... nor a descendant of the container
+                        if (!container.is(e.target) && container.has(e.target).length === 0) {
+                            container.toggle('slide', { direction: 'right' }, 500);
+                        }
                     }
                 });
             }

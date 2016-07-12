@@ -3,10 +3,15 @@
 <admin-header></admin-header>
 <div class="users-creation-page" >
     <!--Header-->
-    <div class="col-md-12 zeroPadding" style="margin-top: 45px; padding-left: 0px;">
-        <div class="col-md-4 zeroPadding"> <h1 class="zeroMargin">Advertiser</h1></div>
-        <div class="col-md-4 zeroPadding"><span class="pull-right" style="font-size: 12px; margin: 9px 10px 0 0;"><span data-ng-bind="advertisersTotal"></span> Advertisers</span></div>
-        <div class="btn-group pull-right col-md-4 zeroPadding">
+    <div class="col-md-12 zeroPadding" style="margin-top: 30px; padding-left: 0px;">
+        <h1 class="pull-left zeroMargin">Advertiser</h1>
+        <div class="btn-group create pull-right" role="group" aria-label="...">
+            <a class="btn btn-default pull-right" ng-click="createAdvertiser()" style="border-radius:0;">
+                <span class="icon-plus"></span>
+                <span data-ng-bind="isEditAdvertiser ? 'Update' : 'Create'"></span>
+            </a>
+        </div>
+        <div class="btn-group pull-right" style="margin-right: 10px;">
             <button type="button" class="btn btn-default pull-right" style="display: none">
                 <span class="icon-filter" style="margin: -1px 0 0;"></span>
             </button>
@@ -29,20 +34,21 @@
                 </div>
             </div>
         </div>
+        <span class="pull-right" style="font-size: 12px; margin: 9px 10px 0 0;"><span data-ng-bind="advertisersTotal"></span> Advertisers</span>
     </div>
     <div class="col-md-12 zeroPadding heading">
-        <div class="col-md-4 zeroPadding">
-            <label class="col-sm-4 greyTxt">Advertiser Name</label>
+        <div class="col-md-3 zeroPadding">
+            <label class="col-sm-12 greyTxt">Advertiser Name</label>
             <input type="text"
-                   class="pull-left clearLeft"
+                   class="pull-left clearLeft col-md-12"
                    placeholder="Add Name"
                    id="advertiserNameInp"
                    ng-model="advertiserName"
                    data-ng-blur="leaveFocusAddAdvertiser()"
-                   ng-keyup="mode == 'create' ? showDropdown() : ''" style="width:400px; border-top-right-radius: 0px; border-bottom-right-radius: 0;" ng-class="{'edit-input':isEditAdvertiser}">
+                   ng-keyup="mode == 'create' ? showDropdown() : ''" ng-class="{'edit-input':isEditAdvertiser}">
         </div>
-        <div class="col-md-6" style="padding: 0 15px;">
-            <div class="col-md-6 dropdown-workflow accountCode">
+        <div class="col-md-9 zeroPadding">
+            <div class="col-md-3 dropdown-workflow accountCode" style="padding: 0 0 0 10px;">
                 <label class="greyTxt">Advertiser Code:</label>
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle setSelectedAdvertiserCode"
@@ -51,7 +57,7 @@
                             aria-haspopup="true"
                             aria-expanded="true">
                         <span class="text" data-ng-bind="setSelectedAdvertiserCode ? setSelectedAdvertiserCode : 'Select Code'"></span>
-                        <span class="icon-arrow-down"></span>
+                        <span class="icon-arrow-solid-down"></span>
                     </button>
                     <ul class="dropdown-menu" data-toggle="dropdown">
                         <li class="available" data-ng-repeat="code in codeList" data-ng-click="selectAdvertiserCode($event,code)">
@@ -63,13 +69,15 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-6 customAdvertiserCode" style="padding: 0 5px;" data-ng-show="setSelectedAdvertiserCode == 'Others'">
+            
+            <div class="col-md-3 customAdvertiserCode" style="padding: 0 0 0 10px;" data-ng-show="setSelectedAdvertiserCode == 'Others'">
                 <label class="greyTxt">Enter Code:</label>
                 <input type="text"
-                       class="form-control"
+                       class="form-control col-md-12"
                        placeholder="Add Code"
                        data-ng-model="customAdvertiserCode"
                        data-ng-blur="leaveFocusCustomAdvertiserCode()"
+                       data-ng-keyup="keyUpCustomAdvertiserCode()"
                        remove-special-character="remove-special-character"
                        maxlength="5"
                        data-toggle="dropdown">
@@ -77,19 +85,21 @@
                     <span class="errorText codeExist" ng-if="advertiserCodeExist" data-ng-bind="textConstants.ADVERTISER_CODE_EXIST"></span>
                 </div>
             </div>
+            
+            <div class="col-md-3" style="padding: 0 0 0 10px;">
+                <label class="col-sm-12 greyTxt" data-ng-bind="textConstants.NICK_NAME"></label>
+                <input type="text"
+                       class="pull-left clearLeft col-md-12"
+                       placeholder="Add Name"
+                       ng-model="nickname"
+                       remove-special-character="remove-special-character">
+            </div>
         </div>
-        <div class="btn-group create col-md-2 zeroPadding" role="group" aria-label="..." style="margin-top: 30px;">
-            <div></div>
-            <a class="btn btn-default pull-right" ng-click="createAdvertiser()" style="border-radius:0;">
-                <span class="icon-plus"></span>
-                <span data-ng-bind="isEditAdvertiser ? 'Update' : 'Create'"></span>
-            </a>
-            <!--<admin-header></admin-header>-->
-        </div>
-
-            <span class="delete_row" ng-show="isEditAdvertiser" data-ng-click="clearEdit()"
+        
+        <span class="delete_row" ng-show="isEditAdvertiser" data-ng-click="clearEdit()"
                   style="position: absolute;top: 32px;left: 367px;"></span>
     </div>
+    
     <!--User List-->
     <div class="table-responsive user-list animated" id="table_responsive" style="margin-bottom: 30px;">
         <div class="vistoTable" id="visto_table">

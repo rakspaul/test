@@ -858,12 +858,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                                 '<div class="childTier" id="clientDropdown_' + clientId +
                                 '"><div class="tierHeader" id="' +
                                 parentContianerId + '" ng-click="goToParentClientList(' + parentContianerId + ',' +
-                                clientId + ',' + accountIndex+')"><div class="icon-arrow-down"></div><span>' + name +
+                                clientId + ',' + accountIndex+')"><div class="icon-arrow-solid-down"></div><span>' + name +
                                 '</span></div><ul class="dropdown-menu-child" data-toggle="dropdown">' +
                                 '<li ng-repeat="client in subClientListData[' + clientId +
                                 ']"  id="topClients"><a ng-click="selectClientOption(client.id, client.name, ' +
                                 accountIndex + ')" ng-bind="client.name"></a>' +
-                                '<span class="icon-arrow-down icon-arrow-right"' +
+                                '<span class="icon-arrow-solid-down icon-arrow-right"' +
                                 'ng-click="getSubClientList(client.id, client.name,' + clientId + ',' + accountIndex +
                                 ' )" ng-if="!client.isLeafNode"></span></li></ul></div>'
                             )($scope));

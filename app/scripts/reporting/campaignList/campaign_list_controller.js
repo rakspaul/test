@@ -1,16 +1,23 @@
-define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaignList/campaign_list_model',
-    'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model', 'common/utils',
-    'common/services/constants_service', 'common/services/vistoconfig_service', 'reporting/brands/brands_model', 'login/login_model',
+define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:line
+    'reporting/campaignList/campaign_list_model', 'reporting/campaignSelect/campaign_select_model',
+    'reporting/strategySelect/strategy_select_model', 'common/utils', 'common/services/constants_service',
+    'common/services/vistoconfig_service', 'reporting/brands/brands_model', 'login/login_model',
     'reporting/models/gauge_model', 'common/services/role_based_service',
     'reporting/campaignList/campaign_list_filter_directive', 'reporting/directives/campaign_cost_sort',
     'reporting/directives/campaign_sort', 'reporting/directives/campaign_card',
-    'reporting/directives/campaign_list_sort', 'reporting/common/d3/quartiles_graph', 'reporting/common/d3/campaign_chart',
-    'reporting/directives/campaign_cost_card'],
-    function (angularAMD) {
+    'reporting/directives/campaign_list_sort', 'reporting/common/d3/quartiles_graph',
+    'reporting/common/d3/campaign_chart', 'reporting/directives/campaign_cost_card'], function (angularAMD) {
         angularAMD.controller('CampaignListController',
             function ($scope, $rootScope, $location, kpiSelectModel, campaignListModel, campaignSelectModel,
-                      strategySelectModel, utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel, RoleBasedService,
-                      featuresService) {
+                      strategySelectModel, utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel,
+                      RoleBasedService, featuresService) {
+                var fparams = featuresService.getFeatureParams(),
+                    forceLoadCampaignsFilter,
+
+                    enableFeaturePermission = function () {
+                        $scope.showCreateMediaPlan = fparams[0].create_mediaplan;
+                        $scope.showCostTab = fparams[0].cost;
+                    };
 
                 //Hot fix to show the campaign tab selected
                 $('.main_navigation')
@@ -26,18 +33,12 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
                 //Resets Header
                 $('.main_navigation_holder .main_nav .main_navigation .each_nav_link.active .arrowSelect').show();
-                $(".each_nav_link").removeClass("active_tab");
-                $("#campaigns_nav_link").addClass("active_tab");
+                $('.each_nav_link').removeClass('active_tab');
+                $('#campaigns_nav_link').addClass('active_tab');
 
-                var fparams = featuresService.getFeatureParams();
-
-                var enableFeaturePermission = function () {
-                    $scope.showCreateMediaPlan = fparams[0].create_mediaplan;
-                    $scope.showCostTab = fparams[0].cost;
-                };
                 enableFeaturePermission();
 
-                var featuredFeatures = $rootScope.$on('features', function () {
+                $rootScope.$on('features', function () {
                     var fparams = featuresService.getFeatureParams();
                     $scope.showPerformanceTab = fparams[0].performance;
                     enableFeaturePermission();
@@ -60,6 +61,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     if (!e || e.keyCode === 13) {
                         $scope.campaigns.noData = false;
                         $scope.campaigns.resetFilters();
+
                         if ($scope.campaigns.searchTerm && $scope.campaigns.searchTerm.trim()) {
                             // Search term is entered
                             $scope.campaigns.fetchData($scope.campaigns.searchTerm);
@@ -67,38 +69,27 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                             // Empty search term
                             $scope.campaigns.fetchData();
                         }
+
                         $scope.isCampaignSearched = true;
                     }
                 };
 
-                $scope.$on(constants.EVENT_BRAND_CHANGED, function (event) {
+                $scope.$on(constants.EVENT_BRAND_CHANGED, function () {
                     $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
-                    //$scope.campaigns.fetchData();
                 });
 
                 $('html').css('background', '#fff');
 
-                // var selectedBrand = brandsModel.getSelectedBrand(); // NOT USED
-
                 $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
-                // NOT USED
-                /*var accountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function () {
-                    $scope.campaigns.fetchData();
-                });*/
-
-                /* $rootScope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED, function () {
-                    $scope.campaigns.fetchDashboardData();
-                });
-                */
-
                 //Based on gauge click, load the filter and reset data set after gauge click.
-                var forceLoadCampaignsFilter;
                 if (gaugeModel.dashboard.selectedFilter !== '') {
                     forceLoadCampaignsFilter = gaugeModel.dashboard.selectedFilter;
                 }
+
                 $scope.campaigns.fetchDashboardData(forceLoadCampaignsFilter);
                 gaugeModel.resetDashboardFilters();
+
                 $scope.$on('fromCampaignDetails', function (event, args) {
                     $scope.loadMoreStrategies(args.campaignId);
                 });
@@ -121,8 +112,8 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     kpiSelectModel.setSelectedKpi(selectedCampaign.kpi);
                     strategySelectModel.setSelectedStrategy(vistoconfig.LINE_ITEM_DROPDWON_OBJECT);
                     $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
-                    //$location.path('/performance');//reportOverview
                     $location.path('/mediaplans/' + campaign.id);
+
                     if (source === 'campaignCard') {
                         $('.main_navigation .each_nav_link').removeClass('active_tab');
                         $('#reports_nav_link').addClass('active_tab');
@@ -131,15 +122,18 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
                 $scope.loadMoreStrategies = function (campaignId) {
                     var pageSize = 3,
-                        campaign = _.find($scope.campaigns.campaignList, function (c) {
+
+                        campaign = _.find($scope.campaigns.campaignList, function (c) { // jshint ignore:line
                             return c.orderId === parseInt(campaignId);
                         }),
+
                         loadMoreData = campaign.campaignStrategiesLoadMore,
                         moreData;
 
                     if (loadMoreData.length) {
                         moreData = loadMoreData.splice(0, pageSize);
-                        _.each(moreData, function (s) {
+
+                        _.each(moreData, function (s) { // jshint ignore:line
                             campaign.campaignStrategies.push(s);
                         });
                     }
@@ -148,11 +142,11 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 $scope.loadMoreTactics = function (strategyId, campaignId) {
                     var pageSize = 3,
 
-                        campaign = _.find($scope.campaigns.campaignList, function (c) {
+                        campaign = _.find($scope.campaigns.campaignList, function (c) { // jshint ignore:line
                             return c.orderId === parseInt(campaignId);
                         }),
 
-                        strategy = _.find(campaign.campaignStrategies, function (s) {
+                        strategy = _.find(campaign.campaignStrategies, function (s) { // jshint ignore:line
                             return s.id === parseInt(strategyId);
                         }),
 
@@ -161,7 +155,8 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
                     if (loadMoreData.length) {
                         moreData = loadMoreData.splice(0, pageSize);
-                        _.each(moreData, function (t) {
+
+                        _.each(moreData, function (t) { // jshint ignore:line
                             strategy.strategyTactics.push(t);
                         });
                     }
@@ -176,7 +171,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 };
 
                 // Search Clear Data
-                $scope.searchHideInput = function (evt) {
+                $scope.searchHideInput = function () {
                     $('.searchInputForm input').val('');
 
                     if ($scope.isCampaignSearched) {
@@ -200,7 +195,8 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                         return;
                     }
 
-                    if (!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() > $(document).height() - 100)) {
+                    if (!$scope.campaigns.busy && ($(window).scrollTop() +
+                        $(window).height() > $(document).height() - 100)) {
                         $scope.campaigns.loadMoreCampaigns = true;
                         if ($scope.campaigns.searchTerm) {
                             $scope.campaigns.fetchData($scope.campaigns.searchTerm);
@@ -211,10 +207,13 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 });
 
                 $scope.$on('$locationChangeStart', function (event, next) {
-                    var currentLocation = next;
-                    if(currentLocation.indexOf("mediaplans?filter") <= -1) {
-                        var isMediaPlanList = currentLocation.split("/")[4];
-                        if(!isMediaPlanList) {
+                    var currentLocation = next,
+                        isMediaPlanList;
+
+                    if (currentLocation.indexOf('mediaplans?filter') <= -1) {
+                        isMediaPlanList = currentLocation.split('/')[4];
+
+                        if (!isMediaPlanList) {
                             $(window).unbind('scroll');
                         }
                     }

@@ -1,4 +1,4 @@
-    require.config({
+ require.config({ // jshint ignore:line
       // alias libraries paths.  Must set 'angular'
       waitSeconds: 0,
       paths: {

@@ -15,7 +15,7 @@
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <span class="text">{{((adData.primaryKpi).toLowerCase()!='impressions')?(adData.primaryKpi):'Impressions'}}</span>
-                        <span class="icon-arrow-down"></span>
+                        <span class="icon-arrow-solid-down"></span>
                     </button>
                     <ul class="dropdown-menu" data-toggle="dropdown">
                         <li  ng-repeat="kpi in adData.primaryKpiList" class="available" ng-click="select_kpi($event , kpi.kpiType);" >
@@ -30,7 +30,7 @@
         <div class="col-md-2 zeroPadding">
             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TARGETVALUE"></label>
             <span class="KPI_symbol currencySymWLabel">#</span>
-            <input class="target_val_input" style="text-indent: 9px; width: 100%;" type="text" ng-model="adData.targetValue" ng-value="adData.targetValue" autocomplete="off" fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="calculateTotalAdBudget();checkBudgetExceed();" autocomplete="off">
+            <input class="target_val_input" style="text-indent: 9px; width: 100%;" type="text" ng-model="adData.targetValue" fcsa-number="{ }" ng-value="adData.targetValue" autocomplete="off" fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="calculateTotalAdBudget();checkBudgetExceed();" autocomplete="off">
             <!--<span class="VTC_per currencySymWLabel" style="display:none;">%</span>-->
         </div>
     </div>
@@ -46,7 +46,7 @@
                  <div class="dropdown">
                       <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                            <span class="text">{{adData.unitType.name ? adData.unitType.name :'CPM'}}</span>
-                           <span class="icon-arrow-down"></span>
+                           <span class="icon-arrow-solid-down"></span>
                       </button>
                       <ul class="dropdown-menu" aria-labelledby="unitcostType"  id="unitcostType" data-toggle="dropdown">
                            <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available" ng-click="select_unitType($event,unitType.name);">
@@ -61,7 +61,7 @@
         <div class="col-md-2 zeroPadding">
             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.RATE"></label>
             <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM" class="currencySymWLabel"></span>
-            <input style="text-indent: 9px;" type="text" class="form-control" ng-model="adData.unitCost" autocomplete="off" fraction-numbers="fraction-numbers" name="unitCost" ng-keyup = "calculateTotalAdBudget();checkBudgetExceed();ImpressionPerUserValidator();" autocomplete="off">
+            <input style="text-indent: 9px;" type="text" class="form-control" ng-model="adData.unitCost" autocomplete="off" fcsa-number="{ }" fraction-numbers="fraction-numbers" name="unitCost" ng-keyup = "calculateTotalAdBudget();checkBudgetExceed();ImpressionPerUserValidator();" autocomplete="off">
         </div>
     </div>
 
@@ -87,7 +87,7 @@
             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TOTAL_AD_BUDGET"></label>
             <div class="budget_holder_input">
                 <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM" class="currencySymWLabel"></span>
-                <input style="text-indent: 8px;" type="text" autocomplete="off" ng-value="adData.totalAdBudget" ng-model="adData.totalAdBudget" class="form-control totalBudgetInputClass" fraction-numbers="fraction-numbers" disabled ng-keyup="checkBudgetExceed();calculateTotalAdBudget();" autocomplete="off"><!-- add "errorBorder" when error -->
+                <input style="text-indent: 8px;" type="text" autocomplete="off" ng-value="adData.totalAdBudget" fcsa-number="{ }" ng-model="adData.totalAdBudget" class="form-control totalBudgetInputClass" fraction-numbers="fraction-numbers" disabled ng-keyup="checkBudgetExceed();calculateTotalAdBudget();" autocomplete="off"><!-- add "errorBorder" when error -->
                 <input type="hidden" name="totalAdBudget" ng-model="adData.totalAdBudget" ng-value="adData.totalAdBudget"><!-- add "errorBorder" when error -->
                 <span class="disabled_value"></span>
                 <div class="errorText" ng-show="adData.budgetExceeded">Ad budget lesser than MediaCost</div>
@@ -123,8 +123,8 @@
         <div class="col-md-2 zeroPadding" style="margin-left: 10px;">
             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.VALUE" style="padding-left:5px;"></label>
             <span class="currencySymWLabel">{{adData.budgetType === 'Cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
-            <input ng-if="(adData.budgetType).toLowerCase()=='cost'" autocomplete="off" style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" name="budgetAmount" fraction-numbers="fraction-numbers" class="form-control" ng-model="adData.budgetAmount" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()" autocomplete="off">
-            <input ng-if="(adData.budgetType).toLowerCase()=='impressions'" autocomplete="off" style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" class="form-control" ng-model="adData.budgetAmount" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()">
+            <input ng-if="(adData.budgetType).toLowerCase()=='cost'" autocomplete="off" style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" name="budgetAmount" fraction-numbers="fraction-numbers" class="form-control" ng-model="adData.budgetAmount" fcsa-number="{  }" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()" autocomplete="off">
+            <input ng-if="(adData.budgetType).toLowerCase()=='impressions'" autocomplete="off" style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" class="form-control" ng-model="adData.budgetAmount" fcsa-number="{  }" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()">
         </div>
 
         <label ng-if="budgetErrorObj.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel" data-ng-bind="textConstants.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET"></label>
@@ -192,7 +192,7 @@
             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.IMPPERUSER"></label>
             <div class="form-group col-md-7 zeroPadding">
                 <span>#</span>
-                <input type="text" name="quantity" class="form-control" whole-number-only="whole-number-only" ng-model="adData.quantity" ng-disabled="!adData.setCap" ng-keyup="ImpressionPerUserValidator();">
+                <input type="text" name="quantity" class="form-control" whole-number-only="whole-number-only" fcsa-number="{  }" ng-model="adData.quantity" ng-disabled="!adData.setCap" ng-keyup="ImpressionPerUserValidator();">
                 <label ng-if="budgetErrorObj.impressionPerUserValidator" class="col-sm-12 control-label customErrorLabel" data-ng-bind="textConstants.IMPRESSION_PER_USER_MESSAGE"></label>
             </div>
 
@@ -201,7 +201,7 @@
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <span class="text">{{selectedFreq ? selectedFreq :'Daily'}}</span>
-                            <span class="icon-arrow-down"></span>
+                            <span class="icon-arrow-solid-down"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="frequencyType" id="frequencyType" name='frequencyType' ng-disabled="!adData.setCap" data-toggle="dropdown">
                             <li><a data-value="Daily" ng-click="frequencySelected('Daily')" data-ng-bind="textConstants.DAILY"></a></li>

@@ -17,6 +17,7 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
     dashboardData.totalCampaigns = 0;
     dashboardData.totalBrands = 0;
     dashboardData.toolTip = '';
+    dashboardData.selectedAdvertiser = advertiserModel.getSelectedAdvertiser().name;
 
     var setTitle = function () {
         dashboardData.title = 'Showing ';
@@ -32,19 +33,9 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
 
         return dataService.fetch(url).then(function (response) {
             var searchCriteria = utils.typeaheadParams;
-            searchCriteria.clientId = loginModel.getSelectedClient().id;
-            searchCriteria.advertiserId = advertiserModel.getAdvertiser().hasOwnProperty('selectedAdvertiser') ? advertiserModel.getAdvertiser().selectedAdvertiser.id : -1;
+            searchCriteria.clientId = clientId;
+            searchCriteria.advertiserId = advertiserId ? advertiserId : -1;
             return brandsModel.getBrands(function() {
-                /*var ready = response.data.data.ready, draft = response.data.data.draft, paused = response.data.data.paused;
-                var totalCampaigns = response.data.data.active.total + response.data.data.completed.total + response.data.data.na.total + ready + draft + paused;
-                dashboardData.totalCampaigns = totalCampaigns;
-                var mediaPlanText = 'Media Plan' + (dashboardData.totalCampaigns > 1 ? 's' : '');
-                if (advertiserId > 0 && brandId == -1) {
-                    dashboardData.toolTip = 'Showing data for ' + dashboardData.totalCampaigns + ' ' + mediaPlanText + ' across ' + brandsModel.totalBrands() + ' brand' + (Number(brandsModel.totalBrands()) > 1 ? 's' : '');
-                } else {
-                    dashboardData.toolTip = 'Showing data for ' + dashboardData.totalCampaigns + ' ' + mediaPlanText;
-                }*/
-
                 var totalCamapigns = response.data.data.total_campaigns;
                 var mediaPlanText = 'Media Plan' + (totalCamapigns > 1 ? 's' : '');
                 dashboardData.toolTip = 'Showing data for ' + totalCamapigns + ' ' + mediaPlanText;
@@ -53,10 +44,10 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
     };
 
     function addCampaigns() {
-        var selectedBrand = brandsModel.getSelectedBrand().name;
+        var selectedAdvertiser = advertiserModel.getSelectedAdvertiser().name
         dashboardData.titleSecondPart = dashboardData.selectedStatus + ' Media Plans for ';
-        if (selectedBrand === constants.ALL_BRANDS) {
-            dashboardData.titleSecondPart += constants.ALL_BRANDS;
+        if (selectedAdvertiser === constants.ALL_ADVERTISERS) {
+            dashboardData.titleSecondPart += constants.ALL_ADVERTISERS;
         }
     };
 
@@ -68,7 +59,14 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
             dashboardData.brandSelected = true;
         }
     };
-
+    var setAdvertiser = function(advertiser){
+        dashboardData.selectedAdvertiser = advertiser.name;
+        if (advertiser.name === constants.ALL_ADVERTISERS) {
+            dashboardData.advertiserSelected = false;
+        } else {
+            dashboardData.advertiserSelected = true;
+        }
+    }
     var getData = function () {
         return dashboardData;
     };
@@ -87,6 +85,7 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
     return {
         setTitle: setTitle,
         setSelectedBrand: setBrand,
+        setSelectedAdvertiser: setAdvertiser,
         getData: getData,
         campaignStatusToSend: campaignStatusToSend
     };

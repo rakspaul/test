@@ -6,10 +6,10 @@
 <div class="col-md-12 zeroPadding accounts-page" style="margin-bottom: 30px;">
     <!--Header-->
     <div class="col-md-12 zeroPadding heading" style="margin: 30px 0 15px 0;">
-        <h1 class="col-md-12 zeroPadding" style="margin: 0 0 30px 0;">Accounts</h1>
+        <h1 class="pull-left" style="margin: 0 0 30px 0;">Accounts</h1>
 
         <!--Create Account Btn-->
-        <div class="pull-left btn-group create" role="group" aria-label="..." data-ng-if="isSuperAdmin">
+        <div class="pull-right btn-group create" role="group" aria-label="..." data-ng-if="isSuperAdmin">
             <a class="btn btn-default" data-ng-click="AddOrEditAccountModal('create')" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
                 <span class="icon-plus"></span>
                 <span>Create</span>
@@ -23,7 +23,7 @@
              data-ng-class="[(clientsDetails[client.id].advertisers.length ===  0) ? 'no-data-open' : '',
                             (clientsDetails[client.id].advertisers.length) > 0 ? 'data-loaded' : '']">
             <div class="clearfix">
-                <span class="pull-left icon-arrow-down-thick"
+                <span class="pull-left icon-arrow-solid-down"
                       data-ng-if="client.isLeafNode || client.hasChildren"
                       data-ng-click="getSubClientList($event, client);">
                 </span>

@@ -18,7 +18,7 @@
                     <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="pushedCount>0" title={{selectedAdServer.name}}>
                         <!--<span class="text" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'"></span>-->
                         <span>{{selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'}}</span>
-                        <span class="icon-arrow-down"></span>
+                        <span class="icon-arrow-solid-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
                         <li class="available" ng-repeat="adServer in creativeAdServers track by adServer.id" title={{adServer.name}}>
@@ -60,7 +60,7 @@
                     <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title={{CreativeTemplate.name}}>
                         <!--<span class="text" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'"></span>-->
                         <span>{{CreativeTemplate ? CreativeTemplate.name : 'Select Template'}}</span>
-                        <span class="icon-arrow-down"></span>
+                        <span class="icon-arrow-solid-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1" >
                         <li class="available" ng-repeat="template in creativeTemplates track by template.id" title={{template.name}}>

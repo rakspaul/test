@@ -1,9 +1,12 @@
-define(['angularAMD','../common/services/constants_service'], function (angularAMD) {
-    angularAMD.service("loginModel", function ($cookieStore, $location, $http, constants) {
+define(['angularAMD', 'common/services/constants_service'], function (angularAMD) { // jshint ignore:line
+    angularAMD.service('loginModel', function ($cookieStore, $location, $http, constants) {
         var data = {
                 user_id: undefined,
                 user_name: '',
-                is_workflow_user: true, //set the cookie value -->hardcoded
+
+                // set the cookie value -->hardcoded
+                is_workflow_user: true,
+
                 auth_token: undefined,
                 expiry_secs: undefined,
                 login_name: undefined,
@@ -28,7 +31,7 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 localStorage.setItem('masterClient', JSON.stringify(data));
             },
 
-            getMasterClient: function (data) {
+            getMasterClient: function () {
                 return localStorage.getItem('masterClient') && JSON.parse(localStorage.getItem('masterClient'));
             },
 
@@ -79,8 +82,6 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
             setUser: function (user) {
                 data = user;
 
-                // var time = moment().add(user.expiry_secs, 'seconds'),
-                // expiryTime = new Date(time);
                 document.cookie = 'cdesk_session=' + JSON.stringify(user) + ';expires='  + ';path=/';
 
                 // campaignDetails object is required for reports tab.
@@ -92,21 +93,26 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                         kpi: 'ctr'
                     })
                 );
+
                 localStorage.setItem('selectedKpi', 'ctr');
                 localStorage.setItem('isNavigationFromCampaigns', 'false');
             },
 
             getIsAgencyCostModelTransparent: function () {
-                return true;// TODO: for now until we define cost transparencies.  Sriram. Dec 28th.
-                if (data.is_network_user) {
+                // TODO: for now until we define cost transparencies.  Sriram. Dec 28th.
+                return true;
+
+                // TODO (Lalding): Commenting out the following code because of the temp. return statement above.
+                /*if (data.is_network_user) {
                     data.cost_transparency = true;
                 }
+
                 if (data.cost_transparency) {
                     return data.cost_transparency;
                 } else if ($cookieStore.get('cdesk_session')) {
                     data.cost_transparency = $cookieStore.get('cdesk_session').cost_transparency;
                     return $cookieStore.get('cdesk_session').cost_transparency;
-                }
+                }*/
             },
 
             getLoginName: function () {
@@ -127,7 +133,7 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 }
             },
 
-            getAgencyId: function () {
+            getAgencyId: function () { // jshint ignore:line
                 if (data.agency_id) {
                     return data.agency_id;
                 } else if ($cookieStore.get('cdesk_session')) {
@@ -145,7 +151,7 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 }
             },
 
-            getExpirySecs: function () {
+            getExpirySecs: function () { // jshint ignore:line
                 if (data.expiry_secs) {
                     return data.expiry_secs;
                 } else if ($cookieStore.get('cdesk_session')) {
@@ -154,7 +160,7 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 }
             },
 
-            getAuthToken: function () {
+            getauth_token: function () {
                 if ($cookieStore.get('cdesk_session')) {
                     data.auth_token = $cookieStore.get('cdesk_session').auth_token;
                     return $cookieStore.get('cdesk_session').auth_token;
@@ -168,8 +174,10 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
             networkTimezone: function () {
                 if ($cookieStore.get('cdesk_session')) {
                     data.network_tz = $cookieStore.get('cdesk_session').network_tz;
-                    return $cookieStore.get('cdesk_session').network_tz
+
+                    return $cookieStore.get('cdesk_session').network_tz;
                 }
+
                 return 'America/New_York';
             },
 
@@ -180,10 +188,13 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                     redirectPath = localStorage.getItem('cdeskRedirect');
                     localStorage.clear();
                     localStorage.setItem('cdeskRedirect', redirectPath);
+
                     if ($location.$$path !== '/login') {
                         updateRedirectUrl($location.$$path);
                     }
+
                     $location.url('/login');
+
                     //remove header bar on login page
                     $('.main_navigation_holder').hide();
                 }
@@ -195,6 +206,7 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 localStorage.clear();
                 this.deleteData();
                 $location.url('/login');
+
                 //remove header bar on login page
                 $('.main_navigation_holder').hide();
             },
@@ -202,10 +214,13 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
             unauthorized: function () {
                 $cookieStore.remove('cdesk_session');
                 localStorage.clear();
+
                 if ($location.$$path !== '/login') {
                     updateRedirectUrl($location.$$path);
                 }
+
                 $location.url('/login');
+
                 //remove header bar on login page
                 $('.main_navigation_holder').hide();
             },
@@ -213,6 +228,6 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
             forbidden: function () {
                 $location.url('/mediaplans');
             }
-        }; //return
-    }); //loginModel
+        };
+    });
 });

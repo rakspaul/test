@@ -96,6 +96,15 @@
   z-index: 10;
   cursor: pointer;
 }
+#creative .creativeList .creativeTemplate .creativePreviewBtn {
+  position: relative;
+}
+#creative .creativeList .creativeTemplate .creativePreviewBtn a {
+  border: 1px solid rgba(191, 201, 215, 0.5);
+  padding: 10px;
+  margin-top: 10px;
+  display: inline-block;
+}
 #creative .emptyCreativesFlag td {
   border-width: 0;
 }
@@ -122,9 +131,6 @@
   width: 1200px;
   margin: 0 auto;
   float: none;
-}
-#creativeList .creative_filter_dropdowns {
-  margin-top: -15px;
 }
 #creativeList .creativeAdBulkDiv {
   padding: 30px 0;
@@ -229,7 +235,7 @@
   margin: 0 0 5px 0;
 }
 #creativeList .mainWrap {
-  margin: 10px auto 0;
+  margin: 0 auto 0;
   position: relative;
 }
 #creativeList .mainWrap .table span,
@@ -301,7 +307,7 @@
   overflow: auto;
 }
 #creativeList .mainWrap .btn_list_filters {
-  margin-bottom: 15px;
+  margin-bottom: 30px;
 }
 #creativeList .each_filter {
   float: left;
@@ -533,6 +539,10 @@
 .popInventoryLib .inventoryLib .headerLib .btn-default {
   float: right;
   margin: 0;
+}
+.popInventoryLib .inventoryLib .headerLib .allTypeLists .btn-default {
+  float: left;
+  margin-left: -1px;
 }
 .popInventoryLib .inventoryLib .headerLib h1 {
   float: left;

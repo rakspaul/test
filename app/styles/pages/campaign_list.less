@@ -1036,13 +1036,16 @@ button, i, input[type="submit"] {
   //width: 140px;
 }
 .campaign_status_icon {
-  margin-top: 5px;
+  margin-top: 4px;
   margin-right: 8px ;
   width: 16px;
   height: 16px;
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
+}
+.campaign_status_icon.icon-archive {
+    margin-top: 3px;
 }
 .cost_cols_holder {
   .first_col , .second_col {
@@ -1120,9 +1123,12 @@ button, i, input[type="submit"] {
     }
   }
   .campaign_list_header {
-    margin-right: 0px ;
+    margin: 0px ;
     width: 100%;
     clear: both;
+    h1 {
+        margin-top: 30px;
+    }
     .nav_filters {
       width: auto ;
       #brandsList {
@@ -1503,6 +1509,11 @@ button, i, input[type="submit"] {
     }
     .each_campaign_holder:first-child .each_campaign_list_container {
       border-top : 0px ;
+    }
+    .each_campaign_list_container.true_archive {
+        .days_over, .days_over:after {
+            background: #57606D;
+        }
     }
   }
   .total_campaign_cost_holder {
@@ -2204,7 +2215,7 @@ button, i, input[type="submit"] {
           font-size: 11px;
           margin-top: 4px;
         }
-        .icon-arrow-down-thick {
+        .icon-arrow-solid-down {
           color: #fff;
           margin-top: 2px;
         }
@@ -2251,7 +2262,7 @@ button, i, input[type="submit"] {
           overflow: hidden;
           text-overflow: ellipsis;
         }
-        .icon-arrow-down-thick {
+        .icon-arrow-solid-down {
           color: #fff;
         }
       }
@@ -2506,21 +2517,21 @@ button, i, input[type="submit"] {
           border-right: solid 8px transparent;
         }
       }
-//      .each_nav_link.active#creative_nav_link {
-//        .arrowSelect {
-//          content: "";
-//          position: absolute;
-//          display: block;
-//          bottom: -15px;
-//          left: 35%;
-//          height: 0;
-//          width: 0;
-//          border: solid 6px #EDF2F8;
-//          border-left: solid 8px transparent;
-//          border-top: 0;
-//          border-right: solid 8px transparent;
-//        }
-//      }
+      .each_nav_link.active#creative_nav_link {
+        .arrowSelect {
+          content: "";
+          position: absolute;
+          display: block;
+          bottom: -15px;
+          left: 35%;
+          height: 0;
+          width: 0;
+          border: solid 6px #fff;
+          border-left: solid 8px transparent;
+          border-top: 0;
+          border-right: solid 8px transparent;
+        }
+      }
       #reports_nav_link {
         position: relative;
         height: 34px ;
@@ -2766,9 +2777,19 @@ button, i, input[type="submit"] {
     }
   }
   .timeline_dd {
-    background: url("/images/cdesk/common_down_arrow.png") no-repeat right 4px ;
-    padding-right: 20px ;
-    max-width: 140px ;
+    //background: url("/images/cdesk/common_down_arrow.png") no-repeat right 4px ;
+    background: none;
+    padding-right: 0px;
+    min-width: 70px;
+    width: 100%;
+    float: left;
+    background: none;
+    .icon-arrow-solid-down {
+        display: inline-block;
+        position: static;
+        float: right;
+        margin: 3px 0 0 8px;
+    }
   }
   .each_filter {
     margin-top: 0px ;
@@ -2973,11 +2994,13 @@ button, i, input[type="submit"] {
   }
 /*}*/
 
-
-
   .nav_filters_heading {
-    color: #939eaf ;
-    font-size: 12px;
+    color: #939eae !important;
+    padding: 10px 0 5px 0 !important;
+    text-align: left;
+    font-size: 12px !important;
+    font-weight: normal;
+    margin: 0;
     text-transform: capitalize;
   }
   .brand_name_selected {
@@ -2991,7 +3014,7 @@ button, i, input[type="submit"] {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      background: url("/images/cdesk/common_down_arrow.png") no-repeat right center;
+      //background: url("/images/cdesk/common_down_arrow.png") no-repeat right center;
   }
   .campaign_name_selected {
     height: 20px ;
@@ -3002,7 +3025,17 @@ button, i, input[type="submit"] {
     overflow: hidden;
     text-overflow : ellipsis ;
     cursor: pointer;
-    background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px ;
+    //background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px ;
+  }
+  .icon-arrow-solid-down {
+    position: absolute;
+    z-index: 2;
+    top: 2px;
+    right: 0px;
+    cursor: pointer;
+    width: 12px;
+    height: 12px;
+    font-size: 12px;
   }
   .brandsDropdownSearch {
     position: relative;
@@ -3083,7 +3116,8 @@ button, i, input[type="submit"] {
     }
   }
   #strategy_dropdown {
-    background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px ;
+    //background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px ;
+    background: none;
     padding-right: 20px ;
   }
   #campaignsDropdownDiv {
@@ -3127,9 +3161,6 @@ button, i, input[type="submit"] {
     }
   }
 }
-.dropdown_filters_holder {
-  margin : 10px 0 ;
-}
 .quick_filters_holder {
   .filters_selection_holder {
     .quick_filter {
@@ -3145,11 +3176,6 @@ button, i, input[type="submit"] {
         border: 1px solid #BFC9D7;
         border-radius: 2px;
         min-height: 36px;
-
-        //When search is added uncomment below
-        border-left: 0px;
-        border-bottom-left-radius: 0;
-        border-top-left-radius: 0;
       }
       .sliding_dropdown_btn:hover, .sliding_dropdown_btn:active, .sliding_dropdown_btn:focus {
         background-color:#DCE6F1;

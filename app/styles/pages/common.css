@@ -305,7 +305,6 @@
   border: 1px solid #ccd2da;
 }
 .popup-holder textarea {
-  border: 1px solid #dde6eb;
   background-color: #ffffff;
   font-size: 14px;
   color: #939ead;
@@ -555,7 +554,6 @@
   color: #007ac9;
 }
 .popContainerHolder .popContainer .textarea_edit_holder textarea {
-  border: solid 1px #007ac9;
   padding: 20px;
   margin: 0px 0 20px;
   width: 100%;
@@ -899,7 +897,7 @@
   top: 5px;
   right: -3px;
 }
-.nav_filters .dropdown .dropdown_name_selected .icon-arrow-down {
+.nav_filters .dropdown .dropdown_name_selected .icon-arrow-solid-down {
   font-size: 10px;
   color: #000;
   height: 4px;
@@ -1099,7 +1097,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  background: url("/images/cdesk/common_down_arrow.png") no-repeat right center;
 }
 .nav_filters .campaign_name_selected {
   height: 30px;
@@ -1110,7 +1107,16 @@
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
-  background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px;
+}
+.nav_filters .icon-arrow-solid-down {
+  position: absolute;
+  z-index: 2;
+  top: 2px;
+  right: 0px;
+  cursor: pointer;
+  width: 12px;
+  height: 12px;
+  font-size: 12px;
 }
 .nav_filters .brandsDropdownSearch {
   position: relative;
@@ -1163,16 +1169,7 @@
   border-left: solid 8px transparent;
   border-top: 0;
   border-right: solid 8px transparent;
-  opacity: 0;
-  -webkit-animation: fadeIn ease-in 1;
-  -moz-animation: fadeIn ease-in 1;
-  animation: fadeIn ease-in 1;
-  -webkit-animation-fill-mode: forwards;
-  -moz-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  -webkit-animation-duration: .55s;
-  -moz-animation-duration: .55s;
-  animation-duration: .55s;
+  opacity: 1;
 }
 .main_navigation_holder .profile-photo-tab.selected:after {
   content: "";
@@ -1461,6 +1458,16 @@
   display: inline-block;
   float: right;
   margin-left: 8px;
+}
+.common_dropdown .dropdown .icon-arrow-solid-down {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  width: 12px;
+  height: 12px;
+  font-size: 12px;
 }
 .common_dropdown .dropdown .dropdown-menu {
   padding: 5px 0;
@@ -1934,6 +1941,294 @@ tags-input .autocomplete {
   -moz-animation-iteration-count: 1;
   -webkit-animation-iteration-count: 1;
   font-size: 14px ;
+}
+.marginLeft {
+  margin: 0 0 0 10px ;
+}
+.searchInputWithClear .iconSearchBtn {
+  padding: 8px 7px 7px;
+}
+.searchInputWithClear .inputWithClear {
+  position: relative;
+}
+.searchInputWithClear .inputWithClear > input {
+  padding-right: 45px ;
+}
+.searchInputWithClear .inputWithClear .iconClearHolder {
+  right: 1px;
+  top: 1px;
+  position: absolute;
+  margin: 7px 15px 6px;
+  cursor: pointer;
+}
+.selectedAtRight {
+  background: #edf2f8;
+  float: left;
+  margin-left: 2%;
+  overflow: auto ;
+  padding: 15px 20px;
+  width: 33%;
+}
+.selectedAtRight .selectedItems {
+  float: left;
+  height: 640px;
+  /*overflow: auto;*/
+  width: 100%;
+  max-height: 560px;
+}
+.selectedAtRight .selectedItems .segWrap {
+  border-bottom: 1px solid #bfc9d7;
+  float: left;
+  margin-top: 20px;
+  padding-bottom: 10px;
+  position: relative;
+  width: 100%;
+}
+.selectedAtRight .selectedItems .segWrap:first-child {
+  margin-top: 20px;
+}
+.selectedAtRight .selectedItems .segWrap .icon-close {
+  cursor: pointer;
+  font-size: 9px;
+  height: 9px;
+  margin-right: 0;
+  margin-top: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 9px;
+  z-index: 10;
+}
+.selectedAtRight .selectedItems .segWrap img {
+  clear: left;
+  float: left;
+  margin-right: 10px;
+}
+.selectedAtRight .selectedItems .segWrap span {
+  float: left;
+  font-size: 12px;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+  width: 100%;
+}
+.selectedAtRight .selectedItems .segWrap span:first-child {
+  clear: both;
+  width: 90%;
+}
+.listToBeSelected {
+  float: left;
+  width: 65%;
+}
+.listToBeSelected .listToBeSelectedTxt {
+  margin: 15px 0 0;
+}
+.listToBeSelected .columnOne {
+  border-right: 1px solid #fff !important;
+  padding-left: 0 !important;
+  text-align: center;
+  width: 6%;
+}
+.listToBeSelected .columnOne .checkbox {
+  float: left;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  width: 100%;
+}
+.listToBeSelected .columnOne .checkbox input[type="checkbox"] {
+  float: none;
+  margin: 0;
+  text-align: center;
+}
+.listToBeSelected .columnTwo {
+  /* width: 30%;*/
+}
+.listToBeSelected .columnThree {
+  text-align: center;
+  /* width: 13%;*/
+}
+.listToBeSelected .columnThree img {
+  margin-top: 13px;
+  text-align: center;
+}
+.listToBeSelected .columnFour {
+  /*width: 22%;*/
+}
+.listToBeSelected .columnFive {
+  /* width: 12%; */
+}
+.listToBeSelected .columnSix {
+  border-width: 0 !important;
+  /* width: 17%; */
+}
+.listToBeSelected .segBodyTable,
+.listToBeSelected .segHeaderTable {
+  border: 1px solid #bfc9d7;
+  margin-top: 20px;
+  padding: 0;
+}
+.listToBeSelected .segBodyTable .columnOne,
+.listToBeSelected .segHeaderTable .columnOne,
+.listToBeSelected .segBodyTable .columnTwo,
+.listToBeSelected .segHeaderTable .columnTwo,
+.listToBeSelected .segBodyTable .columnThree,
+.listToBeSelected .segHeaderTable .columnThree,
+.listToBeSelected .segBodyTable .columnFour,
+.listToBeSelected .segHeaderTable .columnFour,
+.listToBeSelected .segBodyTable .columnFive,
+.listToBeSelected .segHeaderTable .columnFive,
+.listToBeSelected .segBodyTable .columnSix,
+.listToBeSelected .segHeaderTable .columnSix {
+  border-right: 1px solid #bfc9d7;
+  float: left;
+  height: 52px;
+  padding: 17px 5px 0 8px;
+}
+.listToBeSelected .segBodyTable .columnOne span,
+.listToBeSelected .segHeaderTable .columnOne span,
+.listToBeSelected .segBodyTable .columnTwo span,
+.listToBeSelected .segHeaderTable .columnTwo span,
+.listToBeSelected .segBodyTable .columnThree span,
+.listToBeSelected .segHeaderTable .columnThree span,
+.listToBeSelected .segBodyTable .columnFour span,
+.listToBeSelected .segHeaderTable .columnFour span,
+.listToBeSelected .segBodyTable .columnFive span,
+.listToBeSelected .segHeaderTable .columnFive span,
+.listToBeSelected .segBodyTable .columnSix span,
+.listToBeSelected .segHeaderTable .columnSix span {
+  float: left;
+  margin-top: 1px;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+.listToBeSelected .segBodyTable .columnOne .toolTipAudienceSegment,
+.listToBeSelected .segHeaderTable .columnOne .toolTipAudienceSegment,
+.listToBeSelected .segBodyTable .columnTwo .toolTipAudienceSegment,
+.listToBeSelected .segHeaderTable .columnTwo .toolTipAudienceSegment,
+.listToBeSelected .segBodyTable .columnThree .toolTipAudienceSegment,
+.listToBeSelected .segHeaderTable .columnThree .toolTipAudienceSegment,
+.listToBeSelected .segBodyTable .columnFour .toolTipAudienceSegment,
+.listToBeSelected .segHeaderTable .columnFour .toolTipAudienceSegment,
+.listToBeSelected .segBodyTable .columnFive .toolTipAudienceSegment,
+.listToBeSelected .segHeaderTable .columnFive .toolTipAudienceSegment,
+.listToBeSelected .segBodyTable .columnSix .toolTipAudienceSegment,
+.listToBeSelected .segHeaderTable .columnSix .toolTipAudienceSegment {
+  width: auto;
+  max-width: 100%;
+}
+.listToBeSelected .segBodyTable .columnThree,
+.listToBeSelected .segHeaderTable .columnThree {
+  border-right: 0px solid #bfc9d7;
+}
+.listToBeSelected .segBodyWrap {
+  float: left;
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+.listToBeSelected .segBodyWrap .segFixedWrap {
+  float: left;
+  height: 100%;
+  overflow: auto;
+  width: 100%;
+  max-height: 400px ;
+  border-bottom: solid 1px #bfc9d7;
+}
+.listToBeSelected .segmentHeader {
+  float: left;
+  width: 100%;
+}
+.listToBeSelected .segmentHeader .searchInput {
+  width: 100%;
+}
+.listToBeSelected .segmentHeader .multiDDL {
+  float: left;
+  position: relative;
+  width: 100%;
+}
+.listToBeSelected .segmentHeader .multiDDL .icon-search {
+  position: absolute;
+  right: 10px;
+  top: 42px;
+  z-index: 10;
+}
+.listToBeSelected .segmentHeader .sliderAmount {
+  border: 0;
+  margin-bottom: 11px;
+  margin-top: 5px;
+  text-align: center;
+}
+.listToBeSelected .segmentHeader .ui-slider {
+  background: #dce6f1;
+  border-radius: 2px;
+  border-width: 0;
+}
+.listToBeSelected .segmentHeader .ui-slider .ui-slider-handle {
+  background: #fff;
+  border: 1px solid #bfc9d7;
+  border-radius: 2px;
+  height: 35px;
+  top: -12px;
+  width: 13px;
+}
+.listToBeSelected .segmentHeader .searchInputBtn:active,
+.listToBeSelected .segmentHeader .searchInputBtn:focus,
+.listToBeSelected .segmentHeader .searchInputBtn:hover,
+.listToBeSelected .segmentHeader .searchInputBtn:target {
+  border-width: 0px !important;
+}
+.listToBeSelected .segmentHeader .searchClearInputBtn {
+  right: 42px;
+  border-right: 1px solid #BFC9D7;
+  height: 36px;
+  background: transparent !important;
+  top: 0px;
+}
+.listToBeSelected .segmentHeader .searchClearInputBtn:active,
+.listToBeSelected .segmentHeader .searchClearInputBtn:focus,
+.listToBeSelected .segmentHeader .searchClearInputBtn:hover,
+.listToBeSelected .segmentHeader .searchClearInputBtn:target {
+  border-width: 0px !important;
+  border-right: 1px solid #BFC9D7 !important;
+}
+.listToBeSelected .segmentHeader .searchClearInputBtn .icon-clear {
+  background: transparent !important;
+  top: 1px;
+}
+.listToBeSelected .segBodyTable {
+  border-top: 0;
+  margin: 0;
+}
+.listToBeSelected .segHeaderTable {
+  border-bottom: 2px solid #bfc9d7;
+}
+.listToBeSelected .segHeaderTable .columnOne,
+.listToBeSelected .segHeaderTable .columnTwo,
+.listToBeSelected .segHeaderTable .columnThree,
+.listToBeSelected .segHeaderTable .columnFour,
+.listToBeSelected .segHeaderTable .columnFive,
+.listToBeSelected .segHeaderTable .columnSix {
+  border-width: 0 !important;
+  padding-top: 15px;
+}
+.listToBeSelected .segTotal {
+  color: #939eae;
+  float: left;
+  font-size: 14px;
+  padding-top: 5px;
+}
+.onlyShowValue {
+  float: left !important;
+  margin: 0 !important;
+  width: 100%;
+  border-radius: 2px;
+  background: #eee;
+  border: 1px solid #BFC9D7;
+  text-align: left;
+  padding: 7px 10px;
 }
 /*Dropdown which has search input box*/
 .dropdown-menu-with-search {

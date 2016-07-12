@@ -13,7 +13,7 @@
                   <div class="pull-right legend_container">
                       <div class="clearfix legend_holder blue">
                         <div class="pull-left legend_color"></div>
-                        <div class="pull-left legend_text" ng-bind="textConstants.BRAND"></div>
+                        <div class="pull-left legend_text" ng-bind="textConstants.ADVERTISER"></div>
                       </div>
                       <div class="clearfix legend_holder green">
                         <div class="pull-left legend_color"></div>
@@ -34,7 +34,7 @@
   <div class="common_loading_icon" ng-if="spendBusy "></div>
   <div class="dashboard_perf_graph" >
     <div ng-show="dataFound&&!spendBusy">
-        <span id="brands"></span>
+        <span id="advertisers"></span>
         <span id="campaigns"></span>
     </div>
       <div  ng-if="!dataFound&&!spendBusy" ng-bind-html="getMessageForDataNotAvailable()">

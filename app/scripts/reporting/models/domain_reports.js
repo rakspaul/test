@@ -32,7 +32,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                     });
                 }
 
-                var usrRole = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
+                var usrRole = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().uiExclusions;
                 if (usrRole && usrRole.ui_modules) {
                     tabs = _.filter(tabs, function (obj, idx) {
                         return _.indexOf(usrRole.ui_modules, obj.href) == -1
@@ -71,27 +71,12 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
 
 
             checkForCampaignFormat: function (adFormats) {
-                var adSupportVideo = false;
-                var adSupportDisplay = false;
-
-                var videoAds = function () {
-                    return _.indexOf(adFormats, "VIDEO") != -1;
-                }
-                if (adFormats && adFormats.length > 0) {
-                    if (videoAds() && adFormats.length > 1) {
-                        adSupportVideo = true;
-                        adSupportDisplay = true;
-                    } else {
-                        if (videoAds() && adFormats.length === 1) {
-                            adSupportVideo = true;
-                            adSupportDisplay = false;
-                        } else {
-                            adSupportDisplay = true;
-                        }
-                    }
-                }
-
-                return {'videoAds': adSupportVideo, 'displayAds': adSupportDisplay}
+                adFormats = _.flatten(adFormats);
+                var videoAdsExists = _.contains(adFormats, 'VIDEO'),
+                    displayAdsExists = true;
+                // Ex: ['VIDEO'], ['VIDEO', 'SOCIAL'], ['VIDEO', 'SOCIAL', 'RICH_MEDIA']
+                displayAdsExists = !(videoAdsExists && adFormats.length == 1);
+                return {'videoAds': videoAdsExists, 'displayAds': displayAdsExists};
             }
 
         };
@@ -223,7 +208,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                         campaignId: $scope.selectedCampaign.id,
                         advertiserId: advertiserModel.getSelectedAdvertiser().id,
                         brandId: brandsModel.getSelectedBrand().id,
-                        dateFilter: 'life_time',//$scope.selected_filters.time_filter,
+                        dateFilter: 'life_time',//$scope.selectedFilters.time_filter,
                         download_config_id: report.download_config_id
                     }
 

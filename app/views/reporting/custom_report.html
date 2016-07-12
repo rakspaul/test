@@ -22,6 +22,14 @@
             </span>
         </div>
 
+        <div style="text-align:center;">
+        <span class="download-report-load-icon"
+              style="margin:5px 0px;"
+              ng-if="reportDownloadBusy"
+              ng-bind-html="textConstants.DOWNLOADING">
+        </span>
+        </div>
+
         <div class="col-md-12 zeroPadding" id="reportBuilderForm">
             <!--Row 1-->
             <div class="col-md-12 zeroPadding reportRowForm">
@@ -45,7 +53,7 @@
                                                   reports.reportDefinition.dimensions.primary.name :
                                                   textConstants.REPORT_CHOOSE_BREAKDOWN | textEllipsis: 15">
                                             </span>
-                                            <span class="arrow_img"></span>
+                                            <span class="icon-arrow-solid-down"></span>
                                         </div>
                                         <ul class="dropdown-menu" ng-click="enable_generate_btn();" style="min-width: 200px;">
                                             <li ng-click="select_dropdown_option($event)"
@@ -85,7 +93,7 @@
                                                       reports.reportDefinition.dimensions.secondary.name :
                                                       textConstants.REPORT_CHOOSE_BREAKDOWN | textEllipsis: 15">
                                                 </span>
-                                                <span class="arrow_img"></span>
+                                                <span class="icon-arrow-solid-down"></span>
                                             </div>
                                             <ul class="dropdown-menu">
                                                 <li ng-click="select_dropdown_option($event)"
@@ -146,7 +154,7 @@
                                                           addFilts.name :
                                                           textConstants.CHOOSE_FILTER | textEllipsis: 15">
                                                     </span>
-                                                    <span class="arrow_img"></span>
+                                                    <span class="icon-arrow-solid-down"></span>
                                                 </div>
                                                 <ul class="dropdown-menu" style="min-width: 200px;">
                                                     <div class="dropdown_autoselect_box">
@@ -197,7 +205,7 @@
                 <!-- End Additional Filters -->
 
                 <!-- Timeframe -->
-                <div class="col-md-4 zeroPadding">
+                <div class="col-md-4 zeroPadding customDatesTimeframe">
                     <div class="col-md-12 greyTxt" ng-bind-html="textConstants.REPORT_BUILDER_TIMEFRAME"></div>
 
                     <div class="pull-left timeframe_selector">
@@ -210,7 +218,7 @@
                                           reports.reportDefinition.timeframe.type :
                                           textConstants.YESTERDAY">
                                     </span>
-                                    <span class="arrow_img"></span>
+                                    <span class="icon-arrow-solid-down"></span>
                                 </span>
                                 <ul class="dropdown-menu">
                                     <li ng-model="reports.reportDefinition.timeframe.type"
@@ -294,7 +302,7 @@
                                            class="squaredFourChkbox"
                                            id="delivery_chkbox"
                                            ng-model="deliveryMetrics.isAllSelected"
-                                           ng-click="onDeliveryMetrClick()">
+                                           ng-click="onMetricClick('deliveryMetrics')">
                                         Delivery
                                 </span>
 
@@ -303,7 +311,7 @@
                                      ng-repeat="delivery_metric in deliveryMetrics track by $index"
                                      id="{{delivery_metric.key}}"
                                      ng-class="{active:delivery_metric.selected}"
-                                     ng-click="onDeliveryMetrClick($index)"
+                                     ng-click="onMetricClick('deliveryMetrics',$index)"
                                      ng-bind-html="delivery_metric.value">
                                 </div>
                             </div>
@@ -315,7 +323,7 @@
                                            class="squaredFourChkbox"
                                            id="pacing_chkbox"
                                            ng-model="pacingMetrics.isAllSelected"
-                                           ng-click="onPacingMetrClick()"
+                                           ng-click="onMetricClick('pacingMetrics')"
                                     >
                                     Pacing
                                 </span>
@@ -325,7 +333,7 @@
                                      ng-repeat="pacing_metric in pacingMetrics track by $index"
                                      id="{{pacing_metric.key}}"
                                      ng-class="{active:pacing_metric.selected}"
-                                     ng-click="onPacingMetrClick($index)"
+                                     ng-click="onMetricClick('pacingMetrics',$index)"
                                      ng-bind-html="pacing_metric.value">
                                 </div>
                             </div>
@@ -338,7 +346,7 @@
                                            class="squaredFourChkbox"
                                            id="cost_chkbox"
                                            ng-model="costMetrics.isAllSelected"
-                                           ng-click="onCostMetrClick()">
+                                           ng-click="onMetricClick('costMetrics')">
                                         Cost tab
                                 </span>
 
@@ -347,7 +355,7 @@
                                      ng-repeat="cost_metric in costMetrics track by $index"
                                      id="{{cost_metric.key}}"
                                      ng-class="{active:cost_metric.selected}"
-                                     ng-click="onCostMetrClick($index)"
+                                     ng-click="onMetricClick('costMetrics',$index)"
                                      ng-bind-html="cost_metric.value">
                                 </div>
                             </div>
@@ -359,7 +367,7 @@
                                            class="squaredFourChkbox"
                                            id="video_chkbox"
                                            ng-model="videoMetrics.isAllSelected"
-                                           ng-click="onVedioMetrClick()">
+                                           ng-click="onMetricClick('videoMetrics')">
                                         Video
                                 </span>
 
@@ -368,7 +376,7 @@
                                      ng-repeat="video_metric in videoMetrics track by $index "
                                      id="{{video_metric.key}}"
                                      ng-class="{active:video_metric.selected}"
-                                     ng-click="onVedioMetrClick($index)"
+                                     ng-click="onMetricClick('videoMetrics',$index)"
                                      ng-bind-html="video_metric.value">
                                 </div>
                             </div>
@@ -380,16 +388,16 @@
                                            class="squaredFourChkbox"
                                            id="quality_chkbox"
                                            ng-model="qualityMetrics.isAllSelected"
-                                           ng-click="onQualityClick()">
+                                           ng-click="onMetricClick('qualityMetrics')">
                                         Quality
                                 </span>
 
-                                <div class="col-md-6 metricData"
+                                <div class="col-md-12 metricData"
                                      relationIds='Quality'
                                      ng-repeat="quality_metrics in qualityMetrics track by $index"
                                      id="{{quality_metrics.key}}"
                                      ng-class="{active:quality_metrics.selected}"
-                                     ng-click="onQualityClick($index)"
+                                     ng-click="onMetricClick('qualityMetrics',$index)"
                                      ng-bind-html="quality_metrics.value">
                                 </div>
                             </div>
@@ -465,7 +473,7 @@
                                                         reports.schedule.frequency :
                                                         textConstants.SELECT">
                                                 </span>
-                                    <span class="arrow_img"></span>
+                                    <span class="icon-arrow-solid-down"></span>
                                  </span>
                                             <ul class="dropdown-menu">
                                                 <li ng-repeat="frequency in textConstants.WF_FREQUENCY_LIST"
@@ -509,7 +517,7 @@
                                                         reports.schedule.occurance :
                                                         textConstants.SELECT">
                                                 </span>
-                                    <span class="arrow_img"></span>
+                                    <span class="icon-arrow-solid-down"></span>
                                  </span>
                                             <ul class="dropdown-menu">
                                                 <li ng-repeat="week in textConstants.WEEKNAME"
@@ -535,7 +543,7 @@
                                                         reports.schedule.occurance :
                                                         textConstants.SELECT">
                                                 </span>
-                                                <span class="arrow_img"></span>
+                                                <span class="icon-arrow-solid-down"></span>
                                             </span>
                                             <ul class="dropdown-menu">
                                                 <li ng-repeat="schedule_occur in textConstants.SCHEDULE_REPORT_OCCURS_ON_LIST"
@@ -559,7 +567,7 @@
                                           id="date-selected-txt"
                                           ng-bind-html="textConstants.SELECT">
                                                 </span>
-                                    <span class="arrow_img"></span>
+                                    <span class="icon-arrow-solid-down"></span>
                                  </span>
                                             <ul class="dropdown-menu">
                                                 <li ng-repeat="counter in getNumberDate"
@@ -1002,7 +1010,7 @@
         </div>
 
         <script type="text/ng-template" id="deliveryTpl">
-            <div class="each_col {{customeReportData.level === 'first_dimension' ?'more_dimension_arrow' :'tree_string'}}"
+            <div class="each_col {{customeReportData.level === 'first_dimension' ?'more_dimension_arrow icon-toggleclose' :'tree_string'}}"
                  ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();">
             </div>
 
@@ -1011,9 +1019,9 @@
                 'more_dimension_col' :
                 ' '}}">
             <span
-                ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();"
+                ng-click="deepLinking.routeToLink($event,customeReportData.level,$index); $event.stopPropagation();"
                 ng-if="customeReportData.value"
-                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"></span>
+                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"  ng-mouseover="deepLinking.isClickable($event,customeReportData.type)"></span>
             </div>
 
             <!----- Delivery report data ------------------------>
@@ -1037,16 +1045,16 @@
 
         <!----- Cost report data ------------------------>
         <script type="text/ng-template" id="costTpl">
-            <div class="each_col {{customeReportData.level === 'first_dimension' ?'more_dimension_arrow' :'tree_string'}}"
+            <div class="each_col {{customeReportData.level === 'first_dimension' ?'more_dimension_arrow icon-toggleclose' :'tree_string'}}"
                  ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();">
             </div>
 
             <!---- Dimension report data ------------------------>
             <div class="each_col tree_dimension_col {{customeReportData.level === 'first_dimension' ?'more_dimension_col' :' '}}">
             <span
-                ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();"
+                ng-click="deepLinking.routeToLink($event,customeReportData.level,$index); $event.stopPropagation();"
                 ng-if="customeReportData.value"
-                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"></span>
+                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}" ng-mouseover="deepLinking.isClickable($event,customeReportData.type)"></span>
             </div>
             <!--Ad Serving  ad_serving_cost-->
             <div class="each_col_cost" ng-if="customeReportData.ad_servicing_cost>=-1"
@@ -1105,7 +1113,7 @@
         <!----- video report data ------------------------>
         <script type="text/ng-template" id="videoTpl">
             <div class="each_col {{customeReportData.level === 'first_dimension' ?
-                'more_dimension_arrow' :
+                'more_dimension_arrow icon-toggleclose' :
                 'tree_string'}}"
                  ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();">
             </div>
@@ -1115,9 +1123,9 @@
                 'more_dimension_col' :
                 ' '}}">
             <span
-                ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();"
+                ng-click="deepLinking.routeToLink($event,customeReportData.level,$index); $event.stopPropagation();"
                 ng-if="customeReportData.value"
-                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"></span>
+                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}" ng-mouseover="deepLinking.isClickable($event,customeReportData.type)"></span>
             </div>
             <!--Video Plays  ad_starts-->
             <div class="each_col" ng-if="customeReportData.ad_starts>=-1"
@@ -1165,7 +1173,7 @@
         <!----- Quality Display report data ------------------------>
         <script type="text/ng-template" id="qualityTpl">
             <div class="each_col {{customeReportData.level === 'first_dimension' ?
-                'more_dimension_arrow' :
+                'more_dimension_arrow icon-toggleclose' :
                 'tree_string'}}"
                  ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();">
             </div>
@@ -1175,73 +1183,52 @@
                 'more_dimension_col' :
                 ' '}}">
             <span
-                ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();"
+                ng-click="deepLinking.routeToLink($event,customeReportData.level,$index); $event.stopPropagation();"
                 ng-if="customeReportData.value"
-                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"></span>
+                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}" ng-mouseover="deepLinking.isClickable($event,customeReportData.type)"></span>
             </div>
-            <div class="each_col" ng-if="customeReportData.display_delivered_imps>=-1"
-                 ng-bind="customeReportData.display_delivered_imps == -1 ? 'NA' : (customeReportData.display_delivered_imps | number:0)">
+            <div class="each_col" ng-if="customeReportData.measurable_imps>=-1"
+                 ng-bind="customeReportData.measurable_imps == -1 ? 'NA' : (customeReportData.measurable_imps | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.display_measurable_imps>=-1"
-                 ng-bind="customeReportData.display_measurable_imps == -1 ? 'NA' : (customeReportData.display_measurable_imps | number:0)">
+            <div class="each_col" ng-if="customeReportData.measurable_perc>=-1"
+                 ng-bind="customeReportData.measurable_perc == -1 ? 'NA' : (customeReportData.measurable_perc | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.display_measurable_perc>=-1"
-                 data-ng-bind="customeReportData.display_measurable_perc == -1 ? 'NA' : (customeReportData.display_measurable_perc | number:0)+'%'">
+            <div class="each_col" ng-if="customeReportData.viewable_imps>=-1"
+                 data-ng-bind="customeReportData.viewable_imps == -1 ? 'NA' : (customeReportData.viewable_imps | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.display_viewable_imps>=-1"
-                 ng-bind="customeReportData.display_viewable_imps == -1 ? 'NA' : (customeReportData.display_viewable_imps | number:0)">
+            <div class="each_col" ng-if="customeReportData.viewable_perc>=-1"
+                 ng-bind="customeReportData.viewable_perc == -1 ? 'NA' : (customeReportData.viewable_perc | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.display_viewable_perc>=-1"
-                 data-ng-bind="customeReportData.display_viewable_perc == -1 ? 'NA' : (customeReportData.display_viewable_perc | number:0) + '%'">
+            <div class="each_col" ng-if="customeReportData.viewable_imps_5s>=-1"
+                 data-ng-bind="customeReportData.viewable_imps_5s == -1 ? 'NA' : (customeReportData.viewable_imps_5s | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.display_viewable_imps_5s>=-1"
-                 ng-bind="customeReportData.display_viewable_imps_5s == -1 ? 'NA' : (customeReportData.display_viewable_imps_5s | number:0)">
+            <div class="each_col" ng-if="customeReportData.viewable_imps_15s>=-1"
+                 ng-bind="customeReportData.viewable_imps_15s == -1 ? 'NA' : (customeReportData.viewable_imps_15s | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.display_viewable_imps_15s>=-1"
-                 ng-bind="customeReportData.display_viewable_imps_15s == -1 ? 'NA' : (customeReportData.display_viewable_imps_15s | number:0)">
+            <div class="each_col" ng-if="customeReportData.suspicious_imps>=-1"
+                 ng-bind="customeReportData.suspicious_imps == -1 ? 'NA' : (customeReportData.suspicious_imps | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.display_suspicious_imps>=-1"
-                 ng-bind="customeReportData.display_suspicious_imps | number:0">
+            <div class="each_col" ng-if="customeReportData.suspicious_act_perc>=-1"
+                 ng-bind="customeReportData.suspicious_act_perc == -1 ? 'NA' : (customeReportData.suspicious_act_perc | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.display_suspicious_act_perc>=-1"
-                 ng-bind="customeReportData.display_suspicious_act_perc == -1 ? 'NA' : (customeReportData.display_suspicious_act_perc | number:2)">
+            <div class="each_col" ng-if="customeReportData.viewable_25>=-1"
+                 ng-bind="customeReportData.viewable_25 == -1 ? 'NA' : (customeReportData.viewable_25 | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.video_viewable_imps>=-1"
-                 ng-bind="customeReportData.video_viewable_imps == -1 ? 'NA' : (customeReportData.video_viewable_imps | number:0)">
+            <div class="each_col" ng-if="customeReportData.viewable_50>=-1"
+                 ng-bind="customeReportData.viewable_50 == -1 ? 'NA' : (customeReportData.viewable_50 | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.video_completion_25>=-1"
-                 ng-bind="customeReportData.video_completion_25 == -1 ? 'NA' : (customeReportData.video_completion_25 | number:0)">
+            <div class="each_col" ng-if="customeReportData.viewable_75>=-1"
+                 ng-bind="customeReportData.viewable_75 == -1 ? 'NA' : (customeReportData.viewable_75 | number:0)">
             </div>
-            <div class="each_col" ng-if="customeReportData.video_completion_50>=-1"
-                 ng-bind="customeReportData.video_completion_50 == -1 ? 'NA' : (customeReportData.video_completion_50 | number:0)">
-            </div>
-            <div class="each_col" ng-if="customeReportData.video_completion_75>=-1"
-                 ng-bind="customeReportData.video_completion_75 == -1 ? 'NA' : (customeReportData.video_completion_75 | number:0)">
-            </div>
-            <div class="each_col" ng-if="customeReportData.video_completion_100>=-1"
-                 ng-bind="customeReportData.video_completion_100 == -1 ? 'NA' : (customeReportData.video_completion_100 | number:0)">
-            </div>
-            <div class="each_col" ng-if="customeReportData.video_viewable_25>=-1"
-                 ng-bind="customeReportData.video_viewable_25 == -1 ? 'NA' : (customeReportData.video_viewable_25 | number:0)">
-            </div>
-            <div class="each_col" ng-if="customeReportData.video_viewable_50>=-1"
-                 ng-bind="customeReportData.video_viewable_50 == -1 ? 'NA' : (customeReportData.video_viewable_50 | number:0)">
-            </div>
-            <div class="each_col" ng-if="customeReportData.video_viewable_75>=-1"
-                 ng-bind="customeReportData.video_viewable_75 == -1 ? 'NA' : (customeReportData.video_viewable_75 | number:0)">
-            </div>
-            <div class="each_col" ng-if="customeReportData.video_viewable_100>=-1"
-                 ng-bind="customeReportData.video_viewable_100 == -1 ? 'NA' : (customeReportData.video_viewable_100 | number:0)">
-            </div>
-            <div class="each_col" ng-if="customeReportData.video_suspicious_imps>=-1"
-                 ng-bind="customeReportData.video_suspicious_imps == -1 ? 'NA' : (customeReportData.video_suspicious_imps |  number:0)">
+            <div class="each_col" ng-if="customeReportData.viewable_100>=-1"
+                 ng-bind="customeReportData.viewable_100 == -1 ? 'NA' : (customeReportData.viewable_100 | number:0)">
             </div>
         </script>
 
         <!----- Pacing report data ------------------------>
         <script type="text/ng-template" id="pacingTpl">
             <div class="each_col {{customeReportData.level === 'first_dimension' ?
-                'more_dimension_arrow' :
+                'more_dimension_arrow icon-toggleclose' :
                 'tree_string'}}"
                  ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();">
             </div>
@@ -1251,10 +1238,19 @@
                 'more_dimension_col' :
                 ' '}}">
             <span
-                ng-click="showDataForClikedDimension($event, customeReportData.value, $index); $event.stopPropagation();"
+                ng-click="deepLinking.routeToLink($event,customeReportData.level,$index); $event.stopPropagation();"
                 ng-if="customeReportData.value"
-                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}"></span>
+                ng-bind="customeReportData.value" tooltip="{{customeReportData.value}}" ng-mouseover="deepLinking.isClickable($event,customeReportData.type)"></span>
             </div>
+            <!--Start Date start_time-->
+            <div class="each_col" ng-if="customeReportData.start_time!=''"
+                 ng-bind="(customeReportData.start_time && (customeReportData.start_time != 'NA')) ? (customeReportData.start_time | formatDate:'D MMM YYYY'): 'NA'">
+            </div>
+            <!--End Date end_time-->
+            <div class="each_col" ng-if="customeReportData.end_time!=''"
+                 ng-bind="(customeReportData.end_time && (customeReportData.end_time != 'NA')) ? (customeReportData.end_time | formatDate:'D MMM YYYY'):'NA'">
+            </div>
+
             <!--Booked Impressions booked_impressions-->
             <div class="each_col" ng-if="customeReportData.booked_impressions>=-1"
                  ng-bind="customeReportData.booked_impressions == -1 ? 'NA' : (customeReportData.booked_impressions | number:0)">

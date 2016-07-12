@@ -1,15 +1,168 @@
 <div class="platform-custom">
     <div class="col-md-12 zeroPadding breadcrumbs">
         <div class="switchPlatform">
-            <a class="btn btn-default pull-right" ng-click="saveCustomeFieldForPlatform(0)">Save Settings</a>
-            <a class="btn btn-link pull-right" ng-click="switchPlatform()">Back to Platforms</a>
+            <a class="btn btn-default pull-right" ng-click="saveCustomeFieldForPlatform(0)"
+               data-ng-bind="textConstants.SAVE_SETTINGS"></a>
+            <a class="btn btn-link pull-right" ng-click="switchPlatform()"
+               data-ng-bind="textConstants.BACK_TO_PLATFORMS"></a>
         </div>
-        <h5 ng-click="switchPlatform()" style="font-size: 16px; font-family: 'Avenir'; cursor: pointer;">Buying Platform</h5>
-        <span class="icon-arrow-down"></span>
-        <img ng-if="adData.platform" ng-src="/images/workflow/platform_icons/{{getPlatformIconName(adData.platform)}}.png"/>
+        <h5 ng-click="switchPlatform()" style="font-size: 16px; font-family: 'Avenir'; cursor: pointer;">Buying
+            Platform</h5>
+        <span class="icon-arrow-solid-down"></span>
+        <img ng-if="adData.platform"
+             ng-src="/images/workflow/platform_icons/{{getPlatformIconName(adData.platform)}}.png"/>
     </div>
     <!--Collective Bidder Form-->
     <form name="customPlatformForm" id="customPlatformForm">
-        <div class="col-md-12 zeroPadding platWrap {{getPlatformIconName(adData.platform)}}"></div>
+
+        <div class="col-md-12 common-loading-area" ng-if="adData.customPlatformLoader" style="margin-left:350px"></div>
+
+        <!-- remove commented code below to get the direct/deal html -->
+        <div class="form-group col-md-12 zeroPadding buyingPlatformContainer">
+            <div class="" ng-if="adData.customInpNameSpaceList && adData.customInpNameSpaceList.length >0">
+                <span class="greyTxt col-md-12 zeroPadding" data-ng-bind="textConstants.INVENTORY"></span>
+                <div class="btn-group create" role="group" aria-label="...">
+                    <button ng-repeat="tabName in adData.customInpNameSpaceList" type="button"
+                            ng-disabled="(tabName.displayName === 'Deal' || tabName.displayName === 'Direct') && adData.budgetType === 'Cost'"
+                            class="btn btn-default {{tabName.className}}" id='{{tabName.name}}'
+                            ng-click="showRespectiveSection($event, tabName.name);"><span
+                        data-ng-bind="tabName.displayName"></span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 zeroPadding platWrap {{getPlatformIconName(adData.platform)}}">
+
+
+        </div>
+
+        <div class="eachBuyingSection appnexus_direct_div staticMarkup" style="display:none;"
+             ng-controller="directInventoryController">
+            <div class="tab-content">
+                <div class="col-md-12 zeroPadding tab-pane fade in active">
+                    <div class="segmentStepOne">
+                        <div class="listToBeSelected">
+                            <div class="listToBeSelectedTxt"
+                                 data-ng-bind="textConstants.CHOOSE_TARGETTED_PLACEMENTS">
+                            </div>
+                            <div class="segmentHeader">
+                                    <span class="greyTxt col-md-12 zeroPadding"
+                                          data-ng-bind="textConstants.KEYWORD"></span>
+                                <div class="col-md-12 zeroPadding searchInput">
+                                    <a class="btn btn-default searchInputBtnInline"
+                                       ng-click="search($event, searchKeyword)" type="button">
+                                        <span class="icon-search" aria-hidden="true"></span>
+                                    </a>
+
+                                    <div class="input-group searchInputForm">
+                                        <input type="text" class="form-control searchBox" search-box
+                                               ng-model="searchKeyword" ng-keyup="search($event, searchKeyword)"
+                                               placeholder="Search for Placements" autocomplete="off">
+                                        <div class="btn btn-default searchClearInputBtn">
+                                            <span class="icon-clear" aria-hidden="true"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 zeroPadding totalListFilter">
+                                <div class="col-md-3 zeroPadding">
+                                    <label class="col-sm-12 greyTxt zeroPadding"
+                                           data-ng-bind="textConstants.PUBLISHER"></label>
+                                    <div class="col-md-12 zeroPadding dropdown-workflow" id="publisher_drop_down">
+                                        <div class="dropdown">
+                                            <button class="btn btn-default dropdown-toggle" type="button"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                                                    ng-disabled="rateTypeReadOnly">
+                                                <span class="text" data-ng-bind="textConstants.SELECT_TYPE"></span>
+                                                <span class="icon-arrow-solid-down"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" data-toggle="dropdown">
+                                                <li class="available"
+                                                    ng-click="filterPlacements('publishers', publisher.id)"
+                                                    ng-repeat="publisher in adData.directInvenotryData.publishers">
+                                                    <a class="ng-binding" ng-bind-html="publisher.name"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 segHeaderTable">
+                                <div class="columnOne">
+                                    <div class="checkbox">
+                                        <input type="checkbox" ng-click="selectAllPlacements($event)"
+                                               ng-checked="selectAllPlacement">
+                                    </div>
+                                </div>
+                                <div class="columnTwo col-md-3">
+                                    <span data-ng-bind="textConstants.PLACEMENT"></span>
+                                </div>
+                                <div class="columnTwo col-md-3">
+                                    <span data-ng-bind="textConstants.GROUP"></span>
+                                </div>
+                                <div class="columnThree col-md-5">
+                                    <span data-ng-bind="textConstants.PUBLISHER"></span>
+                                </div>
+                            </div>
+
+                            <div class="segBodyWrap">
+                                <div class="common-loading-area full-table-loading"
+                                     ng-show="adData.directInvenotryData.placements.fetching"></div>
+                                <div class="segFixedWrap" lr-infinite-scroll="loadMorePlacements">
+                                    <div class="clearfix">
+                                        <div class="col-md-12 segBodyTable"
+                                             ng-repeat="placement in adData.directInvenotryData.placements.data">
+                                            <div class="columnOne">
+                                                <div class="checkbox">
+                                                    <input type="checkbox" ng-click="selectPlacement(placement)"
+                                                           ng-checked="placement.isChecked">
+                                                </div>
+                                            </div>
+                                            <div class="columnTwo col-md-3">
+                                                    <span class="toolTipAudienceSegment"
+                                                          title="{{placement.name}}"
+                                                          data-ng-bind="placement.name"></span>
+                                            </div>
+                                            <div class="columnTwo col-md-3">
+                                                    <span class="toolTipAudienceSegment"
+                                                          title="{{placement.placementGroup}}"
+                                                          data-ng-bind="placement.placementGroup"></span>
+                                            </div>
+                                            <div class="columnThree col-md-5">
+                                                    <span class="toolTipAudienceSegment"
+                                                          data-ng-bind="placement.publisher"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="common-loading-area"
+                                         ng-show="adData.directInvenotryData.placements.load_more_data"></div>
+                                    <div class="no-data-common"
+                                         ng-show="!adData.directInvenotryData.placements.fetching && adData.directInvenotryData.placements.data_not_found"
+                                         data-ng-bind="textConstants.DATANOTAVAILABLE"></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="selectedAtRight">
+                            <span class="pull-left" data-ng-bind="textConstants.SELECTED_PLACEMENTS"></span>
+                            <a class="pull-right" ng-click="adData.clearAllSelectedPlacements()"
+                               data-ng-bind="textConstants.CLEARALL"></a>
+                            <div class="selectedItems">
+                                <div class="segWrap"
+                                     ng-repeat="placement in adData.directInvenotryData.placements.selected track by placement.id">
+                                        <span
+                                            data-ng-bind="(placement.name) + ' : ' + (placement.placementGroup) + ' : ' + (placement.publisher)"></span>
+                                    <div style="clear:both"></div>
+                                    <div class="icon-close" ng-click="selectPlacement(placement)"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 </div>
+

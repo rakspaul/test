@@ -1,11 +1,16 @@
-<div class="col-md-12 each_campaign_list_container">
+<div class="col-md-12 each_campaign_list_container {{campaign.is_archived}}_archive">
     <!--Campaign Title-->
     <div class="col-md-12 zeroPadding">
         <!--Status Icon-->
         <div class="pull-left campaign_status_icon {{campaign.status.toLowerCase()}}_bulb"
-             tooltip-placement="bottom"
+             ng-hide="campaign.is_archived == true" tooltip-placement="bottom"
              tooltip="{{campaign.status.toLowerCase() == 'in_flight' ?
              'In Flight':( campaign.status.toLowerCase() | toTitleCase ) }}">
+        </div>
+        
+        <div class="pull-left campaign_status_icon icon-archive" ng-if="campaign.is_archived == true"
+             tooltip-placement="bottom"
+             tooltip="Archived">
         </div>
 
         <!--Title / Brand Name-->
@@ -43,15 +48,18 @@
                 </div>
                 <div ng-init="duration=campaign.durationLeft()"></div>
                 <div class="days_over" ng-style="{'width':campaign.durationCompletion() +'%'};">
-                    <span ng-if="duration == 'Yet to start'"
+                    <span ng-if="duration == 'Yet to start'" ng-hide="campaign.is_archived == true"
                           class="days_over_text start_text"
                           ng-bind="textConstants.YET_TO_START">
+                    </span>
+                    <span ng-if="campaign.is_archived == true" ng-bind="textConstants.WF_ARCHIVED"
+                          class="days_over_text start_text" style="color:#57606D;">
                     </span>
                     <span ng-if="duration == 'Ended'"
                           class="days_over_text ended_text"
                           ng-bind="textConstants.ENDED">
                     </span>
-                    <span ng-if="duration > 0"
+                    <span ng-if="duration > 0" ng-hide="campaign.is_archived == true"
                           ng-bind="duration + ' ' + textConstants.DAYS_LEFT"
                           class="days_over_text">
                     </span>
@@ -75,8 +83,8 @@
                 </div>
             </a>
            <a href="/mediaplan/{{campaign.orderId}}/overview" id="campaigns_activity_btn" ng-show="showManageButton">
-                <div class="btn btn-default pull-right" ng-show="campaigns.dashboard.appliedFilterType !== 'archived'">
-                    <span ng-bind="textConstants.MANAGE"></span>
+               <div class="btn btn-default pull-right" ng-show="(campaigns.dashboard.appliedFilterType !== 'archived' && campaigns.dashboard.appliedFilterType !== 'all') || (campaigns.dashboard.appliedFilterType == 'all' && !campaign.is_archived)">
+                   <span ng-bind="textConstants.MANAGE"></span>
                 </div>
             </a>
 
@@ -87,7 +95,7 @@
     <div class="col-md-4 each_campaign_section metric_campaign_section">
         <div class="clearfix metric_graph_header">
             <span class="metric_title" ng-bind="textConstants.SPEND"></span>
-            <span class="metric_val" ng-bind="campaign.spend| currency"></span>
+            <span class="metric_val" ng-bind="campaign.spend| currency:undefined:0"></span>
         </div>
         <div class="metric_graph {{getSpendClass(campaign)}}">
             <div class="full_metric_graph">
@@ -108,7 +116,7 @@
                     <div class="end_point_val">
                         <div class="end_point_line"></div>
                         <span ng-bind='textConstants.BUDGET_WITH_COLON + " " +
-                            (campaign.totalMediaCost | currency:undefined:2)'>
+                            (campaign.totalMediaCost | currency:undefined:0)'>
                         </span>
                     </div>
                 </div>
@@ -118,17 +126,17 @@
              ng-show="campaigns.cdbDataMap[campaign.orderId].impressions">
             <div class="each_metric_graph_details">
                 <span class="detail_val" ng-bind="campaigns.cdbDataMap[campaign.orderId].impressions |
-                    nrFormat"></span>
+                    nrFormat:0"></span>
                 <span ng-bind="textConstants.IMP_WITH_DOT"></span>
             </div>
             <div class="each_metric_graph_details metric_graph_details_ctr">
                 <span class="detail_val" ng-bind="(campaigns.cdbDataMap[campaign.orderId].ctr |
-                    number:2)+'%'"></span>
+                    number:3)+'%'"></span>
                 <span ng-bind="textConstants.CTR"></span>
             </div>
             <div class="each_metric_graph_details metric_graph_details_action"
                  ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
-                <span class="detail_val" ng-bind="(campaigns.cdbDataMap[campaign.orderId].action_rate | number:2)+'%'">
+                <span class="detail_val" ng-bind="(campaigns.cdbDataMap[campaign.orderId].action_rate | number:3)+'%'">
                 </span>
                 <span ng-bind="textConstants.ACTION_RATE_R_CAPS"></span>
             </div>
@@ -138,7 +146,7 @@
                      ng-mouseover="VTCpopup($event, 1)"
                      ng-mouseout="VTCpopup($event, 0)">
                     <span class="detail_val"
-                          ng-bind="(campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate | number :2)+'%'">
+                          ng-bind="(campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate | number :3)+'%'">
                     </span>
                     <span ng-bind="textConstants.VTC"></span>
                 </div>

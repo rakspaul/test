@@ -1,7 +1,6 @@
-define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/file_reader'],
+define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/file_reader'], // jshint ignore:line
     function(angularAMD) {
         angularAMD.controller('InventoryFiltersController', function($scope, workflowService, fileReader, Upload) {
-
             var InventoryFiltersView = {
                 getAdvertisersDomainList: function(clientId, advertiserId) {
                     workflowService
@@ -10,9 +9,11 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                             var selectedLists,
                                 idx;
 
-                            $scope.workflowData.inventoryData = result.data.data.sort(function(a, b) {
-                                return (a.name > b.name) ? 1 : -1;
-                            });
+                            if (_.isArray(result.data.data)) { // jshint ignore:line
+                                $scope.workflowData.inventoryData = result.data.data.sort(function(a, b) {
+                                    return (a.name > b.name) ? 1 : -1;
+                                });
+                            }
 
                             // Search filter for domain names list (used together with domainAction)
                             $scope.adData = $scope.adData || {};
@@ -28,20 +29,34 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
 
                             if ($scope.mode === 'edit') {
                                 $scope.savedDomainListIds =
-                                    $scope.getAd_result.targets.domainTargets.inheritedList.ADVERTISER;
+                                    $scope.getAd_result.targets.domainTargets.inheritedDomainList.ADVERTISER;
+
+                                //
+                                // $scope.savedDomainListIds.concat
+                                if($scope.savedDomainListIds){
+                                    $scope.savedDomainListIds = $scope.savedDomainListIds.concat($scope.getAd_result.targets.appTargets.inheritedAppList.ADVERTISER);
+                                } else {
+                                    $scope.savedDomainListIds = $scope.getAd_result.targets.appTargets.inheritedAppList.ADVERTISER
+                                }
+                                //-------
                                 $scope.savedDomainAction = $scope.getAd_result.domainAction || 'INCLUDE';
 
                                 if ($scope.savedDomainListIds && $scope.savedDomainListIds.length) {
-                                    selectedLists = _.map($scope.workflowData.inventoryData, function(value) {
-                                        return _.contains($scope.savedDomainListIds, value.domainListId) ? value : null;
-                                    });
-                                    selectedLists = _.filter(selectedLists, function(value) {
+                                    selectedLists = _.map($scope.workflowData.inventoryData, // jshint ignore:line
+                                        function(value) {
+                                            return _.contains($scope.savedDomainListIds, // jshint ignore:line
+                                                value.domainListId) ? value : null;
+                                        });
+
+                                    selectedLists = _.filter(selectedLists, function(value) { // jshint ignore:line
                                         return value;
                                     });
+
                                     $scope.workflowData.selectedLists = selectedLists.sort(function(a, b) {
                                         return a.domainListId > b.domainListId;
                                     });
-                                    _.each($scope.workflowData.selectedLists, function(list) {
+
+                                    _.each($scope.workflowData.selectedLists, function(list) { // jshint ignore:line
                                         list.domainNamesDisplay = 'collapsed';
                                     });
 
@@ -67,10 +82,11 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                                 $scope.workflowData.inventoryDataTemp =
                                     $.extend(true, [], $scope.workflowData.inventoryData);
 
-                                _.each($scope.workflowData.inventoryData, function(obj) {
-                                    idx = _.findIndex($scope.workflowData.selectedLists, {
+                                _.each($scope.workflowData.inventoryData, function(obj) { // jshint ignore:line
+                                    idx = _.findIndex($scope.workflowData.selectedLists, { // jshint ignore:line
                                         id: obj.id
                                     });
+
                                     if (idx >= 0) {
                                         obj.checked = true;
                                     } else {
@@ -80,9 +96,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
 
                                 $scope.$broadcast('updateInventory');
                             } else {
-                                _.each($scope.workflowData.inventoryData, function(obj) {
+                                _.each($scope.workflowData.inventoryData, function(obj) { // jshint ignore:line
                                     obj.checked = false;
                                 });
+
                                 $scope.workflowData.inventoryDataTemp =
                                     $.extend(true, [], $scope.workflowData.inventoryData);
 
@@ -94,7 +111,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 }
             };
 
-            function uploadProgressCallback( /*evt*/ ) {
+            function uploadProgressCallback() {
                 $scope.domainUploadInProgress = true;
             }
 
@@ -110,7 +127,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                     inventoryData.push(response.data);
                     selectedLists.push(response.data);
 
-                    _.each(selectedLists, function (val) {
+                    _.each(selectedLists, function (val) { // jshint ignore:line
                         if ($scope.workflowData.whiteListsSelected) {
                             val.domainAction = 'INCLUDE';
                         } else {
@@ -121,13 +138,13 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                     // Reset the flag variable
                     $scope.inventoryCreate = false;
                 } else {
-                    _.each(inventoryData, function(obj, idx) {
+                    _.each(inventoryData, function(obj, idx) { // jshint ignore:line
                         if (obj.id === response.data.id) {
                             inventoryData[idx] = response.data;
                         }
                     });
 
-                    _.each(selectedLists, function(obj, idx) {
+                    _.each(selectedLists, function(obj, idx) { // jshint ignore:line
                         if (obj.id === response.data.id) {
                             selectedLists[idx] = response.data;
                         }
@@ -152,19 +169,15 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 });
             }
 
-            //$scope.prarentHandler = function(clientId, clientName, advertiserId, advertiserName) {
-            //    $scope.clientId = clientId;
-            //    $scope.advertiserId = advertiserId;
-            //};
-
             $scope.$on('getDominList', function(event, args) {
                 $scope.clientId = args[0].clientId;
                 $scope.advertiserId = args[0].advertiserId;
                 InventoryFiltersView.getAdvertisersDomainList(args[0].clientId, args[0].advertiserId);
             });
 
-            $scope.selectFiles = function(files, action) {
+            $scope.selectFiles = function(files, action, type) {
                 if (files) {
+                    (type === 'DOMAIN') ? $scope.fileType = 'DOMAIN': $scope.fileType = 'APP';
                     if (files.length > 0) {
                         // Prevent window from scrolling while popup overlay is showing
                         $('body').css({
@@ -179,15 +192,17 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                         if (action === 'INVENTORY_CREATE') {
                             // set flag to true
                             $scope.inventoryCreate = true;
+
                             // Reset list name to blank
                             $scope.adData.listName = '';
 
                             setTimeout(function () {
                                 var listName = $('#listName');
 
-                                listName.on('focus', function (e) {
+                                listName.on('focus', function () {
                                     listName.parent().removeClass('has-error');
                                 });
+
                                 listName.focus();
                             }, 1);
                         } else if (action === 'INVENTORY_UPDATE') {
@@ -199,26 +214,35 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                             $scope.adData.inventory.domainAction = 'INCLUDE';
                         }
 
-                        fileReader.readAsText($scope.files[0], $scope)
+                        fileReader
+                            .readAsText($scope.files[0], $scope)
                             .then(function(result) {
                                 // Separators are (\n) new line & comma (,)
                                 // 1. Convert into array using new line as separator
                                 result = result.split('\n');
+
                                 // 2. Convert back into string using comma as separator
                                 result = result.join(',');
+
                                 // 3. Convert back into array using comma as separator
                                 result = result.split(',');
+
                                 // 4. Remove empty strings from array
-                                result = _.compact(result);
+                                result = _.compact(result); // jshint ignore:line
+
                                 // 5. Trim all leading / trailing blanks from strings
                                 result = result.map(Function.prototype.call, String.prototype.trim);
+
                                 // 6. Sort the array
                                 result.sort();
+
                                 // 7. Check & remove duplicates if any.
                                 if (hasDuplicates(result)) {
-                                    result = _.uniq(result, true);
-                                    // TODO: Display info popup fadeout to display "Duplicate domain names have been removed."
+                                    result = _.uniq(result, true); // jshint ignore:line
+                                    // TODO: Display info popup fadeout to display
+                                    // "Duplicate domain names have been removed."
                                 }
+
                                 $scope.workflowData.csvFileContents = result;
 
                                 function hasDuplicates(array) {
@@ -257,6 +281,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 $scope.workflowData.selectedListsTemp = $.extend(true, [], $scope.workflowData.selectedLists);
                 $scope.workflowData.inventoryDataTemp = $.extend(true, [], $scope.workflowData.inventoryData);
                 $scope.showExistingListPopup = true;
+
                 //$scope.workflowData.showDomainListPopup = true;
                 $('.inventoryLib .popBody .col-md-6:last-child').css('min-height', winSizeHeight - 350);
             };
@@ -278,7 +303,9 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 $scope.showExistingListPopup = false;
             };
 
-            $scope.uploadDomain = function() {
+
+
+            $scope.uploadDomain = function(uploadType) {
                 var domainId = $scope.adData.inventory && $scope.adData.inventory.id || null,
                     files = $scope.files,
                     i,
@@ -298,11 +325,14 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                                 .upload({
                                     url: workflowService
                                         .createAdvertisersDomainList($scope.clientId, $scope.advertiserId, domainId),
+
                                     fields: {
                                         'name': $scope.adData.listName,
                                         'domainAction': $scope.adData.inventory.domainAction,
+                                        'inventoryType' : uploadType ,
                                         'updatedAt': $scope.adData.inventory ? $scope.adData.inventory.updatedAt : ''
                                     },
+
                                     fileFormDataName: 'domainList',
                                     file: file,
                                     method: domainId ? 'PUT' : 'POST'
@@ -337,9 +367,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                         .addClass('ascending');
                 }
 
-                idx = _.findIndex($scope.workflowData.selectedLists, {
+                idx = _.findIndex($scope.workflowData.selectedLists, { // jshint ignore:line
                     id: listId
                 });
+
                 $scope.workflowData.selectedLists[idx].reverseOrder =
                     !$scope.workflowData.selectedLists[idx].reverseOrder;
             };
@@ -375,11 +406,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
 
             $scope.$on('updateInventory', function() {
                 var responseData = workflowService.getAdsDetails();
-
                 if (responseData &&
                     responseData.targets &&
                     responseData.targets.domainTargets &&
-                    responseData.targets.domainTargets.inheritedList.ADVERTISER) {
+                    responseData.targets.domainTargets.inheritedDomainList.ADVERTISER) {
                     // Make the first item of SelectedLists if at least 1 item has been selected,
                     // else the first item of the Advertiser domain list is the default
                     $scope.adData.inventory =
@@ -399,8 +429,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
 
             // To determine if a domain list contains a given domain list name
             $scope.workflowData.isListSelected = function(listName, masterList) {
-                return _.find(masterList, function(obj) {                // Fix for CW-2954 & CW-2797 (in conjunction with line #67 - #68
-
+                // Fix for CW-2954 & CW-2797 (in conjunction with line #67 - #68
+                return _.find(masterList, function(obj) { // jshint ignore:line
                     return obj.name === listName;
                 });
             };
@@ -462,7 +492,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                     if (element.attr('checked') !== 'checked') {
                         element.attr('checked', 'checked');
                         // Add the selected Domain list
-                        currentDomainList = _.filter($scope.workflowData.inventoryData, function(domainList) {
+                        currentDomainList =
+                            _.filter($scope.workflowData.inventoryData, function(domainList) { // jshint ignore:line
                             return domainList.name === event.currentTarget.value;
                         });
                         selectedLists[selectedLists.length] = currentDomainList[0];
@@ -474,7 +505,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
 
                         if (totalSelected) {
                             // Remove the current domain list
-                            selectedLists = _.filter(selectedLists, function(domainList) {
+                            selectedLists = _.filter(selectedLists, function(domainList) { // jshint ignore:line
                                 return domainList.name !== event.currentTarget.value;
                             });
                             $scope.adData.inventory = selectedLists.length ? selectedLists[0] : {};
@@ -532,15 +563,16 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 $scope.toggleBtn(event);
 
                 // Update value of $scope.adData.inventory.domainList
-                temp = _.filter($scope.workflowData.selectedLists, function(domainList) {
+                temp = _.filter($scope.workflowData.selectedLists, function(domainList) { // jshint ignore:line
                     return domainList.name === event.currentTarget.value;
                 });
+
                 $scope.adData.listName = temp[0].name;
                 $scope.adData.inventory = temp[0];
             };
 
             $scope.workflowData.changeDomainNamesDisplay = function(mode, listId) {
-                var idx = _.findIndex($scope.workflowData.selectedLists, {
+                var idx = _.findIndex($scope.workflowData.selectedLists, { // jshint ignore:line
                     id: listId
                 });
 
@@ -551,6 +583,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 if (!$scope.adData.inventory.domainAction) {
                     $scope.adData.inventory.domainAction = 'INCLUDE';
                 }
+
                 if ($scope.adData.inventory.domainAction === 'INCLUDE') {
                     $('#inventoryFilters').find('.miniToggle .whitelist').addClass('active disabled');
                 } else {
@@ -585,7 +618,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             };
 
             $scope.workflowData.resetCheckedState = function() {
-                _.each($scope.workflowData.inventoryData, function(obj) {
+                _.each($scope.workflowData.inventoryData, function(obj) { // jshint ignore:line
                     obj.checked = false;
                 });
             };
@@ -593,19 +626,21 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             $scope.workflowData.inventoryStateChanged = function(event, inventoryObj) {
                 var selectedChkBox,
                     idx,
-                    idx2 = _.findIndex($scope.workflowData.inventoryData, {
+                    idx2 = _.findIndex($scope.workflowData.inventoryData, { // jshint ignore:line
                         'id': inventoryObj.id
                     });
 
-                selectedChkBox = _.filter($scope.workflowData.selectedLists, function(obj) {
+                selectedChkBox = _.filter($scope.workflowData.selectedLists, function(obj) { // jshint ignore:line
                     return obj.id === inventoryObj.id;
                 });
 
                 // Current item unselected
                 if (selectedChkBox.length > 0) {
-                    idx = _.findIndex($scope.workflowData.selectedLists, function(item) {
-                        return item.id === inventoryObj.id;
-                    });
+                    idx =
+                        _.findIndex($scope.workflowData.selectedLists, function(item) { // jshint ignore:line
+                            return item.id === inventoryObj.id;
+                        });
+
                     $scope.workflowData.selectedLists.splice(idx, 1);
 
                     if ($scope.workflowData.inventoryData[idx2]) {
@@ -625,15 +660,17 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             $scope.workflowData.removeInventory = function(inventoryObj) {
                 var idx;
 
-                idx = _.findIndex($scope.workflowData.selectedLists, function(obj) {
+                idx = _.findIndex($scope.workflowData.selectedLists, function(obj) { // jshint ignore:line
                     return obj.id === Number(inventoryObj.id);
                 });
+
                 $scope.workflowData.selectedLists.splice(idx, 1);
 
                 // Synchronise with main list, on removing an item
-                idx = _.findIndex($scope.workflowData.inventoryData, {
+                idx = _.findIndex($scope.workflowData.inventoryData, { // jshint ignore:line
                     id: inventoryObj.id
                 });
+
                 if ($scope.workflowData.inventoryData[idx]) {
                     $scope.workflowData.inventoryData[idx].checked = false;
                 }
@@ -643,6 +680,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 var idx = $scope.indexRemoveDomainList;
 
                 $scope.workflowData.selectedLists.splice(idx, 1);
+
                 if ($scope.workflowData.selectedLists.length > 0) {
                     if ($scope.workflowData.selectedLists[0].domainAction === 'INCLUDE') {
                         $scope.workflowData.selectedWhiteLists = $scope.workflowData.selectedLists;
@@ -657,9 +695,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 $scope.workflowData.inventoryDataTemp = $.extend(true, [], $scope.workflowData.inventoryData);
 
                 // Synchronise with main list, on removing an item
-                idx = _.findIndex($scope.workflowData.inventoryData, {
+                idx = _.findIndex($scope.workflowData.inventoryData, { // jshint ignore:line
                     id: Number($scope.currentRemoveDomainListId)
                 });
+
                 if ($scope.workflowData.inventoryData[idx]) {
                     $scope.workflowData.inventoryData[idx].checked = false;
                 }
@@ -667,6 +706,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
 
             $scope.showDomainListTypePopupCue = function (type, event) {
                 var domainListTypePopupCue = $('#domain-list-type-popup-cue');
+
                 if ($scope.workflowData.selectedBlackLists.length === 0 &&
                     $scope.workflowData.selectedWhiteLists.length === 0) {
                     $scope.workflowData.inventoryData = $scope.workflowData.inventoryDataTemp;
@@ -683,13 +723,13 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                     if (event.target.value === 'INCLUDE') {
                         domainListTypePopupCue.css({
                             'padding-bottom': '5px',
-                            'top': '-132px',
-                            'left': '-70px'
+                            top: '-132px',
+                            left: '-70px'
                         });
                     } else {
                         domainListTypePopupCue.css({
                             'padding-bottom': '5px',
-                            'top': '-132px'
+                            top: '-132px'
                         });
                     }
 
@@ -711,10 +751,11 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 if ($scope.tempDomainAction) {
                     $scope.adData.inventory.domainAction = $scope.tempDomainAction;
                 }
+
                 $scope.changeDomainListType = false;
             };
 
-            $scope.hideRemoveDomainListPopup = function (event) {
+            $scope.hideRemoveDomainListPopup = function () {
                 if ($scope.currentRemoveDomainListPopup) {
                     $scope.currentRemoveDomainListPopup.css({'display': ''});
                 }
@@ -723,18 +764,29 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             $scope.showRemoveDomainListPopup = function (event) {
                 $scope.currentRemoveDomainListId = $(event.target).attr('data-id');
 
-                $scope.indexRemoveDomainList = _.findIndex($scope.workflowData.selectedLists, {
+                $scope.indexRemoveDomainList = _.findIndex($scope.workflowData.selectedLists, { // jshint ignore:line
                     id: Number($scope.currentRemoveDomainListId)
                 });
 
                 $scope.currentRemoveDomainListPopup =
                     $('.icon-trash[data-id="' + $scope.currentRemoveDomainListId + '"] + .remove-domain-list');
+
                 $scope.currentRemoveDomainListPopup.css({'display': 'block'});
             };
+            $scope.inventry = {};
+            $scope.inventry.inventoryType = '';
+            $scope.filterInventoryList = function(event , type){
+                //remove style
+                var elem = $(event.target) ;
+                $(".allTypeLists").find(".active").removeClass("active");
+                elem.addClass("active");
+                if(type === 'ALL')
+                    type = '';
+
+                $scope.inventry.inventoryType = type;
+            }
 
             $(window).on('click', function (e) {
-                var targetClassNames = e.target.className.split(' ');
-
                 if (!($(e.target).hasClass('icon-trash') ||
                         $(e.target).hasClass('remove-domain-list') ||
                         $(e.target).parent().hasClass('remove-domain-list'))) {
@@ -757,4 +809,5 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 }
             });
         });
-    });
+    }
+);

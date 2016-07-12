@@ -1,5 +1,5 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_store_model', 'common/utils',
-    'common/services/url_service', 'login/login_model', 'common/services/constants_service'],
+define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_store_model', // jshint ignore:line
+    'common/utils', 'common/services/url_service', 'login/login_model', 'common/services/constants_service'],
     function (angularAMD) {
         angularAMD.factory('dataService', function ($q, $http, $cookieStore, $location, vistoconfig, dataStore, utils,
                                                     urlService, loginModel, constants) {
@@ -8,11 +8,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 data: {message: 'Error'}
             };
 
-            $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+            $http.defaults.headers.common.Authorization = loginModel.getauth_token();
 
             return {
                 updateRequestHeader: function () {
-                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
                 },
 
                 getSingleCampaign: function (urlPath) {
@@ -35,8 +35,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         sd,
                         ed;
 
-                    // dataTransferService.getClickedCampaignId();
-
                     if (timePeriod === 'life_time') {
                         if (campaign.startDate !== undefined && campaign.endDate !== undefined) {
                             durationQuery = 'start_date=' + campaign.startDate + '&end_date=' + campaign.endDate;
@@ -58,7 +56,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                             '/campaigns/' + campaignId +
                             '/strategies/' + strategyId +
                             '/bydays/perf?' + durationQuery;
-                    } else if(type === 'lineitems'){
+                    } else if (type === 'lineitems') {
                         urlPath =  vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
@@ -101,6 +99,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                             '/campaigns/' + campaignId +
                             '/lineitems/' + adGroupId +
                             '/ads';
+
                     return this.fetch(url);
                 },
 
@@ -124,7 +123,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getCustomReportMetrics :  function (campaign) {
+                getCustomReportMetrics :  function () {
                     var clientId = loginModel.getMasterClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
@@ -137,6 +136,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     var clientId = loginModel.getMasterClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId + '/custom_reports/' + reportId;
+
                     return this.post( url, queryString,undefined,false);
                 },
 
@@ -166,7 +166,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                             '/campaigns/' + orderId +
                             '/ads/meta';
 
-                    return this.fetch(url)
+                    return this.fetch(url);
                 },
 
                 getCampaignData: function (periodKey, campaign, periodStartDate, periodEndDate) {
@@ -179,7 +179,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         qs = '?start_date='+periodStartDate+'&end_date='+periodEndDate;
                     }
 
-                    url = api + '/campaigns/' + campaign.orderId + '/perf' + qs;
+                    url = api + '/campaigns/' + campaign.orderId + '/perf' + qs; // jshint ignore:line
 
                     return this.fetch(url);
                 },
@@ -193,14 +193,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         url = vistoconfig.apiPaths.workflow_apiServicesUrl +
                             '/clients/' + clientId +
                             '/actions';
-
-                    //grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS_CREATE_ACTIVITY,
-                    // 'number_of_action_subtypes_selected', loginModel.getLoginName(),
-                    // data.action_sub_type_ids.length);
-                    //grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS_CREATE_ACTIVITY,
-                    // 'number_of_tactics_selected', loginModel.getLoginName(), data.action_tactic_ids.length);
-                    //grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS_CREATE_ACTIVITY,
-                    // (data.make_external ? 'external' : 'internal'), loginModel.getLoginName());
 
                     return this.post(url, data, {'Content-Type': 'application/json'});
                 },
@@ -250,22 +242,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 },
 
                 fetch: function (url, cacheObj) {
-                    cacheObj = _.extend({cache:false}, cacheObj);
+                    cacheObj = _.extend({cache:false}, cacheObj); // jshint ignore:line
                     loginModel.checkCookieExpiry();
-
-                    /*if (cacheObj.cache) {
-                        var cachedResponse = dataStore.getCachedByUrl(url);
-                        if (cachedResponse !== undefined) {
-                            var defer = $q.defer();
-                            var promise = defer.promise.then(function () {
-                                // here we always return a clone of original object, so that if any modifications are
-                                // done it will be done on clone and original will remain unchanged
-                                return utils.clone(cachedResponse.value);
-                            });
-                            defer.resolve();
-                            return promise;
-                        }
-                    }*/
 
                     return $http({url: url, method: 'GET', cache: cacheObj.cache}).then(
                         function (response) {
@@ -313,13 +291,19 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     );
                 },
 
-                downloadFile: function (url,httpMethod,data,headers) {
-                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
-                    var httpMethod = httpMethod?httpMethod:'GET';
-                    var data = data?data:'';
-                    var headers = headers?headers:{'Content-Type': 'application/json'};
+                downloadFile: function (url, httpMethod, data, headers) {
+                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
+                    httpMethod = httpMethod ? httpMethod : 'GET';
+                    data = data ? data : '';
+                    headers = headers ? headers: {'Content-Type': 'application/json'};
 
-                    return $http({url: url, method: httpMethod, data:data, responseType: 'arraybuffer',headers: headers}).then(
+                    return $http({
+                        url: url,
+                        method: httpMethod,
+                        data: data,
+                        responseType: 'arraybuffer',
+                        headers: headers
+                    }).then(
                         function (response) {
                             var objOnSuccess = {
                                 status: 'success',
@@ -362,21 +346,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 },
 
                 fetchCancelable: function (url, canceller, success, failure) {
-                    /*var cachedResponse = dataStore.getCachedByUrl(url);
-
-                    if (cachedResponse !== undefined) {
-                        var defer = $q.defer();
-                        var promise = defer.promise.then(function () {
-                            return success.call(this, utils.clone(cachedResponse.value));
-                        });
-                        defer.resolve();
-                        return promise;
-                    }*/
-
                     loginModel.checkCookieExpiry();
 
-                    return $http.get(url, {timeout: canceller.promise}).then(
-                        function (response) {
+                    return $http
+                        .get(url, {timeout: canceller.promise})
+                        .then(function (response) {
                             var objOnSuccess = {
                                 status: 'success',
                                 data: response.data
@@ -395,9 +369,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                             dataStore.cacheByUrl(url, objOnSuccess);
 
                             return success.call(this, utils.clone(objOnSuccess));
-                        },
-
-                        function (error) {
+                        }, function (error) {
                             var objOnError = {
                                 status: 'error',
                                 data: error
@@ -416,18 +388,18 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                             } else {
                                 return objOnError;
                             }
-                        }
-                    );
+                        });
                 },
 
                 post: function (url, data, header,dataToJson) {
                     loginModel.checkCookieExpiry();
-                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
+
                     return $http({
                         url: url,
                         method: 'POST',
                         cache: true,
-                        data: !dataToJson?data:angular.toJson(data),
+                        data: !dataToJson ? data : angular.toJson(data), // jshint ignore:line
                         headers: (header ? header : {'Content-Type': 'text/plain'})
                     }).then(
                         function (response) {
@@ -443,11 +415,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                                 status: 'success',
                                 data: response.data
                             };
-                        },
-
-                        function (error) {
+                        }, function (error) {
                             if (error.status === 401) {
-                                errorObject.data.message = error.data.message
+                                errorObject.data.message = error.data.message;
                                 loginModel.unauthorized();
                                 return errorObject;
                             } else if (error.status === 403) {
@@ -468,10 +438,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
 
                 put: function (url, data) {
                     loginModel.checkCookieExpiry();
-                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
 
-                    return $http.put(url, angular.toJson(data)).then(
-                        function (response) {
+                    return $http
+                        .put(url, angular.toJson(data)) // jshint ignore:line
+                        .then(function (response) {
                             if (response.status === 401) {
                                 loginModel.unauthorized();
                                 return errorObject;
@@ -484,9 +455,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                                 status: 'success',
                                 data: response.data
                             };
-                        },
-
-                        function (error) {
+                        }, function (error) {
                             if (error.status === 401) {
                                 loginModel.unauthorized();
                                 return errorObject;
@@ -499,22 +468,20 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                                 status: 'error',
                                 data: error
                             };
-                        }
-                    );
+                        });
                 },
 
                 delete: function (url, data, header) {
                     loginModel.checkCookieExpiry();
-                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
 
                     return $http({
                         url: url,
                         method: 'DELETE',
                         cache: true,
-                        data: angular.toJson(data),
+                        data: angular.toJson(data), // jshint ignore:line
                         headers: (header ? header : {'Content-Type': 'text/plain'})
-                    }).then(
-                        function (response) {
+                    }).then(function (response) {
                             if (response.status === 401) {
                                 loginModel.unauthorized();
                                 return errorObject;
@@ -527,9 +494,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                                 status: 'success',
                                 data: response.data
                             };
-                        },
-
-                        function (error) {
+                        }, function (error) {
                             if (error.status === 401) {
                                 errorObject.data.message = error.data.message;
                                 loginModel.unauthorized();

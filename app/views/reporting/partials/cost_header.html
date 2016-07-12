@@ -4,10 +4,10 @@
 </div>
 
 <div class="col-md-11 zeroPadding">
-    <div class="col-md-1 zeroPadding" ng-class="sortClassFunction('-impressions',sortTypebyCost,sortReverseForCostImps)" ng-click="sortTypebyCost = '-impressions';sortTypebyCostSubSort='-impressions';sortReverse = sortReverseForCostImps; sortReverseForCostImps = !sortReverseForCostImps;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</div>
+    <div class="col-md-1 zeroPadding" ng-class="sortClassFunction('-impressions',sortTypebyCost,sortReverseForCostImps)" ng-click="sortTypebyCost = '-impressions';sortTypebyCostSubSort='-impressions';sortReverse = sortReverseForCostImps; sortReverseForCostImps = !sortReverseForCostImps;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</div>
     <div class="col-md-1 zeroPadding">
         <div class="dropdown kpi-dd-holder">
-            <kpi-drop-down type="selected_filters.kpi_type.toLowerCase()"> </kpi-drop-down>
+            <kpi-drop-down type="selectedFilters.kpi_type.toLowerCase()"> </kpi-drop-down>
         </div>
     </div>
     <div class="col-md-1 zeroPadding text-center" ng-class="sortClassFunction('inventory_cost',sortTypebyCost,sortReverse)" ng-click="sortTypebyCost = 'inventory_cost'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.INVENTORY}}</div>

@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 
-define(['angularAMD', '../../../workflow/services/account_service', 'common/services/constants_service'],
-    function (angularAMD) {
+define(['angularAMD', '../../../workflow/services/account_service', // jshint ignore:line
+    'common/services/constants_service'], function (angularAMD) {
         'use strict';
 
         angularAMD.controller('AccountsAddOrEdit', function ($scope, $rootScope, $modalInstance, accountsService,
@@ -56,15 +56,19 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
 
             _currCtrl.verifyInput = function () {
                 var ret = true,
-                    err = '';
-                if($scope.clientCodeExist){
-                    return false;
-                }
+                    err = '',
+                    code = $scope.setSelectedClientCode === 'Others' ?
+                        $scope.customClientCode :
+                        $scope.setSelectedClientCode;
+
                 if (!$scope.clientType || $scope.clientType === '') {
                     err = constants.SELECT_CLIENT_TYPE;
                     ret = false;
                 } else if (!$scope.clientName || $scope.clientName === '') {
                     err = constants.SELECT_CLIENT_NAME;
+                    ret = false;
+                } else if (!code) {
+                    err = constants.CODE_FIELD_EMPTY;
                     ret = false;
                 } else if (!$scope.selectedCurrency || $scope.selectedCurrency === '') {
                     err = constants.SELECT_CURRENCY;
@@ -108,7 +112,10 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                     if (!$scope.isCreateTopClient) {
                         respBody.parentId = obj.parentId;
                     }
-                    respBody.code = $scope.setSelectedClientCode == "Others" ? $scope.customClientCode : $scope.setSelectedClientCode;
+
+                    respBody.code = $scope.setSelectedClientCode === 'Others' ?
+                        $scope.customClientCode :
+                        $scope.setSelectedClientCode;
                 } else {
                     respBody.billableAccountId = $scope.billableAccountId;
                     respBody.clientType = $scope.clientType;
@@ -117,10 +124,13 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                     respBody.referenceId = $scope.referenceId;
                     respBody.timezone = $scope.timezone;
                     respBody.billableAccountId = $scope.billableAccountId;
-                    respBody.code = $scope.setSelectedClientCode == "Others" ? $scope.customClientCode : $scope.setSelectedClientCode;
+                    respBody.code = $scope.setSelectedClientCode === 'Others' ?
+                        $scope.customClientCode :
+                        $scope.setSelectedClientCode;
                 }
 
-                // TODO: This has to be modified to match with the new API
+                respBody.nickname = $scope.nickname || $scope.clientName;
+
                 if ($scope.billingData.techFees.billingValue) {
                     respBody.techFeesBillingTypeId = $scope.billingData.techFees.billingTypeId;
                     respBody.techFeesBillingValue = $scope.billingData.techFees.billingValue;
@@ -178,7 +188,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                         if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
                             billingTypes = res.data.data;
 
-                            // Billing types for "Service Fees"
+                            // Billing types for 'Service Fees'
                             // id = 6 (COGS)
                             // id = 8 (CPM)
                             $scope.billingData.billingTypesArr =  billingTypes.filter(function (obj) {
@@ -248,6 +258,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 $modalInstance.dismiss();
                 $scope.resetBrandAdvertiserAfterEdit();
             };
+
             $scope.showDropdown = function () {
                 $scope.advertiserName = '';
                 $scope.selectedAdvertiserId = '';
@@ -257,36 +268,45 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 $('.account_name_list').show();
                 $scope.getClientCode();
             };
-            $scope.leaveFocusCustomClientCode = function(){
+
+            $scope.leaveFocusCustomClientCode = function() {
                 $scope.clientCodeExist = false;
-                $scope.customClientCode = $scope.customClientCode.replace(/ /g, "");
+                $scope.customClientCode = $scope.customClientCode.replace(/ /g, '');
                 $scope.textConstants.CLIENT_CODE_EXIST = constants.CLIENT_CODE_EXIST;
-                if($scope.customClientCode.replace(/ /g, "").length != 5 || !(/^[a-zA-Z0-9_]*$/.test($scope.customClientCode))){
+
+                if ($scope.customClientCode.replace(/ /g, '').length !== 5 ||
+                    !(/^[a-zA-Z0-9_]*$/.test($scope.customClientCode))) {
                     $scope.textConstants.CLIENT_CODE_EXIST = constants.CODE_VERIFICATION;
                     $scope.clientCodeExist = true;
                     return;
                 }
-                accountsService.checkClientCodeExist($scope.customClientCode).then(function(result){
+
+                accountsService.checkClientCodeExist($scope.customClientCode).then(function(result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.clientCodeExist = result.data.data.isExists;
                     }
-                },function(err){
+                },function(err) {
+                    console.log('Error = ', err);
                 });
-            }
-            $scope.getClientCode = function(){
-                if($scope.clientName) {
+            };
+
+            $scope.getClientCode = function() {
+                if ($scope.clientName) {
                     accountsService
-                        .getUserClientCode($scope.clientName).then(function (result) {
-                            if (result.status == "OK" || result.status == "success") {
+                        .getUserClientCode($scope.clientName)
+                        .then(function (result) {
+                            if (result.status === 'OK' || result.status === 'success') {
                                 var res = result.data.data;
                                 if (res.length) {
                                     $scope.codeList = res;
                                 }
                             }
                         }, function (err) {
+                            console.log('Error = ', err);
                         });
                 }
-            }
+            };
+
             $scope.setSelectedClientType = function (type) {
                 $scope.clientType = type;
             };
@@ -339,6 +359,8 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                                     $scope.billableAccountId = result.data.data.id;
                                     body = constructRequestBody();
                                     createClient(body);
+                                }else{
+                                    $rootScope.setErrAlertMessage(result.message);
                                 }
                             }, function (err) {
                                 console.log('Error = ', err);
@@ -352,6 +374,8 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                                     body.billableAccountId = res.data.data.billableAccountId;
                                     body.parentId = $scope.clientObj;
                                     createClient(body);
+                                } else {
+                                    $rootScope.setErrAlertMessage(res.message);
                                 }
                             }, function (err) {
                                 console.log('Error = ', err);
@@ -387,6 +411,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 $scope.selectedCountry = $scope.clientObj.country && $scope.clientObj.country.name;
                 $scope.timezone = $scope.clientObj.timezone;
                 $scope.setSelectedClientCode = $scope.clientObj.code;
+                $scope.nickname = $scope.clientObj.nickname || $scope.clientObj.name;
 
                 _currCtrl.getAdnlData();
 
@@ -415,6 +440,12 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 }
             }
             // End Billing & Invoice
+
+            $modalInstance
+                .opened
+                .then(function () {
+                    $('popup-msg').appendTo(document.body);
+                });
         });
     }
 );

@@ -1,9 +1,9 @@
 <div class="reports_main_page_holder">
     <div class="common_reports_container" >
          <div class="clearfix page_top_header">
-            <div class="pull-left col-md-6 page_name">
+            <h1 class="pull-left col-md-6 page_name">
                 Inventory Report
-            </div>
+            </h1>
             <div class="pull-right col-md-2 zeroPadding">
                 <download-report></download-report>
             </div>
@@ -32,7 +32,7 @@
                             </div>
                             <div class="pull-right imps_del_col">
                                 <span class="pull-right">{{textConstants.IMP_WITH_DOT}}</span>
-                                <span class="pull-right default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>
+                                <span class="pull-right default-kpi-header-icon" tooltip="Primary KPI" ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>
                             </div>
                         </div>
                     </div>
@@ -60,16 +60,16 @@
                                 <div class="chart_details_cols_row inventory_each_chart_details clearfix">
                                     <span class="row_index">{{$index + 1}}</span>
                                     <span class="url_val" title="{{stable.dimension}}"
-                                          ng-if="(selected_filters_tab !== 'domains') "> {{ stable.dimension | formatUrl:20 }}</span>
+                                          ng-if="(selectedFilters_tab !== 'domains') "> {{ stable.dimension | formatUrl:20 }}</span>
 
                                     <span class="url_val" title="{{stable.dimension}}"
-                                          ng-if="(selected_filters_tab == 'domains' )">
+                                          ng-if="(selectedFilters_tab == 'domains' )">
                                         <a href="http://{{ stable.dimension}}" target='_blank' id="inventory_url_val">{{ stable.dimension | formatUrl :15 }}</a>
                                      </span>
-                                    <span class="cpa_col cpa_data pull-right {{stable.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}">{{(stable[(selected_filters.kpi_type.toLowerCase() === 'vtc')?'vtc_100':selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase())}}
+                                    <span class="cpa_col cpa_data pull-right {{stable.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}">{{(stable[(selectedFilters.kpi_type.toLowerCase() === 'vtc')?'vtc_100':selectedFilters.kpi_type.toLowerCase()] | appendDollor : selectedFilters.kpi_type.toLowerCase())}}
 
                                     </span>
-                                    <span class="imps_del_data imps_del_col pull-right {{stable.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}">{{((stable.impressions >0)|| (stable.impressions == 0))? (stable.impressions | nrFormat) : '-'}}</span>
+                                    <span class="imps_del_data imps_del_col pull-right {{stable.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}">{{((stable.impressions >0)|| (stable.impressions == 0))? (stable.impressions | number:0) : '-'}}</span>
                                 </div>
                             </div>
                         </div>
@@ -109,13 +109,13 @@
 
                                     <span class="row_index">{{$index + 1}}</span>
                                     <span class="url_val" title="{{tableData.dimension}}"
-                                          ng-if="(selected_filters_tab !== 'domains') "> {{ tableData.dimension | formatUrl:20 }}</span>
+                                          ng-if="(selectedFilters_tab !== 'domains') "> {{ tableData.dimension | formatUrl:20 }}</span>
                                     <span class="url_val" title="{{tableData.dimension}}"
-                                          ng-if="(selected_filters_tab == 'domains' )">
+                                          ng-if="(selectedFilters_tab == 'domains' )">
                                         <a href="http://{{ tableData.dimension}}" target='_blank' id="inventory_domain" > {{ tableData.dimension | formatUrl:15}}</a>
                                      </span>
-                                    <span class="cpa_col cpa_data pull-right {{tableData.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}">{{(tableData[(selected_filters.kpi_type.toLowerCase() === 'vtc')?'vtc_100':selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase())}}</span>
-                                    <span class="imps_del_data imps_del_col pull-right {{tableData.kpi_type === 'IMPRESSIONS' ? 'bold' : ''}}">{{((tableData.impressions >0)|| (tableData.impressions == 0))? (tableData.impressions | nrFormat) : '-'}}</span>
+                                    <span class="cpa_col cpa_data pull-right {{tableData.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}">{{(tableData[(selectedFilters.kpi_type.toLowerCase() === 'vtc')?'vtc_100':selectedFilters.kpi_type.toLowerCase()] | appendDollor : selectedFilters.kpi_type.toLowerCase())}}</span>
+                                    <span class="imps_del_data imps_del_col pull-right {{tableData.kpi_type === 'IMPRESSIONS' ? 'bold' : ''}}">{{((tableData.impressions >0)|| (tableData.impressions == 0))? (tableData.impressions | number:0) : '-'}}</span>
                                 </div>
                             </div>
                         </div>

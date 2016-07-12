@@ -41,6 +41,7 @@
   display: block;
   max-height: 400px;
   overflow: auto;
+  padding-bottom: 30px ;
 }
 .adCreateMaster #creative .creativeTableTag .table tbody tr,
 .adCreateMaster #creative .creativeTableTag .table thead {
@@ -333,14 +334,14 @@
 .adCreateMaster #targetting .targetingSlide .dayRow {
   margin-bottom: 10px;
 }
-.adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-down:before {
+.adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-solid-down:before {
   float: right;
   font-size: 10px;
   margin-right: -3px;
   margin-top: 2px;
 }
-.adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-down:before .icon-arrow-down,
-.adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-down:before span.icon-arrow-down:before {
+.adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-solid-down:before .icon-arrow-solid-down,
+.adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-solid-down:before span.icon-arrow-solid-down:before {
   display: none !important;
 }
 .adCreateMaster #targetting .targetingSlide .dayRow .dailyRow,
@@ -552,235 +553,6 @@
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .build-audience {
   float: right;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne {
-  float: left;
-  width: 65%;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnOne {
-  border-right: 1px solid #fff !important;
-  padding-left: 0 !important;
-  text-align: center;
-  width: 6%;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnOne .checkbox {
-  float: left;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  width: 100%;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnOne .checkbox input[type="checkbox"] {
-  float: none;
-  margin: 0;
-  text-align: center;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnTwo {
-  /* width: 30%;*/
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnThree {
-  text-align: center;
-  /* width: 13%;*/
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnThree img {
-  margin-top: 13px;
-  text-align: center;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnFour {
-  /*width: 22%;*/
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnFive {
-  /* width: 12%; */
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnSix {
-  border-width: 0 !important;
-  /* width: 17%; */
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable {
-  border: 1px solid #bfc9d7;
-  margin-top: 20px;
-  padding: 0;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnOne,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnOne,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnTwo,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnTwo,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnThree,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnThree,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnFour,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFour,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnFive,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFive,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnSix,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnSix {
-  border-right: 1px solid #bfc9d7;
-  float: left;
-  height: 52px;
-  padding: 17px 5px 0 8px;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnOne span,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnOne span,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnTwo span,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnTwo span,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnThree span,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnThree span,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnFour span,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFour span,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnFive span,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFive span,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnSix span,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnSix span {
-  float: left;
-  margin-top: 1px;
-  overflow: hidden;
-  text-align: left;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100%;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnOne .toolTipAudienceSegment,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnOne .toolTipAudienceSegment,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnTwo .toolTipAudienceSegment,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnTwo .toolTipAudienceSegment,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnThree .toolTipAudienceSegment,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnThree .toolTipAudienceSegment,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnFour .toolTipAudienceSegment,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFour .toolTipAudienceSegment,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnFive .toolTipAudienceSegment,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFive .toolTipAudienceSegment,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnSix .toolTipAudienceSegment,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnSix .toolTipAudienceSegment {
-  width: auto;
-  max-width: 100%;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnThree,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnThree {
-  border-right: 0px solid #bfc9d7;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyWrap {
-  float: left;
-  height: 100%;
-  overflow: hidden;
-  width: 100%;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyWrap .segFixedWrap {
-  float: left;
-  height: 100%;
-  overflow: auto;
-  width: 100%;
-  max-height: 400px ;
-  border-bottom: solid 1px #bfc9d7;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader {
-  float: left;
-  width: 100%;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .multiDDL {
-  float: left;
-  position: relative;
-  width: 100%;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .multiDDL .icon-search {
-  position: absolute;
-  right: 10px;
-  top: 42px;
-  z-index: 10;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .sliderAmount {
-  border: 0;
-  margin-bottom: 11px;
-  margin-top: 5px;
-  text-align: center;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .ui-slider {
-  background: #dce6f1;
-  border-radius: 2px;
-  border-width: 0;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .ui-slider .ui-slider-handle {
-  background: #fff;
-  border: 1px solid #bfc9d7;
-  border-radius: 2px;
-  height: 35px;
-  top: -12px;
-  width: 13px;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable {
-  border-top: 0;
-  margin: 0;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable {
-  border-bottom: 2px solid #bfc9d7;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnOne,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnTwo,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnThree,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFour,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFive,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnSix {
-  border-width: 0 !important;
-  padding-top: 15px;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segTotal {
-  color: #939eae;
-  float: left;
-  font-size: 14px;
-  padding-top: 5px;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo {
-  background: #edf2f8;
-  float: left;
-  margin-left: 2%;
-  overflow: auto ;
-  padding: 15px 20px;
-  width: 33%;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems {
-  float: left;
-  height: 640px;
-  /*overflow: auto;*/
-  width: 100%;
-  max-height: 560px;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap {
-  border-bottom: 1px solid #bfc9d7;
-  float: left;
-  margin-top: 20px;
-  padding-bottom: 10px;
-  position: relative;
-  width: 100%;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap:first-child {
-  margin-top: 20px;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap .icon-close {
-  cursor: pointer;
-  font-size: 9px;
-  height: 9px;
-  margin-right: 0;
-  margin-top: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 9px;
-  z-index: 10;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap img {
-  clear: left;
-  float: left;
-  margin-right: 10px;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap span {
-  float: left;
-  font-size: 12px;
-  margin-bottom: 10px;
-  word-wrap: break-word;
-  width: 100%;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap span:first-child {
-  clear: both;
-  width: 90%;
 }
 .adCreateMaster #targetting .targettingFormWrap {
   border: 0 solid #E6E6E6;
@@ -1380,6 +1152,9 @@
   top: 10px ;
   left: 50px ;
 }
+#campaignCreate .campaignAdCreate .adMainWrapper .adBuyingPlatform .no-data-common {
+  margin-top: 15px ;
+}
 #campaignCreate .campaignAdCreate .adMainWrapper .create_ad {
   color: #333;
   float: left;
@@ -1908,7 +1683,7 @@
   margin-bottom: 5px;
   cursor: pointer;
 }
-#campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(-90deg);
   /* Firefox */
@@ -1926,7 +1701,7 @@
   float: left;
   color: #000;
 }
-#campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-down-thick.active {
+#campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-solid-down.active {
   /* Safari */
   -webkit-transform: rotate(0deg);
   /* Firefox */
@@ -1973,7 +1748,7 @@
 #campaignCreate .firstWrapper .masterContainer .accordionDDL span:last-child {
   font-style: italic;
 }
-#campaignCreate .firstWrapper .masterContainer .accordionDDL .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .accordionDDL .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(0deg);
   /* Firefox */
@@ -1994,7 +1769,7 @@
 #campaignCreate .firstWrapper .masterContainer .accordionDDL:first-child {
   border-top: 1px solid rgba(191, 201, 215, 0.5);
 }
-#campaignCreate .firstWrapper .masterContainer .accordionDDL.collapsed .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .accordionDDL.collapsed .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(-90deg);
   /* Firefox */
@@ -2034,7 +1809,7 @@
 #campaignCreate .firstWrapper .masterContainer .accordionDDL span:last-child {
   font-style: italic;
 }
-#campaignCreate .firstWrapper .masterContainer .accordionDDL .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .accordionDDL .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(0deg);
   /* Firefox */
@@ -2055,7 +1830,7 @@
 #campaignCreate .firstWrapper .masterContainer .accordionDDL:first-child {
   border-top: 1px solid rgba(191, 201, 215, 0.5);
 }
-#campaignCreate .firstWrapper .masterContainer .accordionDDL.collapsed .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .accordionDDL.collapsed .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(-90deg);
   /* Firefox */
@@ -2145,7 +1920,7 @@
   opacity: 1 ;
   cursor: not-allowed;
 }
-#campaignCreate .firstWrapper .masterContainer .tableEdit .dropdown-toggle.btn[disabled] .icon-arrow-down {
+#campaignCreate .firstWrapper .masterContainer .tableEdit .dropdown-toggle.btn[disabled] .icon-arrow-solid-down {
   background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eee 65%);
   background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eee 65%);
   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #eee 54%);
@@ -2155,7 +1930,7 @@
   margin-bottom: 5px;
   cursor: pointer;
 }
-#campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(-90deg);
   /* Firefox */
@@ -2173,7 +1948,7 @@
   float: left;
   color: #000;
 }
-#campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-down-thick.active {
+#campaignCreate .firstWrapper .masterContainer .showAddCreditForm .icon-arrow-solid-down.active {
   /* Safari */
   -webkit-transform: rotate(0deg);
   /* Firefox */
@@ -2220,7 +1995,7 @@
 #campaignCreate .firstWrapper .masterContainer .accordionDDL span:last-child {
   font-style: italic;
 }
-#campaignCreate .firstWrapper .masterContainer .accordionDDL .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .accordionDDL .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(0deg);
   /* Firefox */
@@ -2241,7 +2016,7 @@
 #campaignCreate .firstWrapper .masterContainer .accordionDDL:first-child {
   border-top: 1px solid rgba(191, 201, 215, 0.5);
 }
-#campaignCreate .firstWrapper .masterContainer .accordionDDL.collapsed .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .accordionDDL.collapsed .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(-90deg);
   /* Firefox */
@@ -2281,7 +2056,7 @@
 #campaignCreate .firstWrapper .masterContainer .accordionDDL span:last-child {
   font-style: italic;
 }
-#campaignCreate .firstWrapper .masterContainer .accordionDDL .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .accordionDDL .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(0deg);
   /* Firefox */
@@ -2302,7 +2077,7 @@
 #campaignCreate .firstWrapper .masterContainer .accordionDDL:first-child {
   border-top: 1px solid rgba(191, 201, 215, 0.5);
 }
-#campaignCreate .firstWrapper .masterContainer .accordionDDL.collapsed .icon-arrow-down-thick {
+#campaignCreate .firstWrapper .masterContainer .accordionDDL.collapsed .icon-arrow-solid-down {
   /* Safari */
   -webkit-transform: rotate(-90deg);
   /* Firefox */
@@ -2358,30 +2133,8 @@
   margin-bottom: 5px;
   width: 50%;
 }
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .pillsWrap {
-  float: left;
-  width: 100%;
-  margin: 0 0 4px 0;
-}
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .pillsWrap .labelPills {
-  background: #EDF2F8;
-  margin: 0 5px 0 0;
-  padding: 2px 10px;
-  display: inline-block;
-  float: left;
-  font: 12px "Avenir";
-  height: 20px;
-  line-height: 100%;
-  border: 1px solid #BFC9D7;
-  border-radius: 3px;
-}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .pillsWrap .labelPills:first-child {
-  color: #fff;
-  margin: 0;
-  height: 20px;
-  width: 32px;
-  border-width: 0;
-  background: transparent;
+  margin-left: 14px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary {
   float: right;
@@ -2405,28 +2158,29 @@
                                     }*/
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon {
-  border: 1px solid #C6C9CE;
-  border-radius: 2px;
   float: left;
   margin-right: 10px;
   cursor: pointer;
 }
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon:hover {
-  border: 1px solid rgba(87, 96, 109, 0.3);
-}
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon:hover .icon-plus,
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon:hover .icon-minus {
-  color: #2c9aec;
-}
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .icon-minus,
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .icon-plus {
-  color: #57606d;
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .icon-toggleopen,
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .icon-toggleclose {
   float: left;
-  font-size: 12px;
+  font-size: 24px;
   height: 24px;
-  padding: 6px;
   top: 0;
   width: 24px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .icon-toggleclose {
+  color: #bfc9d7;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .icon-toggleclose:hover {
+  color: #939eae;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .icon-toggleopen {
+  color: #004d86;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .icon-toggleopen:hover {
+  color: #0563a9;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle h2.adGroupTxt {
   color: #000;
@@ -2462,30 +2216,8 @@
   border-bottom: 1px solid #CDD2DA;
   padding: 15px;
 }
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .adTitle .pillsWrap {
-  float: left;
-  width: 100%;
-  margin: 0 0 20px 0;
-}
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .adTitle .pillsWrap .labelPills {
-  background: #EDF2F8;
-  margin: 0 5px 0 0;
-  padding: 2px 10px;
-  display: inline-block;
-  float: left;
-  font: 12px "Avenir";
-  height: 20px;
-  line-height: 100%;
-  border: 1px solid #BFC9D7;
-  border-radius: 3px;
-}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .adTitle .pillsWrap .labelPills:first-child {
-  color: #fff;
-  margin: 0;
-  height: 20px;
-  width: 32px;
-  border-width: 0;
-  background: transparent;
+  margin-left: 14px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance #collapseAdGroup {
   padding: 15px;
@@ -3303,16 +3035,6 @@
   margin: 3px 0 10px 0;
   width: auto;
 }
-#campaignCreate .firstWrapper .masterContainer .marginCal .calTable .onlyShowValue {
-  float: left !important;
-  margin: 0 !important;
-  width: 100%;
-  border-radius: 2px;
-  background: #E6E6E6;
-  border: 1px solid #BFC9D7;
-  text-align: left;
-  padding: 7px 10px;
-}
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable span {
   float: left;
   margin: 0 0 0 5px;
@@ -3589,6 +3311,31 @@
   top: 123px;
   width: 930px;
   z-index: 111111;
+  /*.col-md-1 {
+                width: 10%;
+            }*/
+}
+#campaignCreate .platformSlide .platform-custom .decoratorFloat {
+  left: 10px;
+  position: absolute;
+  top: 46px;
+  z-index: 10;
+}
+#campaignCreate .platformSlide .platform-custom .form-group input[type="number"] {
+  line-height: normal;
+  text-indent: 20px;
+}
+#campaignCreate .platformSlide .platform-custom .eachBuyingSection {
+  display: none ;
+}
+#campaignCreate .platformSlide .platform-custom .eachBuyingSection .platformHeading {
+  margin-top: 30px;
+}
+#campaignCreate .platformSlide .platform-custom .eachBuyingSection .onlyShowValue {
+  width: 100px ;
+}
+#campaignCreate .platformSlide .platform-custom .buying_strategy_div {
+  display: block;
 }
 #campaignCreate .platformSlide .platform-custom .adHeader {
   margin: 20px 0 10px;
@@ -3603,7 +3350,7 @@
   margin-bottom: 30px;
   margin-top: 30px;
 }
-#campaignCreate .platformSlide .platform-custom .breadcrumbs .icon-arrow-down {
+#campaignCreate .platformSlide .platform-custom .breadcrumbs .icon-arrow-solid-down {
   float: left;
   margin: 30px 10px 10px 10px;
   -ms-transform: rotate(270deg);
@@ -3636,9 +3383,6 @@
   float: left;
   margin: 1px 0 20px 10px;
 }
-#campaignCreate .platformSlide .platform-custom .col-md-1 {
-  width: 10%;
-}
 #campaignCreate .platformSlide .platform-custom .helpLink {
   float: left;
   margin-bottom: 10px;
@@ -3654,8 +3398,8 @@
   z-index: 10;
 }
 #campaignCreate .platformSlide .platform-custom .platWrap {
-  max-height: 500px;
-  overflow-y: auto;
+  /* max-height: 500px;
+                overflow-y: auto;*/
 }
 #campaignCreate .platformSlide .platform-custom .platWrap .form-group {
   clear: left;
@@ -3671,6 +3415,9 @@
 #campaignCreate .platformSlide .platform-custom .platWrap .form-group input[type="number"] {
   line-height: normal;
   text-indent: 20px;
+}
+#campaignCreate .platformSlide .platform-custom .platWrap .form-group #direct_campaign_priority {
+  text-indent: 0px;
 }
 #campaignCreate .platformSlide .platform-custom .platWrap .form-group select {
   background: transparent;
@@ -3693,7 +3440,9 @@
 #campaignCreate .platformSlide .platform-custom .platWrap .platformHeading .col-md-8 {
   font-size: 20px;
   font-family: Avenir, sans-serif;
-  margin-bottom: 10px;
+}
+#campaignCreate .platformSlide .platform-custom .platWrap .platformHeading .col-md-4 {
+  margin-top: 10px;
 }
 #campaignCreate .platformSlide .platform-custom .resetCustomForm {
   cursor: pointer;
@@ -3951,8 +3700,8 @@
 .accounts-page .advertiser-name {
   cursor: pointer;
 }
-.users-creation-page .icon-arrow-down-thick,
-.accounts-page .icon-arrow-down-thick {
+.users-creation-page .icon-arrow-solid-down,
+.accounts-page .icon-arrow-solid-down {
   float: left;
   font-size: 9px;
   width: 9px;
@@ -3970,8 +3719,8 @@
   /* Internet Explorer */
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
-.users-creation-page .icon-arrow-down-thick.active,
-.accounts-page .icon-arrow-down-thick.active {
+.users-creation-page .icon-arrow-solid-down.active,
+.accounts-page .icon-arrow-solid-down.active {
   /* Safari */
   -webkit-transform: rotate(0deg);
   /* Firefox */
@@ -4099,7 +3848,7 @@
 }
 .users-creation-page .heading,
 .accounts-page .heading {
-  margin: 15px 0;
+  margin: 0 0 30px 0;
 }
 .users-creation-page .heading .common_primary_btn,
 .accounts-page .heading .common_primary_btn {

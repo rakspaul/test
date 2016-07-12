@@ -1,8 +1,8 @@
 <div class="col-md-12 adGroupCreate" data-ng-show="showCreateAdGrp">
     <form id="createNewAdGrp" name="createNewAdGrp" novalidate>
         <div class="adGroupCreateForm">
-            <h1 class="col-md-12 zeroPadding" data-ng-if="!editAdGroupFlag" data-ng-bind="textConstants.SETADGRP"></h1>
-            <div class="clearfix" data-ng-if="editAdGroupFlag">
+            <h1 class="col-md-12 zeroPadding" data-ng-if="!adGroupData.editAdGroupFlag" data-ng-bind="textConstants.SETADGRP"></h1>
+            <div class="clearfix" data-ng-if="adGroupData.editAdGroupFlag">
                     <h1 class="col-md-4 zeroPadding" data-ng-bind="textConstants.EDITADGRP"></h1>
                     <span class="pull-right common-loading-btn" style="width: 61px;" data-ng-show="loadingBtn"></span>
                     <button type="submit"
@@ -12,7 +12,7 @@
                                               !isMinimumAdGroupBudget ||
                                               !isMaximumAdGroupBudget ||
                                               adIGroupBudget === 0)"
-                            data-ng-click="createAdGroup($event)"
+                            data-ng-click="saveAdGroup($event)"
                             data-ng-bind="textConstants.WF_AD_SAVE_CLOSE"
                             data-ng-show="!loadingBtn">
                     </button>
@@ -20,8 +20,6 @@
                           data-ng-bind="textConstants.CANCEL"
                           data-ng-click="cancelEditAdGroup()">
                     </span>
-                    <input type="hidden" name="adgroupId" data-ng-model="adgroupId" data-ng-update-hidden>
-                    <input type="hidden" name="updatedAt" data-ng-model="updatedAt" data-ng-update-hidden>
             </div>
 
             <!--Name Ad Group-->
@@ -77,7 +75,7 @@
                                                         adGroupData.lineitemName :
                                                         textConstants.SELECT_LABEL">
                                     </span>
-                                    <span class="icon-arrow-down"></span>
+                                    <span class="icon-arrow-solid-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" >
                                     <li data-ng-repeat="lineItem in lineItems"
@@ -101,7 +99,7 @@
                     </label>
                     <div class="form-group col-md-3" style="padding: 0 10px 0 0;" show-errors>
                         <span class="currencyFly">$</span>
-                        <input type="number"
+                        <input type="text"
                                class="form-control"
                                id="budgetIndividualAdGroup"
                                name="adIGroupBudget"
@@ -109,6 +107,9 @@
                                data-ng-value="adIGroupBudget"
                                min-value="{{adGroupMinBudget}}"
                                max-value="{{adGroupMaxBudget}}"
+                               fcsa-number="{  }"
+                               fraction-numbers
+                               valid-number
                                required data-ng-keyup="validateAdGroupSpend($event)">
                     </div>
                     <label data-ng-if="createNewAdGrp.adIGroupBudget.$error.required"
@@ -181,7 +182,7 @@
             </div>
 
             <!--Save / Cancel-->
-            <div class="col-md-6" style="padding: 62px 0 0 0;" data-ng-if="!editAdGroupFlag">
+            <div class="col-md-6" style="padding: 62px 0 0 0;" data-ng-if="!adGroupData.editAdGroupFlag">
                 <span class="pull-right common-loading-btn" style="width: 61px;" data-ng-show="loadingBtn"></span>
                 <button type="submit"
                         class="btn btn-primary pull-right"
@@ -190,12 +191,12 @@
                                           !isMinimumAdGroupBudget ||
                                           !isMaximumAdGroupBudget ||
                                           adIGroupBudget === 0)"
-                        data-ng-click="createAdGroup($event)"
+                        data-ng-click="saveAdGroup($event)"
                         data-ng-bind="textConstants.SAVE"
                         data-ng-show="!loadingBtn">
                 </button>
                 <span class="pull-right secondary_txt"
-                      data-ng-click="createAdGrp();"
+                      data-ng-click="createAdGroup();"
                       data-ng-bind="textConstants.CANCEL">
                 </span>
             </div>
@@ -204,6 +205,8 @@
                  data-ng-bind="createAdGroupMessage">
             </div>
         </div>
+        <input type="hidden" name="adgroupId" data-ng-model="adgroupId" ng-update-hidden>
+        <input type="hidden" name="updatedAt" data-ng-model="updatedAt" ng-update-hidden>
     </form>
 </div>
 

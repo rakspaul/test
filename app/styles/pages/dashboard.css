@@ -46,6 +46,18 @@
 .main_dashboard .dropdown .dropdown_ul_text {
   cursor: pointer;
 }
+.main_dashboard .dropdown .dropdown_ul_text span {
+  float: left;
+}
+.main_dashboard .dropdown .dropdown_ul_text .icon-arrow-solid-down {
+  float: right;
+  position: static;
+  margin: 3px 0 0 7px;
+  padding: 0;
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+}
 .main_dashboard .dropdown .dropdown_ul {
   text-align: left;
   min-width: 86px;
@@ -117,12 +129,12 @@
   display: block;
 }
 .main_dashboard .status_filter {
-  line-height: 20px;
+  padding-top: 10px;
   font-size: 14px;
   margin-left: 20px ;
 }
 .main_dashboard .status_filter .status_filter_dd {
-  margin-top: 1px ;
+  margin-top: 8px ;
   position: relative;
   cursor: pointer;
 }
@@ -530,7 +542,7 @@
   text-align: left;
   font-size: 14px !important;
   font-weight: normal;
-  margin: 0 8px 0 0;
+  margin: 0 0 0 7px;
 }
 .main_dashboard .dashboard_perf_graph {
   min-height: 175px;

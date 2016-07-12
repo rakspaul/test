@@ -14,6 +14,10 @@ body {
 }
 .tooltip {
     word-wrap: break-word;
+    .tooltip-inner {
+        word-wrap: break-word;
+        max-width: initial;
+    }
 }
 .no-chart , .no_data_found {
   color: #939ead;
@@ -59,7 +63,7 @@ body {
 .campaign_details_page {
   .AvenirFont() ;
   color: #2d2f31 ;
-  padding-top: 20px;
+  //padding-top: 20px;
   .disabled_dd {
     position: absolute;
     height: 87px;
@@ -71,17 +75,18 @@ body {
     z-index: 1001;
   }
   .load-more-strategies {
-    margin: 30px;
+    margin: 15px 0px;
     text-align: center;
     cursor: default;
     display: block;
     a{
       text-decoration: none;
       cursor: pointer;
+      color: #428bca;
+      &:hover {
+        color: #2a6496;
+      }
     }
-  }
-  .load-more-tactics {
-      margin-top: 120px;
   }
   .dropdown-menu li {
     cursor: default;
@@ -92,6 +97,9 @@ body {
     background: #d2dee7 ;
   }
   .campaign_details_header {
+    h1 {
+        margin-top: 30px;
+    }
     .campaign_name {
       font-size: 26px;
       color: #313233;
