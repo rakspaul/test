@@ -4573,9 +4573,10 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .second_dimension_row_holder .second_dimension_row {
   position: relative;
-  margin-top: 10px;
+  padding-top: 10px;
   color: #5A5A5A ;
   font-family: "Avenir";
+  border-left: dashed 1px #95a1a9;
 }
 .custom_report_response_page .custom_report_response_table .second_dimension_row_holder .second_dimension_row .tree_dimension_col {
   width: 290px;
@@ -4594,7 +4595,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   -webkit-border-radius: 0 0 0 4px ;
   display: inline-block;
   position: absolute;
-  top: 0px;
+  top: 10px;
   left: 0px;
 }
 .custom_report_response_page .custom_report_response_table .second_dimension_row_holder .second_dimension_row .each_col.tree_string:after {
