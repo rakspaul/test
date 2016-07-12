@@ -1,37 +1,42 @@
-define(['angularAMD'],function (angularAMD) {
-  'use strict';
-  angularAMD.factory("kpiSelectModel", function () {
-    var kpiData = {};
-    kpiData.selectedKpi = (localStorage.getItem('selectedKpi') == undefined) ? 'ctr' : localStorage.getItem('selectedKpi');  //'ctr' ;
-    kpiData.selectedKpiAlt = (localStorage.getItem('selectedKpiAlt') == undefined) ? 'cpm' : localStorage.getItem('selectedKpiAlt');  //'cpm' ;
-    kpiData.kpiDropDown = ['ctr', 'action_rate', 'cpa', 'cpc', 'cpm', 'vtc'];
-    kpiData.newkpiDropDownAlt = ['cpm', 'cpc', 'cpa'];
+define(['angularAMD'], function (angularAMD) { // jshint ignore:line
+    'use strict';
 
-    kpiData.setSelectedKpi = function (_kpi) {
-      localStorage.setItem("selectedKpi", _kpi);
-      kpiData.selectedKpi = _kpi;
-    };
+    angularAMD.factory('kpiSelectModel', function () {
+        var kpiData = {};
 
-    kpiData.setSelectedKpiAlt = function (_kpi) {
-      localStorage.setItem("selectedKpiAlt", _kpi);
-      kpiData.selectedKpiAlt = _kpi;
-    };
+        kpiData.selectedKpi = (localStorage.getItem('selectedKpi') === undefined) ?
+            'ctr' : localStorage.getItem('selectedKpi');
 
+        kpiData.selectedKpiAlt = (localStorage.getItem('selectedKpiAlt') === undefined) ?
+            'cpm' : localStorage.getItem('selectedKpiAlt');
 
-    kpiData.getSelectedKpi = function () {
-      return (localStorage.getItem('selectedKpi') == undefined) ? kpiData.selectedKpi : localStorage.getItem('selectedKpi');
-    };
+        kpiData.kpiDropDown = ['ctr', 'action_rate', 'cpa', 'cpc', 'cpm', 'vtc'];
+        kpiData.newkpiDropDownAlt = ['cpm', 'cpc', 'cpa'];
 
-    kpiData.getSelectedKpiAlt = function () {
-      return (localStorage.getItem('selectedKpiAlt') == undefined) ? kpiData.selectedKpiAlt : localStorage.getItem('selectedKpiAlt');
-    };
+        kpiData.setSelectedKpi = function (_kpi) {
+            localStorage.setItem('selectedKpi', _kpi);
+            kpiData.selectedKpi = _kpi;
+        };
 
+        kpiData.setSelectedKpiAlt = function (_kpi) {
+            localStorage.setItem('selectedKpiAlt', _kpi);
+            kpiData.selectedKpiAlt = _kpi;
+        };
 
-    kpiData.getKpiObj = function () {
-      return kpiData;
-    };
+        kpiData.getSelectedKpi = function () {
+            return (localStorage.getItem('selectedKpi') === undefined) ?
+                kpiData.selectedKpi : localStorage.getItem('selectedKpi');
+        };
 
-    return kpiData;
+        kpiData.getSelectedKpiAlt = function () {
+            return (localStorage.getItem('selectedKpiAlt') === undefined) ?
+                kpiData.selectedKpiAlt : localStorage.getItem('selectedKpiAlt');
+        };
 
-  });
+        kpiData.getKpiObj = function () {
+            return kpiData;
+        };
+
+        return kpiData;
+    });
 });
