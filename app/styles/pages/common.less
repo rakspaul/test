@@ -1587,6 +1587,7 @@
 .common_dropdown {
 	.dropdown {
 		min-width: 120px;
+		max-width: 120px;
 		border: solid 1px #dde6eb;
 		border-radius: 2px;
 		-moz-border-radius: 2px;
@@ -1598,7 +1599,16 @@
 			cursor: default;
 			padding: 5px 10px;
 			display: block;
+			.dd_txt {
+				width: 90%;
+			    display: inline-block;
+			    white-space: nowrap;
+			    overflow: hidden;
+			    text-overflow: ellipsis;
+			    float: left;
+			}
 		}
+		
 		.arrow_img {
 			background: url("/images/cdesk/common_down_arrow.png") no-repeat center center;
 			height: 18px;
