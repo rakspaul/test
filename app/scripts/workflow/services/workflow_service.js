@@ -145,12 +145,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     }
                     if (isDashboardSubAccount && !isLeafNode) {
                         clientId = localStorageService.advertiser.getDashboard().clientId;
-                        if(!clientId) {
-                            console.log("Error: Its dashboard but client id is undefined, check dashboardAdvertiser");
+
+                        if (!clientId) {
+                            console.log('Error: Its dashboard but client id is undefined, check dashboardAdvertiser');
                         }
                     }
 
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advertiserId + '/brands';
+                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId +
+                        '/advertisers/' + advertiserId +
+                        '/brands';
 
                     if (accessLevel) {
                         url = url + '?access_level=' + accessLevel;
@@ -536,8 +540,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 },
 
                 getTemplates: function (adServer, format,executionVendorType) {
-                  var executionVendorType = executionVendorType?'&executionVendorType='+executionVendorType:'';
-                        return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    executionVendorType = executionVendorType ? '&executionVendorType=' + executionVendorType : '';
+
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/vendors/' + adServer.id +
                             '/templates?format=' + format.toUpperCase() + executionVendorType);
                 },
@@ -566,8 +571,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 },
 
                 getCreativeData: function (id, client_id) {
-                    var clientId = client_id || loginModel.getSelectedClient().id,
-                        qryStr = '/clients/' + clientId + '/creatives/' + id;
+                    var clientId = client_id || loginModel.getSelectedClient().id;
 
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -578,10 +582,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     var str,
                         qryStr;
 
-                    str = (params.campaignId && params.adId) ? ('?campaignId/' + params.campaignId + '/adId/' + params.adId) : '';
-                    qryStr = '/clients/' + params.clientId + '/advertisers/'+ params.advertiserId + '/creatives/' + params.creativeId + '/preview' + str;
-                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        qryStr );
+                    str = (params.campaignId && params.adId) ?
+                        ('?campaignId/' + params.campaignId + '/adId/' + params.adId) : '';
+
+                    qryStr = '/clients/' + params.clientId +
+                        '/advertisers/'+ params.advertiserId +
+                        '/creatives/' + params.creativeId +
+                        '/preview' + str;
+
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + qryStr);
                 },
 
                 forceSaveCreatives: function (clientId, adId, data) {
@@ -597,19 +606,21 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     );
                 },
 
-                getCreatives: function (clientId,adId, formats, query, cacheObj, state, executionPlatformType, success,
-                                        failure) {
+                getCreatives: function (clientId, adId, formats, query, cacheObj, state, executionPlatformType,
+                                        success, failure) {
                     var queryStr = query ? query : '',
                         creativeFormats = formats ? '?creativeFormat=' + formats : '',
                         url,
                         canceller;
-                    state = state ? '&status=READY' : '',
-                        executionPlatformType = executionPlatformType ? '&executionVendorType='+executionPlatformType : '';
+
+                    state = state ? '&status=READY' : '';
+
+                    executionPlatformType = executionPlatformType ?
+                        '&executionVendorType=' + executionPlatformType : '';
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/advertisers/' + adId +
-                    //    '/creatives' + creativeFormats + queryStr + intTracking + state;
                         '/creatives' + creativeFormats + queryStr  + state + executionPlatformType;
 
                     canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
@@ -1052,7 +1063,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         i;
 
                     for (i = 0; i < resp.length; i++) {
-                        if (resp[i].vendorExecutionPlatform.executionVendorType=='FULL INTEGRATION') {
+                        if (resp[i].vendorExecutionPlatform.executionVendorType === 'FULL INTEGRATION') {
                             //full integration platform
                             platforms.fullIntegrationsPlatforms.push(createObj(resp[i]));
                         } else {
@@ -1310,21 +1321,24 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     );
                 },
 
-                segrigateInventory: function (selectedList){
-
+                segrigateInventory: function (selectedList) {
                     var inventryListObj = {},
                         domainList = [],
                         appList = [];
-                    _.each(selectedList,function(item){
+
+                    _.each(selectedList,function (item) { // jshint ignore:line
                         if(item.inventoryType === 'DOMAIN'){
                             domainList.push(item.domainListId);
-                        };
+                        }
+
                         if(item.inventoryType === 'APP'){
                             appList.push(item.domainListId);
-                        };
-                    })
+                        }
+                    });
+
                     inventryListObj.domainList = domainList;
                     inventryListObj.appList = appList;
+
                     return inventryListObj;
 
                 }
