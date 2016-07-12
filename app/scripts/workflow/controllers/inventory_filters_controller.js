@@ -21,6 +21,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
 
                             // Hide Domain names list type popup cue & Remove domain list popup
                             $scope.changeDomainListType = false;
+                            $scope.savedDomainAction = 'INCLUDE';
 
                             // Sort filter for domain names list in "upload new domain list" popup
                             $scope.inventoryNew = {
@@ -39,7 +40,13 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                                     $scope.savedDomainListIds = $scope.getAd_result.targets.appTargets.inheritedAppList.ADVERTISER
                                 }
                                 //-------
-                                $scope.savedDomainAction = $scope.getAd_result.domainAction || 'INCLUDE';
+
+
+                                if($scope.getAd_result.domainAction) {
+                                    $scope.savedDomainAction = $scope.getAd_result.domainAction
+                                } else if($scope.getAd_result.appAction) {
+                                    $scope.savedDomainAction = $scope.getAd_result.appAction
+                                }
 
                                 if ($scope.savedDomainListIds && $scope.savedDomainListIds.length) {
                                     selectedLists = _.map($scope.workflowData.inventoryData, // jshint ignore:line

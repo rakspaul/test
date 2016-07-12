@@ -39,7 +39,6 @@ define(['angularAMD',
                                 $scope.pushedCount = $scope.creativeEditData.pushedCount;
                                 $scope.associatedAdCount = $scope.creativeEditData.noOfAds;
                                 $scope.clickUrl=$scope.creativeEditData.clickthroughURL;
-                                $scope.isTrackingCreative=$scope.creativeEditData.isTracking;
 
                                 // set the creativeTag Type
                                /* $scope.creativeType = $scope.creativeEditData.creativeType.toUpperCase();
@@ -506,7 +505,7 @@ define(['angularAMD',
 
             $scope.creativeSizeData.tagTypes = [];
             $scope.CreativeTemplate = templateJson;
-            $scope.isTrackingCreative = templateJson.isTracking;
+            $scope.templateType = templateJson.templateType;
             $scope.adData.creativeTemplate = templateJson.id;
 
             if(templateJson){
@@ -698,7 +697,6 @@ define(['angularAMD',
                 postCrDataObj.clientId = $scope.creative.clientId;
                 postCrDataObj.advertiserId = formData.advertiserId;
                 postCrDataObj.brandId = formData.brandId;
-                postCrDataObj.isTracking = $scope.isTrackingCreative;
                 postCrDataObj.adServerId = formData.creativeAdServer;
                 postCrDataObj.creativeFormat = $scope.creativeFormat.toUpperCase();
                 postCrDataObj.sslEnable = 'true';

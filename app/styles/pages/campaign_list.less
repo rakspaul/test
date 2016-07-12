@@ -3004,17 +3004,20 @@ button, i, input[type="submit"] {
     text-transform: capitalize;
   }
   .brand_name_selected {
+    position: relative;
+    z-index: 3;
+    cursor: pointer;
+    padding-right: 20px ;
+    max-width: 113px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    //background: url("/images/cdesk/common_down_arrow.png") no-repeat right center;
     &.no_pointer{
       cursor:default;
       opacity: .4;
     }
-      cursor: pointer;
-      padding-right: 20px ;
-      max-width: 113px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      //background: url("/images/cdesk/common_down_arrow.png") no-repeat right center;
+     
   }
   .campaign_name_selected {
     height: 20px ;
@@ -3025,6 +3028,8 @@ button, i, input[type="submit"] {
     overflow: hidden;
     text-overflow : ellipsis ;
     cursor: pointer;
+    position: relative;
+    z-index: 3 ;
     //background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px ;
   }
   .icon-arrow-solid-down {

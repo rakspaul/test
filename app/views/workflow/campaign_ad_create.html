@@ -13,7 +13,7 @@
             position: fixed;
             z-index: 999;
             opacity: 0.6;"
-     data-ng-show="redirectFlag">
+     data-ng-show="isMediaPlanArchive">
 </div>
 <div id="campaignCreate" class="adCreateMaster">
     <div class="firstWrapper">
@@ -89,7 +89,8 @@
                                                         id="SaveAd"
                                                         data-ng-click="campaignAdSave(false)"
                                                         data-ng-bind="textConstants.WF_AD_SAVE_CLOSE"
-                                                        class="btn btn-primary pull-right" style="margin: 0;">
+                                                        class="btn btn-primary pull-right"
+                                                        style="margin: 0;">
                                                 </button>
 
                                                 <div data-ng-show="adCreateLoader"
@@ -230,7 +231,7 @@
             </div>
         </div>
     </div>
-    <div class="common-popup-container" data-ng-show="redirectFlag">
+    <div class="common-popup-container" data-ng-show="isMediaPlanArchive">
         <div class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">

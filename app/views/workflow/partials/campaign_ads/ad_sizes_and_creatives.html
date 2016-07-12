@@ -7,13 +7,13 @@
     <div class="clearfix">
         <button type="button"
                 class="btn btn-default pull-left"
-                ng-disabled="adData.adFormat === undefined ||!$parent.isPlatformSelected"
-                ng-click="showPopup()"
+                data-ng-disabled="adData.adFormat === undefined ||!$parent.isPlatformSelected"
+                data-ng-click="showPopup()"
                 data-ng-bind="textConstants.ADDEXISTNG"></button>
         <button type="button"
                 class="btn btn-default pull-left"
-                ng-disabled="!$parent.isPlatformSelected"
-                ng-click="showCreateNewWindow()"
+                data-ng-disabled="!$parent.isPlatformSelected"
+                data-ng-click="showCreateNewWindow()"
                 style="margin-left: 10px;"
                 data-ng-bind="textConstants.CREATENEW"></button>
     </div>
@@ -49,43 +49,46 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="creativeData in creativeData.creativeInfo.creatives">
-                    <!-- <td class="col-md-1">
-                         <span >{{$index+1}}</span>
-                    </td> -->
+                <tr data-ng-repeat="creativeData in creativeData.creativeInfo.creatives">
                     <td class="col-md-2">
                         <span data-ng-bind="creativeData.size.size | lowercase"></span>
                     </td>
                     <td class="col-md-7">
                         <a class="col-md-8"
                            href="javascript:void(0);"
-                           ng-click="creativeData.isTracking ? '': ShowHide(creativeData)"
+                           data-ng-click="creativeData.isTracking || !creativeData.creativeCustomInputs.length ?
+                                '' : ShowHide(creativeData)"
                            data-ng-bind="creativeData.name"></a>
                         <div class="pull-right">
                             <div class="dropdown-workflow">
                                 <div class="dropdown hideOption">
-                                    <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <button class="dropdown-toggle"
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="true">
                                         <span class="icon-more-options"></span>
                                     </button>
                                     <ul class="dropdown-menu" style="padding: 0px;">
                                         <li >
-                                            <a target="_blank" style="padding: 10px;" ng-href="/clientId/{{creativeData.clientId}}/adv/{{creativeData.advertiserId}}/creative/{{creativeData.id}}/preview" ng-bind-html="textConstants.PREVIEW"></a>
+                                            <a target="_blank"
+                                               style="padding: 10px;"
+                                               data-ng-bind-html="textConstants.PREVIEW"
+                                               data-ng-href="/clientId/{{creativeData.clientId}}/adv/{{creativeData.advertiserId}}/creative/{{creativeData.id}}/preview">
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <!--<div style="width:350px;word-wrap:break-word;height:100px;">-->
-                            <!--<div ng-show="IsVisible" class="ng-cloak">-->
-                                <!--{{creativeData.tag}}-->
-                            <!--</div>-->
-                        <!--</div>-->
                     </td>
                     <td class="col-md-4">
-                        <span> <img ng-if="(creativeData.adServer)" style="max-height: 35px;max-width: 70px;" ng-src="{{creativeData.adServer.iconURL}}"/> </span>
+                        <span>
+                            <img data-ng-if="(creativeData.adServer)"
+                                 style="max-height: 35px;max-width: 70px;"
+                                 data-ng-src="{{creativeData.adServer.iconURL}}">
+                        </span>
                     </td>
-
-
                     <td class="col-md-1">
                         <span class="common-ok" aria-hidden="true"></span>
                         <!-- glyphicon glyphicon-ok-circle -->
@@ -93,13 +96,13 @@
                     <td class="col-md-1">
                         <span class="pull-right icon-close"
                               aria-hidden="true"
-                              ng-click="removeCreativeTags(creativeData)"></span>
+                              data-ng-click="removeCreativeTags(creativeData)"></span>
                         <!-- glyphicon glyphicon-remove  -->
                     </td>
                 </tr>
             </tbody>
         </table>
-        <div ng-show="!creativeData.creativeInfo.creatives || creativeData.creativeInfo.creatives.length === 0"
+        <div data-ng-show="!creativeData.creativeInfo.creatives || creativeData.creativeInfo.creatives.length === 0"
              class="emptyCreativesFlag">
             <span data-ng-bind="textConstants.YOUHAVENTADDED"></span>
         </div>
@@ -109,24 +112,32 @@
 <!--=== Next Step Panel ===-->
 <div class="row">
     <span class="nextWrapper leftNavLink">
-         <button ng-show ="!$parent.adCreateLoader" data-ng-disabled="isSaveBtnEnable()"
-                 ng-click="campaignAdSave(false)"
+         <button data-ng-show ="!$parent.adCreateLoader"
+                 data-ng-disabled="isSaveBtnEnable()"
+                 data-ng-click="campaignAdSave(false)"
                  class="btn btn-primary"
                  data-ng-bind="textConstants.WF_AD_SAVE_CLOSE"></button>
     </span>
 </div>
 
-<div class="popContainerHolder" ng-show="IsVisible">
+<div class="popContainerHolder" data-ng-show="IsVisible">
     <div class="popContainer popup-holder">
         <div class="modal-content">
             <div class="clearfix modal-header">
                 <h1 class="pull-left modal-title" data-ng-bind="creativeObj.name"></h1>
-                <span class="icon-close close unselectable" aria-hidden="true" ng-click="ShowHide()"></span>
+                <span class="icon-close close unselectable" aria-hidden="true" data-ng-click="ShowHide()"></span>
             </div>
             <div class="modal-body">
                 <div class="textarea_edit_holder">
-                    <textarea  style="width: 100%;" rows="15" name="tag" id="tag" data-ng-model="creativeObj.tag"
-                    ng-readonly="true" data-ng-bind="creativeObj.tag" required></textarea>
+                    <textarea  style="width: 100%;"
+                               rows="15"
+                               name="tag"
+                               id="tag"
+                               data-ng-model="creativeObj.creativeCustomInputs[0].value"
+                               data-ng-readonly="true"
+                               data-ng-bind="creativeObj.tag"
+                               required>
+                    </textarea>
                 </div>
             </div>
         </div>

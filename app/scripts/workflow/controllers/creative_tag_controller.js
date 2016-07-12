@@ -23,19 +23,23 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 return respData;
             },
 
-            getCreativesFromLibrary: function (clientID,adId, format, query,state) {
+            getCreativesFromLibrary: function (clientID, adId, format, query,state) {
+                var executionPlatformType;
+
                 // If adFormat has changed (Eg: from Display to RichMedia, etc.),
                 // reset selected creatives array
                 if ($scope.$parent.adFormatChanged) {
                     $scope.$parent.selectedArr.length = 0;
+
                     // Reset flag variable as it has served its purpose
                     $scope.$parent.adFormatChanged = false;
                 }
-                var executionPlatformType=workflowService.getPlatform().executionVendorType;
-                // remove spaces.
-                //format = format.replace(/\s/g, '');
+
+                executionPlatformType = workflowService.getPlatform().executionVendorType;
+
                 workflowService
-                    .getCreatives(clientID,adId, format, query, {cache: false},state,executionPlatformType,function(result){
+                    .getCreatives(clientID,adId, format, query, {cache: false}, state, executionPlatformType,
+                        function (result) {
                         var responseData,
                             selectedCreative;
 
@@ -253,6 +257,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                     $scope.creativesLibraryData.creativesData[currIndx].checked = false;
                 }
             }
+
             // TODO: Enable save button of popup library if elements exists
         });
     });

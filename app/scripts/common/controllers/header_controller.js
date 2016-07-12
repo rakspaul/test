@@ -23,7 +23,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $('#user-menu').show();
             },
 
-            setMasterClientData = function (id, name, isLeafNode) {
+            setMasterClientData = function (id, name, isLeafNode, event) {
                 localStorageService.masterClient.set({
                     id: id,
                     name: name,
@@ -100,7 +100,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
                             accountChangeAction: function () {
                                 return function () {
-                                    setMasterClientData(id, name,isLeafNode);
+                                    setMasterClientData(id, name,isLeafNode, event);
 
                                     if (!localStorageService.masterClient.get().isLeafNode) {
                                        subAccountModel.resetDashboardSubAccStorage();
@@ -119,7 +119,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     });
                 }
             } else {
-                setMasterClientData(id, name,isLeafNode);
+                setMasterClientData(id, name,isLeafNode, event);
 
                 if (!localStorageService.masterClient.get().isLeafNode) {
                     subAccountModel.resetDashboardSubAccStorage();
@@ -133,7 +133,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             $('.page_filters').find('.filter_dropdown_open').removeClass('filter_dropdown_open');
             $('#cdbDropdown').hide();
         };
-        
+
         $scope.NavigateToTab = function (url, event, page) {
             $('.header_tab_dropdown').removeClass('active_tab active selected');
 
@@ -243,6 +243,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                                         .then(function (response) {
                                             if (response.length > 0) {
                                                 $scope.selectedCampaign = response[0].campaign_id;
+                                                var firstCampaign = {'id':response[0].campaign_id,'name':response[0].name,'startDate':response[0].start_date,'endDate':response[0].end_date,'kpi':response[0].kpi_type,'redirectWidget':""};
+                                                localStorageService.selectedCampaign.set(firstCampaign);
                                             }
                                         });
                                 }

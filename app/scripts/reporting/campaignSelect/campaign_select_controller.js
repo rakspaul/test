@@ -188,7 +188,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', // jshint
                 } else if ((campaignSelectModel.getSelectedCampaign().id === -1)) {
                     $scope.fetchCampaigns(true, true);
                 } else {
-                    $scope.setCampaign(campaignSelectModel.getCampaignObj().selectedCampaign);
+                    //commented the below line because when you directly go to a canned report from dashboard it was still showing Loading.. under mediaplan though it was loaded.
+                    //$scope.setCampaign(campaignSelectModel.getCampaignObj().selectedCampaign);
                     $scope.fetchCampaigns(true, false);
                     $scope.campaignData.campaigns = [campaignSelectModel.getCampaignObj().selectedCampaign];
                 }

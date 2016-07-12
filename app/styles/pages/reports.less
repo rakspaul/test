@@ -844,6 +844,9 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   }
   .dropdown_type1 {
     color: #313233;
+    #campaigns_list {
+      top : -20px ;
+    }
     .dropdown-menu {
       width: 660px ;
     }
@@ -896,6 +899,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     width: 450px;
     max-height: 200px;
     overflow: auto;
+    margin-top: 23px;
   }
 
   .performance_selection {
@@ -3974,6 +3978,17 @@ div.strategy_total_container {
 
   }
 }
+#kpi_dropdown {
+  .default-kpi-header-icon  {
+    width: 14px ;
+  }
+  .dropdown_ul_text {
+    padding-right: 0px ;
+    .icon-arrow-solid-down {
+      margin-left: 3px;
+    }
+  }
+}
 /*  end of reports login page */
 
 
@@ -4277,13 +4292,17 @@ only screen and (min-device-pixel-ratio: 2) {
       color:  #939ead;
       font-size: 14px;
     }
+    .custom_report_filter{
+        .common_dropdown .dropdown {
+          min-width: 160px ;
+          max-width: 160px ;
+        }
+    }
     .each_section_custom_report {
       margin: 0 auto 20px;
       width: 1200px;
       float: none;
-      .custom_report_filter{
-          //margin-right: 11px;
-      }
+      
       .filter_input_txtbox{
           //max-width: 159px;
       }
@@ -4598,7 +4617,6 @@ only screen and (min-device-pixel-ratio: 2) {
         margin : 6px 0 15px ;
       }
       .common_dropdown .dropdown {
-        min-width: 140px ;
         margin-right: 0;
       }
 
@@ -4803,9 +4821,10 @@ only screen and (min-device-pixel-ratio: 2) {
       }
       .second_dimension_row {
         position: relative;
-        margin-top: 10px;
+        padding-top: 10px;
         color: #5A5A5A ;
         font-family: "Avenir" ;
+        border-left: dashed 1px #95a1a9;
         .tree_dimension_col {
           width: 290px;
           min-width: 290px;
@@ -4823,7 +4842,7 @@ only screen and (min-device-pixel-ratio: 2) {
           -webkit-border-radius: 0 0 0 4px ;
           display: inline-block;
           position: absolute;
-          top: 0px;
+          top: 10px;
           left: 0px;
           &:after {
             content: "";
