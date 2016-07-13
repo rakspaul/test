@@ -1,6 +1,6 @@
-define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
+define(['angularAMD', '../../common/services/constants_service', // jshint ignore:line
     'workflow/services/workflow_service', 'workflow/services/platform_custom_module',
-    'workflow/controllers/direct_Inventory_controller'], function (angularAMD) {
+    'workflow/ad/direct_Inventory_controller'], function (angularAMD) {
     angularAMD.controller('BuyingPlatformController', function ($scope, $timeout, $modal, $filter, $rootScope,
                                                                 constants, workflowService, platformCustomeModule) {
 
@@ -326,7 +326,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             $scope.adData.platform = trackingIntegration.displayName;
             $scope.adData.platformId = trackingIntegration.id;
             $scope.adData.platformName = trackingIntegration.name;
-            
+
             workflowService.setVendorExecutionType(trackingIntegration.executionVendorType)
 
         };

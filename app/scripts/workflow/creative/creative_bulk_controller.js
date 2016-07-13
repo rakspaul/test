@@ -1,5 +1,5 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', // jshint ignore:line
-    'workflow/directives/ng_upload_hidden'],function (angularAMD) {
+define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service', // jshint ignore:line
+    '../../common/directives/ng_upload_hidden'],function (angularAMD) {
     angularAMD.controller('BulkCreativeController', function ($scope, $rootScope, $routeParams, $location,
                                                              constants, workflowService, Upload) {
         var creatives = {

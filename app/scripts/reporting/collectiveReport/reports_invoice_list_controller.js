@@ -3,7 +3,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
     'reporting/brands/brands_model', 'reporting/models/domain_reports','common/services/data_service',
     'common/moment_utils', 'common/services/role_based_service', 'common/services/url_service',
     'common/services/data_store_model', 'common/controllers/confirmation_modal_controller',
-    'reporting/collectiveReport/report_schedule_delete_controller', 'workflow/controllers/ad_clone_controller',
+    'reporting/collectiveReport/report_schedule_delete_controller', 'workflow/ad/ad_clone_controller',
     'reporting/collectiveReport/reports_invoice_addAdjustment_controller',
     'reporting/collectiveReport/invoice_upload_SOR_controller','workflow/directives/custom_date_picker'],
     function (angularAMD) {

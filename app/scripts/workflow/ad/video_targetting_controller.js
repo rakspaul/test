@@ -1,4 +1,4 @@
-define(['angularAMD', 'workflow/services/workflow_service', 'common/services/constants_service', // jshint ignore:line
+define(['angularAMD', '../services/workflow_service', 'common/services/constants_service', // jshint ignore:line
     'workflow/services/video_service'], function (angularAMD) {
     angularAMD.controller('VideoTargettingController', function ($scope, $timeout, audienceService, workflowService,
                                                                  constants, videoService) {

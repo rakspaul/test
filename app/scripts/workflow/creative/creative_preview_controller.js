@@ -1,5 +1,5 @@
 define(['angularAMD',
-        'workflow/services/workflow_service', 'login/login_model', 'reporting/advertiser/advertiser_model',
+        '../services/workflow_service', 'login/login_model', 'reporting/advertiser/advertiser_model',
         'common/services/local_storage_service'], // jshint ignore:line
     function (angularAMD) {
         'use strict';

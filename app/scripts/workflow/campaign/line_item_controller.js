@@ -1,9 +1,9 @@
 /**
  * Created by shrujan on 02/05/16.
  */
-define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
-    'common/services/vistoconfig_service', 'workflow/services/workflow_service', 'workflow/services/file_reader',
-    'login/login_model', 'common/moment_utils', 'workflow/directives/ng_upload_hidden'], function (angularAMD) {
+define(['angularAMD', '../../common/services/constants_service', // jshint ignore:line
+    'common/services/vistoconfig_service', 'workflow/services/workflow_service', '../../common/services/file_reader',
+    'login/login_model', 'common/moment_utils', '../../common/directives/ng_upload_hidden'], function (angularAMD) {
     angularAMD.controller('LineItemController', function ($scope, $rootScope, $routeParams, $locale, vistoconfig,
                                                           $location, $timeout, constants, workflowService, loginModel,
                                                           momentService, fileReader, Upload,dataService) {

@@ -1,5 +1,5 @@
 
-define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
+define(['angularAMD', '../../common/services/constants_service', // jshint ignore:line
     'workflow/services/workflow_service'], function (angularAMD) {
     angularAMD.controller('CreativeTagController', function ($scope, constants, workflowService) {
         var addFromLibrary = {

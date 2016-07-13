@@ -1,6 +1,6 @@
-define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
+define(['angularAMD', '../../common/services/constants_service', // jshint ignore:line
     'workflow/services/workflow_service', 'common/moment_utils', 'login/login_model',
-    'reporting/advertiser/advertiser_model', 'workflow/controllers/bulk_creative_controller',
+    'reporting/advertiser/advertiser_model', 'workflow/creative/creative_bulk_controller',
     'workflow/directives/filter_directive'], function (angularAMD) {
     angularAMD.controller('CreativeListController', function ($scope, $rootScope, $routeParams, $route, $location,
                                                              $window, constants, domainReports, workflowService,
