@@ -1099,7 +1099,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 // enable cancel, save button on load
                 $scope.disableCancelSave = false;
 
-                $('.newCreativeSlide .popCreativeLib')
+                $('.newCreativeSlide .popCreativeLib')// jshint ignore:line
                     .show()
                     .delay(300)
                     .animate({
@@ -1862,6 +1862,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     $scope.updateCreativeData($scope.selectedArr);
                 }
             };
+
+            //on Broswers back button customreport behaving wierdly, this piece of code fixes it
+            $scope.$on("$locationChangeStart", function (event, next) {
+                if(next.indexOf('customreport') > -1){
+                    var customReportUrl = next.split('/')[3];
+                    $location.url("/"+customReportUrl);
+                }
+            });
+
         });
     }
 );
