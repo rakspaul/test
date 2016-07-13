@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8" />
     <link href="http://vjs.zencdn.net/4.7.1/video-js.css" rel="stylesheet">
-    <script src="/scripts/libs/jquery.js"></script>
 
     <!--[if lt IE 9]><script src="/scripts/workflow/vast-video/es5.js"></script><![endif]-->
     <script src="/scripts/workflow/vast-video/video.js"></script>
@@ -30,15 +29,12 @@
 </div>
 
 <script>
-    $(function() {
         var vid2 = videojs('vid2');
         vid2.muted(true);
         vid2.ads();
         vid2.vast({
             url: 'https://ad.doubleclick.net/ddm/pfadx/N318802.271411COLLECTIVE/B9479708.130119672;sz=0x0;ord=[timestamp];dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;dcmt=text/xml'
         });
-    })
-
 </script>
 
 </body>
