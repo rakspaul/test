@@ -1,7 +1,9 @@
-define(['angularAMD', 'common/services/constants_service', 'login/login_model', // jshint ignore:line
+define(['angularAMD', 'common/services/constants_service', 'login/login_model',
     'reporting/models/domain_reports', 'reporting/campaignSelect/campaign_select_model',
     'common/services/role_based_service', 'workflow/services/workflow_service', 'common/services/features_service',
     'reporting/subAccount/sub_account_model'], function (angularAMD) {
+    'use strict';
+
     angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location, $modal,
                                                         constants, loginModel, domainReports, campaignSelectModel,
                                                         RoleBasedService, workflowService, featuresService,
@@ -59,7 +61,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             };
 
         $scope.user_name = loginModel.getUserName();
-        $scope.version = version; // jshint ignore:line
+        $scope.version = version;
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
 
         $scope.getClientData = function () {
@@ -77,14 +79,14 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 });
         };
 
-        $scope.set_account_name = function (event, id, name,isLeafNode) {
+        $scope.set_account_name = function (event, id, name, isLeafNode) {
             var moduleObj = workflowService.getModuleInfo(),
                 $modalInstance;
 
             if (moduleObj && moduleObj.moduleName === 'WORKFLOW') {
                 if (localStorageService.masterClient.get().id !== id) {
                     $modalInstance = $modal.open({
-                        templateUrl: assets.html_change_account_warning, // jshint ignore:line
+                        templateUrl: assets.html_change_account_warning,
                         controller: 'AccountChangeController',
                         scope: $scope,
                         windowClass: 'delete-dialog',
@@ -106,8 +108,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                                        subAccountModel.resetDashboardSubAccStorage();
                                     }
 
-                                    // check this condition ...
-                                    // when etners as workflow user should we broadcast masterclient - sapna
+                                    // TODO: check this condition ...
+                                    // when enters as workflow user should we broadcast masterclient - sapna
                                     if (moduleObj.redirect) {
                                         $location.url('/mediaplans');
                                     } else {
@@ -155,7 +157,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $('.each_nav_link').removeClass('active_tab active selected');
                 url = '/creative/list';
                 $('#creative_nav_link').addClass('active_tab');
-                //$('#creative_nav_link .arrowSelect').show();
             } else if (page === 'adminOverview') {
                 $('.each_nav_link').removeClass('active_tab active selected');
                 url = '/admin/accounts';
@@ -235,26 +236,38 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                         campaignsClientData;
 
                     if (result && result.data.data.length > 0) {
-                        preferredClient = RoleBasedService.getUserData().preferred_client,
-                            campaignsClientData = function () {
-                                if (Number($scope.selectedCampaign) === -1) {
-                                    campaignSelectModel
-                                        .getCampaigns(-1, {limit: 1, offset: 0})
-                                        .then(function (response) {
-                                            if (response.length > 0) {
-                                                $scope.selectedCampaign = response[0].campaign_id;
-                                                var firstCampaign = {'id':response[0].campaign_id,'name':response[0].name,'startDate':response[0].start_date,'endDate':response[0].end_date,'kpi':response[0].kpi_type,'redirectWidget':""};
-                                                localStorageService.selectedCampaign.set(firstCampaign);
-                                            }
-                                        });
-                                }
+                        preferredClient = RoleBasedService.getUserData().preferred_client;
 
-                                $scope.getClientData();
-                            };
+                        campaignsClientData = function () {
+                            if (Number($scope.selectedCampaign) === -1) {
+                                campaignSelectModel
+                                    .getCampaigns(-1, {limit: 1, offset: 0})
+                                    .then(function (response) {
+                                        var firstCampaign;
+
+                                        if (response.length > 0) {
+                                            $scope.selectedCampaign = response[0].campaign_id;
+
+                                            firstCampaign = {
+                                                id: response[0].campaign_id,
+                                                name: response[0].name,
+                                                startDate: response[0].start_date,
+                                                endDate: response[0].end_date,
+                                                kpi: response[0].kpi_type,
+                                                redirectWidget: ''
+                                            };
+
+                                            localStorageService.selectedCampaign.set(firstCampaign);
+                                        }
+                                    });
+                            }
+
+                            $scope.getClientData();
+                        };
 
                         $scope.accountsData = [];
 
-                        _.each(result.data.data, function (org) { // jshint ignore:line
+                        _.each(result.data.data, function (org) {
                             $scope.accountsData.push({
                                 id: org.id,
                                 name: org.name,
@@ -280,7 +293,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                             $scope.multipleClient = false;
                         }
 
-                        $scope.accountsData = _.sortBy($scope.accountsData, 'name'); // jshint ignore:line
+                        $scope.accountsData = _.sortBy($scope.accountsData, 'name');
 
                         if (localStorageService.masterClient.get() && localStorageService.masterClient.get().name) {
                             $scope.defaultAccountsName = localStorageService.masterClient.get().name;
@@ -288,7 +301,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                             $scope.defaultAccountsName = $scope.accountsData[0].name;
                         }
 
-                        if (angular.isUndefined(loginModel.getSelectedClient()) || // jshint ignore:line
+                        if (angular.isUndefined(loginModel.getSelectedClient()) ||
                             loginModel.getSelectedClient() === null) {
                             if (localStorageService.masterClient.get().isLeafNode) {
                                 loginModel.setSelectedClient({

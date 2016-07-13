@@ -1,10 +1,10 @@
-define(['angularAMD'],function (angularAMD) { // jshint ignore:line
+define(['angularAMD'],function (angularAMD) {
     'use strict';
 
     angularAMD.directive('checklistModel', ['$parse', '$compile', function ($parse, $compile) {
         // contains
         function contains(arr, item, comparator) {
-            if (angular.isArray(arr)) { // jshint ignore:line
+            if (angular.isArray(arr)) {
                 for (var i = arr.length; i--;) {
                     if (comparator(arr[i], item)) {
                         return true;
@@ -17,7 +17,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
 
         // add
         function add(arr, item, comparator) {
-            arr = angular.isArray(arr) ? arr : []; // jshint ignore:line
+            arr = angular.isArray(arr) ? arr : [];
 
             if(!contains(arr, item, comparator)) {
                 arr.push(item);
@@ -30,7 +30,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
         function remove(arr, item, comparator) {
             var i;
 
-            if (angular.isArray(arr)) { // jshint ignore:line
+            if (angular.isArray(arr)) {
                 for (i = arr.length; i--;) {
                     if (comparator(arr[i], item)) {
                         arr.splice(i, 1);
@@ -69,7 +69,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
             // value added to list
             value = attrs.checklistValue ? $parse(attrs.checklistValue)(scope.$parent) : attrs.value;
 
-            comparator = angular.equals; // jshint ignore:line
+            comparator = angular.equals;
 
             if (attrs.hasOwnProperty('checklistComparator')){
                 if (attrs.checklistComparator[0] === '.') {
@@ -104,7 +104,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
             function setValueInChecklistModel(value, checked) {
                 var current = getter(scope.$parent);
 
-                if (angular.isfunction (setter)) { // jshint ignore:line
+                if (angular.isfunction (setter)) {
                     if (checked === true) {
                         setter(scope.$parent, add(current, value, comparator));
                     } else {
@@ -125,7 +125,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
 
             // watch original model change
             // use the faster $watchCollection method if it's available
-            if (angular.isfunction (scope.$parent.$watchCollection)) { // jshint ignore:line
+            if (angular.isfunction (scope.$parent.$watchCollection)) {
                 scope.$parent.$watchCollection(checklistModel, setChecked);
             } else {
                 scope.$parent.$watch(checklistModel, setChecked, true);

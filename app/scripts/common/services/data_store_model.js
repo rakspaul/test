@@ -1,15 +1,15 @@
-define(['angularAMD', '../utils'], function(angularAMD) { // jshint ignore:line
-    angularAMD.service('dataStore', function() {
-        'use strict';
+define(['angularAMD', '../utils'], function (angularAMD) {
+    'use strict';
 
-        var CachedObject = function(val) {
+    angularAMD.service('dataStore', function () {
+        var CachedObject = function (val) {
             this.cachedOn = new Date();
             this.value = val;
 
             // 30 mins in milliseconds
             this.expiryTime = 30 * 60 * 1000;
 
-            this.isStale = function() {
+            this.isStale = function () {
                 var dataAge = new Date() - this.cachedOn;
 
                 if (dataAge > this.expiryTime) {
@@ -20,7 +20,7 @@ define(['angularAMD', '../utils'], function(angularAMD) { // jshint ignore:line
             };
 
             //get time until this data object's expiry in milliseconds
-            this.getRemainingTime = function() {
+            this.getRemainingTime = function () {
                 return this.expiryTime - (new Date() - this.cachedOn);
             };
         };
@@ -30,7 +30,7 @@ define(['angularAMD', '../utils'], function(angularAMD) { // jshint ignore:line
 
         this.enableCache = true;
 
-        this.addObject = function(key, carrier, object, forced) {
+        this.addObject = function (key, carrier, object, forced) {
             var existing = carrier[key];
 
             if (this.enableCache === false) {
@@ -42,15 +42,15 @@ define(['angularAMD', '../utils'], function(angularAMD) { // jshint ignore:line
             }
         };
 
-        this.getCacheableObject = function(object) {
+        this.getCacheableObject = function (object) {
             return new CachedObject(object);
         };
 
-        this.cacheByUrl = function(url, response) {
+        this.cacheByUrl = function (url, response) {
             this.addObject(url, this.responseByUrl, response);
         };
 
-        this.getCachedByUrl = function(url) {
+        this.getCachedByUrl = function (url) {
             var response = this.responseByUrl[url];
 
             if (response !== undefined && response.isStale() === false) {
@@ -60,11 +60,11 @@ define(['angularAMD', '../utils'], function(angularAMD) { // jshint ignore:line
             return undefined;
         };
 
-        this.deleteFromCache = function(url) {
+        this.deleteFromCache = function (url) {
             this.responseByUrl[url] = undefined;
         };
 
-        this.deleteAllCachedCampaignListUrls = function() {
+        this.deleteAllCachedCampaignListUrls = function () {
             var url;
 
             for (url in this.responseByUrl) {

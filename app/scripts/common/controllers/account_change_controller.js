@@ -1,7 +1,7 @@
-define(['angularAMD'],function (angularAMD) { // jshint ignore:line
+define(['angularAMD'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AccountChangeController', function( $scope , $modalInstance, headerMsg, mainMsg,
+    angularAMD.controller('AccountChangeController', function ($scope, $modalInstance, headerMsg, mainMsg,
                                                                accountChangeAction) {
         $scope.headerMsg = headerMsg;
         $scope.mainMsg =  mainMsg;

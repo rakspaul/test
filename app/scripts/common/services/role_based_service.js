@@ -1,75 +1,79 @@
-define(['angularAMD', '../moment_utils', 'common/services/constants_service'], // jshint ignore:line
+define(['angularAMD', '../moment_utils', 'common/services/constants_service'],
     function (angularAMD) {
-    angularAMD.factory('RoleBasedService', ['$locale','momentService', 'constants', 'tmhDynamicLocale',
-        function ($locale, momentService, constants , tmhDynamicLocale) {
-        var getClientRole = function () {
-                return JSON.parse(localStorage.getItem('clientRoleObj'));
-            };
+        'use strict';
 
-            var setClientRole = function (response) {
-                var clientRoleObj = {
-                        workFlowUser: response.data.data.isWorkflowUser,
-                        i18n: response.data.data.i18n
+        angularAMD.factory('RoleBasedService', ['$locale','momentService', 'constants', 'tmhDynamicLocale',
+            function ($locale, momentService, constants , tmhDynamicLocale) {
+                var getClientRole = function () {
+                        return JSON.parse(localStorage.getItem('clientRoleObj'));
                     },
 
-                    uiExclusion =  function (uiElements) {
-                        var obj = {},
-                            modules;
+                    setClientRole = function (response) {
+                        var clientRoleObj = {
+                                workFlowUser: response.data.data.isWorkflowUser,
+                                i18n: response.data.data.i18n
+                            },
 
-                        if (uiElements && clientRoleObj.locale === 'en-gb') {
-                            modules = uiElements.split(',');
+                            uiExclusion =  function (uiElements) {
+                                var obj = {},
+                                    modules;
 
-                            _.each(modules, function (module) { // jshint ignore:line
-                                obj['show'+module] = false;
-                            });
+                                if (uiElements && clientRoleObj.locale === 'en-gb') {
+                                    modules = uiElements.split(',');
 
-                            obj.ui_modules = modules;
+                                    _.each(modules, function (module) {
+                                        obj['show'+module] = false;
+                                    });
 
-                            return obj;
+                                    obj.ui_modules = modules;
+
+                                    return obj;
+                                }
+                            };
+
+                        // Set timezone name based on timezone abbr for the given account
+                        momentService.setTimezoneName(response.data.data.timezone, clientRoleObj);
+
+                        if (response.data.data.i18n) {
+                            clientRoleObj.locale = response.data.data.i18n.locale;
+                            clientRoleObj.uiExclusions = uiExclusion(response.data.data.i18n.uiExclusions);
+                            clientRoleObj.currency = response.data.data.i18n.currency;
+                        }
+
+                        localStorage.setItem('clientRoleObj', JSON.stringify(clientRoleObj));
+                    },
+
+                    setUserData = function (response) {
+                        var userObj = {
+                            authorizationKey: response.data.data.auth_token,
+                            preferred_client: response.data.data.preferred_client
+                        };
+
+                        localStorage.setItem('userObj', JSON.stringify(userObj));
+                    },
+
+                    getUserData = function () {
+                        return JSON.parse(localStorage.getItem('userObj'));
+                    },
+
+                    setCurrencySymbol = function () {
+                        var locale;
+
+                        if (getClientRole()) {
+                            locale = getClientRole().locale || 'en-us';
+                            tmhDynamicLocale.set(locale);
+                            constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
                         }
                     };
 
-                // Set timezone name based on timezone abbr for the given account
-                momentService.setTimezoneName(response.data.data.timezone, clientRoleObj);
-
-                if (response.data.data.i18n) {
-                    clientRoleObj.locale = response.data.data.i18n.locale;
-                    clientRoleObj.uiExclusions = uiExclusion(response.data.data.i18n.uiExclusions);
-                    clientRoleObj.currency = response.data.data.i18n.currency;
-                }
-
-                localStorage.setItem('clientRoleObj', JSON.stringify(clientRoleObj));
-            },
-
-            setUserData = function (response) {
-                var userObj = {
-                    authorizationKey: response.data.data.auth_token,
-                    preferred_client: response.data.data.preferred_client
+                return {
+                    getClientRole    : getClientRole,
+                    setClientRole    : setClientRole,
+                    setUserData      : setUserData,
+                    getUserData      : getUserData,
+                    setCurrencySymbol: setCurrencySymbol
                 };
-
-                localStorage.setItem('userObj', JSON.stringify(userObj));
-            },
-
-            getUserData = function () {
-                return JSON.parse(localStorage.getItem('userObj'));
-            },
-
-            setCurrencySymbol = function () {
-                var locale;
-
-                if (getClientRole()) {
-                    locale = getClientRole().locale || 'en-us';
-                    tmhDynamicLocale.set(locale);
-                    constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
-                }
-            };
-
-        return {
-            getClientRole    : getClientRole,
-            setClientRole    : setClientRole,
-            setUserData      : setUserData,
-            getUserData      : getUserData,
-            setCurrencySymbol: setCurrencySymbol
-        };
-    }]);
-});
+            }
+        ]);
+    }
+);

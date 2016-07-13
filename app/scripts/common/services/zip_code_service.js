@@ -1,4 +1,4 @@
-define(['angularAMD'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD'], function (angularAMD) {
     angularAMD.factory('zipCode', function () {
         var _oZipCodeRegex = new RegExp(/^\d{5}(-\d{5})?$/),
 
@@ -76,9 +76,10 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
             // returns the api ranges given a list of zip tokens, eliminating duplicates
             // and combining overlapping ranges
             _getRangesFromValues = function (values) {
-                var sorted = _.chain(values).uniq().sort() // jshint ignore:line
+                var sorted = _.chain(values).uniq().sort()
                     .map(function (value) {
                         var split = value.split('-');
+
                         return {
                             from: split[0],
                             to: split.length > 1 ? split[1] : split[0]
@@ -128,10 +129,10 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
              */
             _rangeFilter = function (delta, current) {
                 // values in the delta that are not already in current
-                var uniqueDeltas = _.difference(delta, current), // jshint ignore:line
+                var uniqueDeltas = _.difference(delta, current),
 
                     // values in the delta that are already in current
-                    duplicate = _.intersection(delta, current), // jshint ignore:line
+                    duplicate = _.intersection(delta, current),
 
                     combinedValues,
                     concatValues,
@@ -143,16 +144,16 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
 
                 if (uniqueDeltas.length > 0) {
                     // the naively concatenated set (old logic for ranges)
-                    concatValues = _.compact(uniqueDeltas.concat(current)); // jshint ignore:line
+                    concatValues = _.compact(uniqueDeltas.concat(current));
 
                     // the new ranges, merged together (new logic for ranges)
                     combinedValues = _getValuesFromRanges(_getRangesFromValues(concatValues));
 
                     // items that no longer exist in combined values
-                    itemsRemoved = _.difference(current, combinedValues); // jshint ignore:line
+                    itemsRemoved = _.difference(current, combinedValues);
 
                     // new items that now exist in the combined set
-                    itemsAdded = _.difference(combinedValues, current); // jshint ignore:line
+                    itemsAdded = _.difference(combinedValues, current);
 
                     newItemSet = combinedValues;
                     if (itemsRemoved.length === 0 && itemsAdded.length === 0) {
@@ -180,7 +181,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
 
                 codeList = codeList || [];
 
-                _.each(zipCode, function (code) { // jshint ignore:line
+                _.each(zipCode, function (code) {
                     if (_zipValidator(code)) {
                         validCode.push(code);
                     } else {

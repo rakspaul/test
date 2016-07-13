@@ -1,10 +1,10 @@
-define(['angularAMD'], function(angularAMD) { // jshint ignore:line
-    angularAMD.service('vistoconfig', function() {
+define(['angularAMD'], function (angularAMD) {
+    angularAMD.service('vistoconfig', function () {
         var urlPaths = {
-            apiSerivicesUrl: scala_api, // jshint ignore:line
-            apiSerivicesUrl_NEW: scala_api_NEW, // jshint ignore:line
-            workflow_apiServicesUrl: workflow_api, // jshint ignore:line
-            WORKFLOW_API_URL: workflowCreate_api // jshint ignore:line
+            apiSerivicesUrl: scala_api,
+            apiSerivicesUrl_NEW: scala_api_NEW,
+            workflow_apiServicesUrl: workflow_api,
+            WORKFLOW_API_URL: workflowCreate_api
         };
 
         this.actionColors = [
@@ -60,8 +60,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MEDIA_PLANS_LINK = '/mediaplans';
         this.MEDIAPLAN_CREATE = '/mediaplan/create';
 
-        this.api = scala_api; // jshint ignore:line
-        this.apiPaths = urlPaths; // jshint ignore:line
+        this.api = scala_api;
+        this.apiPaths = urlPaths;
+
         this.LINE_ITEM_DROPDWON_OBJECT = {
             name: 'All Line Items',
             id: -1,

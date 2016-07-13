@@ -1,6 +1,8 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_store_model', // jshint ignore:line
+define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_store_model',
     'common/utils', 'common/services/url_service', 'login/login_model', 'common/services/constants_service'],
     function (angularAMD) {
+        'use strict';
+
         angularAMD.factory('dataService', function ($q, $http, $cookieStore, $location, vistoconfig, dataStore, utils,
                                                     urlService, loginModel, constants) {
             var errorObject = {
@@ -176,9 +178,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     if (periodKey === 'life_time') {
                         qs = '?start_date=' + campaign.startDate + '&end_date=' + campaign.endDate;
                     } else {
-                        qs = '?start_date='+periodStartDate+'&end_date='+periodEndDate;
+                        qs = '?start_date=' + periodStartDate + '&end_date=' + periodEndDate;
                     }
 
+                    // TODO: What is api global variable here???
                     url = api + '/campaigns/' + campaign.orderId + '/perf' + qs; // jshint ignore:line
 
                     return this.fetch(url);
@@ -242,7 +245,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 },
 
                 fetch: function (url, cacheObj) {
-                    cacheObj = _.extend({cache:false}, cacheObj); // jshint ignore:line
+                    cacheObj = _.extend({cache:false}, cacheObj);
                     loginModel.checkCookieExpiry();
 
                     return $http({url: url, method: 'GET', cache: cacheObj.cache}).then(
@@ -399,7 +402,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         url: url,
                         method: 'POST',
                         cache: true,
-                        data: !dataToJson ? data : angular.toJson(data), // jshint ignore:line
+                        data: !dataToJson ? data : angular.toJson(data),
                         headers: (header ? header : {'Content-Type': 'text/plain'})
                     }).then(
                         function (response) {
@@ -441,7 +444,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     $http.defaults.headers.common.Authorization = loginModel.getauth_token();
 
                     return $http
-                        .put(url, angular.toJson(data)) // jshint ignore:line
+                        .put(url, angular.toJson(data))
                         .then(function (response) {
                             if (response.status === 401) {
                                 loginModel.unauthorized();
@@ -479,7 +482,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         url: url,
                         method: 'DELETE',
                         cache: true,
-                        data: angular.toJson(data), // jshint ignore:line
+                        data: angular.toJson(data),
                         headers: (header ? header : {'Content-Type': 'text/plain'})
                     }).then(function (response) {
                             if (response.status === 401) {

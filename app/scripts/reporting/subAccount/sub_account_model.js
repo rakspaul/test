@@ -1,6 +1,10 @@
-define(['angularAMD', 'workflow/services/workflow_service','common/services/constants_service','login/login_model'], function (angularAMD) {
-    angularAMD.service("subAccountModel", function ($rootScope,$location,workflowService,constants,loginModel) {
+define(['angularAMD', 'workflow/services/workflow_service', 'common/services/constants_service', // jshint ignore:line
+    'login/login_model'], function (angularAMD) {
+    'use strict';
+
+    angularAMD.service('subAccountModel', function ($rootScope, $location, workflowService, constants, loginModel) {
         var self = this;
+
         self.subAccounts = {
             allSubAccounts: [],
             dashboardSubAccounts: []
@@ -10,7 +14,7 @@ define(['angularAMD', 'workflow/services/workflow_service','common/services/cons
             localStorage.setItem('selectedClient', JSON.stringify(selected_sub_account));
         };
 
-        this.setSelectedDashboardSubAcc = function(selected_dash_sub_account) {
+        this.setSelectedDashboardSubAcc = function (selected_dash_sub_account) {
             localStorage.setItem('dashboardClient', JSON.stringify(selected_dash_sub_account));
         };
 
@@ -18,7 +22,7 @@ define(['angularAMD', 'workflow/services/workflow_service','common/services/cons
             self.subAccounts.allSubAccounts = dataAry;
         };
 
-        this.resetSubAccount = function() {
+        this.resetSubAccount = function () {
             self.subAccounts.allSubAccounts = [];
         };
 
@@ -26,76 +30,105 @@ define(['angularAMD', 'workflow/services/workflow_service','common/services/cons
             return self.subAccounts.allSubAccounts;
         };
 
-        //reset dashboard subaccount's local storage
-        this.resetDashboardSubAccStorage = function() {
-            loginModel.setDashboardClient({'id':loginModel.getMasterClient().id,'name':'All'});
-        }
+        // reset dashboard subaccount's local storage
+        this.resetDashboardSubAccStorage = function () {
+            loginModel.setDashboardClient({
+                id: loginModel.getMasterClient().id,
+                name: 'All'
+            });
+        };
 
-        this.isDashboardSubAccount = function() {
+        this.isDashboardSubAccount = function () {
             var locationPath = $location.url();
-            if((locationPath === '/dashboard') || (locationPath === '/')) {
+
+            if ((locationPath === '/dashboard') || (locationPath === '/')) {
                 return true;
             }
-            return false;
-        }
 
-        //Dashboard subAccount setter
-        this.setDashboardSubAccounts = function(dataAry) {
+            return false;
+        };
+
+        // Dashboard subAccount setter
+        this.setDashboardSubAccounts = function (dataAry) {
             self.subAccounts.dashboardSubAccounts = dataAry;
         };
 
-        //Dashboard subAccount getter
-        this.getDashboardSubAccounts = function() {
+        // Dashboard subAccount getter
+        this.getDashboardSubAccounts = function () {
             return self.subAccounts.dashboardSubAccounts;
         };
 
-        this.getDashboardAccountId = function() {
+        this.getDashboardAccountId = function () {
+            var clientId;
+
             if (self.isDashboardSubAccount() && !loginModel.getMasterClient().isLeafNode) {
-                var clientId = loginModel.getDashboardClient().id;
+                clientId = loginModel.getDashboardClient().id;
             } else {
-                var clientId = loginModel.getSelectedClient().id;
+                clientId = loginModel.getSelectedClient().id;
             }
             return clientId;
-        }
+        };
 
-        this.fetchSubAccounts = function (from,successCallBack, searchCritera, search) {
-            var isLeafNode = loginModel.getMasterClient().isLeafNode;
-            var isDashboardFilter = false;
-            var locationPath = $location.url();
+        this.fetchSubAccounts = function (from, successCallBack) {
+            var isLeafNode = loginModel.getMasterClient().isLeafNode,
+                isDashboardFilter = false,
+                locationPath = $location.url();
 
-            if((locationPath === '/dashboard') || (locationPath === '/')) {
+            if ((locationPath === '/dashboard') || (locationPath === '/')) {
                 isDashboardFilter = true;
             }
 
-            if(!isLeafNode){
-                workflowService.getSubAccounts().then(function (response) {
-                    if(from == 'MasterClientChanged') {
-                        self.setSelectedSubAccount({'id': response.data.data[0].id, 'name': response.data.data[0].displayName});
-                    } else {
-                        var selectedClient = loginModel.getSelectedClient();
-                        if(selectedClient && selectedClient.id){
-                            self.setSelectedSubAccount({'id': selectedClient.id, 'name': selectedClient.name});
+            if (!isLeafNode){
+                workflowService
+                    .getSubAccounts()
+                    .then(function (response) {
+                        var selectedClient;
+
+                        if (from === 'MasterClientChanged') {
+                            self.setSelectedSubAccount({
+                                id: response.data.data[0].id,
+                                name: response.data.data[0].displayName
+                            });
+                        } else {
+                            selectedClient = loginModel.getSelectedClient();
+
+                            if (selectedClient && selectedClient.id){
+                                self.setSelectedSubAccount({
+                                    id: selectedClient.id,
+                                    name: selectedClient.name
+                                });
+                            }
                         }
-                    }
-                    self.setSubAccounts(response.data.data);
-                    successCallBack();
-                });
-            }
-            if(!isLeafNode && isDashboardFilter) {
-                var modifiedResArr = [{'id':loginModel.getMasterClient().id,'displayName':'All'}];
-                var selectedDashboardClient = loginModel.getDashboardClient();
 
-                if(!selectedDashboardClient) {
-                    loginModel.setDashboardClient({'id':modifiedResArr[0].id,'name':modifiedResArr[0].displayName});
+                        self.setSubAccounts(response.data.data);
+                        successCallBack();
+                    });
+            }
+
+            if (!isLeafNode && isDashboardFilter) {
+                var modifiedResArr = [{
+                        id: loginModel.getMasterClient().id,
+                        displayName: 'All'
+                    }],
+
+                    selectedDashboardClient = loginModel.getDashboardClient();
+
+                if (!selectedDashboardClient) {
+                    loginModel.setDashboardClient({
+                        id: modifiedResArr[0].id,
+                        name: modifiedResArr[0].displayName
+                    });
                 }
-                workflowService.getDashboardSubAccount().then(function(response) {
-                    var dashboardSubAccArr = modifiedResArr.concat(response.data.data);
-                    self.setDashboardSubAccounts(dashboardSubAccArr);
-                    successCallBack();
-                })
+
+                workflowService
+                    .getDashboardSubAccount()
+                    .then(function (response) {
+                        var dashboardSubAccArr = modifiedResArr.concat(response.data.data);
+
+                        self.setDashboardSubAccounts(dashboardSubAccArr);
+                        successCallBack();
+                    });
             }
-
-        }
-
+        };
     });
 });

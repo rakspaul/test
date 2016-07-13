@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:line
+define(['angularAMD', 'common/services/vistoconfig_service',
     'common/services/constants_service', 'login/login_model'], function (angularAMD) {
         'use strict';
 
@@ -111,7 +111,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     }
 
                     // when strategyId = 0 qryObj.strategyId become false.
-                    if (_.has(qryObj, 'strategyId') && qryObj.strategyId >= 0) { // jshint ignore:line
+                    if (_.has(qryObj, 'strategyId') && qryObj.strategyId >= 0) {
                         params += '&lineitem_id=' + qryObj.strategyId;
                     }
 

@@ -1,5 +1,7 @@
-define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:line
-    'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD', 'workflow/services/workflow_service', 'common/services/vistoconfig_service'],
+    function (angularAMD) {
+    'use strict';
+
     angularAMD.service('featuresService', function ($rootScope, $location, workflowService, vistoconfig) {
         var params = [
             'dashboard',
@@ -30,7 +32,7 @@ define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:lin
         this.setAllFeatureParams = function (booleanValue) {
             var featureObj = {};
 
-            _.each(params, function (eachParam) { // jshint ignore:line
+            _.each(params, function (eachParam) {
                 featureObj[eachParam] = booleanValue;
             });
 
@@ -139,7 +141,7 @@ define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:lin
                 this.setAllFeatureParams(false);
 
                 //set params true sent in enable list of API
-                _.each(featuresArr, function (feature) { // jshint ignore:line
+                _.each(featuresArr, function (feature) {
                     self.setSingleFeatureParam(feature, true);
                 });
 
@@ -188,8 +190,8 @@ define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:lin
                     workflowService
                         .getClientData(masterClientId)
                         .then(function (response) {
-                            this.serverResponseReceived = true;
-                            self.setFeatureParams(response.data.data.features,'headercontroller');
+                            self.serverResponseReceived = true;
+                            self.setFeatureParams(response.data.data.features, 'headercontroller');
                             setFparams();
                         });
                 }

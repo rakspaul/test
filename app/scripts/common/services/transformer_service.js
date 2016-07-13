@@ -1,8 +1,8 @@
-define(['angularAMD'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD'], function (angularAMD) {
     var transformObject = function (jsonResult, constructor) {
             var model = new constructor();
 
-            angular.extend(model, jsonResult); // jshint ignore:line
+            angular.extend(model, jsonResult);
 
             return model;
         },
@@ -11,8 +11,8 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
             var models = {},
                 transformedObject;
 
-            if (angular.isArray(jsonResult)) { // jshint ignore:line
-                angular.forEach(jsonResult, function (object) { // jshint ignore:line
+            if (angular.isArray(jsonResult)) {
+                angular.forEach(jsonResult, function (object) {
                     transformedObject = transformObject(object, constructor);
                     models[transformedObject.id] = transformedObject;
                 });

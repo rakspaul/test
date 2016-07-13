@@ -1,9 +1,11 @@
-define(['angularAMD', 'common/services/constants_service'], function (angularAMD) {  // jshint ignore:line
+define(['angularAMD', 'common/services/constants_service'], function (angularAMD) {
+    'use strict';
+
     angularAMD.controller('popUpMsgCtr', function ($scope, $rootScope, $timeout, constants) {
         $scope.addClass = '';
 
         $scope.init = function (msg, errMsg) {
-            if (!angular.element('.top_message_box').length) { // jshint ignore:line
+            if (!angular.element('.top_message_box').length) {
                 $rootScope.errMsgKey = msg;
                 $rootScope.errMsg = constants[errMsg];
 

@@ -1,4 +1,6 @@
-define(['angularAMD'], function(angularAMD) { // jshint ignore:line
+define(['angularAMD'], function(angularAMD) {
+    'use strict';
+
     angularAMD.service('constants', function($locale) {
         this.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
         this.CAMPAIGN_LIST_CANCELLER = 10;
@@ -161,6 +163,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.REPORT_CHOOSE_BREAKDOWN = 'Choose Dimension';
         this.REPORT_ADDITIONAL_FILTERS = 'Additional Filters';
         this.REPORT_ADD_FILTERS = 'Add Filters';
+
         this.REPORT_BUILDER_TIMEFRAME_LIST = [
             'Yesterday',
             'Week to date',
@@ -173,6 +176,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
             'Year to date',
             'Custom dates'
         ];
+
         this.REPORT_LIST_GENERATEON = [
             { key:'Yesterday', value:'Yesterday'},
             { key:'Last7Days', value:'Last 7 days'},
@@ -180,22 +184,36 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
             { key:'LastMonth', value:'Last month'},
             { key:'LastQuater', value:'Last quarter'}
         ];
-        this.REPORT_LIST_REPORTTYPES = ['Once', 'Daily', 'Weekly', 'Monthly', 'Saved'];
+
+        this.REPORT_LIST_REPORTTYPES = [
+            'Once',
+            'Daily',
+            'Weekly',
+            'Monthly',
+            'Saved'
+        ];
+
         this.REPORT_LIST_DIMENSION_COUNT = 'Already five dimensions had been selected';
         this.AD_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully created';
         this.MEDIA_PLAN_DRAFT = ' Save changes to Media Plan set-up?';
         this.MEDIA_PLAN_NOT_DRAFT = 'Save changes to Media Plan set-up and repush to execution <br> platform(s)?';
+
         this.CAMPAIGN_CREATED_SUCCESS =
             '<span class="bold-font">Success. </span> Media Plan has been successfully created';
+
         this.CAMPAIGN_UPDATED_SUCCESS =
             '<span class="bold-font">Success. </span> Media Plan has been successfully updated';
+
         this.PARTIAL_AD_SAVE_FAILURE = '<span class="bold-font">Error. </span> Ad could not be created';
         this.PARTIAL_AD_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully saved';
         this.PARTIAL_AD_CLONE_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully cloned';
+
         this.AD_GROUP_CREATED_SUCCESS =
             '<span class="bold-font">Success. </span> Ad Group has been successfully created';
+
         this.AD_GROUP_EDITED_SUCCESS =
             '<span class="bold-font">Success. </span> Ad Group has been successfully edited';
+
         this.AD_GROUP_CREATED_FAILURE = '<span class="bold-font">Error. </span> Ad Group could not be created';
         this.CREATIVE_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Creative has been successfully created';
         this.WF_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss.SSS';
@@ -224,32 +242,44 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MSG_METRICS_NOT_TRACKED =
             '<span class="no-data-common">Metric not tracked <span class="contact_note">' +
             'Please contact your Account Manager</span></span>';
+
         this.MSG_UNKNOWN_ERROR_OCCURED =
             '<div class="no-data-common">Data not available <div>Please retry later</div>' +
             '<span class="reload-img"></span></div>';
+
         this.MSG_DATA_NOT_AVAILABLE = '<span class="no-data-common">Data not available</span>';
         this.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD = '<span class="data_not_found">Data not available</span>';
         this.MSG_CAMPAIGN_YET_TO_START = '<span class="no-data-common">Media Plan yet to start</span>';
         this.MSG_STRATEGY_YET_TO_START = '<span class="no-data-common">Ad Group yet to start</span>';
         this.MSG_TACTIC_YET_TO_START = '<span class="no-data-common">Ad yet to start</span>';
+
         this.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA =
             '<span class="no-data-common">Media Plan is active, data not yet available</span>';
+
         this.MSG_STRATEGY_ACTIVE_BUT_NO_DATA =
             '<span class="no-data-common">Ad Group is active, data not yet available</span>';
+
         this.MSG_TACTIC_ACTIVE_BUT_NO_DATA = '<span class="no-data-common">Ad is active, data not yet available</span>';
+
         this.MSG_CAMPAIGN_VERY_OLD =
             '<span class="no-data-common">Media Plan ended 3+ years ago, data not available</span>';
+
         this.MSG_STRATEGY_VERY_OLD =
             '<span class="no-data-common">Ad Group ended 3+ years ago, data not available</span>';
+
         this.MSG_TACTIC_VERY_OLD = '<span class="no-data-common">Ad ended 3+ years ago, data not available</span>';
         this.MSG_CAMPAIGN_KPI_NOT_SET = '<span class="no-data-common">Media Plan KPI is not set</span>';
         this.MSG_STRATEGY_KPI_NOT_SET = '<span class="no-data-common">Ad Group KPI is not set</span>';
         this.MSG_TACTIC_KPI_NOT_SET = '<span class="no-data-common">Ad KPI is not set</span>';
+
         this.MSG_CAMPAIGN_YET_TO_BE_OPTIMIZED =
             '<span class="no-data-common">Optimization activity not recorded</span>';
+
         this.MSG_CAMPAIGN_NOT_OPTIMIZED = '<span class="no-data-common">Optimization activity not recorded</span>';
+
         this.MSG_STRATEGY_YET_TO_BE_OPTIMIZED =
             '<span class="no-data-common">Optimization activity not recorded</span>';
+
         this.MSG_NO_CAMPAIGNS_WITH_SET_KPI = '<span class="data_not_found">No Media Plan with set KPI value</span>';
         this.DATA_NOT_AVAILABLE_STYLE = 'data_not_found';
 
@@ -298,8 +328,10 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ENDED = 'Ended';
 
         this.CREATE_ACTIVITY = 'Create Activity';
+
         this.ACTIVITY_CREATED_SUCCESSFULLY_VIEW_ACTIVITY_LOG =
             'Activity created successfully. Please see activity log below!';
+
         this.SELECT_ITEM_IN_LIST = 'Please select an item in the list.';
         this.EXTERNAL = 'External';
         this.PLEASE_FILL_OUT_FIELD = 'Please fill out this field.';
@@ -317,7 +349,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.VIEWABILITY = 'Viewability';
         this.INVENTORY = 'Inventory';
         this.AD_SIZE = 'Ad Size';
-
         this.TOP = 'Top';
         this.NO_LINKED_STRATEGIES = 'No Linked Ad Groups';
         this.ALL = 'All';
@@ -342,9 +373,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.TOTAL_SPEND = 'Total Spend';
         this.CONVERSIONS = 'Conversions';
         this.DELIVERY = 'Delivery';
-
         this.CAMPAIGN = 'Media Plan';
-
         this.FLIGHT_DATES = 'Flight Dates';
         this.METRICS_LIFE_TIME = 'Metrics (Lifetime)';
         this.METRICS = 'Metrics';
@@ -352,7 +381,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.SELECTED_METRICS = 'Selected Metrics';
         this.LOAD_MORE_STRATEGIES = 'Load more Line Items';
         this.LOAD_MORE_TACTICS = 'Load More Ads';
-
         this.STATUS = 'Status';
         this.CALENDAR = 'Calendar';
         this.MOST_RELEVANT_CAMPAIGN = 'Most Relevant Media Plans';
@@ -381,10 +409,13 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.VIEW_MODE = 'Media Type';
         this.VIDEO_PLAYS = 'Video Plays';
         this.VIDEO_VIEWS = 'Video Views';
+
         this.MEASURED_AS_HUNDRED_PERCENT_VIDEO_PLAYED_DIVIDED_BY_AD_START =
             'Measured as 100% Video played divided by Ad start ';
+
         this.VIDEO_PLAY_COMPLETION_AND_VIDEO_VIEWABILITY_AT_THE_VARIOUS_QUARTILES_OF_THE_AD =
             'Video Viewability at various quartiles of the Ad';
+
         this.INSUFFICIENT_DATA_POINTS_TO_RENDER_GRAPH = 'Insufficient data points to render graph';
         this.VIDEO_VIEWABILITY = 'Video Viewability';
         this.VIEWABLE_IMPS = 'Viewable Imps.';
@@ -463,8 +494,10 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.TARGET_ZONE = 'Target Zone';
         this.KPI_ON_TARGET = 'KPI on target';
         this.KPI_UNDERPERFORMANCE = 'KPI Underperformance';
+
         this.GRAPH_REPRESENTS_CAMPAIGNS_WHICH_HAVE_SET_KPI_VALUES_ONLY =
             '% of Performing Media Plan measured against the set KPI or delivery if no KPI is set.';
+
         this.VIDEO = 'Video';
         this.PLAYS = 'plays';
         this.PRICING_METHOD_CPM = 'cpm';
@@ -571,8 +604,10 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.YESTERDAY = 'Yesterday';
         this.WF_NOT_SET = 'Not Set';
         this.REPORT_BUILDER = 'Report Builder';
+
         this.REPORT_BUILDER_SUBTITLE =
             'Select Dimension(s), Timeframe and any additional parameters to generate your report';
+
         this.CREATED_BY = 'Created by';
         this.DISTRIBUTED_TO = 'Distributed to';
         this.REPORT_NAME = 'Report Name';
@@ -583,9 +618,12 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.WF_CREATIVE_TAG_ALREADY_EXISTS =
             'This tag already exists in your Creative Tag Library. Save a Creative anyway?';
+
         this.WF_DUPLICATE_TAG = 'Duplicate Tag';
+
         this.WF_INVALID_CREATIVE_TAG =
             'You have entered an invalid tag. Please review this tag carefully and try again';
+
         this.WF_INVALID_CREATIVE_TAG_TRACKER = 'Please include the %%TRACKER%% macro to save the tag';
         this.WF_CREATIVE_TAG_UPDATE_ERROR = 'Unable to update creative';
         this.WF_CREATIVE_FORCESAVE = 'Unable to forceSave creative';
@@ -609,10 +647,13 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.WF_RESUME_AD = 'Resume Ad';
         this.WF_ARCHIVE_AD = 'We\'re sorry.';
         this.WF_ARCHIVE_CAMPAIGN = 'We\'re sorry.';
+
         this.WF_REDIRECT_USER_FOR_ARCHIVED_AD =
             'You are unable to edit this archived Ad. Click \'Continue\' to return to Campaign Overview Screen';
+
         this.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN =
             'You are unable to edit this archived Media Plan. Click \'Continue\' to return to Media Plan List Screen';
+
         this.WF_SELECT_MEDIA_PLAN = 'Media Plan';
         this.WF_SELECT_AD_GROUP = 'Ad Group';
         this.WF_NO_AD_GROUP = 'No Ad Group';
@@ -644,14 +685,19 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.reportDeleteFailed = 'Deleting Report Failed';
         this.deleteReportHeader = 'Delete Report';
         this.accountChangeHeader = 'Account Change';
+
         this.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE =
             'Switching accounts will discard any unsaved changes. Do you wish to continue?';
+
         this.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE =
             'Switching accounts will reload the page. Do you wish to continue?';
+
         this.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE =
             'Switching accounts will discard any unsaved changes. Do you wish to continue?';
+
         this.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE =
             'Switching accounts will discard any unsaved changes. Do you wish to continue?';
+
         this.CAMPAIGN_ARCHIVE_MESSAGES = 'Do you want to Archive / Delete the Media Plan?';
         this.ACCOUNT_CHANGED = 'accountChanged';
 
@@ -678,8 +724,10 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET =
             'You must enter media cost value less than the budget value specified for the media plan.';
+
         this.WF_MEDIA_COST_LESS_THAN_MINIMUM_BUDEGT_FOR_AD =
             'You must enter media cost value less than or equal to the minimum budget value specified for the ad.';
+
         this.BUDGET_LESS_THAN_AVAILABLE_BUDGET = 'You must enter budget less than the available budget';
         this.MIN_BID_SHOULD_LESS_THAN_MAX_BID = 'Min bid value should be less than Max bid value';
         this.MAX_BID_SHOULD_GREATER_THAN_MIN_BID = 'Max bid value should be greater than Min bid value';
@@ -779,8 +827,10 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         //Ad Create: 4 Targeting
         this.SETTARGETING = 'Set Targeting';
         this.TARGETAUDCHOOSE = 'Which target audience should I choose for my ad?';
+
         this.ENABLETARGETINGAD =
             'To enable Targeting for this ad, you must first set a Buying Platform. Select one now?';
+
         this.SELECTPLATFORM = 'Select Platform';
         this.AUDSEGMENTS = 'Audience Segments';
         this.REACHAUD = 'Reach the right audience by selecting focus segments';
@@ -953,8 +1003,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.LINE_ITEM = 'Line Item';
         this.MAX_YOU_CAN_SPEND = 'What\'s the maximum you can spend for your Ad Group?';
 
-
-
         //Audience Targeting
         this.SAVEAUD = 'Save Audience';
         this.SELSEGMENTS = 'Select Segments';
@@ -974,8 +1022,10 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         //Day Targeting
         this.DAYPART = 'Daypart';
+
         this.DAFAULTADNOTE =
             'By default, Ads will be delivered all day every day when no specific daypart rules applied.';
+
         this.SAVEDAYPART = 'Save Daypart';
         this.DAYTIME = 'Day & Time';
         this.ALLDAYTIMES = 'All days and times';
@@ -1020,9 +1070,11 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.NOT_SELECTED_COUNTRY_NOTE =
             'Once you have set your targeting at the region level, you cannot select any countries for inclusion or ' +
             'exclusion';
+
         this.NOT_SELECTED_REGION_NOTE =
             'Once you have set your targeting at the city level, you cannot select any regions for inclusion or ' +
             'exclusion';
+
         this.NOT_SELECTED_COUNTRY_REGION_NOTE =
             'Once you have set your targeting at the city level, you cannot select any countries for inclusion or ' +
             'exclusion';
@@ -1047,29 +1099,41 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.requiredRptNameFreq = 'Please provide report name and frequency';
         this.requiredRptName = 'Please provide report name';
         this.dateRangeWeek = 'You have chosen weekly Scheduling, please choose a date range that is at least one week';
+
         this.dateRangeMonthly =
             'You have chosen monthly Scheduling, please choose a date range that is at least one month';
+
         this.minOneMetric = 'Atleast one metrics should be selected';
         this.selectOccursOn = 'Please select occurs on';
         this.selectDate = 'Please select date';
+
         this.reportNameErrorMsg =
             'Please use only alphanumeric characters for report names. ' +
             'Report name should start with alphabetic character';
+
         this.START_OR_END_DATE_CAN_NOT_LESS_THAN_CURRENTDATE =
             'Start date or end date cannot be less than the current date';
+
         this.DELIVER_DATE_CAN_NOT_LESS_THAN_CURRENTDATE = 'Deliver on date cannot be less than the current date';
+
         this.DIFFERENCE_BETWEEN_START_END_AT_LEAST_ONE_DAY =
             'The difference between Start and End Dates should be at least one day';
+
         this.SELECT_VALID_DATE_OR_DAY_OCCURS_ON_FIELD = 'Select valid day/date for Occurs On field';
+
         this.DIFFERENCE_BETWEEN_START_END_AT_LEAST_ONE_WEEK =
             'The difference between Start and End Dates should be at least one week';
+
         this.SELECT_VALID_CUSTOM_DATE = 'Select valid custom date';
+
         this.MONTHLY_SCHEDULING_DATE_RANGE__AT_LEAST_ONE_MONTH =
             'You have chosen monthly Scheduling, please choose a date range that is at least one month';
+
         this.CUSTOMDATE_ERROR_MESSAGE = 'The custom date does not fall within the range of Start and End Dates.';
 
         this.VIDEO_TARGETING = 'Video Targeting';
         this.SAVE_VIDEO_TARGETING = 'Save Video Targeting';
+
         this.VIDEO_PLACENMENT_AND_PLAYERS =
             'Specify the types of placements and players where you would like your video ad to appear';
 
@@ -1146,7 +1210,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.SELECT_DIMENSION = 'Select a Dimension';
         this.SELECT_SIZE = 'Select Size';
 
-
         // Creative Setup
         this.SAVE_CREATIVE = 'Save Creative';
         this.CREATIVE_SETUP = 'Creative Setup';
@@ -1192,8 +1255,10 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MEDIAPLAN_ACCOUNT_MEASUREMENT_SETTING = 'Account / Advertiser Measurement Settings';
         this.MEDIAPLAN_GENERATE_INVOICES = 'The systems used to calculate costs and generate invoices';
         this.MEDIAPLAN_COST_TRACKING = 'Cost Tracking |';
+
         this.MEDIAPLAN_COST_MEASURED =
             'The Costs that will be measured in Cost Attribution reports and are factored into COGS+ Billing';
+
         this.MEDIAPLAN_ADD_ADDITIONAL_COSTS = 'Add Additional Costs (Optional)';
         this.MEDIAPLAN_METRIC = 'Metric';
         this.MEDIAPLAN_VENDOR = 'Vendor';
@@ -1266,13 +1331,18 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.INVOICE_TEMPLATE_DOWNLOAD_ERR = 'Error in Template download';
         this.INVOICE_DROPDWON_READY = 'The Invoice Report is ready for download';
         this.INVOICE_DROPDWON_REVIEW = 'The Invoice Report has been updated by an external upload and must be reviwed';
+
         this.INVOICE_DROPDWON_CLOSED =
             'The Invoice Report has been reviwed and accepted. Reports with closed Status cannot be modified';
+
         this.INVOICE_DROPDWON_UPLOAD =
             'The Invoice Report requires modification by Uploaded <br> System of Record (SOR) Results';
+
         this.INVOICE_CONFIRM_CLOSE = 'Do you want to close the invoice permanently.';
+
         this.INVOICE_CONFIRM_UPLOAD =
             'Once the invoice status changed to upload, user must upload the file to change the status.';
+
         this.CODE_FIELD_EMPTY = 'Please add code';
     });
 });
