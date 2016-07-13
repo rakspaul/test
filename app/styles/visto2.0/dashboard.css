@@ -105,7 +105,8 @@
   z-index: 10;
   top: 0;
   left: 60px;
-  font-size: 12px;
+  font-size: 10px;
+  color: #939EAE;
   height: 30px;
   width: 30px;
   line-height: 36px;
@@ -126,7 +127,8 @@
   z-index: 10;
   top: 0;
   left: 340px;
-  font-size: 12px;
+  font-size: 10px;
+  color: #939EAE;
   height: 30px;
   width: 30px;
   line-height: 36px;

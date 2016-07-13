@@ -64,7 +64,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
         $scope.data = dashboardModel.getData();
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         $scope.textConstants = constants;
-
+        
         $scope.clickOnBrandButton = function () {
             selectAdvertiser(advertiserModel.getAdvertiser().allAdvertiserObject, 'clicked');
             selectBrand(brandsModel.getAllBrand(), 'clicked');

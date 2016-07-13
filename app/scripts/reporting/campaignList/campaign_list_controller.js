@@ -75,6 +75,11 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
                 };
 
                 $scope.$on(constants.EVENT_BRAND_CHANGED, function () {
+
+                    $scope.campaigns.setActiveSortElement('start_date');
+                    //below line empty the search text on subaccount change
+                    $scope.campaigns.searchTerm = '';
+
                     $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
                 });
 

@@ -23,7 +23,7 @@ define(['angularAMD', '../common/d3/gauge', 'reporting/models/gauge_model', // j
 
         gauge.createGauge();
         gauge.setMessage(constants.GAUGE_PERFORMANCE, '%');
-
+        
         $scope.$on(constants.EVENT_STATUS_FILTER_CHANGED, function () {
             getGaugeData();
         });
@@ -42,6 +42,13 @@ define(['angularAMD', '../common/d3/gauge', 'reporting/models/gauge_model', // j
                 } else {
                     $scope.message = constants.MSG_NO_CAMPAIGNS_WITH_SET_KPI;
                     $scope.dataFound = false;
+                }
+                
+                //Check If more then 50% On Track
+                if (result.onTrackPct >= 51) {
+                    $(".percentPerf").addClass("onTrackPerc");
+                } else {
+                    $(".percentPerf").addClass("underPerc");
                 }
             });
         }

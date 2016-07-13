@@ -271,7 +271,7 @@ define(['angularAMD','../../../common/services/constants_service'], function (an
                     this.rightDot = createCircle(this.body, rightDotPt.x, rightDotPt.y, orangeColor, 5);
 
                     this.svgText = createText(this.myContainer, this.config.cx-12, this.config.cy +10,
-                        '0', 'sans-serif', 30, 'bold', 'black');
+                        '0', 'sans-serif', 30, 'bold', 'black').attr('class', 'percentPerf');
 
                     this.rightDotText = createText(this.myContainer, rightDotPt.x + 10, rightDotPt.y + 5,
                         '0', 'Avenir', 14, '', '#57606d');

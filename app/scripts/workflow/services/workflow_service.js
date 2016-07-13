@@ -23,7 +23,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 lineitemDetails = null,
                 lineitemDetailsEdit = null,
                 lineitemDetailsBulk = null,
-                advertiserBillingVal;
+                advertiserBillingVal,
+                executionType;
 
             function createObj(platform) {
                 var integrationObj = {};
@@ -399,7 +400,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 deleteAd: function (campaignId, adId) {
                     var clientId = loginModel.getSelectedClient().id;
 
-                    return dataService.delete(
+                    return dataService.deleteRequest(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
@@ -438,7 +439,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 deleteCampaign: function (campaignId) {
                     var clientId = loginModel.getSelectedClient().id;
 
-                    return dataService.delete(
+                    return dataService.deleteRequest(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId,
@@ -583,7 +584,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         qryStr;
 
                     str = (params.campaignId && params.adId) ?
-                        ('?campaignId/' + params.campaignId + '/adId/' + params.adId) : '';
+                        ('?campaignId=' + params.campaignId + '&adId=' + params.adId) : '';
 
                     qryStr = '/clients/' + params.clientId +
                         '/advertisers/'+ params.advertiserId +
@@ -910,7 +911,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 setPlatformSeat: function (platformSeat) {
                     seat = platformSeat;
                 },
-
+                setVendorExecutionType:function (vendorExecutionType) {
+                    executionType=vendorExecutionType;
+                },
+                getVendorExecutionType:function () {
+                    return executionType;
+                },
                 getPlatform: function () {
                     return platform;
                 },
@@ -1232,7 +1238,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 deleteLineItem: function (lineItem,client_id) {
                     var clientId = client_id || loginModel.getSelectedClient().id;
 
-                    return dataService.delete(
+                    return dataService.deleteRequest(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/clients/' + clientId +
                             '/campaigns/' + lineItem.campaignId +
