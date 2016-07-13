@@ -1,4 +1,4 @@
-define(['angularAMD'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
     // This is a common directive to handle no data scenarios
@@ -9,6 +9,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
         return{
             restrict: 'EAC',
             templateUrl: '/views/data_not_found.html',
+
             scope: {
                 message: '=',
                 styleClass: '='

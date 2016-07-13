@@ -1,2 +1,1 @@
-
-var timePeriodModule = angular.module('timePeriodModule', ['commonModule'])
+var timePeriodModule = angular.module('timePeriodModule', ['commonModule']); // jshint ignore:line

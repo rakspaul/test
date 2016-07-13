@@ -4,7 +4,7 @@ var IMAGES_PATH = '/images/',
     IMAGES_CDESK_PATH = IMAGES_PATH + 'cdesk/',
     IMAGES_CALENDAR_PATH = IMAGES_PATH + 'calendar/',
     STYLESHEETS_PATH = '../styles/',
-    assets = {};
+    assets = {}; // jshint ignore:line
 
 assets.platform_icon = IMAGES_PATH + 'tag_icon.png';
 
@@ -154,7 +154,3 @@ assets.html_users = '/views/reporting/users.html';
 assets.html_accounts = '/views/workflow/accounts.html';
 assets.html_advertisers = '/views/workflow/advertisers.html';
 assets.html_brands = '/views/workflow/brands.html';
-
-
-
-

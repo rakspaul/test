@@ -1,4 +1,5 @@
-define(['angularAMD', // jshint ignore:line
+define([
+    'angularAMD',
     'angular-route',
     'angular-cookies',
     'angular-resource',
@@ -69,6 +70,5 @@ define(['angularAMD', // jshint ignore:line
     'chosen',
     'reporting/subAccount/sub_account_model'
 ], function (angularAMD) {
-    'use strict';
     return angularAMD;
 });

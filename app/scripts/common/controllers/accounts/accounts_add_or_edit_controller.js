@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 
-define(['angularAMD', '../../../workflow/services/account_service', // jshint ignore:line
-    'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD', '../../../workflow/services/account_service', 'common/services/constants_service'],
+    function (angularAMD) {
         'use strict';
 
         angularAMD.controller('AccountsAddOrEdit', function ($scope, $rootScope, $modalInstance, accountsService,
@@ -57,6 +57,7 @@ define(['angularAMD', '../../../workflow/services/account_service', // jshint ig
             _currCtrl.verifyInput = function () {
                 var ret = true,
                     err = '',
+
                     code = $scope.setSelectedClientCode === 'Others' ?
                         $scope.customClientCode :
                         $scope.setSelectedClientCode;
@@ -124,6 +125,7 @@ define(['angularAMD', '../../../workflow/services/account_service', // jshint ig
                     respBody.referenceId = $scope.referenceId;
                     respBody.timezone = $scope.timezone;
                     respBody.billableAccountId = $scope.billableAccountId;
+
                     respBody.code = $scope.setSelectedClientCode === 'Others' ?
                         $scope.customClientCode :
                         $scope.setSelectedClientCode;
@@ -297,6 +299,7 @@ define(['angularAMD', '../../../workflow/services/account_service', // jshint ig
                         .then(function (result) {
                             if (result.status === 'OK' || result.status === 'success') {
                                 var res = result.data.data;
+
                                 if (res.length) {
                                     $scope.codeList = res;
                                 }

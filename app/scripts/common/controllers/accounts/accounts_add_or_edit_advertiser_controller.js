@@ -1,6 +1,6 @@
 var angObj = angObj || {};
 
-define(['angularAMD', '../../../workflow/services/account_service', // jshint ignore:line
+define(['angularAMD', '../../../workflow/services/account_service',
     '../../services/constants_service', 'common/moment_utils', 'workflow/directives/custom_date_picker',
     'common/services/data_service', 'common/services/url_service'], function (angularAMD) {
     'use strict';
@@ -147,30 +147,8 @@ define(['angularAMD', '../../../workflow/services/account_service', // jshint ig
                 });
         }
 
-        function addPixeltoAdvertiserUnderClient(clientId, advId) { // jshint ignore:line
-            var requestData = {
-                lookbackImpressions: Number($scope.advertiserData.lookbackImpressions),
-                lookbackClicks: Number($scope.advertiserData.lookbackClicks)
-            };
-
-            accountsService
-                .updateAdvertiserUnderClient($scope.client.id, advId, requestData)
-                .then(function (result) {
-                    if (result.status === 'OK' || result.status === 'success') {
-                        $rootScope.setErrAlertMessage('Pixels added successfully', 0);
-                    } else {
-                        $scope.close();
-                        $rootScope.setErrAlertMessage(constants.ERR_ADD_PIXEL);
-                    }
-                }, function (err) {
-                    $scope.close();
-                    console.log('Error = ', err);
-                    $rootScope.setErrAlertMessage(constants.ERR_ADD_PIXEL);
-                });
-        }
-
         function getRequestDataforPixel(clientId, advertiserId) {
-            _.each($scope.advertiserData.pixels, function (item, index) { // jshint ignore:line
+            _.each($scope.advertiserData.pixels, function (item, index) {
                 $scope.advertiserData.pixels[index] = {
                     name: item.name,
                     clientId: clientId,
@@ -209,20 +187,6 @@ define(['angularAMD', '../../../workflow/services/account_service', // jshint ig
                     console.log('Error = ', err);
                     $rootScope.setErrAlertMessage('Error in creating advertiser under client.');
                 });
-        }
-
-        function constructRequestBody(obj) { // jshint ignore:line
-            var respBody = {};
-
-            if ($scope.mode === 'edit' && obj) {
-                respBody.name = $scope.advertiserName;
-                respBody.id = obj.id;
-                respBody.updatedAt = obj.updatedAt;
-            } else {
-                respBody.name = $scope.advertiserName;
-            }
-
-            return respBody;
         }
 
         function getBillingTypes() {
@@ -383,7 +347,7 @@ define(['angularAMD', '../../../workflow/services/account_service', // jshint ig
                 .downloadFile(url)
                 .then(function (res) {
                     if (res.status === 'OK' || res.status === 'success') {
-                        saveAs(res.file, res.fileName); // jshint ignore:line
+                        saveAs(res.file, res.fileName);
                         $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_SUCCESS, 0);
                     } else {
                         $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_ERR);
@@ -403,7 +367,7 @@ define(['angularAMD', '../../../workflow/services/account_service', // jshint ig
                 }
             } else {
                 _currCtrl.downloadPixelIds =
-                    _.filter(_currCtrl.downloadPixelIds, function (item) { // jshint ignore:line
+                    _.filter(_currCtrl.downloadPixelIds, function (item) {
                         return item !== pixelId;
                     });
 
@@ -420,7 +384,7 @@ define(['angularAMD', '../../../workflow/services/account_service', // jshint ig
 
             if (checkBoxes.prop('checked')) {
                 $scope.advertiserData.disableDownLoadPixel = false;
-                _currCtrl.downloadPixelIds = _.pluck($scope.advertiserData.pixels, 'id'); // jshint ignore:line
+                _currCtrl.downloadPixelIds = _.pluck($scope.advertiserData.pixels, 'id');
             } else {
                 $scope.advertiserData.disableDownLoadPixel = true;
                 _currCtrl.downloadPixelIds = [];
@@ -430,7 +394,7 @@ define(['angularAMD', '../../../workflow/services/account_service', // jshint ig
         $scope.checkDuplicatePixel = function (name) {
             $scope.advertiserAddOrEditData.duplicatePixelName = false;
 
-            _.each($scope.advertiserData.pixels, function (item, i) { // jshint ignore:line
+            _.each($scope.advertiserData.pixels, function (item, i) {
                 if (!$scope.advertiserAddOrEditData.duplicatePixelName) {
                     $scope.advertiserAddOrEditData.duplicatePixelName =
                         ((item.name === name) && ($scope.pixelIndex !== i)) ? true : false;

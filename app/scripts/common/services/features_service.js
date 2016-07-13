@@ -6,26 +6,26 @@ define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:lin
     angularAMD.service('featuresService', function ($rootScope, $location, workflowService, vistoconfig) {
 
         var params = [
-            'dashboard',
-            'report_overview',
-            'inventory',
-            'performance',
-            'quality',
-            'cost',
-            'optimization_create',
-            'optimization_transparency',
-            'platform',
-            'scheduled',
-            'collective',
-            'scheduled_reports',
-            'collective_insights',
-            'create_mediaplan',
-            'dashboard',
-            'mediaplan_list',
-            'ad_setup',
-            'mediaplan_hub',
-            'creative_list',
-            'reports_tab'
+                'dashboard',
+                'report_overview',
+                'inventory',
+                'performance',
+                'quality',
+                'cost',
+                'optimization_create',
+                'optimization_transparency',
+                'platform',
+                'scheduled',
+                'collective',
+                'scheduled_reports',
+                'collective_insights',
+                'create_mediaplan',
+                'dashboard',
+                'mediaplan_list',
+                'ad_setup',
+                'mediaplan_hub',
+                'creative_list',
+                'reports_tab'
             ],
 
             featureParams = [],
@@ -167,7 +167,7 @@ define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:lin
             },
 
             setGetFeatureParams = function (feature_param) {
-                    var masterClientId,
+                var masterClientId,
 
                     setFparams = function () {
                         var featureParams = getFeatureParams();

@@ -1,1 +1,1 @@
-var strategySelectModule = angular.module('strategySelectModule', ['commonModule']);
+var strategySelectModule = angular.module('strategySelectModule', ['commonModule']); // jshint ignore:line

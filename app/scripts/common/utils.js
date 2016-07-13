@@ -1,4 +1,4 @@
-define(['angularAMD','common/services/constants_service', 'common/services/role_based_service'], // jshint ignore:line
+define(['angularAMD','common/services/constants_service', 'common/services/role_based_service'],
     function (angularAMD) {
         angularAMD.factory('utils', ['$location', '$sce', 'constants',
             function ($location, $sce, constants) {
@@ -33,11 +33,11 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         }
 
                         if (date === '') {
-                            return moment().format(format); // jshint ignore:line
+                            return moment().format(format);
                         } else if (format === '') {
-                            return moment(parsedDate).tz('EST').format(constants.DATE_US_FORMAT); // jshint ignore:line
+                            return moment(parsedDate).tz('EST').format(constants.DATE_US_FORMAT);
                         } else {
-                            return moment(parsedDate).tz('EST').format(format); // jshint ignore:line
+                            return moment(parsedDate).tz('EST').format(format);
                         }
                     },
 
@@ -46,7 +46,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             tz = 'EST',
                             finalDate = date + ' ' + timeSuffix + ' ' + ' ' + tz;
 
-                        return moment(Date.parse(finalDate)).tz('UTC') // jshint ignore:line
+                        return moment(Date.parse(finalDate)).tz('UTC')
                             .format(constants.DATE_UTC_FORMAT);
                     },
 
@@ -73,15 +73,16 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     },
 
                     validateUrl = function (url) {
-                    var re =
+                        var re =
                         /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
-                    return re.test(url);
+                        return re.test(url);
                     },
 
                     validateTag = function (scriptTag) {
                         var pattern = new RegExp(/.*(https:).*/),
                             tagLower = scriptTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
+
                         if (tagLower.match(pattern)) {
                             return true;
                         } else {
@@ -184,6 +185,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             elem
                                 .closest('.each_campaign_list_container')
                                 .find('.quartile_details_VTC')
+
                                 .css({
                                     'left': leftPosNumber,
                                     'display': 'block'
@@ -215,10 +217,11 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                                 elem
                                     .closest('.each_campaign_list_container')
                                     .find('.quartile_details_VTC')
+
                                     .css({
-                                        'left': leftPosTactic,
-                                        'top': childPos.top - parentPos.top - 189,
-                                        'display': 'block'
+                                        left: leftPosTactic,
+                                        top: childPos.top - parentPos.top - 189,
+                                        display: 'block'
                                     });
                             }
                         } else {
@@ -233,7 +236,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         var nAgt = navigator.userAgent,
                             browserName = navigator.appName,
                             fullVersion = '' + parseFloat(navigator.appVersion),
-                            majorVersion = parseInt(navigator.appVersion, 10),
+                            majorVersion,
                             nameOffset,
                             verOffset,
                             ix,
@@ -252,9 +255,11 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                                 verOffset = nAgt.indexOf('Opera');
                                 browserName = 'Opera';
                                 fullVersion = nAgt.substring(verOffset + 6);
+
                                 if ((verOffset = nAgt.indexOf('Version')) !== -1) {
                                     fullVersion = nAgt.substring(verOffset + 8);
                                 }
+
                                 break;
 
                             // In MSIE, the true version is after 'MSIE' in userAgent
@@ -268,9 +273,11 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             case (nAgt.indexOf('Trident/') !== -1):
                                 browserName = 'Internet Explorer';
                                 re = new RegExp('Trident/.*rv:([0-9]{1,}[\.0-9]{0,})');
+
                                 if (re.exec(nAgt) !== null) {
                                     fullVersion = (RegExp.$1);
                                 }
+
                                 break;
 
                             // In Chrome, the true version is after 'Chrome'
@@ -320,6 +327,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         }
 
                         majorVersion = parseInt('' + fullVersion, 10);
+
                         if (isNaN(majorVersion)) {
                             fullVersion = '' + parseFloat(navigator.appVersion);
                             majorVersion = parseInt(navigator.appVersion, 10);
@@ -387,7 +395,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                 function hasItem(data, key, val) {
                     var retVal = false;
 
-                    _.each(data, function (item) { // jshint ignore:line
+                    _.each(data, function (item) {
                         if(item[key] === val) {
                             retVal = true;
                         }
@@ -399,7 +407,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                 function getValueOfItem(data, key) {
                     var retVal = '';
 
-                    _.each(data, function (item) { // jshint ignore:line
+                    _.each(data, function (item) {
                         if (item.key === key.trim()) {
                             retVal = item.value;
                         }
@@ -414,28 +422,28 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
 
                     switch (timeFrame) {
                         case 'yesterday':
-                            o.startDate = moment() // jshint ignore:line
+                            o.startDate = moment()
                                 .subtract(1, 'days')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
 
-                            o.endDate = moment().format(constants.DATE_UTC_SHORT_FORMAT); // jshint ignore:line
+                            o.endDate = moment().format(constants.DATE_UTC_SHORT_FORMAT);
                             o.displayTimeFrame = 'Yesterday';
                             break;
 
                         case 'last7days':
-                            o.startDate = moment() // jshint ignore:line
+                            o.startDate = moment()
                                 .subtract(7, 'days')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
 
-                            o.endDate = moment() // jshint ignore:line
+                            o.endDate = moment()
                                 .subtract(0, 'days')
-                                .format(constants.DATE_UTC_SHORT_FORMAT); // jshint ignore:line
+                                .format(constants.DATE_UTC_SHORT_FORMAT);
 
                             o.displayTimeFrame = 'Last 7 days';
                             break;
 
                         case 'last2Weeks':
-                            startWeekDate = moment().startOf('week').subtract(1, 'day'); // jshint ignore:line
+                            startWeekDate = moment().startOf('week').subtract(1, 'day');
                             o.endDate = startWeekDate.format(constants.DATE_UTC_SHORT_FORMAT);
                             o.startDate = startWeekDate.subtract('days', 13).format(constants.DATE_UTC_SHORT_FORMAT);
                             o.displayTimeFrame = 'Last 2 weeks';
@@ -443,13 +451,13 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
 
                         case 'lastMonth':
                             o.startDate =
-                                moment() // jshint ignore:line
+                                moment()
                                     .subtract(1, 'months')
                                     .endOf('month')
                                     .format('YYYY-MM') + '-01';
 
                             o.endDate =
-                                moment() // jshint ignore:line
+                                moment()
                                     .subtract(1, 'months')
                                     .endOf('month')
                                     .format(constants.DATE_UTC_SHORT_FORMAT);
@@ -459,13 +467,13 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
 
                         case 'lastQuater':
                             o.startDate =
-                                moment() // jshint ignore:line
+                                moment()
                                     .subtract(1, 'quarter')
                                     .startOf('quarter')
                                     .format(constants.DATE_UTC_SHORT_FORMAT);
 
                             o.endDate =
-                                moment() // jshint ignore:line
+                                moment()
                                     .subtract(1, 'quarter')
                                     .endOf('quarter')
                                     .format(constants.DATE_UTC_SHORT_FORMAT);
