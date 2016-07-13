@@ -10,7 +10,7 @@ define(['angularAMD',
             var params = {
                 'campaignId': $routeParams.campaignId,
                 'adId': $routeParams.adId,
-                'creativeId': $routeParams.creativeId,
+                'creativeId': Number($routeParams.creativeId),
                 'clientId': $routeParams.clientId,
                 'advertiserId': $routeParams.advertiserId
             },
