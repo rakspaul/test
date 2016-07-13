@@ -400,7 +400,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 deleteAd: function (campaignId, adId) {
                     var clientId = loginModel.getSelectedClient().id;
 
-                    return dataService.delete(
+                    return dataService.deleteRequest(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
@@ -439,7 +439,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 deleteCampaign: function (campaignId) {
                     var clientId = loginModel.getSelectedClient().id;
 
-                    return dataService.delete(
+                    return dataService.deleteRequest(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId,
@@ -1238,7 +1238,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 deleteLineItem: function (lineItem,client_id) {
                     var clientId = client_id || loginModel.getSelectedClient().id;
 
-                    return dataService.delete(
+                    return dataService.deleteRequest(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/clients/' + clientId +
                             '/campaigns/' + lineItem.campaignId +

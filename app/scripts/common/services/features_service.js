@@ -1,6 +1,10 @@
 define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:line
     'common/services/vistoconfig_service'], function (angularAMD) {
+
+    'use strict';
+
     angularAMD.service('featuresService', function ($rootScope, $location, workflowService, vistoconfig) {
+
         var params = [
             'dashboard',
             'report_overview',
@@ -22,178 +26,185 @@ define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:lin
             'mediaplan_hub',
             'creative_list',
             'reports_tab'
-        ];
+            ],
 
-        this.featureParams = [];
-        this.serverResponseReceived = false;
+            featureParams = [],
 
-        this.setAllFeatureParams = function (booleanValue) {
-            var featureObj = {};
+            serverResponseReceived = false,
 
-            _.each(params, function (eachParam) { // jshint ignore:line
-                featureObj[eachParam] = booleanValue;
-            });
+            setAllFeatureParams = function (booleanValue) {
+                var featureObj = {};
 
-            this.featureParams[0] = featureObj;
-        };
-
-        //initialize feature params
-        this.setAllFeatureParams(false);
-
-        this.setSingleFeatureParam = function (fParam, boolStatus) {
-            switch (fParam) {
-                case 'REP_OVERVIEW':
-                    this.featureParams[0].report_overview = boolStatus;
-                    break;
-
-                case 'REP_INV':
-                    this.featureParams[0].inventory = boolStatus;
-                    break;
-
-                case 'REP_PERF':
-                    this.featureParams[0].performance = boolStatus;
-                    break;
-
-                case 'REP_QUALITY':
-                    this.featureParams[0].quality = boolStatus;
-                    break;
-
-                case 'COST':
-                    this.featureParams[0].cost = boolStatus;
-                    break;
-
-                case 'REP_OPT_WRITE':
-                    this.featureParams[0].optimization_create = boolStatus;
-                    this.featureParams[0].optimization_transparency = boolStatus;
-                    break;
-
-                case 'REP_OPT_TRANSPARENCY':
-                    this.featureParams[0].optimization_transparency = boolStatus;
-                    break;
-
-                case 'REP_PLATFORM':
-                    this.featureParams[0].platform = boolStatus;
-                    break;
-
-                case 'REP_SCH':
-                    this.featureParams[0].scheduled_reports = boolStatus;
-                    break;
-
-                case 'REP_INSIGHTS':
-                    this.featureParams[0].collective_insights = boolStatus;
-                    break;
-
-                case 'MEDIAPLAN_SETUP':
-                    this.featureParams[0].create_mediaplan = boolStatus;
-                    break;
-
-                case 'MEDIAPLAN_HUB':
-                    this.featureParams[0].mediaplan_hub = boolStatus;
-                    break;
-
-                case 'AD_SETUP':
-                    this.featureParams[0].ad_setup = boolStatus;
-                    break;
-
-                case 'MEDIAPLAN_LIST':
-                    this.featureParams[0].mediaplan_list = boolStatus;
-                    break;
-
-                case 'CREATIVE_LIST':
-                    this.featureParams[0].creative_list = boolStatus;
-                    break;
-
-                case 'DASHBOARD':
-                    this.featureParams[0].dashboard = boolStatus;
-                    break;
-
-                case 'REPORTS_TAB':
-                    this.featureParams[0].reports_tab = boolStatus;
-                    break;
-            }
-        };
-
-        this.disableReportTab = function () {
-            this.featureParams[0].report_overview = false;
-            this.featureParams[0].inventory = false;
-            this.featureParams[0].performance = false;
-            this.featureParams[0].quality = false;
-            this.featureParams[0].cost = false;
-            this.featureParams[0].optimization_transparency = false;
-            this.featureParams[0].platform = false;
-            this.featureParams[0].scheduled_reports = false;
-            this.featureParams[0].collective_insights = false;
-        };
-
-        this.setFeatureParams = function (featuresArr) {
-            //API passes parameters :
-            var self = this;
-
-            this.serverResponseReceived = true;
-
-            if (featuresArr.indexOf('ENABLE_ALL') !== -1) {
-                //Enable all features
-                this.setAllFeatureParams(true);
-            } else {
-                //set all feature params to false before setting it true based on API enable list
-                this.setAllFeatureParams(false);
-
-                //set params true sent in enable list of API
-                _.each(featuresArr, function (feature) { // jshint ignore:line
-                    self.setSingleFeatureParam(feature, true);
+                _.each(params, function (eachParam) { // jshint ignore:line
+                    featureObj[eachParam] = booleanValue;
                 });
 
-                //check if reports tab not there
-                if (featuresArr.indexOf('REPORTS_TAB') < 0) {
-                    this.disableReportTab();
+                featureParams[0] = featureObj;
+            },
+
+            setSingleFeatureParam = function (fParam, boolStatus) {
+                switch (fParam) {
+                    case 'REP_OVERVIEW':
+                        featureParams[0].report_overview = boolStatus;
+                        break;
+
+                    case 'REP_INV':
+                        featureParams[0].inventory = boolStatus;
+                        break;
+
+                    case 'REP_PERF':
+                        featureParams[0].performance = boolStatus;
+                        break;
+
+                    case 'REP_QUALITY':
+                        featureParams[0].quality = boolStatus;
+                        break;
+
+                    case 'COST':
+                        featureParams[0].cost = boolStatus;
+                        break;
+
+                    case 'REP_OPT_WRITE':
+                        featureParams[0].optimization_create = boolStatus;
+                        featureParams[0].optimization_transparency = boolStatus;
+                        break;
+
+                    case 'REP_OPT_TRANSPARENCY':
+                        featureParams[0].optimization_transparency = boolStatus;
+                        break;
+
+                    case 'REP_PLATFORM':
+                        featureParams[0].platform = boolStatus;
+                        break;
+
+                    case 'REP_SCH':
+                        featureParams[0].scheduled_reports = boolStatus;
+                        break;
+
+                    case 'REP_INSIGHTS':
+                        featureParams[0].collective_insights = boolStatus;
+                        break;
+
+                    case 'MEDIAPLAN_SETUP':
+                        featureParams[0].create_mediaplan = boolStatus;
+                        break;
+
+                    case 'MEDIAPLAN_HUB':
+                        featureParams[0].mediaplan_hub = boolStatus;
+                        break;
+
+                    case 'AD_SETUP':
+                        featureParams[0].ad_setup = boolStatus;
+                        break;
+
+                    case 'MEDIAPLAN_LIST':
+                        featureParams[0].mediaplan_list = boolStatus;
+                        break;
+
+                    case 'CREATIVE_LIST':
+                        featureParams[0].creative_list = boolStatus;
+                        break;
+
+                    case 'DASHBOARD':
+                        featureParams[0].dashboard = boolStatus;
+                        break;
+
+                    case 'REPORTS_TAB':
+                        featureParams[0].reports_tab = boolStatus;
+                        break;
                 }
+            },
 
-                if (featuresArr.indexOf('MEDIAPLAN_HUB') < 0) {
-                    this.setSingleFeatureParam('AD_SETUP', false);
-                }
-            }
+            disableReportTab = function () {
+                featureParams[0].report_overview = false;
+                featureParams[0].inventory = false;
+                featureParams[0].performance = false;
+                featureParams[0].quality = false;
+                featureParams[0].cost = false;
+                featureParams[0].optimization_transparency = false;
+                featureParams[0].platform = false;
+                featureParams[0].scheduled_reports = false;
+                featureParams[0].collective_insights = false;
+            },
 
-            if (this.featureParams[0].dashboard === false) {
-                this.featureParams[0].mediaplan_list = true;
-            }
+            setFeatureParams = function (featuresArr) {
+                //API passes parameters :
+                var self = this;
 
-            $rootScope.$broadcast('features');
-        };
+                serverResponseReceived = true;
 
-        this.getFeatureParams = function () {
-            return this.featureParams;
-        };
+                if (featuresArr.indexOf('ENABLE_ALL') !== -1) {
+                    //Enable all features
+                    setAllFeatureParams(true);
+                } else {
+                    //set all feature params to false before setting it true based on API enable list
+                    setAllFeatureParams(false);
 
-        this.setGetFeatureParams = function (feature_param) {
-            var self = this,
-                masterClientId,
+                    //set params true sent in enable list of API
+                    _.each(featuresArr, function (feature) { // jshint ignore:line
+                        setSingleFeatureParam(feature, true);
+                    });
 
-                setFparams = function () {
-                    var featureParams = self.getFeatureParams();
-
-                    if ((feature_param === 'dashboard') && (featureParams[0][feature_param] === false)) {
-                        $location.url(vistoconfig.MEDIA_PLANS_LINK);
-                        return false;
-                    } else if (featureParams[0][feature_param] === false) {
-                        $location.url('/');
+                    //check if reports tab not there
+                    if (featuresArr.indexOf('REPORTS_TAB') < 0) {
+                        disableReportTab();
                     }
-                };
 
-            if (this.serverResponseReceived) {
-                setFparams();
-            } else {
-                masterClientId = JSON.parse(localStorage.getItem('masterClient')).id;
-
-                if (masterClientId) {
-                    workflowService
-                        .getClientData(masterClientId)
-                        .then(function (response) {
-                            this.serverResponseReceived = true;
-                            self.setFeatureParams(response.data.data.features,'headercontroller');
-                            setFparams();
-                        });
+                    if (featuresArr.indexOf('MEDIAPLAN_HUB') < 0) {
+                        setSingleFeatureParam('AD_SETUP', false);
+                    }
                 }
-            }
+
+                if (featureParams[0].dashboard === false) {
+                    featureParams[0].mediaplan_list = true;
+                }
+
+                $rootScope.$broadcast('features');
+            },
+
+            getFeatureParams = function () {
+                return featureParams;
+            },
+
+            setGetFeatureParams = function (feature_param) {
+                    var masterClientId,
+
+                    setFparams = function () {
+                        var featureParams = getFeatureParams();
+
+                        if ((feature_param === 'dashboard') && (featureParams[0][feature_param] === false)) {
+                            $location.url(vistoconfig.MEDIA_PLANS_LINK);
+                            return false;
+                        } else if (featureParams[0][feature_param] === false) {
+                            $location.url('/');
+                        }
+                    };
+
+                if (serverResponseReceived) {
+                    setFparams();
+                } else {
+                    masterClientId = JSON.parse(localStorage.getItem('masterClient')).id;
+
+                    if (masterClientId) {
+                        workflowService
+                            .getClientData(masterClientId)
+                            .then(function (response) {
+                                serverResponseReceived = true;
+                                setFeatureParams(response.data.data.features,'headercontroller');
+                                setFparams();
+                            });
+                    }
+                }
+            };
+
+        //initialize feature params
+        setAllFeatureParams(false);
+
+        return  {
+            setGetFeatureParams : setGetFeatureParams,
+            setFeatureParams : setFeatureParams,
+            getFeatureParams : getFeatureParams
+
         };
     });
 });

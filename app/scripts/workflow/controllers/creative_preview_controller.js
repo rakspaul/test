@@ -95,9 +95,22 @@ define(['angularAMD',
                 workflowService
                     .getCreativePreViewData(params)
                     .then(function (result) {
+                        var winTitle = '';
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.creativePreviewData = result.data.data;
-                            $rootScope.title = $scope.creativePreviewData.name;
+                            if($scope.creativePreviewData.name) {
+                                winTitle +=  $scope.creativePreviewData.name;
+                            }
+
+                            if($scope.creativePreviewData.adName) {
+                                winTitle +=  ' | ' + $scope.creativePreviewData.adName;
+                            }
+
+                            if($scope.creativePreviewData.platformName) {
+                                winTitle +=  ' | ' + $scope.creativePreviewData.platformName;
+                            }
+
+                            $rootScope.title = winTitle;
                             buildCreativeTagPreviewContainer($scope.creativePreviewData);
                         } else {
                             $scope.creativePreviewUrl = false;
