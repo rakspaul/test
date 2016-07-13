@@ -777,15 +777,6 @@ define(['common'], function (angularAMD) { // jshint ignore:line
                         $rootScope.bodyclass = currentRoute.bodyclass || '';
                         $rootScope.showHeader = currentRoute.showHeader;
                     }
-
-                    /*if (loginModel.getLoginName()) {
-                        //ga('set', 'dimension1', loginModel.getLoginName());
-                    }*/
-
-                    //if (!$cookieStore.get('cdesk_session')) {
-                    //    //remove header bar on login page
-                    //    $('.main_navigation_holder').hide();
-                    //}
                 });
 
             $rootScope.version = version; // jshint ignore:line
