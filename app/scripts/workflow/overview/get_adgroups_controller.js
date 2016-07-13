@@ -1,4 +1,4 @@
-define(['angularAMD','common/moment_utils'],function (angularAMD) { // jshint ignore:line
+define(['angularAMD','../../common/moment_utils'],function (angularAMD) { // jshint ignore:line
     angularAMD.controller('GetAdgroupsController', function($scope,$rootScope, $routeParams, $location,
                                                             momentService,workflowService) {
         $scope.numOfDays = function (startTime, endTime) {

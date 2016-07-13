@@ -414,7 +414,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_create_ad,
                     title: 'Media Plan - Overview',
                     controller: 'CampaignOverViewController',
-                    controllerUrl: 'workflow/controllers/campaign_overview_controller',
+                    controllerUrl: 'workflow/overview/campaign_overview_controller',
                     showHeader : true,
 
                     resolve: {
@@ -438,7 +438,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Create',
                     controller: 'CampaignAdsCreateController',
-                    controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
+                    controllerUrl: 'workflow/ad/ad_create_controller',
                     showHeader : true,
 
                     resolve: {
@@ -465,7 +465,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Create',
                     controller: 'CampaignAdsCreateController',
-                    controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
+                    controllerUrl: 'workflow/ad/ad_create_controller',
                     showHeader : true,
 
                     resolve: {
@@ -492,7 +492,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Edit',
                     controller: 'CampaignAdsCreateController',
-                    controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
+                    controllerUrl: 'workflow/ad/ad_create_controller',
                     showHeader : true,
 
                     resolve: {
@@ -520,7 +520,7 @@ define(['common'], function (angularAMD) {
                         templateUrl: assets.html_campaign_create_adBuild,
                         title: 'Media Plan - Ad Edit',
                         controller: 'CampaignAdsCreateController',
-                        controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
+                        controllerUrl: 'workflow/ad/ad_create_controller',
                         showHeader : true,
 
                         resolve: {
@@ -547,7 +547,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_creative,
                     title: 'Add Creative',
                     controller: 'CreativeController',
-                    controllerUrl: 'workflow/controllers/creative_controller',
+                    controllerUrl: 'workflow/creative/creative_controller',
                     showHeader : true,
 
                     resolve: {
@@ -571,7 +571,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_creative,
                     title: 'Edit Creative',
                     controller: 'CreativeController',
-                    controllerUrl: 'workflow/controllers/creative_controller',
+                    controllerUrl: 'workflow/creative/creative_controller',
                     showHeader : true,
 
                     resolve: {
@@ -615,7 +615,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_creative_list,
                     title: 'Creative List',
                     controller: 'CreativeListController',
-                    controllerUrl: 'workflow/controllers/creative_list_controller',
+                    controllerUrl: 'workflow/creative/creative_list_controller',
                     showHeader : true,
 
                     resolve: {

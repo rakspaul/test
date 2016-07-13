@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
+define(['angularAMD', '../../common/services/constants_service', // jshint ignore:line
     'workflow/services/workflow_service', 'common/services/zip_code_service',
     'lrInfiniteScroll'], function (angularAMD) {
     angularAMD.controller('GeoTargettingController', function ($scope, $rootScope, $timeout, $filter, constants,
