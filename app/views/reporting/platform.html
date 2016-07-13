@@ -282,16 +282,16 @@
             <div class="vid_data_hdr">
                 <div>
                     <div class="vid_quartile_data">{{((platform.video_completion_25 >0)|| (platform.video_completion_25
-                        == 0))? (platform.video_completion_25 | nrFormat) : '-'}}
+                        == 0))? (platform.video_completion_25 | nrFormat:2) : '-'}}
                     </div>
                     <div class="vid_quartile_data">{{((platform.video_completion_50 >0)|| (platform.video_completion_50
-                        == 0))? (platform.video_completion_50 | nrFormat) : '-'}}
+                        == 0))? (platform.video_completion_50 | nrFormat:2) : '-'}}
                     </div>
                     <div class="vid_quartile_data">{{((platform.video_completion_75 >0)|| (platform.video_completion_75
-                        == 0))? (platform.video_completion_75 | nrFormat) : '-'}}
+                        == 0))? (platform.video_completion_75 | nrFormat:2) : '-'}}
                     </div>
                     <div class="vid_quartile_data">{{((platform.video_completion_100 >0)||
-                        (platform.video_completion_100 == 0))? (platform.video_completion_100 | nrFormat) : '-'}}
+                        (platform.video_completion_100 == 0))? (platform.video_completion_100 | nrFormat:2) : '-'}}
                     </div>
                 </div>
             </div>
