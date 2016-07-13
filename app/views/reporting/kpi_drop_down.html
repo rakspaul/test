@@ -1,5 +1,5 @@
-<span class="dropdown_ul_text col-md-12" data-toggle="dropdown" value="'{{kpiData.selectedKpi}}'" style="margin-top: 3px;">
-    <span class="icon-arrow-solid-down pull-right"></span>
+<span class="dropdown_ul_text col-md-12 zeroPadding" data-toggle="dropdown" value="'{{kpiData.selectedKpi}}'"  style="margin-top: 3px;">
+    <span class="icon-arrow-solid-down pull-right marginLeftFive"></span>
     <span ng-if="whichCaller.changedrpval == 'yes'" class="pull-right">
         <span ng-if="kpiData.selectedKpi == 'vtc'||kpiData.selectedKpi == 'ctr' ||kpiData.selectedKpi == 'action_rate'" ng-init="changeClickedSelectedKpiAlt('cpm')" class="dd_txt pull-left" style="line-height: 100%;">
             {{textConstants.CPM }}
