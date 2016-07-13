@@ -579,30 +579,40 @@ define(['angularAMD',
          */
         function validateCreativeTag(){
 
-            $('textarea[name*="tags.tag"]').on("blur", function() {
-                var _self = this,
-                    o = {
-                        advertiserId : $scope.creative.advertiserId,
-                        clientId : loginModel.getSelectedClient().id,
-                        data: {
-                            tag: $(this).val(),
-                            format: $scope.adData.adFormat
-                        }
-                    },
-                    creativeTag = $(this).val();
-                $(_self).next(".errorText, .creativePreviewBtn").remove();
-                workflowService.validateCreative(o).then(function(res){
-                    if(res.status == "OK" || res.status == "success"){
-                        localStorageService.creativeTag.set({tag: res.data.data.tag, creativeType: $scope.adData.adFormat});
-                        var url = '/clientId/'+ o.clientId + '/adv/' + o.advertiserId + '/creative/-1/preview';
-                        ele = '<div class="creativePreviewBtn"><a target="_blank" href="'+ url +'">Preview</a></div>';
-                        $(_self).after(ele);
-                    }else{
-                       // $(_self).after('<span class = "errorText" style="margin-left:10px">'+res.data.data.message+'</span>');
-                    }
-                },function(err){
-
+            var ele = $('textarea[name*="tags.tag"]'),
+                val = ele.val();
+            if(($scope.creativeMode === 'edit') && val){
+                fireAPItoValidate(ele, val);
+            }else {
+                ele.on('change', function () {
+                    val = $(this).val();
+                    fireAPItoValidate(this, val);
                 });
+            }
+        }
+
+        function fireAPItoValidate(ele, creativeTag){
+
+            var o = {
+                    advertiserId : $scope.creative.advertiserId,
+                    clientId : loginModel.getSelectedClient().id,
+                    data: {
+                        tag: creativeTag,
+                        format: $scope.adData.adFormat
+                    }
+                };
+            $(ele).next(".errorText, .creativePreviewBtn").remove();
+            workflowService.validateCreative(o).then(function(res){
+                if(res.status === "OK" || res.status === "success"){
+                    localStorageService.creativeTag.set({tag: res.data.data.tag, creativeType: $scope.adData.adFormat});
+                    var url = '/clientId/'+ o.clientId + '/adv/' + o.advertiserId + '/creative/-1/preview',
+                    appendEle = '<div class="creativePreviewBtn"><a target="_blank" href="'+ url +'">Preview</a></div>';
+                    $(ele).after(appendEle);
+                }else{
+                    // $(_self).after('<span class = "errorText" style="margin-left:10px">'+res.data.data.message+'</span>');
+                }
+            },function(err){
+
             });
         }
 
