@@ -145,7 +145,13 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                         if (/*$scope.isCostModelTransparent === false && */result.data.data.length === 0) {
                             errorHandlerForPerformanceTab();
                         } else {
-                                var sumTechFeesNServiceFees = function(item) {
+                                var marginPercentage = function (item) {
+                                    if (item.gross_rev && item.gross_rev !== 0) {
+                                        item.margin = item.margin * 100 / item.gross_rev;
+                                    }
+                                },
+                            
+                                sumTechFeesNServiceFees = function(item) {
                                     if (item.tech_fees === null && item.service_fees === null) {
                                         item.tech_service_fees_total = undefined;
                                     } else {
@@ -161,6 +167,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                                 });
                                 _.each($scope['platformData'], function(item) {
                                     sumTechFeesNServiceFees(item);
+                                    marginPercentage(item);
                                     item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                 });
                                 $scope['tacticPlatformData'] = _.filter(result.data.data, function (item) {
@@ -168,11 +175,13 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                                 });
                                 _.each($scope['tacticPlatformData'], function(item) {
                                     sumTechFeesNServiceFees(item);
+                                    marginPercentage(item);
                                 });
                             } else {
                                 $scope['platformData'] = result.data.data;
                                 _.each($scope['platformData'], function(item) {
                                     sumTechFeesNServiceFees(item);
+                                    marginPercentage(item);
                                     item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                 });
                                 $scope['dataNotFoundFor'+tab] = false;
