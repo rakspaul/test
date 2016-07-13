@@ -268,7 +268,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
 
                             if (!angular.isUndefined(kpiType)) { // jshint ignore:line
                                 if (result.data.data.measures_by_days.length > 0) {
-                                    if ($scope.selectedCampaign.id === param.orderId) {
+                                    if (Number($scope.selectedCampaign.id) === param.orderId) {
                                         maxDays = result.data.data.measures_by_days;
 
                                         for (i = 0; i < maxDays.length; i++) {
