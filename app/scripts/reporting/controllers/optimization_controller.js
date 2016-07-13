@@ -277,9 +277,11 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                                             kpiTypeLower =  ((kpiTypeLower === 'null' || kpiTypeLower === undefined) ?
                                                 'ctr' : kpiTypeLower );
 
+                                            var kpiData = (kpiTypeLower == 'vtc')?(maxDays[i]['video_metrics']['vtc_rate']):(maxDays[i][kpiTypeLower]);
+
                                             lineData.push({
                                                 x: i + 1,
-                                                y: utils.roundOff(maxDays[i][kpiTypeLower], 2),
+                                                y: utils.roundOff(kpiData, 2),
                                                 date: maxDays[i].date
                                             });
                                         }
