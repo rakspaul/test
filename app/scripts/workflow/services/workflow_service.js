@@ -584,7 +584,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         qryStr;
 
                     str = (params.campaignId && params.adId) ?
-                        ('?campaignId/' + params.campaignId + '/adId/' + params.adId) : '';
+                        ('?campaignId=' + params.campaignId + '&adId=' + params.adId) : '';
 
                     qryStr = '/clients/' + params.clientId +
                         '/advertisers/'+ params.advertiserId +
