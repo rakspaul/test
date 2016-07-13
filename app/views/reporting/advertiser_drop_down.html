@@ -2,7 +2,7 @@
 <div class="col-md-12 zeroPadding">
     <div class="brand_name_selected" id="advertiser_name_selected" ng-click="showAdvertisersDropDown()" title="{{advertiserData.selectedAdvertiser.name}}"
          ng-bind="(advertiserData.selectedAdvertiser.name ? advertiserData.selectedAdvertiser.name : 'All Advertisers')"></div>
-    <span class="icon-arrow-solid-down"></span>    
+    <span class="icon-arrow-solid-down"></span>
 </div>
 
 <div class="clearfix">
@@ -17,7 +17,7 @@
                 <li ng-repeat="advertiser in advertisers  | filter : selectedAdvertiser.name" ng-hide="isExcludedByAdvertiserFilter" ng-class="{'active' : advertiser.id === advertiserData.selectedAdvertiser.id}" title="{{advertiser.name}}" >
                     <a data-ng-click="selectAdvertiser(advertiser, 'clicked')">
                         <span class="tick"></span>
-                        <span class="menuItemText" ng-bind-html="highlightSearch(advertiser.name, selectedAdvertiser.name)" ng-bind="advertiser.name"></span>
+                        <span class="menuItemText" ng-bind="advertiser.name"></span>
                     </a>
                 </li>
             </div>

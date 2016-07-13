@@ -460,27 +460,6 @@ define(['angularAMD', '../../../workflow/services/account_service', // jshint ig
             $scope.setSelectedAdvertiserCode = code;
         };
 
-        //Search Hide / Show
-        $scope.searchShowInput = function () {
-            var searchInputForm = $('.searchInputForm');
-
-            $('.searchInputBtn').hide();
-            $('.searchInputBtnInline').show();
-            searchInputForm.show();
-            searchInputForm.animate({width: '250px'}, 'fast');
-        };
-
-        $scope.searchHideInput = function () {
-            $('.searchInputForm input').val('');
-            $('.searchInputBtn').show();
-            $('.searchClearInputBtn, .searchInputBtnInline').hide();
-            $('.searchInputForm').animate({width: '34px'}, 'fast');
-
-            setTimeout(function () {
-                $('.searchInputForm').hide();
-            }, 100);
-        };
-
         $('.miniTabLinks.sub .btn').removeClass('active');
         $('.miniTabLinks.sub .subBasics').addClass('active');
 
@@ -564,10 +543,5 @@ define(['angularAMD', '../../../workflow/services/account_service', // jshint ig
             $scope.close();
         });
 
-        $('html').click(function (e) {
-            if ($(e.target).closest('.searchInput').length === 0) {
-                $scope.searchHideInput();
-            }
-        });
     });
 });

@@ -46,7 +46,7 @@ define(['angularAMD', 'common/services/url_service', 'reporting/timePeriod/time_
                                 bubbleWidgetData.advertiserData = data;
 
                                 bubbleWidgetData.budget_top_title = (total_advertisers >= 5) ?
-                                    '(Top 5 advertisers)' : '(All Advertisers)';
+                                    '(Top 5 Advertisers)' : '(All Advertisers)';
                             } else {
                                 bubbleWidgetData.dataNotAvailable = true;
                             }

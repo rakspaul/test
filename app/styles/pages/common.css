@@ -899,7 +899,7 @@
 }
 .nav_filters .dropdown .dropdown_name_selected .icon-arrow-solid-down {
   font-size: 10px;
-  color: #000;
+  color: #939EAE;
   height: 4px;
   width: 2px;
   line-height: 16px;
@@ -1114,9 +1114,10 @@
   top: 2px;
   right: 0px;
   cursor: pointer;
-  width: 12px;
-  height: 12px;
-  font-size: 12px;
+  width: 10px;
+  height: 10px;
+  font-size: 10px;
+  color: #939EAE;
 }
 .nav_filters .brandsDropdownSearch {
   position: relative;
@@ -1477,9 +1478,10 @@
   top: 10px;
   right: 10px;
   cursor: pointer;
-  width: 12px;
-  height: 12px;
-  font-size: 12px;
+  width: 10px;
+  height: 10px;
+  font-size: 10px;
+  color: #939EAE;
 }
 .common_dropdown .dropdown .dropdown-menu {
   padding: 5px 0;

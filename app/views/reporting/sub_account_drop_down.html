@@ -2,7 +2,7 @@
 <div class="col-md-12 zeroPadding">
     <div class="brand_name_selected" id="sub_account_name_selected" ng-click="showSubAccountDropDown()" title="{{subAccountData.selectedsubAccount.name}}"
          ng-bind="(subAccountData.selectedsubAccount.name ? subAccountData.selectedsubAccount.name:'')"></div>
-    <span class="icon-arrow-solid-down"></span>    
+    <span class="icon-arrow-solid-down"></span>
 </div>
 
 <div class="clearfix">
@@ -16,7 +16,7 @@
                 <li ng-repeat="saccount in subAccountData.subAccounts" ng-class="{'active' : saccount.id === subAccountData.selectedsubAccount.id}" title="{{saccount.displayName}}">
                     <a data-ng-click="selectSubAccount(saccount, 'clicked')">
                         <span class="tick"></span>
-                        <span class="menuItemText" ng-bind-html="highlightSearch(advertiser.name, selectedAdvertiser.name)" ng-bind="saccount.displayName"></span>
+                        <span class="menuItemText" ng-bind="saccount.displayName"></span>
                     </a>
                 </li>
             </div>
