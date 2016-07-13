@@ -27,7 +27,7 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                             var url = urlService.APIDeleteReport(fileId);
 
                             return dataService
-                                .delete(url)
+                                .deleteRequest(url)
                                 .then(function (response) {
                                     callback(response.data);
                                     return response.data;
@@ -38,7 +38,7 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                             var url = urlService.deleteSavedRpt(reportId);
 
                             dataService
-                                .delete(url)
+                                .deleteRequest(url)
                                 .then(function (response){
                                     if (response.status === 'success') {
                                         successFn(response.data);
@@ -88,7 +88,7 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                             var url = urlService.deleteSchdRpt(reportId);
 
                             dataService
-                                .delete(url)
+                                .deleteRequest(url)
                                 .then(function (response){
                                     if (response.status === 'success') {
                                         successFn(response.data);
@@ -102,7 +102,7 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                             var url = urlService.deleteInstanceOfSchdRpt(reportId, instanceId);
 
                             dataService
-                                .delete(url)
+                                .deleteRequest(url)
                                 .then(function (response){
                                     if (response.status === 'success') {
                                         successFn(response.data);
