@@ -1,10 +1,9 @@
-define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:line
+define(['angularAMD', 'workflow/services/workflow_service',
     'common/services/vistoconfig_service'], function (angularAMD) {
 
     'use strict';
 
     angularAMD.service('featuresService', function ($rootScope, $location, workflowService, vistoconfig) {
-
         var params = [
                 'dashboard',
                 'report_overview',
@@ -35,7 +34,7 @@ define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:lin
             setAllFeatureParams = function (booleanValue) {
                 var featureObj = {};
 
-                _.each(params, function (eachParam) { // jshint ignore:line
+                _.each(params, function (eachParam) {
                     featureObj[eachParam] = booleanValue;
                 });
 
@@ -128,9 +127,6 @@ define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:lin
             },
 
             setFeatureParams = function (featuresArr) {
-                //API passes parameters :
-                var self = this;
-
                 serverResponseReceived = true;
 
                 if (featuresArr.indexOf('ENABLE_ALL') !== -1) {
@@ -141,7 +137,7 @@ define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:lin
                     setAllFeatureParams(false);
 
                     //set params true sent in enable list of API
-                    _.each(featuresArr, function (feature) { // jshint ignore:line
+                    _.each(featuresArr, function (feature) {
                         setSingleFeatureParam(feature, true);
                     });
 
@@ -201,10 +197,9 @@ define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:lin
         setAllFeatureParams(false);
 
         return  {
-            setGetFeatureParams : setGetFeatureParams,
-            setFeatureParams : setFeatureParams,
-            getFeatureParams : getFeatureParams
-
+            setGetFeatureParams: setGetFeatureParams,
+            setFeatureParams: setFeatureParams,
+            getFeatureParams: getFeatureParams
         };
     });
 });

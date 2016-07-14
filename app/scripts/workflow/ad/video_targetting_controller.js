@@ -1,4 +1,4 @@
-define(['angularAMD', '../services/workflow_service', 'common/services/constants_service', // jshint ignore:line
+define(['angularAMD', '../services/workflow_service', 'common/services/constants_service',
     'workflow/services/video_service'], function (angularAMD) {
     angularAMD.controller('VideoTargettingController', function ($scope, $timeout, audienceService, workflowService,
                                                                  constants, videoService) {
@@ -32,6 +32,7 @@ define(['angularAMD', '../services/workflow_service', 'common/services/constants
                         {key: 'positions',        value: 'Position',        active: true},
                         {key: 'playback_methods', value: 'Playback Method', active: true}
                     ];
+
                     dimensionArrTemp = $.extend(true, [], $scope.dimensionArr);
                 },
 
@@ -47,8 +48,8 @@ define(['angularAMD', '../services/workflow_service', 'common/services/constants
 
                 removeSelectedDimension: function () {
                     if ($scope.selectedDimension && $scope.selectedDimension.length > 0) {
-                        _.each($scope.dimensionArr, function (obj, index) { // jshint ignore:line
-                            if (_.indexOf($scope.selectedDimension, obj.key) !== -1) { // jshint ignore:line
+                        _.each($scope.dimensionArr, function (obj, index) {
+                            if (_.indexOf($scope.selectedDimension, obj.key) !== -1) {
                                 $scope.dimensionArr[index].active = false;
                             }
                         });
@@ -61,6 +62,8 @@ define(['angularAMD', '../services/workflow_service', 'common/services/constants
                     if (videoPreviewData &&
                         (videoPreviewData.sizes ||
                             videoPreviewData.positions ||
+
+                            // TODO: Is this a typo? "videoData*
                             videoData.playbackMethods // jshint ignore:line
                         )) {
                         return true;
@@ -74,7 +77,7 @@ define(['angularAMD', '../services/workflow_service', 'common/services/constants
 
                     switch (type) {
                         case 'sizes':
-                            $scope.sizesLabels[index] = _.keys(data); // jshint ignore:line
+                            $scope.sizesLabels[index] = _.keys(data);
                             videoService.setPlayerSize(data);
                             break;
 
@@ -98,7 +101,7 @@ define(['angularAMD', '../services/workflow_service', 'common/services/constants
                         selectedDimensionTemp.push(type);
                     }
 
-                    if (_.indexOf($scope.selectedDimension, type) === -1) { // jshint ignore:line
+                    if (_.indexOf($scope.selectedDimension, type) === -1) {
                         $scope.selectedDimension.push(type);
 
                         workflowService
@@ -136,7 +139,7 @@ define(['angularAMD', '../services/workflow_service', 'common/services/constants
                                     if (videoTargets.sizes.length > 1) {
                                         sizeValue = 'Specific Size';
                                     } else {
-                                        sizeNameList = _.pluck(videoTargets.sizes, 'name'); // jshint ignore:line
+                                        sizeNameList = _.pluck(videoTargets.sizes, 'name');
 
                                         if (sizeNameList.length > 0 && sizeNameList[0] === 'Any') {
                                             sizeValue = 'Any';
@@ -160,11 +163,13 @@ define(['angularAMD', '../services/workflow_service', 'common/services/constants
 
                     $scope.additionalDimension.push({
                         name: name || '',
+
                         tags: {
                             type: mode === 'edit' ? type : '',
                             data: videoTargets && videoTargets[type],
                             value: sizeValue || ''
                         },
+
                         hide: false
                     });
                 },
@@ -175,7 +180,7 @@ define(['angularAMD', '../services/workflow_service', 'common/services/constants
 
                     _videoTargeting.showBox();
 
-                    if (_.isEmpty($scope.adData.videoPreviewData)) { // jshint ignore:line
+                    if (_.isEmpty($scope.adData.videoPreviewData)) {
                         $scope.adData.additionalDimension = [];
                         $scope.adData.videoTargets = {};
                         $scope.additionalDimension = [];
@@ -203,7 +208,7 @@ define(['angularAMD', '../services/workflow_service', 'common/services/constants
                         }
 
                         if (videoTargets) {
-                            _.each($scope.videoTypes, function (type, index) { // jshint ignore:line
+                            _.each($scope.videoTypes, function (type, index) {
                                 _videoTargeting.addAdditionalDimension(type, videoTargets, 'edit');
                                 _videoTargeting.getVideoTargetsType(type, index);
                                 _videoTargeting.setVideoData(videoTargets[type], type, index);
@@ -223,6 +228,7 @@ define(['angularAMD', '../services/workflow_service', 'common/services/constants
                                 if (!$scope.isVideoTargetingSaved) {
                                     _videoTargeting.removeSelectedDimension();
                                 }
+
                                 _videoTargeting.addAdditionalDimension();
                             }
 
@@ -251,7 +257,7 @@ define(['angularAMD', '../services/workflow_service', 'common/services/constants
                     }
 
                     // This is to ensure there's no duplicate entries under any circumstances
-                    $scope.selectedDimension = _.unique($scope.selectedDimension); // jshint ignore:line
+                    $scope.selectedDimension = _.unique($scope.selectedDimension);
                 }
             },
 
@@ -272,7 +278,7 @@ define(['angularAMD', '../services/workflow_service', 'common/services/constants
             var i,
                 dimensionName = [],
                 n,
-                tempArr = [];
+                tempArr;
 
             videoService.saveVideoData($scope.adData.videoTargets);
             $scope.$parent.showVideoPreviewData($scope.adData);
@@ -356,14 +362,14 @@ define(['angularAMD', '../services/workflow_service', 'common/services/constants
             $scope.adData.videoTargets.sizes = [];
 
             if (type === 'Specific Size') {
-                _.each($scope.additionalDimension, function (obj) { // jshint ignore:line
+                _.each($scope.additionalDimension, function (obj) {
                     if (obj.tags.type === 'sizes') {
                         obj.tags.value = 'Specific Size';
                         obj.tags.data = null;
                     }
                 });
             } else {
-                _.each($scope.additionalDimension, function (obj) { // jshint ignore:line
+                _.each($scope.additionalDimension, function (obj) {
                     if (obj.tags.type === 'sizes') {
                         obj.tags.value = 'Any';
                         obj.tags.data = null;
@@ -371,7 +377,7 @@ define(['angularAMD', '../services/workflow_service', 'common/services/constants
                 });
 
                 playerSizeList = videoService.getPlayerSize(null, type);
-                _.each(playerSizeList, function (obj) { // jshint ignore:line
+                _.each(playerSizeList, function (obj) {
                     obj.targetId = obj.id;
                 });
 
@@ -396,7 +402,7 @@ define(['angularAMD', '../services/workflow_service', 'common/services/constants
 
         $scope.videoDimensionTagChanged = function (tag, type, action) {
             var index = 0,
-                pos = _.findIndex($scope.adData.videoTargets[type], function (obj) { // jshint ignore:line
+                pos = _.findIndex($scope.adData.videoTargets[type], function (obj) {
                     return obj.id === tag.id;
                 });
 
