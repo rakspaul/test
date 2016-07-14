@@ -86,7 +86,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
 
         $scope.apiReturnCode = 200;
 
-        $scope.redirectWidget = $scope.selectedCampaign.redirectWidget;
+        $scope.redirectWidget = $scope.selectedCampaign && $scope.selectedCampaign.redirectWidget;
 
         $scope.getMessageForDataNotAvailable = function (campaign) {
             campaign = campaign || $scope.campaign;

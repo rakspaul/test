@@ -105,9 +105,7 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
                 };
 
                 campaign.getSelectedCampaign = function () {
-                    return (localStorageService.selectedCampaign.get() === undefined) ?
-                        campaign.selectedCampaign :
-                        localStorageService.selectedCampaign.get();
+                    return (localStorageService.selectedCampaign.get()) ?localStorageService.selectedCampaign.get():campaign.selectedCampaign;
                 };
 
                 campaign.durationLeft = function () {
