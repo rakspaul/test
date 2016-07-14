@@ -109,5 +109,9 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             eventBrandChangedFunc();
             statusChangedFunc();
         });
+        
+        $scope.hide_bubble_tooltip = function() {
+            $(".bubble_tooltip").hide();
+        }
     });
 });
