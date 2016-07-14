@@ -798,7 +798,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             if ($scope.client.name) {
                 $scope.isClientDropDownDisable = true;
                 $scope.clientName = $scope.client.name;
-                ($scope.mode == 'create') && $scope.selectHandler('client', $scope.client, null);
+                ($scope.mode === 'create') && $scope.selectHandler('client', $scope.client, null);
             }
 
             $(document).ready(function () {
