@@ -326,7 +326,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             $scope.adData.platform = trackingIntegration.displayName;
             $scope.adData.platformId = trackingIntegration.id;
             $scope.adData.platformName = trackingIntegration.name;
-            
+
             workflowService.setVendorExecutionType(trackingIntegration.executionVendorType)
 
         };
@@ -599,7 +599,9 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 return false;
             }
 
-            if ($scope.adData.platform !== undefined && (tab !== undefined && tab[0] === '#buying')){
+            $rootScope.$broadcast('hideCreativeWin');
+
+            if (!$scope.TrackingIntegrationsSelected && $scope.adData.platform !== undefined && (tab !== undefined && tab[0] === '#buying')){
                 seatId =  $('input[name=platformSeatId]').val();
                 $('#seatId_'+seatId).trigger('click');
             } else {
