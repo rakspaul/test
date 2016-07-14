@@ -898,11 +898,12 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'], // 
                         var svg,
                             svgHeader;
 
-                        $('#calendarHolder').hide();
+                        $('#calendarHolder').css({'opacity':'0'});
                         $('.div-header-chart .header-chart, svg.chart').remove();
 
                         setTimeout(function () {
-                            $('#calendarHolder').show();
+                            //$('#calendarHolder').show();
+                            $('#calendarHolder').css({'opacity':'1'});
                         }, 300);
 
                         initTimeDomain(tasks);
