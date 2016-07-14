@@ -1,4 +1,4 @@
-define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/file_reader'], // jshint ignore:line
+define(['angularAMD', '../services/workflow_service', '../../common/services/file_reader'], // jshint ignore:line
     function(angularAMD) {
         angularAMD.controller('InventoryFiltersController', function($scope, workflowService, fileReader, Upload) {
             var InventoryFiltersView = {

@@ -1,4 +1,4 @@
-define(['angularAMD', 'workflow/services/audience_service', // jshint ignore:line
+define(['angularAMD', '../services/audience_service', // jshint ignore:line
     'workflow/services/workflow_service', 'workflow/directives/clear_row'], function (angularAMD) {
   angularAMD.controller('daypartController', function ($scope, $timeout, audienceService, workflowService) {
         var _dayPartTargetting = this;

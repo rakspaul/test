@@ -1,4 +1,4 @@
-define(['angularAMD', 'workflow/services/workflow_service', // jshint ignore:line
+define(['angularAMD', '../services/workflow_service', // jshint ignore:line
     'common/moment_utils'], function (angularAMD) {
         angularAMD.controller('PixelsController', function ($scope , workflowService , momentService) {
             var pixels = {

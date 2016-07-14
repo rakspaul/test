@@ -1,5 +1,5 @@
-define(['angularAMD', 'common/services/constants_service', 'common/moment_utils', // jshint ignore:line
-    'workflow/directives/ng_upload_hidden', 'workflow/directives/custom_date_picker'], function (angularAMD) {
+define(['angularAMD', '../../common/services/constants_service', 'common/moment_utils', // jshint ignore:line
+    '../../common/directives/ng_upload_hidden', 'workflow/directives/custom_date_picker'], function (angularAMD) {
     angularAMD.controller('BudgetDeliveryController', function ($scope, constants, momentService, workflowService) {
         var unallocatedAmount = 0,
             adMaximumRevenue = 0;

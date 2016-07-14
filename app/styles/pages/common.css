@@ -2244,6 +2244,9 @@ tags-input .autocomplete {
   text-align: left;
   padding: 7px 10px;
 }
+.marginLeftFive {
+  margin-left: 5px ;
+}
 /*Dropdown which has search input box*/
 .dropdown-menu-with-search {
   padding-top: 0 ;

@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'common/moment_utils'], function (angularAMD) {
+define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service', 'common/moment_utils'], function (angularAMD) {
     angularAMD.controller('BudgetController', function ($scope, $rootScope, $routeParams, $locale, $location, $timeout, constants, workflowService, loginModel, momentService) {
 
 

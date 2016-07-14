@@ -1,7 +1,7 @@
 define(['angularAMD',
-    'common/services/constants_service', 'workflow/services/workflow_service', 'workflow/services/creative_custom_module',
+    '../../common/services/constants_service', 'workflow/services/workflow_service', 'workflow/services/creative_custom_module',
     'login/login_model', 'common/utils', 'common/services/local_storage_service',
-    'workflow/directives/creative_drop_down', 'workflow/directives/ng_upload_hidden'], function (angularAMD) {
+    'workflow/directives/creative_drop_down', '../../common/directives/ng_upload_hidden'], function (angularAMD) {
     angularAMD.controller('CreativeController', function ($scope, $rootScope, $routeParams, $location,
                                                          constants, workflowService, creativeCustomModule,
                                                          loginModel, utils, localStorageService) {

@@ -1,5 +1,5 @@
 define(['angularAMD',
-        'workflow/services/workflow_service', 'login/login_model', 'reporting/advertiser/advertiser_model',
+        '../services/workflow_service', 'login/login_model', 'reporting/advertiser/advertiser_model',
         'common/services/local_storage_service'], // jshint ignore:line
     function (angularAMD) {
         'use strict';
@@ -10,7 +10,7 @@ define(['angularAMD',
             var params = {
                 'campaignId': $routeParams.campaignId,
                 'adId': $routeParams.adId,
-                'creativeId': $routeParams.creativeId,
+                'creativeId': Number($routeParams.creativeId),
                 'clientId': $routeParams.clientId,
                 'advertiserId': $routeParams.advertiserId
             },

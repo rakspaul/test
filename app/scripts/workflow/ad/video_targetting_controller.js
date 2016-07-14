@@ -1,4 +1,4 @@
-define(['angularAMD', 'workflow/services/workflow_service', 'common/services/constants_service',
+define(['angularAMD', '../services/workflow_service', 'common/services/constants_service',
     'workflow/services/video_service'], function (angularAMD) {
     angularAMD.controller('VideoTargettingController', function ($scope, $timeout, audienceService, workflowService,
                                                                  constants, videoService) {
