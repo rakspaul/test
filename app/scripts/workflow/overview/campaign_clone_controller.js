@@ -33,15 +33,14 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                 cloneAdGroups = $scope.cloneAdGroups,
                 cloneStartDate = $scope.newMediaPlanDate,
                 errorMediaPlanHandler,
-
+                flightDateSelected = $('input[name="chooseFlightDate"]:checked').val(),
                 params = {
                     id: Number($routeParams.campaignId),
                     name: cloneMediaPlanName,
                     date: cloneStartDate,
-                    originalFlightdates: $scope.flightDateChosen
+                    originalFlightdates: flightDateSelected
                 };
 
-            $scope.flightDateChosen = $('input[name="chooseFlightDate"]:checked').val();
             $scope.showCloneLoader = true;
 
             if (cloneLineItems  && cloneAdGroups) {
@@ -49,7 +48,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                 params.cloneAdGroups = cloneAdGroups;
                 params.cloneAds = true;
 
-                if (cloneAdGroups && ($scope.flightDateChosen ===
+                if (cloneAdGroups && (flightDateSelected ===
                     'automaticFlightDates') && $scope.newMediaPlanDate) {
                     params.startDate = momentService.localTimeToUTC(cloneStartDate, 'startTime');
                 }

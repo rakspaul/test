@@ -137,6 +137,10 @@
 .table-responsive .vistoTable .tbody .tr .td a {
   width: 100%;
   text-align: center;
+  float: left;
+}
+.table-responsive .vistoTable .tbody .tr .td a {
+  width: auto;
 }
 .table-responsive .vistoTable .tbody .tr .td input[type="checkbox"] {
   float: left;
