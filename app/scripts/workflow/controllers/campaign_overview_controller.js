@@ -1173,6 +1173,16 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 $scope.endTime = $(ev.target).val();
             });
 
+            $scope.$on("$locationChangeStart", function (event, next) {
+
+                //on Broswers back button customreport behaving wierdly, this piece of code fixes it
+                if(next.indexOf('customreport') > -1){
+                    var customReportUrl = next.split('/')[3];
+                    $location.url("/"+customReportUrl);
+                }
+            });
+
+
             $scope.$on('$locationChangeSuccess', function() {
                 $(document).unbind('changeDate');
             });
