@@ -61,14 +61,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', // jshint
                     resetSearchCriteria(); //Get Campaign for the selected brand
                     $scope.exhausted = false;
                     campaignSelectModel.removeSelectedCampaign();
-                    campaignSelectModel.setSelectedCampaign({
-                        id: -1,
-                        name: 'Loading...',
-                        kpi: 'ctr',
-                        startDate: '-1',
-                        endDate: '-1'
-                    });
-                    
                     $scope.fetchCampaigns(true, true);
                 }
             });
