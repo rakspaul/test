@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD', 'common/services/constants_service'], function (angularAMD) {
     angularAMD.service('loginModel', function ($cookieStore, $location, $http, constants) {
         var data = {
                 user_id: undefined,
@@ -133,7 +133,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
                 }
             },
 
-            getAgencyId: function () { // jshint ignore:line
+            getAgencyId: function () {
                 if (data.agency_id) {
                     return data.agency_id;
                 } else if ($cookieStore.get('cdesk_session')) {
@@ -151,7 +151,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
                 }
             },
 
-            getExpirySecs: function () { // jshint ignore:line
+            getExpirySecs: function () {
                 if (data.expiry_secs) {
                     return data.expiry_secs;
                 } else if ($cookieStore.get('cdesk_session')) {

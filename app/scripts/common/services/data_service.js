@@ -1,11 +1,10 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_store_model', // jshint ignore:line
-        'common/utils', 'common/services/url_service', 'login/login_model', 'common/services/constants_service'],
+define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_store_model',
+    'common/utils', 'common/services/url_service', 'login/login_model', 'common/services/constants_service'],
     function (angularAMD) {
         'use strict';
 
         angularAMD.factory('dataService', function ($q, $http, $cookieStore, $location, vistoconfig, dataStore, utils,
                                                     urlService, loginModel, constants) {
-
             var errorObject = {
                     status: 'error',
                     data: {message: 'Error'}
@@ -168,6 +167,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         qs = '?start_date='+periodStartDate+'&end_date='+periodEndDate;
                     }
 
+                    // TODO: What is this *api* global variable doing here???
                     url = api + '/campaigns/' + campaign.orderId + '/perf' + qs; // jshint ignore:line
 
                     return this.fetch(url);
@@ -220,11 +220,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 },
 
                 fetch = function (url, cacheObj) {
-                    cacheObj = _.extend({cache:false}, cacheObj); // jshint ignore:line
+                    cacheObj = _.extend({cache:false}, cacheObj);
                     loginModel.checkCookieExpiry();
 
-                    return $http({url: url, method: 'GET', cache: cacheObj.cache}).then(
-                        function (response) {
+                    return $http({
+                            url: url,
+                            method: 'GET',
+                            cache: cacheObj.cache
+                        })
+                        .then(function (response) {
                             var urlIndex = utils.getParameterByName(url, 'urlIndex'),
                                 objOnSuccess = {
                                     status: 'success',
@@ -248,9 +252,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                             dataStore.cacheByUrl(url, objOnSuccess);
 
                             return utils.clone(objOnSuccess);
-                        },
-
-                        function (error) {
+                        }, function (error) {
                             if (error.status !== 0) {
                                 if (error.status === 401) {
                                     loginModel.unauthorized();
@@ -265,8 +267,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                                     data: error
                                 };
                             }
-                        }
-                    );
+                        });
                 },
 
                 downloadFile = function (url, httpMethod, data, headers) {
@@ -276,13 +277,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     headers = headers ? headers: {'Content-Type': 'application/json'};
 
                     return $http({
-                        url: url,
-                        method: httpMethod,
-                        data: data,
-                        responseType: 'arraybuffer',
-                        headers: headers
-                    }).then(
-                        function (response) {
+                            url: url,
+                            method: httpMethod,
+                            data: data,
+                            responseType: 'arraybuffer',
+                            headers: headers
+                        })
+                        .then(function (response) {
                             var objOnSuccess = {
                                 status: 'success',
                                 data: response.data,
@@ -302,9 +303,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                                 new Blob([objOnSuccess.data], {type: objOnSuccess.headers('Content-Type')});
 
                             return objOnSuccess;
-                        },
-
-                        function (error) {
+                        }, function (error) {
                             if (error.status !== 0) {
                                 if (error.status === 401) {
                                     loginModel.unauthorized();
@@ -319,8 +318,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                                     data: error
                                 };
                             }
-                        }
-                    );
+                        });
                 },
 
                 fetchCancelable = function (url, canceller, success, failure) {
@@ -374,13 +372,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     $http.defaults.headers.common.Authorization = loginModel.getauth_token();
 
                     return $http({
-                        url: url,
-                        method: 'POST',
-                        cache: true,
-                        data: !dataToJson ? data : angular.toJson(data), // jshint ignore:line
-                        headers: (header ? header : {'Content-Type': 'text/plain'})
-                    }).then(
-                        function (response) {
+                            url: url,
+                            method: 'POST',
+                            cache: true,
+                            data: !dataToJson ? data : angular.toJson(data),
+                            headers: (header ? header : {'Content-Type': 'text/plain'})
+                        })
+                        .then(function (response) {
                             if (response.status === 401) {
                                 loginModel.unauthorized();
                                 return errorObject;
@@ -410,8 +408,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                                 status: 'error',
                                 data: error
                             };
-                        }
-                    );
+                        });
                 },
 
                 put = function (url, data) {
@@ -419,7 +416,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     $http.defaults.headers.common.Authorization = loginModel.getauth_token();
 
                     return $http
-                        .put(url, angular.toJson(data)) // jshint ignore:line
+                        .put(url, angular.toJson(data))
                         .then(function (response) {
                             if (response.status === 401) {
                                 loginModel.unauthorized();
@@ -454,12 +451,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     $http.defaults.headers.common.Authorization = loginModel.getauth_token();
 
                     return $http({
-                        url: url,
-                        method: 'DELETE',
-                        cache: true,
-                        data: angular.toJson(data), // jshint ignore:line
-                        headers: (header ? header : {'Content-Type': 'text/plain'})
-                    }).then(function (response) {
+                            url: url,
+                            method: 'DELETE',
+                            cache: true,
+                            data: angular.toJson(data),
+                            headers: (header ? header : {'Content-Type': 'text/plain'})
+                        })
+                        .then(function (response) {
                             if (response.status === 401) {
                                 loginModel.unauthorized();
                                 return errorObject;
@@ -489,43 +487,40 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                                 status: 'error',
                                 data: error
                             };
-                        }
-                    );
+                        });
                 };
 
             updateRequestHeader();
 
             return {
-
-                updateRequestHeader : updateRequestHeader,
-                getSingleCampaign : getSingleCampaign,
-                getActionItems : getActionItems,
-                getCampaignStrategies : getCampaignStrategies,
-                getCdbChartData : getCdbChartData,
-                getCdbTacticsChartData : getCdbTacticsChartData,
-                getStrategyTacticList : getStrategyTacticList,
-                getUnassignedTacticList : getUnassignedTacticList,
-                getCostViewability : getCostViewability,
-                getCustomReportMetrics : getCustomReportMetrics,
-                getCustomReportData : getCustomReportData,
-                getVideoViewabilityData : getVideoViewabilityData,
-                getActions : getActions,
-                getTactics : getTactics,
-                getCampaignData : getCampaignData,
-                getReportListData : getReportListData,
-                createAction : createAction,
-                createScheduleReport : createScheduleReport,
-                createSaveReport : createSaveReport,
-                updateScheduleReport : updateScheduleReport,
-                updateSavedReport : updateSavedReport,
-                append : append,
-                fetch : fetch,
-                downloadFile : downloadFile,
-                fetchCancelable : fetchCancelable,
-                post : post,
-                put : put,
-                deleteRequest : deleteRequest
-
+                updateRequestHeader: updateRequestHeader,
+                getSingleCampaign: getSingleCampaign,
+                getActionItems: getActionItems,
+                getCampaignStrategies: getCampaignStrategies,
+                getCdbChartData: getCdbChartData,
+                getCdbTacticsChartData: getCdbTacticsChartData,
+                getStrategyTacticList: getStrategyTacticList,
+                getUnassignedTacticList: getUnassignedTacticList,
+                getCostViewability: getCostViewability,
+                getCustomReportMetrics: getCustomReportMetrics,
+                getCustomReportData: getCustomReportData,
+                getVideoViewabilityData: getVideoViewabilityData,
+                getActions: getActions,
+                getTactics: getTactics,
+                getCampaignData: getCampaignData,
+                getReportListData: getReportListData,
+                createAction: createAction,
+                createScheduleReport: createScheduleReport,
+                createSaveReport: createSaveReport,
+                updateScheduleReport: updateScheduleReport,
+                updateSavedReport: updateSavedReport,
+                append: append,
+                fetch: fetch,
+                downloadFile: downloadFile,
+                fetchCancelable: fetchCancelable,
+                post: post,
+                put: put,
+                deleteRequest: deleteRequest
             };
         });
     }
