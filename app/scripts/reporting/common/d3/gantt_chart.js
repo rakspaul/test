@@ -903,7 +903,7 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'], // 
 
                         setTimeout(function () {
                             $('#calendarHolder').show();
-                        }, 500);
+                        }, 300);
 
                         initTimeDomain(tasks);
                         initAxis(timeDomainString);
