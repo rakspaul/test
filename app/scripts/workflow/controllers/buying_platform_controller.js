@@ -380,14 +380,15 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
                             if ($scope.$parent.postPlatformDataObj) {
                                 tabName = getplatformCustomNameSpace($scope.$parent.postPlatformDataObj);
+
+                                platformCustomeModule.init(platformCustomeJson, platformWrap,
+                                    $scope.$parent.postPlatformDataObj);
+
                                 if (tabName) {
                                     $timeout(function () {
                                         $('#' + tabName).click();
                                     }, 500);
                                 }
-
-                                platformCustomeModule.init(platformCustomeJson, platformWrap,
-                                    $scope.$parent.postPlatformDataObj);
 
                             } else {
                                 if (oldPlatformName !== $scope.adData.platform) {
