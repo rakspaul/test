@@ -25,7 +25,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 endDate: moment().format(constants.DATE_US_FORMAT), // jshint ignore:line
                 page_num: 1
             };
-            
+
             var _currCtrl = this;
 
             _currCtrl.last_page = false;
@@ -216,12 +216,11 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             };
 
             $scope.toggleInvocieLists=function (mediaPlan, index) {
-                var sel = $('div[data-row-index='+index+'] .icon-toggleclose');
+                var sel = $('div[data-row-index='+index+'] .arrowbtn');
 
                 if (sel.hasClass('icon-toggleopen')) {
                     sel.removeClass('icon-toggleopen');
                     sel.addClass('icon-toggleclose') ;
-                    alert();
                     $('div[data-row-index='+index+'] .secondDimensionList').hide() ;
                     sel.closest('.oneDimensionRow').removeClass('visible') ;
                 } else {
