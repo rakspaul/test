@@ -1,6 +1,8 @@
-define(['angularAMD', '../services/audience_service', // jshint ignore:line
-    'workflow/services/workflow_service', 'workflow/directives/clear_row'], function (angularAMD) {
-  angularAMD.controller('daypartController', function ($scope, $timeout, audienceService, workflowService) {
+define(['angularAMD', '../services/audience_service', 'workflow/services/workflow_service',
+    'workflow/directives/clear_row'], function (angularAMD) {
+    'use strict';
+
+    angularAMD.controller('daypartController', function ($scope, $timeout, audienceService, workflowService) {
         var _dayPartTargetting = this;
 
         $scope.Schedule = {
@@ -79,9 +81,9 @@ define(['angularAMD', '../services/audience_service', // jshint ignore:line
         _dayPartTargetting = {
             setHoursType: function (clock) {
                 if (clock === '24 HR') { // trigger 24/12 hrs
-                    angular.element('#24hr').trigger('click'); // jshint ignore:line
+                    angular.element('#24hr').trigger('click');
                 } else {
-                    angular.element('#12hr').trigger('click'); // jshint ignore:line
+                    angular.element('#12hr').trigger('click');
                 }
             },
 
@@ -89,16 +91,16 @@ define(['angularAMD', '../services/audience_service', // jshint ignore:line
                 var endUserClass = $('.endUserClass'),
                     advertiserClass = $('.advertiserClass');
 
-                if (angular.lowercase(timeZone) === 'end user') { // jshint ignore:line
-                    $('.advertiserClass').parent().removeClass('active');
+                if (angular.lowercase(timeZone) === 'end user') {
+                    advertiserClass.parent().removeClass('active');
                     endUserClass.parent().addClass('active');
                     endUserClass.attr('checked', 'checked');
-                    $scope.timezoneFormat = angular.lowercase(timeZone); // jshint ignore:line
+                    $scope.timezoneFormat = angular.lowercase(timeZone);
                 } else {
                     endUserClass.parent().removeClass('active');
                     advertiserClass.parent().addClass('active');
                     advertiserClass.attr('checked', 'checked');
-                    $scope.timezoneFormat = angular.lowercase(timeZone); // jshint ignore:line
+                    $scope.timezoneFormat = angular.lowercase(timeZone);
                 }
             },
 
@@ -123,6 +125,7 @@ define(['angularAMD', '../services/audience_service', // jshint ignore:line
                     keys1[0].stTime = a[0];
                     keys1[0].edTime = a[a.length - 1] + 1;
                     keys1[0].day = day;
+
                     if (keys1[0].edTime === 24 && keys1[0].stTime === 23) {
                         keys1[0].edTime = 0;
                     }
@@ -344,7 +347,7 @@ define(['angularAMD', '../services/audience_service', // jshint ignore:line
             $scope.Schedule.customLength = 0;
 
             $scope.Schedule.dayTimeSelected(0);
-            audienceService.setDayTimeArr(angular.copy($scope.Schedule.daytimeArr)); // jshint ignore:line
+            audienceService.setDayTimeArr(angular.copy($scope.Schedule.daytimeArr));
             $scope.adData.isDaypartSelected=false;
 
             if (fetchedObj) {
@@ -361,16 +364,16 @@ define(['angularAMD', '../services/audience_service', // jshint ignore:line
 
             if (fetchedObj.targets &&
                 fetchedObj.targets.adDaypartTargets &&
-                _.size(fetchedObj.targets.adDaypartTargets) > 0) { // jshint ignore:line
+                _.size(fetchedObj.targets.adDaypartTargets) > 0) {
                 _dayPartTargetting.setTimeZone(fetchedObj.targets.adDaypartTargets.timeZone);
 
-                if (angular.lowercase(fetchedObj.targets.adDaypartTargets.dayTime) === // jshint ignore:line
-                    angular.lowercase('Custom Schedule')) { // jshint ignore:line
+                if (angular.lowercase(fetchedObj.targets.adDaypartTargets.dayTime) ===
+                    angular.lowercase('Custom Schedule')) {
                     scheduleObj = fetchedObj.targets.adDaypartTargets.schedule;
                     $scope.Schedule.daytimeArr.length = 0;
                     $scope.Schedule.dayPart.length=0;
 
-                    _.each(scheduleObj, function (obj) { // jshint ignore:line
+                    _.each(scheduleObj, function (obj) {
                         var i;
 
                         for (i in obj) {
@@ -486,14 +489,16 @@ define(['angularAMD', '../services/audience_service', // jshint ignore:line
 
         // Closes Daypart Targeting View
         $scope.resetDayPartTargetingVariables = function () {
-            $scope.saveDayPartFlag = false;
             var dayParting = audienceService.getDaytimeObj();
+
+            $scope.saveDayPartFlag = false;
+
             if (!dayParting || dayParting.length === 0) {
                 $scope.adData.isDaypartSelected = false;
                 $scope.adData.targetName = null;
-            } //else {
-                $scope.setSelectedDayparts();
-            //}
+            }
+
+            $scope.setSelectedDayparts();
             _dayPartTargetting.hideDayPartTargetingBox();
         };
 
@@ -516,68 +521,75 @@ define(['angularAMD', '../services/audience_service', // jshint ignore:line
             adDaypartTargets.timeZone = $scope.timezoneFormat;
             adDaypartTargets.clock = $scope.clock;
 
-            sunday = _.filter($scope.Schedule.dayPart, function (obj) { // jshint ignore:line
+            sunday = _.filter($scope.Schedule.dayPart, function (obj) {
                 return obj.day === 'Sunday';
             });
 
             $scope.Sunday = _dayPartTargetting.generateDayArr(sunday);
-            monday = _.filter($scope.Schedule.dayPart, function (obj) { // jshint ignore:line
+
+            monday = _.filter($scope.Schedule.dayPart, function (obj) {
                 return obj.day === 'Monday';
             });
 
             $scope.Monday = _dayPartTargetting.generateDayArr(monday);
-            tuesday = _.filter($scope.Schedule.dayPart, function (obj) { // jshint ignore:line
+
+            tuesday = _.filter($scope.Schedule.dayPart, function (obj) {
                 return obj.day === 'Tuesday';
             });
 
             $scope.Tuesday = _dayPartTargetting.generateDayArr(tuesday);
-            wednesday = _.filter($scope.Schedule.dayPart, function (obj) { // jshint ignore:line
+
+            wednesday = _.filter($scope.Schedule.dayPart, function (obj) {
                 return obj.day === 'Wednesday';
             });
 
             $scope.Wednesday = _dayPartTargetting.generateDayArr(wednesday);
-            thursday = _.filter($scope.Schedule.dayPart, function (obj) { // jshint ignore:line
+
+            thursday = _.filter($scope.Schedule.dayPart, function (obj) {
                 return obj.day === 'Thursday';
             });
 
             $scope.Thursday = _dayPartTargetting.generateDayArr(thursday);
-            friday = _.filter($scope.Schedule.dayPart, function (obj) { // jshint ignore:line
+
+            friday = _.filter($scope.Schedule.dayPart, function (obj) {
                 return obj.day === 'Friday';
             });
 
             $scope.Friday = _dayPartTargetting.generateDayArr(friday);
-            saturday = _.filter($scope.Schedule.dayPart, function (obj) { // jshint ignore:line
+
+            saturday = _.filter($scope.Schedule.dayPart, function (obj) {
                 return obj.day === 'Saturday';
             });
 
             $scope.Saturday = _dayPartTargetting.generateDayArr(saturday);
 
             // Add custom day array to dayPart Object
-            adDaypartTargets.schedule={
-                'Sunday':$scope.Sunday,
-                'Monday':$scope.Monday,
-                'Tuesday':$scope.Tuesday,
-                'Wednesday':$scope.Wednesday,
-                'Thursday':$scope.Thursday,
-                'Friday':$scope.Friday,
-                'Saturday':$scope.Saturday
+            adDaypartTargets.schedule = {
+                Sunday: $scope.Sunday,
+                Monday: $scope.Monday,
+                Tuesday: $scope.Tuesday,
+                Wednesday: $scope.Wednesday,
+                Thursday: $scope.Thursday,
+                Friday: $scope.Friday,
+                Saturday: $scope.Saturday
             };
 
             for (i = 0; i < $scope.Schedule.dayPart.length; i++) {
                 if ($scope.Schedule.dayPart[i].stTime>=0) {
                     $scope.Schedule.dayPart[i].startTime =  $scope.returnTime($scope.Schedule.dayPart[i].stTime);
                 }
+
                 if ($scope.Schedule.dayPart[i].edTime>=0) {
                     $scope.Schedule.dayPart[i].endTime =  $scope.returnTime($scope.Schedule.dayPart[i].edTime);
                 }
             }
 
-            dayPart = angular.copy($scope.Schedule.dayPart); // jshint ignore:line
-            dayTimeSelected= angular.copy($scope.dayTimeSelected); // jshint ignore:line
+            dayPart = angular.copy($scope.Schedule.dayPart);
+            dayTimeSelected= angular.copy($scope.dayTimeSelected);
             audienceService.setDayPartDispObj(dayPart,dayTimeSelected);
-            adDaypartTargets= angular.copy(adDaypartTargets); // jshint ignore:line
+            adDaypartTargets= angular.copy(adDaypartTargets);
             audienceService.setDayPartData(adDaypartTargets);
-            daytimeArr= angular.copy($scope.Schedule.daytimeArr); // jshint ignore:line
+            daytimeArr= angular.copy($scope.Schedule.daytimeArr);
             audienceService.setDayTimeArr(daytimeArr);
 
             localStorage.setItem('dayPart', JSON.stringify(dayPart));
@@ -586,8 +598,9 @@ define(['angularAMD', '../services/audience_service', // jshint ignore:line
             localStorage.setItem('daytimeArr', JSON.stringify(daytimeArr));
 
             $scope.$parent.saveDayPartForPreview();
+
             if (!isRedirectFlag) {
-                _dayPartTargetting.hideDayPartTargetingBox(); // jshint ignore:line
+                _dayPartTargetting.hideDayPartTargetingBox();
             }
         };
 
@@ -612,6 +625,7 @@ define(['angularAMD', '../services/audience_service', // jshint ignore:line
         $scope.changeDayTime = function () {
             $scope.dayTimeSelected = 'Custom schedule';
             $scope.customFlag = true;
+
             if ($scope.Schedule.daytimeArr.length ===0 ) {
                 $scope.saveDayPartFlag = true;
             }
@@ -638,6 +652,7 @@ define(['angularAMD', '../services/audience_service', // jshint ignore:line
                     $scope.Schedule.customLength = 0;
                     $scope.Schedule.daytimeArr = [];
                     $scope.dayTimeSelected = 'All days and times';
+
                     daytimeObj = [
                         {day: 'Sunday',    startTime: 'All Day'},
                         {day: 'Monday',    startTime: 'All Day'},
@@ -667,8 +682,8 @@ define(['angularAMD', '../services/audience_service', // jshint ignore:line
                 case 1:
                     $scope.Schedule.customLength = 0;
                     $scope.Schedule.daytimeArr = [];
-
                     $scope.dayTimeSelected = 'Weekday (M-F)';
+
                     daytimeObj = [
                         {day: 'Monday',    startTime: 'All Day'},
                         {day: 'Tuesday',   startTime: 'All Day'},
@@ -846,8 +861,9 @@ define(['angularAMD', '../services/audience_service', // jshint ignore:line
 
                 case 7:
                     $scope.dayTimeSelected = 'Custom schedule';
-                    $scope.storedResponse = angular.copy(workflowService.getAdsDetails()); // jshint ignore:line
+                    $scope.storedResponse = angular.copy(workflowService.getAdsDetails());
                     dayParts = $scope.storedResponse && $scope.storedResponse.targets.adDaypartTargets;
+
                     resetCustomSchedule = function () {
                         $scope.Schedule.dayPart = [];
                         $scope.customFlag = true;
@@ -877,7 +893,8 @@ define(['angularAMD', '../services/audience_service', // jshint ignore:line
             var timeMatched;
 
             $scope.tmpDayTimeSelected =  $scope.dayTimeSelected;
-            timeMatched = _.filter($scope.Schedule.daytimeArr, function (obj) { // jshint ignore:line
+
+            timeMatched = _.filter($scope.Schedule.daytimeArr, function (obj) {
                 return obj.startTime === time;
             });
 
@@ -895,9 +912,10 @@ define(['angularAMD', '../services/audience_service', // jshint ignore:line
             time = Number(time);
 
             if (time >= 0) {
-                index = _.findIndex($scope.getStartTimes, function (item) { // jshint ignore:line
+                index = _.findIndex($scope.getStartTimes, function (item) {
                     return Number(item.time) === time;
                 });
+
                 if ($scope.twelve) {
                     return $scope.getStartTimes[index].twelveHrFormat;
                 } else {
@@ -917,11 +935,12 @@ define(['angularAMD', '../services/audience_service', // jshint ignore:line
         $scope.$on('triggerDayPart', function () {
             var moduleDeleted = workflowService.getDeleteModule();
 
-            if (_.indexOf(moduleDeleted, 'dayParting') !== -1) { // jshint ignore:line
+            if (_.indexOf(moduleDeleted, 'dayParting') !== -1) {
                 workflowService.resetDeleteModule();
                 audienceService.resetDayPartdata();
                 $scope.deleteDayPartTarget();
             }
+
             _dayPartTargetting.showDayPartTargetBox();
         });
 

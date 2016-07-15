@@ -1,12 +1,26 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service', 'common/services/vistoconfig_service', 'login/login_model', 'common/moment_utils', 'workflow/directives/clear_row', 'common/directives/ng_upload_hidden', 'workflow/campaign/pixels_controller', 'workflow/campaign/budget_controller', 'workflow/campaign/line_item_controller', 'common/controllers/confirmation_modal_controller', 'workflow/directives/custom_date_picker', 'workflow/campaign/campaign_archive_controller','common/directives/decorate_numbers'], function (angularAMD) {
-    angularAMD.controller('CreateCampaignController', function ($scope, $window, $rootScope, $filter, $routeParams, $locale, $location, $timeout, $modal, constants, workflowService, vistoconfig, loginModel, momentService, localStorageService) {
+define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
+    'common/services/vistoconfig_service', 'login/login_model', 'common/moment_utils', 'workflow/directives/clear_row',
+    'common/directives/ng_upload_hidden', 'workflow/campaign/pixels_controller', 'workflow/campaign/budget_controller',
+    'workflow/campaign/line_item_controller', 'common/controllers/confirmation_modal_controller',
+    'workflow/directives/custom_date_picker', 'workflow/campaign/campaign_archive_controller',
+    'common/directives/decorate_numbers'], function (angularAMD) {
+    'use strict';
 
+    angularAMD.controller('CreateCampaignController', function ($scope, $window, $rootScope, $filter, $routeParams,
+                                                                $locale, $location, $timeout, $modal, constants,
+                                                                workflowService, vistoconfig, loginModel,
+                                                                momentService) {
         $scope.selectedKeywords = [];
         $scope.platformKeywords = [];
+
         $scope.dropdownCss = {
-            display: 'none', 'max-height': '100px', overflow: 'scroll', top: '60px',
+            display: 'none',
+            'max-height': '100px',
+            overflow: 'scroll',
+            top: '60px',
             left: '0px'
         };
+        
         $scope.keywordText = "";
         $scope.Campaign = {
             kpiArr: [],

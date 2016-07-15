@@ -56,22 +56,6 @@ define(['angularAMD', '../services/workflow_service', 'common/services/constants
                     }
                 },
 
-                isVideoPreviewDataAvailable: function () {
-                    var videoPreviewData = $scope.adData.videoPreviewData;
-
-                    if (videoPreviewData &&
-                        (videoPreviewData.sizes ||
-                            videoPreviewData.positions ||
-
-                            // TODO: Is this a typo? "videoData*
-                            videoData.playbackMethods // jshint ignore:line
-                        )) {
-                        return true;
-                    }
-
-                    return false;
-                },
-
                 setVideoData: function (data, type, index) {
                     $scope[type + 'Data'] = data;
 

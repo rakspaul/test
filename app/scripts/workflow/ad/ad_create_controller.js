@@ -1,14 +1,13 @@
-define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:line
-        'workflow/services/workflow_service', 'login/login_model', 'common/services/data_service',
-        'workflow/services/audience_service', 'common/services/role_based_service', 'common/moment_utils',
-        'common/services/vistoconfig_service', 'workflow/services/video_service',
-        'workflow/ad/budget_delivery_controller', 'workflow/ad/buying_platform_controller',
-        'workflow/ad/targetting_controller', 'workflow/ad/geo_targetting_controller',
-        'workflow/ad/audience_targetting_controller', 'workflow/ad/daypart_create_controller',
-        'workflow/ad/video_targetting_controller', 'workflow/ad/inventory_filters_controller',
-        'workflow/creative/creative_controller', 'workflow/creative/creative_list_controller',
-        'workflow/creative/creative_tag_controller', 'workflow/services/platform_custom_module',
-        'workflow/ad/ad_clone_controller'], function (angularAMD) {
+define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/workflow_service', 'login/login_model',
+    'common/services/data_service', 'workflow/services/audience_service', 'common/services/role_based_service',
+    'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/services/video_service',
+    'workflow/ad/budget_delivery_controller', 'workflow/ad/buying_platform_controller',
+    'workflow/ad/targetting_controller', 'workflow/ad/geo_targetting_controller',
+    'workflow/ad/audience_targetting_controller', 'workflow/ad/daypart_create_controller',
+    'workflow/ad/video_targetting_controller', 'workflow/ad/inventory_filters_controller',
+    'workflow/creative/creative_controller', 'workflow/creative/creative_list_controller',
+    'workflow/creative/creative_tag_controller', 'workflow/services/platform_custom_module',
+    'workflow/ad/ad_clone_controller'], function (angularAMD) {
         angularAMD.controller('CampaignAdsCreateController', function ($scope, $modal, $rootScope, $routeParams,
                                                                        $locale, $location,  $filter, $timeout,
                                                                        constants, workflowService, loginModel,
@@ -35,7 +34,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         workflowService
                             .getCampaignData(campaignId)
                             .then(function (result) {
-                                var responseData, clientId, advertiserId;
+                                var responseData,
+                                    clientId,
+                                    advertiserId;
 
                                 if (result.status === 'OK' || result.status === 'success') {
                                     responseData = result.data.data;
@@ -51,7 +52,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
 
                                     if ($scope.workflowData.campaignData.selectedObjectives &&
                                         $scope.workflowData.campaignData.selectedObjectives.length > 0) {
-                                        $scope.brandIcon = _.filter(// jshint ignore:line
+                                        $scope.brandIcon = _.filter(
                                             $scope.workflowData.campaignData.selectedObjectives,
                                             function (item) {
                                                 return item.objective === 'Branding';
@@ -59,7 +60,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                                         );
 
                                         $scope.performanceIcon =
-                                            _.filter(// jshint ignore:line
+                                            _.filter(
                                                 $scope.workflowData.campaignData.selectedObjectives,
                                                 function (item) {
                                                     return item.objective === 'Performance';
@@ -111,6 +112,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                                                                         .utcToLocalTime(
                                                                             responseData[i].adGroup.startTime
                                                                         );
+
                                                                 adGroupData.endDate =
                                                                     momentService
                                                                         .utcToLocalTime(
@@ -350,7 +352,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     idx,
                     i,
                     videoTargetsData,
-                    pacingType;
+                    pacingType,
+
+                    findScreen = function (item) {
+                        return item.id === responseData.screens[i].id;
+                    };
 
                 $scope.$broadcast('EditAdResponseData');
                 $scope.workflowData.adsData = responseData;
@@ -366,7 +372,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     $scope.tags = workflowService.recreateLabels($scope.workflowData.adsData.labels);
                 }
 
-                workflowService.setAdsDetails(angular.copy(responseData)); // jshint ignore:line
+                workflowService.setAdsDetails(angular.copy(responseData));
                 $scope.updatedAt = responseData.updatedAt;
                 $scope.state = responseData.state;
 
@@ -391,9 +397,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
 
                 if (responseData.screens) {
                     for (i = 0; i < responseData.screens.length; i++) {
-                        index = _.findIndex($scope.workflowData.screenTypes, function (item) { // jshint ignore:line
-                            return item.id === responseData.screens[i].id;
-                        });
+                        index = _.findIndex($scope.workflowData.screenTypes, findScreen);
 
                         $scope.workflowData.screenTypes[index].active = true;
                         $scope.screenTypeSelection($scope.workflowData.screenTypes[index]);
@@ -495,7 +499,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 }
 
                 if (responseData.rateType) {
-                    idx = _.findIndex($scope.workflowData.unitTypes, function (item) { // jshint ignore:line
+                    idx = _.findIndex($scope.workflowData.unitTypes, function (item) {
                         return item.name === responseData.rateType;
                     });
 
@@ -522,7 +526,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 }
 
                 if (responseData.frequencyCaps && responseData.frequencyCaps.length >= 1) {
-                    angular.forEach(responseData.frequencyCaps, function (frequencyCap) { // jshint ignore:line
+                    angular.forEach(responseData.frequencyCaps, function (frequencyCap) {
                         var freqType;
 
                         $scope.adData.setCap = true;
@@ -562,22 +566,22 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 $scope.$broadcast('updateCreativeTags');
 
                 if (responseData.targets && responseData.targets.geoTargets &&
-                    _.size(responseData.targets.geoTargets) > 0) { // jshint ignore:line
+                    _.size(responseData.targets.geoTargets) > 0) {
                     $scope.$broadcast('setTargeting', ['Geography']);
                 }
 
                 // day part edit
                 if (responseData.targets && responseData.targets.adDaypartTargets &&
-                    _.size(responseData.targets.adDaypartTargets) > 0) { // jshint ignore:line
+                    _.size(responseData.targets.adDaypartTargets) > 0) {
                     $scope.$broadcast('setTargeting', ['Daypart']);
                 }
 
                 // audience targeting load
                 if (responseData.targets &&
                     responseData.targets.segmentTargets &&
-                    _.size(responseData.targets.segmentTargets) > 0 && // jshint ignore:line
+                    _.size(responseData.targets.segmentTargets) > 0 &&
                     responseData.targets.segmentTargets.segmentList &&
-                    _.size(responseData.targets.segmentTargets.segmentList) > 0 ) { // jshint ignore:line
+                    _.size(responseData.targets.segmentTargets.segmentList) > 0) {
                     $scope.$broadcast('setTargeting', ['Audience']);
                 }
 
@@ -611,7 +615,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 }
 
                 if (getAdResultData.state === 'PAUSED') {
-                    //$scope.disablePause='disabled';
                     //enable resume if ad is paused
                     $scope.disableResume = '';
                 }
@@ -642,7 +645,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
 
             $scope.showClonePopup = function () {
                 $modal.open({
-                    templateUrl: assets.html_ad_campaign_popup, // jshint ignore:line
+                    templateUrl: assets.html_ad_campaign_popup,
                     controller: 'AdClone',
                     scope: $scope,
                     windowClass: 'delete-dialog',
@@ -940,13 +943,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
             };
 
             $scope.utc = function (date) {
-                return moment(date).utc().valueOf(); // jshint ignore:line
+                return moment(date).utc().valueOf();
             };
 
             $scope.screenTypeSelection = function (screenTypeObj) {
-                var screenTypeFound = _.filter($scope.adData.screenTypes, function (obj) { // jshint ignore:line
+                var screenTypeFound = _.filter($scope.adData.screenTypes, function (obj) {
                         return obj.name === screenTypeObj.name;
                     }),
+
                     idx,
                     k;
 
@@ -983,7 +987,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                 $scope.$broadcast('adFormatChanged', $scope.adformatName);
                 adFormatsData = $scope.workflowData.adFormats;
 
-                _.each(adFormatsData, function (obj) { // jshint ignore:line
+                _.each(adFormatsData, function (obj) {
                     obj.name === $scope.adformatName ? obj.active = true : obj.active = false;
                 });
 
@@ -996,7 +1000,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     $scope.workflowData.primaryKpi[1].kpiValues.push(videoKpiObj);
                 } else {
                     index =
-                        _.findIndex($scope.workflowData.primaryKpi[1].kpiValues, function (item) { // jshint ignore:line
+                        _.findIndex($scope.workflowData.primaryKpi[1].kpiValues, function (item) {
                             return item.id === videoKpiObj.id;
                         });
 
@@ -1044,10 +1048,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
 
                     adFormatsData = $scope.workflowData.adFormats;
 
-                    _.each(adFormatsData, function (obj) { // jshint ignore:line
-                        objectName = $filter('toTitleCase')(obj.name); // jshint ignore:line
-                        objectName === // jshint ignore:line
-                        $scope.adformatName ? obj.active = true : obj.active = false;
+                    _.each(adFormatsData, function (obj) {
+                        var objectName = $filter('toTitleCase')(obj.name);
+
+                        objectName === $scope.adformatName ? obj.active = true : obj.active = false;
                     });
                 }
 
@@ -1069,7 +1073,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
             $scope.goalSelection = function (goal) {
                 var goalData = $scope.workflowData.goals;
 
-                _.each(goalData, function (obj) { // jshint ignore:line
+                _.each(goalData, function (obj) {
                     obj.name === goal ? obj.active = true : obj.active = false;
                 });
             };
@@ -1157,7 +1161,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     inventoryLists,
 
                     wrapperToReplaceCustomPlatformHiddenValues = function(customPlatformData) {
-                        _.each(customPlatformData, function(obj) { // jshint ignore:line
+                        _.each(customPlatformData, function(obj) {
                             if (obj.value === '$AD_KPI') {
                                 obj.value = $scope.adData.primaryKpi.toUpperCase();
                             }
@@ -1171,7 +1175,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         return customPlatformData;
                     };
 
-                formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value')); // jshint ignore:line
+                formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
 
                 if ((formData.budgetAmount &&
                     $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) ||
@@ -1180,6 +1184,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     $scope.budgetErrorObj.impressionPerUserValidator ||
                     $scope.budgetErrorObj.availableMaximumAdRevenueValidator)) {
                     $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
+
                     return false;
                 }
 
@@ -1187,12 +1192,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
 
                 if (customFieldErrorElem.length > 0) {
                     $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
+
                     return false;
                 } else {
                     creativesData = $scope.creativeData.creativeInfo;
                     postAdDataObj = {};
                     postAdDataObj.name = formData.adName;
-                    postAdDataObj.labels = _.pluck($scope.tags, 'label'); // jshint ignore:line
+                    postAdDataObj.labels = _.pluck($scope.tags, 'label');
                     postAdDataObj.campaignId = Number($scope.campaignId);
 
                     if (formData.adFormat) {
@@ -1204,7 +1210,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     }
 
                     if (formData.screens) {
-                        postAdDataObj.screens = _.pluck(JSON.parse(formData.screens), 'id'); // jshint ignore:line
+                        postAdDataObj.screens = _.pluck(JSON.parse(formData.screens), 'id');
                     }
 
                     if (formData.goal) {
@@ -1214,9 +1220,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     if (formData.startTime) {
                         utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime');
 
-                        //fixed for CW-4102
+                        // fixed for CW-4102
                         if ($scope.mode ==='edit') {
-                            utcStartTime = (moment(formData.startTime) // jshint ignore:line
+                            utcStartTime = (moment(formData.startTime)
                                 .isSame($scope.modifiedAPIStartTime, 'day')) ?
                                 $scope.apiStartTime : utcStartTime;
                         }
@@ -1226,11 +1232,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
 
                     if (formData.endTime) {
                         utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
+
                         if($scope.mode ==='edit') { //fixed for CW-4102
-                            utcEndTime = (moment(formData.endTime) // jshint ignore:line
+                            utcEndTime = (moment(formData.endTime)
                                 .isSame($scope.modifiedAPIEndTime, 'day')) ?
                                 $scope.apiEndTime :  utcEndTime;
                         }
+
                         postAdDataObj.endTime = utcEndTime;
                     }
 
@@ -1278,6 +1286,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
 
                         if (formData.budgetType && formData.budgetAmount) {
                             postAdDataObj.budgetType = formData.budgetType;
+
                             postAdDataObj.budgetValue =
                                 Number(workflowService.stripCommaFromNumber(formData.budgetAmount));
                         }
@@ -1295,12 +1304,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         }
 
                         if (creativesData && creativesData.creatives) {
-                            _.each(creativesData.creatives, // jshint ignore:line
+                            _.each(creativesData.creatives,
                                 function (obj) {
                                     obj.sizeId = obj.size?obj.size.id:'';
                                 });
 
-                            postAdDataObj.creatives = _.pluck(creativesData.creatives, 'id'); // jshint ignore:line
+                            postAdDataObj.creatives = _.pluck(creativesData.creatives, 'id');
                         }
 
                         if (!$scope.TrackingIntegrationsSelected) {
@@ -1313,8 +1322,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                                 buildGeoTargetingParams = function (data) {
                                     var obj = {};
 
-                                    obj.isIncluded = _.uniq(_.pluck(data, 'included'))[0]; // jshint ignore:line
-                                    obj.geoTargetList = _.pluck(data, 'id'); // jshint ignore:line
+                                    obj.isIncluded = _.uniq(_.pluck(data, 'included'))[0];
+                                    obj.geoTargetList = _.pluck(data, 'id');
 
                                     return obj;
                                 };
@@ -1344,9 +1353,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                                     zipObj = geoTargetData.zip.selected;
                                     zipPostArr = [];
 
-                                    _.each(zipObj, function (zipArr) { // jshint ignore:line
+                                    _.each(zipObj, function (zipArr) {
                                         if (zipArr.added) {
-                                            _.each(zipArr.added, function (obj) { // jshint ignore:line
+                                            _.each(zipArr.added, function (obj) {
                                                 var arr = obj.split('-'),
                                                     start,
                                                     end,
@@ -1379,27 +1388,27 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                                 }
                             } else {
                                 if ($scope.mode === 'edit') {
-                                    adData = angular.copy(workflowService.getAdsDetails()); // jshint ignore:line
+                                    adData = angular.copy(workflowService.getAdsDetails());
                                     postGeoTargetObj = adData.targets.geoTargets;
 
                                     if (postGeoTargetObj) {
                                         if (postGeoTargetObj.COUNTRY) {
-                                            postGeoTargetObj.COUNTRY.geoTargetList = _.pluck( // jshint ignore:line
+                                            postGeoTargetObj.COUNTRY.geoTargetList = _.pluck(
                                                 postGeoTargetObj.COUNTRY.geoTargetList, 'id');
                                         }
 
                                         if (postGeoTargetObj.REGION) {
-                                            postGeoTargetObj.REGION.geoTargetList = _.pluck( // jshint ignore:line
+                                            postGeoTargetObj.REGION.geoTargetList = _.pluck(
                                                 postGeoTargetObj.REGION.geoTargetList, 'id');
                                         }
 
                                         if (postGeoTargetObj.CITY) {
-                                            postGeoTargetObj.CITY.geoTargetList = _.pluck( // jshint ignore:line
+                                            postGeoTargetObj.CITY.geoTargetList = _.pluck(
                                                 postGeoTargetObj.CITY.geoTargetList, 'id');
                                         }
 
                                         if (postGeoTargetObj.DMA) {
-                                            postGeoTargetObj.DMA.geoTargetList = _.pluck( // jshint ignore:line
+                                            postGeoTargetObj.DMA.geoTargetList = _.pluck(
                                                 postGeoTargetObj.DMA.geoTargetList, 'id');
                                         }
 
@@ -1412,7 +1421,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
 
                                             postGeoTargetObj.ZIPCODE.geoTargetList.push({
                                                 countryCode:'US',
-                                                zipcodes: _.pluck(// jshint ignore:line
+                                                zipcodes: _.pluck(
                                                     postGeoTargetObj.ZIP_CODE.geoTargetList, 'code')
                                             });
 
@@ -1575,7 +1584,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
             };
 
             $scope.removeCreativeTags = function (clickedTagData, actionFrom) {
-                var selectedCreativeTag = _.filter($scope.selectedArr, function (obj) { // jshint ignore:line
+                var selectedCreativeTag = _.filter($scope.selectedArr, function (obj) {
                     return obj.id === clickedTagData.id;
                 });
 
@@ -1682,7 +1691,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
             //To show hide view tag in creatives listing
             $scope.IsVisible = false;
 
-            $scope.currentTimeStamp = moment.utc().valueOf(); // jshint ignore:line
+            $scope.currentTimeStamp = moment.utc().valueOf();
             $scope.adData.setSizes = constants.WF_NOT_SET;
             $scope.numberOnlyPattern = /[^0-9]/g;
             $scope.adArchive = false;
@@ -1776,7 +1785,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
             });
 
             $scope.changeStatus = function () {
-                _.each($scope.selectedArr, function (obj) { // jshint ignore:line
+                _.each($scope.selectedArr, function (obj) {
                     obj.checked = obj.userSelectedEvent;
                 });
             };
@@ -1793,11 +1802,34 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     arrC,
                     str,
                     result,
-                    i;
+                    i,
+
+                    noRepeatC = function (arrC) {
+                        var aC = [],
+                            bC = [],
+                            prevC,
+                            i;
+
+                        arrC.sort();
+
+                        for (i = 0; i < arrC.length; i++) {
+                            if (arrC[i] !== prevC) {
+                                aC.push(arrC[i]);
+                                bC.push(1);
+                            } else {
+                                bC[bC.length - 1]++;
+                            }
+
+                            prevC = arrC[i];
+                        }
+
+                        return [aC, bC];
+                    };
 
                 if (typeof selectedCreatives.creatives !== 'undefined') {
                     if (selectedCreatives.creatives.length === 1) {
-                        $scope.sizeString = selectedCreatives.creatives[0].size?selectedCreatives.creatives[0].size.size:'';
+                        $scope.sizeString = selectedCreatives.creatives[0].size ?
+                            selectedCreatives.creatives[0].size.size : '';
                     } else if (selectedCreatives.creatives.length > 1) {
                         $scope.sizeString = '';
 
@@ -1823,28 +1855,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                     }
                 } else {
                     $scope.sizeString = constants.WF_NOT_SET;
-                }
-
-                function noRepeatC(arrC) {
-                    var aC = [],
-                        bC = [],
-                        prevC,
-                        i;
-
-                    arrC.sort();
-
-                    for (i = 0; i < arrC.length; i++) {
-                        if (arrC[i] !== prevC) {
-                            aC.push(arrC[i]);
-                            bC.push(1);
-                        } else {
-                            bC[bC.length - 1]++;
-                        }
-
-                        prevC = arrC[i];
-                    }
-
-                    return [aC, bC];
                 }
 
                 if (selectedCreatives.creatives.length === 0) {
