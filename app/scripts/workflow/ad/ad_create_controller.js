@@ -1875,14 +1875,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             }
         };
 
-        //on Broswers back button customreport behaving wierdly, this piece of code fixes it
-        $scope.$on("$locationChangeStart", function (event, next) {
+        // on Broswers back button customreport behaving wierdly, this piece of code fixes it
+        $scope.$on('$locationChangeStart', function (event, next) {
             if(next.indexOf('customreport') > -1){
                 var customReportUrl = next.split('/')[3];
-                $location.url("/"+customReportUrl);
+
+                $location.url('/' + customReportUrl);
             }
         });
-
     });
     }
 );
