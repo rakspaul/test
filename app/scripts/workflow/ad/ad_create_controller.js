@@ -1,15 +1,13 @@
 define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/workflow_service', 'login/login_model',
     'common/services/data_service', 'workflow/services/audience_service', 'common/services/role_based_service',
     'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/services/video_service',
-    'workflow/controllers/budget_delivery_controller', 'workflow/controllers/buying_platform_controller',
-    'workflow/controllers/targetting_controller', 'workflow/controllers/geo_targetting_controller',
-    'workflow/controllers/audience_targetting_controller', 'workflow/controllers/daypart_create_controller',
-    'workflow/controllers/video_targetting_controller', 'workflow/controllers/inventory_filters_controller',
+    'workflow/ad/budget_delivery_controller', 'workflow/ad/buying_platform_controller',
+    'workflow/ad/targetting_controller', 'workflow/ad/geo_targetting_controller',
+    'workflow/ad/audience_targetting_controller', 'workflow/ad/daypart_create_controller',
+    'workflow/ad/video_targetting_controller', 'workflow/ad/inventory_filters_controller',
     'workflow/creative/creative_controller', 'workflow/creative/creative_list_controller',
     'workflow/creative/creative_tag_controller', 'workflow/services/platform_custom_module',
-    'workflow/controllers/ad_clone_controller'], function (angularAMD) {
-    'use strict';
-
+    'workflow/ad/ad_clone_controller'], function (angularAMD) {
     angularAMD.controller('CampaignAdsCreateController', function ($scope, $modal, $rootScope, $routeParams,
                                                                    $locale, $location,  $filter, $timeout,
                                                                    constants, workflowService, loginModel,
@@ -36,9 +34,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     workflowService
                         .getCampaignData(campaignId)
                         .then(function (result) {
-                            var responseData,
-                                clientId,
-                                advertiserId;
+                            var responseData, clientId, advertiserId;
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data;
@@ -54,7 +50,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                 if ($scope.workflowData.campaignData.selectedObjectives &&
                                     $scope.workflowData.campaignData.selectedObjectives.length > 0) {
-                                    $scope.brandIcon = _.filter(
+                                    $scope.brandIcon = _.filter(// jshint ignore:line
                                         $scope.workflowData.campaignData.selectedObjectives,
                                         function (item) {
                                             return item.objective === 'Branding';
@@ -62,7 +58,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                     );
 
                                     $scope.performanceIcon =
-                                        _.filter(
+                                        _.filter(// jshint ignore:line
                                             $scope.workflowData.campaignData.selectedObjectives,
                                             function (item) {
                                                 return item.objective === 'Performance';
@@ -114,7 +110,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                                                     .utcToLocalTime(
                                                                         responseData[i].adGroup.startTime
                                                                     );
-
                                                             adGroupData.endDate =
                                                                 momentService
                                                                     .utcToLocalTime(
@@ -356,7 +351,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 videoTargetsData,
                 pacingType,
 
-                findScreen = function (item) {
+                findFunc = function (item) {
                     return item.id === responseData.screens[i].id;
                 };
 
@@ -399,7 +394,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
             if (responseData.screens) {
                 for (i = 0; i < responseData.screens.length; i++) {
-                    index = _.findIndex($scope.workflowData.screenTypes, findScreen);
+                    index = _.findIndex($scope.workflowData.screenTypes, findFunc);
 
                     $scope.workflowData.screenTypes[index].active = true;
                     $scope.screenTypeSelection($scope.workflowData.screenTypes[index]);
@@ -583,7 +578,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 responseData.targets.segmentTargets &&
                 _.size(responseData.targets.segmentTargets) > 0 &&
                 responseData.targets.segmentTargets.segmentList &&
-                _.size(responseData.targets.segmentTargets.segmentList) > 0) {
+                _.size(responseData.targets.segmentTargets.segmentList) > 0 ) {
                 $scope.$broadcast('setTargeting', ['Audience']);
             }
 
@@ -617,6 +612,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             }
 
             if (getAdResultData.state === 'PAUSED') {
+                //$scope.disablePause='disabled';
                 //enable resume if ad is paused
                 $scope.disableResume = '';
             }
@@ -952,7 +948,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             var screenTypeFound = _.filter($scope.adData.screenTypes, function (obj) {
                     return obj.name === screenTypeObj.name;
                 }),
-
                 idx,
                 k;
 
@@ -1186,7 +1181,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $scope.budgetErrorObj.impressionPerUserValidator ||
                 $scope.budgetErrorObj.availableMaximumAdRevenueValidator)) {
                 $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
-
                 return false;
             }
 
@@ -1194,7 +1188,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
             if (customFieldErrorElem.length > 0) {
                 $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
-
                 return false;
             } else {
                 creativesData = $scope.creativeData.creativeInfo;
@@ -1222,7 +1215,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 if (formData.startTime) {
                     utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime');
 
-                    // fixed for CW-4102
+                    //fixed for CW-4102
                     if ($scope.mode ==='edit') {
                         utcStartTime = (moment(formData.startTime)
                             .isSame($scope.modifiedAPIStartTime, 'day')) ?
@@ -1234,13 +1227,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 if (formData.endTime) {
                     utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
-
                     if($scope.mode ==='edit') { //fixed for CW-4102
                         utcEndTime = (moment(formData.endTime)
                             .isSame($scope.modifiedAPIEndTime, 'day')) ?
                             $scope.apiEndTime :  utcEndTime;
                     }
-
                     postAdDataObj.endTime = utcEndTime;
                 }
 
@@ -1288,7 +1279,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                     if (formData.budgetType && formData.budgetAmount) {
                         postAdDataObj.budgetType = formData.budgetType;
-
                         postAdDataObj.budgetValue =
                             Number(workflowService.stripCommaFromNumber(formData.budgetAmount));
                     }
@@ -1423,7 +1413,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                         postGeoTargetObj.ZIPCODE.geoTargetList.push({
                                             countryCode:'US',
-                                            zipcodes: _.pluck(
+                                            zipcodes: _.pluck(// jshint ignore:line
                                                 postGeoTargetObj.ZIP_CODE.geoTargetList, 'code')
                                         });
 
@@ -1807,31 +1797,30 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 i,
 
                 noRepeatC = function (arrC) {
-                    var aC = [],
-                        bC = [],
-                        prevC,
-                        i;
+                var aC = [],
+                    bC = [],
+                    prevC,
+                    i;
 
-                    arrC.sort();
+                arrC.sort();
 
-                    for (i = 0; i < arrC.length; i++) {
-                        if (arrC[i] !== prevC) {
-                            aC.push(arrC[i]);
-                            bC.push(1);
-                        } else {
-                            bC[bC.length - 1]++;
-                        }
-
-                        prevC = arrC[i];
+                for (i = 0; i < arrC.length; i++) {
+                    if (arrC[i] !== prevC) {
+                        aC.push(arrC[i]);
+                        bC.push(1);
+                    } else {
+                        bC[bC.length - 1]++;
                     }
 
-                    return [aC, bC];
-                };
+                    prevC = arrC[i];
+                }
+
+                return [aC, bC];
+            };
 
             if (typeof selectedCreatives.creatives !== 'undefined') {
                 if (selectedCreatives.creatives.length === 1) {
-                    $scope.sizeString = selectedCreatives.creatives[0].size ?
-                        selectedCreatives.creatives[0].size.size : '';
+                    $scope.sizeString = selectedCreatives.creatives[0].size?selectedCreatives.creatives[0].size.size:'';
                 } else if (selectedCreatives.creatives.length > 1) {
                     $scope.sizeString = '';
 
@@ -1875,14 +1864,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             }
         };
 
-        // on Broswers back button customreport behaving wierdly, this piece of code fixes it
+        //on Broswers back button customreport behaving wierdly, this piece of code fixes it
         $scope.$on('$locationChangeStart', function (event, next) {
             if(next.indexOf('customreport') > -1){
                 var customReportUrl = next.split('/')[3];
-
                 $location.url('/' + customReportUrl);
             }
         });
     });
-    }
-);
+});

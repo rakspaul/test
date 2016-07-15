@@ -6,7 +6,7 @@
 </div>
 
 <div class="clearfix">
-    <div class="brandsDropdownSearch dropdown-workflow">
+    <div class="brandsDropdownSearch dropdown-workflow" ng-class="subAccountData.subAccounts.length > 0 ? '' : 'loadedDropdownData' ">
         <ul class="dropdown-menu" role="menu" id="subAccountDropDownList">
             <div id="subAccountDropdownDiv">
                 <input class="dropdown-toggle inactive"  id="subAccountDropdown"  ng-keyup="disableShowAll();" ng-model="selectedSubAccount.name" placeHolder="{{(subAccountData.selectedsubAccount.name ? subAccountData.selectedsubAccount.name:'Select Sub-Account')}}">

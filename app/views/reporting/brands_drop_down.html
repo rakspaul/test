@@ -5,7 +5,7 @@
 </div>
 
 <div class="clearfix">
-  <div class="brandsDropdownSearch dropdown-workflow">
+  <div class="brandsDropdownSearch dropdown-workflow" ng-class="brands.length > 0 ? '' : 'loadedDropdownData' ">
     <ul class="dropdown-menu" role="menu" id="brandsList">
       <div id="brandsDropdownDiv">
         <input class="dropdown-toggle inactive"  id="brandsDropdown"   ng-keyup="disableShowAll();" ng-model="selectedBrand.name"/>
