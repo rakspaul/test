@@ -377,14 +377,15 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                             if ($scope.$parent.postPlatformDataObj) {
                                 tabName = getplatformCustomNameSpace($scope.$parent.postPlatformDataObj);
+
+                                platformCustomeModule.init(platformCustomeJson, platformWrap,
+                                    $scope.$parent.postPlatformDataObj);
+
                                 if (tabName) {
                                     $timeout(function () {
                                         $('#' + tabName).click();
                                     }, 500);
                                 }
-
-                                platformCustomeModule.init(platformCustomeJson, platformWrap,
-                                    $scope.$parent.postPlatformDataObj);
 
                             } else {
                                 if (oldPlatformName !== $scope.adData.platform) {
@@ -597,7 +598,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 return false;
             }
 
-            if ($scope.adData.platform !== undefined && (tab !== undefined && tab[0] === '#buying')){
+            $rootScope.$broadcast('hideCreativeWin');
+
+            if (!$scope.TrackingIntegrationsSelected && $scope.adData.platform !== undefined && (tab !== undefined && tab[0] === '#buying')){
                 seatId =  $('input[name=platformSeatId]').val();
                 $('#seatId_'+seatId).trigger('click');
             } else {

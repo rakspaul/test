@@ -419,6 +419,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="tbody thin">
                             <!--Table Sample-->
                             <div class="tr" data-ng-repeat="pixel in advertiserData.pixels">
@@ -438,7 +439,7 @@
                                     <span data-ng-bind="pixel.expiryDate"></span>
                                 </div>
                                 <div class="td col-md-1 text-center" style="padding-left: 0;">
-                                    <input type="checkbox" class="pixelSelect" data-ng-model="isSelected"
+                                    <input type="checkbox" class="pixelSelect" data-ng-model="isSelected" ng-disabled="!pixel.id"
                                            data-ng-click="selectPixel(pixel.id, isSelected)" style="float: none;"/>
                                 </div>
                             </div>

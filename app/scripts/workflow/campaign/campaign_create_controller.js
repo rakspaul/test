@@ -20,7 +20,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             top: '60px',
             left: '0px'
         };
-        
+
         $scope.keywordText = "";
         $scope.Campaign = {
             kpiArr: [],
@@ -812,7 +812,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             if ($scope.client.name) {
                 $scope.isClientDropDownDisable = true;
                 $scope.clientName = $scope.client.name;
-                ($scope.mode == 'create') && $scope.selectHandler('client', $scope.client, null);
+                ($scope.mode === 'create') && $scope.selectHandler('client', $scope.client, null);
             }
 
             $(document).ready(function () {

@@ -1,8 +1,8 @@
 define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
-    'workflow/services/workflow_service', 'common/moment_utils', 'common/services/vistoconfig_service',
-    'workflow/overview/get_adgroups_controller', 'workflow/directives/edit_ad_group_section',
-    'login/login_model', 'workflow/overview/campaign_clone_controller',
-    'workflow/campaign/campaign_archive_controller', 'common/directives/decorate_numbers', 'common/directives/ng_upload_hidden'],
+        'workflow/services/workflow_service', 'common/moment_utils', 'common/services/vistoconfig_service',
+        'workflow/controllers/get_adgroups_controller', 'workflow/directives/edit_ad_group_section',
+        'login/login_model', 'workflow/controllers/campaign_clone_controller',
+        'workflow/controllers/mediaplan_archive_controller', 'common/directives/decorate_numbers', 'workflow/directives/ng_upload_hidden'],
     function (angularAMD) {
         angularAMD.controller('CampaignOverViewController', function ($scope, $modal, $rootScope, $routeParams,
                                                                       $timeout, $location, $route, constants,
@@ -965,27 +965,27 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                     utcStartTime,
                     utcEndTime;
 
-                    adGroupSaveErrorHandler = function (data) {
-                        var errMsg,
-                            errorData;
+                adGroupSaveErrorHandler = function (data) {
+                    var errMsg,
+                        errorData;
 
-                        data = data || '';
+                    data = data || '';
 
-                        $scope.downloadingTracker = false;
+                    $scope.downloadingTracker = false;
 
-                        if (data && data.data) {
-                            errorData = data.data.data;
-                            if (errorData.message) {
-                                errMsg = errorData.message;
-                            }
-
-                            if (errorData.data && errorData.data[0]) {
-                                errMsg = _.values(errorData.data[0])[0]; // jshint ignore:line
-                            }
+                    if (data && data.data) {
+                        errorData = data.data.data;
+                        if (errorData.message) {
+                            errMsg = errorData.message;
                         }
 
-                        $rootScope.setErrAlertMessage(errMsg);
-                    },
+                        if (errorData.data && errorData.data[0]) {
+                            errMsg = _.values(errorData.data[0])[0]; // jshint ignore:line
+                        }
+                    }
+
+                    $rootScope.setErrAlertMessage(errMsg);
+                },
 
                     isCampaignHasAds = $scope.workflowData.campaignAdsData &&
                     $scope.workflowData.campaignAdsData.length > 0 ? true : false;
@@ -1143,9 +1143,9 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 var clientId = loginModel.getSelectedClient().id,
                     campaignId = $scope.workflowData.campaignData.id,
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId +
-                    '/campaigns/' + campaignId +
-                    '/pixels/download';
+                        '/clients/' + clientId +
+                        '/campaigns/' + campaignId +
+                        '/pixels/download';
 
                 $('.download-report-load-icon').show();
 
@@ -1171,6 +1171,15 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
             $(document).on('changeDate', '.adGrpEndDateInput', function (ev) {
                 $scope.endTime = $(ev.target).val();
+            });
+
+            $scope.$on("$locationChangeStart", function (event, next) {
+
+                //on Broswers back button customreport behaving wierdly, this piece of code fixes it
+                if(next.indexOf('customreport') > -1){
+                    var customReportUrl = next.split('/')[3];
+                    $location.url("/"+customReportUrl);
+                }
             });
 
             $scope.$on('$locationChangeSuccess', function() {

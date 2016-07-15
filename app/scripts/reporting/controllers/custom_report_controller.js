@@ -1260,9 +1260,10 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
             $scope.showDataForClikedDimension = function (ev, value, rowIndex, loadMore) {
                 var currFirtDimensionElem = $(ev.target).parents('.reportData'),
                     currSecondDimensionElem = currFirtDimensionElem.find('.second_dimension_row_holder'),
-                    initiallyActiveTab = $scope.activeTab,
                     currentRowIndex = Number(currFirtDimensionElem.attr('data-result-row')),
                     paramsObj;
+
+                var initiallyActiveTab = $scope.activeTab;
 
                 if (!currFirtDimensionElem.hasClass('treeOpen') &&
                     _customctrl.isInputsChangedAfterGenerate(_customctrl.inputDataOnGenerate,
@@ -1278,7 +1279,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 }
 
                 if (!currFirtDimensionElem.hasClass('treeOpen') || loadMore) {
-                    currSecondDimensionElem.show();
+
 
                     if (!$scope.isReportForMultiDimension) {
                         return false;
@@ -1334,11 +1335,13 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                                 if (respData) {
                                     resultLen = respData.length;
                                     $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = false;
+                                    currSecondDimensionElem.show();
 
                                     if (resultLen > 0) {
                                         currFirtDimensionElem.removeClass('noDataOpen');
                                         _customctrl.getMetricValues(respData, $scope.selectedMetricsList,
                                             'second_dimension', currentRowIndex, loadMore);
+
                                     } else {
                                         if (_customctrl.reportPageNum_2D[$scope.activeTab][currentRowIndex] === 1) {
                                             $scope.secondDimensionReportDataNotFound[$scope.activeTab]
@@ -1770,6 +1773,16 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
             $scope.show_respective_table = function (id) {
                 var customReportResponseTabs = $('.custom_report_response_tabs'),
                     headingWidth;
+                var lastActiveTab = $scope.activeTab;
+                var lastTabSelArr = $scope.secondDimensionReportLoading[lastActiveTab];
+
+                if(lastTabSelArr) {
+                    _.each(lastTabSelArr,function(value,key) {
+                        if(value) {
+                            $scope.secondDimensionReportLoading[lastActiveTab][key] = false;
+                        }
+                    });
+                }
 
                 $('.custom_report_response_table').hide();
                 $('#' + id + '_table').show();

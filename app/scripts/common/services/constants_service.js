@@ -742,7 +742,7 @@ define(['angularAMD'], function(angularAMD) {
         this.TIMEZONE_US = 'America/New_York';
         this.DATE_UK_FORMAT = 'DD/MM/YYYY';
         this.DATE_US_FORMAT = 'MM/DD/YYYY';
-        this.DATE_UTC_FORMAT = 'YYYY-MM-DD HH:mm:ss.SSS';
+        this.DATE_UTC_FORMAT = 'YYYY-MM-DD HH:mm:ss';
         this.DATE_UTC_SHORT_FORMAT = 'YYYY-MM-DD';
 
         this.IMPRESSION_PER_USER_MESSAGE =

@@ -233,15 +233,14 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             };
 
             $scope.editPixel = function (index, pixel) {
+                $scope.pixelFormData.segmentName = '';
                 $('.pixelCreate').slideDown();
                 $('#pixelExpDate').datepicker('setStartDate', momentService.getCurrentYear().toString());
                 $scope.pixelIndex = index;
                 $scope.pixelFormData = JSON.parse(JSON.stringify(pixel));
-
-                $scope.pixelFormData.segmentName =
-                    'visto-' + _currCtrl.pixelTypeCode[$scope.pixelFormData.pixelType] + '-' +
-                    $scope.selectedClientCode + '-' + $scope.setSelectedAdvertiserCode + '-' +
-                    $scope.pixelFormData.pixelCode;
+                if($scope.pixelFormData.pixelCode) {
+                    $scope.pixelFormData.segmentName = 'visto-' + _currCtrl.pixelTypeCode[$scope.pixelFormData.pixelType] + '-' + $scope.selectedClientCode + '-' + $scope.setSelectedAdvertiserCode + '-' + $scope.pixelFormData.pixelCode;
+                }
             };
 
             $scope.clearPixel = function () {

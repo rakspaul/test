@@ -437,7 +437,7 @@ define(['angularAMD',
 
             // function to get the possible templates in adCreate Page)
             if ($scope.adPage) {
-                $scope.getTemplates(adServer,$scope.creativeFormat,workflowService.getPlatform().executionVendorType);
+                $scope.getTemplates(adServer,$scope.creativeFormat, workflowService.getVendorExecutionType());
             }
         };
 
@@ -915,6 +915,10 @@ define(['angularAMD',
             $scope.$broadcast('closeAddCreativePage');
             $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
         };
+
+        $rootScope.$on('hideCreativeWin', function() {
+            $scope.cancelBtn();
+        });
 
         $scope.switchPlatform = function () {
             $rootScope.$broadcast('switchPlatformFunc');

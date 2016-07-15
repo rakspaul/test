@@ -709,7 +709,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
                 case 2:
                     $scope.Schedule.customLength = 0;
                     $scope.Schedule.daytimeArr = [];
-                    $scope.dayTimeSelected = 'Weekend (S, S)';
+                    $scope.dayTimeSelected = 'Weekend (S,S)'; //let this string be like this, thats how api needed. don't provide any space.
 
                     daytimeObj = [
                         {day: 'Saturday', startTime: 'All Day'},
