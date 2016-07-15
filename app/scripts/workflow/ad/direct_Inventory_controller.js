@@ -1,4 +1,4 @@
-define(['angularAMD'],function (angularAMD) { // jshint ignore:line
+define(['angularAMD'],function (angularAMD) {
     'use strict';
 
     angularAMD.controller('directInventoryController', function ($scope, $rootScope, $timeout, $routeParams,
@@ -68,9 +68,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                         .getPlacement(urlData, query)
                         .then(function (result) {
                             var responseData = result.data.data,
-                                placementList,
-                                placementIds,
-                                placementsData;
+                                placementIds;
 
                             $scope.adData.directInvenotryData.placements.fetching = false;
                             $scope.adData.directInvenotryData.placements.load_more_data = false;
@@ -92,14 +90,16 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                             }
 
                             if($scope.adData.directInvenotryData.placements.selected.length >0) {
-                                placementIds = _.pluck($scope.adData.directInvenotryData.placements.selected, 'sourceId');
+                                placementIds =
+                                    _.pluck($scope.adData.directInvenotryData.placements.selected, 'sourceId');
+
                                 placementIds = placementIds.map(function (item) {
                                     return parseInt(item, 10);
                                 });
 
-                                _.each($scope.adData.directInvenotryData.placements.data, // jshint ignore:line
+                                _.each($scope.adData.directInvenotryData.placements.data,
                                     function (data, idx) {
-                                        if (_.contains(placementIds, Number(data.sourceId))) { // jshint ignore:line
+                                        if (_.contains(placementIds, Number(data.sourceId))) {
                                             $scope.adData.directInvenotryData.placements.data[idx].isChecked = true;
                                             $scope.adData.directInvenotryData.placements.data[idx].isIncluded = true;
                                         }
@@ -111,7 +111,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
 
                 resetDirectInventory : function() {
                     $scope.adData.directInvenotryData.placements.params =
-                        _.extend({}, defaultParams); // jshint ignore:line
+                        _.extend({}, defaultParams);
 
                     $scope.adData.directInvenotryData.placements.fetching = true;
                     $scope.adData.directInvenotryData.placements.data = [];
@@ -131,13 +131,17 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                 },
 
                 resetPublisherDropDown : function() {
-                    $("#publisher_drop_down").find("button").html('<span class="text" data-ng-bind="textConstants.SELECT_TYPE">Select Type</span><span class="icon-arrow-solid-down"></span>')
+                    $('#publisher_drop_down')
+                        .find('button')
+                        .html('<span class="text" data-ng-bind="textConstants.SELECT_TYPE">Select Type</span>' +
+                            '<span class="icon-arrow-solid-down"></span>');
                 },
 
                 //get search box value
                 searchGeo: function (filterValue, type) {
                     //reset geoData array
                     $scope.adData.directInvenotryData.placements.data = [];
+
                     this.resetPlacementData();
                     $scope.adData.directInvenotryData.placements.params[type ? type : 'search'] = filterValue;
                     $scope.adData.directInvenotryData.placements.fetching = true;
@@ -167,10 +171,9 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
 
         //select or unselect indiviual audience
         $scope.selectPlacement = function (placement) {
-            console.log("selectPlacement", placement);
             var index,
                 placementIndex =
-                _.findIndex($scope.adData.directInvenotryData.placements.selected, // jshint ignore:line
+                _.findIndex($scope.adData.directInvenotryData.placements.selected,
                     function (item) {
                         return item.id === placement.id;
                     });
@@ -183,7 +186,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                 $scope.adData.directInvenotryData.placements.selected.splice(placementIndex, 1);
 
                 index =
-                    _.findIndex($scope.adData.directInvenotryData.placements.data, // jshint ignore:line
+                    _.findIndex($scope.adData.directInvenotryData.placements.data,
                         function (list) {
                             return placement.id === list.id;
                         });
@@ -247,18 +250,14 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
 
         //search countries/regions/cities
         $scope.search = function (event, searchtxt) {
-            var searchType,
-                target = $(event.currentTarget);
+            var target = $(event.currentTarget);
 
             event.stopImmediatePropagation();
             event.preventDefault();
 
             if ($(target).attr('type') === 'button') {
-                searchType = target.closest('.searchInput').find('.searchBox').attr('data-searchfield');
                 directInventory.searchGeo(searchtxt);
             } else {
-                searchType = target.attr('data-searchfield');
-
                 if (event.which === 13) {
                     directInventory.searchGeo(searchtxt);
                 }
@@ -267,7 +266,8 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
 
         $scope.adData.resetInventroy = function () {
             var placementList,
-                placementIds;
+                placementIds,
+                newUnsavedItemFound;
 
             if (!$scope.$parent.postPlatformDataObj) {
 
@@ -279,7 +279,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
             } else { //click on back to platform when selected placement list is not empty
                 if($scope.adData.directInvenotryData.placements.selected.length >0) {
                     placementList =
-                        _.filter($scope.$parent.postPlatformDataObj, // jshint ignore:line
+                        _.filter($scope.$parent.postPlatformDataObj,
                             function (obj) {
                                 return obj.platformCustomInputId === 80;
                             });
@@ -289,22 +289,24 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                             return parseInt(item, 10);
                         });
 
-                        var newUnsavedItemFound  = _.filter($scope.adData.directInvenotryData.placements.selected, function(item) {
-                            return _.contains(placementIds, Number(item.sourceId))
-                        });
+                        newUnsavedItemFound  =
+                            _.filter($scope.adData.directInvenotryData.placements.selected, function(item) {
+                                return _.contains(placementIds, Number(item.sourceId));
+                            });
 
                         if(newUnsavedItemFound.length >0) {
                             $scope.adData.directInvenotryData.placements.selected = newUnsavedItemFound;
                         }
 
-                        var placementIds = _.pluck($scope.adData.directInvenotryData.placements.selected, 'sourceId');
+                        placementIds = _.pluck($scope.adData.directInvenotryData.placements.selected, 'sourceId');
+
                         placementIds = placementIds.map(function (item) {
                             return parseInt(item, 10);
                         });
 
-                        _.each($scope.adData.directInvenotryData.placements.data, // jshint ignore:line
+                        _.each($scope.adData.directInvenotryData.placements.data,
                             function (data, idx) {
-                                if (!_.contains(placementIds, Number(data.sourceId))) { // jshint ignore:line
+                                if (!_.contains(placementIds, Number(data.sourceId))) {
                                     $scope.adData.directInvenotryData.placements.data[idx].isChecked = false;
                                     $scope.adData.directInvenotryData.placements.data[idx].isIncluded = false;
                                 }
@@ -326,8 +328,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
 
         $rootScope.$on('directInvenotry', function (event, args) {
             var placementList,
-                placementsData,
-                placementIds;
+                placementsData;
 
             $scope.urlData = {
                 vendorId: args.platformId,
@@ -339,7 +340,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
 
             if ($scope.$parent.postPlatformDataObj && $scope.$parent.postPlatformDataObj.length >0) {
                 placementList =
-                    _.filter($scope.$parent.postPlatformDataObj, // jshint ignore:line
+                    _.filter($scope.$parent.postPlatformDataObj,
                         function (obj) {
                             return obj.platformCustomInputId === 99;
                         });
@@ -349,6 +350,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                     $scope.adData.directInvenotryData.placements.selected = placementsData;
                 }
             }
+
             directInventory.placement($scope.urlData, $scope.adData.directInvenotryData.placements.params);
         });
     });

@@ -1,12 +1,14 @@
 /**
  * Created by shrujan on 02/05/16.
  */
-define(['angularAMD', '../../common/services/constants_service', // jshint ignore:line
-    'common/services/vistoconfig_service', 'workflow/services/workflow_service', '../../common/services/file_reader',
-    'login/login_model', 'common/moment_utils', '../../common/directives/ng_upload_hidden'], function (angularAMD) {
+define(['angularAMD', '../../common/services/constants_service', 'common/services/vistoconfig_service',
+    'workflow/services/workflow_service', '../../common/services/file_reader', 'login/login_model',
+    'common/moment_utils', '../../common/directives/ng_upload_hidden'], function (angularAMD) {
+    'use strict';
+
     angularAMD.controller('LineItemController', function ($scope, $rootScope, $routeParams, $locale, vistoconfig,
                                                           $location, $timeout, constants, workflowService, loginModel,
-                                                          momentService, fileReader, Upload,dataService) {
+                                                          momentService, fileReader, Upload, dataService) {
         var selectedAdvertiser,
             campaignId = '-999',
             CONST_FLAT_FEE = 'Flat Fee',
@@ -28,8 +30,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                     ind,
                     startDateElem = $('#startDateInput'),
                     endDateElem = $('#endDateInput'),
-                    highestEndTime,
-                    today = momentService.utcToLocalTime();
+                    highestEndTime;
 
                 // startDate input Element
                 if (!_.contains(['IN_FLIGHT', 'ENDED'], $scope.selectedCampaign.status)) {
@@ -40,7 +41,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                     }
 
                     //method to find lowest startTime
-                    ascending = _.sortBy(startDatelow, function (o) { // jshint ignore:line
+                    ascending = _.sortBy(startDatelow, function (o) {
                         return o;
                     });
 
@@ -60,7 +61,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                     }
                 }
 
-                descending = _.sortBy(endDateHigh, function (o) { // jshint ignore:line
+                descending = _.sortBy(endDateHigh, function (o) {
                     return o;
                 });
 
@@ -84,7 +85,19 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                     errorFound,
                     newItem,
                     objectIndex,
-                    indexSor;
+                    indexSor,
+
+                    findBillingType = function (type) {
+                        return type.id === $scope.correctLineItems[index].billingTypeId;
+                    },
+
+                    findPixel = function (type) {
+                        return type.id === $scope.correctLineItems[index].pixelId;
+                    },
+
+                    findVendorConfig = function (type) {
+                        return type.id === $scope.correctLineItems[index].vendorConfigId;
+                    };
 
                 for (index = 0; index < $scope.correctLineItems.length; index++) {
                     errorFound = false;
@@ -92,9 +105,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                     newItem.lineItemType={};
                     newItem.name = $scope.correctLineItems[index].name;
 
-                    objectIndex = _.findIndex($scope.type, function (type) { // jshint ignore:line
-                        return type.id === $scope.correctLineItems[index].billingTypeId;
-                    });
+                    objectIndex = _.findIndex($scope.type, findBillingType);
 
                     if (objectIndex >= 0) {
                         newItem.lineItemType = $scope.type[objectIndex];
@@ -118,21 +129,13 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                     newItem.campaignId = (campaignId === '-999') ? '-999' : campaignId;
 
                     if ($scope.correctLineItems[index].pixelId) {
-                        objectIndex =
-                            _.findIndex($scope.selectedCampaign.pixelList, function (type) { // jshint ignore:line
-                                return type.id === $scope.correctLineItems[index].pixelId;
-                            });
-
+                        objectIndex = _.findIndex($scope.selectedCampaign.pixelList, findPixel);
                         newItem.pixel = $scope.selectedCampaign.pixelList[objectIndex];
                         newItem.pixelId = $scope.selectedCampaign.pixelList[objectIndex].id;
                     }
 
                     if ($scope.correctLineItems[index].vendorConfigId) {
-                        indexSor =
-                            _.findIndex($scope.selectedCampaign.systemOfRecord,function (type) { // jshint ignore:line
-                                return type.id === $scope.correctLineItems[index].vendorConfigId;
-                            });
-
+                        indexSor = _.findIndex($scope.selectedCampaign.systemOfRecord, findVendorConfig);
                         newItem.systemOfRecordSelected = $scope.selectedCampaign.systemOfRecord[indexSor];
                         newItem.vendorConfigId = $scope.selectedCampaign.systemOfRecord[indexSor].id;
                     }
@@ -225,7 +228,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
             newItem.pixelId = $scope.editLineItem.pixelSelected.id;
             newItem.systemOfRecordSelected = $scope.editLineItem.systemOfRecordSelected;
 
-            // vendorConfigId is the parameter backend acceptes
+            // vendorConfigId is the parameter backend accepts
             newItem.vendorConfigId = $scope.editLineItem.systemOfRecordSelected.id;
 
             // handle real edit mode
@@ -249,7 +252,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
 
             if (selectedAdvertiser && (selectedAdvertiser.billingValue && selectedAdvertiser.billingTypeId)) {
                 index =
-                    _.findIndex($scope.type, function (item) { // jshint ignore:line
+                    _.findIndex($scope.type, function (item) {
                     return item.id ===  selectedAdvertiser.billingTypeId;
                 });
 
@@ -273,18 +276,21 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
         function associatePixels () {
             var pixelObjIndex,
                 selectedIndex,
-                i;
+                i,
+
+                findPixel = function (obj) {
+                    return obj.id === $scope.lineItems.lineItemList[i].pixelId;
+                },
+
+                findPixel2 = function (item) {
+                    return item.id===$scope.selectedCampaign.pixelList[pixelObjIndex];
+                };
 
             for (i = 0; i < $scope.lineItems.lineItemList.length; i++) {
-                pixelObjIndex = _.findIndex($scope.selectedCampaign.pixelList,function (obj) { // jshint ignore:line
-                    return obj.id === $scope.lineItems.lineItemList[i].pixelId;
-                });
+                pixelObjIndex = _.findIndex($scope.selectedCampaign.pixelList, findPixel);
 
                 if (pixelObjIndex !== -1) {
-                    selectedIndex =
-                        _.findIndex( $scope.selectedCampaign.selectedPixel,function (item) { // jshint ignore:line
-                            return item.id===$scope.selectedCampaign.pixelList[pixelObjIndex];
-                        });
+                    selectedIndex = _.findIndex( $scope.selectedCampaign.selectedPixel, findPixel2);
 
                     if (selectedIndex === -1) {
                         $scope.$parent.selectPixel($scope.selectedCampaign.pixelList[pixelObjIndex]);
@@ -314,7 +320,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
             $scope.editLineItem.hasInFlightAds = lineItem.hasInFlightAds;
 
             //if pixel is empty show select from list in edit section for create/edit mode
-            if (_.isEmpty($scope.editLineItem.pixelSelected)) { // jshint ignore:line
+            if (_.isEmpty($scope.editLineItem.pixelSelected)) {
                 $scope.editLineItem.pixelSelected = {};
                 $scope.editLineItem.pixelSelected.name = 'Select from list';
                 $scope.editLineItem.pixelSelected.id = '';
@@ -368,7 +374,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
         /*---START------BULK LineItem Upload Section---------*/
         /*function to download empty template*/
         $scope.downloadTemplate = function () {
-            var   url = vistoconfig.apiPaths.WORKFLOW_API_URL +'/lineitems/downloadTemplate';
+            var url = vistoconfig.apiPaths.WORKFLOW_API_URL +'/lineitems/downloadTemplate';
 
             $('.download-report-load-icon').show();
 
@@ -377,7 +383,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                 .then(function (response) {
                     if (response.status === 'success') {
                         $('.download-report-load-icon').hide();
-                        saveAs(response.file, response.fileName); // jshint ignore:line
+                        saveAs(response.file, response.fileName);
                     } else {
                         $('.download-report-load-icon').hide();
                     }
@@ -420,6 +426,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                     //bulk upload loader flag
                     $scope.bulkUploadItemLoaderEdit = true;
                     budget = $scope.Campaign.totalBudget ? $scope.Campaign.totalBudget : 0;
+
                     clientId = ($scope.selectedCampaign.clientId) ?
                         $scope.selectedCampaign.clientId :
                         loginModel.getSelectedClient().id;
@@ -480,7 +487,6 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                             });
                     })($scope.selectedCampaign.lineItemfile);
                 }
-
             } else if (uploadMode === 'edit') {
                 if ($scope.selectedCampaign.lineItemfile) {
                     //bulk upload loader flag
@@ -551,7 +557,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
 
         // Function to download error log, when some rows in upload fails to upload
         $scope.downloadErrorLog = function (url) {
-            var downloadErrorurl=vistoconfig.apiPaths.WORKFLOW_API_URL +''+url.slice(16,url.length);
+            var downloadErrorurl = vistoconfig.apiPaths.WORKFLOW_API_URL + '' + url.slice(16, url.length);
 
             $('.download-report-load-icon').show();
 
@@ -560,7 +566,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                 .then(function (response) {
                     if (response.status === 'success') {
                         $('.download-report-load-icon').hide();
-                        saveAs(response.file, response.fileName); // jshint ignore:line
+                        saveAs(response.file, response.fileName);
                     } else {
                         $('.download-report-load-icon').hide();
                     }
@@ -702,7 +708,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
             newItem = workflowService.getLineItemDataEdit();
 
             if (!newItem) {
-                newItem = createEditLineItemObj(angular.copy(oldLineItem)); // jshint ignore:line
+                newItem = createEditLineItemObj(angular.copy(oldLineItem));
             }
 
             if (doesLineItemExceedBudget(newItem.billableAmount,$scope.Campaign.totalBudget)) {
@@ -725,15 +731,21 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                 $scope.editLineItemLoaderEdit = true;
 
                 if (!newItem) {
-                    newItem = createEditLineItemObj(angular.copy(oldLineItem)); // jshint ignore:line
+                    newItem = createEditLineItemObj(angular.copy(oldLineItem));
                 }
 
                 utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
-                utcStartTime = (moment(newItem.startTime).isSame($scope.modifiedLineItemAPIStartTime, "day")) ?   $scope.lineItemAPIStartTime : utcStartTime;
+
+                utcStartTime = (moment(newItem.startTime).isSame($scope.modifiedLineItemAPIStartTime, 'day')) ?
+                    $scope.lineItemAPIStartTime : utcStartTime;
+
                 newItem.startTime = utcStartTime;
 
                 utcEndTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
-                utcEndTime = (moment(newItem.endTime).isSame($scope.modifiedLineItemAPIEndTime, "day"))  ? $scope.lineItemAPIEndTime :  utcEndTime;
+
+                utcEndTime = (moment(newItem.endTime).isSame($scope.modifiedLineItemAPIEndTime, 'day')) ?
+                    $scope.lineItemAPIEndTime :  utcEndTime;
+
                 newItem.endTime = utcEndTime;
 
                 // in case pricerate is 30% markup remove the Markup
@@ -909,7 +921,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                     CONST_POST_CLICK_CPA === $scope.editLineItem.lineItemType.name) {
                     $scope.showPixelsListEdit = true;
 
-                    if (_.isEmpty($scope.editLineItem.pixelSelected)) { // jshint ignore:line
+                    if (_.isEmpty($scope.editLineItem.pixelSelected)) {
                         $scope.editLineItem.pixelSelected = {};
                         $scope.editLineItem.pixelSelected.name = 'Select from list';
                         $scope.editLineItem.pixelSelected.id = '';
@@ -968,8 +980,8 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
         $scope.showEditItemRow = function (event, lineItem) {
             var target = event.currentTarget;
 
-            oldLineItem = angular.copy(lineItem); // jshint ignore:line
-            oldLineItemIndex = _.findIndex($scope.lineItems.lineItemList, function (item) { // jshint ignore:line
+            oldLineItem = angular.copy(lineItem);
+            oldLineItemIndex = _.findIndex($scope.lineItems.lineItemList, function (item) {
                 if (item.name === oldLineItem.name &&
                     item.billingTypeId === oldLineItem.billingTypeId &&
                     item.pricingRate === oldLineItem.pricingRate) {
@@ -1004,7 +1016,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
         };
 
         $scope.updateLineItem = function () {
-            if (doesLineItemExceedBudget($scope.editLineItem.billableAmount,$scope.Campaign.totalBudget)) {
+            if (doesLineItemExceedBudget($scope.editLineItem.billableAmount, $scope.Campaign.totalBudget)) {
                 return false;
             }
 
@@ -1013,7 +1025,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
         };
 
         $scope.deleteLineItem = function () {
-            var index = _.findIndex($scope.lineItems.lineItemList, function (item) { // jshint ignore:line
+            var index = _.findIndex($scope.lineItems.lineItemList, function (item) {
                 if (item.name === oldLineItem.name &&
                     item.billingTypeId === oldLineItem.billingTypeId &&
                     item.pricingRate === oldLineItem.pricingRate) {
@@ -1037,9 +1049,9 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                 changeDate;
 
             if ($scope.mode !== 'edit') {
-                if (startTime && moment(startTime).isAfter(endTime)) { // jshint ignore:line
+                if (startTime && moment(startTime).isAfter(endTime)) {
                     endDateElem.removeAttr('disabled').css({'background': 'transparent'});
-                    changeDate = moment(startTime).format(constants.DATE_US_FORMAT); // jshint ignore:line
+                    changeDate = moment(startTime).format(constants.DATE_US_FORMAT);
                     endDateElem.datepicker('setStartDate', changeDate);
                     endDateElem.datepicker('update', changeDate);
                 } else {
@@ -1050,7 +1062,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
 
                 $scope.updateLineItemCreateDate();
             } else {
-                if (moment(endTime).isBefore(moment(startTime))) { // jshint ignore:line
+                if (moment(endTime).isBefore(moment(startTime))) {
                     endDateElem.removeAttr('disabled').css({'background': 'transparent'});
                     endDateElem.datepicker('setStartDate', startTime);
                     endDateElem.datepicker('update', endTime);
@@ -1060,7 +1072,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                     endDateElem.datepicker('update', endTime);
                 }
             }
-            if (moment(startTime).isAfter(endTime, 'day')) { // jshint ignore:line
+            if (moment(startTime).isAfter(endTime, 'day')) {
                 endDateElem.datepicker('update', startTime);
             }
         };
@@ -1069,10 +1081,11 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
         $scope.$parent.processLineItemEditMode = function (lineItemList) {
             $scope.lineItems.lineItemList.length = 0;
 
-            _.each(lineItemList, function (item) { // jshint ignore:line
-                var index = _.findIndex($scope.type, function (type) { // jshint ignore:line
+            _.each(lineItemList, function (item) {
+                var index = _.findIndex($scope.type, function (type) {
                         return type.id === item.billingTypeId;
                     }),
+
                     pixelIndex,
                     sorIndex;
 
@@ -1084,7 +1097,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
 
                 //pixel
                 if (item.pixelId) {
-                    pixelIndex = _.findIndex($scope.selectedCampaign.pixelList, function (type) { // jshint ignore:line
+                    pixelIndex = _.findIndex($scope.selectedCampaign.pixelList, function (type) {
                         return type.id === item.pixelId;
                     });
 
@@ -1097,7 +1110,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                 //SOR
                 if (item.vendorConfigId) {
                     sorIndex =
-                            _.findIndex($scope.selectedCampaign.systemOfRecord, function (type) { // jshint ignore:line
+                            _.findIndex($scope.selectedCampaign.systemOfRecord, function (type) {
                             return type.id === item.vendorConfigId;
                         });
 
@@ -1194,7 +1207,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
         };
 
         $scope.$parent.filterLineItemBasedOnPixel = function (id) {
-            var tempList = _.extend($scope.lineItems.lineItemList), // jshint ignore:line
+            var tempList = _.extend($scope.lineItems.lineItemList),
                 i;
 
             for (i = 0; i < tempList.length; i++) {
@@ -1209,7 +1222,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
         $scope.calculateLineItemTotal = function () {
             $scope.selectedCampaign.lineItemBillableAmountTotal = 0;
 
-            _.each($scope.lineItems.lineItemList,function (item) { // jshint ignore:line
+            _.each($scope.lineItems.lineItemList,function (item) {
                 $scope.selectedCampaign.lineItemBillableAmountTotal += Number(item.billableAmount);
             });
         };

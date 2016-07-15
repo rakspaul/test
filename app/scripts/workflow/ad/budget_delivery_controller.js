@@ -1,5 +1,7 @@
-define(['angularAMD', '../../common/services/constants_service', 'common/moment_utils', // jshint ignore:line
+define(['angularAMD', '../../common/services/constants_service', 'common/moment_utils',
     '../../common/directives/ng_upload_hidden', 'workflow/directives/custom_date_picker'], function (angularAMD) {
+    'use strict';
+
     angularAMD.controller('BudgetDeliveryController', function ($scope, constants, momentService, workflowService) {
         var unallocatedAmount = 0,
             adMaximumRevenue = 0;
@@ -17,13 +19,13 @@ define(['angularAMD', '../../common/services/constants_service', 'common/moment_
 
         //Kpi Types in an array of objects, sorted alphabetically
         $scope.adData.primaryKpiList = [
-            {kpiType:'ACTION RATE', displayName:'Action Rate'},
-            {kpiType:'CPA',         displayName:'CPA'},
-            {kpiType:'CPC',         displayName:'CPC'},
-            {kpiType:'CPM',         displayName:'CPM'},
-            {kpiType:'CTR',         displayName:'CTR'},
-            {kpiType:'IMPRESSIONS', displayName:'Impressions'},
-            {kpiType:'VTC',         displayName:'VTC'}
+            {kpiType: 'ACTION RATE', displayName: 'Action Rate'},
+            {kpiType: 'CPA',         displayName: 'CPA'},
+            {kpiType: 'CPC',         displayName: 'CPC'},
+            {kpiType: 'CPM',         displayName: 'CPM'},
+            {kpiType: 'CTR',         displayName: 'CTR'},
+            {kpiType: 'IMPRESSIONS', displayName: 'Impressions'},
+            {kpiType: 'VTC',         displayName: 'VTC'}
         ];
 
         $scope.ImpressionPerUserValidator = function () {
@@ -109,9 +111,9 @@ define(['angularAMD', '../../common/services/constants_service', 'common/moment_
         };
 
         $scope.checkForPastDate = function (startDate, endDate) {
-            endDate = moment(endDate).format(constants.DATE_US_FORMAT); // jshint ignore:line
+            endDate = moment(endDate).format(constants.DATE_US_FORMAT);
 
-            return moment().isAfter(endDate, 'day'); // jshint ignore:line
+            return moment().isAfter(endDate, 'day');
         };
 
         $scope.handleEndFlightDate = function (data) {
@@ -126,9 +128,9 @@ define(['angularAMD', '../../common/services/constants_service', 'common/moment_
                 changeDate = endDate;
                 $scope.adData.endTime = changeDate;
 
-                if (moment().isAfter(endDate)) { // jshint ignore:line
+                if (moment().isAfter(endDate)) {
                     endDateElem.datepicker('setStartDate',
-                        moment().format(constants.DATE_US_FORMAT)); // jshint ignore:line
+                        moment().format(constants.DATE_US_FORMAT));
                 }
             }
         };
@@ -157,7 +159,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/moment_
                         .removeAttr('disabled')
                         .css({'background': 'transparent'});
 
-                    changeDate = moment(startDate).format(constants.DATE_US_FORMAT); // jshint ignore:line
+                    changeDate = moment(startDate).format(constants.DATE_US_FORMAT);
                     endDateElem.datepicker('setStartDate', changeDate);
 
                     if (location.href.indexOf('adGroup') > -1) {
@@ -170,7 +172,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/moment_
                     endDateElem.datepicker('update', changeDate);
                 }
             } else {
-                changeDate = moment(startDate).format(constants.DATE_US_FORMAT); // jshint ignore:line
+                changeDate = moment(startDate).format(constants.DATE_US_FORMAT);
                 adsDate = JSON.parse(localStorage.getItem('adsDates'));
 
                 // if start Date is in Past
@@ -178,16 +180,16 @@ define(['angularAMD', '../../common/services/constants_service', 'common/moment_
                     changeDate = startDate = adsDate.adStartDate;
                     $scope.adData.startTime = changeDate;
 
-                    if (moment().isAfter(endDate, 'day')) { // jshint ignore:line
+                    if (moment().isAfter(endDate, 'day')) {
                         endDateElem
                             .datepicker('setStartDate',
-                            moment().format(constants.DATE_US_FORMAT)); // jshint ignore:line
+                            moment().format(constants.DATE_US_FORMAT));
                     }
                 } else {
                     endDateElem.datepicker('setStartDate', changeDate);
                 }
 
-                if (moment(startDate).isAfter(endDate, 'day')) { // jshint ignore:line
+                if (moment(startDate).isAfter(endDate, 'day')) {
                     endDateElem.datepicker('update', changeDate);
                 }
             }
@@ -220,7 +222,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/moment_
             }
 
             // ads start Date in Past
-            if (moment(endDate).isAfter(campaignEndTime, 'day')) { // jshint ignore:line
+            if (moment(endDate).isAfter(campaignEndTime, 'day')) {
                 endDateElem.datepicker('setEndDate', endDate);
                 endDateElem.datepicker('setStartDate', endDate);
                 endDateElem.datepicker('update', endDate);
@@ -231,7 +233,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/moment_
             }
 
             // this is to disable the enddate before today
-            currentDate = moment().format(constants.DATE_US_FORMAT); // jshint ignore:line
+            currentDate = moment().format(constants.DATE_US_FORMAT);
 
             if (startDate < currentDate) {
                 endDateElem.datepicker('setStartDate', currentDate);
@@ -347,10 +349,10 @@ define(['angularAMD', '../../common/services/constants_service', 'common/moment_
                 campaignEndTime = momentService.utcToLocalTime(campaignData.endTime),
                 adGroupStartDate,
                 adGroupEndDate,
-                currentDate = moment().format(constants.DATE_US_FORMAT); // jshint ignore:line
+                currentDate = moment().format(constants.DATE_US_FORMAT);
 
-            if (moment().isAfter(campaignStartTime, 'day')) { // jshint ignore:line
-                campaignStartTime = moment().format(constants.DATE_US_FORMAT); // jshint ignore:line
+            if (moment().isAfter(campaignStartTime, 'day')) {
+                campaignStartTime = moment().format(constants.DATE_US_FORMAT);
             }
 
             $scope.mode === 'edit' && endDateElem.removeAttr('disabled').css({'background': 'transparent'});

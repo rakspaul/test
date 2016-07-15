@@ -1,11 +1,9 @@
-define(['angularAMD', '../../common/services/constants_service', // jshint ignore:line
-    'workflow/services/workflow_service', 'workflow/services/platform_custom_module',
-    'workflow/ad/direct_Inventory_controller'], function (angularAMD) {
+define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
+    'workflow/services/platform_custom_module', 'workflow/ad/direct_Inventory_controller'], function (angularAMD) {
+    'use strict';
+
     angularAMD.controller('BuyingPlatformController', function ($scope, $timeout, $modal, $filter, $rootScope,
                                                                 constants, workflowService, platformCustomeModule) {
-
-        $scope.adData.customPlatformLoader = false;
-
         var tempPlatform,
             storedResponse,
             oldPlatformName,
@@ -28,12 +26,12 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                         selectedSeat,
 
                         selectedPlatformIndex =
-                            _.findIndex($scope.workflowData.platforms, function (item) { // jshint ignore:line
+                            _.findIndex($scope.workflowData.platforms, function (item) {
                                 return item.id === platform.id;
                             });
 
                     if (selectedPlatformIndex !== -1) {
-                        selectedSeat = _.findIndex( // jshint ignore:line
+                        selectedSeat = _.findIndex(
                             $scope.workflowData.platforms[selectedPlatformIndex].seats,
                             function (item) {
                                 return item.id === platform.vendorSeatId;
@@ -129,7 +127,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                     //showing card view when you change the platform.
                     _buyingPlatform.hideTargetingBox();
 
-                    //Stop propogation to parent element
+                    //Stop propagation to parent element
                     event && event.stopImmediatePropagation();
 
                     storedResponse = workflowService.getAdsDetails();
@@ -145,7 +143,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                                 _buyingPlatform.setPlatform(event, platform, seat);
                             } else {
                                 //if the platform is changed but no targets were selected allow change
-                                if (_.size(storedResponse.targets.geoTargets) === 0) { // jshint ignore:line
+                                if (_.size(storedResponse.targets.geoTargets) === 0) {
                                     _buyingPlatform.setPlatform(event, platform, seat);
                                 } else {
                                     //display warning popup
@@ -180,7 +178,6 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                     $scope.adData.setSizes = constants.WF_NOT_SET;
                     $scope.creativeData.creativeInfo = 'undefined';
                     $scope.$parent.selectedArr.length = 0;
-
                 },
 
                 setPlatform: function (event, platform, seat) {
@@ -279,17 +276,17 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
             },
 
             getplatformCustomNameSpace =  function(customPlatformData) {
-                var ids = _.pluck(customPlatformData, 'platformCustomInputId'),// jshint ignore:line
+                var ids = _.pluck(customPlatformData, 'platformCustomInputId'),
                     value;
 
-                _.each($scope.adData.customInpNameSpaceList, function(customInpNameSpaceList) { // jshint ignore:line
-                    _.each(// jshint ignore:line
+                _.each($scope.adData.customInpNameSpaceList, function(customInpNameSpaceList) {
+                    _.each(
                         customInpNameSpaceList.platformCustomInputGroupList,
                         function(platformCustomInputGroupList) {
-                            var inputObj = _.filter( // jshint ignore:line
+                            var inputObj = _.filter(
                                 platformCustomInputGroupList.platformCustomInputList,
                                 function(obj) {
-                                    return _.indexOf(ids, obj.id) !== -1; // jshint ignore:line
+                                    return _.indexOf(ids, obj.id) !== -1;
                                 }
                             );
 
@@ -302,12 +299,13 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                 return value;
             };
 
+        $scope.adData.customPlatformLoader = false;
+
         $scope.selectPlatform = function (event, platform, seat) {
             $scope.defaultPlatform = platform;
 
             //reseting the direct inevntory data while changing the data;
             $scope.adData.resetInventroy();
-
 
             _buyingPlatform._selectPlatform(event, platform, seat);
         };
@@ -327,8 +325,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
             $scope.adData.platformId = trackingIntegration.id;
             $scope.adData.platformName = trackingIntegration.name;
 
-            workflowService.setVendorExecutionType(trackingIntegration.executionVendorType)
-
+            workflowService.setVendorExecutionType(trackingIntegration.executionVendorType);
         };
 
         $scope.platformCustomInputs = function () {
@@ -352,7 +349,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
 
                         $scope.adData.customPlatformLoader = false;
 
-                        //invoke wrapper
+                        // invoke wrapper
                         result.data.data = workflowService.platformCreateObj(result.data.data);
 
                         if (result.data.data.customInputJson !== '') {
@@ -363,7 +360,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                                 $scope.adData.customInpNameSpaceList =
                                     _.sortBy(platformCustomeJson.platformCustomInputNamespaceList, 'displayOrder');
 
-                                _.each($scope.adData.customInpNameSpaceList, function (obj, idx) { // jshint ignore:line
+                                _.each($scope.adData.customInpNameSpaceList, function (obj, idx) {
                                     obj.className = idx === 0 ? 'active' : '';
                                 });
                             }
@@ -441,7 +438,8 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
         };
 
         $scope.$parent.switchPlatform = function (event) {
-            if (event) { //clicked on back to platform link
+            //clicked on back to platform link
+            if (event) {
                 $scope.adData.resetInventroy();
             }
 
@@ -458,7 +456,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
             $('.eachBuyingSection').hide();
             $('.' + type + '_div').show();
 
-            _.each(['buying_strategy_div' , 'appnexus_deal_div', 'appnexus_direct_div'], // jshint ignore:line
+            _.each(['buying_strategy_div' , 'appnexus_deal_div', 'appnexus_direct_div'],
                 function(id) {
                     if (id === (type + '_div')) {
                         $('.'+id).find('input, select').removeAttr('disabled');
@@ -482,22 +480,22 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
             $scope.$parent.postPlatformDataObj = [];
 
             if (customFieldErrorElem.length === 0 && customPlatformFormData.length > 0) {
-                _.each(customPlatformFormData, function (data) { // jshint ignore:line
+                _.each(customPlatformFormData, function (data) {
                     var d = data.name.split('$$');
 
                     if (d[0] === 'placements' || d[0] === 'placements_display') {
                         if ($scope.inventoryTabSelected && $scope.inventoryTabSelected === 'appnexus_direct') {
                             selectedPlacementsData = $scope.adData.directInvenotryData.placements.selected;
-                            selectedPlacementIds = _.pluck(selectedPlacementsData, 'sourceId'); // jshint ignore:line
+                            selectedPlacementIds = _.pluck(selectedPlacementsData, 'sourceId');
 
-                            if(d[0] === 'placements') {
+                            if (d[0] === 'placements') {
                                 $scope.$parent.postPlatformDataObj.push({
                                     platformCustomInputId: Number(d[1]),
                                     value: selectedPlacementIds.join(',')
                                 });
                             }
 
-                            if(d[0] === 'placements_display') {
+                            if (d[0] === 'placements_display') {
                                 $scope.$parent.postPlatformDataObj.push({
                                     platformCustomInputId: Number(d[1]),
                                     value: JSON.stringify(selectedPlacementsData)
@@ -560,7 +558,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
 
             if (customFieldErrorElem.length > 0) {
                 $modalInstance = $modal.open({
-                    templateUrl: assets.html_confirmation_modal, // jshint ignore:line
+                    templateUrl: assets.html_confirmation_modal,
                     controller: 'ConfirmationModalController',
                     scope: $scope,
                     windowClass: 'delete-dialog',
