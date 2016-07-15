@@ -2,13 +2,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
         'workflow/services/workflow_service', 'login/login_model', 'common/services/data_service',
         'workflow/services/audience_service', 'common/services/role_based_service', 'common/moment_utils',
         'common/services/vistoconfig_service', 'workflow/services/video_service',
-        'workflow/controllers/budget_delivery_controller', 'workflow/controllers/buying_platform_controller',
-        'workflow/controllers/targetting_controller', 'workflow/controllers/geo_targetting_controller',
-        'workflow/controllers/audience_targetting_controller', 'workflow/controllers/daypart_create_controller',
-        'workflow/controllers/video_targetting_controller', 'workflow/controllers/inventory_filters_controller',
+        'workflow/ad/budget_delivery_controller', 'workflow/ad/buying_platform_controller',
+        'workflow/ad/targetting_controller', 'workflow/ad/geo_targetting_controller',
+        'workflow/ad/audience_targetting_controller', 'workflow/ad/daypart_create_controller',
+        'workflow/ad/video_targetting_controller', 'workflow/ad/inventory_filters_controller',
         'workflow/creative/creative_controller', 'workflow/creative/creative_list_controller',
         'workflow/creative/creative_tag_controller', 'workflow/services/platform_custom_module',
-        'workflow/controllers/ad_clone_controller'], function (angularAMD) {
+        'workflow/ad/ad_clone_controller'], function (angularAMD) {
         angularAMD.controller('CampaignAdsCreateController', function ($scope, $modal, $rootScope, $routeParams,
                                                                        $locale, $location,  $filter, $timeout,
                                                                        constants, workflowService, loginModel,
