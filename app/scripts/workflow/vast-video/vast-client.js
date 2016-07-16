@@ -1,42 +1,69 @@
-! function(e) {
-    if ("object" == typeof exports) module.exports = e();
-    else if ("function" == typeof define && define.amd) define(e);
-    else {
-        var f;
-        "undefined" != typeof window ? f = window : "undefined" != typeof global ? f = global : "undefined" != typeof self && (f = self), f.DMVAST = e()
+! function (e) {
+    var f;
+
+    if ('object' === typeof exports) {
+        module.exports = e();
+    } else if ('function' === typeof define && define.amd) {
+        define(e);
+    } else {
+        'undefined' !== typeof window ?
+            f = window : 'undefined' !== typeof global ?
+            f = global : 'undefined' !== typeof self && (f = self), f.DMVAST = e(); // jshint ignore:line
     }
-}(function() {
-    var define, module, exports;
+}(function () {
+    var define, // jshint ignore:line
+        module, // jshint ignore:line
+        exports; // jshint ignore:line
+
     return (function e(t, n, r) {
+        var i,
+            o;
+
         function s(o, u) {
+            var f;
+
             if (!n[o]) {
                 if (!t[o]) {
-                    var a = typeof require == "function" && require;
-                    if (!u && a) return a(o, !0);
-                    if (i) return i(o, !0);
-                    throw new Error("Cannot find module '" + o + "'")
+                    var a = typeof require === 'function' && require;
+
+                    if (!u && a) {
+                        return a(o, !0);
+                    }
+
+                    if (i) {
+                        return i(o, !0);
+                    }
+
+                    throw new Error('Cannot find module "' + o + '"');
                 }
-                var f = n[o] = {
+
+                f = n[o] = {
                     exports: {}
                 };
-                t[o][0].call(f.exports, function(e) {
+
+                t[o][0].call(f.exports, function (e) {
                     var n = t[o][1][e];
-                    return s(n ? n : e)
-                }, f, f.exports, e, t, n, r)
+
+                    return s(n ? n : e);
+                }, f, f.exports, e, t, n, r);
             }
-            return n[o].exports
+
+            return n[o].exports;
         }
-        var i = typeof require == "function" && require;
-        for (var o = 0; o < r.length; o++) s(r[o]);
-        return s
+
+        i = typeof require === 'function' && require;
+
+        for (o = 0; o < r.length; o++) s(r[o]); // jshint ignore:line
+
+        return s;
     })({
         1: [
-            function(_dereq_, module, exports) {
+            function (_dereq_, module, exports) { // jshint ignore:line
                 // Copyright Joyent, Inc. and other Node contributors.
                 //
                 // Permission is hereby granted, free of charge, to any person obtaining a
                 // copy of this software and associated documentation files (the
-                // "Software"), to deal in the Software without restriction, including
+                // 'Software'), to deal in the Software without restriction, including
                 // without limitation the rights to use, copy, modify, merge, publish,
                 // distribute, sublicense, and/or sell copies of the Software, and to permit
                 // persons to whom the Software is furnished to do so, subject to the
@@ -45,7 +72,7 @@
                 // The above copyright notice and this permission notice shall be included
                 // in all copies or substantial portions of the Software.
                 //
-                // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+                // THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS
                 // OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
                 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
                 // NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
@@ -57,6 +84,7 @@
                     this._events = this._events || {};
                     this._maxListeners = this._maxListeners || undefined;
                 }
+
                 module.exports = EventEmitter;
 
                 // Backwards-compat with node 0.10.x
@@ -71,37 +99,49 @@
 
                 // Obviously not all Emitters should be limited to 10. This function allows
                 // that to be increased. Set to zero for unlimited.
-                EventEmitter.prototype.setMaxListeners = function(n) {
-                    if (!isNumber(n) || n < 0 || isNaN(n))
+                EventEmitter.prototype.setMaxListeners = function (n) {
+                    if (!isNumber(n) || n < 0 || isNaN(n)) {
                         throw TypeError('n must be a positive number');
+                    }
+
                     this._maxListeners = n;
                     return this;
                 };
 
-                EventEmitter.prototype.emit = function(type) {
-                    var er, handler, len, args, i, listeners;
+                EventEmitter.prototype.emit = function (type) {
+                    var er,
+                        handler,
+                        len,
+                        args,
+                        i,
+                        listeners;
 
-                    if (!this._events)
+                    if (!this._events) {
                         this._events = {};
+                    }
 
                     // If there is no 'error' event listener then throw.
                     if (type === 'error') {
                         if (!this._events.error ||
                             (isObject(this._events.error) && !this._events.error.length)) {
                             er = arguments[1];
+
                             if (er instanceof Error) {
-                                throw er; // Unhandled 'error' event
+                                // Unhandled 'error' event
+                                throw er;
                             } else {
                                 throw TypeError('Uncaught, unspecified "error" event.');
                             }
+
                             return false;
                         }
                     }
 
                     handler = this._events[type];
 
-                    if (isUndefined(handler))
+                    if (isUndefined(handler)) {
                         return false;
+                    }
 
                     if (isFunction(handler)) {
                         switch (arguments.length) {
@@ -109,64 +149,75 @@
                             case 1:
                                 handler.call(this);
                                 break;
+
                             case 2:
                                 handler.call(this, arguments[1]);
                                 break;
+
                             case 3:
                                 handler.call(this, arguments[1], arguments[2]);
                                 break;
+
                             // slower
                             default:
                                 len = arguments.length;
                                 args = new Array(len - 1);
-                                for (i = 1; i < len; i++)
+
+                                for (i = 1; i < len; i++) {
                                     args[i - 1] = arguments[i];
+                                }
+
                                 handler.apply(this, args);
                         }
                     } else if (isObject(handler)) {
                         len = arguments.length;
                         args = new Array(len - 1);
-                        for (i = 1; i < len; i++)
+
+                        for (i = 1; i < len; i++) {
                             args[i - 1] = arguments[i];
+                        }
 
                         listeners = handler.slice();
                         len = listeners.length;
-                        for (i = 0; i < len; i++)
+
+                        for (i = 0; i < len; i++) {
                             listeners[i].apply(this, args);
+                        }
                     }
 
                     return true;
                 };
 
-                EventEmitter.prototype.addListener = function(type, listener) {
+                EventEmitter.prototype.addListener = function (type, listener) {
                     var m;
 
-                    if (!isFunction(listener))
+                    if (!isFunction(listener)) {
                         throw TypeError('listener must be a function');
+                    }
 
-                    if (!this._events)
+                    if (!this._events) {
                         this._events = {};
+                    }
 
-                    // To avoid recursion in the case that type === "newListener"! Before
-                    // adding it to the listeners, first emit "newListener".
-                    if (this._events.newListener)
-                        this.emit('newListener', type,
-                            isFunction(listener.listener) ?
-                                listener.listener : listener);
+                    // To avoid recursion in the case that type === 'newListener'! Before
+                    // adding it to the listeners, first emit 'newListener'.
+                    if (this._events.newListener) {
+                        this.emit('newListener', type, isFunction(listener.listener) ? listener.listener : listener);
+                    }
 
-                    if (!this._events[type])
-                    // Optimize the case of one listener. Don't need the extra array object.
+                    if (!this._events[type]) {
+                        // Optimize the case of one listener. Don't need the extra array object.
                         this._events[type] = listener;
-                    else if (isObject(this._events[type]))
-                    // If we've already got an array, just append.
+                    } else if (isObject(this._events[type])) {
+                        // If we've already got an array, just append.
                         this._events[type].push(listener);
-                    else
-                    // Adding the second element, need to change to array.
+                    } else {
+                        // Adding the second element, need to change to array.
                         this._events[type] = [this._events[type], listener];
+                    }
 
                     // Check for listener leak
                     if (isObject(this._events[type]) && !this._events[type].warned) {
-                        var m;
                         if (!isUndefined(this._maxListeners)) {
                             m = this._maxListeners;
                         } else {
@@ -175,10 +226,12 @@
 
                         if (m && m > 0 && this._events[type].length > m) {
                             this._events[type].warned = true;
+
                             console.error('(node) warning: possible EventEmitter memory ' +
                                 'leak detected. %d listeners added. ' +
                                 'Use emitter.setMaxListeners() to increase limit.',
                                 this._events[type].length);
+
                             console.trace();
                         }
                     }
@@ -188,11 +241,12 @@
 
                 EventEmitter.prototype.on = EventEmitter.prototype.addListener;
 
-                EventEmitter.prototype.once = function(type, listener) {
-                    if (!isFunction(listener))
-                        throw TypeError('listener must be a function');
-
+                EventEmitter.prototype.once = function (type, listener) {
                     var fired = false;
+
+                    if (!isFunction(listener)) {
+                        throw TypeError('listener must be a function');
+                    }
 
                     function g() {
                         this.removeListener(type, g);
@@ -210,14 +264,16 @@
                 };
 
                 // emits a 'removeListener' event iff the listener was removed
-                EventEmitter.prototype.removeListener = function(type, listener) {
+                EventEmitter.prototype.removeListener = function (type, listener) {
                     var list, position, length, i;
 
-                    if (!isFunction(listener))
+                    if (!isFunction(listener)) {
                         throw TypeError('listener must be a function');
+                    }
 
-                    if (!this._events || !this._events[type])
+                    if (!this._events || !this._events[type]) {
                         return this;
+                    }
 
                     list = this._events[type];
                     length = list.length;
@@ -226,9 +282,10 @@
                     if (list === listener ||
                         (isFunction(list.listener) && list.listener === listener)) {
                         delete this._events[type];
-                        if (this._events.removeListener)
-                            this.emit('removeListener', type, listener);
 
+                        if (this._events.removeListener) {
+                            this.emit('removeListener', type, listener);
+                        }
                     } else if (isObject(list)) {
                         for (i = length; i-- > 0;) {
                             if (list[i] === listener ||
@@ -238,8 +295,9 @@
                             }
                         }
 
-                        if (position < 0)
+                        if (position < 0) {
                             return this;
+                        }
 
                         if (list.length === 1) {
                             list.length = 0;
@@ -248,36 +306,45 @@
                             list.splice(position, 1);
                         }
 
-                        if (this._events.removeListener)
+                        if (this._events.removeListener) {
                             this.emit('removeListener', type, listener);
+                        }
                     }
 
                     return this;
                 };
 
-                EventEmitter.prototype.removeAllListeners = function(type) {
+                EventEmitter.prototype.removeAllListeners = function (type) {
                     var key, listeners;
 
-                    if (!this._events)
+                    if (!this._events) {
                         return this;
+                    }
 
                     // not listening for removeListener, no need to emit
                     if (!this._events.removeListener) {
-                        if (arguments.length === 0)
+                        if (arguments.length === 0) {
                             this._events = {};
-                        else if (this._events[type])
+                        } else if (this._events[type]) {
                             delete this._events[type];
+                        }
+
                         return this;
                     }
 
                     // emit removeListener for all listeners on all events
                     if (arguments.length === 0) {
                         for (key in this._events) {
-                            if (key === 'removeListener') continue;
+                            if (key === 'removeListener') {
+                                continue;
+                            }
+
                             this.removeAllListeners(key);
                         }
+
                         this.removeAllListeners('removeListener');
                         this._events = {};
+
                         return this;
                     }
 
@@ -287,33 +354,41 @@
                         this.removeListener(type, listeners);
                     } else {
                         // LIFO order
-                        while (listeners.length)
+                        while (listeners.length) {
                             this.removeListener(type, listeners[listeners.length - 1]);
+                        }
                     }
+
                     delete this._events[type];
 
                     return this;
                 };
 
-                EventEmitter.prototype.listeners = function(type) {
+                EventEmitter.prototype.listeners = function (type) {
                     var ret;
-                    if (!this._events || !this._events[type])
+
+                    if (!this._events || !this._events[type]) {
                         ret = [];
-                    else if (isFunction(this._events[type]))
+                    } else if (isFunction(this._events[type])) {
                         ret = [this._events[type]];
-                    else
+                    } else {
                         ret = this._events[type].slice();
+                    }
+
                     return ret;
                 };
 
-                EventEmitter.listenerCount = function(emitter, type) {
+                EventEmitter.listenerCount = function (emitter, type) {
                     var ret;
-                    if (!emitter._events || !emitter._events[type])
+
+                    if (!emitter._events || !emitter._events[type]) {
                         ret = 0;
-                    else if (isFunction(emitter._events[type]))
+                    } else if (isFunction(emitter._events[type])) {
                         ret = 1;
-                    else
+                    } else {
                         ret = emitter._events[type].length;
+                    }
+
                     return ret;
                 };
 
@@ -332,15 +407,17 @@
                 function isUndefined(arg) {
                     return arg === void 0;
                 }
+            },
 
-            }, {}
+            {}
         ],
+
         2: [
-            function(_dereq_, module, exports) {
+            function (_dereq_, module, exports) { // jshint ignore:line
                 // Generated by CoffeeScript 1.7.1
                 var VASTAd;
 
-                VASTAd = (function() {
+                VASTAd = (function () {
                     function VASTAd() {
                         this.errorURLTemplates = [];
                         this.impressionURLTemplates = [];
@@ -353,91 +430,96 @@
 
                 module.exports = VASTAd;
 
-            }, {}
+            },
+
+            {}
         ],
+
         3: [
-            function(_dereq_, module, exports) {
+            function (_dereq_, module, exports) { // jshint ignore:line
                 // Generated by CoffeeScript 1.7.1
-                var VASTClient, VASTParser, VASTUtil;
+                var VASTClient,
+                    VASTParser = _dereq_('./parser.coffee'),
+                    VASTUtil = _dereq_('./util.coffee');
 
-                VASTParser = _dereq_('./parser.coffee');
-
-                VASTUtil = _dereq_('./util.coffee');
-
-                VASTClient = (function() {
+                VASTClient = (function () {
                     function VASTClient() {}
 
                     VASTClient.cappingFreeLunch = 0;
-
                     VASTClient.cappingMinimumTimeInterval = 0;
-
                     VASTClient.timeout = 0;
 
-                    VASTClient.get = function(url, cb) {
-                        var now;
-                        now = +new Date();
+                    VASTClient.get = function (url, cb) {
+                        var now = +new Date();
+
                         if (this.totalCallsTimeout < now) {
                             this.totalCalls = 1;
                             this.totalCallsTimeout = now + (60 * 60 * 1000);
                         } else {
                             this.totalCalls++;
                         }
+
                         if (this.cappingFreeLunch >= this.totalCalls) {
                             cb(null);
                             return;
                         }
+
                         if (now - this.lastSuccessfullAd < this.cappingMinimumTimeInterval) {
                             cb(null);
                             return;
                         }
-                        return VASTParser.parse(url, (function(_this) {
-                            return function(response) {
+
+                        return VASTParser.parse(url, (function (_this) { // jshint ignore:line
+                            return function (response) {
                                 return cb(response);
                             };
                         })(this));
                     };
 
-                    (function() {
-                        var defineProperty, storage;
-                        storage = VASTUtil.storage;
-                        defineProperty = Object.defineProperty;
-                        ['lastSuccessfullAd', 'totalCalls', 'totalCallsTimeout'].forEach(function(property) {
+                    (function () {
+                        var defineProperty = Object.defineProperty,
+                            storage = VASTUtil.storage;
+
+                        ['lastSuccessfullAd', 'totalCalls', 'totalCallsTimeout'].forEach(function (property) {
                             defineProperty(VASTClient, property, {
-                                get: function() {
+                                get: function () {
                                     return storage.getItem(property);
                                 },
-                                set: function(value) {
+
+                                set: function (value) {
                                     return storage.setItem(property, value);
                                 },
+
                                 configurable: false,
                                 enumerable: true
                             });
                         });
+
                         if (VASTClient.totalCalls == null) {
                             VASTClient.totalCalls = 0;
                         }
+
                         if (VASTClient.totalCallsTimeout == null) {
                             VASTClient.totalCallsTimeout = 0;
                         }
                     })();
 
                     return VASTClient;
-
                 })();
 
                 module.exports = VASTClient;
+            },
 
-            }, {
-                "./parser.coffee": 8,
-                "./util.coffee": 14
+            {
+                './parser.coffee': 8,
+                './util.coffee': 14
             }
         ],
-        4: [
-            function(_dereq_, module, exports) {
-                // Generated by CoffeeScript 1.7.1
-                var VASTCompanionAd;
 
-                VASTCompanionAd = (function() {
+        4: [
+            function (_dereq_, module, exports) { // jshint ignore:line
+                // Generated by CoffeeScript 1.7.1
+                var VASTCompanionAd = (function () {
                     function VASTCompanionAd() {
                         this.id = null;
                         this.width = 0;
@@ -453,43 +535,52 @@
                 })();
 
                 module.exports = VASTCompanionAd;
+            },
 
-            }, {}
+            {}
         ],
+
         5: [
-            function(_dereq_, module, exports) {
+            function (_dereq_, module, exports) { // jshint ignore:line
                 // Generated by CoffeeScript 1.7.1
-                var VASTCreative, VASTCreativeCompanion, VASTCreativeLinear, VASTCreativeNonLinear,
+                var VASTCreative,
+                    VASTCreativeCompanion,
+                    VASTCreativeLinear,
+                    VASTCreativeNonLinear,
                     __hasProp = {}.hasOwnProperty,
-                    __extends = function(child, parent) {
-                        for (var key in parent) {
-                            if (__hasProp.call(parent, key)) child[key] = parent[key];
-                        }
+
+                    __extends = function (child, parent) {
+                        var key;
 
                         function ctor() {
                             this.constructor = child;
                         }
+
+                        for (key in parent) {
+                            if (__hasProp.call(parent, key)) {
+                                child[key] = parent[key];
+                            }
+                        }
+
                         ctor.prototype = parent.prototype;
                         child.prototype = new ctor();
                         child.__super__ = parent.prototype;
+
                         return child;
                     };
 
-                VASTCreative = (function() {
+                VASTCreative = (function () {
                     function VASTCreative() {
                         this.trackingEvents = {};
                     }
 
                     return VASTCreative;
-
                 })();
 
-                VASTCreativeLinear = (function(_super) {
-                    __extends(VASTCreativeLinear, _super);
-
+                VASTCreativeLinear = (function (_super) {
                     function VASTCreativeLinear() {
                         VASTCreativeLinear.__super__.constructor.apply(this, arguments);
-                        this.type = "linear";
+                        this.type = 'linear';
                         this.duration = 0;
                         this.skipDelay = null;
                         this.mediaFiles = [];
@@ -497,29 +588,28 @@
                         this.videoClickTrackingURLTemplate = null;
                     }
 
-                    return VASTCreativeLinear;
+                    __extends(VASTCreativeLinear, _super);
 
+                    return VASTCreativeLinear;
                 })(VASTCreative);
 
-                VASTCreativeNonLinear = (function(_super) {
-                    __extends(VASTCreativeNonLinear, _super);
-
+                VASTCreativeNonLinear = (function (_super) {
                     function VASTCreativeNonLinear() {
                         return VASTCreativeNonLinear.__super__.constructor.apply(this, arguments);
                     }
 
-                    return VASTCreativeNonLinear;
+                    __extends(VASTCreativeNonLinear, _super);
 
+                    return VASTCreativeNonLinear;
                 })(VASTCreative);
 
-                VASTCreativeCompanion = (function() {
+                VASTCreativeCompanion = (function () {
                     function VASTCreativeCompanion() {
-                        this.type = "companion";
+                        this.type = 'companion';
                         this.variations = [];
                     }
 
                     return VASTCreativeCompanion;
-
                 })();
 
                 module.exports = {
@@ -527,11 +617,13 @@
                     VASTCreativeNonLinear: VASTCreativeNonLinear,
                     VASTCreativeCompanion: VASTCreativeCompanion
                 };
+            },
 
-            }, {}
+            {}
         ],
+
         6: [
-            function(_dereq_, module, exports) {
+            function (_dereq_, module, exports) { // jshint ignore:line
                 // Generated by CoffeeScript 1.7.1
                 module.exports = {
                     client: _dereq_('./client.coffee'),
@@ -539,23 +631,23 @@
                     parser: _dereq_('./parser.coffee'),
                     util: _dereq_('./util.coffee')
                 };
-
             }, {
-                "./client.coffee": 3,
-                "./parser.coffee": 8,
-                "./tracker.coffee": 10,
-                "./util.coffee": 14
+                './client.coffee': 3,
+                './parser.coffee': 8,
+                './tracker.coffee': 10,
+                './util.coffee': 14
             }
         ],
+
         7: [
-            function(_dereq_, module, exports) {
+            function (_dereq_, module, exports) { // jshint ignore:line
                 // Generated by CoffeeScript 1.7.1
                 var VASTMediaFile;
 
-                VASTMediaFile = (function() {
+                VASTMediaFile = (function () {
                     function VASTMediaFile() {
                         this.fileURL = null;
-                        this.deliveryType = "progressive";
+                        this.deliveryType = 'progressive';
                         this.mimeType = null;
                         this.codec = null;
                         this.bitrate = 0;
@@ -570,99 +662,131 @@
                 })();
 
                 module.exports = VASTMediaFile;
-
             }, {}
         ],
+
         8: [
-            function(_dereq_, module, exports) {
+            function (_dereq_, module, exports) { // jshint ignore:line
                 // Generated by CoffeeScript 1.7.1
-                var URLHandler, VASTAd, VASTCompanionAd, VASTCreativeCompanion, VASTCreativeLinear, VASTMediaFile, VASTParser, VASTResponse, VASTUtil,
-                    __indexOf = [].indexOf || function(item) {
-                            for (var i = 0, l = this.length; i < l; i++) {
-                                if (i in this && this[i] === item) return i;
+                var URLHandler,
+                    VASTAd,
+                    VASTCompanionAd,
+                    VASTCreativeCompanion,
+                    VASTCreativeLinear,
+                    VASTMediaFile,
+                    VASTParser,
+                    VASTResponse,
+                    VASTUtil,
+
+                    __indexOf = [].indexOf || function (item) {
+                        for (var i = 0, l = this.length; i < l; i++) {
+                            if (i in this && this[i] === item) {
+                                return i;
                             }
-                            return -1;
-                        };
+                        }
+
+                        return -1;
+                    };
 
                 URLHandler = _dereq_('./urlhandler.coffee');
-
                 VASTResponse = _dereq_('./response.coffee');
-
                 VASTAd = _dereq_('./ad.coffee');
-
                 VASTUtil = _dereq_('./util.coffee');
-
                 VASTCreativeLinear = _dereq_('./creative.coffee').VASTCreativeLinear;
-
                 VASTCreativeCompanion = _dereq_('./creative.coffee').VASTCreativeCompanion;
-
                 VASTMediaFile = _dereq_('./mediafile.coffee');
-
                 VASTCompanionAd = _dereq_('./companionad.coffee');
 
-                VASTParser = (function() {
+                VASTParser = (function () {
                     var URLTemplateFilters;
 
                     function VASTParser() {}
 
                     URLTemplateFilters = [];
 
-                    VASTParser.addURLTemplateFilter = function(func) {
+                    VASTParser.addURLTemplateFilter = function (func) {
                         if (typeof func === 'function') {
                             URLTemplateFilters.push(func);
                         }
                     };
 
-                    VASTParser.removeURLTemplateFilter = function() {
+                    VASTParser.removeURLTemplateFilter = function () {
                         return URLTemplateFilters.pop();
                     };
 
-                    VASTParser.countURLTemplateFilters = function() {
+                    VASTParser.countURLTemplateFilters = function () {
                         return URLTemplateFilters.length;
                     };
 
-                    VASTParser.clearUrlTemplateFilters = function() {
-                        return URLTemplateFilters = [];
+                    VASTParser.clearUrlTemplateFilters = function () {
+                        return URLTemplateFilters = []; // jshint ignore:line
                     };
 
-                    VASTParser.parse = function(url, cb) {
-                        return this._parse(url, null, function(err, response) {
+                    VASTParser.parse = function (url, cb) {
+                        return this._parse(url, null, function (err, response) {
                             return cb(response);
                         });
                     };
 
-                    VASTParser._parse = function(url, parentURLs, cb) {
-                        var filter, _i, _len;
+                    VASTParser._parse = function (url, parentURLs, cb) {
+                        var filter,
+                            _i,
+                            _len;
+
                         for (_i = 0, _len = URLTemplateFilters.length; _i < _len; _i++) {
                             filter = URLTemplateFilters[_i];
                             url = filter(url);
                         }
+
                         if (parentURLs == null) {
                             parentURLs = [];
                         }
+
                         parentURLs.push(url);
-                        return URLHandler.get(url, (function(_this) {
-                            return function(err, xml) {
-                                var ad, complete, loopIndex, node, response, _j, _k, _len1, _len2, _ref, _ref1;
+
+                        return URLHandler.get(url, (function (_this) {
+                            return function (err, xml) {
+                                var ad,
+                                    complete,
+                                    loopIndex,
+                                    node,
+                                    response,
+                                    _j,
+                                    _k,
+                                    _len1,
+                                    _len2,
+                                    _ref,
+                                    _ref1;
+
                                 if (err != null) {
                                     return cb(err);
                                 }
+
                                 response = new VASTResponse();
-                                if (!(((xml != null ? xml.documentElement : void 0) != null) && xml.documentElement.nodeName === "VAST")) {
+
+                                if (!(((xml != null ? xml.documentElement : void 0) != null) &&
+                                    xml.documentElement.nodeName === 'VAST')) {
                                     return cb();
                                 }
+
                                 _ref = xml.documentElement.childNodes;
+
                                 for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
                                     node = _ref[_j];
+
                                     if (node.nodeName === 'Error') {
                                         response.errorURLTemplates.push(_this.parseNodeText(node));
                                     }
                                 }
+
                                 _ref1 = xml.documentElement.childNodes;
+
                                 for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
                                     node = _ref1[_k];
+
                                     if (node.nodeName === 'Ad') {
                                         ad = _this.parseAdElement(node);
+
                                         if (ad != null) {
                                             response.ads.push(ad);
                                         } else {
@@ -672,174 +796,272 @@
                                         }
                                     }
                                 }
-                                complete = function() {
-                                    var _l, _len3, _ref2;
+
+                                complete = function () {
+                                    var _l,
+                                        _len3,
+                                        _ref2;
+
                                     if (!response) {
                                         return;
                                     }
+
                                     _ref2 = response.ads;
+
                                     for (_l = 0, _len3 = _ref2.length; _l < _len3; _l++) {
                                         ad = _ref2[_l];
+
                                         if (ad.nextWrapperURL != null) {
                                             return;
                                         }
                                     }
+
                                     if (response.ads.length === 0) {
                                         VASTUtil.track(response.errorURLTemplates, {
                                             ERRORCODE: 303
                                         });
+
                                         response = null;
                                     }
+
                                     return cb(null, response);
                                 };
+
                                 loopIndex = response.ads.length;
+
                                 while (loopIndex--) {
                                     ad = response.ads[loopIndex];
+
                                     if (ad.nextWrapperURL == null) {
                                         continue;
                                     }
-                                    (function(ad) {
-                                        var baseURL, _ref2;
-                                        if (parentURLs.length >= 10 || (_ref2 = ad.nextWrapperURL, __indexOf.call(parentURLs, _ref2) >= 0)) {
+
+                                    (function (ad) {
+                                        var baseURL,
+                                            _ref2;
+
+                                        if (parentURLs.length >= 10 ||
+                                            (_ref2 = ad.nextWrapperURL, __indexOf.call(parentURLs, _ref2) >= 0)) {
                                             VASTUtil.track(ad.errorURLTemplates, {
                                                 ERRORCODE: 302
                                             });
+
                                             response.ads.splice(response.ads.indexOf(ad), 1);
                                             complete();
                                             return;
                                         }
+
                                         if (ad.nextWrapperURL.indexOf('://') === -1) {
                                             baseURL = url.slice(0, url.lastIndexOf('/'));
-                                            ad.nextWrapperURL = "" + baseURL + "/" + ad.nextWrapperURL;
+                                            ad.nextWrapperURL = '' + baseURL + '/' + ad.nextWrapperURL;
                                         }
-                                        return _this._parse(ad.nextWrapperURL, parentURLs, function(err, wrappedResponse) {
-                                            var creative, eventName, index, wrappedAd, _base, _l, _len3, _len4, _len5, _m, _n, _ref3, _ref4, _ref5;
+
+                                        return _this._parse(ad.nextWrapperURL, parentURLs,
+                                            function (err, wrappedResponse) {
+                                            var creative,
+                                                eventName,
+                                                index,
+                                                wrappedAd,
+                                                _base,
+                                                _l,
+                                                _len3,
+                                                _len4,
+                                                _len5,
+                                                _m,
+                                                _n,
+                                                _ref3,
+                                                _ref4,
+                                                _ref5;
+
                                             if (err != null) {
                                                 VASTUtil.track(ad.errorURLTemplates, {
                                                     ERRORCODE: 301
                                                 });
+
                                                 response.ads.splice(response.ads.indexOf(ad), 1);
                                             } else if (wrappedResponse == null) {
                                                 VASTUtil.track(ad.errorURLTemplates, {
                                                     ERRORCODE: 303
                                                 });
+
                                                 response.ads.splice(response.ads.indexOf(ad), 1);
                                             } else {
-                                                response.errorURLTemplates = response.errorURLTemplates.concat(wrappedResponse.errorURLTemplates);
+                                                response.errorURLTemplates = response.errorURLTemplates
+                                                    .concat(wrappedResponse.errorURLTemplates);
+
                                                 index = response.ads.indexOf(ad);
                                                 response.ads.splice(index, 1);
                                                 _ref3 = wrappedResponse.ads;
+
                                                 for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
                                                     wrappedAd = _ref3[_l];
-                                                    wrappedAd.errorURLTemplates = ad.errorURLTemplates.concat(wrappedAd.errorURLTemplates);
-                                                    wrappedAd.impressionURLTemplates = ad.impressionURLTemplates.concat(wrappedAd.impressionURLTemplates);
+                                                    wrappedAd.errorURLTemplates = ad.errorURLTemplates
+                                                        .concat(wrappedAd.errorURLTemplates);
+
+                                                    wrappedAd.impressionURLTemplates = ad.impressionURLTemplates
+                                                        .concat(wrappedAd.impressionURLTemplates);
+
                                                     if (ad.trackingEvents != null) {
                                                         _ref4 = wrappedAd.creatives;
+
                                                         for (_m = 0, _len4 = _ref4.length; _m < _len4; _m++) {
                                                             creative = _ref4[_m];
                                                             _ref5 = Object.keys(ad.trackingEvents);
+
                                                             for (_n = 0, _len5 = _ref5.length; _n < _len5; _n++) {
                                                                 eventName = _ref5[_n];
-                                                                (_base = creative.trackingEvents)[eventName] || (_base[eventName] = []);
-                                                                creative.trackingEvents[eventName] = creative.trackingEvents[eventName].concat(ad.trackingEvents[eventName]);
+                                                                (_base = creative.trackingEvents)[eventName] ||
+                                                                    (_base[eventName] = []);
+
+                                                                creative.trackingEvents[eventName] = creative
+                                                                    .trackingEvents[eventName]
+                                                                    .concat(ad.trackingEvents[eventName]);
                                                             }
                                                         }
                                                     }
+
                                                     response.ads.splice(index, 0, wrappedAd);
                                                 }
                                             }
+
                                             delete ad.nextWrapperURL;
+
                                             return complete();
                                         });
-                                    })(ad);
+                                    })(ad); // jshint ignore:line
                                 }
+
                                 return complete();
                             };
                         })(this));
                     };
 
-                    VASTParser.childByName = function(node, name) {
-                        var child, _i, _len, _ref;
+                    VASTParser.childByName = function (node, name) {
+                        var child,
+                            _i,
+                            _len,
+                            _ref;
+
                         _ref = node.childNodes;
+
                         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                             child = _ref[_i];
+
                             if (child.nodeName === name) {
                                 return child;
                             }
                         }
                     };
 
-                    VASTParser.childsByName = function(node, name) {
-                        var child, childs, _i, _len, _ref;
+                    VASTParser.childsByName = function (node, name) {
+                        var child,
+                            childs,
+                            _i,
+                            _len,
+                            _ref;
+
                         childs = [];
                         _ref = node.childNodes;
+
                         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                             child = _ref[_i];
+
                             if (child.nodeName === name) {
                                 childs.push(child);
                             }
                         }
+
                         return childs;
                     };
 
-                    VASTParser.parseAdElement = function(adElement) {
-                        var adTypeElement, _i, _len, _ref;
-                        _ref = adElement.childNodes;
+                    VASTParser.parseAdElement = function (adElement) {
+                        var adTypeElement,
+                            _i,
+                            _len,
+                            _ref = adElement.childNodes;
+
                         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                             adTypeElement = _ref[_i];
-                            if (adTypeElement.nodeName === "Wrapper") {
+
+                            if (adTypeElement.nodeName === 'Wrapper') {
                                 return this.parseWrapperElement(adTypeElement);
-                            } else if (adTypeElement.nodeName === "InLine") {
+                            } else if (adTypeElement.nodeName === 'InLine') {
                                 return this.parseInLineElement(adTypeElement);
                             }
                         }
                     };
 
-                    VASTParser.parseWrapperElement = function(wrapperElement) {
-                        var ad, wrapperCreativeElement, wrapperURLElement;
-                        ad = this.parseInLineElement(wrapperElement);
-                        wrapperURLElement = this.childByName(wrapperElement, "VASTAdTagURI");
+                    VASTParser.parseWrapperElement = function (wrapperElement) {
+                        var ad = this.parseInLineElement(wrapperElement),
+                            wrapperCreativeElement,
+                            wrapperURLElement = this.childByName(wrapperElement, 'VASTAdTagURI');
+
                         if (wrapperURLElement != null) {
                             ad.nextWrapperURL = this.parseNodeText(wrapperURLElement);
                         }
+
                         wrapperCreativeElement = ad.creatives[0];
+
                         if ((wrapperCreativeElement != null) && (wrapperCreativeElement.trackingEvents != null)) {
                             ad.trackingEvents = wrapperCreativeElement.trackingEvents;
                         }
+
                         if (ad.nextWrapperURL != null) {
                             return ad;
                         }
                     };
 
-                    VASTParser.parseInLineElement = function(inLineElement) {
-                        var ad, creative, creativeElement, creativeTypeElement, node, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
-                        ad = new VASTAd();
-                        _ref = inLineElement.childNodes;
+                    VASTParser.parseInLineElement = function (inLineElement) {
+                        var ad = new VASTAd(),
+                            creative,
+                            creativeElement,
+                            creativeTypeElement,
+                            node,
+                            _i,
+                            _j,
+                            _k,
+                            _len,
+                            _len1,
+                            _len2,
+                            _ref = inLineElement.childNodes,
+                            _ref1,
+                            _ref2;
+
                         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                             node = _ref[_i];
+
                             switch (node.nodeName) {
-                                case "Error":
+                                case 'Error':
                                     ad.errorURLTemplates.push(this.parseNodeText(node));
                                     break;
-                                case "Impression":
+
+                                case 'Impression':
                                     ad.impressionURLTemplates.push(this.parseNodeText(node));
                                     break;
-                                case "Creatives":
-                                    _ref1 = this.childsByName(node, "Creative");
+
+                                case 'Creatives':
+                                    _ref1 = this.childsByName(node, 'Creative');
+
                                     for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
                                         creativeElement = _ref1[_j];
                                         _ref2 = creativeElement.childNodes;
+
                                         for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
                                             creativeTypeElement = _ref2[_k];
+
                                             switch (creativeTypeElement.nodeName) {
-                                                case "Linear":
+                                                case 'Linear':
                                                     creative = this.parseCreativeLinearElement(creativeTypeElement);
+
                                                     if (creative) {
                                                         ad.creatives.push(creative);
                                                     }
+
                                                     break;
-                                                case "CompanionAds":
+
+                                                case 'CompanionAds':
                                                     creative = this.parseCompanionAd(creativeTypeElement);
+
                                                     if (creative) {
                                                         ad.creatives.push(creative);
                                                     }
@@ -848,92 +1070,161 @@
                                     }
                             }
                         }
+
                         return ad;
                     };
 
-                    VASTParser.parseCreativeLinearElement = function(creativeElement) {
-                        var creative, eventName, mediaFile, mediaFileElement, mediaFilesElement, percent, skipOffset, trackingElement, trackingEventsElement, trackingURLTemplate, videoClicksElement, _base, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
-                        creative = new VASTCreativeLinear();
-                        creative.duration = this.parseDuration(this.parseNodeText(this.childByName(creativeElement, "Duration")));
-                        if (creative.duration === -1 && creativeElement.parentNode.parentNode.parentNode.nodeName !== 'Wrapper') {
+                    VASTParser.parseCreativeLinearElement = function (creativeElement) {
+                        var creative = new VASTCreativeLinear(),
+                            eventName,
+                            mediaFile,
+                            mediaFileElement,
+                            mediaFilesElement,
+                            percent,
+                            skipOffset,
+                            trackingElement,
+                            trackingEventsElement,
+                            trackingURLTemplate,
+                            videoClicksElement,
+                            _base,
+                            _i,
+                            _j,
+                            _k,
+                            _l,
+                            _len,
+                            _len1,
+                            _len2,
+                            _len3,
+                            _ref,
+                            _ref1,
+                            _ref2,
+                            _ref3;
+
+                        creative.duration =
+                            this.parseDuration(this.parseNodeText(this.childByName(creativeElement, 'Duration')));
+
+                        if (creative.duration === -1 &&
+                            creativeElement.parentNode.parentNode.parentNode.nodeName !== 'Wrapper') {
                             return null;
                         }
-                        skipOffset = creativeElement.getAttribute("skipoffset");
+
+                        skipOffset = creativeElement.getAttribute('skipoffset');
+
                         if (skipOffset == null) {
                             creative.skipDelay = null;
-                        } else if (skipOffset.charAt(skipOffset.length - 1) === "%") {
+                        } else if (skipOffset.charAt(skipOffset.length - 1) === '%') {
                             percent = parseInt(skipOffset, 10);
                             creative.skipDelay = creative.duration * (percent / 100);
                         } else {
                             creative.skipDelay = this.parseDuration(skipOffset);
                         }
-                        videoClicksElement = this.childByName(creativeElement, "VideoClicks");
+
+                        videoClicksElement = this.childByName(creativeElement, 'VideoClicks');
+
                         if (videoClicksElement != null) {
-                            creative.videoClickThroughURLTemplate = this.parseNodeText(this.childByName(videoClicksElement, "ClickThrough"));
-                            creative.videoClickTrackingURLTemplate = this.parseNodeText(this.childByName(videoClicksElement, "ClickTracking"));
+                            creative.videoClickThroughURLTemplate =
+                                this.parseNodeText(this.childByName(videoClicksElement, 'ClickThrough'));
+
+                            creative.videoClickTrackingURLTemplate =
+                                this.parseNodeText(this.childByName(videoClicksElement, 'ClickTracking'));
                         }
-                        _ref = this.childsByName(creativeElement, "TrackingEvents");
+
+                        _ref = this.childsByName(creativeElement, 'TrackingEvents');
+
                         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                             trackingEventsElement = _ref[_i];
-                            _ref1 = this.childsByName(trackingEventsElement, "Tracking");
+                            _ref1 = this.childsByName(trackingEventsElement, 'Tracking');
+
                             for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
                                 trackingElement = _ref1[_j];
-                                eventName = trackingElement.getAttribute("event");
+                                eventName = trackingElement.getAttribute('event');
                                 trackingURLTemplate = this.parseNodeText(trackingElement);
+
                                 if ((eventName != null) && (trackingURLTemplate != null)) {
                                     if ((_base = creative.trackingEvents)[eventName] == null) {
                                         _base[eventName] = [];
                                     }
+
                                     creative.trackingEvents[eventName].push(trackingURLTemplate);
                                 }
                             }
                         }
-                        _ref2 = this.childsByName(creativeElement, "MediaFiles");
+
+                        _ref2 = this.childsByName(creativeElement, 'MediaFiles');
                         for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
                             mediaFilesElement = _ref2[_k];
-                            _ref3 = this.childsByName(mediaFilesElement, "MediaFile");
+                            _ref3 = this.childsByName(mediaFilesElement, 'MediaFile');
+
                             for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
                                 mediaFileElement = _ref3[_l];
                                 mediaFile = new VASTMediaFile();
                                 mediaFile.fileURL = this.parseNodeText(mediaFileElement);
-                                mediaFile.deliveryType = mediaFileElement.getAttribute("delivery");
-                                mediaFile.codec = mediaFileElement.getAttribute("codec");
-                                mediaFile.mimeType = mediaFileElement.getAttribute("type");
-                                mediaFile.bitrate = parseInt(mediaFileElement.getAttribute("bitrate") || 0);
-                                mediaFile.minBitrate = parseInt(mediaFileElement.getAttribute("minBitrate") || 0);
-                                mediaFile.maxBitrate = parseInt(mediaFileElement.getAttribute("maxBitrate") || 0);
-                                mediaFile.width = parseInt(mediaFileElement.getAttribute("width") || 0);
-                                mediaFile.height = parseInt(mediaFileElement.getAttribute("height") || 0);
+                                mediaFile.deliveryType = mediaFileElement.getAttribute('delivery');
+                                mediaFile.codec = mediaFileElement.getAttribute('codec');
+                                mediaFile.mimeType = mediaFileElement.getAttribute('type');
+                                mediaFile.bitrate = parseInt(mediaFileElement.getAttribute('bitrate') || 0);
+                                mediaFile.minBitrate = parseInt(mediaFileElement.getAttribute('minBitrate') || 0);
+                                mediaFile.maxBitrate = parseInt(mediaFileElement.getAttribute('maxBitrate') || 0);
+                                mediaFile.width = parseInt(mediaFileElement.getAttribute('width') || 0);
+                                mediaFile.height = parseInt(mediaFileElement.getAttribute('height') || 0);
                                 creative.mediaFiles.push(mediaFile);
                             }
                         }
+
                         return creative;
                     };
 
-                    VASTParser.parseCompanionAd = function(creativeElement) {
-                        var companionAd, companionResource, creative, eventName, staticElement, trackingElement, trackingEventsElement, trackingURLTemplate, _base, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
+                    VASTParser.parseCompanionAd = function (creativeElement) {
+                        var companionAd,
+                            companionResource,
+                            creative,
+                            eventName,
+                            staticElement,
+                            trackingElement,
+                            trackingEventsElement,
+                            trackingURLTemplate,
+                            _base,
+                            _i,
+                            _j,
+                            _k,
+                            _l,
+                            _len,
+                            _len1,
+                            _len2,
+                            _len3,
+                            _ref,
+                            _ref1,
+                            _ref2,
+                            _ref3;
+
                         creative = new VASTCreativeCompanion();
-                        _ref = this.childsByName(creativeElement, "Companion");
+                        _ref = this.childsByName(creativeElement, 'Companion');
+
                         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                             companionResource = _ref[_i];
                             companionAd = new VASTCompanionAd();
-                            companionAd.id = companionResource.getAttribute("id") || null;
-                            companionAd.width = companionResource.getAttribute("width");
-                            companionAd.height = companionResource.getAttribute("height");
-                            _ref1 = this.childsByName(companionResource, "StaticResource");
+                            companionAd.id = companionResource.getAttribute('id') || null;
+                            companionAd.width = companionResource.getAttribute('width');
+                            companionAd.height = companionResource.getAttribute('height');
+                            _ref1 = this.childsByName(companionResource, 'StaticResource');
+
                             for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
                                 staticElement = _ref1[_j];
-                                companionAd.type = staticElement.getAttribute("creativeType") || 0;
+                                companionAd.type = staticElement.getAttribute('creativeType') || 0;
                                 companionAd.staticResource = this.parseNodeText(staticElement);
                             }
-                            _ref2 = this.childsByName(companionResource, "TrackingEvents");
+
+                            _ref2 = this.childsByName(companionResource, 'TrackingEvents');
+
                             for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
                                 trackingEventsElement = _ref2[_k];
-                                _ref3 = this.childsByName(trackingEventsElement, "Tracking");
+                                _ref3 = this.childsByName(trackingEventsElement, 'Tracking');
+
                                 for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
                                     trackingElement = _ref3[_l];
-                                    eventName = trackingElement.getAttribute("event");
+                                    eventName = trackingElement.getAttribute('event');
                                     trackingURLTemplate = this.parseNodeText(trackingElement);
+
                                     if ((eventName != null) && (trackingURLTemplate != null)) {
                                         if ((_base = companionAd.trackingEvents)[eventName] == null) {
                                             _base[eventName] = [];
@@ -942,35 +1233,51 @@
                                     }
                                 }
                             }
-                            companionAd.companionClickThroughURLTemplate = this.parseNodeText(this.childByName(companionResource, "CompanionClickThrough"));
+
+                            companionAd.companionClickThroughURLTemplate =
+                                this.parseNodeText(this.childByName(companionResource, 'CompanionClickThrough'));
+
                             creative.variations.push(companionAd);
                         }
+
                         return creative;
                     };
 
-                    VASTParser.parseDuration = function(durationString) {
-                        var durationComponents, hours, minutes, seconds, secondsAndMS;
-                        if (!(durationString != null)) {
+                    VASTParser.parseDuration = function (durationString) {
+                        var durationComponents,
+                            hours,
+                            minutes,
+                            seconds,
+                            secondsAndMS;
+
+                        if (!(durationString != null)) { // jshint ignore:line
                             return -1;
                         }
-                        durationComponents = durationString.split(":");
+
+                        durationComponents = durationString.split(':');
+
                         if (durationComponents.length !== 3) {
                             return -1;
                         }
-                        secondsAndMS = durationComponents[2].split(".");
+
+                        secondsAndMS = durationComponents[2].split('.');
                         seconds = parseInt(secondsAndMS[0]);
+
                         if (secondsAndMS.length === 2) {
-                            seconds += parseFloat("0." + secondsAndMS[1]);
+                            seconds += parseFloat('0.' + secondsAndMS[1]);
                         }
+
                         minutes = parseInt(durationComponents[1] * 60);
                         hours = parseInt(durationComponents[0] * 60 * 60);
+
                         if (isNaN(hours || isNaN(minutes || isNaN(seconds || minutes > 60 * 60 || seconds > 60)))) {
                             return -1;
                         }
+
                         return hours + minutes + seconds;
                     };
 
-                    VASTParser.parseNodeText = function(node) {
+                    VASTParser.parseNodeText = function (node) {
                         return node && (node.textContent || node.text);
                     };
 
@@ -980,22 +1287,23 @@
 
                 module.exports = VASTParser;
 
-            }, {
-                "./ad.coffee": 2,
-                "./companionad.coffee": 4,
-                "./creative.coffee": 5,
-                "./mediafile.coffee": 7,
-                "./response.coffee": 9,
-                "./urlhandler.coffee": 11,
-                "./util.coffee": 14
+            },
+
+            {
+                './ad.coffee': 2,
+                './companionad.coffee': 4,
+                './creative.coffee': 5,
+                './mediafile.coffee': 7,
+                './response.coffee': 9,
+                './urlhandler.coffee': 11,
+                './util.coffee': 14
             }
         ],
-        9: [
-            function(_dereq_, module, exports) {
-                // Generated by CoffeeScript 1.7.1
-                var VASTResponse;
 
-                VASTResponse = (function() {
+        9: [
+            function (_dereq_, module, exports) { // jshint ignore:line
+                // Generated by CoffeeScript 1.7.1
+                var VASTResponse = (function () {
                     function VASTResponse() {
                         this.ads = [];
                         this.errorURLTemplates = [];
@@ -1006,22 +1314,34 @@
                 })();
 
                 module.exports = VASTResponse;
+            },
 
-            }, {}
+            {}
         ],
+
         10: [
-            function(_dereq_, module, exports) {
+            function (_dereq_, module, exports) { // jshint ignore:line
                 // Generated by CoffeeScript 1.7.1
-                var EventEmitter, VASTClient, VASTCreativeLinear, VASTTracker, VASTUtil,
+                var EventEmitter,
+                    VASTClient,
+                    VASTCreativeLinear,
+                    VASTTracker,
+                    VASTUtil,
                     __hasProp = {}.hasOwnProperty,
-                    __extends = function(child, parent) {
-                        for (var key in parent) {
-                            if (__hasProp.call(parent, key)) child[key] = parent[key];
-                        }
+
+                    __extends = function (child, parent) {
+                        var key;
 
                         function ctor() {
                             this.constructor = child;
                         }
+
+                        for (key in parent) {
+                            if (__hasProp.call(parent, key)) {
+                                child[key] = parent[key];
+                            }
+                        }
+
                         ctor.prototype = parent.prototype;
                         child.prototype = new ctor();
                         child.__super__ = parent.prototype;
@@ -1029,18 +1349,16 @@
                     };
 
                 VASTClient = _dereq_('./client.coffee');
-
                 VASTUtil = _dereq_('./util.coffee');
-
                 VASTCreativeLinear = _dereq_('./creative.coffee').VASTCreativeLinear;
-
                 EventEmitter = _dereq_('events').EventEmitter;
 
-                VASTTracker = (function(_super) {
-                    __extends(VASTTracker, _super);
-
+                VASTTracker = (function (_super) {
                     function VASTTracker(ad, creative) {
-                        var eventName, events, _ref;
+                        var eventName,
+                            events,
+                            _ref;
+
                         this.ad = ad;
                         this.creative = creative;
                         this.muted = false;
@@ -1048,19 +1366,36 @@
                         this.skipable = false;
                         this.skipDelayDefault = -1;
                         this.trackingEvents = {};
-                        this.emitAlwaysEvents = ['creativeView', 'start', 'firstQuartile', 'midpoint', 'thirdQuartile', 'complete', 'rewind', 'skip', 'closeLinear', 'close'];
+
+                        this.emitAlwaysEvents = [
+                            'creativeView',
+                            'start',
+                            'firstQuartile',
+                            'midpoint',
+                            'thirdQuartile',
+                            'complete',
+                            'rewind',
+                            'skip',
+                            'closeLinear',
+                            'close'
+                        ];
+
                         _ref = creative.trackingEvents;
+
                         for (eventName in _ref) {
                             events = _ref[eventName];
                             this.trackingEvents[eventName] = events.slice(0);
                         }
+
                         if (creative instanceof VASTCreativeLinear) {
                             this.assetDuration = creative.duration;
+
                             this.quartiles = {
                                 'firstQuartile': Math.round(25 * this.assetDuration) / 100,
                                 'midpoint': Math.round(50 * this.assetDuration) / 100,
                                 'thirdQuartile': Math.round(75 * this.assetDuration) / 100
                             };
+
                             this.skipDelay = creative.skipDelay;
                             this.linear = true;
                             this.clickThroughURLTemplate = creative.videoClickThroughURLTemplate;
@@ -1069,14 +1404,27 @@
                             this.skipDelay = -1;
                             this.linear = false;
                         }
-                        this.on('start', function() {
+
+                        this.on('start', function () {
                             VASTClient.lastSuccessfullAd = +new Date();
                         });
                     }
 
-                    VASTTracker.prototype.setProgress = function(progress) {
-                        var eventName, events, percent, quartile, skipDelay, time, _i, _len, _ref;
+                    __extends(VASTTracker, _super);
+
+                    VASTTracker.prototype.setProgress = function (progress) {
+                        var eventName,
+                            events,
+                            percent,
+                            quartile,
+                            skipDelay,
+                            time,
+                            _i,
+                            _len,
+                            _ref;
+
                         skipDelay = this.skipDelay === null ? this.skipDelayDefault : this.skipDelay;
+
                         if (skipDelay !== -1 && !this.skipable) {
                             if (skipDelay > progress) {
                                 this.emit('skip-countdown', skipDelay - progress);
@@ -1085,152 +1433,187 @@
                                 this.emit('skip-countdown', 0);
                             }
                         }
+
                         if (this.linear && this.assetDuration > 0) {
                             events = [];
+
                             if (progress > 0) {
-                                events.push("start");
+                                events.push('start');
                                 percent = Math.round(progress / this.assetDuration * 100);
-                                events.push("progress-" + percent + "%");
+                                events.push('progress-' + percent + '%');
                                 _ref = this.quartiles;
+
                                 for (quartile in _ref) {
                                     time = _ref[quartile];
+
                                     if ((time <= progress && progress <= (time + 1))) {
                                         events.push(quartile);
                                     }
                                 }
                             }
+
                             for (_i = 0, _len = events.length; _i < _len; _i++) {
                                 eventName = events[_i];
                                 this.track(eventName, true);
                             }
+
                             if (progress < this.progress) {
-                                this.track("rewind");
+                                this.track('rewind');
                             }
                         }
-                        return this.progress = progress;
+
+                        return this.progress = progress; // jshint ignore:line
                     };
 
-                    VASTTracker.prototype.setMuted = function(muted) {
+                    VASTTracker.prototype.setMuted = function (muted) {
                         if (this.muted !== muted) {
-                            this.track(muted ? "muted" : "unmuted");
+                            this.track(muted ? 'muted' : 'unmuted');
                         }
-                        return this.muted = muted;
+
+                        return this.muted = muted; // jshint ignore:line
                     };
 
-                    VASTTracker.prototype.setPaused = function(paused) {
+                    VASTTracker.prototype.setPaused = function (paused) {
                         if (this.paused !== paused) {
-                            this.track(paused ? "pause" : "resume");
+                            this.track(paused ? 'pause' : 'resume');
                         }
-                        return this.paused = paused;
+
+                        return this.paused = paused; // jshint ignore:line
                     };
 
-                    VASTTracker.prototype.setFullscreen = function(fullscreen) {
+                    VASTTracker.prototype.setFullscreen = function (fullscreen) {
                         if (this.fullscreen !== fullscreen) {
-                            this.track(fullscreen ? "fullscreen" : "exitFullscreen");
+                            this.track(fullscreen ? 'fullscreen' : 'exitFullscreen');
                         }
-                        return this.fullscreen = fullscreen;
+
+                        return this.fullscreen = fullscreen; // jshint ignore:line
                     };
 
-                    VASTTracker.prototype.setSkipDelay = function(duration) {
+                    VASTTracker.prototype.setSkipDelay = function (duration) {
                         if (typeof duration === 'number') {
-                            return this.skipDelay = duration;
+                            return this.skipDelay = duration; // jshint ignore:line
                         }
                     };
 
-                    VASTTracker.prototype.load = function() {
+                    VASTTracker.prototype.load = function () {
                         if (!this.impressed) {
                             this.impressed = true;
                             this.trackURLs(this.ad.impressionURLTemplates);
-                            return this.track("creativeView");
+
+                            return this.track('creativeView');
                         }
                     };
 
-                    VASTTracker.prototype.errorWithCode = function(errorCode) {
+                    VASTTracker.prototype.errorWithCode = function (errorCode) {
                         return this.trackURLs(this.ad.errorURLTemplates, {
                             ERRORCODE: errorCode
                         });
                     };
 
-                    VASTTracker.prototype.complete = function() {
-                        return this.track("complete");
+                    VASTTracker.prototype.complete = function () {
+                        return this.track('complete');
                     };
 
-                    VASTTracker.prototype.stop = function() {
-                        return this.track(this.linear ? "closeLinear" : "close");
+                    VASTTracker.prototype.stop = function () {
+                        return this.track(this.linear ? 'closeLinear' : 'close');
                     };
 
-                    VASTTracker.prototype.skip = function() {
-                        this.track("skip");
-                        return this.trackingEvents = [];
+                    VASTTracker.prototype.skip = function () {
+                        this.track('skip');
+
+                        return this.trackingEvents = []; // jshint ignore:line
                     };
 
-                    VASTTracker.prototype.click = function() {
+                    VASTTracker.prototype.click = function () {
                         var clickThroughURL, variables;
                         if (this.clickTrackingURLTemplate != null) {
                             this.trackURLs([this.clickTrackingURLTemplate]);
                         }
                         if (this.clickThroughURLTemplate != null) {
                             if (this.linear) {
-                                variables = {
-                                    CONTENTPLAYHEAD: this.progressFormated()
-                                };
+                                variables = {CONTENTPLAYHEAD: this.progressFormated()};
                             }
-                            clickThroughURL = VASTUtil.resolveURLTemplates([this.clickThroughURLTemplate], variables)[0];
-                            return this.emit("clickthrough", clickThroughURL);
+
+                            clickThroughURL =
+                                VASTUtil.resolveURLTemplates([this.clickThroughURLTemplate], variables)[0];
+
+                            return this.emit('clickthrough', clickThroughURL);
                         }
                     };
 
-                    VASTTracker.prototype.track = function(eventName, once) {
-                        var idx, trackingURLTemplates;
+                    VASTTracker.prototype.track = function (eventName, once) {
+                        var idx,
+                            trackingURLTemplates;
+
                         if (once == null) {
                             once = false;
                         }
-                        if (eventName === 'closeLinear' && ((this.trackingEvents[eventName] == null) && (this.trackingEvents['close'] != null))) {
+
+                        if (eventName === 'closeLinear' &&
+                            ((this.trackingEvents[eventName] == null) &&
+                            (this.trackingEvents.close != null))) {
                             eventName = 'close';
                         }
+
                         trackingURLTemplates = this.trackingEvents[eventName];
                         idx = this.emitAlwaysEvents.indexOf(eventName);
+
                         if (trackingURLTemplates != null) {
                             this.emit(eventName, '');
                             this.trackURLs(trackingURLTemplates);
                         } else if (idx !== -1) {
                             this.emit(eventName, '');
                         }
+
                         if (once === true) {
                             delete this.trackingEvents[eventName];
+
                             if (idx > -1) {
                                 this.emitAlwaysEvents.splice(idx, 1);
                             }
                         }
                     };
 
-                    VASTTracker.prototype.trackURLs = function(URLTemplates, variables) {
+                    VASTTracker.prototype.trackURLs = function (URLTemplates, variables) {
                         if (variables == null) {
                             variables = {};
                         }
+
                         if (this.linear) {
-                            variables["CONTENTPLAYHEAD"] = this.progressFormated();
+                            variables.CONTENTPLAYHEAD = this.progressFormated();
                         }
+
                         return VASTUtil.track(URLTemplates, variables);
                     };
 
-                    VASTTracker.prototype.progressFormated = function() {
-                        var h, m, ms, s, seconds;
-                        seconds = parseInt(this.progress);
+                    VASTTracker.prototype.progressFormated = function () {
+                        var h,
+                            m,
+                            ms,
+                            s,
+                            seconds = parseInt(this.progress);
+
                         h = seconds / (60 * 60);
+
                         if (h.length < 2) {
-                            h = "0" + h;
+                            h = '0' + h;
                         }
+
                         m = seconds / 60 % 60;
+
                         if (m.length < 2) {
-                            m = "0" + m;
+                            m = '0' + m;
                         }
+
                         s = seconds % 60;
+
                         if (s.length < 2) {
-                            s = "0" + m;
+                            s = '0' + m;
                         }
+
                         ms = parseInt((this.progress - seconds) * 100);
-                        return "" + h + ":" + m + ":" + s + "." + ms;
+
+                        return '' + h + ':' + m + ':' + s + '.' + ms;
                     };
 
                     return VASTTracker;
@@ -1238,28 +1621,28 @@
                 })(EventEmitter);
 
                 module.exports = VASTTracker;
+            },
 
-            }, {
-                "./client.coffee": 3,
-                "./creative.coffee": 5,
-                "./util.coffee": 14,
-                "events": 1
+            {
+                './client.coffee': 3,
+                './creative.coffee': 5,
+                './util.coffee': 14,
+                'events': 1
             }
         ],
+
         11: [
-            function(_dereq_, module, exports) {
+            function (_dereq_, module, exports) { // jshint ignore:line
                 // Generated by CoffeeScript 1.7.1
-                var URLHandler, flash, xhr;
+                var URLHandler,
+                    flash = _dereq_('./urlhandlers/flash.coffee'),
+                    xhr = _dereq_('./urlhandlers/xmlhttprequest.coffee');
 
-                xhr = _dereq_('./urlhandlers/xmlhttprequest.coffee');
-
-                flash = _dereq_('./urlhandlers/flash.coffee');
-
-                URLHandler = (function() {
+                URLHandler = (function () {
                     function URLHandler() {}
 
-                    URLHandler.get = function(url, cb) {
-                        if (typeof window === "undefined" || window === null) {
+                    URLHandler.get = function (url, cb) {
+                        if (typeof window === 'undefined' || window === null) {
                             return _dereq_('./urlhandlers/' + 'node.coffee').get(url, cb);
                         } else if (xhr.supported()) {
                             return xhr.get(url, cb);
@@ -1276,81 +1659,89 @@
 
                 module.exports = URLHandler;
 
-            }, {
-                "./urlhandlers/flash.coffee": 12,
-                "./urlhandlers/xmlhttprequest.coffee": 13
+            },
+
+            {
+                './urlhandlers/flash.coffee': 12,
+                './urlhandlers/xmlhttprequest.coffee': 13
             }
         ],
-        12: [
-            function(_dereq_, module, exports) {
-                // Generated by CoffeeScript 1.7.1
-                var FlashURLHandler;
 
-                FlashURLHandler = (function() {
+        12: [
+            function (_dereq_, module, exports) { // jshint ignore:line
+                // Generated by CoffeeScript 1.7.1
+                var FlashURLHandler = (function () {
                     function FlashURLHandler() {}
 
-                    FlashURLHandler.xdr = function() {
+                    FlashURLHandler.xdr = function () {
                         var xdr;
+
                         if (window.XDomainRequest) {
                             xdr = new XDomainRequest();
                         }
+
                         return xdr;
                     };
 
-                    FlashURLHandler.supported = function() {
+                    FlashURLHandler.supported = function () {
                         return !!this.xdr();
                     };
 
-                    FlashURLHandler.get = function(url, cb) {
-                        var xdr, xmlDocument;
-                        if (xmlDocument = typeof window.ActiveXObject === "function" ? new window.ActiveXObject("Microsoft.XMLDOM") : void 0) {
+                    FlashURLHandler.get = function (url, cb) {
+                        var xdr,
+                            xmlDocument;
+
+                        if (xmlDocument = typeof window.ActiveXObject === 'function' ?
+                                new window.ActiveXObject('Microsoft.XMLDOM') : void 0) { // jshint ignore:line
                             xmlDocument.async = false;
                         } else {
                             return cb();
                         }
+
                         xdr = this.xdr();
                         xdr.open('GET', url);
                         xdr.send();
-                        return xdr.onload = function() {
+
+                        return xdr.onload = function () { // jshint ignore:line
                             xmlDocument.loadXML(xdr.responseText);
                             return cb(null, xmlDocument);
                         };
                     };
 
                     return FlashURLHandler;
-
                 })();
 
                 module.exports = FlashURLHandler;
+            },
 
-            }, {}
+            {}
         ],
-        13: [
-            function(_dereq_, module, exports) {
-                // Generated by CoffeeScript 1.7.1
-                var XHRURLHandler;
 
-                XHRURLHandler = (function() {
+        13: [
+            function (_dereq_, module, exports) { // jshint ignore:line
+                // Generated by CoffeeScript 1.7.1
+                var XHRURLHandler = (function () {
                     function XHRURLHandler() {}
 
-                    XHRURLHandler.xhr = function() {
-                        var xhr;
-                        xhr = new window.XMLHttpRequest();
+                    XHRURLHandler.xhr = function () {
+                        var xhr = new window.XMLHttpRequest();
+
                         if ('withCredentials' in xhr) {
                             return xhr;
                         }
                     };
 
-                    XHRURLHandler.supported = function() {
+                    XHRURLHandler.supported = function () {
                         return !!this.xhr();
                     };
 
-                    XHRURLHandler.get = function(url, cb) {
-                        var xhr;
-                        xhr = this.xhr();
+                    XHRURLHandler.get = function (url, cb) {
+                        var xhr = this.xhr();
+
                         xhr.open('GET', url);
                         xhr.send();
-                        return xhr.onreadystatechange = function() {
+
+                        return xhr.onreadystatechange = function () { // jshint ignore:line
                             if (xhr.readyState === 4) {
                                 return cb(null, xhr.responseXML);
                             }
@@ -1358,116 +1749,144 @@
                     };
 
                     return XHRURLHandler;
-
                 })();
 
                 module.exports = XHRURLHandler;
-
             }, {}
         ],
-        14: [
-            function(_dereq_, module, exports) {
-                // Generated by CoffeeScript 1.7.1
-                var VASTUtil;
 
-                VASTUtil = (function() {
+        14: [
+            function (_dereq_, module, exports) { // jshint ignore:line
+                // Generated by CoffeeScript 1.7.1
+                var VASTUtil = (function () {
                     function VASTUtil() {}
 
-                    VASTUtil.track = function(URLTemplates, variables) {
-                        var URL, URLs, i, _i, _len, _results;
-                        URLs = this.resolveURLTemplates(URLTemplates, variables);
-                        _results = [];
+                    VASTUtil.track = function (URLTemplates, variables) {
+                        var URL,
+                            URLs = this.resolveURLTemplates(URLTemplates, variables),
+                            i,
+                            _i,
+                            _len,
+                            _results = [];
+
                         for (_i = 0, _len = URLs.length; _i < _len; _i++) {
                             URL = URLs[_i];
-                            if (typeof window !== "undefined" && window !== null) {
+
+                            if (typeof window !== 'undefined' && window !== null) {
                                 i = new Image();
                                 _results.push(i.src = URL);
-                            } else {
-
                             }
                         }
+
                         return _results;
                     };
 
-                    VASTUtil.resolveURLTemplates = function(URLTemplates, variables) {
-                        var URLTemplate, URLs, key, macro1, macro2, resolveURL, value, _i, _len;
-                        URLs = [];
+                    VASTUtil.resolveURLTemplates = function (URLTemplates, variables) {
+                        var URLTemplate,
+                            URLs = [],
+                            key,
+                            macro1,
+                            macro2,
+                            resolveURL,
+                            value,
+                            _i,
+                            _len;
+
                         if (variables == null) {
                             variables = {};
                         }
-                        if (!("CACHEBUSTING" in variables)) {
-                            variables["CACHEBUSTING"] = Math.round(Math.random() * 1.0e+10);
+
+                        if (!('CACHEBUSTING' in variables)) {
+                            variables.CACHEBUSTING = Math.round(Math.random() * 1.0e+10);
                         }
-                        variables["random"] = variables["CACHEBUSTING"];
+
+                        variables.random = variables.CACHEBUSTING;
+
                         for (_i = 0, _len = URLTemplates.length; _i < _len; _i++) {
                             URLTemplate = URLTemplates[_i];
                             resolveURL = URLTemplate;
+
                             for (key in variables) {
                                 value = variables[key];
-                                macro1 = "[" + key + "]";
-                                macro2 = "%%" + key + "%%";
+                                macro1 = '[' + key + ']';
+                                macro2 = '%%' + key + '%%';
                                 resolveURL = resolveURL.replace(macro1, value);
                                 resolveURL = resolveURL.replace(macro2, value);
                             }
+
                             URLs.push(resolveURL);
                         }
+
                         return URLs;
                     };
 
-                    VASTUtil.storage = (function() {
-                        var data, isDisabled, storage, storageError;
+                    VASTUtil.storage = (function () {
+                        var data,
+                            isDisabled,
+                            storage;
+
                         try {
-                            storage = typeof window !== "undefined" && window !== null ? window.localStorage || window.sessionStorage : null;
+                            storage = typeof window !== 'undefined' && window !== null ?
+                                window.localStorage || window.sessionStorage : null;
                         } catch (_error) {
-                            storageError = _error;
                             storage = null;
                         }
-                        isDisabled = function(store) {
-                            var e, testValue;
+
+                        isDisabled = function (store) {
+                            var testValue;
+
                             try {
                                 testValue = '__VASTUtil__';
                                 store.setItem(testValue, testValue);
+
                                 if (store.getItem(testValue) !== testValue) {
                                     return true;
                                 }
                             } catch (_error) {
-                                e = _error;
                                 return true;
                             }
+
                             return false;
                         };
+
                         if ((storage == null) || isDisabled(storage)) {
                             data = {};
+
                             storage = {
                                 length: 0,
-                                getItem: function(key) {
+
+                                getItem: function (key) {
                                     return data[key];
                                 },
-                                setItem: function(key, value) {
+
+                                setItem: function (key, value) {
                                     data[key] = value;
                                     this.length = Object.keys(data).length;
                                 },
-                                removeItem: function(key) {
+
+                                removeItem: function (key) {
                                     delete data[key];
                                     this.length = Object.keys(data).length;
                                 },
-                                clear: function() {
+
+                                clear: function () {
                                     data = {};
                                     this.length = 0;
                                 }
                             };
                         }
+
                         return storage;
                     })();
 
                     return VASTUtil;
-
                 })();
 
                 module.exports = VASTUtil;
+            },
 
-            }, {}
+            {}
         ]
     }, {}, [6])
-    (6)
+    (6);
 });

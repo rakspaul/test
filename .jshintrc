@@ -72,6 +72,7 @@
         "assets"             : false,
         "d3"                 : false,
         "define"             : false,
+        "module"             : false,
         "moment"             : false,
         "require"            : false,
         "saveAs"             : false,

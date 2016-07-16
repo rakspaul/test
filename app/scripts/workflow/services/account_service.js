@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_service', // jshint ignore:line
+define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_service',
     'common/services/constants_service', 'common/services/request_cancel_service'], function (angularAMD) {
     'use strict';
 
@@ -9,7 +9,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             advertiserMode,
             counter = 0,
             permission = '',
-            role_template_id = {
+
+            roleTemplateId = {
                 Super_Admin: constants.super_admin,
                 Account_Admin: constants.account_admin,
                 Advertiser_Admin: constants.advertiser_admin,
@@ -323,11 +324,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             },
 
             getRoleId: function (role) {
-                return role_template_id[role];
+                return roleTemplateId[role];
             },
 
             getRoleName: function (roleId) {
-                return (_.invert(role_template_id))[roleId];  // jshint ignore:line
+                return (_.invert(roleTemplateId))[roleId];
             },
 
             createUser: function (userObj) {
@@ -397,7 +398,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             },
 
             invoiceSaveNote: function (clientId, invoiceId, data) {
-              //  var clientId =  loginModel.getSelectedClient().id;
                 return dataService.post(
                         vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId + '/invoices/' + invoiceId + '/notesStatus',

@@ -1,4 +1,4 @@
-define(['angularAMD'],function (angularAMD) { // jshint ignore:line
+define(['angularAMD'],function (angularAMD) {
     'use strict';
 
     angularAMD.controller('CampaignClone', function ($scope, $routeParams, $location, $timeout, $modalInstance,
@@ -22,7 +22,6 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
             cloneStartDateInput.datepicker('setStartDate', today);
         }, 200);
 
-
         $scope.close=function (){
             $modalInstance.dismiss();
         };
@@ -34,6 +33,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                 cloneStartDate = $scope.newMediaPlanDate,
                 errorMediaPlanHandler,
                 flightDateSelected = $('input[name="chooseFlightDate"]:checked').val(),
+
                 params = {
                     id: Number($routeParams.campaignId),
                     name: cloneMediaPlanName,
@@ -98,16 +98,16 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
         };
 
         $scope.chooseFlightDate = function () {
-                $scope.flightDateChosen = $('input[name="chooseFlightDate"]:checked').val();
-                $scope.newMediaPlanStartDate = true;
+            $scope.flightDateChosen = $('input[name="chooseFlightDate"]:checked').val();
+            $scope.newMediaPlanStartDate = true;
 
-                if ($scope.flightDateChosen !== 'automaticFlightDates') {
-                    $scope.newMediaPlanStartDate = false;
-                    $('#cloneStartDateInput').attr('disabled', true);
-                } else {
-                    $scope.newMediaPlanDateChange();
-                    $('#cloneStartDateInput').attr('disabled', false);
-                }
+            if ($scope.flightDateChosen !== 'automaticFlightDates') {
+                $scope.newMediaPlanStartDate = false;
+                $('#cloneStartDateInput').attr('disabled', true);
+            } else {
+                $scope.newMediaPlanDateChange();
+                $('#cloneStartDateInput').attr('disabled', false);
+            }
         };
 
         $scope.newMediaPlanDateChange = function () {
@@ -122,11 +122,11 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
             var target =  event.target,
                 cloneMediaPlanName = target.value,
                 advertiserId = $scope.workflowData.campaignData.advertiserId,
+
                 cloneObj={
                     advertiserId:advertiserId,
                     cloneMediaPlanName:cloneMediaPlanName
-                }
-
+                };
 
             $scope.checkUniqueNameNotFound = true;
             $scope.cloneMediaPlanExists = false;
@@ -140,6 +140,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                             $scope.cloneMediaPlanExists = responseData.isExists;
 
                         }
+
                         $scope.checkUniqueNameNotFound = false;
                     });
             }

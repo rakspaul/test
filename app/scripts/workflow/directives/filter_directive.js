@@ -1,17 +1,18 @@
-define(['angularAMD', 'workflow/services/filter_service', // jshint ignore:line
-    'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD', 'workflow/services/filter_service', 'common/services/constants_service'], function (angularAMD) {
+    'use strict';
+
     angularAMD.directive('filterDirective', function (filterService) {
         return {
             controller: function ($scope,$rootScope, workflowService, loginModel, constants) {
                 var setAdvertiserOnLSAndShow = function () {
                         //set to localstorage
-                        var adveriserObj = {
+                        var advertiserObj = {
                             id: $scope.filterData.advertiserList[0].id,
                             name: $scope.filterData.advertiserList[0].name,
                             referedFrom: 'filterDirective'
                         };
 
-                        localStorage.setItem('setAdvertiser', JSON.stringify(adveriserObj));
+                        localStorage.setItem('setAdvertiser', JSON.stringify(advertiserObj));
 
                         $scope.filterData.advertiserSelectedId  = $scope.filterData.advertiserList[0].id;
                         $scope.filterData.advertiserSelectedName = $scope.filterData.advertiserList[0].name;
@@ -59,7 +60,6 @@ define(['angularAMD', 'workflow/services/filter_service', // jshint ignore:line
                             if (selectedAdvertiser) {
                                 $scope.filterData.advertiserSelectedId = selectedAdvertiser.id;
                                 $scope.filterData.advertiserSelectedName = selectedAdvertiser.name;
-
                             } else {
                                 $scope.filterData.advertiserSelectedId  = $scope.filterData.advertiserList[0].id;
                                 $scope.filterData.advertiserSelectedName = $scope.filterData.advertiserList[0].name;
@@ -99,18 +99,19 @@ define(['angularAMD', 'workflow/services/filter_service', // jshint ignore:line
                 };
 
                 $scope.selectAdvertisers = function (advertiser) {
-                    var adveriserObj = {
+                    var advertiserObj = {
                             id: advertiser.id,
                             name: advertiser.name,
                             referedFrom: 'filterDirective'
                         },
+
                         args;
 
                     $scope.filterData.advertiserSelectedName = advertiser.name;
                     $scope.filterData.advertiserSelectedId = advertiser.id;
 
                     //set to localstorage
-                    localStorage.setItem('setAdvertiser', JSON.stringify(adveriserObj));
+                    localStorage.setItem('setAdvertiser', JSON.stringify(advertiserObj));
 
                     args = {
                         from: $scope.from,
@@ -135,7 +136,7 @@ define(['angularAMD', 'workflow/services/filter_service', // jshint ignore:line
 
             restrict: 'EAC',
             scope : {from:'@'},
-            templateUrl: assets.html_filter_drop_down, // jshint ignore:line
+            templateUrl: assets.html_filter_drop_down,
             link: function () {}
         };
     });

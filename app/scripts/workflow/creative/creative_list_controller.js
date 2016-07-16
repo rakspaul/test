@@ -1,7 +1,8 @@
-define(['angularAMD', '../../common/services/constants_service', // jshint ignore:line
-    'workflow/services/workflow_service', 'common/moment_utils', 'login/login_model',
-    'reporting/advertiser/advertiser_model', 'workflow/creative/creative_bulk_controller',
-    'workflow/directives/filter_directive'], function (angularAMD) {
+define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
+    'common/moment_utils', 'login/login_model', 'reporting/advertiser/advertiser_model',
+    'workflow/creative/creative_bulk_controller', 'workflow/directives/filter_directive'], function (angularAMD) {
+    'use strict';
+
     angularAMD.controller('CreativeListController', function ($scope, $rootScope, $routeParams, $route, $location,
                                                              $window, constants, domainReports, workflowService,
                                                              momentService, loginModel, advertiserModel) {
@@ -34,7 +35,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                                    );
 
                                 if (alreadyFound.length <= 0) {
-                                    _.each(result.data.data , function (obj) { // jshint ignore:line
+                                    _.each(result.data.data , function (obj) {
                                         $scope.creativeData.creatives.push(obj);
                                     });
                                 }
@@ -224,7 +225,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
         };
 
         $scope.formatDate = function (date) {
-            return moment(date).format('DD MMM YYYY'); // jshint ignore:line
+            return moment(date).format('DD MMM YYYY');
         };
 
         $scope.creativeSearchFunc = function (e) {
@@ -392,7 +393,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                   .downloadCreativeErrors($scope.errorRecordsFileName)
                   .then(function (response) {
                   if (response.status === 'success') {
-                      saveAs(response.file, response.fileName); // jshint ignore:line
+                      saveAs(response.file, response.fileName);
                   } else {
                       $scope.downloadBusy = false;
                   }
@@ -517,7 +518,7 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
                 $scope.creativeData.creatives = [];
                 $scope.creativeListLoading = true;
 
-                selectedClientObj = // jshint ignore:line
+                selectedClientObj =
                     localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
 
                 creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id, '', '', 20, 1);

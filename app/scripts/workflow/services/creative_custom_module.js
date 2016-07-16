@@ -1,4 +1,4 @@
-define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.factory('creativeCustomModule', function ($compile) {
@@ -29,7 +29,6 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                             .addClass('form-group col-md-3')
                             .attr({
                             });
-
                 } else {
                     inputWrapper =
                         $('<div/>')
@@ -44,6 +43,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                             $('<label />')
                                 .addClass('greyTxt col-md-12 zeroPadding')
                                 .text(inputList.displayName);
+
                         inputWrapper.append(fieldLabel);
                     }
                 }
@@ -56,10 +56,12 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                             .attr({
                                 placeholder: (inputList.defaultValue !== '') ? '' : inputList.displayName,
                                 'ng-required': inputList.isMandatory ? true : false,
-                                'data-ng-blur': (inputList.name == 'tags.tag') ? "leaveFocusCreativeTag()" : '',
+                                'data-ng-blur': (inputList.name === 'tags.tag') ? 'leaveFocusCreativeTag()' : '',
+
                                 'ng-model': (inputList.defaultValue !== '') ?
                                     inputList.defaultValue :
                                     inputList.displayName,
+
                                 style: 'width: 66.66666667%;float:none;',
                                 rows: (inputList.platformCustomWidgetType === 'TEXTAREA') ? '15' : '',
                                 name: inputList.name + '$$' + inputList.id,
@@ -69,6 +71,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                             .on('keypress', function () {});
 
                     inputWrapper.append(fieldLabel);
+
                     fieldLabel = $('<label/>')
                         .addClass('col-sm-12 control-label greyTxt errorLabel')
                         .attr({
@@ -79,23 +82,20 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                     inputWrapper.append(fieldLabel);
                 }
 
-                if (inputList.platformCustomWidgetType==='TOGGLE') {
-                    LabelHtml=$('<div/>')
-                        .addClass('btn-group miniToggle');
+                if (inputList.platformCustomWidgetType === 'TOGGLE') {
+                    LabelHtml = $('<div/>').addClass('btn-group miniToggle');
 
                     // Split the range Json to get all possible values for toggle
                     options = inputList.rangeJson.split(',');
 
                     //split the supported tags into an array
-                    supportedTag=inputList.supportedTags.split(',');
+                    supportedTag = inputList.supportedTags.split(',');
 
                     // for each value to be shown on toggle
-                    toggleLabel='';
+                    toggleLabel = '';
 
                     //Make active when idx = 0
-                    _.each(options, function (option,idx) { // jshint ignore:line
-
-
+                    _.each(options, function (option, idx) {
                         // set for edit
                         if (inputList.defaultValue !== '') {
                             if (inputList.defaultValue === option) {
@@ -108,15 +108,16 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                                 .addClass('btn btn-default')
                                 .addClass((activeToggleIdx >= 0) ? ((activeToggleIdx === idx) ? 'active' : '') :
                                     (inputList.defaultValue !== '') ? '' : (idx === 0?'active':''))
-                                .addClass((supportedTag.indexOf(option) == -1 )?'disabled':'')
+                                .addClass((supportedTag.indexOf(option) === -1 )?'disabled':'')
                                 .text(option)
                                 .on('click', function () {
-                                     target = $(event.target),
-                                        parentElem =  target.parents('.miniToggle');
+                                    target = $(event.target);
+                                    parentElem =  target.parents('.miniToggle');
 
                                     parentElem
                                         .find('label')
                                         .removeClass('active');
+
                                     target.parent().addClass('active');
                                 });
 
@@ -124,11 +125,15 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                             .addClass('btn_rad')
                             .attr({
                                 type: 'radio',
+
                                 //creativeType is the name for HTML/JS
                                 name: inputList.name + '$$' + inputList.id,
+
                                 value: option,
+
                                 checked: (activeToggleIdx >= 0) ? ((activeToggleIdx === idx) ? true : false) :
                                     (idx === 0 ? true : false),
+
                                 hidden: 'hidden'
                             })
                             .on('change', function () {});
@@ -146,7 +151,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
 
                     // Only for size, write the predefined Markup
                     if (inputList.name === 'sizes.size') {
-                        sizeHtml = angular.element( // jshint ignore:line
+                        sizeHtml = angular.element(
                             '<div class="col-md-12 zeroPadding dropdown-workflow">'+
                             '<div class="dropdown">'+
                             '<button class="btn btn-default dropdown-toggle"' +
@@ -199,7 +204,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                             '<input ng-model="adData.creativeSize.id"' +
                                 'type="hidden"' +
                                 'name="' + inputList.name + '$$' + inputList.id + '" ng-update-hidden required/>' +
-                            '</div>'+
+                            '</div>' +
                             '</div>');
 
                         inputWrapper.append(sizeHtml);
@@ -214,26 +219,28 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                             })
                             .on('click', function () {});
 
-                        _.each(options, function (option) { // jshint ignore:line
-                            var optionElem = $('<option/>').attr({
-                                value: option,
-                                selected: inputList.defaultValue === option ? true : false
-                            }).text(option);
+                        _.each(options, function (option) {
+                            var optionElem = $('<option/>')
+                                .attr({
+                                    value: option,
+                                    selected: inputList.defaultValue === option ? true : false
+                                })
+                                .text(option);
+
                             selectHtml.append(optionElem);
                         });
 
                         inputWrapper.append(selectHtml);
                     }
-
                 }
 
                 return inputWrapper;
             },
 
-            createPlatformCustomInputList =  function (inputGroupList, elem, scope, editModeData) {
+            createPlatformCustomInputList = function (inputGroupList, elem, scope, editModeData) {
                 var groupContainer;
 
-                _.each(editModeData,function (obj) { // jshint ignore:line
+                _.each(editModeData,function (obj) {
                     if (obj.creativeCustomInputId === inputGroupList.id) {
                         inputGroupList.defaultValue=obj.value;
                     }
@@ -252,29 +259,30 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 elem.append(groupContainer);
             },
 
-            buildFormControl =  function (pJson, elem, scope, editModeData) {
+            buildFormControl = function (pJson, elem, scope, editModeData) {
                 var creativeCustomInputList;
 
                 if (pJson.isActivated) {
                     creativeCustomInputList = pJson.platformCustomInputList;
 
-                    _.each(creativeCustomInputList, function (inputGroupList) { // jshint ignore:line
+                    _.each(creativeCustomInputList, function (inputGroupList) {
                         createPlatformCustomInputList(inputGroupList, elem, scope, editModeData);
                     });
                 }
             },
 
-         init=function(creativeTemplate,elem,scope,editModeData){
-            elem.html('');
-            _self.elem = elem;
-            //_self.adPlatformCustomInputs= adPlatformCustomInputs;
-             _self.creativeCustomInputNamespaceList = creativeTemplate? creativeTemplate.creativeTemplateCustomInputJson.platformCustomInputNamespaceList:'';
-           // _self.creativeCustomInputNamespaceList = temp? temp.platformCustomInputNamespaceList:'';
-            //_self.creativeCustomInputGroupList = temp?temp.platformCustomInputNamespaceList[0].platformCustomInputGroupList:'';
-             _self.creativeCustomInputGroupList = creativeTemplate?creativeTemplate.creativeTemplateCustomInputJson.platformCustomInputNamespaceList[0].platformCustomInputGroupList:'';
-            console.log(_self.creativeCustomInputGroupList);
+            init = function(creativeTemplate,elem,scope,editModeData){
+                elem.html('');
+                _self.elem = elem;
 
-                _.each(_self.creativeCustomInputGroupList, function (pJson) { // jshint ignore:line
+                 _self.creativeCustomInputNamespaceList = creativeTemplate ?
+                     creativeTemplate.creativeTemplateCustomInputJson.platformCustomInputNamespaceList : '';
+
+                 _self.creativeCustomInputGroupList = creativeTemplate ?
+                     creativeTemplate.creativeTemplateCustomInputJson.platformCustomInputNamespaceList[0]
+                         .platformCustomInputGroupList : '';
+
+                _.each(_self.creativeCustomInputGroupList, function (pJson) {
                     buildFormControl(pJson, elem,scope,editModeData);
                 });
             };
