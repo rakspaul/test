@@ -1,7 +1,7 @@
 define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_model', // jshint ignore:line
     'reporting/brands/brands_model', 'reporting/timePeriod/time_period_model', 'common/services/constants_service',
     'common/services/url_service', 'common/services/request_cancel_service',
-    'common/services/data_service', 'common/utils', 'reporting/subAccount/sub_account_model'], function (angularAMD) {
+    'common/services/data_service', 'common/utils', 'reporting/subAccount/sub_account_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.factory('dashboardModel', ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel',

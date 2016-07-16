@@ -3,42 +3,41 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
     'use strict';
 
     angularAMD.service('subAccountModel', function ($rootScope, $location, workflowService, constants, loginModel) {
-        var self = this;
 
-        self.subAccounts = {
+        var subAccounts = {
             allSubAccounts: [],
             dashboardSubAccounts: []
-        };
+        },
 
-        this.setSelectedSubAccount = function (selected_sub_account) {
+        setSelectedSubAccount = function (selected_sub_account) {
             localStorage.setItem('selectedClient', JSON.stringify(selected_sub_account));
-        };
+        },
 
-        this.setSelectedDashboardSubAcc = function (selected_dash_sub_account) {
+        setSelectedDashboardSubAcc = function (selected_dash_sub_account) {
             localStorage.setItem('dashboardClient', JSON.stringify(selected_dash_sub_account));
-        };
+        },
 
-        this.setSubAccounts = function (dataAry) {
-            self.subAccounts.allSubAccounts = dataAry;
-        };
+        setSubAccounts = function (dataAry) {
+            subAccounts.allSubAccounts = dataAry;
+        },
 
-        this.resetSubAccount = function () {
-            self.subAccounts.allSubAccounts = [];
-        };
+        resetSubAccount = function () {
+            subAccounts.allSubAccounts = [];
+        },
 
-        this.getSubAccounts = function () {
-            return self.subAccounts.allSubAccounts;
-        };
+        getSubAccounts = function () {
+            return subAccounts.allSubAccounts;
+        },
 
         // reset dashboard subaccount's local storage
-        this.resetDashboardSubAccStorage = function () {
+        resetDashboardSubAccStorage = function () {
             loginModel.setDashboardClient({
                 id: loginModel.getMasterClient().id,
                 name: 'All'
             });
-        };
+        },
 
-        this.isDashboardSubAccount = function () {
+        isDashboardSubAccount = function () {
             var locationPath = $location.url();
 
             if ((locationPath === '/dashboard') || (locationPath === '/')) {
@@ -46,30 +45,30 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             }
 
             return false;
-        };
+        },
 
         // Dashboard subAccount setter
-        this.setDashboardSubAccounts = function (dataAry) {
-            self.subAccounts.dashboardSubAccounts = dataAry;
-        };
+        setDashboardSubAccounts = function (dataAry) {
+            subAccounts.dashboardSubAccounts = dataAry;
+        },
 
         // Dashboard subAccount getter
-        this.getDashboardSubAccounts = function () {
-            return self.subAccounts.dashboardSubAccounts;
-        };
+        getDashboardSubAccounts = function () {
+            return subAccounts.dashboardSubAccounts;
+        },
 
-        this.getDashboardAccountId = function () {
+        getDashboardAccountId = function () {
             var clientId;
 
-            if (self.isDashboardSubAccount() && !loginModel.getMasterClient().isLeafNode) {
+            if (isDashboardSubAccount() && !loginModel.getMasterClient().isLeafNode) {
                 clientId = loginModel.getDashboardClient().id;
             } else {
                 clientId = loginModel.getSelectedClient().id;
             }
             return clientId;
-        };
+        },
 
-        this.fetchSubAccounts = function (from, successCallBack) {
+        fetchSubAccounts = function (from, successCallBack) {
             var isLeafNode = loginModel.getMasterClient().isLeafNode,
                 isDashboardFilter = false,
                 locationPath = $location.url();
@@ -85,7 +84,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                         var selectedClient;
 
                         if (from === 'MasterClientChanged') {
-                            self.setSelectedSubAccount({
+                            setSelectedSubAccount({
                                 id: response.data.data[0].id,
                                 name: response.data.data[0].displayName
                             });
@@ -93,14 +92,14 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                             selectedClient = loginModel.getSelectedClient();
 
                             if (selectedClient && selectedClient.id){
-                                self.setSelectedSubAccount({
+                                setSelectedSubAccount({
                                     id: selectedClient.id,
                                     name: selectedClient.name
                                 });
                             }
                         }
 
-                        self.setSubAccounts(response.data.data);
+                        setSubAccounts(response.data.data);
                         successCallBack();
                     });
             }
@@ -125,10 +124,25 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                     .then(function (response) {
                         var dashboardSubAccArr = modifiedResArr.concat(response.data.data);
 
-                        self.setDashboardSubAccounts(dashboardSubAccArr);
+                        setDashboardSubAccounts(dashboardSubAccArr);
                         successCallBack();
                     });
             }
+        };
+
+        return {
+
+            setSelectedSubAccount : setSelectedSubAccount,
+            setSelectedDashboardSubAcc : setSelectedDashboardSubAcc,
+            setSubAccounts : setSubAccounts,
+            resetSubAccount : resetSubAccount,
+            getSubAccounts : getSubAccounts,
+            resetDashboardSubAccStorage : resetDashboardSubAccStorage,
+            isDashboardSubAccount : isDashboardSubAccount,
+            setDashboardSubAccounts : setDashboardSubAccounts,
+            getDashboardSubAccounts : getDashboardSubAccounts,
+            getDashboardAccountId : getDashboardAccountId,
+            fetchSubAccounts : fetchSubAccounts
         };
     });
 });

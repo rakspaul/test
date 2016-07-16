@@ -1,5 +1,5 @@
 define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshint ignore:line
-    'reporting/strategySelect/strategy_select_model', 'reporting/kpiSelect/kpi_select_model',
+    '../strategySelect/strategy_select_service', 'reporting/kpiSelect/kpi_select_model',
     'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
     'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'login/login_model',
     'reporting/advertiser/advertiser_model', 'common/services/url_service',

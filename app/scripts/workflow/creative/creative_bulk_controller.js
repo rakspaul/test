@@ -13,7 +13,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             resetTemplate = function () {
                 $scope.templateSelected('', '');
                 $scope.adData.creativeTemplate = '';
-                $scope.CreativeTemplate.name = 'Select Template';
+                $scope.creativeTemplate.name = 'Select Template';
             },
 
             resetFormat = function () {
@@ -134,7 +134,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
         //Generate the Template
         $scope.templateSelected = function (templateJson){
-            $scope.CreativeTemplate = templateJson;
+            templateJson = templateJson || {};
+            $scope.creativeTemplate = templateJson;
             $scope.TrackingIntegrationsSelected = templateJson.isTracking;
             $scope.adData.creativeTemplate = templateJson.id;
         };

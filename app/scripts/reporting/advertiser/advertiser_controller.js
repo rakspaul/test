@@ -1,6 +1,6 @@
 define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils', // jshint ignore:line
     'common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_directive',
-    'reporting/subAccount/sub_account_model'], function (angularAMD) {
+    'reporting/subAccount/sub_account_service'], function (angularAMD) {
         angularAMD.controller('AdvertiserController', function ($scope, $rootScope, advertiserModel, utils,
                                                                 constants, loginModel) {
             var search = false,
@@ -22,7 +22,6 @@ define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils', /
                     $scope.selectAdvertiser(advertiser);
                     advertiserModel.setSelectedAdvertisers(advertiser);
                     advertiserModel.callAdvertiserBroadcast(advertiser, args.event_type);
-                    // $rootScope.$broadcast('CAMPAIGN_CHANGE');
                 });
 
             function fetchAdvertisers(searchCriteria, search) {

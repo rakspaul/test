@@ -1,4 +1,4 @@
-define(['angularAMD', 'reporting/subAccount/sub_account_model', // jshint ignore:line
+define(['angularAMD', 'reporting/subAccount/sub_account_service', // jshint ignore:line
     'common/services/constants_service', 'login/login_model'], function (angularAMD) {
     'use strict';
 

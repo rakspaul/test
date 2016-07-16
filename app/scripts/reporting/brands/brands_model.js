@@ -1,5 +1,5 @@
 define(['angularAMD', 'reporting/brands/brands_service', 'common/services/constants_service', // jshint ignore:line
-    'reporting/subAccount/sub_account_model'], function (angularAMD) {
+    'reporting/subAccount/sub_account_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.factory('brandsModel', function (brandsService, constants, subAccountModel, localStorageService) {

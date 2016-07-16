@@ -68,7 +68,7 @@ define([
     'ng-tag',
     'common/services/features_service',
     'chosen',
-    'reporting/subAccount/sub_account_model'
+    'reporting/subAccount/sub_account_service'
 ], function (angularAMD) {
     return angularAMD;
 });

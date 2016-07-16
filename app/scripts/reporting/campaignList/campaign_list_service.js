@@ -586,30 +586,24 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                                 campaignObject.chart = false;
                                 callback && callback(campaignObject);
                             });
-                    };
+                    },
 
-                return {
-                    getCampaigns: function (url, success, failure) {
+                    //exposed methods
+
+                    getCampaigns = function (url, success, failure) {
                         var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_LIST_CANCELLER);
 
                         return dataService.fetchCancelable(url, canceller, success, failure);
                     },
 
-                    getDashboardData: function (url, success, failure) {
+                    getDashboardData = function (url, success, failure) {
                         var canceller = requestCanceller.initCanceller(constants.DASHBOARD_CANCELLER);
 
                         return dataService.fetchCancelable(url, canceller, success, failure);
                     },
 
-                    setListCampaign: setListCampaign,
 
-                    getListCampaign: getListCampaign,
-
-                    getCdbLineChart: getCdbLineChart,
-
-                    vtcMetricsJsonModifier: vtcMetricsJsonModifier,
-
-                    setActiveInactiveCampaigns: function (campaigns, timePeriod, periodStartDate, periodEndDate) {
+                    setActiveInactiveCampaigns = function (campaigns, timePeriod, periodStartDate, periodEndDate) {
                         var campaignList = [],
                             campaign;
 
@@ -646,7 +640,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                     },
 
                     //should be moved to costservice inside cost module later
-                    getCampaignCostData: function (campaignIds, filterStartDate, filterEndDate, advertiserId, brandId,
+                    getCampaignCostData = function (campaignIds, filterStartDate, filterEndDate, advertiserId, brandId,
                                                    success, failure) {
                         var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
                             queryObj = {
@@ -665,25 +659,41 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                     },
 
                     //should be moved to campaign details service
-                    getStrategiesData: function (clientId, campaign, timePeriod) {
+                    getStrategiesData = function (clientId, campaign, timePeriod) {
                         //request list
                         return getStrategyListData(clientId, campaign, timePeriod);
                     },
 
-                    requestStrategiesData: function (campaign, timePeriod, data) {
+                    requestStrategiesData = function (campaign, timePeriod, data) {
                         //request metrics and cdb data
                         return getStrategyData(campaign, timePeriod, data);
                     },
 
-                    requestTacticsList: function (strategy, timePeriod, campaign, callBackFunction) {
+                    requestTacticsList = function (strategy, timePeriod, campaign, callBackFunction) {
                         //request list
                         return getTacticList(strategy, timePeriod, campaign, callBackFunction);
                     },
 
-                    requestTacticsData: function (strategy, timePeriod, campaign, data) {
+                    requestTacticsData = function (strategy, timePeriod, campaign, data) {
                         //request metrics and cdb data
                         return getTacticData(strategy, timePeriod, campaign, data);
                     }
+
+                return {
+
+                    getCampaigns : getCampaigns,
+                    getDashboardData : getDashboardData,
+                    setListCampaign : setListCampaign,
+                    getListCampaign : getListCampaign,
+                    getCdbLineChart : getCdbLineChart,
+                    vtcMetricsJsonModifier: vtcMetricsJsonModifier,
+                    setActiveInactiveCampaigns : setActiveInactiveCampaigns,
+                    getCampaignCostData : getCampaignCostData,
+                    getStrategiesData : getStrategiesData,
+                    requestStrategiesData : requestStrategiesData,
+                    requestTacticsList : requestTacticsList,
+                    requestTacticsData : requestTacticsData
+
                 };
             }
         ]);

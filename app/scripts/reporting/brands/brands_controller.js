@@ -1,6 +1,6 @@
 define(['angularAMD', 'reporting/brands/brands_model', 'reporting/brands/brands_service', // jshint ignore:line
     'common/utils', 'common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_model',
-    'reporting/brands/brands_directive', 'reporting/subAccount/sub_account_model'], function (angularAMD) {
+    'reporting/brands/brands_directive', 'reporting/subAccount/sub_account_service'], function (angularAMD) {
     angularAMD.controller('BrandsController', function ($scope, $rootScope, brandsModel, brandsService, utils,
                                                         constants, loginModel, advertiserModel, subAccountModel,
                                                         localStorageService) {
