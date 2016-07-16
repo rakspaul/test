@@ -1,10 +1,13 @@
-define(['angularAMD','../../common/moment_utils'],function (angularAMD) { // jshint ignore:line
+define(['angularAMD','../../common/moment_utils'],function (angularAMD) {
+    'use strict';
+
     angularAMD.controller('GetAdgroupsController', function($scope,$rootScope, $routeParams, $location,
                                                             momentService,workflowService) {
         $scope.numOfDays = function (startTime, endTime) {
             startTime = momentService.utcToLocalTime(startTime);
             endTime = momentService.utcToLocalTime(endTime);
-            $scope.numofdays = moment(endTime).diff(moment(startTime), 'days'); // jshint ignore:line
+            $scope.numofdays = moment(endTime).diff(moment(startTime), 'days');
+
             return $scope.numofdays;
         };
 
@@ -14,14 +17,18 @@ define(['angularAMD','../../common/moment_utils'],function (angularAMD) { // jsh
                 edTime = adGroupsData.adGroup.endTime,
                 adGroupBudget = adGroupsData.adGroup.deliveryBudget,
                 lineItemId = Number(adGroupsData.adGroup.lineitemId),
+
                 navigateUrl = '/mediaplan/' + $routeParams.campaignId +
                     '/lineItem/' + lineItemId +
                     '/adGroup/' + adGroupId +
                     '/ads/create';
 
             if (typeof(Storage) !== 'undefined') {
-                localStorage.setItem('stTime', stTime); // convert this to EST in ads page
-                localStorage.setItem('edTime', edTime); // convert this to EST in ads create page
+                // convert this to EST in ads page
+                localStorage.setItem('stTime', stTime);
+
+                // convert this to EST in ads create page
+                localStorage.setItem('edTime', edTime);
             }
 
             workflowService.setUnallocatedAmount(unallocatedAmount);

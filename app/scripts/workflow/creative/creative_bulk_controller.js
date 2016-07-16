@@ -1,5 +1,7 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service', // jshint ignore:line
-    '../../common/directives/ng_upload_hidden'],function (angularAMD) {
+define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
+    '../../common/directives/ng_upload_hidden'], function (angularAMD) {
+    'use strict';
+
     angularAMD.controller('BulkCreativeController', function ($scope, $rootScope, $routeParams, $location,
                                                              constants, workflowService, Upload) {
         var creatives = {
@@ -61,7 +63,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     }, creatives.errorHandler);
             };
 
-        // $scope.creativeFormat='DISPLAY';
         $scope.creative={};
         $scope.adData = {};
         $scope.textConstants = constants;
@@ -100,7 +101,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
         // function on adFormat selected
         $scope.adFormatSelected = function (adFormatName) {
-            var index = _.findIndex( // jshint ignore:line
+            var index = _.findIndex(
                     $scope.creativeSizeData.adFormats,
                     function (obj) {
                         return (obj.name).replace(/\s+/g, '').toUpperCase() ===
@@ -117,12 +118,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 $scope.creativeSizeData.adFormats[index].active = true;
             }
 
-            if ($scope.creativeFormat === angular.uppercase(adFormatName)) { // jshint ignore:line
+            if ($scope.creativeFormat === angular.uppercase(adFormatName)) {
                 // user selected on the same ad format
                 return;
             }
 
-            $scope.creativeFormat = angular.uppercase(adFormatName); // jshint ignore:line
+            $scope.creativeFormat = angular.uppercase(adFormatName);
 
             // CreativeLibrary page, get templates
             if ($scope.selectedAdServer.name) {
@@ -147,7 +148,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     .then(function (response) {
                         if (response.status === 'success') {
                             $scope.downloadBusy = false;
-                            saveAs(response.file, response.fileName); // jshint ignore:line
+                            saveAs(response.file, response.fileName);
                         } else {
                             $scope.downloadBusy = false;
                         }
@@ -274,7 +275,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             getAdServers();
         });
 
-        //getAdServers();
         $('.dropdown-menu li a').click(function () {
             var selText = $(this).text();
 

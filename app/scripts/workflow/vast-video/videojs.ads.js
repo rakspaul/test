@@ -4,23 +4,27 @@
  * Common code to support ad integrations.
  */
 (function(window, document, vjs, undefined) {
-    "use strict";
+    'use strict';
 
     var
-
         /**
          * Copies properties from one or more objects onto an original.
          */
         extend = function(obj /*, arg1, arg2, ... */) {
-            var arg, i, k;
-            for (i=1; i<arguments.length; i++) {
+            var arg,
+                i,
+                k;
+
+            for (i = 1; i < arguments.length; i++) {
                 arg = arguments[i];
+
                 for (k in arg) {
                     if (arg.hasOwnProperty(k)) {
                         obj[k] = arg[k];
                     }
                 }
             }
+
             return obj;
         },
 
@@ -34,10 +38,7 @@
          * @return {object} obj The object passed in.
          */
         on = function(obj, events, handler) {
-
-            var
-
-                type = Object.prototype.toString.call(events),
+            var type = Object.prototype.toString.call(events),
 
                 register = function(obj, event, handler) {
                     if (obj.addEventListener) {
@@ -58,18 +59,23 @@
                 case '[object String]':
                     register(obj, events, handler);
                     break;
+
                 case '[object Array]':
                     for (i = 0, ii = events.length; i<ii; i++) {
                         register(obj, events[i], handler);
                     }
+
                     break;
+
                 case '[object Object]':
                     for (i in events) {
                         if (events.hasOwnProperty(i)) {
                             register(obj, i, events[i]);
                         }
                     }
+
                     break;
+
                 default:
                     throw new Error('Unrecognized events parameter type: ' + type);
             }
@@ -120,7 +126,6 @@
             }
 
             player.ads.cancelPlayTimeout = setImmediate(function() {
-
                 // deregister the cancel timeout so subsequent cancels are scheduled
                 player.ads.cancelPlayTimeout = null;
 
@@ -138,8 +143,8 @@
          * @param {object} player The videojs player object
          */
         getPlayerSnapshot = function(player) {
-            var
-                tech = player.el().querySelector('.vjs-tech'),
+            var tech = player.el().querySelector('.vjs-tech'),
+
                 snapshot = {
                     src: player.currentSrc(),
                     currentTime: player.currentTime(),
@@ -158,11 +163,13 @@
                 classes = element.className.split(/\s+/),
                 i = classes.length,
                 newClasses = [];
+
             while (i--) {
                 if (classes[i] !== className) {
                     newClasses.push(classes[i]);
                 }
             }
+
             element.className = newClasses.join(' ');
         },
 
@@ -173,13 +180,13 @@
          */
         restorePlayerSnapshot = function(player, snapshot) {
             var
-            // the playback tech
+                // the playback tech
                 tech = player.el().querySelector('.vjs-tech'),
 
-            // the number of remaining attempts to restore the snapshot
+                // the number of remaining attempts to restore the snapshot
                 attempts = 20,
 
-            // finish restoring the playback state
+                // finish restoring the playback state
                 resume = function() {
                     player.currentTime(snapshot.currentTime);
                     //If this wasn't a postroll resume
@@ -188,18 +195,20 @@
                     }
                 },
 
-            // determine if the video element has loaded enough of the snapshot source
-            // to be ready to apply the rest of the state
+                // determine if the video element has loaded enough of the snapshot source
+                // to be ready to apply the rest of the state
                 tryToResume = function() {
                     if (tech.seekable === undefined) {
                         // if the tech doesn't expose the seekable time ranges, try to
                         // resume playback immediately
                         resume();
+
                         return;
                     }
                     if (tech.seekable.length > 0) {
                         // if some period of the video is seekable, resume playback
                         resume();
+
                         return;
                     }
 
@@ -209,8 +218,8 @@
                     }
                 },
 
-            // whether the video element has been modified since the
-            // snapshot was taken
+                // whether the video element has been modified since the
+                // snapshot was taken
                 srcChanged;
 
             if (snapshot.nativePoster) {
@@ -236,9 +245,14 @@
 
             if (srcChanged) {
                 // if the src changed for ad playback, reset it
-                player.src({ src: snapshot.src, type: snapshot.type });
+                player.src({
+                    src: snapshot.src,
+                    type: snapshot.type
+                });
+
                 // safari requires a call to `load` to pick up a changed source
                 player.load();
+
                 // and then resume from the snapshots time once the original src has loaded
                 player.one('loadedmetadata', tryToResume);
             } else if (!player.ended()) {
@@ -257,16 +271,17 @@
          */
         removeNativePoster = function(player) {
             var tech = player.el().querySelector('.vjs-tech');
+
             if (tech) {
                 tech.removeAttribute('poster');
             }
         },
 
-    // ---------------------------------------------------------------------------
-    // Ad Framework
-    // ---------------------------------------------------------------------------
+        // ---------------------------------------------------------------------------
+        // Ad Framework
+        // ---------------------------------------------------------------------------
 
-    // default framework settings
+        // default framework settings
         defaults = {
             // maximum amount of time in ms to wait to receive `adsready` from the ad
             // implementation after play has been requested. Ad implementations are
@@ -286,10 +301,9 @@
         },
 
         adFramework = function(options) {
-            var
-                player = this,
+            var player = this,
 
-            // merge options and defaults
+                // merge options and defaults
                 settings = extend({}, defaults, options || {}),
 
                 fsmHandler;
@@ -308,7 +322,6 @@
             };
 
             fsmHandler = function(event) {
-
                 // Ad Playback State Machine
                 var
                     fsm = {
@@ -317,6 +330,7 @@
                                 'adsready': function() {
                                     this.state = 'ads-ready';
                                 },
+
                                 'play': function() {
                                     this.state = 'ads-ready?';
                                     cancelContentPlay(player);
@@ -326,6 +340,7 @@
                                 }
                             }
                         },
+
                         'ads-ready': {
                             events: {
                                 'play': function() {
@@ -334,6 +349,7 @@
                                 }
                             }
                         },
+
                         'preroll?': {
                             enter: function() {
                                 // change class to show that we're waiting on ads
@@ -348,6 +364,7 @@
                                 player.trigger('readyforpreroll');
 
                             },
+
                             leave: function() {
                                 window.clearTimeout(player.ads.timeout);
 
@@ -356,53 +373,64 @@
 
                                 removeClass(player.el(), 'vjs-ad-loading');
                             },
+
                             events: {
-                                'play': function() {
+                                play: function() {
                                     cancelContentPlay(player);
                                 },
-                                'adstart': function() {
+
+                                adstart: function() {
                                     this.state = 'ad-playback';
                                     player.el().className += ' vjs-ad-playing';
                                 },
-                                'adtimeout': function() {
+
+                                adtimeout: function() {
                                     this.state = 'content-playback';
                                     player.play();
                                 }
                             }
                         },
+
                         'ads-ready?': {
                             enter: function() {
                                 player.el().className += ' vjs-ad-loading';
+
                                 player.ads.timeout = window.setTimeout(function() {
                                     player.trigger('adtimeout');
                                 }, settings.timeout);
                             },
+
                             leave: function() {
                                 window.clearTimeout(player.ads.timeout);
                                 removeClass(player.el(), 'vjs-ad-loading');
                             },
+
                             events: {
-                                'play': function() {
+                                play: function() {
                                     cancelContentPlay(player);
                                 },
-                                'adsready': function() {
+
+                                adsready: function() {
                                     this.state = 'preroll?';
                                 },
-                                'adtimeout': function() {
+
+                                adtimeout: function() {
                                     this.state = 'ad-timeout-playback';
                                 }
                             }
                         },
+
                         'ad-timeout-playback': {
                             events: {
-                                'adsready': function() {
+                                adsready: function() {
                                     if (player.paused()) {
                                         this.state = 'ads-ready';
                                     } else {
                                         this.state = 'preroll?';
                                     }
                                 },
-                                'contentupdate': function() {
+
+                                contentupdate: function() {
                                     if (player.paused()) {
                                         this.state = 'content-set';
                                     } else {
@@ -411,6 +439,7 @@
                                 }
                             }
                         },
+
                         'ad-playback': {
                             enter: function() {
                                 // capture current player state snapshot (playing, currentTime, src)
@@ -419,26 +448,30 @@
                                 // remove the poster so it doesn't flash between videos
                                 removeNativePoster(player);
                             },
+
                             leave: function() {
                                 removeClass(player.el(), 'vjs-ad-playing');
                                 restorePlayerSnapshot(player, this.snapshot);
                             },
+
                             events: {
-                                'adend': function() {
+                                adend: function() {
                                     this.state = 'content-playback';
                                 }
                             }
                         },
+
                         'content-playback': {
                             events: {
-                                'adstart': function() {
+                                adstart: function() {
                                     this.state = 'ad-playback';
                                     player.el().className += ' vjs-ad-playing';
 
                                     // remove the poster so it doesn't flash between videos
                                     removeNativePoster(player);
                                 },
-                                'contentupdate': function() {
+
+                                contentupdate: function() {
                                     if (player.paused()) {
                                         this.state = 'content-set';
                                     } else {
@@ -450,7 +483,6 @@
                     };
 
                 (function(state) {
-
                     var noop = function() {};
 
                     // process the current event with a noop default handler
@@ -462,12 +494,10 @@
                         (fsm[player.ads.state].enter || noop).apply(player.ads);
 
                         if (settings.debug) {
-                            videojs.log('ads', state + ' -> ' + player.ads.state);
+                            videojs.log('ads', state + ' -> ' + player.ads.state); // jshint ignore:line
                         }
                     }
-
                 })(player.ads.state);
-
             };
 
             // register for the events we're interested in
@@ -475,10 +505,15 @@
                 // events emitted by ad plugin
                 'adtimeout',
                 'contentupdate',
+
                 // events emitted by third party ad implementors
                 'adsready',
-                'adstart',  // startLinearAdMode()
-                'adend'     // endLinearAdMode()
+
+                // startLinearAdMode()
+                'adstart',
+
+                // endLinearAdMode()
+                'adend'
             ]), fsmHandler);
 
             // keep track of the current content source
@@ -489,24 +524,28 @@
 
             // implement 'contentupdate' event.
             (function(){
-                var
-                // check if a new src has been set, if so, trigger contentupdate
-                    checkSrc = function() {
-                        var src;
-                        if (player.ads.state !== 'ad-playback') {
-                            src = player.currentSrc();
-                            if (src !== player.ads.contentSrc) {
-                                player.trigger({
-                                    type: 'contentupdate',
-                                    oldValue: player.ads.contentSrc,
-                                    newValue: src
-                                });
-                                player.ads.contentSrc = src;
-                            }
+                var checkSrc = function() {
+                    // check if a new src has been set, if so, trigger contentupdate
+                    var src;
+
+                    if (player.ads.state !== 'ad-playback') {
+                        src = player.currentSrc();
+
+                        if (src !== player.ads.contentSrc) {
+                            player.trigger({
+                                type: 'contentupdate',
+                                oldValue: player.ads.contentSrc,
+                                newValue: src
+                            });
+
+                            player.ads.contentSrc = src;
                         }
-                    };
+                    }
+                };
+
                 // loadstart reliably indicates a new src has been set
                 player.on('loadstart', checkSrc);
+
                 // check immediately in case we missed the loadstart
                 setImmediate(checkSrc);
             })();
@@ -522,4 +561,4 @@
     // register the ad plugin framework
     vjs.plugin('ads', adFramework);
 
-})(window, document, videojs);
+})(window, document, videojs); // jshint ignore:line

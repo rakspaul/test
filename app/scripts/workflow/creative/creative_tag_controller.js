@@ -1,264 +1,273 @@
+define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service'],
+    function (angularAMD) {
+        'use strict';
 
-define(['angularAMD', '../../common/services/constants_service', // jshint ignore:line
-    'workflow/services/workflow_service'], function (angularAMD) {
-    angularAMD.controller('CreativeTagController', function ($scope, constants, workflowService) {
-        var addFromLibrary = {
-            modifyCreativesData: function (respData) {
-                var arr;
+        angularAMD.controller('CreativeTagController', function ($scope, constants, workflowService) {
+            var addFromLibrary = {
+                modifyCreativesData: function (respData) {
+                    var arr;
 
-                _.each(respData, function (data) { // jshint ignore:line
-                    if ($scope.$parent.selectedArr.length > 0) {
-                        arr = _.filter($scope.$parent.selectedArr, function (obj) { // jshint ignore:line
-                            return obj.id === data.id;
-                        });
+                    _.each(respData, function (data) {
+                        if ($scope.$parent.selectedArr.length > 0) {
+                            arr = _.filter($scope.$parent.selectedArr, function (obj) {
+                                return obj.id === data.id;
+                            });
 
-                        if (arr.length > 0) {
-                            data.checked = arr[0].checked;
+                            if (arr.length > 0) {
+                                data.checked = arr[0].checked;
+                            }
+                        } else {
+                            data.checked = false;
                         }
-                    } else {
-                        data.checked = false;
+                    });
+
+                    return respData;
+                },
+
+                getCreativesFromLibrary: function (clientID, adId, format, query,state) {
+                    var executionPlatformType;
+
+                    // If adFormat has changed (Eg: from Display to RichMedia, etc.),
+                    // reset selected creatives array
+                    if ($scope.$parent.adFormatChanged) {
+                        $scope.$parent.selectedArr.length = 0;
+
+                        // Reset flag variable as it has served its purpose
+                        $scope.$parent.adFormatChanged = false;
                     }
-                });
 
-                return respData;
-            },
+                    executionPlatformType = workflowService.getVendorExecutionType();
 
-            getCreativesFromLibrary: function (clientID, adId, format, query,state) {
-                var executionPlatformType;
+                    workflowService
+                        .getCreatives(clientID,adId, format, query, {cache: false}, state, executionPlatformType,
+                            function (result) {
+                                var responseData,
+                                    selectedCreative;
 
-                // If adFormat has changed (Eg: from Display to RichMedia, etc.),
-                // reset selected creatives array
-                if ($scope.$parent.adFormatChanged) {
-                    $scope.$parent.selectedArr.length = 0;
+                                $scope.creativesLibraryData.creativesData = [];
 
-                    // Reset flag variable as it has served its purpose
-                    $scope.$parent.adFormatChanged = false;
+                                if (result.status === 'OK' ||
+                                    result.status === 'success' &&
+                                    result.data.data.length > 0) {
+                                    responseData = result.data.data;
+                                    $scope.creativeListLoading = false;
+                                    $scope.creativesLibraryData.creativesData =
+                                        addFromLibrary.modifyCreativesData(responseData);
+
+                                    if ($scope.mode === 'edit') {
+                                        _.each($scope.$parent.selectedArr, function (obj) {
+                                            var idx;
+
+                                            obj.checked = true;
+                                            $('#' + obj.id).attr('checked', true);
+
+                                            idx = _.findIndex(
+                                                $scope.creativesLibraryData.creativesData,
+                                                function (item) {
+                                                    return item.id === obj.id;
+                                                }
+                                            );
+
+                                            selectedCreative = $scope.creativesLibraryData.creativesData[idx];
+
+                                            if (selectedCreative) {
+                                                selectedCreative.checked = true;
+                                            }
+                                        });
+                                    }
+                                } else if(result.status === 'OK' ||
+                                    result.status === 'success' &&
+                                    result.data.data.length === 0) {
+                                    $scope.loadingFlag = false;
+                                }
+                            }, function (error) {
+                                addFromLibrary.errorHandler(error);
+                                $scope.loadingFlag = false;
+                            }
+                        );
+                },
+
+                errorHandler: function (/*errData*/) {
+                    $scope.creativesLibraryData.creativesData = [];
+                    $scope.creativeListLoading = false;
+                }
+            };
+
+            $scope.creativeSearchFunc = function () {
+                var format,
+                    campaignId,
+                    advertiserId,
+                    searchVal,
+                    qryStr = '',
+                    formats;
+
+                if ($scope.adData.adFormat === constants.WF_RICH_MEDIA) {
+                    format = constants.WF_RICH_MEDIA_SEARCH;
+                } else if ($scope.adData.adFormat === constants.WF_DISPLAY) {
+                    format = constants.WF_DISPLAY_SEARCH;
+                } else if ($scope.adData.adFormat === constants.WF_VIDEO) {
+                    format = constants.WF_VIDEO_SEARCH;
+                } else if ($scope.adData.adFormat === constants.WF_SOCIAL) {
+                    format = constants.WF_SOCIAL_SEARCH;
                 }
 
-                executionPlatformType = workflowService.getVendorExecutionType();
+                campaignId = $scope.workflowData.campaignData.clientId;
+                advertiserId = $scope.workflowData.campaignData.advertiserId;
+                searchVal = $scope.adData.creativeSearch;
+                formats = format;
 
-                workflowService
-                    .getCreatives(clientID,adId, format, query, {cache: false}, state, executionPlatformType,
-                        function (result) {
-                        var responseData,
-                            selectedCreative;
+                if (searchVal.length > 0) {
+                    qryStr += '&query=' + searchVal;
+                }
 
-                        $scope.creativesLibraryData.creativesData = [];
+                addFromLibrary.getCreativesFromLibrary(campaignId, advertiserId, formats, qryStr, 'READY');
+            };
 
-                        if (result.status === 'OK' || result.status === 'success' && result.data.data.length > 0) {
-                            responseData = result.data.data;
-                            $scope.creativeListLoading = false;
-                            $scope.creativesLibraryData.creativesData =
-                                addFromLibrary.modifyCreativesData(responseData);
+            $scope.saveCreativeTags = function () {
+                $scope.showHidePopup = false;
+                $scope.preDeleteArr = [];
+                $scope.preSelectArr = [];
+                $scope.changeStatus();
+                $scope.updateCreativeData($scope.$parent.selectedArr);
+            };
 
-                            if ($scope.mode === 'edit') {
-                                _.each($scope.$parent.selectedArr, function (obj) { // jshint ignore:line
-                                    var idx;
+            $scope.closePop = function () {
+                var idx;
 
-                                    obj.checked = true;
-                                    $('#' + obj.id).attr('checked', true);
+                $scope.showHidePopup = false;
+                $scope.changeStatus();
 
-                                    idx = _.findIndex( // jshint ignore:line
-                                        $scope.creativesLibraryData.creativesData,
-                                        function (item) {
-                                            return item.id === obj.id;
-                                        }
-                                    );
+                if ($scope.preDeleteArr.length > 0) {
+                    $scope.preDeleteArr = _.uniq($scope.preDeleteArr);
 
-                                    selectedCreative = $scope.creativesLibraryData.creativesData[idx];
-
-                                    if (selectedCreative) {
-                                        selectedCreative.checked = true;
-                                    }
-                                });
-                            }
-                        } else if(result.status === 'OK' ||
-                            result.status === 'success' &&
-                            result.data.data.length === 0){
-                            $scope.loadingFlag = false;
-
-                        }
-                    }, function (error){
-                        addFromLibrary.errorHandler(error);
-                        $scope.loadingFlag = false;
+                    _.each($scope.preDeleteArr, function (obj) {
+                        obj.checked = true;
+                        $scope.$parent.selectedArr.push(obj);
+                        $('#' + obj.id).attr('checked', true);
                     });
-            },
+                }
 
-            errorHandler: function (/*errData*/) {
-                $scope.creativesLibraryData.creativesData = [];
-                $scope.creativeListLoading = false;
-            }
-        };
+                if ($scope.preSelectArr.length > 0) {
+                    $scope.preSelectArr = _.uniq($scope.preSelectArr);
 
-        $scope.creativeSearchFunc = function () {
-            var format,
-                campaignId,
-                advertiserId,
-                searchVal,
-                qryStr = '',
-                formats;
+                    _.each($scope.preSelectArr, function (obj) {
+                        idx = _.findIndex($scope.$parent.selectedArr, function (item) {
+                            return item.id === obj.id;
+                        });
 
-            if ($scope.adData.adFormat === constants.WF_RICH_MEDIA) {
-                format = constants.WF_RICH_MEDIA_SEARCH;
-            } else if ($scope.adData.adFormat === constants.WF_DISPLAY) {
-                format = constants.WF_DISPLAY_SEARCH;
-            } else if ($scope.adData.adFormat === constants.WF_VIDEO){
-                format = constants.WF_VIDEO_SEARCH;
-            } else if ($scope.adData.adFormat === constants.WF_SOCIAL){
-                format = constants.WF_SOCIAL_SEARCH;
-            }
+                        $scope.$parent.selectedArr.splice(idx, 1);
+                        $('#' + obj.id).attr('checked', false);
+                    });
+                }
 
-            campaignId = $scope.workflowData.campaignData.clientId;
-            advertiserId = $scope.workflowData.campaignData.advertiserId;
-            searchVal = $scope.adData.creativeSearch;
-            formats = format;
+                $scope.preSelectArr = [];
+                $scope.$parent.selectedArr = _.uniq($scope.$parent.selectedArr);
+                $scope.updateCreativeData($scope.$parent.selectedArr);
+            };
 
-            if (searchVal.length > 0) {
-                qryStr += '&query=' + searchVal;
-            }
+            $scope.stateChanged = function ($event, screenTypeObj) {
+                var checkbox = $event.target,
+                    selectedChkBox,
+                    idx,
+                    preIdx;
 
-            addFromLibrary.getCreativesFromLibrary(campaignId, advertiserId, formats, qryStr, 'READY');
-        };
+                // temporary user old selected status before cancel
+                screenTypeObj.userSelectedEvent = checkbox.checked;
 
-        $scope.saveCreativeTags = function () {
-            $scope.showHidePopup = false;
-            $scope.preDeleteArr = [];
-            $scope.preSelectArr = [];
-            $scope.changeStatus();
-            $scope.updateCreativeData($scope.$parent.selectedArr);
-        };
-
-        $scope.closePop = function () {
-            var idx;
-
-            $scope.showHidePopup = false;
-            $scope.changeStatus();
-
-            if ($scope.preDeleteArr.length > 0) {
-                $scope.preDeleteArr = _.uniq($scope.preDeleteArr); // jshint ignore:line
-
-                _.each($scope.preDeleteArr, function (obj) { // jshint ignore:line
-                    obj.checked = true;
-                    $scope.$parent.selectedArr.push(obj);
-                    $('#' + obj.id).attr('checked', true);
+                selectedChkBox = _.filter($scope.$parent.selectedArr, function (obj) {
+                    return obj.id === screenTypeObj.id;
                 });
-            }
 
-            if ($scope.preSelectArr.length > 0) {
-                $scope.preSelectArr = _.uniq($scope.preSelectArr); // jshint ignore:line
+                if (selectedChkBox.length > 0) {
+                    idx = _.findIndex($scope.$parent.selectedArr, function (item) {
+                        return item.id === screenTypeObj.id;
+                    });
 
-                _.each($scope.preSelectArr, function (obj) { // jshint ignore:line
-                    idx = _.findIndex($scope.$parent.selectedArr, function (item) { // jshint ignore:line
-                        return item.id === obj.id;
+                    preIdx = _.findIndex($scope.preDeleteArr, function (item) {
+                        return item.id === screenTypeObj.id;
                     });
 
                     $scope.$parent.selectedArr.splice(idx, 1);
-                    $('#' + obj.id).attr('checked', false);
-                });
-            }
-
-            $scope.preSelectArr = [];
-            $scope.$parent.selectedArr = _.uniq($scope.$parent.selectedArr); // jshint ignore:line
-            $scope.updateCreativeData($scope.$parent.selectedArr);
-        };
-
-        $scope.stateChanged = function ($event, screenTypeObj) {
-            var checkbox = $event.target,
-                selectedChkBox,
-                idx,
-                preIdx;
-
-            // temporary user old selected status before cancel
-            screenTypeObj.userSelectedEvent = checkbox.checked;
-
-            selectedChkBox = _.filter($scope.$parent.selectedArr, function (obj) { // jshint ignore:line
-                return obj.id === screenTypeObj.id;
-            });
-
-            if (selectedChkBox.length > 0) {
-                idx = _.findIndex($scope.$parent.selectedArr, function (item) { // jshint ignore:line
-                    return item.id === screenTypeObj.id;
-                });
-
-                preIdx = _.findIndex($scope.preDeleteArr, function (item) { // jshint ignore:line
-                    return item.id === screenTypeObj.id;
-                });
-
-                $scope.$parent.selectedArr.splice(idx, 1);
-                if (preIdx === -1) {
-                    $scope.preDeleteArr.push(screenTypeObj);
+                    if (preIdx === -1) {
+                        $scope.preDeleteArr.push(screenTypeObj);
+                    }
+                } else {
+                    $scope.$parent.selectedArr.push(screenTypeObj);
+                    $scope.preSelectArr.push(screenTypeObj);
                 }
-            } else {
-                $scope.$parent.selectedArr.push(screenTypeObj);
-                $scope.preSelectArr.push(screenTypeObj);
-            }
-        };
+            };
 
-        $scope.emptyCreativesFlag = true;
-        $scope.loadingFlag = true;
+            $scope.emptyCreativesFlag = true;
+            $scope.loadingFlag = true;
 
-        $scope.$on('updateNewCreative', function () {
-            var creativeTag = workflowService.getNewCreative();
+            $scope.$on('updateNewCreative', function () {
+                var creativeTag = workflowService.getNewCreative();
 
-            $scope.$parent.selectedArr.push(creativeTag);
-            $scope.changeStatus();
-            $scope.updateCreativeData($scope.$parent.selectedArr);
-        });
-
-        $scope.$on('updateCreativeTags', function () {
-            var responseData;
-
-            if ($scope.mode === 'edit') {
-                responseData = workflowService.getAdsDetails();
-                //creative tags
-                if (responseData.creatives) {
-                    $scope.$parent.selectedArr = responseData.creatives;
-                }
+                $scope.$parent.selectedArr.push(creativeTag);
                 $scope.changeStatus();
                 $scope.updateCreativeData($scope.$parent.selectedArr);
-            }
-        });
+            });
 
-        $scope.$on('showCreativeLibrary', function () {
-            var campaignId = $scope.workflowData.campaignData.clientId,
-                advertiserId = $scope.workflowData.campaignData.advertiserId;
+            $scope.$on('updateCreativeTags', function () {
+                var responseData;
 
-            $scope.showHidePopup = true;
-            $scope.creativeListLoading = true;
-
-            addFromLibrary
-                .getCreativesFromLibrary(campaignId, advertiserId, $scope.adData.adFormat.toUpperCase(), '', 'READY');
-        });
-
-        $scope.$on('removeCreativeTags', function ($event, arg) {
-            var selectedCreativeTag = arg[0],
-                actionFrom = arg[1],
-                idx,
-                currIndx;
-
-            if (selectedCreativeTag.length > 0) {
-                idx = _.findLastIndex($scope.$parent.selectedArr, function (obj) { // jshint ignore:line
-                    return obj.id === Number(selectedCreativeTag[0].id);
-                });
-
-                $scope.$parent.selectedArr.splice(idx, 1);
-                if (actionFrom !== 'popup') {
+                if ($scope.mode === 'edit') {
+                    responseData = workflowService.getAdsDetails();
+                    //creative tags
+                    if (responseData.creatives) {
+                        $scope.$parent.selectedArr = responseData.creatives;
+                    }
+                    $scope.changeStatus();
                     $scope.updateCreativeData($scope.$parent.selectedArr);
-                } else {
-                    //insert into predelete array
-                    $scope.preDeleteArr.push(selectedCreativeTag[0]);
+                }
+            });
+
+            $scope.$on('showCreativeLibrary', function () {
+                var campaignId = $scope.workflowData.campaignData.clientId,
+                    advertiserId = $scope.workflowData.campaignData.advertiserId;
+
+                $scope.showHidePopup = true;
+                $scope.creativeListLoading = true;
+
+                addFromLibrary.getCreativesFromLibrary(
+                    campaignId,
+                    advertiserId,
+                    $scope.adData.adFormat.toUpperCase(),
+                    '',
+                    'READY'
+                );
+            });
+
+            $scope.$on('removeCreativeTags', function ($event, arg) {
+                var selectedCreativeTag = arg[0],
+                    actionFrom = arg[1],
+                    idx,
+                    currIndx;
+
+                if (selectedCreativeTag.length > 0) {
+                    idx = _.findLastIndex($scope.$parent.selectedArr, function (obj) {
+                        return obj.id === Number(selectedCreativeTag[0].id);
+                    });
+
+                    $scope.$parent.selectedArr.splice(idx, 1);
+                    if (actionFrom !== 'popup') {
+                        $scope.updateCreativeData($scope.$parent.selectedArr);
+                    } else {
+                        //insert into predelete array
+                        $scope.preDeleteArr.push(selectedCreativeTag[0]);
+                    }
+
+                    currIndx = _.findLastIndex($scope.creativesLibraryData.creativesData, {
+                        id: selectedCreativeTag[0].id
+                    });
+
+                    if ($scope.creativesLibraryData.creativesData[currIndx]) {
+                        $scope.creativesLibraryData.creativesData[currIndx].checked = false;
+                    }
                 }
 
-                currIndx = _.findLastIndex($scope.creativesLibraryData.creativesData, { // jshint ignore:line
-                    id: selectedCreativeTag[0].id
-                });
-
-                if ($scope.creativesLibraryData.creativesData[currIndx]) {
-                    $scope.creativesLibraryData.creativesData[currIndx].checked = false;
-                }
-            }
-
-            // TODO: Enable save button of popup library if elements exists
+                // TODO: Enable save button of popup library if elements exists
+            });
         });
-    });
-});
+    }
+);
