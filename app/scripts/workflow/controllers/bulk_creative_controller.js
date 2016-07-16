@@ -133,6 +133,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         //Generate the Template
         $scope.templateSelected = function (templateJson){
+            templateJson = templateJson || {};
             $scope.CreativeTemplate = templateJson;
             $scope.TrackingIntegrationsSelected = templateJson.isTracking;
             $scope.adData.creativeTemplate = templateJson.id;
