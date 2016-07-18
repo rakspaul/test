@@ -293,7 +293,9 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
             $scope.init();
 
             $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function () {
-                $location.path('/mediaplans/' + campaignSelectModel.getSelectedCampaign().id);
+                $scope.$apply(function() {
+                    $location.path('/mediaplans/' + campaignSelectModel.getSelectedCampaign().id);
+                });
             });
 
             getSetCampaignDetails = function() {
