@@ -74,7 +74,7 @@
 								</div>
 								<div class="columnTwo audienceTip col-md-5" >
 									<!--<span data-ng-bind="audience.name" title="{{audience.name}}" tooltip-placement="right" class="toolTipAudienceSegment"></span>-->
-									<span data-ng-bind="audience.name" title="{{audience.name}}" class="toolTipAudienceSegment"></span>
+									<span data-ng-bind="audience.displayName" title="{{audience.displayName}}" class="toolTipAudienceSegment"></span>
 								</div>
 								<div class="columnTwo col-md-3" >
 									<div class="pull-left">$&nbsp;</div>
@@ -97,7 +97,7 @@
 					<div class="selectedItems">
 
                         <div class="segWrap" ng-repeat="aud in selectedAudience">
-                            <span>{{aud.name}}</span><div style="clear:both"></div>
+                            <span>{{aud.displayName}}</span><div style="clear:both"></div>
                             <div class="pull-left">$&nbsp;</div>
                             <div class="pull-left">{{(aud.cpmCost).toFixed(2)}}</div><div style="clear:both"></div>
                             <!--<span>{{aud.estReach}}</span><div style="clear:both"></div>-->
