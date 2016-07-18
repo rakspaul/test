@@ -195,7 +195,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
 
                     $location.url('/login');
 
-                    //remove header bar on login page
+                    // remove header bar on login page
                     $('.main_navigation_holder').hide();
                 }
             },
@@ -207,7 +207,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
                 this.deleteData();
                 $location.url('/login');
 
-                //remove header bar on login page
+                // remove header bar on login page
                 $('.main_navigation_holder').hide();
             },
 
@@ -221,7 +221,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
 
                 $location.url('/login');
 
-                //remove header bar on login page
+                // remove header bar on login page
                 $('.main_navigation_holder').hide();
             },
 

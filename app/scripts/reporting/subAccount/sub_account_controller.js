@@ -1,5 +1,5 @@
-define(['angularAMD', 'reporting/subAccount/sub_account_service', // jshint ignore:line
-    'common/services/constants_service', 'login/login_model'], function (angularAMD) {
+define(['angularAMD', 'reporting/subAccount/sub_account_service', 'common/services/constants_service',
+    'login/login_model'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('subAccountController', function ($scope, $rootScope, $location, subAccountModel,
@@ -12,11 +12,11 @@ define(['angularAMD', 'reporting/subAccount/sub_account_service', // jshint igno
             }
 
             $scope.subAccountData = {
-                subAccounts : {},
+                subAccounts: {},
 
-                selectedsubAccount :  {
+                selectedsubAccount:  {
                     id: -1,
-                    name : 'Loading...'
+                    name: 'Loading...'
                 }
             };
         };
@@ -64,19 +64,19 @@ define(['angularAMD', 'reporting/subAccount/sub_account_service', // jshint igno
             $('#profileDropdown').hide();
         };
 
-        $scope.selectSubAccount = function (sub_account) {
+        $scope.selectSubAccount = function (subAccount) {
             var subAccountNameSelected = $('#sub_account_name_selected'),
 
                 subAccountIdName = {
-                    id: sub_account.id,
-                    name: sub_account.displayName
+                    id: subAccount.id,
+                    name: subAccount.displayName
                 };
 
-            $scope.subAccountData.selectedsubAccount.id = sub_account.id;
+            $scope.subAccountData.selectedsubAccount.id = subAccount.id;
 
-            subAccountNameSelected.text(sub_account.displayName);
-            subAccountNameSelected.attr('title' , sub_account.displayName);
-            $('#subAccountDropdown').attr('placeholder', sub_account.displayName).val('');
+            subAccountNameSelected.text(subAccount.displayName);
+            subAccountNameSelected.attr('title' , subAccount.displayName);
+            $('#subAccountDropdown').attr('placeholder', subAccount.displayName).val('');
             $('#subAccountDropDownList').hide() ;
 
             $scope.subAccountData.showAll = true;
@@ -88,7 +88,7 @@ define(['angularAMD', 'reporting/subAccount/sub_account_service', // jshint igno
             }
 
             $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {
-                client: sub_account.id,
+                client: subAccount.id,
                 event_type: 'clicked'
             });
 

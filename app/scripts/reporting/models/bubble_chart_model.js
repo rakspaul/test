@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/url_service', 'reporting/timePeriod/time_period_model', // jshint ignore:line
+define(['angularAMD', 'common/services/url_service', 'reporting/timePeriod/time_period_model',
     'common/services/data_service', 'reporting/brands/brands_model', 'reporting/dashboard/dashboard_model',
     'common/services/request_cancel_service', 'common/services/constants_service', 'login/login_model',
     'reporting/advertiser/advertiser_model', 'reporting/subAccount/sub_account_service'], function (angularAMD) {
@@ -33,7 +33,7 @@ define(['angularAMD', 'common/services/url_service', 'reporting/timePeriod/time_
                         if (response.data && response.data.data.length > 0) {
                             var total_advertisers = response.data.data.length,
 
-                                data = _.chain(response.data.data) // jshint ignore:line
+                                data = _.chain(response.data.data)
                                     .sortBy(function (d) {
                                         return d.budget;
                                     })

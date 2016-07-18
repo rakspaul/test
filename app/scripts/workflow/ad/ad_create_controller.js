@@ -41,7 +41,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                 // redirect user to media plan list screen if new or edited ad
                                 // is from archived campaign
-                                if (responseData.isArchived){
+                                if (responseData.isArchived) {
                                     $scope.isMediaPlanArchive = true;
                                 }
 
@@ -50,7 +50,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                 if ($scope.workflowData.campaignData.selectedObjectives &&
                                     $scope.workflowData.campaignData.selectedObjectives.length > 0) {
-                                    $scope.brandIcon = _.filter(// jshint ignore:line
+                                    $scope.brandIcon = _.filter(
                                         $scope.workflowData.campaignData.selectedObjectives,
                                         function (item) {
                                             return item.objective === 'Branding';
@@ -58,7 +58,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                     );
 
                                     $scope.performanceIcon =
-                                        _.filter(// jshint ignore:line
+                                        _.filter(
                                             $scope.workflowData.campaignData.selectedObjectives,
                                             function (item) {
                                                 return item.objective === 'Performance';
@@ -79,7 +79,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                             .then(function (result) {
                                                 $scope.getAd_result = result.data.data;
 
-                                                //redirect user to campaingn overview screen if ad is archived
+                                                // redirect user to campaingn overview screen if ad is archived
                                                 if ($scope.getAd_result.isArchived){
                                                     $scope.isMediaPlanArchive = true;
                                                     $scope.archivedAdFlag = true;
@@ -120,14 +120,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                                     $scope.workflowData.adGroupData = adGroupData;
 
-                                                    //to get all ads with in ad group
+                                                    // to get all ads with in ad group
                                                     workflowService
                                                         .getDetailedAdsInAdGroup($scope.campaignId,
                                                             $scope.adGroupId, $scope.adId)
                                                         .then(function (result) {
                                                             $scope.getAd_result = result.data.data;
 
-                                                            //redirect user to campaingn overview screen
+                                                            // redirect user to campaingn overview screen
                                                             // if ad is archived
                                                             if ($scope.getAd_result.isArchived) {
                                                                 $scope.isMediaPlanArchive = true;
@@ -164,7 +164,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         {id: 2, name: 'Brand',       active: false}
                     ];
 
-                    //default value
+                    // default value
                     $scope.adData.goal = 'Performance';
                 },
 
@@ -204,7 +204,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         {id: 4, name: 'Social',     active: false}
                     ];
 
-                    //default value
+                    // default value
                     $scope.adData.adFormat = 'Display';
                 },
 
@@ -216,7 +216,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             {id: 3, name: 'Tablet',  active: false}
                         ];
 
-                        //default value
+                        // default value
                         $scope.adData.screenTypes = [{id: 1, name: 'Desktop', active: true}];
                     } else {
                         $scope.workflowData.screenTypes = [
@@ -225,7 +225,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             {id: 3, name: 'Tablet',  active: false}
                         ];
 
-                        //default value
+                        // default value
                         $scope.adData.screenTypes = [];
                     }
                 },
@@ -256,7 +256,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         $rootScope.setErrAlertMessage(errMsg);
                     }
 
-                    //save adGroup Ad
+                    // save adGroup Ad
                     if (window.location.href.indexOf('adGroup') > -1) {
                         postDataObj.adGroupId = $scope.adGroupId;
                     }
@@ -339,7 +339,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
         }
 
-        //edit mode data population
+        // edit mode data population
         function processEditMode(result, clientId, advertiserId) {
             var responseData = result.data.data,
                 format,
@@ -582,7 +582,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $scope.$broadcast('setTargeting', ['Audience']);
             }
 
-            //video part edit
+            // video part edit
             videoTargetsData = responseData.targets;
             if (videoTargetsData.videoTargets &&
                 (videoTargetsData.videoTargets.sizes.length > 0 ||
@@ -607,13 +607,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 // enable pause button
                 $scope.disablePause = '';
             } else {
-                //disable pause button
+                // disable pause button
                 $scope.disablePause = 'disabled';
             }
 
             if (getAdResultData.state === 'PAUSED') {
-                //$scope.disablePause='disabled';
-                //enable resume if ad is paused
+                // enable resume if ad is paused
                 $scope.disableResume = '';
             }
         }
@@ -1100,7 +1099,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             // enable cancel, save button on load
             $scope.disableCancelSave = false;
 
-            $('.newCreativeSlide .popCreativeLib')// jshint ignore:line
+            $('.newCreativeSlide .popCreativeLib')
                 .show()
                 .delay(300)
                 .animate({
@@ -1215,7 +1214,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 if (formData.startTime) {
                     utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime');
 
-                    //fixed for CW-4102
+                    // fixed for CW-4102
                     if ($scope.mode ==='edit') {
                         utcStartTime = (moment(formData.startTime)
                             .isSame($scope.modifiedAPIStartTime, 'day')) ?
@@ -1227,7 +1226,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 if (formData.endTime) {
                     utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
-                    if($scope.mode ==='edit') { //fixed for CW-4102
+
+                    // fixed for CW-4102
+                    if ($scope.mode ==='edit') {
                         utcEndTime = (moment(formData.endTime)
                             .isSame($scope.modifiedAPIEndTime, 'day')) ?
                             $scope.apiEndTime :  utcEndTime;
@@ -1413,7 +1414,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                         postGeoTargetObj.ZIPCODE.geoTargetList.push({
                                             countryCode:'US',
-                                            zipcodes: _.pluck(// jshint ignore:line
+                                            zipcodes: _.pluck(
                                                 postGeoTargetObj.ZIP_CODE.geoTargetList, 'code')
                                         });
 
@@ -1440,14 +1441,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             segmentObj.operation = audienceService.getAndOr().toUpperCase();
                         }
 
-                        //DayPart Segment
+                        // DayPart Segment
                         dayPart = audienceService.getDayPartdata();
 
                         if (dayPart) {
                             postAdDataObj.targets.adDaypartTargets = dayPart;
                         }
 
-                        //video Segment
+                        // video Segment
                         videoTargetsData = videoService.getVideoData();
 
                         if (videoTargetsData.videoTargets &&
@@ -1482,7 +1483,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         appListsIds = inventoryLists.appList;
                     }
 
-                    //domains save
+                    // domains save
                     if ($scope.adData.inventory &&
                         !$scope.TrackingIntegrationsSelected &&
                         domainListIds.length > 0) {
@@ -1496,7 +1497,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         postAdDataObj.domainAction = $scope.adData.inventory.domainAction;
                     }
 
-                    //app save
+                    // app save
                     if ($scope.adData.inventory && !$scope.TrackingIntegrationsSelected && appListsIds.length > 0) {
                         appTargetObj = postAdDataObj.targets.appTargets = {};
 
@@ -1509,7 +1510,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     }
                     // end of inventory save
 
-                    //custom field section.
+                    // custom field section.
                     if (!$scope.TrackingIntegrationsSelected) {
                         if ($.isEmptyObject($scope.postPlatformDataObj)) {
                             $scope.saveCustomeFieldForPlatform(1);
@@ -1585,7 +1586,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             if (selectedCreativeTag.length > 0 && selectedCreativeTag) {
                 $scope.$broadcast('removeCreativeTags', [selectedCreativeTag, actionFrom]);
             } else {
-                //special case when we remove tag from selected list
+                // special case when we remove tag from selected list
                 $scope.$broadcast('removeCreativeTags', [[clickedTagData], 'special']);
             }
         };
@@ -1680,7 +1681,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         $scope.enableSaveBtn = true;
         $scope.isAddCreativePopup = false;
 
-        //To show hide view tag in creatives listing
+        // To show hide view tag in creatives listing
         $scope.IsVisible = false;
 
         $scope.currentTimeStamp = moment.utc().valueOf();
@@ -1864,7 +1865,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             }
         };
 
-        //on Broswers back button customreport behaving wierdly, this piece of code fixes it
+        // on Broswers back button customreport behaving wierdly, this piece of code fixes it
         $scope.$on('$locationChangeStart', function (event, next) {
             if(next.indexOf('customreport') > -1){
                 var customReportUrl = next.split('/')[3];

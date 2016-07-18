@@ -1,4 +1,4 @@
-define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshint ignore:line
+define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
     'reporting/strategySelect/strategy_select_service', 'reporting/kpiSelect/kpi_select_model',
     'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
     'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'common/moment_utils',
@@ -99,6 +99,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
 
                 setFlashMessage = function (message, isErrorMsg, isMsg) {
                     $rootScope.setErrAlertMessage(message, isErrorMsg, isMsg);
+
                     return false;
                 };
 
@@ -126,251 +127,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 return dateToValidateD <= daysInMonth[--dateToValidateM];
             }
 
-            $('.custom_response_screenshot_container').css('min-height', winHeight - 464);
-
-            $scope.additionalFilters = [];
-            $scope.textConstants = constants;
-            $scope.additionalValue = 'Contains keywords ...';
-
-            $scope.dataNotFound = false;
-            $scope.reportDataBusy = false;
-            $scope.loadingBtn = false;
-            $scope.activeTab = 'delivery_metrics';
-            $scope.filters = domainReports.getReportsTabs();
-            $scope.count = 0;
-            $scope.secondDimensionReportLoading = {};
-            $scope.secDimensionLoadMore = {};
-            $scope.secDimensionLoadIcon = {};
-            $scope.secondDimensionReportDataNotFound = {};
-            $scope.metrics_text = 'Default';
-            $scope.generateBtnDisabled = true;
-            $scope.reports = {};
-            $scope.reports.reportDefinition = {};
-            $scope.reports.schedule = {};
-            $scope.reports.reportDefinition.timeframe = {};
-
-            $scope.reports.reportDefinition.timeframe.start_date = moment() // jshint ignore:line
-                .subtract(1, 'day')
-                .format(constants.DATE_UTC_SHORT_FORMAT);
-
-            $scope.reports.reportDefinition.timeframe.end_date = moment() // jshint ignore:line
-                .subtract(1, 'day')
-                .format(constants.DATE_UTC_SHORT_FORMAT);
-
-            $scope.reports.reportDefinition.metrics = {};
-            $scope.reports.reportDefinition.filters = [];
-            $scope.reports.reportDefinition.dimensions = {};
-            $scope.selectedMetricsList = [];
-
-            $scope.reports.reportDefinition.dimensions.primary = {
-                name: '',
-                dimension: '',
-                value: ''
-            };
-
-            $scope.reports.reportDefinition.dimensions.secondary = {
-                name: '',
-                dimension: '',
-                value: ''
-            };
-
-            $scope.reports.schedule.startDate = moment() // jshint ignore:line
-                .subtract(0, 'days')
-                .format(constants.DATE_UTC_SHORT_FORMAT);
-
-            $scope.reports.schedule.endDate = moment() // jshint ignore:line
-                .subtract(0, 'days')
-                .format(constants.DATE_UTC_SHORT_FORMAT);
-
-            $scope.scheduleReportActive = false;
-            $scope.notInRange = false;
-            $scope.notInRangeMonthly = false;
-            $scope.showPrimaryTxtBox = false;
-            $scope.showSecondaryTxtBox = false;
-            $scope.showSecondDimensionBlock = false;
-            $scope.showAddBreakdownButton = false;
-            $scope.updateScheduleReport = false;
-            $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
-            $scope.buttonResetCancel = $scope.textConstants.RESET_LABEL;
-            $scope.stopRedirectingPage = true;
-            $scope.reportTypeSelect = $scope.textConstants.SAVE_LABEL;
-            $scope.isSavedReportGen = false;
-            $scope.showCost = true;
-            $scope.showQuality = true;
-
-            $scope.showPlatform = true;
-            $scope.showInventory = true;
-            $scope.showPerformance = true;
-
-            if ($scope.isSavedReportGen === true) {
-                $('#dynamicHeader').addClass('smaller');
-            }
-
-            // Sorting of report data
-            $scope.sortReverse = false;
-            $scope.sortType = 'value';
-
-            $scope.clickToSort = function (dm) {
-                $scope.sortType = dm;
-                $scope.sortReverse = !$scope.sortReverse;
-            };
-
-            $scope.addReqClassToSort = function (dm, b, c) {
-                var isActive = (dm === b) ? 'active' : '',
-                    sortDirection = (c === true) ? 'sort_order_up' : 'sort_order_down';
-
-                return isActive + ' ' + sortDirection;
-            };
-
-            _customctrl.setCustomMetrics = function (data) {
-                $scope.customMetricsInit = {};
-                $scope.customMetrics = [];
-
-                _.each(data, function (key) { // jshint ignore:line
-                    $scope.customMetrics.push({
-                        key: key,
-                        value: $scope.displayName[key],
-                        selected: false
-                    });
-                });
-
-                $scope.totalCustomMetrics = $scope.customMetrics.length;
-                $scope.customMetrics.isAllSelected = false;
-                $scope.customMetrics.minOneSelected = false;
-            };
-
-            $scope.initializeMetrics = function (dataObj, selectedDim) {
-                var metricsData,
-                    pacingMetricData,
-                    qualityMetricsData;
-
-                selectedDim = $scope.reports.reportDefinition.dimensions.primary.dimension;
-
-                metricsData = dataObj.dim_specific_metrics.hasOwnProperty(selectedDim) ?
-                    dataObj.dim_specific_metrics[selectedDim] : dataObj.metrics;
-
-                $scope.deliveryMetricsView = metricsData.delivery_metrics;
-                $scope.deliveryMetrics = [];
-
-                _.each($scope.deliveryMetricsView, function (key) { // jshint ignore:line
-                    $scope.deliveryMetrics.push({
-                        key: key,
-                        value: $scope.displayName[key],
-                        selected: false
-                    });
-                });
-
-                $scope.totalDeliveryMetrics = $scope.deliveryMetrics.length;
-                $scope.deliveryMetrics.isAllSelected = false;
-                $scope.deliveryMetrics.minOneSelected = false;
-
-                //cost metrics
-                $scope.costMetricsView = metricsData.cost_metrics;
-                $scope.costMetrics = [];
-
-                _.each($scope.costMetricsView, function (key) { // jshint ignore:line
-                    $scope.costMetrics.push({
-                        key: key,
-                        value: $scope.displayName[key],
-                        selected: false
-                    });
-                });
-
-                $scope.totalCostMetrics = $scope.costMetrics.length;
-                $scope.costMetrics.isAllSelected = false;
-                $scope.costMetrics.minOneSelected = false;
-
-                // pacing metrics
-                pacingMetricData = metricsData.pacing_metrics;
-                $scope.pacingMetrics = [];
-
-                _.each(pacingMetricData, function (key) { // jshint ignore:line
-                    $scope.pacingMetrics.push({
-                        key: key,
-                        value: $scope.displayName[key],
-                        selected: false
-                    });
-                });
-
-                $scope.totalPacingMetrics = $scope.pacingMetrics.length;
-                $scope.pacingMetrics.isAllSelected = false;
-                $scope.pacingMetrics.minOneSelected = false;
-
-                // video metrics
-                $scope.videoMetricsView = metricsData.video_metrics;
-                $scope.videoMetrics = [];
-
-                _.each($scope.videoMetricsView, function (key) { // jshint ignore:line
-                    $scope.videoMetrics.push({
-                        key: key,
-                        value: $scope.displayName[key],
-                        selected: false
-                    });
-                });
-
-                $scope.totalVideoMetrics = $scope.videoMetrics.length;
-                $scope.videoMetrics.isAllSelected = false;
-                $scope.videoMetrics.minOneSelected = false;
-
-                // Quality metrics
-                qualityMetricsData = metricsData.quality_metrics;
-                $scope.qualityMetrics = [];
-
-                _.each(qualityMetricsData, function (key) { // jshint ignore:line
-                    $scope.qualityMetrics.push({
-                        key: key,
-                        value: $scope.displayName[key],
-                        selected: false
-                    });
-                });
-
-                $scope.totalQualityMetrics = $scope.qualityMetrics.length;
-                $scope.qualityMetrics.isAllSelected = false;
-                $scope.qualityMetrics.minOneSelected = false;
-
-                $scope.totalMetrics = $scope.totalDeliveryMetrics + $scope.totalCostMetrics +
-                    $scope.totalVideoMetrics + $scope.totalQualityMetrics + $scope.totalPacingMetrics;
-            };
-
-            $scope.setMetrixText = function (text) {
-                text = ($scope.totalMetrics === $scope.selectedMetricsList.length) ? 'Default' : text;
-                $scope.metrics_text = text + '(' + $scope.selectedMetricsList.length + ')';
-            };
-
-            $scope.reports.client_id = loginModel.getMasterClient().id;
-
-            $('.main_navigation')
-                .find('.active')
-                .removeClass('active')
-                .end()
-                .find('#reports_nav_link')
-                .addClass('active');
-
-            $scope.showSecondDimension = function () {
-                $scope.showSecondDimensionBlock = !$scope.showSecondDimensionBlock;
-                $scope.showAddBreakdownButton = false;
-            };
-
-            $scope.deleteSecondDimensionBlock = function () {
-                $scope.showSecondDimensionBlock = false;
-
-                $scope.reports.reportDefinition.dimensions.secondary = {
-                    name: '',
-                    dimension: '',
-                    value: ''
-                };
-
-                $scope.showAddBreakdownButton = true;
-            };
-
-            $scope.getMessageForDataNotAvailable = function () {
-                return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
-            };
-
-            $scope.resetFlashMessage = function () {
-                $rootScope.setErrAlertMessage('', 0);
-            };
-
             _customctrl.getDimensionList = function (data, selectedMetrics) {
                 var selectedDim,
                     metricsCategorizedKey,
@@ -382,15 +138,15 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 $scope.metricKeyArr = {};
 
                 if ($scope.selectedMetricsList.length < $scope.totalMetrics) {
-                    metricsCategorizedKey = angular.copy(data.metrics); // jshint ignore:line
+                    metricsCategorizedKey = angular.copy(data.metrics);
 
-                    _.each(selectedMetrics, function (selMet) { // jshint ignore:line
-                        _.each(metricCategoryKeys, function (metrCatKey) { // jshint ignore:line
-                            if ($scope.metricKeyArr[metrCatKey] === undefined) { // jshint ignore:line
+                    _.each(selectedMetrics, function (selMet) {
+                        _.each(metricCategoryKeys, function (metrCatKey) {
+                            if ($scope.metricKeyArr[metrCatKey] === undefined) {
                                 $scope.metricKeyArr[metrCatKey] = [];
                             }
 
-                            if (_.indexOf(metricsCategorizedKey[metrCatKey], selMet.key) >= 0) { // jshint ignore:line
+                            if (_.indexOf(metricsCategorizedKey[metrCatKey], selMet.key) >= 0) {
                                 $scope.metricKeyArr[metrCatKey].push({
                                     key: selMet.key,
                                     value: selMet.value
@@ -400,13 +156,13 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                     });
                 } else {
                     // when all the metrics is selected
-                    arr = angular.copy(data.dim_specific_metrics.hasOwnProperty(selectedDim) ? // jshint ignore:line
+                    arr = angular.copy(data.dim_specific_metrics.hasOwnProperty(selectedDim) ?
                         data.dim_specific_metrics[selectedDim] : data.metrics);
 
-                    _.each(metricKey1, function (v) { // jshint ignore:line
+                    _.each(metricKey1, function (v) {
                         $scope.metricKeyArr[v] = [];
 
-                        _.each(arr[v], function (o) { // jshint ignore:line
+                        _.each(arr[v], function (o) {
                             $scope.metricKeyArr[v].push({
                                 key: o,
                                 value: $scope.displayName[o]
@@ -434,11 +190,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                     data = $scope.reportMetaData[typeofDimension];
                 }
 
-                _.each(data, function (d, index) { // jshint ignore:line
+                _.each(data, function (d, index) {
                     d.dimension.level = typeofDimension;
                     d.dimension.idx = index;
                     tabData = d[activeTab];
-                    _.extend(tabData, d.dimension); // jshint ignore:line
+                    _.extend(tabData, d.dimension);
                     activeTabDataObj.push(tabData);
                 });
 
@@ -458,13 +214,13 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                     }
                 }
 
-                _.each(newData, function (d) { // jshint ignore:line
-                    _.each(metricDataKey, function (mkey) { // jshint ignore:line
+                _.each(newData, function (d) {
+                    _.each(metricDataKey, function (mkey) {
                         if (mkey !== 'dimension') {
-                            _.each(d[mkey], function (value, key) { // jshint ignore:line
+                            _.each(d[mkey], function (value, key) {
                                 found = false;
 
-                                _.each(selectedMetrics, function (selMetItem) { // jshint ignore:line
+                                _.each(selectedMetrics, function (selMetItem) {
                                     if (selMetItem.key === key) {
                                         found = true;
                                     }
@@ -491,7 +247,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 var filterArr = [],
                     elem = $('.custom_filter_breakdown');
 
-                _.each(elem, function (el) { // jshint ignore:line
+                _.each(elem, function (el) {
                     var fdimesnion = $.trim($(el).find('.dropdown_ul_text .dd_txt').attr('id')),
                         ftext = $(el).find('.reportFilter').val(),
                         fstr = (fdimesnion + (ftext ? (':' + ftext) : ''));
@@ -499,7 +255,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                     filterArr.push(fstr);
                 });
 
-                filterArr = _.filter(filterArr, function (val) { // jshint ignore:line
+                filterArr = _.filter(filterArr, function (val) {
                     return val !== 'Choose filter';
                 });
 
@@ -522,32 +278,20 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 return $('.dimension_block').find('.dd_txt').text() !== 'Choose Dimension';
             };
 
-            $scope.saveSchedule = function () {
-                var reportType = localStorageService.scheduleListReportType.get();
-
-                if ((reportType === 'Saved') && ($scope.reportTypeSelect === 'Save')) {
-                    $scope.buttonLabel = 'Update';
-                } else if ((reportType === 'scheduled') && ($scope.reportTypeSelect === 'Schedule As')) {
-                    $scope.buttonLabel = 'Update';
-                } else {
-                    $scope.buttonLabel = $scope.reportTypeSelect;
-                }
-            };
-
             _customctrl.createMetricRequestParams = function (params) {
                 var metricsString = '';
 
                 if ($scope.totalMetrics === $scope.selectedMetricsList.length) {
                     metricsString = 'all';
                 } else {
-                    _.each(metricsTab, function (mtab) { // jshint ignore:line
+                    _.each(metricsTab, function (mtab) {
                         if ($scope[mtab + 'Metrics'].isAllSelected) {
                             metricsString += mtab + '_metrics:all';
                             metricsString += '~';
                         } else if ($scope[mtab + 'Metrics'].minOneSelected) {
                             metricsString += mtab + '_metrics:';
 
-                            _.each($scope[mtab + 'Metrics'], function (eachObj) { // jshint ignore:line
+                            _.each($scope[mtab + 'Metrics'], function (eachObj) {
                                 if (eachObj.selected) {
                                     metricsString += eachObj.key + ',';
                                 }
@@ -611,7 +355,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                         str += '~';
                     }
 
-                    _.each($scope.additionalFilters, function (eachObj) { // jshint ignore:line
+                    _.each($scope.additionalFilters, function (eachObj) {
                         str += eachObj.key;
 
                         if (eachObj.value) {
@@ -647,7 +391,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 $scope.generateBtnDisabled = false;
             };
 
-            _customctrl.fetchReportData = function (selectedMetricsList, params, idx, sucessCallbackHandler,
+            _customctrl.fetchReportData = function (selectedMetricsList, params, idx, successCallbackHandler,
                                                     errorCallbackHandler) {
                 var dropdownElem = $('#reportBuilderForm'),
                     reportId = dropdownElem.find('.dd_txt').attr('data-template_id');
@@ -660,7 +404,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                         requestCanceller.resetCanceller(constants.NEW_REPORT_RESULT_CANCELLER);
 
                         if (result && result.data.data) {
-                            sucessCallbackHandler(result.data.data, idx);
+                            successCallbackHandler(result.data.data, idx);
                         } else {
                             errorCallbackHandler(idx);
                         }
@@ -672,7 +416,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
             _customctrl.getReportData = function () {
                 _customctrl
                     .fetchReportData($scope.selectedMetricsList, _customctrl
-                    .createRequestParams(null, $scope.firstDimensionoffset, 1), null, function (respData) {
+                        .createRequestParams(null, $scope.firstDimensionoffset, 1), null, function (respData) {
                         $scope.fetching = false;
                         $scope.generateBtnDisabled = false;
                         _customctrl.isReportLastPage_1D = respData.last_page;
@@ -692,7 +436,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                                 $scope.showhasBreakdown = 'hasBreakdown';
                             }
 
-                            _.each(respData, function () { // jshint ignore:line
+                            _.each(respData, function () {
                                 _customctrl.isReportLastPage_2D[$scope.activeTab].push(false);
                                 _customctrl.reportPageNum_2D[$scope.activeTab].push(1);
                             });
@@ -721,9 +465,10 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                         'quality',
                         'pacing'
                     ],
+
                     firstTabDetected = false;
 
-                _.each(metricsInTabOrder, function (mTab) { // jshint ignore:line
+                _.each(metricsInTabOrder, function (mTab) {
                     var customReportResponseTabs;
 
                     if (($scope[mTab + 'Metrics'].minOneSelected) && !firstTabDetected) {
@@ -739,6 +484,350 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                             '.heading_row').css('left', '0');
                     }
                 });
+            };
+
+            _customctrl.loadMoreItems = function () {
+                $scope.firstDimensionoffset += $scope.limit;
+
+                if (!_customctrl.isReportLastPage_1D) {
+                    $scope.fetching = true;
+                    _customctrl.reportPageNum_1D += 1;
+                    _customctrl.getReportData();
+                }
+            };
+
+            _customctrl.hideSecondDimensionData = function (firtDimensionElem, secondDimensionElem) {
+                secondDimensionElem.hide();
+                firtDimensionElem.removeClass('active treeOpen noDataOpen');
+                firtDimensionElem.find('.more_dimension_arrow').addClass('icon-toggleclose');
+            };
+
+            _customctrl.isInputsChangedAfterGenerate = function (oldJSON, newJSON) {
+                var retVal = false,
+                    hasDim = false;
+
+                if (oldJSON.dimensions.hasOwnProperty('primary')) {
+                    _.each(newJSON.dimensions, function (item) {
+                        if (item.type === 'Primary') {
+                            hasDim = true;
+
+                            if (oldJSON.dimensions.primary.dimension !== item.dimension ||
+                                oldJSON.dimensions.primary.value && oldJSON.dimensions.primary.value !==
+                                $scope.reports.reportDefinition.dimensions.primary.value) {
+                                retVal = true;
+                            }
+                        }
+                    });
+
+                    if (!hasDim) {
+                        retVal = true;
+                    }
+                }
+
+                if (oldJSON.dimensions.hasOwnProperty('secondary')) {
+                    hasDim = false;
+
+                    _.each(newJSON.dimensions, function (item) {
+                        if (item.type === 'Secondary') {
+                            hasDim = true;
+
+                            if (oldJSON.dimensions.secondary.dimension !== item.dimension ||
+                                oldJSON.dimensions.secondary.value &&
+                                oldJSON.dimensions.secondary.value !==
+                                $scope.reports.reportDefinition.dimensions.secondary.value) {
+                                retVal = true;
+                            }
+                        }
+                    });
+
+                    if (!hasDim) {
+                        retVal = true;
+                    }
+                }
+
+                return retVal;
+            };
+
+            _customctrl.createJSONforPage = function (activeTab) {
+                var pageData = ['reportPageNum_2D', 'isReportLastPage_2D'];
+
+                _.each(pageData, function (d) {
+                    if (!_customctrl.hasOwnProperty(d)) {
+                        _customctrl[d] = {};
+                    }
+
+                    if (!_customctrl[d].hasOwnProperty(activeTab)) {
+                        _customctrl[d][activeTab] = [];
+                    }
+                });
+            };
+
+            _customctrl.reset = function () {
+                _customctrl.reportPageNum_1D = 1;
+                _customctrl.isReportLastPage_1D = false;
+                _customctrl.reportPageNum_2D = {};
+                _customctrl.isReportLastPage_2D = {};
+                $scope.limit = 1000;
+                $scope.firstDimensionoffset = 0;
+                $scope.fetching = false;
+                $scope.secondDimensionOffset = 0;
+            };
+
+            $('.custom_response_screenshot_container').css('min-height', winHeight - 464);
+
+            $scope.additionalFilters = [];
+            $scope.textConstants = constants;
+            $scope.additionalValue = 'Contains keywords ...';
+
+            $scope.dataNotFound = false;
+            $scope.reportDataBusy = false;
+            $scope.loadingBtn = false;
+            $scope.activeTab = 'delivery_metrics';
+            $scope.filters = domainReports.getReportsTabs();
+            $scope.count = 0;
+            $scope.secondDimensionReportLoading = {};
+            $scope.secDimensionLoadMore = {};
+            $scope.secDimensionLoadIcon = {};
+            $scope.secondDimensionReportDataNotFound = {};
+            $scope.metrics_text = 'Default';
+            $scope.generateBtnDisabled = true;
+            $scope.reports = {};
+            $scope.reports.reportDefinition = {};
+            $scope.reports.schedule = {};
+            $scope.reports.reportDefinition.timeframe = {};
+
+            $scope.reports.reportDefinition.timeframe.start_date = moment()
+                .subtract(1, 'day')
+                .format(constants.DATE_UTC_SHORT_FORMAT);
+
+            $scope.reports.reportDefinition.timeframe.end_date = moment()
+                .subtract(1, 'day')
+                .format(constants.DATE_UTC_SHORT_FORMAT);
+
+            $scope.reports.reportDefinition.metrics = {};
+            $scope.reports.reportDefinition.filters = [];
+            $scope.reports.reportDefinition.dimensions = {};
+            $scope.selectedMetricsList = [];
+
+            $scope.reports.reportDefinition.dimensions.primary = {
+                name: '',
+                dimension: '',
+                value: ''
+            };
+
+            $scope.reports.reportDefinition.dimensions.secondary = {
+                name: '',
+                dimension: '',
+                value: ''
+            };
+
+            $scope.reports.schedule.startDate = moment()
+                .subtract(0, 'days')
+                .format(constants.DATE_UTC_SHORT_FORMAT);
+
+            $scope.reports.schedule.endDate = moment()
+                .subtract(0, 'days')
+                .format(constants.DATE_UTC_SHORT_FORMAT);
+
+            $scope.scheduleReportActive = false;
+            $scope.notInRange = false;
+            $scope.notInRangeMonthly = false;
+            $scope.showPrimaryTxtBox = false;
+            $scope.showSecondaryTxtBox = false;
+            $scope.showSecondDimensionBlock = false;
+            $scope.showAddBreakdownButton = false;
+            $scope.updateScheduleReport = false;
+            $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
+            $scope.buttonResetCancel = $scope.textConstants.RESET_LABEL;
+            $scope.stopRedirectingPage = true;
+            $scope.reportTypeSelect = $scope.textConstants.SAVE_LABEL;
+            $scope.isSavedReportGen = false;
+            $scope.showCost = true;
+            $scope.showQuality = true;
+
+            $scope.showPlatform = true;
+            $scope.showInventory = true;
+            $scope.showPerformance = true;
+
+            if ($scope.isSavedReportGen === true) {
+                $('#dynamicHeader').addClass('smaller');
+            }
+
+            // Sorting of report data
+            $scope.sortReverse = false;
+            $scope.sortType = 'value';
+
+            $scope.clickToSort = function (dm) {
+                $scope.sortType = dm;
+                $scope.sortReverse = !$scope.sortReverse;
+            };
+
+            $scope.addReqClassToSort = function (dm, b, c) {
+                var isActive = (dm === b) ? 'active' : '',
+                    sortDirection = (c === true) ? 'sort_order_up' : 'sort_order_down';
+
+                return isActive + ' ' + sortDirection;
+            };
+
+            _customctrl.setCustomMetrics = function (data) {
+                $scope.customMetricsInit = {};
+                $scope.customMetrics = [];
+
+                _.each(data, function (key) {
+                    $scope.customMetrics.push({
+                        key: key,
+                        value: $scope.displayName[key],
+                        selected: false
+                    });
+                });
+
+                $scope.totalCustomMetrics = $scope.customMetrics.length;
+                $scope.customMetrics.isAllSelected = false;
+                $scope.customMetrics.minOneSelected = false;
+            };
+
+            $scope.initializeMetrics = function (dataObj, selectedDim) {
+                var metricsData,
+                    pacingMetricData,
+                    qualityMetricsData;
+
+                selectedDim = $scope.reports.reportDefinition.dimensions.primary.dimension;
+
+                metricsData = dataObj.dim_specific_metrics.hasOwnProperty(selectedDim) ?
+                    dataObj.dim_specific_metrics[selectedDim] : dataObj.metrics;
+
+                $scope.deliveryMetricsView = metricsData.delivery_metrics;
+                $scope.deliveryMetrics = [];
+
+                _.each($scope.deliveryMetricsView, function (key) {
+                    $scope.deliveryMetrics.push({
+                        key: key,
+                        value: $scope.displayName[key],
+                        selected: false
+                    });
+                });
+
+                $scope.totalDeliveryMetrics = $scope.deliveryMetrics.length;
+                $scope.deliveryMetrics.isAllSelected = false;
+                $scope.deliveryMetrics.minOneSelected = false;
+
+                // cost metrics
+                $scope.costMetricsView = metricsData.cost_metrics;
+                $scope.costMetrics = [];
+
+                _.each($scope.costMetricsView, function (key) {
+                    $scope.costMetrics.push({
+                        key: key,
+                        value: $scope.displayName[key],
+                        selected: false
+                    });
+                });
+
+                $scope.totalCostMetrics = $scope.costMetrics.length;
+                $scope.costMetrics.isAllSelected = false;
+                $scope.costMetrics.minOneSelected = false;
+
+                // pacing metrics
+                pacingMetricData = metricsData.pacing_metrics;
+                $scope.pacingMetrics = [];
+
+                _.each(pacingMetricData, function (key) {
+                    $scope.pacingMetrics.push({
+                        key: key,
+                        value: $scope.displayName[key],
+                        selected: false
+                    });
+                });
+
+                $scope.totalPacingMetrics = $scope.pacingMetrics.length;
+                $scope.pacingMetrics.isAllSelected = false;
+                $scope.pacingMetrics.minOneSelected = false;
+
+                // video metrics
+                $scope.videoMetricsView = metricsData.video_metrics;
+                $scope.videoMetrics = [];
+
+                _.each($scope.videoMetricsView, function (key) {
+                    $scope.videoMetrics.push({
+                        key: key,
+                        value: $scope.displayName[key],
+                        selected: false
+                    });
+                });
+
+                $scope.totalVideoMetrics = $scope.videoMetrics.length;
+                $scope.videoMetrics.isAllSelected = false;
+                $scope.videoMetrics.minOneSelected = false;
+
+                // Quality metrics
+                qualityMetricsData = metricsData.quality_metrics;
+                $scope.qualityMetrics = [];
+
+                _.each(qualityMetricsData, function (key) {
+                    $scope.qualityMetrics.push({
+                        key: key,
+                        value: $scope.displayName[key],
+                        selected: false
+                    });
+                });
+
+                $scope.totalQualityMetrics = $scope.qualityMetrics.length;
+                $scope.qualityMetrics.isAllSelected = false;
+                $scope.qualityMetrics.minOneSelected = false;
+
+                $scope.totalMetrics = $scope.totalDeliveryMetrics + $scope.totalCostMetrics +
+                    $scope.totalVideoMetrics + $scope.totalQualityMetrics + $scope.totalPacingMetrics;
+            };
+
+            $scope.setMetrixText = function (text) {
+                text = ($scope.totalMetrics === $scope.selectedMetricsList.length) ? 'Default' : text;
+                $scope.metrics_text = text + '(' + $scope.selectedMetricsList.length + ')';
+            };
+
+            $scope.reports.client_id = loginModel.getMasterClient().id;
+
+            $('.main_navigation')
+                .find('.active')
+                .removeClass('active')
+                .end()
+                .find('#reports_nav_link')
+                .addClass('active');
+
+            $scope.showSecondDimension = function () {
+                $scope.showSecondDimensionBlock = !$scope.showSecondDimensionBlock;
+                $scope.showAddBreakdownButton = false;
+            };
+
+            $scope.deleteSecondDimensionBlock = function () {
+                $scope.showSecondDimensionBlock = false;
+
+                $scope.reports.reportDefinition.dimensions.secondary = {
+                    name: '',
+                    dimension: '',
+                    value: ''
+                };
+
+                $scope.showAddBreakdownButton = true;
+            };
+
+            $scope.getMessageForDataNotAvailable = function () {
+                return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
+            };
+
+            $scope.resetFlashMessage = function () {
+                $rootScope.setErrAlertMessage('', 0);
+            };
+
+            $scope.saveSchedule = function () {
+                var reportType = localStorageService.scheduleListReportType.get();
+
+                if ((reportType === 'Saved') && ($scope.reportTypeSelect === 'Save')) {
+                    $scope.buttonLabel = 'Update';
+                } else if ((reportType === 'scheduled') && ($scope.reportTypeSelect === 'Schedule As')) {
+                    $scope.buttonLabel = 'Update';
+                } else {
+                    $scope.buttonLabel = $scope.reportTypeSelect;
+                }
             };
 
             $scope.generateReport = function () {
@@ -760,6 +849,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                     $scope.showhasBreakdown = '';
                     $scope.reportDataLoading = true;
                     $scope.fetching = false;
+
                     $(window).unbind('scroll');
                     $('.img_table_container').hide();
                     $('.custom_report_response_page').show();
@@ -789,7 +879,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                     }
 
                     if ($scope.additionalFilters.length > 0) {
-                        _.each($scope.additionalFilters, function (eachObj) { // jshint ignore:line
+                        _.each($scope.additionalFilters, function (eachObj) {
                             str += eachObj.key + ':' + eachObj.value + '&';
                         });
                     }
@@ -854,7 +944,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                     });
                 }
 
-                _.each($scope.additionalFilters, function (eachObj) { // jshint ignore:line
+                _.each($scope.additionalFilters, function (eachObj) {
                     if (eachObj.value) {
                         $scope.requestData.reportDefinition.filters.push({
                             dimension: eachObj.key,
@@ -1058,7 +1148,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                     })
                     .then(function (response) {
                         if (response.status === 'success') {
-                            saveAs(response.file, response.fileName); // jshint ignore:line
+                            saveAs(response.file, response.fileName);
                             $scope.reportDownloadBusy = false;
                             $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn =
                                 momentService.reportDateFormat();
@@ -1079,71 +1169,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 }
             };
 
-            _customctrl.loadMoreItems = function () {
-                $scope.firstDimensionoffset += $scope.limit;
-
-                if (!_customctrl.isReportLastPage_1D) {
-                    $scope.fetching = true;
-                    _customctrl.reportPageNum_1D += 1;
-                    _customctrl.getReportData();
-                }
-            };
-
-            _customctrl.hideSecondDimensionData = function (firtDimensionElem, secondDimensionElem) {
-                secondDimensionElem.hide();
-                firtDimensionElem.removeClass('active treeOpen noDataOpen');
-                firtDimensionElem.find('.more_dimension_arrow').addClass('icon-toggleclose');
-            };
-
             $scope.fetchMoreSecondDimensionData = function (ev, value, rowIndex, loadMore) {
                 _customctrl.reportPageNum_2D[$scope.activeTab][rowIndex] += 1;
                 $scope.showDataForClikedDimension(ev, value, rowIndex, loadMore);
-            };
-
-            _customctrl.isInputsChangedAfterGenerate = function (oldJSON, newJSON) {
-                var retVal = false,
-                    hasDim = false;
-
-                if (oldJSON.dimensions.hasOwnProperty('primary')) {
-                    _.each(newJSON.dimensions, function (item) { // jshint ignore:line
-                        if (item.type === 'Primary') {
-                            hasDim = true;
-
-                            if (oldJSON.dimensions.primary.dimension !== item.dimension ||
-                                oldJSON.dimensions.primary.value && oldJSON.dimensions.primary.value !==
-                                $scope.reports.reportDefinition.dimensions.primary.value) {
-                                retVal = true;
-                            }
-                        }
-                    });
-
-                    if (!hasDim) {
-                        retVal = true;
-                    }
-                }
-
-                if (oldJSON.dimensions.hasOwnProperty('secondary')) {
-                    hasDim = false;
-
-                    _.each(newJSON.dimensions, function (item) { // jshint ignore:line
-                        if (item.type === 'Secondary') {
-                            hasDim = true;
-
-                            if (oldJSON.dimensions.secondary.dimension !== item.dimension ||
-                                oldJSON.dimensions.secondary.value &&
-                                oldJSON.dimensions.secondary.value !==
-                                $scope.reports.reportDefinition.dimensions.secondary.value) {
-                                retVal = true;
-                            }
-                        }
-                    });
-
-                    if (!hasDim) {
-                        retVal = true;
-                    }
-                }
-
-                return retVal;
             };
 
             $scope.deepLinking = (function () {
@@ -1201,8 +1229,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                     },
 
                     routeToLink: function (ev, dimension, curSecDimIndx) {
-                        var currFirtDimensionElem = $(ev.target).parents('.reportData'),
-                            currentRowIndex = Number(currFirtDimensionElem.attr('data-result-row')),
+                        var currFirstDimensionElem = $(ev.target).parents('.reportData'),
+                            currentRowIndex = Number(currFirstDimensionElem.attr('data-result-row')),
                             metricObj = $scope.metricValues.first_dimension[$scope.activeTab][currentRowIndex],
                             subAccountId,
                             subAccountName;
@@ -1258,14 +1286,14 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
             })();
 
             $scope.showDataForClikedDimension = function (ev, value, rowIndex, loadMore) {
-                var currFirtDimensionElem = $(ev.target).parents('.reportData'),
-                    currSecondDimensionElem = currFirtDimensionElem.find('.second_dimension_row_holder'),
-                    currentRowIndex = Number(currFirtDimensionElem.attr('data-result-row')),
+                var currFirstDimensionElem = $(ev.target).parents('.reportData'),
+                    currSecondDimensionElem = currFirstDimensionElem.find('.second_dimension_row_holder'),
+                    currentRowIndex = Number(currFirstDimensionElem.attr('data-result-row')),
                     paramsObj;
 
                 var initiallyActiveTab = $scope.activeTab;
 
-                if (!currFirtDimensionElem.hasClass('treeOpen') &&
+                if (!currFirstDimensionElem.hasClass('treeOpen') &&
                     _customctrl.isInputsChangedAfterGenerate(_customctrl.inputDataOnGenerate,
                         $scope.createData().reportDefinition) &&
                     $scope.isReportForMultiDimension !== false) {
@@ -1278,15 +1306,13 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                     $scope.reportMetaData.second_dimension = {};
                 }
 
-                if (!currFirtDimensionElem.hasClass('treeOpen') || loadMore) {
-
-
+                if (!currFirstDimensionElem.hasClass('treeOpen') || loadMore) {
                     if (!$scope.isReportForMultiDimension) {
                         return false;
                     }
 
                     if (_customctrl.isReportLastPage_2D[currentRowIndex]) {
-                        currFirtDimensionElem.addClass('active');
+                        currFirstDimensionElem.addClass('active');
                         return true;
                     }
 
@@ -1321,7 +1347,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                             if ($scope.activeTab, $scope.secDimensionLoadIcon[$scope.activeTab] !== undefined &&
                                 (initiallyActiveTab === $scope.activeTab)) {
                                 $scope.secDimensionLoadIcon[$scope.activeTab][currentRowIndex] = false;
-                                currFirtDimensionElem.addClass('active');
+                                currFirstDimensionElem.addClass('active');
                                 _customctrl.isReportLastPage_2D[$scope.activeTab][currentRowIndex] = respData.last_page;
 
                                 if (!respData.last_page) {
@@ -1338,7 +1364,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                                     currSecondDimensionElem.show();
 
                                     if (resultLen > 0) {
-                                        currFirtDimensionElem.removeClass('noDataOpen');
+                                        currFirstDimensionElem.removeClass('noDataOpen');
                                         _customctrl.getMetricValues(respData, $scope.selectedMetricsList,
                                             'second_dimension', currentRowIndex, loadMore);
 
@@ -1347,68 +1373,42 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                                             $scope.secondDimensionReportDataNotFound[$scope.activeTab]
                                                 [currentRowIndex] = true;
 
-                                            currFirtDimensionElem.addClass('noDataOpen');
+                                            currFirstDimensionElem.addClass('noDataOpen');
                                         }
                                     }
                                 }
 
-                                currFirtDimensionElem.addClass('treeOpen');
+                                currFirstDimensionElem.addClass('treeOpen');
 
-                                currFirtDimensionElem
+                                currFirstDimensionElem
                                     .find('.more_dimension_arrow')
                                     .removeClass('icon-toggleclose')
                                     .addClass('icon-toggleopen');
                             } else {
-                                _.each($scope.secondDimensionReportLoading, // jshint ignore:line
+                                _.each($scope.secondDimensionReportLoading,
                                     function (value, sdrlkey) {
-                                        _.each(value, function (value, key) { // jshint ignore:line
+                                        _.each(value, function (value, key) {
                                             if (key === currentRowIndex) {
                                                 $scope.secondDimensionReportLoading[sdrlkey][key] = false;
                                             }
                                         });
                                     });
                             }
-
                         }, function (currentRowIndex) {
                             if (_customctrl.reportPageNum_2D[$scope.activeTab][currentRowIndex] === 1) {
                                 $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = false;
                                 $scope.secondDimensionReportDataNotFound[$scope.activeTab][currentRowIndex] = true;
-                                currFirtDimensionElem.addClass('noDataOpen');
+                                currFirstDimensionElem.addClass('noDataOpen');
                             }
                         });
 
                     $scope.generateBtnDisabled = false;
                 } else {
-                    //hide the second dimension data for clcked row
+                    // hide the second dimension data for clcked row
                     if ($(ev.target).closest('.second_dimension_row').length === 0) {
-                        _customctrl.hideSecondDimensionData(currFirtDimensionElem, currSecondDimensionElem);
+                        _customctrl.hideSecondDimensionData(currFirstDimensionElem, currSecondDimensionElem);
                     }
                 }
-            };
-
-            _customctrl.createJSONforPage = function (activeTab) {
-                var pageData = ['reportPageNum_2D', 'isReportLastPage_2D'];
-
-                _.each(pageData, function (d) { // jshint ignore:line
-                    if (!_customctrl.hasOwnProperty(d)) {
-                        _customctrl[d] = {};
-                    }
-
-                    if (!_customctrl[d].hasOwnProperty(activeTab)) {
-                        _customctrl[d][activeTab] = [];
-                    }
-                });
-            };
-
-            _customctrl.reset = function () {
-                _customctrl.reportPageNum_1D = 1;
-                _customctrl.isReportLastPage_1D = false;
-                _customctrl.reportPageNum_2D = {};
-                _customctrl.isReportLastPage_2D = {};
-                $scope.limit = 1000;
-                $scope.firstDimensionoffset = 0;
-                $scope.fetching = false;
-                $scope.secondDimensionOffset = 0;
             };
 
             $scope.select_option = function (event) {
@@ -1518,17 +1518,17 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
 
                     if (type === 'Primary') {
                         $scope.secondaryDimensionArr = specificFilter.hasOwnProperty(dimension) ?
-                            angular.copy(specificFilter[dimension]) : // jshint ignore:line
-                            angular.copy($scope.customeDimensionData[0].dimensions); // jshint ignore:line
+                            angular.copy(specificFilter[dimension]) :
+                            angular.copy($scope.customeDimensionData[0].dimensions);
 
                         $scope.secondaryDimensionArr =
-                            _.filter($scope.secondaryDimensionArr, function (item) { // jshint ignore:line
+                            _.filter($scope.secondaryDimensionArr, function (item) {
                                 return item !== 'conversion_pixel_name';
                             });
 
                         $scope.filterList = specificFilter.hasOwnProperty(dimension) ?
-                            angular.copy(specificFilter[dimension]) : // jshint ignore:line
-                            angular.copy($scope.customeDimensionData[0].filters); // jshint ignore:line
+                            angular.copy(specificFilter[dimension]) :
+                            angular.copy($scope.customeDimensionData[0].filters);
 
                         if (!$scope.reports.reportDefinition.dimensions.primary.name) {
                             $scope.showAddBreakdownButton = true;
@@ -1587,45 +1587,45 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
 
                     switch (arg) {
                         case 'Yesterday':
-                            startDate = moment() // jshint ignore:line
+                            startDate = moment()
                                 .subtract(1, 'days')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
 
-                            endDate = moment() // jshint ignore:line
+                            endDate = moment()
                                 .subtract(1, 'days')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
 
                             break;
 
                         case 'Week to date':
-                            startDate = moment() // jshint ignore:line
+                            startDate = moment()
                                 .startOf('week')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
 
-                            endDate = moment() // jshint ignore:line
+                            endDate = moment()
                                 .subtract(0, 'days')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
 
                             break;
 
                         case 'Last 7 days':
-                            startDate = moment() // jshint ignore:line
+                            startDate = moment()
                                 .subtract(7, 'days')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
 
-                            endDate = moment() // jshint ignore:line
+                            endDate = moment()
                                 .subtract(0, 'days')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
 
                             break;
 
                         case 'Last week':
-                            startDate = moment() // jshint ignore:line
+                            startDate = moment()
                                 .subtract(1, 'week')
                                 .startOf('week')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
 
-                            endDate = moment() // jshint ignore:line
+                            endDate = moment()
                                 .subtract(1, 'week')
                                 .endOf('week')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
@@ -1633,16 +1633,16 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                             break;
 
                         case 'Month to date':
-                            startDate = moment().format('YYYY-MM') + '-01'; // jshint ignore:line
-                            endDate = moment().format('YYYY-M-DD'); // jshint ignore:line
+                            startDate = moment().format('YYYY-MM') + '-01';
+                            endDate = moment().format('YYYY-M-DD');
                             break;
 
                         case 'Last month':
-                            startDate = moment() // jshint ignore:line
+                            startDate = moment()
                                     .subtract(1, 'months')
                                     .endOf('month').format('YYYY-MM') + '-01';
 
-                            endDate = moment() // jshint ignore:line
+                            endDate = moment()
                                 .subtract(1, 'months')
                                 .endOf('month')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
@@ -1650,23 +1650,23 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                             break;
 
                         case 'Quarter to date':
-                            startDate = moment() // jshint ignore:line
+                            startDate = moment()
                                 .startOf('quarter')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
 
-                            endDate = moment() // jshint ignore:line
+                            endDate = moment()
                                 .subtract(0, 'days')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
 
                             break;
 
                         case 'Last quarter':
-                            startDate = moment() // jshint ignore:line
+                            startDate = moment()
                                 .subtract(1, 'quarter')
                                 .startOf('quarter')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
 
-                            endDate = moment() // jshint ignore:line
+                            endDate = moment()
                                 .subtract(1, 'quarter')
                                 .endOf('quarter')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
@@ -1674,31 +1674,31 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                             break;
 
                         case 'Year to date':
-                            startDate = moment().format('YYYY') + '-01-01'; // jshint ignore:line
+                            startDate = moment().format('YYYY') + '-01-01';
 
-                            endDate = moment() // jshint ignore:line
+                            endDate = moment()
                                 .subtract(0, 'days')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
 
                             break;
 
                         case 'Custom dates':
-                            startDate = moment() // jshint ignore:line
+                            startDate = moment()
                                 .subtract(0, 'days')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
 
-                            endDate = moment() // jshint ignore:line
+                            endDate = moment()
                                 .subtract(0, 'days')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
 
                             break;
 
                         default:
-                            startDate = moment() // jshint ignore:line
+                            startDate = moment()
                                 .subtract(1, 'days')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
 
-                            endDate = moment() // jshint ignore:line
+                            endDate = moment()
                                 .subtract(1, 'days')
                                 .format(constants.DATE_UTC_SHORT_FORMAT);
                     }
@@ -1772,9 +1772,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
 
             $scope.show_respective_table = function (id) {
                 var customReportResponseTabs = $('.custom_report_response_tabs'),
-                    headingWidth;
-                var lastActiveTab = $scope.activeTab;
-                var lastTabSelArr = $scope.secondDimensionReportLoading[lastActiveTab];
+                    headingWidth,
+                    lastActiveTab = $scope.activeTab,
+                    lastTabSelArr = $scope.secondDimensionReportLoading[lastActiveTab];
 
                 if(lastTabSelArr) {
                     _.each(lastTabSelArr,function(value,key) {
@@ -1875,7 +1875,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
 
                                 $scope.showDefaultDimension.template_id = modifiedDimensionArr.template_id;
 
-                                //if edit
+                                // if edit
                                 if ($routeParams.reportId) {
                                     $('#toggle').bootstrapToggle('on');
                                     $scope.updateScheduleReport = true;
@@ -1906,7 +1906,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
 
                                                 if (localStorageService.scheduleListReportType.get() === 'Saved') {
                                                     $scope.reports.name = $scope.reportData.reportName;
-                                                    $scope.reports.reportDefinition.timeframe.type = "Custom Dates";
+                                                    $scope.reports.reportDefinition.timeframe.type = 'Custom Dates';
                                                     $scope.generateReport();
                                                     slideUp();
                                                     $('#dynamicHeader').addClass('smaller');
@@ -1931,6 +1931,34 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                     return dayTo31;
                 }
 
+                _customctrl.resetMetricsPopUp = function () {
+                    $scope.allMetrics = true;
+
+                    // selects all metrics initially
+                    $scope.OnSelectUnselectAllMetrics();
+
+                    $scope.saveMetrics();
+                    $scope.setMetrixText('Default');
+                };
+
+                _customctrl.showCost_permission = function () {
+                    var fparams = featuresService.getFeatureParams();
+
+                    $scope.showCost = fparams[0].cost;
+                    $scope.showQuality = fparams[0].quality;
+                    $scope.showPerformance = fparams[0].performance;
+                    $scope.showInventory = fparams[0].inventory;
+                    $scope.showPlatform = fparams[0].platform;
+                    $scope.isMediaPlanAccessible = fparams[0].create_mediaplan;
+                    $scope.isAdAccessible = fparams[0].ad_setup;
+
+                    if (!$scope.showCost || !$scope.showQuality) {
+                        $scope.totalMetrics -= $scope.totalCostMetrics;
+                        $scope.saveMetrics();
+                        $scope.setMetrixText('Default');
+                    }
+                };
+
                 $('.input-daterange').datepicker({
                         format: 'yyyy-mm-dd',
                         orientation: 'auto',
@@ -1946,9 +1974,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                             endDateChecker = new Date(endOn.val()),
                             startDateCheckerRange = startOn.val(),
                             endDateCheckerRange = endOn.val(),
-
-                            theDateDifference =
-                                daydiff(parseDate(startDateCheckerRange), parseDate(endDateCheckerRange));
+                            theDateDifference;
 
                         function parseDate(str) {
                             var mdy = str.split('-');
@@ -1959,6 +1985,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                         function daydiff(first, second) {
                             return Math.round((second - first) / (1000 * 60 * 60 * 24));
                         }
+
+                        theDateDifference = daydiff(parseDate(startDateCheckerRange), parseDate(endDateCheckerRange));
 
                         if (frequencyDropDown === 'Weekly' && theDateDifference < 7) {
                             $scope.notInRange = true;
@@ -1984,7 +2012,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                     $scope.toggleSchedule(this);
                 });
 
-                yesterday = moment().subtract(1, 'days').format(constants.DATE_UTC_SHORT_FORMAT); // jshint ignore:line
+                yesterday = moment().subtract(1, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
 
                 startDateInput.datepicker('update', yesterday);
                 endDateInput.datepicker('update', yesterday);
@@ -1992,7 +2020,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 endDateInput.datepicker('setEndDate', new Date());
 
                 customReportScroll.scroll(function () {
-                    var documentScrollLeft = $(this).scrollLeft();
+                    var documentScrollLeft = $(this).scrollLeft(),
+                        documentScrollTop = $(this).scrollTop();
 
                     if (lastScrollLeft !== documentScrollLeft) {
                         lastScrollLeft = documentScrollLeft;
@@ -2000,7 +2029,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                         customReportScroll.addClass('hori_scroll');
                     }
 
-                    var documentScrollTop = $(this).scrollTop();
                     if (lastScrollTop !== documentScrollTop) {
                         lastScrollTop = documentScrollTop;
                         customReportScroll.addClass('vertical_scroll');
@@ -2010,7 +2038,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
 
                 $scope.getNumberDate = monthArrayMake();
 
-                //--- sapna ----
+                // --- sapna ----
                 $scope.onChoosingAditFlts = function (index, key) {
                     $scope.additionalFilters[index].hide = false;
                     $scope.additionalFilters[index].key = key;
@@ -2046,10 +2074,10 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 $scope.OnSelectUnselectAllMetrics = function () {
                     var metricsTab = ['delivery', 'pacing', 'cost', 'video', 'quality'];
 
-                    _.each(metricsTab, function (mTab) { // jshint ignore:line
+                    _.each(metricsTab, function (mTab) {
                         $scope[mTab + 'Metrics'].isAllSelected = $scope.allMetrics;
 
-                        _.each($scope[mTab + 'Metrics'], function (eachObj) { // jshint ignore:line
+                        _.each($scope[mTab + 'Metrics'], function (eachObj) {
                             eachObj.selected = $scope.allMetrics;
                         });
 
@@ -2066,14 +2094,14 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                         selectedIndx;
 
                     if (index === undefined) {
-                        _.each($scope[metricType], function (eachObj) { // jshint ignore:line
+                        _.each($scope[metricType], function (eachObj) {
                             eachObj.selected = $scope[metricType].isAllSelected;
                         });
                     } else {
                         $scope[metricType][index].selected = !$scope[metricType][index].selected;
                     }
 
-                    selectedIndx = _.findIndex($scope[metricType], function (eachObj) { // jshint ignore:line
+                    selectedIndx = _.findIndex($scope[metricType], function (eachObj) {
                         if (eachObj.selected === true) {
                             totalMetricSelected++;
                         }
@@ -2101,11 +2129,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                     }
                 };
 
-                //delivery Metrics
+                // delivery Metrics
                 $scope.saveMetrics = function () {
                     $scope.selectedMetricsList = [];
 
-                    _.each(metricVarKeys, function (eachMetric) { // jshint ignore:line
+                    _.each(metricVarKeys, function (eachMetric) {
                         // eg: metricType = pacingMetrics, below 2 lines extracts only pacing and captailize
                         // first letter eg: Pacing
                         var nameOfMetric = eachMetric.split(/(?=[A-Z])/)[0],
@@ -2113,7 +2141,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
 
                         nameOfMetric = nameOfMetric.toString().charAt(0).toUpperCase() + nameOfMetric.slice(1);
 
-                        _.each($scope[eachMetric], function (eachObj) { // jshint ignore:line
+                        _.each($scope[eachMetric], function (eachObj) {
                             if (eachObj.selected) {
                                 metricArray.push(eachObj.key);
 
@@ -2171,17 +2199,17 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 $scope.refreshMetriPopUp = function () {
                     var metricsType = ['deliveryMetrics', 'costMetrics', 'videoMetrics', 'qualityMetrics'];
 
-                    _.each(metricsType, function (v) { // jshint ignore:line
-                        _.each($scope[v], function (o) { // jshint ignore:line
+                    _.each(metricsType, function (v) {
+                        _.each($scope[v], function (o) {
                             o.selected = false;
                         });
 
                         $scope[v].isAllSelected = false;
                     });
 
-                    _.each($scope.selectedMetricsList, function (selObj) { // jshint ignore:line
-                        _.each(metricsType, function (v) { // jshint ignore:line
-                            _.each($scope[v], function (o) { // jshint ignore:line
+                    _.each($scope.selectedMetricsList, function (selObj) {
+                        _.each(metricsType, function (v) {
+                            _.each($scope[v], function (o) {
                                 if (selObj.key === o.key) {
                                     o.selected = true;
                                 }
@@ -2189,7 +2217,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
 
                             $scope[v].isAllSelected = true;
 
-                            _.each($scope[v], function (o) { // jshint ignore:line
+                            _.each($scope[v], function (o) {
                                 if (!o.selected) {
                                     $scope[v].isAllSelected = false;
                                 }
@@ -2379,7 +2407,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                         $scope.stopRedirectingPage &&
                         (!$scope.isSavedReportGen &&
                         ($scope.reports.name !== $scope.scheduleResponseData.name ||
-                        !angular.equals($scope.reports.schedule, // jshint ignore:line
+                        !angular.equals($scope.reports.schedule,
                         $scope.scheduleResponseData.schedule)))) {
                         event.preventDefault();
                         $scope.updateSchedule = true;
@@ -2441,12 +2469,12 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                         }
                     }
 
-                    //returns name of the breakdown/filter key passed
+                    // returns name of the breakdown/filter key passed
                     $scope.getFilterBreakdownName = function (key) {
                         var dimensionObj = $scope.customeDimensionData[0].dimensions,
                             name;
 
-                        _.each(dimensionObj, function (item) { // jshint ignore:line
+                        _.each(dimensionObj, function (item) {
                             if (key.trim() === item.trim()) {
                                 name = $scope.displayName[item].trim();
                             }
@@ -2462,10 +2490,10 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
 
                         // if a dimension is selected as Primary it should not appear in secondary
                         $scope.secondaryDimensionArr =
-                            angular.copy($scope.customeDimensionData[0].dimensions); // jshint ignore:line
+                            angular.copy($scope.customeDimensionData[0].dimensions);
 
                         $scope.secondaryDimensionArr =
-                            _.filter($scope.secondaryDimensionArr, function (item) { // jshint ignore:line
+                            _.filter($scope.secondaryDimensionArr, function (item) {
                                 return item !== 'conversion_pixel_name';
                             });
 
@@ -2504,8 +2532,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                         $scope.showAddBreakdownButton = false;
                     };
 
-                    //set breakdown filter
-                    angular.forEach(responseData.reportDefinition.dimensions, // jshint ignore:line
+                    // set breakdown filter
+                    angular.forEach(responseData.reportDefinition.dimensions,
                         function (eachObj) {
                             if ((eachObj.type === 'Primary')) {
                                 $scope.setPrimaryDimension(eachObj);
@@ -2514,8 +2542,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                             }
                         });
 
-                    //set breakdown filter values if exist
-                    angular.forEach(responseData.reportDefinition.filters, // jshint ignore:line
+                    // set breakdown filter values if exist
+                    angular.forEach(responseData.reportDefinition.filters,
                         function (eachObj) {
                             eachObj.name = $scope.getFilterBreakdownName(eachObj.dimension);
 
@@ -2533,10 +2561,10 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                             }
                         });
 
-                    //metrics
+                    // metrics
                     $scope.selectedMetricsList = [];
 
-                    _.each(metricVarKeys, function (eachMetric) { // jshint ignore:line
+                    _.each(metricVarKeys, function (eachMetric) {
                         // eg: metricType = pacingMetrics, below 2 lines extracts only pacing and captailize
                         // first letter eg: Pacing
                         var nameOfMetric = eachMetric.split(/(?=[A-Z])/)[0];
@@ -2544,9 +2572,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                         nameOfMetric = nameOfMetric.toString().charAt(0).toUpperCase() + nameOfMetric.slice(1);
 
                         if (responseData.reportDefinition.metrics[nameOfMetric]) {
-                            _.each($scope[eachMetric], function (each) { // jshint ignore:line
+                            _.each($scope[eachMetric], function (each) {
                                 var metricsObj =
-                                    _.find(responseData.reportDefinition.metrics[nameOfMetric], // jshint ignore:line
+                                    _.find(responseData.reportDefinition.metrics[nameOfMetric],
                                     function (num) {
                                         return num === each.key;
                                     });
@@ -2566,7 +2594,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                         }
                     });
 
-                    _.each(metricVarKeys, function (mvKeys) { // jshint ignore:line
+                    _.each(metricVarKeys, function (mvKeys) {
                         if ($scope[mvKeys] && $scope[mvKeys].isAllSelected) {
                             selectedMetricVarKeys++;
                         }
@@ -2580,17 +2608,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                     $scope.setMetrixText('Custom');
                 };
 
-                _customctrl.resetMetricsPopUp = function () {
-                    $scope.allMetrics = true;
-
-                    // selects all metrics initially
-                    $scope.OnSelectUnselectAllMetrics();
-
-                    $scope.saveMetrics();
-                    $scope.setMetrixText('Default');
-                };
-
-                //Get custom metrics
+                // Get custom metrics
                 getCustomReportMetrics();
 
                 metricsTabIdTab.forEach(function (id) {
@@ -2610,24 +2628,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                     _customctrl.showCost_permission();
                     getCustomReportMetrics();
                 });
-
-                _customctrl.showCost_permission = function () {
-                    var fparams = featuresService.getFeatureParams();
-
-                    $scope.showCost = fparams[0].cost;
-                    $scope.showQuality = fparams[0].quality;
-                    $scope.showPerformance = fparams[0].performance;
-                    $scope.showInventory = fparams[0].inventory;
-                    $scope.showPlatform = fparams[0].platform;
-                    $scope.isMediaPlanAccessible = fparams[0].create_mediaplan;
-                    $scope.isAdAccessible = fparams[0].ad_setup;
-
-                    if (!$scope.showCost || !$scope.showQuality) {
-                        $scope.totalMetrics -= $scope.totalCostMetrics;
-                        $scope.saveMetrics();
-                        $scope.setMetrixText('Default');
-                    }
-                };
 
                 $scope.checkDimension = function (dimensionValue) {
                     switch (dimensionValue) {
@@ -2660,4 +2660,5 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 });
             });
         });
-    });
+    }
+);

@@ -35,7 +35,7 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         check: function ($location, featuresService) {
-                            //redirects to default page if it has no permission to access it
+                            // redirects to default page if it has no permission to access it
                             featuresService.setGetFeatureParams('dashboard');
                         }
                     }
@@ -58,7 +58,7 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         check: function ($location, featuresService) {
-                            //redirects to default page if it has no permission to access it
+                            // redirects to default page if it has no permission to access it
                             featuresService.setGetFeatureParams('mediaplan_list');
                         }
                     }
@@ -73,7 +73,7 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         check: function ($location, featuresService,localStorageService) {
-                            //redirects to default page if it has no permission to access it
+                            // redirects to default page if it has no permission to access it
                             featuresService.setGetFeatureParams('report_overview');
                             if(localStorageService.selectedCampaign.get() &&
                                 localStorageService.selectedCampaign.get().id === -1)  {
@@ -92,7 +92,7 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         check: function ($location, featuresService) {
-                            //redirects to default page if it has no permission to access it
+                            // redirects to default page if it has no permission to access it
                             featuresService.setGetFeatureParams('optimization_transparency');
                         }
                     }
@@ -107,7 +107,7 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         check: function ($location, featuresService) {
-                            //redirects to default page if it has no permission to access it
+                            // redirects to default page if it has no permission to access it
                             featuresService.setGetFeatureParams('inventory');
                         }
                     }
@@ -122,7 +122,7 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         check: function ($location, featuresService) {
-                            //redirects to default page if it has no permission to access it
+                            // redirects to default page if it has no permission to access it
                             featuresService.setGetFeatureParams('quality');
                         }
                     }
@@ -137,7 +137,7 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         check: function ($location, loginModel, featuresService) {
-                            // if  cost modal is opaque and some one trying to access cost direclty from the url
+                            // if cost modal is opaque and some one trying to access cost direclty from the url
                             var locationPath,
                                 isAgencyCostModelTransparent;
 
@@ -148,7 +148,7 @@ define(['common'], function (angularAMD) {
                                 $location.url('/');
                             }
 
-                            //redirects to default page if it has no permission to access it
+                            // redirects to default page if it has no permission to access it
                             featuresService.setGetFeatureParams('cost');
                         }
                     }
@@ -268,7 +268,6 @@ define(['common'], function (angularAMD) {
                     resolve: {}
                 }))
 
-
                 .when('/performance', angularAMD.route({
                     templateUrl: assets.html_performance,
                     title: 'Reports - Performance',
@@ -312,6 +311,7 @@ define(['common'], function (angularAMD) {
                 .when('/admin/home', angularAMD.route({
                     templateUrl: assets.html_admin_home,
                     title: 'AdminHome',
+
                     resolve: {
                         check: function ($location, loginModel) {
                             if(!loginModel.getClientData().is_super_admin) {
@@ -767,7 +767,7 @@ define(['common'], function (angularAMD) {
                                             handleLoginRedirection();
                                         }
                                     } else {
-                                        //set subAccount
+                                        // set subAccount
                                         subAccountModel.fetchSubAccounts('MasterClientChanged',function() {
                                             workflowService
                                                 .getClientData(clientObj.id)

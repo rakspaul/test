@@ -1,10 +1,10 @@
-define(['angularAMD'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
     angularAMD.directive('ganttChart', function () {
         return {
             restrict: 'EAC',
-            templateUrl: assets.html_gantt_chart // jshint ignore:line
+            templateUrl: assets.html_gantt_chart
         };
     });
 });

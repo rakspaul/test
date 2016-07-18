@@ -1,10 +1,8 @@
-define(['angularAMD','reporting/editActions/edit_actions_service', // jshint ignore:line
-    'common/services/constants_service', 'login/login_model', 'reporting/editActions/edit_actions_model'],
-    function (angularAMD) {
+define(['angularAMD','reporting/editActions/edit_actions_service', 'common/services/constants_service',
+    'login/login_model', 'reporting/editActions/edit_actions_model'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('EditActionsController', function ($rootScope, $scope,
-                                                             editActionsService, constants,
+    angularAMD.controller('EditActionsController', function ($rootScope, $scope, editActionsService, constants,
                                                              loginModel, editAction, activityList) {
         var closeEditActivityScreenFunc = $rootScope.$on('closeEditActivityScreen', function () {
                 $scope.closeEdit();
@@ -21,18 +19,18 @@ define(['angularAMD','reporting/editActions/edit_actions_service', // jshint ign
         $scope.showList = editAction.data;
         $scope.actionItems = activityList.data;
 
-        //EDIT ACTIVITIES
+        // EDIT ACTIVITIES
         $scope.editActivity = false;
         $scope.saveBtnDisabled = true;
         $scope.commentError = false;
 
-        $scope.showEdit= function (ad_id) {
+        $scope.showEdit = function (ad_id) {
             $scope.saveBtnDisabled = true;
 
             editAction.data.show = true;
             document.getElementById('error_edit_action_more_comment').style.display = 'none';
 
-            _.each(activityList.data.data, function (activity) { // jshint ignore:line
+            _.each(activityList.data.data, function (activity) {
                 if (activity.id === ad_id) {
                     editAction.data.id = activity.id;
                     editAction.data.actionType = activity.action_type_name;
@@ -47,7 +45,7 @@ define(['angularAMD','reporting/editActions/edit_actions_service', // jshint ign
             });
         };
 
-        $scope.closeEdit= function () {
+        $scope.closeEdit = function () {
             $scope.commentError = false;
             $scope.editError = undefined;
             $scope.saveBtnDisabled = false;
@@ -135,6 +133,6 @@ define(['angularAMD','reporting/editActions/edit_actions_service', // jshint ign
             closeEditActivityScreenFunc();
         });
 
-        $('.edit_activity_log_holder').css('height',winHeight - 50);
+        $('.edit_activity_log_holder').css('height', winHeight - 50);
     });
 });

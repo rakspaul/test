@@ -1,11 +1,11 @@
-define(['angularAMD', 'common/services/data_service', 'common/services/transformer_service', // jshint ignore:line
+define(['angularAMD', 'common/services/data_service', 'common/services/transformer_service',
     'reporting/models/tactic', 'common/services/constants_service', 'reporting/models/action_type',
     'reporting/models/action_sub_type'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('ActionsController', function ( $timeout, $scope, $rootScope, $filter, $routeParams,
-                                                          dataService, modelTransformer, Tactic,
-                                                          constants, ActionType, ActionSubType) {
+                                                          dataService, modelTransformer, Tactic, constants,
+                                                          ActionType, ActionSubType) {
         var loadActionTypes = true,
             loadAdsMeta = true,
 
@@ -39,7 +39,12 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
                         subTypeListLen;
 
                     if (response.status === 'success') {
-                        action = { types : [], external : false, name : ''};
+                        action = {
+                            types: [],
+                            external: false,
+                            name: ''
+                        };
+
                         result = response.data.data;
                         resultLen = result.length;
 
@@ -93,6 +98,24 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
                 });
         }
 
+        function resetActionFormData() {
+            $scope.action.submitBtnDisabled = false;
+            $scope.action.external = false;
+            $scope.action.name = '';
+            $scope.action.selectedType = undefined;
+            $scope.action.selectedSubType = undefined;
+            $scope.action.selectedSubType = [];
+            $scope.tactics.selected = undefined;
+            $scope.metrics.selected = undefined;
+            $scope.selectedAll = false;
+            $rootScope.$broadcast('clear');
+            $rootScope.$broadcast('removeOptions');
+            $scope.enableSubTypePopup =false;
+            $scope.action.selectedSubTypeError = false;
+            $scope.action.selectedTypeError = false;
+            $scope.metrics.selected = undefined;
+        }
+
         $scope.action = {
             types: [],
             external: false,
@@ -114,9 +137,9 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
         $scope.createAction = function () {
             var data = {},
                 selectedTypes = $scope.action.selectedSubType,
-                selectedIds=[],
+                selectedIds = [],
                 selectedTactics = $scope.tactics.selected,
-                selectedTacticIds=[],
+                selectedTacticIds = [],
                 i,
                 txtData,
                 maxLine,
@@ -126,7 +149,7 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
                 splitlength,
                 limited_txt;
 
-            $scope.action.disableTagButton = {'visibility': 'hidden'};
+            $scope.action.disableTagButton = {visibility: 'hidden'};
             $scope.action.submitBtnDisabled = false;
 
             for (i in selectedTypes) {
@@ -197,10 +220,10 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
                             };
 
                             $rootScope.$broadcast(constants.EVENT_ACTION_CREATED,args);
-                        }, function () {
+                        }, function () { // jshint ignore:line
                             $scope.action.disableTagButton = {'visibility': 'hidden'};
                             resetActionFormData();
-                        });
+                        }); // jshint ignore:line
                 }
             } else {
                 if (data.action_type_id !== '' && data.action_type_id !== undefined) {
@@ -284,24 +307,6 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
             $scope.action.nameError = false;
             $scope.enableSubTypePopup =false;
         };
-
-        function resetActionFormData() {
-            $scope.action.submitBtnDisabled = false;
-            $scope.action.external = false;
-            $scope.action.name = '';
-            $scope.action.selectedType = undefined;
-            $scope.action.selectedSubType = undefined;
-            $scope.action.selectedSubType = [];
-            $scope.tactics.selected = undefined;
-            $scope.metrics.selected = undefined;
-            $scope.selectedAll = false;
-            $rootScope.$broadcast('clear');
-            $rootScope.$broadcast('removeOptions');
-            $scope.enableSubTypePopup =false;
-            $scope.action.selectedSubTypeError = false;
-            $scope.action.selectedTypeError = false;
-            $scope.metrics.selected = undefined;
-        }
 
         $scope.getActionType = function () {
             var flag = ($scope.action.selectedType && $scope.action.selectedType.id > 0) ?

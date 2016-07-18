@@ -19,7 +19,7 @@ define(['angularAMD', '../utils'], function (angularAMD) {
                 return false;
             };
 
-            //get time until this data object's expiry in milliseconds
+            // get time until this data object's expiry in milliseconds
             this.getRemainingTime = function () {
                 return this.expiryTime - (new Date() - this.cachedOn);
             };

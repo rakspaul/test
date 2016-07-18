@@ -137,9 +137,9 @@ define(['angularAMD'],function (angularAMD) {
                             '<span class="icon-arrow-solid-down"></span>');
                 },
 
-                //get search box value
+                // get search box value
                 searchGeo: function (filterValue, type) {
-                    //reset geoData array
+                    // reset geoData array
                     $scope.adData.directInvenotryData.placements.data = [];
 
                     this.resetPlacementData();
@@ -169,7 +169,7 @@ define(['angularAMD'],function (angularAMD) {
             id: -1
         }];
 
-        //select or unselect indiviual audience
+        // select or unselect indiviual audience
         $scope.selectPlacement = function (placement) {
             var index,
                 placementIndex =
@@ -235,7 +235,7 @@ define(['angularAMD'],function (angularAMD) {
             }
         };
 
-        //reset search countries/regions/cities
+        // reset search countries/regions/cities
         $scope.resetGeoSearch = function (event) {
             var target = $(event.target),
                 parentElem = target.parents().find('.searchBox');
@@ -244,11 +244,11 @@ define(['angularAMD'],function (angularAMD) {
             parentElem.val('');
             $scope.searchKeyword = null;
 
-            //clear the searchbox value
+            // clear the searchbox value
             directInventory.searchGeo();
         };
 
-        //search countries/regions/cities
+        // search countries/regions/cities
         $scope.search = function (event, searchtxt) {
             var target = $(event.currentTarget);
 
@@ -276,7 +276,8 @@ define(['angularAMD'],function (angularAMD) {
                     $('.buying_strategy').trigger('click');
                 }, 100);
 
-            } else { //click on back to platform when selected placement list is not empty
+            } else {
+                // click on back to platform when selected placement list is not empty
                 if($scope.adData.directInvenotryData.placements.selected.length >0) {
                     placementList =
                         _.filter($scope.$parent.postPlatformDataObj,

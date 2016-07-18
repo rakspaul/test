@@ -1,9 +1,9 @@
-define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint ignore:line
+define(['angularAMD','reporting/campaignList/campaign_list_service',
     'common/services/transformer_service', 'reporting/models/campaign_cdb_data', 'reporting/models/campaign_cost',
     'common/services/request_cancel_service', 'common/services/constants_service', 'reporting/brands/brands_model',
     'login/login_model', 'reporting/advertiser/advertiser_model', 'common/services/url_service',
     'common/services/vistoconfig_service','../../common/services/data_service'], function (angularAMD) {
-        //originally part of controllers/campaign_controller.js
+        // originally part of controllers/campaign_controller.js
         angularAMD.factory('campaignListModel', ['$route','$rootScope', '$location', 'campaignListService',
             'modelTransformer', 'campaignCDBData', 'campaignCost', 'requestCanceller', 'constants', 'brandsModel',
             'loginModel', 'advertiserModel', 'urlService', 'vistoconfig','dataService','localStorageService',
@@ -30,8 +30,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                     ];
 
                     this.selectedTimePeriod = this.timePeriodList[2];
-                    this.displayTimePeriod =
-                        angular.uppercase(this.selectedTimePeriod.display); // jshint ignore:line
+                    this.displayTimePeriod = angular.uppercase(this.selectedTimePeriod.display);
 
                     this.sortFieldList = [
                         {display: 'Media Plan', key: 'campaign_name'},
@@ -70,7 +69,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                         endDate: undefined
                     };
 
-                    //this.costMargin;
+                    // this.costMargin;
                     this.busy = true;
                     this.timePeriod = this.selectedTimePeriod.key;
                     this.nextPage = 1;
@@ -99,7 +98,6 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                             ontrackWidth: undefined
                         },
 
-                        // filterActive: '(active,underperforming)',
                         quickFilterSelected: this.getCapitalizeString(constants.ACTIVE),
                         quickFilterSelectedCount: 0,
                         filterActive: constants.ACTIVE_CONDITION,
@@ -197,6 +195,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                             $('#cost_tab,#performance_tab').removeClass('active');
                             $('#' + from).addClass('active');
                             this.scrollFlag = 1;
+
                             if (from === 'cost_tab') {
                                 // if You click costbreakdown if tab is not activated  will fetch data.
                                 if (this.tabActivation.costTab === 0) {
@@ -221,7 +220,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
 
                             if ((!this.performanceParams.lastPage && (this.dashboard.filterTotal > 0) ||
                                 (this.scrollFlag > 0)) || this.searchTerm) {
-                                //Reseting scrollFlag
+                                // Reseting scrollFlag
                                 this.scrollFlag = 0;
 
                                 self = this;
@@ -264,7 +263,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                                         var campaignData = campaignListService.setActiveInactiveCampaigns(data,
                                             timePeriodApiMapping(self.timePeriod));
 
-                                        angular.forEach(campaignData, function (campaign) { // jshint ignore:line
+                                        angular.forEach(campaignData, function (campaign) {
                                             var queryObj = {
                                                     queryId: 14,
                                                     clientId: loginModel.getSelectedClient().id,
@@ -276,8 +275,10 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
 
                                                 spendUrl = urlService.getCampaignSpend(queryObj),
                                                 contextThis = this;
+
                                             contextThis.push(campaign);
                                             self.busy = false;
+
                                             (function(campaign) {
                                                 dataService
                                                     .fetch(spendUrl)
@@ -289,7 +290,6 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                                                         } else {
                                                             campaign.spend = 0;
                                                         }
-                                                        //    contextThis.push(campaign);
 
                                                         if (campaign.kpi_type === 'null') {
                                                             campaign.kpi_type = 'CTR';
@@ -305,10 +305,14 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                                                                             campaignCDBData
                                                                         );
 
-                                                                    self.cdbDataMap[campaign.orderId].modified_vtc_metrics =
-                                                                        campaignListService.vtcMetricsJsonModifier(
-                                                                            self.cdbDataMap[campaign.orderId].video_metrics
-                                                                        );
+                                                                    self
+                                                                        .cdbDataMap[campaign.orderId]
+                                                                        .modified_vtc_metrics =
+                                                                            campaignListService.vtcMetricsJsonModifier(
+                                                                                self
+                                                                                    .cdbDataMap[campaign.orderId]
+                                                                                    .video_metrics
+                                                                            );
                                                                 }
                                                             }
                                                         );
@@ -318,7 +322,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                                             }(campaign));
                                         }, self.campaignList);
 
-                                        //as we change the brand, we are updating the campaign model as well.
+                                        // as we change the brand, we are updating the campaign model as well.
                                         if (brandsModel.getSelectedBrand().id !== -1 && self.campaignList.length) {
                                             $rootScope.$broadcast('updateCampaignAsBrandChange', self.campaignList[0]);
                                         }
@@ -332,7 +336,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                         hasCampaignId = function (campaignData, id) {
                             var retVal = false;
 
-                            _.each(campaignData, function (item) { // jshint ignore:line
+                            _.each(campaignData, function (item) {
                                 if (item.id === id) {
                                     retVal = true;
                                 }
@@ -350,7 +354,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                                 var self,
                                     url;
 
-                                //Reseting scrollFlag
+                                // Resetting scrollFlag
                                 this.scrollFlag = 0;
                                 this.busy = true;
 
@@ -379,7 +383,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                                             timePeriodApiMapping(self.timePeriod)
                                         );
 
-                                        angular.forEach(campaignData, function (campaign) { // jshint ignore:line
+                                        angular.forEach(campaignData, function (campaign) {
                                             if (!hasCampaignId(this, campaign.id)) {
                                                 this.push(campaign);
                                             }
@@ -444,20 +448,22 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
 
                         /* fetchDashboardData will be called initially from the controller and when brand is selected.
                          * forceLoad Filter will be undefined if you are coming directly to this page else if you are
-                         * coming from dashboard then (active,ontrack)/(active,underperforming)
+                         * coming from dashboard then (active, ontrack)/(active, under performing)
                          */
                         fetchDashboardData = function (forceLoadFilter) {
                             var clientId = loginModel.getSelectedClient().id,
                                 advertiserId = advertiserModel.getSelectedAdvertiser().id,
                                 brandId = brandsModel.getSelectedBrand().id,
+
                                 url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                                     '/campaigns/summary/counts?date_filter=' + this.timePeriod +
                                     '&advertiser_id=' + advertiserId,
+
                                 self = this;
 
                             this.dashboard.busy = true;
 
-                            //applying brand filter if active
+                            // applying brand filter if active
                             if (brandId > 0) {
                                 url += '&brand_id=' + brandId;
                             }
@@ -466,9 +472,8 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                                 self.dashboard.busy = false;
                                 requestCanceller.resetCanceller(constants.DASHBOARD_CANCELLER);
 
-                                if (result.status === 'success' &&
-                                    !angular.isString(result.data)) { // jshint ignore:line
-                                    // active is an object with total, ontrack and underperforming
+                                if (result.status === 'success' && !angular.isString(result.data)) {
+                                    //  active is an object with total, onTrack and underPerforming
                                     self.dashboard.active = result.data.data.active;
                                     self.dashboard.draft = result.data.data.draft;
                                     self.dashboard.ready = result.data.data.ready;
@@ -482,6 +487,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                                     // by clicking campaign performance widget's ontrack or performance section.
                                     if (forceLoadFilter !== undefined) {
                                         self.dashboard.displayFilterSection = true;
+
                                         if (forceLoadFilter === constants.ACTIVE_ONTRACK) {
                                             self.setQuickFilter(constants.ACTIVE_ONTRACK);
                                         } else if (forceLoadFilter === constants.ACTIVE_UNDERPERFORMING) {
@@ -512,29 +518,29 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                                 brandId = brandsModel.getSelectedBrand().id,
 
                                 hideLoader = function () {
-                                    _.each(costidsList, function (value) { // jshint ignore:line
+                                    _.each(costidsList, function (value) {
                                         self.costList[value].costDataLoading = false;
                                     });
                                 },
 
                                 costidsList = this.costIds.split(',');
 
-                            _.each(costidsList, function (value) { // jshint ignore:line
+                            _.each(costidsList, function (value) {
                                 self.costList[value] = {
                                     costDataLoading: true
                                 };
                             });
 
                             campaignListService.getCampaignCostData(this.costIds,
-                                moment(this.costDate.startDate).format('YYYY-MM-DD'), // jshint ignore:line
-                                moment(this.costDate.endDate).format('YYYY-MM-DD'), // jshint ignore:line
+                                moment(this.costDate.startDate).format('YYYY-MM-DD'),
+                                moment(this.costDate.endDate).format('YYYY-MM-DD'),
                                 advertiserId, brandId,
 
                                 function (result) {
                                     if (result.status === 'success' &&
-                                        !angular.isString(result.data) && // jshint ignore:line
+                                        !angular.isString(result.data) &&
                                         result.data.data.length > 0) {
-                                        angular.forEach(result.data.data, function (cost) { // jshint ignore:line
+                                        angular.forEach(result.data.data, function (cost) {
                                             self.costList[cost.campaign_id] =
                                                 modelTransformer.transform(cost, campaignCost);
 
@@ -559,8 +565,9 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                                 this.sortDirection = 'asc';
                             }
 
-                            //get the campaign list
+                            // get the campaign list
                             this.campaignList = [];
+
                             this.costBreakdownList = [];
                             resetCostBreakdown.call(this);
                             this.scrollFlag = 1;
@@ -573,9 +580,10 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
 
                         filterByTimePeriod = function (timePeriod) {
                             this.selectedTimePeriod = timePeriod;
-                            this.displayTimePeriod = angular.uppercase(timePeriod.display); // jshint ignore:line
+                            this.displayTimePeriod = angular.uppercase(timePeriod.display);
 
                             $('#cdbDropdown').toggle();
+
                             this.timePeriodList.forEach(function (period) {
                                 if (period === timePeriod) {
                                     period.className = 'active';
@@ -584,18 +592,19 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                                 }
                             });
 
+                            // TODO: what is 'filters' below?
                             filters.timePeriod && (this.timePeriod = timePeriod.key); // jshint ignore:line
 
-                            //populating dashboard filter with new data
+                            // populating dashboard filter with new data
                             fetchDashboardData.call(this);
                         },
 
                         filterByBrand = function (brand) {
                             $('#cdbDropdown').toggle();
+
                             if (brand !== undefined) {
                                 this.brandId = brand.id;
                                 fetchDashboardData.call(this);
-                                //fetchCampaigns();
                             }
                         },
 
@@ -663,12 +672,13 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                         },
 
                         campaignReports = function (campaign) {
+                            // TODO: what is 'ga' below?
                             ga('send', 'event', 'campaign-report', 'click', // jshint ignore:line
                                 campaign.campaignTitle, {
-                                hitCallback: function () {
-                                    $location.path('reports/reports/' + campaign.orderId);
-                                }
-                            });
+                                    hitCallback: function () {
+                                        $location.path('reports/reports/' + campaign.orderId);
+                                    }
+                                });
                         },
 
                         unSelectQuickFilter = function () {
@@ -712,8 +722,10 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
 
                                 case constants.ACTIVE_UNDERPERFORMING:
                                     this.appliedQuickFilterText = this.getCapitalizeString(constants.UNDERPERFORMING);
+
                                     this.dashboard.quickFilterSelectedCount =
                                         this.dashboard.active[constants.UNDERPERFORMING.toLowerCase()];
+
                                     this.dashboard.status.active.underperforming = constants.ACTIVE;
                                     kpiStatus = constants.UNDERPERFORMING;
                                     break;
@@ -729,40 +741,50 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
 
                                 case constants.DRAFT_CONDITION:
                                     this.appliedQuickFilterText = constants.DRAFT;
+
                                     this.dashboard.quickFilterSelectedCount =
                                         this.dashboard[(constants.DRAFT).toLowerCase()];
+
                                     this.dashboard.status.draft = constants.ACTIVE;
                                     type = constants.DRAFT.toLowerCase();
                                     break;
 
                                 case constants.READY_CONDITION:
                                     this.appliedQuickFilterText = constants.SCHEDULED;
+
                                     this.dashboard.quickFilterSelectedCount =
                                         this.dashboard[constants.READY.toLowerCase()];
+
                                     this.dashboard.status.ready = constants.ACTIVE;
                                     type = constants.READY.toLowerCase();
                                     break;
 
                                 case constants.COMPLETED_CONDITION:
                                     this.appliedQuickFilterText = constants.ENDED;
+
                                     this.dashboard.quickFilterSelectedCount =
                                         this.dashboard[constants.COMPLETED.toLowerCase()];
+
                                     this.dashboard.status.completed = constants.ACTIVE;
                                     type = constants.COMPLETED.toLowerCase();
                                     break;
 
                                 case constants.ARCHIVED_CONDITION:
                                     this.appliedQuickFilterText = constants.ARCHIVED;
+
                                     this.dashboard.quickFilterSelectedCount =
                                         this.dashboard[constants.ARCHIVED.toLowerCase()];
+
                                     this.dashboard.status.archived = constants.ACTIVE;
                                     type = constants.ARCHIVED.toLowerCase();
                                     break;
 
                                 case constants.ALL_CONDITION:
                                     this.appliedQuickFilterText = constants.ALL;
+
                                     this.dashboard.quickFilterSelectedCount =
                                         this.dashboard[constants.ALL.toLowerCase()];
+
                                     this.dashboard.status.all = constants.ALL.toLowerCase();
                                     this.dashboard.status.active.all = constants.ACTIVE;
                                     type = constants.ALL.toLowerCase();
@@ -792,13 +814,14 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', // jshint i
                         },
 
                         initializeFilter = function () {
-                            var filterStatus = $location.url().split('filter=')[1];
+                            var filterStatus = $location.url().split('filter=')[1],
+                                $tmpSavedFilter;
 
                             if (filterStatus === undefined) {
-                                $tmpSavedFilter = localStorageService.campaignListFilter.get(); // jshint ignore:line
+                                $tmpSavedFilter = localStorageService.campaignListFilter.get();
 
-                                if ($tmpSavedFilter) { // jshint ignore:line
-                                    this.setQuickFilter($tmpSavedFilter); // jshint ignore:line
+                                if ($tmpSavedFilter) {
+                                    this.setQuickFilter($tmpSavedFilter);
                                 } else {
                                     this.setQuickFilter(constants.ALL_CONDITION);
                                 }

@@ -30,7 +30,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 $scope.selectedAdServer = {};
             },
 
-            //Get all adserver in Creative Library Page
+            // Get all adserver in Creative Library Page
             getAdServers = function () {
                 workflowService
                     .getVendorsAdServer()
@@ -132,7 +132,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }
         };
 
-        //Generate the Template
+        // Generate the Template
         $scope.templateSelected = function (templateJson){
             templateJson = templateJson || {};
             $scope.creativeTemplate = templateJson;

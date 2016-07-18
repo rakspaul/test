@@ -1,14 +1,13 @@
-define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore:line
-    'common/services/transformer_service', 'reporting/models/campaign_cdb_data',
-    'reporting/campaignList/campaign_list_service', 'reporting/campaignList/campaign_list_model',
-    'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_service',
-    'reporting/common/charts/actions', 'common/services/data_service', 'common/utils',
-    'reporting/common/charts/pie_chart', 'reporting/common/charts/solid_gauge', 'common/services/constants_service',
-    'common/services/features_service', 'login/login_model', 'login/login_service', 'reporting/brands/brands_model',
-    'common/services/url_service', 'common/moment_utils', 'common/services/role_based_service',
-    'reporting/advertiser/advertiser_model', 'reporting/kpiSelect/kpi_select_model', 'common/services/data_store_model',
-    'common/services/vistoconfig_service', 'reporting/models/domain_reports',
-    'reporting/editActions/edit_actions_model', 'reporting/models/activity_list',
+define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services/transformer_service',
+    'reporting/models/campaign_cdb_data', 'reporting/campaignList/campaign_list_service',
+    'reporting/campaignList/campaign_list_model', 'reporting/campaignSelect/campaign_select_model',
+    'reporting/strategySelect/strategy_select_service', 'reporting/common/charts/actions',
+    'common/services/data_service', 'common/utils', 'reporting/common/charts/pie_chart',
+    'reporting/common/charts/solid_gauge', 'common/services/constants_service', 'common/services/features_service',
+    'login/login_model', 'login/login_service', 'reporting/brands/brands_model', 'common/services/url_service',
+    'common/moment_utils', 'common/services/role_based_service', 'reporting/advertiser/advertiser_model',
+    'reporting/kpiSelect/kpi_select_model', 'common/services/data_store_model', 'common/services/vistoconfig_service',
+    'reporting/models/domain_reports', 'reporting/editActions/edit_actions_model', 'reporting/models/activity_list',
     'reporting/controllers/actions_controller', 'reporting/editActions/edit_actions_controller',
     'reporting/common/d3/campaign_chart', 'reporting/common/d3/quartiles_graph', 'reporting/directives/strategy_card',
     'reporting/common/d3/pie_chart', 'reporting/advertiser/advertiser_directive', 'reporting/brands/brands_directive'],
@@ -16,23 +15,23 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
         'use strict';
 
         angularAMD.controller('CampaignDetailsController', function ($rootScope, $scope, $routeParams,
-                                                                $window,$filter,$location,  $timeout,
+                                                                $window, $filter,$location,  $timeout,
                                                                 timePeriodModel, modelTransformer, campaignCDBData,
                                                                 campaignListService, campaignListModel,
                                                                 campaignSelectModel, strategySelectModel, actionChart,
                                                                 dataService, utils, pieChart, solidGaugeChart,
                                                                 constants, featuresService, loginModel, loginService,
-                                                                brandsModel, urlService,momentService,
+                                                                brandsModel, urlService, momentService,
                                                                 RoleBasedService, advertiserModel, kpiSelectModel,
                                                                 dataStore, vistoconfig, domainReports,
                                                                 editAction, activityList) {
             var orderBy = $filter('orderBy'),
                 campaign = campaignListService,
                 Campaigns = campaignListModel,
-                fparams = featuresService.getFeatureParams(),
+                fParams = featuresService.getFeatureParams(),
                 getSetCampaignDetails,
 
-                //API call for campaign details
+                // API call for campaign details
                 clientId = loginModel.getSelectedClient().id,
 
                 url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
@@ -51,7 +50,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                 });
 
             function getCustomQueryParams(queryId) {
-                var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
+                var dateFilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
 
                 return {
                     queryId: queryId,
@@ -59,7 +58,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                     clientId: loginModel.getSelectedClient().id,
                     advertiserId: advertiserModel.getSelectedAdvertiser().id,
                     brandId: brandsModel.getSelectedBrand().id,
-                    dateFilter: datefilter
+                    dateFilter: dateFilter
                 };
             }
 
@@ -67,7 +66,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                 var params = getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_REPORTS_FOR_OPTIMIZATION_IMPACT);
 
                 if (!$scope.showOptimization) {
-                    // dont call the activities api if the user doesn't have permission
+                    // don't call the activities api if the user doesn't have permission
                     return;
                 }
 
@@ -111,7 +110,8 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                                 // other campaigns
                                 activityList.data.data = undefined;
                             }
-                        } else { //if error
+                        } else {
+                            // if error
                             activityList.data.data = undefined;
                         }
 
@@ -135,10 +135,10 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
             }
 
             $rootScope.$on('features', function () {
-                var fparams = featuresService.getFeatureParams();
+                var fParams = featuresService.getFeatureParams();
 
-                $scope.createOptimization = fparams[0].optimization_create;
-                $scope.showOptimization = fparams[0].optimization_transparency;
+                $scope.createOptimization = fParams[0].optimization_create;
+                $scope.showOptimization = fParams[0].optimization_transparency;
             });
 
             $scope.campaigns = new Campaigns();
@@ -173,16 +173,16 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
             $scope.isWorkFlowUser = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
             $scope.details.sortParam = 'startDate';
 
-            //by default is desc...  most recent strategies should display first.
+            // by default is desc...  most recent strategies should display first.
             $scope.details.sortDirection = 'desc';
 
             $scope.details.toggleSortDirection = function (dir) {
                 return (dir === 'asc' ? 'desc': 'asc');
             };
 
-            $scope.showCostWidget = fparams[0].cost;
-            $scope.createOptimization = fparams[0].optimization_create;
-            $scope.showOptimization = fparams[0].optimization_transparency;
+            $scope.showCostWidget = fParams[0].cost;
+            $scope.createOptimization = fParams[0].optimization_create;
+            $scope.showOptimization = fParams[0].optimization_transparency;
 
             $scope.details.resetSortParams = function () {
                 $scope.details.sortParam = undefined;
@@ -203,12 +203,12 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
 
             $scope.applySortStrategies =  function () {
                 var campaignStrategiesData =
-                    _.chain($scope.campaign.campaignStrategies) // jshint ignore:line
+                    _.chain($scope.campaign.campaignStrategies)
                         .sortBy('name')
                         .sortBy($scope.details.sortParam).value();
 
-                $scope.campaign.campaignStrategies =
-                    ($scope.details.sortDirection === 'asc') ? campaignStrategiesData: campaignStrategiesData.reverse();
+                $scope.campaign.campaignStrategies = ($scope.details.sortDirection === 'asc') ?
+                    campaignStrategiesData : campaignStrategiesData.reverse();
             };
 
             $scope.details.sortStrategies = function (fieldName) {
@@ -232,7 +232,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
             };
 
             $scope.details.getSortDirection = function () {
-                return ($scope.details.sortDirection === 'desc')? 'false': 'true';
+                return ($scope.details.sortDirection === 'desc')? 'false' : 'true';
             };
 
             $scope.setWidgetLoadedStatus = function () {
@@ -274,7 +274,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                 if ($rootScope.isFromCampaignList === true) {
                     listCampaign = campaignListService.getListCampaign();
 
-                    if (angular.isObject(listCampaign)) { // jshint ignore:line
+                    if (angular.isObject(listCampaign)) {
                         campListCampaign = {
                             id: listCampaign.id,
                             name: listCampaign.name,
@@ -282,6 +282,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                             endDate: listCampaign.end_date,
                             kpi: listCampaign.kpi_type
                         };
+
                         campaignSelectModel.setSelectedCampaign(campListCampaign);
                         campaignListService.setListCampaign('');
                         $location.path('/mediaplans/' + listCampaign.id);
@@ -289,7 +290,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                 }
             };
 
-            //init function sets the selected campaign onclick of campaign in campaign list page. CRPT-3440
+            // init function sets the selected campaign onclick of campaign in campaign list page. CRPT-3440
             $scope.init();
 
             $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function () {
@@ -307,7 +308,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                             params,
                             spendUrl;
 
-                        if (result.status === 'success' && !angular.isString(result.data)) { // jshint ignore:line
+                        if (result.status === 'success' && !angular.isString(result.data)) {
                             dataArr = [result.data.data];
                             $scope.adFormats = domainReports.checkForCampaignFormat(dataArr[0].adFormats);
                             $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
@@ -362,10 +363,10 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                             $scope.getCostViewabilityData($scope.campaign);
                         } else {
                             if (result.status === 204 && result.data === '' ) {
-                                //if data not found
+                                // if data not found
                                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
 
-                                $scope.campaign = _.findWhere(campaignSelectModel, { // jshint ignore:line
+                                $scope.campaign = _.findWhere(campaignSelectModel, {
                                     id: $scope.selectedCampaign.id
                                 });
 
@@ -405,10 +406,9 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                 getSetCampaignDetails();
             }, 1000);
 
-
-            //TODO: Performance Chart - Moving to D3
+            // TODO: Performance Chart - Moving to D3
             $scope.getCdbChartData = function (campaign) {
-                //API call for campaign chart
+                // API call for campaign chart
                 dataService
                     .getCdbChartData(campaign, 'life_time', 'campaigns', null)
                     .then(function (result) {
@@ -420,8 +420,8 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                             activityLocalStorageInfo,
                             i;
 
-                        if (result.status === 'success' && !angular.isString(result.data)) { // jshint ignore:line
-                            if (!angular.isUndefined($scope.campaign.kpiType)) { // jshint ignore:line
+                        if (result.status === 'success' && !angular.isString(result.data)) {
+                            if (!angular.isUndefined($scope.campaign.kpiType)) {
                                 if (result.data.data.measures_by_days.length > 0) {
                                     maxDays = result.data.data.measures_by_days;
                                     kpiType = ($scope.campaign.kpiType);
@@ -450,24 +450,26 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                                             $scope.campaign.kpiType, activityList.data.data, 450, 330, null,
                                             undefined, showExternal);
 
-                                    //D3 chart object for action performance chart
+                                    // D3 chart object for action performance chart
                                     $scope.details.lineChart = {
                                         data: lineData,
                                             kpiValue: parseFloat($scope.campaign.kpiValue),
                                             kpiType: $scope.campaign.kpiType,
                                             from: 'action_performance',
 
-                                            //for delivery kpi
+                                            // for delivery kpi
                                             deliveryData: {
-                                            startDate: $scope.campaign.startDate,
+                                                startDate: $scope.campaign.startDate,
                                                 endDate: $scope.campaign.endDate,
-                                                totalDays:  momentService.dateDiffInDays($scope.campaign.startDate,
-                                                $scope.campaign.endDate) + 1,
+
+                                                totalDays: momentService.dateDiffInDays($scope.campaign.startDate,
+                                                    $scope.campaign.endDate) + 1,
+
                                                 deliveryDays: maxDays.length,
                                                 bookedImpressions: maxDays[maxDays.length-1].booked_impressions
-                                            //REVIEW: $scope.campaign.total_impressions
                                         },
-                                        //customisation
+
+                                        // customisation
                                         activityList: activityList.data.data,
                                             showExternal: showExternal
                                     };
@@ -517,7 +519,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                     tacticsToLoadNow,
                     newTacticData,
 
-                    strategy = _.find(campaignStrategies, function(s) { // jshint ignore:line
+                    strategy = _.find(campaignStrategies, function(s) {
                         return s.id === Number(strategyId);
                     });
 
@@ -531,7 +533,8 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                     tacticsToLoadNow = tacticsYetToLoad.splice(0, pageSize);
 
                     newTacticData = campaign.requestTacticsData(strategy, constants.PERIOD_LIFE_TIME,
-                                                                    $scope.campaign, tacticsToLoadNow);
+                        $scope.campaign, tacticsToLoadNow);
+
                     strategy.strategyTactics.push.apply(strategy.strategyTactics, newTacticData);
                 }
             };
@@ -560,7 +563,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                         }
                     }
                 } else {
-                    //Day wise single Activity
+                    // Day wise single Activity
                     scrollTo = $('#actionItem_' + id);
 
                     if (scrollTo && scrollTo.length > 0) {
@@ -574,7 +577,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
             };
 
             $scope.getCostBreakdownData  = function (campaign) {
-                //get cost break down data
+                //  get cost break down data
                 var params = getCustomQueryParams(14);
 
                 delete params.campaignId;
@@ -595,7 +598,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
 
                         $scope.loadingCostBreakdownFlag = false;
 
-                        if (result.status === 'success' && !angular.isString(result.data)) { // jshint ignore:line
+                        if (result.status === 'success' && !angular.isString(result.data)) {
                              if (result.data.data.length > 0) {
                                  costData = result.data.data[0];
                                  inventoryCostPercent = 0;
@@ -656,21 +659,21 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                                  cBreakdownChartColors = [];
                                  cBreakdownChartData = [];
 
-                                 _.each($scope.costBreakdownChartInfo, function (data) { // jshint ignore:line
+                                 _.each($scope.costBreakdownChartInfo, function (data) {
                                     if (data.name !== 'Other') {
                                          cBreakdownChartColors.push(data.colorCode);
                                          cBreakdownChartData.push(data.value);
                                     }
                                  });
 
-                                 //Put Others as Last
+                                 //  Put Others as Last
                                  findOthers =
-                                     _.findWhere($scope.costBreakdownChartInfo, {name: 'Other'}); // jshint ignore:line
+                                     _.findWhere($scope.costBreakdownChartInfo, {name: 'Other'});
 
                                  cBreakdownChartColors.push(findOthers.colorCode);
                                  cBreakdownChartData.push(findOthers.value);
 
-                                 //set Up configuration for Cost breakdown chart
+                                 // set Up configuration for Cost breakdown chart
                                  $scope.costBreakDownPieChartConfig = {
                                      data: cBreakdownChartData,
                                      width: 108,
@@ -698,7 +701,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
 
                         $scope.loadingInventoryFlag = false;
 
-                        if (result.status === 'success' && !angular.isString(result.data)) { // jshint ignore:line
+                        if (result.status === 'success' && !angular.isString(result.data)) {
                             $scope.chartDataInventory = [];
 
                             if ((result.data.data[0] !== undefined) &&
@@ -713,24 +716,24 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                                 !$scope.adFormats.videoAds;
 
                             if (inventoryData && inventoryData.length > 0 && !hasVideoAds) {
-                                _.each(inventoryData, function (obj) { // jshint ignore:line
+                                _.each(inventoryData, function (obj) {
                                     obj.vtc = obj.vtc_100;
                                     obj['action rate'] = obj.action_rate;
                                 });
 
                                 // This Sorts the Data order by CTR or CPA
-                                sortedData = _.sortBy(inventoryData, kpIType); // jshint ignore:line
+                                sortedData = _.sortBy(inventoryData, kpIType);
 
-                                sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpIType) ? // jshint ignore:line
+                                sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpIType) ?
                                     sortedData : sortedData.reverse();
 
-                                sortedData = _.sortBy(sortedData, function (obj) { // jshint ignore:line
+                                sortedData = _.sortBy(sortedData, function (obj) {
                                     return obj[kpIType] === 0;
                                 });
 
                                 sortedData  = sortedData.slice(0, 3);
 
-                                $scope.chartDataInventory = _.map(sortedData, function (data) { // jshint ignore:line
+                                $scope.chartDataInventory = _.map(sortedData, function (data) {
                                     var kpiData = data[kpIType];
 
                                     return {
@@ -771,23 +774,23 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
 
                         $scope.loadingScreenFlag = false;
 
-                        if (result.status === 'success' && !angular.isString(result.data)) { // jshint ignore:line
+                        if (result.status === 'success' && !angular.isString(result.data)) {
                             screensData = [];
                             $scope.chartDataScreen = [];
                             screenResponseData = result.data.data;
 
-                            //for a video campaign, if set(default) kPI is vtc and dosen’t have video data.
+                            // for a video campaign, if set(default) kPI is vtc and dosen’t have video data.
                             // we are showing data not found.
                             hasVideoAds = $scope.adFormats && kpiModel.toLowerCase() === 'vtc' &&
                                 !$scope.adFormats.videoAds;
 
                             if (screenResponseData && screenResponseData.length > 0 && !hasVideoAds) {
-                                screensDataPerfMtcs = _.filter(screenResponseData, // jshint ignore:line
+                                screensDataPerfMtcs = _.filter(screenResponseData,
                                     function (obj) {
                                         return obj.dimension.toLowerCase() !== 'unknown';
                                     });
 
-                                screensData = _.map(screensDataPerfMtcs, function (obj) { // jshint ignore:line
+                                screensData = _.map(screensDataPerfMtcs, function (obj) {
                                     obj.vtc = obj.vtc_100;
                                     obj['action rate'] = obj.action_rate;
 
@@ -795,18 +798,18 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                                 });
 
                                 // This Sorts the Data order by CTR or CPA
-                                sortedData = _.sortBy(screensData, kpiModel); // jshint ignore:line
+                                sortedData = _.sortBy(screensData, kpiModel);
 
-                                sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpiModel) ? // jshint ignore:line
+                                sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpiModel) ?
                                     sortedData : sortedData.reverse();
 
-                                sortedData = _.sortBy(sortedData, function (obj) { // jshint ignore:line
+                                sortedData = _.sortBy(sortedData, function (obj) {
                                     return obj[kpiModel] === 0;
                                 });
 
                                 sortedData  = sortedData.slice(0, 3);
 
-                                $scope.chartDataScreen = _.map(sortedData, function (data) { // jshint ignore:line
+                                $scope.chartDataScreen = _.map(sortedData, function (data) {
                                     var kpiData = data[kpiModel],
                                         screenType = data.dimension.toLowerCase();
 
@@ -847,36 +850,36 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
 
                         $scope.loadingAdSizeFlag = false;
 
-                        if (result.status === 'success' && !angular.isString(result.data)) { // jshint ignore:line
+                        if (result.status === 'success' && !angular.isString(result.data)) {
                             adSizeData = [];
                             $scope.chartDataAdSize = [];
                             adSizeResponseData = result.data.data;
-                            // for a video campaign, if set(default) kPI is vtc and dosen’t have video data.
+                            // for a video campaign, if set(default) kPI is vtc and does'nt have video data.
                             // we are showing data not found.
                             hasVideoAds = $scope.adFormats &&
                                 kpiModel.toLowerCase() === 'vtc' &&
                                 !$scope.adFormats.videoAds;
 
                             if (adSizeResponseData && adSizeResponseData.length > 0 && !hasVideoAds) {
-                                adSizeData = _.map(adSizeResponseData, function (obj) { // jshint ignore:line
+                                adSizeData = _.map(adSizeResponseData, function (obj) {
                                     obj.vtc = obj.vtc_100;
                                     obj['action rate'] = obj.action_rate;
                                     return obj;
                                 });
 
                                 // This Sorts the Data order by CTR or CPA
-                                sortedData = _.sortBy(adSizeData, kpiModel); // jshint ignore:line
+                                sortedData = _.sortBy(adSizeData, kpiModel);
 
-                                sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpiModel) ? // jshint ignore:line
+                                sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpiModel) ?
                                     sortedData : sortedData.reverse();
 
-                                sortedData = _.sortBy(sortedData, function (obj) { // jshint ignore:line
+                                sortedData = _.sortBy(sortedData, function (obj) {
                                     return obj[kpiModel] === 0;
                                 });
 
                                 sortedData  = sortedData.slice(0, 3);
 
-                                $scope.chartDataAdSize = _.map(sortedData, function (data) { // jshint ignore:line
+                                $scope.chartDataAdSize = _.map(sortedData, function (data) {
                                     var kpiData = data[kpiModel];
 
                                     return {
@@ -924,7 +927,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                         $scope.chartData = [];
 
                         if ((result.status === 'OK' || result.status === 'success') &&
-                            !angular.isString(result.data)) { // jshint ignore:line
+                            !angular.isString(result.data)) {
                             // Step 2 Data Mod Restructure of the Array on memory
                             resultData = result.data.data;
 
@@ -936,25 +939,25 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                                 !$scope.adFormats.videoAds;
 
                             if (resultData && resultData.length > 0 && !hasVideoAds) {
-                                platformData = _.map(resultData, function (obj) { // jshint ignore:line
+                                platformData = _.map(resultData, function (obj) {
                                     obj['action rate'] = obj.action_rate;
 
                                     return obj;
                                 });
 
                                 // This Sorts the Data order by CTR or CPA
-                                sortedData = _.sortBy(platformData, kpiModel); // jshint ignore:line
+                                sortedData = _.sortBy(platformData, kpiModel);
 
-                                sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpiModel) ? // jshint ignore:line
+                                sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpiModel) ?
                                     sortedData : sortedData.reverse();
 
-                                sortedData = _.sortBy(sortedData, function (obj) { // jshint ignore:line
+                                sortedData = _.sortBy(sortedData, function (obj) {
                                     return obj[kpiModel] === 0;
                                 });
 
                                 sortedData = sortedData.slice(0, 3);
 
-                                $scope.chartDataPlatform = _.map(sortedData, function(data) { // jshint ignore:line
+                                $scope.chartDataPlatform = _.map(sortedData, function(data) {
                                     var type = data.platform_name,
                                         icon_url = data.platform_icon_url === 'Unknown' ?
                                             'platform_logo.png' :
@@ -1002,23 +1005,23 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
 
                         $scope.loadingFormatFlag = false;
 
-                        if (result.status === 'success' && !angular.isString(result.data)) { // jshint ignore:line
+                        if (result.status === 'success' && !angular.isString(result.data)) {
                             formatData = [];
                             $scope.chartDataFormat = [];
                             formatResponseData = result.data.data;
 
-                            // for a video campaign, if set(default) kPI is vtc and dosen’t have video data.
+                            // for a video campaign, if set(default) kPI is vtc and does'nt have video data.
                             // we are showing data not found.
                             hasVideoAds = $scope.adFormats && kpiModel.toLowerCase() === 'vtc' &&
                                 !$scope.adFormats.videoAds;
 
                             if (formatResponseData && formatResponseData.length > 0 && !hasVideoAds) {
                                 formatDataPerfMtrcs =
-                                    _.filter(formatResponseData, function (obj) { // jshint ignore:line
+                                    _.filter(formatResponseData, function (obj) {
                                         return obj.dimension.toLowerCase() !== 'unknown';
                                     });
 
-                                formatData = _.map(formatDataPerfMtrcs, function (obj) { // jshint ignore:line
+                                formatData = _.map(formatDataPerfMtrcs, function (obj) {
                                     obj.vtc = obj.vtc_100;
                                     obj['action rate'] = obj.action_rate;
 
@@ -1026,21 +1029,21 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                                 });
 
                                 // This Sorts the Data order by CTR or CPA
-                                sortedData = _.sortBy(formatData, kpiModel); // jshint ignore:line
+                                sortedData = _.sortBy(formatData, kpiModel);
 
-                                sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpiModel) ? // jshint ignore:line
+                                sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpiModel) ?
                                     sortedData : sortedData.reverse();
 
-                                sortedData = _.sortBy(sortedData, function (obj) { // jshint ignore:line
+                                sortedData = _.sortBy(sortedData, function (obj) {
                                     return obj[kpiModel] === 0;
                                 });
 
                                 sortedData = sortedData.slice(0, 3);
 
-                                $scope.chartDataFormat = _.map(sortedData, function (data) { // jshint ignore:line
+                                $scope.chartDataFormat = _.map(sortedData, function (data) {
                                     var kpiData = data[kpiModel],
 
-                                    //It removes empty space and makes a single word and then convert to lower case
+                                    // It removes empty space and makes a single word and then convert to lower case
                                     screenType = data.dimension.replace(/ /g,'').toLowerCase();
 
                                     return {
@@ -1065,10 +1068,10 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
             };
 
             $scope.getCostViewabilityData  = function () {
-                var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_QUALITY),
+                var params = getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_QUALITY),
                     viewData;
 
-                 //get cost break down data
+                 // get cost break down data
                  $scope.getCostViewabilityFlag = 0;
 
                 dataService
@@ -1079,18 +1082,18 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                          $scope.getCostViewabilityFlag = 1;
                          $scope.loadingViewabilityFlag = false;
 
-                        if (result.status === 'success' &&
-                            !angular.isString(result.data.data)) { // jshint ignore:line
-                                viewData = result.data.data;
-                                $scope.details.getCostViewability = {
-                                    pct_display: viewData.view_metrics.viewable_imps_perc,
-                                    pct_video: viewData.view_metrics.video_viewability_metrics.video_viewable_perc,
+                        if (result.status === 'success' && !angular.isString(result.data.data)) {
+                            viewData = result.data.data;
 
-                                    pct_total: viewData.view_metrics.viewable_imps_perc >
-                                        viewData.view_metrics.video_viewability_metrics.video_viewable_perc ?
-                                        viewData.view_metrics.viewable_imps_perc :
-                                        viewData.view_metrics.video_viewability_metrics.video_viewable_perc
-                                };
+                            $scope.details.getCostViewability = {
+                                pct_display: viewData.view_metrics.viewable_imps_perc,
+                                pct_video: viewData.view_metrics.video_viewability_metrics.video_viewable_perc,
+
+                                pct_total: viewData.view_metrics.viewable_imps_perc >
+                                    viewData.view_metrics.video_viewability_metrics.video_viewable_perc ?
+                                    viewData.view_metrics.viewable_imps_perc :
+                                    viewData.view_metrics.video_viewability_metrics.video_viewable_perc
+                            };
 
                             if ($scope.details.getCostViewability.pct_video > 0 &&
                                 $scope.details.getCostViewability.pct_display > 0) {
@@ -1143,6 +1146,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
 
                             highChartSeriesObj.push({
                                 innerRadius: '101',
+
                                 data: [{
                                     y: $scope.details.getCostViewability.pct_total,
                                     color: '#000000'
@@ -1152,6 +1156,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                             highChartSeriesObj.push({
                                 innerRadius: '103',
                                 radius: '102%',
+
                                 data: [{
                                     y: 100,
                                     color: '#FFFFFF'
@@ -1184,6 +1189,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
 
             $scope.getMessageForDataNotAvailable = function (campaign, dataSetType) {
                 campaign = campaign || $scope.campaign;
+
                 if (!campaign || campaign.id === -1) {
                     return constants.MSG_DATA_NOT_AVAILABLE;
                 } else if (campaign.durationLeft() === 'Yet to start') {
@@ -1263,7 +1269,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                     actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue),
                         $scope.campaign.kpiType, activityList.data.data, 450, 330, null, undefined, showExternal);
 
-                //TODO: reset D3 action performance chart here
+                // TODO: reset D3 action performance chart here
                 // D3 chart object for action performance chart
                 $scope.details.lineChart = {
                     data: $scope.details.lineData,
@@ -1279,12 +1285,10 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                             $scope.campaign.endDate) + 1,
 
                         deliveryDays: $scope.details.maxDays.length,
-
-                        //REVIEW: $scope.campaign.total_impressions
                         bookedImpressions: $scope.details.maxDays[$scope.details.maxDays.length-1].booked_impressions
                     },
 
-                    //customisation
+                    // customisation
                     activityList: activityList.data.data,
                     showExternal: showExternal
                 };
@@ -1300,7 +1304,9 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                     expectedSpend;
 
                 if (typeof campaign !== 'undefined') {
-                    spendDifference = -999; //fix for initial loading
+                    // fix for initial loading
+                    spendDifference = -999;
+
                     campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
 
                     if (campaignCDBObj === undefined) {
@@ -1404,7 +1410,8 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                     dateDiffInDays = momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), endDate);
                 }
 
-                if (spendDifference === -999) { //fix for initial loading
+                // fix for initial loading
+                if (spendDifference === -999) {
                     return '';
                 }
 
@@ -1417,7 +1424,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                         }
                     }
 
-                    //  past a campaign end date
+                    // past a campaign end date
                     if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), endDate) === true) {
                         return (spendDifference < -5 || spendDifference > 5) ? 'red': 'blue';
                     }
@@ -1473,7 +1480,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
             $scope.refreshGraph = function (showExternal) {
                 // Single Campaign UI Support elements - sta
                 // Refresh Graph Data
-                //TODO: move to D3
+                // TODO: move to D3
                 $scope.details.actionChart =
                     actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue),
                         $scope.campaign.kpiType, activityList.data.data, 450, 330, null, undefined, showExternal);
@@ -1492,12 +1499,10 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                             $scope.campaign.endDate) + 1,
 
                         deliveryDays: $scope.details.maxDays.length,
-
-                        //REVIEW: $scope.campaign.total_impressions
                         bookedImpressions: $scope.details.maxDays[$scope.details.maxDays.length-1].booked_impressions
                     },
 
-                    //customisation
+                    // customisation
                     activityList: activityList.data.data,
                     showExternal: showExternal
                 };
@@ -1537,40 +1542,40 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                         var txtBoxId = '#' + boxId,
                             errorMsgId = '#' + errMsgId,
                             txt = ($(txtBoxId).val()),
-                            max_length = $(txtBoxId).attr('maxChar'),
-                            max_line = $(txtBoxId).attr('maxLine'),
-                            txt_data = '',
+                            maxLength = $(txtBoxId).attr('maxChar'),
+                            maxLine = $(txtBoxId).attr('maxLine'),
+                            txtData = '',
                             line = txt,
                             split = line.split('\n'),
-                            splitlength = split.length,
+                            splitLength = split.length,
                             limited_txt,
                             i;
 
-                        if (splitlength > max_line) {
-                            for (i = 0; i < max_line; i++) {
-                                if (i === (parseInt(max_line)) - 1) {
-                                    txt_data += split[i];
+                        if (splitLength > maxLine) {
+                            for (i = 0; i < maxLine; i++) {
+                                if (i === (parseInt(maxLine)) - 1) {
+                                    txtData += split[i];
                                 } else {
-                                    txt_data += split[i] + '\n';
+                                    txtData += split[i] + '\n';
                                 }
                             }
 
                             $(errorMsgId).show();
-                            $(errorMsgId).html('You cannot enter more than ' + max_line + ' lines');
-                            $(txtBoxId).val(txt_data);
+                            $(errorMsgId).html('You cannot enter more than ' + maxLine + ' lines');
+                            $(txtBoxId).val(txtData);
 
-                            //check Limited characters
-                            if (txt.length > max_length ) {
+                            // check Limited characters
+                            if (txt.length > maxLength ) {
                                 $(errorMsgId).show();
-                                $(errorMsgId).html('You cannot enter more than ' + max_length + ' characters');
-                                limited_txt = txt_data.substring(0, max_length );
+                                $(errorMsgId).html('You cannot enter more than ' + maxLength + ' characters');
+                                limited_txt = txtData.substring(0, maxLength );
                                 $(txtBoxId).val(limited_txt);
                             }
                         } else {
-                            if (txt.length > max_length ) {
+                            if (txt.length > maxLength ) {
                                 $(errorMsgId).show();
-                                $(errorMsgId).html('You cannot enter more than ' + max_length + ' characters ');
-                                limited_txt = txt.substring(0, max_length );
+                                $(errorMsgId).html('You cannot enter more than ' + maxLength + ' characters ');
+                                limited_txt = txt.substring(0, maxLength );
                                 $(txtBoxId).val(limited_txt);
                             } else {
                                 $(errorMsgId).hide();
@@ -1636,20 +1641,19 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
 
                 $('#action_submit_btn,#action_comment').bind('click focus', function () {
                     var txt = $.trim(actionComment.val());
-                    actionComment.val(txt);
 
+                    actionComment.val(txt);
                 });
 
                 $('#action_comment,#action_submit_btn').bind('change keyup keydown click', function () {
                     CommentValidation('action_comment','error_more_comment');
-
                 });
 
                 actionComment.bind('blur', function () {
                     $('#error_more_comment').hide();
                 });
 
-                //Edit actions
+                // Edit actions
                 $('#action_save_btn,#edit_action_comment').bind('click focus', function () {
                     var txt = $.trim(editActionComment.val());
 
@@ -1659,16 +1663,15 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                 editActionComment.bind('change keyup keydown click', function () {
                     CommentValidation('edit_action_comment', 'error_edit_action_more_comment');
 
-                    //enable save Button
+                    // enable save Button
                     updateSaveBtnStatus();
-
                 });
 
                 editActionComment.bind('blur', function () {
                     $('#error_edit_action_more_comment').hide();
                 });
 
-                //Anywhere click close the error message tooltip while create activity
+                // Anywhere click close the error message tooltip while create activity
                 $('body').click(function (evt) {
                     if (evt.target.id === 'crActivityForm') {
                         return;
@@ -1701,7 +1704,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                 });
             });
 
-            //Hot fix to show the campaign tab selected
+            // Hot fix to show the campaign tab selected
             $('.main_navigation')
                 .find('.active')
                 .removeClass('active')
@@ -1721,4 +1724,5 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
                 });
             });
         });
-});
+    }
+);

@@ -1,23 +1,27 @@
-define(['../app','login/login_service','common/utils','common/services/constants_service', // jshint ignore:line
+define(['../app','login/login_service','common/utils','common/services/constants_service',
     'common/services/role_based_service','login/login_model'],function (app) {
     'use strict';
 
     app.controller('loginController', function ($scope, $sce, loginService, utils, constants, RoleBasedService,
                                                 loginModel) {
         var browserNameList = '',
+
             supportedBrowser = [
                 {
                     name: 'Chrome',
                     version: 36
                 },
+
                 {
                     name: 'Firefox',
                     version: 35
                 },
+
                 {
                     name: 'Internet Explorer',
                     version: 10
                 },
+
                 {
                     name: 'Safari',
                     version: 8
@@ -28,7 +32,7 @@ define(['../app','login/login_service','common/utils','common/services/constants
         $scope.loadingClass = '';
         $scope.loginErrorMsg = undefined;
         $scope.loginError = false;
-        $scope.version = version; // jshint ignore:line
+        $scope.version = version;
         $scope.showMessage = undefined;
         $scope.browserMessage = undefined;
         $scope.disabledFormFields = undefined;
@@ -92,8 +96,9 @@ define(['../app','login/login_service','common/utils','common/services/constants
         $scope.getBrowserNameList = function (supportedBrowser) {
             var lastCommaIndex;
 
-            browserNameList = _.pluck(supportedBrowser, 'name').join(','); // jshint ignore:line
+            browserNameList = _.pluck(supportedBrowser, 'name').join(',');
             lastCommaIndex = browserNameList.lastIndexOf(',');
+
             browserNameList = browserNameList.substr(0, lastCommaIndex) + ' or ' +
                 browserNameList.substr(lastCommaIndex + 1);
 
@@ -102,7 +107,8 @@ define(['../app','login/login_service','common/utils','common/services/constants
 
         $scope.checkoutBrowserInfo = function () {
             var browserInfo = utils.detectBrowserInfo(),
-                findData = _.where(supportedBrowser, { // jshint ignore:line
+
+                findData = _.where(supportedBrowser, {
                     name: browserInfo.browserName
                 });
 
@@ -117,21 +123,27 @@ define(['../app','login/login_service','common/utils','common/services/constants
                 } else {
                     if (findName === 'Internet Explorer') {
                         $scope.showMessage = true;
+
                         $scope.browserMessage = 'Unfortunately, we do not support your browser. Please upgrade to IE ' +
                             findVersion + '.';
+
                         $scope.disabledFormFields = true;
                     } else {
                         $scope.showMessage = true;
+
                         $scope.browserMessage = 'Best viewed in ' + findName + ' version ' + findVersion +
                             ' and above. Please upgrade your browser.';
+
                         $scope.disabledFormFields = false;
                     }
                 }
             } else {
-                //unsupported Browser
+                // unsupported Browser
                 $scope.showMessage = true;
+
                 $scope.browserMessage = 'Unfortunately, we don\'t yet support your browser. Please use ' +
                     $scope.getBrowserNameList(supportedBrowser);
+
                 $scope.disabledFormFields = true;
             }
         };

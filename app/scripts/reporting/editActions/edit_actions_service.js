@@ -1,4 +1,4 @@
-define(['angularAMD', '../../common/services/data_service', 'common/services/url_service'], // jshint ignore:line
+define(['angularAMD', '../../common/services/data_service', 'common/services/url_service'],
     function (angularAMD) {
         'use strict';
 

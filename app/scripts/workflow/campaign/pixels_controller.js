@@ -49,7 +49,7 @@ define(['angularAMD', '../services/workflow_service', 'common/moment_utils'], fu
         $scope.selectedCampaign.pixelList = [];
         $scope.selectAllPixelsChecked = false;
 
-        //select or unselect indiviual pixels
+        // select or unselect indiviual pixels
         $scope.$parent.selectPixel = function (pixel) {
             if (pixel) {
                 var index,
@@ -79,8 +79,9 @@ define(['angularAMD', '../services/workflow_service', 'common/moment_utils'], fu
         $scope.selectAllPixel = function (event) {
             var i;
 
-            //empty the selected pixel array before populating/empting it with all the pixel
+            // empty the selected pixel array before populating/emptying it with all the pixel
             $scope.selectedCampaign.selectedPixel = [];
+
             $scope.selectAllPixelChecked = event.target.checked;
 
             if ($scope.selectAllPixelChecked) {
@@ -90,7 +91,8 @@ define(['angularAMD', '../services/workflow_service', 'common/moment_utils'], fu
                     $scope.selectedCampaign.pixelList[i].isIncluded = true;
                 }
             } else {
-                pixels.resetPixel(); // deselect all
+                // deselect all
+                pixels.resetPixel();
             }
         };
 

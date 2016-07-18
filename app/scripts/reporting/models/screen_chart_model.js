@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/vistoconfig_service','common/services/data_service', // jshint ignore:line
+define(['angularAMD', 'common/services/vistoconfig_service','common/services/data_service',
     'reporting/brands/brands_model','reporting/dashboard/dashboard_model','common/services/constants_service',
     'login/login_model','common/services/role_based_service', 'reporting/advertiser/advertiser_model',
     'common/services/vistoconfig_service','reporting/subAccount/sub_account_service'], function (angularAMD) {
@@ -30,19 +30,19 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
 
                 mapper =  {
                     spend: 'spend',
-                    'action rate' : 'action_rate'
+                    'action rate': 'action_rate'
                 },
 
                 screenTypeMap = vistoconfig.screenTypeMap,
                 formatTypeMap = vistoconfig.formatTypeMap,
-                usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().uiExclusions;
+                usrRole = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().uiExclusions;
 
             if (usrRole && usrRole.ui_modules) {
                 screenWidgetData.formatDropDown =
-                    _.filter(screenWidgetData.formatDropDown, function (obj) { // jshint ignore:line
+                    _.filter(screenWidgetData.formatDropDown, function (obj) {
                         obj = obj.slice(0, obj.length-1);
 
-                        return _.indexOf(usrRole.ui_modules, obj.toLowerCase()) === -1; // jshint ignore:line
+                        return _.indexOf(usrRole.ui_modules, obj.toLowerCase()) === -1;
                     });
             }
 
@@ -51,15 +51,15 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
 
                     modify = function (obj, platformData, key) {
                         // Step 1 Data Mod holds value on memory
-                        _.each(obj, function (pltformObj) { // jshint ignore:line
-                            _.each(pltformObj.platforms, function (platform) { // jshint ignore:line
+                        _.each(obj, function (pltformObj) {
+                            _.each(pltformObj.platforms, function (platform) {
                                 platformData[key].push(platform);
                             });
                         });
                     };
 
                 if (data  && data.platform_metrics) {
-                    _.each(data.platform_metrics, function (obj, idx) { // jshint ignore:line
+                    _.each(data.platform_metrics, function (obj, idx) {
                         platformData[idx] = [];
                         modify(obj, platformData, idx);
                     });
@@ -72,7 +72,7 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
                 var screenAndFormatData;
 
                 if (data && data.length > 0  && data[0].perf_metrics) {
-                    screenAndFormatData = _.filter(data[0].perf_metrics, function (obj) { // jshint ignore:line
+                    screenAndFormatData = _.filter(data[0].perf_metrics, function (obj) {
                         return obj.dimension.toLowerCase() !== 'unknown';
                     });
                 }
@@ -88,7 +88,7 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
                     value,
 
                     screenBarChartConfig = {
-                        widgetName:selectedFormat,
+                        widgetName: selectedFormat,
                         barHeight: 8,
                         gapScreen: 70,
                         widthToSubtract: 88,
@@ -99,29 +99,29 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
                     kpiModel = this.getScreenWidgetMetric().toLowerCase(),
                     selectedMetricKey =  mapper[kpiModel] || kpiModel.toLowerCase(),
                     calValMetricKey = selectedMetricKey,
-                    values = _.compact(_.pluck(data, calValMetricKey)), // jshint ignore:line
+                    values = _.compact(_.pluck(data, calValMetricKey)),
 
-                    total = _.reduce(values, function (sum, num) { // jshint ignore:line
+                    total = _.reduce(values, function (sum, num) {
                         return sum + num;
                     }, 0);
 
                 if (data) {
                     selectedMetricKey =  mapper[kpiModel] || kpiModel.toLowerCase();
-                    sortedData =  _.sortBy(data, selectedMetricKey); // jshint ignore:line
+                    sortedData =  _.sortBy(data, selectedMetricKey);
 
                     sortedData = (kpiModel.toLowerCase() === 'cpa' ||
                         kpiModel.toLowerCase() === 'cpm' ||
                         kpiModel.toLowerCase() === 'cpc') ?
                         sortedData : sortedData.reverse();
 
-                    sortedData = _.sortBy(sortedData, function (obj) { // jshint ignore:line
+                    sortedData = _.sortBy(sortedData, function (obj) {
                         return obj[kpiModel] === 0;
                     });
 
                     dataToDisplayOnWidget  = sortedData.slice(0, 3);
                 }
 
-                _.each(dataToDisplayOnWidget, function (eachObj) { // jshint ignore:line
+                _.each(dataToDisplayOnWidget, function (eachObj) {
                     var cls = '',
                         type = '',
                         iconUrl;
@@ -130,7 +130,7 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
                         cls = screenTypeMap[eachObj.screen_type.toLowerCase()];
                         type = eachObj.screen_type;
                     } else if (selectedFormat.toLowerCase() === 'formats') {
-                        //It removes empty space and makes a single word and then convert to lower case
+                        // It removes empty space and makes a single word and then convert to lower case
                         cls = formatTypeMap[eachObj.ad_format.replace(/ /g,'').toLowerCase()];
 
                         type = $filter('toPascalCase')(eachObj.ad_format.toLowerCase());
@@ -173,7 +173,7 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
             this.getScreenChartData = function () {
                 var selectedFormat = this.getScreenWidgetFormat(),
 
-                    //dashboard_hardware_categories
+                    // dashboard_hardware_categories
                     queryId = 1,
 
                     brandId,
@@ -182,10 +182,10 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
                     url;
 
                 if (selectedFormat === constants.FORMATS) {
-                    //dashboard_ad_format
+                    // dashboard_ad_format
                     queryId = 2;
                 } else if (selectedFormat === constants.PLATFORMS) {
-                    //dashboard_platform
+                    // dashboard_platform
                     queryId = 3;
                 }
 
@@ -193,11 +193,11 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
                 advertiserId = advertiserModel.getSelectedAdvertiser().id;
 
                 queryObj = {
-                   queryId:  queryId,
+                   queryId: queryId,
                    clientId: subAccountModel.getDashboardAccountId(),
-                   campaignStatus:  dashboardModel.campaignStatusToSend(),
+                   campaignStatus: dashboardModel.campaignStatusToSend(),
                    advertiserId: advertiserId,
-                   brandId:  brandId,
+                   brandId: brandId,
                    dateFilter: 'life_time'
                 };
 

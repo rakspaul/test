@@ -1,4 +1,4 @@
-define(['angularAMD'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD'], function (angularAMD) {
     'use strict';
     angularAMD.value('campaignModel', function () {
         // following variables are returned by API
@@ -42,7 +42,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
             this.campaignStrategiesLoadMore = null;
         };
 
-        // following are redundant variables and should be removed from single campaign object as they are
+        // TODO: following are redundant variables and should be removed from single campaign object as they are
         // properties of campaign list.
         this.periodStartDate = '';
         this.periodEndDate = '';
@@ -76,7 +76,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
             }
 
             if (startDate.isSame(today)) {
-                //campaign starting today
+                // campaign starting today
                 return 'Started today';
             }
 

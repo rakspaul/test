@@ -70,7 +70,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             workflowService
                 .getClientData(clientId)
                 .then(function (response) {
-                    //set the type of user here in RoleBasedService.js
+                    // set the type of user here in RoleBasedService.js
                     RoleBasedService.setClientRole(response);
                     RoleBasedService.setCurrencySymbol();
                     featuresService.setFeatureParams(response.data.data.features, 'headercontroller');
@@ -474,7 +474,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 }
             });
 
-            //Mobile Menu
+            // Mobile Menu
             $scope.mobileMenuShow = function () {
                 var winHeightMaster = $('.bodyWrap').height(),
                     mobileHideFunc = $('.mobileHideFunc'),

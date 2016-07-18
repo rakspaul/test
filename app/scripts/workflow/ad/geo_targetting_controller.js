@@ -26,12 +26,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             },
 
             geoTargeting = {
-                //get ads data
+                // get ads data
                 getAdsDetails: function () {
                     return workflowService.getAdsDetails();
                 },
 
-                //reset all geoData
+                // reset all geoData
                 resetGeoData: function () {
                     $scope.geoData.countries.data = [];
                     $scope.geoData.regions.data = [];
@@ -39,7 +39,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     $scope.geoData.dmas.data = [];
                 },
 
-                //reset selected geoData
+                // reset selected geoData
                 resetSelectedGeoData: function () {
                     $scope.geoData.countries.selected = [];
                     $scope.geoData.regions.selected = [];
@@ -51,7 +51,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     $('.searchBox').val('');
                 },
 
-                //update query params
+                // update query params
                 updateParams: function (params, type) {
                     if (type) {
                         _.extend($scope.geoData[type].queryParams, params);
@@ -60,9 +60,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     }
                 },
 
-                //get search box value
+                // get search box value
                 searchGeo: function (searchtxt, type) {
-                    //reset geoData array
+                    // reset geoData array
                     this.resetGeoData();
                     $scope.geoData[type].queryParams = _.extend({}, defaultParams);
                     this.updateParams({'query': searchtxt}, type);
@@ -71,7 +71,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     geoTargeting[type].list('cancellable');
                 },
 
-                //build query string for $http
+                // build query string for $http
                 buildQueryString: function (params) {
                     var queryString = '?';
 
@@ -296,7 +296,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 regionWrapper: function (geoItem, idx) {
                     _.each(geoItem.data, function (item) {
-                        //check if geoItem country is there in countries selected array
+                        // check if geoItem country is there in countries selected array
                         var countryLen,
 
                             pos = _.findIndex($scope.geoSelectedItems[idx].countries,
@@ -347,7 +347,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                             $scope.geoSelectedItems[idx].countries = [];
                         }
 
-                        //check if geoItem country is there in countries selected array
+                        // check if geoItem country is there in countries selected array
                         pos = _.findIndex($scope.geoSelectedItems[idx].countries,
                             function (obj) {
                                 return item.countryCode === obj.countryCode;
@@ -929,7 +929,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
             },
 
-            //For GEO - Countries related methods
+            // For GEO - Countries related methods
             countriesWrapper = {
                 setData : function (bool, data,  isIncluded) {
                     var countryData = $.extend(true, [], data);
@@ -993,7 +993,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 }
             },
 
-            //For GEO - Regions related methods
+            // For GEO - Regions related methods
             regionsWrapper = {
                 setData : function (bool, data, isIncluded) {
                     var regionData = $.extend(true, [], data);
@@ -1095,7 +1095,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 return tmpArr;
             },
 
-            //For GEO - Cities related methods
+            // For GEO - Cities related methods
             citiesWrapper = {
                 setData : function (bool, data, isIncluded) {
                     var cityData = $.extend(true, [], data);
@@ -1214,7 +1214,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 }
             },
 
-            //For DMAs - related methods
+            // For DMAs - related methods
             dmasWrapper = {
                 setData : function (bool, data, isIncluded) {
                     var dmaData = $.extend(true, [], data);
@@ -1293,7 +1293,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 }
             },
 
-            //For DMAs - related methods
+            // For DMAs - related methods
             zipWrapper = {
                 setData : function (data) {
                     var zipEditableObj,
@@ -1354,15 +1354,15 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $scope.divHeightCalculation();
         });
 
-        //Geo
+        // Geo
         geoTargeting.countries = countriesWrapper;
         geoTargeting.regions = regionsWrapper;
         geoTargeting.cities = citiesWrapper;
 
-        //DMAs
+        // DMAs
         geoTargeting.dmas = dmasWrapper;
 
-        //this is temp redirect to targetting screen
+        // this is temp redirect to targetting screen
         $scope.showTargettingScreen = function () {
             if ($scope.zipCodesObj) {
                 $scope.zipCodesObj.info = [];
@@ -1531,23 +1531,23 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }
         };
 
-        //reset search countries/regions/cities
+        // reset search countries/regions/cities
         $scope.resetGeoSearch = function (event) {
             var target = $(event.target),
                 parentElem = target.parents().find('.searchBox'),
 
-                //search type can be countries/regions/cities
+                // search type can be countries/regions/cities
                 searchType = parentElem.attr('data-searchfield');
 
             target.hide();
             parentElem.val('');
             $scope.searchKeyword = null;
 
-            //clear the searchbox value
+            // clear the searchbox value
             geoTargeting.searchGeo('', searchType);
         };
 
-        //search countries/regions/cities
+        // search countries/regions/cities
         $scope.search = function (event, searchtxt) {
             var target = $(event.currentTarget),
                 searchType;
@@ -1566,7 +1566,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }
         };
 
-        //On scroll dynamically loading more countries/regions/cities.
+        // On scroll dynamically loading more countries/regions/cities.
         $scope.loadMoreGeoData = function () {
             var type = $scope.selectedSubTab,
                 geoData = $scope.geoData[type].data,
@@ -1579,7 +1579,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }
         };
 
-        //show country/region and city container
+        // show country/region and city container
         $scope.showRespectiveTabContent = function (event, tabType) {
             /*
              * show tooltip in two cases
@@ -1620,10 +1620,10 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             elem.closest('.btn-group').find('.active').removeClass('active');
             elem.addClass('active');
 
-            //reseting search value
+            // reseting search value
             geoTargeting.resetSearchValue();
 
-            //reseting geo targeting data
+            // reseting geo targeting data
             geoTargeting.resetGeoData();
 
             $scope.selectedSubTab = tabType;
@@ -1648,7 +1648,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.showGeographyTabsBox = function (event, tabType, showPopup) {
             var elem;
 
-            //reseting search value
+            // resetting search value
             geoTargeting.resetSearchValue();
 
             $scope.enableZipCodePopUp = false;
@@ -1709,7 +1709,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $('#' + tabType).show();
         };
 
-        //sorting geo data
+        // sorting geo data
         $scope.sortGeoData = function (event) {
             var type = $scope.selectedSubTab,
                 parentElem = $(event.target).parent(),
@@ -1771,14 +1771,14 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 }
 
                 if (type === 'regions') {
-                    //filter all regions
+                    // filter all regions
                     geoTargeting.selectedGeoItemArr = _.filter(
                         geoTargeting.selectedGeoItemArr,
                         function (obj) {
                             return obj.id !== item.id;
                         });
 
-                    //filter all cities within the region
+                    // filter all cities within the region
                     geoTargeting.selectedGeoItemArr = _.filter(
                         geoTargeting.selectedGeoItemArr,
                         function (obj) {
@@ -1946,33 +1946,33 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 // do nothing just wait and watch
                 console.log('Do nothing, just wait and watch...');
             } else {
-                //Geo Data Variables
+                // Geo Data Variables
                 $scope.geoData = {};
                 $scope.geoData.countries = {};
                 $scope.geoData.regions = {};
                 $scope.geoData.cities = {};
 
-                //Dma Data Variables
+                // Dma Data Variables
                 $scope.geoData.dmas = {};
 
-                //Zip Data Variables
+                // Zip Data Variables
                 $scope.geoData.zip = {};
 
-                //Selected Geo Data
+                // Selected Geo Data
                 $scope.geoData.countries.selected = [];
                 $scope.geoData.regions.selected = [];
                 $scope.geoData.cities.selected = [];
 
-                //selected DMA Data
+                // selected DMA Data
                 $scope.geoData.dmas.selected = [];
 
-                //selected Zip Code
+                // selected Zip Code
                 $scope.geoData.zip.selected = [];
 
-                //include switch button flag
+                // include switch button flag
                 $scope.geoData.countries.included = true;
 
-                //Tab Related Variables.
+                // Tab Related Variables.
                 $scope.selectedMainTab = 'geo';
                 $scope.selectedSubTab = 'countries';
 
@@ -1998,7 +1998,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             geoTargets = $scope.storedResponse && $scope.storedResponse.targets.geoTargets;
             geoTargeting.toggleSwitch('on', 'geo');
 
-            //get save data form service
+            // get save data form service
             saveGeoData = workflowService.getSavedGeo() && workflowService.getSavedGeo().original;
 
             if (saveGeoData &&
@@ -2064,7 +2064,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     zipWrapper.setData(saveGeoData.zip.selected);
                 }
             } else if (geoTargets && _.size(geoTargets) > 0) {
-                //get geo Data form ads Data
+                // get geo Data form ads Data
                 if (geoTargets && geoTargets.COUNTRY) {
                     $scope.geoData.countries.selected = [];
                     countryIncluded = geoTargets.COUNTRY.isIncluded;
@@ -2119,13 +2119,13 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     zipWrapper.setData(geoTargets.ZIP_CODE.geoTargetList);
                 }
             } else {
-                //on load reset geo targeting variables.
+                // on load reset geo targeting variables.
                 $scope.resetGeoTargeting();
                 geoTargeting.triggerGeoNavTab('geo');
                 geoTargeting.toggleSwitch('on', 'geo');
             }
 
-            //binding chnage event on switch
+            // binding chnage event on switch
             $('.toggle-event').change(function (event) {
                 var isChecked,
                     target,
@@ -2145,15 +2145,15 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 }
             });
 
-            //show geoTargeting Container
+            // show geoTargeting Container
             geoTargeting.show();
         });
 
-        //on load reset geo targeting variables.
+        // on load reset geo targeting variables.
         workflowService.resetSavedGeo();
         $scope.resetGeoTargeting();
 
-        //reset geo targeting variables.
+        // reset geo targeting variables.
         $scope.$on('reset.Geo', function () {
             $scope.resetGeoTargeting();
         });

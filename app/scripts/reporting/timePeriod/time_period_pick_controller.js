@@ -1,5 +1,5 @@
-define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore:line
-    'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services/constants_service'],
+    function (angularAMD) {
     'use strict';
 
     angularAMD.controller('TimePeriodPickController', function ($scope, $rootScope, timePeriodModel, constants) {
@@ -30,11 +30,11 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
             $scope.reports.schedule.startDate = datesFromLocStore;
             $scope.reports.schedule.endDate = endDatesFromLocStore;
         } else {
-            $scope.reports.schedule.startDate = moment() // jshint ignore:line
+            $scope.reports.schedule.startDate = moment()
                 .subtract(0, 'days').
                 format(constants.DATE_UTC_SHORT_FORMAT);
 
-            $scope.reports.schedule.endDate = moment() // jshint ignore:line
+            $scope.reports.schedule.endDate = moment()
                 .subtract(0, 'days')
                 .format(constants.DATE_UTC_SHORT_FORMAT);
         }
@@ -63,26 +63,24 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore
 
             startDateInput.datepicker(
                 'setEndDate',
-                moment() // jshint ignore:line
+                moment()
                     .subtract(0, 'days').
                     format(constants.DATE_UTC_SHORT_FORMAT)
             );
 
             startDateInput.datepicker(
                 'update',
-                moment() // jshint ignore:line
+                moment()
                     .subtract(0, 'days')
                     .format(constants.DATE_UTC_SHORT_FORMAT)
             );
 
             $('#endDateInput').datepicker(
                 'update',
-                moment() // jshint ignore:line
+                moment()
                     .subtract(0, 'days')
                     .format(constants.DATE_UTC_SHORT_FORMAT)
             );
         });
-
-
     });
 });

@@ -1,4 +1,4 @@
-define(['angularAMD'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
     angularAMD.factory('solidGaugeChart', function () {
@@ -76,10 +76,10 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
                         lineColor: 'transparent',
                         minorTickLength: 0,
 
-                        //supply value from API
+                        // supply value from API
                         tickInterval: viewabilityData.pct_total,
 
-                        //from api 67%
+                        // from api 67%
                         tickPositions: [viewabilityData.pct_total],
                         tickColor: '#000000',
                         tickPosition: 'outside',

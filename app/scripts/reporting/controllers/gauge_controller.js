@@ -1,15 +1,16 @@
-define(['angularAMD', '../common/d3/gauge', 'reporting/models/gauge_model', // jshint ignore:line
-    'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD', '../common/d3/gauge', 'reporting/models/gauge_model', 'common/services/constants_service'],
+    function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('GaugeController', function ($scope, $rootScope,$window, $location, gauge, gaugeModel,
+    angularAMD.controller('GaugeController', function ($scope, $rootScope, $window, $location, gauge, gaugeModel,
                                                        constants) {
         var campaigns = '/mediaplans';
+
         gauge.setLeftArcClickHandler(function () {
             gaugeModel.dashboard.selectedFilter = constants.ACTIVE_ONTRACK;
             $location.path(campaigns);
 
-            //TODO we need to remove this, added because of removing the hashtag
+            // TODO: we need to remove this, added because of removing the hashtag
             $scope.$apply();
         });
 
@@ -17,7 +18,7 @@ define(['angularAMD', '../common/d3/gauge', 'reporting/models/gauge_model', // j
             gaugeModel.dashboard.selectedFilter = constants.ACTIVE_UNDERPERFORMING;
             $location.path(campaigns);
 
-            //TODO we need to remove this, added because of removing the hashtag
+            // TODO: we need to remove this, added because of removing the hashtag
             $scope.$apply();
         });
 
@@ -34,19 +35,24 @@ define(['angularAMD', '../common/d3/gauge', 'reporting/models/gauge_model', // j
 
         function getGaugeData() {
             $scope.perfBusy = true;
-            gaugeModel.getGaugeData().then(function (result) {
-                $scope.perfBusy = false;
-                if (result.campaignsFoundForSetKPI) {
-                    $scope.dataFound = true;
-                    gauge.updateGauge(constants.GAUGE_PERFORMANCE, result);
-                } else {
-                    $scope.message = constants.MSG_NO_CAMPAIGNS_WITH_SET_KPI;
-                    $scope.dataFound = false;
-                }
-            });
+
+            gaugeModel
+                .getGaugeData()
+                .then(function (result) {
+                    $scope.perfBusy = false;
+
+                    if (result.campaignsFoundForSetKPI) {
+                        $scope.dataFound = true;
+                        gauge.updateGauge(constants.GAUGE_PERFORMANCE, result);
+                    } else {
+                        $scope.message = constants.MSG_NO_CAMPAIGNS_WITH_SET_KPI;
+                        $scope.dataFound = false;
+                    }
+                });
         }
 
         getGaugeData();
+
         $scope.getMessageForDataNotAvailable = function () {
             return constants.MSG_NO_CAMPAIGNS_WITH_SET_KPI;
         };

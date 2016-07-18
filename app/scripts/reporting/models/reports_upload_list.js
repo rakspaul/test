@@ -1,4 +1,4 @@
-define(['angularAMD'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD'], function (angularAMD) {
     angularAMD.factory('reportsUploadList', function () {
         var files = {};
 

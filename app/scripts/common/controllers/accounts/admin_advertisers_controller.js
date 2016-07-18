@@ -48,7 +48,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $('.each_nav_link').removeClass('active_tab');
         $('#admin_nav_link').addClass('active_tab');
 
-        //Responsive Height
+        // Responsive Height
         $('.table-responsive .tbody').css('min-height', winHeight - 380);
 
         $scope.advertisersData = [];
@@ -188,7 +188,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.advertiserCodeExist = false;
         };
 
-        //Search Clear
+        // Search Clear
         $scope.searchHideInput = function () {
             $('.searchInputForm input').val('');
             $scope.advertisersData = _curCtrl.advertisersData;

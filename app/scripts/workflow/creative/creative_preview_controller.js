@@ -33,7 +33,7 @@ define(['angularAMD', '../services/workflow_service', 'login/login_model', 'repo
                         if (!extractTagUrl(tag)) {
                             $scope.creativePreviewUrl = false;
                         } else {
-                            //setting creative tag in local storage to use while video preview.
+                            // setting creative tag in local storage to use while video preview.
                             localStorage.setItem('creativeTag', extractTagUrl(tag));
 
                             iFrame.src = '/views/workflow/vast-video-preview.html';

@@ -1,4 +1,4 @@
-define(['angularAMD','../../login/login_model', 'reporting/models/screen_chart_model', // jshint ignore:line
+define(['angularAMD','../../login/login_model', 'reporting/models/screen_chart_model',
     'common/services/constants_service'], function (angularAMD) {
     'use strict';
 
@@ -64,12 +64,13 @@ define(['angularAMD','../../login/login_model', 'reporting/models/screen_chart_m
         };
 
         $scope.cleanScreenWidget = function () {
-            d3.select('.barChart').remove(); // jshint ignore:line
+            d3.select('.barChart').remove();
             $('.DashBoradScreenWidget').hide();
         };
 
         $scope.getScreenAndFormatData = function () {
             $scope.screenBusy = true;
+
             screenChartModel
                 .getScreenChartData()
                 .then(function () {

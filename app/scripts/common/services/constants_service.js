@@ -508,7 +508,7 @@ define(['angularAMD'], function(angularAMD) {
 
         this.QUARTILE_DATA = 'Quartile Data';
 
-        //workflow related variables
+        // workflow related variables
         this.WF_CREATE_CAMPAIGN = 'Media Plan Setup';
         this.UPLOAD_TEMPLATE = 'Upload Template';
         this.CREATE = 'Create';
@@ -710,7 +710,7 @@ define(['angularAMD'], function(angularAMD) {
         this.QUERY_ID_CAMPAIGN_QUALITY = 12;
         this.QUERY_ID_CAMPAIGN_REPORTS_FOR_OPTIMIZATION_IMPACT = 33;
 
-        //Create Media Plan
+        // Create Media Plan
         this.MP_TITLE = 'Media Plan Setup';
         this.MP_BUDGET = 'Budget';
         this.MP_CONTACTS = 'Contacts';
@@ -748,7 +748,7 @@ define(['angularAMD'], function(angularAMD) {
         this.IMPRESSION_PER_USER_MESSAGE =
             'you must enter impression per user less than or equal to total ad impression';
 
-        //Ad Create: Header
+        // Ad Create: Header
         this.OBJECTIVES = 'Objectives';
         this.DELBUDGET = 'Delivery Budget';
         this.FLIGHTDATES = 'Flight Dates';
@@ -757,7 +757,7 @@ define(['angularAMD'], function(angularAMD) {
         this.ADS = 'Ads';
         this.CREATIVES = 'Creatives';
 
-        //Ad Create: Sidebar
+        // Ad Create: Sidebar
         this.ADSETUP = 'Ad Setup';
         this.ADTYPESIDE = '1. Ad Type';
         this.NOTSET = 'Not Set';
@@ -776,13 +776,13 @@ define(['angularAMD'], function(angularAMD) {
         this.INVENTORYSIDE = '5. Inventory Filters';
         this.CREATIVESIDE = '6. Creative';
 
-        //Ad Create: 1 Ad Type
+        // Ad Create: 1 Ad Type
         this.SELECTADTYPE = 'Select Ad Type';
         this.LEARNADTYPES = 'Learn more about Ad Types';
         this.NAMEOFAD = 'What is the name of your Ad?';
         this.LABEL = 'Add labels';
 
-        //Ad Create: 2 Budget & Delivery
+        // Ad Create: 2 Budget & Delivery
         this.SETBUDGET = 'Budget & Delivery';
         this.LEARNMOREADSET = 'Learn more about Ad Settings';
         this.WHENADRUN = 'What are your flight and delivery settings?';
@@ -811,7 +811,7 @@ define(['angularAMD'], function(angularAMD) {
         this.TARGETVALUE = 'Target Value';
         this.RATE = 'Rate';
 
-        //Ad Create: 3 Buying Platform
+        // Ad Create: 3 Buying Platform
         this.SELECTBUYPLAT = 'Select Buying Platform';
         this.FULLINT = 'Full Integrations';
         this.SELECTAPLAT = 'Select a Buying Platform';
@@ -824,7 +824,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CHGPLAT = 'Change Platform?';
         this.OKAY = 'Okay';
 
-        //Ad Create: 4 Targeting
+        // Ad Create: 4 Targeting
         this.SETTARGETING = 'Set Targeting';
         this.TARGETAUDCHOOSE = 'Which target audience should I choose for my ad?';
 
@@ -848,7 +848,7 @@ define(['angularAMD'], function(angularAMD) {
         this.YES = 'Yes';
         this.NO = 'No';
 
-        //Ad Create: 5 Inventory Filters
+        // Ad Create: 5 Inventory Filters
         this.SETFILTERS = 'Set Inventory Filters';
         this.HOWMANINVENFILTERS = 'Which Inventory Filters should I use?';
         this.SELECTEXISTING = 'Select from Existing';
@@ -876,7 +876,7 @@ define(['angularAMD'], function(angularAMD) {
         this.INVENTORY_SELECT_FROM_EXISTING = 'Select from Existing';
         this.ACTIVITIES = 'Activities';
 
-        //Ad Create: 6 Creative
+        // Ad Create: 6 Creative
         this.ADDCREATIVETAG = 'Add Creative';
         this.ADDINGTHIRD = 'Adding third party Creative Tags';
         this.ADDEXISTNG = 'Add from Existing';
@@ -895,7 +895,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CHOOSE_FILTER = 'Choose filter';
         this.SELECT = 'Select';
 
-        //User Creation
+        // User Creation
         this.super_admin = '1';
         this.account_admin = '2';
         this.advertiser_admin = '3';
@@ -909,7 +909,7 @@ define(['angularAMD'], function(angularAMD) {
         this.ADVERTISER_CODE_EXIST = 'Please choose a different Advertiser Code.';
         this.CODE_VERIFICATION = 'Please enter valid 5 alphanumeric characters';
 
-        //Overview Page
+        // Overview Page
         this.ADVERTISER = 'Advertiser';
         this.BRAND = 'Brand';
         this.EDIT = 'Edit';
@@ -980,13 +980,13 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIA_PLAN_REPORTS = 'Media Plan Reports';
         this.CREATIVES = 'Creatives';
 
-        //media plans
+        // media plans
         this.NO_CATEGORY_FOR_SELECTED_ADVERISER = 'No category available for selected advertiser.';
         this.CPA_CONVERSION_MESSAGE =
             'All conversion pixels set for CPA line items in your spreadsheet will be automatically associated with ' +
             'this Media Plan.';
 
-        //Overview: Create Ad Groups
+        // Overview: Create Ad Groups
         this.CREATEADGROUP = 'Create Ad Group';
         this.WHATADGROUPNAME = 'What is your Ad Group name?';
         this.ADGROUPNAME = 'Ad Group Name';
@@ -1003,7 +1003,7 @@ define(['angularAMD'], function(angularAMD) {
         this.LINE_ITEM = 'Line Item';
         this.MAX_YOU_CAN_SPEND = 'What\'s the maximum you can spend for your Ad Group?';
 
-        //Audience Targeting
+        // Audience Targeting
         this.SAVEAUD = 'Save Audience';
         this.SELSEGMENTS = 'Select Segments';
         this.OPTIONALPAR = '(Optional)';
@@ -1020,7 +1020,7 @@ define(['angularAMD'], function(angularAMD) {
         this.SELECTED_PLACEMENTS = 'Selected Placements';
         this.DONE = 'Done';
 
-        //Day Targeting
+        // Day Targeting
         this.DAYPART = 'Daypart';
 
         this.DAFAULTADNOTE =
@@ -1055,7 +1055,7 @@ define(['angularAMD'], function(angularAMD) {
         this.SATURDAY = 'Saturday';
         this.TO = 'to';
 
-        //Geo Targeting
+        // Geo Targeting
         this.GEOGRAPHY = 'Geography';
         this.SAVE_GEOGRAPHY = 'Save Geography';
         this.COUNTRY = 'Country';
@@ -1092,7 +1092,7 @@ define(['angularAMD'], function(angularAMD) {
         this.SEARCHFORREGIONANDCITY = 'Search for regions or cities';
         this.SEARCHFORREGION = 'Search for regions';
 
-        //Audience Targeting
+        // Audience Targeting
         this.DEFAULTANDORSTATUS = 'Or';
         this.timeFrameStartDateGreater = 'Timeframe Start date can not be greater than end date';
         this.requiredTimeFrameDates = 'Please provide timeframe dates';
@@ -1137,7 +1137,7 @@ define(['angularAMD'], function(angularAMD) {
         this.VIDEO_PLACENMENT_AND_PLAYERS =
             'Specify the types of placements and players where you would like your video ad to appear';
 
-        //Creative List
+        // Creative List
         this.NEWCREATIVEALERT = 'New Creative has been created successfully.';
         this.CREATIVELIBRARY = 'Creative Library';
         this.CREATE = 'Create';
@@ -1160,8 +1160,8 @@ define(['angularAMD'], function(angularAMD) {
         this.CREATIVESDELETE = 'Archive Creatives';
         this.TAB_CHANGED = 'tab_changed';
 
-       // this.EVENT_CLIENT_CHANGED = 'eventClientChanged';
-        //this.EVENT_CLIENT_CHANGED_FROM_DASHBOARD = 'advertiserChangedFromDashboard';
+        // this.EVENT_CLIENT_CHANGED = 'eventClientChanged';
+        // this.EVENT_CLIENT_CHANGED_FROM_DASHBOARD = 'advertiserChangedFromDashboard';
         this.INVOICE_ADJUSTMENT_FIELD_EMPTY = 'Please enter valid Type, Notes, Amounts';
 
         this.EVENT_SUB_ACCOUNT_CHANGED = 'eventSubAccountChanged';

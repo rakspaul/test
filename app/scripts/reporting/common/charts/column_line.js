@@ -1,4 +1,4 @@
-define(['angularAMD', '../../../common/utils', 'common/services/constants_service'], // jshint ignore:line
+define(['angularAMD', '../../../common/utils', 'common/services/constants_service'],
     function (angularAMD) {
         'use strict';
 
@@ -124,8 +124,7 @@ define(['angularAMD', '../../../common/utils', 'common/services/constants_servic
                                         }
 
                                         return '<div id="inventory_tooltip"" class="inventory-tool-tip">' +
-                                            return_val +
-                                            '</div>';
+                                            return_val + '</div>';
                                     } else {
                                         return  '';
                                     }
@@ -201,9 +200,11 @@ define(['angularAMD', '../../../common/utils', 'common/services/constants_servic
                                     title: {
                                         align: 'high',
                                         offset: 5,
+
                                         style :{
                                             color : '#181B20'
                                         },
+
                                         text: 'Imps',
                                         rotation: 0,
                                         y: -10,
@@ -258,13 +259,13 @@ define(['angularAMD', '../../../common/utils', 'common/services/constants_servic
                                 }
                             ],
 
-                            //Title configuration (optional)
+                            // Title configuration (optional)
                             title: {
                                 text: ' '
                             }
                         },
 
-                        //Series object (optional) - a list of series using normal highcharts series options.
+                        // Series object (optional) - a list of series using normal highcharts series options.
                         series: [
                             {
                                 name: '',
@@ -275,12 +276,14 @@ define(['angularAMD', '../../../common/utils', 'common/services/constants_servic
                                 events: {
                                     mouseOut: function (ev) {
                                         var $elem = $(ev.target.markerGroup.element).parents('.highcharts-container');
+
                                         $elem.find('.inventory-tool-tip').hide();
                                         $elem.find('.highcharts-tooltip').hide();
                                     },
 
                                     mouseOver: function (ev) {
                                         var $elem = $(ev.target.markerGroup.element).parents('.highcharts-container');
+
                                         $elem.find('.inventory-tool-tip').show();
                                         $elem.find('.highcharts-tooltip').show();
                                     }
@@ -312,7 +315,6 @@ define(['angularAMD', '../../../common/utils', 'common/services/constants_servic
 
                                 tooltip: {
                                     enabled: false
-
                                 },
 
                                 color: '#181B20',
@@ -330,10 +332,10 @@ define(['angularAMD', '../../../common/utils', 'common/services/constants_servic
                             }
                         ],
 
-                        //Boolean to control showng loading status on chart (optional)
+                        // Boolean to control showng loading status on chart (optional)
                         loading: false,
 
-                        //Whether to use HighStocks instead of HighCharts (optional). Defaults to false.
+                        // Whether to use HighStocks instead of HighCharts (optional). Defaults to false.
                         useHighStocks: false,
 
                         // size (optional) if left out the chart will default to size of the div or something sensible.

@@ -1,5 +1,5 @@
-define(['angularAMD', '../../common/utils', 'common/services/constants_service', // jshint ignore:line
-    'common/moment_utils'], function (angularAMD) {
+define(['angularAMD', '../../common/utils', 'common/services/constants_service', 'common/moment_utils'],
+    function (angularAMD) {
     'use strict';
 
     angularAMD.directive('campaignCostCard', function ($location, utils, constants, momentService) {
@@ -11,7 +11,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                 campaigns: '='
             },
 
-            templateUrl: assets.html_campaign_cost_card, // jshint ignore:line
+            templateUrl: assets.html_campaign_cost_card,
 
             link: function ($scope) {
                 $scope.textConstants = constants;
@@ -30,7 +30,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         expectedSpend;
 
                     if (campaign !== undefined) {
-                        //fix for initial loading
+                        // fix for initial loading
                         spendDifference = -999;
 
                         campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
@@ -110,7 +110,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                     }
                 };
 
-                $scope.getClassFromDiff = function (spendDifference,campaignEndDate) {
+                $scope.getClassFromDiff = function (spendDifference, campaignEndDate) {
                     var dateDiffInDays;
 
                     if (campaignEndDate !== undefined) {
@@ -118,7 +118,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                             momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), campaignEndDate);
                     }
 
-                    //fix for initial loading
+                    // fix for initial loading
                     if (spendDifference === -999) {
                         return '';
                     }
@@ -132,7 +132,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                             }
                         }
 
-                        //  past a campaign end date
+                        // past a campaign end date
                         if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), campaignEndDate) === true) {
                             return (spendDifference < -5 || spendDifference > 5) ? 'red' : 'blue';
                         }
@@ -175,7 +175,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                     }
                 };
 
-                //This is called when the user clicks on the campaign title
+                // This is called when the user clicks on the campaign title
                 $scope.goToLocation = function (url) {
                     utils.goToLocation(url);
                 };

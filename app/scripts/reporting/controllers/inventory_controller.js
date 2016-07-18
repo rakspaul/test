@@ -1,8 +1,8 @@
-define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:line
-    'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_service',
-    'reporting/common/charts/column_line', 'common/services/data_service', 'common/services/constants_service',
-    'reporting/timePeriod/time_period_model', 'login/login_model', 'reporting/advertiser/advertiser_model',
-    'reporting/brands/brands_model', 'common/services/url_service', 'reporting/kpiSelect/kpi_select_directive',
+define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model',
+    'reporting/strategySelect/strategy_select_service', 'reporting/common/charts/column_line',
+    'common/services/data_service', 'common/services/constants_service', 'reporting/timePeriod/time_period_model',
+    'login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
+    'common/services/url_service', 'reporting/kpiSelect/kpi_select_directive',
     'reporting/kpiSelect/kpi_select_controller', 'reporting/models/domain_reports',
     'reporting/strategySelect/strategy_select_directive', 'reporting/strategySelect/strategy_select_controller',
     'reporting/timePeriod/time_period_pick_directive'], function (angularAMD) {
@@ -13,8 +13,8 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
                                                            timePeriodModel, loginModel, advertiserModel,
                                                            brandsModel, urlService, domainReports) {
         var inventoryWrapper =  {
-            //Function called to draw the Strategy chart
-            getStrategyChartData : function () {
+            // Function called to draw the Strategy chart
+            getStrategyChartData: function () {
                 var inventoryQueryIdMapperWithAllAdsGroup = {
                         categories: 25,
                         domains: 27
@@ -25,14 +25,14 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
                         domains: 28
                     },
 
-                    datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
+                    dateFilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
 
                     param = {
                         campaignId: $scope.selectedCampaign.id,
                         clientId: loginModel.getSelectedClient().id,
                         advertiserId: advertiserModel.getSelectedAdvertiser().id,
                         brandId: brandsModel.getSelectedBrand().id,
-                        dateFilter: datefilter,
+                        dateFilter: dateFilter,
                         domain: $scope.selectedFilters_tab
                     },
 
@@ -71,26 +71,28 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
                                     if (Number($scope.selectedStrategy.id) >= 0) {
                                         // strategy selected
                                         $scope.strategyTableData =
-                                            _.filter(result.data.data, function (item) { // jshint ignore:line
+                                            _.filter(result.data.data, function (item) {
                                                 return item.ad_id === -1 && item.ad_group_id === -1;
                                             });
 
-                                        _.each($scope.strategyTableData, function (item) { // jshint ignore:line
+                                        _.each($scope.strategyTableData, function (item) {
                                             item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                         });
 
-                                        adsTempData = _.filter(result.data.data, function (item) { // jshint ignore:line
+                                        adsTempData = _.filter(result.data.data, function (item) {
                                             return item.ad_id !== -1 && item.ad_group_id !== -1;
                                         });
 
-                                        $scope.tacticListData = _.chain(adsTempData) // jshint ignore:line
+                                        $scope.tacticListData = _.chain(adsTempData)
                                             .groupBy('ad_name')
                                             .map(function (value, key) {
                                                 return {
-                                                    //get first element of ad_id array
-                                                    id: _.pluck(value, 'ad_id')[0], // jshint ignore:line
+                                                    // get first element of ad_id array
+                                                    id: _.pluck(value, 'ad_id')[0],
 
-                                                    name: key,//ad_name
+                                                    // ad_name
+                                                    name: key,
+
                                                     perf_metrics: value
                                                 };
                                             })
@@ -98,7 +100,8 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
                                         inventoryWrapper.getTacticsChartData();
                                     } else {
                                         $scope.strategyTableData = result.data.data;
-                                        _.each($scope.strategyTableData, function (item) { // jshint ignore:line
+
+                                        _.each($scope.strategyTableData, function (item) {
                                             item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                         });
                                     }
@@ -119,7 +122,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
                                     $scope.inventoryChart = false;
                                 }
                             } else {
-                                //api call doesn't return result data or returns empty invetory metrics data.
+                                // api call doesn't return result data or returns empty invetory metrics data.
                                 inventoryWrapper.errorHandler();
                             }
                         } else {
@@ -129,19 +132,19 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
                     }, inventoryWrapper.errorHandler);
             },
 
-            errorHandler : function (result) {
+            errorHandler: function (result) {
                 if (result && result.data) {
                     $scope.apiReturnCode = result.data.status;
                 }
+
                 $scope.inventoryChart = false;
                 $scope.strategyBusy = false;
-                // $scope.strategyTableData = [];
                 $scope.tacticList.tacticList = [];
                 $scope.tacticList.topPerformance = [];
             },
 
-            //This function is called for tactics Table data
-            getTacticsChartData : function() {
+            // This function is called for tactics Table data
+            getTacticsChartData: function() {
                 var topPerformance,
                     resultTableData,
                     topChartObj,
@@ -163,7 +166,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
                     topChartObj = true;
                     isGraphPlot = true;
 
-                    //For Top Chart
+                    // For Top Chart
                     if (topPerformance.length > 2) {
                         topChartObj = columnline.highChart(topPerformance, $scope.selectedFilters.kpi_type);
                     }
@@ -187,8 +190,8 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
                 }
             },
 
-            //Function is called from startegylist directive
-            callBackStrategyChange : function () {
+            // Function is called from strategyList directive
+            callBackStrategyChange: function () {
                 $scope.tacticList.tacticList = [];
                 $scope.tacticList.topPerformance = [];
 
@@ -202,8 +205,8 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
                 $scope.inventoryBusy = false;
             },
 
-            //creating download report url
-            createDownloadReportUrl : function () {
+            // creating download report url
+            createDownloadReportUrl: function () {
                 $scope.download_report = [
                     {
                         url: '/reportBuilder/customQueryDownload',
@@ -211,6 +214,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
                         label: 'Inventory Transparency by Site Category',
                         download_config_id: 1
                     },
+
                     {
                         url: '/reportBuilder/customQueryDownload',
                         query_id: 28,
@@ -220,7 +224,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
                 ];
             },
 
-            init : function () {
+            init: function () {
                 var fromLocStore = localStorage.getItem('timeSetLocStore');
 
                 $scope.strategyFound = false;
@@ -245,17 +249,15 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
 
         $scope.textConstants = constants;
 
-        //highlight the header menu - Dashborad, Campaigns, Reports
+        // highlight the header menu - Dashboard, Campaigns, Reports
         domainReports.highlightHeaderMenu();
 
-        //Default Values
+        // Default Values
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
         $scope.apiReturnCode = 200;
         $scope.inventoryChart = true;
-
         $scope.filters = domainReports.getReportsTabs();
-
         $scope.selectedFilters_tb = '0';
         $scope.selectedFilters_tab = 'categories';
         $scope.strategyLoading = true;
@@ -270,7 +272,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
             show: 'topPerformance'
         };
 
-        //URL for download
+        // URL for download
         $scope.download_urls = {
             category: null,
             domain: null
@@ -299,7 +301,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function () {
             inventoryWrapper.init();
 
-            //update the selected Campaign
+            // update the selected Campaign
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
             $scope.inventoryChart = true;
 
@@ -330,6 +332,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
 
         $scope.$on(constants.EVENT_KPI_CHANGED, function (event, params) {
             $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
+
             if (params.event_type === 'clicked') {
                 inventoryWrapper.callBackStrategyChange();
             }
@@ -341,7 +344,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
             inventoryWrapper.createDownloadReportUrl();
         });
 
-        //Function to expand and collide tactic accordian.
+        // Function to expand and collide tactic accordian.
         $scope.clickTactic = function (id) {
             $('#tactic_' + id + '_body').toggle();
         };
@@ -358,7 +361,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
             }, 200);
             // end of hot fix for the enabling the active link in the reports dropdown
 
-            //Function called when the user clicks on the category tabs
+            // Function called when the user clicks on the category tabs
             $('#category_change').click(function (e) {
                 $scope.inventoryChart = true;
                 $scope.strategyBusy = true;

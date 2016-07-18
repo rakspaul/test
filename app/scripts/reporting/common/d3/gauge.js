@@ -1,4 +1,4 @@
-define(['angularAMD','../../../common/services/constants_service'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD','../../../common/services/constants_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.service('gauge', function ($window, constants) {
@@ -49,7 +49,7 @@ define(['angularAMD','../../../common/services/constants_service'], function (an
 
             function createDash() {
                 // chartContainer
-                var body = d3 // jshint ignore:line
+                var body = d3
                     .select('#dashboardContainer')
                     .attr('id', 'dashboardContainer')
                     .append('svg:svg')
@@ -69,7 +69,8 @@ define(['angularAMD','../../../common/services/constants_service'], function (an
                 var minSize = 120,
 
                     getGradient = function (container, id, lightColor, offsetLight, darkColor, offsetDartk) {
-                        id = container.append('svg:defs')
+                        id = container
+                            .append('svg:defs')
                             .append('svg:linearGradient')
                             .attr('id', id)
                             .attr('x1', '0%')
@@ -78,12 +79,14 @@ define(['angularAMD','../../../common/services/constants_service'], function (an
                             .attr('y2', '100%')
                             .attr('spreadMethod', 'pad');
 
-                        id.append('svg:stop')
+                        id
+                            .append('svg:stop')
                             .attr('offset', offsetLight)
                             .attr('stop-color', lightColor)
                             .attr('stop-opacity', 1);
 
-                        id.append('svg:stop')
+                        id
+                            .append('svg:stop')
                             .attr('offset', offsetDartk)
                             .attr('stop-color',  darkColor)
                             .attr('stop-opacity', 1);
@@ -113,19 +116,19 @@ define(['angularAMD','../../../common/services/constants_service'], function (an
                         min: 0,
                         max: 280,
                         ticks: 24,
-                        greenColor : 'url(#greenGrad)',
-                        faceColor : 'url(#orangeGrad)',
-                        greyColor : 'url(#greyGrad)'
+                        greenColor: 'url(#greenGrad)',
+                        faceColor: 'url(#orangeGrad)',
+                        greyColor: 'url(#greyGrad)'
                     };
 
                 gauges[name] = new Gauge(myContainer, name, config);
 
                 readings[name]  = {
-                    onTrackPct : 0,
-                    underPerforming : 0,
-                    others : 0,
-                    onTrack : 0,
-                    totalCampaigns : 0
+                    onTrackPct: 0,
+                    underPerforming: 0,
+                    others: 0,
+                    onTrack: 0,
+                    totalCampaigns: 0
                 };
 
                 gauges[name].render();
@@ -136,10 +139,10 @@ define(['angularAMD','../../../common/services/constants_service'], function (an
                     arc,
                     outerArcFunc;
 
-                //Explained example available at http://bl.ocks.org/mbostock/5100636
+                // Explained example available at http://bl.ocks.org/mbostock/5100636
                 function arcTween(transition, newAngle) {
                     transition.attrTween('d', function (d) {
-                        var interpolate = d3.interpolate(d.endAngle, newAngle); // jshint ignore:line
+                        var interpolate = d3.interpolate(d.endAngle, newAngle);
 
                         return function (t) {
                             d.endAngle = interpolate(t);
@@ -187,7 +190,8 @@ define(['angularAMD','../../../common/services/constants_service'], function (an
                         arcFunc = arc;
                     }
 
-                    obj = container.append('svg:path')
+                    obj = container
+                        .append('svg:path')
                         .style('fill', color)
                         .datum({endAngle: self.valueToRadians(endAngle)})
                         .attr('d', arcFunc)
@@ -237,10 +241,16 @@ define(['angularAMD','../../../common/services/constants_service'], function (an
                 };
 
                 this.render = function () {
-                    var leftDotPt = {x: self.config.cx -10 - this.config.outerRingR2 - 10,
-                            y:self.config.cy + this.config.outerRingR2 + 14},
+                    var leftDotPt = {
+                            x: self.config.cx -10 - this.config.outerRingR2 - 10,
+                            y:self.config.cy + this.config.outerRingR2 + 14
+                        },
 
-                        rightDotPt = {x: self.config.cx + this.config.outerRingR2 - 120, y: leftDotPt.y},
+                        rightDotPt = {
+                            x: self.config.cx + this.config.outerRingR2 - 120,
+                            y: leftDotPt.y
+                        },
+
                         faceContainer,
                         bandsContainer,
                         ticksContainer;
@@ -295,14 +305,14 @@ define(['angularAMD','../../../common/services/constants_service'], function (an
                     ticksContainer = this.body.append('svg:g').attr('class', 'ticksContainer');
                 };
 
-                arc = d3 // jshint ignore:line
+                arc = d3
                     .svg.
                     arc()
                     .startAngle(this.valueToRadians(this.config.min))
                     .innerRadius(this.config.innerRadius)
                     .outerRadius(this.config.outerRadius);
 
-                outerArcFunc = d3 // jshint ignore:line
+                outerArcFunc = d3
                     .svg
                     .arc()
                     .startAngle(this.valueToRadians(this.config.min))
@@ -332,20 +342,16 @@ define(['angularAMD','../../../common/services/constants_service'], function (an
                         .attr('x',function () {
                             if (readings[name].onTrackPct === 100) {
                                 return (self.pctX -35);
-                            }
-
-                            else if (readings[name].onTrackPct >= 10) {
+                            } else if (readings[name].onTrackPct >= 10) {
                                 return self.pctX -23;
-                            }
-                            else if (readings[name].onTrackPct <= 10) {
+                            } else if (readings[name].onTrackPct <= 10) {
                                 return self.pctX -17;
                             }
                         })
                         .duration(this.config.animeDuration)
                         .tween('text', function () {
                             return function (t) {
-                                var i = d3 // jshint ignore:line
-                                    .interpolate(this.textContent, readings[name].onTrackPct);
+                                var i = d3.interpolate(this.textContent, readings[name].onTrackPct);
 
                                 this.textContent = Math.round(i(t));
 
@@ -365,7 +371,7 @@ define(['angularAMD','../../../common/services/constants_service'], function (an
                         this.animateArcs();
                         this.animateText();
 
-                        //hardcoding widget message right now, later move it to config to generalize for gauge
+                        // hardcoding widget message right now, later move it to config to generalize for gauge
                         this.leftDotText.text(readings[name].onTrack.toString() + ' On Track');
                         this.rightDotText.text(readings[name].underPerforming.toString() + ' Underperforming');
                     }

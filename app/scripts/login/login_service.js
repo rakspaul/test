@@ -5,10 +5,10 @@ define(['angularAMD', '../common/services/data_service', 'common/services/url_se
         angularAMD.factory('loginService', ['dataService','urlService', 'loginModel',
             function (dataService,urlService, loginModel) {
                 var loginAction = function (username, password, callback) {
-                    var data = {
-                            login : username,
-                            password : password
-                        };
+                        var data = {
+                                login : username,
+                                password : password
+                            };
 
                         return dataService
                             .post(urlService.APIloginAction(), data, {'Content-Type': 'application/json'})

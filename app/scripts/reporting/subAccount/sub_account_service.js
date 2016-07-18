@@ -1,9 +1,8 @@
-define(['angularAMD', 'workflow/services/workflow_service', 'common/services/constants_service', // jshint ignore:line
+define(['angularAMD', 'workflow/services/workflow_service', 'common/services/constants_service',
     'login/login_model'], function (angularAMD) {
     'use strict';
 
     angularAMD.service('subAccountModel', function ($rootScope, $location, workflowService, constants, loginModel) {
-
         var subAccounts = {
             allSubAccounts: [],
             dashboardSubAccounts: []
@@ -131,18 +130,17 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
         };
 
         return {
-
-            setSelectedSubAccount : setSelectedSubAccount,
-            setSelectedDashboardSubAcc : setSelectedDashboardSubAcc,
-            setSubAccounts : setSubAccounts,
-            resetSubAccount : resetSubAccount,
-            getSubAccounts : getSubAccounts,
-            resetDashboardSubAccStorage : resetDashboardSubAccStorage,
-            isDashboardSubAccount : isDashboardSubAccount,
-            setDashboardSubAccounts : setDashboardSubAccounts,
-            getDashboardSubAccounts : getDashboardSubAccounts,
-            getDashboardAccountId : getDashboardAccountId,
-            fetchSubAccounts : fetchSubAccounts
+            setSelectedSubAccount: setSelectedSubAccount,
+            setSelectedDashboardSubAcc: setSelectedDashboardSubAcc,
+            setSubAccounts: setSubAccounts,
+            resetSubAccount: resetSubAccount,
+            getSubAccounts: getSubAccounts,
+            resetDashboardSubAccStorage: resetDashboardSubAccStorage,
+            isDashboardSubAccount: isDashboardSubAccount,
+            setDashboardSubAccounts: setDashboardSubAccounts,
+            getDashboardSubAccounts: getDashboardSubAccounts,
+            getDashboardAccountId: getDashboardAccountId,
+            fetchSubAccounts: fetchSubAccounts
         };
     });
 });

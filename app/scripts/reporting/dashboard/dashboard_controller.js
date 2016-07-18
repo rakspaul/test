@@ -1,31 +1,30 @@
-define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
-    'reporting/dashboard/dashboard_model','reporting/brands/brands_model',
-    'reporting/advertiser/advertiser_model','reporting/campaignSelect/campaign_select_model','login/login_model',
+define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/dashboard_model',
+    'reporting/brands/brands_model', 'reporting/advertiser/advertiser_model',
+    'reporting/campaignSelect/campaign_select_model','login/login_model',
     'reporting/common/d3/bubble_chart_directive','reporting/common/d3/gauge_directive',
     'reporting/subAccount/sub_account_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('DashboardController', function ($scope, $rootScope,
-                                                           constants, dashboardModel, brandsModel,
-                                                           advertiserModel, campaignSelectModel ,loginModel,
+    angularAMD.controller('DashboardController', function ($scope, $rootScope, constants, dashboardModel, brandsModel,
+                                                           advertiserModel, campaignSelectModel, loginModel,
                                                            subAccountModel) {
         var updateTitle = function () {
                 dashboardModel.setTitle();
             },
 
-            selectBrand = function (brand, event_type) {
+            selectBrand = function (brand, eventType) {
                 var obj = {
                     brand: brand,
-                    event_type: event_type
+                    event_type: eventType
                 };
 
                 $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED_FROM_DASHBOARD, obj);
             },
 
-            selectAdvertiser = function (advertiser, event_type) {
+            selectAdvertiser = function (advertiser, eventType) {
                 var obj = {
                     advertiser: advertiser,
-                    event_type: event_type
+                    event_type: eventType
                 };
 
                 $rootScope.$broadcast(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD, obj);
@@ -70,14 +69,18 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             selectBrand(brandsModel.getAllBrand(), 'clicked');
         };
 
-        $scope.statusDropdown = function (status, event_type) {
+        $scope.statusDropdown = function (status, eventType) {
+            var obj = {
+                status: status,
+                event_type: eventType
+            };
+
             dashboardModel.getData().selectedStatus = status;
             localStorage.setItem('dashboardStatusFilter', JSON.stringify(dashboardModel.getData().selectedStatus));
-            var obj = {'status': status, 'event_type': event_type};
             $rootScope.$broadcast(constants.EVENT_STATUS_FILTER_CHANGED, obj);
         };
 
-        //if selected All Brands
+        // if selected All Brands
         if (brandsModel.getSelectedBrand().id === -1) {
             dashboardModel.setSelectedBrand(brandsModel.getAllBrand());
         } else {
@@ -90,11 +93,11 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             dashboardModel.setSelectedAdvertiser(advertiserModel.getSelectedAdvertiser());
         }
 
-        $rootScope.$on(constants.CLIENT_LOADED,function() {
+        $rootScope.$on(constants.CLIENT_LOADED, function () {
             updateTitle();
         });
 
-        if(subAccountModel.getDashboardAccountId()) {
+        if (subAccountModel.getDashboardAccountId()) {
             updateTitle();
         }
 

@@ -8,7 +8,7 @@ define(['angularAMD' , '../services/workflow_service' ], function(angularAMD) {
             $scope.campaignArchive = !$scope.campaignArchive;
         };
 
-        //Archive save func more
+        // Archive save func more
         $scope.archiveCampaign = function (event,campaign_id) {
             var campaignId = campaign_id,
                 campaignArchiveErrorHandler = function () {
@@ -26,7 +26,6 @@ define(['angularAMD' , '../services/workflow_service' ], function(angularAMD) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.campaignArchive = false;
                         $scope.campaignArchiveLoader = false;
-                        //campaignName = $scope.workflowData.campaignData.name;
                         localStorage.setItem('topAlertMessage','Campaign has been archived');
                         $location.url(vistoconfig.MEDIA_PLANS_LINK);
                     } else {

@@ -1,9 +1,8 @@
-define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:line
-    'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_service',
-    'common/services/data_service', 'common/utils', 'reporting/common/charts/actions',
-    'reporting/models/domain_reports', 'common/services/constants_service', 'reporting/timePeriod/time_period_model',
-    'login/login_model', 'common/moment_utils', 'common/services/url_service', 'reporting/advertiser/advertiser_model',
-    'reporting/brands/brands_model', 'common/services/vistoconfig_service',
+define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model',
+    'reporting/strategySelect/strategy_select_service', 'common/services/data_service', 'common/utils',
+    'reporting/common/charts/actions', 'reporting/models/domain_reports', 'common/services/constants_service',
+    'reporting/timePeriod/time_period_model', 'login/login_model', 'common/moment_utils', 'common/services/url_service',
+    'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'common/services/vistoconfig_service',
     'reporting/strategySelect/strategy_select_directive', 'reporting/strategySelect/strategy_select_controller',
     'reporting/kpiSelect/kpi_select_directive', 'reporting/kpiSelect/kpi_select_controller',
     'reporting/timePeriod/time_period_pick_directive'], function (angularAMD) {
@@ -43,6 +42,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
 
         $scope.getMessageForDataNotAvailable = function (campaign, dataSetType) {
             campaign = campaign || $scope.campaign;
+
             if (!campaign || campaign.id === -1) {
                 return constants.MSG_DATA_NOT_AVAILABLE;
             } else if ($scope.apiReturnCode === 404 || $scope.apiReturnCode >= 500) {
@@ -76,8 +76,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
         $scope.selectedFilters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
         $scope.selectedFilters.kpi_type =  kpiSelectModel.getSelectedKpi();
 
-        $scope.download_urls = { optimization: null  };
-        $scope.seeDate = { value : '', className: ''};
+        $scope.download_urls = {optimization: null};
+        $scope.seeDate = {value : '', className: ''};
 
         $scope.dataInit = function () {
             $scope.tacticList = [];
@@ -101,6 +101,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                 $scope.seeDate.className = '';
             } else {
                 $scope.seeDate.value = localStorage.getItem(loginModel.getUserId()+'_opt_seeDate');
+
                 $scope.seeDate.className = (localStorage.getItem(loginModel.getUserId()+'_opt_seeDate') === 'true' ?
                     'see_dates_selected' : '');
             }
@@ -140,18 +141,19 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                 groupedByAdId;
 
             if ($scope.selectedStrategy.id === -1) {
-                actionItems = $scope.actionItems; // for all strategies
+                // for all strategies
+                actionItems = $scope.actionItems;
             } else if ($scope.selectedStrategy.id === -99 ) {
                 console.log('Selected strategy id is -1 or -99');
             } else {
-                actionItems = $scope.selectedStrategy.action; //$scope.clicked.strategy.action;
+                actionItems = $scope.selectedStrategy.action;
             }
 
-            groupedByAdId = _.groupBy(actionItems, function (item) { // jshint ignore:line
+            groupedByAdId = _.groupBy(actionItems, function (item) {
                 return item.ad_id;
             });
 
-            $scope.tacticList = _.map(_.keys(groupedByAdId), function (adId) { // jshint ignore:line
+            $scope.tacticList = _.map(_.keys(groupedByAdId), function (adId) {
                 var actionList = groupedByAdId[adId];
 
                 return {
@@ -168,10 +170,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
             }
         };
 
-        $scope.colorCoding = function (val1, val2, matricImpacted) {
+        $scope.colorCoding = function (val1, val2, metricImpacted) {
             if (val1 === val2) {
                 return '';
-            } else if (matricImpacted === 'CPC' || matricImpacted === 'CPA' || matricImpacted === 'CPM') {
+            } else if (metricImpacted === 'CPC' || metricImpacted === 'CPA' || metricImpacted === 'CPM') {
                 return ((val1 - val2) > 0) ? 'negative_td' : 'positive_td';
             } else {
                 return ((val1 - val2) > 0 ) ? 'positive_td' : 'negative_td';
@@ -179,8 +181,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
         };
 
         $scope.roundOff = function (value, places) {
-            var factor = Math.pow(10, places);
-            var rounded = Math.round(value * factor) / factor;
+            var factor = Math.pow(10, places),
+                rounded = Math.round(value * factor) / factor;
+
             return Math.abs(rounded);
         };
 
@@ -188,17 +191,17 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
             $('html,body').animate({scrollTop: 0}, '300');
         };
 
-        $scope.showSelected = function (id,isActionExternal) {
+        $scope.showSelected = function (id, isActionExternal) {
             var circleId = 0,
                 getActivityCount = 0,
-                circle_slno = 0,
+                circleSlNo = 0,
                 newId,
                 activityLocalStorage;
 
             $('circle[id_list*=' + id + ']' ).each(function () {
-                circleId=parseInt(this.id);
+                circleId = parseInt(this.id);
                 getActivityCount = this.getAttribute('number_of_activity');
-                circle_slno = this.getAttribute('circle_slno');
+                circleSlNo = this.getAttribute('circleSlNo');
             });
 
             newId = circleId > 0 ? circleId : id;
@@ -218,32 +221,34 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                 .addClass('action_selected');
 
             $('circle').attr({fill: '#fff'});
-            $('text').attr({fill:'#000'});
-            $('circle#' + newId).attr({ fill:(isActionExternal === false ) ? '#777' : '#0072bc'});
+            $('text').attr({fill: '#000'});
+            $('circle#' + newId).attr({fill:(isActionExternal === false ) ? '#777' : '#0072bc'});
 
             if (getActivityCount > 1) {
-                $('text#t' + newId).css({fill:'#fff'});
+                $('text#t' + newId).css({fill: '#fff'});
             }
 
             activityLocalStorage = {
-                'actionSelStatusFlag': isActionExternal,
-                'actionSelActivityCount': getActivityCount,
-                'actionSel': 'actionItem_' + id,
-                'selectedCircleSLNo': circle_slno
+                actionSelStatusFlag: isActionExternal,
+                actionSelActivityCount: getActivityCount,
+                actionSel: 'actionItem_' + id,
+                selectedCircleSLNo: circleSlNo
             };
 
-            localStorage.setItem('activityLocalStorage',JSON.stringify(activityLocalStorage));
+            localStorage.setItem('activityLocalStorage', JSON.stringify(activityLocalStorage));
         };
 
         $scope.loadCdbDataForStrategy = function () {
             var param = {
-                    orderId : Number($scope.selectedCampaign.id),
-                    startDate : moment($scope.selectedCampaign.startDate).format('YYYY-MM-DD'), // jshint ignore:line
-                    endDate : moment($scope.selectedCampaign.endDate).format('YYYY-MM-DD') // jshint ignore:line
+                    orderId: Number($scope.selectedCampaign.id),
+                    startDate: moment($scope.selectedCampaign.startDate).format('YYYY-MM-DD'),
+                    endDate: moment($scope.selectedCampaign.endDate).format('YYYY-MM-DD')
                 },
+
                 strategyId = Number($scope.selectedStrategy.id);
 
-            $scope.apiReturnCode=200;
+            $scope.apiReturnCode = 200;
+
             dataService
                 .getCdbChartData(param, $scope.selectedFilters.time_filter, strategyId === -1 ?
                     'campaigns' : 'lineitems',  strategyId , true)
@@ -256,28 +261,30 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                         i,
                         kpiTypeLower,
                         today,
-                        chartEnd;
+                        chartEnd,
+                        kpiData;
 
                     $scope.strategyLoading =  false;
 
-                    if (result.status === 'success' && !angular.isString(result.data)) { // jshint ignore:line
+                    if (result.status === 'success' && !angular.isString(result.data)) {
                         if (param.orderId === Number($scope.selectedCampaign.id)) {
                             kpiType = $scope.selectedCampaign.kpi;
                             actionItems = $scope.actionItems;
                             kpiValue = $scope.selectedCampaign.kpiValue;
 
-                            if (!angular.isUndefined(kpiType)) { // jshint ignore:line
+                            if (!angular.isUndefined(kpiType)) {
                                 if (result.data.data.measures_by_days.length > 0) {
                                     if (Number($scope.selectedCampaign.id) === param.orderId) {
                                         maxDays = result.data.data.measures_by_days;
 
                                         for (i = 0; i < maxDays.length; i++) {
-                                            kpiTypeLower = angular.lowercase(kpiType); // jshint ignore:line
+                                            kpiTypeLower = angular.lowercase(kpiType);
 
-                                            kpiTypeLower =  ((kpiTypeLower === 'null' || kpiTypeLower === undefined) ?
+                                            kpiTypeLower = ((kpiTypeLower === 'null' || kpiTypeLower === undefined) ?
                                                 'ctr' : kpiTypeLower );
 
-                                            var kpiData = (kpiTypeLower == 'vtc')?(maxDays[i]['video_metrics']['vtc_rate']):(maxDays[i][kpiTypeLower]);
+                                            kpiData = (kpiTypeLower === 'vtc') ?
+                                                (maxDays[i].video_metrics.vtc_rate):(maxDays[i][kpiTypeLower]);
 
                                             lineData.push({
                                                 x: i + 1,
@@ -290,12 +297,12 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                                             kpiType.toUpperCase(), actionItems, 990, 250, true, $scope.actionId,
                                             $scope.clicked, $scope.navigationFromReports);
 
-                                        today = moment(new Date()).format('YYYY-MM-DD'); // jshint ignore:line
+                                        today = moment(new Date()).format('YYYY-MM-DD');
 
                                         chartEnd = (today < $scope.selectedCampaign.endDate ?
                                             today : $scope.selectedCampaign.endDate);
 
-                                        //D3 chart object for action performance chart
+                                        // D3 chart object for action performance chart
                                         $scope.lineChart = {
                                             data: lineData,
                                             kpiValue: parseFloat(kpiValue),
@@ -306,7 +313,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                                                 startDate: $scope.selectedCampaign.startDate,
                                                 endDate: $scope.selectedCampaign.endDate,
 
-                                                totalDays:  momentService.dateDiffInDays($scope
+                                                totalDays: momentService.dateDiffInDays($scope
                                                     .selectedCampaign.startDate, $scope.selectedCampaign.endDate) + 1,
 
                                                 deliveryDays: momentService.dateDiffInDays($scope
@@ -347,12 +354,13 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
         $scope.showIcon = function (id) {
             $scope.iconIdToShow = id;
         };
+
         $scope.hideIcon = function () {
             $scope.iconIdToShow = -1;
         };
 
         getCustomQueryParams = function (queryId) {
-            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
+            var dateFilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
 
             return {
                 queryId: queryId,
@@ -360,9 +368,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                 clientId:  loginModel.getSelectedClient().id,
                 advertiserId: advertiserModel.getSelectedAdvertiser().id,
                 brandId: brandsModel.getSelectedBrand().id,
-                dateFilter: datefilter,
+                dateFilter: dateFilter,
                 make_external : false
-
             };
         };
 
@@ -459,7 +466,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
             if (typeof $scope.actionItems !== 'undefined' &&
                 !$.isEmptyObject(selectedAction) &&
                 selectedAction.id !== undefined ) {
-                $scope.actionId =  selectedAction.id;  //action.ad_id + '' + action.id;
+                $scope.actionId =  selectedAction.id;
                 $scope.showSelected(selectedAction.ad_id+''+selectedAction.id,selectedAction.make_external);
             }
         };
@@ -471,10 +478,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
-        //Campaign Strategy List
+        // Campaign Strategy List
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //creating download report url
+        // creating download report url
         createDownloadReportUrl = function () {
             $scope.download_report = [
                 {
@@ -487,16 +494,19 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
         };
 
         cbCampaignSelected = function () {
-            // As campaign is changed.Populate Campaing details and then get actionData for selected Campaign
+            // As campaign is changed.Populate Campaign details and then get actionData for selected Campaign
             getCampaignDetails(callStrategyChange);
         };
 
         getCampaignDetails = function (callback) {
+            var clientId,
+                url;
+
             if ($scope.selectedCampaign && $scope.selectedCampaign.id !== 0 && $scope.selectedCampaign.id !== -1) {
-                //API call for campaign details
-                var clientId =  loginModel.getSelectedClient().id,
-                    url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                        '/clients/' + clientId + '/campaigns/' + $scope.selectedCampaign.id;
+                // API call for campaign details
+                clientId =  loginModel.getSelectedClient().id;
+                url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                    '/clients/' + clientId + '/campaigns/' + $scope.selectedCampaign.id;
 
                 dataService.getSingleCampaign(url).then(function (result) {
                     if (result.data.data !== undefined) {
@@ -509,9 +519,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                             $scope.selectedCampaign.kpi = 'ctr';
                         }
                     }
+
                     callback && callback();
-                }, function () {
-                });
+                }, function () {});
             }
         };
 
@@ -521,12 +531,16 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
 
         cbStrategySelected = function () {
             $scope.tacticList = [];
-            $scope.actionItems= {}; // action item for selected Strategy.
+
+            // action item for selected Strategy.
+            $scope.actionItems= {};
+
             $scope.isStrategyDropDownShow = (strategySelectModel.getStrategyCount() === 1) ? false : true;
 
             if ($scope.selectedStrategy.id !== -99) {
-                // Means selected campaing has valid strategy
+                // Means selected campaign has valid strategy
                 $scope.chartForStrategy = true;
+
                 actionDataForSelectedStrategy();
             } else {
                 // means selected strategy id is not valid
@@ -538,7 +552,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
 
         setStrategyInScope = function () {
             var selectedStrategyID =
-                $scope.selectedStrategy.id =  Number(strategySelectModel.getSelectedStrategy().id);
+                $scope.selectedStrategy.id = Number(strategySelectModel.getSelectedStrategy().id);
 
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name;
             $scope.strategyHeading = selectedStrategyID === 0 ? constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
@@ -549,7 +563,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
             $scope.dataInit();
             $scope.paramObj = {isCampaignChanged: true};
 
-            //update the selected Campaign
+            // update the selected Campaign
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         });
 
@@ -563,7 +577,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function () {
             $scope.paramObj = $scope.paramObj || {};
 
-            //if action Items is not set
+            // if action Items is not set
             if (!$scope.paramObj.isCampaignChanged) {
                 setStrategyInScope();
                 cbStrategySelected();
@@ -578,12 +592,12 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
 
         $('#optimization_squaredFour').click(function () {
             if ($(this).is(':checked') === true ) {
-                localStorage.setItem(loginModel.getUserId()+'_opt_seeDate',true);
+                localStorage.setItem(loginModel.getUserId() + '_opt_seeDate',true);
                 $scope.seeDate.value = true;
                 $scope.seeDate.className = 'see_dates_selected';
                 $('.details_with_heading_total').addClass('see_dates_selected');
             } else {
-                localStorage.setItem(loginModel.getUserId()+'_opt_seeDate',false);
+                localStorage.setItem(loginModel.getUserId() + '_opt_seeDate',false);
                 $scope.seeDate.value = false;
                 $scope.seeDate.className = '';
                 $('.details_with_heading_total').removeClass('see_dates_selected');
@@ -592,10 +606,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
             $scope.$apply();
         });
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event,strategy) {
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event, strategy) {
             $scope.selectedFilters.time_filter = strategy;
             cbCampaignSelected();
-
         });
 
         $scope.$on('$destroy', function () {

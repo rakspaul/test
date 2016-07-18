@@ -49,7 +49,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                                     resetFormats($scope.selectedAdServer,$scope.creativeAdServers);
                                 }
 
-                                //make call to generate Template
+                                // make call to generate Template
                                 $scope.creativeEditData.creativeTemplate ?
                                     $scope.onTemplateSelected($scope.creativeEditData.creativeTemplate,
                                         $scope.creativeEditData.creativeCustomInputs,'editCreativeTypeSet') : '';
@@ -94,7 +94,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         {id: 4, name: 'Social',     active: false, disabled:true}
                     ];
 
-                    //default value
+                    // default value
                     $scope.adData.adFormat = 'Display';
                 },
 
@@ -183,7 +183,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         return (obj.name).toUpperCase() === angular.uppercase(adserver.formats[i]);
                     };
 
-                //for processeditMode
+                // for processeditMode
                 if (allAdserverData && allAdserverData.length > 0) {
                     index = _.findIndex(allAdserverData, function (obj) {
                         return Number(obj.id) === Number(adserver.id);
@@ -203,7 +203,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 }
             },
 
-            // Get all adserver in Creative Library Page
+            //  Get all adserver in Creative Library Page
             getAdServersInLibraryPage = function (subAccountId) {
                 var responseData = '';
 
@@ -269,7 +269,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             ]
         };
 
-        // Ad Format Type
+        //  Ad Format Type
         $scope.formatLabel = 'Display';
 
         $scope.getAdFormatIconName = function (adFormat) {
@@ -340,7 +340,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }
         };
 
-        // function on adFormat selected
+        //  function on adFormat selected
         $scope.adFormatSelection = function (adFormatName, flag) {
             var index = _.findIndex($scope.creativeSizeData.adFormats, function (obj) {
                     return (obj.name).toUpperCase() === (adFormatName).toUpperCase();
@@ -363,11 +363,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
             $scope.creativeFormat = angular.uppercase(adFormatName);
 
-            // CreativeLibrary page, get templates
+            //  CreativeLibrary page, get templates
             if (!$scope.adPage && $scope.selectedAdServer) {
                 resetTemplate();
 
-                // In edit mode, do not let to change templateType from full-tracking or vice versa if ads count > 0.
+                //  In edit mode, do not let to change templateType from full-tracking or vice versa if ads count > 0.
                 if ($scope.creativeMode === 'edit' && $scope.associatedAdCount > 0) {
                     $scope.getTemplates($scope.selectedAdServer,adFormatName);
                 } else {
@@ -387,9 +387,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }
         };
 
-        // function on AdServer Selected*/
+        //  function on AdServer Selected*/
         $scope.adServerSelected = function (adServer) {
-            // used in adFormatSelection function to get all templates.
+            //  used in adFormatSelection function to get all templates.
             $scope.selectedAdServer = adServer;
 
             if (!$scope.adPage) {
@@ -401,7 +401,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 $scope.getTemplates($scope.selectedAdServer,$scope.creativeFormat);
             }
 
-            // function to get the possible templates in adCreate Page)
+            //  function to get the possible templates in adCreate Page)
             if ($scope.adPage) {
                 $scope.getTemplates(adServer,$scope.creativeFormat, workflowService.getVendorExecutionType());
             }

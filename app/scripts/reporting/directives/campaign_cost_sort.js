@@ -1,4 +1,4 @@
-define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.directive('campaignCostSort', function (constants) {
@@ -9,7 +9,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 campaigns: '='
             },
 
-            templateUrl: assets.html_campaign_cost_filters, // jshint ignore:line
+            templateUrl: assets.html_campaign_cost_filters,
 
             link: function ($scope) {
                 $scope.textConstants = constants;

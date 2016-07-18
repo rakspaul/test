@@ -1,4 +1,4 @@
-define(['angularAMD', 'reporting/models/activity_list'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD', 'reporting/models/activity_list'], function (angularAMD) {
     'use strict';
 
     var ActivityList = function() {

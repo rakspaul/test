@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service', 'reporting/brands/brands_model', // jshint ignore:line
+define(['angularAMD', 'common/services/constants_service', 'reporting/brands/brands_model',
     'login/login_model', 'common/services/role_based_service'], function (angularAMD) {
     'use strict';
 
@@ -19,7 +19,15 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
             getGradient;
 
         function dataFormatting (root, spanId) {
-            var positions =  [[75,71,70],[240,65,65],[165,165,55],[273,200,55],[60,220,55],[165,240,50]],
+            var positions =  [
+                    [75,  71,  70],
+                    [240, 65,  65],
+                    [165, 165, 55],
+                    [273, 200, 55],
+                    [60,  220, 55],
+                    [165, 240, 50]
+                ],
+
                 formattedData = [],
                 array = root,
                 maxRadius =  70,
@@ -77,8 +85,8 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
         function updateBubbleChartData(spanId, data) {
             $('#advertisers').show();
             $('#campaigns').hide();
-            this.spendData = data;
-            createBubbleChart.call(this, spanId, this.spendData);
+            this.spendData = data; // jshint ignore:line
+            createBubbleChart.call(this, spanId, this.spendData); // jshint ignore:line
         }
 
         function createBubbleChart(spanId, data) {
@@ -90,14 +98,14 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
             chartData = {};
             node = {};
 
-            d3.select('#advertisers_svg').remove(); // jshint ignore:line
-            d3.select('#campaigns_svg').remove(); // jshint ignore:line
+            d3.select('#advertisers_svg').remove();
+            d3.select('#campaigns_svg').remove();
 
             if (spanId === 'advertisers') {
                 $('#advertisers').show();
                 $('#campaigns').hide();
 
-                advertisersSvg  = d3 // jshint ignore:line
+                advertisersSvg  = d3
                     .select('#advertisers')
                     .append('svg')
                     .attr('width', 350)
@@ -116,7 +124,7 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
 
                 blueGradient = getGradient(advertisersSvg, 'blueGradient', '#1F9FF4', '25%', '#1B7FE2', '75%');
 
-                tooltip = d3 // jshint ignore:line
+                tooltip = d3
                     .select('.dashboard_budget_graph_holder .dashboard_perf_graph')
                     .append('div')
                     .attr('class', 'bubble_tooltip')
@@ -142,7 +150,7 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
                 $('#advertisers').hide();
                 $('#campaigns').show();
 
-                campaignsSvg  = d3 // jshint ignore:line
+                campaignsSvg  = d3
                     .select('#campaigns').append('svg')
                     .attr('width', 350)
                     .attr('height', 280)
@@ -161,7 +169,7 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
                 orangeGradient =  getGradient(campaignsSvg, 'orangeGradient', '#FC8732', '30%', '#FC782A', '70%');
                 greyGradient =  getGradient(campaignsSvg, 'greyGradient', '#A7ACB2', '30%', '#94989E', '70%');
 
-                tooltip = d3 // jshint ignore:line
+                tooltip = d3
                     .select('.dashboard_budget_graph_holder .dashboard_perf_graph')
                     .append('div')
                     .attr('class', 'bubble_tooltip')
@@ -185,7 +193,7 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
                     .text('tooltip');
             }
 
-            lineFunction = d3 // jshint ignore:line
+            lineFunction = d3
                 .svg
                 .line()
                 .x(function (d) {
@@ -240,7 +248,9 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
                         );
                 });
 
-            node.append('text') //For brand name
+            // For brand name
+            node
+                .append('text')
                 .attr('transform', function (d) {
                     if (d.r > 60) {
                         return 'translate(' + d.cx + ',' + (d.cy+35) + ')';
@@ -367,10 +377,10 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
                     'advertisers_'+focused_obj.id :
                     'campaigns_'+focused_obj.id;
 
-                d3.select('#'+focusedObjId + '_circle').attr('opacity', 1); // jshint ignore:line
-                d3.select('#'+focusedObjId + '_path').attr('opacity', 1); // jshint ignore:line
+                d3.select('#'+focusedObjId + '_circle').attr('opacity', 1);
+                d3.select('#'+focusedObjId + '_path').attr('opacity', 1);
 
-                d3 // jshint ignore:line
+                d3
                     .select('#'+ focusedObjId + '_path')
                     .attr('id', focusedObjId + '_path')
                     .attr('opacity', 1)
@@ -441,7 +451,7 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
 
                 idToRemove = focusedObjId + '_path';
 
-                d3 // jshint ignore:line
+                d3
                     .select('#'+ idToRemove)
                     .attr('opacity', 1)
                     .attr('stroke', (focused_obj.objectType === 'advertisers') ?
@@ -467,8 +477,8 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
             node.on('click', function (obj) {
                 if (obj.objectType === 'advertisers') {
                     tooltip.style('display', 'none');
-                    d3.select('#advertisers_svg').empty(); // jshint ignore:line
-                    d3.select('#campaigns_svg').empty(); // jshint ignore:line
+                    d3.select('#advertisers_svg').empty();
+                    d3.select('#campaigns_svg').empty();
                     $rootScope.$broadcast(constants.BUBBLE_ADVERTISER_CLICKED, obj);
                 }
             });
@@ -669,7 +679,7 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
         this.updateBubbleChartData = updateBubbleChartData;
 
         this.cleaningBubbleChart = function (spanId) {
-            d3.select('#'+spanId+'_svg').remove(); // jshint ignore:line
+            d3.select('#'+spanId+'_svg').remove();
             $('#data_not_available').hide();
         };
     });

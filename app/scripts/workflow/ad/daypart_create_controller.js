@@ -80,7 +80,8 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
 
         _dayPartTargetting = {
             setHoursType: function (clock) {
-                if (clock === '24 HR') { // trigger 24/12 hrs
+                if (clock === '24 HR') {
+                    // trigger 24/12 hrs
                     angular.element('#24hr').trigger('click');
                 } else {
                     angular.element('#12hr').trigger('click');
@@ -709,7 +710,9 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
                 case 2:
                     $scope.Schedule.customLength = 0;
                     $scope.Schedule.daytimeArr = [];
-                    $scope.dayTimeSelected = 'Weekend (S,S)'; //let this string be like this, thats how api needed. don't provide any space.
+
+                    // let this string be like this, thats how api needed. don't provide any space.
+                    $scope.dayTimeSelected = 'Weekend (S,S)';
 
                     daytimeObj = [
                         {day: 'Saturday', startTime: 'All Day'},
@@ -872,12 +875,12 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
                     };
 
                     if ($scope.modeSet!=='edit' && dayParts && dayParts.dayTime !== 'CUSTOM SCHEDULE') {
-                        //for Edit since we dont have any response
+                        // for Edit since we dont have any response
                         resetCustomSchedule();
                     }
 
                     if (event) {
-                        //for create since we dont have any response
+                        // for create since we dont have any response
                         resetCustomSchedule();
                     }
 

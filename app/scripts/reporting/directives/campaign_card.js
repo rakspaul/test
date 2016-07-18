@@ -1,5 +1,5 @@
-define(['angularAMD', '../../common/utils', 'common/services/constants_service', // jshint ignore:line
-    'common/moment_utils', 'reporting/campaignSelect/campaign_select_model'], function (angularAMD) {
+define(['angularAMD', '../../common/utils', 'common/services/constants_service', 'common/moment_utils',
+    'reporting/campaignSelect/campaign_select_model'], function (angularAMD) {
     'use strict';
 
     angularAMD.directive('campaignCard',
@@ -12,10 +12,10 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                     campaigns: '='
                 },
 
-                templateUrl: assets.html_campaign_card, // jshint ignore:line
+                templateUrl: assets.html_campaign_card,
 
                 link: function ($scope) {
-                    var fparams = featuresService.getFeatureParams(),
+                    var fParams = featuresService.getFeatureParams(),
                         campaignList = $scope.campaigns.campaignList,
                         keywordsArr = '',
                         keywords;
@@ -55,7 +55,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
 
                     keywords = keywordsArr.join('|');
 
-                    _.each(campaignList, function (obj) { // jshint ignore:line
+                    _.each(campaignList, function (obj) {
                         var labelsLen = 0,
                             searchTermsArr,
                             searchTermsLen = 0,
@@ -94,8 +94,8 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         return tempText.indexOf(phrase) >= 0;
                     };
 
-                    $scope.showReportsOverview = fparams[0].report_overview;
-                    $scope.showManageButton = fparams[0].mediaplan_hub;
+                    $scope.showReportsOverview = fParams[0].report_overview;
+                    $scope.showManageButton = fParams[0].mediaplan_hub;
 
                     $scope.textConstants = constants;
 
@@ -136,7 +136,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                             expectedSpend;
 
                         if (campaign !== undefined) {
-                            //fix for initial loading
+                            // fix for initial loading
                             spendDifference = -999;
 
                             campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
@@ -147,6 +147,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
 
                             spend = campaignCDBObj.getGrossRev();
                             expectedSpend = campaign.expectedMediaCost;
+
                             return $scope.getPercentDiff(expectedSpend, spend);
                         }
                     };
@@ -222,7 +223,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                                 momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), campaignEndDate);
                         }
 
-                        //fix for initial loading
+                        // fix for initial loading
                         if (spendDifference === -999) {
                             return '';
                         }
@@ -237,7 +238,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                                 }
                             }
 
-                            //  past a campaign end date
+                            // past a campaign end date
                             if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'),
                                     campaignEndDate) === true) {
                                 return (spendDifference < -5 || spendDifference > 5) ? 'red' : 'blue';
@@ -281,7 +282,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         }
                     };
 
-                    //To show the accorsponding strategy card
+                    // To show the corresponding strategy card
                     $scope.showStrategies = function (campaignId, strategiesCount) {
                         if (strategiesCount > 0) {
                             $('#strategies-accordion-' + campaignId).toggle();
@@ -292,17 +293,17 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         $('#tactics-accordion-' + strategyId).toggle();
                     };
 
-                    //This will call the Parent controllers loadMoreStrategies function
+                    // This will call the Parent controllers loadMoreStrategies function
                     $scope.loadMoreStrategies = function (campaignId) {
                         $scope.$parent.loadMoreStrategies(campaignId);
                     };
 
-                    //This will call the Parent controllers loadMoreTactics function
+                    // This will call the Parent controllers loadMoreTactics function
                     $scope.loadMoreTactics = function (strategyId, campaignId) {
                         $scope.$parent.loadMoreTactics(strategyId, campaignId);
                     };
 
-                    //This is called when the user clicks on the campaign title
+                    // This is called when the user clicks on the campaign title
                     $scope.goToLocation = function (url) {
                         utils.goToLocation(url);
                     };

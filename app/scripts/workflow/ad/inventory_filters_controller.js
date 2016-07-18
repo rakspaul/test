@@ -269,10 +269,10 @@ define(['angularAMD', '../services/workflow_service', '../../common/services/fil
             }
         };
 
-        //Check windows height
+        // Check windows height
         var winSizeHeight = $(window).height();
 
-        //Show Existing Inventory List Modal
+        // Show Existing Inventory List Modal
         $scope.showInventoryModal = function () {
             // When loading Inventory filters screen for the first time, default is Whitelist
             if (!$scope.adData.inventory.domainAction) {
@@ -287,7 +287,6 @@ define(['angularAMD', '../services/workflow_service', '../../common/services/fil
             $scope.workflowData.inventoryDataTemp = $.extend(true, [], $scope.workflowData.inventoryData);
             $scope.showExistingListPopup = true;
 
-            //$scope.workflowData.showDomainListPopup = true;
             $('.inventoryLib .popBody .col-md-6:last-child').css('min-height', winSizeHeight - 350);
         };
 
@@ -512,7 +511,7 @@ define(['angularAMD', '../services/workflow_service', '../../common/services/fil
 
                 $scope.workflowData.selectedLists = selectedLists;
 
-                // Update selected Inventory / Domain List name
+                //  Update selected Inventory / Domain List name
                 // NOTE: When multiple are selected, the first is the default.
                 $scope.adData.inventory = selectedLists.length ? selectedLists[0] : {};
             }
@@ -783,7 +782,7 @@ define(['angularAMD', '../services/workflow_service', '../../common/services/fil
         $scope.inventry.inventoryType = '';
 
         $scope.filterInventoryList = function (event, type) {
-            //remove style
+            // remove style
             var elem = $(event.target);
 
             $('.allTypeLists').find('.active').removeClass('active');

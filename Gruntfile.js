@@ -4,11 +4,9 @@ module.exports = function (grunt) {
     'use strict';
 
     require('load-grunt-tasks')(grunt);
-
     require('time-grunt')(grunt);
 
     var gruntConfig = grunt.file.readJSON('Gruntconfig.json');
-
 
     // Grunt Config
     grunt.initConfig({
@@ -27,7 +25,6 @@ module.exports = function (grunt) {
 
     grunt.loadTasks('grunt');
 
-
     /**
      * setup task
      * Run the initial setup, sourcing all needed upstream dependencies
@@ -38,26 +35,24 @@ module.exports = function (grunt) {
 
     /**
      * devel task
-     * Launch webserver and watch for changes
+     * Launch web server and watch for changes
      */
     grunt.registerTask('devel', [
         'less:local',
         'preprocess:local',
         'connect:local',
+        'jshint',
         'watch'
     ]);
 
     grunt.registerTask('build', [
         'clean:dist',
-        //'useminPrepare',
         'concurrent:dist',
         'autoprefixer',
         'copy:dist',
-        //'rev',
-        //'usemin',
         'ngAnnotate',
         'requirejs',
-        'preprocess:'+env,
+        'preprocess:' + env,
         'htmlmin',
         'compress'
     ]);
@@ -65,7 +60,6 @@ module.exports = function (grunt) {
     grunt.registerTask('start', [
        'connect:server'
     ]);
-
 
     grunt.registerTask('compressFile', [
         'compress'

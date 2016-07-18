@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/url_service', 'reporting/dashboard/dashboard_model', // jshint ignore:line
+define(['angularAMD', 'common/services/url_service', 'reporting/dashboard/dashboard_model',
     'common/services/data_service', 'reporting/brands/brands_model', 'common/services/request_cancel_service',
     'common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_model',
     'reporting/subAccount/sub_account_service'], function (angularAMD) {
@@ -20,9 +20,9 @@ define(['angularAMD', 'common/services/url_service', 'reporting/dashboard/dashbo
                     clientId = subAccountModel.getDashboardAccountId(),
 
                     url = urlService.APICampaignCountsSummary(
-                            constants.PERIOD_LIFE_TIME, clientId, advertiserId, brandId,
-                            dashboardModel.campaignStatusToSend()
-                        );
+                        constants.PERIOD_LIFE_TIME, clientId, advertiserId, brandId,
+                        dashboardModel.campaignStatusToSend()
+                    );
 
                 return dataService
                     .fetch(url)
