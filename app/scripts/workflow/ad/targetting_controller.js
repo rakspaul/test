@@ -80,24 +80,24 @@ define(['angularAMD', '../services/workflow_service', 'workflow/services/audienc
             $('.campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav').css('min-height', winHeight + 'px');
             $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
 
-            //Targetting Responsive
+            // Targetting Responsive
             $('.targetingSlide .tab-pane, .targetingSlide .tab-pane .list_row_holder')
                 .css('min-height', winHeight - 380 + 'px');
 
-            //Audience Targeting
+            // Audience Targeting
             $('#selectAud .segFixedWrap').css('max-height', winHeight - 362 + 'px');
             $('#buildAud .segmentHolder').css('min-height', winHeight - 225 + 'px');
 
-            //Geo Targeting
+            // Geo Targeting
             $('#zip #zipCodes').css('min-height', winHeight - 310 + 'px');
             $('.geo-tab-content .targetting-tab-body').css('min-height', winHeight - 380 + 'px');
             $('.metro-tab-content .targetting-tab-body').css('min-height', winHeight - 380 + 'px');
             $('#dmas .list_row_holder').css('min-height', winHeight - 370 + 'px');
 
-            //Day Targeting
+            // Day Targeting
             $('.dayTargetLower').css('min-height', winHeight - 290 + 'px');
 
-            //Video Targeting
+            // Video Targeting
             $('.video-dimension').css('min-height', winHeight - 200 + 'px');
         }
 
@@ -437,7 +437,7 @@ define(['angularAMD', '../services/workflow_service', 'workflow/services/audienc
             $scope.deleteType = type;
         };
 
-        //broadcast from geoTargettingController
+        // broadcast from geoTargettingController
         $scope.$on('renderTargetingUI', function (event, platformId) {
             $scope.isPlatformId = platformId;
             $scope.isPlatformSelected = platformId ? true : false;

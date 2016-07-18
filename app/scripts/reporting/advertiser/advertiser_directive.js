@@ -1,11 +1,11 @@
-define(['angularAMD'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
     angularAMD.directive('advertiserDropDown',  function () {
         return {
             restrict: 'EAC',
 
-            templateUrl: assets.html_advertiser_drop_down, // jshint ignore:line
+            templateUrl: assets.html_advertiser_drop_down,
 
             link: function() {
                 $('.advertisersList_ul').scrollWithInDiv();
@@ -13,4 +13,3 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
         };
     });
 });
-

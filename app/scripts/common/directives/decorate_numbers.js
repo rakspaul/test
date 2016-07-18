@@ -1,7 +1,7 @@
 define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    //This is a common directive to add comma to a number
+    // This is a common directive to add comma to a number
     angularAMD.directive('fcsaNumber', function () {
         var addCommasToInteger,
             controlKeys,

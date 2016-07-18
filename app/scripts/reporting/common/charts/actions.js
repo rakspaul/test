@@ -1,6 +1,6 @@
 // global angObj, angular
-define(['angularAMD', '../../../login/login_model', 'common/services/constants_service', // jshint ignore:line
-    'common/utils'], function (angularAMD) {
+define(['angularAMD', '../../../login/login_model', 'common/services/constants_service', 'common/utils'],
+    function (angularAMD) {
     'use strict';
 
     angularAMD.factory('actionChart', function ($timeout, loginModel, constants, utils) {
@@ -30,43 +30,47 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
             return (kpiType.toLowerCase() === 'vtc') ? '%' : '';
         };
 
-        getValueFromSelectedCircle = function (getSelectedCircleSLNo,fieldName) {
+        getValueFromSelectedCircle = function (getSelectedCircleSLNo, fieldName) {
             return $('circle[circle_slno="' + getSelectedCircleSLNo + '"]').attr(fieldName);
         };
 
         getActivityCountLabel = function (activityCount) {
-            var display_activityCount =  '';
+            var display_activityCount = '';
 
              switch(true) {
                case (activityCount >=1 && activityCount < 10) :
-                     display_activityCount =  '<span style="color:transparent">-</span>'+ activityCount+' ';
+                     display_activityCount = '<span style="color:transparent">-</span>' + activityCount + ' ';
                      break;
 
                case (activityCount >= 10 && activityCount <= 99) :
-                    display_activityCount =  ' '+activityCount+' ';
+                    display_activityCount = ' ' + activityCount + ' ';
                     break;
 
                case (activityCount >99) :
-                    display_activityCount =  ' 99+';
+                    display_activityCount = ' 99+';
                     break;
             }
 
             return display_activityCount;
         };
 
-        getOverlapFlag = function (activityDateArray,actionUTC) {
+        getOverlapFlag = function (activityDateArray, actionUTC) {
             var overlapFlag;
 
-            if (_.indexOf(activityDateArray,actionUTC) === -1 ) { // jshint ignore:line
+            if (_.indexOf(activityDateArray, actionUTC) === -1) {
                 activityDateArray.push(actionUTC);
                 overlapFlag = 0;
             } else {
                 overlapFlag = 1;
             }
-            return {'overlapFlag':overlapFlag,'activityDateArray':activityDateArray};
+
+            return {
+                overlapFlag: overlapFlag,
+                activityDateArray: activityDateArray
+            };
         };
 
-        getOverlapZIndex = function (isActionExternal,overlapFlag) {
+        getOverlapZIndex = function (isActionExternal, overlapFlag) {
             var overlapZIndex;
 
             switch(true) {
@@ -83,7 +87,6 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
             }
 
             return overlapZIndex;
-
         };
 
         wordwrap =  function (str) {
@@ -118,16 +121,16 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
             var text,
                 box,
                 textBG,
-                display_color = activityCount === 1 ? 'transparent' : '#000',
+                displayColor = activityCount === 1 ? 'transparent' : '#000',
                 flagId = isActionExternal === true ? 'external' : 'internal',
-                applyColor = (activityCount >1 ) ? 1 : 0,
+                applyColor = (activityCount >1) ? 1 : 0,
                 place_circle_x = 7.0,
                 display_activityCount = getActivityCountLabel(activityCount),
-                displayFontSize = (activityCount > 99 ) ? '8px' : '12px',
+                displayFontSize = (activityCount > 99) ? '8px' : '12px',
                 getMessage = ' External ',
 
                 numberOfActivityHeader = isActionExternal === true ?
-                    '<b>' + activityCount + '</b> ' + getMessage + ' Activities' : '<b>' + activityCount +
+                    '<b>' + activityCount + '</b>' + getMessage + ' Activities' : '<b>' + activityCount +
                     '</b> Internal Activities',
 
                 circleObj = null,
@@ -136,9 +139,9 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
 
                 marker = chart
                     .renderer
-                    .text(display_activityCount,xPos-7 ,yPos+2+overlapBubbleAdjust)
+                    .text(display_activityCount, xPos-7, yPos + 2 + overlapBubbleAdjust)
                     .attr({
-                        id: 't'+actionId || 'NA',
+                        id: 't' + actionId || 'NA',
                         removeX: 16,
                         flagId: flagId,
                         zIndex: 19,
@@ -149,24 +152,25 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                         fontSize: displayFontSize,
                         textAlign: 'center',
                         position: 'absolute',
-                        padding:5,
+                        padding: 5,
                         fontFamily: 'Avenir',
-                        color: display_color,
+                        color: displayColor,
                         cursor: 'pointer'
                     })
                     .on('click', function () {
-                        $('#'+actionId).click();
+                        $('#' + actionId).click();
                     })
                     .on('mouseover', function (event) {
                         var target = event.target.tagName === 'tspan' ?
                                 $(event.target).parents('text') : $(event.target),
+
                             textId = target.attr('id').substr(1),
                             circleList = $(event.target).parents('svg').find('circle');
 
                         // added mouseover and mouseout event on text + tspan(inside circle area) to show popup
                         chart.tooltip.hide();
 
-                        circleObj = $(_.filter(circleList, function (obj) { // jshint ignore:line
+                        circleObj = $(_.filter(circleList, function (obj) {
                             return $(obj).attr('id') === textId;
                         }));
 
@@ -186,7 +190,7 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                 chartClick,
                 adjustYForMoreActivity;
 
-            getPosition = function (that,axis) {
+            getPosition = function (that ,axis) {
                 return parseInt(that.getAttribute(axis));
             };
 
@@ -195,12 +199,12 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
             };
 
             chartMouseOver =  function (event, chart, that) {
-                var cX = getPosition(that,'cX') + 10,
-                    cY = getPosition(that,'cY') + 15,
-                    getId = getPosition(that,'id'),
-                    circleStroke = getCircleStatus(that) === 'ext' ? '#2c9aec':'#7e848b',
-                    activityCount = getPosition(that,'number_of_activity'),
-                    activeStatus = getPosition(that,'activestatus') > 0 ? 1 : 0,
+                var cX = getPosition(that, 'cX') + 10,
+                    cY = getPosition(that, 'cY') + 15,
+                    getId = getPosition(that, 'id'),
+                    circleStroke = getCircleStatus(that) === 'ext' ? '#2c9aec' : '#7e848b',
+                    activityCount = getPosition(that, 'number_of_activity'),
+                    activeStatus = getPosition(that, 'activestatus') > 0 ? 1 : 0,
                     x = cX,
                     y = cY,
                     correctionX = 0,
@@ -210,15 +214,18 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
 
                 chart.tooltip.hide();
 
-                $('#'+getId).attr({stroke:circleStroke});
+                $('#' + getId).attr({stroke:circleStroke});
 
                 // Mouseover for the text need to check if activity count > 1
                 if (activityCount > 1 && activeStatus === 0) {
-                    $('#t'+getId).css({color:circleStroke,fill:circleStroke});
+                    $('#t' + getId).css({
+                        color: circleStroke,
+                        fill: circleStroke
+                    });
                 }
 
                 if ((chart.plotWidth - x) < 0) {
-                    //check if left side
+                    // check if left side
                     correctionX = (chart.plotWidth - x) * 2 - 10;
                 }
 
@@ -262,22 +269,28 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
             };
 
             chartMouseOut = function (that) {
-                 var getId = getPosition(that,'id'),
-                     circleStroke = getCircleStatus(that) === 'ext' ? '#177ac6':'#57606c',
-                     activityCount = getPosition(that,'number_of_activity'),
-                     activeStatus = getPosition(that,'activestatus') > 0 ? 1 :0,
-                     display_color = activityCount === 1 ? 'transparent' : '#000';
+                 var getId = getPosition(that, 'id'),
+                     circleStroke = getCircleStatus(that) === 'ext' ? '#177ac6' : '#57606c',
+                     activityCount = getPosition(that, 'number_of_activity'),
+                     activeStatus = getPosition(that, 'activestatus') > 0 ? 1 : 0,
+                     displayColor = activityCount === 1 ? 'transparent' : '#000';
 
                 if (activeStatus === 0) {
                       // Mouseout for the circle
-                     $('#'+getId).attr({stroke:circleStroke});
+                     $('#' + getId).attr({stroke: circleStroke});
 
                      // Mouseout for the Text
-                     $('#t'+getId).css({color:display_color,fill:display_color});
+                     $('#t' + getId).css({
+                         color: displayColor,
+                         fill: displayColor
+                     });
                 } else {
                      // Mouseout for the Text
                      if (activityCount > 1){
-                         $('#t'+getId).css({color:'#fff',fill:'#fff'});
+                         $('#t' + getId).css({
+                             color: '#fff',
+                             fill: '#fff'
+                         });
                      }
                 }
             };
@@ -285,7 +298,7 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
             chartClick =  function (circleObj, that) {
                 var myContainer = $('#action-container:first'),
                     getIdList = that.getAttribute('idList'),
-                    circle_slno = that.getAttribute('circle_slno'),
+                    circleSlNo = that.getAttribute('circle_slno'),
                     splitIdList =  getIdList.split(','),
                     i,
                     targetId,
@@ -293,37 +306,40 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                     getActivityCount,
                     activityLocalStorage;
 
-                $('circle').attr({ fill:'#ffffff',activeStatus:0});
+                $('circle').attr({
+                    fill: '#fff',
+                    activeStatus: 0
+                });
 
-                //check and select multiple activity id
-                if (splitIdList.length > 1 ) {
+                // check and select multiple activity id
+                if (splitIdList.length > 1) {
                     for (i = 0; i < splitIdList.length; i++) {
                         targetId = splitIdList[i];
 
                         $('circle#' + targetId).attr({
-                            fill : (isActionExternal === false ) ? '#7e848b' : '#2c9aec',
+                            fill : (isActionExternal === false) ? '#7e848b' : '#2c9aec',
                             activeStatus: 1
                         });
                     }
                 } else {
                     $('circle#' + circleObj.target.id).attr({
-                        fill: (isActionExternal === false ) ? '#7e848b' : '#2c9aec',
+                        fill: (isActionExternal === false) ? '#7e848b' : '#2c9aec',
                         activeStatus: 1
                     });
                 }
 
-                $('text[applyColor=1]').css({fill:'#000'});
+                $('text[applyColor=1]').css({fill: '#000'});
                 getActivityCount = that.getAttribute('number_of_activity');
 
                 if (getActivityCount > 1) {
-                    $('text#t' + circleObj.target.id).css({fill:'#fff'});
+                    $('text#t' + circleObj.target.id).css({fill: '#fff'});
                 }
 
                 activityLocalStorage = {
                     actionSelStatusFlag: isActionExternal,
                     actionSelActivityCount: getActivityCount,
                     actionSel: getIdList,
-                    selectedCircleSLNo: circle_slno
+                    selectedCircleSLNo: circleSlNo
                 };
 
                 localStorage.setItem('activityLocalStorage', JSON.stringify(activityLocalStorage));
@@ -332,19 +348,19 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                     myContainer = $('.reports_section_details_container');
                     $('div[id^="actionItem_"]').removeClass('action_selected');
 
-                    //highlight activity in reports page
+                    // highlight activity in reports page
                     scrollTo = $('#actionItem_' + that.id);
 
                     if (scrollTo.length) {
                         scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
 
-                        //Mulitple Activity List
-                        if (splitIdList.length > 1 ) {
+                        // Multiple Activity List
+                        if (splitIdList.length > 1) {
                             for (i = 0; i < splitIdList.length; i++) {
                                 targetId = splitIdList[i];
-                                myContainer.find('#actionItem_'+targetId).addClass('action_selected');
+                                myContainer.find('#actionItem_' + targetId).addClass('action_selected');
 
-                                //ToDO Remove commented one after the fixes
+                                // TODO: Remove commented one after the fixes
                                 /* myContainer.animate({
                                     scrollTop: scrollTo.offset().top - myContainer.offset().top +
                                      myContainer.scrollTop()
@@ -353,13 +369,13 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                             }
 
                             myContainer.animate({
-                                    scrollTop: scrollTo
-                                        .offset()
-                                        .top - myContainer.offset()
-                                        .top + myContainer.scrollTop()
+                                scrollTop: scrollTo
+                                    .offset()
+                                    .top - myContainer.offset()
+                                    .top + myContainer.scrollTop()
                             });
                         } else {
-                            //Day wise single Activity
+                            // Day wise single Activity
                             myContainer
                                 .find('.action_selected')
                                 .removeClass('action_selected')
@@ -373,20 +389,20 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                         }
                     }
                 } else {
-                    //click to scroll and highlight activity
+                    // click to scroll and highlight activity
                     scrollTo = $('#actionItem_' + that.id);
 
                     if (scrollTo.length) {
                         scrollTo.siblings().removeClass('active').end().addClass('active');
 
-                        if (splitIdList.length > 1 ) {
+                        if (splitIdList.length > 1) {
                             myContainer.find('.active').removeClass('active').end();
 
                             for (i = 0; i < splitIdList.length; i++) {
                                 targetId = splitIdList[i];
-                                myContainer.find('#actionItem_'+targetId).addClass('active');
+                                myContainer.find('#actionItem_' + targetId).addClass('active');
 
-                                //ToDO Remove below commented one after fix
+                                // TODO: Remove below commented one after fix
                                 /*myContainer.animate({
                                     scrollTop: scrollTo.offset().top - myContainer.offset().top +
                                      myContainer.scrollTop()
@@ -412,14 +428,14 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
             };
 
             // Adjust the circle if activity Count is greater than 99+
-            adjustYForMoreActivity = activityCount > 99 ?   0.80 : 0;
+            adjustYForMoreActivity = activityCount > 99 ? 0.80 : 0;
 
             chart
                 .renderer
                 .circle(container.x + place_circle_x + adjustX , container.y + adjustY - adjustYForMoreActivity, 9)
                 .attr({
                     fill: '#fff',
-                    stroke: (defaultGrey === false|| isActionExternal === false ) ? '#777':'#0072bc',
+                    stroke: (defaultGrey === false|| isActionExternal === false) ? '#777':'#0072bc',
                     'stroke-width': 2.5,
                     id: actionId || 'NA',
                     kpiType: kpiType || 'NA',
@@ -463,7 +479,11 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                intSLNo++;
             }
 
-            return {'circleSLNo':circleSLNo,'extSLNo':extSLNo,'intSLNo':intSLNo};
+            return {
+                circleSLNo: circleSLNo,
+                extSLNo: extSLNo,
+                intSLNo: intSLNo
+            };
         };
 
         lineChart = function (lineData, threshold, kpiType, actionItems, width, height, defaultGrey, actionId,
@@ -506,7 +526,7 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                 setMaxVal = maxVal <= threshold ? threshold : maxVal;
             }
 
-            if (percentage > 0 ) {
+            if (percentage > 0) {
                 setMaxVal = setMaxVal + percentage;
             }
 
@@ -520,19 +540,11 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
 
                     title: {
                         text: '',
-
-                        style: {
-                         color: '#ffffff'
-                        }
+                        style: {color: '#fff'}
                     },
 
-                    credits: {
-                        enabled: false
-                    },
-
-                    legend: {
-                        enabled: false
-                    },
+                    credits: {enabled: false},
+                    legend: {enabled: false},
 
                     xAxis: [
                         {
@@ -542,14 +554,13 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                             tickWidth: 0,
 
                             labels: {
-                                style: {'color':'#57595b','fontSize':11},
+                                style: {
+                                    color: '#57595b',
+                                    fontSize: 11
+                                },
 
                                 formatter: function () {
-                                    if (this.isFirst) {
-                                        return Highcharts.dateFormat('%e', this.value); // jshint ignore:line
-                                    } else {
-                                        return Highcharts.dateFormat('%e', this.value); // jshint ignore:line
-                                    }
+                                    return Highcharts.dateFormat('%e', this.value); // jshint ignore:line
                                 }
                             },
 
@@ -602,7 +613,7 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                             }
                         },
 
-                        //TODO - remove this after the date ticks are rewritten
+                        // TODO - remove this after the date ticks are rewritten
                         /*plotBands: [{ // Light air
                             color: '#ffefef',
                             label: {
@@ -638,10 +649,10 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                                 suffix = kpiSuffix(kpiType);
 
                             if (typeof (this.point.options.note) === 'undefined') {
-                              return this.series.name + ':' + ' <b>'+ symbol + this.point.y + suffix + '</b><br/>';
+                                return this.series.name + ':' + '<b>'+ symbol + this.point.y + suffix + '</b><br/>';
                             } else {
-                              return this.series.name + ':' + ' <b>' + symbol + this.point.y + suffix + '<br>' +
-                                  this.point.options.note.text + '</b><br/>';
+                                return this.series.name + ':' + '<b>' + symbol + this.point.y + suffix + '<br>' +
+                                    this.point.options.note.text + '</b><br/>';
                             }
                         }
                     }
@@ -718,7 +729,7 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                             scrollTo;
 
                         // red zone calculations
-                        if ( chart !== undefined && chart.xAxis !== undefined && chart.yAxis !== undefined) {
+                        if (chart !== undefined && chart.xAxis !== undefined && chart.yAxis !== undefined) {
                             extremesX = chart.xAxis[0].getExtremes();
                             chart.xAxis[1].setExtremes(extremesX.min - 0.5, extremesX.max + 0.5);
                             extremes =  chart.yAxis[0].getExtremes();
@@ -771,7 +782,7 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                                     id: 'plot-line-1'
                                 });
 
-                            //draw plotlines
+                            // draw plotlines
                             chart
                                 .xAxis[0]
                                 .addPlotLine({
@@ -799,14 +810,15 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                                     id: 'plot-line-1'
                                 });
 
-                            //rendering threshold marker image in y-axis
-                            if ((threshold <= chart.yAxis[0].max && threshold >= chart.yAxis[0].min) &&
-                                threshold > 0)  {
-                                chart.renderer.image(assets.target_marker, 0, // jshint ignore:line
+                            // rendering threshold marker image in y-axis
+                            if ((threshold <= chart.yAxis[0].max &&
+                                threshold >= chart.yAxis[0].min) &&
+                                threshold > 0) {
+                                chart.renderer.image(assets.target_marker, 0,
                                     (chart.yAxis[0].toPixels(threshold) - chart.plotTop / 2) + 5.7, 13, 13).add();
                             }
 
-                            //rendering action markers after red zone manipulation
+                            // rendering action markers after red zone manipulation
                             if (external !== undefined && external === true) {
                                 //filter applied
                                 showExternal = true;
@@ -814,7 +826,7 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
 
                             countActivityItem = [];
                             findPlacedActivity = [];
-                            eFlag =0;
+                            eFlag = 0;
 
                             if (actionItems) {
                                 for (i = chart.series[0].data.length - 1; i >= 0; i--) {
@@ -834,26 +846,27 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                                                 (showExternal === undefined)) {
                                                 eFlag = actionItems[j].make_external;
 
-                                                if (countActivityItem[actionUTC] === undefined  ) {
+                                                if (countActivityItem[actionUTC] === undefined) {
                                                     countActivityItem[actionUTC] = [];
-                                                    countActivityItem[actionUTC].externalIDS =[];
-                                                    countActivityItem[actionUTC].internalIDS =[];
+                                                    countActivityItem[actionUTC].externalIDS = [];
+                                                    countActivityItem[actionUTC].internalIDS = [];
                                                     countActivityItem[actionUTC].external = 0;
                                                     countActivityItem[actionUTC].internal = 0;
                                                 }
 
                                                 if (eFlag === true) {
-                                                    if ( countActivityItem[actionUTC].external !== undefined ) {
+                                                    if (countActivityItem[actionUTC].external !== undefined) {
                                                         countActivityItem[actionUTC].external++;
                                                         arrayVar = 'externalIDS';
                                                     }
                                                 } else {
                                                     arrayVar = 'internalIDS';
 
-                                                    if ( countActivityItem[actionUTC].internal !== undefined ) {
+                                                    if (countActivityItem[actionUTC].internal !== undefined) {
                                                         countActivityItem[actionUTC].internal++;
                                                     }
                                                 }
+
                                                 activityId = actionItems[j].ad_id + '' + actionItems[j].id;
 
                                                 checkMoreThanOne = countActivityItem[actionUTC][arrayVar].length > 0 ?
@@ -895,23 +908,26 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                                             if ((showExternal && actionItems[j].make_external === true) ||
                                                 (showExternal === undefined)) {
                                                 checkFlag = actionItems[j].make_external === true ?
-                                                    'external' :
-                                                    'internal';
+                                                    'external' : 'internal';
 
                                                 arrayVar = actionItems[j].make_external === true ?
-                                                    'externalIDS' :
-                                                    'internalIDS';
+                                                    'externalIDS' : 'internalIDS';
 
                                                 idList = countActivityItem[actionUTC][arrayVar];
                                                 activityCount = countActivityItem[actionUTC][checkFlag];
 
                                                 if (activityCount === 1) {
-                                                    circleInfo = getCircleSLNo(actionItems[j].make_external,
-                                                        extSLNo, intSLNo, actionUTC, selectedCampaignId);
+                                                    circleInfo = getCircleSLNo(
+                                                        actionItems[j].make_external,
+                                                        extSLNo,
+                                                        intSLNo,
+                                                        actionUTC,
+                                                        selectedCampaignId
+                                                    );
 
                                                     circleSLNo = circleInfo.circleSLNo;
 
-                                                    //Get Increment Id for external and Internal SL Number
+                                                    // Get Increment Id for external and Internal SL Number
                                                     extSLNo = circleInfo.extSLNo;
                                                     intSLNo = circleInfo.intSLNo;
                                                     overlapResult = getOverlapFlag(activityDateArray,actionUTC);
@@ -927,25 +943,31 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
 
                                                     counter++;
 
-                                                    //correction for multiple markers in the same place
+                                                    // correction for multiple markers in the same place
                                                     position += 10;
                                                 } else {
-                                                    if (findPlacedActivity[actionUTC] === undefined  ) {
-                                                        findPlacedActivity[actionUTC] =[];
+                                                    if (findPlacedActivity[actionUTC] === undefined) {
+                                                        findPlacedActivity[actionUTC] = [];
                                                         findPlacedActivity[actionUTC].external = 0;
                                                         findPlacedActivity[actionUTC].internal = 0;
                                                     }
 
-                                                    //Multiple Item in single chart
-                                                    if ( findPlacedActivity[actionUTC][checkFlag] !== 'completed' ) {
+                                                    // Multiple Item in single chart
+                                                    if (findPlacedActivity[actionUTC][checkFlag] !== 'completed') {
                                                         findPlacedActivity[actionUTC][checkFlag] = 'completed';
-                                                        circleInfo = getCircleSLNo(actionItems[j].make_external,
-                                                            extSLNo, intSLNo, actionUTC, selectedCampaignId);
 
-                                                        //Get circle SL Number
+                                                        circleInfo = getCircleSLNo(
+                                                            actionItems[j].make_external,
+                                                            extSLNo,
+                                                            intSLNo,
+                                                            actionUTC,
+                                                            selectedCampaignId
+                                                        );
+
+                                                        // Get circle SL Number
                                                         circleSLNo = circleInfo.circleSLNo;
 
-                                                        //Get Increment Id for external and Internal SL Number
+                                                        // Get Increment Id for external and Internal SL Number
                                                         extSLNo = circleInfo.extSLNo;
                                                         intSLNo = circleInfo.intSLNo;
                                                         overlapResult = getOverlapFlag(activityDateArray,actionUTC);
@@ -992,7 +1014,7 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                             }
 
                             // Action Selection Activity
-                            // AFter loaded default select
+                            // After loaded default select
                             activityLocalStorageInfo = JSON.parse(localStorage.getItem('activityLocalStorage'));
 
                             if (activityLocalStorageInfo !== null) {
@@ -1025,21 +1047,21 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                                     });
                                 }
 
-                                numberOfActiveStatus=$('circle[activestatus="1"]').length;
+                                numberOfActiveStatus = $('circle[activestatus="1"]').length;
 
-                                //Select Activity
+                                // Select Activity
                                 myContainer = $('#action-container:first');
 
-                                if (splitIdList.length > 1 && numberOfActiveStatus > 0 ) {
+                                if (splitIdList.length > 1 && numberOfActiveStatus > 0) {
                                     scrollTo = $('#actionItem_' + splitIdList[0]);
                                     scrollTo.siblings().removeClass('active').end().addClass('active');
 
-                                    //Mulitple Activity List
+                                    // Multiple Activity List
                                     for (i = 0; i < splitIdList.length; i++) {
-                                        targetId =splitIdList[i];
-                                         myContainer.find('#actionItem_'+targetId).addClass('active');
+                                        targetId = splitIdList[i];
+                                        myContainer.find('#actionItem_' + targetId).addClass('active');
 
-                                         //TODO remove the commented code after the fixes
+                                         // TODO: remove the commented code after the fixes
                                          /*if (scrollTo.length) {
                                              myContainer.animate({
                                               scrollTop: scrollTo.offset().top - myContainer.offset().top +
@@ -1056,12 +1078,13 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                                         });
                                     }
                                 } else {
-                                    //Day wise single Activity
+                                    // Day wise single Activity
                                     if (numberOfActiveStatus > 0) {
                                         scrollTo = $('#actionItem_' + splitIdList[0]);
 
                                         if (scrollTo.length) {
                                             scrollTo.siblings().removeClass('active').end().addClass('active');
+
                                             myContainer.animate({
                                                 scrollTop: scrollTo.offset().top -
                                                     myContainer.offset().top +
@@ -1070,9 +1093,9 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                                         }
                                     }
                                 }
-                                //end activity Selection
+                                // end activity Selection
                             }
-                            //End Action selection
+                            // End Action selection
                         }
                     }, 1000);
                 }

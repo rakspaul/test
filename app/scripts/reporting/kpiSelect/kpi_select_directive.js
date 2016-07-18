@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
+define(['angularAMD', 'common/services/constants_service',
     'reporting/kpiSelect/kpi_select_controller'], function (angularAMD) {
     'use strict';
 
@@ -8,16 +8,17 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             controller: 'KpiSelectController',
 
             scope: {
-                type : '=',
+                type: '=',
                 changedrpval :'='
             },
 
-            templateUrl: assets.html_kpi_drop_down, // jshint ignore:line
+            templateUrl: assets.html_kpi_drop_down,
 
-            link: function(scope, element, attrs) {
+            link: function (scope, element, attrs) {
                 scope.textConstants = constants;
                 scope.whichCaller = attrs;
-                scope.$watch('type', function(newValue, oldValue) {
+
+                scope.$watch('type', function (newValue, oldValue) {
                     if (newValue !== oldValue) {
                         scope.setSelectedKpi(newValue);
                     }

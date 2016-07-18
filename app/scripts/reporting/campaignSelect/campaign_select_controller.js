@@ -1,4 +1,4 @@
-define(['angularAMD','reporting/campaignSelect/campaign_select_model', // jshint ignore:line
+define(['angularAMD','reporting/campaignSelect/campaign_select_model',
     'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model', 'common/utils'],
     function (angularAMD) {
     'use strict';
@@ -58,7 +58,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', // jshint
 
             $scope.$on(constants.EVENT_BRAND_CHANGED, function (event, args) {
                 if (args.event_type === 'clicked') {
-                    resetSearchCriteria(); //Get Campaign for the selected brand
+                    // Get Campaign for the selected brand
+                    resetSearchCriteria();
+
                     $scope.exhausted = false;
                     campaignSelectModel.removeSelectedCampaign();
                     $scope.fetchCampaigns(true, true);
@@ -114,7 +116,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', // jshint
                         var campObj = campaignSelectModel.getCampaignObj(),
                             campArrObj = campObj.campaigns;
 
-                        //TODO : rewrite what to do in search condiiton
+                        // TODO: rewrite what to do in search condition
                         if (search) {
                             if ($scope.isAllMediaPlan === 'true' || $scope.isAllMediaPlan === true) {
                                 campArrObj.unshift.apply(campArrObj, $scope.campAll);
@@ -126,7 +128,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', // jshint
                             $scope.campaignData.campaigns = $scope.campaignData.campaigns.concat(campObj.campaigns);
                         }
 
-                        _.uniq($scope.campaignData.campaigns); // jshint ignore:line
+                        _.uniq($scope.campaignData.campaigns);
 
                         if (set_campaign) {
                             $scope.setCampaign(campObj.campaigns[0]);
@@ -188,8 +190,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', // jshint
                 } else if ((campaignSelectModel.getSelectedCampaign().id === -1)) {
                     $scope.fetchCampaigns(true, true);
                 } else {
-                    //commented the below line because when you directly go to a canned report from dashboard it was still showing Loading.. under mediaplan though it was loaded.
-                    //$scope.setCampaign(campaignSelectModel.getCampaignObj().selectedCampaign);
+                    // TODO: Commented the below line because when you directly go to a canned report from dashboard
+                    // it was still showing Loading.. under mediaplan though it was loaded.
+                    // $scope.setCampaign(campaignSelectModel.getCampaignObj().selectedCampaign);
                     $scope.fetchCampaigns(true, false);
                     $scope.campaignData.campaigns = [campaignSelectModel.getCampaignObj().selectedCampaign];
                 }
@@ -206,7 +209,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', // jshint
 
             campaignsList = $('.campaigns_list');
 
-            //Function called when the user clicks on the campaign dropdown
+            // Function called when the user clicks on the campaign dropdown
             campaignsList.on('click', function () {
                 campaignsList.not(this).hide();
             });

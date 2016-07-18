@@ -2,9 +2,10 @@ define(['angularAMD', 'common/services/vistoconfig_service',
     'common/services/constants_service', 'login/login_model'], function (angularAMD) {
         'use strict';
 
-        angularAMD.service('urlService', ['vistoconfig', 'constants', 'loginModel', function (vistoconfig, constants, loginModel) {
+        angularAMD.service('urlService', ['vistoconfig', 'constants', 'loginModel',
+            function (vistoconfig, constants, loginModel) {
 
-                //Convention is to start all api urls with API.
+                // Convention is to start all api urls with API.
                 var APIlastViewedAction = function (campaignId) {
                     var clientId =  loginModel.getSelectedClient().id;
 
@@ -133,7 +134,7 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                         (status ? '&campaignState=' + status :'');
                 },
 
-                //API for dashbaord Bubble Chart
+                // API for dashbaord Bubble Chart
                 APISpendWidgetForAllBrands = function (qryObj) {
                     var params;
 
@@ -240,7 +241,7 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                         '/reports/listReports';
                 },
 
-                //download option from the report builder
+                // download option from the report builder
                 downloadGeneratedRpt = function (reportId) {
                     var clientId =  loginModel.getMasterClient().id;
 

@@ -17,7 +17,7 @@ define(['angularAMD'], function (angularAMD) {
                         if (result.status === 'OK' || result.status === 'success') {
                             responseData = result.data.data;
                             $scope.mediaPlanList = responseData;
-                            //sort media plan list
+                            // sort media plan list
                             $scope.mediaPlanList =  _.sortBy($scope.mediaPlanList , 'name');
 
                             index = _.findIndex($scope.mediaPlanList,function(plan){
@@ -133,7 +133,7 @@ define(['angularAMD'], function (angularAMD) {
                 $scope.mediaPlanName = mediaPlan.name;
             }
 
-            //reset selected ad group
+            // reset selected ad group
             selectedAdGroupId = -1;
             $scope.adGroupName = null;
 

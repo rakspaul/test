@@ -1,4 +1,4 @@
-define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshint ignore:line
+define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
     'reporting/kpiSelect/kpi_select_model', 'reporting/advertiser/advertiser_model',
     'reporting/strategySelect/strategy_select_model', 'reporting/brands/brands_model', 'common/services/data_service',
     'common/utils', 'login/login_model', 'common/services/url_service', 'common/services/constants_service',
@@ -8,7 +8,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
     'reporting/kpiSelect/kpi_select_directive'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CostController', function ( $scope, $window, campaignSelectModel, kpiSelectModel,
+    angularAMD.controller('CostController', function ($scope, $window, campaignSelectModel, kpiSelectModel,
                                                        advertiserModel, strategySelectModel, brandsModel, dataService,
                                                        utils, loginModel, urlService, constants, timePeriodModel,
                                                        domainReports, vistoconfig) {
@@ -24,7 +24,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
 
         $scope.textConstants = constants;
 
-        //highlight the header menu - Dashborad, Campaigns, Reports
+        // highlight the header menu - Dashboard, Campaigns, Reports
         domainReports.highlightHeaderMenu();
         domainReports.highlightSubHeaderMenu();
 
@@ -41,11 +41,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 return constants.MSG_DATA_NOT_AVAILABLE;
             } else if ($scope.apiReturnCode === 404 || $scope.apiReturnCode >=500) {
                 return constants.MSG_UNKNOWN_ERROR_OCCURED;
-            } else if ( campaignSelectModel.durationLeft() === 'Yet to start') {
+            } else if (campaignSelectModel.durationLeft() === 'Yet to start') {
                 return constants.MSG_CAMPAIGN_YET_TO_START;
             } else if (campaignSelectModel.daysSinceEnded() > 1000) {
                 return constants.MSG_CAMPAIGN_VERY_OLD;
-            } else if ( $scope.selectedCampaign.kpi === 'null') {
+            } else if ($scope.selectedCampaign.kpi === 'null') {
                 return constants.MSG_CAMPAIGN_KPI_NOT_SET;
             } else {
                 return constants.MSG_DATA_NOT_AVAILABLE;
@@ -109,13 +109,13 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                     $scope.tacticCostBusy = false;
                 },
 
-                datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
+                dateFilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
 
                 queryObj = {
                     clientId: loginModel.getSelectedClient().id,
                     advertiserId: advertiserModel.getSelectedAdvertiser().id,
                     brandId: brandsModel.getSelectedBrand().id,
-                    dateFilter: datefilter
+                    dateFilter: dateFilter
                 },
 
                 url;
@@ -124,7 +124,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
             $scope.tacticCostBusy = false;
             $scope.apiReturnCode=200;
 
-            if (_.has(param, 'strategyId') && param.strategyId >= 0) { // jshint ignore:line
+            if (_.has(param, 'strategyId') && param.strategyId >= 0) {
                 queryObj.queryId = 15;
                 queryObj.campaignId = param.campaignId;
                 queryObj.strategyId = param.strategyId;
@@ -166,7 +166,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                         if (typeof data !== 'undefined' && data !== null && data.length > 0) {
                             $scope.dataNotFound = false;
 
-                            _.each(data,function (item) { // jshint ignore:line
+                            _.each(data,function (item) {
                                 if (item.ad_id === undefined || item.ad_id === -1) {
                                     $scope.strategyCostBusy = false;
                                     $scope.strategyMarginValue =  item.margin;
@@ -199,7 +199,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 }, errorHandler);
         };
 
-        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function () {
+        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function () {
             $scope.init();
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         });
@@ -208,7 +208,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
             $scope.createDownloadReportUrl();
         });
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function (event,strategy) {
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event, strategy) {
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name;
             $scope.selectedFilters.time_filter = strategy;
@@ -217,30 +217,30 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
             dataHeader();
         });
 
-        $scope.$on(constants.EVENT_STRATEGY_CHANGED , function () {
+        $scope.$on(constants.EVENT_STRATEGY_CHANGED, function () {
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name;
             $scope.callBackStrategyChange();
             dataHeader();
         });
 
-        //creating download report url
+        // creating download report url
         $scope.createDownloadReportUrl = function () {
             $scope.strategyMarginValue = -1;
             $scope.strategyMarginUnit = constants.SYMBOL_PERCENT;
 
             $scope.download_report = [
                 {
-                    'url' : '/reportBuilder/customQueryDownload',
-                    'query_id': 16,
-                    'label' : 'Cost Report',
-                    'className' : 'report_cost',
-                    'download_config_id': 1
+                    url: '/reportBuilder/customQueryDownload',
+                    query_id: 16,
+                    label: 'Cost Report',
+                    className: 'report_cost',
+                    download_config_id: 1
                 }
             ];
         };
 
-        //Function is called from startegylist directive
+        // Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
             $scope.strategyCostData = [];
             $scope.tacticsCostData = [];
@@ -270,9 +270,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
             $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
         });
 
-        $scope.$on('dropdown-arrow-clicked', function (event, args,sortorder) {
-            $scope.sortType = 'kpi_metrics.'+args;
-            $scope.sortTypeSubSort ='kpi_metrics.'+args;
+        $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
+            $scope.sortType = 'kpi_metrics.' + args;
+            $scope.sortTypeSubSort ='kpi_metrics.' + args;
             $scope.sortReverse  = sortorder;
         });
 
@@ -280,15 +280,15 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
             var dropListLi = $('.drop_list li');
 
             dropListLi.css('color', '#57606d');
-            $('.kpi-dd-holder').removeClass( 'active' );
-            $('.dropdown_ul_text').removeClass( 'active' );
-            dropListLi.removeClass( 'active' );
-            $('.direction_arrows div.kpi_arrow_sort').removeClass( 'active' );
+            $('.kpi-dd-holder').removeClass('active');
+            $('.dropdown_ul_text').removeClass('active');
+            dropListLi.removeClass('active');
+            $('.direction_arrows div.kpi_arrow_sort').removeClass('active');
         };
 
         $scope.sortClassFunction = function (a,b,c) {
-            var isActive = (a === b ) ?  'active' : '';
-            var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
+            var isActive = (a === b) ?  'active' : '',
+                sortDirection = (c === true) ?  'sort_order_up' : 'sort_order_down';
 
             return isActive + ' ' + sortDirection;
         };

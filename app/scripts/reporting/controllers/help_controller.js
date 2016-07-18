@@ -1,4 +1,4 @@
-define(['angularAMD'], function (angularAMD) {  // jshint ignore:line
+define(['angularAMD'], function (angularAMD) { // jshint ignore:line
     'use strict';
 
     angObj.controller('HelpController', function ($scope, $sce) { // jshint ignore:line

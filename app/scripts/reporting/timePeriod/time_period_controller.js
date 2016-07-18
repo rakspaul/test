@@ -1,5 +1,5 @@
-define(['angularAMD', 'reporting/timePeriod/time_period_model', // jshint ignore:line
-    'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services/constants_service'],
+    function (angularAMD) {
     'use strict';
 
     angularAMD.controller('TimePeriodController', function ($scope, $rootScope, timePeriodModel, constants) {

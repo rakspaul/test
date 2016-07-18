@@ -121,7 +121,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         return true;
                     },
 
-                    //clones any javascript object recursively
+                    // clones any javascript object recursively
                     clone = function clone(obj) {
                         var temp,
                             key;
@@ -269,7 +269,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                                 fullVersion = nAgt.substring(verOffset + 5);
                                 break;
 
-                            //IE 11 and Above
+                            // IE 11 and Above
                             case (nAgt.indexOf('Trident/') !== -1):
                                 browserName = 'Internet Explorer';
                                 re = new RegExp('Trident/.*rv:([0-9]{1,}[\.0-9]{0,})');

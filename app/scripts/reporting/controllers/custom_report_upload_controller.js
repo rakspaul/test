@@ -1,10 +1,10 @@
-define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshint ignore:line
+define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
     'reporting/strategySelect/strategy_select_model', 'reporting/kpiSelect/kpi_select_model',
     'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
     'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'login/login_model',
     'reporting/advertiser/advertiser_model', 'common/services/url_service',
-    'reporting/collectiveReport/collective_report_model', '' +
-    'reporting/brands/brands_model', 'common/services/vistoconfig_service', 'reporting/models/domain_reports',
+    'reporting/collectiveReport/collective_report_model', 'reporting/brands/brands_model',
+    'common/services/vistoconfig_service', 'reporting/models/domain_reports',
     'reporting/models/reports_upload_list', 'workflow/directives/filter_directive'], function (angularAMD) {
     'use strict';
 
@@ -72,15 +72,15 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
         $scope.isDisabled = function (campaignId) {
             if (!campaignId) {
                 $scope.disabledUpload = true;
-                return ''; //border:1px dotted red
             } else {
                 $scope.disabledUpload = false;
-                return '';
             }
+
+            return '';
         };
 
         $scope.showStatus = function () {
-            if (_.find($scope.reportsUploadList, function (item) { // jshint ignore:line
+            if (_.find($scope.reportsUploadList, function (item) {
                     return item.status === 'success' || item.status === 'error';
                 })) {
                 return true;
@@ -98,7 +98,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
 
-        //reset files
+        // reset files
         reportsUploadList.list = [];
         $scope.reportsUploadList = reportsUploadList.list;
 
@@ -121,6 +121,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 elem.closest('.each-col').find('#reportName').show();
             } else {
                 elem.closest('.each-col').find('#reportName').hide();
+
                 if (uploadFilesContainer.find('.report-type-name:visible').length === 0) {
                     uploadFilesContainer.removeClass('custom_report_type');
                 }
@@ -156,17 +157,18 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                     file.notes = '';
                     file.campaignId = '';
 
-                    //default - PCAR
+                    // default - PCAR
                     file.reportType = 'PCAR';
 
                     file.reportName = '';
                     file.selectedCampaign = campaignSelectModel.getSelectedCampaign();
                     reportsUploadList.add(file);
-                    //TODO: assign data in service
+
+                    // TODO: assign data in service
                 }
 
                 // pick new files for upload from mix of uploaded and fresh files
-                filtered = _.filter(reportsUploadList.list, function (item) { // jshint ignore:line
+                filtered = _.filter(reportsUploadList.list, function (item) {
                     return item.status !== 'success';
                 });
 
@@ -178,9 +180,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 $scope.reportsUploadList = reportsUploadList.list;
             }
         };
-        //prepare files - ends
+        // prepare files - ends
 
-        //watch upload progress percentage
+        // watch upload progress percentage
         $scope.$watch('loaded', function () {
             var percentage = 100 * ($scope.loaded / $scope.total);
 
@@ -213,7 +215,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 if (files && files.length) {
                     j = 0;
 
-                    _.each(campaignSelectedName, function (elem) { // jshint ignore:line
+                    _.each(campaignSelectedName, function (elem) {
                         files[j].campaignId = $(elem).attr('campaignid');
                         j++;
                     });
@@ -240,11 +242,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                                         url: urlService.APIUploadReport(),
 
                                         fields: {
-                                            'reportType': file.reportType,
-                                            'reportName': file.reportName,
-                                            'notes': file.notes,
-                                            'fileName': file.name,
-                                            'campaignId': file.campaignId
+                                            reportType: file.reportType,
+                                            reportName: file.reportName,
+                                            notes: file.notes,
+                                            fileName: file.name,
+                                            campaignId: file.campaignId
                                         },
 
                                         fileFormDataName: 'report',
@@ -261,11 +263,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                                         $scope.rejFiles = [];
                                         $scope.uploadedCount++;
                                         file.status = 'success';
+
                                         $timeout(function () {
                                             if (config.file !== undefined) {
                                                 file.data = data.data;
                                             }
-
                                         });
                                     })
                                     .error(function () {
@@ -277,8 +279,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                                         $scope.timeoutReset();
                                         file.status = 'error';
                                     });
-                            })(file);
-                            //end of closure
+                            })(file); // jshint ignore:line
+                            // end of closure
                         } else {
                             $scope.progress = false;
 
@@ -287,11 +289,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                                 $scope.timeoutReset();
                             }
                         }
-                        //end of status check
+                        // end of status check
                     }
                 }
             } else {
-                //retry upload
+                // retry upload
                 $scope.progress = true;
 
                 if (file) {
@@ -309,11 +311,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                                     url: urlService.APIUploadReport(),
 
                                     fields: {
-                                        'reportType': file.reportType,
-                                        'reportName': file.reportName,
-                                        'notes': file.notes,
-                                        'fileName': file.name,
-                                        'campaignId': file.campaignId
+                                        reportType: file.reportType,
+                                        reportName: file.reportName,
+                                        notes: file.notes,
+                                        fileName: file.name,
+                                        campaignId: file.campaignId
                                     },
 
                                     fileFormDataName: 'report',
@@ -329,12 +331,12 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                                     $scope.timeoutReset();
                                     $scope.uploadedCount++;
                                     file.status = 'success';
+
                                     $timeout(function () {
                                         if (config.file !== undefined) {
                                             file.data = data.data;
                                             $scope.progress = false;
                                         }
-
                                     });
                                 })
                                 .error(function () {
@@ -346,22 +348,22 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                                     file.status = 'error';
                                 });
                         })(file);
-                        //end of closure
+                        // end of closure
                     } else {
                         $scope.progress = false;
                     }
-                    //end of status check
+                    // end of status check
                 }
             }
-            //upload ends
+            // upload ends
         };
 
         $scope.deleteProgress = false;
 
-        //Delete report Pop up
+        // Delete report Pop up
         $scope.localDeletetModal = function (key) {
-            var $modalInstance = $modal.open({ // jshint ignore:line
-                templateUrl: assets.html_delete_collective_report, // jshint ignore:line
+            $modal.open({
+                templateUrl: assets.html_delete_collective_report,
                 controller: 'CollectiveDeleteReportController',
                 scope: $scope,
                 windowClass: 'delete-dialog',
@@ -392,11 +394,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 }
             });
         };
-        //end of local delete
+        // end of local delete
 
         $scope.serverDeleteModal = function (key, reportId) {
-            var $modalInstance = $modal.open({ // jshint ignore:line
-                templateUrl: assets.html_delete_collective_report, // jshint ignore:line
+            $modal.open({
+                templateUrl: assets.html_delete_collective_report,
                 controller: 'CollectiveDeleteReportController',
                 scope: $scope,
                 windowClass: 'delete-dialog',
@@ -441,13 +443,13 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 }
             });
         };
-        //end of local delete
+        // end of local delete
 
         $scope.goToReportList = function () {
-            var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaign')),
+            var selectedCampaign = JSON.parse(localStorage.getItem('selectedCampaign')),
                 advertiserId = advertiserModel.getSelectedAdvertiser().id,
                 brandId = brandsModel.getSelectedBrand().id,
-                url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ? selectedCampagin.id : -1);
+                url = urlService.APIReportList(advertiserId, brandId, selectedCampaign ? selectedCampaign.id : -1);
 
             if (url) {
                 dataStore.deleteFromCache(url);

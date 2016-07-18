@@ -57,7 +57,7 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
             }
         };
 
-        //function can be called as momentService.todayDate('YYYY-MM-DD')
+        // function can be called as momentService.todayDate('YYYY-MM-DD')
         this.todayDate = function(dateFormat) {
             return moment().format(dateFormat);
         };

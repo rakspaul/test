@@ -1,4 +1,4 @@
-define(['angularAMD', 'reporting/models/action_type'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD', 'reporting/models/action_type'], function (angularAMD) {
     'use strict';
 
     var ActionType = function () {

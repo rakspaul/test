@@ -1,10 +1,10 @@
-define(['angularAMD', 'common/services/url_service', 'common/services/data_service', // jshint ignore:line
-    'reporting/brands/brands_model','reporting/dashboard/dashboard_model', 'login/login_model',
+define(['angularAMD', 'common/services/url_service', 'common/services/data_service',
+    'reporting/brands/brands_model', 'reporting/dashboard/dashboard_model', 'login/login_model',
     'reporting/advertiser/advertiser_model', 'reporting/subAccount/sub_account_model'], function (angularAMD) {
     'use strict';
 
-    angularAMD.service('ganttChartModel', ['utils', 'urlService', 'dataService', 'brandsModel','dashboardModel',
-        'loginModel', 'advertiserModel','subAccountModel', function (utils, urlService , dataService, brandsModel,
+    angularAMD.service('ganttChartModel', ['utils', 'urlService', 'dataService', 'brandsModel', 'dashboardModel',
+        'loginModel', 'advertiserModel', 'subAccountModel', function (utils, urlService , dataService, brandsModel,
                                                                      dashboardModel, loginModel, advertiserModel,
                                                                      subAccountModel) {
             this.dashboard = {

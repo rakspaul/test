@@ -1,4 +1,4 @@
-define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('AdvertiserListController', function ($scope, constants) {
@@ -9,6 +9,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
 
             if ($scope.selectedAdvertiser.name === undefined || $scope.selectedAdvertiser.name.length < 1) {
                 $scope.isExcludedByAdvertiserFilter = false;
+
                 return;
             }
 

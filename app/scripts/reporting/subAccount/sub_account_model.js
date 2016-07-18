@@ -1,4 +1,4 @@
-define(['angularAMD', 'workflow/services/workflow_service', 'common/services/constants_service', // jshint ignore:line
+define(['angularAMD', 'workflow/services/workflow_service', 'common/services/constants_service',
     'login/login_model'], function (angularAMD) {
     'use strict';
 
@@ -10,12 +10,12 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             dashboardSubAccounts: []
         };
 
-        this.setSelectedSubAccount = function (selected_sub_account) {
-            localStorage.setItem('selectedClient', JSON.stringify(selected_sub_account));
+        this.setSelectedSubAccount = function (selectedSubAccount) {
+            localStorage.setItem('selectedClient', JSON.stringify(selectedSubAccount));
         };
 
-        this.setSelectedDashboardSubAcc = function (selected_dash_sub_account) {
-            localStorage.setItem('dashboardClient', JSON.stringify(selected_dash_sub_account));
+        this.setSelectedDashboardSubAcc = function (selectedDashSubAccount) {
+            localStorage.setItem('dashboardClient', JSON.stringify(selectedDashSubAccount));
         };
 
         this.setSubAccounts = function (dataAry) {
@@ -30,7 +30,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             return self.subAccounts.allSubAccounts;
         };
 
-        // reset dashboard subaccount's local storage
+        // reset dashboard sub-account's local storage
         this.resetDashboardSubAccStorage = function () {
             loginModel.setDashboardClient({
                 id: loginModel.getMasterClient().id,

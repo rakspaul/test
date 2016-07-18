@@ -27,7 +27,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                             $scope.creativeData.creatives = result.data.data;
                         } else {
                             if (result.data.data && result.data.data.length > 0) {
-                                alreadyFound = _.filter(// jshint ignore:line
+                                alreadyFound = _.filter(
                                     $scope.creativeData.creatives,
                                     function (obj) {
                                             return obj.id === result.data.data[0].id;
@@ -260,7 +260,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         function init() {
-            //Note: Not sure if this is required just retaining - Sapna
+            // Note: Not sure if this is required just retaining - Sapna
             var campaignData, clientId, clientName,
               selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
 
@@ -374,7 +374,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             moreOptCreative.find('span').remove();
             moreOptCreative.html('<span class="icon-more-options"></span>');
 
-            //broadCast method for calling adServers for bulk Upload page.
+            // broadCast method for calling adServers for bulk Upload page.
             $scope.$broadcast('bulkUploadSelected');
         };
 
@@ -506,7 +506,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $('html').css('background', '#fff');
         $('.bodyWrap').css('width', '100%');
 
-        //Search Clear
+        // Search Clear
         $scope.searchHideInput = function () {
             var inputSearch = $('.searchInputForm input'),
                 selectedClientObj;
@@ -604,7 +604,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }
         });
 
-        //Pagination
+        // Pagination
         $(function () {
             $(window).scroll(function () {
                 var selectedClientObj;
@@ -620,7 +620,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             });
         });
 
-        //Clear Preview Mouse Out
+        // Clear Preview Mouse Out
         $scope.clearHoverPreview = function () {
             $('.hideOption').removeClass('open');
         };

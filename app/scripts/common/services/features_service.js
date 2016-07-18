@@ -130,18 +130,18 @@ define(['angularAMD', 'workflow/services/workflow_service',
                 serverResponseReceived = true;
 
                 if (featuresArr.indexOf('ENABLE_ALL') !== -1) {
-                    //Enable all features
+                    // Enable all features
                     setAllFeatureParams(true);
                 } else {
-                    //set all feature params to false before setting it true based on API enable list
+                    // set all feature params to false before setting it true based on API enable list
                     setAllFeatureParams(false);
 
-                    //set params true sent in enable list of API
+                    // set params true sent in enable list of API
                     _.each(featuresArr, function (feature) {
                         setSingleFeatureParam(feature, true);
                     });
 
-                    //check if reports tab not there
+                    // check if reports tab not there
                     if (featuresArr.indexOf('REPORTS_TAB') < 0) {
                         disableReportTab();
                     }
@@ -193,7 +193,7 @@ define(['angularAMD', 'workflow/services/workflow_service',
                 }
             };
 
-        //initialize feature params
+        // initialize feature params
         setAllFeatureParams(false);
 
         return  {

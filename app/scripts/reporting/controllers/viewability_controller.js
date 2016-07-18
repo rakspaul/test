@@ -1,8 +1,8 @@
-define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:line
-    'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model',
-    'common/services/data_service', 'reporting/models/domain_reports', 'common/services/constants_service',
-    'common/services/vistoconfig_service', 'reporting/timePeriod/time_period_model', 'login/login_model',
-    'common/services/url_service', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
+define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model',
+    'reporting/strategySelect/strategy_select_model', 'common/services/data_service', 'reporting/models/domain_reports',
+    'common/services/constants_service', 'common/services/vistoconfig_service',
+    'reporting/timePeriod/time_period_model', 'login/login_model', 'common/services/url_service',
+    'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
     'reporting/strategySelect/strategy_select_directive', 'reporting/strategySelect/strategy_select_controller',
     'reporting/timePeriod/time_period_pick_directive'], function (angularAMD) {
     'use strict';
@@ -18,13 +18,13 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
 
         $scope.textConstants = constants;
 
-        //highlight the header menu - Dashborad, Campaigns, Reports
+        // highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
-        $scope.strategyLoading =  true;
-        $scope.apiReturnCode = 200; // jshint ignore:line
+        $scope.strategyLoading = true;
+        $scope.apiReturnCode = 200;
 
         // set the default sort type
         $scope.sortType = '-view_metrics.ias_imps_delivered';
@@ -38,14 +38,14 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
         $scope.sortReverseDefaultSelection  = true;
 
         $scope.sortTypeForVideos = '-view_metrics.video_viewability_metrics.videos_deliverable_imps';
-        $scope.sortReverseForVidView  = true;
+        $scope.sortReverseForVidView = true;
 
         $scope.getMessageForDataNotAvailable = function (campaign, dataSetType) {
             campaign = campaign || $scope.campaign;
 
             if (!campaign || campaign.id === -1) {
                 return constants.MSG_DATA_NOT_AVAILABLE;
-            } else if ($scope.apiReturnCode === 404 || $scope.apiReturnCode >=500) {
+            } else if ($scope.apiReturnCode === 404 || $scope.apiReturnCode >= 500) {
                 return constants.MSG_UNKNOWN_ERROR_OCCURED;
             } else if (campaignSelectModel.durationLeft() === 'Yet to start') {
                 return constants.MSG_CAMPAIGN_YET_TO_START;
@@ -62,7 +62,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
 
         $scope.filters = domainReports.getReportsTabs();
 
-        $scope.download_urls = { // jshint ignore:line
+        $scope.download_urls = {
             tactics: null,
             domains: null,
             publishers: null
@@ -79,7 +79,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
             $scope.strategyFound = false;
             $scope.isStrategyDropDownShow = true;
             $scope.strategyLoading =  true;
-            $scope.selectedFilters = {}; // jshint ignore:line
+            $scope.selectedFilters = {};
 
             fromLocStore = localStorage.getItem('timeSetLocStore');
 
@@ -96,15 +96,16 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
 
         $scope.init();
 
-        //Function called to show Strategy list
+        // Function called to show Strategy list
         $scope.strategyViewData = function (param) {
             var strategiesList = {},
-                    errorHandler = function () {
+
+                errorHandler = function () {
                     $scope.dataNotFound = true;
                     $scope.strategyBusy = false;
                 },
 
-                datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
+                dateFilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
                 url,
 
                 queryObj = {
@@ -112,13 +113,13 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                     clientId:  loginModel.getSelectedClient().id,
                     advertiserId: advertiserModel.getSelectedAdvertiser().id,
                     brandId: brandsModel.getSelectedBrand().id,
-                    dateFilter: datefilter
+                    dateFilter: dateFilter
                 };
 
             $scope.strategyBusy = true;
             $scope.apiReturnCode = 200;
 
-            if (_.has(param, 'strategyId') && param.strategyId >= 0) { // jshint ignore:line
+            if (_.has(param, 'strategyId') && param.strategyId >= 0) {
                 queryObj.queryId =  13;
                 queryObj.strategyId = param.strategyId;
             } else {
@@ -136,25 +137,26 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                         strategiesList = result.data.data;
                         $scope.viewData = strategiesList;
                         $scope.strategyBusy = false;
+
                         ($scope.selectedStrategy.id >= 0) && (
-                            _.each(strategiesList.viewability_metrics, function (item) { // jshint ignore:line
+                            _.each(strategiesList.viewability_metrics, function (item) {
                                 if (item.ad_group_id === -1 && item.ad_id === -1) {
-                                    $scope.viewData.view_metrics = angular.copy(item); // jshint ignore:line
+                                    $scope.viewData.view_metrics = angular.copy(item);
                                 }
                             }),
 
                             $scope.viewData.viewability_metrics =
-                                _.filter($scope.viewData.viewability_metrics, function (item) { // jshint ignore:line
+                                _.filter($scope.viewData.viewability_metrics, function (item) {
                                     return (item.ad_group_id !== -1 && item.ad_id !== -1);
                                 })
                         );
 
                         if (strategiesList) {
                             $scope.dataNotFound = false;
+
                             $scope.strategyHeading = Number($scope.selectedStrategy.id) ===
                                 vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ?
-                                constants.MEDIA_PLAN_TOTAL :
-                                constants.LINE_ITME_TOTAL;
+                                constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
                         } else {
                             errorHandler();
                         }
@@ -164,8 +166,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                     }
                 } else {
                     // Means no strategy data found
-                    if (result.status ==='error')
-                        $scope.apiReturnCode= result.data.status; // jshint ignore:line
+                    if (result.status ==='error') {
+                        $scope.apiReturnCode= result.data.status;
+                    }
+
                     errorHandler();
                 }
             }, errorHandler);
@@ -175,7 +179,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
             $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
         });
 
-        //creating download report url
+        // creating download report url
         $scope.createDownloadReportUrl = function () {
             $scope.download_report = [
                 {
@@ -184,6 +188,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                     label: 'Quality by Ad',
                     download_config_id: 1
                 },
+
                 {
                     url: '/reportBuilder/customQueryDownload',
                     query_id: 31,
@@ -196,7 +201,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function () {
             $scope.init();
 
-            //update the selected Campaign
+            // update the selected Campaign
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         });
 
@@ -204,26 +209,25 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
             $scope.createDownloadReportUrl();
         });
 
-        $scope.$on(constants.EVENT_STRATEGY_CHANGED , function () {
+        $scope.$on(constants.EVENT_STRATEGY_CHANGED, function () {
             extractAdFormats();
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name;
 
             $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ?
-                constants.CAMPAIGN_TOTAL :
-                constants.AD_GROUP_TOTAL;
+                constants.CAMPAIGN_TOTAL : constants.AD_GROUP_TOTAL;
 
             $scope.callBackStrategyChange();
         });
 
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function (event,strategy) {
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event, strategy) {
             $scope.selectedFilters.time_filter = strategy;
             $scope.callBackStrategyChange();
             $scope.createDownloadReportUrl();
         });
 
-        //Function is called from startegylist directive
+        // Function is called from startegyList directive
         $scope.callBackStrategyChange = function () {
             $scope.viewData = {};
 
@@ -240,7 +244,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                 });
             }
 
-            //Call the chart to load with the changed campaign id and strategyid
+            // Call the chart to load with the changed campaign id and strategyid
             $scope.viewabilityBusy = false;
         };
 
@@ -275,10 +279,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
         };
 
 
-        $scope.$on('dropdown-arrow-clicked', function (event, args,sortorder) {
-            $scope.sortType = 'view_metrics.'+args;
-            $scope.sortTypeSubSort ='tactic.'+args;
-            $scope.sortReverse  = sortorder;
+        $scope.$on('dropdown-arrow-clicked', function (event, args, sortOrder) {
+            $scope.sortType = 'view_metrics.' + args;
+            $scope.sortTypeSubSort = 'tactic.' + args;
+            $scope.sortReverse  = sortOrder;
         });
 
         // hot fix for the enabling the active link in the reports dropdown

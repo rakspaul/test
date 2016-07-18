@@ -1,4 +1,4 @@
-define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshint ignore:line
+define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
     'reporting/strategySelect/strategy_select_model','common/services/constants_service'], function (angularAMD) {
     'use strict';
 
@@ -57,7 +57,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 (strategy.lineitemId === undefined ? strategy.strategyId : strategy.lineitemId): strategy.id;
 
             $scope.strategyData.selectedStrategy.name = (strategy.name === undefined) ?
-                strategy.strategy_name  : strategy.name;
+                strategy.strategy_name : strategy.name;
 
             $rootScope.$broadcast(constants.EVENT_STRATEGY_CHANGED, strategy);
 
@@ -65,7 +65,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 $scope.$parent.strategyLoading = false;
             }
         };
-
 
         $scope.fetchStrategies = function () {
             $scope.isStrategyDropDownShow = false;

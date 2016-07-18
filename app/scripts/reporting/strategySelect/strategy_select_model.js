@@ -1,4 +1,4 @@
-define(['angularAMD', '../../common/services/url_service', 'common/services/data_service', // jshint ignore:line
+define(['angularAMD', '../../common/services/url_service', 'common/services/data_service',
     'common/services/request_cancel_service', 'common/services/constants_service',
     'common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
@@ -8,7 +8,11 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
             var strategyObj = {};
 
             strategyObj.strategies = {};
-            strategyObj.selectedStrategy = {id: -1, name: 'Loading...'};
+
+            strategyObj.selectedStrategy = {
+                id: -1,
+                name: 'Loading...'
+            };
 
             return {
                 getStrategies: function (campaignId) {
@@ -72,14 +76,14 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
 
                     if (strategyObj.strategies && strategyObj.strategies.length > 0) {
                         if (Number(strategyObj.selectedStrategy.id) === -1) {
-                            adFormatsArr = _.map(strategyObj.strategies, function (strategy) { // jshint ignore:line
+                            adFormatsArr = _.map(strategyObj.strategies, function (strategy) {
                                 return strategy.ad_formats || [];
                             });
 
-                            result = _.uniq(_.flatten(adFormatsArr)); // jshint ignore:line
+                            result = _.uniq(_.flatten(adFormatsArr));
                         } else {
                             selectedStrategy =
-                                _.find(strategyObj.strategies, function (strategy) { // jshint ignore:line
+                                _.find(strategyObj.strategies, function (strategy) {
                                     return strategy.id === Number(strategyObj.selectedStrategy.id);
                                 });
 
@@ -90,5 +94,6 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
                     return result || [];
                 }
             };
-        }]);
+        }
+    ]);
 });

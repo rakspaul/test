@@ -1,4 +1,5 @@
-define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) {
+    'use strict';
 
     angularAMD.directive('campaignListFilterDirective', function (constants) {
         return {
@@ -8,7 +9,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 campaigns: '='
             },
 
-            templateUrl: assets.html_campaign_lst_filter, // jshint ignore:line
+            templateUrl: assets.html_campaign_lst_filter,
 
             link: function ($scope) {
                 var quickFilters = $('.sliding_dropdown_container_quick');

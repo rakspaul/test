@@ -1,9 +1,9 @@
-define(['angularAMD', '../../common/services/constants_service', // jshint ignore:line
-    'workflow/services/workflow_service'], function(angularAMD) {
+define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service'],
+    function(angularAMD) {
     'use strict';
 
     angularAMD.service('brandsService', function($rootScope, $http, constants, workflowService) {
-        //default values
+        // default values
         var service = {};
 
         service.fetchBrands = function(searchCriteria) {

@@ -79,7 +79,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
             };
         })
 
-        //Details-Banner-Directive
+        // Details-Banner-Directive
         .directive('campaignDetailsBanner', function () {
             return {
                 restrict: 'AE',

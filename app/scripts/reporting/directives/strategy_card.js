@@ -1,10 +1,10 @@
-define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
-    'reporting/campaignList/campaign_list_service', 'common/moment_utils', 'reporting/directives/tactic_card',
-    'reporting/common/d3/campaign_chart'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'reporting/campaignList/campaign_list_service',
+    'common/moment_utils', 'reporting/directives/tactic_card', 'reporting/common/d3/campaign_chart'],
+    function (angularAMD) {
     'use strict';
 
     angularAMD.directive('campaignStrategyCard', function (utils, loginModel, constants, campaignListService,
-                                                               momentService) {
+                                                           momentService) {
         return {
             restrict: 'EAC',
 
@@ -13,7 +13,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 campaigns: '='
             },
 
-            templateUrl: assets.html_campaign_strategy_card, // jshint ignore:line
+            templateUrl: assets.html_campaign_strategy_card,
 
             link: function ($scope) {
                 $scope.textConstants = constants;
@@ -83,7 +83,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                             }
                         }
 
-                        //  past a campaign end date
+                        // past a campaign end date
                         if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'),
                                 strategyEndDate) === true) {
                             return (spendDifference < -5 || spendDifference > 5) ? 'red' : 'blue';

@@ -40,7 +40,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                         }
                     }
 
-                    //method to find lowest startTime
+                    // method to find lowest startTime
                     ascending = _.sortBy(startDatelow, function (o) {
                         return o;
                     });
@@ -194,7 +194,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
             newItem.campaignId = campaignId;
 
-            //this is in case of edit mode where line item has id
+            // this is in case of edit mode where line item has id
             if (lineItemObj) {
                 newItem.id = lineItemObj.id;
                 newItem.updatedAt = lineItemObj.updatedAt;
@@ -234,14 +234,13 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             // handle real edit mode
             newItem.campaignId = (campaignId === '-999') ? '-999' : campaignId;
 
-            //this is in case of edit mode where line item has id
+            // this is in case of edit mode where line item has id
             if (lineItemObj) {
                 newItem.id = lineItemObj.id;
                 newItem.updatedAt = lineItemObj.updatedAt;
                 newItem.hasInFlightAds = lineItemObj.hasInFlightAds;
             }
 
-            //$scope.calculateLineItemTotal();
             return newItem;
         }
 
@@ -262,7 +261,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             }
         }
 
-        //shows error message if line item billable amount exceed media plan budget
+        // shows error message if line item billable amount exceed media plan budget
         // return true if the line item budget exceeds media plan budget
         function doesLineItemExceedBudget(billableAmount,totalBudget) {
             if (Number(billableAmount) > totalBudget) {
@@ -319,19 +318,19 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             $scope.editLineItem.volume = lineItem.volume;
             $scope.editLineItem.hasInFlightAds = lineItem.hasInFlightAds;
 
-            //if pixel is empty show select from list in edit section for create/edit mode
+            // if pixel is empty show select from list in edit section for create/edit mode
             if (_.isEmpty($scope.editLineItem.pixelSelected)) {
                 $scope.editLineItem.pixelSelected = {};
                 $scope.editLineItem.pixelSelected.name = 'Select from list';
                 $scope.editLineItem.pixelSelected.id = '';
             }
 
-            //set line Item End Date
+            // set line Item End Date
             if (lineItem.endTime) {
                 $scope.editLineItem.endTime = lineItem.endTime;
             }
 
-            //set line Item start Date
+            // set line Item start Date
             if (lineItem.startTime) {
                 $scope.editLineItem.startTime = lineItem.startTime;
                 lineItemStartDateElem.datepicker('setStartDate', $scope.selectedCampaign.startTime);
@@ -412,18 +411,18 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 clientId,
                 url;
 
-            //if we have to save the media plan prior to line item
+            // if we have to save the media plan prior to line item
             $scope.showConfirmPopupBulkUpload = false;
 
             if ($scope.saveMediaPlan) {
-                //this is temp save in case we need to save media plan before line item
+                // this is temp save in case we need to save media plan before line item
                 workflowService.setLineItemBulkData($scope.selectedCampaign.lineItemfile);
 
-                //show popup
+                // show popup
                 $scope.showConfirmPopupBulkUpload = true;
             } else if (uploadMode === 'create') {
                 if ($scope.selectedCampaign.lineItemfile) {
-                    //bulk upload loader flag
+                    // bulk upload loader flag
                     $scope.bulkUploadItemLoaderEdit = true;
                     budget = $scope.Campaign.totalBudget ? $scope.Campaign.totalBudget : 0;
 
@@ -482,14 +481,14 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                                 $scope.uploadBusy = false;
                                 $scope.uploadErrorMsg = 'Unable to upload the file.';
 
-                                //bulk upload loader
+                                // bulk upload loader
                                 $scope.bulkUploadItemLoaderEdit = false;
                             });
                     })($scope.selectedCampaign.lineItemfile);
                 }
             } else if (uploadMode === 'edit') {
                 if ($scope.selectedCampaign.lineItemfile) {
-                    //bulk upload loader flag
+                    // bulk upload loader flag
                     $scope.bulkUploadItemLoaderEdit = true;
 
                     clientId = ($scope.selectedCampaign.clientId) ?
@@ -523,7 +522,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                                 $scope.showUploadRecordsMessageLineItems = true;
 
-                                //make lineitems call n refresh that data
+                                // make lineitems call n refresh that data
                                 workflowService
                                     .getLineItem($routeParams.campaignId, true)
                                     .then(function (results) {
@@ -536,13 +535,13 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                                 $scope.clearFileSelected();
 
-                                //bulk upload loader
+                                // bulk upload loader
                                 $scope.bulkUploadItemLoaderEdit = false;
                             }, function () {
                                 $scope.uploadBusy = false;
                                 $scope.uploadErrorMsg = 'Unable to upload the file.';
 
-                                //bulk upload loader
+                                // bulk upload loader
                                 $scope.bulkUploadItemLoaderEdit = false;
                             });
                     })($scope.selectedCampaign.lineItemfile);
@@ -633,28 +632,28 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             // line item edit mode - save media plan q
             newItem = createLineItemObj();
 
-            //calc budget for validation against campaign budget
+            // calc budget for validation against campaign budget
             if (doesLineItemExceedBudget(newItem.billableAmount,$scope.Campaign.totalBudget)) {
                 return false;
             }
 
-            //if we have to save the media plan prior to line item
+            // if we have to save the media plan prior to line item
             $scope.showConfirmPopupCreate = false;
             if ($scope.saveMediaPlan) {
-                //this is temp save in case we need to save media plan before line item
+                // this is temp save in case we need to save media plan before line item
                 workflowService.setLineItemData(newItem);
 
-                //show popup
+                // show popup
                 $scope.showConfirmPopupCreate = true;
             } else {
-                //this is temp save in case we need to save media plan before line item
+                // this is temp save in case we need to save media plan before line item
                 newItem = workflowService.getLineItemData();
 
                 if (!newItem) {
                     newItem = createLineItemObj();
                 }
 
-                //loader for save button
+                // loader for save button
                 $scope.Campaign.createNewLineItemLoaderEdit = true;
 
                 newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
@@ -665,7 +664,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     newItem.pricingRate = Number(newItem.pricingRate.split('%')[0]);
                 }
 
-                //else just save line item
+                // else just save line item
                 workflowService
                     .createLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem)
                     .then(function (results) {
@@ -681,12 +680,12 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                             $rootScope.setErrAlertMessage(results.data.data.message );
                             workflowService.setLineItemData(null);
 
-                            //hide loader
+                            // hide loader
                             $scope.createNewLineItemLoader = false;
                             $scope.Campaign.createNewLineItemLoaderEdit = false;
                         }
 
-                        //hide loader
+                        // hide loader
                         $scope.createNewLineItemLoader = false;
                         $scope.Campaign.createNewLineItemLoaderEdit = false;
                     });
@@ -718,16 +717,16 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             // if we have to save the media plan prior to line item
             $scope.showConfirmPopupEdit = false;
             if ($scope.saveMediaPlan) {
-                //this is temp save in case we need to save media plan before line item
+                // this is temp save in case we need to save media plan before line item
                 workflowService.setLineItemDataEdit(newItem);
 
-                //show popup
+                // show popup
                 $scope.showConfirmPopupEdit = true;
             } else {
-                //this is temp save in case we need to save media plan before line item
+                // this is temp save in case we need to save media plan before line item
                 newItem = workflowService.getLineItemDataEdit();
 
-                //loader for update buton
+                // loader for update buton
                 $scope.editLineItemLoaderEdit = true;
 
                 if (!newItem) {
@@ -841,7 +840,6 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     $scope.volumeFlag = false;
                     $scope.volume = '';
 
-                    //$scope.amountFlag = false;
                     $scope.billableAmount = '';
                     $scope.systemOfRecordSelected = {};
                     $scope.systemOfRecordSelected.name = 'Select from list';
@@ -887,7 +885,10 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 } else if (CONST_COGS_CPM === $scope.editLineItem.lineItemType.name) {
                     if (selectedAdvertiser && (selectedAdvertiser.billingTypeId && selectedAdvertiser.billingValue)) {
                         $scope.rateReadOnlyEdit = true;
-                        $scope.editLineItem.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
+
+                        // to get via advertiser api
+                        $scope.editLineItem.pricingRate = selectedAdvertiser.billingValue;
+
                         $scope.rateTypeReadOnlyEdit = true;
                     }
 
@@ -909,7 +910,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     $scope.volumeFlagEdit = false;
                     $scope.editLineItem.volume = '';
 
-                    //ad group in edit mode
+                    // ad group in edit mode
                     $scope.hideAdGroupNameEdit = true;
                     $scope.editLineItem.adGroupName = '';
                     $scope.editLineItem.pixelSelected = {};
@@ -929,7 +930,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 }
             }
 
-            //trigger volume calculation
+            // trigger volume calculation
             $scope.calculateVolume(mode);
         };
 
@@ -976,7 +977,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             $scope.showSystemOfRecord = true;
         };
 
-        //Line Item Table Row Edit
+        // Line Item Table Row Edit
         $scope.showEditItemRow = function (event, lineItem) {
             var target = event.currentTarget;
 
@@ -998,7 +999,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             // update type arr and selected advertiser
             setCogsValue();
 
-            //disable flat fee in case the user created media plan with line item with rate type other than FLAT FEE
+            // disable flat fee in case the user created media plan with line item with rate type other than FLAT FEE
             if ($scope.mode === 'edit') {
                 $scope.showConfirmPopupEdit = false ;
                 $scope.disableFlatFeeEdit = false;
@@ -1011,7 +1012,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 }
             }
 
-            //populate edit lineitem fields
+            // populate edit lineitem fields
             populateLineItemEdit(event, lineItem);
         };
 
@@ -1095,7 +1096,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     $scope.setLineItem($scope.type[index], 'create');
                 }
 
-                //pixel
+                // pixel
                 if (item.pixelId) {
                     pixelIndex = _.findIndex($scope.selectedCampaign.pixelList, function (type) {
                         return type.id === item.pixelId;
@@ -1107,7 +1108,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     }
                 }
 
-                //SOR
+                // SOR
                 if (item.vendorConfigId) {
                     sorIndex =
                             _.findIndex($scope.selectedCampaign.systemOfRecord, function (type) {
@@ -1126,11 +1127,11 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 $scope.volume = item.volume;
                 $scope.pricingRate = item.billingRate;
 
-                //line start Date
+                // line start Date
                 $scope.lineItemAPIStartTime = item.startTime;
                 $scope.lineItemStartDate = momentService.utcToLocalTime(item.startTime);
 
-                //line Item End Date
+                // line Item End Date
                 $scope.lineItemAPIEndTime = item.endTime;
                 $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime);
 
@@ -1171,12 +1172,12 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             $scope.campaignStartDate = $scope.lineItemStartDate = $scope.selectedCampaign.startTime;
             $scope.campaignEndDate = $scope.lineItemEndDate = $scope.selectedCampaign.endTime;
 
-            //line Item start Date
+            // line Item start Date
             startDateElem.datepicker('setStartDate', $scope.campaignStartDate);
             startDateElem.datepicker('update', $scope.campaignStartDate);
             startDateElem.datepicker('setEndDate', $scope.campaignEndDate);
 
-            //line Item End Date
+            // line Item End Date
             endDateElem.datepicker('setStartDate', $scope.campaignStartDate);
             endDateElem.datepicker('update', $scope.campaignEndDate);
             endDateElem.datepicker('setEndDate', $scope.campaignEndDate);
@@ -1267,14 +1268,14 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                         $scope.editLineItem.volume = Math.round($scope.editLineItem.volume);
                     } else {
-                         //. in case $scope.editLineItem.pricingRate is 0
+                         // in case $scope.editLineItem.pricingRate is 0
                         $scope.editLineItem.volume = 0;
                     }
                 }
             }
         };
 
-        //TODO : need to make the change to optimise this code
+        // TODO : need to make the change to optimise this code
         $scope.updateLineItemCreateDate = function () {
             $scope.lineItemStartDate = $('#lineItemStartDateInput').val();
             $scope.lineItemEndDate = $('#lineItemEndDateInput').val();

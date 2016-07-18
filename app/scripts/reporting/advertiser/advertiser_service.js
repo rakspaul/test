@@ -1,9 +1,9 @@
-define(['angularAMD', '../../common/services/constants_service', // jshint ignore:line
+define(['angularAMD', '../../common/services/constants_service',
     'workflow/services/workflow_service'], function(angularAMD) {
     'use strict';
 
     angularAMD.service('advertiserService', function($location, $rootScope, $http, constants, workflowService) {
-        //default values
+        // default values
         var service = {};
 
         service.fetchAdvertisers = function() {
@@ -12,8 +12,8 @@ define(['angularAMD', '../../common/services/constants_service', // jshint ignor
 
         service.preForAdvertiserBroadcast = function(advertiser, event_type) {
             var obj = {
-                'advertiser': advertiser,
-                'event_type': event_type
+                advertiser: advertiser,
+                event_type: event_type
             };
 
             $rootScope.$broadcast(constants.EVENT_ADVERTISER_CHANGED, obj);

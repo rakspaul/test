@@ -1,4 +1,4 @@
-define(['angularAMD'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
     angularAMD.value('Tactic', function () {

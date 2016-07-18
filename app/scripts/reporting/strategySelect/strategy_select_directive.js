@@ -1,4 +1,4 @@
-define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.directive('strategyDropDown', function(constants) {
@@ -11,7 +11,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
             },
 
             controller: 'StrategySelectController',
-            templateUrl: assets.html_strategy_drop_down, // jshint ignore:line
+            templateUrl: assets.html_strategy_drop_down,
 
             link: function ($scope) {
                 $scope.textConstants = constants;

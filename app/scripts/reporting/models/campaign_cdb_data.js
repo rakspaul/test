@@ -1,4 +1,4 @@
-define(['angularAMD', 'reporting/models/campaign_cdb_data'], function(angularAMD) { // jshint ignore:line
+define(['angularAMD', 'reporting/models/campaign_cdb_data'], function(angularAMD) {
     'use strict';
 
     var CampaignCDBData = function() {
@@ -34,6 +34,7 @@ define(['angularAMD', 'reporting/models/campaign_cdb_data'], function(angularAMD
             if (value === 'ctr') {
                 return this[value];
             }
+
             return this[value];
         };
 

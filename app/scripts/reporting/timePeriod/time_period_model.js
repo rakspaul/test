@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD', 'common/services/constants_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.factory('timePeriodModel', function (constants) {
@@ -61,7 +61,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
 
                 this.getTimePeriod = function(dateFilter) {
                     if (dateFilter === 'custom') {
-                        var todayDate = moment()// jshint ignore:line
+                        var todayDate = moment()
                                 .subtract(0, 'days')
                                 .format(constants.DATE_UTC_SHORT_FORMAT),
 

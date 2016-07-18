@@ -1,11 +1,11 @@
-define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint ignore:line
-    'common/services/transformer_service', 'reporting/models/campaign_model', 'common/services/request_cancel_service',
-    'common/services/constants_service', 'common/moment_utils', 'reporting/models/domain_reports', 'login/login_model',
+define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/services/transformer_service',
+    'reporting/models/campaign_model', 'common/services/request_cancel_service', 'common/services/constants_service',
+    'common/moment_utils', 'reporting/models/domain_reports', 'login/login_model',
     'reporting/timePeriod/time_period_model', 'common/services/url_service', 'reporting/common/charts/line'],
     function (angularAMD) {
         'use strict';
 
-        //originally in models/campaign.js
+        // originally in models/campaign.js
         angularAMD.factory('campaignListService', ['dataService', 'utils', 'modelTransformer', 'campaignModel',
             'requestCanceller', 'constants', 'momentService', 'domainReports', 'loginModel', 'timePeriodModel',
             'urlService', 'line', function (dataService, utils, modelTransformer, campaignModel, requestCanceller,
@@ -19,19 +19,6 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
 
                     getListCampaign = function () {
                         return listCampaign;
-                    },
-
-                    noOfdaysCampaignRun = function (startDate, endDate) { // jshint ignore:line
-                        var today = momentInNetworkTZ.today();
-
-                        startDate = momentInNetworkTZ.newMoment(startDate);
-                        endDate = momentInNetworkTZ.newMoment(endDate);
-
-                        if (endDate > today) {
-                            endDate = today;
-                        }
-
-                        return endDate.diff(startDate, 'days') + 1;
                     },
 
                     createTacticObject = function (tacticData, timePeriod, campaign, strategyId) {
@@ -54,14 +41,14 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                             filterEndDate = '',
                             mediaTypeIcon;
 
-                        _.each(tacticData, function (tactic) { // jshint ignore:line
+                        _.each(tacticData, function (tactic) {
                             var tactic1 = {
                                 id: tactic.id,
                                 media_type_icon: mediaTypeIcon,
                                 name: tactic.name,
                                 startDate: momentInNetworkTZ.utcToLocalTime(tactic.start_date, 'YYYY-MM-DD'),
                                 endDate: momentInNetworkTZ.utcToLocalTime(tactic.end_date, 'YYYY-MM-DD'),
-                                ad_size: _.uniq(tactic.ad_size), // jshint ignore:line
+                                ad_size: _.uniq(tactic.ad_size),
                                 platform_name: tactic.platform_name,
                                 platform_icon: tactic.platform_icon_url,
                                 status: status,
@@ -91,18 +78,18 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                             tactic1.daysSinceEnded = campaign.daysSinceEnded.bind(tactic1);
                             tacticObj.push(tactic1);
 
-                            //based on time period use period dates or flight dates
+                            // based on time period use period dates or flight dates
                             switch (timePeriod) {
                                 case 'last_7_days':
                                 case 'last_30_days':
-                                    //campaign period dates for timefiltering
+                                    // campaign period dates for timefiltering
                                     filterStartDate = '';
                                     filterEndDate = '';
                                     break;
 
                                 case 'life_time': // jshint ignore:line
                                 default:
-                                    //campaign flight dates for timefilter
+                                    // campaign flight dates for timefilter
                                     filterStartDate = campaign.startDate;
                                     filterEndDate = campaign.endDate;
                             }
@@ -129,7 +116,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                                 data = result.data,
                                 loadingFlag = 0;
 
-                            if (result.status === 'OK' && !angular.isString(data)) { // jshint ignore:line
+                            if (result.status === 'OK' && !angular.isString(data)) {
                                 if (data.length >= 0) {
                                     if (data.length <= pageSize) {
                                         strategy.strategyTactics = createTacticObject(data, timePeriod, campaign,
@@ -147,12 +134,12 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                     },
 
                     getTacticData = function (strategy, timePeriod, campaign, data) {
-                        //create tactic object and request cdb and metric data
+                        // create tactic object and request cdb and metric data
                         return createTacticObject(data, timePeriod, campaign, strategy.id);
                     },
 
                     getTacticsMetrics = function (tactic, tacticMetrics) {
-                        if (!angular.isString(tacticMetrics)) { // jshint ignore:line
+                        if (!angular.isString(tacticMetrics)) {
                             tactic.adFormats = domainReports.checkForCampaignFormat(tacticMetrics.adFormat);
                             tactic.totalImpressions = tacticMetrics.impressions;
                             tactic.grossRev = tacticMetrics.gross_rev;
@@ -203,17 +190,16 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                                     lineData,
                                     tempKpiType;
 
-                                if (result.status === 'success' &&
-                                    !angular.isString(result.data)) { // jshint ignore:line
+                                if (result.status === 'success' && !angular.isString(result.data)) {
                                     if (kpiType !== undefined || kpiType !== null) {
-                                        kpiTypeLower = angular.lowercase(kpiType); // jshint ignore:line
+                                        kpiTypeLower = angular.lowercase(kpiType);
 
                                         if (result.data.data.length > 0) {
                                             maxDays = result.data.data;
-                                            getTacticsMetrics(tactic, _.last(maxDays)); // jshint ignore:line
+                                            getTacticsMetrics(tactic, _.last(maxDays));
                                             i = 0;
 
-                                            lineData = _.map(maxDays, function (item) { // jshint ignore:line
+                                            lineData = _.map(maxDays, function (item) {
                                                 item.ctr *= 100;
                                                 item.vtc = item.video_metrics.vtc_rate;
 
@@ -231,19 +217,21 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                                             tactic.chart = new line.highChart(lineData, parseFloat(kpiValue),
                                                 kpiTypeLower, 'tactics');
 
-                                            //d3 chart data
+                                            // d3 chart data
                                             tactic.lineChart = {
                                                 data: lineData,
                                                 kpiValue: parseFloat(kpiValue),
                                                 kpiType: kpiTypeLower,
                                                 from: 'tactics',
 
-                                                //for delivery kpi
+                                                // for delivery kpi
                                                 deliveryData: {
                                                     startDate: tactic.startDate,
                                                     endDate: tactic.endDate,
+
                                                     totalDays: momentInNetworkTZ.dateDiffInDays(
                                                         tactic.startDate, tactic.endDate) + 1,
+
                                                     deliveryDays: maxDays.length,
                                                     bookedImpressions: maxDays[maxDays.length - 1].booked_impressions
                                                 }
@@ -266,7 +254,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                             keyValues = '',
                             geos = '';
 
-                        _.each(strategyData, function (strategy) { // jshint ignore:line
+                        _.each(strategyData, function (strategy) {
                             var strategy1 = {
                                 id: strategy.id,
                                 brandName: campaign.brandName,
@@ -328,9 +316,9 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                                     lineData;
 
                                 if (result.status === 'success' &&
-                                    !angular.isString(result.data)) { // jshint ignore:line
+                                    !angular.isString(result.data)) {
                                     if (kpiType !== undefined || kpiType !== null) {
-                                        kpiTypeLower = angular.lowercase(kpiType); // jshint ignore:line
+                                        kpiTypeLower = angular.lowercase(kpiType);
 
                                         if (kpiTypeLower === 'action rate') {
                                             kpiTypeLower = 'action_rate';
@@ -341,13 +329,13 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
 
                                             getStrategyMetrics(
                                                 strategy,
-                                                _.last(maxDays), // jshint ignore:line
+                                                _.last(maxDays),
                                                 result.data.data.adFormats
                                             );
 
                                             i = 0;
 
-                                            lineData = _.map(maxDays, function (item) { // jshint ignore:line
+                                            lineData = _.map(maxDays, function (item) {
                                                 item.ctr *= 100;
                                                 item.vtc = item.video_metrics.vtc_rate;
 
@@ -361,8 +349,8 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                                             strategy.chart = new line.highChart(lineData, parseFloat(kpiValue),
                                                 kpiTypeLower, 'strategy');
 
-                                            //d3 chart data
-                                            //REVIEW: TARGET -DELIVERY
+                                            // d3 chart data
+                                            // REVIEW: TARGET -DELIVERY
                                             if (kpiTypeLower === 'impressions') {
                                                 strategy.targetKPIImpressions =
                                                     maxDays[maxDays.length - 1].booked_impressions;
@@ -374,7 +362,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                                                 kpiType: kpiTypeLower,
                                                 from: 'strategy',
 
-                                                //for delivery kpi
+                                                // for delivery kpi
                                                 deliveryData: {
                                                     startDate: strategy.startDate,
                                                     endDate: strategy.endDate,
@@ -405,10 +393,11 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                         dataService
                             .getCampaignStrategies(url, 'list')
                             .then(function (result) {
-                            var data = result.data.data;
-                                if (result.status === 'success' && !angular.isString(data)) { // jshint ignore:line
+                                var data = result.data.data;
+
+                                if (result.status === 'success' && !angular.isString(data)) {
                                     if (data.length >= 0) {
-                                        //TODO: DO NOT DELETE - UNTIL WE INTRODUCE PAGINATION
+                                        // TODO: DO NOT DELETE - UNTIL WE INTRODUCE PAGINATION
                                         // var dataObj =  createStrategyObject(result.data.data, timePeriod,
                                         // campaign, kpiType, kpiValue);
                                         // var campaignStrategies =
@@ -420,8 +409,8 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                                         //     campaign.campaignStrategiesLoadMore = campaignStrategies.slice(3);
                                         // }
 
-                                        //TODO: optimise this a bit futher after introducing pagination
-                                        //TODO: separate list data call and data manipulation
+                                        // TODO: optimise this a bit futher after introducing pagination
+                                        // TODO: separate list data call and data manipulation
                                         if (data.length <= pageSize) {
                                             campaign.campaignStrategies = createStrategyObject(data, timePeriod,
                                                 campaign, kpiType, kpiValue);
@@ -437,7 +426,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                     },
 
                     getStrategyData = function (campaign, timePeriod, data) {
-                        //this requests strategy data - invoked when requestStrategiesData is called from controller
+                        // this requests strategy data - invoked when requestStrategiesData is called from controller
                         return createStrategyObject(data, timePeriod, campaign, campaign.kpiType, campaign.kpiValue);
                     },
 
@@ -467,7 +456,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                                     keys: {
                                         xAxis: {
                                             val: 'vtc',
-                                            tickValues: _.pluck(vtcDataToPlot, 'vtc') // jshint ignore:line
+                                            tickValues: _.pluck(vtcDataToPlot, 'vtc')
                                         },
 
                                         yAxis: {
@@ -489,7 +478,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                                 }
                             };
 
-                        _.each(vtcMetricJson, function (value, key) { // jshint ignore:line
+                        _.each(vtcMetricJson, function (value, key) {
                             if (vtcMapper[key]) {
                                 vtcDataToPlot.push({
                                     vtc: vtcMapper[key],
@@ -503,7 +492,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                             values: 100
                         });
 
-                        vtcDataToPlot = _.sortBy(vtcDataToPlot, 'vtc'); // jshint ignore:line
+                        vtcDataToPlot = _.sortBy(vtcDataToPlot, 'vtc');
 
                         return baseConfiguration;
                     },
@@ -522,12 +511,11 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
 
                                 campaignObject.chart = true;
 
-                                if (result.status === 'success' &&
-                                    !angular.isString(result.data)) { // jshint ignore:line
-                                    if (!angular.isUndefined(campaignObject.kpiType)) { // jshint ignore:line
+                                if (result.status === 'success' && !angular.isString(result.data)) {
+                                    if (!angular.isUndefined(campaignObject.kpiType)) {
                                         kpiType = campaignObject.kpiType;
                                         kpiValue = campaignObject.kpiValue;
-                                        kpiTypeLower = angular.lowercase(kpiType); // jshint ignore:line
+                                        kpiTypeLower = angular.lowercase(kpiType);
 
                                         if (kpiTypeLower === 'action rate') {
                                             kpiTypeLower = 'action_rate';
@@ -537,7 +525,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                                             maxDays = result.data.data.measures_by_days;
                                             i = 0;
 
-                                            lineData = _.map(maxDays, function (item) { // jshint ignore:line
+                                            lineData = _.map(maxDays, function (item) {
                                                 item.ctr *= 100;
                                                 item.vtc = item.video_metrics.vtc_rate;
 
@@ -548,7 +536,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                                                 };
                                             });
 
-                                            cdData = _.last(maxDays); // jshint ignore:line
+                                            cdData = _.last(maxDays);
                                             cdData.adFormats =
                                                 domainReports.checkForCampaignFormat(result.data.data.adFormats);
 
@@ -556,19 +544,21 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                                             campaignObject.chart = new line.highChart(lineData, parseFloat(kpiValue),
                                                 kpiTypeLower, 'campaign');
 
-                                            //d3 chart data
+                                            // d3 chart data
                                             campaignObject.lineChart = {
                                                 data: lineData,
                                                 kpiValue: parseFloat(kpiValue),
                                                 kpiType: kpiTypeLower,
                                                 from: 'campaign',
 
-                                                //for delivery kpi
+                                                // for delivery kpi
                                                 deliveryData: {
                                                     startDate: campaignObject.startDate,
                                                     endDate: campaignObject.endDate,
+
                                                     totalDays: momentInNetworkTZ.dateDiffInDays(
                                                         campaignObject.startDate, campaignObject.endDate) + 1,
+
                                                     deliveryDays: maxDays.length,
                                                     bookedImpressions: maxDays[maxDays.length - 1].booked_impressions
                                                 }
@@ -613,13 +603,14 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                         var campaignList = [],
                             campaign;
 
-                        _.each(campaigns, function (camp) { // jshint ignore:line
-                            if (!angular.isObject(camp)) { // jshint ignore:line
+                        _.each(campaigns, function (camp) {
+                            if (!angular.isObject(camp)) {
                                 return;
                             }
 
                             camp.start_date =
                                 momentInNetworkTZ.utcToLocalTime(camp.start_date, constants.DATE_UTC_SHORT_FORMAT);
+
                             camp.end_date =
                                 momentInNetworkTZ.utcToLocalTime(camp.end_date, constants.DATE_UTC_SHORT_FORMAT);
 
@@ -645,15 +636,18 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                         return campaignList;
                     },
 
-                    //should be moved to costservice inside cost module later
+                    // should be moved to costservice inside cost module later
                     getCampaignCostData: function (campaignIds, filterStartDate, filterEndDate, advertiserId, brandId,
                                                    success, failure) {
-                        var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
+                        var dateFilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
+
                             queryObj = {
-                                queryId: 14, //14 : cost_report_for_one_or_more_campaign_ids
+                                // 14 : cost_report_for_one_or_more_campaign_ids
+                                queryId: 14,
+
                                 clientId: loginModel.getSelectedClient().id,
                                 campaignIds: campaignIds,
-                                dateFilter: datefilter,
+                                dateFilter: dateFilter,
                                 advertiserId: advertiserId,
                                 brandId: brandId
                             },
@@ -664,24 +658,24 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                         return dataService.fetchCancelable(url, canceller, success, failure);
                     },
 
-                    //should be moved to campaign details service
+                    // should be moved to campaign details service
                     getStrategiesData: function (clientId, campaign, timePeriod) {
-                        //request list
+                        // request list
                         return getStrategyListData(clientId, campaign, timePeriod);
                     },
 
                     requestStrategiesData: function (campaign, timePeriod, data) {
-                        //request metrics and cdb data
+                        // request metrics and cdb data
                         return getStrategyData(campaign, timePeriod, data);
                     },
 
                     requestTacticsList: function (strategy, timePeriod, campaign, callBackFunction) {
-                        //request list
+                        // request list
                         return getTacticList(strategy, timePeriod, campaign, callBackFunction);
                     },
 
                     requestTacticsData: function (strategy, timePeriod, campaign, data) {
-                        //request metrics and cdb data
+                        // request metrics and cdb data
                         return getTacticData(strategy, timePeriod, campaign, data);
                     }
                 };

@@ -1,4 +1,4 @@
-define(['angularAMD', '../../common/services/url_service', 'common/services/data_service', // jshint ignore:line
+define(['angularAMD', '../../common/services/url_service', 'common/services/data_service',
     'reporting/kpiSelect/kpi_select_model', 'login/login_model', 'reporting/advertiser/advertiser_model'],
     function (angularAMD) {
         angularAMD.factory('campaignSelectModel', ['$rootScope', 'urlService', 'dataService', 'kpiSelectModel',
@@ -105,7 +105,8 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
                 };
 
                 campaign.getSelectedCampaign = function () {
-                    return (localStorageService.selectedCampaign.get()) ?localStorageService.selectedCampaign.get():campaign.selectedCampaign;
+                    return (localStorageService.selectedCampaign.get()) ?
+                        localStorageService.selectedCampaign.get():campaign.selectedCampaign;
                 };
 
                 campaign.durationLeft = function () {
@@ -115,12 +116,12 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
                         startDate = new Date(cmp.startDate);
 
                     if (today < startDate) {
-                        //campaign yet to start
+                        // campaign yet to start
                         return 'Yet to start';
                     }
 
                     if (endDate < today) {
-                        //campaign ended
+                        // campaign ended
                         return 'Ended';
                     }
 

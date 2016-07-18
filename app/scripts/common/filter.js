@@ -47,7 +47,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
                         } else if (kpiType === 'vtc' && precision) {
                             return $filter('number')(input, 3) + '%';
                         } else {
-                            //unknown kpiType
+                            // unknown kpiType
                             return $filter('number')(input, 0);
                         }
                     } else {
@@ -244,10 +244,10 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
                         formatDate = '';
 
                     if (moment(_date).diff(moment(), 'days') === 0) {
-                        //today - format 01:29 PM
+                        // today - format 01:29 PM
                         formatDate = $filter('date')(_date, 'h:mm a');
                     } else {
-                        //in the past - format 05 Oct '14 01:22 PM
+                        // in the past - format 05 Oct '14 01:22 PM
                         formatDate = $filter('date')(_date, 'd MMM yyyy h:mm a');
                     }
 

@@ -17,7 +17,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/moment_
         $scope.adData.totalAdBudget = '';
         $scope.adData.budgetAmount = '';
 
-        //Kpi Types in an array of objects, sorted alphabetically
+        // Kpi Types in an array of objects, sorted alphabetically
         $scope.adData.primaryKpiList = [
             {kpiType: 'ACTION RATE', displayName: 'Action Rate'},
             {kpiType: 'CPA',         displayName: 'CPA'},

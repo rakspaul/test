@@ -1,10 +1,10 @@
-define(['angularAMD', '../../../common/services/constants_service'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD', '../../../common/services/constants_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.directive('screenChart', function (constants) {
         return {
             restrict: 'EAC',
-            templateUrl: assets.html_screen_chart, // jshint ignore:line
+            templateUrl: assets.html_screen_chart,
 
             link: function(scope) {
                 scope.textConstants = constants;

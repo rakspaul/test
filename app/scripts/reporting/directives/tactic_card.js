@@ -1,4 +1,4 @@
-define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.directive('campaignTacticsCard', function (utils, constants, momentService) {
@@ -11,7 +11,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 campaigns: '='
             },
 
-            templateUrl: assets.html_campaign_tactics_card, // jshint ignore:line
+            templateUrl: assets.html_campaign_tactics_card,
 
             link: function ($scope) {
                 $scope.textConstants = constants;
@@ -74,7 +74,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                         dateDiffInDays = momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), endDate);
                     }
 
-                    //fix for initial loading
+                    // fix for initial loading
                     if (spendDifference === -999) {
                         return '';
                     }
@@ -88,7 +88,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                             }
                         }
 
-                        //  past a campaign end date
+                        // past a campaign end date
                         if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), endDate) === true) {
                             return (spendDifference < -5 || spendDifference > 5) ? 'red' : 'blue';
                         }
@@ -145,7 +145,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                     return spendDifference;
                 };
 
-                //To show the accorsponding tactic card
+                // To show the corresponding tactic card
                 $scope.showStrategies = function (campaignId, strategiesCount) {
                     if (strategiesCount > 0) {
                       $('#strategies-accordion-' + campaignId).toggle();

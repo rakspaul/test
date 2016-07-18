@@ -1,4 +1,4 @@
-define(['angularAMD', '../../login/login_model', 'common/services/role_based_service', // jshint ignore:line
+define(['angularAMD', '../../login/login_model', 'common/services/role_based_service',
     'common/services/constants_service', 'reporting/timePeriod/time_period_directive',
     'reporting/subAccount/sub_account_directive'], function (angularAMD) {
     'use strict';
@@ -40,7 +40,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
 
                     // if agency level cost model is opaque
                     if (!isAgencyCostModelTransparent) {
-                        tabs = _.filter(tabs, function (obj) { // jshint ignore:line
+                        tabs = _.filter(tabs, function (obj) {
                             return obj.href !== 'cost';
                         });
                     }
@@ -48,8 +48,8 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                     userRole = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().uiExclusions;
 
                     if (userRole && userRole.ui_modules) {
-                        tabs = _.filter(tabs, function (obj) { // jshint ignore:line
-                            return _.indexOf(userRole.ui_modules, obj.href) === -1; // jshint ignore:line
+                        tabs = _.filter(tabs, function (obj) {
+                            return _.indexOf(userRole.ui_modules, obj.href) === -1;
                         });
                     }
 
@@ -66,6 +66,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                     if (fParams[0].scheduled_reports === true) {
                         tabs.push({ href:'reports/schedules', title: 'My Reports'});
                     }
+
                     if (fParams[0].collective_insights === true) {
                         tabs.push({href: 'reports/list', title: 'Collective Insights'});
                     }
@@ -99,8 +100,8 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                     var videoAdsExists,
                         displayAdsExists;
 
-                    adFormats = _.flatten(adFormats); // jshint ignore:line
-                    videoAdsExists = _.contains(adFormats, 'VIDEO'); // jshint ignore:line
+                    adFormats = _.flatten(adFormats);
+                    videoAdsExists = _.contains(adFormats, 'VIDEO');
 
                     // Ex: ['VIDEO'], ['VIDEO', 'SOCIAL'], ['VIDEO', 'SOCIAL', 'RICH_MEDIA']
                     displayAdsExists = !(videoAdsExists && adFormats.length === 1);
@@ -114,21 +115,21 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         }
     ]);
 
-    angularAMD.directive('reportTabs', ['$http', '$compile', 'constants','featuresService','$rootScope',
+    angularAMD.directive('reportTabs', ['$http', '$compile', 'constants', 'featuresService', '$rootScope',
         'localStorageService','$timeout', function ($http, $compile, constants, featuresService, $rootScope,
                                                     localStorageService, $timeout) {
         return {
             controller: function () {},
             restrict: 'EAC',
 
-            templateUrl: assets.html_report_header_tab, // jshint ignore:line
+            templateUrl: assets.html_report_header_tab,
 
             link: function (scope) {
                 var enableFeaturePermission = function () {
-                    var fparams = featuresService.getFeatureParams(),
+                    var fParams = featuresService.getFeatureParams(),
 
                         updateShowReportOverview = function () {
-                            if (fparams[0].report_overview &&
+                            if (fParams[0].report_overview &&
                                 localStorageService.selectedCampaign.get() &&
                                 localStorageService.selectedCampaign.get().id !== -1) {
                                 scope.showReportOverview = true;
@@ -144,19 +145,19 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                         $timeout(updateShowReportOverview, 1500);
                     });
 
-                    scope.buildReport = fparams[0].scheduled_reports;
+                    scope.buildReport = fParams[0].scheduled_reports;
 
-                    if (fparams[0].scheduled_reports || fparams[0].collective_insights) {
+                    if (fParams[0].scheduled_reports || fParams[0].collective_insights) {
                         scope.showCustomReportHeading = true;
                     }
 
-                    if (fparams[0].report_overview ||
-                        fparams[0].inventory ||
-                        fparams[0].performance ||
-                        fparams[0].quality ||
-                        fparams[0].cost ||
-                        fparams[0].optimization_impact ||
-                        fparams[0].platform) {
+                    if (fParams[0].report_overview ||
+                        fParams[0].inventory ||
+                        fParams[0].performance ||
+                        fParams[0].quality ||
+                        fParams[0].cost ||
+                        fParams[0].optimization_impact ||
+                        fParams[0].platform) {
                         scope.showMediaPlanReportHeading = true;
                     }
                 };
@@ -183,12 +184,12 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
 
                 element.bind('click', function () {
                     $http
-                        .get(assets.html_add_report_filter) // jshint ignore:line
+                        .get(assets.html_add_report_filter)
                         .then(function (tmpl) {
                             $scope.dimensionQuery = '';
                             template = $compile(tmpl.data)($scope);
 
-                            angular // jshint ignore:line
+                            angular
                                 .element(document.getElementById('filter_breakdown_row'))
                                 .append(template);
 
@@ -212,11 +213,11 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
 
                 element.bind('click', function () {
                     $http
-                        .get(assets.html_add_report_dimension) // jshint ignore:line
+                        .get(assets.html_add_report_dimension)
                         .then(function (tmpl) {
                             template = $compile(tmpl.data)($scope);
 
-                            angular // jshint ignore:line
+                            angular
                                 .element(document.getElementById('breakdown_row'))
                                 .append(template);
 
@@ -240,11 +241,11 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
 
                 element.bind('click', function () {
                     $http
-                        .get(assets.html_add_filter_users) // jshint ignore:line
+                        .get(assets.html_add_filter_users)
                         .then(function (tmpl) {
                             template = $compile(tmpl.data)($scope);
 
-                            angular // jshint ignore:line
+                            angular
                                 .element(document.getElementById('filter-container'))
                                 .append(template);
                         });
@@ -259,7 +260,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             controller: function () {},
             restrict: 'EAC',
 
-            templateUrl: assets.html_download_report, // jshint ignore:line
+            templateUrl: assets.html_download_report,
 
             link: function ($scope, element) {
                 $scope.textConstants = constants;
@@ -301,12 +302,13 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                         loginModel.checkCookieExpiry();
                     } else {
                         $scope.reportDownloadBusy = true;
+
                         dataService
                             .downloadFile(reportUrl)
                             .then(function (response) {
                                 if (response.status === 'success') {
                                     $scope.reportDownloadBusy = false;
-                                    saveAs(response.file, response.fileName); // jshint ignore:line
+                                    saveAs(response.file, response.fileName);
                                 } else {
                                     $scope.reportDownloadBusy = false;
                                 }
@@ -326,7 +328,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             controller: function () {},
             restrict: 'EAC',
 
-            templateUrl: assets.html_screen_header, // jshint ignore:line
+            templateUrl: assets.html_screen_header,
 
             link: function (scope) {
                 scope.textConstants = constants;
@@ -339,7 +341,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             controller: function () {},
             restrict: 'EAC',
 
-            templateUrl: assets.html_daysofweek_header, // jshint ignore:line
+            templateUrl: assets.html_daysofweek_header,
 
             link: function (scope) {
                 scope.textConstants = constants;
@@ -347,12 +349,12 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
-    angularAMD.directive('discrepancyHeader', ['$http', '$compile','constants', function ($http, $compile, constants) {
+    angularAMD.directive('discrepancyHeader', ['$http', '$compile', 'constants', function ($http, $compile, constants) {
         return {
             controller: function () {},
             restrict:'EAC',
 
-            templateUrl: assets.html_discrepancy_header, // jshint ignore:line
+            templateUrl: assets.html_discrepancy_header,
 
             link: function (scope) {
                 scope.textConstants = constants;
@@ -360,12 +362,12 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
-    angularAMD.directive('adminHeader', ['$http', '$compile','constants', function ($http, $compile, constants) {
+    angularAMD.directive('adminHeader', ['$http', '$compile', 'constants', function ($http, $compile, constants) {
         return {
             controller: function () {},
             restrict:'EAC',
 
-            templateUrl: assets.html_admin_header, // jshint ignore:line
+            templateUrl: assets.html_admin_header,
 
             link: function (scope) {
                 scope.textConstants = constants;
@@ -373,12 +375,12 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
-    angularAMD.directive('adminSubHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
+    angularAMD.directive('adminSubHeader', ['$http', '$compile', 'constants', function ($http, $compile,constants) {
         return {
             controller: function () {},
             restrict:'EAC',
 
-            templateUrl: assets.html_admin_sub_header, // jshint ignore:line
+            templateUrl: assets.html_admin_sub_header,
 
             link: function (scope) {
                 scope.textConstants = constants;
@@ -391,7 +393,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             controller: function () {},
             restrict: 'EAC',
 
-            templateUrl: assets.html_format_header, // jshint ignore:line
+            templateUrl: assets.html_format_header,
 
             link: function (scope) {
                 scope.textConstants = constants;
@@ -399,13 +401,12 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
-
     angularAMD.directive('performanceHeader', ['$http', '$compile', 'constants', function ($http, $compile, constants) {
         return {
             controller: function () {},
             restrict: 'EAC',
 
-            templateUrl: assets.html_performance_header, // jshint ignore:line
+            templateUrl: assets.html_performance_header,
 
             link: function (scope) {
                 scope.textConstants = constants;
@@ -418,7 +419,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             controller: function () {},
             restrict: 'EAC',
 
-            templateUrl: assets.html_cost_header, // jshint ignore:line
+            templateUrl: assets.html_cost_header,
 
             link: function (scope) {
                 scope.textConstants = constants;
@@ -431,7 +432,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             controller: function () {},
             restrict: 'EAC',
 
-            templateUrl: assets.html_viewablity_header, // jshint ignore:line
+            templateUrl: assets.html_viewablity_header,
 
             link: function (scope) {
                 scope.textConstants = constants;
@@ -444,7 +445,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             controller: function () {},
             restrict: 'EAC',
 
-            templateUrl: assets.html_margin_header, // jshint ignore:line
+            templateUrl: assets.html_margin_header,
 
             link: function (scope) {
                 scope.textConstants = constants;
@@ -458,7 +459,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 controller: function () {},
                 restrict: 'EAC',
 
-                templateUrl: assets.html_filters_header, // jshint ignore:line
+                templateUrl: assets.html_filters_header,
 
                 link: function (scope, element, attrs) {
                     var masterClient = loginModel.getMasterClient(),
@@ -545,7 +546,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             controller: function () {},
             restrict: 'EAC',
 
-            templateUrl: assets.html_creatives_header, // jshint ignore:line
+            templateUrl: assets.html_creatives_header,
 
             link: function (scope) {
                 scope.textConstants = constants;
@@ -558,7 +559,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             controller: function () {},
             restrict: 'EAC',
 
-            templateUrl: assets.html_adsizes_header, // jshint ignore:line
+            templateUrl: assets.html_adsizes_header,
 
             link: function (scope) {
                 scope.textConstants = constants;

@@ -1,6 +1,6 @@
-define(['angularAMD', 'login/login_model','login/login_service', // jshint ignore:line
-    'reporting/common/d3/bubble_chart', 'reporting/models/bubble_chart_model','reporting/brands/brands_model',
-    'common/services/constants_service', 'reporting/advertiser/advertiser_model'], function (angularAMD) {
+define(['angularAMD', 'login/login_model','login/login_service', 'reporting/common/d3/bubble_chart',
+    'reporting/models/bubble_chart_model','reporting/brands/brands_model', 'common/services/constants_service',
+    'reporting/advertiser/advertiser_model'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('BubbleChartController', function ($scope, $cookieStore, $location, loginModel, loginService,
@@ -14,15 +14,6 @@ define(['angularAMD', 'login/login_model','login/login_service', // jshint ignor
             dateFilter: 'life_time'
         };
 
-        $scope.data = {
-            advertiserData: {},
-            campaignDataForSelectedBrand: {},
-            campaignDataForAllBrands: []
-        };
-
-        $scope.dataFound = true;
-        $scope.style = constants.DATA_NOT_AVAILABLE_STYLE;
-
         function getSpendDataForCampaigns() {
             $scope.spendBusy = true;
 
@@ -33,8 +24,8 @@ define(['angularAMD', 'login/login_model','login/login_service', // jshint ignor
                     $scope.spendBusy = false;
 
                     if (bubbleChartModel.getbubbleWidgetData().dataNotAvailable === true) {
-                        d3.select('#advertisers_svg').remove(); // jshint ignore:line
-                        d3.select('#campaigns_svg').remove(); // jshint ignore:line
+                        d3.select('#advertisers_svg').remove();
+                        d3.select('#campaigns_svg').remove();
                         $scope.dataFound = false;
                     } else {
                         $scope.dataFound = true;
@@ -62,29 +53,41 @@ define(['angularAMD', 'login/login_model','login/login_service', // jshint ignor
 
         function getSpendDataForAdvertisersWithDefaultValue(){
             // Fetch the new data now.
-            bubbleChartModel.getBubbleChartData().then(function () {
-                $scope.spendBusy = false;
-                if (bubbleChartModel.getbubbleWidgetData().dataNotAvailable === true) {
-                    d3.select('#advertisers_svg').remove(); // jshint ignore:line
-                    d3.select('#campaigns_svg').remove(); // jshint ignore:line
-                    $scope.dataFound = false;
-                } else {
-                    $scope.dataFound = true;
-                    $scope.data.advertiserData = bubbleChartModel.getbubbleWidgetData().advertiserData;
-                    bubbleChart.updateBubbleChartData('advertisers', $scope.data.advertiserData);
-                    $scope.budget_top_title = bubbleChartModel.getbubbleWidgetData().budget_top_title;
-                }
-            }, function(){
-                dataNotFound();
-            });
+            bubbleChartModel
+                .getBubbleChartData()
+                .then(function () {
+                    $scope.spendBusy = false;
+
+                    if (bubbleChartModel.getbubbleWidgetData().dataNotAvailable === true) {
+                        d3.select('#advertisers_svg').remove();
+                        d3.select('#campaigns_svg').remove();
+                        $scope.dataFound = false;
+                    } else {
+                        $scope.dataFound = true;
+                        $scope.data.advertiserData = bubbleChartModel.getbubbleWidgetData().advertiserData;
+                        bubbleChart.updateBubbleChartData('advertisers', $scope.data.advertiserData);
+                        $scope.budget_top_title = bubbleChartModel.getbubbleWidgetData().budget_top_title;
+                    }
+                }, function(){
+                    dataNotFound();
+                });
         }
 
         function dataNotFound(){
             $scope.spendBusy = false;
-            d3.select('#advertisers_svg').remove(); // jshint ignore:line
-            d3.select('#campaigns_svg').remove(); // jshint ignore:line
+            d3.select('#advertisers_svg').remove();
+            d3.select('#campaigns_svg').remove();
             $scope.dataFound = false;
         }
+
+        $scope.data = {
+            advertiserData: {},
+            campaignDataForSelectedBrand: {},
+            campaignDataForAllBrands: []
+        };
+
+        $scope.dataFound = true;
+        $scope.style = constants.DATA_NOT_AVAILABLE_STYLE;
 
         if (advertiserModel.getSelectedAdvertiser().id === -1) {
             getSpendDataForAdvertisers();

@@ -1,4 +1,4 @@
-define(['angularAMD'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
     angularAMD.directive('quartilesGraph', function () {
@@ -8,28 +8,37 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
 
             link: function (scope, elem, attrs) {
                 var lineChartService  = {
-                        lineChartConfig : {},
+                        lineChartConfig: {},
 
-                        createVariablesToDrawGraph :  function (data) {
+                        createVariablesToDrawGraph:  function (data) {
                             var _config = this.lineChartConfig,
-                                xkeyVal = _config.keys.xAxis.val,
-                                ykeyVal = _config.keys.yAxis.val,
+                                xKeyVal = _config.keys.xAxis.val,
+                                yKeyVal = _config.keys.yAxis.val,
                                 margin = _config.margin,
                                 width  = _config.width,
                                 height = _config.height,
 
-                                xScale = d3.scale.linear().domain([data[0][xkeyVal], // jshint ignore:line
-                                    data[data.length - 1][xkeyVal]]).range([margin.left, width]),
+                                xScale = d3
+                                    .scale
+                                    .linear()
+                                    .domain([data[0][xKeyVal],
+                                    data[data.length - 1][xKeyVal]])
+                                    .range([margin.left, width]),
 
-                                yScale = d3.scale.linear().domain([0, d3.max(data, function (d) { // jshint ignore:line
-                                    return d[ykeyVal];
-                                })]).range([height, margin.left]),
+                                yScale = d3
+                                    .scale
+                                    .linear()
+                                    .domain([0, d3.max(data, function (d) {
+                                        return d[yKeyVal];
+                                    })])
+                                    .range([height, margin.left]),
 
-                                xAxisGen = d3.svg.axis() // jshint ignore:line
+                                xAxisGen = d3
+                                    .svg
+                                    .axis()
                                     .scale(xScale)
                                     .orient('bottom')
                                     .tickValues(_config.keys.xAxis.tickValues)
-
                                     .tickFormat(function (d, i) {
                                         if (_config.showAxisLabel && i === 0) {
                                             return 'Ad start';
@@ -38,30 +47,35 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
                                         }
                                     }),
 
-                                yAxisGen = d3.svg.axis() // jshint ignore:line
+                                yAxisGen = d3
+                                    .svg
+                                    .axis()
                                     .scale(yScale)
                                     .orient('left')
-
                                     .tickValues(_config.keys.yAxis.tickValues.length > 0 ?
                                         _config.keys.yAxis.tickValues : 1),
 
-                                //define area
-                                area = d3.svg.area() // jshint ignore:line
+                                // define area
+                                area = d3
+                                    .svg
+                                    .area()
                                     .x(function (d) {
-                                        return xScale(d[xkeyVal]);
+                                        return xScale(d[xKeyVal]);
                                     })
                                     .y0(height)
                                     .y1(function (d) {
-                                        return yScale(d[ykeyVal]);
+                                        return yScale(d[yKeyVal]);
                                     }),
 
-                                //draw a ling function
-                                lineFun = d3.svg.line() // jshint ignore:line
+                                // draw a ling function
+                                lineFun = d3
+                                    .svg
+                                    .line()
                                     .x(function (d) {
-                                        return xScale(d[xkeyVal]);
+                                        return xScale(d[xKeyVal]);
                                     })
                                     .y(function (d) {
-                                        return yScale(d[ykeyVal]);
+                                        return yScale(d[yKeyVal]);
                                     });
 
                             this.updateConfig({
@@ -74,30 +88,34 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
                             });
                         },
 
-                        drawPath :  function (data, index) {
+                        drawPath:  function (data, index) {
                             var _config = this.lineChartConfig,
-                                xkeyVal = _config.keys.xAxis.val,
-                                ykeyVal = _config.keys.yAxis.val,
+                                xKeyVal = _config.keys.xAxis.val,
+                                yKeyVal = _config.keys.yAxis.val,
                                 graphTooltip,
                                 label,
-                                svg = d3.select(_config.rawSvg[0]), // jshint ignore:line
+                                svg = d3.select(_config.rawSvg[0]),
 
-                                //plotting circles on chart
-                                circles = svg.selectAll('circle'+index)
+                                // plotting circles on chart
+                                circles = svg
+                                    .selectAll('circle'+index)
                                     .data(data)
-                                    .enter().append('circle')
+                                    .enter()
+                                    .append('circle')
                                     .attr({
                                         'class': 'dots'+index,
-                                        'r': 5,
-                                        'cx': function (d) {
-                                            return _config.xScale(d[xkeyVal]);
+                                        r: 5,
+
+                                        cx: function (d) {
+                                            return _config.xScale(d[xKeyVal]);
                                         },
-                                        'cy': function (d) {
-                                            return _config.yScale(d[ykeyVal]);
+
+                                        cy: function (d) {
+                                            return _config.yScale(d[yKeyVal]);
                                         }
                                     });
 
-                            //draw the area now
+                            // draw the area now
                             if (index === 0) {
                                 svg
                                     .append('path')
@@ -124,15 +142,15 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
                                         y1: _config.height,
 
                                         y2: function (d) {
-                                              return _config.yScale(d[ykeyVal]);
+                                              return _config.yScale(d[yKeyVal]);
                                         },
 
                                         x1: function (d) {
-                                            return _config.xScale(d[xkeyVal]);
+                                            return _config.xScale(d[xKeyVal]);
                                         },
 
                                         x2: function (d) {
-                                            return _config.xScale(d[xkeyVal]);
+                                            return _config.xScale(d[xKeyVal]);
                                         },
 
                                         stroke: '#dde6eb',
@@ -143,62 +161,68 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
                             }
 
                             if (_config.graphTooltip) {
-                                graphTooltip = d3.selectAll('.graphTooltip'); // jshint ignore:line
+                                graphTooltip = d3.selectAll('.graphTooltip');
 
                                 circles.on('mouseover', function (d) {
                                     graphTooltip.style('opacity', 0.9).html(d.values);
-                                    graphTooltip.style('left', (d3.mouse(this)[0]) + 'px') // jshint ignore:line
-                                        .style('top', (d3.mouse(this)[1] + 28) + 'px'); // jshint ignore:line
+
+                                    graphTooltip
+                                        .style('left', (d3.mouse(this)[0]) + 'px')
+                                        .style('top', (d3.mouse(this)[1] + 28) + 'px');
                                 }).on('mouseout', function () {
-                                    graphTooltip.transition()
+                                    graphTooltip
+                                        .transition()
                                         .duration(500)
                                         .style('opacity', 0);
                                 });
                             }
 
-                            //plotting lables on chart
+                            // plotting lables on chart
                             if (index === 0) {
                                 label = svg.selectAll('.labels' + (_config.showPathLabel ? index : 0))
                                     .data(data)
                                     .enter().append('text')
                                     .attr('class', 'labels')
                                     .attr('x', function (d) {
-                                        return _config.xScale(d[xkeyVal]) - 10;
+                                        return _config.xScale(d[xKeyVal]) - 10;
                                     })
                                     .attr('y', function (d) {
-                                        return _config.yScale(d[ykeyVal]) - 10;
+                                        return _config.yScale(d[yKeyVal]) - 10;
                                     })
                                     .text(function (d, i) {
                                         if (_config.showPathLabel) {
-                                            return d[ykeyVal] + '%';
+                                            return d[yKeyVal] + '%';
                                         } else {
-                                            return i === 0 ? 'Imps.' + d[ykeyVal] : '';
+                                            return i === 0 ? 'Imps.' + d[yKeyVal] : '';
                                         }
                                     });
                             }
                         },
 
-                        drawAxis :  function () {
+                        drawAxis:  function () {
                             var _config = this.lineChartConfig,
-                                svg = d3.select(_config.rawSvg[0]), // jshint ignore:line
+                                svg = d3.select(_config.rawSvg[0]),
                                 height = _config.height,
                                 width = _config.width,
                                 margin = _config.margin;
 
-                            svg.append('svg:g')
+                            svg
+                                .append('svg:g')
                                 .attr('class', 'x axis')
                                 .attr('transform', 'translate(0,' +height + ')')
                                 .call(_config.xAxisGen);
 
-                            svg.append('svg:g')
+                            svg
+                                .append('svg:g')
                                 .attr('class', 'y axis')
                                 .attr('transform', 'translate(20,0)')
                                 .call(_config.yAxisGen);
 
                             if (_config.showAxisLabel) {
                                 // START label for x-axis
-                                _.each(_config.axisLabel, function (label, i) { // jshint ignore:line
-                                    svg.append('circle')
+                                _.each(_config.axisLabel, function (label, i) {
+                                    svg
+                                        .append('circle')
                                         .attr({
                                             cx: width/2 - (i===0 ? 25 : -25),
                                             cy: height + margin.bottom + 13,
@@ -206,12 +230,15 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
                                             'class': 'labelCircle' + i
                                         });
 
-                                    svg.append('text')
+                                    svg
+                                        .append('text')
                                         .attr({
                                             'text-anchor': 'middle',
+
                                             transform: 'translate('+ ((width/2) + (i===0 ? 0 : 50) ) + ',' +
                                                 (height + margin.bottom*1.8)+')',
-                                            'class' : 'labelText'+i
+
+                                            'class': 'labelText'+i
                                         })
                                         .text(label);
 
@@ -220,7 +247,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
                             }
                         },
 
-                        setChartParameters :  function () {
+                        setChartParameters:  function () {
                             var _config = this.lineChartConfig,
                                 margin = _config.margin,
                                 width = _config.rawSvg.attr('width') - margin.left - margin.right,
@@ -234,14 +261,14 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
 
                             that.createVariablesToDrawGraph(_config.dataToPlot[0]);
 
-                            _.each(_config.dataToPlot, function (data, idx) { // jshint ignore:line
+                            _.each(_config.dataToPlot, function (data, idx) {
                                 that.drawPath(data, idx);
                             });
                         },
 
-                        updateConfig : function (configValues) {
+                        updateConfig: function (configValues) {
                             if ( typeof configValues === 'object' ) {
-                                _.extend(this.lineChartConfig, configValues); // jshint ignore:line
+                                _.extend(this.lineChartConfig, configValues);
                             }
                         }
                     },
@@ -253,14 +280,14 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
                 rawSvg.attr('height', attrs.height);
 
                 lineChartService.updateConfig({
-                    rawSvg : rawSvg,
-                    dataToPlot : lineData.json,
-                    margin : lineData.margin,
-                    keys : lineData.keys,
-                    showPathLabel : lineData.showPathLabel,
-                    showAxisLabel : lineData.showAxisLabel,
-                    axisLabel : lineData.axisLabel,
-                    graphTooltip : lineData.graphTooltip
+                    rawSvg: rawSvg,
+                    dataToPlot: lineData.json,
+                    margin: lineData.margin,
+                    keys: lineData.keys,
+                    showPathLabel: lineData.showPathLabel,
+                    showAxisLabel: lineData.showAxisLabel,
+                    axisLabel: lineData.axisLabel,
+                    graphTooltip: lineData.graphTooltip
                 });
 
                 lineChartService.setChartParameters();

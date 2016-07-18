@@ -76,7 +76,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
                         };
 
                     for (i = 0; i < $scope.selectedAudience.length; i++) {
-                        //find  array index in audienc list
+                        // find  array index in audienc list
                         index = _.findIndex($scope.audienceList, findAudience);
 
                         if (index !== -1) {
@@ -127,7 +127,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
                                     editOneTimeFlag = true;
                                 }
 
-                                //check if selected audience exists and length > 0 call select Audience
+                                // check if selected audience exists and length > 0 call select Audience
                                 if ($scope.selectedAudience && $scope.selectedAudience.length > 0) {
                                     _audienceTargetting.checkSelectedAudience();
                                 }
@@ -211,14 +211,14 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
 
         audienceService.resetAudienceData();
 
-        //building audience
+        // building audience
         $scope.changeOrAndStatus = function (status) {
             var str;
 
             $scope.andOr = status;
             str = '<span class="text">' + $scope.andOr + '</span><span class="icon-arrow-solid-down"></span>';
 
-            //remove all elements inside and-or-txt and append the created structure -- needs permanent fix
+            // remove all elements inside and-or-txt and append the created structure -- needs permanent fix
             $('.and-or-txt').html('').append(str);
             $('.dropdown.open').removeClass('open');
         };
@@ -314,7 +314,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
             var index,
                 subCategoryIndex;
 
-            //when category is selected
+            // when category is selected
             if (type === 'category') {
                 // TODO: please don't remove code this commented out code. We need it in future
                 /*
@@ -330,7 +330,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
                     subCategoryIndex = _.findIndex($scope.selectedCategory, function (item) {
                         return item.id === $scope.audienceCategories[index].subCategories[i].id;
                     });
-                    //if the category is not checked
+                    // if the category is not checked
                     if (subCategoryIndex === -1) {
                         $scope.selectedCategory.push($scope.audienceCategories[index].subCategories[i]);
                         $scope.audienceCategories[index].subCategories[i].isChecked = true;
@@ -358,7 +358,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
                     return item.id === categoryObj.id;
                 });
 
-                //if the category is not checked
+                // if the category is not checked
                 if (subCategoryIndex === -1) {
                     $scope.selectedCategory.push(categoryObj);
                     categoryObj.isChecked = true;
@@ -403,7 +403,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
             _audienceTargetting.updateCategoryText();
         };
 
-        //select or unselect indiviual audience
+        // select or unselect indiviual audience
         $scope.selectAudience = function (audience) {
             var index,
 
@@ -430,7 +430,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
         $scope.selectAllAudience = function (event) {
             var i;
 
-            //empty the selected audience array before populating/emptying it with all the audience
+            // empty the selected audience array before populating/emptying it with all the audience
             $scope.selectedAudience = [];
 
             $scope.selectAllChecked = event.target.checked;
@@ -506,7 +506,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
             }
         };
 
-        //keyword user choice
+        // keyword user choice
         $scope.showKeywords = function (keyword, event) {
             $scope.pageNumber = 1;
             $scope.dropdownCss.display = keyword.length > 0 ? 'block' : 'none';

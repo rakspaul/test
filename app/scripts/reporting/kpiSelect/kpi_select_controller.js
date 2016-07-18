@@ -1,9 +1,26 @@
-define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:line
-    'reporting/campaignSelect/campaign_select_model', 'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model',
+    'common/services/constants_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('KpiSelectController', function ($scope, $rootScope, kpiSelectModel, campaignSelectModel,
                                                            constants) {
+        function setArrowSelector() {
+            $('.kpi_indicator_ul li,.direction_arrows div.kpi_arrow_sort').hover(function (e) {
+                    if (window.location.pathname !== '/inventory') {
+                        var selectedKpi =  $(e.target).attr('value');
+                        $('.direction_arrows div.kpi_arrow_sort').hide();
+                        $('.direction_arrows div.kpi_arrow_sort.active').show();
+                        $('.direction_arrows div.kpi_arrow_sort[value=' + selectedKpi +']').show();
+                    }
+                },
+
+                function () {
+                    $('.direction_arrows div.kpi_arrow_sort').hide();
+                    $('.direction_arrows div.kpi_arrow_sort.active').show();
+                }
+            );
+        }
+
         $scope.kpiData = {};
         $scope.kpiData.selectedKpi = kpiSelectModel.getSelectedKpi();
         $scope.kpiData.selectedKpiAlt = kpiSelectModel.getSelectedKpiAlt();
@@ -49,8 +66,9 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
 
             dropList.css('color', '#000');
             dropList.removeClass('active');
-            $('[value='+_selectedKpi+']').css('color', '#0978c9');
-            $('.drop_list li[value='+_selectedKpi+']').addClass('active');
+
+            $('[value=' + _selectedKpi + ']').css('color', '#0978c9');
+            $('.drop_list li[value=' + _selectedKpi + ']').addClass('active');
             $('.kpi-dd-holder').addClass( 'active');
 
             // TODO: the redundant code here will be refactored and broken out into seperate function
@@ -143,23 +161,6 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', // jshint ignore:l
                 $scope.$apply();
             }
         });
-
-        function setArrowSelector() {
-            $('.kpi_indicator_ul li,.direction_arrows div.kpi_arrow_sort').hover(function (e) {
-                    if (window.location.pathname !== '/inventory') {
-                        var selectedKpi =  $(e.target).attr('value');
-                        $('.direction_arrows div.kpi_arrow_sort').hide();
-                        $('.direction_arrows div.kpi_arrow_sort.active').show();
-                        $('.direction_arrows div.kpi_arrow_sort[value=' + selectedKpi +']').show();
-                    }
-                },
-
-                function () {
-                    $('.direction_arrows div.kpi_arrow_sort').hide();
-                    $('.direction_arrows div.kpi_arrow_sort.active').show();
-                }
-            );
-        }
 
         setTimeout(setArrowSelector, 2000);
 

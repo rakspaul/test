@@ -594,7 +594,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         userModalPopup.getUserClients();
         userModalPopup.getUserPages();
 
-        //set permissions in edit mode
+        // set permissions in edit mode
         $rootScope.$on('permissionsForUsers', function (e, user) {
             $scope.resetFields(true);
             userModalPopup.getUserClients();
@@ -902,7 +902,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                 $rootScope.setErrAlertMessage(constants.ADMIN_PAGE_PERMISSION);
                 $scope.pagePermissionValue[accountIndex].splice(1, 1);
             } else if ($scope.pagePermissionValue[accountIndex][0].code==='ENABLE_ALL') {
-                //as it is always going to be the first element
+                // as it is always going to be the first element
                 $scope.pagePermissionValue[accountIndex].splice(0, 1);
             }
 

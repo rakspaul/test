@@ -1,4 +1,4 @@
-define(['angularAMD', 'reporting/models/campaign_cost'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD', 'reporting/models/campaign_cost'], function (angularAMD) {
     'use strict';
 
     var CampaignCostData = function () {

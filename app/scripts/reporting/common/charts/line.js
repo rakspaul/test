@@ -1,18 +1,18 @@
 // global angObj, angular
-define(['angularAMD'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
     angularAMD.factory('line', function ($timeout) {
         var findKey = function (obj, value) {
            var key;
 
-           _.each(obj, function (v, k) { // jshint ignore:line
+           _.each(obj, function (v, k) {
                if (v === value) {
                    key = k;
                }
            });
 
-           //if value exists return the corresponding Key else return value
+           // if value exists return the corresponding Key else return value
            return (key !== undefined ? key.toUpperCase() : value.toUpperCase());
         };
 
@@ -156,7 +156,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
                         gridLineWidth: 0,
                         minorGridLineWidth: 0,
 
-                        //TODO - remove this after the date ticks are rewritten
+                        // TODO - remove this after the date ticks are rewritten
                         // plotBands: [{ // Light air
                         //     color: '#fff',//fbdbd1
                         //     label: {
@@ -183,7 +183,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
                                 dashStyle: 'solid'
                             }
                         ]
-                        //threshold line ends ******
+                        // threshold line ends ******
                     }
                 },
 
@@ -247,7 +247,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
                                     }
                                 });
 
-                            //draw plotlines
+                            // draw plotlines
                             chart
                                 .yAxis[0]
                                 .addPlotLine({
@@ -278,7 +278,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
                             if ((threshold > 0 && threshold <= chart.yAxis[0].max &&
                                 threshold >= chart.yAxis[0].min) &&
                                 threshold > 0)  {
-                                chart.renderer.image(assets.target_marker, 0, // jshint ignore:line
+                                chart.renderer.image(assets.target_marker, 0,
                                     chart.yAxis[0].toPixels(threshold) - chart.plotTop / 2, 11, 11).add();
                             }
                         }

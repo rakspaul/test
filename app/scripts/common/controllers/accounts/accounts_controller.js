@@ -152,7 +152,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.allBrands = [];
             $scope.currency = [];
 
-            //this is the advertiser selected from dropdown during new advertiser creation
+            // this is the advertiser selected from dropdown during new advertiser creation
             $scope.selectedAdvertiserId = '';
 
             $scope.selectedBrandId = '';
@@ -238,8 +238,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $('#pixelExpDate').datepicker('setStartDate', momentService.getCurrentYear().toString());
                 $scope.pixelIndex = index;
                 $scope.pixelFormData = JSON.parse(JSON.stringify(pixel));
+
                 if($scope.pixelFormData.pixelCode) {
-                    $scope.pixelFormData.segmentName = 'visto-' + _currCtrl.pixelTypeCode[$scope.pixelFormData.pixelType] + '-' + $scope.selectedClientCode + '-' + $scope.setSelectedAdvertiserCode + '-' + $scope.pixelFormData.pixelCode;
+                    $scope.pixelFormData.segmentName =
+                        'visto-' + _currCtrl.pixelTypeCode[$scope.pixelFormData.pixelType] + '-' +
+                        $scope.selectedClientCode + '-' + $scope.setSelectedAdvertiserCode + '-' +
+                        $scope.pixelFormData.pixelCode;
                 }
             };
 
@@ -433,7 +437,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 }
             };
 
-            //Add or Edit Pop up for Advertiser
+            // Add or Edit Pop up for Advertiser
             $scope.AddOrEditAdvertiserModal = function (advObj, mode, client) {
                 var loadTemplate = false,
                     int;
@@ -523,7 +527,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 }, 25);
             };
 
-            //Add or Edit Pop up for Brand
+            // Add or Edit Pop up for Brand
             $scope.AddOrEditBrandModal = function (advObj, mode, client, brand) {
                 var modalInstance;
 
@@ -581,7 +585,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 };
             };
 
-            //Add or Edit Pop up for Account
+            // Add or Edit Pop up for Account
             $scope.AddOrEditAccountModal = function (mode, clientObj) {
                 var $modalInstance;
 
@@ -609,7 +613,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 });
             };
 
-            //create brand
+            // create brand
             $scope.selectBrand = function (brand) {
                 $scope.dropdownCss.display = 'none';
                 $scope.brandName = brand.name;

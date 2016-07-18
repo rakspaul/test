@@ -62,7 +62,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data;
 
-                                //wrapper to transform new API response to old one
+                                // wrapper to transform new API response to old one
                                 responseData = workflowService.platformResponseModifier(responseData);
                                 adsDetails = workflowService.getAdsDetails();
 
@@ -120,14 +120,14 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         }, _buyingPlatform.errorHandler);
                 },
 
-                //select a platform one of the seat of the platform
+                // select a platform one of the seat of the platform
                 _selectPlatform: function (event, platform, seat) {
                     var settings = '';
 
-                    //showing card view when you change the platform.
+                    // showing card view when you change the platform.
                     _buyingPlatform.hideTargetingBox();
 
-                    //Stop propagation to parent element
+                    // Stop propagation to parent element
                     event && event.stopImmediatePropagation();
 
                     storedResponse = workflowService.getAdsDetails();
@@ -139,14 +139,14 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                         if (seat && storedResponse.platform) {
                             if (storedResponse.platform.id === seat.platform_id) {
-                                //directly set  the platform if it is the same
+                                // directly set  the platform if it is the same
                                 _buyingPlatform.setPlatform(event, platform, seat);
                             } else {
-                                //if the platform is changed but no targets were selected allow change
+                                // if the platform is changed but no targets were selected allow change
                                 if (_.size(storedResponse.targets.geoTargets) === 0) {
                                     _buyingPlatform.setPlatform(event, platform, seat);
                                 } else {
-                                    //display warning popup
+                                    // display warning popup
                                     if ($scope.defaultPlatform.id !== platform.id ||
                                         $scope.defaultPlatform.vendorSeatId !== seat.id) {
                                         tempPlatform = platform;
@@ -184,13 +184,13 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     $scope.selectedPlatform = {};
                     $scope.selectedSeat = {};
 
-                    //reset the targeting and platform while changing the platform
+                    // reset the targeting and platform while changing the platform
                     if (event && !$scope.changePlatformPopup) {
                         if ($scope.adData && platform.id !== $scope.adData.platformId) {
                             $rootScope.$broadcast('resetTargeting');
                             _buyingPlatform.resetCreatives();
 
-                            //reseting the custom field values on change of platform.
+                            // reseting the custom field values on change of platform.
                             $scope.$parent.postPlatformDataObj = null;
 
                             localStorage.removeItem('adPlatformCustomInputs');
@@ -304,7 +304,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.selectPlatform = function (event, platform, seat) {
             $scope.defaultPlatform = platform;
 
-            //reseting the direct inevntory data while changing the data;
+            // reseting the direct inevntory data while changing the data;
             $scope.adData.resetInventroy();
 
             _buyingPlatform._selectPlatform(event, platform, seat);
@@ -438,7 +438,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         $scope.$parent.switchPlatform = function (event) {
-            //clicked on back to platform link
+            // clicked on back to platform link
             if (event) {
                 $scope.adData.resetInventroy();
             }
@@ -600,7 +600,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
             $rootScope.$broadcast('hideCreativeWin');
 
-            if (!$scope.TrackingIntegrationsSelected && $scope.adData.platform !== undefined && (tab !== undefined && tab[0] === '#buying')){
+            if (!$scope.TrackingIntegrationsSelected &&
+                $scope.adData.platform !== undefined &&
+                (tab !== undefined && tab[0] === '#buying')) {
                 seatId =  $('input[name=platformSeatId]').val();
                 $('#seatId_'+seatId).trigger('click');
             } else {

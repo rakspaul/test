@@ -1,4 +1,4 @@
-define(['angularAMD'],function (angularAMD) { // jshint ignore:line
+define(['angularAMD'],function (angularAMD) {
     'use strict';
 
     angularAMD.directive('barChart', function () {
@@ -9,7 +9,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
 
             link: function (scope, elem, attrs) {
                 var drawBarChart = function (chartData) {
-                    var barChatPlotData = _.pluck(chartData.data, 'value'), // jshint ignore:line
+                    var barChatPlotData = _.pluck(chartData.data, 'value'),
                         widgetElem,
                         containerWidthScreen = elem.parent().width() - 25,
                         chartScreen,
@@ -27,16 +27,16 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                     scope.kpiType = chartData.kpiType;
                     scope.page = chartData.page;
 
-                    _.each(barChatPlotData, function (each,index) { // jshint ignore:line
+                    _.each(barChatPlotData, function (each,index) {
                         barChatPlotData[index] = isNaN(each)?0:each;
                     });
 
-                    barChatPlotData = _.filter(barChatPlotData, function (obj) { // jshint ignore:line
+                    barChatPlotData = _.filter(barChatPlotData, function (obj) {
                         return obj !== 'NaN';
                     });
 
                     if (barChatPlotData.length > 0) {
-                        scope.total = _.reduce(barChatPlotData, function (sum, num) { // jshint ignore:line
+                        scope.total = _.reduce(barChatPlotData, function (sum, num) {
                             return sum + num;
                         }, 0);
 
@@ -53,17 +53,17 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                             gapScreen = chartData.gapScreen || 33;
                             heightScreen = bar_heightScreen + 50;
 
-                            xScreen = d3 // jshint ignore:line
+                            xScreen = d3
                                 .scale
                                 .linear()
-                                .domain([0, d3.max(barChatPlotData)]) // jshint ignore:line
+                                .domain([0, d3.max(barChatPlotData)])
                                 .range([0, widthScreen]);
 
                             yScreen = function (iScreen) {
                                 return bar_heightScreen * iScreen;
                             };
 
-                            chartScreen = d3 // jshint ignore:line
+                            chartScreen = d3
                                 .select(widgetElem[0])
                                 .append('svg')
                                 .attr('class', 'barChart')

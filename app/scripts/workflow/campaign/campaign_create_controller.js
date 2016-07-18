@@ -219,20 +219,20 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                             momentService.addDaysCustom(flightDateObj.startTime, 'MM/DD/YYYY', $scope.periodDays);
                     }
 
-                    //set startDate
+                    // set startDate
                     if (flightDateObj.startTime) {
                         $scope.selectedCampaign.startTime =
                             $scope.modifiedMediaPlanAPIStartTime = flightDateObj.startTime;
                     }
 
-                    //set endDate
+                    // set endDate
                     if (flightDateObj.endTime) {
                         $scope.selectedCampaign.endTime = $scope.modifiedMediaPlanAPIEndTime = flightDateObj.endTime;
                         $scope.initiateDatePicker();
                         $scope.handleFlightDate(flightDateObj);
                     }
 
-                    //set updateAt value in hidden field.
+                    // set updateAt value in hidden field.
                     if (campaignData.updatedAt) {
                         $scope.selectedCampaign.updatedAt = campaignData.updatedAt;
                     }
@@ -241,7 +241,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         $scope.selectedCampaign.status = campaignData.status;
                     }
 
-                    //set KPI type
+                    // set KPI type
                     if (campaignData.kpiType) {
                         if (campaignData.kpiType.toLowerCase() === 'action rate' ||
                             campaignData.kpiType.toLowerCase() === 'impressions') {
@@ -251,19 +251,19 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         }
                     }
 
-                    //set Kpi Value
+                    // set Kpi Value
                     if (campaignData.kpiValue) {
                         $scope.selectedCampaign.kpiValue = campaignData.kpiValue;
                     }
 
-                    //set Media Plan Budget & Margin
+                    // set Media Plan Budget & Margin
                     if (campaignData.totalBudget && campaignData.marginPercent >= 0) {
                         $scope.Campaign.totalBudget = campaignData.totalBudget;
                         $scope.Campaign.marginPercent = campaignData.marginPercent;
                         $scope.ComputeCost();
                     }
 
-                    //set cost Data
+                    // set cost Data
                     if (campaignData.campaignCosts && campaignData.campaignCosts.length > 0) {
                         $scope.selectedCampaign.additionalCosts = _.filter(campaignData.campaignCosts, function (obj) {
                             return obj.costType && obj.costType.toUpperCase() === 'MANUAL';
@@ -372,7 +372,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.showPixelsList = false;
         $scope.showSystemOfRecord = true;
 
-        //line item edit flags
+        // line item edit flags
         $scope.rateReadOnlyEdit = false;
 
         $scope.rateTypeReadOnlyEdit = false;
@@ -389,7 +389,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.editLineItem = {};
         $scope.vendorConfig = [];
 
-        //mediaplan dates
+        // mediaplan dates
         $scope.mediaPlanStartDate = '';
 
         $scope.mediaPlanSEndDate = '';
@@ -401,7 +401,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.mediaPlanNameExists = false;
         $scope.selectedCampaign.costAttributes = {};
 
-        //flag to make API call to save media plan along with line item
+        // flag to make API call to save media plan along with line item
         $scope.saveMediaPlan = false;
 
         $scope.periodDays = 0;
@@ -410,12 +410,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.lineItemdiffDays = 0;
         $scope.newdiffDays = 0;
 
-        //loader Flags - popup loader
+        // loader Flags - popup loader
         $scope.createNewLineItemLoader = false;
         $scope.Campaign.editLineItemLoader = false;
         $scope.bulkUploadItemLoader = false;
 
-        //loader Flags - normal edit save button loader
+        // loader Flags - normal edit save button loader
         $scope.Campaign.createNewLineItemLoaderEdit = false;
 
         $scope.editLineItemLoaderEdit = false;
@@ -565,7 +565,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     // for line item system of record
                     createCampaign.fetchSystemOfRecord();
 
-                    //close new line item and reset all its fields
+                    // close new line item and reset all its fields
                     $scope.selectedCampaign.resetLineItemParameters();
 
                     // fetch rates for line item based on advertiser and client
@@ -707,12 +707,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 postDataObj.labels = _.pluck($scope.tags, 'label');
                 postDataObj.campaignPixels = _.pluck($scope.selectedCampaign.selectedPixel, 'id');
 
-                //for updateAt
+                // for updateAt
                 if ($scope.selectedCampaign.updatedAt) {
                     postDataObj.updatedAt = $scope.selectedCampaign.updatedAt;
                 }
 
-                //for cost
+                // for cost
                 if (!$.isEmptyObject($scope.selectedCampaign.selectedCostAttr)) {
                     for (i in $scope.selectedCampaign.selectedCostAttr) {
                         campaignCosts.push($scope.selectedCampaign.selectedCostAttr[i]);
@@ -727,7 +727,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     postDataObj.campaignId = $routeParams.campaignId;
                 }
 
-                //display loader
+                // display loader
                 if (lineItemMode === 'create') {
                     $scope.createNewLineItemLoader = true;
                 } else if (lineItemMode === 'edit') {
@@ -761,7 +761,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                             $scope.saveMediaPlan = false;
                             $scope.selectedCampaign.updatedAt = result.data.data.updatedAt;
 
-                            //trigger save the line item now after successful updation of media plan
+                            // trigger save the line item now after successful updation of media plan
                             if (lineItemMode === 'create') {
                                 $scope.createNewLineItemInEditMode();
                             } else if (lineItemMode === 'edit') {
@@ -837,7 +837,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 $scope.lineItemEndDate = date;
             }
         };
-        //*********************** End of date ***************
+        // *********************** End of date ***************
 
         // initial initialization
         $(function () {
@@ -904,7 +904,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     todayHighlight: true
                 });
 
-                //media plan clone
+                // media plan clone
                 if (cloneMediaPlanObj) {
                     $scope.cloneMediaPlanName = cloneMediaPlanObj.name;
                     $scope.campaignId = cloneMediaPlanObj.id;
@@ -938,7 +938,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $('.searchInputForm input').val('');
         };
 
-        //Show Add Credits
+        // Show Add Credits
         $scope.showAddCreditForm = function () {
             $('.addCreditForm').toggle();
             $('.showAddCreditForm .icon-arrow-solid-down').toggleClass('active');
@@ -1019,7 +1019,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 }
             }
 
-            //set the flag to save the media plan along with line item
+            // set the flag to save the media plan along with line item
             if ($scope.mode === 'edit') {
                 if (typeof oldVal === 'undefined') {
                     return;
@@ -1032,7 +1032,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         });
 
         $scope.$watch('selectedCampaign.startTime',function (newVal,oldVal) {
-            //set the flag to save the media plan along with line item
+            // set the flag to save the media plan along with line item
             if ($scope.mode === 'edit') {
                 if (typeof oldVal === 'undefined') {
                     return;
@@ -1045,7 +1045,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         });
 
         $scope.$watch('Campaign.totalBudget',function (newVal,oldVal) {
-            //set the flag to save the media plan along with line item
+            // set the flag to save the media plan along with line item
             if ($scope.mode === 'edit') {
                 if (typeof oldVal === 'undefined') {
                     return;
@@ -1058,7 +1058,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         });
 
         $scope.$watch('Campaign.marginPercent',function (newVal,oldVal) {
-            //set the flag to save the media plan along with line item
+            // set the flag to save the media plan along with line item
             if ($scope.mode === 'edit') {
                 if (typeof oldVal === 'undefined' || oldVal === 0) {
                     return;

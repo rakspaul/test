@@ -1,7 +1,7 @@
 'use strict'; // jshint ignore:line
 
 angular.module('ui.multiselect', [])
-    //from bootstrap-ui typeahead parser
+    // from bootstrap-ui typeahead parser
     .factory('optionParser', ['$parse', function ($parse) {
         //                      00000111000000000000022200000000000000003333333333333330000000000044000
         var TYPEAHEAD_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?\s+for\s+(?:([\$\w][\$\w\d]*))\s+in\s+(.*)$/;
@@ -72,7 +72,7 @@ angular.module('ui.multiselect', [])
                             i,
                             local;
 
-                        if (is_empty(modelCtrl.$modelValue)) {
+                        if (isEmpty(modelCtrl.$modelValue)) {
                             // TODO: This is a very valid error! Pleaseeeee avoid writing code like this.
                             // return scope.header = '';
                             scope.header = '';
@@ -104,7 +104,7 @@ angular.module('ui.multiselect', [])
                         }
                     }
 
-                    function is_empty(obj) {
+                    function isEmpty(obj) {
                         var prop;
 
                         if (!obj) {
@@ -198,7 +198,7 @@ angular.module('ui.multiselect', [])
 
                     popUpEl =  angular.element('<multiselect-popup></multiselect-popup>');
 
-                    //required validator
+                    // required validator
                     if (attrs.required || attrs.ngRequired) {
                         required = true;
                     }
@@ -207,28 +207,28 @@ angular.module('ui.multiselect', [])
                         required = newVal;
                     });
 
-                    //watch disabled state
+                    // watch disabled state
                     scope.$watch(function () {
                         return $parse(attrs.disabled)(originalScope);
                     }, function (newVal) {
                         scope.disabled = newVal;
                     });
 
-                    //watch single/multiple state for dynamically change single to multiple
+                    // watch single/multiple state for dynamically change single to multiple
                     scope.$watch(function () {
                         return $parse(attrs.multiple)(originalScope);
                     }, function (newVal) {
                         isMultiple = newVal || false;
                     });
 
-                    //watch option changes for options that are populated dynamically
+                    // watch option changes for options that are populated dynamically
                     scope.$watch(function () {
                         return parsedResult.source(originalScope);
                     }, function (newVal) {
                         (angular.isDefined(newVal)) && (parseModel());
                     }, true);
 
-                    //watch model change
+                    // watch model change
                     scope.$watch(function () {
                         return modelCtrl.$modelValue;
                     }, function (newVal) {

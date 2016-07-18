@@ -1,4 +1,4 @@
-module.exports =function(grunt) {
+module.exports = function (grunt) {
     'use strict';
 
     var config = {
@@ -6,12 +6,18 @@ module.exports =function(grunt) {
             options: {
                 jshintrc: '.jshintrc'
             },
+
             files: {
                 src: [
-                    '<%= cvars.app %>/<%= cvars.appjs %>/*.js'
+                    '<%= cvars.app %>/<%= cvars.appjs %>/*.js',
+                    '<%= cvars.app %>/<%= cvars.appjs %>/common/**/*.js',
+                    '<%= cvars.app %>/<%= cvars.appjs %>/login/**/*.js',
+                    '<%= cvars.app %>/<%= cvars.appjs %>/reporting/**/*.js',
+                    '<%= cvars.app %>/<%= cvars.appjs %>/workflow/**/*.js'
                 ]
             }
         }
     };
+
     grunt.config('jshint', config);
-}
+};

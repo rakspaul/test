@@ -86,7 +86,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.brandName = obj.name;
         };
 
-        //Search Clear
+        // Search Clear
         $scope.searchHideInput = function () {
             $('.searchInputForm input').val('');
             $scope.brandsData = _curCtrl.brandsData;

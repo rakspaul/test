@@ -1,10 +1,10 @@
-define(['angularAMD', 'reporting/common/d3/gantt_chart', // jshint ignore:line
-    'reporting/models/gantt_chart_model', 'common/services/constants_service', 'reporting/brands/brands_model',
-    'login/login_model', 'common/moment_utils' ], function (angularAMD) {
+define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt_chart_model',
+    'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model', 'common/moment_utils' ],
+    function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('GanttChartController', function ($scope, ganttChart, ganttChartModel, constants, brandsModel,
-                                                           loginModel, momentService) {
+    angularAMD.controller('GanttChartController', function ($scope, ganttChart, ganttChartModel, constants,
+                                                            brandsModel, loginModel, momentService) {
         var _curCtrl = this;
 
         _curCtrl.filter = undefined;
@@ -54,53 +54,54 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', // jshint ignore:line
 
                     $scope.calendarBusy = false;
 
-                    //TODO: move this into a service
+                    // TODO: move this into a service
                     if (result !== undefined && result.brands !== undefined && result.brands.length > 0) {
                         $scope.calendarData = result.brands.length;
                         $scope.dataFound = true;
 
-                        //getting endpoint dates for calendar.
-                        _.each(result.brands, function (datum) { // jshint ignore:line
-                            _.each(datum.campaigns, function (tasks) { // jshint ignore:line
+                        // getting endpoint dates for calendar.
+                        _.each(result.brands, function (datum) {
+                            _.each(datum.campaigns, function (tasks) {
                                 var campaignEndDate = momentService.utcToLocalTime(tasks.end_date,
                                         constants.DATE_UTC_SHORT_FORMAT),
+
                                     campaignStartDate = momentService.utcToLocalTime(tasks.start_date,
                                         constants.DATE_UTC_SHORT_FORMAT);
 
                                 if (loop === 0) {
-                                    startDate = moment(campaignEndDate).startOf('day'); // jshint ignore:line
-                                    endDate = moment(campaignStartDate).endOf('day'); // jshint ignore:line
+                                    startDate = moment(campaignEndDate).startOf('day');
+                                    endDate = moment(campaignStartDate).endOf('day');
                                 }
 
                                 loop++;
 
-                                if (moment(startDate).toDate() >  // jshint ignore:line
-                                    moment(campaignStartDate).toDate()) { // jshint ignore:line
-                                    startDate = moment(campaignStartDate).startOf('month'); // jshint ignore:line
+                                if (moment(startDate).toDate() >
+                                    moment(campaignStartDate).toDate()) {
+                                    startDate = moment(campaignStartDate).startOf('month');
                                 }
 
-                                if (moment(endDate).toDate() < // jshint ignore:line
-                                    moment(campaignEndDate).toDate()) { // jshint ignore:line
-                                    endDate = moment(campaignEndDate).endOf('month'); // jshint ignore:line
+                                if (moment(endDate).toDate() <
+                                    moment(campaignEndDate).toDate()) {
+                                    endDate = moment(campaignEndDate).endOf('month');
                                 }
                             });
                         });
 
-                        _.each(result.brands, function (datum) { // jshint ignore:line
+                        _.each(result.brands, function (datum) {
                             var space,
                                 tab = 0,
                                 c = {};
 
                             if (count === 0) {
-                                //space before first brand
+                                // space before first brand
                                 tab = 2;
                             } else {
-                                //space before each brand
+                                // space before each brand
                                 tab = 1;
                             }
 
                             for (space = 0; space <= tab; space++) {
-                                //placeholder - empty value to add spacing
+                                // placeholder - empty value to add spacing
                                 count++;
                                 c.id = count;
                                 c.name = ' ';
@@ -113,7 +114,7 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', // jshint ignore:line
                                 brands.push(count);
                             }
 
-                            //brand injected
+                            // brand injected
                             count++;
                             c = {};
                             c.id = datum.id;
@@ -126,7 +127,7 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', // jshint ignore:line
                             campaigns.push(c);
                             brands.push(count);
 
-                            _.each(datum.campaigns, function (tasks) { // jshint ignore:line
+                            _.each(datum.campaigns, function (tasks) {
                                 var c = {};
 
                                 count++;
@@ -134,10 +135,10 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', // jshint ignore:line
                                 c.name = tasks.name;
 
                                 c.startDate =
-                                    moment(momentService.utcToLocalTime(tasks.start_date, // jshint ignore:line
+                                    moment(momentService.utcToLocalTime(tasks.start_date,
                                     constants.DATE_UTC_SHORT_FORMAT)).startOf('day');
 
-                                c.endDate = moment(momentService.utcToLocalTime(tasks.end_date, // jshint ignore:line
+                                c.endDate = moment(momentService.utcToLocalTime(tasks.end_date,
                                     constants.DATE_UTC_SHORT_FORMAT)).endOf('day');
 
                                 c.state = tasks.state;
@@ -185,41 +186,41 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', // jshint ignore:line
                     $scope.loadingMore = false;
                     o.selected = $scope.selected;
 
-                    //TODO: move this into a service
+                    // TODO: move this into a service
                     if (result !== undefined && result.brands !== undefined && result.brands.length > 0) {
                             $scope.calendarData = result.brands.length;
                             $scope.dataFound = true;
 
-                            //getting endpoint dates for calendar.
-                            _.each(result.brands, function (datum) { // jshint ignore:line
-                                _.each(datum.campaigns, function (tasks) { // jshint ignore:line
+                            // getting endpoint dates for calendar.
+                            _.each(result.brands, function (datum) {
+                                _.each(datum.campaigns, function (tasks) {
                                     var campaignEndDate = momentService.utcToLocalTime(tasks.end_date,
                                             constants.DATE_UTC_SHORT_FORMAT),
+
                                         campaignStartDate = momentService.utcToLocalTime(tasks.start_date,
                                             constants.DATE_UTC_SHORT_FORMAT);
 
                                     if (loop === 0) {
-                                        o.startDate = moment(campaignEndDate).startOf('day'); // jshint ignore:line
-                                        o.endDate = moment(campaignStartDate).endOf('day'); // jshint ignore:line
+                                        o.startDate = moment(campaignEndDate).startOf('day');
+                                        o.endDate = moment(campaignStartDate).endOf('day');
                                     }
 
                                     loop++;
 
-                                    if (moment(o.startDate).toDate() > // jshint ignore:line
-                                        moment(campaignStartDate).toDate()) { // jshint ignore:line
-                                        o.startDate = moment(campaignStartDate).startOf('month'); // jshint ignore:line
+                                    if (moment(o.startDate).toDate() >
+                                        moment(campaignStartDate).toDate()) {
+                                        o.startDate = moment(campaignStartDate).startOf('month');
                                     }
 
-                                    if (moment(o.endDate).toDate() < // jshint ignore:line
-                                        moment(campaignEndDate).toDate()) { // jshint ignore:line
-                                        o.endDate = moment(campaignEndDate).endOf('month'); // jshint ignore:line
+                                    if (moment(o.endDate).toDate() <
+                                        moment(campaignEndDate).toDate()) {
+                                        o.endDate = moment(campaignEndDate).endOf('month');
                                     }
-
                                 });
                             });
 
-                            _.each(result.brands, function (datum) { // jshint ignore:line
-                                _.each(datum.campaigns, function (tasks) { // jshint ignore:line
+                            _.each(result.brands, function (datum) {
+                                _.each(datum.campaigns, function (tasks) {
                                     var c = {};
 
                                     count++;
@@ -227,11 +228,11 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', // jshint ignore:line
                                     c.name = tasks.name;
 
                                     c.startDate =
-                                        moment(momentService.utcToLocalTime(tasks.start_date, // jshint ignore:line
+                                        moment(momentService.utcToLocalTime(tasks.start_date,
                                         constants.DATE_UTC_SHORT_FORMAT)).startOf('day');
 
                                     c.endDate =
-                                        moment(momentService.utcToLocalTime(tasks.end_date, // jshint ignore:line
+                                        moment(momentService.utcToLocalTime(tasks.end_date,
                                         constants.DATE_UTC_SHORT_FORMAT)).endOf('day');
 
                                     c.state = tasks.state;
@@ -281,7 +282,7 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', // jshint ignore:line
             ganttChart.year();
         };
 
-        //removing chart to update and redraw
+        // removing chart to update and redraw
         $scope.refresh = function () {
             $scope.calendar(ganttChartModel.filter);
         };

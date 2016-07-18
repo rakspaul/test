@@ -213,7 +213,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 if ($scope.mode === 'edit') {
                     responseData = workflowService.getAdsDetails();
-                    //creative tags
+                    // creative tags
                     if (responseData.creatives) {
                         $scope.$parent.selectedArr = responseData.creatives;
                     }
@@ -253,7 +253,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     if (actionFrom !== 'popup') {
                         $scope.updateCreativeData($scope.$parent.selectedArr);
                     } else {
-                        //insert into predelete array
+                        // insert into predelete array
                         $scope.preDeleteArr.push(selectedCreativeTag[0]);
                     }
 
