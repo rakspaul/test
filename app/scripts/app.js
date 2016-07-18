@@ -286,7 +286,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_create,
                     title: 'Create - Media Plan',
                     controller: 'CreateCampaignController',
-                    controllerUrl: '/scripts/workflow/controllers/campaign_create_controller',
+                    controllerUrl: '/workflow/campaign/campaign_create_controller',
                     showHeader : true,
 
                     resolve: {
@@ -389,7 +389,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_create,
                     title: 'Edit - Media Plan',
                     controller: 'CreateCampaignController',
-                    controllerUrl: 'workflow/controllers/campaign_create_controller',
+                    controllerUrl: 'workflow/campaign/campaign_create_controller',
                     showHeader : true,
 
                     resolve: {
@@ -589,7 +589,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_creative_preview,
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',
-                    controllerUrl: 'workflow/controllers/creative_preview_controller',
+                    controllerUrl: 'workflow/creative/creative_preview_controller',
                     showHeader : false,
 
                     resolve: {
@@ -602,7 +602,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_creative_preview,
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',
-                    controllerUrl: 'workflow/controllers/creative_preview_controller',
+                    controllerUrl: 'workflow/creative/creative_preview_controller',
                     showHeader : false,
 
                     resolve: {
