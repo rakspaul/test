@@ -1,5 +1,5 @@
 define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshint ignore:line
-    'strategy_select_service','common/services/constants_service'], function (angularAMD) {
+    'reporting/strategySelect/strategy_select_service','common/services/constants_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('StrategySelectController', function ($scope, $rootScope, campaignSelectModel,
