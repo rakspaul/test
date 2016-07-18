@@ -40,12 +40,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         source = params.selectedSource,
                         classification = params.selectedCategory,
                         clientId =  loginModel.getSelectedClient().id,
+                        advertiserId=params.advertiserId,
                         url,
                         i,
                         j;
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
+                        '/advertisers/'+advertiserId+
                         '/segments?pageNo=' + pageNo +
                         '&pageSize=' + pageSize;
 
@@ -197,7 +199,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 getDayTimeArr = function () {
                     return dayArr;
                 };
-            
+
             return {
 
                 setAudience : setAudience,
