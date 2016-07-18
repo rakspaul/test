@@ -1,5 +1,5 @@
 define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:line
-    'reporting/campaignSelect/campaign_select_model', '../strategySelect/strategy_select_service',
+    'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_service',
     'common/services/data_service', 'common/services/constants_service', 'reporting/models/domain_reports',
     'common/services/vistoconfig_service', 'reporting/timePeriod/time_period_model', 'login/login_model',
     'common/services/role_based_service', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
@@ -150,7 +150,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', // jshint ignore:li
                                         item.margin = item.margin * 100 / item.gross_rev;
                                     }
                                 },
-                            
+
                                 sumTechFeesNServiceFees = function(item) {
                                     if (item.tech_fees === null && item.service_fees === null) {
                                         item.tech_service_fees_total = undefined;
