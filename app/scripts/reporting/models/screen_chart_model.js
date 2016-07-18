@@ -1,7 +1,7 @@
 define(['angularAMD', 'common/services/vistoconfig_service','common/services/data_service',
     'reporting/brands/brands_model','reporting/dashboard/dashboard_model','common/services/constants_service',
     'login/login_model','common/services/role_based_service', 'reporting/advertiser/advertiser_model',
-    'common/services/vistoconfig_service','reporting/subAccount/sub_account_model'], function (angularAMD) {
+    'common/services/vistoconfig_service','reporting/subAccount/sub_account_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.service('screenChartModel', ['$filter', 'urlService', 'dataService', 'brandsModel',

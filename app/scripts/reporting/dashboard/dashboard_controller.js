@@ -1,8 +1,8 @@
 define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/dashboard_model',
     'reporting/brands/brands_model', 'reporting/advertiser/advertiser_model',
-    'reporting/campaignSelect/campaign_select_model', 'login/login_model',
-    'reporting/common/d3/bubble_chart_directive', 'reporting/common/d3/gauge_directive',
-    'reporting/subAccount/sub_account_model'], function (angularAMD) {
+    'reporting/campaignSelect/campaign_select_model','login/login_model',
+    'reporting/common/d3/bubble_chart_directive','reporting/common/d3/gauge_directive',
+    'reporting/subAccount/sub_account_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('DashboardController', function ($scope, $rootScope, constants, dashboardModel, brandsModel,

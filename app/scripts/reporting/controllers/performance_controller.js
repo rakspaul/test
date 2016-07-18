@@ -1,11 +1,11 @@
-define(['angularAMD','reporting/kpiSelect/kpi_select_model',
-    'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model',
-    'common/services/data_service', 'reporting/models/domain_reports', 'common/services/constants_service',
-    'reporting/timePeriod/time_period_model', 'reporting/brands/brands_model', 'login/login_model',
-    'common/services/url_service', 'reporting/advertiser/advertiser_model',
-    'reporting/timePeriod/time_period_controller', 'reporting/kpiSelect/kpi_select_directive',
-    'reporting/strategySelect/strategy_select_directive', 'reporting/strategySelect/strategy_select_controller',
-    'reporting/timePeriod/time_period_pick_directive'], function (angularAMD) {
+define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model',
+    'reporting/strategySelect/strategy_select_service', 'common/services/data_service',
+    'reporting/models/domain_reports', 'common/services/constants_service', 'reporting/timePeriod/time_period_model',
+    'reporting/brands/brands_model', 'login/login_model', 'common/services/url_service',
+    'reporting/advertiser/advertiser_model', 'reporting/timePeriod/time_period_controller',
+    'reporting/kpiSelect/kpi_select_directive', 'reporting/strategySelect/strategy_select_directive',
+    'reporting/strategySelect/strategy_select_controller', 'reporting/timePeriod/time_period_pick_directive'],
+    function (angularAMD) {
     'use strict';
 
     angularAMD.controller('PerformanceController', function ($scope,$rootScope, kpiSelectModel, campaignSelectModel,

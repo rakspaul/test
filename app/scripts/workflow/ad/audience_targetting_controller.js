@@ -4,7 +4,14 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
 
     angularAMD.controller('AudienceTargettingController', function ($scope, audienceService,
                                                                     workflowService, constants) {
+        $scope.$on('adCampaignDataSet', function () {
+            var campaignData = localStorage.getItem('campaignData');
+            campaignData = campaignData && JSON.parse(campaignData);
+            $scope.advertiserId = campaignData.advertiserId;
+        });
+
         var editOneTimeFlag = false,
+
 
             _audienceTargetting = {
                 processAudienceEdit: function () {
@@ -94,7 +101,8 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
                         selectedKeywords: $scope.selectedKeywords,
                         selectedSource: $scope.selectedSource,
                         selectedCategory: $scope.selectedCategory,
-                        seatId: $scope.adData.platformSeatId
+                        seatId: $scope.adData.platformSeatId,
+                        advertiserId:$scope.advertiserId
                     };
 
                     if (!loadMoreFlag) {
@@ -140,7 +148,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
                 },
 
                 setSortColumn: function (col) {
-                    $scope.sortColumn = col || 'name';
+                    $scope.sortColumn = col || 'displayName';
                 },
 
                 initAudienceTargeting: function () {
@@ -205,6 +213,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
             top: '60px',
             left: '0'
         };
+
 
         $scope.isAudienceTargetingSearched = false;
         $scope.showAudienceLoader = false;

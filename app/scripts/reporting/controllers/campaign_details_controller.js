@@ -1,7 +1,7 @@
 define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services/transformer_service',
     'reporting/models/campaign_cdb_data', 'reporting/campaignList/campaign_list_service',
     'reporting/campaignList/campaign_list_model', 'reporting/campaignSelect/campaign_select_model',
-    'reporting/strategySelect/strategy_select_model', 'reporting/common/charts/actions',
+    'reporting/strategySelect/strategy_select_service', 'reporting/common/charts/actions',
     'common/services/data_service', 'common/utils', 'reporting/common/charts/pie_chart',
     'reporting/common/charts/solid_gauge', 'common/services/constants_service', 'common/services/features_service',
     'login/login_model', 'login/login_service', 'reporting/brands/brands_model', 'common/services/url_service',

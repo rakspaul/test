@@ -1,5 +1,5 @@
 define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
-    'reporting/strategySelect/strategy_select_model','common/services/constants_service'], function (angularAMD) {
+    'reporting/strategySelect/strategy_select_service', 'common/services/constants_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('StrategySelectController', function ($scope, $rootScope, campaignSelectModel,
@@ -7,11 +7,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
         var eventCampaignStrategyChangedFunc;
 
         $scope.strategyData = {
-            strategies : {},
+            strategies: {},
 
-            selectedStrategy :  {
+            selectedStrategy:  {
                 id: -1,
-                name : 'Loading...'
+                name: 'Loading...'
             }
         };
 
@@ -57,7 +57,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 (strategy.lineitemId === undefined ? strategy.strategyId : strategy.lineitemId): strategy.id;
 
             $scope.strategyData.selectedStrategy.name = (strategy.name === undefined) ?
-                strategy.strategy_name : strategy.name;
+                strategy.strategy_name: strategy.name;
 
             $rootScope.$broadcast(constants.EVENT_STRATEGY_CHANGED, strategy);
 

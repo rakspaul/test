@@ -1,4 +1,4 @@
-define(['angularAMD', 'reporting/subAccount/sub_account_model', 'common/services/constants_service',
+define(['angularAMD', 'reporting/subAccount/sub_account_service', 'common/services/constants_service',
     'login/login_model'], function (angularAMD) {
     'use strict';
 
@@ -12,11 +12,11 @@ define(['angularAMD', 'reporting/subAccount/sub_account_model', 'common/services
             }
 
             $scope.subAccountData = {
-                subAccounts : {},
+                subAccounts: {},
 
-                selectedsubAccount :  {
+                selectedsubAccount:  {
                     id: -1,
-                    name : 'Loading...'
+                    name: 'Loading...'
                 }
             };
         };

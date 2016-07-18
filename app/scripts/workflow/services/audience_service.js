@@ -6,25 +6,32 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
         angularAMD.factory('audienceService', function (vistoconfig, dataService, constants, workflowService,
                                                         loginModel) {
             var audience,
-                source,
-                keywords,
-                selAudiences,
-                andOrStatus,
-                dayPartData,
-                dayTimeSelectedObj,
-                daytimeArrObj,
-                dayArr;
 
-            return {
-                setAudience: function (aud) {
+                source,
+
+                keywords,
+
+                selAudiences,
+
+                andOrStatus,
+
+                dayPartData,
+
+                dayTimeSelectedObj,
+
+                daytimeArrObj,
+
+                dayArr,
+
+                setAudience = function (aud) {
                     audience = aud;
                 },
 
-                getAudience: function () {
+                getAudience = function () {
                     return audience;
                 },
 
-                fetchAudience: function (params) {
+                fetchAudience = function (params) {
                     var sortCol = params.sortColumn,
                         sortOrder = params.sortOrder,
                         pageNo = params.pageNumber,
@@ -33,12 +40,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         source = params.selectedSource,
                         classification = params.selectedCategory,
                         clientId =  loginModel.getSelectedClient().id,
+                        advertiserId=params.advertiserId,
                         url,
                         i,
                         j;
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
+                        '/advertisers/'+advertiserId+
                         '/segments?pageNo=' + pageNo +
                         '&pageSize=' + pageSize;
 
@@ -94,7 +103,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return dataService.fetch(url, {cache: false});
                 },
 
-                fetchAudienceSource: function (seatId) {
+                fetchAudienceSource = function (seatId) {
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + loginModel.getSelectedClient().id +
                         '/vendors/' + workflowService.getPlatform().id +
@@ -104,21 +113,21 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return dataService.fetch(url, {cache: false});
                 },
 
-                fetchAudienceCategories: function () {
+                fetchAudienceCategories = function () {
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/segments/categories';
 
                     return dataService.fetch(url, {cache: false});
                 },
 
-                setAudienceSource: function (s) {
+                setAudienceSource = function (s) {
                     source = s;
                 },
 
-                getAudienceSource: function () {
+                getAudienceSource = function () {
                     return source;
                 },
 
-                fetchAudiencekeywords: function (params) {
+                fetchAudiencekeywords = function (params) {
                     var searchKey = params.searchKey,
                         url;
 
@@ -129,67 +138,94 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return dataService.fetch(url, {cache: false});
                 },
 
-                setAudienceKeywords: function (s) {
+                setAudienceKeywords = function (s) {
                     keywords = s;
                 },
 
-                getAudienceKeywords: function () {
+                getAudienceKeywords = function () {
                     return keywords;
                 },
 
-                setSelectedAudience: function (s) {
+                setSelectedAudience = function (s) {
                     selAudiences = s;
                 },
 
-                getSelectedAudience: function () {
+                getSelectedAudience = function () {
                     return selAudiences;
                 },
 
-                resetAudienceData: function () {
+                resetAudienceData = function () {
                     selAudiences = null;
                     andOrStatus = constants.DEFAULTANDORSTATUS;
                 },
 
-                setAndOr: function (status) {
+                setAndOr = function (status) {
                     andOrStatus = status;
                 },
 
-                getAndOr: function () {
+                getAndOr = function () {
                     return andOrStatus;
                 },
 
-                setDayPartData: function (dataObj) {
+                setDayPartData = function (dataObj) {
                     dayPartData=dataObj;
                 },
 
-                getDayPartdata: function () {
+                getDayPartdata = function () {
                     return dayPartData;
                 },
 
-                resetDayPartdata: function () {
+                resetDayPartdata = function () {
                     dayPartData = null;
                 },
 
-                setDayPartDispObj: function (daytimeArr, dayTimeSelected) {
+                setDayPartDispObj = function (daytimeArr, dayTimeSelected) {
                     daytimeArrObj = daytimeArr;
                     dayTimeSelectedObj = dayTimeSelected;
                 },
 
-                getDaytimeObj: function () {
+                getDaytimeObj = function () {
                     return daytimeArrObj;
                 },
 
-                getDayTimeSelectedObj: function () {
+                getDayTimeSelectedObj = function () {
                     return dayTimeSelectedObj;
                 },
 
-                setDayTimeArr: function (arr) {
+                setDayTimeArr = function (arr) {
                     dayArr = arr;
                 },
 
-                getDayTimeArr: function () {
+                getDayTimeArr = function () {
                     return dayArr;
-                }
+                };
+
+            return {
+
+                setAudience : setAudience,
+                getAudience : getAudience,
+                fetchAudience : fetchAudience,
+                fetchAudienceSource : fetchAudienceSource,
+                fetchAudienceCategories : fetchAudienceCategories,
+                setAudienceSource : setAudienceSource,
+                getAudienceSource : getAudienceSource,
+                fetchAudiencekeywords : fetchAudiencekeywords,
+                setAudienceKeywords : setAudienceKeywords,
+                getAudienceKeywords : getAudienceKeywords,
+                setSelectedAudience : setSelectedAudience,
+                getSelectedAudience : getSelectedAudience,
+                resetAudienceData : resetAudienceData,
+                setAndOr : setAndOr,
+                getAndOr : getAndOr,
+                setDayPartData : setDayPartData,
+                getDayPartdata : getDayPartdata,
+                resetDayPartdata : resetDayPartdata,
+                setDayPartDispObj : setDayPartDispObj,
+                getDaytimeObj : getDaytimeObj,
+                getDayTimeSelectedObj : getDayTimeSelectedObj,
+                setDayTimeArr : setDayTimeArr,
+                getDayTimeArr : getDayTimeArr
+
             };
         });
     }

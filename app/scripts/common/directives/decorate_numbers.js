@@ -30,11 +30,13 @@ define(['angularAMD'], function (angularAMD) {
         };
 
         hasMultipleDecimals = function (val) {
-            return (val !== null) && val.toString().split('.').length > 2;
+            return (val != null) && val.toString().split('.').length > 2;
+
         };
 
         makeMaxDecimals = function (maxDecimals) {
-            var regexString, validRegex;
+            var regexString,
+                validRegex;
 
             if (maxDecimals > 0) {
                 regexString = '^-?\\d*\\.?\\d{0,' + maxDecimals + '}$';
@@ -62,9 +64,7 @@ define(['angularAMD'], function (angularAMD) {
         };
 
         makeMaxDigits = function (maxDigits) {
-            var validRegex;
-
-            validRegex = new RegExp('^-?\\d{0,' + maxDigits + '}(\\.\\d*)?$');
+            var validRegex = new RegExp('^-?\\d{0,' + maxDigits + '}(\\.\\d*)?$');
 
             return function (val) {
                 return validRegex.test(val);
@@ -74,19 +74,19 @@ define(['angularAMD'], function (angularAMD) {
         makeIsValid = function (options) {
             var validations = [];
 
-            if (options.maxDecimals !== null) {
+            if (options.maxDecimals != null) {
                 validations.push(makeMaxDecimals(options.maxDecimals));
             }
 
-            if (options.max !== null) {
+            if (options.max != null) {
                 validations.push(makeMaxNumber(options.max));
             }
 
-            if (options.min !== null) {
+            if (options.min != null) {
                 validations.push(makeMinNumber(options.min));
             }
 
-            if (options.maxDigits !== null) {
+            if (options.maxDigits != null) {
                 validations.push(makeMaxDigits(options.maxDigits));
             }
 
@@ -126,6 +126,7 @@ define(['angularAMD'], function (angularAMD) {
             decimals = val.indexOf('.') === -1 ? '' : val.replace(/^\d+(?=\.)/, '');
             wholeNumbers = val.replace(/(\.\d+)$/, '');
             commas = wholeNumbers.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+
             return '' + commas + decimals;
         };
 
@@ -141,7 +142,7 @@ define(['angularAMD'], function (angularAMD) {
                 var isValid,
                     options = {};
 
-                if (scope.options !== null) {
+                if (scope.options != null) {
                     options = scope.$eval(scope.options);
                 }
 
@@ -160,23 +161,25 @@ define(['angularAMD'], function (angularAMD) {
                 });
 
                 ngModelCtrl.$formatters.push(function (val) {
-                    if ((options.nullDisplay !== null) && (!val || val === '')) {
+                    if ((options.nullDisplay != null) && (!val || val === '')) {
                         return options.nullDisplay;
                     }
 
-                    if ((val === null) || !isValid(val)) {
+                    if ((val == null) || !isValid(val)) {
                         return val;
                     }
 
                     ngModelCtrl.$setValidity('fcsaNumber', true);
                     val = addCommasToInteger(val.toString());
 
-                    if (options.prepend !== null) {
+                    if (options.prepend != null) {
                         val = '' + options.prepend + val;
+
                     }
 
-                    if (options.append !== null) {
+                    if (options.append != null) {
                         val = '' + val + options.append;
+
                     }
 
                     return val;
@@ -184,15 +187,18 @@ define(['angularAMD'], function (angularAMD) {
 
                 elem.on('blur', function () {
                     var formatter,
-                        viewValue = ngModelCtrl.$modelValue,
+                        viewValue,
                         _i,
                         _len,
-                        _ref = ngModelCtrl.$formatters;
+                        _ref;
 
-                    if ((viewValue === null) || !isValid(viewValue)) {
+                    viewValue = ngModelCtrl.$modelValue;
+
+                    if ((viewValue == null) || !isValid(viewValue)) {
                         return;
                     }
 
+                    _ref = ngModelCtrl.$formatters;
                     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                         formatter = _ref[_i];
                         viewValue = formatter(viewValue);
@@ -206,11 +212,11 @@ define(['angularAMD'], function (angularAMD) {
                 elem.on('focus', function () {
                     var val = elem.val();
 
-                    if (options.prepend !== null) {
+                    if (options.prepend != null) {
                         val = val.replace(options.prepend, '');
                     }
 
-                    if (options.append !== null) {
+                    if (options.append != null) {
                         val = val.replace(options.append, '');
                     }
 

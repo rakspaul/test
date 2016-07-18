@@ -3,17 +3,15 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
     'use strict';
 
     angularAMD.service('brandsService', function($rootScope, $http, constants, workflowService) {
-        // default values
-        var service = {};
-
-        service.fetchBrands = function(searchCriteria) {
+        //default values
+        var fetchBrands = function(searchCriteria) {
             var clientId = searchCriteria.clientId,
                 advertiserId = searchCriteria.advertiserId;
 
             return workflowService.getBrands(clientId, advertiserId, 'read');
-        };
+        },
 
-        service.preForBrandBroadcast = function(brand, advertiser, event_type) {
+        preForBrandBroadcast = function(brand, advertiser, event_type) {
             var obj = {
                 brand: brand,
                 advertiser: advertiser,
@@ -23,6 +21,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED, obj);
         };
 
-        return service;
+        return {
+            fetchBrands: fetchBrands,
+            preForBrandBroadcast: preForBrandBroadcast
+        };
     });
 });

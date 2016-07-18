@@ -1,6 +1,6 @@
-define(['angularAMD', 'common/services/url_service', 'common/services/data_service',
-    'reporting/brands/brands_model', 'reporting/dashboard/dashboard_model', 'login/login_model',
-    'reporting/advertiser/advertiser_model', 'reporting/subAccount/sub_account_model'], function (angularAMD) {
+define(['angularAMD', 'common/services/url_service', 'common/services/data_service', 'reporting/brands/brands_model',
+    'reporting/dashboard/dashboard_model', 'login/login_model', 'reporting/advertiser/advertiser_model',
+    'reporting/subAccount/sub_account_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.service('ganttChartModel', ['utils', 'urlService', 'dataService', 'brandsModel', 'dashboardModel',

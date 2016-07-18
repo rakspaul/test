@@ -1,10 +1,10 @@
 define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils',
     'common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_directive',
-    'reporting/subAccount/sub_account_model'], function (angularAMD) {
+    'reporting/subAccount/sub_account_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('AdvertiserController', function ($scope, $rootScope, advertiserModel, utils,
-                                                                constants, loginModel) {
+                                                            constants, loginModel) {
         var search = false,
             searchCriteria = utils.typeaheadParams,
             loadAdvertisers = true,
@@ -24,11 +24,11 @@ define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils',
                 return;
             }
 
-            if(loadAdvertisers) {
+            if (loadAdvertisers) {
                 searchCriteria.clientId = loginModel.getSelectedClient().id;
                 search = false;
                 loadAdvertisers = false;
-                advertiserModel.getAdvertisers(function(advertisersData) {
+                advertiserModel.getAdvertisers(function (advertisersData) {
                     $scope.advertisers = advertisersData;
                 }, searchCriteria, search);
             }
@@ -46,10 +46,9 @@ define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils',
             $scope.advertiserData.showAll = true;
             advertiserModel.setSelectedAdvertisers(advertiser);
 
-            if(!advertiser.referedFrom) {
+            if (!advertiser.referedFrom) {
                 advertiserModel.callAdvertiserBroadcast(advertiser, event_type);
             }
-
             $scope.selectedAdvertiser = null;
         };
 
@@ -69,7 +68,7 @@ define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils',
             return utils.highlightSearch(text, search);
         };
 
-        $scope.$on('$destroy', function() {
+        $scope.$on('$destroy', function () {
             accountChanged();
         });
 

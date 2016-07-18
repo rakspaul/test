@@ -1,10 +1,10 @@
 define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model',
-    'reporting/strategySelect/strategy_select_model', 'common/services/data_service',
+    'reporting/strategySelect/strategy_select_service', 'common/services/data_service',
     'common/services/constants_service', 'reporting/models/domain_reports', 'common/services/vistoconfig_service',
     'reporting/timePeriod/time_period_model', 'login/login_model', 'common/services/role_based_service',
     'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'common/services/url_service',
     'common/services/features_service', 'common/services/request_cancel_service',
-    'reporting/strategySelect/strategy_select_directive', 'reporting/strategySelect/strategy_select_controller',
+    'reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller',
     'reporting/timePeriod/time_period_pick_directive', 'reporting/kpiSelect/kpi_select_directive'],
     function (angularAMD) {
         'use strict';
@@ -154,21 +154,21 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                         if (result.data.data.length === 0) {
                             errorHandlerForPerformanceTab();
                         } else {
-                                marginPercentage = function (item) {
-                                    if (item.gross_rev && item.gross_rev !== 0) {
-                                        item.margin = item.margin * 100 / item.gross_rev;
-                                    }
-                                };
+                            marginPercentage = function (item) {
+                                if (item.gross_rev && item.gross_rev !== 0) {
+                                    item.margin = item.margin * 100 / item.gross_rev;
+                                }
+                            };
 
-                                sumTechFeesNServiceFees = function (item) {
-                                    if (item.tech_fees === null && item.service_fees === null) {
-                                        item.tech_service_fees_total = undefined;
-                                    } else {
-                                        item.tech_service_fees_total = (item.tech_fees === null ?
-                                                0 : item.tech_fees) + (item.service_fees === null ?
-                                                0 : item.service_fees);
-                                    }
-                                };
+                            sumTechFeesNServiceFees = function(item) {
+                                if (item.tech_fees === null && item.service_fees === null) {
+                                    item.tech_service_fees_total = undefined;
+                                } else {
+                                    item.tech_service_fees_total = (item.tech_fees === null ?
+                                            0 : item.tech_fees) + (item.service_fees === null ?
+                                            0 : item.service_fees);
+                                }
+                            };
 
                             if (Number($scope.selectedStrategy.id) >= 0) {
                                 // strategy selected

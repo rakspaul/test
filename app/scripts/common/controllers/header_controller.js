@@ -1,7 +1,7 @@
 define(['angularAMD', 'common/services/constants_service', 'login/login_model',
     'reporting/models/domain_reports', 'reporting/campaignSelect/campaign_select_model',
     'common/services/role_based_service', 'workflow/services/workflow_service', 'common/services/features_service',
-    'reporting/subAccount/sub_account_model'], function (angularAMD) {
+    'reporting/subAccount/sub_account_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location, $modal,
