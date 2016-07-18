@@ -28,7 +28,6 @@ define(['angularAMD',
 
             buildCreativeTagPreviewContainer = function (data) {
                 var tag = data.tag,
-                    type = data.creativeType,
                     iframe;
 
                 if (tag) {

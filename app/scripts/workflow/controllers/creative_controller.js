@@ -604,7 +604,7 @@ define(['angularAMD',
             $(ele).next(".errorText, .creativePreviewBtn").remove();
             workflowService.validateCreative(o).then(function(res){
                 if(res.status === "OK" || res.status === "success"){
-                    localStorageService.creativeTag.set({tag: res.data.data.tag, creativeType: $scope.adData.adFormat});
+                    localStorageService.creativeTag.set({tag: res.data.data.tag, creativeFormat: o.data.format});
                     var url = '/clientId/'+ o.clientId + '/adv/' + o.advertiserId + '/creative/-1/preview',
                     appendEle = '<div class="creativePreviewBtn"><a target="_blank" href="'+ url +'">Preview</a></div>';
                     $(ele).after(appendEle);
