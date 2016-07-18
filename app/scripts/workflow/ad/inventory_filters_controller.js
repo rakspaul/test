@@ -784,7 +784,7 @@ define(['angularAMD', '../services/workflow_service', '../../common/services/fil
 
         $scope.filterInventoryList = function (event, type) {
             //remove style
-            var elem = $(event.target);
+            var elem = $(event.currentTarget);
 
             $('.allTypeLists').find('.active').removeClass('active');
             elem.addClass('active');
