@@ -168,7 +168,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             resetTemplate = function () {
                 $scope.onTemplateSelected('','');
                 $scope.adData.creativeTemplate = '';
-                $scope.CreativeTemplate.name = 'Select Template';
+                //$scope.CreativeTemplate.name = 'Select Template';
             },
 
             resetAdServer = function () {
@@ -530,7 +530,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         }
 
         function fireAPItoValidate(ele, creativeTag) {
-            var o = {
+            var creativeValidateObj = {
                     advertiserId : $scope.creative.advertiserId,
                     clientId : loginModel.getSelectedClient().id,
                     data: {
@@ -541,7 +541,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
             $(ele).next('.errorText, .creativePreviewBtn').remove();
             workflowService
-                .validateCreative(o)
+                .validateCreative(creativeValidateObj)
                 .then(function (res) {
                     var url,
                         appendEle;
@@ -549,10 +549,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     if (res.status === 'OK' || res.status === 'success') {
                         localStorageService.creativeTag.set({
                             tag: res.data.data.tag,
-                            creativeType: $scope.adData.adFormat
+                            creativeType: creativeValidateObj.data.format
                         });
 
-                        url = '/clientId/'+ o.clientId + '/adv/' + o.advertiserId + '/creative/-1/preview';
+                        url = '/clientId/'+ creativeValidateObj.clientId + '/adv/' + creativeValidateObj.advertiserId +
+                            '/creative/-1/preview';
 
                         appendEle = '<div class="creativePreviewBtn"><a target="_blank" href="' +
                             url +'">Preview</a></div>';
