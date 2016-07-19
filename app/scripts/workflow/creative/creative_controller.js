@@ -856,6 +856,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             if ($scope.adPage) {
                 $rootScope.$broadcast('creativePopUpClosed');
             }
+            $scope.creativeTemplates={};
+            $scope.adData.creativeSize? $scope.adData.creativeSize.size='Select Size':'';
+            $scope.adData.creativeSize? $scope.adData.creativeSize.id=undefined:'';
 
             $scope.$broadcast('closeAddCreativePage');
             $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
