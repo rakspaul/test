@@ -1137,6 +1137,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', // jshint ignore:li
                         marginLeft: '-323px'
                     }, 'slow');
                 $('.offeringsWrap').hide();
+                $('.saveContinueBtn').hide();
+
             };
 
             $scope.frequencySelected = function (freqSelected) {

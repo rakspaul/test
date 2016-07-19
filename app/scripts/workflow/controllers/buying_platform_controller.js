@@ -236,6 +236,8 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                         });
 
                     $('.offeringsWrap').show();
+                    $('.saveContinueBtn').show();
+
                 },
 
                 hideTargetingBox: function () {
@@ -271,6 +273,8 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                         }, 'slow');
 
                     $('.offeringsWrap').hide();
+                    $('.saveContinueBtn').hide();
+
 
                     $('html, body').animate({
                         scrollTop: 0
