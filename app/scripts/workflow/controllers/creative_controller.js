@@ -170,7 +170,7 @@ define(['angularAMD',
             resetTemplate = function () {
                 $scope.onTemplateSelected('','');
                 $scope.adData.creativeTemplate = '';
-                $scope.CreativeTemplate.name = 'Select Template';
+                // $scope.CreativeTemplate.name = 'Select Template';
             },
 
             resetAdserver = function () {
@@ -912,6 +912,12 @@ define(['angularAMD',
             if($scope.adPage){
                 $rootScope.$broadcast('creativePopUpClosed');
             }
+
+            /*To reset custom dropboxes*/
+            $scope.creativeTemplates={};
+            $scope.adData.creativeSize? $scope.adData.creativeSize.size='Select Size':'';
+            $scope.adData.creativeSize? $scope.adData.creativeSize.id=undefined:'';
+
             $scope.$broadcast('closeAddCreativePage');
             $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
         };
