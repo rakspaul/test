@@ -599,7 +599,7 @@ define(['angularAMD',
                     clientId : loginModel.getSelectedClient().id,
                     data: {
                         tag: creativeTag,
-                        format: $scope.adData.adFormat || $scope.creativeFormat
+                        format: $scope.creativeFormat
                     }
                 };
             $(ele).next(".errorText, .creativePreviewBtn").remove();
