@@ -15,8 +15,10 @@
                             <div class="statusLabel" ng-if="selectedCampaign.startTime">
                                 <div class="col-md-12">
                                     <div class="statusIcon icon-calendar"></div>
-                                    <span class="">{{selectedCampaign.startTime}}</span>  <span class="" ng-if="selectedCampaign.endTime"> - {{selectedCampaign.endTime}}</span></span>
-                                    <span>(Flight)</span>
+                                    <span class="">{{selectedCampaign.startTime}}</span>
+                                    <span class="" ng-if="selectedCampaign.endTime">&nbsp;-&nbsp;</span>
+                                    <span>{{selectedCampaign.endTime}}</span>
+                                    <span class="greyTxt">(Flight)</span>
                                 </div>
                             </div>
 
@@ -26,9 +28,10 @@
                                         <span class="statusIcon icon-image"></span>
                                     </div>
                                     <div class="pull-left">
-                                        <div class="clearfix"><span
-                                            class="icon_txt">{{kpiName}}</span> <span
-                                            class="grey_txt">(KPI)</span></div>
+                                        <div class="clearfix">
+                                            <span>{{kpiName}}</span>
+                                            <span class="greyTxt">(KPI)</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -61,21 +64,21 @@
                                 <div class="col-md-12">
                                     <!--<div class="statusIcon icon-usd"></div>-->
                                     <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget | setDecimal:2 | number : fractionSize}}</span>
-                                    <span>(Total Budget)</span>
+                                    <span class="greyTxt">(Total Budget)</span>
                                 </div>
                             </div>
                             <div class="statusLabel" ng-if="Campaign.deliveryBudget">
                                 <div class="col-md-12">
                                     <!--<div class="statusIcon icon-usd"></div>-->
                                     <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget | setDecimal:2 | number : fractionSize}}</span>
-                                    <span>(Delivery Budget)</span>
+                                    <span class="greyTxt">(Delivery Budget)</span>
                                 </div>
                             </div>
                             <div class="statusLabel" ng-if="PrimaryImpressions>0">
                                 <div class="col-md-12">
                                     <div class="statusIcon icon-goal"></div>
                                     <span class="">{{PrimaryImpressions | number : fractionSize}}</span>
-                                    <span>(Primary KPI)</span>
+                                    <span class="greyTxt">(Primary KPI)</span>
                                 </div>
                             </div>
                         </li>
@@ -84,7 +87,7 @@
                             <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#addLineItems" data-toggle="tab">4. Line Items</a>
                             <div class="statusLabel">
                                 <div class="col-md-12" ng-if="lineItems.lineItemList.length >0">
-                                    <div>{{lineItems.lineItemList.length}} Line Item{{(lineItems.lineItemList.length > 1)?'s':''}}</div>
+                                    <span>{{lineItems.lineItemList.length}} Line Item{{(lineItems.lineItemList.length > 1)?'s':''}}</span>
                                 </div>
 
                                 <div class="col-md-12" ng-if="lineItems.lineItemList.length === 0">
@@ -95,7 +98,7 @@
                                 <div class="col-md-12" >
                                     <!--<div class="statusIcon icon-usd"></div>-->
                                     <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}} {{selectedCampaign.lineItemBillableAmountTotal | setDecimal:2 | number : fractionSize}}</span>
-                                    <span> ({{textConstants.TOTAL_BILLABLE_AMOUNT}})</span>
+                                    <span class="greyTxt">({{textConstants.TOTAL_BILLABLE_AMOUNT}})</span>
                                 </div>
                             </div>
                         </li>
