@@ -1,9 +1,11 @@
 // Master Style (AKA Workflow Designs)
 //CSS Resets
+@import "color.less";
+
 body {
     background: #fff;
     //background: #ECECEC;
-    color: #21252B;
+    color: @raven-text;
 }
 .adminElement{
     margin: 25px 25px 0 0;
@@ -64,7 +66,7 @@ h2,
 h3,
 h4,
 h5 {
-    color: #21252b;
+    color: @raven-text;   /* 21252b */
     line-height: 100%;
 }
 
@@ -118,7 +120,7 @@ a {
     float: left;
     font-family: "Avenir";
     font-size: 18px;
-    color: #21252b;
+    color: @raven-text;
 }
 
 .viewLabelTxt {
@@ -170,7 +172,7 @@ a {
 }
 
 .labelQuestTxt {
-    color: #21252b;
+    color: @raven-text;
     font-size: 16px;
     font-weight: normal;
     text-align: left !important;
@@ -454,7 +456,7 @@ strong {
     }
 
     span {
-        color: #21252b;
+        color: @raven-text;
         font-size: 14px;
         float: left;
     }
@@ -524,7 +526,7 @@ strong {
     }
 
     p {
-        color: #21252b;
+        color: @raven-text;
         font-family: Avenir-bold, sans-serif;
         font-size: 14px;
         width: 100%;
@@ -631,7 +633,7 @@ strong {
         }
 
         .badge {
-            color: #21252b;
+            color: @raven-text;
             font-weight: normal;
             background: #fff;
             border: 1px solid #bfc9d7;
@@ -790,7 +792,7 @@ strong {
     }
     .dragover {
         border: 1px dashed #3AA0E6;
-           
+
     }
 }
 .upload_files_selected_container {

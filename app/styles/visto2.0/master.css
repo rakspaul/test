@@ -1,6 +1,6 @@
 body {
   background: #fff;
-  color: #21252B;
+  color: #21252b;
 }
 .adminElement {
   margin: 25px 25px 0 0;
@@ -48,6 +48,7 @@ h3,
 h4,
 h5 {
   color: #21252b;
+  /* 21252b */
   line-height: 100%;
 }
 h1,
