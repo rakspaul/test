@@ -1370,7 +1370,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             stripCommaFromNumber = function (num) {
-                return String(num).replace(',', '');
+                return String(num).replace(/,/g, '');
             },
 
             wrapperForActiveAdGroups = function(groupList) {
