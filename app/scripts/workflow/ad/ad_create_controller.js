@@ -1025,6 +1025,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         $scope.adFormatSelection = function (adformatName, event, editdata) {
             var offset,
                 left,
+                top,
+                height ,
                 relativeX,
                 adFormatsData;
 
@@ -1045,8 +1047,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 if (event) {
                     offset = $(event.target).offset();
                     left = offset.left;
+                    top = offset.top;
+                    height =  $(event.target).closest(".goalBtnGroup").height() ;
                     relativeX = left - $(event.target).closest('.goalBtnWithPopup').offset().left - 110;
-                    $('.goalBtnWithPopup .popUpCue').css({left: relativeX});
+                    relativeY = top - $(event.target).closest('.goalBtnWithPopup').offset().top + height;
+                    $('.goalBtnWithPopup .popUpCue').css({left: relativeX, bottom:relativeY , top : "auto"});
                 }
             } else {
                 // populating first time in editmode
