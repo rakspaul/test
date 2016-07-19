@@ -1906,6 +1906,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .platform_reports_container .view_mode_switch_container {
   top: 145px ;
+  z-index: 9px;
 }
 .viewability_quality .viewability_container {
   margin-top: 22px;
