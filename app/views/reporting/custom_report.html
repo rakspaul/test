@@ -57,13 +57,13 @@
                                         </div>
                                         <ul class="dropdown-menu" ng-click="enable_generate_btn();" style="min-width: 200px;">
                                             <li ng-click="select_dropdown_option($event)"
-                                                ng-bind-html="textConstants.REPORT_CHOOSE_BREAKDOWN">
+                                                ng-bind-html="textConstants.REPORT_CHOOSE_BREAKDOWN" data-toggle="dropdown">
                                             </li>
                                             <li ng-repeat="dimension in customeDimensionData[0].dimensions"
                                                 id="{{dimension}}"
                                                 ng-click="selectPriSecDimension(dimension, 'Primary')"
                                                 ng-if="checkDimension(dimension)"
-                                                ng-bind-html="displayName[dimension]">
+                                                ng-bind-html="displayName[dimension]" data-toggle="dropdown">
                                             </li>
                                         </ul>
                                     </div>
@@ -97,12 +97,12 @@
                                             </div>
                                             <ul class="dropdown-menu">
                                                 <li ng-click="select_dropdown_option($event)"
-                                                    ng-bind-html="textConstants.REPORT_CHOOSE_BREAKDOWN">
+                                                    ng-bind-html="textConstants.REPORT_CHOOSE_BREAKDOWN" data-toggle="dropdown">
                                                 </li>
                                                 <li ng-repeat="dimension in secondaryDimensionArr "
                                                     id="{{dimension}}"
                                                     ng-click="selectPriSecDimension(dimension,'Secondary')"
-                                                    ng-bind-html="displayName[dimension]">
+                                                    ng-bind-html="displayName[dimension]" data-toggle="dropdown">
                                                 </li>
                                             </ul>
                                         </div>
@@ -170,7 +170,7 @@
                                                                 filters);"
                                                         ng-model="addFilts.key"
                                                         ng-bind-html="displayName[filters]"
-                                                        ng-if="checkDimension(filters)">
+                                                        ng-if="checkDimension(filters)" data-toggle="dropdown">
                                                     </li>
                                                 </ul>
                                             </div>
@@ -225,7 +225,7 @@
                                         ng-repeat="timeframe in textConstants.REPORT_BUILDER_TIMEFRAME_LIST"
                                         ng-click="reports.reportDefinition.timeframe.type = timeframe;
                                             select_dropdown_option($event , timeframe)"
-                                        ng-bind-html="timeframe">
+                                        ng-bind-html="timeframe" data-toggle="dropdown">
                                     </li>
                                 </ul>
                             </div>
@@ -480,7 +480,7 @@
                                                     ng-model="reports.schedule.frequency"
                                                     ng-click="reports.schedule.frequency = frequency;
                                                         select_schedule_option(frequency)"
-                                                    ng-bind-html="frequency">
+                                                    ng-bind-html="frequency" data-toggle="dropdown">
                                                 </li>
                                             </ul>
                                         </div>
@@ -523,7 +523,7 @@
                                                 <li ng-repeat="week in textConstants.WEEKNAME"
                                                     ng-model="reports.schedule.occurance"
                                                     ng-click="reports.schedule.occurance = week;
-                                                        select_dropdown_option($event);" ng-bind-html="week">
+                                                        select_dropdown_option($event);" ng-bind-html="week" data-toggle="dropdown">
                                                 </li>
                                             </ul>
                                         </div>
@@ -549,7 +549,7 @@
                                                 <li ng-repeat="schedule_occur in textConstants.SCHEDULE_REPORT_OCCURS_ON_LIST"
                                                     ng-model="reports.schedule.occurance"
                                                     ng-click="select_schedule_occurs_option($event, schedule_occur);"
-                                                    ng-bind-html="schedule_occur">
+                                                    ng-bind-html="schedule_occur" data-toggle="dropdown">
                                                 </li>
                                             </ul>
                                         </div>
@@ -573,7 +573,7 @@
                                                 <li ng-repeat="counter in getNumberDate"
                                                     ng-model="reports.schedule.customOccuranceDate"
                                                     ng-click="reports.schedule.customOccuranceDate = counter;
-                                                        select_dropdown_option($event);" ng-bind="counter">
+                                                        select_dropdown_option($event);" ng-bind="counter" data-toggle="dropdown">
                                                 </li>
                                             </ul>
                                         </div>
@@ -628,7 +628,7 @@
                                 ng-bind-html="buttonLabel" ng-show="!loadingBtn">
                         </button>
 
-                        <button class="pull-right btn btn-default"
+                        <button class="pull-right btn btn-default marginRight"
                                 ng-click="resetMetricOptions();"
                                 ng-bind-html="buttonResetCancel"
                                 ng-class="reportTypeSelect === 'Save' ? 'save_reset' : ''">
