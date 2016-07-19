@@ -44,7 +44,6 @@ define(['angularAMD'], function (angularAMD) {
                                 index;
 
                             if (result.status === 'OK' || result.status === 'success') {
-                                responseData = result.data.data.ad_groups;
                                 responseData = workflowService.wrapperForActiveAdGroups(result.data.data);
 
                                 $scope.adGroupList = responseData.ad_groups;
