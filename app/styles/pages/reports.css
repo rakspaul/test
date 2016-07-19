@@ -5162,3 +5162,6 @@ body.custom_report_page .bodyWrap {
 .clickCursor .more_dimension_col {
   cursor: pointer;
 }
+.marginRight {
+  margin-right: 10px ;
+}
