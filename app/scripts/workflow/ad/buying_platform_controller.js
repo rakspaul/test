@@ -233,6 +233,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         });
 
                     $('.offeringsWrap').show();
+                    $('#saveContinueBtn').show();
                 },
 
                 hideTargetingBox: function () {
@@ -268,6 +269,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         }, 'slow');
 
                     $('.offeringsWrap').hide();
+                    $('#saveContinueBtn').hide();
+
 
                     $('html, body').animate({
                         scrollTop: 0
