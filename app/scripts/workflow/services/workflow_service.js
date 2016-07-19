@@ -1382,7 +1382,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 _.each(groupList,function(group,key) {
                     obj.ad_groups[key] = {};
                     obj.ad_groups[key].adGroup = group;
-                })
+                });
 
                 return obj;
 

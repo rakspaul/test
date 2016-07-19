@@ -1028,6 +1028,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 top,
                 height ,
                 relativeX,
+                relativeY,
                 adFormatsData;
 
             // If clicking on active button, don't do anything.
@@ -1048,10 +1049,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     offset = $(event.target).offset();
                     left = offset.left;
                     top = offset.top;
-                    height =  $(event.target).closest(".goalBtnGroup").height() ;
+                    height =  $(event.target).closest('.goalBtnGroup').height() ;
                     relativeX = left - $(event.target).closest('.goalBtnWithPopup').offset().left - 110;
                     relativeY = top - $(event.target).closest('.goalBtnWithPopup').offset().top + height;
-                    $('.goalBtnWithPopup .popUpCue').css({left: relativeX, bottom:relativeY , top : "auto"});
+                    $('.goalBtnWithPopup .popUpCue').css({left: relativeX, bottom:relativeY , top : 'auto'});
                 }
             } else {
                 // populating first time in editmode
