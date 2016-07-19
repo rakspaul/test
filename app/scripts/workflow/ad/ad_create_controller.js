@@ -1143,7 +1143,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     marginLeft: '-323px'
                 }, 'slow');
             $('.offeringsWrap').hide();
-            $('#saveContinueBtn').hide();
+            $('.saveContinueBtn').hide();
 
         };
 
