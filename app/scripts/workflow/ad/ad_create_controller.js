@@ -845,6 +845,17 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $scope.adData[type] = item;
         };
 
+        $scope.getPreviewUrl = function(creativeData) {
+            var previewUrl =  '/clientId/'+ creativeData.clientId +'/adv/'+ creativeData.advertiserId;
+            if($scope.adId) {
+                previewUrl += '/campaignId/'+ $scope.campaignId +'/adId/'+ $scope.adId +
+                    '/creative/'+ creativeData.id +'/preview';
+            } else {
+                previewUrl +=  '/creative/' + creativeData.id +'/preview';
+            }
+            return previewUrl;
+        };
+
         $scope.ShowHide = function (obj) {
             $scope.IsVisible = $scope.IsVisible ? false : true;
             $scope.creativeObj = obj;
