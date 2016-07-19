@@ -54,6 +54,7 @@ define(['angularAMD', '../services/workflow_service', 'login/login_model', 'repo
 
         if (params.creativeId === -1) {
             $scope.creativePreviewData = localStorageService.creativeTag.get();
+            $scope.creativePreviewData.creativeFormat = $scope.creativePreviewData.creativeType;
             buildCreativeTagPreviewContainer($scope.creativePreviewData);
             $scope.creativePreviewUrl = true;
         } else {
