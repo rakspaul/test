@@ -5,15 +5,13 @@ define(['angularAMD',
     angularAMD.controller('CreativeController', function ($scope, $rootScope, $routeParams, $location,
                                                          constants, workflowService, creativeCustomModule,
                                                          loginModel, utils, localStorageService) {
-        $scope.IncorrectClickThru=false;
         var validTag = false,
             postCrDataObj = {},
 
             processEditCreative = function () {
-                var creativeId = $routeParams.creativeId;
 
                 workflowService
-                    .getCreativeData(creativeId,loginModel.getSelectedClient().id)
+                    .getCreativeData($scope.creativeId,loginModel.getSelectedClient().id)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.creativeEditData = result.data.data;
@@ -283,6 +281,9 @@ define(['angularAMD',
         $scope.campaignId = $routeParams.campaignId;
 
         $scope.showSubAccount = false;
+        $scope.IncorrectClickThru=false;
+        $scope.creativeId = $routeParams.creativeId;
+
 
         $scope.creativeTagSelected = function (event, creativeType) {
             var target;
@@ -604,8 +605,17 @@ define(['angularAMD',
             $(ele).next(".errorText, .creativePreviewBtn").remove();
             workflowService.validateCreative(o).then(function(res){
                 if(res.status === "OK" || res.status === "success"){
-                    localStorageService.creativeTag.set({tag: res.data.data.tag, creativeFormat: o.data.format});
-                    var url = '/clientId/'+ o.clientId + '/adv/' + o.advertiserId + '/creative/-1/preview',
+                    responseData = res.data.data;
+                    localStorageService.creativeTag.set({tag: responseData.tag, creativeFormat: o.data.format});
+
+                    url = '/clientId/'+ o.clientId + '/adv/' + o.advertiserId;
+
+                    if($scope.creativeId) {
+                        url += '/creative/'+ $scope.creativeId + '/preview';
+                    } else {
+                        url += '/creative/-1/preview';
+                    }
+
                     appendEle = '<div class="creativePreviewBtn"><a target="_blank" href="'+ url +'">Preview</a></div>';
                     $(ele).after(appendEle);
                 }else{
