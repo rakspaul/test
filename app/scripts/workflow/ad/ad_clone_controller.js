@@ -38,23 +38,25 @@ define(['angularAMD'], function (angularAMD) {
                 getAdGroups: function(){
                     // make api call to fetch all media plan - used in ad clone popup
                     workflowService
-                        .getAdgroups(selectedMediaPlanId, false)
+                        .getAdgroups(selectedMediaPlanId, false,true)
                         .then(function (result) {
                             var responseData,
                                 index;
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data.ad_groups;
-                                $scope.adGroupList = responseData;
+                                responseData = workflowService.wrapperForActiveAdGroups(result.data.data);
 
-                                index= _.findIndex($scope.adGroupList,function(obj){
-                                    return obj.adGroup.id===Number($scope.adGroupId);
+                                $scope.adGroupList = responseData.ad_groups;
+
+                                index = _.findIndex($scope.adGroupList,function(obj){
+                                    return obj.adGroup.id === Number($scope.adGroupId);
                                 });
 
-                                if (index>=0){
-                                    $scope.adGroupName=$scope.adGroupList[index].adGroup.name +
+                                if (index >= 0){
+                                    $scope.adGroupName = $scope.adGroupList[index].adGroup.name +
                                         '<span class="greyTxt">(Current)</span>';
-                                    selectedAdGroupId=$scope.adGroupList[index].adGroup.id;
+                                    selectedAdGroupId = $scope.adGroupList[index].adGroup.id;
                                 }
                             } else {
                                 clone.errorHandler(result);
