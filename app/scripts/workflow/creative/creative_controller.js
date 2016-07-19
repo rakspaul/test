@@ -536,7 +536,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     clientId : loginModel.getSelectedClient().id,
                     data: {
                         tag: creativeTag,
-                        format: $scope.adData.adFormat || $scope.creativeFormat
+                        format: $scope.creativeFormat
                     }
                 };
 
