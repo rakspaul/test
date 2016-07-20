@@ -24,7 +24,7 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
                     <li ng-repeat="vendor in vendorList">
-                        <a ng-click="select_vender_option(vendor.name)" ng-bind="vendor.name" ></a>
+                        <a ng-click="select_vender_option(vendor.name)" ng-bind="vendor.name + '('+vendor.category+')'" ></a>
                     </li>
                 </ul>
                 <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden />
