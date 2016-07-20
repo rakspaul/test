@@ -325,10 +325,13 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                     _customCtrl.selectedVendorImps[adId] : $scope.selectedVendorImps;
 
             if (!imps1 && !imps2) {
-                return '0';
+                return '0%';
             }
 
-            return ((imps2 - imps1) / imps2) * 100;
+            if (!imps2) {
+                return 'NA';
+            }
+            return (Math.floor(((imps2 - imps1) / imps2) * 100) + '%');
         };
 
         $scope.getDiscrepancyImpsGap = function (vendorImps, adId) {
