@@ -63,7 +63,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
-        $scope.reports_nav_url = "" ;
+        $scope.reports_nav_url = '' ;
         if ($scope.selectedCampaign === -1) {
             $scope.reports_nav_url = '/mediaplans';
         } else {
