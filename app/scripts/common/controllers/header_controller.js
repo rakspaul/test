@@ -63,6 +63,12 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
+        $scope.reports_nav_url = '' ;
+        if ($scope.selectedCampaign === -1) {
+            $scope.reports_nav_url = '/mediaplans';
+        } else {
+            $scope.reports_nav_url = '/mediaplans/' + $scope.selectedCampaign;
+        }
 
         $scope.getClientData = function () {
             var clientId = localStorageService.masterClient.get().id;
@@ -171,7 +177,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 $('#reports_nav_link').addClass('active_tab');
                 $(event.currentTarget).parent().addClass('active_tab');
             }
-
             $location.url(url);
         };
 
