@@ -7,7 +7,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
     angularAMD.controller('CampaignOverViewController', function ($scope, $modal, $rootScope, $routeParams,
                                                                   $timeout, $location, $route, constants,
                                                                   workflowService, momentService, vistoconfig,
-                                                                  featuresService, dataService, loginModel,utils, $sce) {
+                                                                  featuresService, dataService, loginModel,utils, 
+                                                                  $sce) {
         var campaignOverView = {
             modifyCampaignData: function () {
                 var campaignData = $scope.workflowData.campaignData,
