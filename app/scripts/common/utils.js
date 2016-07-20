@@ -338,6 +338,9 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             fullVersion:  fullVersion,
                             majorVersion: majorVersion
                         };
+                    },
+                    stripCommaFromNumber = function (num) {
+                        return String(num).replace(/,/g, '');
                     };
 
                 function getTypeaheadParams() {
@@ -505,7 +508,8 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     getValueOfItem: getValueOfItem,
                     getEndAndStartDate: getEndAndStartDate,
                     validateUrl:validateUrl,
-                    validateTag:validateTag
+                    validateTag:validateTag,
+                    stripCommaFromNumber: stripCommaFromNumber
                 };
             }
         ]);

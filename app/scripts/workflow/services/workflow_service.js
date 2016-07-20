@@ -1369,9 +1369,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return lineitemDetailsBulk ;
             },
 
-            stripCommaFromNumber = function (num) {
-                return String(num).replace(/,/g, '');
-            },
+            // stripCommaFromNumber = function (num) {
+            //     return String(num).replace(/,/g, '');
+            // },
 
             wrapperForActiveAdGroups = function(groupList) {
                 // this wrapper is written because when the ad group api is called with ACTIVE parameter
@@ -1514,7 +1514,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 getLineItemDataEdit: getLineItemDataEdit,
                 setLineItemBulkData: setLineItemBulkData,
                 getLineItemBulkData: getLineItemBulkData,
-                stripCommaFromNumber: stripCommaFromNumber,
+                // stripCommaFromNumber: stripCommaFromNumber,
                 wrapperForActiveAdGroups: wrapperForActiveAdGroups
             };
     });
