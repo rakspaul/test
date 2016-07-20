@@ -321,12 +321,12 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         };
 
         $scope.getRateOfDiscrepancy = function (imps1, adId) {
-            var retVal = "",
+            var retVal = '',
                 imps2 = Number($scope.selectedStrategy.id) >= 0 ?
                     _customCtrl.selectedVendorImps[adId] : $scope.selectedVendorImps;
 
             if (!imps1 && !imps2) {
-                retVal = "0%";
+                retVal = '0%';
             }else if (!imps2) {
                 retVal = 'NA';
             }else {
