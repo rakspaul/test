@@ -25,7 +25,7 @@
                     <div class="col-md-12">
                         <div class="statusIcon icon-{{getAdFormatIconName(adData.adFormat)}}"></div>
                         <span data-ng-bind="adData.adFormat"></span>
-                        <span data-ng-bind="textConstants.FORMATPAR"></span>
+                        <span class="greyTxt" data-ng-bind="textConstants.FORMATPAR"></span>
                     </div>
                 </div>
 
@@ -41,7 +41,7 @@
                         <div class="txtLabel" data-ng-repeat="screenType in adData.screenTypes">
                             <div class="statusIcon icon-{{screenType.name | lowercase}}"></div>
                             <span data-ng-bind="screenType.name"></span>
-                            <span data-ng-bind="textConstants.SCREENPAR"></span>
+                            <span class="greyTxt" data-ng-bind="textConstants.SCREENPAR"></span>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                          (adData.primaryKpi).toUpperCase() : (adData.primaryKpi | toPascalCase)"></span>-->
 
                         <span data-ng-bind="displayKpiInSideBar(adData.primaryKpi)"></span>
-                        <span data-ng-bind="textConstants.PRIMARYKPIPAR"></span>
+                        <span class="greyTxt" data-ng-bind="textConstants.PRIMARYKPIPAR"></span>
                     </div>
                 </div>
                 <div class="statusLabel disabled"
@@ -90,23 +90,24 @@
                     <div class="col-md-12">
                         <div class="statusIcon icon-calendar"></div>
                         <span data-ng-bind="adData.startTime + ' - ' + adData.endTime"></span>
-                        <span data-ng-bind="textConstants.FLIGHTPAR"></span>
+                        <span class="greyTxt" data-ng-bind="textConstants.FLIGHTPAR"></span>
                     </div>
                 </div>
                 <div class="statusLabel" data-ng-if="(adData.unitCost)">
                     <div class="col-md-12">
-                        <span style="margin-right: 5px;" data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
+                        <span style="margin-right: 1px;" data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
                         <span data-ng-bind="(adData.unitCost | number) + ' ' +
                             (adData.unitType.name ? adData.unitType.name : 'CPM')">
                         </span>
-                        <span data-ng-bind="textConstants.UNITCOSTPAR"></span>
+                        <span class="greyTxt" data-ng-bind="textConstants.UNITCOSTPAR"></span>
                     </div>
                 </div>
                 <div class="statusLabel" data-ng-if="(adData.budgetType && adData.budgetAmount)">
                     <div class="col-md-12">
-                        <span style="margin-right: 5px;" data-ng-bind="adData.budgetType === 'Cost' ? '$' : '#'"></span>
+                        <span style="margin-right: 1px;" data-ng-bind="adData.budgetType === 'Cost' ? '$' : '#'"></span>
                         <span data-ng-bind="adData.budgetAmount | number"></span>
-                        <span data-ng-bind="(adData.budgetType)"></span>
+                        <span>&nbsp;</span>
+                        <span class="greyTxt" data-ng-bind="(adData.budgetType)"></span>
                     </div>
                 </div>
             </div>
@@ -136,7 +137,7 @@
                              class="statusIcon"
                              style="margin-top: 1px;">
                         <span data-ng-bind="adData.platform"></span>
-                        <span data-ng-bind="textConstants.PLATFORMPAR"></span>
+                        <span class="greyTxt" data-ng-bind="textConstants.PLATFORMPAR"></span>
                     </div>
                 </div>
             </div>
@@ -231,7 +232,7 @@
                      data-ng-if="(workflowData.selectedWhiteLists.length > 0) && !TrackingIntegrationsSelected">
                     <div class="col-md-12">
                         <span ng-bind="workflowData.selectedWhiteLists.length > 1 ?
-                                       workflowData.selectedWhiteLists.length + ' WhiteLists' : 'Whitelist'">
+                                       workflowData.selectedWhiteLists.length + ' Whitelists' : 'Whitelist'">
                         </span>
                     </div>
                 </div>
@@ -239,7 +240,7 @@
                      data-ng-if="(workflowData.selectedBlackLists.length > 0) && !TrackingIntegrationsSelected">
                     <div class="col-md-12">
                         <span ng-bind="workflowData.selectedBlackLists.length > 1 ?
-                                       workflowData.selectedBlackLists.length + ' BlackLists' : 'Blacklist'">
+                                       workflowData.selectedBlackLists.length + ' Blacklists' : 'Blacklist'">
                         </span>
                     </div>
                 </div>

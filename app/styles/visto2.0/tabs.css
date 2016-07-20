@@ -34,7 +34,6 @@
 }
 .left_column_nav .stepCompLabel .statusLabel.ng-scope span:last-child,
 .left_column_nav .stepCompLabel .statusLabel.disabled span {
-  color: #939eae;
   padding-left: 3px;
 }
 .left_column_nav .stepCompLabel .statusLabel.disabled span.creative_tab_sizes {
@@ -92,10 +91,17 @@
 .left_column_nav .stepCompLabel span {
   font-size: 12px;
   float: left;
+  color: #21252b;
+  line-height: 100%;
 }
 .left_column_nav .stepCompLabel span:first-child {
   clear: left;
   text-align: right;
+}
+.left_column_nav .stepCompLabel .greyTxt {
+  padding: 0 0 0 5px !important;
+  font-size: 12px;
+  color: #939eae;
 }
 .left_column_nav .stepCompLabel .active {
   background-image: url(/images/workflow/blueSelector.png);
@@ -127,9 +133,6 @@
   word-wrap: break-word;
   word-break: break-word;
   text-align: left !important;
-}
-.left_column_nav div.each-setting.statusLabel span {
-  font-size: 14px;
 }
 .left_column_nav div.each-setting.statusLabel .grey_txt {
   font-size: 12px;
