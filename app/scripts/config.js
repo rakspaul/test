@@ -115,6 +115,8 @@ assets.html_admin_header = '/views/reporting/partials/admin_header.html';
 assets.html_admin_sub_header = '/views/reporting/partials/admin_sub_header.html';
 
 assets.html_campaign_create = '/views/workflow/campaign_create.html';
+assets.html_vendors_list = '/views/workflow/vendors_list.html';
+
 assets.html_campaign_create_ad = '/views/workflow/campaign_overview.html';
 assets.html_campaign_create_adBuild = '/views/workflow/campaign_ad_create.html';
 assets.html_creative = '/views/workflow/creative.html';
