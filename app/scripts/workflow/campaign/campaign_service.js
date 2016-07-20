@@ -3,8 +3,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
     function (angularAMD) {
         'use strict';
 
-        angularAMD.factory('campaignService', function (vistoconfig, dataService, constants, workflowService,
-                                                        loginModel) {
+        angularAMD.factory('campaignService', function () {
 
             var rates,
 

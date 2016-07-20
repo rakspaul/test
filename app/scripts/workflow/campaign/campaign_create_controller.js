@@ -1,5 +1,6 @@
 define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
-    'common/services/vistoconfig_service', 'login/login_model', 'common/moment_utils', 'workflow/campaign/campaign_service','common/utils','workflow/directives/clear_row',
+    'common/services/vistoconfig_service', 'login/login_model', 'common/moment_utils',
+    'workflow/campaign/campaign_service','common/utils','workflow/directives/clear_row',
     'common/directives/ng_upload_hidden', 'workflow/campaign/pixels_controller', 'workflow/campaign/budget_controller',
     'workflow/campaign/line_item_controller', 'common/controllers/confirmation_modal_controller',
     'workflow/directives/custom_date_picker', 'workflow/campaign/campaign_archive_controller',
