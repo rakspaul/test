@@ -845,6 +845,17 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $scope.adData[type] = item;
         };
 
+        $scope.getPreviewUrl = function(creativeData) {
+            var previewUrl =  '/clientId/'+ creativeData.clientId +'/adv/'+ creativeData.advertiserId;
+            if($scope.adId) {
+                previewUrl += '/campaignId/'+ $scope.campaignId +'/adId/'+ $scope.adId +
+                    '/creative/'+ creativeData.id +'/preview';
+            } else {
+                previewUrl +=  '/creative/' + creativeData.id +'/preview';
+            }
+            return previewUrl;
+        };
+
         $scope.ShowHide = function (obj) {
             $scope.IsVisible = $scope.IsVisible ? false : true;
             $scope.creativeObj = obj;
@@ -1014,7 +1025,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         $scope.adFormatSelection = function (adformatName, event, editdata) {
             var offset,
                 left,
+                top,
+                height ,
                 relativeX,
+                relativeY,
                 adFormatsData;
 
             // If clicking on active button, don't do anything.
@@ -1034,8 +1048,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 if (event) {
                     offset = $(event.target).offset();
                     left = offset.left;
+                    top = offset.top;
+                    height =  $(event.target).closest('.goalBtnGroup').height() ;
                     relativeX = left - $(event.target).closest('.goalBtnWithPopup').offset().left - 110;
-                    $('.goalBtnWithPopup .popUpCue').css({left: relativeX});
+                    relativeY = top - $(event.target).closest('.goalBtnWithPopup').offset().top + height;
+                    $('.goalBtnWithPopup .popUpCue').css({left: relativeX, bottom:relativeY , top : 'auto'});
                 }
             } else {
                 // populating first time in editmode
@@ -1091,6 +1108,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             workflowService.setCreativeEditData(null);
             $('#formCreativeCreate')[0].reset();
             $scope.isAddCreativePopup = true;
+            $scope.enableOnlyCreativeTab=true;
 
             // new call has to be made when platforms are changed hence seletion on new template.
             // therefore broadcast to reset
@@ -1125,6 +1143,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     marginLeft: '-323px'
                 }, 'slow');
             $('.offeringsWrap').hide();
+            $('.saveContinueBtn').hide();
+
         };
 
         $scope.frequencySelected = function (freqSelected) {
@@ -1680,6 +1700,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         $scope.unchecking = false;
         $scope.enableSaveBtn = true;
         $scope.isAddCreativePopup = false;
+        $scope.enableOnlyCreativeTab=false;
 
         // To show hide view tag in creatives listing
         $scope.IsVisible = false;
@@ -1775,6 +1796,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $(target).animate({'bottom': '0px'}, '10');
 
             $scope.$broadcast('switchPlatformFunc', [target]);
+        });
+
+        $scope.$on('creativePopUpClosed',function () {
+            $scope.enableOnlyCreativeTab=false;
         });
 
         $scope.changeStatus = function () {

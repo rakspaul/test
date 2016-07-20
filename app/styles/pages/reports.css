@@ -1906,6 +1906,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .platform_reports_container .view_mode_switch_container {
   top: 145px ;
+  z-index: 9;
 }
 .viewability_quality .viewability_container {
   margin-top: 22px;
@@ -2385,7 +2386,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 /* margin block end */
 /**************** reports performance table styling ***********/
 .reports_tabs_content_container {
-  margin-top: 22  px ;
+  margin-top: 22px ;
   /*hot fix for the KPI drpdown of platform header so that nothing else will break*/
   /*end of hot fix for the KPI drpdown of platform header so that nothing else will break*/
 }
@@ -5161,4 +5162,7 @@ body.custom_report_page .bodyWrap {
 }
 .clickCursor .more_dimension_col {
   cursor: pointer;
+}
+.marginRight {
+  margin-right: 10px ;
 }

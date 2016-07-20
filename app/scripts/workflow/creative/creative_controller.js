@@ -7,14 +7,13 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
     angularAMD.controller('CreativeController', function ($scope, $rootScope, $routeParams, $location,
                                                          constants, workflowService, creativeCustomModule,
                                                          loginModel, utils, localStorageService) {
-        $scope.IncorrectClickThru=false;
+
+
         var postCrDataObj = {},
 
             processEditCreative = function () {
-                var creativeId = $routeParams.creativeId;
-
                 workflowService
-                    .getCreativeData(creativeId,loginModel.getSelectedClient().id)
+                    .getCreativeData($scope.creativeId,loginModel.getSelectedClient().id)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.creativeEditData = result.data.data;
@@ -168,7 +167,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             resetTemplate = function () {
                 $scope.onTemplateSelected('','');
                 $scope.adData.creativeTemplate = '';
-                $scope.CreativeTemplate.name = 'Select Template';
+                //$scope.CreativeTemplate.name = 'Select Template';
             },
 
             resetAdServer = function () {
@@ -247,6 +246,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.disableCancelSave = false;
         $scope.campaignId = $routeParams.campaignId;
         $scope.showSubAccount = false;
+        $scope.IncorrectClickThru=false;
+        $scope.creativeId = $routeParams.creativeId;
 
         $scope.creativeTagSelected = function (event, creativeType) {
             var target;
@@ -530,29 +531,38 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         }
 
         function fireAPItoValidate(ele, creativeTag) {
-            var o = {
+            var creativeValidateObj = {
                     advertiserId : $scope.creative.advertiserId,
                     clientId : loginModel.getSelectedClient().id,
                     data: {
                         tag: creativeTag,
-                        format: $scope.adData.adFormat || $scope.creativeFormat
+                        format: $scope.creativeFormat
                     }
                 };
 
             $(ele).next('.errorText, .creativePreviewBtn').remove();
             workflowService
-                .validateCreative(o)
+                .validateCreative(creativeValidateObj)
                 .then(function (res) {
                     var url,
-                        appendEle;
+                        appendEle,
+                        responseData;
 
                     if (res.status === 'OK' || res.status === 'success') {
+                        responseData = res.data.data;
+
                         localStorageService.creativeTag.set({
-                            tag: res.data.data.tag,
-                            creativeType: $scope.adData.adFormat
+                            tag: responseData.tag,
+                            creativeType: creativeValidateObj.data.format
                         });
 
-                        url = '/clientId/'+ o.clientId + '/adv/' + o.advertiserId + '/creative/-1/preview';
+                        url = '/clientId/'+ creativeValidateObj.clientId + '/adv/' + creativeValidateObj.advertiserId;
+
+                        if($scope.creativeId) {
+                            url += '/creative/'+ $scope.creativeId + '/preview';
+                        } else {
+                            url += '/creative/-1/preview';
+                        }
 
                         appendEle = '<div class="creativePreviewBtn"><a target="_blank" href="' +
                             url +'">Preview</a></div>';
@@ -846,6 +856,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             if ($scope.adPage) {
                 $rootScope.$broadcast('creativePopUpClosed');
             }
+            $scope.creativeTemplates={};
+            $scope.adData.creativeSize? $scope.adData.creativeSize.size='Select Size':'';
+            $scope.adData.creativeSize? $scope.adData.creativeSize.id=undefined:'';
 
             $scope.$broadcast('closeAddCreativePage');
             $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');

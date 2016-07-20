@@ -1577,7 +1577,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
 
             $scope.select_dropdown_option = function (event, arg) {
                 var elem = $(event.target);
-
                 elem.closest('.dropdown').find('.dd_txt').text(elem.text());
                 elem.closest('.dropdown').find('.dd_txt').attr('id', elem.attr('id'));
                 elem.closest('.breakdown_div').find('.filter_input_txtbox').show();

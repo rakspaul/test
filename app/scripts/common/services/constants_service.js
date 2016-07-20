@@ -216,7 +216,6 @@ define(['angularAMD'], function(angularAMD) {
 
         this.AD_GROUP_CREATED_FAILURE = '<span class="bold-font">Error. </span> Ad Group could not be created';
         this.CREATIVE_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Creative has been successfully created';
-        this.WF_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss.SSS';
         this.TOTAL_BUDGET_REQUIRED = 'You must enter Total Budget.';
         this.VENDOR_ID_REQUIRED = 'You must select a vendor.';
         this.TOTAL_BUDGET_GREATER_THAN_ZERO = 'You must Total Budget greater than 0.';
@@ -1152,7 +1151,7 @@ define(['angularAMD'], function(angularAMD) {
         this.ADVERTISER = 'Advertiser';
         this.PLATFORMSPAR = 'Platform(s)';
         this.LASTUPDATED = 'Last Updated';
-        this.CAMPAIGNDASHAD = 'Campaign / Ad';
+        this.CAMPAIGNDASHAD = 'Media Plan / Ad';
         this.BRAND = 'Brand';
         this.TRACKINGONLY = 'Tracking-Only';
         this.DATANOTAVAILABLE = 'Data not available';
