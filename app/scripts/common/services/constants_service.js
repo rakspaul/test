@@ -1347,5 +1347,12 @@ define(['angularAMD'], function(angularAMD) {
         // Vendors page
         this.VENDORS = 'Vendors' ;
         this.VENDOR_CONFIGURATION = 'My Vendor Configurations';
+        this.CONFIGURATION = 'Configuration';
+        this.ID = 'ID';
+        this.VENDOR = 'Vendor';
+        this.OWNER = 'Owner';
+        this.CURRENCY = 'Currency';
+        this.UPDATED = 'Updated';
+        this.VIEW_SUMMARY = 'View Summary' ;
     });
 });

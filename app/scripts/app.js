@@ -313,7 +313,8 @@ define(['common'], function (angularAMD) {
                     title: 'Vendors - List',
                     controller: 'VendorsListController',
                     controllerUrl: 'workflow/vendors/vendors_list_controller',
-                    showHeader : true
+                    showHeader : true,
+                    css: assets.css_table_list
                 }))
 
                 .when('/admin/home', angularAMD.route({

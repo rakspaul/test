@@ -126,9 +126,10 @@
   width: 140px;
   border-color: #dde6eb ;
   border-radius: 3px;
+  padding: 0 ;
 }
 .table-list-container .table_list_holder .table-td.more-options .dropdown .dropdown-menu li {
-  padding: 5px 0;
+  padding: 0;
   cursor: pointer;
 }
 .table-list-container .table_list_holder .table-td.more-options .dropdown .dropdown-menu li:hover {
