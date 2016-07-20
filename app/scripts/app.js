@@ -234,7 +234,7 @@ define(['common'], function (angularAMD) {
                     controller: 'ReportsScheduleListController',
                     controllerUrl: 'reporting/collectiveReport/reports_schedule_list_controller',
                     showHeader : true,
-                    css: assets.css_reports_schedule_list,
+                    css: assets.css_table_list,
 
                     resolve: {
                         check: function ($location, featuresService) {
