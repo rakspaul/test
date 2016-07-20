@@ -2274,6 +2274,9 @@ tags-input .autocomplete {
   padding-left: 15px;
 }
 /*End of Dropdown which has search input box*/
+.textRight {
+  text-align: right;
+}
 @keyframes show-notification {
   from {
     opacity: 0;
