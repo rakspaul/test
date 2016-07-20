@@ -17,7 +17,7 @@
                 <li ng-repeat="advertiser in advertisers  | filter : selectedAdvertiser.name" ng-hide="isExcludedByAdvertiserFilter" ng-class="{'active' : advertiser.id === advertiserData.selectedAdvertiser.id}" title="{{advertiser.name}}" >
                     <a data-ng-click="selectAdvertiser(advertiser, 'clicked')">
                         <span class="tick"></span>
-                        <span class="menuItemText" ng-bind="advertiser.name"></span>
+                        <span class="menuItemText" ng-bind="advertiser.advertiserDisplayName || advertiser.name"></span>
                     </a>
                 </li>
             </div>
