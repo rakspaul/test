@@ -177,7 +177,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 $('#reports_nav_link').addClass('active_tab');
                 $(event.currentTarget).parent().addClass('active_tab');
             }
-            console.log("ffdkjshfjdsh" , url);
             $location.url(url);
         };
 
