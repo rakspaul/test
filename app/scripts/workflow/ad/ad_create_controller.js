@@ -1,6 +1,6 @@
 define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/workflow_service', 'login/login_model',
     'common/services/data_service', 'workflow/services/audience_service', 'common/services/role_based_service',
-    'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/services/video_service',
+    'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/services/video_service', 'common/utils',
     'workflow/ad/budget_delivery_controller', 'workflow/ad/buying_platform_controller',
     'workflow/ad/targetting_controller', 'workflow/ad/geo_targetting_controller',
     'workflow/ad/audience_targetting_controller', 'workflow/ad/daypart_create_controller',
@@ -12,7 +12,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                                                    $locale, $location,  $filter, $timeout,
                                                                    constants, workflowService, loginModel,
                                                                    dataService, audienceService, RoleBasedService,
-                                                                   momentService, vistoconfig, videoService) {
+                                                                   momentService, vistoconfig, videoService,utils) {
         var winHeaderHeight = $(window).height() - 50,
             winHeight,
 
@@ -627,7 +627,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             if (isSetCap && formData.quantity) {
                 selectedFreqObj = {};
                 selectedFreqObj.frequencyType = formData.frequencyType.toUpperCase();
-                selectedFreqObj.quantity = Number(workflowService.stripCommaFromNumber(formData.quantity));
+                selectedFreqObj.quantity = Number(utils.stripCommaFromNumber(formData.quantity));
                 freqCap.push(selectedFreqObj);
             }
 
@@ -1183,7 +1183,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         }
 
                         if (obj.value === '$AD_KPI_VALUE') {
-                            obj.value = workflowService.stripCommaFromNumber($scope.adData.targetValue);
+                            obj.value = utils.stripCommaFromNumber($scope.adData.targetValue);
 
                         }
                     });
@@ -1273,11 +1273,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                     if (formData.targetValue){
                         postAdDataObj.kpiType=formData.primaryKpi.toUpperCase();
-                        postAdDataObj.kpiValue=workflowService.stripCommaFromNumber(formData.targetValue);
+                        postAdDataObj.kpiValue=utils.stripCommaFromNumber(formData.targetValue);
                     }
 
                     if (formData.unitCost) {
-                        postAdDataObj.rateValue = workflowService.stripCommaFromNumber(formData.unitCost);
+                        postAdDataObj.rateValue = utils.stripCommaFromNumber(formData.unitCost);
 
                         if (formData.unitCost && formData.unitType === '') {
                             postAdDataObj.rateType = 'CPM';
@@ -1287,7 +1287,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     }
 
                     if (formData.totalAdBudget){
-                        postAdDataObj.totalBudget = workflowService.stripCommaFromNumber(formData.totalAdBudget);
+                        postAdDataObj.totalBudget = utils.stripCommaFromNumber(formData.totalAdBudget);
                         postAdDataObj.enabledBudgetCalculation =
                             ($('#targetUnitCost_squaredFour').prop('checked') === false) ? false : true;
                     }
@@ -1301,7 +1301,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     if (formData.budgetType && formData.budgetAmount) {
                         postAdDataObj.budgetType = formData.budgetType;
                         postAdDataObj.budgetValue =
-                            Number(workflowService.stripCommaFromNumber(formData.budgetAmount));
+                            Number(utils.stripCommaFromNumber(formData.budgetAmount));
                     }
 
                     if (formData.platformId) {
