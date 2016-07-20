@@ -1,65 +1,89 @@
 define(['angularAMD', 'common/services/constants_service', 'common/services/role_based_service'],
     function (angularAMD) {
         angularAMD
-            .filter('spliter', function () {
+        // NOTE: Not used anywhere (as on 19th July 2016)
+            .filter('splitter', function () {
                 return function (input, splitIndex) {
                     // do some bounds checking here to ensure it has that index
                     return input.split(' ')[splitIndex];
                 };
             })
 
+            // NOTE: Used in bar_chart.html (as on 19th July 2016)
             .filter('dashboardKpiFormatter', function ($filter, constants) {
                 return function (input, kpiType) {
+                    var returnValue;
+
                     if (input && kpiType) {
                         kpiType = kpiType.toLowerCase();
 
                         if (kpiType === 'ctr' || kpiType === 'action_rate' || kpiType === 'action rate') {
-                            return input + '%';
+                            returnValue = input + '%';
                         } else if (kpiType === 'vtc') {
-                            return input + '%';
+                            returnValue = input + '%';
                         } else if (kpiType === 'cpc' || kpiType === 'cpa' || kpiType === 'cpm') {
-                            return constants.currencySymbol + input;
+                            returnValue = constants.currencySymbol + input;
                         } else if (kpiType === 'gross_rev' || kpiType === 'impressions') {
-                            return input + '%';
+                            returnValue = input + '%';
                         }
                     }
+
+                    return returnValue;
                 };
             })
 
+            // NOTE: Used in:
+            // 1) campaign_card.html
+            // 2) campaign_tactics_card.html
+            // 3) campaign_cost_card.html
+            // 4) campaign_details.html
+            // 5) campaign_strategy_card.html
+            // 6) custom_report.html
+            // 7) bar_chart.html
+            // (as on 19th July 2016)
             .filter('kpiFormatter', function ($filter, constants, $locale, RoleBasedService) {
                 return function (input, kpiType, precision) {
+                    var returnValue;
+
                     RoleBasedService.setCurrencySymbol();
 
                     if (input && kpiType) {
                         kpiType = kpiType.toLowerCase();
 
                         if (kpiType === 'ctr' || kpiType === 'action_rate' || kpiType === 'action rate') {
-                            return $filter('number')(input, 3) + '%';
+                            returnValue = $filter('number')(input, 3) + '%';
                         } else if (kpiType === 'cpc' || kpiType === 'cpa' || kpiType === 'cpm') {
-                            return constants.currencySymbol + $filter('number')(input, 3);
+                            returnValue = constants.currencySymbol + $filter('number')(input, 3);
                         } else if (kpiType === 'actions' ||
                             kpiType === 'clicks' ||
                             kpiType === 'impressions' ||
                             kpiType === 'delivery') {
-                            return $filter('number')(input, 0);
+                            returnValue = $filter('number')(input, 0);
                         } else if (kpiType === 'vtc' && !precision) {
-                            return $filter('number')(input, 0) + '%';
+                            returnValue = $filter('number')(input, 0) + '%';
                         } else if (kpiType === 'vtc' && precision) {
-                            return $filter('number')(input, 3) + '%';
+                            returnValue = $filter('number')(input, 3) + '%';
                         } else {
                             // unknown kpiType
-                            return $filter('number')(input, 0);
+                            returnValue = $filter('number')(input, 0);
                         }
                     } else {
                         if (kpiType.toLowerCase() === 'impressions') {
-                            return 0;
+                            returnValue = 0;
                         }
 
-                        return 'NA';
+                        returnValue = 'NA';
                     }
+
+                    return returnValue;
                 };
             })
 
+            // NOTE: Used in
+            // 1) campaign_create.html
+            // 2) performance.html
+            // 3) budget.html
+            // (as on 19th July 2016)
             .filter('setDecimal', function () {
                 return function (input, places) {
                     var factor;
@@ -76,9 +100,13 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
 
             .filter('toCamelCase', function () {
                 return function (str) {
-                    return str.toLowerCase().replace(/['']/g, '').replace(/\W+/g, ' ').replace(/ (.)/g, function ($1) {
-                        return $1.toUpperCase();
-                    }).replace(/ /g, '');
+                    return str
+                        .toLowerCase()
+                        .replace(/['']/g, '')
+                        .replace(/\W+/g, ' ')
+                        .replace(/ (.)/g, function ($1) {
+                            return $1.toUpperCase();
+                        }).replace(/ /g, '');
                 };
             })
 
@@ -204,44 +232,47 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
 
             .filter('vtcRoundOff', function () {
                 return function (input, places) {
-                    var factor = Math.pow(10, places);
+                    var factor;
 
                     places = input > 1 ? 0 : places;
+                    factor = Math.pow(10, places);
 
                     return Math.round(input * factor) / factor;
                 };
             })
 
-            .filter('displayActionSubtypes', function () {
+            // NOTE: Not used anywhere (as on 19th July 2016)
+            .filter('displayActionSubTypes', function () {
                 return function (actionSubTypes) {
                     var length = actionSubTypes.length,
                         subType = '',
                         i;
 
                     if (!actionSubTypes) {
-                        return '-';
-                    }
-
-                    if (length > 1) {
-                        for (i = 0; i < actionSubTypes.length; i++) {
-                            subType += actionSubTypes[i].name;
-
-                            if (i !== actionSubTypes.length - 1) {
-                                subType += ', ';
-                            }
-                        }
-
-                        return subType;
+                        subType = '-';
                     } else {
-                        return actionSubTypes[0].name;
+                        if (length > 1) {
+                            for (i = 0; i < actionSubTypes.length; i++) {
+                                subType += actionSubTypes[i].name;
+
+                                if (i !== actionSubTypes.length - 1) {
+                                    subType += ', ';
+                                }
+                            }
+                        } else {
+                            subType = actionSubTypes[0].name;
+                        }
                     }
+
+                    return subType;
                 };
             })
 
+            // NOTE: Used in campaign_details.html (as on 19th July 2016)
             .filter('formatActionDate', function ($filter) {
                 return function (input) {
                     var _date = new Date(input),
-                        formatDate = '';
+                        formatDate;
 
                     if (moment(_date).diff(moment(), 'days') === 0) {
                         // today - format 01:29 PM
@@ -294,22 +325,32 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
                 };
             })
 
-            .filter('appendDollor', function (constants, $locale, RoleBasedService) {
+            // NOTE: Used in campaign_details.html
+            // 1) inventory.html
+            // 2) optimization.html
+            // 3) performance.html
+            // 4) platform.html
+            // 5) cost.html
+            // (as on 19th July 2016)
+            .filter('appendDollar', function (constants, $locale, RoleBasedService) {
                 return function (val, type) {
+                    var returnValue;
+
                     RoleBasedService.setCurrencySymbol();
 
-                    if(!val) {
-                        return '-';
+                    if (!val) {
+                        returnValue = '-';
                     } else if (type.toLowerCase() === 'delivery (impressions)') {
-                        return (val.toFixed(0)).toLocaleString();
+                        returnValue = (val.toFixed(0)).toLocaleString();
                     } else {
                         val = val.toFixed(3);
 
-                        return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' ||
-                            type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ?
-                            val + '%' :
-                            constants.currencySymbol + val;
+                        returnValue = (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' ||
+                        type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ?
+                        val + '%' : constants.currencySymbol + val;
                     }
+
+                    return returnValue;
                 };
             })
 
@@ -324,9 +365,8 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
                         return val.toLocaleString();
                     } else {
                         return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' ||
-                            type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ?
-                            parseFloat(val.toFixed(6)) + '%' :
-                            constants.currencySymbol + parseFloat(val.toFixed(6));
+                        type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ?
+                        parseFloat(val.toFixed(6)) + '%' : constants.currencySymbol + parseFloat(val.toFixed(6));
                     }
                 };
             })
@@ -362,7 +402,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
                 };
             })
 
-            .filter('morelines', function () {
+            .filter('moreLines', function () {
                 return function (input) {
                     return input.replace('\\n', '<br />');
                 };
@@ -390,8 +430,8 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
                         return y;
                     }
 
-                    if(key === undefined ) {
-                        key = 2 ;
+                    if (key === undefined ) {
+                        key = 2;
                     }
 
                     if (y < 9999) {
@@ -453,8 +493,8 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
                 };
             })
 
-            .filter('formatDate',function($filter,momentService){
-                return function(value,format) {
+            .filter('formatDate',function ($filter,momentService){
+                return function (value,format) {
                     return momentService.formatDate(value,format);
                 };
             })
@@ -477,8 +517,8 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
                 };
             })
 
-            .filter('positive', function() {
-                return function(input) {
+            .filter('positive', function () {
+                return function (input) {
                     if (!input) {
                         return 0;
                     }
