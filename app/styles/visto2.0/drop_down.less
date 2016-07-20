@@ -1,4 +1,5 @@
 //Drop Down CSS
+@import "color.less";
 .dropdown-toggle,
 .dropdown-toggle-search {
     border-radius: 1px;
@@ -85,23 +86,23 @@
       right: 0;
       /* Safari */
         -webkit-transform: rotate(0deg);
-    
+
         /* Firefox */
         -moz-transform: rotate(0deg);
-    
+
         /* IE */
         -ms-transform: rotate(0deg);
-    
+
         /* Opera */
         -o-transform: rotate(0deg);
-    
+
         /* Internet Explorer */
         filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
     }
 
     .dropdown-menu>li>a,
     .dropdown-menu-search>li>a {
-        color: #21252b;
+        color: @raven-text;
         font-family: Avenir, sans-serif;
         font-size: 14px;
         overflow: hidden;
@@ -112,7 +113,7 @@
     }
 
     .disabled a {
-        color: #21252b;
+        color: @raven-text;
         opacity: .4;
     }
 
@@ -182,7 +183,7 @@
                     width: 100%;
 
                     a {
-                        color: #21252b;
+                        color: @raven-text;
                         font-family: Avenir, sans-serif;
                         font-size: 14px;
                         overflow: hidden;
@@ -192,7 +193,7 @@
                         float: left;
 
                         &:hover {
-                            color: #21252b;
+                            color: @raven-text;
                             text-decoration: none;
                             background-color: #E1EDF9;
                         }
@@ -231,12 +232,12 @@
         }
 
         .active a {
-            color: #21252b;
+            color: @raven-text;
             text-decoration: none;
             background-color: #E1EDF9;
         }
     }
-    
+
     .dropdown-menu {
         z-index: 9999999;
     }
@@ -256,7 +257,7 @@
     .dropdown-menu-search > li > a:hover,
     .dropdown-menu-search > li > a:focus,
     .dropdown-menu-search > li > .active > a {
-        color: #21252b;
+        color: @raven-text;
         text-decoration: none;
         background-color: #E1EDF9;
     }
@@ -301,7 +302,7 @@
             width: auto;
         }
     }
-    
+
     .dropdown-toggle:active, .dropdown-toggle:focus {
         background: #DCE6F1 !important;
     }
@@ -380,7 +381,7 @@
                     float: left;
                     width: 100%;
                     padding: 3px 15px;
-                    color: #21252b;
+                    color: @raven-text;
                 }
                 .icon-arrow-solid-down {
                     width: 10px !important;
@@ -480,7 +481,7 @@
                 padding: 0 0 0 26px;
 
                 &:hover {
-                    color: #21252b;
+                    color: @raven-text;
                     text-decoration: none;
                     background-color: #E1EDF9;
                 }
@@ -488,7 +489,7 @@
                 a {
                     width: 100%;
                     padding: 9px 15px !important;
-                    color: #21252b;
+                    color: @raven-text;
                     font-family: Avenir, sans-serif;
                     font-size: 14px;
                     cursor: pointer;
