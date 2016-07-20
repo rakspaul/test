@@ -1,5 +1,7 @@
 // Visto 2.0 Inputs / Forms
 // Inputs
+@import "color.less";
+
 input[type="text"],
 input[type="number"],
 input[type="email"],
@@ -212,7 +214,7 @@ select:hover {
                 -webkit-appearance: none !important;
                 ti-tag-item {
                     span {
-                        color: #21252b;
+                        color: @raven-text;
                         font-family: "Avenir";
                         font-size: inherit;
                     }
@@ -235,7 +237,7 @@ select:hover {
             .tags.focused {
                 -webkit-box-shadow: none !important;
                 box-shadow: none !important;
-                color: #21252b;
+                color: @raven-text;
                 text-decoration: none;
                 border: 1px solid #0978c9;
             }
