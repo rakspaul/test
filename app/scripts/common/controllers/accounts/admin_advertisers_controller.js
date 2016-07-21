@@ -7,7 +7,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
     'use strict';
 
     angularAMD.controller('AdminUsersController', function ($scope, $rootScope, $modal, $compile, $filter,
-                                                                constants, accountsService, momentService) {
+                                                                constants, accountsService, momentService,
+                                                                loginModel) {
         var _curCtrl = this,
             winHeight = $(window).height();
 
