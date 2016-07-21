@@ -114,7 +114,7 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/
         });
         
         $scope.hide_bubble_tooltip = function() {
-            $(".bubble_tooltip").hide();
-        }
+            $('.bubble_tooltip').hide();
+        };
     });
 });
