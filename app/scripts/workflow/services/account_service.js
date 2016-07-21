@@ -109,9 +109,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 );
             },
 
-            updateAdvertiser =  function (id, data) {
+            updateAdvertiser =  function (data) {
                 return dataService.put(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers/' + id,
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers/' + data.id,
                     data,
                     {'Content-Type': 'application/json'}
                 );
@@ -210,9 +210,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 );
             },
 
-            updateBrand = function (brandId, data) {
+            updateBrand = function (data) {
                 return dataService.put(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands/' + brandId,
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands/' + data.id,
                     data,
                     {'Content-Type': 'application/json'}
                 );
@@ -300,12 +300,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     '/advertisers/codes/' + code + '/exists');
             },
 
-            getUserAdvertiser = function () {
-                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers');
+            getUserAdvertiser = function (clientId) {
+                clientId = clientId || '';
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers?client_id='+clientId);
             },
 
-            getUserBrands = function () {
-                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands');
+            getUserBrands = function (clientId) {
+                clientId = clientId || '';
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands?client_id='+clientId);
             },
 
             getUserPages = function () {
