@@ -1,14 +1,15 @@
 var angObj = angObj || {};
 
 define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service', 'common/moment_utils',
-    'login/login_model', 'common/controllers/accounts/accounts_add_or_edit_advertiser_controller',
+    'login/login_model', 'common/utils',
+    'common/controllers/accounts/accounts_add_or_edit_advertiser_controller',
     'common/controllers/accounts/accounts_add_or_edit_brand_controller',
     'common/controllers/accounts/accounts_add_or_edit_controller' ], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('AdminUsersController', function ($scope, $rootScope, $modal, $compile, $filter,
                                                                 constants, accountsService, momentService,
-                                                                loginModel) {
+                                                                loginModel, utils) {
         var _curCtrl = this,
             winHeight = $(window).height();
         _curCtrl.clientId = loginModel.getSelectedClient().id;
@@ -130,7 +131,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                             $scope.fetchAllAdvertisers();
                             $rootScope.setErrAlertMessage(constants.SUCCESS_CREATE_ADVERTISER, 0);
                         } else {
-                            $rootScope.setErrAlertMessage(res.data.message);
+                            $rootScope.setErrAlertMessage(utils.getResponseMsg(res));
                         }
                     }, function (err) {
                         $rootScope.setErrAlertMessage(err.message);
