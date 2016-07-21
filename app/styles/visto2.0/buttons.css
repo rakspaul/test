@@ -46,7 +46,7 @@ select {
   background: #fff;
 }
 .btn-default:hover {
-  border: 1px solid #939EAE;
+  border: 1px solid #939eae;
 }
 .btn-default:not(.label-btn):hover {
   background: #e1edf9;
@@ -366,7 +366,7 @@ input.cmn-toggle-round:checked + label:after {
 }
 .screenChkSelection .btn-default:hover {
   background-color: #E1EDF9 !important;
-  border: 1px solid #939EAE !important;
+  border: 1px solid #939eae !important;
 }
 .screenChkSelection .btn-default.active {
   background-color: #DCE6F1 !important;

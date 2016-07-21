@@ -518,7 +518,7 @@
   font-size: 12px;
   width: 12px;
   height: 12px;
-  color: #21252B;
+  color: #21252b;
   opacity: .25;
 }
 .popInventoryLib .inventoryLib .close {
@@ -715,7 +715,7 @@ body div div.nav_filters .subAccountList_ul {
   overflow-y: auto;
 }
 .size-box {
-  border: dashed 1px #939eae ;
+  border: dashed 1px #939eae;
   margin: 5px 0 14px 0px;
   max-width: 100%;
 }
