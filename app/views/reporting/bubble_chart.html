@@ -32,7 +32,7 @@
         </div>
   </div>
   <div class="common_loading_icon" ng-if="spendBusy "></div>
-  <div class="dashboard_perf_graph" >
+  <div class="dashboard_perf_graph" ng-mouseleave="hide_bubble_tooltip();" ng-click="hide_bubble_tooltip();">
     <div ng-show="dataFound&&!spendBusy">
         <span id="advertisers"></span>
         <span id="campaigns"></span>
