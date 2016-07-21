@@ -169,7 +169,7 @@
 .reports_list_page .img_type_format {
   text-align: center;
   font-size: 14px;
-  color: #21252B;
+  color: #21252b;
   line-height: 20px;
 }
 .reports_upload_page .img_type_format,
@@ -228,13 +228,13 @@
 .reports_list_page .progress-upload-info {
   opacity: 0.3;
   font-size: 20px;
-  color: #21252B;
+  color: #21252b;
   line-height: 27px;
 }
 .reports_upload_page .progress_percentage,
 .reports_list_page .progress_percentage {
   font-size: 26px ;
-  color: #21252b ;
+  color: #21252b;
   font-family: "Avenir-bold";
 }
 .reports_upload_page .delete-col,

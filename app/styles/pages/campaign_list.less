@@ -45,12 +45,12 @@
 }
 .valStyle() {
   font-family: "Avenir-bold" ;
-  color:  #57606d;
+  color:  @lead-gray;
   font-size: 14px;
 }
 .darkBoldVal() {
   font-family: "Avenir-bold" ;
-  color:  #21252b;
+  color:  @raven-text;
   font-size: 14px;
 }
 .graphHeadingFont() {
@@ -68,7 +68,7 @@ body {
   height: auto;
   background: #fff;
   background-repeat: repeat;
-  color:  #21252b ;
+  color:  @raven-text;
 }
 
 .btn:focus, input:focus, textarea:focus, select:focus, input:focus:invalid:focus, textarea:focus:invalid:focus, select:focus:invalid:focus {
@@ -1251,7 +1251,7 @@ button, i, input[type="submit"] {
       }
       .main_heading {
         font-size: 18px ;
-        color: #21252b ;
+        color: @raven-text;
         line-height: 24px ;
         .AvenirBold();
         word-wrap: break-word;
@@ -1265,12 +1265,12 @@ button, i, input[type="submit"] {
         }
       }
       .heading {
-          color: #57606d ;
+          color: @lead-gray;
           font-size: 14px ;
           margin-top: 2px ;
           padding-left: 15px ;
           margin-left: 15px;
-          border-left: 1px solid #57606d;
+          border-left: 1px solid @lead-gray;
           float: left;
       }
       .campaign_section_KPI {
@@ -1296,7 +1296,7 @@ button, i, input[type="submit"] {
               font-size: 12px;
               span {
                 font-family: "Avenir-bold" ;
-                color:  #57606d;
+                color:  @lead-gray;
                 font-size: 14px;
               }
             }
@@ -1311,7 +1311,7 @@ button, i, input[type="submit"] {
             span {
               float: right ;
               font-family: "Avenir-bold" ;
-              color:  #57606d;
+              color:  @lead-gray;
               font-size: 14px;
             }
             span.icon_KPI  {
@@ -1367,7 +1367,7 @@ button, i, input[type="submit"] {
             }
             span.detail_val {
               .valStyle();
-              color: #57606d ;
+              color: @lead-gray;
             }
           }
           .metric_graph_details_ctr {
@@ -1387,7 +1387,7 @@ button, i, input[type="submit"] {
             .quartile_details_title {
               font-size: 14px ;
               font-family: "Avenir-bold" ;
-              color: #21252b ;
+              color: @raven-text;
             }
             .quartile_details_VTC_btn {
               border: solid 1px #dde6eb;
@@ -1467,7 +1467,7 @@ button, i, input[type="submit"] {
             -moz-border-radius: 2px;
             -webkit-border-radius: 2px;
             font-family: "Avenir";
-            color: #57606d;
+            color: @lead-gray;
             font-size: 12px;
             cursor: pointer;
             height: 30px ;
@@ -1512,7 +1512,7 @@ button, i, input[type="submit"] {
     }
     .each_campaign_list_container.true_archive {
         .days_over, .days_over:after {
-            background: #57606D;
+            background: @lead-gray;
         }
     }
   }
@@ -1677,7 +1677,7 @@ button, i, input[type="submit"] {
         .end_point_val span.icon_KPI {
           background: url("/images/cdesk/target_indicator_dark.png") no-repeat 0px 3px ;
           padding-left: 15px;
-          color: #21252b;
+          color: @raven-text;
           font-size: 12px;
           padding-right: 0px ;
           left: -6px ;
@@ -1756,7 +1756,7 @@ button, i, input[type="submit"] {
         span {
           display: block;
           height: 21px;
-          color: #21252b ;
+          color: @raven-text;
           font-size: 12px ;
           border-radius: 4px;
           -moz-border-radius: 4px;
@@ -2023,7 +2023,7 @@ button, i, input[type="submit"] {
       .each_cost_col {
         font-family: "Avenir" ;
         font-weight: normal;
-        color: #57606d ;
+        color: @lead-gray;
       }
       .total_cost {
         font-family: "Avenir-bold" ;
@@ -2216,7 +2216,7 @@ button, i, input[type="submit"] {
           margin-top: 4px;
         }
         .icon-arrow-solid-down {
-          color: #939EAE;
+          color: @label-gray;
           margin-top: 2px;
         }
       }
@@ -2263,7 +2263,7 @@ button, i, input[type="submit"] {
           text-overflow: ellipsis;
         }
         .icon-arrow-solid-down {
-          color: #939EAE;
+          color: @label-gray;
         }
       }
     }
@@ -2590,7 +2590,7 @@ button, i, input[type="submit"] {
   stroke-width: 0;
 }
 .quartile_details_graph .labels {
-  fill: #21252b;
+  fill: @raven-text;
   font-size: 11px;
 }
 
@@ -2681,7 +2681,7 @@ button, i, input[type="submit"] {
   stroke-width: 0;
 }
 .campaign_details_graph .labels {
-  fill: #21252b;
+  fill: @raven-text;
   font-size: 11px;
 }
 
@@ -2747,7 +2747,7 @@ button, i, input[type="submit"] {
   width: 100%;
   //margin: 5px auto 2px ;
   font-size: 14px;
-  color: #21252B;
+  color: @raven-text;
   line-height: 20px;
   li.active {
     font-family: "Avenir-bold" ;
@@ -2789,7 +2789,7 @@ button, i, input[type="submit"] {
         position: static;
         float: right;
         margin: 3px 0 0 8px;
-        color: #939EAE;
+        color: @label-gray;
     }
   }
   .each_filter {
@@ -2850,14 +2850,14 @@ button, i, input[type="submit"] {
             a {
                 float: left;
                 width: 100%;
-                color: #21252b;
+                color: @raven-text;
                 font-family: Avenir;
                 font-size: 14px;
                 line-height: 100%;
                 padding: 9px 15px;
                 overflow: hidden;
                 &:hover, &:focus {
-                    color: #21252b;
+                    color: @raven-text;
                     text-decoration: none;
                     background-color: #E1EDF9;
                 }
@@ -2870,7 +2870,7 @@ button, i, input[type="submit"] {
             a {
                 background: #fff;
                 &:hover, &:focus {
-                    color: #21252b;
+                    color: @raven-text;
                     text-decoration: none;
                     background-color: #E1EDF9;
                 }
@@ -2996,7 +2996,7 @@ button, i, input[type="submit"] {
 /*}*/
 
   .nav_filters_heading {
-    color: #939eae !important;
+    color: @label-gray !important;
     padding: 10px 0 5px 0 !important;
     text-align: left;
     font-size: 12px !important;
@@ -3042,7 +3042,7 @@ button, i, input[type="submit"] {
     width: 10px;
     height: 10px;
     font-size: 10px;
-    color: #939EAE;
+    color: @label-gray;
   }
   .brandsDropdownSearch {
     position: relative;
@@ -3060,7 +3060,7 @@ button, i, input[type="submit"] {
             float: left;
             width: 100%;
             a {
-                color: #21252b;
+                color: @raven-text;
                 font-family: Avenir;
                 font-size: 14px;
                 line-height: 100%;
@@ -3069,7 +3069,7 @@ button, i, input[type="submit"] {
                 float: left;
                 width: 100%;
                 &:hover, &:focus {
-                    color: #21252b;
+                    color: @raven-text;
                     text-decoration: none;
                     background-color: #E1EDF9;
                 }
@@ -3094,14 +3094,14 @@ button, i, input[type="submit"] {
             a {
                 float: left;
                 width: 100%;
-                color: #21252b;
+                color: @raven-text;
                 font-family: Avenir;
                 font-size: 14px;
                 line-height: 100%;
                 padding: 9px 15px !important;
                 overflow: hidden;
                 &:hover, &:focus {
-                    color: #21252b;
+                    color: @raven-text;
                     text-decoration: none;
                     background-color: #E1EDF9;
                 }
@@ -3114,7 +3114,7 @@ button, i, input[type="submit"] {
             a {
                 background: transparent;
                 &:hover, &:focus {
-                    color: #21252b;
+                    color: @raven-text;
                     text-decoration: none;
                     background-color: #E1EDF9;
                 }
@@ -3151,7 +3151,7 @@ button, i, input[type="submit"] {
   .dropdown-menu {
     li {
       font-size: 14px;
-      color: #21252B;
+      color: @raven-text;
       padding: 5px 10px;
       overflow: hidden;
       white-space: nowrap;
@@ -3206,7 +3206,7 @@ button, i, input[type="submit"] {
           padding: 10px 0 ;
           .filter_title {
             font-family: "Avenir-bold";
-            color: #939eae;
+            color: @label-gray;
             font-size: 12px;
             padding: 0px 10px;
             text-transform: uppercase;
@@ -3284,7 +3284,7 @@ button, i, input[type="submit"] {
     .each_selected_filter {
       margin-right: 20px ;
       .heading {
-        color: #57606d ;
+        color: @lead-gray;
       }
       .value {
 

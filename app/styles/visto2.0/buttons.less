@@ -51,12 +51,12 @@ select {
 }
 
 .btn-default {
-    color: #57606d;
+    color: @lead-gray;
     font-size: 14px;
     border: 1px solid #BFC9D7;
     background: #fff;
     &:hover {
-        border: 1px solid #939EAE;
+        border: 1px solid @label-gray;
     }
     &:not(.label-btn):hover {
         background: #e1edf9;
@@ -442,7 +442,7 @@ input.cmn-toggle-round:checked + label:after {
 
         &:hover {
             background-color: #E1EDF9 !important;
-            border: 1px solid #939EAE !important;
+            border: 1px solid @label-gray !important;
         }
 
         &.active {

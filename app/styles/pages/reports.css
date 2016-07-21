@@ -1,3 +1,4 @@
+/* done color.less remove later */
 #accountDropDown_0 .icon-arrow-right,
 #accountDropDown_1 .icon-arrow-right,
 #accountDropDown_2 .icon-arrow-right,
@@ -110,7 +111,7 @@
 }
 .performance_container #reports_bydiscrepancy_block .compareDropdownCnt .dropdownCmp .compareToButton .icon {
   font-size: 9px;
-  color: #939EAE;
+  color: #939eae;
   padding-top: 2px;
 }
 .each_cost_col .tooltip_holder {
@@ -391,7 +392,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .each_reports_row_heading {
   font-family: "Avenir";
   padding: 90px 0 0 0;
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
 }
@@ -407,7 +408,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   text-transform: none;
 }
 .each_reports_row_heading.optimization_heading .after_before_title {
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
   font-size: 12px ;
@@ -795,7 +796,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .breadcrumb_campaign_strategy .icon-arrow-solid-down,
 .smallSreenScrollDiv .icon-arrow-solid-down {
   float: left;
-  color: #939EAE;
+  color: #939eae;
   font-size: 10px;
   height: 10px;
   width: 10px;
@@ -906,7 +907,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .smallSreenScrollDiv .performance_selection .performance_text {
   float: left;
   margin-top: 5px;
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
 }
@@ -1073,7 +1074,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .smallSreenScrollDiv .inventory_chart_details_list {
   width: 520px;
   float: right;
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
 }
@@ -1223,7 +1224,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   background: url("/images/loading.gif") no-repeat scroll 70% 9% rgba(0, 0, 0, 0);
   margin: 5px auto 0 42px ;
   display: inline-block;
-  color: #21252B ;
+  color: #21252b;
   text-transform: uppercase;
   font-size: 10px;
 }
@@ -1265,7 +1266,7 @@ div.strategy_total_container div.strategy_total_container_header .rowHasSubRow {
 }
 div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow .icon-arrow-solid-down {
   font-size: 10px;
-  color: #939EAE;
+  color: #939eae;
   -ms-transform: rotate(-90deg);
   -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
@@ -1280,7 +1281,7 @@ div.strategy_total_container div.strategy_total_container_header .discrepancyTpl
   margin-top: 7px;
 }
 div.strategy_total_container div.strategy_total_container_header div.each_col.first_col {
-  color: #21252b ;
+  color: #21252b;
   font-size: 18px;
   font-family: "Avenir";
 }
@@ -1389,7 +1390,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_video_mode_outer_container .strategy_total_container div.each_col.seventh_col,
 .custom_report_response_table .strategy_total_container div.each_col.seventh_col {
   font-size: 14px ;
-  color: #57606d ;
+  color: #57606d;
 }
 .viewability_details_outer_container,
 .viewability_details_video_mode_outer_container {
@@ -1663,7 +1664,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_viewability_block .viewability_header .each_col,
 .viewability_details_video_mode_outer_container .viewability_header .each_col {
   padding-top: 0px;
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
 }
@@ -1848,7 +1849,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .view_mode_switch_container {
   float: none ;
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   margin-top: -20px;
   position: absolute;
@@ -2593,7 +2594,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin-top: 10px ;
 }
 .reports_tabs_content_container .reports_block .reports_performance_header .each_col {
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
   margin: 6px 0 2px 15px;
@@ -2614,7 +2615,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   border-bottom: 0px ;
 }
 .reports_tabs_content_container .reports_block .reports_platform_header .each_col {
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
   margin: 6px 0 2px 15px;
@@ -3080,7 +3081,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .viewLabelTxt {
   float: left;
-  color: #939EAE;
+  color: #939eae;
   margin: 4px 0 0 5px;
   font-size: 12px;
 }
@@ -3201,7 +3202,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_cost_header_holder .cost_header_holder .each_cost_col,
 #reports_platform_cost_block .cost_header_holder .each_cost_col {
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
   line-height: 17px ;
@@ -3212,7 +3213,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_cost_header_holder .cost_header_holder .more_options .dropdown-menu li a,
 #reports_platform_cost_block .cost_header_holder .more_options .dropdown-menu li a {
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
 }
@@ -3284,7 +3285,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_cost_header_holder .cost_transparency_container .strategy_total_row .each_cost_heading,
 #reports_platform_cost_block .cost_transparency_container .strategy_total_row .each_cost_heading {
   font-size: 18px ;
-  color: #21252b ;
+  color: #21252b;
   font-size: 18px;
   font-family: "Avenir";
 }
@@ -3742,7 +3743,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   background-image: url("/images/reports_login/password_icon.png");
 }
 .reports_login_outer_container .reports_login_box .keep_signed_in {
-  color: #939eae ;
+  color: #939eae;
 }
 .reports_login_outer_container .reports_login_box .forgot_pass_holder {
   position: relative;
@@ -3825,7 +3826,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_login_outer_container .reports_login_box .email_anchor a {
   text-decoration: underline;
-  color: #939eae ;
+  color: #939eae;
 }
 .reports_login_outer_container .reports_login_box .email_anchor a:hover {
   color: #359eea ;
@@ -3887,7 +3888,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   padding: 0;
   margin: 1px 0 0 7px;
   position: static;
-  color: #939EAE;
+  color: #939eae;
 }
 .viewability_header .kpi-dd-holder {
   padding-right: 13px;
@@ -4358,7 +4359,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   color: #0978c9;
 }
 .report_generator_and_response .report_builder_container .custom_report_col .each_option.active:hover {
-  color: #21252b ;
+  color: #21252b;
 }
 .report_generator_and_response .report_builder_container .custom_report_col .each_option:hover {
   border: solid 2px #0978c9;
@@ -4529,7 +4530,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   float: left;
 }
 .report_generator_and_response div.create_scheduled_report .each-col .label-txt {
-  color: #939eae ;
+  color: #939eae;
   font-size: 12px ;
   margin-bottom: 10px ;
 }
