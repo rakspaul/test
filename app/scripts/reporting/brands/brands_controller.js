@@ -1,6 +1,8 @@
-define(['angularAMD', 'reporting/brands/brands_model', 'reporting/brands/brands_service', // jshint ignore:line
-    'common/utils', 'common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_model',
-    'reporting/brands/brands_directive', 'reporting/subAccount/sub_account_model'], function (angularAMD) {
+define(['angularAMD', 'reporting/brands/brands_model', 'reporting/brands/brands_service', 'common/utils',
+    'common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_model',
+    'reporting/brands/brands_directive', 'reporting/subAccount/sub_account_service'], function (angularAMD) {
+    'use strict';
+
     angularAMD.controller('BrandsController', function ($scope, $rootScope, brandsModel, brandsService, utils,
                                                         constants, loginModel, advertiserModel, subAccountModel,
                                                         localStorageService) {
@@ -19,12 +21,9 @@ define(['angularAMD', 'reporting/brands/brands_model', 'reporting/brands/brands_
             if (loginModel.getUserId() === undefined) {
                 return;
             }
+
             if(loadBrands) {
-                if($scope.isDashbboardBrand && !isLeafNode) {
-                    searchCriteria.clientId = subAccountModel.getDashboardAccountId();
-                } else {
-                    searchCriteria.clientId = loginModel.getSelectedClient().id;
-                }
+                searchCriteria.clientId = loginModel.getSelectedClient().id;
                 searchCriteria.advertiserId = advertiserModel.getAdvertiser().selectedAdvertiser.id;
                 search = false;
                 loadBrands = false;

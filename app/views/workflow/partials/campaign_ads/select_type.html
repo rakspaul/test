@@ -97,7 +97,7 @@
                         aria-haspopup="true" aria-expanded="true">
                     <span class="text">{{adData.primaryKpi ? adData.primaryKpi : textConstants.SELECT_LABEL}}</span>
                     <input type="hidden" name ="goal" value="{{adData.primaryKpi}}" />
-                    <span class="icon-arrow-down"></span>
+                    <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="primaryKPI"  id="primaryKPI" data-toggle="dropdown">
                     <li class="headerDDL" data-ng-repeat="kpiObj in workflowData.primaryKpi">
@@ -149,6 +149,6 @@
     <a data-toggle="tab"
        role="tab"
        class="btn btn-default"
-       data-ng-click="triggerbudgetTab()"
+       data-ng-click="triggerBudgetTab()"
        data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE"></a>
 </span>

@@ -110,7 +110,7 @@
 }
 .performance_container #reports_bydiscrepancy_block .compareDropdownCnt .dropdownCmp .compareToButton .icon {
   font-size: 9px;
-  color: #000;
+  color: #939EAE;
   padding-top: 2px;
 }
 .each_cost_col .tooltip_holder {
@@ -626,6 +626,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   width: 130px ;
   text-align: left;
   min-width: 100px;
+  top: 20px ;
 }
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li {
   padding: 9px 15px !important;
@@ -648,20 +649,24 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   display: none;
 }
 .common_reports_container,
-.breadcrumb_campaign_strategy {
+.breadcrumb_campaign_strategy,
+.smallSreenScrollDiv {
   font-family: "Avenir";
   position: relative;
 }
 .common_reports_container #optimization_strategies_dd,
-.breadcrumb_campaign_strategy #optimization_strategies_dd {
+.breadcrumb_campaign_strategy #optimization_strategies_dd,
+.smallSreenScrollDiv #optimization_strategies_dd {
   width: 80% ;
 }
 .common_reports_container .dropdown_ul_text,
-.breadcrumb_campaign_strategy .dropdown_ul_text {
+.breadcrumb_campaign_strategy .dropdown_ul_text,
+.smallSreenScrollDiv .dropdown_ul_text {
   cursor: pointer;
 }
 .common_reports_container .dropdown_ul_text .arrrow_img,
-.breadcrumb_campaign_strategy .dropdown_ul_text .arrrow_img {
+.breadcrumb_campaign_strategy .dropdown_ul_text .arrrow_img,
+.smallSreenScrollDiv .dropdown_ul_text .arrrow_img {
   background: url("/images/cdesk/common_down_arrow.png") no-repeat center center;
   display: inline-block;
   height: 10px;
@@ -669,17 +674,21 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   margin-left: 2px;
 }
 .common_reports_container .dropdown_type1,
-.breadcrumb_campaign_strategy .dropdown_type1 {
+.breadcrumb_campaign_strategy .dropdown_type1,
+.smallSreenScrollDiv .dropdown_type1 {
   position: relative;
 }
 .common_reports_container .dropdown_type1 .arrrow_img,
 .breadcrumb_campaign_strategy .dropdown_type1 .arrrow_img,
+.smallSreenScrollDiv .dropdown_type1 .arrrow_img,
 .common_reports_container .dropdown_type2 .arrrow_img,
-.breadcrumb_campaign_strategy .dropdown_type2 .arrrow_img {
+.breadcrumb_campaign_strategy .dropdown_type2 .arrrow_img,
+.smallSreenScrollDiv .dropdown_type2 .arrrow_img {
   background: url("/images/cdesk/common_down_arrow.png") no-repeat center center;
 }
 .common_reports_container .download_report,
-.breadcrumb_campaign_strategy .download_report {
+.breadcrumb_campaign_strategy .download_report,
+.smallSreenScrollDiv .download_report {
   height: 36px;
   width: auto;
   border: solid 1px #BFC9D7;
@@ -694,12 +703,14 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   padding: 0;
 }
 .common_reports_container .download_report .dropdown,
-.breadcrumb_campaign_strategy .download_report .dropdown {
+.breadcrumb_campaign_strategy .download_report .dropdown,
+.smallSreenScrollDiv .download_report .dropdown {
   width: 100%;
   height: 100%;
 }
 .common_reports_container .download_report .dropdown ul.dropdown-menu,
-.breadcrumb_campaign_strategy .download_report .dropdown ul.dropdown-menu {
+.breadcrumb_campaign_strategy .download_report .dropdown ul.dropdown-menu,
+.smallSreenScrollDiv .download_report .dropdown ul.dropdown-menu {
   width: auto;
   min-width: 220px;
   max-width: 300px;
@@ -712,13 +723,15 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   border-radius: 2px;
 }
 .common_reports_container .download_report .dropdown ul.dropdown-menu li,
-.breadcrumb_campaign_strategy .download_report .dropdown ul.dropdown-menu li {
+.breadcrumb_campaign_strategy .download_report .dropdown ul.dropdown-menu li,
+.smallSreenScrollDiv .download_report .dropdown ul.dropdown-menu li {
   padding: 0px;
   float: left;
   width: 100%;
 }
 .common_reports_container .download_report .dropdown ul.dropdown-menu li a,
-.breadcrumb_campaign_strategy .download_report .dropdown ul.dropdown-menu li a {
+.breadcrumb_campaign_strategy .download_report .dropdown ul.dropdown-menu li a,
+.smallSreenScrollDiv .download_report .dropdown ul.dropdown-menu li a {
   white-space: normal;
   font-size: 14px;
   text-transform: none;
@@ -727,75 +740,95 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   margin: 0;
 }
 .common_reports_container .download_report a,
-.breadcrumb_campaign_strategy .download_report a {
+.breadcrumb_campaign_strategy .download_report a,
+.smallSreenScrollDiv .download_report a {
   color: #363d49;
 }
 .common_reports_container .download_report .dropdown_ul_text,
-.breadcrumb_campaign_strategy .download_report .dropdown_ul_text {
+.breadcrumb_campaign_strategy .download_report .dropdown_ul_text,
+.smallSreenScrollDiv .download_report .dropdown_ul_text {
   width: 100%;
   height: 100%;
   display: block;
   padding: 9px 15px;
 }
 .common_reports_container .download_report .dropdown_ul,
-.breadcrumb_campaign_strategy .download_report .dropdown_ul {
+.breadcrumb_campaign_strategy .download_report .dropdown_ul,
+.smallSreenScrollDiv .download_report .dropdown_ul {
   width: 100%;
 }
 .common_reports_container .download_report .dropdown_ul_perf,
-.breadcrumb_campaign_strategy .download_report .dropdown_ul_perf {
+.breadcrumb_campaign_strategy .download_report .dropdown_ul_perf,
+.smallSreenScrollDiv .download_report .dropdown_ul_perf {
   width: 100%;
 }
 .common_reports_container .download_report .dropdown_ul_perf li a,
-.breadcrumb_campaign_strategy .download_report .dropdown_ul_perf li a {
+.breadcrumb_campaign_strategy .download_report .dropdown_ul_perf li a,
+.smallSreenScrollDiv .download_report .dropdown_ul_perf li a {
   background: transparent !important;
 }
 .common_reports_container .download_report .dropdown_ul_inv,
-.breadcrumb_campaign_strategy .download_report .dropdown_ul_inv {
+.breadcrumb_campaign_strategy .download_report .dropdown_ul_inv,
+.smallSreenScrollDiv .download_report .dropdown_ul_inv {
   width: 100%;
 }
 .common_reports_container .download_report:hover,
-.breadcrumb_campaign_strategy .download_report:hover {
+.breadcrumb_campaign_strategy .download_report:hover,
+.smallSreenScrollDiv .download_report:hover {
   background-color: #e1edf9;
   border: 1px solid #bfc9d7;
 }
 .common_reports_container .download_anchor,
-.breadcrumb_campaign_strategy .download_anchor {
+.breadcrumb_campaign_strategy .download_anchor,
+.smallSreenScrollDiv .download_anchor {
   float: left;
   text-decoration: none;
   margin: 0 10px;
 }
 .common_reports_container .icon-download,
-.breadcrumb_campaign_strategy .icon-download {
+.breadcrumb_campaign_strategy .icon-download,
+.smallSreenScrollDiv .icon-download {
   float: left;
   font-size: 14px;
 }
-.common_reports_container .icon-arrow-down-thick,
-.breadcrumb_campaign_strategy .icon-arrow-down-thick {
+.common_reports_container .icon-arrow-solid-down,
+.breadcrumb_campaign_strategy .icon-arrow-solid-down,
+.smallSreenScrollDiv .icon-arrow-solid-down {
   float: left;
-  color: #000;
-  font-size: 9px;
-  height: 9px;
-  width: 9px;
+  color: #939EAE;
+  font-size: 10px;
+  height: 10px;
+  width: 10px;
   margin-top: 1px;
 }
 .common_reports_container .download_anchor_li_disabled a,
-.breadcrumb_campaign_strategy .download_anchor_li_disabled a {
+.breadcrumb_campaign_strategy .download_anchor_li_disabled a,
+.smallSreenScrollDiv .download_anchor_li_disabled a {
   color: #ccc !important;
 }
 .common_reports_container .download_anchor_li_disabled:hover,
-.breadcrumb_campaign_strategy .download_anchor_li_disabled:hover {
+.breadcrumb_campaign_strategy .download_anchor_li_disabled:hover,
+.smallSreenScrollDiv .download_anchor_li_disabled:hover {
   background: #fff !important;
 }
 .common_reports_container .dropdown_type1,
-.breadcrumb_campaign_strategy .dropdown_type1 {
+.breadcrumb_campaign_strategy .dropdown_type1,
+.smallSreenScrollDiv .dropdown_type1 {
   color: #313233;
 }
+.common_reports_container .dropdown_type1 #campaigns_list,
+.breadcrumb_campaign_strategy .dropdown_type1 #campaigns_list,
+.smallSreenScrollDiv .dropdown_type1 #campaigns_list {
+  top: -20px;
+}
 .common_reports_container .dropdown_type1 .dropdown-menu,
-.breadcrumb_campaign_strategy .dropdown_type1 .dropdown-menu {
+.breadcrumb_campaign_strategy .dropdown_type1 .dropdown-menu,
+.smallSreenScrollDiv .dropdown_type1 .dropdown-menu {
   width: 660px ;
 }
 .common_reports_container .dropdown_type1 .campaign_name_length,
-.breadcrumb_campaign_strategy .dropdown_type1 .campaign_name_length {
+.breadcrumb_campaign_strategy .dropdown_type1 .campaign_name_length,
+.smallSreenScrollDiv .dropdown_type1 .campaign_name_length {
   display: block;
   max-width: 660px;
   overflow: hidden;
@@ -808,7 +841,8 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   display: none;
 }
 .common_reports_container .dropdown_type1 .dropdown_ul_text .dd_txt,
-.breadcrumb_campaign_strategy .dropdown_type1 .dropdown_ul_text .dd_txt {
+.breadcrumb_campaign_strategy .dropdown_type1 .dropdown_ul_text .dd_txt,
+.smallSreenScrollDiv .dropdown_type1 .dropdown_ul_text .dd_txt {
   max-width: 660px;
   overflow: hidden;
   display: inline-block;
@@ -818,18 +852,21 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   float: left;
 }
 .common_reports_container .dropdown_type1 .dropdown_ul_text input#campaignDropdown,
-.breadcrumb_campaign_strategy .dropdown_type1 .dropdown_ul_text input#campaignDropdown {
+.breadcrumb_campaign_strategy .dropdown_type1 .dropdown_ul_text input#campaignDropdown,
+.smallSreenScrollDiv .dropdown_type1 .dropdown_ul_text input#campaignDropdown {
   border: 0;
 }
 .common_reports_container .dropdown_type2,
-.breadcrumb_campaign_strategy .dropdown_type2 {
+.breadcrumb_campaign_strategy .dropdown_type2,
+.smallSreenScrollDiv .dropdown_type2 {
   color: #313233;
   /*margin-top: 15px;*/
   max-width: 100%;
   word-wrap: break-word;
 }
 .common_reports_container .dropdown_type2 #strategy_dropdown,
-.breadcrumb_campaign_strategy .dropdown_type2 #strategy_dropdown {
+.breadcrumb_campaign_strategy .dropdown_type2 #strategy_dropdown,
+.smallSreenScrollDiv .dropdown_type2 #strategy_dropdown {
   max-width: 150px;
   overflow: hidden;
   display: inline-block;
@@ -837,17 +874,21 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   text-overflow: ellipsis;
 }
 .common_reports_container #strategies_list,
-.breadcrumb_campaign_strategy #strategies_list {
+.breadcrumb_campaign_strategy #strategies_list,
+.smallSreenScrollDiv #strategies_list {
   width: 450px;
   max-height: 200px;
   overflow: auto;
+  margin-top: 23px;
 }
 .common_reports_container .performance_selection,
-.breadcrumb_campaign_strategy .performance_selection {
+.breadcrumb_campaign_strategy .performance_selection,
+.smallSreenScrollDiv .performance_selection {
   cursor: pointer;
 }
 .common_reports_container .performance_selection .performance_symbol,
-.breadcrumb_campaign_strategy .performance_selection .performance_symbol {
+.breadcrumb_campaign_strategy .performance_selection .performance_symbol,
+.smallSreenScrollDiv .performance_selection .performance_symbol {
   display: inline-block;
   background: url("/images/cdesk/sprites.png") no-repeat -250px -222px;
   height: 30px;
@@ -856,11 +897,13 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   margin: 0px 10px 0px 0px;
 }
 .common_reports_container .performance_selection .top_perf_symbol,
-.breadcrumb_campaign_strategy .performance_selection .top_perf_symbol {
+.breadcrumb_campaign_strategy .performance_selection .top_perf_symbol,
+.smallSreenScrollDiv .performance_selection .top_perf_symbol {
   background: url("/images/cdesk/sprites.png") no-repeat -250px -148px;
 }
 .common_reports_container .performance_selection .performance_text,
-.breadcrumb_campaign_strategy .performance_selection .performance_text {
+.breadcrumb_campaign_strategy .performance_selection .performance_text,
+.smallSreenScrollDiv .performance_selection .performance_text {
   float: left;
   margin-top: 5px;
   color: #21252b ;
@@ -868,7 +911,8 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   font-weight: 500 ;
 }
 .common_reports_container .inventory_strategy_chart,
-.breadcrumb_campaign_strategy .inventory_strategy_chart {
+.breadcrumb_campaign_strategy .inventory_strategy_chart,
+.smallSreenScrollDiv .inventory_strategy_chart {
   background: #fff;
   border: solid 1px #ccd9e3;
   min-height: 200px;
@@ -876,7 +920,8 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   position: relative;
 }
 .common_reports_container .inventory_strategy_chart .no-chart,
-.breadcrumb_campaign_strategy .inventory_strategy_chart .no-chart {
+.breadcrumb_campaign_strategy .inventory_strategy_chart .no-chart,
+.smallSreenScrollDiv .inventory_strategy_chart .no-chart {
   margin: 120px auto 0;
   display: block;
   text-align: center;
@@ -886,7 +931,8 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   width: 100%;
 }
 .common_reports_container .inventory_strategy_chart .no-chart-data,
-.breadcrumb_campaign_strategy .inventory_strategy_chart .no-chart-data {
+.breadcrumb_campaign_strategy .inventory_strategy_chart .no-chart-data,
+.smallSreenScrollDiv .inventory_strategy_chart .no-chart-data {
   margin: 37px 10px 0;
   display: block;
   text-align: center;
@@ -895,26 +941,31 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   left: 0;
 }
 .common_reports_container .inventory_strategy_chart .inventory_chart,
-.breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_chart {
+.breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_chart,
+.smallSreenScrollDiv .inventory_strategy_chart .inventory_chart {
   height: 240px;
   width: 450px ;
 }
 .common_reports_container .inventory_strategy_chart .inventory_chart .highcharts_kpi_titles,
-.breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_chart .highcharts_kpi_titles {
+.breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_chart .highcharts_kpi_titles,
+.smallSreenScrollDiv .inventory_strategy_chart .inventory_chart .highcharts_kpi_titles {
   margin-left: 56px;
   color: #666;
 }
 .common_reports_container .inventory_strategy_chart .inventory_each_chart_details,
-.breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details {
+.breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details,
+.smallSreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details {
   margin-bottom: 10px;
 }
 .common_reports_container .inventory_strategy_chart .inventory_each_chart_details span,
-.breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details span {
+.breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details span,
+.smallSreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details span {
   display: inline-block;
   float: left;
 }
 .common_reports_container .inventory_strategy_chart .inventory_each_chart_details span.row_index,
-.breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details span.row_index {
+.breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details span.row_index,
+.smallSreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details span.row_index {
   color: #57606d;
   font-size: 13px;
   margin-top: 1px;
@@ -922,13 +973,16 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .inventory_strategy_chart .inventory_each_chart_details .cpa_data,
 .breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details .cpa_data,
+.smallSreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details .cpa_data,
 .common_reports_container .inventory_strategy_chart .inventory_each_chart_details .imps_del_data,
-.breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details .imps_del_data {
+.breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details .imps_del_data,
+.smallSreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details .imps_del_data {
   color: #57606d;
   font-size: 14px;
 }
 .common_reports_container .inventory_strategy_chart .inventory_each_chart_details .url_val,
-.breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details .url_val {
+.breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details .url_val,
+.smallSreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details .url_val {
   padding: 0px 10px;
   margin: 0px 0px 0px 10px;
   width: 260px;
@@ -939,66 +993,84 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   font-size: 14px;
 }
 .common_reports_container .inventory_strategy_chart.no_data_found,
-.breadcrumb_campaign_strategy .inventory_strategy_chart.no_data_found {
+.breadcrumb_campaign_strategy .inventory_strategy_chart.no_data_found,
+.smallSreenScrollDiv .inventory_strategy_chart.no_data_found {
   padding-top: 150px ;
   min-height: 280px;
   margin-top: 0px ;
 }
 .common_reports_container .inventory_charts_details_holder .chart_inventory_header,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header,
+.smallSreenScrollDiv .inventory_charts_details_holder .chart_inventory_header,
 .common_reports_container .reports_chart_details_holder .chart_inventory_header,
-.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header {
+.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header,
+.smallSreenScrollDiv .reports_chart_details_holder .chart_inventory_header {
   margin-top: 21px;
   margin-right: 20px;
 }
 .common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list,
+.smallSreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list,
 .common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list,
-.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list {
+.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list,
+.smallSreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list {
   width: 530px ;
 }
 .common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
+.smallSreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
 .common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
-.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col {
+.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
+.smallSreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col {
   width: 122px ;
 }
 .common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text,
+.smallSreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text,
 .common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text,
-.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text {
+.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text,
+.smallSreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text {
   padding-right: 0 ;
   padding-left: 0 ;
 }
 .common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
+.smallSreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
 .common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
-.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img {
+.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
+.smallSreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img {
   margin: 4px 0 0 8px ;
 }
 .common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span,
+.smallSreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span,
 .common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span,
-.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span {
+.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span,
+.smallSreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span {
   margin-top: 2px ;
 }
 .common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col,
+.smallSreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col,
 .common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col,
-.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col {
+.breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col,
+.smallSreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col {
   margin-top: 2px ;
 }
 .common_reports_container .inventory_charts_details_holder .dropdown-menu,
-.breadcrumb_campaign_strategy .inventory_charts_details_holder .dropdown-menu {
+.breadcrumb_campaign_strategy .inventory_charts_details_holder .dropdown-menu,
+.smallSreenScrollDiv .inventory_charts_details_holder .dropdown-menu {
   height: 162px;
   width: 112px;
 }
 .common_reports_container .inventory_container .load-more,
-.breadcrumb_campaign_strategy .inventory_container .load-more {
+.breadcrumb_campaign_strategy .inventory_container .load-more,
+.smallSreenScrollDiv .inventory_container .load-more {
   margin: 20px auto ;
 }
 .common_reports_container .inventory_chart_details_list,
-.breadcrumb_campaign_strategy .inventory_chart_details_list {
+.breadcrumb_campaign_strategy .inventory_chart_details_list,
+.smallSreenScrollDiv .inventory_chart_details_list {
   width: 520px;
   float: right;
   color: #21252b ;
@@ -1006,39 +1078,46 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   font-weight: 500 ;
 }
 .common_reports_container .inventory_chart_details_list_holder,
-.breadcrumb_campaign_strategy .inventory_chart_details_list_holder {
+.breadcrumb_campaign_strategy .inventory_chart_details_list_holder,
+.smallSreenScrollDiv .inventory_chart_details_list_holder {
   width: 520px ;
   margin-top: 20px;
 }
 .common_reports_container .cpa_col,
-.breadcrumb_campaign_strategy .cpa_col {
+.breadcrumb_campaign_strategy .cpa_col,
+.smallSreenScrollDiv .cpa_col {
   width: 120px;
   text-align: right;
 }
 .common_reports_container .cpa_col .dropdown-menu,
-.breadcrumb_campaign_strategy .cpa_col .dropdown-menu {
+.breadcrumb_campaign_strategy .cpa_col .dropdown-menu,
+.smallSreenScrollDiv .cpa_col .dropdown-menu {
   min-width: 110px;
   left: 20px;
   text-align: left;
 }
 .common_reports_container .cpa_col .dropdown-menu li,
-.breadcrumb_campaign_strategy .cpa_col .dropdown-menu li {
+.breadcrumb_campaign_strategy .cpa_col .dropdown-menu li,
+.smallSreenScrollDiv .cpa_col .dropdown-menu li {
   padding-left: 10px;
 }
 .common_reports_container .data_not_found .span,
-.breadcrumb_campaign_strategy .data_not_found .span {
+.breadcrumb_campaign_strategy .data_not_found .span,
+.smallSreenScrollDiv .data_not_found .span {
   font-family: "Avenir-bold";
   font-size: 18px;
   color: #313233;
 }
 .common_reports_container .imps_del_col,
-.breadcrumb_campaign_strategy .imps_del_col {
+.breadcrumb_campaign_strategy .imps_del_col,
+.smallSreenScrollDiv .imps_del_col {
   width: 120px;
   text-align: right;
   cursor: default;
 }
 .common_reports_container .each_chart_accordion_holder .chart_accordion_heading,
-.breadcrumb_campaign_strategy .each_chart_accordion_holder .chart_accordion_heading {
+.breadcrumb_campaign_strategy .each_chart_accordion_holder .chart_accordion_heading,
+.smallSreenScrollDiv .each_chart_accordion_holder .chart_accordion_heading {
   background: #f5f9fd;
   height: 70px;
   padding-top: 25px;
@@ -1051,19 +1130,23 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   font-family: "Avenir-bold";
 }
 .common_reports_container .each_chart_accordion_holder .inventory_strategy_chart,
-.breadcrumb_campaign_strategy .each_chart_accordion_holder .inventory_strategy_chart {
+.breadcrumb_campaign_strategy .each_chart_accordion_holder .inventory_strategy_chart,
+.smallSreenScrollDiv .each_chart_accordion_holder .inventory_strategy_chart {
   border-top: 0px;
 }
 .common_reports_container .each_chart_accordion_holder .closed,
-.breadcrumb_campaign_strategy .each_chart_accordion_holder .closed {
+.breadcrumb_campaign_strategy .each_chart_accordion_holder .closed,
+.smallSreenScrollDiv .each_chart_accordion_holder .closed {
   display: none;
 }
 .common_reports_container .each_chart_accordion_holder .open,
-.breadcrumb_campaign_strategy .each_chart_accordion_holder .open {
+.breadcrumb_campaign_strategy .each_chart_accordion_holder .open,
+.smallSreenScrollDiv .each_chart_accordion_holder .open {
   display: block;
 }
 .common_reports_container .inventory_tabs,
-.breadcrumb_campaign_strategy .inventory_tabs {
+.breadcrumb_campaign_strategy .inventory_tabs,
+.smallSreenScrollDiv .inventory_tabs {
   text-transform: uppercase;
   border: solid 1px #ccd9e3;
   border-bottom: 0px;
@@ -1072,7 +1155,8 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   -webkit-border-radius: 5px 5px 0px 0px;
 }
 .common_reports_container .inventory_tabs span,
-.breadcrumb_campaign_strategy .inventory_tabs span {
+.breadcrumb_campaign_strategy .inventory_tabs span,
+.smallSreenScrollDiv .inventory_tabs span {
   display: inline-block;
   border-right: solid 1px #ccd9e3;
   float: left;
@@ -1082,7 +1166,8 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   height: 35px;
 }
 .common_reports_container .inventory_tabs span a,
-.breadcrumb_campaign_strategy .inventory_tabs span a {
+.breadcrumb_campaign_strategy .inventory_tabs span a,
+.smallSreenScrollDiv .inventory_tabs span a {
   color: #57606d;
   font-size: 13px;
   text-decoration: none;
@@ -1095,31 +1180,37 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   z-index: 4 ;
 }
 .common_reports_container .inventory_tabs span:hover a,
-.breadcrumb_campaign_strategy .inventory_tabs span:hover a {
+.breadcrumb_campaign_strategy .inventory_tabs span:hover a,
+.smallSreenScrollDiv .inventory_tabs span:hover a {
   color: #0978c9;
 }
 .common_reports_container .inventory_tabs span.inventory_tab_active,
-.breadcrumb_campaign_strategy .inventory_tabs span.inventory_tab_active {
+.breadcrumb_campaign_strategy .inventory_tabs span.inventory_tab_active,
+.smallSreenScrollDiv .inventory_tabs span.inventory_tab_active {
   border-bottom: 0px;
 }
 .common_reports_container .inventory_tabs span.inventory_tab_active a,
-.breadcrumb_campaign_strategy .inventory_tabs span.inventory_tab_active a {
+.breadcrumb_campaign_strategy .inventory_tabs span.inventory_tab_active a,
+.smallSreenScrollDiv .inventory_tabs span.inventory_tab_active a {
   background: #fff;
   height: 37px;
   color: #0978c9;
 }
 .common_reports_container .inventory_tabs span:last-child,
-.breadcrumb_campaign_strategy .inventory_tabs span:last-child {
+.breadcrumb_campaign_strategy .inventory_tabs span:last-child,
+.smallSreenScrollDiv .inventory_tabs span:last-child {
   border-right: 0px;
 }
 .common_reports_container .inventory_tabs span:last-child a,
-.breadcrumb_campaign_strategy .inventory_tabs span:last-child a {
+.breadcrumb_campaign_strategy .inventory_tabs span:last-child a,
+.smallSreenScrollDiv .inventory_tabs span:last-child a {
   border-radius: 0px 5px 0px 0px;
   -moz-border-radius: 0px 5px 0px 0px;
   -webkit-border-radius: 0px 5px 0px 0px;
 }
 .common_reports_container .inventory_tabs span:first-child a,
-.breadcrumb_campaign_strategy .inventory_tabs span:first-child a {
+.breadcrumb_campaign_strategy .inventory_tabs span:first-child a,
+.smallSreenScrollDiv .inventory_tabs span:first-child a {
   border-radius: 5px 0px 0px 0px;
   -moz-border-radius: 5px 0px 0px 0px;
   -webkit-border-radius: 5px 0px 0px 0px;
@@ -1172,9 +1263,9 @@ div.strategy_total_container div.strategy_total_container_header .discrepancySec
 div.strategy_total_container div.strategy_total_container_header .rowHasSubRow {
   cursor: pointer;
 }
-div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow .icon-arrow-down {
-  font-size: 9px;
-  color: #000;
+div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow .icon-arrow-solid-down {
+  font-size: 10px;
+  color: #939EAE;
   -ms-transform: rotate(-90deg);
   -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
@@ -1182,7 +1273,7 @@ div.strategy_total_container div.strategy_total_container_header .discrepancyTpl
 div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow .platform_logo_img {
   margin-right: 8px ;
 }
-div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow.open .icon-arrow-down {
+div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow.open .icon-arrow-solid-down {
   -ms-transform: rotate(0deg);
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
@@ -1815,6 +1906,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .platform_reports_container .view_mode_switch_container {
   top: 145px ;
+  z-index: 9;
 }
 .viewability_quality .viewability_container {
   margin-top: 22px;
@@ -2294,7 +2386,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 /* margin block end */
 /**************** reports performance table styling ***********/
 .reports_tabs_content_container {
-  margin-top: 22  px ;
+  margin-top: 22px ;
   /*hot fix for the KPI drpdown of platform header so that nothing else will break*/
   /*end of hot fix for the KPI drpdown of platform header so that nothing else will break*/
 }
@@ -3787,6 +3879,16 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .cpa_dropdown .dropdown_ul_text .default-kpi-header-icon {
   float: left;
 }
+#kpi_dropdown .dropdown_ul_text .icon-arrow-solid-down,
+.cpa_dropdown .dropdown_ul_text .icon-arrow-solid-down {
+  font-size: 10px;
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  margin: 1px 0 0 7px;
+  position: static;
+  color: #939EAE;
+}
 .viewability_header .kpi-dd-holder {
   padding-right: 13px;
 }
@@ -3829,6 +3931,15 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #kpi_dropdown .default-kpi-header-icon {
   float: left;
   background-position: left top;
+}
+#kpi_dropdown .default-kpi-header-icon {
+  width: 14px ;
+}
+#kpi_dropdown .dropdown_ul_text {
+  padding-right: 0px ;
+}
+#kpi_dropdown .dropdown_ul_text .icon-arrow-solid-down {
+  margin-left: 3px;
 }
 /*  end of reports login page */
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2) {
@@ -4018,30 +4129,32 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response #dynamicHeader .subTitle {
   display: block;
 }
-.report_generator_and_response .icon-minus,
-.report_generator_and_response .icon-plus {
-  color: #57606d;
-  font-size: 13px;
+.report_generator_and_response .icon-toggleclose,
+.report_generator_and_response .icon-toggleopen {
+  font-size: 24px;
   height: 24px;
-  padding: 6px;
+  padding: 0px;
   top: 0;
   width: 24px;
-  border: 1px solid #C6C9CE;
-  border-radius: 2px;
   float: left;
-  /* margin-right: 10px;
-        margin-left: 18px;
-        margin-top: 17px; */
 }
-.report_generator_and_response .icon-minus:hover,
-.report_generator_and_response .icon-plus:hover {
-  color: #428bca;
-}
-.report_generator_and_response .icon-minus:before,
-.report_generator_and_response .icon-plus:before {
+.report_generator_and_response .icon-toggleclose:before,
+.report_generator_and_response .icon-toggleopen:before {
   top: -1px;
   position: relative;
   left: -1px;
+}
+.report_generator_and_response .icon-toggleclose {
+  color: #bfc9d7;
+}
+.report_generator_and_response .icon-toggleclose:hover {
+  color: #939eae;
+}
+.report_generator_and_response .icon-toggleopen {
+  color: #004d86;
+}
+.report_generator_and_response .icon-toggleopen:hover {
+  color: #0563a9;
 }
 .report_generator_and_response .report_builder_container {
   background: #fff;
@@ -4095,6 +4208,10 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response .report_builder_container input:-moz-placeholder {
   color: #939ead;
   font-size: 14px;
+}
+.report_generator_and_response .report_builder_container .custom_report_filter .common_dropdown .dropdown {
+  min-width: 160px ;
+  max-width: 160px ;
 }
 .report_generator_and_response .report_builder_container .each_section_custom_report {
   margin: 0 auto 20px;
@@ -4382,7 +4499,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin: 6px 0 15px ;
 }
 .report_generator_and_response div.create_scheduled_report .common_dropdown .dropdown {
-  min-width: 140px ;
   margin-right: 0;
 }
 .report_generator_and_response div.create_scheduled_report .input-daterange {
@@ -4516,18 +4632,22 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
-  height: 11px;
+  height: 12px;
   width: 12px;
+  font-size: 12px;
   min-width: 12px;
   max-width: 12px;
   padding-bottom: 2px;
   cursor: pointer;
   position: absolute;
-  top: 0;
+  top: 5px;
   left: 0;
   z-index: 3;
-  margin-top: 3px ;
+  margin-top: 3px;
+  color: #bfc9d7;
+}
+.custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow:hover {
+  color: #939eae;
 }
 .custom_report_response_page .custom_report_response_table .second_dimension_row_holder {
   margin-left: 5px;
@@ -4555,9 +4675,10 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .second_dimension_row_holder .second_dimension_row {
   position: relative;
-  margin-top: 10px;
+  padding-top: 10px;
   color: #5A5A5A ;
   font-family: "Avenir";
+  border-left: dashed 1px #95a1a9;
 }
 .custom_report_response_page .custom_report_response_table .second_dimension_row_holder .second_dimension_row .tree_dimension_col {
   width: 290px;
@@ -4576,7 +4697,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   -webkit-border-radius: 0 0 0 4px ;
   display: inline-block;
   position: absolute;
-  top: 0px;
+  top: 10px;
   left: 0px;
 }
 .custom_report_response_page .custom_report_response_table .second_dimension_row_holder .second_dimension_row .each_col.tree_string:after {
@@ -4585,11 +4706,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   position: absolute;
-  top: 13px;
+  top: 12px;
   right: 0;
   background-color: #939ead;
   width: 5px;
   height: 5px;
+  z-index: 10;
 }
 .custom_report_response_page .custom_report_response_table .second_dimension_row_holder .second_dimension_row:last-of-type {
   background-color: #fff;
@@ -4638,25 +4760,27 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   display: none !important;
 }
 .custom_report_response_page .custom_report_response_table .reportData.active .more_dimension_arrow {
-  background-image: url("/images/cdesk/common_down_arrow.png");
-  margin-top: 0px ;
+  color: #004d86;
+}
+.custom_report_response_page .custom_report_response_table .reportData.active .more_dimension_arrow:hover {
+  color: #0563a9;
 }
 .custom_report_response_page .custom_report_response_table .reportData.active .more_dimension_col {
   /*cursor: pointer;*/
 }
 .custom_report_response_page .custom_report_response_table .reportData.active .more_dimension_col:after {
   content: "";
-  height: 100%;
+  height: 17px;
   width: 1px;
   border-left: dashed 1px #95a1a9;
   position: absolute;
-  top: 0;
+  top: 18px;
   left: 5px;
   z-index: 1;
   margin-bottom: 30px;
 }
 .custom_report_response_page .custom_report_response_table .reportData.noDataOpen .more_dimension_arrow {
-  margin-top: 3px ;
+  opacity: .4;
 }
 .custom_report_response_page .custom_report_response_table .reportData.noDataOpen .more_dimension_col:after {
   display: none ;
@@ -4730,13 +4854,11 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col {
   display: table-cell;
-  width: 150px;
-  min-width: 150px;
-  max-width: 150px;
+  width: 160px;
+  min-width: 160px;
+  max-width: 160px;
   word-wrap: break-word;
-  padding-right: 20px;
-  /*
-      padding-bottom: 15px;*/
+  padding-right: 15px;
   text-align: right;
 }
 .custom_report_response_page .custom_report_response_table .each_col_delivery {
@@ -4915,14 +5037,12 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
   cursor: default;
 }
 .page_top_header {
-  margin: 21px 0 0px;
+  margin: 30px 0 0 0;
   padding: 0 ;
 }
 .page_top_header .page_name {
-  color: #21252b ;
-  padding: 0 ;
-  font-size: 26px ;
-  font-family: "Avenir-bold";
+  margin-top: 0;
+  padding: 0;
 }
 body.custom_report_page {
   background: #edf2f8;
@@ -5042,4 +5162,7 @@ body.custom_report_page .bodyWrap {
 }
 .clickCursor .more_dimension_col {
   cursor: pointer;
+}
+.marginRight {
+  margin-right: 10px ;
 }

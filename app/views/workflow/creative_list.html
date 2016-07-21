@@ -11,7 +11,7 @@
 
 
 		<div class="col-md-12 zeroPadding centerAlign">
-			<h1 class="col-md-12 zeroPadding" style="margin: 17px 0 25px" data-ng-bind="textConstants.CREATIVELIBRARY"></h1>
+			<h1 class="col-md-12 zeroPadding" style="margin-top: 30px;" data-ng-bind="textConstants.CREATIVELIBRARY"></h1>
 		</div>
 
 		<div class="col-md-12 zeroPadding clearfix nav_filters" >
@@ -72,8 +72,8 @@
 					<div class="tr">
 						<div class="col-md-4 th">
 						<input type="checkbox" id="select_all_checkbox" ng-click="selectAllCreative()"/>
-						<!--<span class="icon-arrow-down-thick" ng-click="headerToggle();"></span>-->
-						<span style="margin-left: 25px;" data-ng-bind="textConstants.CREATIVENAME"></span>
+						<!--<span class="icon-arrow-solid-down" ng-click="headerToggle();"></span>-->
+						<span data-ng-bind="textConstants.CREATIVENAME"></span>
 						</div>
 						<div class="col-md-1 th text-center" data-ng-bind="textConstants.CHANNEL"></div>
 						<!--<div class="col-md-1 th text-center" data-ng-bind="textConstants.TYPE"></div>-->
@@ -222,13 +222,15 @@
 	<div class="parentWrap" ng-mouseleave="clearHoverPreview();">
 		<!--Creative Name-->
 		<div class="col-md-4 td">
-			<input type="checkbox" ng-disabled="creativeData.pushedCount>0" ng-checked="creativeData.active" ng-click="selectedCreativeCheckbox(creativeData)"/>
-			<span ng-if="(creativeData.noOfAds > 0)" class="icon-arrow-down-thick" ng-click="toggleCreativeAds(this,creativeData.id, $index,$event)"></span>
-			<span ng-if="(creativeData.noOfAds === 0)" style="width: 25px; height: 30px; float: left;"></span>
+			<span ng-if="(creativeData.noOfAds > 0)" class="icon-toggleclose" ng-click="toggleCreativeAds(this,creativeData.id, $index,$event)"></span>
+
+            <span ng-if="(creativeData.noOfAds === 0)" style="width: 12px; height: 30px; float: left;"></span>
+
+            <input type="checkbox" ng-disabled="creativeData.pushedCount>0" ng-checked="creativeData.active" ng-click="selectedCreativeCheckbox(creativeData)"/>
 			<a href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)" tooltip="{{creativeData.name}}" data-ng-bind="creativeData.name.length>0? (creativeData.name | textEllipsis: 40 ):''"></a>
 
             <div class="pull-right">
-                <div class="dropdown-workflow">
+                <div class="dropdown-workflow" ng-if="creativeData.creativeTemplate.templateType === 'NORMAL'">
                     <div class="dropdown hideOption">
                         <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <span class="icon-more-options"></span>
@@ -295,7 +297,7 @@
 				<span ng-if="(adData.messageType==='WARNING')" class="icon-warning" title="{{adData.message}}"></span>
 				<a ng-click="redirectAdEditPage(adData)" tooltip="{{adData.campaignName}}/{{adData.adName}}">{{adData.campaignName | textEllipsis: 50}} / {{adData.adName | textEllipsis: 50}}</a>
                 <div class="pull-right">
-                    <div class="dropdown-workflow">
+                    <div class="dropdown-workflow" ng-if="adData.creativeTemplate.templateType === 'NORMAL'">
                         <div class="dropdown hideOption">
                             <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 <span class="icon-more-options"></span>

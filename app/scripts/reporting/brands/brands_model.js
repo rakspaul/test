@@ -1,5 +1,5 @@
-define(['angularAMD', 'reporting/brands/brands_service', 'common/services/constants_service', // jshint ignore:line
-    'reporting/subAccount/sub_account_model'], function (angularAMD) {
+define(['angularAMD', 'reporting/brands/brands_service', 'common/services/constants_service',
+    'reporting/subAccount/sub_account_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.factory('brandsModel', function (brandsService, constants, subAccountModel, localStorageService) {
@@ -25,7 +25,7 @@ define(['angularAMD', 'reporting/brands/brands_service', 'common/services/consta
                         .then(function (response) {
                             var resData = response.data.data;
 
-                            //Note: Here search represents, only matching entries list.
+                            // Note: Here search represents, only matching entries list.
                             if (search) {
                                 brands = [];
                                 brands.push(brand.allBrandObject);

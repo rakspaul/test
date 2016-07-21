@@ -2,9 +2,11 @@
  * Created by collective on 07/08/15.
  */
 
-define(['angularAMD', 'common/services/url_service', 'common/services/data_service', // jshint ignore:line
+define(['angularAMD', 'common/services/url_service', 'common/services/data_service',
     'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'common/services/data_store_model'],
     function (angularAMD) {
+        'use strict';
+
         angularAMD.factory('collectiveReportModel', ['urlService', 'dataService', 'advertiserModel', 'brandsModel',
             'dataStore', function (urlService, dataService, advertiserModel, brandsModel,dataStore) {
                 var getReportList = function (callback) {
@@ -27,7 +29,7 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                             var url = urlService.APIDeleteReport(fileId);
 
                             return dataService
-                                .delete(url)
+                                .deleteRequest(url)
                                 .then(function (response) {
                                     callback(response.data);
                                     return response.data;
@@ -38,7 +40,7 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                             var url = urlService.deleteSavedRpt(reportId);
 
                             dataService
-                                .delete(url)
+                                .deleteRequest(url)
                                 .then(function (response){
                                     if (response.status === 'success') {
                                         successFn(response.data);
@@ -88,7 +90,7 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                             var url = urlService.deleteSchdRpt(reportId);
 
                             dataService
-                                .delete(url)
+                                .deleteRequest(url)
                                 .then(function (response){
                                     if (response.status === 'success') {
                                         successFn(response.data);
@@ -102,7 +104,7 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                             var url = urlService.deleteInstanceOfSchdRpt(reportId, instanceId);
 
                             dataService
-                                .delete(url)
+                                .deleteRequest(url)
                                 .then(function (response){
                                     if (response.status === 'success') {
                                         successFn(response.data);
@@ -172,14 +174,14 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                     reportList: getReportList,
                     deleteReport: deleteReport,
                     getScheduleReportList: getScheduleReportList,
-                    deleteScheduledReport:deleteScheduledReport,
+                    deleteScheduledReport: deleteScheduledReport,
                     deleteScheduledReportInstance: deleteScheduledReportInstance,
-                    getSchdRptDetail:getSchdRptDetail,
-                    createSchdReport:createSchdReport,
-                    archiveSchdReport:archiveSchdReport,
-                    getSaveRptDetail:getSaveRptDetail,
-                    deleteSavedReport:deleteSavedReport,
-                    createSavedReport:createSavedReport
+                    getSchdRptDetail: getSchdRptDetail,
+                    createSchdReport: createSchdReport,
+                    archiveSchdReport: archiveSchdReport,
+                    getSaveRptDetail: getSaveRptDetail,
+                    deleteSavedReport: deleteSavedReport,
+                    createSavedReport: createSavedReport
                 };
             }
         ]);

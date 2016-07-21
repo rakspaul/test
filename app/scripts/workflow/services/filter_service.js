@@ -1,4 +1,4 @@
-define(['angularAMD','workflow/services/workflow_service'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD','workflow/services/workflow_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.factory('filterService', function (workflowService) {

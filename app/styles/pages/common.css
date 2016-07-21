@@ -897,9 +897,9 @@
   top: 5px;
   right: -3px;
 }
-.nav_filters .dropdown .dropdown_name_selected .icon-arrow-down {
+.nav_filters .dropdown .dropdown_name_selected .icon-arrow-solid-down {
   font-size: 10px;
-  color: #000;
+  color: #939EAE;
   height: 4px;
   width: 2px;
   line-height: 16px;
@@ -1097,7 +1097,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  background: url("/images/cdesk/common_down_arrow.png") no-repeat right center;
 }
 .nav_filters .campaign_name_selected {
   height: 30px;
@@ -1108,7 +1107,17 @@
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
-  background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px;
+}
+.nav_filters .icon-arrow-solid-down {
+  position: absolute;
+  z-index: 2;
+  top: 2px;
+  right: 0px;
+  cursor: pointer;
+  width: 10px;
+  height: 10px;
+  font-size: 10px;
+  color: #939EAE;
 }
 .nav_filters .brandsDropdownSearch {
   position: relative;
@@ -1161,16 +1170,7 @@
   border-left: solid 8px transparent;
   border-top: 0;
   border-right: solid 8px transparent;
-  opacity: 0;
-  -webkit-animation: fadeIn ease-in 1;
-  -moz-animation: fadeIn ease-in 1;
-  animation: fadeIn ease-in 1;
-  -webkit-animation-fill-mode: forwards;
-  -moz-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  -webkit-animation-duration: .55s;
-  -moz-animation-duration: .55s;
-  animation-duration: .55s;
+  opacity: 1;
 }
 .main_navigation_holder .profile-photo-tab.selected:after {
   content: "";
@@ -1437,8 +1437,12 @@
   height: 30px;
   background: url("/images/loading.gif") no-repeat;
 }
+.posRelative {
+  position: relative;
+}
 .common_dropdown .dropdown {
   min-width: 120px;
+  max-width: 120px;
   border: solid 1px #dde6eb;
   border-radius: 2px;
   -moz-border-radius: 2px;
@@ -1452,6 +1456,14 @@
   padding: 5px 10px;
   display: block;
 }
+.common_dropdown .dropdown .dropdown_ul_text .dd_txt {
+  width: 90%;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  float: left;
+}
 .common_dropdown .dropdown .arrow_img {
   background: url("/images/cdesk/common_down_arrow.png") no-repeat center center;
   height: 18px;
@@ -1459,6 +1471,17 @@
   display: inline-block;
   float: right;
   margin-left: 8px;
+}
+.common_dropdown .dropdown .icon-arrow-solid-down {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  width: 10px;
+  height: 10px;
+  font-size: 10px;
+  color: #939EAE;
 }
 .common_dropdown .dropdown .dropdown-menu {
   padding: 5px 0;
@@ -1661,7 +1684,7 @@ multiselect .dropdown-menu > li > a {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 999999;
+  z-index: 99999999;
   -webkit-overflow-scrolling: touch;
   outline: 0;
   background: rgba(0, 0, 0, 0.8);
@@ -2220,6 +2243,18 @@ tags-input .autocomplete {
   border: 1px solid #BFC9D7;
   text-align: left;
   padding: 7px 10px;
+}
+.marginLeftFive {
+  margin-left: 5px ;
+}
+.dropdown-menu.campaigns_list {
+  padding-top: 0px ;
+}
+.nav_filters .brandsDropdownSearch.loadedDropdownData #brandsDropdownDiv input,
+.nav_filters .brandsDropdownSearch.loadedDropdownData #subAccountDropdownDiv input,
+.nav_filters .brandsDropdownSearch.loadedDropdownData .advertisersList_ul input,
+.nav_filters .loadedDropdownData #campaignsDropdownDiv input {
+  background: url("/images/loading.gif") no-repeat right center !important;
 }
 /*Dropdown which has search input box*/
 .dropdown-menu-with-search {

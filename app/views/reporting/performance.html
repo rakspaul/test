@@ -12,9 +12,9 @@
             <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
         </div> -->
          <div class="clearfix page_top_header">
-            <div class="pull-left col-md-6 page_name">
+            <h1 class="pull-left col-md-6 page_name">
                 Performance Report
-            </div>
+            </h1>
             <div class="pull-right col-md-2 zeroPadding">
                 <download-report></download-report>
             </div>
@@ -311,7 +311,7 @@
                 </div>
             </div>
         </div>
-        <kpi-drop-down selected-obj=selected_filters style="visibility: hidden" > </kpi-drop-down>
+        <kpi-drop-down selected-obj=selectedFilters style="visibility: hidden" > </kpi-drop-down>
     </div>
 </div>
 
@@ -360,16 +360,16 @@
         </div>
     </span>
 
-    <div ng-if="adFormats.videoAds" class="each_col eight_col {{screenData.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-class="{vid_none:adFormats.videoAds == false}">
+    <div ng-if="adFormats.videoAds" class="each_col eight_col {{screenData.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-class="{vid_none:adFormats.videoAds == false}">
 
-        <!--<span >{{selected_filters.kpi_type == 'cpa'? "cpm" : "cpm"}}</span>-->
-        <span ng-if="selected_filters.kpi_type == 'vtc' " style="visibility: hidden">
-        {{selected_filters.kpi_type = "cpm"}}
+        <!--<span >{{selectedFilters.kpi_type == 'cpa'? "cpm" : "cpm"}}</span>-->
+        <span ng-if="selectedFilters.kpi_type == 'vtc' " style="visibility: hidden">
+        {{selectedFilters.kpi_type = "cpm"}}
         </span>
 
 
-        {{screenData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
-        selected_filters.kpi_type}}
+        {{screenData[selectedFilters.kpi_type.toLowerCase()] | appendDollor:
+        selectedFilters.kpi_type}}
     </div>
 </script>
 
@@ -414,9 +414,9 @@
             {{((daysofweekData.cpm >0)|| (daysofweekData.cpm == 0)) ? (daysofweekData.cpm | currency:undefined:3) : '-'}}
         </div>
     </span>
-    <div ng-if="adFormats.videoAds" class="each_col eight_col {{daysofweekData.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-class="{vid_none:adFormats.videoAds == false}">
-        {{daysofweekData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
-        selected_filters2.kpi_type}}
+    <div ng-if="adFormats.videoAds" class="each_col eight_col {{daysofweekData.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-class="{vid_none:adFormats.videoAds == false}">
+        {{daysofweekData[selectedFilters.kpi_type.toLowerCase()] | appendDollor:
+        selectedFilters2.kpi_type}}
     </div>
 </script>
 
@@ -462,9 +462,9 @@
             {{((formatData.cpm >0)|| (formatData.cpm == 0)) ? (formatData.cpm | currency:undefined:3) : '-'}}
         </div>
     </span>
-    <div ng-if="adFormats.videoAds" class="each_col eight_col {{formatData.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-class="{vid_none:adFormats.videoAds == false}">
-        {{formatData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
-        selected_filters2.kpi_type}}
+    <div ng-if="adFormats.videoAds" class="each_col eight_col {{formatData.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-class="{vid_none:adFormats.videoAds == false}">
+        {{formatData[selectedFilters.kpi_type.toLowerCase()] | appendDollor:
+        selectedFilters2.kpi_type}}
     </div>
 </script>
 
@@ -516,9 +516,9 @@
         </div>
     </span>
 
-    <div ng-if="adFormats.videoAds" class="each_col seventh_col last_col {{creativesData.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-class="{vid_none:adFormats.videoAds == false}">
-        {{creativesData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
-        selected_filters2.kpi_type}}
+    <div ng-if="adFormats.videoAds" class="each_col seventh_col last_col {{creativesData.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-class="{vid_none:adFormats.videoAds == false}">
+        {{creativesData[selectedFilters.kpi_type.toLowerCase()] | appendDollor:
+        selectedFilters2.kpi_type}}
     </div>
 </script>
 
@@ -571,9 +571,9 @@
         </div>
     </span>
 
-    <div ng-if="adFormats.videoAds" class="each_col eight_col {{adsizesData.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-class="{vid_none:adFormats.videoAds == false}">
-        {{adsizesData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
-        selected_filters2.kpi_type}}
+    <div ng-if="adFormats.videoAds" class="each_col eight_col {{adsizesData.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-class="{vid_none:adFormats.videoAds == false}">
+        {{adsizesData[selectedFilters.kpi_type.toLowerCase()] | appendDollor:
+        selectedFilters2.kpi_type}}
     </div>
 
 
@@ -586,7 +586,7 @@
 
 
             <strong class="pull-left discrepancyName" ng-class="{rowHasSubRow:vendor.nodes.length > 1}" data-ng-click="discrepancy_click_first_level($index , $event)">
-                <span class="pull-left icon-arrow-down" ng-if="vendor.nodes.length > 1" ></span>
+                <span class="pull-left icon-arrow-solid-down" ng-if="vendor.nodes.length > 1" ></span>
                 <span class="pull-left platform_logo_img" ng-if="vendor.nodes.length == 1">
                     <img ng-src="{{performanceIconUrl(vendor.nodes[0].name)}}" err-src="/images/platform_favicons/platform_logo.png" style="max-width: 10px;">
                 </span>

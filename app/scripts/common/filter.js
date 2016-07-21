@@ -1,5 +1,5 @@
-define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
-    'common/services/role_based_service'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'common/services/role_based_service'],
+    function (angularAMD) {
         angularAMD
             .filter('spliter', function () {
                 return function (input, splitIndex) {
@@ -47,7 +47,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                         } else if (kpiType === 'vtc' && precision) {
                             return $filter('number')(input, 3) + '%';
                         } else {
-                            //unknown kpiType
+                            // unknown kpiType
                             return $filter('number')(input, 0);
                         }
                     } else {
@@ -243,11 +243,11 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                     var _date = new Date(input),
                         formatDate = '';
 
-                    if (moment(_date).diff(moment(), 'days') === 0) { // jshint ignore:line
-                        //today - format 01:29 PM
+                    if (moment(_date).diff(moment(), 'days') === 0) {
+                        // today - format 01:29 PM
                         formatDate = $filter('date')(_date, 'h:mm a');
                     } else {
-                        //in the past - format 05 Oct '14 01:22 PM
+                        // in the past - format 05 Oct '14 01:22 PM
                         formatDate = $filter('date')(_date, 'd MMM yyyy h:mm a');
                     }
 
@@ -261,7 +261,8 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                         icon = input;
 
                     if (!input) {
-                        icon = defaultIcon || assets.platform_icon; // jshint ignore:line
+                        icon = defaultIcon || assets.platform_icon;
+
                         _style = 'background:url("' + icon + '") no-repeat scroll 0 0 rgba(0, 0, 0, 0);' +
                             'width: 17px;' + 'height: 17px;' + 'display: inline-block;' + 'background-size:17px;"';
 
@@ -270,7 +271,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 };
             })
 
-            //Used in _inventory.html file
+            // Used in _inventory.html file
             .filter('formatUrl', function (constants) {
                 return function (url, l) {
                     if (!url) {
@@ -340,7 +341,7 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
 
                     width = parseInt(delivered / total) * 124;
 
-                    //@124 is the css width of the progress bar
+                    // @124 is the css width of the progress bar
                     if (width > 124) {
                         return 124;
                     }
@@ -449,6 +450,12 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
             .filter('reportDateFilter', function ($filter, momentService) {
                 return function (value) {
                     return momentService.reportDateFormat(value);
+                };
+            })
+
+            .filter('formatDate',function($filter,momentService){
+                return function(value,format) {
+                    return momentService.formatDate(value,format);
                 };
             })
 

@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/data_service', 'common/services/url_service', // jshint ignore:line
+define(['angularAMD', 'common/services/data_service', 'common/services/url_service',
     'common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_model'],
     function (angularAMD) {
         'use strict';
@@ -12,13 +12,13 @@ define(['angularAMD', 'common/services/data_service', 'common/services/url_servi
                 $scope.addAdjustmentData.adjustments = [];
             };
 
-            //Validation of the user input
+            // Validation of the user input
             _currCtrl.verifyInputs = function () {
                 var ret = false;
 
                 $scope.errSaveAdjustment = false;
 
-                _.each($scope.addAdjustmentData.adjustments, function (item) { // jshint ignore:line
+                _.each($scope.addAdjustmentData.adjustments, function (item) {
                     if (!ret && (!item.amount || !item.name || !item.transactionType)) {
                         ret = true;
                         $scope.errSaveAdjustment = true;
@@ -35,13 +35,12 @@ define(['angularAMD', 'common/services/data_service', 'common/services/url_servi
             $scope.clientName = loginModel.getSelectedClient().name;
 
             $scope.advertiserName = advertiserModel.getAdvertiser().selectedAdvertiser ?
-                advertiserModel.getAdvertiser().selectedAdvertiser.name :
-                'All Advertiser';
+                advertiserModel.getAdvertiser().selectedAdvertiser.name : 'All Advertiser';
 
             // Enable the credit or debit button base on the API feed
             $scope.enableCrORDrBtn = function () {
-                _.each($scope.addAdjustmentData.adjustments, function (item, i) { // jshint ignore:line
-                    $('.adjustmentCnt').children().eq(i).find('.'+item.transactionType).addClass('btn-primary');
+                _.each($scope.addAdjustmentData.adjustments, function (item, i) {
+                    $('.adjustmentCnt').children().eq(i).find('.' + item.transactionType).addClass('btn-primary');
                 });
             };
 
@@ -49,7 +48,7 @@ define(['angularAMD', 'common/services/data_service', 'common/services/url_servi
                 $scope.enableCrORDrBtn();
             }, 25);
 
-            //Enable the credit or debit button based on user interaction
+            // Enable the credit or debit button based on user interaction
             $scope.enableBtn = function (enable, disable, ev, index) {
                 var tar = $(ev.target);
 
@@ -76,12 +75,12 @@ define(['angularAMD', 'common/services/data_service', 'common/services/url_servi
             $scope.removeAdjustment = function (index) {
                 $scope.errSaveAdjustment = false;
                 $scope.addAdjustmentData.adjustments =
-                    _.filter($scope.addAdjustmentData.adjustments, function (item, i) { // jshint ignore:line
+                    _.filter($scope.addAdjustmentData.adjustments, function (item, i) {
                        return index !== i;
                     });
             };
 
-            //Close the Adjustment popUp
+            // Close the Adjustment popUp
             $scope.close = function () {
                 $scope.errSaveAdjustment = false;
                 _currCtrl.clear();
@@ -93,10 +92,10 @@ define(['angularAMD', 'common/services/data_service', 'common/services/url_servi
                 $scope.errSaveAdjustment = false;
             };
 
-            //Save the Adjustment Data
+            // Save the Adjustment Data
             $scope.saveAdjustment = function () {
                 var data = {
-                    adjustments: angular.copy($scope.addAdjustmentData.adjustments) // jshint ignore:line
+                    adjustments: angular.copy($scope.addAdjustmentData.adjustments)
                 };
 
                 if (_currCtrl.verifyInputs()) {

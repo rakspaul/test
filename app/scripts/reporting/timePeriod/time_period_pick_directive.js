@@ -1,5 +1,6 @@
 define(['angularAMD', 'reporting/timePeriod/time_period_directive'], function (angularAMD) {
     'use strict';
+
     angularAMD.directive('timeperiodDropDownPicker', function () {
         return {
             restrict: 'EAC',

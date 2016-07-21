@@ -1,4 +1,6 @@
-define(['angularAMD'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD'], function (angularAMD) {
+    'use strict';
+
     angularAMD.factory('localStorageService', function () {
         return {
             masterClient: {
@@ -82,6 +84,23 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
                 },
 
                 get: function () {}
+            },
+
+            advertiser: {
+                getDashboard: function() {
+                    return localStorage.getItem('dashboardAdvertiser') &&
+                        JSON.parse(localStorage.getItem('dashboardAdvertiser'));
+                }
+            },
+
+            creativeTag: {
+                set: function(data){
+                    localStorage.setItem('creativeTag', JSON.stringify(data));
+                },
+
+                get: function(){
+                    return JSON.parse(localStorage.getItem('creativeTag'));
+                }
             }
         };
     });

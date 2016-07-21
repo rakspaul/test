@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD', 'common/services/constants_service'], function (angularAMD) {
     angularAMD.service('loginModel', function ($cookieStore, $location, $http, constants) {
         var data = {
                 user_id: undefined,
@@ -133,7 +133,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
                 }
             },
 
-            getAgencyId: function () { // jshint ignore:line
+            getAgencyId: function () {
                 if (data.agency_id) {
                     return data.agency_id;
                 } else if ($cookieStore.get('cdesk_session')) {
@@ -151,7 +151,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
                 }
             },
 
-            getExpirySecs: function () { // jshint ignore:line
+            getExpirySecs: function () {
                 if (data.expiry_secs) {
                     return data.expiry_secs;
                 } else if ($cookieStore.get('cdesk_session')) {
@@ -160,7 +160,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
                 }
             },
 
-            getAuthToken: function () {
+            getauth_token: function () {
                 if ($cookieStore.get('cdesk_session')) {
                     data.auth_token = $cookieStore.get('cdesk_session').auth_token;
                     return $cookieStore.get('cdesk_session').auth_token;
@@ -195,7 +195,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
 
                     $location.url('/login');
 
-                    //remove header bar on login page
+                    // remove header bar on login page
                     $('.main_navigation_holder').hide();
                 }
             },
@@ -207,7 +207,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
                 this.deleteData();
                 $location.url('/login');
 
-                //remove header bar on login page
+                // remove header bar on login page
                 $('.main_navigation_holder').hide();
             },
 
@@ -221,7 +221,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
 
                 $location.url('/login');
 
-                //remove header bar on login page
+                // remove header bar on login page
                 $('.main_navigation_holder').hide();
             },
 

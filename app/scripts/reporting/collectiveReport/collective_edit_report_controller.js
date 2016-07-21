@@ -1,11 +1,10 @@
 /**
  * Created by Sapna kotresh on 06/08/15.
  */
-define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshint ignore:line
-    'common/services/data_service', 'common/services/url_service',
-    'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'common/services/constants_service',
-    'reporting/collectiveReport/collective_report_model', 'common/utils', 'common/services/data_store_model'],
-    function (angularAMD) {
+define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/services/data_service',
+    'common/services/url_service', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
+    'common/services/constants_service', 'reporting/collectiveReport/collective_report_model', 'common/utils',
+    'common/services/data_store_model'], function (angularAMD) {
         'use strict';
 
         angularAMD.controller('CollectiveEditReportController', function ($modal, $scope, $rootScope, $modalInstance,
@@ -15,7 +14,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                                                                          report, reportIndex) {
             $scope.report = report;
             $scope.editScreenBusy = false;
-            $scope.editedObj = angular.copy(report); // jshint ignore:line
+            $scope.editedObj = angular.copy(report);
 
             $scope.close = function () {
                 $modalInstance.dismiss();
@@ -34,42 +33,41 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
             $scope.updateReport = function () {
                 $scope.editScreenBusy = true;
 
-                dataService.post(
-                    urlService.APIEditReport(report.id),
-                    $scope.editedData, {
-                        'Content-Type': 'application/json'
-                    }
-                ).then(function () {
-                    var selectedCampaign,
-                        advertiserId,
-                        brandId,
-                        url;
+                dataService
+                    .post(urlService.APIEditReport(report.id), $scope.editedData, {'Content-Type': 'application/json'})
+                    .then(function () {
+                        var selectedCampaign,
+                            advertiserId,
+                            brandId,
+                            url;
 
-                    $scope.editedObj.reportType = $scope.editedData.reportType;
-                    $scope.editedObj.reportName = $scope.editedData.reportName;
-                    $scope.editedObj.campaignId = $scope.editedData.campaignId;
-                    $scope.editedObj.campaignName = $scope.editedData.campaignName;
-                    $scope.editedObj.notes = $scope.editedData.notes;
-                    $scope.reportList[reportIndex] = $scope.editedObj;
-                    $scope.editScreenBusy = false;
-                    $scope.close();
-                    $rootScope.setErrAlertMessage(constants.reportEditSuccess, 0);
+                        $scope.editedObj.reportType = $scope.editedData.reportType;
+                        $scope.editedObj.reportName = $scope.editedData.reportName;
+                        $scope.editedObj.campaignId = $scope.editedData.campaignId;
+                        $scope.editedObj.campaignName = $scope.editedData.campaignName;
+                        $scope.editedObj.notes = $scope.editedData.notes;
+                        $scope.reportList[reportIndex] = $scope.editedObj;
+                        $scope.editScreenBusy = false;
+                        $scope.close();
+                        $rootScope.setErrAlertMessage(constants.reportEditSuccess, 0);
 
-                    selectedCampaign = JSON.parse(localStorage.getItem('selectedCampaign'));
-                    advertiserId = advertiserModel.getSelectedAdvertiser().id;
-                    brandId = brandsModel.getSelectedBrand().id;
-                    url = urlService.APIReportList(advertiserId, brandId, selectedCampaign ? selectedCampaign.id : -1);
+                        selectedCampaign = JSON.parse(localStorage.getItem('selectedCampaign'));
+                        advertiserId = advertiserModel.getSelectedAdvertiser().id;
+                        brandId = brandsModel.getSelectedBrand().id;
 
-                    if (url) {
-                        dataStore.deleteFromCache(url);
-                    }
+                        url = urlService.APIReportList(advertiserId, brandId, selectedCampaign ?
+                            selectedCampaign.id : -1);
 
-                    $scope.$parent.sort.descending = true;
-                    $scope.$parent.getReports();
-                }, function () {
-                    $scope.editScreenBusy = false;
-                    $rootScope.setErrAlertMessage(constants.reportEditFailed);
-                });
+                        if (url) {
+                            dataStore.deleteFromCache(url);
+                        }
+
+                        $scope.$parent.sort.descending = true;
+                        $scope.$parent.getReports();
+                    }, function () {
+                        $scope.editScreenBusy = false;
+                        $rootScope.setErrAlertMessage(constants.reportEditFailed);
+                    });
             };
 
             $scope.updateReportName = function () {
@@ -79,9 +77,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
             };
 
             $scope.deleteReportModal = function () {
-                var $modalInstance = $modal.open({ // jshint ignore:line
-                    templateUrl: assets.html_delete_collective_report, // jshint ignore:line
-                    controller: 'CollectiveDeleteReportController', // jshint ignore:line
+                $modal.open({
+                    templateUrl: assets.html_delete_collective_report,
+                    controller: 'CollectiveDeleteReportController',
                     scope: $scope,
                     windowClass: 'delete-dialog',
 
@@ -116,7 +114,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                                     if (response.status_code === 200) {
                                         $scope.reportList.splice(reportIndex, 1);
 
-                                        //to avoid listing report getting encached, remove that url from cache.
+                                        // to avoid listing report getting encached, remove that url from cache.
                                         selectedCampaign = JSON.parse(localStorage.getItem('selectedCampaign'));
                                         advertiserId = advertiserModel.getSelectedAdvertiser().id;
                                         brandId = brandsModel.getSelectedBrand().id;
@@ -133,6 +131,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                                         $rootScope.setErrAlertMessage(constants.reportDeleteFailed);
                                     }
                                 });
+
                                 $scope.close();
                             };
                         }

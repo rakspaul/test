@@ -1,7 +1,7 @@
 
 <div class="col-md-12 zeroPadding breadcrumbs">
 	<h5 ng-click="resetAudienceTargetingVariables();" data-ng-bind="textConstants.TARGETING"></h5>
-	<span class="icon-arrow-down"></span>
+	<span class="icon-arrow-solid-down"></span>
 	<h5 style="cursor: default;" data-ng-bind="textConstants.AUDSEGMENTS"></h5>
 
 	<button class="pull-right btn btn-default" type="button" ng-click="saveAdWithAudience()" ng-disabled="selectedAudience.length == 0" data-ng-bind="textConstants.SAVEAUD"></button>
@@ -74,7 +74,7 @@
 								</div>
 								<div class="columnTwo audienceTip col-md-5" >
 									<!--<span data-ng-bind="audience.name" title="{{audience.name}}" tooltip-placement="right" class="toolTipAudienceSegment"></span>-->
-									<span data-ng-bind="audience.name" title="{{audience.name}}" class="toolTipAudienceSegment"></span>
+									<span data-ng-bind="audience.displayName" title="{{audience.displayName}}" class="toolTipAudienceSegment"></span>
 								</div>
 								<div class="columnTwo col-md-3" >
 									<div class="pull-left">$&nbsp;</div>
@@ -97,7 +97,7 @@
 					<div class="selectedItems">
 
                         <div class="segWrap" ng-repeat="aud in selectedAudience">
-                            <span>{{aud.name}}</span><div style="clear:both"></div>
+                            <span>{{aud.displayName}}</span><div style="clear:both"></div>
                             <div class="pull-left">$&nbsp;</div>
                             <div class="pull-left">{{(aud.cpmCost).toFixed(2)}}</div><div style="clear:both"></div>
                             <!--<span>{{aud.estReach}}</span><div style="clear:both"></div>-->
@@ -122,7 +122,7 @@
                             <div class="dropdown" ng-show="!$first">
                                 <button class="btn btn-default dropdown-toggle and-or-txt" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <span class="text" data-ng-bind="andOr"></span>
-                                    <span class="icon-arrow-down"></span>
+                                    <span class="icon-arrow-solid-down"></span>
                                 </button>
                                 <ul class="dropdown-menu and-or-list" aria-labelledby="segConditionOne">
                                     <li ng-click="changeOrAndStatus('Or')"><a data-ng-bind="textConstants.OR"></a></li>
@@ -136,7 +136,7 @@
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <span class="text">{{(aud.isIncluded)?'Is':'Is not'}}</span>
-                                    <span class="icon-arrow-down"></span>
+                                    <span class="icon-arrow-solid-down"></span>
                                 </button>
                                 <ul class="dropdown-menu is-included-list" aria-labelledby="segConditionOne">
                                     <li ng-click="changeIncludeStatus(aud,true)"><a data-ng-bind="textConstants.IS"></a></li>

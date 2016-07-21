@@ -1,11 +1,11 @@
-define(['angularAMD'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD'], function (angularAMD) {
     angularAMD.directive('popupMsg', function ($compile) {
         return {
             restrict : 'E',
             replace : true,
 
             link: function ($scope,element,attr) {
-                element.html($compile(angular.element( // jshint ignore:line
+                element.html($compile(angular.element(
                     '<div class="top_message_box" attr="test" ng-class=' +
                     '"{red_msg:' + attr.ngShow + '.isErrorMsg}" ng-show="' + attr.ngShow + '.message">' +
                     '<span class="msg_box">' +

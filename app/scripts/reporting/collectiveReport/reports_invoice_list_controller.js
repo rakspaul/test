@@ -1,10 +1,9 @@
-define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'common/utils', // jshint ignore:line
-    'login/login_model', 'common/services/constants_service', 'reporting/advertiser/advertiser_model',
-    'reporting/brands/brands_model', 'reporting/models/domain_reports','common/services/data_service',
-    'common/moment_utils', 'common/services/role_based_service', 'common/services/url_service',
-    'common/services/data_store_model', 'common/controllers/confirmation_modal_controller',
-    'reporting/collectiveReport/report_schedule_delete_controller', 'workflow/controllers/ad_clone_controller',
-    'reporting/collectiveReport/reports_invoice_addAdjustment_controller',
+define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'common/utils', 'login/login_model',
+    'common/services/constants_service', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
+    'reporting/models/domain_reports','common/services/data_service', 'common/moment_utils',
+    'common/services/role_based_service', 'common/services/url_service', 'common/services/data_store_model',
+    'common/controllers/confirmation_modal_controller', 'reporting/collectiveReport/report_schedule_delete_controller',
+    'workflow/ad/ad_clone_controller', 'reporting/collectiveReport/reports_invoice_addAdjustment_controller',
     'reporting/collectiveReport/invoice_upload_SOR_controller','workflow/directives/custom_date_picker'],
     function (angularAMD) {
         'use strict';
@@ -35,21 +34,21 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             _currCtrl.resetPagination();
 
             _currCtrl.postProcessMediaPlanData = function () {
-                _.each($scope.mediaPlanList, function (mediaPlan, mp_i) { // jshint ignore:line
+                _.each($scope.mediaPlanList, function (mediaPlan, mp_i) {
                     mediaPlan.invoiceDate = momentService.newMoment(mediaPlan.invoiceDate).format('DD MMM YYYY');
                     $scope['loadMoreInvoice_'+mp_i] = mediaPlan.invoices.length > 3 ? true : false;
 
-                    mediaPlan.invoices = _.filter(mediaPlan.invoices,function (item, in_i) { // jshint ignore:line
+                    mediaPlan.invoices = _.filter(mediaPlan.invoices,function (item, in_i) {
                         return in_i < 3;
                     });
                 });
             };
 
             _currCtrl.preProcessMediaPlanData = function (data) {
-                _.each(data, function (item) { // jshint ignore:line
+                _.each(data, function (item) {
                     item.invoiceDate = momentService.newMoment(item.invoiceDate).format('DD MMM YYYY');
 
-                    _.each(item.invoices, function (invoice) { // jshint ignore:line
+                    _.each(item.invoices, function (invoice) {
                         invoice.invoiceDate = momentService.newMoment(invoice.invoiceDate).format('DD MMM YYYY');
                     });
                 });
@@ -82,11 +81,13 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
             $scope.invoiceReports = {
                 clientId: loginModel.getSelectedClient().id,
+
                 advertiserId: (advertiserModel.getAdvertiser().selectedAdvertiser ?
                     advertiserModel.getAdvertiser().selectedAdvertiser.id : -1),
+
                 brandId: (brandsModel.getSelectedBrand().id),
-                startDate: moment().subtract(365, 'day').format(constants.DATE_US_FORMAT), // jshint ignore:line
-                endDate: moment().format(constants.DATE_US_FORMAT), // jshint ignore:line
+                startDate: moment().subtract(365, 'day').format(constants.DATE_US_FORMAT),
+                endDate: moment().format(constants.DATE_US_FORMAT),
                 page_num: 1
             };
 
@@ -94,7 +95,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
             $scope.loadMoreInvoice = function (mp_i) {
                 $scope.mediaPlanList[mp_i].invoices =
-                    angular.copy(_currCtrl.resMediaPanList[mp_i].invoices); // jshint ignore:line
+                    angular.copy(_currCtrl.resMediaPanList[mp_i].invoices);
 
                 $scope['loadMoreInvoice_'+mp_i] = false;
             };
@@ -119,7 +120,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                 $scope.noDataFound = false;
                                 _currCtrl.preProcessMediaPlanData(responseData);
                                 $scope.mediaPlanList = responseData;
-                                _currCtrl.resMediaPanList = angular.copy(responseData); // jshint ignore:line
+                                _currCtrl.resMediaPanList = angular.copy(responseData);
                                 _currCtrl.postProcessMediaPlanData();
                                 attachScrollToWindow();
                             } else {
@@ -177,7 +178,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 $scope.getInvoiceData(0);
             });
 
-            //Search Hide / Show
+            // Search Hide / Show
             $scope.searchShowInput = function () {
                 var searchInputForm = $('.searchInputForm');
 
@@ -212,22 +213,24 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 }
             };
 
-            $scope.toggleInvocieLists=function (mediaPlan, index) {
-                var sel = $('div[data-row-index='+index+'] .icon-arrow-down-thick');
+            $scope.toggleInvoiceLists = function (mediaPlan, index) {
+                var sel = $('div[data-row-index=' + index + '] .arrowbtn');
 
-                if (sel.hasClass('icon-arrow-down-open')) {
-                    sel.removeClass('icon-arrow-down-open');
-                    $('div[data-row-index='+index+'] .secondDimensionList').hide() ;
+                if (sel.hasClass('icon-toggleopen')) {
+                    sel.removeClass('icon-toggleopen');
+                    sel.addClass('icon-toggleclose') ;
+                    $('div[data-row-index=' + index + '] .secondDimensionList').hide() ;
                     sel.closest('.oneDimensionRow').removeClass('visible') ;
                 } else {
-                    sel.addClass('icon-arrow-down-open') ;
-                    $('div[data-row-index='+index+'] .secondDimensionList').show() ;
+                    sel.addClass('icon-toggleopen') ;
+                    sel.removeClass('icon-toggleclose') ;
+                    $('div[data-row-index=' + index + '] .secondDimensionList').show() ;
                 }
             };
 
             $scope.showAddAdjustmentPopup = function (invoice) {
-                var $modalInstance = $modal.open({ // jshint ignore:line
-                    templateUrl: assets.html_add_credit_popup, // jshint ignore:line
+                $modal.open({
+                    templateUrl: assets.html_add_credit_popup,
                     controller: 'ReportsInvoiceAddAdjustmentController',
                     scope: $scope,
                     windowClass: 'edit-dialog',
@@ -241,14 +244,14 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             };
 
             $scope.showUploadSORPopUp = function (invoice, campaignId) {
-                var $modalInstance = $modal.open({ // jshint ignore:line
-                    templateUrl: assets.html_invocie_upload_SOR, // jshint ignore:line
+                $modal.open({
+                    templateUrl: assets.html_invocie_upload_SOR,
                     controller: 'invoiceUploadSOR',
                     scope: $scope,
                     windowClass: 'edit-dialog uploadSORPopup',
+
                     resolve: {
-                        getMediaPlansForClone: function () {
-                        }
+                        getMediaPlansForClone: function () {}
                     }
                 });
 
@@ -311,7 +314,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     .downloadFile(url)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
-                            saveAs(result.file, result.fileName); // jshint ignore:line
+                            saveAs(result.file, result.fileName);
                             $rootScope.setErrAlertMessage(constants.INVOICE_REPORT_DONWLOAD_SUCCESS, 0);
                         } else {
                             $rootScope.setErrAlertMessage(constants.INVOICE_REPORT_DONWLOAD_ERR);
@@ -328,7 +331,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     .downloadFile(url)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
-                            saveAs(result.file, result.fileName); // jshint ignore:line
+                            saveAs(result.file, result.fileName);
                             $rootScope.setErrAlertMessage(constants.INVOICE_TEMPLATE_DOWNLOAD_SUCCESS, 0);
                         } else {
                             $rootScope.setErrAlertMessage(constants.INVOICE_TEMPLATE_DOWNLOAD_ERR);

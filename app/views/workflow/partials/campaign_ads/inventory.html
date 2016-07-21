@@ -117,7 +117,7 @@
                     </div>
                     <button class="btn btn-default pull-right"
                             ng-click="workflowData.assignCurrentInventory(inventory)"
-                            ngf-select="selectFiles($files, 'INVENTORY_UPDATE')"
+                            ngf-select="selectFiles($files, 'INVENTORY_UPDATE', inventory.inventoryType)"
                             ngf-accept="'.csv,.txt'"
                             ngf-multiple="false"
                             ngf-allow-dir="false"
@@ -289,8 +289,7 @@
                                    name="{{inventoryData.name}}"
                                    ng-checked="inventoryData.checked ? true : false"
                                    ng-click="workflowData.inventoryStateChanged($event, inventoryData);"/>
-
-                            <span ng-bind="inventoryData.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist'"></span>
+                            <span ng-bind="inventoryData.inventoryType | toTitleCase"></span>
                             <span class="titleList" ng-bind="inventoryData.name"></span>
                         </li>
                     </ul>
@@ -305,7 +304,7 @@
                     <ul class="col-md-12 zeroPadding" style="max-height: 328px; overflow: auto;">
                         <li ng-repeat="selectedList in workflowData.selectedLists | orderBy: name"
                             class="selected">
-                            <span ng-bind="selectedList.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist'"></span>
+                            <span ng-bind="selectedList.inventoryType | toTitleCase"></span>
                             <span class="titleList" ng-bind="selectedList.name"></span>
                             <span class="icon-close"
                                   ng-click="workflowData.removeInventory(selectedList)"
@@ -335,7 +334,7 @@
     <a href
        data-toggle="tab"
        class="btn btn-default"
-       ng-click="trigerCreativeTag()"
+       ng-click="triggerCreativeTag()"
        data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE">
     </a>
 </span>

@@ -1,16 +1,16 @@
 /**
  * Created by Sapna kotresh on 06/08/15.
  */
-define(['angularAMD', 'reporting/collectiveReport/collective_report_model', // jshint ignore:line
+define(['angularAMD', 'reporting/collectiveReport/collective_report_model',
     'reporting/brands/brands_model', 'common/services/data_service', 'common/services/url_service',
     'reporting/campaignSelect/campaign_select_model', 'common/services/constants_service',
     'common/services/data_store_model', 'common/utils', 'reporting/advertiser/advertiser_model',
     'reporting/models/domain_reports', 'reporting/campaignSelect/campaign_select_directive',
     'reporting/collectiveReport/collective_delete_report_controller',
-    'reporting/collectiveReport/collective_edit_report_controller'], function(angularAMD) {
+    'reporting/collectiveReport/collective_edit_report_controller'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CollectiveReportListingController', function($filter, $scope, $rootScope, $modal,
+    angularAMD.controller('CollectiveReportListingController', function ($filter, $scope, $rootScope, $modal,
                                                                         collectiveReportModel, brandsModel, dataService,
                                                                         urlService, campaignSelectModel, constants,
                                                                         dataStore, utils, advertiserModel,
@@ -33,10 +33,10 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', // j
 
         $scope.screenBusy = false;
 
-        $scope.getReports = function() {
+        $scope.getReports = function () {
             $scope.screenBusy = true;
 
-            collectiveReportModel.reportList(function(response) {
+            collectiveReportModel.reportList(function (response) {
                 if (response.data !== undefined && response.data.length > 0) {
                     $scope.reportList = response.data;
                     $scope.sortReport($scope.sort.column);
@@ -46,13 +46,13 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', // j
                     $scope.nodata = 'Data not found';
                     $scope.screenBusy = false;
                 }
-            }, function() {
+            }, function () {
                 $scope.screenBusy = false;
             });
         };
 
-        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function() {
-            //update the selected Campaign
+        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function () {
+            // update the selected Campaign
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
 
             $scope.nodata = '';
@@ -60,44 +60,44 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', // j
             $scope.getReports();
         });
 
-        //Edit report Pop up
-        $scope.editReportModal = function(index) {
-            var $modalInstance = $modal.open({ // jshint ignore:line
-                templateUrl: assets.html_edit_collective_report, // jshint ignore:line
+        // Edit report Pop up
+        $scope.editReportModal = function (index) {
+            $modal.open({
+                templateUrl: assets.html_edit_collective_report,
                 controller: 'CollectiveEditReportController',
                 scope: $scope,
                 windowClass: 'edit-dialog',
 
                 resolve: {
-                    report: function() {
+                    report: function () {
                         return $scope.reportList[index];
                     },
 
-                    reportIndex: function() {
+                    reportIndex: function () {
                         return index;
                     },
 
-                    reportList: function() {
+                    reportList: function () {
                         return $scope.reportList;
                     }
                 }
             });
         };
 
-        //Delete report Pop up
-        $scope.deleteReportModal = function(index, reportId) {
-            var $modalInstance = $modal.open({ // jshint ignore:line
-                templateUrl: assets.html_delete_collective_report, // jshint ignore:line
+        // Delete report Pop up
+        $scope.deleteReportModal = function (index, reportId) {
+            $modal.open({
+                templateUrl: assets.html_delete_collective_report,
                 controller: 'CollectiveDeleteReportController',
                 scope: $scope,
                 windowClass: 'delete-dialog',
 
                 resolve: {
-                    headerMsg: function() {
+                    headerMsg: function () {
                         return constants.deleteReportHeader;
                     },
 
-                    mainMsg: function() {
+                    mainMsg: function () {
                         if ($scope.reportList[index].reportName) {
                             return 'Are you sure you want to delete \'<span class="bold-font">' +
                                 $scope.reportList[index].reportType +
@@ -112,9 +112,9 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', // j
                         }
                     },
 
-                    deleteAction: function() {
-                        return function() {
-                            collectiveReportModel.deleteReport(reportId, function(response) {
+                    deleteAction: function () {
+                        return function () {
+                            collectiveReportModel.deleteReport(reportId, function (response) {
                                 var selectedCampaign,
                                     advertiserId,
                                     brandId,
@@ -144,16 +144,16 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', // j
             });
         };
 
-        $scope.downloadCollectiveReport = function(reportId) {
+        $scope.downloadCollectiveReport = function (reportId) {
             if (reportId) {
                 $scope.screenBusy = true;
 
                 dataService
                     .downloadFile(urlService.APIDownloadReport(reportId))
-                    .then(function(response) {
+                    .then(function (response) {
                         if (response.status === 'success') {
                             $scope.screenBusy = false;
-                            saveAs(response.file, response.fileName); // jshint ignore:line
+                            saveAs(response.file, response.fileName);
 
                             if (browserInfo.browserName !== 'Firefox') {
                                 $rootScope.setErrAlertMessage(constants.reportDownloadSuccess, 0);
@@ -162,10 +162,10 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', // j
                             $scope.screenBusy = false;
                             $rootScope.setErrAlertMessage(constants.reportDownloadFailed);
                         }
-                    }, function() {
+                    }, function () {
                         $scope.screenBusy = false;
                         $rootScope.setErrAlertMessage(constants.reportDownloadFailed);
-                    }, function() {
+                    }, function () {
                         $scope.screenBusy = false;
                         $rootScope.setErrAlertMessage(constants.reportDownloadFailed);
                     });
@@ -175,9 +175,9 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', // j
             }
         };
 
-        $scope.deleteReport = function($index, reportId) {
+        $scope.deleteReport = function ($index, reportId) {
             if (confirm('Are you sure you want to delete this?')) {
-                collectiveReportModel.deleteReport(reportId, function(response) {
+                collectiveReportModel.deleteReport(reportId, function (response) {
                     if (response.status_code === 200) {
                         $scope.reportList.splice($index, 1);
                         $rootScope.setErrAlertMessage(constants.reportDeleteSuccess, 0);
@@ -188,7 +188,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', // j
             }
         };
 
-        $scope.sortReport = function(column) {
+        $scope.sortReport = function (column) {
             $scope.sort.column = column;
             $scope.reportList = $filter('orderBy')($scope.reportList, column, $scope.sort.descending);
             $scope.sort.descending = !$scope.sort.descending;

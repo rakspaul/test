@@ -1,14 +1,23 @@
 var angObj = angObj || {};
 
-define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service', // jshint ignore:line
+define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service',
     'common/moment_utils', 'login/login_model', 'common/utils',
     'common/controllers/accounts/accounts_add_or_edit_advertiser_controller',
     'common/controllers/accounts/accounts_add_or_edit_brand_controller',
     'common/controllers/accounts/accounts_add_or_edit_controller', 'workflow/directives/custom_date_picker'],
     function (angularAMD) {
+        'use strict';
+
         angularAMD.controller('AccountsController', function ($scope, $rootScope, $modal, $compile, $sce, constants,
-                                                              accountsService, momentService, loginModel, utils) {
+                                                              accountsService, momentService, loginModel) {
             var _currCtrl = this;
+
+            _currCtrl.pixelTypeCode = {
+                RETARGETING: 'rt',
+                AUDIENCE_CREATION: 'll',
+                PAGE_VIEW: 'cv'
+            };
+
             _currCtrl.verifyPixelInput = function () {
                 var ret = true,
                     errMsg = 'Error',
@@ -80,10 +89,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 pixelDate: momentService.todayDate('YYYY-MM-DD')
             };
 
-            $scope.leavefocusPixelName = function(name){
-                $scope.pixelFormData.pixelCode = (name.replace(utils.regExp().removeSpecialCharacterAndSpaces, '')).substring(0,24);
-            };
-
             function getPixelsData(clientId, advId) {
                 accountsService
                     .getPixelsUnderAdvertiser(clientId, advId)
@@ -91,7 +96,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                         if (res.data.status === 'OK' || res.data.status === 'success') {
                             $scope.advertiserData.pixels = res.data.data;
 
-                            _.each($scope.advertiserData.pixels, function (item, i) { // jshint ignore:line
+                            _.each($scope.advertiserData.pixels, function (item, i) {
                                 $scope.advertiserData.pixels[i].pixelTypeName =
                                     (item.pixelType === 'PAGE_VIEW') ? 'Action - Page View' :
                                         (item.pixelType === 'AUDIENCE_CREATION') ?
@@ -124,7 +129,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 name: '',
                 pixelType: '',
                 expiryDate: '',
-                pixelCode: '',
                 description: '',
                 pixelTypeName: 'Select Pixel Type'
             };
@@ -148,7 +152,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.allBrands = [];
             $scope.currency = [];
 
-            //this is the advertiser selected from dropdown during new advertiser creation
+            // this is the advertiser selected from dropdown during new advertiser creation
             $scope.selectedAdvertiserId = '';
 
             $scope.selectedBrandId = '';
@@ -202,13 +206,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                             'name',
                             'pixelType',
                             'expiryDate',
-                            'pixelCode',
                             'description',
                             'impLookbackWindow',
                             'clickLookbackWindow'
                         ];
 
-                        _.each(keyArr,function (v) { // jshint ignore:line
+                        _.each(keyArr,function (v) {
                             $scope.advertiserData.pixels[$scope.pixelIndex][v] =  $scope.pixelFormData[v];
                         });
                     } else {
@@ -222,7 +225,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
             $scope.removePixel = function () {
                 $scope.advertiserData.pixels =
-                    _.filter($scope.advertiserData.pixels,function (item, i) { // jshint ignore:line
+                    _.filter($scope.advertiserData.pixels,function (item, i) {
                         return i !== $scope.pixelIndex;
                     });
 
@@ -230,10 +233,18 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             };
 
             $scope.editPixel = function (index, pixel) {
+                $scope.pixelFormData.segmentName = '';
                 $('.pixelCreate').slideDown();
                 $('#pixelExpDate').datepicker('setStartDate', momentService.getCurrentYear().toString());
                 $scope.pixelIndex = index;
                 $scope.pixelFormData = JSON.parse(JSON.stringify(pixel));
+
+                if($scope.pixelFormData.pixelCode) {
+                    $scope.pixelFormData.segmentName =
+                        'visto-' + _currCtrl.pixelTypeCode[$scope.pixelFormData.pixelType] + '-' +
+                        $scope.selectedClientCode + '-' + $scope.setSelectedAdvertiserCode + '-' +
+                        $scope.pixelFormData.pixelCode;
+                }
             };
 
             $scope.clearPixel = function () {
@@ -244,7 +255,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     pixelType: '',
                     expiryDate: '',
                     description: '',
-                    pixelCode: '',
                     pixelTypeName: 'Select Pixel Type',
                     impLookbackWindow: '',
                     clickLookbackWindow: ''
@@ -393,7 +403,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                             $('#client_' + clientId + '_adv').slideDown();
                         }, 25);
 
-                        index = _.findIndex($scope.clientsDetails, function (item) { // jshint ignore:line
+                        index = _.findIndex($scope.clientsDetails, function (item) {
                             return item.id === clientId;
                         });
 
@@ -427,9 +437,10 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 }
             };
 
-            //Add or Edit Pop up for Advertiser
+            // Add or Edit Pop up for Advertiser
             $scope.AddOrEditAdvertiserModal = function (advObj, mode, client) {
-                var loadTemplate = false;
+                var loadTemplate = false,
+                    int;
 
                 $scope.mode = mode;
                 $scope.client = client;
@@ -496,7 +507,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                         loadTemplate = true;
                     });
 
-                var int = setInterval(function () {
+                int = setInterval(function () {
                     var $modalInstance;
 
                     ($scope.isEditMode && !$scope.savedAdvertiserData && (loadTemplate = false));
@@ -505,19 +516,18 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                         clearInterval(int);
 
                         $modalInstance = $modal.open({
-                            templateUrl: assets.html_accounts_add_or_edit_advertiser, // jshint ignore:line
+                            templateUrl: assets.html_accounts_add_or_edit_advertiser,
                             controller: 'AccountsAddOrEditAdvertiser',
                             scope: $scope,
                             windowClass: 'edit-dialog modalAccountRedx',
                             backdrop: 'static',
-                            resolve: {
-                            }
+                            resolve: {}
                         });
                     }
                 }, 25);
             };
 
-            //Add or Edit Pop up for Brand
+            // Add or Edit Pop up for Brand
             $scope.AddOrEditBrandModal = function (advObj, mode, client, brand) {
                 var modalInstance;
 
@@ -538,12 +548,11 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     });
 
                 modalInstance = $modal.open({
-                    templateUrl: assets.html_accounts_add_or_edit_brand, // jshint ignore:line
+                    templateUrl: assets.html_accounts_add_or_edit_brand,
                     controller: 'AccountsAddOrEditBrand',
                     scope: $scope,
                     windowClass: 'edit-dialog modalAccountRedx',
-                    resolve: {
-                    }
+                    resolve: {}
                 });
             };
 
@@ -571,13 +580,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     name: '',
                     pixelType: '',
                     expiryDate: '',
-                    pixelCode: '',
                     description: '',
                     pixelTypeName: 'Select Pixel Type'
                 };
             };
 
-            //Add or Edit Pop up for Account
+            // Add or Edit Pop up for Account
             $scope.AddOrEditAccountModal = function (mode, clientObj) {
                 var $modalInstance;
 
@@ -596,7 +604,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.clientObj = clientObj;
 
                 $modalInstance = $modal.open({
-                    templateUrl: assets.html_accounts_add_or_edit, // jshint ignore:line
+                    templateUrl: assets.html_accounts_add_or_edit,
                     controller: 'AccountsAddOrEdit',
                     scope: $scope,
                     windowClass: 'edit-dialog modalAccountRedx',
@@ -605,7 +613,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 });
             };
 
-            //create brand
+            // create brand
             $scope.selectBrand = function (brand) {
                 $scope.dropdownCss.display = 'none';
                 $scope.brandName = brand.name;

@@ -1,6 +1,6 @@
 body {
   background: #fff;
-  color: #21252B;
+  color: #21252b;
 }
 .adminElement {
   margin: 25px 25px 0 0;
@@ -48,6 +48,7 @@ h3,
 h4,
 h5 {
   color: #21252b;
+  /* 21252b */
   line-height: 100%;
 }
 h1,
@@ -124,12 +125,13 @@ a:hover {
 .breadcrumbs h5:first-child:hover {
   color: #0978C9;
 }
-.breadcrumbs .icon-arrow-down {
+.breadcrumbs .icon-arrow-solid-down {
   float: left;
   -ms-transform: rotate(270deg);
   -webkit-transform: rotate(270deg);
   transform: rotate(270deg);
   margin: 11px 10px 0 10px;
+  color: #939EAE;
 }
 .labelQuestTxt {
   color: #21252b;
@@ -194,15 +196,13 @@ strong {
   height: 100%;
   background: #fff;
 }
-.workflowPreloader img {
+.workflowPreloader .loader {
   position: relative;
   z-index: 10;
-  top: 50%;
-  left: 50%;
-  margin-left: -32px;
-  margin-top: -32px;
-  -webkit-filter: hue-rotate(22deg);
-  filter: hue-rotate(22deg);
+  top: 50% !important;
+  left: 50% !important;
+  margin-left: -26px !important;
+  margin-top: -26px !important;
 }
 .workflowPreloader .adSavePre {
   position: absolute;

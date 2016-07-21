@@ -1,4 +1,5 @@
-define(['angularAMD', // jshint ignore:line
+define([
+    'angularAMD',
     'angular-route',
     'angular-cookies',
     'angular-resource',
@@ -55,8 +56,8 @@ define(['angularAMD', // jshint ignore:line
     'common/moment_utils',
     'common/filter',
     'common/directive',
-    'workflow/controllers/campaign_create_controller',
-    'workflow/controllers/line_item_controller',
+    'workflow/campaign/campaign_create_controller',
+    'workflow/campaign/line_item_controller',
     'reporting/collectiveReport/reports_schedule_list_controller',
     'reporting/collectiveReport/collective_report_listing_controller',
     'highcharts',
@@ -67,8 +68,7 @@ define(['angularAMD', // jshint ignore:line
     'ng-tag',
     'common/services/features_service',
     'chosen',
-    'reporting/subAccount/sub_account_model'
+    'reporting/subAccount/sub_account_service'
 ], function (angularAMD) {
-    'use strict';
     return angularAMD;
 });

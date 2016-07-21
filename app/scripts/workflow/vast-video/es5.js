@@ -17,16 +17,17 @@
 // NOTE: won't work for typical function T() {}; T.prototype = {}; new T; case
 // since the constructor property is destroyed.
 if (!Object.getPrototypeOf) {
-    Object.getPrototypeOf = function(o) {
+    Object.getPrototypeOf = function (o) {
         if (o !== Object(o)) {
-            throw TypeError("Object.getPrototypeOf called on non-object");
+            throw TypeError('Object.getPrototypeOf called on non-object');
         }
-        return o.__proto__ || o.constructor.prototype || Object.prototype;
+
+        return o.__proto__ || o.constructor.prototype || Object.prototype; // jshint ignore:line
     };
 }
 
 //    // ES5 15.2.3.3 Object.getOwnPropertyDescriptor ( O, P )
-//    if (typeof Object.getOwnPropertyDescriptor !== "function") {
+//    if (typeof Object.getOwnPropertyDescriptor !== 'function') {
 //        Object.getOwnPropertyDescriptor = function (o, name) {
 //            if (o !== Object(o)) { throw TypeError(); }
 //            if (o.hasOwnProperty(name)) {
@@ -41,50 +42,61 @@ if (!Object.getPrototypeOf) {
 //    }
 
 // ES5 15.2.3.4 Object.getOwnPropertyNames ( O )
-if (typeof Object.getOwnPropertyNames !== "function") {
-    Object.getOwnPropertyNames = function(o) {
-        if (o !== Object(o)) {
-            throw TypeError("Object.getOwnPropertyNames called on non-object");
-        }
+if (typeof Object.getOwnPropertyNames !== 'function') {
+    Object.getOwnPropertyNames = function (o) {
         var props = [],
             p;
+
+        if (o !== Object(o)) {
+            throw TypeError('Object.getOwnPropertyNames called on non-object');
+        }
+
         for (p in o) {
             if (Object.prototype.hasOwnProperty.call(o, p)) {
                 props.push(p);
             }
         }
+
         return props;
     };
 }
 
 // ES5 15.2.3.5 Object.create ( O [, Properties] )
-if (typeof Object.create !== "function") {
-    Object.create = function(prototype, properties) {
-        if (typeof prototype !== "object") {
+if (typeof Object.create !== 'function') {
+    Object.create = function (prototype, properties) {
+        var o;
+
+        function Ctor() {}
+        if (typeof prototype !== 'object') {
             throw TypeError();
         }
         /** @constructor */
 
-        function Ctor() {}
         Ctor.prototype = prototype;
-        var o = new Ctor();
+        o = new Ctor();
+
         if (prototype) {
             o.constructor = Ctor;
         }
+
         if (properties !== undefined) {
             if (properties !== Object(properties)) {
                 throw TypeError();
             }
+
             Object.defineProperties(o, properties);
         }
+
         return o;
     };
 }
 
 // ES 15.2.3.6 Object.defineProperty ( O, P, Attributes )
 // Partial support for most common case - getters, setters, and values
-(function() {
-    if (!Object.defineProperty || !(function() {
+(function () {
+    var orig;
+
+    if (!Object.defineProperty || !(function () {
             try {
                 Object.defineProperty({}, 'x', {});
                 return true;
@@ -92,8 +104,9 @@ if (typeof Object.create !== "function") {
                 return false;
             }
         }())) {
-        var orig = Object.defineProperty;
-        Object.defineProperty = function(o, prop, desc) {
+        orig = Object.defineProperty;
+
+        Object.defineProperty = function (o, prop, desc) {
             // In IE8 try built-in implementation for defining properties on DOM prototypes.
             if (orig) {
                 try {
@@ -102,14 +115,17 @@ if (typeof Object.create !== "function") {
             }
 
             if (o !== Object(o)) {
-                throw TypeError("Object.defineProperty called on non-object");
+                throw TypeError('Object.defineProperty called on non-object');
             }
+
             if (Object.prototype.__defineGetter__ && ('get' in desc)) {
                 Object.prototype.__defineGetter__.call(o, prop, desc.get);
             }
+
             if (Object.prototype.__defineSetter__ && ('set' in desc)) {
                 Object.prototype.__defineSetter__.call(o, prop, desc.set);
             }
+
             if ('value' in desc) {
                 o[prop] = desc.value;
             }
@@ -119,36 +135,41 @@ if (typeof Object.create !== "function") {
 }());
 
 // ES 15.2.3.7 Object.defineProperties ( O, Properties )
-if (typeof Object.defineProperties !== "function") {
-    Object.defineProperties = function(o, properties) {
-        if (o !== Object(o)) {
-            throw TypeError("Object.defineProperties called on non-object");
-        }
+if (typeof Object.defineProperties !== 'function') {
+    Object.defineProperties = function (o, properties) {
         var name;
+
+        if (o !== Object(o)) {
+            throw TypeError('Object.defineProperties called on non-object');
+        }
+
         for (name in properties) {
             if (Object.prototype.hasOwnProperty.call(properties, name)) {
                 Object.defineProperty(o, name, properties[name]);
             }
         }
+
         return o;
     };
 }
 
-
 // ES5 15.2.3.14 Object.keys ( O )
 // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/keys
 if (!Object.keys) {
-    Object.keys = function(o) {
+    Object.keys = function (o) {
+        var ret = [],
+            p;
+
         if (o !== Object(o)) {
             throw TypeError('Object.keys called on non-object');
         }
-        var ret = [],
-            p;
+
         for (p in o) {
             if (Object.prototype.hasOwnProperty.call(o, p)) {
                 ret.push(p);
             }
         }
+
         return ret;
     };
 }
@@ -164,29 +185,34 @@ if (!Object.keys) {
 // ES5 15.3.4.5 Function.prototype.bind ( thisArg [, arg1 [, arg2, ... ]] )
 // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind
 if (!Function.prototype.bind) {
-    Function.prototype.bind = function(o) {
-        if (typeof this !== 'function') {
-            throw TypeError("Bind must be called on a function");
-        }
-        var slice = [].slice,
-            args = slice.call(arguments, 1),
-            self = this,
-            bound = function() {
-                return self.apply(this instanceof nop ? this : (o || {}),
-                    args.concat(slice.call(arguments)));
-            };
-
-        /** @constructor */
+    Function.prototype.bind = function (o) { // jshint ignore:line
+        var slice,
+            args,
+            self,
+            bound;
 
         function nop() {}
-        nop.prototype = self.prototype;
 
+        if (typeof this !== 'function') {
+            throw TypeError('Bind must be called on a function');
+        }
+
+        slice = [].slice;
+        args = slice.call(arguments, 1);
+        self = this;
+
+        bound = function () {
+            return self.apply(this instanceof nop ? this : (o || {}),
+                args.concat(slice.call(arguments)));
+        };
+
+        /** @constructor */
+        nop.prototype = self.prototype;
         bound.prototype = new nop();
 
         return bound;
     };
 }
-
 
 //----------------------------------------------------------------------
 // ES5 15.4 Array Objects
@@ -196,10 +222,9 @@ if (!Function.prototype.bind) {
 // ES5 15.4.3 Properties of the Array Constructor
 //
 
-
 // ES5 15.4.3.2 Array.isArray ( arg )
 // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/isArray
-Array.isArray = Array.isArray || function(o) {
+Array.isArray = Array.isArray || function (o) {
         return Boolean(o && Object.prototype.toString.call(Object(o)) === '[object Array]');
     };
 
@@ -211,20 +236,28 @@ Array.isArray = Array.isArray || function(o) {
 // ES5 15.4.4.14 Array.prototype.indexOf ( searchElement [ , fromIndex ] )
 // From https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/indexOf
 if (!Array.prototype.indexOf) {
-    Array.prototype.indexOf = function(searchElement /*, fromIndex */ ) {
+    Array.prototype.indexOf = function (searchElement /*, fromIndex */ ) { // jshint ignore:line
+        var t,
+            len,
+            n,
+            k;
+
         if (this === void 0 || this === null) {
             throw TypeError();
         }
 
-        var t = Object(this);
-        var len = t.length >>> 0;
+        t = Object(this);
+        len = t.length >>> 0; // jshint ignore:line
+
         if (len === 0) {
             return -1;
         }
 
-        var n = 0;
+        n = 0;
+
         if (arguments.length > 0) {
             n = Number(arguments[1]);
+
             if (isNaN(n)) {
                 n = 0;
             } else if (n !== 0 && n !== (1 / 0) && n !== -(1 / 0)) {
@@ -236,13 +269,14 @@ if (!Array.prototype.indexOf) {
             return -1;
         }
 
-        var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
+        k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
 
         for (; k < len; k++) {
             if (k in t && t[k] === searchElement) {
                 return k;
             }
         }
+
         return -1;
     };
 }
@@ -250,18 +284,25 @@ if (!Array.prototype.indexOf) {
 // ES5 15.4.4.15 Array.prototype.lastIndexOf ( searchElement [ , fromIndex ] )
 // From https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/lastIndexOf
 if (!Array.prototype.lastIndexOf) {
-    Array.prototype.lastIndexOf = function(searchElement /*, fromIndex*/ ) {
+    Array.prototype.lastIndexOf = function (searchElement /*, fromIndex*/ ) { // jshint ignore:line
+        var t,
+            len,
+            n,
+            k;
+
         if (this === void 0 || this === null) {
             throw TypeError();
         }
 
-        var t = Object(this);
-        var len = t.length >>> 0;
+        t = Object(this);
+        len = t.length >>> 0; // jshint ignore:line
+
         if (len === 0) {
             return -1;
         }
 
-        var n = len;
+        n = len;
+
         if (arguments.length > 1) {
             n = Number(arguments[1]);
             if (n !== n) {
@@ -271,7 +312,7 @@ if (!Array.prototype.lastIndexOf) {
             }
         }
 
-        var k = n >= 0 ? Math.min(n, len - 1) : len - Math.abs(n);
+        k = n >= 0 ? Math.min(n, len - 1) : len - Math.abs(n);
 
         for (; k >= 0; k--) {
             if (k in t && t[k] === searchElement) {
@@ -285,19 +326,25 @@ if (!Array.prototype.lastIndexOf) {
 // ES5 15.4.4.16 Array.prototype.every ( callbackfn [ , thisArg ] )
 // From https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/every
 if (!Array.prototype.every) {
-    Array.prototype.every = function(fun /*, thisp */ ) {
+    Array.prototype.every = function (fun /*, thisp */ ) { // jshint ignore:line
+        var t,
+            len,
+            thisp,
+            i;
+
         if (this === void 0 || this === null) {
             throw TypeError();
         }
 
-        var t = Object(this);
-        var len = t.length >>> 0;
-        if (typeof fun !== "function") {
+        t = Object(this);
+        len = t.length >>> 0; // jshint ignore:line
+
+        if (typeof fun !== 'function') {
             throw TypeError();
         }
 
-        var thisp = arguments[1],
-            i;
+        thisp = arguments[1];
+
         for (i = 0; i < len; i++) {
             if (i in t && !fun.call(thisp, t[i], i, t)) {
                 return false;
@@ -311,19 +358,25 @@ if (!Array.prototype.every) {
 // ES5 15.4.4.17 Array.prototype.some ( callbackfn [ , thisArg ] )
 // From https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/some
 if (!Array.prototype.some) {
-    Array.prototype.some = function(fun /*, thisp */ ) {
+    Array.prototype.some = function (fun /*, thisp */ ) { // jshint ignore:line
+        var t,
+            len,
+            thisp,
+            i;
+
         if (this === void 0 || this === null) {
             throw TypeError();
         }
 
-        var t = Object(this);
-        var len = t.length >>> 0;
-        if (typeof fun !== "function") {
+        t = Object(this);
+        len = t.length >>> 0; // jshint ignore:line
+
+        if (typeof fun !== 'function') {
             throw TypeError();
         }
 
-        var thisp = arguments[1],
-            i;
+        thisp = arguments[1];
+
         for (i = 0; i < len; i++) {
             if (i in t && fun.call(thisp, t[i], i, t)) {
                 return true;
@@ -337,19 +390,25 @@ if (!Array.prototype.some) {
 // ES5 15.4.4.18 Array.prototype.forEach ( callbackfn [ , thisArg ] )
 // From https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/forEach
 if (!Array.prototype.forEach) {
-    Array.prototype.forEach = function(fun /*, thisp */ ) {
+    Array.prototype.forEach = function (fun /*, thisp */ ) { // jshint ignore:line
+        var t,
+            len,
+            thisp,
+            i;
+
         if (this === void 0 || this === null) {
             throw TypeError();
         }
 
-        var t = Object(this);
-        var len = t.length >>> 0;
-        if (typeof fun !== "function") {
+        t = Object(this);
+        len = t.length >>> 0; // jshint ignore:line
+
+        if (typeof fun !== 'function') {
             throw TypeError();
         }
 
-        var thisp = arguments[1],
-            i;
+        thisp = arguments[1];
+
         for (i = 0; i < len; i++) {
             if (i in t) {
                 fun.call(thisp, t[i], i, t);
@@ -358,25 +417,31 @@ if (!Array.prototype.forEach) {
     };
 }
 
-
 // ES5 15.4.4.19 Array.prototype.map ( callbackfn [ , thisArg ] )
 // From https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/Map
 if (!Array.prototype.map) {
-    Array.prototype.map = function(fun /*, thisp */ ) {
+    Array.prototype.map = function (fun /*, thisp */ ) { // jshint ignore:line
+        var t,
+            len,
+            res,
+            thisp,
+            i;
+
         if (this === void 0 || this === null) {
             throw TypeError();
         }
 
-        var t = Object(this);
-        var len = t.length >>> 0;
-        if (typeof fun !== "function") {
+        t = Object(this);
+        len = t.length >>> 0; // jshint ignore:line
+
+        if (typeof fun !== 'function') {
             throw TypeError();
         }
 
-        var res = [];
+        res = [];
         res.length = len;
-        var thisp = arguments[1],
-            i;
+        thisp = arguments[1];
+
         for (i = 0; i < len; i++) {
             if (i in t) {
                 res[i] = fun.call(thisp, t[i], i, t);
@@ -390,23 +455,33 @@ if (!Array.prototype.map) {
 // ES5 15.4.4.20 Array.prototype.filter ( callbackfn [ , thisArg ] )
 // From https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/Filter
 if (!Array.prototype.filter) {
-    Array.prototype.filter = function(fun /*, thisp */ ) {
+    Array.prototype.filter = function (fun /*, thisp */ ) { // jshint ignore:line
+        var t,
+            len,
+            res,
+            thisp,
+            i,
+            val;
+
         if (this === void 0 || this === null) {
             throw TypeError();
         }
 
-        var t = Object(this);
-        var len = t.length >>> 0;
-        if (typeof fun !== "function") {
+        t = Object(this);
+        len = t.length >>> 0; // jshint ignore:line
+
+        if (typeof fun !== 'function') {
             throw TypeError();
         }
 
-        var res = [];
-        var thisp = arguments[1],
-            i;
+        res = [];
+        thisp = arguments[1];
+
         for (i = 0; i < len; i++) {
             if (i in t) {
-                var val = t[i]; // in case fun mutates this
+                // in case fun mutates this
+                val = t[i];
+
                 if (fun.call(thisp, val, i, t)) {
                     res.push(val);
                 }
@@ -417,18 +492,23 @@ if (!Array.prototype.filter) {
     };
 }
 
-
 // ES5 15.4.4.21 Array.prototype.reduce ( callbackfn [ , initialValue ] )
 // From https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/Reduce
 if (!Array.prototype.reduce) {
-    Array.prototype.reduce = function(fun /*, initialValue */ ) {
+    Array.prototype.reduce = function (fun /*, initialValue */ ) { // jshint ignore:line
+        var t,
+            len,
+            k,
+            accumulator;
+
         if (this === void 0 || this === null) {
             throw TypeError();
         }
 
-        var t = Object(this);
-        var len = t.length >>> 0;
-        if (typeof fun !== "function") {
+        t = Object(this);
+        len = t.length >>> 0; // jshint ignore:line
+
+        if (typeof fun !== 'function') {
             throw TypeError();
         }
 
@@ -437,8 +517,8 @@ if (!Array.prototype.reduce) {
             throw TypeError();
         }
 
-        var k = 0;
-        var accumulator;
+        k = 0;
+
         if (arguments.length >= 2) {
             accumulator = arguments[1];
         } else {
@@ -452,8 +532,7 @@ if (!Array.prototype.reduce) {
                 if (++k >= len) {
                     throw TypeError();
                 }
-            }
-            while (true);
+            } while (true);
         }
 
         while (k < len) {
@@ -467,18 +546,23 @@ if (!Array.prototype.reduce) {
     };
 }
 
-
 // ES5 15.4.4.22 Array.prototype.reduceRight ( callbackfn [, initialValue ] )
 // From https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/ReduceRight
 if (!Array.prototype.reduceRight) {
-    Array.prototype.reduceRight = function(callbackfn /*, initialValue */ ) {
+    Array.prototype.reduceRight = function (callbackfn /*, initialValue */ ) { // jshint ignore:line
+        var t,
+            len,
+            k,
+            accumulator;
+
         if (this === void 0 || this === null) {
             throw TypeError();
         }
 
-        var t = Object(this);
-        var len = t.length >>> 0;
-        if (typeof callbackfn !== "function") {
+        t = Object(this);
+        len = t.length >>> 0; // jshint ignore:line
+
+        if (typeof callbackfn !== 'function') {
             throw TypeError();
         }
 
@@ -487,8 +571,8 @@ if (!Array.prototype.reduceRight) {
             throw TypeError();
         }
 
-        var k = len - 1;
-        var accumulator;
+        k = len - 1;
+
         if (arguments.length >= 2) {
             accumulator = arguments[1];
         } else {
@@ -502,21 +586,20 @@ if (!Array.prototype.reduceRight) {
                 if (--k < 0) {
                     throw TypeError();
                 }
-            }
-            while (true);
+            } while (true);
         }
 
         while (k >= 0) {
             if (k in t) {
                 accumulator = callbackfn.call(undefined, accumulator, t[k], k, t);
             }
+
             k--;
         }
 
         return accumulator;
     };
 }
-
 
 //----------------------------------------------------------------------
 // ES5 15.5 String Objects
@@ -526,20 +609,16 @@ if (!Array.prototype.reduceRight) {
 // ES5 15.5.4 Properties of the String Prototype Object
 //
 
-
 // ES5 15.5.4.20 String.prototype.trim()
 if (!String.prototype.trim) {
-    String.prototype.trim = function() {
+    String.prototype.trim = function () { // jshint ignore:line
         return String(this).replace(/^\s+/, '').replace(/\s+$/, '');
     };
 }
 
-
-
 //----------------------------------------------------------------------
 // ES5 15.9 Date Objects
 //----------------------------------------------------------------------
-
 
 //
 // ES 15.9.4 Properties of the Date Constructor
@@ -553,7 +632,6 @@ if (!Date.now) {
     };
 }
 
-
 //
 // ES5 15.9.5 Properties of the Date Prototype Object
 //
@@ -561,7 +639,7 @@ if (!Date.now) {
 // ES5 15.9.4.43 Date.prototype.toISOString ( )
 // Inspired by http://www.json.org/json2.js
 if (!Date.prototype.toISOString) {
-    Date.prototype.toISOString = function() {
+    Date.prototype.toISOString = function () { // jshint ignore:line
         function pad2(n) {
             return ('00' + n).slice(-2);
         }

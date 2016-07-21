@@ -1,1 +1,1 @@
-var editActionsModule = angular.module('editActionsModule', ['commonModule'])
+var editActionsModule = angular.module('editActionsModule', ['commonModule']); // jshint ignore:line

@@ -1,33 +1,32 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_store_model', // jshint ignore:line
+define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_store_model',
     'common/utils', 'common/services/url_service', 'login/login_model', 'common/services/constants_service'],
     function (angularAMD) {
+        'use strict';
+
         angularAMD.factory('dataService', function ($q, $http, $cookieStore, $location, vistoconfig, dataStore, utils,
                                                     urlService, loginModel, constants) {
             var errorObject = {
-                status: 'error',
-                data: {message: 'Error'}
-            };
-
-            $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
-
-            return {
-                updateRequestHeader: function () {
-                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+                    status: 'error',
+                    data: {message: 'Error'}
                 },
 
-                getSingleCampaign: function (urlPath) {
+                updateRequestHeader =  function () {
+                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
+                },
+
+                getSingleCampaign =  function (urlPath) {
                     return this.fetch(urlPath);
                 },
 
-                getActionItems: function (urlPath) {
+                getActionItems =  function (urlPath) {
                     return this.fetch(urlPath);
                 },
 
-                getCampaignStrategies: function (urlPath) {
+                getCampaignStrategies =  function (urlPath) {
                     return this.fetch(vistoconfig.apiPaths.apiSerivicesUrl_NEW + urlPath);
                 },
 
-                getCdbChartData: function (campaign, timePeriod, type, strategyId) {
+                getCdbChartData = function (campaign, timePeriod, type, strategyId) {
                     var urlPath,
                         clientId = loginModel.getSelectedClient().id,
                         campaignId= campaign.orderId,
@@ -67,19 +66,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(urlPath);
                 },
 
-                getCdbTacticsMetrics: function (campaignId, filterStartDate, filterEndDate) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                            '/clients/' + clientId +
-                            '/campaigns/' + campaignId +
-                            '/strategies/tactics?start_date=' + filterStartDate +
-                            '&end_date=' + filterEndDate;
-
-                    return this.fetch(url);
-                },
-
-                getCdbTacticsChartData: function (campaignId, strategyId, adId, timePeriod, filterStartDate,
-                                                  filterEndDate) {
+                getCdbTacticsChartData = function (campaignId, strategyId, adId, timePeriod, filterStartDate,
+                                                   filterEndDate) {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
@@ -92,7 +80,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getStrategyTacticList: function (adGroupId, campaignId) {
+                getStrategyTacticList =  function (adGroupId, campaignId) {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
@@ -103,7 +91,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getUnassignedTacticList: function (campaignId) {
+                getUnassignedTacticList =  function (campaignId) {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
@@ -113,7 +101,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getCostViewability: function (campaign, timePeriod) {
+                getCostViewability = function (campaign, timePeriod) {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
@@ -123,7 +111,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getCustomReportMetrics :  function () {
+                getCustomReportMetrics  =  function () {
                     var clientId = loginModel.getMasterClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
@@ -132,7 +120,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getCustomReportData: function (reportId, queryString) {
+                getCustomReportData = function (reportId, queryString) {
                     var clientId = loginModel.getMasterClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId + '/custom_reports/' + reportId;
@@ -140,7 +128,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.post( url, queryString,undefined,false);
                 },
 
-                getVideoViewabilityData: function (campaign) {
+                getVideoViewabilityData = function (campaign) {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
@@ -150,7 +138,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getActions: function () {
+                getActions = function () {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.workflow_apiServicesUrl +
                             '/clients/' + clientId +
@@ -159,7 +147,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getTactics: function (orderId) {
+                getTactics = function (orderId) {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
@@ -169,7 +157,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getCampaignData: function (periodKey, campaign, periodStartDate, periodEndDate) {
+                getCampaignData = function (periodKey, campaign, periodStartDate, periodEndDate) {
                     var qs,
                         url;
 
@@ -179,16 +167,17 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         qs = '?start_date='+periodStartDate+'&end_date='+periodEndDate;
                     }
 
+                    // TODO: What is this *api* global variable doing here???
                     url = api + '/campaigns/' + campaign.orderId + '/perf' + qs; // jshint ignore:line
 
                     return this.fetch(url);
                 },
 
-                getReportListData: function (url) {
+                getReportListData = function (url) {
                     return this.fetch(url);
                 },
 
-                createAction: function (data) {
+                createAction = function (data) {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.workflow_apiServicesUrl +
                             '/clients/' + clientId +
@@ -197,39 +186,28 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.post(url, data, {'Content-Type': 'application/json'});
                 },
 
-                updateLastViewedAction: function (campaignId) {
-                    return this
-                        .put(urlService.APIlastViewedAction(campaignId), {})
-                        .then(function (response) {
-                            if (response.status === 'success') {
-                                //delete default campaign list cache here
-                                dataStore.deleteAllCachedCampaignListUrls();
-                            }
-                        });
-                },
-
-                createScheduleReport :  function (data) {
+                createScheduleReport  =  function (data) {
                     return this.post( urlService.createScheduledRpt(), data, {'Content-Type': 'application/json'});
                 },
 
 
-                createSaveReport :  function (data) {
+                createSaveReport =  function (data) {
                     return this.post( urlService.createSaveRpt(), data, {'Content-Type': 'application/json'});
                 },
 
-                updateScheduleReport: function (reportId,data) {
+                updateScheduleReport = function (reportId,data) {
                     var url = urlService.updateScheduledRpt(reportId);
 
                     return this.put(url,data);
                 },
 
-                updateSavedReport: function (reportId, data) {
+                updateSavedReport = function (reportId, data) {
                     var url = urlService.updateSavedRpt(reportId);
 
                     return this.put(url,data);
                 },
 
-                append: function (url, paramsObj) {
+                append = function (url, paramsObj) {
                     var property;
 
                     for (property in paramsObj) {
@@ -241,12 +219,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return url;
                 },
 
-                fetch: function (url, cacheObj) {
-                    cacheObj = _.extend({cache:false}, cacheObj); // jshint ignore:line
+                fetch = function (url, cacheObj) {
+                    cacheObj = _.extend({cache:false}, cacheObj);
                     loginModel.checkCookieExpiry();
 
-                    return $http({url: url, method: 'GET', cache: cacheObj.cache}).then(
-                        function (response) {
+                    return $http({
+                            url: url,
+                            method: 'GET',
+                            cache: cacheObj.cache
+                        })
+                        .then(function (response) {
                             var urlIndex = utils.getParameterByName(url, 'urlIndex'),
                                 objOnSuccess = {
                                     status: 'success',
@@ -270,9 +252,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                             dataStore.cacheByUrl(url, objOnSuccess);
 
                             return utils.clone(objOnSuccess);
-                        },
-
-                        function (error) {
+                        }, function (error) {
                             if (error.status !== 0) {
                                 if (error.status === 401) {
                                     loginModel.unauthorized();
@@ -287,24 +267,23 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                                     data: error
                                 };
                             }
-                        }
-                    );
+                        });
                 },
 
-                downloadFile: function (url, httpMethod, data, headers) {
-                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+                downloadFile = function (url, httpMethod, data, headers) {
+                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
                     httpMethod = httpMethod ? httpMethod : 'GET';
                     data = data ? data : '';
                     headers = headers ? headers: {'Content-Type': 'application/json'};
 
                     return $http({
-                        url: url,
-                        method: httpMethod,
-                        data: data,
-                        responseType: 'arraybuffer',
-                        headers: headers
-                    }).then(
-                        function (response) {
+                            url: url,
+                            method: httpMethod,
+                            data: data,
+                            responseType: 'arraybuffer',
+                            headers: headers
+                        })
+                        .then(function (response) {
                             var objOnSuccess = {
                                 status: 'success',
                                 data: response.data,
@@ -324,9 +303,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                                 new Blob([objOnSuccess.data], {type: objOnSuccess.headers('Content-Type')});
 
                             return objOnSuccess;
-                        },
-
-                        function (error) {
+                        }, function (error) {
                             if (error.status !== 0) {
                                 if (error.status === 401) {
                                     loginModel.unauthorized();
@@ -341,11 +318,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                                     data: error
                                 };
                             }
-                        }
-                    );
+                        });
                 },
 
-                fetchCancelable: function (url, canceller, success, failure) {
+                fetchCancelable = function (url, canceller, success, failure) {
                     loginModel.checkCookieExpiry();
 
                     return $http
@@ -391,18 +367,18 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         });
                 },
 
-                post: function (url, data, header,dataToJson) {
+                post = function (url, data, header,dataToJson) {
                     loginModel.checkCookieExpiry();
-                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
 
                     return $http({
-                        url: url,
-                        method: 'POST',
-                        cache: true,
-                        data: !dataToJson ? data : angular.toJson(data), // jshint ignore:line
-                        headers: (header ? header : {'Content-Type': 'text/plain'})
-                    }).then(
-                        function (response) {
+                            url: url,
+                            method: 'POST',
+                            cache: true,
+                            data: !dataToJson ? data : angular.toJson(data),
+                            headers: (header ? header : {'Content-Type': 'text/plain'})
+                        })
+                        .then(function (response) {
                             if (response.status === 401) {
                                 loginModel.unauthorized();
                                 return errorObject;
@@ -432,16 +408,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                                 status: 'error',
                                 data: error
                             };
-                        }
-                    );
+                        });
                 },
 
-                put: function (url, data) {
+                put = function (url, data) {
                     loginModel.checkCookieExpiry();
-                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
 
                     return $http
-                        .put(url, angular.toJson(data)) // jshint ignore:line
+                        .put(url, angular.toJson(data))
                         .then(function (response) {
                             if (response.status === 401) {
                                 loginModel.unauthorized();
@@ -471,17 +446,18 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         });
                 },
 
-                delete: function (url, data, header) {
+                deleteRequest = function (url, data, header) {
                     loginModel.checkCookieExpiry();
-                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
 
                     return $http({
-                        url: url,
-                        method: 'DELETE',
-                        cache: true,
-                        data: angular.toJson(data), // jshint ignore:line
-                        headers: (header ? header : {'Content-Type': 'text/plain'})
-                    }).then(function (response) {
+                            url: url,
+                            method: 'DELETE',
+                            cache: true,
+                            data: angular.toJson(data),
+                            headers: (header ? header : {'Content-Type': 'text/plain'})
+                        })
+                        .then(function (response) {
                             if (response.status === 401) {
                                 loginModel.unauthorized();
                                 return errorObject;
@@ -511,9 +487,40 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                                 status: 'error',
                                 data: error
                             };
-                        }
-                    );
-                }
+                        });
+                };
+
+            updateRequestHeader();
+
+            return {
+                updateRequestHeader: updateRequestHeader,
+                getSingleCampaign: getSingleCampaign,
+                getActionItems: getActionItems,
+                getCampaignStrategies: getCampaignStrategies,
+                getCdbChartData: getCdbChartData,
+                getCdbTacticsChartData: getCdbTacticsChartData,
+                getStrategyTacticList: getStrategyTacticList,
+                getUnassignedTacticList: getUnassignedTacticList,
+                getCostViewability: getCostViewability,
+                getCustomReportMetrics: getCustomReportMetrics,
+                getCustomReportData: getCustomReportData,
+                getVideoViewabilityData: getVideoViewabilityData,
+                getActions: getActions,
+                getTactics: getTactics,
+                getCampaignData: getCampaignData,
+                getReportListData: getReportListData,
+                createAction: createAction,
+                createScheduleReport: createScheduleReport,
+                createSaveReport: createSaveReport,
+                updateScheduleReport: updateScheduleReport,
+                updateSavedReport: updateSavedReport,
+                append: append,
+                fetch: fetch,
+                downloadFile: downloadFile,
+                fetchCancelable: fetchCancelable,
+                post: post,
+                put: put,
+                deleteRequest: deleteRequest
             };
         });
     }

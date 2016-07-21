@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/data_service', 'common/services/url_service', // jshint ignore:line
+define(['angularAMD', 'common/services/data_service', 'common/services/url_service',
     'common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_model'],
     function (angularAMD) {
         'use strict';
@@ -47,7 +47,7 @@ define(['angularAMD', 'common/services/data_service', 'common/services/url_servi
                     .downloadFile(url)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
-                            saveAs(result.file, result.fileName); // jshint ignore:line
+                            saveAs(result.file, result.fileName);
                             $rootScope.setErrAlertMessage(constants.INVOICE_TEMPLATE_DOWNLOAD_SUCCESS, 0);
                         } else {
                             $rootScope.setErrAlertMessage(constants.INVOICE_TEMPLATE_DOWNLOAD_ERR);
@@ -68,4 +68,5 @@ define(['angularAMD', 'common/services/data_service', 'common/services/url_servi
                     $('popup-msg').appendTo(document.body);
                 });
         });
-    });
+    }
+);

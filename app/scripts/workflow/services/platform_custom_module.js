@@ -1,4 +1,4 @@
-define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.factory('platformCustomeModule', function ($timeout, $locale, constants) {
@@ -18,33 +18,36 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
 
                 platformHTML += '<div class="col-md-8 zeroPadding">' + pJson.displayName + '<br/>';
                 platformHTML += '</div>';
+
                 platformHTML += ' <div class="col-md-4 zeroPadding pull-left clearLeft"><span>' +
                     pJson.subName + '</span></div>';
+
                 platformHTML += '</div>';
 
                 elem.append(platformHTML);
             },
 
-            selectPlatform = function (selectedValue, inputList, platformCustomInputChildrenGroupList, dependentItems, elem) {
+            selectPlatform = function (selectedValue, inputList, platformCustomInputChildrenGroupList,
+                                       dependentItems, elem) {
                 var activationOrderList,
                     selectedOrderList,
                     platformCustomInputGroupId,
                     item,
 
-                platformCustomInputGroupFunc = function (orderList, elem) {
-                    platformCustomInputGroupId = orderList.platformCustomInputGroupId;
+                    platformCustomInputGroupFunc = function (orderList, elem) {
+                        platformCustomInputGroupId = orderList.platformCustomInputGroupId;
 
-                    item = _.filter(platformCustomInputChildrenGroupList, function (obj) { // jshint ignore:line
-                        return obj.id === platformCustomInputGroupId;
-                    });
+                        item = _.filter(platformCustomInputChildrenGroupList, function (obj) {
+                            return obj.id === platformCustomInputGroupId;
+                        });
 
-                    if (item.length > 0) {
-                        item =  item[0];
-                        item.relationWith = dependentItems;
-                    }
+                        if (item.length > 0) {
+                            item =  item[0];
+                            item.relationWith = dependentItems;
+                        }
 
-                    createPlatformCustomInputList(item, elem/*_self.elem*/);
-                };
+                        createPlatformCustomInputList(item, elem/*_self.elem*/);
+                    };
 
                 if (dependentItems === 'selectBoxchkDependentItems') {
                     _self
@@ -71,19 +74,19 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
 
                 activationOrderList = _self.platformCustomInputActivationOrderList;
 
-                selectedOrderList = _.filter(activationOrderList, function (obj) { // jshint ignore:line
+                selectedOrderList = _.filter(activationOrderList, function (obj) {
                     return obj.value === $.trim(selectedValue) && obj.platformCustomInputId === inputList.id;
                 });
 
                 if (selectedOrderList.length > 0) {
-                    _.each(selectedOrderList, function (orderList) { // jshint ignore:line
+                    _.each(selectedOrderList, function (orderList) {
                         platformCustomInputGroupFunc(orderList, elem);
                     });
                 }
             },
 
             adsEditDefaultValueMapper = function (adPlatformCustomInputs, inputList) {
-                _.each(adPlatformCustomInputs, function (obj) { // jshint ignore:line
+                _.each(adPlatformCustomInputs, function (obj) {
                     if (obj.platformCustomInputId === inputList.id) {
                         inputList.defaultValue = obj.value;
                     }
@@ -124,6 +127,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                             $('<span />')
                                 .addClass('greyTxt col-md-12 zeroPadding')
                                 .text(inputList.displayName);
+
                         inputWrapper.append(fieldLabel);
                     }
                 }
@@ -168,7 +172,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                         }
                     }, 500);
 
-                    _.each(options, function (option) { // jshint ignore:line
+                    _.each(options, function (option) {
                         var optionElem = $('<option/>').attr({
                             value: option,
                             name: inputList.name,
@@ -255,12 +259,15 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                     }
                 }
 
-                if (inputList.platformCustomWidgetType === 'LABEL' || inputList.platformCustomWidgetType === 'TEXTBOX_READ') {
+                if (inputList.platformCustomWidgetType === 'LABEL' ||
+                    inputList.platformCustomWidgetType === 'TEXTBOX_READ') {
                     inputWrapper.removeClass('form-group-section');
                     LabelHtml = $('<span />').addClass('pull-left clearLeft').text(inputList.defaultValue);
+
                     if(inputList.platformCustomWidgetType === 'TEXTBOX_READ') {
                         LabelHtml.addClass('onlyShowValue');
                     }
+
                     inputWrapper.append(LabelHtml);
                 }
 
@@ -325,6 +332,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                                 '</div>');
 
                             minMaxFlag = false;
+
                             return false;
                         } else if (value > maxValue) {
                             field.after('<div class="customFieldErrorMsg">' +
@@ -334,6 +342,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                                 '</div>');
 
                             minMaxFlag = false;
+
                             return false;
                         }
                     }
@@ -377,8 +386,9 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                     inpElemList = [];
 
                 _self.inputGroupList = inputGroupList;
+
                 platformCustomInputList =
-                    _.sortBy(inputGroupList.platformCustomInputList, 'displayOrder'); // jshint ignore:line
+                    _.sortBy(inputGroupList.platformCustomInputList, 'displayOrder');
 
                 if (platformCustomInputList.length > 0) {
                     groupContainer =
@@ -386,11 +396,14 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                             .addClass('form-group col-md-12 zeroPadding')
                             .addClass(noGroup ? 'form-individual-section' : '');
                 }
-                _.each(platformCustomInputList, function (inputList, idx) { // jshint ignore:line
+
+                _.each(platformCustomInputList, function (inputList, idx) {
                     newInpElem = createInputElem(inputList, inputGroupList, idx, elem, 'group');
+
                     if(inputList.platformCustomWidgetType === 'HIDDEN') {
                         newInpElem.hide();
                     }
+
                     inpElemList.push(newInpElem);
                 });
 
@@ -404,7 +417,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 createPlatformCustomInputList(inputGroupList, elem, noGroup);
                 platformCustomInputChildrenGroupList = inputGroupList.platformCustomInputChildrenGroupList;
 
-                _.each(platformCustomInputChildrenGroupList, function (inputGroupList) { // jshint ignore:line
+                _.each(platformCustomInputChildrenGroupList, function (inputGroupList) {
                     if (inputGroupList.isActivated) {
                         buildInputControl(inputGroupList, elem);
                     }
@@ -414,7 +427,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
             buildFormControl =  function (pJson, elem) {
                 var platformCustomInputGroupList = pJson.platformCustomInputGroupList;
 
-                _.each(platformCustomInputGroupList, function (inputGroupList) { // jshint ignore:line
+                _.each(platformCustomInputGroupList, function (inputGroupList) {
                     if (inputGroupList.isActivated) {
                         buildInputControl(inputGroupList, elem, true);
                     }
@@ -430,8 +443,10 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 _self.customPlatformWithTab = false;
                 _self.elem = elem;
                 _self.adPlatformCustomInputs= adPlatformCustomInputs;
+
                 _self.platformCustomInputNamespaceList =
-                    _.sortBy(platformCustomeJson.platformCustomInputNamespaceList, 'displayOrder'); // jshint ignore:line
+                    _.sortBy(platformCustomeJson.platformCustomInputNamespaceList, 'displayOrder');
+
                 _self.platformCustomInputActivationOrderList =
                     platformCustomeJson.platformCustomInputActivationOrderList;
 
@@ -441,7 +456,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                     $('.eachBuyingSection').not('.staticMarkup').remove();
                 }
 
-                _.each(_self.platformCustomInputNamespaceList, function (pJson, idx) { // jshint ignore:line
+                _.each(_self.platformCustomInputNamespaceList, function (pJson, idx) {
                     if (_self.customPlatformWithTab) {
                         tabElem =
                             $('<div />').prependTo(elem).addClass('eachBuyingSection').addClass(pJson.name + '_div');

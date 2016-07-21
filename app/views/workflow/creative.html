@@ -43,7 +43,7 @@
 
                     <div class="form-group col-md-8" show-errors>
                         <label for="name" class="greyTxt" style="margin-top: 0;">Creative Name</label>
-                        <input type="text" class="form-control ng-pristine ng-valid" remove-special-character ='remove-special-character' id="name" name="name" ng-model="name" placeholder="Enter up to 250 characters, no punctuation or special characters." required>
+                        <input type="text" class="form-control ng-pristine ng-valid"  id="name" name="name" ng-model="name" placeholder="Enter up to 250 characters, no punctuation or special characters." remove-special-character="remove-special-character" required>
                         <label ng-if="formCreativeCreate.name.$error.required"  class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.WF_MANDATORY_CREATIVE_NAME"></label>
                     </div>
                     <div class="col-md-12 zeroPadding clearfix nav_filters" style="display:none;">
@@ -59,7 +59,7 @@
                                     <div class="dropdown">
                                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="adPage || creativeMode=='edit'">
                                             <span class="text">{{subAccountName ? subAccountName : 'Select SubAccount' }}</span>
-                                            <span class="icon-arrow-down"></span>
+                                            <span class="icon-arrow-solid-down"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL">
                                             <li ng-repeat="subaccount in subAccounts track by subaccount.id" class="available"><a ng-click="selectHandler('subAccount', subaccount)">{{subaccount.displayName}}</a></li>
@@ -79,7 +79,7 @@
                                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="adPage || (pushedCount>0) || (associatedAdCount>0)">
                                             <span class="text">{{advertiserName ? advertiserName : 'Select Advertiser' }}</span>
                                             <!--<span class="text" ng-if="mode == 'edit'">{{mode == 'edit' ? editCampaignData.advertiserName : 'Select Advertiser' }}</span>-->
-                                            <span class="icon-arrow-down"></span>
+                                            <span class="icon-arrow-solid-down"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL">
                                             <li ng-repeat="advertiser in advertisers track by advertiser.id" class="available"><a ng-click="selectHandler('advertiser', advertiser)" data-ng-bind="advertiser.name"></a></li>
@@ -95,7 +95,7 @@
                                     <div class="dropdown">
                                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                             <span class="text">{{brandName ? brandName : 'Select Brand' }}</span>
-                                            <span class="icon-arrow-down"></span>
+                                            <span class="icon-arrow-solid-down"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
                                             <li ng-repeat="brand in brands track by brand.id" class="available"><a ng-click="selectHandler('brand', brand)" data-ng-bind="brand.name"></a></li>
@@ -113,7 +113,7 @@
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'" aria-haspopup="true" aria-expanded="true" ng-disabled="(pushedCount>0) || (associatedAdCount>0)" title={{selectedAdServer.name}}>
                                     <!--<span class="text">{{selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'}}</span>-->
-                                    <span class="icon-arrow-down"></span>
+                                    <span class="icon-arrow-solid-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="sel1" id="adserverDDL">
                                     <li class="available" ng-repeat="adServer in creativeAdServers track by adServer.id" data-toggle="dropdown" title={{adServer.name}}>
@@ -156,7 +156,7 @@
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'" ng-disabled="pushedCount>0" aria-expanded="true" title={{CreativeTemplate.name}}>
                                     <!--<span class="text">{{CreativeTemplate ? CreativeTemplate.name:'Select Template'}}</span>-->
-                                    <span class="icon-arrow-down"></span>
+                                    <span class="icon-arrow-solid-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="sel1" id="templateDDL">
                                     <li class="available" ng-repeat="template in creativeTemplates track by template.id"  data-toggle="dropdown" title={{template.name}}>
@@ -186,13 +186,13 @@
                         </div>
                         <div class="label-txt pull-left" style="margin: 1px 0 0 10px;" data-ng-bind="textConstants.CREATIVE_SSL_COMPATIBLE"></div>
                     </div>
-                    <div ng-if='!isTrackingCreative' class="form-group col-md-4" show-errors style="clear: left;">
+                    <div ng-if="templateType=='NORMAL'" class="form-group col-md-4" show-errors style="clear: left;">
                         <label for="sel1" class="greyTxt" data-ng-bind="textConstants.CREATIVE_SIZE"></label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" id="creativeSize" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <span class="text">{{adData.creativeSize ? adData.creativeSize.size :  'Select Size'}}</span>
-                                    <span class="icon-arrow-down"></span>
+                                    <span class="icon-arrow-solid-down"></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-search" aria-labelledby="sel1" id="sizeDDL">
                                     <li class="searchBar">

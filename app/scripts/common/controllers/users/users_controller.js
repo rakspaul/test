@@ -1,6 +1,6 @@
-define(['angularAMD', '../../services/constants_service', // jshint ignore:line
-    'workflow/services/account_service', 'common/controllers/users/users_add_or_edit_controller',
-    'libs/modernizr-custom', 'libs/dlmenu'], function (angularAMD) {
+define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service',
+    'common/controllers/users/users_add_or_edit_controller', 'libs/modernizr-custom', 'libs/dlmenu'],
+    function (angularAMD) {
     'use strict';
 
     angularAMD.controller('UsersController', function ($scope,$rootScope,$timeout,$filter,
@@ -26,10 +26,10 @@ define(['angularAMD', '../../services/constants_service', // jshint ignore:line
         $('.each_nav_link').removeClass('active_tab');
         $('#admin_nav_link').addClass('active_tab');
 
-        //Responsive Height
+        // Responsive Height
         $('.table-responsive .tbody').css('min-height', winHeight - 330);
 
-        //Add or Edit Pop up for User
+        // Add or Edit Pop up for User
         $scope.AddOrEditUserModal = function (mode ,userObj) {
             $('.btn-group').addClass('toggleBtn');
 
@@ -63,11 +63,16 @@ define(['angularAMD', '../../services/constants_service', // jshint ignore:line
 
         $scope.getRoleText = function (roleId) {
             switch (roleId) {
-                case 1: return 'Super Admin';
-                case 2: return 'Account Admin';
-                case 3: return 'Advertiser Admin';
-                case 4: return 'General User';
-                default : return 'Not Available';
+                case 1:
+                    return 'Super Admin';
+                case 2:
+                    return 'Account Admin';
+                case 3:
+                    return 'Advertiser Admin';
+                case 4:
+                    return 'General User';
+                default:
+                    return 'Not Available';
             }
         };
 
@@ -80,7 +85,7 @@ define(['angularAMD', '../../services/constants_service', // jshint ignore:line
         };
 
         $scope.$watch('UsersData.users', function () {
-            $scope.userTotal = _.size($scope.UsersData.users); // jshint ignore:line
+            $scope.userTotal = _.size($scope.UsersData.users);
         });
 
         $('html').click(function (e) {

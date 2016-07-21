@@ -1,12 +1,13 @@
-define(['angularAMD'], function(angularAMD) { // jshint ignore:line
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
     angularAMD.factory('requestCanceller', ['$q', function ($q) {
         var cancellersById = {},
 
-            initCanceller = function(id) {
+            initCanceller = function (id) {
                 cancelLastRequest(id);
                 cancellersById[id] = $q.defer();
+
                 return cancellersById[id];
             },
 
@@ -18,11 +19,11 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
                 }
             },
 
-            resetCanceller = function(id) {
+            resetCanceller = function (id) {
                 cancellersById[id] = undefined;
             },
 
-            requestCanceller = function() {
+            requestCanceller = function () {
                 return {
                     initCanceller: initCanceller,
                     cancelLastRequest: cancelLastRequest,

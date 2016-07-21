@@ -39,7 +39,7 @@
     <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="border-bottom: 1px solid rgba(191, 201, 215, 0.5); padding-bottom: 10px !important;" data-ng-bind="textConstants.MEDIAPLAN_MEASUREMENT_SETTING_COSTS"></label>
 
     <div data-toggle="collapse" data-target="#costTracking" class="accordionDDL collapsed">
-        <div class="icon-arrow-down-thick"></div>
+        <div class="icon-arrow-solid-down"></div>
         <span data-ng-bind="textConstants.MEDIAPLAN_COST_TRACKING"></span>
         <span data-ng-bind="textConstants.MEDIAPLAN_COST_MEASURED"></span>
     </div>
@@ -72,7 +72,7 @@
     </div>
 
     <div data-toggle="{{(selectedCampaign.advertiserId) ? 'collapse' : ''}}" data-target="{{(selectedCampaign.advertiserId) ? '#addAdditionalCost' : ''}}" class="accordionDDL collapsed">
-        <div class="icon-arrow-down-thick"></div>
+        <div class="icon-arrow-solid-down"></div>
         <span data-ng-bind="textConstants.MEDIAPLAN_ADD_ADDITIONAL_COSTS"></span>
     </div>
 
@@ -90,7 +90,7 @@
                                         <div class="dropdown">
                                             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                                 <span class="text" data-ng-bind="addCost.costCategory && addCost.costCategory.name ? addCost.costCategory.name : 'Select'"></span>
-                                                <span class="icon-arrow-down"></span>
+                                                <span class="icon-arrow-solid-down"></span>
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li class="available" ng-repeat="attr in selectedCampaign.costAttributes.category" id="attr.id" ng-click="costAttributesSelected(selectedCampaign.costAttributes, attr , $event, 'category')"><a>{{attr.name}}</a></li>
@@ -106,7 +106,7 @@
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
                                         <span class="text" data-ng-bind="addCost.vendor && addCost.vendor.name ? addCost.vendor.name : 'Select'"></span>
-                                        <span class="icon-arrow-down"></span>
+                                        <span class="icon-arrow-solid-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
                                         <li class="available" ng-click="costAttributesSelected(selectedCampaign.costAttributes, attr , $event, 'vendor')" ng-repeat="attr in selectedCampaign.costAttributes.vendor"><a>{{attr.name}}</a></li>
@@ -120,7 +120,7 @@
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         <span class="text" title="{{addCost.name}}" data-ng-bind="addCost.name || 'Select'"></span>
-                                        <span class="icon-arrow-down"></span>
+                                        <span class="icon-arrow-solid-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" >
                                         <li class="available"  ng-click="costAttributesSelected(selectedCampaign.costAttributes, attr , $event, 'offer')" ng-repeat="attr in selectedCampaign.costAttributes.offering"><a>{{attr.name}}</a></li>

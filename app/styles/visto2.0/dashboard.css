@@ -40,8 +40,8 @@
   font-weight: 400;
   line-height: 36px;
 }
-.dashboard_2 .row [class^="col-md-"] .widgetWrap .chartHeader .icon-arrow-down-thick,
-.dashboard_2 .row [class*=" col-md-"] .widgetWrap .chartHeader .icon-arrow-down-thick {
+.dashboard_2 .row [class^="col-md-"] .widgetWrap .chartHeader .icon-arrow-solid-down,
+.dashboard_2 .row [class*=" col-md-"] .widgetWrap .chartHeader .icon-arrow-solid-down {
   float: left;
   font-size: 30px;
   font-weight: 400;
@@ -59,8 +59,8 @@
   font-size: 30px;
   line-height: 36px;
 }
-.dashboard_2 .row [class^="col-md-"] .widgetWrap .chartHeader .icon-arrow-down-thick.positive,
-.dashboard_2 .row [class*=" col-md-"] .widgetWrap .chartHeader .icon-arrow-down-thick.positive {
+.dashboard_2 .row [class^="col-md-"] .widgetWrap .chartHeader .icon-arrow-solid-down.positive,
+.dashboard_2 .row [class*=" col-md-"] .widgetWrap .chartHeader .icon-arrow-solid-down.positive {
   color: #4CC94A;
   /* Safari */
   -webkit-transform: rotate(-180deg);
@@ -98,14 +98,15 @@
   margin: 7px 5px 0 0;
   font-size: 12px;
 }
-.dashboard_2 .row [class^="col-md-"] .widgetWrap .chartLegend .scrollLeftLabel.icon-arrow-down-thick,
-.dashboard_2 .row [class*=" col-md-"] .widgetWrap .chartLegend .scrollLeftLabel.icon-arrow-down-thick {
+.dashboard_2 .row [class^="col-md-"] .widgetWrap .chartLegend .scrollLeftLabel.icon-arrow-solid-down,
+.dashboard_2 .row [class*=" col-md-"] .widgetWrap .chartLegend .scrollLeftLabel.icon-arrow-solid-down {
   float: left;
   position: absolute;
   z-index: 10;
   top: 0;
   left: 60px;
-  font-size: 12px;
+  font-size: 10px;
+  color: #939EAE;
   height: 30px;
   width: 30px;
   line-height: 36px;
@@ -119,14 +120,15 @@
   text-align: center;
   display: none;
 }
-.dashboard_2 .row [class^="col-md-"] .widgetWrap .chartLegend .scrollRightLabel.icon-arrow-down-thick,
-.dashboard_2 .row [class*=" col-md-"] .widgetWrap .chartLegend .scrollRightLabel.icon-arrow-down-thick {
+.dashboard_2 .row [class^="col-md-"] .widgetWrap .chartLegend .scrollRightLabel.icon-arrow-solid-down,
+.dashboard_2 .row [class*=" col-md-"] .widgetWrap .chartLegend .scrollRightLabel.icon-arrow-solid-down {
   float: left;
   position: absolute;
   z-index: 10;
   top: 0;
   left: 340px;
-  font-size: 12px;
+  font-size: 10px;
+  color: #939EAE;
   height: 30px;
   width: 30px;
   line-height: 36px;

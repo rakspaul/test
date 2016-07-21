@@ -1,5 +1,6 @@
-define(['angularAMD'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD'], function (angularAMD) {
     'use strict';
+
     angularAMD.directive('customDatePicker', function () {
         return {
             // Restrict it to be an attribute in this case

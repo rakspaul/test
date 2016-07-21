@@ -1,11 +1,15 @@
 <div class="clearfix dropdown_type1_holder pull-left active " >
     <div class="report_heading_dropdown_txt nav_filters_heading">{{ headerText }}</div>
-    <div class="campaign_name_selected" title="{{selectedObj.name}}" campaignid="{{selectedObj.id}}" id="campaign_name_selected" ng-model="selectedObj.name">{{selectedObj.name }}</div>
+    <div class="posRelative" >        
+        <div class="campaign_name_selected" title="{{selectedObj.name}}" campaignid="{{selectedObj.id}}" id="campaign_name_selected" ng-model="selectedObj.name" >{{selectedObj.name }}</div>
+        <span class="icon-arrow-solid-down"></span>  
+    </div>
+    
     <div class="clearfix dropdown dropdown_type1">
         <div class="dropdown_ul_text" data-toggle="dropdown">
             <!--Campaign data: {{campaignData.campaigns}}-->
             <ul class="nav navbar-nav">
-                <li class="dropdown" >
+                <li class="dropdown" ng-class="campaignData.campaigns.length > 0 ? '' : 'loadedDropdownData' ">
                     <ul class="dropdown-menu campaigns_list" role="menu"  id="campaigns_list" >
                         <div id="campaignsDropdownDiv">
                             <input class="dropdown-toggle inactive dd_txt campaignDropdown" id="campaignDropdown" ng-keyup="search(fileIndex)" placeHolder="Select Campaign" />

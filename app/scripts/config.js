@@ -4,7 +4,7 @@ var IMAGES_PATH = '/images/',
     IMAGES_CDESK_PATH = IMAGES_PATH + 'cdesk/',
     IMAGES_CALENDAR_PATH = IMAGES_PATH + 'calendar/',
     STYLESHEETS_PATH = '../styles/',
-    assets = {};
+    assets = {}; // jshint ignore:line
 
 assets.platform_icon = IMAGES_PATH + 'tag_icon.png';
 
@@ -131,15 +131,15 @@ assets.html_accounts_add_or_edit = '/views/workflow/partials/accounts_add_or_edi
 assets.html_change_account_warning = '/views/workflow/partials/change_account_warning.html';
 assets.html_edit_adgroup = '/views/workflow/partials/overview_partials/overview_createAdgroups.html';
 
-//Visto 2.0 Templates
+// Visto 2.0 Templates
 assets.html_dashboard_2 = '/views/visto2.0/dashboard.html';
 
 assets.html_sub_account_drop_down = '/views/reporting/sub_account_drop_down.html';
 assets.html_filter_drop_down = '/views/workflow/filter_drop_down.html';
 
-//admin
+// admin
 assets.admin_accounts_subclient = '/views/workflow/partials/creative_add_bulk.html';
-//assets.admin_accounts_subclient = '/views/workflow/partials/admin_accounts_subclientList.html';
+// assets.admin_accounts_subclient = '/views/workflow/partials/admin_accounts_subclientList.html';
 
 assets.html_clone_campaign_popup = '/views/workflow/partials/clone_campaign_popup.html';
 assets.html_ad_campaign_popup = '/views/workflow/partials/clone_ad_popup.html';
@@ -148,13 +148,9 @@ assets.html_add_credit_popup = '/views/reporting/partials/add_invoice_adjustment
 assets.html_invocie_upload_SOR = '/views/reporting/partials/invoice_upload_SOR_popup.html';
 assets.html_add_note_popup = '/views/reporting/partials/invoice_add_note.html';
 
-//Admin page
+// Admin page
 assets.html_admin_home = '/views/workflow/admin_home.html';
 assets.html_users = '/views/reporting/users.html';
 assets.html_accounts = '/views/workflow/accounts.html';
 assets.html_advertisers = '/views/workflow/advertisers.html';
 assets.html_brands = '/views/workflow/brands.html';
-
-
-
-

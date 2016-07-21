@@ -1,5 +1,5 @@
-define(['angularAMD'], function (angularAMD) { // jshint ignore:line
-    angularAMD.controller('ConfirmationModalController', function($scope , $modalInstance,headerMsg,mainMsg,execute,
+define(['angularAMD'], function (angularAMD) {
+    angularAMD.controller('ConfirmationModalController', function ($scope , $modalInstance,headerMsg,mainMsg,execute,
                                                                   buttonName, constants) {
         $scope.headerMsg = headerMsg;
         $scope.mainMsg =  mainMsg;

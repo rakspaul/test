@@ -1,8 +1,7 @@
-define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'common/utils', // jshint ignore:line
-    'login/login_model', 'common/services/constants_service', 'common/services/url_service',
-    'common/services/data_store_model', 'common/services/data_service', 'common/moment_utils',
-    'common/controllers/confirmation_modal_controller', 'reporting/advertiser/advertiser_model',
-    'reporting/brands/brands_model', 'workflow/services/account_service',
+define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'common/utils', 'login/login_model',
+    'common/services/constants_service', 'common/services/url_service', 'common/services/data_store_model',
+    'common/services/data_service', 'common/moment_utils', 'common/controllers/confirmation_modal_controller',
+    'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'workflow/services/account_service',
     'reporting/collectiveReport/report_schedule_delete_controller',
     'reporting/collectiveReport/reports_invoice_addNote_controller',
     'reporting/collectiveReport/reports_invoice_addAdjustment_controller',
@@ -19,11 +18,11 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
             _curCtrl.invoiceId = $routeParams.invoiceId;
 
-            //Get the details of the invoice
+            // Get the details of the invoice
             _curCtrl.getInvoiceDetials = function () {
                 var res;
                 dataService.fetch(urlService.getInvoiceDetials($routeParams.invoiceId)).then(function (result) {
-                    if(result.status === 'success' || result.status === 'OK') {
+                    if (result.status === 'success' || result.status === 'OK') {
                         res = result.data.data;
                         $scope.invoiceDetails = res;
                         $scope.noteData.notes = $scope.invoiceDetails.description;
@@ -31,8 +30,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         $scope.isDataLoaded = true;
                         $scope.isUploadStatus = (res.status === 'Upload') ? true : false;
                     }
-                }, function () {
-                });
+                }, function () {});
             };
 
             _curCtrl.getInvoiceDetials();
@@ -52,8 +50,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             $scope.clientName = loginModel.getSelectedClient() ? loginModel.getSelectedClient().name : '';
 
             $scope.advertiserName = advertiserModel.getAdvertiser().selectedAdvertiser ?
-                advertiserModel.getAdvertiser().selectedAdvertiser.name :
-                'All Advertisers';
+                advertiserModel.getAdvertiser().selectedAdvertiser.name : 'All Advertisers';
 
             $scope.noteData = {
                 notes: '',
@@ -78,27 +75,27 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 _curCtrl.getInvoiceDetials();
             });
 
-            //PopUp window to add credit or debit to the adjustment
+            // PopUp window to add credit or debit to the adjustment
             $scope.showAddAdjustmentPopup = function () {
-                var $modalInstance = $modal.open({ // jshint ignore:line
-                    templateUrl: assets.html_add_credit_popup, // jshint ignore:line
+                $modal.open({
+                    templateUrl: assets.html_add_credit_popup,
                     controller: 'ReportsInvoiceAddAdjustmentController',
                     scope: $scope,
                     windowClass: 'edit-dialog',
+
                     resolve: {
-                        getMediaPlansForClone: function () {
-                        }
+                        getMediaPlansForClone: function () {}
                     }
                 });
 
-                $scope.addAdjustmentData = angular.copy($scope.invoiceDetails); // jshint ignore:line
+                $scope.addAdjustmentData = angular.copy($scope.invoiceDetails);
                 $scope.addAdjustmentData.invoiceId = $routeParams.invoiceId;
             };
 
-            //PopUp window to add note to the invoice
+            // PopUp window to add note to the invoice
             $scope.showAddNotePopup = function (invoice) {
-                var $modalInstance = $modal.open({ // jshint ignore:line
-                    templateUrl: assets.html_add_note_popup, // jshint ignore:line
+                $modal.open({
+                    templateUrl: assets.html_add_note_popup,
                     controller: 'ReportsInvoiceAddNoteController',
                     scope: $scope,
                     windowClass: 'edit-dialog invoice_note_popUp',
@@ -108,15 +105,15 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     }
                 });
 
-                $scope.addAdjustmentData = angular.copy(invoice); // jshint ignore:line
+                $scope.addAdjustmentData = angular.copy(invoice);
             };
 
-            //Change the status
+            // Change the status
             $scope.selectStatus = function (status) {
                 $scope.selectedStatus = status;
                 $scope.noteData.status = status;
 
-                if($scope.noteData.status === 'Ready' || $scope.noteData.status === 'Review') {
+                if ($scope.noteData.status === 'Ready' || $scope.noteData.status === 'Review') {
                     _curCtrl.saveNoteAndStatus();
                 } else {
                     $scope.confirmationPopUp = true;
@@ -129,7 +126,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 _curCtrl.saveNoteAndStatus();
             };
 
-            //Download CSV or template
+            // Download CSV or template
             $scope.download = function (isInvoiceReport) {
                 var url='',
 
@@ -149,7 +146,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     .downloadFile(url)
                     .then(function (res) {
                         if (res.status === 'OK' || res.status === 'success') {
-                            saveAs(res.file, res.fileName); // jshint ignore:line
+                            saveAs(res.file, res.fileName);
                             $rootScope.setErrAlertMessage(successMsg, 0);
                         } else {
                             $rootScope.setErrAlertMessage(errMsg);
@@ -160,8 +157,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             };
 
             $scope.showUploadSORPopUp = function (invoice) {
-                var $modalInstance = $modal.open({ // jshint ignore:line
-                    templateUrl: assets.html_invocie_upload_SOR, // jshint ignore:line
+                $modal.open({
+                    templateUrl: assets.html_invocie_upload_SOR,
                     controller: 'invoiceUploadSOR',
                     scope: $scope,
                     windowClass: 'edit-dialog uploadSORPopup',
@@ -171,7 +168,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     }
                 });
 
-                $scope.invoiceData = angular.copy(invoice); // jshint ignore:line
+                $scope.invoiceData = angular.copy(invoice);
             };
         });
     }

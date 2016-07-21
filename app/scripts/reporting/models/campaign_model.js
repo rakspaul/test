@@ -1,7 +1,7 @@
 define(['angularAMD'], function (angularAMD) {
-    "use strict";
+    'use strict';
     angularAMD.value('campaignModel', function () {
-        //following variables are returned by API
+        // following variables are returned by API
         this.id = -1;
         this.name = '';
         this.status = 'draft';
@@ -18,7 +18,7 @@ define(['angularAMD'], function (angularAMD) {
         this.kpi_status = -1;
         this.momentInNetworkTZ = null;
 
-        //following variables are used by campaignListModel
+        // following variables are used by campaignListModel
         this.setVariables = function () {
             this.orderId = this.id;
             this.startDate = this.start_date;
@@ -42,7 +42,8 @@ define(['angularAMD'], function (angularAMD) {
             this.campaignStrategiesLoadMore = null;
         };
 
-        //following are redundant variables and should be removed from single campaign object as they are properties of campaign list.
+        // TODO: following are redundant variables and should be removed from single campaign object as they are
+        // properties of campaign list.
         this.periodStartDate = '';
         this.periodEndDate = '';
 
@@ -55,29 +56,28 @@ define(['angularAMD'], function (angularAMD) {
         };
 
         this.durationLeft = function () {
-            //      console.log('durationLeft called: ' + this.startDate + " : " + this.endDate);
             var today = this.momentInNetworkTZ.today(),
                 endDate = this.momentInNetworkTZ.newMoment(this.endDate),
                 startDate = this.momentInNetworkTZ.newMoment(this.startDate);
 
             if (today.isBefore(startDate)) {
-                //campaign yet to start
-                return "Yet to start";
+                // campaign yet to start
+                return 'Yet to start';
             }
 
             if (endDate.isBefore(today)) {
-                //campaign ended
-                return "Ended";
+                // campaign ended
+                return 'Ended';
             }
 
             if (endDate.isSame(today)) {
-                //campaign ending today
-                return "Ending today";
+                // campaign ending today
+                return 'Ending today';
             }
 
             if (startDate.isSame(today)) {
-                //campaign starting today
-                return "Started today";
+                // campaign starting today
+                return 'Started today';
             }
 
             return Math.round(endDate.diff(today, 'days', true)) + 1;

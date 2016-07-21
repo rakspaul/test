@@ -108,7 +108,7 @@
           margin-top: -2px;
           .icon {
             font-size: 9px;
-            color: #000;
+            color: #939EAE;
             padding-top: 2px;
           }
         }
@@ -684,6 +684,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     width: 130px ;
     text-align: left;
     min-width: 100px;
+    top: 20px ;
     li {
         padding: 9px 15px !important;
         float: left;
@@ -706,7 +707,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   }
 }
 
-.common_reports_container , .breadcrumb_campaign_strategy {
+.common_reports_container , .breadcrumb_campaign_strategy , .smallSreenScrollDiv {
   font-family: "Avenir";
   position: relative;
   #optimization_strategies_dd {
@@ -826,12 +827,12 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     float: left;
     font-size: 14px;
   }
-  .icon-arrow-down-thick {
+  .icon-arrow-solid-down {
     float: left;
-    color: #000;
-    font-size: 9px;
-    height: 9px;
-    width: 9px;
+    color: #939EAE;
+    font-size: 10px;
+    height: 10px;
+    width: 10px;
     margin-top: 1px;
     }
   .download_anchor_li_disabled {
@@ -844,6 +845,9 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   }
   .dropdown_type1 {
     color: #313233;
+    #campaigns_list {
+      top : -20px ;
+    }
     .dropdown-menu {
       width: 660px ;
     }
@@ -896,6 +900,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     width: 450px;
     max-height: 200px;
     overflow: auto;
+    margin-top: 23px;
   }
 
   .performance_selection {
@@ -1182,9 +1187,9 @@ div.strategy_total_container {
       cursor: pointer;
     }
     .discrepancyTplRow {
-      .icon-arrow-down {
-        font-size: 9px;
-        color: #000;
+      .icon-arrow-solid-down {
+        font-size: 10px;
+        color: #939EAE;
         -ms-transform: rotate(-90deg);
         -webkit-transform: rotate(-90deg);
         transform: rotate(-90deg);
@@ -1195,7 +1200,7 @@ div.strategy_total_container {
       }
     }
     .discrepancyTplRow.open {
-      .icon-arrow-down {
+      .icon-arrow-solid-down {
         -ms-transform: rotate(0deg);
         -webkit-transform: rotate(0deg);
         transform: rotate(0deg);
@@ -1816,6 +1821,7 @@ div.strategy_total_container {
 .platform_reports_container {
   .view_mode_switch_container {
     top : 145px ;
+    z-index: 9;
   }
 }
 
@@ -2397,7 +2403,7 @@ div.strategy_total_container {
 /**************** reports performance table styling ***********/
 
 .reports_tabs_content_container {
-  margin-top: 22  px ;
+  margin-top: 22px ;
   .common-load-icon {
     text-align: center;
     text-indent: -99999;
@@ -3917,6 +3923,15 @@ div.strategy_total_container {
     .default-kpi-header-icon  {
       float: left;
     }
+    .icon-arrow-solid-down {
+        font-size: 10px;
+        width: 10px;
+        height: 10px;
+        padding: 0;
+        margin: 1px 0 0 7px;
+        position: static;
+        color: #939EAE;
+    }
   }
 }
 
@@ -3964,6 +3979,17 @@ div.strategy_total_container {
     float: left;
     background-position: left top;
 
+  }
+}
+#kpi_dropdown {
+  .default-kpi-header-icon  {
+    width: 14px ;
+  }
+  .dropdown_ul_text {
+    padding-right: 0px ;
+    .icon-arrow-solid-down {
+      margin-left: 3px;
+    }
   }
 }
 /*  end of reports login page */
@@ -4182,28 +4208,31 @@ only screen and (min-device-pixel-ratio: 2) {
     /*.collapseIcon{
         visibility: hidden;
     }*/
-    .icon-minus,
-    .icon-plus {
-        color: #57606d;
+    .icon-toggleclose,
+    .icon-toggleopen {
         float: left;
-        font-size: 13px;
+        font-size: 24px;
         height: 24px;
-        padding: 6px;
+        padding: 0px;
         top: 0;
         width: 24px;
-        border: 1px solid #C6C9CE;
-        border-radius: 2px;
         float: left;
-       /* margin-right: 10px;
-        margin-left: 18px;
-        margin-top: 17px; */
-        &:hover{
-            color: #428bca;
-        }
         &:before{
             top: -1px;
             position: relative;
             left: -1px;
+        }
+    }
+    .icon-toggleclose {
+        color: #bfc9d7;
+        &:hover {
+            color: #939eae;
+        }
+    }
+    .icon-toggleopen {
+        color: #004d86;
+        &:hover {
+            color: #0563a9;
         }
     }
 
@@ -4266,13 +4295,17 @@ only screen and (min-device-pixel-ratio: 2) {
       color:  #939ead;
       font-size: 14px;
     }
+    .custom_report_filter{
+        .common_dropdown .dropdown {
+          min-width: 160px ;
+          max-width: 160px ;
+        }
+    }
     .each_section_custom_report {
       margin: 0 auto 20px;
       width: 1200px;
       float: none;
-      .custom_report_filter{
-          //margin-right: 11px;
-      }
+
       .filter_input_txtbox{
           //max-width: 159px;
       }
@@ -4587,7 +4620,6 @@ only screen and (min-device-pixel-ratio: 2) {
         margin : 6px 0 15px ;
       }
       .common_dropdown .dropdown {
-        min-width: 140px ;
         margin-right: 0;
       }
 
@@ -4749,18 +4781,22 @@ only screen and (min-device-pixel-ratio: 2) {
 
     .each_col.more_dimension_arrow {
       display: none;
-      background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
-      height: 11px;
+      height: 12px;
       width: 12px;
+      font-size: 12px;
       min-width: 12px;
       max-width: 12px;
       padding-bottom: 2px;
       cursor: pointer;
       position: absolute;
-      top: 0;
+      top: 5px;
       left: 0;
       z-index: 3;
-      margin-top : 3px ;
+      margin-top: 3px;
+      color: #bfc9d7;
+      &:hover {
+        color: #939eae;
+      }
     }
 
     .second_dimension_row_holder {
@@ -4788,9 +4824,10 @@ only screen and (min-device-pixel-ratio: 2) {
       }
       .second_dimension_row {
         position: relative;
-        margin-top: 10px;
+        padding-top: 10px;
         color: #5A5A5A ;
         font-family: "Avenir" ;
+        border-left: dashed 1px #95a1a9;
         .tree_dimension_col {
           width: 290px;
           min-width: 290px;
@@ -4808,7 +4845,7 @@ only screen and (min-device-pixel-ratio: 2) {
           -webkit-border-radius: 0 0 0 4px ;
           display: inline-block;
           position: absolute;
-          top: 0px;
+          top: 10px;
           left: 0px;
           &:after {
             content: "";
@@ -4816,12 +4853,12 @@ only screen and (min-device-pixel-ratio: 2) {
             -moz-border-radius: 50%;
             -webkit-border-radius: 50%;
             position: absolute;
-            top: 13px;
+            top: 12px;
             right: 0;
             background-color: rgb(147, 158, 173);
             width: 5px;
             height: 5px;
-
+            z-index: 10;
           }
         }
       }
@@ -4878,18 +4915,20 @@ only screen and (min-device-pixel-ratio: 2) {
     }
     .reportData.active {
       .more_dimension_arrow  {
-        background-image: url("/images/cdesk/common_down_arrow.png") ;
-        margin-top: 0px ;
+        color: #004d86;
+        &:hover {
+            color: #0563a9;
+        }
       }
       .more_dimension_col {
         /*cursor: pointer;*/
         &:after {
           content: "";
-          height: 100%;
+          height: 17px;
           width: 1px;
           border-left: dashed 1px rgb(149, 161, 169) ;
           position: absolute;
-          top: 0;
+          top: 18px;
           left: 5px;
           z-index: 1;
           margin-bottom: 30px;
@@ -4898,7 +4937,7 @@ only screen and (min-device-pixel-ratio: 2) {
     }
     .reportData.noDataOpen {
       .more_dimension_arrow {
-        margin-top: 3px ;
+        opacity: .4;
       }
       .more_dimension_col {
         &:after {
@@ -4976,12 +5015,12 @@ only screen and (min-device-pixel-ratio: 2) {
     }
     .each_col {
       display: table-cell;
-      width: 150px;
-      min-width: 150px;
-      max-width: 150px;
+      width: 160px;
+      min-width: 160px;
+      max-width: 160px;
       word-wrap: break-word;
-      padding-right: 20px;/*
-      padding-bottom: 15px;*/
+      padding-right: 15px;
+      //padding-bottom: 15px;
       text-align: right;
     }
 
@@ -5197,13 +5236,11 @@ div.reports_tabs_content_container {
   cursor: default;
 }
 .page_top_header {
-  margin: 21px 0 0px;
+  margin: 30px 0 0 0;
   padding: 0 ;
   .page_name {
-    color: #21252b ;
-    padding: 0 ;
-    font-size: 26px ;
-    font-family: "Avenir-bold";
+    margin-top: 0;
+    padding: 0;
   }
 }
 body.custom_report_page {
@@ -5334,6 +5371,8 @@ body.custom_report_page {
         cursor:pointer;
     }
 }
-
+.marginRight {
+  margin-right: 10px ;
+}
 
 

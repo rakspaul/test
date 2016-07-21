@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service'], function (angularAMD) { // jshint ignore:line
+define(['angularAMD', 'common/services/constants_service'], function (angularAMD) {
     angularAMD.directive('campaignDropDown', ['constants', function (constants) {
         return {
             restrict: 'AE',
@@ -11,7 +11,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
             },
 
             controller: 'CampaignSelectController',
-            templateUrl: assets.html_campaign_drop_down, // jshint ignore:line
+            templateUrl: assets.html_campaign_drop_down,
 
             link: function ($scope) {
                 var localStorageCampaignData,
@@ -64,7 +64,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
                          }
                     } else {
                         target = $(event.target);
-                        campaignListElem = target.parent().find('.campaigns_list');
+                        campaignListElem = target.closest('.dropdown_type1_holder').find('.campaigns_list');
 
                         if (campaignListElem.css('display') === 'block') {
                             campaignListElem.hide();
@@ -77,15 +77,15 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
                     }
 
                     // to close the other media plan dropdown which is open
-                    mediaplanDdOpen.removeClass('mediaplan-dd-open') ;
-                    $('.report-type-col .dropdown-menu').hide() ;
-                    elem.siblings('.dropdown_type1').addClass('mediaplan-dd-open') ;
-                    $('.dropdown_type1').not('.mediaplan-dd-open').hide() ;
-                    mediaplanDdOpen.show() ;
+                    mediaplanDdOpen.removeClass('mediaplan-dd-open');
+                    $('.report-type-col .dropdown-menu').hide();
+                    elem.closest('.dropdown_type1_holder').find('.dropdown_type1').addClass('mediaplan-dd-open');
+                    $('.dropdown_type1').not('.mediaplan-dd-open').hide();
+                    mediaplanDdOpen.show();
                 });
 
                 $scope.add_active_selection = function () {
-                    $('.dropdown_type2').removeClass('active') ;
+                    $('.dropdown_type2').removeClass('active');
                     $('.dropdown_type1_holder').addClass('active');
                 };
 
@@ -111,7 +111,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
 
                             if (inputValue) {
                                 campaignDropdown.attr('placeholder', '');
-                                campaignNameSelected.text(inputValue) ;
+                                campaignNameSelected.text(inputValue);
                                 campaignDropdown.val(inputValue);
                             }
                         } else {
@@ -119,7 +119,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
 
                             if (inputValue) {
                                 campaignDropdown.attr('placeholder', '');
-                                campaignNameSelected.text(inputValue) ;
+                                campaignNameSelected.text(inputValue);
                                 campaignDropdown.val(inputValue);
                             }
                         }
@@ -128,5 +128,4 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
             }
         };
     }]);
-
 });

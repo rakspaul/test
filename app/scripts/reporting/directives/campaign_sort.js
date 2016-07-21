@@ -1,7 +1,6 @@
-define(['angularAMD', '../../common/services/constants_service'
-
-],function (angularAMD) {
+define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) {
     'use strict';
+
     angularAMD.directive('campaignSort', function (constants) {
         return {
             restrict:'EAC',
@@ -12,11 +11,9 @@ define(['angularAMD', '../../common/services/constants_service'
 
             templateUrl: assets.html_campaign_filters,
 
-            link: function ($scope, element, attrs) {
-
+            link: function ($scope) {
                 $scope.textConstants = constants;
             }
         };
     });
-
 });

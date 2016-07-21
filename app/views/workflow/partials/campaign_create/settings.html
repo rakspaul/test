@@ -7,7 +7,7 @@
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()">
                     <span class="text" data-ng-bind="selectedCampaign.clientName || 'Select SubAccount'"></span>
-                    <span class="icon-arrow-down"></span>
+                    <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="subaccountDDL" ng-if="mode !== 'edit' && !cloneMediaPlanName">
                     <li ng-repeat="subaccount in workflowData.subAccounts track by subaccount.id" class="available"><a ng-click="selectHandler('subAccount', subaccount)">{{subaccount.name}}</a></li>
@@ -26,7 +26,7 @@
             <div class="dropdown">
                 <button class="btn btn-default dropdown-with-search-btn" type="button" data-ng-bind="selectedCampaign.advertiserName ? selectedCampaign.advertiserName : 'Select Advertiser'" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown();showHideDropdownWithSearch($event)" ng-disabled="!selectedCampaign.clientId">
                     <!--<span class="text">{{selectedCampaign.advertiserName ? selectedCampaign.advertiserName : 'Select Advertiser'}}</span>-->
-                    <span class="icon-arrow-down"></span>
+                    <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-with-search" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit' && !cloneMediaPlanName">
                     <div id="brandsDropdownDiv" class="search-inside-dropdown">
@@ -48,7 +48,7 @@
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()" ng-disabled=" workflowData.brands.length == 0">
                     <span class="text" data-ng-bind="selectedCampaign.brandName || 'Select Brand'"></span>
-                    <span class="icon-arrow-down"></span>
+                    <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
                     <li ng-repeat="brand in workflowData.brands track by brand.id" class="available"><a ng-click="selectHandler('brand', brand)" data-ng-bind="brand.name"></a></li>
@@ -142,7 +142,7 @@
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
                         <span class="text">{{kpiName}}</span>
-                        <span class="icon-arrow-down" ></span>
+                        <span class="icon-arrow-solid-down" ></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
                         <li class="available" ng-repeat="kpi in kpiNameList" ng-click="setKPIName(kpi.name)"><a>{{kpi.name}}</a></li>

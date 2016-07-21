@@ -1,9 +1,9 @@
 <div class="reports_main_page_holder">
     <div class="common_reports_container platform_reports_container">
         <div class="clearfix page_top_header">
-            <div class="pull-left col-md-6 page_name">
+            <h1 class="pull-left col-md-6 page_name">
                 Platform Report
-            </div>
+            </h1>
             <div class="pull-right col-md-2 zeroPadding">
                 <download-report></download-report>
             </div>
@@ -281,17 +281,17 @@
 
             <div class="vid_data_hdr">
                 <div>
-                    <div class="vid_quartile_data">{{((platform.video_completion_25 >0)|| (platform.video_completion_25
-                        == 0))? (platform.video_completion_25 | nrFormat) : '-'}}
+                    <div class="vid_quartile_data">{{((platform.vtc_25 >0)|| (platform.vtc_25
+                        == 0))? (platform.vtc_25 | nrFormat:2) : '-'}}
                     </div>
-                    <div class="vid_quartile_data">{{((platform.video_completion_50 >0)|| (platform.video_completion_50
-                        == 0))? (platform.video_completion_50 | nrFormat) : '-'}}
+                    <div class="vid_quartile_data">{{((platform.vtc_50 >0)|| (platform.vtc_50
+                        == 0))? (platform.vtc_50 | nrFormat:2) : '-'}}
                     </div>
-                    <div class="vid_quartile_data">{{((platform.video_completion_75 >0)|| (platform.video_completion_75
-                        == 0))? (platform.video_completion_75 | nrFormat) : '-'}}
+                    <div class="vid_quartile_data">{{((platform.vtc_75 >0)|| (platform.vtc_75
+                        == 0))? (platform.vtc_75 | nrFormat:2) : '-'}}
                     </div>
-                    <div class="vid_quartile_data">{{((platform.video_completion_100 >0)||
-                        (platform.video_completion_100 == 0))? (platform.video_completion_100 | nrFormat) : '-'}}
+                    <div class="vid_quartile_data">{{((platform.vtc_100 >0)||
+                        (platform.vtc_100 == 0))? (platform.vtc_100 | nrFormat:2) : '-'}}
                     </div>
                 </div>
             </div>
@@ -322,12 +322,12 @@
         </div>
     </span>
         <div ng-if="adFormats.videoAds"
-             class="each_col eight_col {{platform.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}"
+             class="each_col eight_col {{platform.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
              ng-class="{vid_none:adFormats.videoAds == false}">
             <span
-                ng-if="selected_filters.kpi_type=='ctr'||selected_filters.kpi_type=='vtc'||selected_filters.kpi_type=='action_rate'">{{((platform.cpm >0)|| (platform.cpm == 0)) ? (platform.cpm | currency:undefined:3) : '-'}}</span>
+                ng-if="selectedFilters.kpi_type=='ctr'||selectedFilters.kpi_type=='vtc'||selectedFilters.kpi_type=='action_rate'">{{((platform.cpm >0)|| (platform.cpm == 0)) ? (platform.cpm | currency:undefined:3) : '-'}}</span>
             <span
-                ng-if="selected_filters.kpi_type=='cpm'||selected_filters.kpi_type=='cpc'||selected_filters.kpi_type=='cpa'">{{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor:selected_filters2.kpi_type}}</span>
+                ng-if="selectedFilters.kpi_type=='cpm'||selectedFilters.kpi_type=='cpc'||selectedFilters.kpi_type=='cpa'">{{platform[selectedFilters.kpi_type.toLowerCase()] | appendDollor:selectedFilters2.kpi_type}}</span>
         </div>
     </div>
 </script>
@@ -393,35 +393,24 @@
                 (platform.impressions | number:0) : '-'}}
             </div>
             <div
-                class="col-md-1 zeroPadding text-left {{platform.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}">
-                {{selected_filters.kpi_type.toLowerCase() === 'vtc'?
-                platform['vtc_100']:platform[selected_filters.kpi_type.toLowerCase()] | appendDollor :
-                selected_filters.kpi_type.toLowerCase() }}
+                class="col-md-1 zeroPadding text-left {{platform.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}">
+                {{selectedFilters.kpi_type.toLowerCase() === 'vtc'?
+                platform['vtc_100']:platform[selectedFilters.kpi_type.toLowerCase()] | appendDollor :
+                selectedFilters.kpi_type.toLowerCase() }}
             </div>
-            <div class="col-md-1 zeroPadding text-center">{{((platform.inventory_cost >0)|| (platform.inventory_cost ==
-                0))? (platform.inventory_cost | nrFormatWithCurrency:0) : '-'}}
-            </div>
-            <div class="col-md-1 zeroPadding text-center">{{((platform.data_cost >0)|| (platform.data_cost == 0))?
-                (platform.data_cost | nrFormatWithCurrency:0) : '-'}}
-            </div>
-            <div class="col-md-1 zeroPadding text-center">{{((platform.serving_cost >0)|| (platform.serving_cost == 0))?
-                (platform.serving_cost | nrFormatWithCurrency:0) : '-'}}
-            </div>
-            <div class="col-md-1 zeroPadding text-center">{{((platform.verification_cost >0)||
-                (platform.verification_cost == 0))? (platform.verification_cost | nrFormatWithCurrency:0) : '-'}}
-            </div>
-            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.creative_cost >= 0) ? (platform.creative_cost | nrFormatWithCurrency:0) : '-'"></div>
-            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.research_cost >= 0) ? (platform.research_cost | nrFormatWithCurrency:0) : '-'"></div>
-            <!--<div class="col-md-2 zeroPadding text-center">{{((platform.collective_cost >0)|| (platform.collective_cost == 0))? (platform.collective_cost | nrFormatWithCurrency:2) : '-'}}</div>-->
+            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.inventory_cost >= 0) ? (platform.inventory_cost | currency:undefined:0) : '-'"></div>
+            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.data_cost >= 0) ? (platform.data_cost | currency:undefined:0) : '-'"></div>
+            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.serving_cost >= 0)? (platform.serving_cost | currency:undefined:0) : '-'"></div>
+            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.verification_cost >= 0) ? (platform.verification_cost | currency:undefined:0) : '-'"></div>
+            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.creative_cost >= 0) ? (platform.creative_cost | currency:undefined:0) : '-'"></div>
+            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.research_cost >= 0) ? (platform.research_cost | currency:undefined:0) : '-'"></div>
             <div class="col-md-2 text-center" style="padding: 0 2px;">
-                <span class="pull-left col-md-4 zeroPadding text-left" ng-bind="(platform.tech_fees >= 0) ? (platform.tech_fees | nrFormatWithCurrency:2) : '-'">$0</span>
-                <span class="pull-left col-md-4 zeroPadding text-center" style="text-indent: 23px;" ng-bind="(platform.service_fees >= 0) ? (platform.service_fees | nrFormatWithCurrency:2) : '-'">$0</span>
-                <span class="pull-left col-md-4 zeroPadding text-right" ng-bind="(platform.tech_service_fees_total >= 0) ? (platform.tech_service_fees_total | nrFormatWithCurrency:2) : '-'">$0</span>
+                <span class="pull-left col-md-4 zeroPadding text-left" ng-bind="(platform.tech_fees >= 0) ? (platform.tech_fees | currency:undefined:0) : '-'">$0</span>
+                <span class="pull-left col-md-4 zeroPadding text-center" style="text-indent: 23px;" ng-bind="(platform.service_fees >= 0) ? (platform.service_fees | currency:undefined:0) : '-'">$0</span>
+                <span class="pull-left col-md-4 zeroPadding text-right" ng-bind="(platform.tech_service_fees_total >= 0) ? (platform.tech_service_fees_total | currency:undefined:0) : '-'">$0</span>
             </div>
-            <div class="col-md-1 zeroPadding text-center">{{((platform.spend >0)|| (platform.spend == 0))?
-                (platform.spend | nrFormatWithCurrency:0) : '-'}}
-            </div>
-            <div class="col-md-1 zeroPadding text-center" ng-bind="0 | nrFormatWithCurrency:0"></div>
+            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.gross_rev >= 0) ? (platform.gross_rev | currency:undefined:0) : '-'"></div>
+            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.margin >= 0) ? (platform.margin | number:0) : '-'"></div>
         </div>
     </div>
 </script>
@@ -455,8 +444,8 @@
             {{((platform.other_view_imps_suspicious_perc >0)|| (platform.other_view_imps_suspicious_perc == 0)) ?
             ((platform.other_view_imps_suspicious_perc | number:2)+'%') : '-'}}
         </div>
-        <!-- <div class="each_col seventh_col {{platform.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}">
-             {{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
+        <!-- <div class="each_col seventh_col {{platform.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}">
+             {{platform[selectedFilters.kpi_type.toLowerCase()] | appendDollor: selectedFilters.kpi_type}}
          </div>-->
     </div>
 </script>

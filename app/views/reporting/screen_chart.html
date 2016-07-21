@@ -5,7 +5,7 @@
         <div class="pull-left dropdown" id="dashboard_screen_dd" style="width: auto;">
               <span class="dropdown_ul_text" data-toggle="dropdown">
                 <span>{{screenWidgetData.selectedFormat}}</span>
-                <span class="arrow_img"></span>
+                <span class="icon-arrow-solid-down" style="margin-top: 6px;"></span>
               </span>
               <ul class="dropdown_ul dropdown-menu">
                 <li ng-repeat="data in screenWidgetData.formatDropDown track by $index" data-ng-click="formatDropdownChange(data)">{{data}}</li>
@@ -21,9 +21,9 @@
       
       <div class="pull-right dropdown" id="dashboard_allocation_dd" >
               <span class="metrics_text">{{textConstants.METRIC}}</span>
-              <span class="dropdown_ul_text" data-toggle="{{!screenBusy ?  'dropdown' : ''}}">
+              <span class="dropdown_ul_text" style="float: right; margin-left: 7px;" data-toggle="{{!screenBusy ?  'dropdown' : ''}}">
                 <span>{{screenWidgetData.selectedMetric}}</span>
-                <span class="arrow_img"></span>
+                <span class="icon-arrow-solid-down"></span>
               </span>
               <ul class="dropdown_ul dropdown-menu">
                 <li  ng-repeat="data in screenWidgetData.metricDropDown track by $index" data-ng-click="metricDropdownChange(data)" >{{data }}</li>

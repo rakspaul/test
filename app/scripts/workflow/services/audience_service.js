@@ -1,204 +1,232 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_service', // jshint ignore:line
-    'common/services/constants_service', 'workflow/services/workflow_service' ,
-    'login/login_model'], function (angularAMD) {
-    'use strict';
+define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_service',
+    'common/services/constants_service', 'workflow/services/workflow_service' , 'login/login_model'],
+    function (angularAMD) {
+        'use strict';
 
-    angularAMD.factory('audienceService', function (vistoconfig, dataService, constants, workflowService, loginModel) {
-        var audience,
-            source,
-            keywords,
-            selAudiences,
-            andOrStatus,
-            dayPartData,
-            dayTimeSelectedObj,
-            daytimeArrObj,
-            dayArr;
+        angularAMD.factory('audienceService', function (vistoconfig, dataService, constants, workflowService,
+                                                        loginModel) {
+            var audience,
 
-        return {
-            setAudience: function (aud) {
-                audience = aud;
-            },
+                source,
 
-            getAudience: function () {
-                return audience;
-            },
+                keywords,
 
-            fetchAudience: function (params) {
+                selAudiences,
 
-                var sortCol = params.sortColumn,
-                    sortOrder = params.sortOrder,
-                    pageNo = params.pageNumber,
-                    pageSize = params.pageSize,
-                    keywords = params.selectedKeywords,
-                    source = params.selectedSource,
-                    classification = params.selectedCategory,
-                    clientId =  loginModel.getSelectedClient().id,
-                    url,
-                    i,
-                    j;
+                andOrStatus,
 
-                // url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' +
-                // workflowService.getPlatform().id + '/seats/' + seatId + '/segments?pageNo=' + pageNo +
-                // '&pageSize=' + pageSize;
+                dayPartData,
 
-                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId +
-                    '/segments?pageNo=' + pageNo +
-                    '&pageSize=' + pageSize;
+                dayTimeSelectedObj,
 
-                if (sortCol && sortCol !== '') {
-                    url += '&sortBy=' + sortCol;
-                }
+                daytimeArrObj,
 
-                if (sortOrder && sortOrder !== '') {
-                    url += '&sortOrder=' + sortOrder;
-                }
+                dayArr,
 
-                if (keywords && keywords.length > 0) {
-                    url += '&query=';
+                setAudience = function (aud) {
+                    audience = aud;
+                },
 
-                    for (i = 0; i < keywords.length; i++) {
-                        url += keywords[i];
+                getAudience = function () {
+                    return audience;
+                },
 
-                        if (i + 1 < keywords.length) {
-                            url += '--';
+                fetchAudience = function (params) {
+                    var sortCol = params.sortColumn,
+                        sortOrder = params.sortOrder,
+                        pageNo = params.pageNumber,
+                        pageSize = params.pageSize,
+                        keywords = params.selectedKeywords,
+                        source = params.selectedSource,
+                        classification = params.selectedCategory,
+                        clientId =  loginModel.getSelectedClient().id,
+                        advertiserId=params.advertiserId,
+                        url,
+                        i,
+                        j;
+
+                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId +
+                        '/advertisers/'+advertiserId+
+                        '/segments?pageNo=' + pageNo +
+                        '&pageSize=' + pageSize;
+
+                    if (sortCol && sortCol !== '') {
+                        url += '&sortBy=' + sortCol;
+                    }
+
+                    if (sortOrder && sortOrder !== '') {
+                        url += '&sortOrder=' + sortOrder;
+                    }
+
+                    if (keywords && keywords.length > 0) {
+                        url += '&query=';
+
+                        for (i = 0; i < keywords.length; i++) {
+                            url += keywords[i];
+
+                            if (i + 1 < keywords.length) {
+                                url += '--';
+                            }
                         }
                     }
-                }
 
-                if (source && source.length > 0) {
-                    url += '&sources=';
+                    if (source && source.length > 0) {
+                        url += '&sources=';
 
-                    for (i = 0; i < source.length; i++) {
-                        url += source[i].id;
+                        for (i = 0; i < source.length; i++) {
+                            url += source[i].id;
 
-                        if (i + 1 < source.length) {
-                            url += ',';
-                        }
-                    }
-                }
-
-                if (classification && classification.length > 0) {
-                    url += '&classifiers=';
-
-                    for (i = 0; i < classification.length; i++) {
-                        for (j = 0; j < classification[i].subCategories.length; j++) {
-                            url += classification[i].subCategories[j].id;
-                            if (j + 1 < classification[i].subCategories.length) {
+                            if (i + 1 < source.length) {
                                 url += ',';
                             }
                         }
+                    }
 
-                        if (i + 1 < classification.length) {
-                            url += ',';
+                    if (classification && classification.length > 0) {
+                        url += '&classifiers=';
+
+                        for (i = 0; i < classification.length; i++) {
+                            for (j = 0; j < classification[i].subCategories.length; j++) {
+                                url += classification[i].subCategories[j].id;
+                                if (j + 1 < classification[i].subCategories.length) {
+                                    url += ',';
+                                }
+                            }
+
+                            if (i + 1 < classification.length) {
+                                url += ',';
+                            }
                         }
                     }
-                }
 
-                return dataService.fetch(url, {cache: false});
-            },
+                    return dataService.fetch(url, {cache: false});
+                },
 
-            fetchAudienceSource: function (seatId) {
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + loginModel.getSelectedClient().id +
-                    '/vendors/' + workflowService.getPlatform().id +
-                    '/seats/' + seatId +
-                    '/segments/sources';
+                fetchAudienceSource = function (seatId) {
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + loginModel.getSelectedClient().id +
+                        '/vendors/' + workflowService.getPlatform().id +
+                        '/seats/' + seatId +
+                        '/segments/sources';
 
-                return dataService.fetch(url, {cache: false});
-            },
+                    return dataService.fetch(url, {cache: false});
+                },
 
-            fetchAudienceCategories: function () {
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/segments/categories';
+                fetchAudienceCategories = function () {
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/segments/categories';
 
-                return dataService.fetch(url, {cache: false});
-            },
+                    return dataService.fetch(url, {cache: false});
+                },
 
-            setAudienceSource: function (s) {
-                source = s;
-            },
+                setAudienceSource = function (s) {
+                    source = s;
+                },
 
-            getAudienceSource: function () {
-                return source;
-            },
+                getAudienceSource = function () {
+                    return source;
+                },
 
-            fetchAudiencekeywords: function (params) {
-                var searchKey = params.searchKey,
-                    // seatId = params.seatId,
-                    url;
+                fetchAudiencekeywords = function (params) {
+                    var searchKey = params.searchKey,
+                        url;
 
-                // url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id +
-                // '/vendors/'+workflowService.getPlatform().id + '/seats/' + seatId +
-                // '/segments/keywords?search='+searchKey;
+                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + loginModel.getSelectedClient().id +
+                        '/segments?query=' + searchKey;
 
-                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + loginModel.getSelectedClient().id +
-                    '/segments?query=' + searchKey;
+                    return dataService.fetch(url, {cache: false});
+                },
 
-                return dataService.fetch(url, {cache: false});
-            },
+                setAudienceKeywords = function (s) {
+                    keywords = s;
+                },
 
-            setAudienceKeywords: function (s) {
-                keywords = s;
-            },
+                getAudienceKeywords = function () {
+                    return keywords;
+                },
 
-            getAudienceKeywords: function () {
-                return keywords;
-            },
+                setSelectedAudience = function (s) {
+                    selAudiences = s;
+                },
 
-            setSelectedAudience: function (s) {
-                selAudiences = s;
-            },
+                getSelectedAudience = function () {
+                    return selAudiences;
+                },
 
-            getSelectedAudience: function () {
-                return selAudiences;
-            },
+                resetAudienceData = function () {
+                    selAudiences = null;
+                    andOrStatus = constants.DEFAULTANDORSTATUS;
+                },
 
-            resetAudienceData: function () {
-                selAudiences = null;
-                andOrStatus = constants.DEFAULTANDORSTATUS;
-            },
+                setAndOr = function (status) {
+                    andOrStatus = status;
+                },
 
-            setAndOr: function (status) {
-                andOrStatus = status;
-            },
+                getAndOr = function () {
+                    return andOrStatus;
+                },
 
-            getAndOr: function () {
-                return andOrStatus;
-            },
+                setDayPartData = function (dataObj) {
+                    dayPartData=dataObj;
+                },
 
-            setDayPartData: function (dataObj) {
-                dayPartData=dataObj;
-            },
+                getDayPartdata = function () {
+                    return dayPartData;
+                },
 
-            getDayPartdata: function () {
-                return dayPartData;
-            },
+                resetDayPartdata = function () {
+                    dayPartData = null;
+                },
 
-            resetDayPartdata: function () {
-                dayPartData = null;
-            },
+                setDayPartDispObj = function (daytimeArr, dayTimeSelected) {
+                    daytimeArrObj = daytimeArr;
+                    dayTimeSelectedObj = dayTimeSelected;
+                },
 
-            setDayPartDispObj: function (daytimeArr, dayTimeSelected) {
-                daytimeArrObj = daytimeArr;
-                dayTimeSelectedObj = dayTimeSelected;
-            },
+                getDaytimeObj = function () {
+                    return daytimeArrObj;
+                },
 
-            getDaytimeObj: function () {
-                return daytimeArrObj;
-            },
+                getDayTimeSelectedObj = function () {
+                    return dayTimeSelectedObj;
+                },
 
-            getDayTimeSelectedObj: function () {
-                return dayTimeSelectedObj;
-            },
+                setDayTimeArr = function (arr) {
+                    dayArr = arr;
+                },
 
-            setDayTimeArr: function (arr) {
-                dayArr = arr;
-            },
+                getDayTimeArr = function () {
+                    return dayArr;
+                };
 
-            getDayTimeArr: function () {
-                return dayArr;
-            }
-        };
-    });
-});
+            return {
+
+                setAudience : setAudience,
+                getAudience : getAudience,
+                fetchAudience : fetchAudience,
+                fetchAudienceSource : fetchAudienceSource,
+                fetchAudienceCategories : fetchAudienceCategories,
+                setAudienceSource : setAudienceSource,
+                getAudienceSource : getAudienceSource,
+                fetchAudiencekeywords : fetchAudiencekeywords,
+                setAudienceKeywords : setAudienceKeywords,
+                getAudienceKeywords : getAudienceKeywords,
+                setSelectedAudience : setSelectedAudience,
+                getSelectedAudience : getSelectedAudience,
+                resetAudienceData : resetAudienceData,
+                setAndOr : setAndOr,
+                getAndOr : getAndOr,
+                setDayPartData : setDayPartData,
+                getDayPartdata : getDayPartdata,
+                resetDayPartdata : resetDayPartdata,
+                setDayPartDispObj : setDayPartDispObj,
+                getDaytimeObj : getDaytimeObj,
+                getDayTimeSelectedObj : getDayTimeSelectedObj,
+                setDayTimeArr : setDayTimeArr,
+                getDayTimeArr : getDayTimeArr
+
+            };
+        });
+    }
+);

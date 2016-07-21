@@ -1,6 +1,6 @@
 <div class="col-md-12 zeroPadding breadcrumbs">
     <h5 ng-click="showTargettingScreen($event);" data-ng-bind="textConstants.TARGETING"></h5>
-    <span class="icon-arrow-down"></span>
+    <span class="icon-arrow-solid-down"></span>
     <h5 style="cursor: default;" data-ng-bind="textConstants.GEOGRAPHY"></h5>
 
     <button type="button" ng-disabled="!(geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0 || geoData.dmas.selected.length > 0 || geoData.zip.selected.length > 0)" class="pull-right btn btn-default" style="text-transform:none;" ng-click="saveGeography()" data-ng-bind="textConstants.SAVE_GEOGRAPHY"></button>

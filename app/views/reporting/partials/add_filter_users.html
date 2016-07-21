@@ -5,7 +5,7 @@
                   <!--<div class="dropdown">-->
                       <!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" >-->
                          <!--<span class="text">Accounts</span>-->
-                         <!--<span class="icon-arrow-down"></span>-->
+                         <!--<span class="icon-arrow-solid-down"></span>-->
                       <!--</button>-->
                       <!--<ul class="dropdown-menu" >-->
                        <!--<li >-->
@@ -32,7 +32,7 @@
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
                         <span class="text">{{selectedClient.counter.name}}</span>
-                        <span class="icon-arrow-down"></span>
+                        <span class="icon-arrow-solid-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="accountType">
                         <li ng-repeat="client in userModalData.Clients"><a ng-click="selectedClientHandler(client)">{{client.name}}</a>
