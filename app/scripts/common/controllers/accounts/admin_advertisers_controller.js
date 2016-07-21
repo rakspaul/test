@@ -11,6 +11,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                                                                 loginModel) {
         var _curCtrl = this,
             winHeight = $(window).height();
+        _curCtrl.clientId = loginModel.getSelectedClient().id;
 
         _curCtrl.verifyInput = function () {
             var ret = true;
@@ -59,7 +60,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.loadAdvertiserList = true;
 
             accountsService
-                .getUserAdvertiser()
+                .getUserAdvertiser(_curCtrl.clientId)
                 .then(function (res) {
                     $scope.loadAdvertiserList = false;
 
@@ -79,7 +80,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
         $scope.createAdvertiser = function () {
             var nickname = $scope.nickname || $scope.advertiserName,
-                requestBody,
+                data,
                 code;
 
             if (!_curCtrl.verifyInput()) {
@@ -87,12 +88,13 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             }
 
             if ($scope.isEditAdvertiser) {
-                requestBody = $scope.editRequestBody;
-                requestBody.name = $scope.advertiserName;
-                requestBody.nickname = nickname;
+                data = $scope.editRequestBody;
+                data.name = $scope.advertiserName;
+                data.nickname = nickname;
+                data.ownerClientId = _curCtrl.clientId;
 
                 accountsService
-                    .updateAdvertiser(requestBody.id, requestBody)
+                    .updateAdvertiser(data)
                     .then(function (res) {
                         if (res.status === 'CREATED' || res.status === 'success') {
                             $scope.clearEdit();
@@ -114,12 +116,14 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     $rootScope.setErrAlertMessage(constants.CODE_FIELD_EMPTY);
                     return;
                 }
-
+                data = {
+                    name: $scope.advertiserName,
+                    code: code,
+                    nickname:nickname,
+                    ownerClientId: _curCtrl.clientId
+                }
                 accountsService
-                    .createAdvertiser({
-                        name: $scope.advertiserName,
-                        code: code, nickname:nickname
-                    })
+                    .createAdvertiser(data)
                     .then(function (res) {
                         if (res.status === 'CREATED' || res.status === 'success') {
                             $scope.clearEdit();

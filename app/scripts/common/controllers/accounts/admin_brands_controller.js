@@ -7,9 +7,11 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
     'use strict';
 
     angularAMD.controller('AdminAdvertisersController', function ($scope, $rootScope, $modal, $compile, $filter,
-                                                                      constants, accountsService, momentService) {
+                                                                      constants, accountsService, momentService,
+                                                                 loginModel) {
         var _curCtrl = this,
             winHeight = $(window).height();
+        _curCtrl.clientId = loginModel.getSelectedClient().id;
 
         $('.each_nav_link').removeClass('active_tab');
         $('#admin_nav_link').addClass('active_tab');
@@ -20,7 +22,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.fetchAllBrands = function () {
             $scope.loadBrandList = true;
             accountsService
-                .getUserBrands()
+                .getUserBrands(_curCtrl.clientId)
                 .then(function (res) {
                     $scope.loadBrandList = false;
 
@@ -39,7 +41,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.fetchAllBrands();
 
         $scope.createBrand = function () {
-            var requestBody;
+            var data;
 
             if (!$scope.brandName || $scope.brandName.trim() === '') {
                 $rootScope.setErrAlertMessage(constants.BRAND_FEILD_EMPTY);
@@ -47,11 +49,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             }
 
             if ($scope.isEditBrand) {
-                requestBody = $scope.editRequestBody;
-                requestBody.name = $scope.brandName;
+                data = $scope.editRequestBody;
+                data.name = $scope.brandName;
+                data.ownerClientId = _curCtrl.clientId;
 
                 accountsService
-                    .updateBrand(requestBody.id, requestBody)
+                    .updateBrand(data)
                     .then(function (res) {
                         if (res.status === 'CREATED' || res.status === 'success') {
                             $scope.brandName = '';
@@ -64,8 +67,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                         $rootScope.setErrAlertMessage(err.message);
                     });
             } else {
+                data = {
+                    name: $scope.brandName,
+                    ownerClientId: _curCtrl.clientId
+                }
                 accountsService
-                    .createBrand({name: $scope.brandName})
+                    .createBrand(data)
                     .then(function (res) {
                         if (res.status === 'CREATED' || res.status === 'success') {
                             $scope.brandName = '';
