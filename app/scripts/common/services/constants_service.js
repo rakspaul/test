@@ -1355,5 +1355,8 @@ define(['angularAMD'], function(angularAMD) {
         this.CURRENCY = 'Currency';
         this.UPDATED = 'Updated';
         this.VIEW_SUMMARY = 'View Summary' ;
+        this.CONTRACT_DATES = 'Contract Dates' ;
+        this.SEAT_ID_CONNECTIONS = 'Seat ID | Connections' ;
+
     });
 });

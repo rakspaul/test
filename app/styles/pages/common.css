@@ -176,7 +176,7 @@
 }
 .modal-backdrop.in {
   opacity: .8;
-  z-index: 999999 !important;
+  z-index: 99999999 !important;
 }
 .modal {
   z-index: 999999999 !important;
