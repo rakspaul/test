@@ -599,13 +599,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + qryStr);
             },
 
-            forceSaveCreatives = function (clientId, adId, data) {
+            forceSaveCreatives = function (clientId, advertiserId, data) {
                 clientId = loginModel.getSelectedClient().id;
 
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
-                        '/advertisers/' + adId +
+                        '/advertisers/' + advertiserId +
                         '/creatives?forceSave=true',
                     data,
                     { 'Content-Type': 'application/json' }
