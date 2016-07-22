@@ -61,8 +61,8 @@
                         </div>
                         <div class="reports_details_outer_container"
                              data-ng-show="!dataNotFoundForPerformance"
-                             data-ng-class="{vid_none_hdr : adFormats.videoAds === false,
-                                vid_show : adFormats.videoAds === true}">
+                             data-ng-class="{vid_none_hdr: adFormats.videoAds === false,
+                                vid_show: adFormats.videoAds === true}">
                             <div class="clearfix reports_platform_header performancePlatformHeader"
                                  data-ng-hide="performanceBusy">
                                 <performance-header></performance-header>
@@ -151,7 +151,8 @@
                     <div class="reports_block"
                          id="reports_platform_viewability_block"
                          style="display: none;"
-                         data-ng-class="{'reports_video_mode_viewability_container': (adFormats.videoAds && videoMode)}">
+                         data-ng-class="{'reports_video_mode_viewability_container':
+                            (adFormats.videoAds && videoMode)}">
                         <div class="no_data_found"
                              data-ng-if="dataNotFoundForViewability"
                              data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
