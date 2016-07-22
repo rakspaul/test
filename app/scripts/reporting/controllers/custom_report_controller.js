@@ -1156,11 +1156,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                         } else {
                             mediaPlanId = $scope.reportMetaData[dimension][curRowIndx][curSecDimIndx].dimension.id;
                         }
-
                         if (mediaPlanId && $scope.isMediaPlanAccessible) {
                             $location.url('mediaplan/' + mediaPlanId + '/overview');
                         }
-
                         return false;
                     },
 
@@ -1198,6 +1196,16 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                             id: id,
                             name: name
                         });
+
+                        campaignSelectModel
+                            .getCampaigns(-1, {limit: 1, offset: 0})
+                            .then(function (response) {
+                                if (response.length > 0) {
+                                    $scope.selectedCampaign = response[0].campaign_id;
+                                    var firstCampaign = {'id':response[0].campaign_id,'name':response[0].name,'startDate':response[0].start_date,'endDate':response[0].end_date,'kpi':response[0].kpi_type,'redirectWidget':""};
+                                    localStorageService.selectedCampaign.set(firstCampaign);
+                                }
+                            });
                     },
 
                     routeToLink: function (ev, dimension, curSecDimIndx) {
