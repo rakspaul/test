@@ -601,8 +601,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 return false;
             }
 
-            $rootScope.$broadcast('hideCreativeWin');
-
             if (!$scope.TrackingIntegrationsSelected &&
                 $scope.adData.platform !== undefined &&
                 (tab !== undefined && tab[0] === '#buying')) {

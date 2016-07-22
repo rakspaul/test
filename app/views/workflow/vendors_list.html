@@ -1,12 +1,22 @@
 
-<div class="table-list-container col-md-12 zeroPadding">
+<div class="table-list-container col-md-12 zeroPadding" id="vendorConfigurationPage">
     <h1 class="col-md-12 zeroPadding" style="margin: 30px 0;" ng-bind-html="textConstants.VENDOR_CONFIGURATION"></h1>
     <div id="searchList" class="col-md-12 zeroPadding">
     <div class="col-md-12 zeroPadding btn_list_filters">
-        <div class="btn-group" role="group" aria-label="...">
-            <a role="button" class="btn btn-default" href="javascript:void(0);">
-                <span class="icon-plus pull-left"></span><span data-ng-bind="textConstants.CREATE"></span>
-            </a>
+
+        <div class="btn-group create" role="group" aria-label="...">
+            <a role="button" class="btn btn-default" ng-click="creativeCreate();"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span></a>
+            <div class="btn btn-default zeroPadding dropdown-workflow pull-left">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle moreOptCreative" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="padding-right: 18px;">
+                        <span class="icon-more-options"></span>
+                    </button>
+                    <ul class="dropdown-menu" id="moreOptions" style="left: 0; right: initial;">
+                        <li><a class="text-left" role="button"  data-ng-bind="textConstants.EDIT"></a></li>
+                        <!-- <li class="disabled"><a class="text-left">Get Creative Record Templates</a></li> -->
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <!--Quick Filter-->
@@ -44,7 +54,7 @@
             </div>
         </div>
 
-        <div id="schedule_report_filter" class="collapse">
+        <div class="collapse">
             <div class="col-md-12 zeroPadding" style="margin: 20px 0;">
                 <!--Report Types-->
                 <div class="col-md-2" style="padding: 0 10px 0 0;">
@@ -136,7 +146,7 @@
                        data-toggle="tab"
                        id="applyFilter"
                        class="btn btn-primary ng-binding"
-                       ng-click="getScheduledReports()">Apply</a>
+                       >Apply</a>
                 </div>
                 <div style="margin-top:32px;" class="col-md-1 zeroPadding">
                     <a class="btn btn-default pull-right" role="button" ng-click="clearFilters()">
@@ -160,67 +170,61 @@
     <div class="col-md-12 zeroPadding table_list_holder smallScreenScrollContent">
         <!--Table Header-->
         <div class="col-md-12 zeroPadding table-header">
-                <div class="table-th name-col"  style="width:30%" ng-bind-html="textConstants.CONFIGURATION">
+                <div class="table-th vendorFirstCol" ng-bind-html="textConstants.CONFIGURATION">
                 </div>
-                <div class="table-th" style="width:5%" ng-bind-html="textConstants.ID" >
+                <div class="table-th vendorSecCol" ng-bind-html="textConstants.ID" >
                 </div>
-                <div class="table-th" style="width:15%" ng-bind-html="textConstants.VENDOR" >
+                <div class="table-th vendorThirdCol" ng-bind-html="textConstants.VENDOR" >
                 </div>
-                <div class="table-th" style="width:12%" ng-bind-html="textConstants.TYPE"></div>
-                <div class="table-th" style="width:15%" ng-bind-html="textConstants.OWNER"></div>
-                <div class="table-th" style="width:8%" ng-bind-html="textConstants.CURRENCY"></div>
-                <div class="table-th" style="width:15%" ng-bind-html="textConstants.UPDATED"></div>
+                <div class="table-th vendorForthCol" ng-bind-html="textConstants.TYPE"></div>
+                <div class="table-th vendorFifthCol" ng-bind-html="textConstants.OWNER"></div>
+                <div class="table-th vendorSixCol" ng-bind-html="textConstants.CURRENCY"></div>
+                <div class="table-th vendorSevCol" ng-bind-html="textConstants.UPDATED"></div>
         </div>
         <!--Table Body-->
         <div class="col-md-12 zeroPadding table-body">
-            <div class="row" style="margin-top: 20px;" ng-if="showScheduleListLoader">
+            <div class="row" style="margin-top: 20px;display:none;" >
                 <div class="common-loading-area"></div>
             </div>
-            <div class="no_data_found"
-                 ng-bind="textconstants.DATANOTAVAILABLE"
-                 ng-if="!showScheduleListLoader && schdReportList.length === 0">
+            <div class="no_data_found" style="display:none;"
+                 ng-bind="textConstants.DATANOTAVAILABLE">
             </div>
-
-            <div class="row">
-                <div class="clearfix rowHover"
-                     ng-class="{downloaded:((srlist.instances.length > 0) && (srlist.instances[0].viewedOn.length > 0))}">
+            <div class="row" ng-repeat="vendor in vendorList">
+                <div class="clearfix rowHover">
 
                     <!--Column 1-->
-                    <div class="table-td name-col" style="width:30%">
-                        <div class="col-md-9 no-instance"
-                             title="{{srlist.name}} name"
-                            >
-                            {{srlist.name}} name
-                            <span ng-if="srlist.instances.length > 0"
-                                  ng-bind-html="' (' + srlist.instances.length + ')'">
-                            </span>
+                    <div class="table-td vendorFirstCol">
+                        <input type="checkbox" class="marginRight col-md-1" >
+                        <!-- <div class="external_chkbox">
+                            <div class="squaredFour marginRight col-md-1">
+                                <input type="checkbox" class="squaredFourChkbox" id="dont_show_squaredFour" >
+                                <label for="dont_show_squaredFour"></label>
+                            </div>
+                        </div> -->
+                        <div class="col-md-8 zeroPadding">
+                            <div class="pull-left campaign_status_icon in_flight_bulb" tooltip-placement="bottom" tooltip="In Flight"></div>
+                            <span title="{{vendor.name}}" class="vendor_name">{{vendor.name}}</span>
                         </div>
 
-                        <div class="col-md-3 table-td more-options">
-                            <div class="dropdown-workflow">
+                        <div class="col-md-2 zeroPadding pull-right" style="margin-top:-4px;">
+                            <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown hideOption">
-                                    <span data-toggle="dropdown">
-                                        <div class="option-horizontal">
-                                            <span></span><span></span><span></span>
-                                        </div>
-                                    </span>
+
+                                    <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="icon-more-options"></span>
+                                    </button>
+
                                     <ul class="dropdown-menu">
-                                        <li ng-click="editSchdReport(srlist.reportId, srlist.frequency)">
+                                        <li>
                                             <a ng-bind-html="textConstants.EDIT"></a>
                                         </li>
-                                        <li ng-click="copyScheduleRpt(srlist.reportId, srlist.frequency)">
+                                        <li ng-click="viewSummary()">
                                             <a ng-bind-html="textConstants.VIEW_SUMMARY"></a>
                                         </li>
-                                        <li ng-click="deleteSchdRpt(srlist.reportId, srlist.frequency)">
+                                        <li>
                                             <a ng-bind-html="textConstants.ARCHIVE"></a>
                                         </li>
 
-                                        <li class="headerDownload"
-                                            ng-click="downloadSavedReport($parent.$index,$index,srlist.reportId)"
-                                            ng-if="srlist.frequency=='Saved'">
-                                            <span class="icon-download zeroPadding pull-left"></span>
-                                            <a class="pull-left">Download</a>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -228,24 +232,34 @@
                     </div>
 
                     <!--Column 2-->
-                    <div class="table-td" style="width:5%">1234</div>
+                    <div class="table-td vendorSecCol" title="{{vendor.vendorId}}">
+                        <span class="table-td-val">{{vendor.vendorId}}</span>
+                    </div>
 
                     <!--Column 3-->
-                    <div class="table-td" style="width:15%">
-                        Appnexus
+                    <div class="table-td vendorThirdCol" title="{{vendor.vendorName}}">
+                        <span class="table-td-val">{{vendor.vendorName}}</span>
                     </div>
 
                     <!--Column 4-->
-                    <div class="table-td" style="width:12%">
-                         Buying/Execution
+                    <div class="table-td vendorForthCol">
+                          <span class="table-td-val">Buying/Execution</span>
                     </div>
 
                     <!--Column 5-->
-                    <div class="table-td" style="width:15%">Collective US(CollUS)</div>
+                    <div class="table-td vendorFifthCol">
+                        <span class="table-td-val">Collective US (CollUS)</span>
+                    </div>
 
-                    <div class="table-td" style="width:8%">$USD</div>
+                    <!--Column 6-->
+                    <div class="table-td vendorSixCol">
+                         <span class="table-td-val">$USD</span>
+                    </div>
 
-                    <div class="table-td" style="width:15%">15 Jun 2016 12:35PM</div>
+                    <!--Column 7-->
+                    <div class="table-td vendorSevCol">
+                         <span class="table-td-val">15 Jun 2016 12:35PM</span>
+                     </div>
 
                 </div>
 

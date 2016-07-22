@@ -23,7 +23,7 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
                     var clientId = subAccountModel.getDashboardAccountId(),
                         advertiserId = advertiserModel.getSelectedAdvertiser().id,
 
-                        url = urlService.APICalendarWidgetForAllBrands(clientId, advertiserId,
+                        url = urlService.APICalendarWidgetForAllAdvertisers(clientId, advertiserId,
                             'end_date', campaignStatusToSend());
 
                     return dataService
