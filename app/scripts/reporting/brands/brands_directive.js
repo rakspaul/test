@@ -7,7 +7,7 @@ define(['angularAMD'], function (angularAMD) {
             templateUrl: assets.html_brands_drop_down,
 
             link: function () {
-                $('.brandsList_ul').scrollWithInDiv();
+                $('.brandsList_ul').scrollWithinDiv();
             }
         };
     });

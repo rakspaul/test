@@ -6,7 +6,7 @@ define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils',
     angularAMD.controller('AdvertiserController', function ($scope, $rootScope, advertiserModel, utils,
                                                             constants, loginModel) {
         var search = false,
-            searchCriteria = utils.typeaheadParams,
+            searchCriteria = utils.typeAheadParams,
             loadAdvertisers = true,
 
             eventBrandChangedFromDashBoard = // jshint ignore:line

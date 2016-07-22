@@ -7,7 +7,7 @@ define(['angularAMD', 'reporting/brands/brands_model', 'reporting/brands/brands_
                                                         constants, loginModel, advertiserModel, subAccountModel,
                                                         localStorageService) {
         var search = false,
-            searchCriteria = utils.typeaheadParams,
+            searchCriteria = utils.typeAheadParams,
             loadBrands = true,
             isLeafNode = localStorageService.masterClient.get().isLeafNode,
 

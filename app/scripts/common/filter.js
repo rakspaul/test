@@ -1,7 +1,8 @@
 define(['angularAMD', 'common/services/constants_service', 'common/services/role_based_service'],
     function (angularAMD) {
         angularAMD
-        // NOTE: Not used anywhere (as on 19th July 2016)
+            // NOTE: Not used anywhere
+            // (as on 19th July 2016)
             .filter('splitter', function () {
                 return function (input, splitIndex) {
                     // do some bounds checking here to ensure it has that index

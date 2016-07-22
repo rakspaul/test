@@ -22,7 +22,10 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             d2,
                             tz,
                             finalDate,
-                            parsedDate;
+                            parsedDate,
+                            returnValue;
+
+                        date = date || '';
 
                         if (date) {
                             d1 = date.slice(0, 10);
@@ -33,12 +36,14 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         }
 
                         if (date === '') {
-                            return moment().format(format);
+                            returnValue = moment().format(format);
                         } else if (format === '') {
-                            return moment(parsedDate).tz('EST').format(constants.DATE_US_FORMAT);
+                            returnValue = moment(parsedDate).tz('EST').format(constants.DATE_US_FORMAT);
                         } else {
-                            return moment(parsedDate).tz('EST').format(format);
+                            returnValue = moment(parsedDate).tz('EST').format(format);
                         }
+
+                        return returnValue;
                     },
 
                     convertToUTC = function (date, type) {
@@ -61,9 +66,13 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
 
                     makeTitle = function (input) {
                         var title = '<div id="legend">',
-                            i;
+                            i,
+                            length;
 
-                        for (i = 0; i < input.length; i++) {
+                        input = input || [];
+                        length = input.length;
+
+                        for (i = 0; i < length; i++) {
                             title += '<a id="a"' + (i + 1) + '>' + input[i] + '</a>';
                         }
 
@@ -72,7 +81,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         return title;
                     },
 
-                    getResponseMsg = function(res){
+                    getResponseMsg = function (res) {
                         return (res.message || res.data.message || res.data.data.message);
                     },
 
@@ -85,64 +94,86 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
 
                     validateTag = function (scriptTag) {
                         var pattern = new RegExp(/.*(https:).*/),
-                            tagLower = scriptTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
+                            tagLower;
 
-                        if (tagLower.match(pattern)) {
-                            return true;
-                        } else {
-                            return false;
+                        scriptTag = scriptTag || '';
+
+                        if (scriptTag) {
+                            tagLower = scriptTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
                         }
+
+                        return tagLower.match(pattern) ? true : false;
                     },
 
                     highlightSearch = function (text, search) {
+                        var returnValue;
+
+                        text = text || '';
+                        search = search || '';
+
                         if (!search) {
-                            return $sce.trustAsHtml(text);
+                            returnValue = $sce.trustAsHtml(text);
+                        } else {
+                            returnValue = $sce.trustAsHtml(
+                                window.unescape(text.replace(new RegExp(window.escape(search), 'gi'),
+                                '<span class="brand_search_highlight">$&</span>'))
+                            );
                         }
 
-                        return $sce.trustAsHtml(window.unescape(text.replace(new RegExp(window.escape(search), 'gi'),
-                            '<span class="brand_search_highlight">$&</span>')));
+                        return returnValue;
                     },
 
                     roundOff = function (value, places) {
-                        var factor = Math.pow(10, places);
+                        var factor;
+
+                        value = value || 0;
+                        places = places || 0;
+                        factor = Math.pow(10, places);
 
                         return Math.round(value * factor) / factor;
                     },
 
                     goToLocation = function (url) {
+                        url = url || '/';
                         $location.url(url);
                     },
 
                     allValuesSame = function (arr) {
-                        var i;
+                        var i,
+                            length,
+                            returnValue = true;
 
-                        for (i = 1; i < arr.length; i++) {
+                        arr = arr || [];
+                        length = arr.length;
+
+                        for (i = 1; i < length; i++) {
                             if (arr[i] !== arr[0]) {
-                                return false;
+                                returnValue = false;
+                                break;
                             }
                         }
 
-                        return true;
+                        return returnValue;
                     },
 
                     // clones any javascript object recursively
                     clone = function clone(obj) {
-                        var temp,
-                            key;
+                        var key,
+                            returnValue;
 
                         if (!obj || typeof(obj) !== 'object') {
-                            return obj;
-                        }
+                            returnValue = obj;
+                        } else {
+                            returnValue = obj.constructor();
 
-                        temp = obj.constructor();
-
-                        for (key in obj) {
-                            if (obj.hasOwnProperty(key)) {
-                                temp[key] = clone(obj[key]);
+                            for (key in obj) {
+                                if (obj.hasOwnProperty(key)) {
+                                    returnValue[key] = clone(obj[key]);
+                                }
                             }
                         }
 
-                        return temp;
+                        return returnValue;
                     },
 
                     SEARCH_OBJECT = {
@@ -155,7 +186,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     // Please follow the above order for initialization.
                     // Will consider first three parameters only.
                     VTCpopupfunc = function (event, flag) {
-                        var elem = $(event.target),
+                        var elem,
                             leftPos,
                             vtcContainer,
                             vtcBtnContainer,
@@ -165,6 +196,10 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             parentPos,
                             leftPosTactic;
 
+                        event = event || window.event;
+                        flag = flag || 0;
+
+                        elem = $(event.target);
                         elem.closest('.each_campaign_list_container').find('.quartile_details_VTC').show();
 
                         if (flag === 1) {
@@ -191,8 +226,8 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                                 .find('.quartile_details_VTC')
 
                                 .css({
-                                    'left': leftPosNumber,
-                                    'display': 'block'
+                                    left: leftPosNumber,
+                                    display: 'block'
                                 });
 
                             if (elem.closest('.tactics_container').length === 0) {
@@ -343,11 +378,14 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             majorVersion: majorVersion
                         };
                     },
+
                     stripCommaFromNumber = function (num) {
+                        num = num || 0;
+
                         return String(num).replace(/,/g, '');
                     };
 
-                function getTypeaheadParams() {
+                function getTypeAheadParams() {
                     var search = clone(SEARCH_OBJECT),
                         size = 3,
                         i;
@@ -501,7 +539,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     allValuesSame: allValuesSame,
                     clone: clone,
                     highlightSearch: highlightSearch,
-                    typeaheadParams: getTypeaheadParams(),
+                    typeAheadParams: getTypeAheadParams(),
                     getParameterByName: getParameterByName,
                     detectBrowserInfo: detectBrowserInfo,
                     VTCpopupfunc: VTCpopupfunc,
@@ -519,9 +557,9 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
             }
         ]);
 
-        $.fn.scrollWithInDiv = function () {
+        $.fn.scrollWithinDiv = function () {
             this.bind('mousewheel DOMMouseScroll', function (e) {
-                var scrollTo = null;
+                var scrollTo;
 
                 if (e.type === 'mousewheel') {
                     scrollTo = (e.originalEvent.wheelDelta * -1);

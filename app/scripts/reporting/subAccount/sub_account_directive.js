@@ -8,7 +8,7 @@ define(['angularAMD','reporting/subAccount/sub_account_controller'], function (a
             templateUrl: assets.html_sub_account_drop_down,
 
             link: function() {
-                $('.subAccountList_ul').scrollWithInDiv();
+                $('.subAccountList_ul').scrollWithinDiv();
             }
         };
     });
