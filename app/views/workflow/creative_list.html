@@ -275,8 +275,8 @@
 	    	<!--div class="size-box" ng-style="{width:creativeData.width, height:creativeData.height}"></div-->
 		</div>
 		<!--Advertiser-->
-		<div class="col-md-2 td">
-		<span data-ng-bind="creativeData.advertiser.name"></span>
+		<div class="col-md-2 td" tooltip="{{creativeData.advertiser.name}}">
+		<span data-ng-bind="creativeData.advertiser.name | textEllipsis: 40"></span>
 		</div>
 		<!--Platform-->
 		<div class="col-md-1 td text-center">
@@ -295,7 +295,7 @@
 	        <div class="col-md-7 td">
 				<span ng-if="(adData.messageType==='ERROR')" class="icon-warning error" title="{{adData.message}}"></span>
 				<span ng-if="(adData.messageType==='WARNING')" class="icon-warning" title="{{adData.message}}"></span>
-				<a ng-click="redirectAdEditPage(adData)" tooltip="{{adData.campaignName}}/{{adData.adName}}">{{adData.campaignName | textEllipsis: 50}} / {{adData.adName | textEllipsis: 50}}</a>
+				<a ng-click="redirectAdEditPage(adData)" tooltip="{{adData.campaignName}}/{{adData.adName}}">{{adData.campaignName | textEllipsis: 45}} / {{adData.adName | textEllipsis: 45}} </a>
                 <div class="pull-right">
                     <div class="dropdown-workflow" ng-if="adData.creativeTemplate.templateType === 'NORMAL'">
                         <div class="dropdown hideOption">
@@ -311,7 +311,7 @@
                     </div>
                 </div>
 	        </div>
-	        <div class="col-md-2 td" data-ng-bind="adData.brandName"></div>
+	        <div class="col-md-2 td" tooltip="{{adData.brandName}}" data-ng-bind="adData.brandName | textEllipsis: 23"></div>
 	        <div class="col-md-1 td text-center" ><img ng-src="{{adData.platform.iconUrl}}"/></div>
 	        <div class="col-md-2 td" data-ng-bind="utcToLocalTime(adData.updatedAt,'DD MMM YYYY  HH:mm A')"></div>
 	    </div>
