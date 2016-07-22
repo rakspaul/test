@@ -19,13 +19,13 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                     advertiserId = advertiserModel.getSelectedAdvertiser().id,
                     brandId = brandsModel.getSelectedBrand().id;
 
-                if (brandId !== -1) {
-                    url = urlService.APICalendarWidgetForBrand(clientId, advertiserId, brandId, this.filter,
+                if (advertiserId !== -1) {
+                    url = urlService.APICalendarWidgetForAdvertiser(clientId, advertiserId, brandId, this.filter,
                         dashboardModel.campaignStatusToSend());
 
                     url += '&pageCount=' + this.pageCount;
                 } else {
-                    url = urlService.APICalendarWidgetForAllBrands(clientId, advertiserId, this.filter,
+                    url = urlService.APICalendarWidgetForAllAdvertisers(clientId, advertiserId, this.filter,
                         dashboardModel.campaignStatusToSend());
                 }
 
