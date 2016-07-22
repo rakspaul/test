@@ -286,6 +286,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                                                         self.busy = false;
 
                                                         if (response.data) {
+                                                            console.log('response.data = ', response.data)
                                                             campaign.spend = response.data.data[0].gross_rev;
                                                         } else {
                                                             campaign.spend = 0;

@@ -28,14 +28,6 @@
                         <span class="greyTxt" data-ng-bind="textConstants.FORMATPAR"></span>
                     </div>
                 </div>
-
-                <!--<div class="statusLabel" data-ng-if="adData.primaryKpi">-->
-                    <!--<div class="col-md-12">-->
-                        <!--<span data-ng-bind="adData.primaryKpi"></span>-->
-                        <!--<span data-ng-bind="textConstants.PRIMARYKPIPAR"></span>-->
-                    <!--</div>-->
-                <!--</div>-->
-
                 <div class="statusLabel" data-ng-if="adData.screenTypes.length >0" style="margin: 0;">
                     <div class="col-md-12">
                         <div class="txtLabel" data-ng-repeat="screenType in adData.screenTypes">
@@ -62,13 +54,6 @@
             <div>
                 <div class="statusLabel" data-ng-if="adData.primaryKpi">
                     <div class="col-md-12">
-                        <!--<span data-ng-bind="(((adData.primaryKpi).toUpperCase() === 'CTR') ||
-                        ((adData.primaryKpi).toUpperCase() === 'VTC') ||
-                        ((adData.primaryKpi).toUpperCase() === 'CPM') ||
-                        ((adData.primaryKpi).toUpperCase() === 'CPC') ||
-                        ((adData.primaryKpi).toUpperCase() === 'CPA')) ?
-                         (adData.primaryKpi).toUpperCase() : (adData.primaryKpi | toPascalCase)"></span>-->
-
                         <span data-ng-bind="displayKpiInSideBar(adData.primaryKpi)"></span>
                         <span class="greyTxt" data-ng-bind="textConstants.PRIMARYKPIPAR"></span>
                     </div>

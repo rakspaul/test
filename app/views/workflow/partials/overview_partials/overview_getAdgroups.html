@@ -14,7 +14,7 @@
                 title="{{adGroupsData.adGroup.name}}"
                 data-ng-bind-html="adGroupsData.adGroup.nameHtml"></h4>
 
-            <div class="pull-right labelsmargin" style="display:block;">
+            <div class="pull-right labelsmargin" style="display: block;">
                 <span class="adGroupTxtSecondary " style="padding-right: 1px;">
                     <span class="pull-left greyTxt">Ready</span>
                     <p class="pull-left{{!adGroupsData.READY ? ' active' : ''}}"
@@ -44,7 +44,6 @@
                 </span>
             </div>
             <div class="pillsWrap" >
-                <!--<span class="labelPills" data-ng-if="adGroupsData.labels.length > 0"></span>-->
                 <span class="labelPills{{addHighlightClass(label, '</mark>') ? ' search-highlight' : ''}}"
                       data-ng-repeat="label in adGroupsData.labels track by $index"
                       data-ng-bind-html="label">

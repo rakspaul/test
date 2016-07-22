@@ -1,9 +1,7 @@
 <div class="reports_main_page_holder">
     <div class="common_reports_container platform_reports_container">
         <div class="clearfix page_top_header">
-            <h1 class="pull-left col-md-6 page_name">
-                Platform Report
-            </h1>
+            <h1 class="pull-left col-md-6 page_name">Platform Report</h1>
             <div class="pull-right col-md-2 zeroPadding">
                 <download-report></download-report>
             </div>
@@ -13,97 +11,90 @@
             <filters-header reports="true" strategies="true"></filters-header>
         </div>
 
-
-        <!-- VIDEO MODE SWITCH COMMENTED FOR NOW -->
-        <div class="view_mode_switch_container" ng-show="adFormats.videoAds" style="display:none;"
-             ng-class='{"video_mode_on":videoMode}'>
-            <span>{{textConstants.VIEW_MODE}}</span>
-            <span class="video_off_icon active" ng-class='{"active":!videoMode}'></span>
+        <!-- VIDEO MODE SWITCH -->
+        <div class="view_mode_switch_container" data-ng-show="adFormats.videoAds" style="display: none;"
+             data-ng-class="{'video_mode_on': videoMode}">
+            <span data-data-ng-bind="textConstants.VIEW_MODE"></span>
+            <span class="video_off_icon active" data-ng-class="{'active': !videoMode}"></span>
                 <span class="video_btn">
-                    <switch ng-model="videoMode"></switch>
+                    <switch data-ng-model="videoMode"></switch>
                 </span>
-
-            <span class="video_on_icon" ng-class="{'active':videoMode}"></span>
+            <span class="video_on_icon" data-ng-class="{'active': videoMode}"></span>
         </div>
-        <!-- END OF ...VIDEO MODE SWITCH COMMENTED FOR NOW -->
+        <!-- END OF ...VIDEO MODE SWITCH -->
 
-        <div class="common-load-icon_viewability" ng-show="strategyLoading && selectedCampaign.id != -1"></div>
+        <div class="common-load-icon_viewability" data-ng-show="strategyLoading && selectedCampaign.id !== -1"></div>
     </div>
-
-    <div class="platform_container smallSreenScrollContainer" ng-hide="strategyLoading && selectedCampaign.id != -1">
-
-
+    <div class="platform_container smallSreenScrollContainer"
+         data-ng-hide="strategyLoading && selectedCampaign.id !== -1">
         <div class="reports_tabs_content_container smallSreenScrollDiv">
-            <div class="reports_tabs_content_container  smallSreenScrollContent">
+            <div class="reports_tabs_content_container  smallScreenScrollContent">
                 <!-- -------START :  Platform Tabs ------------------------ -->
                 <div class="clearfix">
                     <div class="clearfix reports_tabs_holder">
                         <div class="each_tab cost_tab active " id="platform_performance">
-                            <div class="each_tab_text">
-                                {{textConstants.PERFORMANCE}}
-                            </div>
+                            <div class="each_tab_text" data-ng-bind="textConstants.PERFORMANCE"></div>
                         </div>
-                        <div class="each_tab " id="platform_cost" ng-show="showCostWidget">
-                            <div class="each_tab_text">
-                                {{textConstants.COST}}
-                            </div>
+                        <div class="each_tab " id="platform_cost" data-ng-show="showCostWidget">
+                            <div class="each_tab_text" data-ng-bind="textConstants.COST"></div>
                         </div>
                         <div class="each_tab cost_tab " id="platform_viewability"
-                             ng-hide="usrRole && !usrRole.showquality">
-                            <div class="each_tab_text">
-                                {{textConstants.QUALITY}}
-                            </div>
+                             data-ng-hide="usrRole && !usrRole.showquality">
+                            <div class="each_tab_text" data-ng-bind="textConstants.QUALITY"></div>
                         </div>
-                        <!-- <div class="each_tab margin_tab " id="platform_margin">
-                            <div class="each_tab_text">
-                                {{textConstants.MARGIN}}
-                            </div>
-                        </div> -->
-
                     </div>
                 </div>
                 <!-- -------END :  Platform Tabs ------------------------ -->
-                <div class="no_data_found" ng-if="!strategyFound"
-                     ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
-                    <div class="reports_tabs_content_container smallSreenScrollDiv">
-                    </div>
+
+                <div class="no_data_found" data-ng-if="!strategyFound"
+                     data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
+                    <div class="reports_tabs_content_container smallSreenScrollDiv"></div>
                 </div>
 
-                <div ng-show="strategyFound">
+                <div data-ng-show="strategyFound">
                     <!-- -------START :  Performance Block ------------------------ -->
-                    <div ng-class="adFormats.videoAds ? 'reports_block quartile_data_platform' : 'reports_block' "
+                    <div data-ng-class="adFormats.videoAds ? 'reports_block quartile_data_platform' : 'reports_block'"
                          id="reports_platform_performance_block">
-                        <div class="no_data_found" ng-if="dataNotFoundForPerformance"
-                             ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-                        <div class="reports_details_outer_container" ng-show="!dataNotFoundForPerformance"
-                             ng-class="{vid_none_hdr:adFormats.videoAds == false,vid_show:adFormats.videoAds == true}">
-                            <div class="clearfix reports_platform_header performancePlatformHeader" ng-hide="performanceBusy">
+                        <div class="no_data_found"
+                             data-ng-if="dataNotFoundForPerformance"
+                             data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
+                        </div>
+                        <div class="reports_details_outer_container"
+                             data-ng-show="!dataNotFoundForPerformance"
+                             data-ng-class="{vid_none_hdr : adFormats.videoAds === false,
+                                vid_show : adFormats.videoAds === true}">
+                            <div class="clearfix reports_platform_header performancePlatformHeader"
+                                 data-ng-hide="performanceBusy">
                                 <performance-header></performance-header>
                             </div>
                             <div class="strategy_total_container">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" ng-hide="performanceBusy">
-                                        {{strategyHeading}}:
+                                    <div class="each_col first_col"
+                                         data-ng-hide="performanceBusy"
+                                         data-ng-bind="strategyHeading + ':'">
                                     </div>
                                     <div class="row_list_holder">
-                                        <div class="common-load-icon" ng-show="performanceBusy"></div>
-                                        <div class="clearfix each_row_list expandRow" ng-show="!performanceBusy"
-                                             ng-repeat="platform in platformData | orderBy:sortTypebyPerformance:sortReverse track by $index"
-                                             ng-include="'performanceTpl'"></div>
+                                        <div class="common-load-icon" data-ng-show="performanceBusy"></div>
+                                        <div class="clearfix each_row_list expandRow"
+                                             data-ng-show="!performanceBusy"
+                                             data-ng-repeat="platform in platformData |
+                                                orderBy : sortTypebyPerformance : sortReverse track by $index"
+                                             data-ng-include="'performanceTpl'">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="all_strategies_holder" ng-show="!performanceBusy">
+                                <div class="all_strategies_holder" data-ng-show="!performanceBusy">
                                     <div class="each_strategy_holder clearfix"
-                                         ng-repeat="platform in tacticPlatformData | orderBy:sortTypebyPerformance:sortReverse track by $index"
-                                         ng-if="platform.ad_id">
+                                         data-ng-repeat="platform in tacticPlatformData |
+                                            orderBy : sortTypebyPerformance : sortReverse track by $index"
+                                         data-ng-if="platform.ad_id">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col">
-                                                {{platform.ad_name}}
-                                            </div>
+                                            <div class="each_col first_col" data-ng-bind="platform.ad_name"></div>
                                             <div class="row_list_holder">
                                                 <div class="clearfix each_row_list expandRow"
-                                                     ng-include="'performanceTpl'"></div>
+                                                     data-ng-include="'performanceTpl'">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -114,37 +105,39 @@
                     <!-- -------END :  Performance Block ------------------------ -->
 
                     <!-- -------START :  Cost Block ----------------------------- -->
-
-                    <div class="reports_block" id="reports_platform_cost_block" style="display:none;">
-                        <div class="no_data_found" ng-if="dataNotFoundForCost"
-                             ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-                        <div class="reports_details_outer_container" ng-show="!dataNotFoundForCost">
-                            <div class="clearfix reports_platform_header" ng-hide="costBusy">
+                    <div class="reports_block" id="reports_platform_cost_block" style="display: none;">
+                        <div class="no_data_found"
+                             data-ng-if="dataNotFoundForCost"
+                             data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
+                        </div>
+                        <div class="reports_details_outer_container" data-ng-show="!dataNotFoundForCost">
+                            <div class="clearfix reports_platform_header" data-ng-hide="costBusy">
                                 <cost-header class="col-md-12" style="padding: 10px 0 0 5px;"></cost-header>
                             </div>
-                            <div class="strategy_total_container ">
+                            <div class="strategy_total_container">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_cost_heading" ng-hide="costBusy">
-                                        {{strategyHeading}}:
-                                    </div>
+                                    <div class="each_cost_heading" data-ng-hide="costBusy" data-ng-bind=" + ':'"></div>
                                     <div class="row_list_holder">
-                                        <div class="common-load-icon" ng-show="costBusy"></div>
-                                        <div class="clearfix each_row_list expandRow" ng-show="!costBusy" ng-repeat="platform in platformData |
-                                    orderBy:sortTypebyCost:sortReverse track by $index" ng-include="'costTpl'"></div>
+                                        <div class="common-load-icon" data-ng-show="costBusy"></div>
+                                        <div class="clearfix each_row_list expandRow"
+                                             data-ng-show="!costBusy"
+                                             data-ng-repeat="platform in platformData |
+                                                orderBy : sortTypebyCost : sortReverse track by $index"
+                                             data-ng-include="'costTpl'"></div>
                                     </div>
                                 </div>
-                                <div class="all_strategies_holder" ng-show="!costBusy">
+                                <div class="all_strategies_holder" data-ng-show="!costBusy">
                                     <div class="each_strategy_holder clearfix"
-                                         ng-repeat="platform in tacticPlatformData | orderBy:sortTypebyCost:sortReverse track by $index"
-                                         ng-if="platform.ad_id">
+                                         data-ng-repeat="platform in tacticPlatformData |
+                                            orderBy : sortTypebyCost : sortReverse track by $index"
+                                         data-ng-if="platform.ad_id">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col">
-                                                {{platform.ad_name}}
-                                            </div>
+                                            <div class="each_col first_col" data-ng-bind="platform.ad_name"></div>
                                             <div class="row_list_holder">
                                                 <div class="clearfix each_row_list expandRow"
-                                                     ng-include="'costTpl'"></div>
+                                                     data-ng-include="'costTpl'">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -155,48 +148,59 @@
                     <!-- -------END :  Cost Block ----------------------------- -->
 
                     <!-- -------START :  Viewablity Block ----------------------------- -->
-                    <div class="reports_block" id="reports_platform_viewability_block" style="display:none;"
-                         ng-class="{'reports_video_mode_viewability_container': (adFormats.videoAds && videoMode)}">
-                        <div class="no_data_found" ng-if="dataNotFoundForViewability"
-                             ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-                        <div class="reports_details_outer_container" ng-show="!dataNotFoundForViewability">
-                            <div class="clearfix reports_platform_header" ng-hide="viewabilityBusy">
+                    <div class="reports_block"
+                         id="reports_platform_viewability_block"
+                         style="display: none;"
+                         data-ng-class="{'reports_video_mode_viewability_container': (adFormats.videoAds && videoMode)}">
+                        <div class="no_data_found"
+                             data-ng-if="dataNotFoundForViewability"
+                             data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
+                        </div>
+                        <div class="reports_details_outer_container" data-ng-show="!dataNotFoundForViewability">
+                            <div class="clearfix reports_platform_header" data-ng-hide="viewabilityBusy">
                                 <viewablity-header></viewablity-header>
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" ng-hide="viewabilityBusy">
-                                        {{strategyHeading}}:
+                                    <div class="each_col first_col"
+                                         data-ng-hide="viewabilityBusy"
+                                         data-ng-bind="strategyHeading + ':'">
                                     </div>
                                     <div class="row_list_holder">
-                                        <div class="common-load-icon" ng-show="viewabilityBusy"></div>
-                                        <div ng-show="!viewabilityBusy" ng-if="!adFormats.videoAds ||  !videoMode"
+                                        <div class="common-load-icon" data-ng-show="viewabilityBusy"></div>
+                                        <div data-ng-show="!viewabilityBusy"
+                                             data-ng-if="!adFormats.videoAds || !videoMode"
                                              class="clearfix each_row_list expandRow"
-                                             ng-repeat="platform in platformData | orderBy:sortTypebyViewability:sortReverse  track by $index"
-                                             ng-include="'viewabilityTpl'"></div>
-                                        <div ng-show="!viewabilityBusy" ng-if="adFormats.videoAds && videoMode"
+                                             data-ng-repeat="platform in platformData |
+                                                orderBy : sortTypebyViewability : sortReverse  track by $index"
+                                             data-ng-include="'viewabilityTpl'">
+                                        </div>
+                                        <div data-ng-show="!viewabilityBusy"
+                                             data-ng-if="adFormats.videoAds && videoMode"
                                              class="clearfix each_row_list expandRow"
-                                             ng-repeat="platform in platformData | orderBy:sortTypebyViewability:sortReverse  track by $index"
-                                             ng-include="'videoViewabilityTpl'"></div>
+                                             data-ng-repeat="platform in platformData |
+                                                orderBy : sortTypebyViewability : sortReverse  track by $index"
+                                             data-ng-include="'videoViewabilityTpl'">
+                                        </div>
                                     </div>
-
                                 </div>
-                                <div class="all_strategies_holder" ng-show="!viewabilityBusy">
+                                <div class="all_strategies_holder" data-ng-show="!viewabilityBusy">
                                     <div class="each_strategy_holder clearfix"
-                                         ng-repeat="platform in tacticPlatformData | orderBy:sortTypebyViewability:sortReverse track by $index"
-                                         ng-if="platform.ad_id">
+                                         data-ng-repeat="platform in tacticPlatformData |
+                                            orderBy : sortTypebyViewability : sortReverse track by $index"
+                                         data-ng-if="platform.ad_id">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col">
-                                                {{platform.ad_name}}
-                                            </div>
+                                            <div class="each_col first_col" data-ng-bind="platform.ad_name"></div>
                                             <div class="row_list_holder">
-                                                <div ng-if="!adFormats.videoAds || !videoMode"
+                                                <div data-ng-if="!adFormats.videoAds || !videoMode"
                                                      class="clearfix each_row_list expandRow"
-                                                     ng-include="'viewabilityTpl'"></div>
-                                                <div ng-if="adFormats.videoAds && videoMode"
+                                                     data-ng-include="'viewabilityTpl'">
+                                                </div>
+                                                <div data-ng-if="adFormats.videoAds && videoMode"
                                                      class="clearfix each_row_list expandRow"
-                                                     ng-include="'videoViewabilityTpl'"></div>
+                                                     data-ng-include="'videoViewabilityTpl'">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -207,51 +211,50 @@
                     <!-- -------END :  Viewablity Block ----------------------------- -->
 
                     <!-- -------START :  Margin Block ----------------------------- -->
-
                     <div class="reports_block" id="reports_platform_margin_block"
-                         style="display:none; position:relative; border:1px solid #F2F2F2">
-                        <div class="no_data_found" ng-if="dataNotFoundForMargin"
-                             ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-
-                        <div class="reports_details_outer_container" ng-show="!dataNotFoundForMargin">
-
-                            <div class="clearfix reports_platform_header" ng-hide="marginBusy">
+                         style="display: none; position: relative; border: 1px solid #F2F2F2">
+                        <div class="no_data_found"
+                             data-ng-if="dataNotFoundForMargin"
+                             data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
+                        </div>
+                        <div class="reports_details_outer_container" data-ng-show="!dataNotFoundForMargin">
+                            <div class="clearfix reports_platform_header" data-ng-hide="marginBusy">
                                 <margin-header></margin-header>
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" ng-hide="marginBusy">
-                                        {{strategyHeading}}:
+                                    <div class="each_col first_col"
+                                         data-ng-hide="marginBusy"
+                                         data-ng-bind=" + ':'">
                                     </div>
                                     <div class="row_list_holder">
-                                        <div class="common-load-icon" ng-show="marginBusy"></div>
-                                        <div ng-show="!marginBusy" class="clearfix each_row_list expandRow"
-                                             ng-repeat="platform in platformData | orderBy:sortTypebyMargin:sortReverse  track by $index"
-                                             ng-include="'marginTpl'"></div>
+                                        <div class="common-load-icon" data-ng-show="marginBusy"></div>
+                                        <div data-ng-show="!marginBusy"
+                                             class="clearfix each_row_list expandRow"
+                                             data-ng-repeat="platform in platformData |
+                                                orderBy : sortTypebyMargin : sortReverse  track by $index"
+                                             data-ng-include="'marginTpl'">
+                                        </div>
                                     </div>
-
                                 </div>
-                                <div class="all_strategies_holder" ng-show="!marginBusy">
+                                <div class="all_strategies_holder" data-ng-show="!marginBusy">
                                     <div class="each_strategy_holder clearfix"
-                                         ng-repeat="platform in tacticPlatformData | orderBy:sortTypebyMargin:sortReverse track by $index"
-                                         ng-if="platform.ad_id">
+                                         data-ng-repeat="platform in tacticPlatformData |
+                                            orderBy : sortTypebyMargin : sortReverse track by $index"
+                                         data-ng-if="platform.ad_id">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col">
-                                                {{platform.ad_name}}
-                                            </div>
+                                            <div class="each_col first_col" data-ng-bind="platform.ad_name"></div>
                                             <div class="row_list_holder">
                                                 <div class="clearfix each_row_list expandRow"
-                                                     ng-include="'marginTpl'"></div>
-
+                                                     data-ng-include="'marginTpl'">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                     <!-- -------END :  Margin Block ----------------------------- -->
                 </div>
@@ -263,71 +266,84 @@
 <script type="text/ng-template" id="performanceTpl">
     <div class="platform_row">
         <div class="each_col sec_col platform_logo"
-             ng-class="{vid_none_hdr:adFormats.videoAds == false,vid_show:adFormats.videoAds == true}">
+             data-ng-class="{vid_none_hdr: adFormats.videoAds === false, vid_show: adFormats.videoAds === true}">
             <span class="platform_logo_img">
-                <img ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}"/>
+                <img data-ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}">
             </span>
-            <span class="plat_name" title="{{platform.platform_name}}">{{platform.platform_name}}</span>
+            <span class="plat_name" title="{{platform.platform_name}}" data-ng-bind="platform.platform_name"></span>
         </div>
-        <div class="each_col third_col {{platform.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}">
-            {{((platform.impressions >0)|| (platform.impressions == 0))? (platform.impressions | number:0) : '-'}}
+        <div class="each_col third_col {{platform.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
+             data-ng-bind="((platform.impressions > 0) || (platform.impressions === 0)) ?
+                (platform.impressions | number : 0) : '-'">
         </div>
-
-        <div class="vid_col" ng-show="adFormats.videoAds == true">
-            <div class="each_col third_col">
-                {{((platform.video_played >0)|| (platform.video_played == 0))? (platform.video_played | number:0) :
-                '-'}}
+        <div class="vid_col" data-ng-show="adFormats.videoAds === true">
+            <div class="each_col third_col"
+                 data-ng-bind="((platform.video_played > 0) || (platform.video_played === 0)) ?
+                    (platform.video_played | number : 0) : '-'">
             </div>
-
             <div class="vid_data_hdr">
                 <div>
-                    <div class="vid_quartile_data">{{((platform.vtc_25 >0)|| (platform.vtc_25
-                        == 0))? (platform.vtc_25 | nrFormat:2) : '-'}}
+                    <div class="vid_quartile_data"
+                         data-ng-bind="((platform.vtc_25 > 0) || (platform.vtc_25 === 0)) ?
+                            (platform.vtc_25 | nrFormat : 2) : '-'">
                     </div>
-                    <div class="vid_quartile_data">{{((platform.vtc_50 >0)|| (platform.vtc_50
-                        == 0))? (platform.vtc_50 | nrFormat:2) : '-'}}
+                    <div class="vid_quartile_data"
+                         data-ng-bind="((platform.vtc_50 > 0) || (platform.vtc_50 === 0)) ?
+                            (platform.vtc_50 | nrFormat : 2) : '-'">
                     </div>
-                    <div class="vid_quartile_data">{{((platform.vtc_75 >0)|| (platform.vtc_75
-                        == 0))? (platform.vtc_75 | nrFormat:2) : '-'}}
+                    <div class="vid_quartile_data"
+                         data-ng-bind="((platform.vtc_75 > 0) || (platform.vtc_75 === 0)) ?
+                            (platform.vtc_75 | nrFormat : 2) : '-'">
                     </div>
-                    <div class="vid_quartile_data">{{((platform.vtc_100 >0)||
-                        (platform.vtc_100 == 0))? (platform.vtc_100 | nrFormat:2) : '-'}}
+                    <div class="vid_quartile_data"
+                         data-ng-bind="((platform.vtc_100 > 0) || (platform.vtc_100 === 0)) ?
+                          (platform.vtc_100 | nrFormat : 2) : '-'">
                     </div>
                 </div>
             </div>
             <div class="each_col third_col {{platform.kpi_type === 'VTC' ? 'bold' : ''}}">
-                <span>{{((platform.vtc_100 >0)|| (platform.vtc_100 == 0)) ? ((platform.vtc_100 | number:3)+'%') : '-'}}</span>
+                <span data-ng-bind="((platform.vtc_100 > 0) || (platform.vtc_100 === 0)) ?
+                    ((platform.vtc_100 | number : 3) + '%') : '-'">
+                </span>
             </div>
         </div>
-
-        <div class="each_col forth_col {{platform.kpi_type === 'CTR' ? 'bold' : ''}}">
-            {{((platform.ctr >0)|| (platform.ctr == 0)) ? ((platform.ctr | number:3)+'%') : '-'}}
+        <div class="each_col forth_col {{platform.kpi_type === 'CTR' ? 'bold' : ''}}"
+             data-ng-bind="((platform.ctr > 0) || (platform.ctr === 0)) ? ((platform.ctr | number : 3) + '%') : '-'">
         </div>
-
-        <div class="each_col fifth_col {{platform.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}">
-            {{((platform.action_rate >0)|| (platform.action_rate == 0)) ? ((platform.action_rate | number:3)+'%') :
-            '-'}}
+        <div class="each_col fifth_col {{platform.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}"
+             data-ng-bind="((platform.action_rate > 0) || (platform.action_rate === 0)) ?
+                ((platform.action_rate | number : 3) + '%') : '-'">
         </div>
-
-
-    <span ng-if="!adFormats.videoAds">
-        <div class="each_col sixth_col {{platform.kpi_type === 'CPA' ? 'bold' : ''}}">
-            {{((platform.cpa >0)|| (platform.cpa == 0)) ? (platform.cpa | currency:undefined:3) : '-'}}
-        </div>
-        <div class="each_col seventh_col {{platform.kpi_type === 'CPC' ? 'bold' : ''}}">
-            {{((platform.cpc >0)|| (platform.cpc == 0)) ? (platform.cpc | currency:undefined:3) : '-'}}
-        </div>
-        <div class="each_col eight_col {{platform.kpi_type === 'CPM' ? 'bold' : ''}}">
-            {{((platform.cpm >0)|| (platform.cpm == 0)) ? (platform.cpm | currency:undefined:3) : '-'}}
-        </div>
-    </span>
-        <div ng-if="adFormats.videoAds"
+        <span data-ng-if="!adFormats.videoAds">
+            <div class="each_col sixth_col {{platform.kpi_type === 'CPA' ? 'bold' : ''}}"
+                 data-ng-bind="((platform.cpa > 0) || (platform.cpa === 0)) ?
+                    (platform.cpa | currency : undefined : 3) : '-'">
+            </div>
+            <div class="each_col seventh_col {{platform.kpi_type === 'CPC' ? 'bold' : ''}}"
+                 data-ng-bind="((platform.cpc > 0) || (platform.cpc === 0)) ?
+                    (platform.cpc | currency : undefined : 3) : '-'">
+            </div>
+            <div class="each_col eight_col {{platform.kpi_type === 'CPM' ? 'bold' : ''}}"
+                 data-ng-bind="((platform.cpm > 0) || (platform.cpm === 0)) ?
+                    (platform.cpm | currency : undefined : 3) : '-'">
+            </div>
+        </span>
+        <div data-ng-if="adFormats.videoAds"
              class="each_col eight_col {{platform.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
-             ng-class="{vid_none:adFormats.videoAds == false}">
+             data-ng-class="{vid_none: adFormats.videoAds === false}">
+            <span data-ng-if="selectedFilters.kpi_type === 'ctr' ||
+                    selectedFilters.kpi_type=='vtc' ||
+                    selectedFilters.kpi_type === 'action_rate'"
+                  data-ng-bind="((platform.cpm > 0) || (platform.cpm === 0)) ?
+                    (platform.cpm | currency : undefined : 3) : '-'">
+            </span>
             <span
-                ng-if="selectedFilters.kpi_type=='ctr'||selectedFilters.kpi_type=='vtc'||selectedFilters.kpi_type=='action_rate'">{{((platform.cpm >0)|| (platform.cpm == 0)) ? (platform.cpm | currency:undefined:3) : '-'}}</span>
-            <span
-                ng-if="selectedFilters.kpi_type=='cpm'||selectedFilters.kpi_type=='cpc'||selectedFilters.kpi_type=='cpa'">{{platform[selectedFilters.kpi_type.toLowerCase()] | appendDollar:selectedFilters2.kpi_type}}</span>
+                data-ng-if="selectedFilters.kpi_type=='cpm' ||
+                    selectedFilters.kpi_type=='cpc' ||
+                    selectedFilters.kpi_type=='cpa'"
+                data-ng-bind="platform[selectedFilters.kpi_type.toLowerCase()] |
+                    appendDollar : selectedFilters2.kpi_type">
+            </span>
         </div>
     </div>
 </script>
@@ -335,46 +351,63 @@
 <script type="text/ng-template" id="videoViewabilityPartialTpl">
     <div class="each_col sub_four_cols">
         <div class="sub_col">
-            <span>{{((platform.vtc_25 >0)|| (platform.vtc_25 == 0)) ? ((platform.vtc_25 | number:0)+'%') : '-'}}</span>
-            <span>{{((platform.vtc_50 >0)|| (platform.vtc_50 == 0)) ? ((platform.vtc_50 | number:0)+'%') : '-'}}</span>
-            <span>{{((platform.vtc_75 >0)|| (platform.vtc_75 == 0)) ? ((platform.vtc_75 | number:0)+'%') : '-'}}</span>
-            <span>{{((platform.vtc_100 >0)|| (platform.vtc_100 == 0)) ? ((platform.vtc_100 | number:0)+'%') : '-'}}</span>
+            <span data-ng-bind="((platform.vtc_25 > 0) || (platform.vtc_25 === 0)) ?
+                    ((platform.vtc_25 | number : 0) + '%') : '-'">
+            </span>
+            <span data-ng-bind="((platform.vtc_50 > 0) || (platform.vtc_50 === 0)) ?
+                    ((platform.vtc_50 | number : 0) + '%') : '-'">
+            </span>
+            <span data-ng-bind="((platform.vtc_75 > 0) || (platform.vtc_75 === 0)) ?
+                    ((platform.vtc_75 | number : 0) + '%') : '-'">
+            </span>
+            <span data-ng-bind="((platform.vtc_100 > 0) || (platform.vtc_100 === 0)) ?
+                ((platform.vtc_100 | number : 0) + '%') : '-'">
+            </span>
         </div>
     </div>
 </script>
-
 
 <script type="text/ng-template" id="videoViewabilityTpl">
     <div class="clearfix platform_row">
         <div class="each_col platform_name_col platform_logo">
             <span class="platform_logo_img">
-                <img ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}"/>
+                <img data-ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}">
             </span>
-            <span class="plat_name" title="{{platform.platform_name}}">{{platform.platform_name}}</span>
+            <span class="plat_name" title="{{platform.platform_name}}" data-ng-bind="platform.platform_name"></span>
         </div>
-
         <div class="each_col third_col impressions_col">
-            <span>{{((platform.video_view_impressions >0)|| (platform.video_view_impressions == 0))? (platform.video_view_impressions | number:0) : '-'}}</span>
+            <span data-ng-bind="((platform.video_view_impressions > 0) || (platform.video_view_impressions === 0)) ?
+                    (platform.video_view_impressions | number : 0) : '-'">
+            </span>
         </div>
         <div class="each_col third_col measurable_col">
             <div class="sub_col">
-                <span>{{((platform.video_view_measurable >0)|| (platform.video_view_measurable == 0))? (platform.video_view_measurable | number:0) : '-'}}</span>
-                <span>{{((platform.video_view_measurable_perc >0)|| (platform.video_view_measurable_perc == 0)) ? ((platform.video_view_measurable_perc | number:0)+'%') : '-'}}</span>
+                <span data-ng-bind="((platform.video_view_measurable > 0) || (platform.video_view_measurable === 0)) ?
+                        (platform.video_view_measurable | number : 0) : '-'">
+                </span>
+                <span data-ng-bind="((platform.video_view_measurable_perc > 0) ||
+                        (platform.video_view_measurable_perc === 0)) ?
+                        ((platform.video_view_measurable_perc | number : 0) + '%') : '-'">
+                </span>
             </div>
         </div>
-
         <div class="each_col forth_col">
             <div class="sub_col">
-                <span> {{((platform.video_viewable_impressions >0)|| (platform.video_viewable_impressions == 0))? (platform.video_viewable_impressions | number:0) : '-'}}</span>
-                <span> {{((platform.video_viewable_impressions_perc >0)|| (platform.video_viewable_impressions_perc == 0)) ? ((platform.video_viewable_impressions_perc | number:0)+'%') : '-'}}</span>
+                <span data-ng-bind="((platform.video_viewable_impressions > 0) ||
+                        (platform.video_viewable_impressions === 0)) ?
+                        (platform.video_viewable_impressions | number : 0) : '-'">
+                </span>
+                <span data-ng-bind="((platform.video_viewable_impressions_perc > 0) ||
+                        (platform.video_viewable_impressions_perc === 0)) ?
+                        ((platform.video_viewable_impressions_perc | number : 0) + '%') : '-'">
+                </span>
             </div>
         </div>
-
-        <div class="clearfix pull-left" ng-include="'videoViewabilityPartialTpl'"></div>
-
-        <div class="each_col suspicious_col">
-            {{((platform.video_view_imps_suspicious_perc >0)|| (platform.video_view_imps_suspicious_perc == 0)) ?
-            ((platform.video_view_imps_suspicious_perc | number:2)+'%') : '-'}}
+        <div class="clearfix pull-left" data-ng-include="'videoViewabilityPartialTpl'"></div>
+        <div class="each_col suspicious_col"
+             data-ng-bind="((platform.video_view_imps_suspicious_perc > 0) ||
+                (platform.video_view_imps_suspicious_perc === 0)) ?
+                ((platform.video_view_imps_suspicious_perc | number : 2) + '%') : '-'">
         </div>
     </div>
 </script>
@@ -383,34 +416,67 @@
     <div class="clearfix platform_row">
         <div class="col-md-1 zeroPadding platform_logo">
             <span class="platform_logo_img">
-                <img ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}"/>
+                <img data-ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}">
             </span>
-            <span class="plat_name" title="{{platform.platform_name}}">{{platform.platform_name}}</span>
+            <span class="plat_name" title="{{platform.platform_name}}" data-ng-bind="platform.platform_name"></span>
         </div>
-
         <div class="col-md-11 zeroPadding">
-            <div class="col-md-1 zeroPadding text-left">{{((platform.impressions >0)|| (platform.impressions == 0))?
-                (platform.impressions | number:0) : '-'}}
+            <div class="col-md-1 zeroPadding text-left"
+                 data-ng-bind="((platform.impressions > 0) || (platform.impressions === 0)) ?
+                    (platform.impressions | number : 0) : '-'">
             </div>
-            <div
-                class="col-md-1 zeroPadding text-left {{platform.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}">
-                {{selectedFilters.kpi_type.toLowerCase() === 'vtc'?
-                platform['vtc_100']:platform[selectedFilters.kpi_type.toLowerCase()] | appendDollar :
-                selectedFilters.kpi_type.toLowerCase() }}
+            <div class="col-md-1 zeroPadding text-left {{platform.kpi_type ===
+                      selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
+                 data-ng-bind="selectedFilters.kpi_type.toLowerCase() === 'vtc' ? platform['vtc_100'] :
+                      platform[selectedFilters.kpi_type.toLowerCase()] | appendDollar :
+                      selectedFilters.kpi_type.toLowerCase()">
             </div>
-            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.inventory_cost >= 0) ? (platform.inventory_cost | currency:undefined:0) : '-'"></div>
-            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.data_cost >= 0) ? (platform.data_cost | currency:undefined:0) : '-'"></div>
-            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.serving_cost >= 0)? (platform.serving_cost | currency:undefined:0) : '-'"></div>
-            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.verification_cost >= 0) ? (platform.verification_cost | currency:undefined:0) : '-'"></div>
-            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.creative_cost >= 0) ? (platform.creative_cost | currency:undefined:0) : '-'"></div>
-            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.research_cost >= 0) ? (platform.research_cost | currency:undefined:0) : '-'"></div>
+            <div class="col-md-1 zeroPadding text-center"
+                 data-ng-bind="(platform.inventory_cost >= 0) ?
+                    (platform.inventory_cost | currency : undefined : 0) : '-'">
+            </div>
+            <div class="col-md-1 zeroPadding text-center"
+                 data-ng-bind="(platform.data_cost >= 0) ?
+                    (platform.data_cost | currency : undefined : 0) : '-'">
+            </div>
+            <div class="col-md-1 zeroPadding text-center"
+                 data-ng-bind="(platform.serving_cost >= 0) ?
+                    (platform.serving_cost | currency : undefined : 0) : '-'">
+            </div>
+            <div class="col-md-1 zeroPadding text-center"
+                 data-ng-bind="(platform.verification_cost >= 0) ?
+                    (platform.verification_cost | currency : undefined : 0) : '-'">
+            </div>
+            <div class="col-md-1 zeroPadding text-center"
+                 data-ng-bind="(platform.creative_cost >= 0) ?
+                    (platform.creative_cost | currency : undefined : 0) : '-'">
+            </div>
+            <div class="col-md-1 zeroPadding text-center"
+                 data-ng-bind="(platform.research_cost >= 0) ?
+                    (platform.research_cost | currency : undefined : 0) : '-'">
+            </div>
             <div class="col-md-2 text-center" style="padding: 0 2px;">
-                <span class="pull-left col-md-4 zeroPadding text-left" ng-bind="(platform.tech_fees >= 0) ? (platform.tech_fees | currency:undefined:0) : '-'">$0</span>
-                <span class="pull-left col-md-4 zeroPadding text-center" style="text-indent: 23px;" ng-bind="(platform.service_fees >= 0) ? (platform.service_fees | currency:undefined:0) : '-'">$0</span>
-                <span class="pull-left col-md-4 zeroPadding text-right" ng-bind="(platform.tech_service_fees_total >= 0) ? (platform.tech_service_fees_total | currency:undefined:0) : '-'">$0</span>
+                <span class="pull-left col-md-4 zeroPadding text-left"
+                      data-ng-bind="(platform.tech_fees >= 0) ?
+                        (platform.tech_fees | currency : undefined : 0) : '-'">
+                </span>
+                <span class="pull-left col-md-4 zeroPadding text-center" style="text-indent: 23px;"
+                      data-ng-bind="(platform.service_fees >= 0) ?
+                        (platform.service_fees | currency : undefined : 0) : '-'">
+                </span>
+                <span class="pull-left col-md-4 zeroPadding text-right"
+                      data-ng-bind="(platform.tech_service_fees_total >= 0) ?
+                        (platform.tech_service_fees_total | currency : undefined : 0) : '-'">
+                </span>
             </div>
-            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.gross_rev >= 0) ? (platform.gross_rev | currency:undefined:0) : '-'"></div>
-            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.margin >= 0) ? (platform.margin | number:0) : '-'"></div>
+            <div class="col-md-1 zeroPadding text-center"
+                 data-ng-bind="(platform.gross_rev >= 0) ?
+                    (platform.gross_rev | currency : undefined : 0) : '-'">
+            </div>
+            <div class="col-md-1 zeroPadding text-center"
+                 data-ng-bind="(platform.margin >= 0) ?
+                    (platform.margin | number : 0) : '-'">
+            </div>
         </div>
     </div>
 </script>
@@ -419,101 +485,118 @@
     <div class="clearfix platform_row">
         <div class="each_col platform_name_col platform_logo">
             <span class="platform_logo_img">
-                <img ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}"/>
+                <img data-ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}"/>
             </span>
-            <span class="plat_name" title="{{platform.platform_name}}">{{platform.platform_name}}</span>
+            <span class="plat_name" title="{{platform.platform_name}}" data-ng-bind="platform.platform_name"></span>
         </div>
-
-        <div class="each_col third_col impressions_col">
-            {{((platform.other_view_impressions >0)|| (platform.other_view_impressions == 0))?
-            (platform.other_view_impressions | number:0) : '-'}}
+        <div class="each_col third_col impressions_col"
+             data-ng-bind="((platform.other_view_impressions > 0) || (platform.other_view_impressions === 0)) ?
+                (platform.other_view_impressions | number : 0) : '-'">
         </div>
         <div class="each_col third_col measurable_col">
             <div class="sub_col">
-                <span> {{((platform.other_view_measurable >0)|| (platform.other_view_measurable == 0))? (platform.other_view_measurable | number:0) : '-'}}</span>
-                <span>{{((platform.other_view_measurable_perc >0)|| (platform.other_view_measurable_perc == 0)) ? ((platform.other_view_measurable_perc | number:0)+'%') : '-'}}</span>
+                <span data-ng-bind="((platform.other_view_measurable > 0) || (platform.other_view_measurable === 0)) ?
+                    (platform.other_view_measurable | number : 0) : '-'">
+                </span>
+                <span data-ng-bind="((platform.other_view_measurable_perc > 0) ||
+                    (platform.other_view_measurable_perc === 0)) ?
+                    ((platform.other_view_measurable_perc | number : 0) + '%') : '-'">
+                </span>
             </div>
         </div>
         <div class="each_col forth_col">
             <div class="sub_col">
-                <span> {{((platform.other_viewable_impressions >0)|| (platform.other_viewable_impressions == 0))? (platform.other_viewable_impressions | number:0) : '-'}}</span>
-                <span>{{((platform.other_viewable_impressions_perc >0)|| (platform.other_viewable_impressions_perc == 0)) ? ((platform.other_viewable_impressions_perc | number:0)+'%') : '-'}}</span>
+                <span data-ng-bind="((platform.other_viewable_impressions > 0) ||
+                    (platform.other_viewable_impressions === 0)) ?
+                    (platform.other_viewable_impressions | number : 0) : '-'">
+                </span>
+                <span data-ng-bind="((platform.other_viewable_impressions_perc > 0) ||
+                    (platform.other_viewable_impressions_perc === 0)) ?
+                    ((platform.other_viewable_impressions_perc | number : 0) + '%') : '-'">
+                </span>
             </div>
         </div>
-        <div class="each_col suspicious_col">
-            {{((platform.other_view_imps_suspicious_perc >0)|| (platform.other_view_imps_suspicious_perc == 0)) ?
-            ((platform.other_view_imps_suspicious_perc | number:2)+'%') : '-'}}
+        <div class="each_col suspicious_col"
+             data-ng-bind="((platform.other_view_imps_suspicious_perc > 0) ||
+                (platform.other_view_imps_suspicious_perc === 0)) ?
+                ((platform.other_view_imps_suspicious_perc | number : 2) + '%') : '-'">
         </div>
     </div>
 </script>
-
 
 <script type="text/ng-template" id="marginTpl">
     <div class="clearfix platform_row">
         <div class="each_col platform_name_col platform_logo">
             <span class="platform_logo_img">
-                <img ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}"/>
+                <img data-ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}">
             </span>
-            <span class="plat_name" title="">{{platform.platform_name}}</span>
+            <span class="plat_name" title="" data-ng-bind="platform.platform_name"></span>
         </div>
-
         <div class="each_col second_coldata">
-            <span>{{((platform.spend >0)|| (platform.spend == 0))? (platform.spend | nrFormat:0) : '-'}}</span>
+            <span data-ng-bind="((platform.spend > 0) || (platform.spend === 0)) ?
+                (platform.spend | nrFormat : 0) : '-'">
+            </span>
         </div>
-
         <div class="each_col third_coldata">
-            <span>{{((platform.margin  !=null) ? (platform.margin | number:2) : '-')}}</span>
+            <span data-ng-bind="((platform.margin  !== null) ? (platform.margin | number : 2) : '-')"></span>
         </div>
-
         <div class="each_col forth_col">
             <div class="sub_colData">
-                <span class="{{platform.kpi_type === 'CTR' ? 'bold' : ''}}">{{((platform.CTR >0)|| (platform.CTR == 0)) ? ((platform.CTR | number:3)+'%') : '-'}}</span>
-                <span class="tooltip_holder {{platform.kpi_type === 'CPC' ? 'bold' : ''}}">{{((platform.CPC >0)|| (platform.CPC == 0)) ? (platform.CPC | currency:undefined:3) : '-'}}</span>
-                <span class="tooltip_holder">{{((platform.clicks >0)|| (platform.clicks == 0))? (platform.clicks | nrFormat) : '-'}}</span>
+                <span class="{{platform.kpi_type === 'CTR' ? 'bold' : ''}}"
+                      data-ng-bind="((platform.CTR > 0) || (platform.CTR === 0)) ?
+                        ((platform.CTR | number : 3) + '%') : '-'">
+                </span>
+                <span class="tooltip_holder {{platform.kpi_type === 'CPC' ? 'bold' : ''}}"
+                      data-ng-bind="((platform.CPC > 0) || (platform.CPC === 0)) ?
+                        (platform.CPC | currency : undefined : 3) : '-'">
+                </span>
+                <span class="tooltip_holder"
+                      data-ng-bind="((platform.clicks > 0) || (platform.clicks === 0)) ?
+                        (platform.clicks | nrFormat) : '-'">
+                </span>
             </div>
         </div>
-
         <div class="each_col fifth_col">
             <div class="sub_colData">
-                <span>{{((platform.VIEWABLE_IMPRESSIONS >0)|| (platform.VIEWABLE_IMPRESSIONS == 0)) ? ((platform.VIEWABLE_IMPRESSIONS | number:0)+'%') : '-'}}</span>
-                <span class="tooltip_holder">{{((platform.CPMv >0)|| (platform.CPMv == 0)) ? (platform.CPMv | currency:undefined:3) : '-'}}</span>
-                <span class="tooltip_holder">{{((platform.VIEWABLE_IMPS >0)|| (platform.VIEWABLE_IMPS == 0))? (platform.VIEWABLE_IMPS | nrFormat:0) : '-'}}</span>
+                <span data-ng-bind="((platform.VIEWABLE_IMPRESSIONS > 0) || (platform.VIEWABLE_IMPRESSIONS === 0)) ?
+                    ((platform.VIEWABLE_IMPRESSIONS | number : 0) + '%') : '-'">
+                </span>
+                <span class="tooltip_holder"
+                      data-ng-bind="((platform.CPMv > 0) || (platform.CPMv === 0)) ?
+                        (platform.CPMv | currency : undefined : 3) : '-'">
+                </span>
+                <span class="tooltip_holder"
+                      data-ng-bind="((platform.VIEWABLE_IMPS > 0) || (platform.VIEWABLE_IMPS === 0)) ?
+                        (platform.VIEWABLE_IMPS | nrFormat : 0) : '-'">
+                </span>
             </div>
         </div>
         <div class="each_col six_col">
             <div class="sub_colData">
-                <span class="{{platform.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}">{{((platform.AR >0)|| (platform.AR == 0)) ? ((platform.AR | number:3)+'%') : '-'}}</span>
-                <span class="tooltip_holder {{platform.kpi_type === 'CPA' ? 'bold' : ''}}">{{((platform.CPA >0)|| (platform.CPA == 0)) ? (platform.CPA | currency:undefined:3) : '-'}}</span>
-                <span class="tooltip_holder">{{((platform.actions >0)|| (platform.actions == 0)) ? (platform.actions) : '-'}}</span>
+                <span class="{{platform.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}"
+                      data-ng-bind="((platform.AR > 0) || (platform.AR === 0)) ?
+                        ((platform.AR | number : 3) + '%') : '-'">
+                </span>
+                <span class="tooltip_holder {{platform.kpi_type === 'CPA' ? 'bold' : ''}}"
+                      data-ng-bind="((platform.CPA > 0) || (platform.CPA === 0)) ?
+                        (platform.CPA | currency : undefined : 3) : '-'">
+                </span>
+                <span class="tooltip_holder"
+                      data-ng-bind="((platform.actions > 0) || (platform.actions === 0)) ? (platform.actions) : '-'">
+                </span>
             </div>
         </div>
         <div class="each_col seventhMargin_col">
             <div class="sub_colData">
-                <span class=" {{platform.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}">{{((platform.impressions >0)|| (platform.impressions == 0))? (platform.impressions | nrFormat:0) : '-'}}</span>
-                <span class="tooltip_holder {{platform.kpi_type === 'CPM' ? 'bold' : ''}}">{{((platform.CPM >0)|| (platform.CPM == 0)) ? (platform.CPM | currency:undefined:3) : '-'}}</span>
+                <span class="{{platform.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
+                      data-ng-bind="((platform.impressions > 0) || (platform.impressions === 0)) ?
+                        (platform.impressions | nrFormat : 0) : '-'">
+                </span>
+                <span class="tooltip_holder {{platform.kpi_type === 'CPM' ? 'bold' : ''}}"
+                      data-ng-bind="((platform.CPM > 0) || (platform.CPM === 0)) ?
+                        (platform.CPM | currency : undefined : 3) : '-'">
+                </span>
             </div>
         </div>
     </div>
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

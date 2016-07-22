@@ -9,7 +9,9 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
                 };
             })
 
-            // NOTE: Used in bar_chart.html (as on 19th July 2016)
+            // NOTE: Used in
+            // 1) bar_chart.html
+            // (as on 19th July 2016)
             .filter('dashboardKpiFormatter', function ($filter, constants) {
                 return function (input, kpiType) {
                     var returnValue;
@@ -98,6 +100,10 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
                 };
             })
 
+            // NOTE: Used in
+            // 1) campaign_overview.html
+            // 2) campaign_tactics_card.html
+            // (as on 22nd July 2016)
             .filter('toCamelCase', function () {
                 return function (str) {
                     return str
@@ -110,63 +116,74 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
                 };
             })
 
+            // NOTE: Used in
+            // 1) campaign_details.html
+            // 2) campaign_tactics_card.html
+            // 3) campaign_card.html
+            // 4) campaign_strategy_card.html
+            // (as on 22nd July 2016)
             .filter('displayToCamelCase', function (toCamelCaseFilter, toTitleCaseFilter) {
                 return function (input) {
+                    var returnValue;
+
                     if (!input) {
-                        return '';
+                        returnValue = '';
+                    } else if (input.toLowerCase() === 'delivery') {
+                        returnValue = toTitleCaseFilter(input);
+                    } else if (input.toLowerCase() === 'clicks') {
+                        returnValue = toTitleCaseFilter(input);
+                    } else if (input.toLowerCase() === 'viewable impressions') {
+                        returnValue = 'Viewable Impressions';
+                    } else if (input.toLowerCase() === 'impressions') {
+                        returnValue = toTitleCaseFilter(input);
+                    } else if (input.toLowerCase() === 'select from list') {
+                        returnValue = 'Select From list';
+                    } else {
+                        returnValue = input.toUpperCase();
                     }
 
-                    if (input.toLowerCase() === 'delivery') {
-                        return toTitleCaseFilter(input);
-                    }
-
-                    if (input.toLowerCase() === 'clicks') {
-                        return toTitleCaseFilter(input);
-                    }
-
-                    if (input.toLowerCase() === 'viewable impressions') {
-                        return 'Viewable Impressions';
-                    }
-
-                    if (input.toLowerCase() === 'impressions') {
-                        return toTitleCaseFilter(input);
-                    }
-
-                    if (input.toLowerCase() === 'select from list') {
-                        return 'Select From list';
-                    }
-
-                    return input.toUpperCase();
+                    return returnValue;
                 };
             })
 
+            // NOTE: Used in
+            // 1) ad_create_controller.js
+            // 2) campaign_cost_card.html
+            // 3) campaign_card.html
+            // 4) inventory.html
+            // (as on 22nd July 2016)
             .filter('toTitleCase', function () {
                 return function (input) {
-                    if (!input) {
-                        return '';
+                    var returnValue = '';
+
+                    if (input) {
+                        returnValue = input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
                     }
 
-                    input = input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
-
-                    return input;
+                    return returnValue;
                 };
             })
 
+            // NOTE: Used in
+            // 1) screen_chart_model.js
+            // 2) buying_platform.js
+            // 3) campaign_create_controller.js
+            // 4) performance.html
+            // 5) overview_getAdgroups.html
+            // (as on 22nd July 2016)
             .filter('toPascalCase', function (toTitleCaseFilter) {
                 return function (input) {
                     var splitStr = input.split(' '),
                         finalStr = '',
                         i;
 
-                    if (!input) {
-                        return '';
-                    }
+                    if (input) {
+                        for (i = 0; i < splitStr.length; i++) {
+                            finalStr += toTitleCaseFilter(splitStr[i]);
 
-                    for (i = 0; i < splitStr.length; i++) {
-                        finalStr += toTitleCaseFilter(splitStr[i]);
-
-                        if (i + 1 < splitStr.length) {
-                            finalStr += ' ';
+                            if (i + 1 < splitStr.length) {
+                                finalStr += ' ';
+                            }
                         }
                     }
 
@@ -174,57 +191,84 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
                 };
             })
 
+            // NOTE: Not used anywhere.
+            // (as on 22nd July 2016)
+            // TODO: As this functionality is available in the standard JS library, is this filter really needed???
             .filter('toUpperCase', function () {
                 return function (input) {
-                    if (!input) {
-                        return '';
+                    var returnValue = '';
+
+                    if (input) {
+                        returnValue = input.toUpperCase();
                     }
 
-                    return input.toUpperCase();
+                    return returnValue;
                 };
             })
 
+            // NOTE: Not used anywhere.
+            // (as on 22nd July 2016)
+            // TODO: As this functionality is available in the standard JS library, is this filter really needed???
             .filter('toLowerCase', function () {
                 return function (input) {
-                    if (!input) {
-                        return '';
+                    var returnValue = '';
+
+                    if (input) {
+                        returnValue = input.toLowerCase();
                     }
 
-                    return input.toLowerCase();
+                    return returnValue;
                 };
             })
 
+            // NOTE: Used in
+            // 1) campaign_details.html
+            // (as on 22nd July 2016)
             .filter('formatCostData', function ($filter) {
                 return function (input, symbol, places) {
+                    var returnValue;
+
+                    symbol = symbol || '';
+
                     if (input === undefined) {
-                        return 'NA';
+                        returnValue = 'NA';
+                    } else {
+                        if (places !== undefined) {
+                            returnValue = symbol + $filter('number')(input, places);
+                        } else {
+                            returnValue = symbol + input;
+                        }
                     }
 
-                    if (!symbol) {
-                        symbol = '';
-                    }
-
-                    if (places !== undefined) {
-                        return symbol + $filter('number')(input, places);
-                    }
-
-                    return symbol + input;
+                    return returnValue;
                 };
             })
 
+            // NOTE: Not used anywhere.
+            // (as on 22nd July 2016)
             .filter('truncateString', function () {
                 return function (input, stringLength) {
+                    var returnValue;
+
                     if (!input) {
-                        return 'NA';
+                        returnValue = 'NA';
+                    } else {
+                        returnValue = input.substring(0, stringLength) + (input.length > stringLength ? ' [...]' : '');
                     }
 
-                    return input.substring(0, stringLength) + (input.length > stringLength ? ' [...]' : '');
+                    return returnValue;
                 };
             })
 
+            // NOTE: Used in
+            // 1) campaign_strategy_card.html
+            // (as on 22nd July 2016)
             .filter('roundThisOff', function () {
                 return function (input, places) {
-                    var factor = Math.pow(10, places);
+                    var factor;
+
+                    places = places || 0;
+                    factor = Math.pow(10, places);
 
                     return Math.round(input * factor) / factor;
                 };
