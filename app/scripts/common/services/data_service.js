@@ -346,23 +346,25 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
 
                             return success.call(this, utils.clone(objOnSuccess));
                         }, function (error) {
-                            var objOnError = {
-                                status: 'error',
-                                data: error
-                            };
+                            if (error.status !== 0) {
+                                var objOnError = {
+                                    status: 'error',
+                                    data: error
+                                };
 
-                            if (error.status === 401) {
-                                loginModel.unauthorized();
-                                return errorObject;
-                            } else if (error.status === 403) {
-                                loginModel.forbidden();
-                                return errorObject;
-                            }
+                                if (error.status === 401) {
+                                    loginModel.unauthorized();
+                                    return errorObject;
+                                } else if (error.status === 403) {
+                                    loginModel.forbidden();
+                                    return errorObject;
+                                }
 
-                            if (failure !== undefined) {
-                                return failure.call(this, objOnError);
-                            } else {
-                                return objOnError;
+                                if (failure !== undefined) {
+                                    return failure.call(this, objOnError);
+                                } else {
+                                    return objOnError;
+                                }
                             }
                         });
                 },
