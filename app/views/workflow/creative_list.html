@@ -1,7 +1,5 @@
-<popup-msg ng-show="alertMessage"
-           ng-controller="popUpMsgCtr"
-           ng-init="init('alertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')">
-</popup-msg>
+<popup-msg ng-show="alertMessage" ng-controller="popUpMsgCtr"
+           ng-init="init('alertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
 
 <div id="creativeList">
     <!-- Creative -->
@@ -10,6 +8,8 @@
             <span class="glyphicon glyphicon-ok pull-left" aria-hidden="true"></span>
             <span class="pull-left" style="margin-left: 10px;" data-ng-bind="textConstants.NEWCREATIVEALERT"></span>
         </div>
+
+
         <div class="col-md-12 zeroPadding centerAlign">
             <h1 class="col-md-12 zeroPadding" style="margin-top: 30px;" data-ng-bind="textConstants.CREATIVELIBRARY"></h1>
         </div>
@@ -18,7 +18,10 @@
             <filter-directive ng-if="!isLeafNode" from="creativeList"></filter-directive>
         </div>
 
-        <div class="col-md-12 file_upload_container" id="file_upload_container_a" ng-include="'/views/workflow/partials/creative_add_bulk.html'" ng-controller="BulkCreativeController">
+        <div class="col-md-12 file_upload_container"
+             id="file_upload_container_a"
+             ng-include="'/views/workflow/partials/creative_add_bulk.html'"
+             ng-controller="BulkCreativeController">
         </div>
 
         <div class="col-md-12 zeroPadding btn_list_filters centerAlign">
@@ -32,9 +35,7 @@
                             <span class="icon-more-options"></span>
                         </button>
                         <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
-                            <li>
-                                <a class="text-left" role="button" ng-click="showBulkCreateSection();" data-ng-bind="textConstants.BULK_UPLOAD"></a>
-                            </li>
+                            <li><a class="text-left" role="button" ng-click="showBulkCreateSection();" data-ng-bind="textConstants.BULK_UPLOAD"></a></li>
                             <li class="disabled"><a class="text-left">Get Creative Record Templates</a></li>
                         </ul>
                     </div>
@@ -51,7 +52,7 @@
                     <a class="btn btn-default searchInputBtnInline" ng-click="creativeSearchFunc()">
                         <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
                     </a>
-                    <div class="input-group searchInputForm">
+                    <div class="input-group searchInputForm" >
                         <input type="text" class="form-control" name="creativeSearch" search-box ng-model="creativeSearch" ng-keyup="creativeSearchFunc($event)" placeholder="Search Creative By Name and Size..">
                         <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput($event)">
                             <span class="icon-clear" aria-hidden="true"></span>
@@ -89,6 +90,38 @@
                         </div>
                         <div ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives" class="tr oneDimensionRow" ng-include="'creativeTpl'">
                         </div>
+
+                        <!--Sample Child / A Class "childRow" needs to be added to the data if its a Child-->
+                        <!--<div class="tr childRow" style="width: 100%; float: left;">-->
+                        <!--<div class="col-md-7 td">-->
+                        <!--<input type="checkbox"/>-->
+                        <!--<span class="icon-error"></span>-->
+                        <!--<span>Creative Name</span>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-2 td">Advertiser</div>-->
+                        <!--<div class="col-md-1 td text-center">Platform</div>-->
+                        <!--<div class="col-md-2 td">Last Sync</div>-->
+                        <!--</div>-->
+                        <!--<div class="tr childRow" style="width: 100%; float: left;">-->
+                        <!--<div class="col-md-7 td">-->
+                        <!--<input type="checkbox"/>-->
+                        <!--<span class="icon-warning"></span>-->
+                        <!--<span>Creative Name</span>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-2 td">Advertiser</div>-->
+                        <!--<div class="col-md-1 td text-center">Platform</div>-->
+                        <!--<div class="col-md-2 td">Last Sync</div>-->
+                        <!--</div>-->
+                        <!--<div class="tr childRow" style="width: 100%; float: left;">-->
+                        <!--<div class="col-md-7 td">-->
+                        <!--<input type="checkbox"/>-->
+                        <!--<span>Creative Name</span>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-2 td">Advertiser</div>-->
+                        <!--<div class="col-md-1 td text-center">Platform</div>-->
+                        <!--<div class="col-md-2 td">Last Sync</div>-->
+                        <!--</div>-->
+                        <!--Sample Ends Here-->
                         <div class="col-md-12" style="margin-top: 10px;" ng-show="loadCreativeData">
                             <div class="common-loading-area"></div>
                         </div>
@@ -97,7 +130,9 @@
                 <div ng-show="creativesNotFound" class="emptyCreativeList">
                     <span data-ng-bind="textConstants.DATANOTAVAILABLE"></span>
                 </div>
+
                 <div ng-show="creativeListLoading" class="common-load-more"></div>
+
             </div>
         </div>
 
@@ -111,7 +146,7 @@
                         <span class="icon-close close unselectable" aria-hidden="true" ng-click="disableEditor()"></span>
                     </div>
                     <div class="modal-body">
-                        <div class="textarea_editable_holder" ng-click="enableEditor()">
+                        <div class="textarea_editable_holder"  ng-click="enableEditor()">
                             <div ng-hide="editorEnabled">
                                 {{creativeTag}}
                                 <span class="icon-inline-edit" tooltip-placement="left" tooltip="Edit"></span>
@@ -123,7 +158,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="clearfix popup-btns-holder" ng-show="editorEnabled">
+                    <div class="clearfix popup-btns-holder"  ng-show="editorEnabled">
                         <button type="button" class="common_primary_btn pull-right {{editableTag === creativeTag ? 'disabled' : ''}}" id="updateTag" ng-click="updateTag(this)" data-ng-bind="textConstants.UPDATETAG"></button>
                         <button type="button" class="secondary_txt pull-right" id="cancelUpdate" ng-click="disableEditor()" data-ng-bind="textConstants.CANCEL"></button>
                     </div>
@@ -139,13 +174,13 @@
         <div class="popup-header-body">
             <div class="clearfix">
                 <h1 class="pull-left" data-ng-bind="textConstants.CREATIVESDELETE"></h1>
-                <span class="close unselectable" aria-hidden="true" ng-click="cancelDelete()">x</span>
+                <span class="close unselectable" aria-hidden="true" ng-click="cancelDelete()" >x</span>
             </div>
             <div class="popup-content" data-ng-bind="textConstants.DELETE_CREATIVES"></div>
         </div>
-        <div class="clearfix popup-footer">
+        <div class="clearfix popup-footer" >
             <button type="button" ng-click="deleteCreatives($event)" class="common_primary_btn pull-right" data-ng-bind="textConstants.ARCHIVE"></button>
-            <button type="button" ng-click="cancelDelete()" class="secondary_txt pull-right" data-ng-bind="textConstants.CANCEL"></button>
+            <button type="button" ng-click="cancelDelete()"class="secondary_txt pull-right" data-ng-bind="textConstants.CANCEL"></button>
         </div>
     </div>
 </div>
@@ -169,8 +204,8 @@
                 </a>
             </div>
         </div>
-        <div class="clearfix popup-footer">
-            <button type="button" ng-click="hideUploadRecordsMessage()" class="common_primary_btn pull-right">Close Message</button>
+        <div class="clearfix popup-footer" >
+            <button type="button" ng-click="hideUploadRecordsMessage()" class="common_primary_btn pull-right" >Close Message</button>
         </div>
 
     </div>
@@ -186,7 +221,7 @@
 
             <span ng-if="(creativeData.noOfAds === 0)" style="width: 12px; height: 30px; float: left;"></span>
 
-            <input type="checkbox" ng-disabled="creativeData.pushedCount>0" ng-checked="creativeData.active" ng-click="selectedCreativeCheckbox(creativeData)" />
+            <input type="checkbox" ng-disabled="creativeData.pushedCount>0" ng-checked="creativeData.active" ng-click="selectedCreativeCheckbox(creativeData)"/>
             <a href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)" tooltip="{{creativeData.name}}" data-ng-bind="creativeData.name.length>0? (creativeData.name | textEllipsis: 40 ):''"></a>
 
             <div class="pull-right">
@@ -211,50 +246,50 @@
                 </div>
             </div>
             <div class="script_tag">
-                <div ng-show="IsVisible" class="ng-cloak" data-ng-bind="creativeData.tag"></div>
+                <div ng-show = "IsVisible" class="ng-cloak" data-ng-bind="creativeData.tag"></div>
                 <div id="creativetagValue"><pre data-ng-bind="creativeData.tag"></pre></div>
             </div>
         </div>
-
         <!--Format-->
         <div class="col-md-1 td text-center">
             <span class="{{getAdFormatIconName(creativeData.creativeFormat)}}" aria-hidden="true"></span>
             <span style="text-transform: capitalize;" data-ng-bind="creativeData.creativeFormat|lowercase"></span>
         </div>
-
+        <!--Type-->
+        <!--<div class="col-md-1 td text-center">-->
+        <!--<span data-ng-bind="creativeData.creativeType"></span>-->
+        <!--</div>-->
         <!--Ad Server-->
         <div class="col-md-1 td text-center">
             <span ng-if="creativeData.isTracking" class="icon-tracking" style="margin-top: 15px;"></span>
             <span ng-if="!creativeData.isTracking"> <img ng-if="!(creativeData.isTracking)" style="max-height: 35px;max-width: 70px;" ng-src="{{creativeData.adServer.iconURL}}"/> </span>
         </div>
-
         <!--Sizes-->
         <div class="col-md-1 td text-center">
             <span data-ng-bind="creativeData.size.size|lowercase"></span>
+            <!--div class="size-box" ng-style="{width:creativeData.width, height:creativeData.height}"></div-->
         </div>
-
         <!--Advertiser-->
-        <div class="col-md-2 td">
-            <span data-ng-bind="creativeData.advertiser.name"></span>
+        <div class="col-md-2 td" tooltip="{{creativeData.advertiser.name}}">
+            <span data-ng-bind="creativeData.advertiser.name | textEllipsis: 40"></span>
         </div>
-
         <!--Platform-->
         <div class="col-md-1 td text-center">
             <span data-ng-bind="creativeData.noOfPlatforms"></span>
         </div>
-
         <!--Created-->
         <div class="col-md-2 td">
             <span data-ng-bind="utcToLocalTime(creativeData.updatedAt,'DD MMM YYYY  HH:mm A')"></span>
         </div>
     </div>
 
+
     <div style="display:none;" class="secondDimensionList secondDimensionCreativeList">
-        <div class="tr childRow adsList" ng-repeat="adData in creativeAds.creativeAdData[$index]">
+        <div class="tr childRow adsList"  ng-repeat="adData in creativeAds.creativeAdData[$index]">
             <div class="col-md-7 td">
                 <span ng-if="(adData.messageType==='ERROR')" class="icon-warning error" title="{{adData.message}}"></span>
                 <span ng-if="(adData.messageType==='WARNING')" class="icon-warning" title="{{adData.message}}"></span>
-                <a ng-click="redirectAdEditPage(adData)" tooltip="{{adData.campaignName}}/{{adData.adName}}">{{adData.campaignName | textEllipsis: 50}} / {{adData.adName | textEllipsis: 50}}</a>
+                <a ng-click="redirectAdEditPage(adData)" tooltip="{{adData.campaignName}}/{{adData.adName}}">{{adData.campaignName | textEllipsis: 45}} / {{adData.adName | textEllipsis: 45}} </a>
                 <div class="pull-right">
                     <div class="dropdown-workflow" ng-if="adData.creativeTemplate.templateType === 'NORMAL'">
                         <div class="dropdown hideOption">
@@ -270,8 +305,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2 td" data-ng-bind="adData.brandName"></div>
-            <div class="col-md-1 td text-center"><img ng-src="{{adData.platform.iconUrl}}" /></div>
+            <div class="col-md-2 td" tooltip="{{adData.brandName}}" data-ng-bind="adData.brandName | textEllipsis: 23"></div>
+            <div class="col-md-1 td text-center" ><img ng-src="{{adData.platform.iconUrl}}"/></div>
             <div class="col-md-2 td" data-ng-bind="utcToLocalTime(adData.updatedAt,'DD MMM YYYY  HH:mm A')"></div>
         </div>
     </div>
