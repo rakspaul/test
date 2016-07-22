@@ -2365,7 +2365,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', // jshin
                 };
 
                 $rootScope.$on(constants.ACCOUNT_CHANGED, function () {
-                    console.log("custom report controller: account changed")
                     $scope.buttonResetCancel = 'Clear';
                     $scope.resetMetricOptions();
                 });
