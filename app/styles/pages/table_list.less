@@ -18,6 +18,22 @@
       //overflow: hidden;
       text-overflow: ellipsis ;
     }
+    .vendorFirstCol {
+      width: 30% ;
+    }
+    .vendorSecCol {
+      width:5% ;
+    }
+    .vendorThirdCol , .vendorFifthCol , .vendorSevCol {
+      width:15% ;
+    }
+    .vendorForthCol {
+      width:12%;
+    }
+    .vendorSixCol {
+      width: 8% ;
+    }
+    
     .table-th , .table-td  {
       float: left;
       //width: 200px ;
@@ -97,6 +113,10 @@
         font-family: "Avenir" ;
       }
     }
+    .campaign_status_icon {
+      height: 12px ;
+      width: 12px ;
+    }
     .row.open {
       .table-td {
         .col-md-9 {
@@ -119,7 +139,7 @@
 
       .highlight-row,
       .rowHover:hover {
-          background-color: #DCE6F1;
+          background-color: #E1EDF9;
           .hideOption {
               display:block;
           }
@@ -226,7 +246,7 @@
       }
     }
     .table-th  {
-      padding: 20px;
+      padding: 20px 10px;
       border-color: #bfc9d7;
       border-width: 1px 0 0 0;
       border-style: solid ;
@@ -244,8 +264,8 @@
       border-color: rgba(191, 201, 215, 0.5);
       border-width: 0px 0 1px 1px ;
       border-style: solid ;
-      padding: 10px 20px;
-      height: 36px;
+      padding: 10px ;
+      height: 40px;
       //background-color: #ffffff ;
       &:last-child {
         border-right-width : 1px  ;
@@ -353,5 +373,73 @@
 
     }
 }
+.view-summary-dialog .modal-dialog {
+  width: 1200px ;
+}
+.view_summary_page {
+  .summarySection {
+    border: solid 1px rgba(191, 201, 215, 0.5) ;
+    padding: 20px ;
+    margin-right: 20px ;
+    .summarySectionRow {
+      margin-top: 5px ;
+    }
+    .glyphicon-ok-sign , .icon-user {
+      color: #57606D ;
+      font-size: 12px ;
+    }
+    .icon-user {
+      color : #0564A9 ;
+    }
+    .summarySectionHeading {
+      color: #57606D ;
+      font-size: 16px;
+      margin-bottom: 10px ;
+    }
+    &:last-child {
+      margin: 0 ;
+    }
+  }
+  .modal-header {
+    margin-bottom: 30px ;
+  }
+  .summaryHeadline {
+    .glyphicon-ok-sign {
+      color : #70d43d ;
+      margin-right: 5px ;
+    }
+  }
+  .summaryValues {
+    margin : 20px 0 25px ;
+    .marginLeft {
+      margin-left : 50px ;
+    }
+    .icon-calendar {
+      margin-right: 5px ;
+    }
+  }
+}
+#vendorConfigurationPage {
+  .table_list_holder {
+    .table-td-val {
+      display: inline-block;
+      width: 100%;
+      overflow: hidden;
+      text-overflow : ellipsis ;
+    }
+    .vendor_name {
+        display: inline-block;
+        width: 130%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .rowHover:hover {
+      .vendor_name {
+        width: 100%;
+      }
+    }
 
+  }
+
+}
 

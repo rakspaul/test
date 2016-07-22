@@ -15,6 +15,23 @@
   white-space: nowrap;
   text-overflow: ellipsis ;
 }
+.table-list-container .table_list_holder .vendorFirstCol {
+  width: 30% ;
+}
+.table-list-container .table_list_holder .vendorSecCol {
+  width: 5% ;
+}
+.table-list-container .table_list_holder .vendorThirdCol,
+.table-list-container .table_list_holder .vendorFifthCol,
+.table-list-container .table_list_holder .vendorSevCol {
+  width: 15% ;
+}
+.table-list-container .table_list_holder .vendorForthCol {
+  width: 12%;
+}
+.table-list-container .table_list_holder .vendorSixCol {
+  width: 8% ;
+}
 .table-list-container .table_list_holder .table-th,
 .table-list-container .table_list_holder .table-td {
   float: left;
@@ -78,6 +95,10 @@
 .table-list-container .table_list_holder .table-body .downloaded {
   font-family: "Avenir";
 }
+.table-list-container .table_list_holder .campaign_status_icon {
+  height: 12px ;
+  width: 12px ;
+}
 .table-list-container .table_list_holder .row.open .table-td .col-md-9:first-child {
   background-image: url("/images/cdesk/common_down_arrow.png");
 }
@@ -90,7 +111,7 @@
 }
 .table-list-container .table_list_holder .highlight-row,
 .table-list-container .table_list_holder .rowHover:hover {
-  background-color: #DCE6F1;
+  background-color: #E1EDF9;
 }
 .table-list-container .table_list_holder .highlight-row .hideOption,
 .table-list-container .table_list_holder .rowHover:hover .hideOption {
@@ -189,7 +210,7 @@
   background-image: none !important;
 }
 .table-list-container .table_list_holder .table-th {
-  padding: 20px;
+  padding: 20px 10px;
   border-color: #bfc9d7;
   border-width: 1px 0 0 0;
   border-style: solid ;
@@ -207,8 +228,8 @@
   border-color: rgba(191, 201, 215, 0.5);
   border-width: 0px 0 1px 1px ;
   border-style: solid ;
-  padding: 10px 20px;
-  height: 36px;
+  padding: 10px ;
+  height: 40px;
 }
 .table-list-container .table_list_holder .table-td:last-child {
   border-right-width: 1px  ;
@@ -283,4 +304,62 @@
 }
 #searchList .searchInputSchedule .searchInputForm input {
   border-width: 0px !important;
+}
+.view-summary-dialog .modal-dialog {
+  width: 1200px ;
+}
+.view_summary_page .summarySection {
+  border: solid 1px rgba(191, 201, 215, 0.5);
+  padding: 20px ;
+  margin-right: 20px ;
+}
+.view_summary_page .summarySection .summarySectionRow {
+  margin-top: 5px ;
+}
+.view_summary_page .summarySection .glyphicon-ok-sign,
+.view_summary_page .summarySection .icon-user {
+  color: #57606D ;
+  font-size: 12px ;
+}
+.view_summary_page .summarySection .icon-user {
+  color: #0564A9 ;
+}
+.view_summary_page .summarySection .summarySectionHeading {
+  color: #57606D ;
+  font-size: 16px;
+  margin-bottom: 10px ;
+}
+.view_summary_page .summarySection:last-child {
+  margin: 0 ;
+}
+.view_summary_page .modal-header {
+  margin-bottom: 30px ;
+}
+.view_summary_page .summaryHeadline .glyphicon-ok-sign {
+  color: #70d43d ;
+  margin-right: 5px ;
+}
+.view_summary_page .summaryValues {
+  margin: 20px 0 25px ;
+}
+.view_summary_page .summaryValues .marginLeft {
+  margin-left: 50px ;
+}
+.view_summary_page .summaryValues .icon-calendar {
+  margin-right: 5px ;
+}
+#vendorConfigurationPage .table_list_holder .table-td-val {
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis ;
+}
+#vendorConfigurationPage .table_list_holder .vendor_name {
+  display: inline-block;
+  width: 130%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#vendorConfigurationPage .table_list_holder .rowHover:hover .vendor_name {
+  width: 100%;
 }

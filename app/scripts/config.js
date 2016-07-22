@@ -91,6 +91,7 @@ assets.html_edit_collective_report = '/views/reporting/edit_collective_report.ht
 assets.html_delete_collective_report = '/views/reporting/delete_collective_report.html';
 assets.html_campaign_lst_filter = '/views/reporting/campaign_lst_filter.html';
 assets.html_confirmation_modal = '/views/reporting/confirmation_modal.html';
+assets.html_view_summary_modal = '/views/workflow/view_summary_modal.html';
 
 assets.html_bar_chart = '/views/reporting/partials/bar_chart.html';
 assets.html_report_header_tab = '/views/reporting/partials/reports_header_tab.html';
