@@ -64,7 +64,7 @@
     <div data-ng-switch-when=true>
         <div class="each_cost_col first_col">
             <span class="pull-left text-center showMobile" data-ng-bind="textConstants.IMP_WITH_DOT"></span>
-            <span class="pull-left text-center" data-ng-bind="(campaigns.costList[campaign.orderId].getImpressions() | nrFormat:0 : '' : 0)"></span>
+            <span class="pull-left text-center" data-ng-bind="(campaigns.costList[campaign.orderId].getImpressions() | nrFormat : 0 : '' : 0)"></span>
         </div>
         <div class="each_cost_col second_col">
             <span class="pull-left text-center showMobile" data-ng-bind="campaigns.selectedCostType|uppercase">{{textConstants.CPA}}</span>

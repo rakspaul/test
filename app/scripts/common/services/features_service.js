@@ -186,7 +186,11 @@ define(['angularAMD', 'workflow/services/workflow_service',
                             .getClientData(masterClientId)
                             .then(function (response) {
                                 serverResponseReceived = true;
-                                setFeatureParams(response.data.data.features,'headercontroller');
+
+                                if (response && response.data.data.features) {
+                                    setFeatureParams(response.data.data.features, 'headercontroller');
+                                }
+
                                 setFparams();
                             });
                     }
