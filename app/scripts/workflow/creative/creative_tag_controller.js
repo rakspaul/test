@@ -24,7 +24,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     return respData;
                 },
 
-                getCreativesFromLibrary: function (clientID, adId, format, query,state) {
+                getCreativesFromLibrary: function (clientID, advertiserId, format, query,state) {
                     var executionPlatformType;
 
                     // If adFormat has changed (Eg: from Display to RichMedia, etc.),
@@ -39,8 +39,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     executionPlatformType = workflowService.getVendorExecutionType();
 
                     workflowService
-                        .getCreatives(clientID,adId, format, query, {cache: false}, state, executionPlatformType,
-                            function (result) {
+                        .getCreatives(clientID, advertiserId, format, query, {cache: false},
+                            state, executionPlatformType , function (result) {
                                 var responseData,
                                     selectedCreative;
 
@@ -223,14 +223,14 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             });
 
             $scope.$on('showCreativeLibrary', function () {
-                var campaignId = $scope.workflowData.campaignData.clientId,
+                var clientId = $scope.workflowData.campaignData.clientId,
                     advertiserId = $scope.workflowData.campaignData.advertiserId;
 
                 $scope.showHidePopup = true;
                 $scope.creativeListLoading = true;
 
                 addFromLibrary.getCreativesFromLibrary(
-                    campaignId,
+                    clientId,
                     advertiserId,
                     $scope.adData.adFormat.toUpperCase(),
                     '',
