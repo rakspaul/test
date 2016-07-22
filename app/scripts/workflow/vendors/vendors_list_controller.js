@@ -1,4 +1,5 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service', 'workflow/services/vendors_list_service', 'workflow/services/audience_service', 
+define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
+         'workflow/services/vendors_list_service', 'workflow/services/audience_service', 
     'common/moment_utils'], function (angularAMD) {
     'use strict';
 
