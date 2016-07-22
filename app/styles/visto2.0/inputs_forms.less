@@ -1,5 +1,7 @@
 // Visto 2.0 Inputs / Forms
 // Inputs
+@import "color.less";
+
 input[type="text"],
 input[type="number"],
 input[type="email"],
@@ -117,7 +119,7 @@ select:hover {
       text-align: left;
     }
     input:hover {
-      border: 1px solid #939eae !important;
+      border: 1px solid @label-gray !important;
       box-shadow: none;
     }
     input:focus {
@@ -174,7 +176,7 @@ select:hover {
     [class^="icon-"], [class*=" icon-"] {
         background: transparent !important;
         padding: 10px 9px 9px 10px !important;
-        color: #57606d;
+        color: @lead-gray;
         &:hover {
             color: #363d49;
         }
@@ -183,7 +185,7 @@ select:hover {
 }
 .searchInput:hover .searchInputBtnInline {
   background: #e1edf9;
-  border-color: #939eae;
+  border-color: @label-gray;
 }
 
 //Tags Input Pills
@@ -212,7 +214,7 @@ select:hover {
                 -webkit-appearance: none !important;
                 ti-tag-item {
                     span {
-                        color: #21252b;
+                        color: @raven-text;
                         font-family: "Avenir";
                         font-size: inherit;
                     }
@@ -235,7 +237,7 @@ select:hover {
             .tags.focused {
                 -webkit-box-shadow: none !important;
                 box-shadow: none !important;
-                color: #21252b;
+                color: @raven-text;
                 text-decoration: none;
                 border: 1px solid #0978c9;
             }

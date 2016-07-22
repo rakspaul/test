@@ -202,7 +202,7 @@
   float: left;
   margin-right: 30px;
   font-size: 13px;
-  color: #939EAE;
+  color: #939eae;
   text-decoration: none;
   text-transform: uppercase;
   padding: 5px 0 5px 0;
@@ -211,8 +211,8 @@
   box-shadow: none;
 }
 .miniTabLinks .btn-link:hover {
-  color: #939EAE;
-  border-bottom: 2px solid #939EAE;
+  color: #939eae;
+  border-bottom: 2px solid #939eae;
 }
 .miniTabLinks .btn-link.active {
   border-bottom: 2px solid #0978C9;

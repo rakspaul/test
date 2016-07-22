@@ -112,5 +112,9 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/
             eventBrandChangedFunc();
             statusChangedFunc();
         });
+        
+        $scope.hide_bubble_tooltip = function() {
+            $('.bubble_tooltip').hide();
+        };
     });
 });

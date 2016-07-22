@@ -1162,12 +1162,13 @@ define(['angularAMD'], function(angularAMD) {
         // this.EVENT_CLIENT_CHANGED = 'eventClientChanged';
         // this.EVENT_CLIENT_CHANGED_FROM_DASHBOARD = 'advertiserChangedFromDashboard';
         this.INVOICE_ADJUSTMENT_FIELD_EMPTY = 'Please enter valid Type, Notes, Amounts';
-
+        this.ADMIN = 'Admin' ;
         this.EVENT_SUB_ACCOUNT_CHANGED = 'eventSubAccountChanged';
         this.EVENT_SUB_ACCOUNT_CHANGED_FROM_DASHBOARD = 'SubAccountChangedFromDashboard';
         this.EVENT_MASTER_CLIENT_CHANGED = 'eventMasterClientChanged';
         this.SUB_ACCOUNT = 'Sub-Account';
         this.NICK_NAME = 'Nick Name';
+        this.ERROR = 'Error:';
         this.ACCOUNT_NICKNAME = 'Account Nickname:';
         this.ADMIN_ADD_PERMISSION = 'Please add permission';
         this.ADMIN_SELECT_CLIENT = 'Please select the client';
@@ -1343,5 +1344,16 @@ define(['angularAMD'], function(angularAMD) {
             'Once the invoice status changed to upload, user must upload the file to change the status.';
 
         this.CODE_FIELD_EMPTY = 'Please add code';
+
+        // Vendors page
+        this.VENDORS = 'Vendors' ;
+        this.VENDOR_CONFIGURATION = 'My Vendor Configurations';
+        this.CONFIGURATION = 'Configuration';
+        this.ID = 'ID';
+        this.VENDOR = 'Vendor';
+        this.OWNER = 'Owner';
+        this.CURRENCY = 'Currency';
+        this.UPDATED = 'Updated';
+        this.VIEW_SUMMARY = 'View Summary' ;
     });
 });

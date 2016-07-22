@@ -234,7 +234,7 @@ define(['common'], function (angularAMD) {
                     controller: 'ReportsScheduleListController',
                     controllerUrl: 'reporting/collectiveReport/reports_schedule_list_controller',
                     showHeader : true,
-                    css: assets.css_reports_schedule_list,
+                    css: assets.css_table_list,
 
                     resolve: {
                         check: function ($location, featuresService) {
@@ -306,6 +306,15 @@ define(['common'], function (angularAMD) {
                             featuresService.setGetFeatureParams('create_mediaplan');
                         }
                     }
+                }))
+
+                .when('/vendors/list', angularAMD.route({
+                    templateUrl: assets.html_vendors_list,
+                    title: 'Vendors - List',
+                    controller: 'VendorsListController',
+                    controllerUrl: 'workflow/vendors/vendors_list_controller',
+                    showHeader : true,
+                    css: assets.css_table_list
                 }))
 
                 .when('/admin/home', angularAMD.route({

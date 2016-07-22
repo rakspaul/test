@@ -1,5 +1,5 @@
 // Visto 2.0 Tables
-
+@import "color.less";
 // Table Design
 .table {
     thead {
@@ -42,7 +42,7 @@
       float: left;
       width: 100%;
       padding: 0;
-      border-bottom: 1px solid #939eae;
+      border-bottom: 1px solid @label-gray;
       .tr {
         float: left;
         width: 100%;
@@ -53,12 +53,12 @@
           vertical-align: top;
           min-height: 60px;
           font-family: "Avenir-bold";
-          color: #57606d;
+          color: @lead-gray;
           span, a {
             width: 100%;
             text-align: center;
             font-family: "Avenir-bold";
-            color: #57606d;
+            color: @lead-gray;
           }
           input[type="checkbox"] {
             float: left;
@@ -74,7 +74,7 @@
             color: #bfc9d7;
           }
           .icon-toggleclose:hover {
-            color: #939eae;
+            color: @label-gray;
           }
           .icon-toggleopen {
             float: left;
@@ -101,7 +101,7 @@
           background-color: #f7f7f7;
           padding: 10px 10px;
           font-family: "Avenir-bold";
-          color: #57606d;
+          color: @lead-gray;
           input[type="checkbox"] {
             float: left;
             margin-right: 10px;
@@ -171,7 +171,7 @@
             color: #bfc9d7;
           }
           .icon-toggleclose:hover {
-            color: #939eae;
+            color: @label-gray;
           }
           .icon-toggleopen {
             float: left;
@@ -190,7 +190,7 @@
           border-left: 1px solid rgba(191, 201, 215, 0.5);
           padding-left: 10px;
           a {
-            color: #21252b;
+            color: @raven-text;
           }
           a:hover {
             color: #0978C9;
@@ -381,6 +381,6 @@
             }
         }
     }
-   
+
 
 }

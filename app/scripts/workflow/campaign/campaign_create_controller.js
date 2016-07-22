@@ -1,5 +1,6 @@
 define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
-    'common/services/vistoconfig_service', 'login/login_model', 'common/moment_utils', 'workflow/directives/clear_row',
+    'common/services/vistoconfig_service', 'login/login_model', 'common/moment_utils',
+    'workflow/campaign/campaign_service','common/utils','workflow/directives/clear_row',
     'common/directives/ng_upload_hidden', 'workflow/campaign/pixels_controller', 'workflow/campaign/budget_controller',
     'workflow/campaign/line_item_controller', 'common/controllers/confirmation_modal_controller',
     'workflow/directives/custom_date_picker', 'workflow/campaign/campaign_archive_controller',
@@ -9,7 +10,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
     angularAMD.controller('CreateCampaignController', function ($scope, $window, $rootScope, $filter, $routeParams,
                                                                 $locale, $location, $timeout, $modal, constants,
                                                                 workflowService, vistoconfig, loginModel,
-                                                                momentService) {
+                                                                momentService,campaignService,utils) {
         var selectedAdvertiser,
 
             createCampaign = {
@@ -98,7 +99,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                             .then(function (result) {
                                 if (result.status === 'OK' || result.status === 'success') {
                                     $scope.type = result.data.data;
-                                    workflowService.setRateTypes(angular.copy($scope.type));
+                                    campaignService.setRateTypes(angular.copy($scope.type));
                                 }
                             });
                     }
@@ -109,7 +110,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         .getVendorConfigs($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId)
                         .then(function (result) {
                             $scope.selectedCampaign.vendorConfig =
-                                workflowService.processVendorConfig(result.data.data);
+                                campaignService.processVendorConfig(result.data.data);
                         });
                 },
 
@@ -696,7 +697,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 postDataObj.kpiValue = formData.kpiValue;
                 postDataObj.marginPercent = formData.marginPercent;
                 postDataObj.deliveryBudget = formData.deliveryBudget;
-                postDataObj.totalBudget = workflowService.stripCommaFromNumber(formData.totalBudget);
+                postDataObj.totalBudget = utils.stripCommaFromNumber(formData.totalBudget);
 
                 if ($scope.mode === 'create' || $scope.cloneMediaPlanName) {
                     postDataObj.lineItems =
@@ -887,6 +888,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $scope.hideKpiValue = false;
             $scope.client = loginModel.getSelectedClient();
             $scope.isClientDropDownDisable = false;
+            $scope.editCampaignData = [];
 
             if ($scope.client.name) {
                 $scope.isClientDropDownDisable = true;
@@ -1011,9 +1013,16 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         });
 
         $scope.$watch('selectedCampaign.endTime',function (newVal, oldVal) {
+            var selectedPixelData;
             if (selectedAdvertiser) {
-                if (createCampaign.campaignData && createCampaign.campaignData.pixels) {
-                    $scope.$broadcast('fetch_pixels', createCampaign.campaignData.pixels);
+                if($scope.selectedCampaign.selectedPixel.length >0) {
+                    selectedPixelData =  _.pluck($scope.selectedCampaign.selectedPixel, 'id');
+                } else {
+                    selectedPixelData = $scope.editCampaignData.pixels;
+                }
+
+                if (selectedPixelData && selectedPixelData.length >0) {
+                    $scope.$broadcast('fetch_pixels', selectedPixelData);
                 } else {
                     $scope.$broadcast('fetch_pixels');
                 }

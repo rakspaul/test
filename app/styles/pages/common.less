@@ -1,3 +1,6 @@
+
+@import "../visto2.0/color.less";
+
 @color_1: #0978c9;
 @color_2: #21252B;
 @color_3: #ccc;
@@ -223,7 +226,7 @@
 	font-size: 12px;
 	width: 12px;
 	height: 12px;
-	color: @color_2;
+	color: @raven-text;
 	opacity: .25;
 }
 .about_popup {
@@ -314,7 +317,7 @@
 }
 .popup-holder {
 	font-size: 14px;
-	color: @color_2;
+	color:@raven-text;
 	text-align: left;
 	line-height: 20px;
 	border-radius: 5px;
@@ -369,7 +372,7 @@
 	}
 
     span.tagTitle {
-        color: #939eae;
+        color: @label-gray;
         margin-right:5px;
     }
 
@@ -561,7 +564,7 @@
 		h1 {
 			width: 90%;
 			word-wrap: break-word;
-			color: @color_2;
+			color: @raven-text;
 			padding-top: 20px;
 			padding-left: 30px;
 			padding-bottom: 15px;
@@ -578,7 +581,7 @@
 			font-size: 12px;
 			width: 12px;
 			height: 12px;
-			color: @color_2;
+			color: @raven-text;
 			opacity: .25;
 			margin: 6px;
 		}
@@ -899,7 +902,7 @@
 	width: 1040px;
 	margin: 0 auto;
 	font-size: 14px;
-	color: @color_2;
+	color: @raven-text;
 	line-height: 20px;
 	.advertisers_filter {
 		margin-right: 30px;
@@ -921,7 +924,7 @@
 		}
 		li {
 			font-size: 14px;
-			color: @color_2;
+			color: @raven-text;
 			padding: 5px 10px;
 			overflow: hidden;
 			white-space: nowrap;
@@ -968,7 +971,7 @@
 			}
 			.icon-arrow-solid-down {
 				font-size: 10px;
-				color: #939EAE;
+				color: @label-gray;
 				height: 4px;
 				width: 2px;
 				line-height: 16px;
@@ -1217,7 +1220,7 @@
         width: 10px;
         height: 10px;
         font-size: 10px;
-        color: #939EAE;
+        color: @label-gray;
     }
 	.brandsDropdownSearch {
 		position: relative;
@@ -1612,7 +1615,7 @@
 			    float: left;
 			}
 		}
-		
+
 		.arrow_img {
 			background: url("/images/cdesk/common_down_arrow.png") no-repeat center center;
 			height: 18px;
@@ -1630,7 +1633,7 @@
             width: 10px;
             height: 10px;
             font-size: 10px;
-            color: #939EAE;
+            color: @label-gray;
         }
 		.dropdown-menu {
 			padding: 5px 0;
@@ -1827,7 +1830,7 @@ multiselect {
 	margin-left: 10px;
 	padding: 7px;
 	font-size: 16px;
-	color: @color_23;
+	color: @lead-gray;
 	&:hover {
 		color: @color_24;
 	}
@@ -1940,11 +1943,11 @@ multiselect {
     margin : 3px 10px 0 0 ;
 }
 .draft_bulb {
-	border: solid 3px #939eae;
+	border: solid 3px @label-gray;
 	background: transparent;
 }
 .incomplete_bulb {
-	border: solid 3px #939eae;
+	border: solid 3px @label-gray;
 	background: transparent;
 }
 .ready_bulb {
@@ -2354,13 +2357,13 @@ tags-input .autocomplete {
                   width: 13px;
               }
           }
-          
+
         .searchInputBtn {
             &:active, &:focus, &:hover, &:target {
                 border-width: 0px !important;
             }
         }
-          
+
         .searchClearInputBtn {
             right: 42px;
             border-right: 1px solid #BFC9D7;
@@ -2398,7 +2401,7 @@ tags-input .autocomplete {
       }
 
       .segTotal {
-          color: #939eae;
+          color: @label-gray;
           float: left;
           font-size: 14px;
           padding-top: 5px;
@@ -2420,8 +2423,8 @@ tags-input .autocomplete {
 .dropdown-menu.campaigns_list {
 	padding-top: 0px ;
 }
-.nav_filters .brandsDropdownSearch.loadedDropdownData #brandsDropdownDiv input, 
-.nav_filters .brandsDropdownSearch.loadedDropdownData #subAccountDropdownDiv input, 
+.nav_filters .brandsDropdownSearch.loadedDropdownData #brandsDropdownDiv input,
+.nav_filters .brandsDropdownSearch.loadedDropdownData #subAccountDropdownDiv input,
 .nav_filters .brandsDropdownSearch.loadedDropdownData .advertisersList_ul input ,
 .nav_filters .loadedDropdownData #campaignsDropdownDiv input {
 	background: url("/images/loading.gif") no-repeat right center !important;
@@ -2444,6 +2447,9 @@ tags-input .autocomplete {
 	}
 }
 /*End of Dropdown which has search input box*/
+.textRight {
+	text-align: right;
+}
 
 @keyframes show-notification {
     from {

@@ -1,4 +1,7 @@
 // Visto 2.0 Buttons
+
+@import "color.less";
+
 .btn,
 select {
     border-radius: 2px;
@@ -48,12 +51,12 @@ select {
 }
 
 .btn-default {
-    color: #57606d;
+    color: @lead-gray;
     font-size: 14px;
     border: 1px solid #BFC9D7;
     background: #fff;
     &:hover {
-        border: 1px solid #939EAE;
+        border: 1px solid @label-gray;
     }
     &:not(.label-btn):hover {
         background: #e1edf9;
@@ -100,7 +103,7 @@ select {
             border-radius: 0;
             box-shadow: none;
 
-            
+
 
             &.active,
             &.active:hover {
@@ -113,7 +116,7 @@ select {
                     color: #363D49;
                 }
             }
-            
+
             &:hover {
                 background-color: #0564A9;
                 color: #363D49;
@@ -175,7 +178,7 @@ select {
                 }
             }
         }
- 
+
         &.first {
             border-left: 1px solid #BFC9D7;
         }
@@ -188,7 +191,7 @@ select {
             span {
                 color:#363D49;
             }
-            
+
             &.hover {
                 .hideRadioBtn {
                     color: #363D49 !important;
@@ -207,7 +210,7 @@ select {
 
         span {
             float: left;
-            color: #21252b;
+            color: @raven-text;
             font-size: 14px;
             margin: 2px 0 0 10px;
         }
@@ -321,7 +324,7 @@ select {
         [class^="icon-"], [class*=" icon-"] {
           margin: 0;
         }
-      }   
+      }
     }
     .dropdown:hover {
       box-shadow: none;
@@ -356,7 +359,7 @@ select {
     font-size: 12px;
     width: 12px;
     height: 12px;
-    color: #21252B;
+    color: @raven-text;
     opacity: .25;
 }
 
@@ -436,12 +439,12 @@ input.cmn-toggle-round:checked + label:after {
         border-radius: 2px;
         border: 1px solid #BFC9D7 !important;
         margin-right: 15px;
-        
+
         &:hover {
             background-color: #E1EDF9 !important;
-            border: 1px solid #939EAE !important;
+            border: 1px solid @label-gray !important;
         }
-        
+
         &.active {
             background-color: #DCE6F1 !important;
             border: 1px solid #BFC9D7 !important;
@@ -506,7 +509,7 @@ tags-input {
             background: #e1edf9 !important;
             padding: 3px 15px !important;
             span {
-                color: #21252b;
+                color:@raven-text;
                 text-decoration: none;
             }
         }

@@ -1,5 +1,5 @@
 <popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
-           ng-init="init('flashMessage','WF_USER_CREATION_FAIL')"></popup-msg>
+           ng-init="init('flashMessage','ERROR')"></popup-msg>
 <admin-header></admin-header>
 <div class="users-creation-page" ng-controller='AdminAdvertisersController'>
     <!--Header-->
@@ -45,9 +45,8 @@
             <input type="text" class="pull-left clearLeft col-md-3" placeholder="Add Name" id="brandNameInp" ng-model="brandName"
                    ng-keyup="mode == 'create' ? showDropdown() : ''" style="border-top-right-radius: 0px; border-bottom-right-radius: 0;" ng-class="{'edit-input':isEditBrand}">
             
-            <span class="delete_row" ng-show="isEditBrand"
-                  data-ng-click="isEditBrand=false;brandName=''"
-                  style="position: absolute;top: 32px;left: 470px;"></span>
+            <span class="pull-left icon-clear" ng-show="isEditBrand"
+                  data-ng-click="isEditBrand=false;brandName=''" style="margin: 10px 0 0 10px; cursor: pointer;"></span>
         </div>
     </div>
 

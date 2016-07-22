@@ -44,7 +44,7 @@ assets.green_right = IMAGES_CALENDAR_PATH + 'cal_arrow_right_green_16x16_2x.png'
 assets.green_right_act = IMAGES_CALENDAR_PATH + 'cal_arrow_right_green_16x16_2x_active.png';
 
 assets.css_custom_reports = STYLESHEETS_PATH + 'pages/custom_reports.css';
-assets.css_reports_schedule_list = STYLESHEETS_PATH + 'pages/reports_schedule_list.css';
+assets.css_table_list = STYLESHEETS_PATH + 'pages/table_list.css';
 assets.css_reports_invoice_list = STYLESHEETS_PATH + 'pages/reports_invoice_list.css';
 assets.css_visto_application = STYLESHEETS_PATH + 'visto_application.css';
 
@@ -115,6 +115,8 @@ assets.html_admin_header = '/views/reporting/partials/admin_header.html';
 assets.html_admin_sub_header = '/views/reporting/partials/admin_sub_header.html';
 
 assets.html_campaign_create = '/views/workflow/campaign_create.html';
+assets.html_vendors_list = '/views/workflow/vendors_list.html';
+
 assets.html_campaign_create_ad = '/views/workflow/campaign_overview.html';
 assets.html_campaign_create_adBuild = '/views/workflow/campaign_ad_create.html';
 assets.html_creative = '/views/workflow/creative.html';

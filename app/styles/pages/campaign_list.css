@@ -15,7 +15,7 @@ body {
   height: auto;
   background: #fff;
   background-repeat: repeat;
-  color: #21252b ;
+  color: #21252b;
 }
 .btn:focus,
 input:focus,
@@ -1270,7 +1270,7 @@ input[type="submit"] {
 }
 .dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .main_heading {
   font-size: 18px ;
-  color: #21252b ;
+  color: #21252b;
   line-height: 24px ;
   font-family: "Avenir-bold";
   word-wrap: break-word;
@@ -1283,7 +1283,7 @@ input[type="submit"] {
   background: #fcecbd;
 }
 .dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .heading {
-  color: #57606d ;
+  color: #57606d;
   font-size: 14px ;
   margin-top: 2px ;
   padding-left: 15px ;
@@ -1381,9 +1381,8 @@ input[type="submit"] {
 }
 .dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .each_metric_graph_details span.detail_val {
   font-family: "Avenir-bold";
-  color: #57606d;
   font-size: 14px;
-  color: #57606d ;
+  color: #57606d;
 }
 .dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_ctr {
   text-align: center;
@@ -1403,7 +1402,7 @@ input[type="submit"] {
 .dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc .quartile_details_title {
   font-size: 14px ;
   font-family: "Avenir-bold";
-  color: #21252b ;
+  color: #21252b;
 }
 .dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc .quartile_details_VTC_btn {
   border: solid 1px #dde6eb;
@@ -1520,7 +1519,7 @@ input[type="submit"] {
 }
 .dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container.true_archive .days_over,
 .dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container.true_archive .days_over:after {
-  background: #57606D;
+  background: #57606d;
 }
 .dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container {
   padding: 20px;
@@ -1751,7 +1750,7 @@ input[type="submit"] {
 .dashboard_outer_container .metric_graph .full_metric_graph .end_point_val span {
   display: block;
   height: 21px;
-  color: #21252b ;
+  color: #21252b;
   font-size: 12px ;
   border-radius: 4px;
   -moz-border-radius: 4px;
@@ -2016,7 +2015,7 @@ input[type="submit"] {
 .total_campaign_cost_holder .each_campaign_cost_container .cost_cols_holder .each_cost_col {
   font-family: "Avenir";
   font-weight: normal;
-  color: #57606d ;
+  color: #57606d;
 }
 .total_campaign_cost_holder .each_campaign_cost_container .cost_cols_holder .total_cost {
   font-family: "Avenir-bold";
@@ -2201,7 +2200,7 @@ input[type="submit"] {
   margin-top: 4px;
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown_ul_text .icon-arrow-solid-down {
-  color: #939EAE;
+  color: #939eae;
   margin-top: 2px;
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details li {
@@ -2246,7 +2245,7 @@ input[type="submit"] {
   text-overflow: ellipsis;
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown_ul_text .icon-arrow-solid-down {
-  color: #939EAE;
+  color: #939eae;
 }
 .main_navigation_holder .main_nav_dropdown .logout-option-link {
   width: 100%;
@@ -2698,7 +2697,7 @@ input[type="submit"] {
 .nav_filters {
   width: 100%;
   font-size: 14px;
-  color: #21252B;
+  color: #21252b;
   line-height: 20px;
   /*}*/
 }
@@ -2734,7 +2733,7 @@ input[type="submit"] {
   position: static;
   float: right;
   margin: 3px 0 0 8px;
-  color: #939EAE;
+  color: #939eae;
 }
 .nav_filters .each_filter {
   margin-top: 0px ;
@@ -2964,7 +2963,7 @@ input[type="submit"] {
   width: 10px;
   height: 10px;
   font-size: 10px;
-  color: #939EAE;
+  color: #939eae;
 }
 .nav_filters .brandsDropdownSearch {
   position: relative;
@@ -3085,7 +3084,7 @@ input[type="submit"] {
 }
 .nav_filters .dropdown-menu li {
   font-size: 14px;
-  color: #21252B;
+  color: #21252b;
   padding: 5px 10px;
   overflow: hidden;
   white-space: nowrap;
@@ -3211,7 +3210,7 @@ input[type="submit"] {
   margin-right: 20px ;
 }
 .quick_filters_holder .filters_selected_holder .each_selected_filter .heading {
-  color: #57606d ;
+  color: #57606d;
 }
 .campaignListContainer .campaign_list_header .common_primary_btn {
   text-transform: none;

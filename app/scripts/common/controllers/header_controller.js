@@ -63,6 +63,12 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
+        $scope.reports_nav_url = '' ;
+        if ($scope.selectedCampaign === -1) {
+            $scope.reports_nav_url = '/mediaplans';
+        } else {
+            $scope.reports_nav_url = '/mediaplans/' + $scope.selectedCampaign;
+        }
 
         $scope.getClientData = function () {
             var clientId = localStorageService.masterClient.get().id;
@@ -165,13 +171,16 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 $('.each_nav_link').removeClass('active_tab active selected');
                 url = '/mediaplans';
                 $('#campaigns_nav_link').addClass('active_tab');
+            } else if (page === 'vendorsList') {
+                $('.each_nav_link').removeClass('active_tab active selected');
+                url = '/vendors/list';
+                $('#vendors_nav_link').addClass('active_tab');
             } else if (page === 'reportsSubPage') {
                 $('.reports_sub_menu_dd_holder').find('.active_tab').removeClass('active_tab');
                 $('.each_nav_link').removeClass('active_tab active selected');
                 $('#reports_nav_link').addClass('active_tab');
                 $(event.currentTarget).parent().addClass('active_tab');
             }
-
             $location.url(url);
         };
 

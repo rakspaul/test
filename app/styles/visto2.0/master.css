@@ -94,7 +94,7 @@ a:hover {
 }
 .viewLabelTxt {
   float: left;
-  color: #939EAE;
+  color: #939eae;
   margin: 4px 0 0 5px;
   font-size: 12px;
 }
@@ -107,7 +107,7 @@ a:hover {
   height: 12px;
   font-size: 12px;
   margin: 5px 0 0 15px;
-  color: #939EAE;
+  color: #939eae;
 }
 .breadcrumbFlow {
   color: #333;
@@ -131,7 +131,7 @@ a:hover {
   -webkit-transform: rotate(270deg);
   transform: rotate(270deg);
   margin: 11px 10px 0 10px;
-  color: #939EAE;
+  color: #939eae;
 }
 .labelQuestTxt {
   color: #21252b;
@@ -182,7 +182,7 @@ strong {
   font-size: 16px;
   display: inline-block;
   fill: currentColor;
-  color: #57606D;
+  color: #57606d;
 }
 .form-group {
   padding-right: 10px;
