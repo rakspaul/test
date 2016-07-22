@@ -2,18 +2,12 @@
     <div class="clearfix each_campaign_list_container only_strategy_container">
         <div class="strategy_title" data-ng-bind="textConstants.LINE_ITEM"></div>
         <div class="clearfix">
-           <!--  <div class="each_campaign_section">
-                <div class="campaign_status_icon {{strategy.li_status.toLowerCase()}}_bulb" tooltip-placement="left"
-                tooltip="{{strategy.li_status.toLowerCase() | toCamelCase}}"></div>
-            </div> -->
             <div class="each_campaign_section">
                 <div class="main_heading pull-left">
                     <truncate-text-with-hover txt="{{strategy.name}}"
                                               txt-html="{{strategy.name}}"
                                               txtlength="75">
                     </truncate-text-with-hover>
-                    <!--<span dynamic-tooltip="{{strategy.name}}" tooltip-element="searchElement"
-                    txt="{{strategy.name}}" txtLength="75"></span>-->
                 </div>
                 <div class="heading" ng-bind="campaign.brandName"></div>
             </div>
@@ -21,7 +15,6 @@
 
         <!--Column 1-->
         <div class="col-md-4 each_campaign_section campaign_list_details">
-            <!-- <div class="strategy_heading">Strategy</div> -->
             <div class="days_left_holder">
                 <div class="total_days_holder">
                     <div class="clearfix days_end_points">
@@ -64,17 +57,12 @@
                          ng-bind="(strategy.tactics_count > 1) ? (strategy.tactics_count+' Ads') : (strategy.tactics_count+' Ad')">
                     </div>
                 </div>
-                <a ><!--  href="/#/performance" -->
+                <a>
                     <div class="btn btn-default pull-right"
                          ng-bind="textConstants.VIEW_REPORT"
                          ng-click="$parent.$parent.viewReports(campaign, strategy)">
                     </div>
                 </a>
-                <!-- <a  ng-click="$parent.$parent.setActivityButtonData(campaign, strategy)">
-                    <div class="campaign_btn actions_btn" >
-                        <span>{{textConstants.ACTIVITY}}</span>
-                    </div>
-                </a> -->
             </div>
         </div>
 
@@ -112,22 +100,19 @@
             </div>
             <div class="clearfix metric_graph_details">
                 <div class="each_metric_graph_details" ng-if="strategy.totalImpressions">
-                    <span class="detail_val" ng-bind="strategy.totalImpressions | nrFormat:0"></span>
+                    <span class="detail_val" ng-bind="strategy.totalImpressions | nrFormat : 0"></span>
                     <span ng-bind="textConstants.IMP_WITH_DOT"></span>
                 </div>
                 <div class="each_metric_graph_details metric_graph_details_ctr" ng-if="strategy.ctr > 0">
                     <span class="detail_val" ng-bind="(strategy.ctr | roundThisOff : 3) + '%'"></span>
                     <span ng-bind="textConstants.CTR"></span>
                 </div>
+
                 <!-- when action rate is present -->
-                <!-- <div class="each_metric_graph_details metric_graph_details_action"
-                ng-if="!strategy.adFormats.videoAds || strategy.vtc_rate === 0"> -->
                 <div class="each_metric_graph_details metric_graph_details_action" ng-if="strategy.vtc_rate === 0">
                     <span class="detail_val" ng-bind="(strategy.actionRate | number : 3) + '%'">{{}}%</span>
                     <span>{{textConstants.ACTION_RATE}}</span>
                 </div>
-                <!-- <div class="each_metric_graph_details  metric_graph_details_vtc"
-                ng-if="strategy.adFormats.videoAds && strategy.vtc_rate > 0"> -->
                 <div class="each_metric_graph_details  metric_graph_details_vtc" ng-if="strategy.vtc_rate > 0">
                     <div class="quartile_details_VTC_btn" ng-mouseover="VTCpopup($event, 1)"
                          ng-mouseout="VTCpopup($event, 0)">
@@ -158,7 +143,7 @@
                           ng-if="campaign.kpiValue || strategy.targetKPIImpressions">
                         <span ng-if="strategy.chart !== false"
                               ng-bind="campaign.kpiType.toLowerCase() === 'impressions' ?
-                                    (strategy.targetKPIImpressions|nrFormat:0) :
+                                    (strategy.targetKPIImpressions|nrFormat : 0) :
                                     (campaign.kpiValue | kpiFormatter:campaign.kpiType)">
                         </span>
                         <span class="icon_KPI" ng-if="strategy.chart !==false"></span>
@@ -188,7 +173,6 @@
                              chart-location="strategy"
                              chart-tag="{{strategy.id}}">
                         </div>
-                        <!-- <highchart class="graph_KPI_holder" config="strategy.chart" chartTitle=""></highchart> -->
                     </div>
                     <div ng-if="!(strategy.chart && campaign.kpiType)" class="graph_KPI_holder"
                          ng-bind-html="getMessageForDataNotAvailable(strategy)">

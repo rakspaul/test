@@ -2772,7 +2772,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container #reports_byadsizes_block .vid_data_hdr {
   margin-left: 1px
-    width: 297px;
+            width: 297px;
 }
 .reports_tabs_content_container #reports_byadsizes_block .reports_details_outer_container .each_col {
   width: 120px;
@@ -3386,7 +3386,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   /*      &.fifth_col{
         min-width: 11px;
         width: 51px;
-
       }*/
 }
 #reports_platform_cost_block .reports_platform_header .each_cost_col.fifth_col,

@@ -72,7 +72,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     name: $scope.brandName,
                     ownerClientId: _curCtrl.clientId
                 };
-                
+
                 accountsService
                     .createBrand(data)
                     .then(function (res) {

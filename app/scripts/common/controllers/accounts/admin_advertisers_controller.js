@@ -117,13 +117,14 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     $rootScope.setErrAlertMessage(constants.CODE_FIELD_EMPTY);
                     return;
                 }
+
                 data = {
                     name: $scope.advertiserName,
                     code: code,
                     nickname:nickname,
                     ownerClientId: _curCtrl.clientId
                 };
-                
+
                 accountsService
                     .createAdvertiser(data)
                     .then(function (res) {

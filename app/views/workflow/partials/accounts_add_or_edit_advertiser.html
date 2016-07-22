@@ -14,6 +14,7 @@
         <h2 class="modal-title" id="myModalLabel" data-ng-bind="showUserModeText()"></h2>
         <div data-ng-bind="'Client ( ' + clientObj.name + ' )'"></div>
     </div>
+
     <!--Body-->
     <div class="modal-body">
         <!--Basic Form-->
@@ -44,14 +45,6 @@
                     </div>
                 </div>
             </div>
-
-            <!--<div class="form-group col-md-4" style="padding: 0 15px;">-->
-            <!--    <label class="col-sm-12 greyTxt">Account Nickname:</label>-->
-            <!--    <input type="text"-->
-            <!--           class="form-control"-->
-            <!--           placeholder="Add Nickname">-->
-            <!--</div>-->
-
             <div class="adChoices">
                 <div class="col-md-12 zeroPadding">
                     <h1 class="pull-left">Ad Choices</h1>
@@ -262,7 +255,7 @@
 
             <!--Create Pixel Form-->
             <div class="pixelCreate" style="display: none">
-                <!--Why do we have this clear pixel here? We have a remove pixel nelow if thats whats missing-->
+                <!--Why do we have this clear pixel here? We have a remove pixel below if thats whats missing-->
                 <!--<div class="delete_row delete_row_pixel" data-ng-click="clearPixel()"></div>-->
                 <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                     <label class="col-sm-12 greyTxt" for="pixelName">Pixel Name:</label>
@@ -333,10 +326,11 @@
                                        todayHighlight: true,
                                        forceParse: false
                                    }"
-                                   style="position: absolute; z-index: 10; top: 0px; right: 0px; background: transparent;"
+                                   style="position: absolute; z-index: 10; top: 0; right: 0; background: transparent;"
                                    data-ng-model="pixelFormData.expiryDate"
                                    required>
-                            <div class="col-md-12 zeroPadding" style="background: #fff; height: 36px; border-radius: 2px;">
+                            <div class="col-md-12 zeroPadding"
+                                 style="background: #fff; height: 36px; border-radius: 2px;">
                                 <i class="icon-calendar pull-right" style="margin: 9px 11px;"></i>
                             </div>
                         </div>
@@ -368,16 +362,15 @@
                 </div>
                 <div class="form-group col-md-8" style="padding: 0 0 0 15px;">
                     <label class="col-sm-12 greyTxt" for="pixeldesc">Description</label>
-                    <textarea
-                            id="pixelDesc"
-                            class="form-control"
-                            data-ng-model="pixelFormData.description">
+                    <textarea id="pixelDesc"
+                              class="form-control"
+                              data-ng-model="pixelFormData.description">
                     </textarea>
                 </div>
 
                 <!--Segment Name-->
                 <div class="pull-left" data-ng-if="pixelFormData.segmentName && isEditMode">
-                    <label class="greyTxt pull-left" style="padding-top: 0px !important;">Segment Name:</label>
+                    <label class="greyTxt pull-left" style="padding-top: 0 !important;">Segment Name:</label>
                     <span class="pull-left clearLeft"
                           data-ng-bind="pixelFormData.segmentName"></span>
                 </div>
@@ -418,12 +411,13 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="tbody thin">
                             <!--Table Sample-->
                             <div class="tr" data-ng-repeat="pixel in advertiserData.pixels">
                                 <div class="td col-md-5">
-                                    <a data-ng-bind="pixel.name | textEllipsis: 40" data-ng-click="editPixel($index, pixel);"></a>
+                                    <a data-ng-bind="pixel.name | textEllipsis: 40"
+                                       data-ng-click="editPixel($index, pixel);">
+                                    </a>
                                 </div>
                                 <div class="td col-md-3">
                                     <span data-ng-bind="pixel.pixelType"></span>
@@ -438,8 +432,10 @@
                                     <span data-ng-bind="pixel.expiryDate"></span>
                                 </div>
                                 <div class="td col-md-1 text-center" style="padding-left: 0;">
-                                    <input type="checkbox" class="pixelSelect" data-ng-model="isSelected" ng-disabled="!pixel.id"
-                                           data-ng-click="selectPixel(pixel.id, isSelected)" style="float: none;"/>
+                                    <input type="checkbox" class="pixelSelect"
+                                           data-ng-model="isSelected" ng-disabled="!pixel.id"
+                                           data-ng-click="selectPixel(pixel.id, isSelected)"
+                                           style="float: none;">
                                 </div>
                             </div>
                             <div class="common-load-more" style="display: none;"></div>
@@ -447,25 +443,27 @@
                     </div>
                 </div>
             </div>
-            </div>
+
         </div>
-        <!-- TODO: Which of the following data-ng-if is valid? -->
-        <ul data-ng-if="allAdvertiser.length > 0"
-            class="dropdown-menu"
-            role="menu"
-            id="advertiserList"
-            data-ng-if="mode === 'create'"
-            data-ng-style="dropdownCss">
-            <li data-ng-repeat="advertiser in allAdvertiser | filter:advertiserName"
-                data-ng-click="selectAdvertiser(advertiser)">
-                <a>
-                    <span class="tick"></span>
-                    <span class="menuItemText ng-binding" data-ng-bind="advertiser.name"></span>
-                </a>
-            </li>
-        </ul>
-        <input type="hidden"  data-ng-model="selectedAdvertiserId">
+
     </div>
-    <!-- end of modal_body -->
+
+    <!-- TODO: Which of the following data-ng-if is valid? -->
+    <ul data-ng-if="allAdvertiser.length > 0"
+        class="dropdown-menu"
+        role="menu"
+        id="advertiserList"
+        data-ng-if="mode === 'create'"
+        data-ng-style="dropdownCss">
+        <li data-ng-repeat="advertiser in allAdvertiser | filter:advertiserName"
+            data-ng-click="selectAdvertiser(advertiser)">
+            <a>
+                <span class="tick"></span>
+                <span class="menuItemText ng-binding" data-ng-bind="advertiser.name"></span>
+            </a>
+        </li>
+
+    </ul>
+    <input type="hidden"  data-ng-model="selectedAdvertiserId">
 </div>
-<!-- end of popup-holder -->
+<!-- end of modal_body -->

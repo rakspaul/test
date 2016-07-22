@@ -29,7 +29,7 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
                     return dataService
                         .fetch(url)
                         .then(function (response) {
-                            var searchCriteria = utils.typeaheadParams;
+                            var searchCriteria = utils.typeAheadParams;
                                 searchCriteria.clientId = clientId;
                                 searchCriteria.advertiserId = advertiserId ? advertiserId : -1;
 

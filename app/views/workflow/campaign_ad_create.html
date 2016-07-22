@@ -32,7 +32,11 @@
                 <!--=== Steps ===-->
                 <div class="campaignAdCreate campaignAdCreatePage">
                     <div class="adMainWrapper">
-                        <form role="form" class="col-md-12 zeroPadding" name="formAdCreate" id="formAdCreate" novalidate>
+                        <form role="form"
+                              class="col-md-12 zeroPadding"
+                              name="formAdCreate"
+                              id="formAdCreate"
+                              novalidate>
                             <div class="adCreateConsole">
                                 <div class="col-md-12 zeroPadding adStepOne">
                                     <div class="col-md-12 zeroPadding tabContent">
@@ -188,9 +192,13 @@
                 <div class="popup-content" data-ng-bind="textConstants.ARCHIVE_MESSAGE"></div>
             </div>
             <div class="clearfix popup-footer" >
-                <button data-ng-show="!adArchiveLoader" type="button" data-ng-click="archiveAd($event)"
-                        class="common_primary_btn pull-right">Archive</button>
-                <div data-ng-show ="adArchiveLoader" class="pull-right common-loading-btn" ></div>
+                <button data-ng-show="!adArchiveLoader"
+                        type="button"
+                        data-ng-click="archiveAd($event)"
+                        class="common_primary_btn pull-right">
+                    Archive
+                </button>
+                <div data-ng-show="adArchiveLoader" class="pull-right common-loading-btn"></div>
                 <button type="button" data-ng-click="cancelAdArchive()" class="secondary_txt pull-right">Cancel</button>
             </div>
         </div>

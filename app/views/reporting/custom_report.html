@@ -1244,7 +1244,8 @@
             </div>
             <!--Start Date start_time-->
             <div class="each_col" ng-if="customeReportData.start_time!=''"
-                 ng-bind="(customeReportData.start_time && (customeReportData.start_time != 'NA')) ? (customeReportData.start_time | formatDate:'D MMM YYYY'): 'NA'">
+                 ng-bind="(customeReportData.start_time && (customeReportData.start_time != 'NA')) ?
+                    (customeReportData.start_time | formatDate:'D MMM YYYY'): 'NA'">
             </div>
             <!--End Date end_time-->
             <div class="each_col" ng-if="customeReportData.end_time!=''"

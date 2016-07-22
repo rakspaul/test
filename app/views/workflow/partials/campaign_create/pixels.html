@@ -1,24 +1,38 @@
-<h3 class="col-md-6 adName" >
-    {{selectedCampaign.campaignName.length>0 ? (selectedCampaign.campaignName | textEllipsis: 40 ) : editCampaignData.name}}
+<h3 class="col-md-6 adName"
+    data-ng-bind="selectedCampaign.campaignName.length > 0 ?
+        (selectedCampaign.campaignName | textEllipsis: 40 ) : editCampaignData.name">
+    {{}}
 </h3>
 
 <!--Pixel Option List-->
 <div class="col-md-8" style="padding: 0 10px 0 0;">
 
-    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;" data-ng-bind="textConstants.MEDIAPLAN_PIXEL_SELECT"></label>
+    <label for="nameTitleCampaign"
+           class="col-sm-12 labelQuestTxt"
+           style="margin-bottom: 5px;"
+           data-ng-bind="textConstants.MEDIAPLAN_PIXEL_SELECT">
+    </label>
 
-    <div class="col-md-12 zeroPadding btn-group create" role="group" style="margin: 20px 0 10px 0;">
-        <span class="pull-left" ng-bind-html="textConstants.MEDIAPLAN_PIXEL_REQUIRED"></span>
+    <div class="col-md-12 zeroPadding btn-group create"
+         role="group"
+         style="margin: 20px 0 10px 0;">
+        <span class="pull-left"
+              ng-bind-html="textConstants.MEDIAPLAN_PIXEL_REQUIRED">
+        </span>
 
         <!--Search/Quickfilters Input-->
-        <div class="col-md-12 zeroPadding" style="margin-top:20px;display:none" >
+        <div class="col-md-12 zeroPadding" style="margin-top:20px;display:none">
             <div class="btn-group pull-right">
-                <button type="button" class="btn btn-default pull-right disabled" style="border-top-right-radius: 2px; border-bottom-right-radius: 2px;">
+                <button type="button"
+                        class="btn btn-default pull-right disabled"
+                        style="border-top-right-radius: 2px; border-bottom-right-radius: 2px;">
                     <span class="icon-filter" style="margin: -1px 0 0;"></span>
                 </button>
 
                 <div class="searchInput pull-right">
-                    <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()" style="border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0;">
+                    <a class="btn btn-default searchInputBtn"
+                       ng-click="searchShowInput()"
+                       style="border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0;">
                         <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
                     </a>
 
