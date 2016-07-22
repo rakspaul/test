@@ -794,6 +794,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.hideKpiValue = false;
             $scope.client = loginModel.getSelectedClient();
             $scope.isClientDropDownDisable = false;
+            $scope.editCampaignData = [];
             //createCampaign.fetchRateTypes();// remove this
             if ($scope.client.name) {
                 $scope.isClientDropDownDisable = true;
@@ -930,17 +931,28 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
         });
 
-        $scope.$watch('selectedCampaign.endTime',function(newVal,oldVal){
-            if(selectedAdvertiser){
-                if(createCampaign.campaignData && createCampaign.campaignData.pixels){
-                    $scope.$broadcast('fetch_pixels', createCampaign.campaignData.pixels);
+        $scope.$watch('selectedCampaign.endTime',function (newVal, oldVal) {
+            var selectedPixelData;
+            if (selectedAdvertiser) {
+                if($scope.selectedCampaign.selectedPixel.length >0) {
+                    selectedPixelData =  _.pluck($scope.selectedCampaign.selectedPixel, 'id');
+                } else {
+                    selectedPixelData = $scope.editCampaignData.pixels;
+                }
+
+                if (selectedPixelData && selectedPixelData.length >0) {
+                    $scope.$broadcast('fetch_pixels', selectedPixelData);
                 } else {
                     $scope.$broadcast('fetch_pixels');
                 }
             }
-            //set the flag to save the media plan along with line item
-            if($scope.mode === 'edit'){
-                if (typeof oldVal === 'undefined') return;
+
+            // set the flag to save the media plan along with line item
+            if ($scope.mode === 'edit') {
+                if (typeof oldVal === 'undefined') {
+                    return;
+                }
+
                 if (newVal !== oldVal) {
                     $scope.saveMediaPlan = true;
                 }
