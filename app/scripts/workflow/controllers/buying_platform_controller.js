@@ -604,8 +604,6 @@ define(['angularAMD', 'common/services/constants_service', // jshint ignore:line
                 return false;
             }
 
-            $rootScope.$broadcast('hideCreativeWin');
-
             if (!$scope.TrackingIntegrationsSelected && $scope.adData.platform !== undefined && (tab !== undefined && tab[0] === '#buying')){
                 seatId =  $('input[name=platformSeatId]').val();
                 $('#seatId_'+seatId).trigger('click');
