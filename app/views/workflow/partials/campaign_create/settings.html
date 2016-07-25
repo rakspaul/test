@@ -145,7 +145,9 @@
                         <span class="icon-arrow-solid-down" ></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
-                        <li class="available" ng-repeat="kpi in kpiNameList" ng-click="setKPIName(kpi.name)"><a>{{kpi.name}}</a></li>
+                        <li class="available" ng-repeat="kpi in kpiNameList" ng-click="setKPIName(kpi.kpiType)">
+                            <a data-ng-bind="kpi.displayName"></a>
+                        </li>
                     </ul>
                     <input type="hidden" name="kpi"  ng-model="kpiName" ng-value="kpiName" field="kpiType" index="{{$index}}"  hiddenkpi>
                     <!--<input type="hidden" name="kpi" ng-init="Campaign.kpiArr[$index]['kpiType']='Select from list';" ng-model="Campaign.kpiArr[$index]['kpiId']" ng-value="{{kpi.id}}" field="kpiId" index="{{$index}}" required hiddenkpi>-->
@@ -154,8 +156,8 @@
         </div>
         <div class="col-md-2 zeroPadding kpiTable symbol-input">
             <span class="symbol" ng-if="(kpiName === 'Impressions')">#</span>
-            <span class="symbol perSymbol" ng-if="(kpiName === 'CTR' || kpiName === 'VTC' || kpiName === 'Action Rate')">%</span>
-            <span class="symbol" ng-if="(kpiName === 'CPA' || kpiName === 'CPM' || kpiName === 'CPC')">$</span>
+            <span class="symbol perSymbol" ng-if="(kpiName === 'CTR' || kpiName === 'VTC' || kpiName === 'Action Rate'|| kpiName === 'VIEWABLE RATE' || kpiName === 'SUSPICIOUS ACTIVITY RATE')">%</span>
+            <span class="symbol" ng-if="(kpiName === 'CPA' || kpiName === 'CPM' || kpiName === 'CPC' || kpiName === 'SPEND' || kpiName === 'POST CLICK CPA')">$</span>
             <input type="text" class="col-md-12 kpiValue" style="text-indent: 8px;height:36px;" ng-model="selectedCampaign.kpiValue" ng-value='selectedCampaign.kpiValue' ng-keyup="percentageValueCheck(selectedCampaign.kpiValue)"  field="kpiValue" fraction-numbers name="kpiValue" required ng-if="kpiName !== 'Impressions'" autocomplete="off"/>
             <input type="text" class="col-md-12 kpiValue" style="text-indent: 8px;height:36px;" ng-model="selectedCampaign.kpiValue" field="kpiValue" whole-number-only name="kpiValue" required ng-if="kpiName === 'Impressions'" autocomplete="off"/>
             <label ng-if="selectedCampaign.kpiValue==='0'"  class="col-sm-12  greyTxt errorLabel" style="display:inline;" ng-bind="textConstants.TARGET_GREATER_THAN_ZERO"></label>

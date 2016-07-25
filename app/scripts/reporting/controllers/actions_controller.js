@@ -17,7 +17,12 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
                     'CTR',
                     'VTC',
                     'Action Rate',
-                    'Delivery (Impressions)'
+                    'Delivery (Impressions)',
+                    'Viewable Impressions',
+                    'Viewable Rate',
+                    'Suspicious Activity %',
+                    'Spend',
+                    'PC CPA'
                 ]
             };
 

@@ -438,7 +438,7 @@
               style="visibility: hidden"
               data-ng-bind="selectedFilters.kpi_type = 'cpm'">
         </span>
-        {{screenData[selectedFilters.kpi_type.toLowerCase()] | appendDollar : selectedFilters.kpi_type}}
+        <span data-ng-bind="screenData[selectedFilters.kpi_type] | appendDollor: selectedFilters.kpi_type"></span>
     </div>
 </script>
 
