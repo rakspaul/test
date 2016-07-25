@@ -6,7 +6,7 @@ body {
   margin: 25px 25px 0 0;
 }
 .adminElement.active {
-  background: #e1edf9 ;
+  background: #E1EDF9;
   cursor: default;
 }
 .zeroPadding {
@@ -123,7 +123,7 @@ a:hover {
   cursor: pointer;
 }
 .breadcrumbs h5:first-child:hover {
-  color: #0978C9;
+  color: #0978c9;
 }
 .breadcrumbs .icon-arrow-solid-down {
   float: left;
@@ -265,7 +265,7 @@ strong {
 }
 .form-control {
   border-radius: 1px !important;
-  border: 1px solid #BFC9D7;
+  border: 1px solid #bfc9d7;
   -webkit-appearance: none;
 }
 .successMessage {
