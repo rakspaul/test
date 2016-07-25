@@ -978,6 +978,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CUSTOM_REPORTS = 'Custom Reports';
         this.MEDIA_PLAN_REPORTS = 'Media Plan Reports';
         this.CREATIVES = 'Creatives';
+        this.ADD_LINE_ITEM = 'Add Line Item'
 
         // media plans
         this.NO_CATEGORY_FOR_SELECTED_ADVERISER = 'No category available for selected advertiser.';

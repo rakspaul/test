@@ -231,6 +231,35 @@
                 </div>
             </div>
 
+            <div class="common-popup-container" ng-show="Campaign.showBudgetZeroPopup">
+                <div class="popup">
+                    <div class="popup-header-body">
+                        <div class="clearfix">
+                            <h1 class="pull-left">Zero Popup</h1>
+                            <span class="close unselectable" aria-hidden="true" >x</span>
+                        </div>
+                        <div class="popup-content">
+                            {{textConstants.CAMPAIGN_ARCHIVE_MESSAGES}}
+                        </div>
+                    </div>
+                    <div class="clearfix popup-footer" >
+                        <button type="button"
+                                ng-hide="Campaign.section != 'create'"
+                                ng-click="(mode === 'create' || cloneMediaPlanName)?createNewLineItem('create'):createNewLineItemInEditMode('create')"
+                                class="common_primary_btn pull-right"
+                                ng-hide="deleteCampaignFailed">{{textConstants.ADD_LINE_ITEM}}</button>
+
+                        <button type="button"
+                                ng-hide="Campaign.section != 'edit'"
+                                ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()"
+                                class="common_primary_btn pull-right"
+                                ng-hide="deleteCampaignFailed">{{textConstants.ADD_LINE_ITEM}}</button>
+                        <button type="button" class="secondary_txt pull-right" data-ng-click="Campaign.showBudgetZeroPopup = false">Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

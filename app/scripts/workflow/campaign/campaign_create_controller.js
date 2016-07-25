@@ -411,6 +411,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         // loader Flags - normal edit save button loader
         $scope.Campaign.createNewLineItemLoaderEdit = false;
 
+        // flag for entering 0 in lineitem budget - show popup
+        $scope.Campaign.showBudgetZeroPopup = false;
+        $scope.Campaign.methods = '';
+        $scope.Campaign.section = ''; // create or edit part of the page is clicked
+
         $scope.editLineItemLoaderEdit = false;
         $scope.bulkUploadItemLoaderEdit = false;
 

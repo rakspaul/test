@@ -601,9 +601,9 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             $scope.initiateLineItemDatePicker();
         };
 
-        $scope.createNewLineItem = function (mode, lineItemObj) {
+        $scope.$parent.createNewLineItem = function (mode, lineItemObj) {
             var newItem = {};
-
+            $scope.Campaign.showBudgetZeroPopup = false;
             if (mode === 'create' ) {
                 if ($scope.lineItemName !== '') {
                     newItem = createLineItemObj(lineItemObj);
@@ -627,6 +627,8 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
         $scope.$parent.createNewLineItemInEditMode = function () {
             var newItem;
+
+            $scope.Campaign.showBudgetZeroPopup = false;
 
             // this is kept to initially create object in case we have to save it in service -
             // line item edit mode - save media plan q
@@ -1016,7 +1018,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             populateLineItemEdit(event, lineItem);
         };
 
-        $scope.updateLineItem = function () {
+        $scope.$parent.updateLineItem = function () {
             if (doesLineItemExceedBudget($scope.editLineItem.billableAmount, $scope.Campaign.totalBudget)) {
                 return false;
             }
@@ -1280,5 +1282,17 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             $scope.lineItemStartDate = $('#lineItemStartDateInput').val();
             $scope.lineItemEndDate = $('#lineItemEndDateInput').val();
         };
+
+        $scope.displayZeroLineItemBudgetPopUp = function(section) {
+            $scope.Campaign.showBudgetZeroPopup = true;
+            if(section === 'create'){
+                // $scope.Campaign.methods = "(mode === 'create' || cloneMediaPlanName)?createNewLineItem('create'):createNewLineItemInEditMode('create')";
+                $scope.Campaign.section = 'create';
+            } else {
+                $scope.Campaign.section = 'edit';
+            }
+
+
+        }
     });
 });
