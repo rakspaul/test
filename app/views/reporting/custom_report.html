@@ -347,7 +347,7 @@
                                      data-ng-repeat="delivery_metric in deliveryMetrics track by $index"
                                      id="{{delivery_metric.key}}"
                                      data-ng-class="{active: delivery_metric.selected}"
-                                     data-ng-click="onMetricClick('deliveryMetrics, $index)"
+                                     data-ng-click="onMetricClick('deliveryMetrics', $index)"
                                      data-ng-bind-html="delivery_metric.value">
                                 </div>
                             </div>
@@ -367,7 +367,7 @@
                                      data-ng-repeat="pacing_metric in pacingMetrics track by $index"
                                      id="{{pacing_metric.key}}"
                                      data-ng-class="{active: pacing_metric.selected}"
-                                     data-ng-click="onMetricClick('pacingMetrics, $index)"
+                                     data-ng-click="onMetricClick('pacingMetrics', $index)"
                                      data-ng-bind-html="pacing_metric.value">
                                 </div>
                             </div>
@@ -388,7 +388,7 @@
                                      data-ng-repeat="cost_metric in costMetrics track by $index"
                                      id="{{cost_metric.key}}"
                                      data-ng-class="{active:cost_metric.selected}"
-                                     data-ng-click="onMetricClick('costMetrics',$index)"
+                                     data-ng-click="onMetricClick('costMetrics', $index)"
                                      data-ng-bind-html="cost_metric.value">
                                 </div>
                             </div>
@@ -408,7 +408,7 @@
                                      data-ng-repeat="video_metric in videoMetrics track by $index"
                                      id="{{video_metric.key}}"
                                      data-ng-class="{active:video_metric.selected}"
-                                     data-ng-click="onMetricClick('videoMetrics',$index)"
+                                     data-ng-click="onMetricClick('videoMetrics', $index)"
                                      data-ng-bind-html="video_metric.value">
                                 </div>
                             </div>
@@ -428,7 +428,7 @@
                                      data-ng-repeat="quality_metrics in qualityMetrics track by $index"
                                      id="{{quality_metrics.key}}"
                                      data-ng-class="{active:quality_metrics.selected}"
-                                     data-ng-click="onMetricClick('qualityMetrics',$index)"
+                                     data-ng-click="onMetricClick('qualityMetrics', $index)"
                                      data-ng-bind-html="quality_metrics.value">
                                 </div>
                             </div>
@@ -749,7 +749,7 @@
                                 <div class="inner_heading_row">
                                     <div class="each_col tree_dimension_col" data-ng-bind-html="reportTitle"></div>
                                     <div class="each_col_delivery"
-                                         data-ng-class="addReqClassToSort(dm.key,sortType,sortReverse)"
+                                         data-ng-class="addReqClassToSort(dm.key, sortType, sortReverse)"
                                          data-ng-click="clickToSort(dm.key);"
                                          data-ng-repeat="dm in metricKeyArr.delivery_metrics track by $index"
                                          data-ng-bind-html="dm.value">
@@ -829,7 +829,7 @@
                                 <div class="inner_heading_row">
                                     <div class="each_col tree_dimension_col" data-ng-bind="reportTitle"></div>
                                     <div class="each_col_cost"
-                                         data-ng-class="addReqClassToSort(bm.key,sortType,sortReverse)"
+                                         data-ng-class="addReqClassToSort(bm.key, sortType, sortReverse)"
                                          data-ng-click="clickToSort(bm.key);"
                                          data-ng-repeat="bm in metricKeyArr.cost_metrics track by $index"
                                          data-ng-bind="bm.value">
@@ -1194,12 +1194,12 @@
             <!---- Dimension report data ------------------------>
             <div class="each_col tree_dimension_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_col' :' '}}">
-                <span data-ng-click="deepLinking.routeToLink($event,customReportData.level,$index);
+                <span data-ng-click="deepLinking.routeToLink($event, customReportData.level, $index);
                         $event.stopPropagation();"
                       data-ng-if="customReportData.value"
                       data-ng-bind="customReportData.value"
                       tooltip="{{customReportData.value}}"
-                      data-ng-mouseover="deepLinking.isClickable($event,customReportData.type)">
+                      data-ng-mouseover="deepLinking.isClickable($event, customReportData.type)">
                 </span>
             </div>
 
@@ -1306,7 +1306,7 @@
             <!---- Dimension report data ------------------------>
             <div class="each_col tree_dimension_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_col' : ' '}}">
-                <span data-ng-click="deepLinking.routeToLink($event,customReportData.level,$index);
+                <span data-ng-click="deepLinking.routeToLink($event, customReportData.level, $index);
                         $event.stopPropagation();"
                       data-ng-if="customReportData.value"
                       data-ng-bind="customReportData.value"
@@ -1380,7 +1380,7 @@
             <!---- Dimension report data ------------------------>
             <div class="each_col tree_dimension_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_col' : ' '}}">
-                <span data-ng-click="deepLinking.routeToLink($event,customReportData.level,$index);
+                <span data-ng-click="deepLinking.routeToLink($event, customReportData.level, $index);
                         $event.stopPropagation();"
                       data-ng-if="customReportData.value"
                       data-ng-bind="customReportData.value"
@@ -1461,7 +1461,7 @@
             <!---- Dimension report data ------------------------>
             <div class="each_col tree_dimension_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_col' : ' '}}">
-                <span data-ng-click="deepLinking.routeToLink($event,customReportData.level,$index);
+                <span data-ng-click="deepLinking.routeToLink($event, customReportData.level, $index);
                         $event.stopPropagation();"
                       data-ng-if="customReportData.value"
                       data-ng-bind="customReportData.value"

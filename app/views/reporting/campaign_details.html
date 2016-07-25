@@ -1,6 +1,6 @@
 <div class="main_container">
     <!-- container -->
-    <div id="campaignDetail" class="dashboard_outer_container campaign_details_page ">
+    <div id="campaignDetail" class="dashboard_outer_container campaign_details_page">
         <div class="clearfix campaign_details_header">
             <h1 class="pull-left" data-ng-bind="textConstants.REPORTS_OVERVIEW"></h1>
         </div>
@@ -50,8 +50,8 @@
                                          displaySelectAllOPtion="true"
                                          defaultoption="- Action Sub Type -"
                                          data-ng-model="action.selectedSubType"
-                                         options="subType.name for subType in action.selectedType.subTypes |
-                                            orderBy : 'name'"
+                                         options=
+                                           "subType.name for subType in action.selectedType.subTypes | orderBy : 'name'"
                                          change="selected()" id="action_sub_type_dd"
                                          datashow="2"
                                          data-ng-click="resetValidation();getSubType();showDropdownList()"
@@ -196,7 +196,7 @@
                                             bar_section_graph_holder_screen">
                                         <div class="graph_heading"
                                              data-ng-bind="textConstants.PLATFORM + ' (' +
-                                                campaign.kpiType | displayToCamelCase + ')'">
+                                                (campaign.kpiType | displayToCamelCase) + ')'">
                                         </div>
                                         <div data-ng-show="loadingPlatformFlag" class="load-more">&nbsp;</div>
                                         <div data-ng-if="platformBarChartConfig"
@@ -215,7 +215,7 @@
                                             bar_section_graph_holder_screen">
                                         <div class="graph_heading"
                                              data-ng-bind="textConstants.SCREENS + ' (' +
-                                                campaign.kpiType | displayToCamelCase + ')'">
+                                                (campaign.kpiType | displayToCamelCase) + ')'">
                                         </div>
                                         <div data-ng-show="loadingScreenFlag" class="load-more">&nbsp;</div>
                                         <div data-ng-if="screenBarChartConfig"
@@ -234,7 +234,7 @@
                                             bar_section_graph_holder_screen">
                                         <div class="graph_heading"
                                             data-ng-bind="textConstants.AD_SIZES + ' (' +
-                                                campaign.kpiType | displayToCamelCase + ')'">
+                                                (campaign.kpiType | displayToCamelCase) + ')'">
                                         </div>
                                         <div data-ng-show="loadingAdSizeFlag" class="load-more">&nbsp;</div>
                                         <div data-ng-if="adSizenBarChartConfig"
@@ -253,7 +253,7 @@
                                             bar_section_graph_holder_screen">
                                         <div class="graph_heading"
                                              data-ng-bind="textConstants.FORMATS + ' (' +
-                                                campaign.kpiType | displayToCamelCase + ')'">
+                                                (campaign.kpiType | displayToCamelCase) + ')'">
                                         </div>
                                         <div data-ng-show="loadingFormatFlag" class="load-more">&nbsp;</div>
                                         <div data-ng-if="formatBarChartConfig"
@@ -273,7 +273,7 @@
                                             bar_section_graph_holder_screen">
                                         <div class="graph_heading"
                                              data-ng-bind="textConstants.INVENTORY + ' (' +
-                                                campaign.kpiType | displayToCamelCase + ')'">
+                                                (campaign.kpiType | displayToCamelCase) + ')'">
                                         </div>
                                         <div data-ng-show="loadingInventoryFlag" class="load-more">&nbsp;</div>
                                         <div data-ng-if="inventoryBarChartConfig"
@@ -291,7 +291,8 @@
                                          class="each_section_graph_holder">
                                         <div class="graph_heading" data-ng-bind="textConstants.VIEWABILITY"></div>
                                         <div data-ng-show="loadingViewabilityFlag" class="load-more">&nbsp;</div>
-                                        <div data-ng-if="((!(details.getCostViewability) || (campaign.kpiType =='null'))
+                                        <div data-ng-if="((!(details.getCostViewability) ||
+                                                (campaign.kpiType === 'null'))
                                                 && getCostViewabilityFlag === 1)"
                                              class="no-data-available"
                                              data-ng-bind-html="getMessageForDataNotAvailable(campaign, 'viewability')">
@@ -546,7 +547,7 @@
                                     <span data-ng-if="(campaign.kpiValue > 0)"
                                           data-ng-bind="campaign.kpiValue | kpiFormatter : campaign.kpiType">
                                     </span>
-                                    {{campaign.kpiType !='null' ? campaign.kpiType : 'NA' | displayToCamelCase}}
+                                    {{campaign.kpiType != 'null' ? campaign.kpiType : 'NA' | displayToCamelCase}}
                                 </div>
                             </div>
                             <div class="each_col col_third">
