@@ -282,7 +282,7 @@ define(['angularAMD'], function(angularAMD) {
         this.MSG_NO_CAMPAIGNS_WITH_SET_KPI = '<span class="data_not_found">No Media Plan with set KPI value</span>';
         this.DATA_NOT_AVAILABLE_STYLE = 'data_not_found';
 
-        this.NO_ADGROUPS_FOUND = 'No Ad Groups Found';
+        this.NO_ADGROUPS_FOUND = 'No Line Items Found';
         this.NO_MEDIAPLANS_FOUND = 'No Media Plans Found';
 
         this.NO_RELEVANT_CAMPAIGNS = 'No Relevant Media Plans';

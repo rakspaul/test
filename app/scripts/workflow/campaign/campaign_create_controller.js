@@ -887,6 +887,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $scope.hideKpiValue = false;
             $scope.client = loginModel.getSelectedClient();
             $scope.isClientDropDownDisable = false;
+            $scope.editCampaignData = [];
 
             if ($scope.client.name) {
                 $scope.isClientDropDownDisable = true;
@@ -1011,12 +1012,19 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         });
 
         $scope.$watch('selectedCampaign.endTime',function (newVal, oldVal) {
+            var selectedPixelData;
             if (selectedAdvertiser) {
-                if (createCampaign.campaignData && createCampaign.campaignData.pixels) {
-                    $scope.$broadcast('fetch_pixels', createCampaign.campaignData.pixels);
+                if($scope.selectedCampaign.selectedPixel.length >0) {
+                    selectedPixelData =  _.pluck($scope.selectedCampaign.selectedPixel, 'id');
                 } else {
-                    $scope.$broadcast('fetch_pixels');
+                    selectedPixelData = $scope.editCampaignData.pixels;
                 }
+            }
+
+            if (selectedPixelData && selectedPixelData.length >0) {
+                $scope.$broadcast('fetch_pixels', selectedPixelData);
+            } else {
+                $scope.$broadcast('fetch_pixels');
             }
 
             // set the flag to save the media plan along with line item
