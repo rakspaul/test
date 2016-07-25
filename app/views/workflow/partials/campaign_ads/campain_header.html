@@ -2,37 +2,60 @@
     <div class="campBodyWrap">
         <div class="zeroPadding campTitleWrap" style="width: 307px;">
             <span class="pull-left statuslabel {{workflowData.campaignData.status|lowercase}}_bulb"></span>
-            <h4 class="pull-left" tooltip="{{workflowData.campaignData.name}}" tooltip-placement="bottom">
-                {{workflowData.campaignData.name | textEllipsis: 30}}
+            <h4 class="pull-left"
+                tooltip="{{workflowData.campaignData.name}}"
+                tooltip-placement="bottom"
+                data-ng-bind="workflowData.campaignData.name | textEllipsis : 30">
             </h4>
         </div>
         <div class="pull-left">
             <span class="greyTxt" data-ng-bind="textConstants.DELBUDGET"></span>
-            <span>{{(workflowData.campaignData.deliveryBudget || 0) | currency:undefined:0}}</span>
+            <span data-ng-bind="(workflowData.campaignData.deliveryBudget || 0) | currency : undefined : 0"></span>
         </div>
         <div class="pull-left">
             <div class="greyTxt" data-ng-bind="textConstants.FLIGHTDATES"></div>
-            <div ng-if="workflowData.campaignData.startTime">
-                {{utcToLocalTime(workflowData.campaignData.startTime, 'DD MMM YYYY')}} - {{utcToLocalTime(workflowData.campaignData.endTime, 'DD MMM YYYY')}}
-                <span ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span>
+            <div data-ng-if="workflowData.campaignData.startTime">
+                {{utcToLocalTime(workflowData.campaignData.startTime, 'DD MMM YYYY')}} -
+                {{utcToLocalTime(workflowData.campaignData.endTime, 'DD MMM YYYY')}}
+                <span data-ng-if="workflowData.campaignData.numOfDays"
+                      data-ng-bind="'(' + workflowData.campaignData.numOfDays + ' Days)'">
+                </span>
             </div>
         </div>
         <div class="col-md-2 pull-left" style="margin-left: 15px;">
             <div class="col-md-3 zeroPadding" style="display: none;">
-                <span class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;" data-ng-bind="textConstants.CONTACTS"></span>
+                <span class="col-md-12 zeroPadding text-center"
+                      style="color: #DEDEDE;"
+                      data-ng-bind="textConstants.CONTACTS">
+                </span>
                 <span class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">0</span>
             </div>
             <div class="col-md-4 zeroPadding borderZero">
-                <span class="col-md-12 zeroPadding greyTxt" style="text-align: center;" data-ng-bind="textConstants.ADGROUPS"></span>
-                <span class="col-md-12 zeroPadding text-center" data-ng-bind="workflowData.campaignData.adGroupCount"></span>
+                <span class="col-md-12 zeroPadding greyTxt"
+                      style="text-align: center;"
+                      data-ng-bind="textConstants.ADGROUPS">
+                </span>
+                <span class="col-md-12 zeroPadding text-center"
+                      data-ng-bind="workflowData.campaignData.adGroupCount">
+                </span>
             </div>
             <div class="col-md-4 zeroPadding borderZero">
-                <span class="col-md-12 zeroPadding greyTxt" style="text-align: center;" data-ng-bind="textConstants.ADS"></span>
-                <span class="col-md-12 zeroPadding text-center" data-ng-bind="workflowData.campaignData.adsCount"></span>
+                <span class="col-md-12 zeroPadding greyTxt"
+                      style="text-align: center;"
+                      data-ng-bind="textConstants.ADS">
+                </span>
+                <span class="col-md-12 zeroPadding text-center"
+                      data-ng-bind="workflowData.campaignData.adsCount">
+                </span>
             </div>
             <div class="col-md-4 zeroPadding borderZero">
-                <span class="col-md-12 zeroPadding greyTxt" style="text-align: center;" data-ng-bind="textConstants.CREATIVES"></span>
-                <span class="col-md-12 zeroPadding text-center" data-ng-bind="workflowData.campaignData.creativeCount"></span>
+                <span class="col-md-12 zeroPadding greyTxt"
+                      style="text-align: center;"
+                      data-ng-bind="textConstants.CREATIVES">
+                </span>
+                <span class="col-md-12 zeroPadding text-center"
+                      data-ng-bind="workflowData.campaignData.creativeCount">
+                </span>
             </div>
         </div>
     </div>

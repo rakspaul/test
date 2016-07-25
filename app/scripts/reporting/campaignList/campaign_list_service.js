@@ -598,7 +598,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                     setActiveInactiveCampaigns = function (campaigns, timePeriod, periodStartDate, periodEndDate) {
                         var campaignList = [],
                             campaign;
-
+console.log('campaigns = ', campaigns);
                         _.each(campaigns, function (camp) {
                             if (!angular.isObject(camp)) {
                                 return;
@@ -618,25 +618,26 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                             campaign.setVariables();
                             campaign.setMomentInNetworkTz(momentInNetworkTZ);
 
+                            campaign.kpiType  = campaign.kpiType.toLowerCase().split(' ').join('_');
+
                             // TODO: set default to DELIVERY if null or undefined
-                            if (campaign.kpi_type === 'null' || campaign.kpi_type === '') {
-                                campaign.kpi_type = 'IMPRESSIONS';
+                            if (campaign.kpiType === 'null' || campaign.kpiType === '') {
                                 campaign.kpiType = 'IMPRESSIONS';
-                                campaign.kpi_value = 0;
                                 campaign.kpiValue = 0;
                             }
 
-                            if(campaign.kpi_type === 'IMPRESSIONS') {
+                            if (campaign.kpiType === 'IMPRESSIONS') {
                                 campaign.kpiTypeDisplayName = 'IMPRESSIONS';
-                            }else{
+                            } else {
                                 campaign.kpiTypeDisplayName = _.find(vistoconfig.kpiDropDown, function (obj) {
-                                    return obj.kpi === campaign.kpi_type;
-                                });
+                                    return obj.kpi === campaign.kpiType;
+                                }).displayName;
 
-                                if(campaign.kpiTypeDisplayName) {
-                                    campaign.kpiTypeDisplayName = campaign.kpiTypeDisplayName.displayName
+                                if (campaign.kpiTypeDisplayName) {
+                                    campaign.kpiTypeDisplayName = campaign.kpiTypeDisplayName.displayName;
                                 }
                             }
+
                             campaignList.push(campaign);
                         });
 

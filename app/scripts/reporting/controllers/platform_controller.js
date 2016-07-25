@@ -25,10 +25,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.sortReverse = false;
             $scope.sortReverseKpiDropdown = true;
 
-            $scope.sortTypebyPerformance = '-impressions';
-            $scope.sortTypebyCost = '-impressions';
-            $scope.sortTypebyViewability = '-other_view_impressions';
-            $scope.sortTypebyMargin = '-impressions';
+            $scope.sortTypeByPerformance = '-impressions';
+            $scope.sortTypeByCost = '-impressions';
+            $scope.sortTypeByViewability = '-other_view_impressions';
+            $scope.sortTypeByMargin = '-impressions';
             $scope.sortReverseForPerfImps = true;
             $scope.sortReverseForCostImps = true;
             $scope.sortReverseForQualImps = true;
@@ -369,25 +369,25 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                     viewModeSwitchContainer.hide();
 
                     if ($scope.selected_tab === 'viewability') {
-                        if (jQuery.inArray($scope.sortTypebyViewability, tabImps) !== '-1') {
+                        if (jQuery.inArray($scope.sortTypeByViewability, tabImps) !== '-1') {
                             $('.kpi-dd-holder').addClass('active');
                         } else {
                             $scope.removeKpiActive();
                         }
                     } else if ($scope.selected_tab === 'performance') {
-                        if (jQuery.inArray($scope.sortTypebyPerformance, tabImps) !== '-1') {
+                        if (jQuery.inArray($scope.sortTypeByPerformance, tabImps) !== '-1') {
                             $('.kpi-dd-holder').addClass('active');
                         } else {
                             $scope.removeKpiActive();
                         }
                     } else if ($scope.selected_tab === 'cost') {
-                        if (jQuery.inArray($scope.sortTypebyCost, tabImps) !== '-1') {
+                        if (jQuery.inArray($scope.sortTypeByCost, tabImps) !== '-1') {
                             $('.kpi-dd-holder').addClass('active');
                         } else {
                             $scope.removeKpiActive();
                         }
                     } else if ($scope.selected_tab === 'margin') {
-                        if (jQuery.inArray($scope.sortTypebyCost, tabImps) !== '-1') {
+                        if (jQuery.inArray($scope.sortTypeByCost, tabImps) !== '-1') {
                             $('.kpi-dd-holder').addClass('active');
                         } else {
                             $scope.removeKpiActive();
@@ -470,16 +470,16 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
             $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
                 if ($scope.selected_tab === 'viewability') {
-                    $scope.sortTypebyViewability = args;
+                    $scope.sortTypeByViewability = args;
                     $scope.sortReverse = sortorder;
                 } else if ($scope.selected_tab === 'performance') {
-                    $scope.sortTypebyPerformance = args;
+                    $scope.sortTypeByPerformance = args;
                     $scope.sortReverse = sortorder;
                 } else if ($scope.selected_tab === 'cost') {
-                    $scope.sortTypebyCost = args;
+                    $scope.sortTypeByCost = args;
                     $scope.sortReverse = sortorder;
                 } else if ($scope.selected_tab === 'margin') {
-                    $scope.sortTypebyMargin = args;
+                    $scope.sortTypeByMargin = args;
                     $scope.sortReverse = sortorder;
                 }
             });

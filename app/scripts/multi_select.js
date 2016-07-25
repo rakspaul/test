@@ -348,7 +348,7 @@ angular.module('ui.multiselect', [])
                         } else {
                             element.addClass('open');
                             $document.bind('click', clickHandler);
-                            scope.focus();
+                            (typeof scope.focus === 'function') && scope.focus();
                         }
                     };
 

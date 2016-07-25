@@ -1510,7 +1510,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 getLineItemDataEdit: getLineItemDataEdit,
                 setLineItemBulkData: setLineItemBulkData,
                 getLineItemBulkData: getLineItemBulkData,
-                // stripCommaFromNumber: stripCommaFromNumber,
                 wrapperForActiveAdGroups: wrapperForActiveAdGroups
             };
     });

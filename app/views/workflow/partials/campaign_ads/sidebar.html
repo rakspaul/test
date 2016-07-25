@@ -4,13 +4,13 @@
     <ul class="nav nav-tabs tabs-left stepCompLabel" id="myTabs">
         <li id="adType-tab" class="active">
             <a data-target="#adType"
-               ng-if="!enableOnlyCreativeTab"
+               data-ng-if="!enableOnlyCreativeTab"
                class="leftNavLink"
                data-toggle="tab"
                data-ng-bind="textConstants.ADTYPESIDE">
             </a>
             <a data-target="#adType"
-               ng-if="enableOnlyCreativeTab"
+               data-ng-if="enableOnlyCreativeTab"
                class="leftNavLink"
                data-ng-bind="textConstants.ADTYPESIDE">
             </a>
@@ -41,13 +41,13 @@
         </li>
         <li id="setting-tab">
             <a data-target="#setting"
-               ng-if="!enableOnlyCreativeTab"
+               data-ng-if="!enableOnlyCreativeTab"
                class="leftNavLink budget-tab-link"
                data-toggle="tab"
                data-ng-bind="textConstants.BUDGETDELIVERYSIDE">
             </a>
             <a data-target="#setting"
-               ng-if="enableOnlyCreativeTab"
+               data-ng-if="enableOnlyCreativeTab"
                class="leftNavLink budget-tab-link"
                data-ng-bind="textConstants.BUDGETDELIVERYSIDE">
             </a>
@@ -99,13 +99,13 @@
         </li>
         <li id="buying-tab">
             <a data-target="#buying"
-               ng-if="!enableOnlyCreativeTab"
+               data-ng-if="!enableOnlyCreativeTab"
                class="leftNavLink buying-platform-tab-link"
                data-toggle="tab"
                data-ng-bind="textConstants.BUYINGPLATFORMSIDE">
             </a>
             <a data-target="#buying"
-               ng-if="enableOnlyCreativeTab"
+               data-ng-if="enableOnlyCreativeTab"
                class="leftNavLink buying-platform-tab-link"
                data-ng-bind="textConstants.BUYINGPLATFORMSIDE">
             </a>
@@ -133,13 +133,13 @@
             </span>
             <span data-ng-if="!TrackingIntegrationsSelected">
                 <a data-target="#targetting"
-                   ng-if="!enableOnlyCreativeTab"
+                   data-ng-if="!enableOnlyCreativeTab"
                    class="leftNavLink targetting-tab-link"
                    data-toggle="tab"
                    data-ng-bind="textConstants.TARGETINGSIDE">
                 </a>
                 <a data-target="#targetting"
-                   ng-if="enableOnlyCreativeTab"
+                   data-ng-if="enableOnlyCreativeTab"
                    class="leftNavLink targetting-tab-link"
                    data-ng-bind="textConstants.TARGETINGSIDE">
                 </a>
@@ -190,14 +190,14 @@
             </span>
             <span data-ng-if="!TrackingIntegrationsSelected">
                 <a data-target="#inventoryView"
-                   ng-if="!enableOnlyCreativeTab"
+                   data-ng-if="!enableOnlyCreativeTab"
                    class="leftNavLink inventory-tab-link"
                    data-toggle="tab"
                    data-ng-click="workflowData.initInventory()"
                    data-ng-bind="textConstants.INVENTORYSIDE">
                 </a>
                 <a data-target="#inventoryView"
-                   ng-if="enableOnlyCreativeTab"
+                   data-ng-if="enableOnlyCreativeTab"
                    class="leftNavLink inventory-tab-link"
                    data-ng-click="workflowData.initInventory()"
                    data-ng-bind="textConstants.INVENTORYSIDE">
@@ -216,7 +216,7 @@
                 <div class="statusLabel disabled"
                      data-ng-if="(workflowData.selectedWhiteLists.length > 0) && !TrackingIntegrationsSelected">
                     <div class="col-md-12">
-                        <span ng-bind="workflowData.selectedWhiteLists.length > 1 ?
+                        <span data-ng-bind="workflowData.selectedWhiteLists.length > 1 ?
                                        workflowData.selectedWhiteLists.length + ' Whitelists' : 'Whitelist'">
                         </span>
                     </div>
@@ -224,7 +224,7 @@
                 <div class="statusLabel disabled"
                      data-ng-if="(workflowData.selectedBlackLists.length > 0) && !TrackingIntegrationsSelected">
                     <div class="col-md-12">
-                        <span ng-bind="workflowData.selectedBlackLists.length > 1 ?
+                        <span data-ng-bind="workflowData.selectedBlackLists.length > 1 ?
                                        workflowData.selectedBlackLists.length + ' Blacklists' : 'Blacklist'">
                         </span>
                     </div>
