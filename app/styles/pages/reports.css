@@ -624,7 +624,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   visibility: visible;
 }
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul {
-  width: 130px ;
+  width: auto ;
   text-align: left;
   min-width: 100px;
   top: 20px ;
@@ -1063,6 +1063,11 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .smallSreenScrollDiv .inventory_charts_details_holder .dropdown-menu {
   height: 162px;
   width: 112px;
+}
+.common_reports_container .inventory_charts_details_holder .kpi_indicator_ul,
+.breadcrumb_campaign_strategy .inventory_charts_details_holder .kpi_indicator_ul,
+.smallSreenScrollDiv .inventory_charts_details_holder .kpi_indicator_ul {
+  width: auto;
 }
 .common_reports_container .inventory_container .load-more,
 .breadcrumb_campaign_strategy .inventory_container .load-more,
