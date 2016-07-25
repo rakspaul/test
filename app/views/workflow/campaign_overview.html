@@ -70,24 +70,30 @@
                                     </button>
                                     <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
                                         <li>
-                                            <a data-ng-click="editCampaign(workflowData.campaignData)"
-                                               data-ng-bind="textConstants.EDIT">
+                                            <a data-ng-click="editCampaign(workflowData.campaignData)">
+                                                <span class="icon-inline-edit withIcons">{{textConstants.EDIT}}</span>
                                             </a>
                                         </li>
                                         <li class="disabled" data-ng-click="cancelAdPause()">
-                                            <a data-ng-bind="textConstants.WF_PAUSE"></a></li>
+                                            <a>
+                                                <span class="icon-paused withIcons">{{textConstants.WF_PAUSE}}</span>
+                                            </a>
+                                        </li>
                                         <li class="disabled" data-ng-click="cancelAdResume()">
-                                            <a data-ng-bind="textConstants.WF_RESUME"></a></li>
+                                            <a>
+                                                <span class="icon-ready withIcons">{{textConstants.WF_RESUME}}</span>
+                                            </a>
+                                        </li>
                                         <li>
-                                            <a data-ng-click="cloneCampaign()"
-                                               data-ng-bind="textConstants.CLONE">
+                                            <a data-ng-click="cloneCampaign()">
+                                                <span class="icon-copy withIcons">{{textConstants.CLONE}}</span>
                                             </a>
                                         </li>
                                         <li>
                                             <a class="available"
                                                id="archiveAdbtn"
-                                               data-ng-bind="textConstants.WF_ARCHIVE"
                                                data-ng-click="cancelArchiveCampaign()">
+                                                <span class="icon-archive withIcons">{{textConstants.WF_ARCHIVE}}</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -210,18 +216,18 @@
                                         <span class="icon-more-options"></span>
                                     </button>
                                     <ul class="dropdown-menu" id="moreOptions" style="left: 0; left: initial;">
-                                        <li>
-                                            <a class="text-left"
+                                        <li class="available">
+                                            <a class="available pull-left"
                                                data-ng-click="pixelsDownload()"
-                                               role="button"
-                                               data-ng-bind="textConstants.EXPORT_CONVERSION_PIXELS">
+                                               role="button">
+                                                <span class="icon-download withIcons">{{textConstants.EXPORT_CONVERSION_PIXELS}}</span>
                                             </a>
                                         </li>
-                                        <li>
-                                            <a class="text-left"
+                                        <li class="available">
+                                            <a class="available pull-left"
                                                data-ng-click="DownloadTrackingTags()"
-                                               role="button"
-                                               data-ng-bind="textConstants.TAGS_FOR_TRACKING_ONLY_ADS">
+                                               role="button">
+                                                <span class="icon-download withIcons">{{textConstants.TAGS_FOR_TRACKING_ONLY_ADS}}</span>
                                             </a>
                                         </li>
                                     </ul>

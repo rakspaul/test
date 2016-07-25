@@ -2230,14 +2230,13 @@
   padding: 0;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .adTitle {
-  border-bottom: 1px solid #CDD2DA;
-  padding: 15px;
+  padding: 15px 15px 0 15px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .adTitle .pillsWrap .labelPills:first-child {
   margin-left: 14px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance #collapseAdGroup {
-  padding: 15px;
+  padding: 15px 15px 0 15px;
   float: left;
   width: 100%;
 }
@@ -2305,10 +2304,14 @@
   cursor: pointer;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover .glyphicon,
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover h2 {
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover h2,
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover [class^="icon-"],
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover [class*=" icon-"] {
   color: #0978C9;
 }
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn .glyphicon {
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn .glyphicon,
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn [class^="icon-"],
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn [class*=" icon-"] {
   padding: 0 !important;
   text-align: center;
   width: 100%;
@@ -2512,11 +2515,19 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .dateAd .icon-impression {
   margin-right: 8px;
 }
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .glyphicon {
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .glyphicon,
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule [class^="icon-"],
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule [class*=" icon-"] {
   color: #57606d;
-  font-size: 32px;
-  margin-bottom: 15px;
-  width: 32px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  height: 16px;
+  width: 16px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .glyphicon:hover,
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule [class^="icon-"]:hover,
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule [class*=" icon-"]:hover {
+  color: #0978C9;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule h2 {
   color: #57606d;
@@ -2572,7 +2583,6 @@
   position: relative;
   width: 100%;
   /*padding-bottom: .75%;*/
-  margin-top: 15px ;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .singleCardWrap .overlay {
   background: #fff;

@@ -100,6 +100,22 @@
   line-height: 100%;
   padding: 9px 15px;
 }
+.dropdown-workflow .dropdown-menu > li > a .withIcons,
+.dropdown-workflow .dropdown-menu-search > li > a .withIcons {
+  width: auto !important;
+  height: auto !important;
+  font-size: 14px;
+  padding: 0;
+}
+.dropdown-workflow .dropdown-menu > li > a .withIcons:before,
+.dropdown-workflow .dropdown-menu-search > li > a .withIcons:before {
+  font-size: 16px;
+  height: 16px;
+  width: 16px;
+  margin-right: 10px;
+  padding-top: 2px;
+  display: -webkit-inline-box;
+}
 .dropdown-workflow .disabled a {
   color: #21252b;
   opacity: .4;
