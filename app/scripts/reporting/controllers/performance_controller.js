@@ -34,8 +34,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $scope.sortTypebyformats    = '-impressions';
         $scope.sortTypebyplatforms  = '-impressions';
         $scope.sortTypebydaysofweek = '-impressions';
-        $scope.sortTypebycreatives  = '-impressions';
-        $scope.sortTypebyadsizes    = '-impressions';
+        $scope.sortTypeByCreatives  = '-impressions';
+        $scope.sortTypeByAdSizes    = '-impressions';
         $scope.sortTypeScreens      = '-impressions';
         $scope.sortTypediscrepancy  = '-imps';
 
@@ -50,32 +50,32 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $scope.sortReverseForCostscpm  = true;
         $scope.sortReverseForCostscpa  = true;
         $scope.sortReverseForCostscpc  = true;
-        $scope.sortReverseAddSizes  = false;
+        $scope.sortReverseAdSizes  = false;
 
         $scope.sortReverseForCostscpmFormats  = true;
         $scope.sortReverseForCostscpaFormats  = true;
         $scope.sortReverseForCostscpcFormats  = true;
-        $scope.sortReverseAddSizesFormats  = true;
+        $scope.sortReverseAdSizesFormats  = true;
 
         $scope.sortReverseForCostscpmPlatforms  = true;
         $scope.sortReverseForCostscpaPlatforms   = true;
         $scope.sortReverseForCostscpcPlatforms    = true;
-        $scope.sortReverseAddSizesPlatforms    = true;
+        $scope.sortReverseAdSizesPlatforms    = true;
 
         $scope.sortReverseForCostscpmDaysofweek  = true;
         $scope.sortReverseForCostscpaDaysofweek  = true;
         $scope.sortReverseForCostscpcDaysofweek  = true;
-        $scope.sortReverseAddSizesDaysofweek  = true;
+        $scope.sortReverseAdSizesDaysofweek  = true;
 
         $scope.sortReverseForCostscpmCreatives  = true;
         $scope.sortReverseForCostscpaCreatives  = true;
         $scope.sortReverseForCostscpcCreatives  = true;
-        $scope.sortReverseAddSizesCreatives  = true;
+        $scope.sortReverseAdSizesCreatives  = true;
 
         $scope.sortReverseForCostscpmAdsizes  = true;
         $scope.sortReverseForCostscpaAdsizes  = true;
         $scope.sortReverseForCostscpcAdsizes  = true;
-        $scope.sortReverseAddSizesAdsizes  = true;
+        $scope.sortReverseAdSizesAdsizes  = true;
 
         $scope.isStrategyDropDownShow = true;
         $scope.characterLimit  = 50;
@@ -517,9 +517,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             } else if ($scope.selected_tab === 'bydaysofweek') {
                 $scope.sortTypebydaysofweek = args;
             } else if ($scope.selected_tab === 'bycreatives') {
-                $scope.sortTypebycreatives = args;
+                $scope.sortTypeByCreatives = args;
             } else if ($scope.selected_tab === 'byadsizes') {
-                $scope.sortTypebyadsizes = args;
+                $scope.sortTypeByAdSizes = args;
             } else if ($scope.selected_tab === 'byplatforms') {
                 $scope.sortTypebyplatforms = args;
             } else if ($scope.selected_tab === 'byscreens') {

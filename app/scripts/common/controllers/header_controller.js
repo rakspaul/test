@@ -64,6 +64,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         $scope.version = version;
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
         $scope.reports_nav_url = '' ;
+
         if ($scope.selectedCampaign === -1) {
             $scope.reports_nav_url = '/mediaplans';
         } else {
@@ -509,6 +510,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
             $scope.mobileMenuHide = function () {
                 $('.mobileNavWrap').hide();
+
                 $('.icon-hamburger').css({
                     '-ms-transform': 'rotate(0deg)',
                     '-webkit-transform': 'rotate(0deg)',

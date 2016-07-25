@@ -25,9 +25,9 @@
 
         <div class="common-load-icon_viewability" data-ng-show="strategyLoading && selectedCampaign.id !== -1"></div>
     </div>
-    <div class="platform_container smallSreenScrollContainer"
+    <div class="platform_container smallScreenScrollContainer"
          data-ng-hide="strategyLoading && selectedCampaign.id !== -1">
-        <div class="reports_tabs_content_container smallSreenScrollDiv">
+        <div class="reports_tabs_content_container smallScreenScrollDiv">
             <div class="reports_tabs_content_container  smallScreenScrollContent">
                 <!-- -------START :  Platform Tabs ------------------------ -->
                 <div class="clearfix">
@@ -48,7 +48,7 @@
 
                 <div class="no_data_found" data-ng-if="!strategyFound"
                      data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
-                    <div class="reports_tabs_content_container smallSreenScrollDiv"></div>
+                    <div class="reports_tabs_content_container smallScreenScrollDiv"></div>
                 </div>
 
                 <div data-ng-show="strategyFound">
