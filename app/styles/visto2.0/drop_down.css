@@ -23,7 +23,7 @@
 .dropdown-workflow .btn:active:focus,
 .dropdown-workflow .btn.active:focus {
   outline: 0 none;
-  background-color: #DCE6F1 !important;
+  background-color: #dce6f1 !important;
 }
 .dropdown-workflow .btn:focus span.icon-arrow-solid-down,
 .dropdown-workflow .btn:active:focus span.icon-arrow-solid-down,
@@ -34,24 +34,24 @@
   background: none;
 }
 .dropdown-workflow .btn-default {
-  color: #363D49;
+  color: #363d49;
   background-color: #ffffff;
   font-family: Avenir, sans-serif;
   border-radius: 2px;
-  border: 1px solid #BFC9D7 !important;
+  border: 1px solid #bfc9d7 !important;
   position: relative;
 }
 .dropdown-workflow .btn-default:not(.label-btn):hover {
   background-color: #E1EDF9 !important;
-  border: 1px solid #BFC9D7 !important;
+  border: 1px solid #bfc9d7 !important;
 }
 .dropdown-workflow .btn-default:not(.label-btn):hover span.icon-arrow-solid-down,
 .dropdown-workflow .btn-default:not(.label-btn):hover .icon-search {
   background: none;
 }
 .dropdown-workflow .btn-default:not(.label-btn):active {
-  background-color: #DCE6F1 !important;
-  border: 1px solid #BFC9D7 !important;
+  background-color: #dce6f1 !important;
+  border: 1px solid #bfc9d7 !important;
   box-shadow: none;
 }
 .dropdown-workflow .btn-default:not(.label-btn):active span.icon-arrow-solid-down,
@@ -278,14 +278,14 @@
 }
 .dropdown-workflow .dropdown-toggle:active,
 .dropdown-workflow .dropdown-toggle:focus {
-  background: #DCE6F1 !important;
+  background: #dce6f1 !important;
 }
 .open .dropdown-toggle.btn-default {
-  color: #363D49;
+  color: #363d49;
   background-color: #ffffff;
   font-family: Avenir, sans-serif;
   border-radius: 2px;
-  border: 1px solid #BFC9D7 !important;
+  border: 1px solid #bfc9d7 !important;
   position: relative;
 }
 .dropdown-multi .icon-arrow-solid-down,

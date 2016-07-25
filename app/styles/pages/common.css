@@ -1674,7 +1674,7 @@ multiselect .dropdown-menu > li > a {
   color: #57606d;
 }
 .blue-edit-icon:hover {
-  color: #0978C9;
+  color: #0978c9;
 }
 .common-popup-container {
   overflow: auto;
@@ -1933,7 +1933,7 @@ tags-input .autocomplete {
   cursor: not-allowed;
 }
 .slider-msg {
-  border: solid 1px #0978C9;
+  border: solid 1px #0978c9;
   border-radius: 2px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
@@ -1944,9 +1944,9 @@ tags-input .autocomplete {
   background: #fff;
   z-index: 99999999;
   width: 200px;
-  -webkit-box-shadow: 0px 0px 2px #0978C9;
-  -moz-box-shadow: 0px 0px 2px #0978C9;
-  box-shadow: 0px 0px 2px #0978C9;
+  -webkit-box-shadow: 0px 0px 2px #0978c9;
+  -moz-box-shadow: 0px 0px 2px #0978c9;
+  box-shadow: 0px 0px 2px #0978c9;
   text-align: center;
   animation: show-notification 0.6s;
   -moz-animation: show-notification 0.6s;
@@ -2205,7 +2205,7 @@ tags-input .autocomplete {
 }
 .listToBeSelected .segmentHeader .searchClearInputBtn {
   right: 42px;
-  border-right: 1px solid #BFC9D7;
+  border-right: 1px solid #bfc9d7;
   height: 36px;
   background: transparent !important;
   top: 0px;
@@ -2215,7 +2215,7 @@ tags-input .autocomplete {
 .listToBeSelected .segmentHeader .searchClearInputBtn:hover,
 .listToBeSelected .segmentHeader .searchClearInputBtn:target {
   border-width: 0px !important;
-  border-right: 1px solid #BFC9D7 !important;
+  border-right: 1px solid #bfc9d7 !important;
 }
 .listToBeSelected .segmentHeader .searchClearInputBtn .icon-clear {
   background: transparent !important;
@@ -2249,7 +2249,7 @@ tags-input .autocomplete {
   width: 100%;
   border-radius: 2px;
   background: #eee;
-  border: 1px solid #BFC9D7;
+  border: 1px solid #bfc9d7;
   text-align: left;
   padding: 7px 10px;
 }

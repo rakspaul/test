@@ -1,4 +1,5 @@
 /* done color.less remove later */
+/* done color.less remove later */
 #accountDropDown_0 .icon-arrow-right,
 #accountDropDown_1 .icon-arrow-right,
 #accountDropDown_2 .icon-arrow-right,
@@ -692,7 +693,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .smallScreenScrollDiv .download_report {
   height: 36px;
   width: auto;
-  border: solid 1px #BFC9D7;
+  border: solid 1px #bfc9d7;
   font-size: 14px;
   border-radius: 2px;
   -moz-border-radius: 2px;
@@ -736,7 +737,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   white-space: normal;
   font-size: 14px;
   text-transform: none;
-  color: #363D49;
+  color: #363d49;
   padding: 5px 10px;
   margin: 0;
 }
@@ -776,7 +777,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .common_reports_container .download_report:hover,
 .breadcrumb_campaign_strategy .download_report:hover,
 .smallScreenScrollDiv .download_report:hover {
-  background-color: #e1edf9;
+  background-color: #E1EDF9;
   border: 1px solid #bfc9d7;
 }
 .common_reports_container .download_anchor,
@@ -1887,7 +1888,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin: 0 10px;
 }
 .view_mode_switch_container .video_btn span.switch {
-  background: #0978c9 ;
+  background: #0978c9;
   height: 20px ;
   width: 30px ;
   border: 0px ;
@@ -3813,7 +3814,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   background: #359eea ;
 }
 .reports_login_outer_container .reports_login_box .login_btn:active {
-  background: #0564a9 ;
+  background: #0564a9;
 }
 .reports_login_outer_container .reports_login_box .login_btn.loading {
   font-size: 0px ;
@@ -4121,7 +4122,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response #dynamicHeader .downReport {
   display: none;
-  border: solid 1px #BFC9D7;
+  border: solid 1px #bfc9d7;
   padding: 7px 15px;
   margin-top: -6px;
   height: 36px;
@@ -4129,7 +4130,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   cursor: pointer;
 }
 .report_generator_and_response #dynamicHeader .downReport:hover {
-  background: #e1edf9;
+  background: #E1EDF9;
 }
 .report_generator_and_response #dynamicHeader .subTitle {
   display: block;
@@ -4418,7 +4419,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   float: left;
 }
 .report_generator_and_response .report_builder_container .filter_btn {
-  color: #0978c9 ;
+  color: #0978c9;
   cursor: pointer;
   margin-top: 6px;
 }
@@ -4435,7 +4436,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin-left: 20px;
 }
 .report_generator_and_response .custom_response_screenshot_container {
-  background: #edf2f8 ;
+  background: #edf2f8;
   padding: 30px 0 0px 0;
   border-top: solid 2px #ccd9e3 ;
   float: left;
@@ -4572,7 +4573,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response div.create_scheduled_report .schedule-on-off-btn .btn-default {
   background-color: #E9EDF2;
-  border-color: #BFC9D7 ;
+  border-color: #bfc9d7;
 }
 .report_generator_and_response div.create_scheduled_report .schedule-on-off-btn .btn-default:focus,
 .report_generator_and_response div.create_scheduled_report .schedule-on-off-btn .btn-default:active,
@@ -5010,7 +5011,7 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
   margin-top: 0 ;
 }
 .report_response_and_tabs .custom_report_scroll .heading_first_dimension:hover .more_dimension_arrow {
-  background-color: #DCE6F1 ;
+  background-color: #dce6f1;
 }
 .heading_first_dimension {
   color: #5C5C5C ;
@@ -5021,7 +5022,7 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
   padding-left: 40px;
 }
 .heading_first_dimension:hover {
-  background-color: #DCE6F1;
+  background-color: #dce6f1;
   cursor: default;
 }
 .new_breakdown_div .filter_input_txtbox {
@@ -5059,7 +5060,7 @@ body.custom_report_page .bodyWrap {
 #newDatePickerBox {
   position: relative;
   float: right !important;
-  border: solid 0px #BFC9D7;
+  border: solid 0px #bfc9d7;
 }
 #newDatePickerBox button {
   float: right;
@@ -5071,14 +5072,14 @@ body.custom_report_page .bodyWrap {
 #newDatePickerBox .startPicker,
 #newDatePickerBox .endPicker {
   float: left ;
-  border: solid 0px #BFC9D7;
+  border: solid 0px #bfc9d7;
   margin-top: 8px;
   margin-right: -4px;
   border-radius: 2px;
 }
 #newDatePickerBox .startPicker input,
 #newDatePickerBox .endPicker input {
-  border: solid 1px #BFC9D7;
+  border: solid 1px #bfc9d7;
   padding-right: -2px;
   width: 131px;
   height: 36px;
@@ -5090,7 +5091,7 @@ body.custom_report_page .bodyWrap {
 #newDatePickerBox .endPicker #endDateInputGlyph {
   pointer-events: none;
   height: 33px;
-  border-left: solid 1px #BFC9D7;
+  border-left: solid 1px #bfc9d7;
   padding-left: 8px;
   padding-top: 8px;
   left: -33px;
