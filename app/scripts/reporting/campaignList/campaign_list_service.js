@@ -617,7 +617,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                             campaign.toSuffix = utils.formatDate(camp.end_date);
                             campaign.setVariables();
                             campaign.setMomentInNetworkTz(momentInNetworkTZ);
-                            
+
                             // TODO: set default to DELIVERY if null or undefined
                             if (campaign.kpi_type === 'null' || campaign.kpi_type === '') {
                                 campaign.kpi_type = 'IMPRESSIONS';
@@ -631,7 +631,11 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                             }else{
                                 campaign.kpiTypeDisplayName = _.find(vistoconfig.kpiDropDown, function (obj) {
                                     return obj.kpi === campaign.kpi_type;
-                                }).displayName;
+                                });
+
+                                if(campaign.kpiTypeDisplayName) {
+                                    campaign.kpiTypeDisplayName = campaign.kpiTypeDisplayName.displayName
+                                }
                             }
                             campaignList.push(campaign);
                         });
