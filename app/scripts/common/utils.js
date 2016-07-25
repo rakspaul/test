@@ -227,7 +227,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         return returnValue;
                     },
 
-                    // NOTE: This is an internal variable. It is NOT USED anywhere.
+                    // NOTE: This is an internal variable. It is NOT exposed externally.
                     SEARCH_OBJECT = {
                         key: '',
                         limit: constants.DEFAULT_LIMIT_COUNT,
@@ -450,6 +450,33 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         num = num || 0;
 
                         return String(num).replace(/,/g, '');
+                    },
+
+                    // NOTE: Used in
+                    // 1) ad_create_controller.js
+                    // 2) geo_targetting_controller.js
+                    // (as on 25th July 2016)
+                    rangeValue = function (list) {
+                        var start,
+                            end,
+                            i,
+                            tmpArr= [];
+
+                        _.each(list , function (item) { // jshint ignore:line
+                            item = item.split('-');
+
+                            if (item.length > 1) {
+                                start = Number(item[0]);
+                                end = Number(item[1]);
+                                for (i = start; i <= end; i++) {
+                                    tmpArr.push(String(i));
+                                }
+                            } else {
+                                tmpArr.push(item[0]);
+                            }
+                        });
+
+                        return tmpArr;
                     };
 
                 // NOTE: Used in
@@ -635,6 +662,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     validateUrl:validateUrl,
                     validateTag:validateTag,
                     stripCommaFromNumber: stripCommaFromNumber,
+                    rangeValue : rangeValue,
                     getResponseMsg: getResponseMsg
                 };
             }

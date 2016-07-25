@@ -196,7 +196,7 @@
                                             bar_section_graph_holder_screen">
                                         <div class="graph_heading"
                                              data-ng-bind="textConstants.PLATFORM + ' (' +
-                                                (campaign.kpiType | displayToCamelCase) + ')'">
+                                                campaign.kpiTypeDisplayName + ')'">
                                         </div>
                                         <div data-ng-show="loadingPlatformFlag" class="load-more">&nbsp;</div>
                                         <div data-ng-if="platformBarChartConfig"
@@ -215,7 +215,7 @@
                                             bar_section_graph_holder_screen">
                                         <div class="graph_heading"
                                              data-ng-bind="textConstants.SCREENS + ' (' +
-                                                (campaign.kpiType | displayToCamelCase) + ')'">
+                                                campaign.kpiTypeDisplayName + ')'">
                                         </div>
                                         <div data-ng-show="loadingScreenFlag" class="load-more">&nbsp;</div>
                                         <div data-ng-if="screenBarChartConfig"
@@ -234,7 +234,7 @@
                                             bar_section_graph_holder_screen">
                                         <div class="graph_heading"
                                             data-ng-bind="textConstants.AD_SIZES + ' (' +
-                                                (campaign.kpiType | displayToCamelCase) + ')'">
+                                                campaign.kpiTypeDisplayName + ')'">
                                         </div>
                                         <div data-ng-show="loadingAdSizeFlag" class="load-more">&nbsp;</div>
                                         <div data-ng-if="adSizenBarChartConfig"
@@ -253,7 +253,7 @@
                                             bar_section_graph_holder_screen">
                                         <div class="graph_heading"
                                              data-ng-bind="textConstants.FORMATS + ' (' +
-                                                (campaign.kpiType | displayToCamelCase) + ')'">
+                                                campaign.kpiTypeDisplayName + ')'">
                                         </div>
                                         <div data-ng-show="loadingFormatFlag" class="load-more">&nbsp;</div>
                                         <div data-ng-if="formatBarChartConfig"
@@ -273,7 +273,7 @@
                                             bar_section_graph_holder_screen">
                                         <div class="graph_heading"
                                              data-ng-bind="textConstants.INVENTORY + ' (' +
-                                                (campaign.kpiType | displayToCamelCase) + ')'">
+                                                campaign.kpiTypeDisplayName + ')'">
                                         </div>
                                         <div data-ng-show="loadingInventoryFlag" class="load-more">&nbsp;</div>
                                         <div data-ng-if="inventoryBarChartConfig"
@@ -547,7 +547,7 @@
                                     <span data-ng-if="(campaign.kpiValue > 0)"
                                           data-ng-bind="campaign.kpiValue | kpiFormatter : campaign.kpiType">
                                     </span>
-                                    {{campaign.kpiType != 'null' ? campaign.kpiType : 'NA' | displayToCamelCase}}
+                                    {{campaign.kpiType !='null' ? campaign.kpiTypeDisplayName : 'NA'}}
                                 </div>
                             </div>
                             <div class="each_col col_third">

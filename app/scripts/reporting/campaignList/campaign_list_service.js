@@ -1,16 +1,20 @@
 define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/services/transformer_service',
     'reporting/models/campaign_model', 'common/services/request_cancel_service', 'common/services/constants_service',
     'common/moment_utils', 'reporting/models/domain_reports', 'login/login_model',
-    'reporting/timePeriod/time_period_model', 'common/services/url_service', 'reporting/common/charts/line'],
+    'reporting/timePeriod/time_period_model', 'common/services/url_service', 'reporting/common/charts/line',
+    'common/services/vistoconfig_service'],
+
     function (angularAMD) {
         'use strict';
 
         // originally in models/campaign.js
         angularAMD.factory('campaignListService', ['dataService', 'utils', 'modelTransformer', 'campaignModel',
             'requestCanceller', 'constants', 'momentService', 'domainReports', 'loginModel', 'timePeriodModel',
-            'urlService', 'line', function (dataService, utils, modelTransformer, campaignModel, requestCanceller,
+            'urlService', 'line', 'vistoconfig', function (dataService, utils, modelTransformer, campaignModel,
+                                            requestCanceller,
                                             constants, momentInNetworkTZ, domainReports, loginModel, timePeriodModel,
-                                            urlService, line) {
+                                            urlService, line,
+                                            vistoconfig) {
                 var listCampaign = '',
 
                     setListCampaign = function (campaign) {
@@ -613,7 +617,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                             campaign.toSuffix = utils.formatDate(camp.end_date);
                             campaign.setVariables();
                             campaign.setMomentInNetworkTz(momentInNetworkTZ);
-
+                            
                             // TODO: set default to DELIVERY if null or undefined
                             if (campaign.kpi_type === 'null' || campaign.kpi_type === '') {
                                 campaign.kpi_type = 'IMPRESSIONS';
@@ -622,6 +626,13 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                 campaign.kpiValue = 0;
                             }
 
+                            if(campaign.kpi_type === 'IMPRESSIONS') {
+                                campaign.kpiTypeDisplayName = 'IMPRESSIONS';
+                            }else{
+                                campaign.kpiTypeDisplayName = _.find(vistoconfig.kpiDropDown, function (obj) {
+                                    return obj.kpi === campaign.kpi_type;
+                                }).displayName;
+                            }
                             campaignList.push(campaign);
                         });
 

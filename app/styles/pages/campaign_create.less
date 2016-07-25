@@ -393,7 +393,7 @@
             display: none;
             height: auto;
             left: 100%;
-            min-height: 94% !important;
+            min-height: 93% !important;
             opacity: 0;
             padding: 0 0 30px 30px;
             position: absolute;
@@ -958,14 +958,17 @@
                     text-align: left;
                     width: 100%;
                 }
-
+                .countryHeading {
+                   padding: 5px 2px 2px 10px;
+                }
                 .values-table {
                     max-height: 200px;
                     overflow-y: auto;
 
                     .each-row {
-                        border-bottom: solid 2px #DDE6EB;
-
+                        .countryHeading {
+                            padding: 5px 2px 2px 10px;
+                        }
                         .group {
                             clear: left;
                             float: left;
@@ -978,6 +981,19 @@
                                 width: 100%;
                             }
                         }
+                        .icon-clear {
+                               display: none;
+                        }
+                        &:hover {
+                               background: #e1edf9 ;
+                               .icon-clear {
+                                   display: block;
+                               }
+                         }                         
+
+
+
+
                     }
                 }
 
@@ -1099,7 +1115,10 @@
                     border: 1px solid #dde6eb;
                     border-top: none;
                     padding: 20px !important;
-
+                    min-height: 400px ;
+                    .sectionShownOnSelection {
+                        display: none;
+                    }
                     .error {
                         color: red;
                         display: block;
@@ -4983,3 +5002,66 @@
         }
     }
 }
+
+.adCreateMaster #targetting {
+    #geographyTargeting {
+        .tabbable {
+            padding-right: 20px !important ;
+        }
+        .geo-selected-section {
+            min-height: 400px;
+            background: #edf2f8 ;
+            border : solid 1px #dce6f1 ;
+            .boldSubHeading {
+                color: #939EAE ;
+                font-family: "Avenir-bold";
+                font-size: 12px;
+                text-transform: uppercase;
+            }
+            .default-selected-section {
+                color: #939EAE;
+                text-align: center;
+                padding-top: 100px;
+                margin-bottom: 12px;
+                .smallText {
+                    margin-top: 6px ;
+                    font-size: 12px ;
+                }
+                .icon-location {
+                    font-size: 40px;
+                    display: block;
+                    height: auto;
+                    width: auto;
+                    color: #939EAE;
+                }
+            }
+        }
+        .selectedTables {
+            margin-top: 25px ;
+            h2 {
+                width:auto ; 
+            }
+            .each-row {
+                padding: 6px 10px 4px 10px ;
+              
+            }
+            .table {
+                border-bottom: solid 2px #DBE6F6;
+                margin: 5px 0 ;
+            }
+            .icon-clear {
+                cursor: pointer;
+                font-size: 14px ;
+                margin-top: 2px ;
+            }
+        }
+        
+
+            
+        
+    }
+}
+
+
+
+
