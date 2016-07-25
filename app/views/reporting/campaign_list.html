@@ -135,15 +135,16 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        $('.each_tab').click( function() {
-            var tab_id = $(this).attr('id').split('_tab') ;
-            $('.cost_tabs_margin').find('.active').removeClass('active') ;
+    $(document).ready(function () {
+        $('.each_tab').click(function () {
+            var tab_id = $(this).attr('id').split('_tab');
+
+            $('.cost_tabs_margin').find('.active').removeClass('active');
             $(this).addClass('active') ;
-            $('.each_section_block , .filter_header_block , .cost_margin ').hide() ;
-            $( '#' + tab_id[0] + '_block, #' + tab_id[0] + '_filter_header, .' + tab_id[0] + '_margin').show() ;
+            $('.each_section_block , .filter_header_block , .cost_margin ').hide();
+            $( '#' + tab_id[0] + '_block, #' + tab_id[0] + '_filter_header, .' + tab_id[0] + '_margin').show();
         }) ;
-        $('.dropdown_ul li').click( function() {
+        $('.dropdown_ul li').click(function () {
             $(this).closest('.dropdown').find('.dd_txt').text($(this).text());
         });
     });
