@@ -10,7 +10,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
     'use strict';
 
     angularAMD.controller('CampaignListController',
-        function ($scope, $rootScope, $location, kpiSelectModel, campaignListModel, campaignSelectModel,
+        function ($scope, $rootScope, $routeParams, $location, kpiSelectModel, campaignListModel, campaignSelectModel,
                   strategySelectModel, utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel,
                   RoleBasedService, featuresService) {
             var fParams = featuresService.getFeatureParams(),
@@ -77,15 +77,6 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 }
             };
 
-            $scope.$on(constants.EVENT_BRAND_CHANGED, function () {
-                $scope.campaigns.setActiveSortElement('start_date');
-
-                // below line empty the search text on sub-account change
-                $scope.campaigns.searchTerm = '';
-
-                $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
-            });
-
             $('html').css('background', '#fff');
 
             $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
@@ -107,25 +98,14 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 campaignSelectModel.setSelectedCampaign(campaignData);
             });
 
-            $scope.viewReports = function (campaign, source) {
-                var selectedCampaign = {
-                    id: campaign.id,
-                    name: campaign.name,
-                    startDate: campaign.startDate,
-                    endDate: campaign.endDate,
-                    kpi: campaign.kpiType
-                };
-
-                campaignSelectModel.setSelectedCampaign(selectedCampaign);
-                kpiSelectModel.setSelectedKpi(selectedCampaign.kpi);
-                strategySelectModel.setSelectedStrategy(vistoconfig.LINE_ITEM_DROPDWON_OBJECT);
-                $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
-                $location.path('/mediaplans/' + campaign.id);
-
-                if (source === 'campaignCard') {
-                    $('.main_navigation .each_nav_link').removeClass('active_tab');
-                    $('#reports_nav_link').addClass('active_tab');
+            $scope.viewReports = function (campaign) {
+                var url = '/a/' + $routeParams.accountId;
+                if ($routeParams.subAccountId) {
+                    url += '/sa/' + $routeParams.subAccountId;
                 }
+                url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
+                url += '/mediaplans/' + campaign.id + '/overview';
+                $location.url(url);
             };
 
             $scope.loadMoreStrategies = function (campaignId) {

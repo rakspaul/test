@@ -21,6 +21,10 @@ define([
     'date-picker',
     'multiselect',
     'common/services/local_storage_service',
+    'common/services/account_service',
+    'common/services/sub_account_service',
+    'common/services/page_finder',
+    'common/services/url_builder',
     'login/login_service',
     'login/login_model',
     'reporting/brands/brands_model',
@@ -69,7 +73,7 @@ define([
     'ng-tag',
     'common/services/features_service',
     'chosen',
-    'reporting/subAccount/sub_account_service'
+    'common/services/sub_account_service'
 ], function (angularAMD) {
     return angularAMD;
 });

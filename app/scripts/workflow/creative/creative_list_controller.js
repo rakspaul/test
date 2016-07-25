@@ -13,7 +13,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
             creativeList = {
                 getCreativesList: function (clientId, formats, query, pageSize, pageNo) {
-                    var advertiserId = advertiserModel.getSelectedAdvertiser().id;
+                    var advertiserId = (localStorage.getItem('setAdvertiser')) ?
+                        JSON.parse(localStorage.getItem('setAdvertiser')).id : -1;
 
                     workflowService.getCreativesforCreativeList(clientId, formats, query, pageSize, pageNo,
                         advertiserId, function (result) {

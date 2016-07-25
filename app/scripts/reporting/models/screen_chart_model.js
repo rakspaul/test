@@ -1,13 +1,13 @@
 define(['angularAMD', 'common/services/vistoconfig_service','common/services/data_service',
     'reporting/brands/brands_model','reporting/dashboard/dashboard_model','common/services/constants_service',
     'login/login_model','common/services/role_based_service', 'reporting/advertiser/advertiser_model',
-    'common/services/vistoconfig_service','reporting/subAccount/sub_account_service'], function (angularAMD) {
+    'common/services/vistoconfig_service','common/services/sub_account_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.service('screenChartModel', ['$filter', 'urlService', 'dataService', 'brandsModel',
         'dashboardModel', 'constants', 'loginModel', 'RoleBasedService', 'advertiserModel', 'vistoconfig',
-        'subAccountModel', function ($filter, urlService, dataService, brandsModel, dashboardModel, constants,
-                                     loginModel, RoleBasedService, advertiserModel, vistoconfig, subAccountModel) {
+        'subAccountService', function ($filter, urlService, dataService, brandsModel, dashboardModel, constants,
+                                     loginModel, RoleBasedService, advertiserModel, vistoconfig) {
             var screenWidgetData = {
                     selectedMetric: constants.SPEND,
 
@@ -175,9 +175,6 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
 
                     // dashboard_hardware_categories
                     queryId = 1,
-
-                    brandId,
-                    advertiserId,
                     queryObj,
                     url;
 
@@ -189,16 +186,13 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
                     queryId = 3;
                 }
 
-                brandId = brandsModel.getSelectedBrand().id;
-                advertiserId = advertiserModel.getSelectedAdvertiser().id;
-
                 queryObj = {
                    queryId: queryId,
-                   clientId: subAccountModel.getDashboardAccountId(),
-                   campaignStatus: dashboardModel.campaignStatusToSend(),
-                   advertiserId: advertiserId,
-                   brandId: brandId,
-                   dateFilter: 'life_time'
+                   clientId: vistoconfig.getSelectedAccountId(),
+                   advertiserId: vistoconfig.getSelectAdvertiserId(),
+                   brandId: vistoconfig.getSelectedBrandId(),
+                   dateFilter: 'life_time',
+                   campaignStatus: dashboardModel.campaignStatusToSend()
                 };
 
                 url = urlService.APIVistoCustomQuery(queryObj);

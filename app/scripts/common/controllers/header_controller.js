@@ -1,13 +1,16 @@
 define(['angularAMD', 'common/services/constants_service', 'login/login_model',
     'reporting/models/domain_reports', 'reporting/campaignSelect/campaign_select_model',
     'common/services/role_based_service', 'workflow/services/workflow_service', 'common/services/features_service',
-    'reporting/subAccount/sub_account_service'], function (angularAMD) {
+    'common/services/account_service','common/services/sub_account_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location, $modal,
-                                                        constants, loginModel, domainReports, campaignSelectModel,
-                                                        RoleBasedService, workflowService, featuresService,
-                                                        subAccountModel, localStorageService) {
+    angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location,
+                                                        $modal, $routeParams, constants, loginModel, domainReports,
+                                                        campaignSelectModel, RoleBasedService, workflowService,
+                                                        featuresService, accountService, subAccountService,
+                                                        localStorageService, advertiserModel, brandsModel,
+                                                        strategySelectModel, pageFinder, urlBuilder) {
+
         var featurePermission = function () {
                 $scope.fparams = featuresService.getFeatureParams();
                 $scope.showMediaPlanTab = $scope.fparams[0].mediaplan_list;
@@ -26,65 +29,13 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             },
 
             setMasterClientData = function (id, name, isLeafNode, event) {
-                localStorageService.masterClient.set({
-                    id: id,
-                    name: name,
-                    isLeafNode: isLeafNode
-                });
-
                 showSelectedMasterClient(event, name);
-
-                if (isLeafNode) {
-                    loginModel.setSelectedClient({
-                        id: id,
-                        name: name
-                    });
-
-                    $scope.getClientData();
-
-                    $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {
-                        client: loginModel.getSelectedClient().id,
-                        event_type: 'clicked'
-                    });
-                } else {
-                    subAccountModel.fetchSubAccounts('MasterClientChanged', function () {
-                        $scope.getClientData();
-
-                        $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {
-                            client: loginModel.getSelectedClient().id,
-                            event_type: 'clicked'
-                        });
-                    });
-                }
-
+                accountService.changeAccount({id: id, name: name, isLeafNode: isLeafNode});
                 $scope.defaultAccountsName = name;
             };
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
-        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
-        $scope.reports_nav_url = '' ;
-
-        if ($scope.selectedCampaign === -1) {
-            $scope.reports_nav_url = '/mediaplans';
-        } else {
-            $scope.reports_nav_url = '/mediaplans/' + $scope.selectedCampaign;
-        }
-
-        $scope.getClientData = function () {
-            var clientId = localStorageService.masterClient.get().id;
-
-            workflowService
-                .getClientData(clientId)
-                .then(function (response) {
-                    // set the type of user here in RoleBasedService.js
-                    RoleBasedService.setClientRole(response);
-                    RoleBasedService.setCurrencySymbol();
-                    featuresService.setFeatureParams(response.data.data.features, 'headercontroller');
-                    $scope.filters = domainReports.getReportsTabs();
-                    $scope.customFilters = domainReports.getCustomReportsTabs();
-                });
-        };
 
         $scope.set_account_name = function (event, id, name, isLeafNode) {
             var moduleObj = workflowService.getModuleInfo(),
@@ -112,7 +63,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                                     setMasterClientData(id, name,isLeafNode, event);
 
                                     if (!localStorageService.masterClient.get().isLeafNode) {
-                                       subAccountModel.resetDashboardSubAccStorage();
+                                        subAccountService.resetDashboardSubAccStorage();
                                     }
 
                                     // TODO: check this condition ...
@@ -129,10 +80,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 }
             } else {
                 setMasterClientData(id, name,isLeafNode, event);
-
-                if (!localStorageService.masterClient.get().isLeafNode) {
-                    subAccountModel.resetDashboardSubAccStorage();
-                }
             }
         };
 
@@ -146,43 +93,34 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         $scope.NavigateToTab = function (url, event, page) {
             $('.header_tab_dropdown').removeClass('active_tab active selected');
 
-            if (page === 'reportOverview') {
-                $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
-
-                if ($scope.selectedCampaign === -1) {
-                    url = '/mediaplans';
-                    $('.each_nav_link').removeClass('active_tab active selected');
-                    $('.reports_sub_menu_dd_holder').find('.active_tab').removeClass('active_tab');
-                    $('#campaigns_nav_link').addClass('active_tab');
-                } else {
-                    url = '/mediaplans/' + $scope.selectedCampaign;
-                    $('.each_nav_link').removeClass('active_tab active selected');
-                    $('#reports_overview_tab').addClass('active_tab');
-                    $('#reports_nav_link').addClass('active_tab');
-                }
+            advertiserModel.reset();
+            brandsModel.reset();
+            strategySelectModel.reset();
+            if (page === 'dashboard') {
+                $location.url(urlBuilder.dashboardUrl());
             } else if (page === 'creativelist') {
                 $('.each_nav_link').removeClass('active_tab active selected');
                 url = '/creative/list';
                 $('#creative_nav_link').addClass('active_tab');
+                $location.url(url);
             } else if (page === 'adminOverview') {
                 $('.each_nav_link').removeClass('active_tab active selected');
                 url = '/admin/accounts';
                 $('#admin_nav_link').addClass('active_tab');
+                $location.url(url);
             } else if (page === 'mediaplanList') {
-                $('.each_nav_link').removeClass('active_tab active selected');
-                url = '/mediaplans';
-                $('#campaigns_nav_link').addClass('active_tab');
-            } else if (page === 'vendorsList') {
-                $('.each_nav_link').removeClass('active_tab active selected');
-                url = '/vendors/list';
-                $('#vendors_nav_link').addClass('active_tab');
+                urlBuilder.gotoMediaplansListUrl();
             } else if (page === 'reportsSubPage') {
-                $('.reports_sub_menu_dd_holder').find('.active_tab').removeClass('active_tab');
-                $('.each_nav_link').removeClass('active_tab active selected');
-                $('#reports_nav_link').addClass('active_tab');
-                $(event.currentTarget).parent().addClass('active_tab');
+                urlBuilder.gotoCannedReportsUrl(url);
+            } else if (page === 'customReports') {
+                $location.url(urlBuilder.customReportsUrl());
+            } else if (page === 'customReportsList') {
+                $location.url(urlBuilder.customReportsListUrl());
+            } else if (page === 'uploadReports') {
+                $location.url(urlBuilder.uploadReportsUrl());
+            } else if (page === 'uploadedReportsList') {
+                $location.url(urlBuilder.uploadReportsListUrl());
             }
-            $location.url(url);
         };
 
         $scope.show_hide_nav_dropdown = function (event, arg, behaviour) {
@@ -229,117 +167,37 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             loginModel.logout();
         };
 
-        $scope.setDefaultReport = function (reportTitle) {
-            $('.header_tab_dropdown').removeClass('active_tab');
-            $('a[reportTitle="' + reportTitle + '"]').parent().addClass('active_tab');
-        };
-
-        $rootScope.$on('callSetDefaultReport', function (event, args) {
-            $scope.setDefaultReport(args);
-        });
 
         if ($cookieStore.get('cdesk_session')) {
             workflowService
                 .getClients()
                 .then(function (result) {
-                    var preferredClient,
-                        campaignsClientData;
-
                     if (result && result.data.data.length > 0) {
-                        preferredClient = RoleBasedService.getUserData().preferred_client;
 
-                        campaignsClientData = function () {
-                            if (Number($scope.selectedCampaign) === -1) {
-                                campaignSelectModel
-                                    .getCampaigns(-1, {limit: 1, offset: 0})
-                                    .then(function (response) {
-                                        var firstCampaign;
+                        $rootScope.accountsData = accountService.getAccounts();
+                        accountService.getSelectedAccount() &&
+                        ($scope.defaultAccountsName = accountService.getSelectedAccount().name);
+                        $scope.multipleClient = $rootScope.accountsData.length > 1;
+                        $scope.pageName = pageFinder.pageBuilder($location.path()).pageName();
 
-                                        if (response.length > 0) {
-                                            $scope.selectedCampaign = response[0].campaign_id;
-
-                                            firstCampaign = {
-                                                id: response[0].campaign_id,
-                                                name: response[0].name,
-                                                startDate: response[0].start_date,
-                                                endDate: response[0].end_date,
-                                                kpi: response[0].kpi_type,
-                                                redirectWidget: ''
-                                            };
-
-                                            localStorageService.selectedCampaign.set(firstCampaign);
-                                        }
-                                    });
-                            }
-
-                            $scope.getClientData();
-                        };
-
-                        $scope.accountsData = [];
-
-                        _.each(result.data.data, function (org) {
-                            $scope.accountsData.push({
-                                id: org.id,
-                                name: org.name,
-                                isLeafNode: org.isLeafNode
-                            });
-
-                            if (preferredClient !== undefined &&
-                                org.id === preferredClient &&
-                                !localStorageService.masterClient.get()) {
-                                localStorageService.masterClient.set(org.id, org.name, org.isLeafNode);
-                            }
-                        });
-
-                        if (preferredClient === 0 && !localStorageService.masterClient.get()) {
-                            localStorageService
-                                .masterClient
-                                .set(result.data.data[0].id, result.data.data[0].name, result.data.data[0].isLeafNode);
-                        }
-
-                        if (result.data.data.length > 1) {
-                            $scope.multipleClient = true;
-                        } else {
-                            $scope.multipleClient = false;
-                        }
-
-                        $scope.accountsData = _.sortBy($scope.accountsData, 'name');
-
-                        if (localStorageService.masterClient.get() && localStorageService.masterClient.get().name) {
-                            $scope.defaultAccountsName = localStorageService.masterClient.get().name;
-                        } else {
-                            $scope.defaultAccountsName = $scope.accountsData[0].name;
-                        }
-
-                        if (angular.isUndefined(loginModel.getSelectedClient()) ||
-                            loginModel.getSelectedClient() === null) {
-                            if (localStorageService.masterClient.get().isLeafNode) {
-                                loginModel.setSelectedClient({
-                                    id: localStorageService.masterClient.get().id,
-                                    name: localStorageService.masterClient.get().name
-                                });
-
-                                campaignsClientData(1);
-                            } else {
-                                subAccountModel.fetchSubAccounts('headerCtrl',function () {
-                                    campaignsClientData(2);
-                                });
-                            }
-                        } else {
-                            campaignsClientData(3);
+                        if (featuresService.getFeatureParams().length > 0) {
+                            $scope.fparams = featuresService.getFeatureParams();
+                            $scope.showMediaPlanTab = $scope.fparams[0].mediaplan_list;
+                            $scope.showReportTab = $scope.fparams[0].reports_tab;
+                            $scope.filters = domainReports.getReportsTabs($scope.fparams);
+                            $scope.customFilters = domainReports.getCustomReportsTabs();
                         }
                     }
                 });
         }
 
-        // Start Feature Permission
+        /* Start Feature Permission */
         $rootScope.$on('features', function () {
             featurePermission();
             $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
         });
-
         featurePermission();
-        // End Feature Permission
+        /* End Feature Permission */
 
         $(function () {
             var closeMenuPopUs = function (event) {

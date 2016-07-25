@@ -1,12 +1,9 @@
 define(['angularAMD', 'common/services/url_service', 'common/services/data_service', 'reporting/brands/brands_model',
-    'reporting/dashboard/dashboard_model', 'login/login_model', 'reporting/advertiser/advertiser_model',
-    'reporting/subAccount/sub_account_service'], function (angularAMD) {
+    'reporting/dashboard/dashboard_model', 'common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.service('ganttChartModel', ['utils', 'urlService', 'dataService', 'brandsModel', 'dashboardModel',
-        'loginModel', 'advertiserModel', 'subAccountModel', function (utils, urlService , dataService, brandsModel,
-                                                                     dashboardModel, loginModel, advertiserModel,
-                                                                     subAccountModel) {
+    angularAMD.service('ganttChartModel', function (utils, urlService , dataService, brandsModel,
+                                                                     dashboardModel, vistoconfig) {
             this.dashboard = {
                 tasks: {},
                 brands: {},
@@ -15,9 +12,9 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
 
             this.getGanttChartData = function () {
                 var url,
-                    clientId = subAccountModel.getDashboardAccountId(),
-                    advertiserId = advertiserModel.getSelectedAdvertiser().id,
-                    brandId = brandsModel.getSelectedBrand().id;
+                    clientId = vistoconfig.getSelectedAccountId(),
+                    advertiserId = vistoconfig.getSelectAdvertiserId(),
+                    brandId = vistoconfig.getSelectedBrandId();
 
                 if (advertiserId !== -1) {
                     url = urlService.APICalendarWidgetForAdvertiser(clientId, advertiserId, brandId, this.filter,
@@ -36,5 +33,5 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                     });
             };
         }
-    ]);
+    );
 });

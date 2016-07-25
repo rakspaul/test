@@ -1,13 +1,15 @@
 define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_model',
     'reporting/brands/brands_model', 'reporting/timePeriod/time_period_model', 'common/services/constants_service',
     'common/services/url_service', 'common/services/request_cancel_service',
-    'common/services/data_service', 'common/utils', 'reporting/subAccount/sub_account_service'], function (angularAMD) {
+    'common/services/data_service', 'common/utils',
+    'common/services/sub_account_service', 'common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.factory('dashboardModel', ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel',
-        'constants', 'urlService', 'requestCanceller', 'dataService', 'utils','subAccountModel',
+        'constants', 'urlService', 'requestCanceller', 'dataService', 'utils','subAccountService', 'vistoconfig',
         function (loginModel, advertiserModel, brandsModel, timePeriodModel, constants, urlService, requestCanceller,
-                  dataService, utils, subAccountModel) {
+                  dataService, utils, subAccountService, vistoconfig) {
+
             var localStoredCampaignStatus = JSON.parse(localStorage.getItem('dashboardStatusFilter')),
 
                 // by default it is active.  Now check local storage if we want to change it last saved status.
@@ -20,37 +22,20 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
                 },
 
                 getCampaingsCount = function () {
-                    var clientId = subAccountModel.getDashboardAccountId(),
-                        advertiserId = advertiserModel.getSelectedAdvertiser().id,
-
+                    var clientId = vistoconfig.getSelectedAccountId(),
+                        advertiserId = vistoconfig.getSelectAdvertiserId(),
                         url = urlService.APICalendarWidgetForAllAdvertisers(clientId, advertiserId,
                             'end_date', campaignStatusToSend());
 
                     return dataService
                         .fetch(url)
                         .then(function (response) {
-                            var searchCriteria = utils.typeAheadParams;
-                                searchCriteria.clientId = clientId;
-                                searchCriteria.advertiserId = advertiserId ? advertiserId : -1;
-
-                                return brandsModel.getBrands(function() {
-                                    var totalCamapigns = response.data.data.total_campaigns,
-                                        mediaPlanText = 'Media Plan' + (totalCamapigns > 1 ? 's' : '');
-
-                                    dashboardData.toolTip = 'Showing data for ' + totalCamapigns + ' ' + mediaPlanText;
-                                }, searchCriteria, false);
+                                var totalCamapigns = response.data.data.total_campaigns;
+                                var mediaPlanText = 'Media Plan' + (totalCamapigns > 1 ? 's' : '');
+                                dashboardData.toolTip = 'Showing data for ' + totalCamapigns + ' ' + mediaPlanText;
                             });
                 },
 
-                setBrand = function (brand) {
-                    dashboardData.selectedBrand = brand.name;
-
-                    if (brand.name === constants.ALL_BRANDS) {
-                        dashboardData.brandSelected = false;
-                    } else {
-                        dashboardData.brandSelected = true;
-                    }
-                },
 
                 setAdvertiser = function(advertiser){
                     dashboardData.selectedAdvertiser = advertiser.name;
@@ -63,6 +48,8 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
                 },
 
                 getData = function () {
+                    dashboardData.brandSelected = vistoconfig.getSelectedBrandId() !== -1;
+                    dashboardData.selectedBrand = brandsModel.getSelectedBrand().name;
                     return dashboardData;
                 },
 
@@ -79,12 +66,9 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
                 };
 
             function addCampaigns() {
-                var selectedAdvertiser = advertiserModel.getSelectedAdvertiser().name;
-
                 dashboardData.titleSecondPart = dashboardData.selectedStatus + ' Media Plans for ';
-
-                if (selectedAdvertiser === constants.ALL_ADVERTISERS) {
-                    dashboardData.titleSecondPart += constants.ALL_ADVERTISERS;
+                if (vistoconfig.getSelectedBrandId() === -1) {
+                    dashboardData.titleSecondPart += constants.ALL_BRANDS;
                 }
             }
 
@@ -110,7 +94,6 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
 
             return {
                 setTitle: setTitle,
-                setSelectedBrand: setBrand,
                 setSelectedAdvertiser: setAdvertiser,
                 getData: getData,
                 campaignStatusToSend: campaignStatusToSend

@@ -14,8 +14,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                                                    utils, dataService, requestCanceller,
                                                                    constants, timePeriodModel, loginModel,
                                                                    advertiserModel, urlService, collectiveReportModel,
-                                                                   brandsModel, vistoconfig,
-                                                                   domainReports, reportsUploadList, Upload) {
+                                                                   brandsModel, vistoconfig, accountService,
+                                                                   domainReports, reportsUploadList,
+                                                                    Upload, urlBuilder) {
         var getCampaings = function () {
             var selectedBrand = brandsModel.getSelectedBrand();
 
@@ -44,7 +45,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
             $scope.errorMsgCustomRptName = false;
         };
 
-        $scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
+        $scope.isLeafNode = accountService.getSelectedAccount().isLeafNode;
 
         $scope.timeoutReset = function () {
             $timeout(function () {
@@ -239,7 +240,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                 Upload
                                     .upload({
                                         // TODO: move url to url service
-                                        url: urlService.APIUploadReport(),
+                                        url: urlService.APIUploadReport(vistoconfig.getSelectedAccountId()),
 
                                         fields: {
                                             reportType: file.reportType,
@@ -308,7 +309,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                             Upload
                                 .upload({
                                     // TODO: move url to url service
-                                    url: urlService.APIUploadReport(),
+                                    url: urlService.APIUploadReport(vistoconfig.getSelectedAccountId()),
 
                                     fields: {
                                         reportType: file.reportType,
@@ -418,26 +419,28 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         return function () {
                             $scope.deleteProgress = true;
 
-                            collectiveReportModel.deleteReport(reportId, function (response) {
-                                if (response.status_code === 200) {
-                                    reportsUploadList.list.splice(key, 1);
-                                    $scope.reportsUploadList = reportsUploadList.list;
-                                    $scope.deleteProgress = false;
+                            collectiveReportModel.deleteReport(vistoconfig.getSelectedAccountId(),
+                                reportId, function (response) {
+                                    if (response.status_code === 200) {
+                                        reportsUploadList.list.splice(key, 1);
+                                        $scope.reportsUploadList = reportsUploadList.list;
+                                        $scope.deleteProgress = false;
 
-                                    if (!$scope.reportsUploadList.length) {
-                                        $scope.progress = false;
+                                        if (!$scope.reportsUploadList.length) {
+                                            $scope.progress = false;
+                                        }
+
+                                        $scope.resetMessages();
+                                        $scope.deleteSuccessMsg = true;
+                                        $scope.timeoutReset();
+                                    } else {
+                                        $scope.resetMessages();
+                                        $scope.deleteErrorMsg = true;
+                                        $scope.deleteProgress = false;
+                                        $scope.timeoutReset();
                                     }
-
-                                    $scope.resetMessages();
-                                    $scope.deleteSuccessMsg = true;
-                                    $scope.timeoutReset();
-                                } else {
-                                    $scope.resetMessages();
-                                    $scope.deleteErrorMsg = true;
-                                    $scope.deleteProgress = false;
-                                    $scope.timeoutReset();
                                 }
-                            });
+                            );
                         };
                     }
                 }
@@ -445,17 +448,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
         };
         // end of local delete
 
-        $scope.goToReportList = function () {
-            var selectedCampaign = JSON.parse(localStorage.getItem('selectedCampaign')),
-                advertiserId = advertiserModel.getSelectedAdvertiser().id,
-                brandId = brandsModel.getSelectedBrand().id,
-                url = urlService.APIReportList(advertiserId, brandId, selectedCampaign ? selectedCampaign.id : -1);
-
-            if (url) {
-                dataStore.deleteFromCache(url);
-            }
-
-            $location.path('/reports/list');
+        $scope.goToUploadReportsList = function () {
+            $location.url(urlBuilder.uploadReportsListUrl());
         };
     });
 });

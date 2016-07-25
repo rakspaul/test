@@ -2,8 +2,8 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
     'login/login_model', 'common/services/role_based_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.service('bubbleChart', function ($rootScope,$locale, constants, brandsModel, loginModel,
-                                               RoleBasedService) {
+    angularAMD.service('bubbleChart', function ($rootScope,$locale, $location, $routeParams,
+                                                constants, brandsModel, loginModel, RoleBasedService) {
         var advertisersSvg = {},
             campaignsSvg = {},
             chartData = {},
@@ -73,7 +73,8 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
                     toolTipY: pathData.curveEndY,
                     objectType: (spanId === 'advertisers')? 'advertisers' : 'campaigns',
                     advertiserId: node.advertiser_id,
-                    advertiserName: node.advertiser_name
+                    advertiserName: node.advertiser_name,
+                    clientId: node.client_id
                 };
 
                 formattedData.push(object);
@@ -479,7 +480,17 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
                     tooltip.style('display', 'none');
                     d3.select('#advertisers_svg').empty();
                     d3.select('#campaigns_svg').empty();
-                    $rootScope.$broadcast(constants.BUBBLE_ADVERTISER_CLICKED, obj);
+                    var url = '/a/' + $routeParams.accountId;
+
+                    if ($routeParams.subAccountId) {
+                        url += '/sa/' + obj.clientId;
+                    } else {
+                        url = '/a/' + obj.clientId;
+                    }
+
+                    url += '/adv/' + obj.advertiserId;
+                    url += '/b/' + obj.brandId + '/dashboard';
+                    $location.url(url);
                 }
             });
         }

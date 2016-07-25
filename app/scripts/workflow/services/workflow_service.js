@@ -4,8 +4,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
     'use strict';
 
     angularAMD.factory('workflowService', function ($rootScope, vistoconfig, constants, dataService, loginModel,
-                                                        requestCanceller, momentService, $location,
-                                                        localStorageService) {
+                                                        requestCanceller, momentService, $location) {
         var mode,
             adDetails,
             newCreative,
@@ -62,16 +61,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url, {cache: false});
             },
 
-            getSubAccounts = function (access_level) {
+            getSubAccounts = function (clientId, access_level) {
                 var accessLevel = '',
-                    clientId,
                     url;
 
                 if (access_level !== undefined) {
                     accessLevel = '&access_level=' + access_level;
                 }
-
-                clientId = loginModel.getMasterClient().id;
 
                 if (clientId !== undefined) {
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -82,9 +78,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 }
             },
 
-            getDashboardSubAccount = function () {
-                var clientId = loginModel.getMasterClient().id,
-                    url;
+
+            getDashboardSubAccount = function (clientId) {
+                var url;
 
                 if (clientId) {
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -103,25 +99,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 });
             },
 
-            getAdvertisers = function (accessLevel, client_id) {
-                var isLeafNode = localStorageService.masterClient.get().isLeafNode,
-                    clientId = loginModel.getSelectedClient().id,
-                    isDashboardSubAccount = false,
-                    locationPath = $location.url(),
-                    url;
-
-                if ((locationPath === '/dashboard') || (locationPath === '/')) {
-                    isDashboardSubAccount = true;
-                }
-
-                if (client_id) {
-                    clientId = client_id;
-                } else if (isDashboardSubAccount && !isLeafNode) {
-                    clientId = loginModel.getDashboardClient().id;
-                }
-
-                url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
-
+            getAdvertisers = function (clientId, accessLevel) {
+                var isDashboardSubAccount = $location.path().endsWith('/dashboard');
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
                 if (accessLevel && !isDashboardSubAccount) {
                     url = url + '?access_level=' + accessLevel;
                 } else if (isDashboardSubAccount) {
@@ -131,36 +111,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url);
             },
 
-            getBrands = function (client_id, advertiserId, accessLevel) {
-                var clientId = loginModel.getSelectedClient().id,
-                    isDashboardSubAccount = false,
-                    locationPath = $location.url(),
-                    isLeafNode = localStorageService.masterClient.get().isLeafNode,
-                    url;
-
-                if ((locationPath === '/dashboard') || (locationPath === '/')) {
-                    isDashboardSubAccount = true;
-                }
-
-                if (client_id) {
-                    clientId = client_id;
-                }
-
-                if (isDashboardSubAccount && !isLeafNode) {
-                    clientId = localStorageService.advertiser.getDashboard().clientId;
-
-                    if (!clientId) {
-                        console.log('Error: Its dashboard but client id is undefined, check dashboardAdvertiser');
-                    }
-                }
-
-                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId +
-                    '/advertisers/' + advertiserId +
-                    '/brands';
-
+            getBrands =  function (clientId, advertiserId, accessLevel) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
+                    '/advertisers/' + advertiserId + '/brands';
                 if (accessLevel) {
-                    url = url + '?access_level=' + accessLevel;
+                    url += '?access_level=' + accessLevel;
                 }
 
                 return dataService.fetch(url);
