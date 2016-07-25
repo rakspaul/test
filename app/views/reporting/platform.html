@@ -341,7 +341,8 @@
             <span
                 data-ng-if="selectedFilters.kpi_type=='cpm' ||
                     selectedFilters.kpi_type=='cpc' ||
-                    selectedFilters.kpi_type=='cpa'"
+                    selectedFilters.kpi_type=='cpa' ||
+                    selectedFilters.kpi_type=='pc_cpa'"
                 data-ng-bind="platform[selectedFilters.kpi_type.toLowerCase()] |
                     appendDollar : selectedFilters2.kpi_type">
             </span>

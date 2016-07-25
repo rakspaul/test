@@ -344,15 +344,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.checkUniqueMediaPlanNameNotFound = false;
         $scope.executionPlatforms = [];
 
-        $scope.kpiNameList = [
-            {name: 'Action Rate'},
-            {name: 'CPA'},
-            {name: 'CPC'},
-            {name: 'CPM'},
-            {name: 'CTR'},
-            {name: 'Impressions'},
-            {name: 'VTC'}
-        ];
+        $scope.kpiNameList = vistoconfig.kpiList;
 
         $scope.kpiName = 'Action Rate';
         $scope.kpiValue = '';
