@@ -181,7 +181,7 @@
   color: #21252b;
 }
 .table-responsive .vistoTable .tbody .tr .td:first-child a:hover {
-  color: #0978C9;
+  color: #0978c9;
 }
 .table-responsive .vistoTable .tbody .tr .td:first-child .incompleteCreative {
   float: left;
@@ -279,12 +279,12 @@
   margin-right: 5px;
 }
 .table-responsive .yellowTable {
-  background: #FEFBF0;
+  background: #fefbf0;
 }
 .table-responsive .yellowTable .thead .tr {
   border-left: 0;
   border-right: 0;
-  background: #FEFBF0;
+  background: #fefbf0;
 }
 .table-responsive .yellowTable .thead .tr .th {
   min-height: 34px !important;
@@ -296,7 +296,7 @@
 }
 .table-responsive .yellowTable .tbody .tr .td {
   border-width: 0;
-  background: #FEFBF0;
+  background: #fefbf0;
 }
 .table-responsive .yellowTable .tbody .tr .td:first-child {
   border-width: 0;

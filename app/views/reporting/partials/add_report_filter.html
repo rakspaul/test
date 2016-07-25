@@ -7,14 +7,20 @@
                     <span class="icon-arrow-solid-down"></span>
                 </span>
                 <ul class="dropdown-menu">
-                    <div class="dropdown_autoselect_box"><input type="text" ng-model="dimensionQuery" placeHolder="Search"></div>
-                    <li ng-repeat="dimension in customeDimensionData[0].dimensions | filter:dimensionQuery" id="{{dimension.key}}" ng-click="select_dropdown_option($event)">{{dimension.value}}</li>
+                    <div class="dropdown_autoselect_box">
+                        <input type="text" data-ng-model="dimensionQuery" placeHolder="Search">
+                    </div>
+                    <li data-ng-repeat="dimension in customeDimensionData[0].dimensions | filter : dimensionQuery"
+                        id="{{dimension.key}}"
+                        data-ng-click="select_dropdown_option($event)"
+                        data-ng-bind="dimension.value">
+                    </li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="pull-left filter_input_txtbox" style="display:none;">
+    <div class="pull-left filter_input_txtbox" style="display: none;">
         <input type="text" name="filter" class="reportFilter" autofocus placeholder="Contains keywords ..."/>
     </div>
-    <div class="pull-left delete_row" ng-click="delete_level($event);"></div>
+    <div class="pull-left delete_row" data-ng-click="delete_level($event);"></div>
 </div>

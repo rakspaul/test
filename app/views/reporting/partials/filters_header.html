@@ -1,34 +1,41 @@
 <div class="clearfix nav_filters">
-    <div class="pull-left dropdown each_filter2 advertisers_filter each_filter brands_filter " ng-show="isLeafNode == false">
+    <div class="pull-left dropdown each_filter2 advertisers_filter each_filter brands_filter"
+         data-ng-show="isLeafNode === false">
         <sub-account-drop-down></sub-account-drop-down>
     </div>
-
     <div class="pull-left dropdown each_filter2 advertisers_filter each_filter brands_filter "
-         ng-controller="AdvertiserController">
+         data-ng-controller="AdvertiserController">
         <advertiser-drop-down></advertiser-drop-down>
     </div>
 
-    <div class="pull-left dropdown each_filter brands_filter {{brandData.cssClass}}" ng-controller="BrandsController">
+    <div class="pull-left dropdown each_filter brands_filter {{brandData.cssClass}}"
+         data-ng-controller="BrandsController">
         <brands-drop-down></brands-drop-down>
-
     </div>
-    <div class="pull-left dropdown breadcrumb_nav_campaign" ng-if="reportFilter" style="max-width:190px">
+    <div class="pull-left dropdown breadcrumb_nav_campaign"
+         data-ng-if="reportFilter"
+         style="max-width:190px">
         <campaign-drop-down selected-obj=selectedCampaign all-campaign="{{allCampaign}}"></campaign-drop-down>
     </div>
 
-    <div class="pull-left breadcrumb_nav_strategy"  ng-if="showStrategies == 'true'">
-        <div ng-show="isStrategyDropDownShow">
+    <div class="pull-left breadcrumb_nav_strategy" data-ng-if="showStrategies === 'true'">
+        <div data-ng-show="isStrategyDropDownShow">
             <strategy-drop-down selected-obj=selectedStrategy></strategy-drop-down>
         </div>
     </div>
-    <div class="pull-left dropdown dropdown-two each_filter lifetime_filter" ng-show="isStrategyDropDownShow" ng-if="reportFilter == 'true'">
+    <div class="pull-left dropdown dropdown-two each_filter lifetime_filter"
+         data-ng-show="isStrategyDropDownShow"
+         data-ng-if="reportFilter === 'true'">
         <div class="nav_filters_heading">Timeframe</div>
-        <div class="timeline_dd" ng-controller="TimePeriodController">
+        <div class="timeline_dd" data-ng-controller="TimePeriodController">
             <timeperiod-drop-down></timeperiod-drop-down>
         </div>
     </div>
 
-    <div class="pull-left dropdown dropdown-two each_filter" id="newDatePickerBox" ng-show="isStrategyDropDownShow" ng-if="reportFilter == 'true'">
+    <div class="pull-left dropdown dropdown-two each_filter"
+         id="newDatePickerBox"
+         data-ng-show="isStrategyDropDownShow"
+         data-ng-if="reportFilter === 'true'">
         <timeperiod-drop-down-picker></timeperiod-drop-down-picker>
     </div>
 </div>

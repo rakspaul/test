@@ -1049,7 +1049,7 @@ button, i, input[type="submit"] {
 }
 .cost_cols_holder {
   .first_col , .second_col {
-    color: #0978c9 ;
+    color: @visto-blue;
   }
 }
 .total_cost {
@@ -1181,7 +1181,7 @@ button, i, input[type="submit"] {
     }
     .active {
       a {
-        color: #0978c9 ;
+        color: @visto-blue;
         span span {
           background: url("/images/cdesk/sprites.png") no-repeat -197px -348px ;
           display: inline-block;
@@ -1224,7 +1224,7 @@ button, i, input[type="submit"] {
             }
           }
           .legend_line {
-            border-top : solid 2px #0978c9 ;
+            border-top : solid 2px @visto-blue;
             padding-top: 3px ;
 
           }
@@ -1592,7 +1592,7 @@ button, i, input[type="submit"] {
       position: relative;
       height: 100% ;
       max-width : 100% ;
-      background: #0978c9 ;
+      background: @visto-blue;
       border-radius: 4px ;
       -moz-border-radius: 4px ;
       -webkit-border-radius: 4px ;
@@ -1875,7 +1875,7 @@ button, i, input[type="submit"] {
         }
       }
       li.active a {
-        color: #0978C9 ;
+        color: @visto-blue;
         .sortable.ascending {
           background: url("/images/cdesk/sprites.png") no-repeat -195px -412px ;
         }
@@ -2107,7 +2107,7 @@ button, i, input[type="submit"] {
 
 .main_navigation_holder {
   height: 50px;
-  background: #0978c9;
+  background: @visto-blue;
   padding: 0px;
   position: relative;
   z-index: 99999999;
@@ -2120,7 +2120,7 @@ button, i, input[type="submit"] {
   }
   .profile-photo-tab.selected:after {
     bottom: 0px ;
-    border: solid 6px #004478;
+    border: solid 6px @regal-blue;
     border-left: solid 8px transparent;
     border-top: 0;
     border-right: solid 8px transparent;
@@ -2223,7 +2223,7 @@ button, i, input[type="submit"] {
       li {
         list-style: none;
         cursor: pointer;
-        border-bottom: solid 1px #0978c9;
+        border-bottom: solid 1px @visto-blue;
         font-size: 14px;
         padding: 8px 10px;
         &:hover {
@@ -2271,7 +2271,7 @@ button, i, input[type="submit"] {
       width: 100%;
       text-align: center;
       float: left;
-      background: #0564A9;
+      background: @endeavour;
       .logout_link {
         width: 100%;
         float: left;
@@ -2281,7 +2281,7 @@ button, i, input[type="submit"] {
     }
     .profile-data {
       position: relative;
-      background: #004478;
+      background: @regal-blue;
       width: 300px;
       box-sizing: initial;
       -webkit-box-sizing: initial;
@@ -2407,7 +2407,7 @@ button, i, input[type="submit"] {
         top: 50px;
         left: 0px;
         z-index: 10;
-        background: #004478;
+        background: @regal-blue;
         width: 200px;
         box-sizing: initial;
         -webkit-box-sizing: initial;
@@ -2575,7 +2575,7 @@ button, i, input[type="submit"] {
   font-size: 11px;
 }
 .quartile_details_graph .dots0 {
-  fill: #0978c9;
+  fill: @visto-blue;
 }
 .quartile_details_graph .dots1 {
   fill: #4cc94a;
@@ -2595,7 +2595,7 @@ button, i, input[type="submit"] {
 }
 
 .quartile_details_graph .path0 {
-  stroke: #0978c9;
+  stroke: @visto-blue;
   stroke-width: 1;
   fill: none;
 }
@@ -2666,7 +2666,7 @@ button, i, input[type="submit"] {
   font-size: 12px;
 }
 .campaign_details_graph .dots0 {
-  fill: #0978c9;
+  fill: @visto-blue;
 }
 .campaign_details_graph .dots1 {
   fill: #4cc94a;
@@ -2859,7 +2859,7 @@ button, i, input[type="submit"] {
                 &:hover, &:focus {
                     color: @raven-text;
                     text-decoration: none;
-                    background-color: #E1EDF9;
+                    background-color: @hover-light-blue;
                 }
                 span {
                     padding: 0;
@@ -2872,7 +2872,7 @@ button, i, input[type="submit"] {
                 &:hover, &:focus {
                     color: @raven-text;
                     text-decoration: none;
-                    background-color: #E1EDF9;
+                    background-color: @hover-light-blue;
                 }
             }
         }
@@ -3048,7 +3048,7 @@ button, i, input[type="submit"] {
     position: relative;
     #brandsDropdownDiv , #subAccountDropdownDiv, .advertisersList_ul {
         width: 100%;
-        border-bottom: solid 1px #BFC9D7;
+        border-bottom: solid 1px @stroke-gray-borders;
         //padding: 5px 10px;
         float: left;
         input {
@@ -3071,7 +3071,7 @@ button, i, input[type="submit"] {
                 &:hover, &:focus {
                     color: @raven-text;
                     text-decoration: none;
-                    background-color: #E1EDF9;
+                    background-color: @hover-light-blue;
                 }
                 span {
                     padding: 0;
@@ -3180,19 +3180,19 @@ button, i, input[type="submit"] {
         text-align: center;
         padding: 10px 15px;
         width: auto;
-        border: 1px solid #BFC9D7;
+        border: 1px solid @stroke-gray-borders;
         border-radius: 2px;
         min-height: 36px;
       }
       .sliding_dropdown_btn:hover, .sliding_dropdown_btn:active, .sliding_dropdown_btn:focus {
-        background-color:#DCE6F1;
+        background-color: @active-gray;
       }
       .sliding_dropdown_container_quick {
         position: absolute;
         top: -5px;
         right: -5px;
         width: 207px;
-        border: solid 1px #BFC9D7;
+        border: solid 1px @stroke-gray-borders;
         z-index: 100;
         background-color: #fff;
         min-height: 300px;
@@ -3202,7 +3202,7 @@ button, i, input[type="submit"] {
         //-webkit-box-shadow: 2px 0 4px #ccc;
         // overflow: auto;
         .each_section {
-          border-bottom: solid 1px #BFC9D7 ;
+          border-bottom: solid 1px @stroke-gray-borders;
           padding: 10px 0 ;
           .filter_title {
             font-family: "Avenir-bold";
@@ -3215,11 +3215,11 @@ button, i, input[type="submit"] {
           .close_sliding_dropdown {
             cursor: pointer;
             width: auto;
-            border: 1px solid #BFC9D7;
+            border: 1px solid @stroke-gray-borders;
             border-radius: 2px;
             height: 36px;
             padding: 10px 15px;
-            background: #DCE6F1;
+            background: @active-gray;
             margin-top: 4px;
           }
           .section_filter_list {
@@ -3235,7 +3235,7 @@ button, i, input[type="submit"] {
                   border-radius: 30%;
                   -moz-border-radius: 30%;
                   -webkit-border-radius: 20px;
-                  border: solid 1px #BFC9D7;
+                  border: solid 1px @stroke-gray-borders;
                   min-width: 30px;
                   height: 16px;
                   line-height: 14px;
@@ -3243,23 +3243,23 @@ button, i, input[type="submit"] {
                   padding: 0 5px ;
               }
               &:hover {
-                color: #0978c9 ;
+                color: @visto-blue;
                 background: #f5f9fd ;
                 .number {
-                  border-color : #0978c9 ;
+                  border-color : @visto-blue;
                   cursor: pointer;
                 }
               }
             }
             .each_filter.active  {
-              color: #0978c9 ;
+              color: @visto-blue;
               background: #E6F2FA ;
               cursor: default;
               div {
                 cursor: default;
               }
               .number {
-                border-color: #0978c9 ;
+                border-color: @visto-blue;
                 cursor: default;
               }
             }
@@ -3320,7 +3320,7 @@ button, i, input[type="submit"] {
       text-align: center;
     }
     .column.icon-settings:hover {
-      color: #0978C9;
+      color: @visto-blue;
     }
     .data_holder {
       height: 550px ;

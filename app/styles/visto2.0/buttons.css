@@ -22,17 +22,17 @@ select {
   background: #E1EDF9 !important;
 }
 .btn-primary {
-  background: #0978C9;
+  background: #0978c9;
 }
 .btn-primary:hover {
-  background: #0564A9 !important;
+  background: #0564a9 !important;
 }
 .btn-primary:active,
 .btn-primary.active {
-  background: #004D86;
+  background: #004d86;
 }
 .btn-link {
-  color: #363D49;
+  color: #363d49;
 }
 .btn-link:hover,
 .btn-link:active {
@@ -42,14 +42,14 @@ select {
 .btn-default {
   color: #57606d;
   font-size: 14px;
-  border: 1px solid #BFC9D7;
+  border: 1px solid #bfc9d7;
   background: #fff;
 }
 .btn-default:hover {
   border: 1px solid #939eae;
 }
 .btn-default:not(.label-btn):hover {
-  background: #e1edf9;
+  background: #E1EDF9;
   box-shadow: none !important;
 }
 .btn-default:not(.label-btn):active,
@@ -60,8 +60,8 @@ select {
 .btn-default:active,
 .btn-default:focus,
 .btn-default:target {
-  background-color: #DCE6F1 !important;
-  border: 1px solid #BFC9D7 !important;
+  background-color: #dce6f1 !important;
+  border: 1px solid #bfc9d7 !important;
   box-shadow: none;
 }
 .label-btn {
@@ -86,22 +86,22 @@ select {
 }
 .radioBtnToggle .miniToggle .btn-default.active,
 .radioBtnToggle .miniToggle .btn-default.active:hover {
-  background-color: #DCE6F1 !important;
-  border: 1px solid #BFC9D7;
-  color: #363D49;
+  background-color: #dce6f1 !important;
+  border: 1px solid #bfc9d7;
+  color: #363d49;
   box-shadow: none;
 }
 .radioBtnToggle .miniToggle .btn-default.active span,
 .radioBtnToggle .miniToggle .btn-default.active:hover span {
-  color: #363D49;
+  color: #363d49;
 }
 .radioBtnToggle .miniToggle .btn-default:hover {
-  background-color: #0564A9;
-  color: #363D49;
-  border: 1px solid #BFC9D7;
+  background-color: #0564a9;
+  color: #363d49;
+  border: 1px solid #bfc9d7;
 }
 .radioBtnToggle .miniToggle .btn-default:hover span {
-  color: #363D49;
+  color: #363d49;
 }
 .radioBtnToggle .miniToggle .btn-default:first-child {
   border-top-left-radius: 2px !important;
@@ -117,7 +117,7 @@ select {
   opacity: 1;
 }
 .radioBtnToggle .miniToggle .btn-default span {
-  color: #363D49;
+  color: #363d49;
 }
 .goalBtnGroup {
   float: left;
@@ -129,10 +129,10 @@ select {
   height: 36px;
   float: left;
   margin: 0 !important;
-  color: #363D49;
+  color: #363d49;
   background-color: #ffffff;
   font-family: Avenir, sans-serif;
-  border: 1px solid #BFC9D7;
+  border: 1px solid #bfc9d7;
   border-left: 0;
   position: relative;
   padding: 10px 15px;
@@ -146,29 +146,29 @@ select {
 .goalBtnGroup .btn-primary:hover .hideRadioBtn span,
 .goalBtnGroup .btn-primary:hover .hideRadioBtn [class^="icon-"],
 .goalBtnGroup .btn-primary:hover .hideRadioBtn [class*=" icon-"] {
-  color: #363D49;
+  color: #363d49;
   background: none !important;
 }
 .goalBtnGroup .btn-primary.first {
-  border-left: 1px solid #BFC9D7;
+  border-left: 1px solid #bfc9d7;
 }
 .goalBtnGroup .btn-primary.active {
-  background-color: #DCE6F1 !important;
+  background-color: #dce6f1 !important;
   box-shadow: none;
-  color: #363D49;
+  color: #363d49;
 }
 .goalBtnGroup .btn-primary.active span {
-  color: #363D49;
+  color: #363d49;
 }
 .goalBtnGroup .btn-primary.active.hover .hideRadioBtn {
-  color: #363D49 !important;
+  color: #363d49 !important;
   background-color: transparent !important;
 }
 .goalBtnGroup .btn-primary.active.hover .hideRadioBtn span {
-  color: #363D49;
+  color: #363d49;
 }
 .goalBtnGroup .btn-primary.active .hideRadioBtn {
-  color: #363D49 !important;
+  color: #363d49 !important;
   background-color: transparent !important;
 }
 .goalBtnGroup .btn-primary span {
@@ -201,21 +201,21 @@ select {
 .firstBtnGroup .btn-primary {
   border-top-left-radius: 2px !important;
   border-bottom-left-radius: 2px !important;
-  border: 1px solid #BFC9D7;
+  border: 1px solid #bfc9d7;
 }
 .firstCreateBtnGroup {
   border-top-left-radius: 2px !important;
   border-bottom-left-radius: 2px !important;
-  border: 1px solid #BFC9D7 !important;
+  border: 1px solid #bfc9d7 !important;
 }
 .lastBtnGroup .btn-primary {
-  border: 1px solid #BFC9D7;
+  border: 1px solid #bfc9d7;
   border-left: 0;
   border-top-right-radius: 2px !important;
   border-bottom-right-radius: 2px !important;
 }
 .lastCreateBtnGroup {
-  border: 1px solid #BFC9D7 !important;
+  border: 1px solid #bfc9d7 !important;
   border-left: 0 !important;
   border-top-right-radius: 2px !important;
   border-bottom-right-radius: 2px !important;
@@ -317,7 +317,7 @@ input.cmn-toggle-round + label {
   padding: 2px;
   width: 72px;
   height: 36px;
-  background-color: #BFC9D7;
+  background-color: #bfc9d7;
   border-radius: 2px;
 }
 input.cmn-toggle-round + label:before,
@@ -336,14 +336,14 @@ input.cmn-toggle-round + label:before {
 }
 input.cmn-toggle-round + label:after {
   width: 20px;
-  background-color: #DCE6F1;
+  background-color: #dce6f1;
   border-radius: 2px;
   transition: margin 0.4s;
   height: 32px;
   margin: 1px 0 0 1px;
 }
 input.cmn-toggle-round:checked + label:before {
-  background-color: #0978C9;
+  background-color: #0978c9;
   background-image: url(/images/workflow/checkMark.svg);
   background-repeat: no-repeat;
   background-position-x: 15px;
@@ -357,11 +357,11 @@ input.cmn-toggle-round:checked + label:after {
   padding: 9px 15px;
   width: auto;
   cursor: pointer;
-  color: #363D49;
+  color: #363d49;
   background-color: #ffffff;
   font-family: Avenir;
   border-radius: 2px;
-  border: 1px solid #BFC9D7 !important;
+  border: 1px solid #bfc9d7 !important;
   margin-right: 15px;
 }
 .screenChkSelection .btn-default:hover {
@@ -369,8 +369,8 @@ input.cmn-toggle-round:checked + label:after {
   border: 1px solid #939eae !important;
 }
 .screenChkSelection .btn-default.active {
-  background-color: #DCE6F1 !important;
-  border: 1px solid #BFC9D7 !important;
+  background-color: #dce6f1 !important;
+  border: 1px solid #bfc9d7 !important;
   box-shadow: none;
 }
 .screenChkSelection .btn-default label {
@@ -421,7 +421,7 @@ tags-input ul li span {
 tags-input ul li:hover,
 tags-input ul li:focus,
 tags-input ul .suggestion-item.selected {
-  background: #e1edf9 !important;
+  background: #E1EDF9 !important;
   padding: 3px 15px !important;
 }
 tags-input ul li:hover span,

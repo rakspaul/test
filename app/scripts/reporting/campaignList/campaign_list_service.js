@@ -26,7 +26,6 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
 
                     createTacticObject = function (clientId, campaign, strategyId, tacticData, timePeriod) {
                         var tacticObj = [],
-                            status = '',
                             adSize = '',
                             geoValues = '',
                             zipValues = '',
@@ -54,7 +53,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                 ad_size: _.uniq(tactic.ad_size),
                                 platform_name: tactic.platform_name,
                                 platform_icon: tactic.platform_icon_url,
-                                status: status,
+                                status: (tactic.status === undefined ? 'Draft' : tactic.status),
                                 audience_targeting: adSize || null,
                                 zip_targeting: zipValues,
                                 geo_targeting: geoValues,
@@ -72,7 +71,6 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                 is_tracking: tactic.is_tracking
                             };
 
-                            status = (tactic.status === undefined ? 'Draft' : tactic.status);
                             mediaTypeIcon = mediaTypeIconMap[tactic.media_type.toLowerCase()];
                             mediaTypeIcon || (mediaTypeIcon = 'icon-desktop');
 
@@ -618,7 +616,7 @@ console.log('campaigns = ', campaigns);
                             } else {
                                 campaign.kpiTypeDisplayName = _.find(vistoconfig.kpiDropDown, function (obj) {
                                     return obj.kpi === campaign.kpiType;
-                                }).displayName;
+                                });
 
                                 if (campaign.kpiTypeDisplayName) {
                                     campaign.kpiTypeDisplayName = campaign.kpiTypeDisplayName.displayName;
