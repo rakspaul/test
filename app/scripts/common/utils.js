@@ -383,7 +383,31 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         num = num || 0;
 
                         return String(num).replace(/,/g, '');
+                    },
+
+                    rangeValue = function (list) {
+                        var start,
+                            end,
+                            i,
+                            tmpArr= [];
+
+                        _.each(list , function (item) { // jshint ignore:line
+                            item = item.split('-');
+
+                            if (item.length > 1) {
+                                start = Number(item[0]);
+                                end = Number(item[1]);
+                                for (i = start; i <= end; i++) {
+                                    tmpArr.push(String(i));
+                                }
+                            } else {
+                                tmpArr.push(item[0]);
+                            }
+                        });
+
+                        return tmpArr;
                     };
+
 
                 function getTypeAheadParams() {
                     var search = clone(SEARCH_OBJECT),
@@ -552,6 +576,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     validateUrl:validateUrl,
                     validateTag:validateTag,
                     stripCommaFromNumber: stripCommaFromNumber,
+                    rangeValue : rangeValue,
                     getResponseMsg: getResponseMsg
                 };
             }

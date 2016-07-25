@@ -216,8 +216,8 @@
 
             <!---- start Zip Container ---------->
             <div id="zip" class="col-md-12 zeroPadding targetting-each-content" style="display:none;">
-                
-               
+
+
                 <div class="sectionShownOnSelection">
                     <div class="col-md-12 zeroPadding marginBottom">
                         <div class="col-md-6 zeroPadding countryNameSelected"></div>
@@ -227,7 +227,7 @@
                         </div>
                     </div>
                     <textarea class="form-control" id="zipCodes" name="zipCodes" ng-model="adData.zipCodes" rows="3" placeholder="Separate zip / postal codes by comma. Use hyphens to denote ranges." ></textarea>
-                    
+
                 </div>
                 <div>
                      <div class="col-md-6 zeroPadding dropdown-workflow">
@@ -241,7 +241,7 @@
                                     <input class="dropdown-toggle inactive" ng-model="country.name"/>
                                     <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
                                 </div>
-                                <li ng-repeat="country in geoData.countries.data | filter : country.name" class="available" ><a ng-click="showHideDropdownWithSearch($event);sectionShownOnSelection(country.name);">{{country.name}}</a></li>
+                                <li ng-repeat="country in geoData.countries.data | filter : country.name" class="available" ><a ng-click="showHideDropdownWithSearch($event);sectionShownOnSelection(country);">{{country.name}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -340,13 +340,13 @@
                         </div>
                     </div>
                     <div class="values-table">
-                        <div class="countryHeading">United States</div>
                         <div ng-repeat="zipCodeList in geoData.zip.selected">
-                            <div class="clearfix each-row" ng-repeat="zipCode in zipCodeList.added">
-                                <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> {{zipCode}}</div>
-                                <div class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(zipCode, 'zip')"></span></div>
+                            <div class="countryHeading" ng-bind="zipCodeList.countryName"></div>
+                            <div class="clearfix each-row" ng-repeat="zip in zipCodeList.data">
+                                <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> {{zip}}</div>
+                                <div class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(zip, 'zip')"></span></div>
                             </div>
-                            <div ng-if="geoTargetingData.selected.zip.length === 0">
+                            <div ng-if="geoData.zip.selected.length === 0">
                                 <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
                             </div>
                         </div>

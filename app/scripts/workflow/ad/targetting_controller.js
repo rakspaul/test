@@ -94,9 +94,9 @@ define(['angularAMD', '../services/workflow_service', 'workflow/services/audienc
             $('.metro-tab-content .targetting-tab-body').css('min-height', winHeight - 380 + 'px');
             $('#dmas .list_row_holder').css('min-height', winHeight - 370 + 'px');
 
-            $(".geo-selected-section").css('min-height',  winHeight - 184 + 'px');
-            $("#zip").css('min-height', winHeight - 193  + 'px');
-            
+            $('.geo-selected-section').css('min-height',  winHeight - 184 + 'px');
+            $('#zip').css('min-height', winHeight - 193  + 'px');
+
             // Day Targeting
             $('.dayTargetLower').css('min-height', winHeight - 290 + 'px');
 
@@ -185,6 +185,7 @@ define(['angularAMD', '../services/workflow_service', 'workflow/services/audienc
         _targeting.showgeoTargetingInfo = function (adData) {
             var data = adData.targets ? adData.targets.geoTargets : adData,
                 previewObj = {},
+                includedArr,
                 includedCount = 0,
                 excludeCount = 0,
                 includeLabel = [],
@@ -265,19 +266,23 @@ define(['angularAMD', '../services/workflow_service', 'workflow/services/audienc
 
             if (data.ZIP_CODE && data.ZIP_CODE.geoTargetList.length > 0) {
                 if (data.ZIP_CODE.isIncluded) {
-                    includedCount += data.ZIP_CODE.geoTargetList.length;
 
-                    str = data.ZIP_CODE.geoTargetList.length + ' Postal Code' +
-                        ((data.ZIP_CODE.geoTargetList.length > 1) ? 's' : '');
+                    includedArr = _.map(data.ZIP_CODE.geoTargetList, function (obj) {
+                        return {
+                            count: obj.zipcodes.split(',').length,
+                            country: obj.countryCode
+                        };
+                    });
 
+                    includedCount = _.reduce(includedArr,
+                        function (memo, arr) {
+                            return memo + arr.count;
+                        }, 0);
+
+
+                    str = includedCount + ' Postal Code' +
+                        ((includedCount > 1) ? 's' : '');
                     includeLabel.push(str);
-                } else {
-                    excludeCount += data.ZIP_CODE.list.length;
-
-                    str = data.ZIP_CODE.geoTargetList.length + ' Postal Code' +
-                        ((data.ZIP_CODE.geoTargetList.length > 1) ? 's' : '');
-
-                    excludeLabel.push(str);
                 }
             }
 
