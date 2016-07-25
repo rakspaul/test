@@ -1627,7 +1627,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_create_ad,
                     title: 'Media Plan - Overview',
                     controller: 'CampaignOverViewController',
-                    controllerUrl: 'workflow/overview/campaign_overview_controller',
+                    controllerUrl: 'workflow/controllers/campaign_overview_controller',
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
