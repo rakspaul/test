@@ -12,7 +12,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                                                    $locale, $location,  $filter, $timeout,
                                                                    constants, workflowService, loginModel,
                                                                    dataService, audienceService, RoleBasedService,
-                                                                   momentService, vistoconfig, videoService,utils) {
+                                                                   momentService, vistoconfig, videoService, utils) {
         var winHeaderHeight = $(window).height() - 50,
             winHeight,
 
@@ -1161,8 +1161,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 postGeoTargetObj,
                 buildGeoTargetingParams,
                 geoTargetData,
-                zipObj,
-                zipPostArr,
                 selectedAudience,
                 segmentObj,
                 dayPart,
@@ -1364,41 +1362,19 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             }
 
                             if (geoTargetData.zip.selected.length > 0) {
-                                zipObj = geoTargetData.zip.selected;
-                                zipPostArr = [];
-
-                                _.each(zipObj, function (zipArr) {
-                                    if (zipArr.added) {
-                                        _.each(zipArr.added, function (obj) {
-                                            var arr = obj.split('-'),
-                                                start,
-                                                end,
-                                                i;
-
-                                            if (arr.length > 1) {
-                                                start = Number(arr[0]);
-                                                end = Number(arr[1]);
-
-                                                for (i = start; i <= end; i++) {
-                                                    zipPostArr.push(String(i));
-                                                }
-                                            } else {
-                                                zipPostArr.push(arr[0]);
-                                            }
-                                        });
-                                    }
-                                });
 
                                 postGeoTargetObj.ZIPCODE = {
                                     isIncluded: true
                                 };
 
-                                postGeoTargetObj.ZIPCODE.geoTargetList=[];
-
-                                postGeoTargetObj.ZIPCODE.geoTargetList.push({
-                                    countryCode:'US',
-                                    zipcodes:zipPostArr
-                                });
+                                postGeoTargetObj.ZIPCODE.geoTargetList = _.each(geoTargetData.zip.selected,
+                                    function (zip) { // jshint ignore:line
+                                        return {
+                                            countryCode : zip.countryCode,
+                                            zipcodes : utils.rangeValue(zip.data)
+                                        };
+                                    }
+                                );
                             }
                         } else {
                             if ($scope.mode === 'edit') {
