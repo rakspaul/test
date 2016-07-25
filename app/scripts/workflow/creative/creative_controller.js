@@ -420,10 +420,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                         /*In creative library page, in edit mode, if ads count for a creative>0,
                          allow template change between same type. if its pushed, disable the template selection*/
-                        if($scope.creativeMode=='edit' && !$scope.adPage && $scope.associatedAdCount > 0){
+                        if($scope.creativeMode === 'edit' && !$scope.adPage && $scope.associatedAdCount > 0){
                             var tempArr=_.filter(responseData,function (obj) {
-                                return obj.templateType==$scope.creativeEditData.creativeTemplate.templateType;
-                            })
+                                return obj.templateType === $scope.creativeEditData.creativeTemplate.templateType;
+                            });
+
                             $scope.creativeTemplates = tempArr;
                         }else{
                             $scope.creativeTemplates=responseData;
