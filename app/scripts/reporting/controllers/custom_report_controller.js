@@ -1239,7 +1239,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                         'startDate':response[0].start_date,
                                         'endDate':response[0].end_date,
                                         'kpi':response[0].kpi_type,
-                                        'redirectWidget':""
+                                        'redirectWidget': ''
                                     };
 
                                     localStorageService.selectedCampaign.set(firstCampaign);

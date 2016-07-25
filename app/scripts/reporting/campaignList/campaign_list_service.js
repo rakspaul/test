@@ -632,6 +632,10 @@ console.log('campaigns = ', campaigns);
                                 campaign.kpiTypeDisplayName = _.find(vistoconfig.kpiDropDown, function (obj) {
                                     return obj.kpi === campaign.kpiType;
                                 }).displayName;
+
+                                if (campaign.kpiTypeDisplayName) {
+                                    campaign.kpiTypeDisplayName = campaign.kpiTypeDisplayName.displayName;
+                                }
                             }
 
                             campaignList.push(campaign);
