@@ -2117,6 +2117,14 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 if (geoTargets && geoTargets.ZIP_CODE) {
                     $scope.geoData.zip.selected = [];
                     zipWrapper.setData(geoTargets.ZIP_CODE.geoTargetList);
+                    if (!(geoTargets && geoTargets.COUNTRY) &&
+                        !(geoTargets && geoTargets.REGION) &&
+                        !(geoTargets && geoTargets.CITY) &&
+                        !(geoTargets && geoTargets.DMA)) {
+
+                        geoTargeting.triggerGeoNavTab('geo');
+                        geoTargeting.toggleSwitch('on', 'geo');
+                    }
                 }
             } else {
                 // on load reset geo targeting variables.
