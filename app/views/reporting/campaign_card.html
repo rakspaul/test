@@ -175,7 +175,7 @@
         <div class="graph_details_KPI">
             <div class="clearfix details_KPI_row1">
                 <span class="details_KPI_title"
-                      data-ng-bind="campaign.kpiType!='null' ? (campaign.kpiType | displayToCamelCase) : 'NA'">
+                      data-ng-bind="campaign.kpiType!='null' ? (campaign.kpiTypeDisplayName) : 'NA'">
                 </span>
                 <span class="pull-right details_KPI_row2" data-ng-if="campaign.kpiValue">
                     <span data-ng-show="campaign.kpiValue"
