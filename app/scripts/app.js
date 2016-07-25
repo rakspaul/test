@@ -421,7 +421,7 @@ define(['common'], function (angularAMD) {
                     title: 'Bootstrapping the Visto',
                     templateUrl: 'home.html',
                     controller: function($cookieStore, $location, RoleBasedService, dataService,
-                                         accountService, localStorageService,workflowService) {
+                                         accountService, localStorageService) {
                         console.log('controller is initialized');
                         if ($cookieStore.get('cdesk_session')) {
 

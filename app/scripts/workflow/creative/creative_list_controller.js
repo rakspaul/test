@@ -5,7 +5,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
     angularAMD.controller('CreativeListController', function ($scope, $rootScope, $routeParams, $route, $location,
                                                              $window, constants, domainReports, workflowService,
-                                                             momentService, loginModel, advertiserModel) {
+                                                             momentService, loginModel) {
         var checkedCreativeArr=[],
             creativeDataArr,
             winHeight = $(window).height(),

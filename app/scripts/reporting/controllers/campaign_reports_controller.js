@@ -1,4 +1,3 @@
-/*global angObj*/
 define(['angularAMD'], function (angularAMD) {
     'use strict';
 
