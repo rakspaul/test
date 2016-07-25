@@ -8,7 +8,7 @@
 </div>
 
 <div class="col-md-12 zeroPadding targettingFormWrap">
-    <div class="col-md-7 zeroPadding tabbable" style="padding-right: 10px !important;">
+    <div class="col-md-7 zeroPadding tabbable" >
         <div class="tooltipWrap zipCodeTooltip" ng-show="enableZipCodePopUp">
             <span data-ng-bind="textConstants.INCZIP"></span>
             <a ng-href="#" class="btn btn-default pull-right" ng-click="showGeographyTabsBox(null, 'zip', false);" role="button" data-ng-bind="textConstants.CONTINUE"></a>
@@ -213,15 +213,47 @@
             </div>
             <!----- end DMA container ----------->
 
+
             <!---- start Zip Container ---------->
             <div id="zip" class="col-md-12 zeroPadding targetting-each-content" style="display:none;">
-                <textarea class="form-control" id="zipCodes" name="zipCodes" ng-model="adData.zipCodes" rows="3" placeholder="Separate zip / postal codes by comma. Use hyphens to denote ranges."></textarea>
-                <div class="col-md-12 zeroPadding">
-                    <button data-ng-show="!zipCodeLoader" type="button" ng-click="checkZipCodes()" ng-disabled="!adData.zipCodes" class="btn btn-default pull-right">
-                        <img ng-src="/images/workflow/icon_target.svg" alt="" height="15" />
-                        <span data-ng-bind="textConstants.INCLUDE"></span>
-                    </button>
-                    <div data-ng-show="zipCodeLoader" class="pull-right common-loading-btn "></div>
+                
+               
+                <div class="sectionShownOnSelection">
+                    <div class="col-md-12 zeroPadding marginBottom">
+                        <div class="col-md-6 zeroPadding countryNameSelected"></div>
+                        <div class="pull-right">
+                            <span class="pull-left icon-clear marginRightFive"></span>
+                            <span  class="pull-left clickCursor" data-ng-bind="textConstants.CLEARALL"></span>
+                        </div>
+                    </div>
+                    <textarea class="form-control" id="zipCodes" name="zipCodes" ng-model="adData.zipCodes" rows="3" placeholder="Separate zip / postal codes by comma. Use hyphens to denote ranges." ></textarea>
+                    
+                </div>
+                <div>
+                     <div class="col-md-6 zeroPadding dropdown-workflow">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-with-search-btn" type="button"  aria-haspopup="true" aria-expanded="true" ng-click="showHideDropdownWithSearch($event);" id="country_sel">
+                                <span data-ng-bind="textConstants.SELECTCOUNTRY"></span>
+                                <span class="icon-arrow-solid-down"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-with-search" >
+                                <div id="brandsDropdownDiv" class="search-inside-dropdown">
+                                    <input class="dropdown-toggle inactive" ng-model="country.name"/>
+                                    <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
+                                </div>
+                                <li ng-repeat="country in geoData.countries.data | filter : country.name" class="available" ><a ng-click="showHideDropdownWithSearch($event);sectionShownOnSelection(country.name);">{{country.name}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="pull-right sectionShownOnSelection">
+                        <div class="col-md-12 zeroPadding">
+                            <button data-ng-show="!zipCodeLoader" type="button" ng-click="checkZipCodes()" ng-disabled="!adData.zipCodes" class="btn btn-default pull-right">
+                                <img ng-src="/images/workflow/icon_target.svg" alt="" height="15" />
+                                <span data-ng-bind="textConstants.INCLUDE"></span>
+                            </button>
+                            <div data-ng-show="zipCodeLoader" class="pull-right common-loading-btn "></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!---- end Zip Container ---------->
@@ -230,84 +262,93 @@
         </div>
     </div>
     <div class="col-md-5 zeroPadding selectedTables">
-        <div class="col-md-12">
-            <h2 data-ng-bind="textConstants.SELECTED"></h2>
+        <div class="col-md-12 zeroPadding">
+            <h2 class="pull-left" data-ng-bind="textConstants.SELECTED"></h2>
+            <div class="pull-right ">
+                <span class="pull-left marginRightFive icon-clear"></span>
+                <span class="pull-left">Clear All</span>
+            </div>
         </div>
-        <div class="col-md-12" ng-if="geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0 || geoData.dmas.selected.length > 0 || geoData.zip.selected.length > 0">
+        <div class="col-md-12 zeroPadding geo-selected-section">
+            <div class="default-selected-section" ng-if="!(geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0 || geoData.dmas.selected.length > 0 || geoData.zip.selected.length > 0)">
+                <span class="icon-location"></span>
+                <div data-ng-bind="textConstants.NOTHINGSELECTED"></div>
+                <div class="smallText" ng-bind-html="textConstants.GEONOTE"></div>
+            </div>
+            <div class="col-md-12 zeroPadding" ng-if="geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0 || geoData.dmas.selected.length > 0 || geoData.zip.selected.length > 0">
 
-            <div class="table regionTable" ng-if="geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0">
-                <div>
-                    <div class="clearfix each-row" >
-                        <div class="pull-left" data-ng-bind="textConstants.TARGETING_LABEL + ': ' + getTargetingType()"></div>
-                        <div class="pull-right removeAll">
-                            <a ng-href="javascript:void(0);" ng-click="showRemoveConfirmBox($event, 'countries');" data-ng-bind="textConstants.REMOVEALL"></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="values-table">
-                    <!----   selected country , region and city level targeting ---------->
-                    <div ng-repeat="item in geoSelectedItems">
-                        <div class="clearfix each-row" ng-repeat="country in item.countries track by $index">
-                            <div class="pull-left"><img ng-show = "country.included !==undefined" ng-src="/images/workflow/{{country.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{country.name}}</div>
-                            <div ng-show = "country.included !==undefined" class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(country, 'countries', 'country_'+country.id)"></span></div>
-                            <div class="group">
-                                <div class="each-group" ng-repeat="region in country.regions track by $index">
-                                    <div class="pull-left"><img ng-show = "region.included !==undefined" ng-src="/images/workflow/{{region.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{region.name}}</div>
-                                    <div ng-show = "region.included !==undefined" class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(region, 'regions', 'region_' + region.id + '_' + region.country.id)"></span></div>
-                                    <div class="group">
-                                        <div class="each-group" ng-repeat="city in region.cities track by $index">
-                                            <div class="pull-left"><img ng-show = "city.included !==undefined" ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
-                                            <div ng-show = "city.included !==undefined" class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'cities', 'city_' + city.id + '_' + city.parent.id + '_' + city.country.id)"></span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="each-group" ng-repeat="city in country.cities">
-                                    <div class="pull-left"><img ng-show = "city.included !==undefined" ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
-                                    <div ng-show = "city.included !==undefined" class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'cities')"></span></div>
-                                </div>
+                <div class="table regionTable" ng-if="geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0">
+                    <div>
+                        <div class="clearfix each-row" >
+                            <div class="pull-left boldSubHeading" data-ng-bind="textConstants.TARGETING_LABEL + ': ' + getTargetingType()"></div>
+                            <div class="pull-right icon-clear" ng-click="showRemoveConfirmBox($event, 'countries');">
                             </div>
                         </div>
                     </div>
-                    <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET" ng-if="geoData.countries.selected.length === 0 && geoData.regions.selected.length === 0 && geoData.cities.selected.length === 0"></div>
+                    <div class="values-table">
+                        <!----   selected country , region and city level targeting ---------->
+                        <div ng-repeat="item in geoSelectedItems">
+                            <div class="clearfix each-row" ng-repeat="country in item.countries track by $index">
+                                <div class="pull-left"><img ng-show = "country.included !==undefined" ng-src="/images/workflow/{{country.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{country.name}}</div>
+                                <div ng-show = "country.included !==undefined" class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(country, 'countries', 'country_'+country.id)"></span></div>
+                                <div class="group">
+                                    <div class="each-group" ng-repeat="region in country.regions track by $index">
+                                        <div class="pull-left"><img ng-show = "region.included !==undefined" ng-src="/images/workflow/{{region.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{region.name}}</div>
+                                        <div ng-show = "region.included !==undefined" class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(region, 'regions', 'region_' + region.id + '_' + region.country.id)"></span></div>
+                                        <div class="group">
+                                            <div class="each-group" ng-repeat="city in region.cities track by $index">
+                                                <div class="pull-left"><img ng-show = "city.included !==undefined" ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
+                                                <div ng-show = "city.included !==undefined" class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(city, 'cities', 'city_' + city.id + '_' + city.parent.id + '_' + city.country.id)"></span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="each-group" ng-repeat="city in country.cities">
+                                        <div class="pull-left"><img ng-show = "city.included !==undefined" ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
+                                        <div ng-show = "city.included !==undefined" class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(city, 'cities')"></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET" ng-if="geoData.countries.selected.length === 0 && geoData.regions.selected.length === 0 && geoData.cities.selected.length === 0"></div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="table dmaTable" ng-if="geoData.dmas.selected.length > 0">
-                <div>
-                    <div class="clearfix each-row" >
-                        <div class="pull-left" data-ng-bind="textConstants.METROS"></div>
-                        <div class="pull-right removeAll">
-                            <a ng-href="javascript:void(0);" data-ng-bind="textConstants.REMOVEALL" ng-click="showRemoveConfirmBox($event, 'dmas');"></a>
+                <div class="table dmaTable" ng-if="geoData.dmas.selected.length > 0">
+                    <div>
+                        <div class="clearfix each-row" >
+                            <div class="pull-left boldSubHeading" data-ng-bind="textConstants.METROS"></div>
+                            <div class="pull-right icon-clear" ng-click="showRemoveConfirmBox($event, 'dmas');">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="values-table">
-                    <div class="clearfix each-row"  ng-repeat="dma in geoData.dmas.selected">
-                        <div class="pull-left"><img ng-src="/images/workflow/{{dma.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{dma.name}}</div>
-                        <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(dma, 'dmas', 'dma_{{dma.id}}')"></span></div>
-                    </div>
-                    <div ng-if="geoTargetingData.selected.dmas.length === 0">
-                        <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="table zipTable" ng-if="geoData.zip.selected.length >0">
-                <div>
-                    <div class="clearfix each-row" >
-                        <div class="pull-left" data-ng-bind="textConstants.ZIPPOSTCODE"></div>
-                        <div class="pull-right removeAll">
-                            <a ng-href="javascript:void(0);" data-ng-bind="textConstants.REMOVEALL" ng-click="showRemoveConfirmBox($event, 'zip');"></a>
+                    <div class="values-table">
+                        <div class="clearfix each-row"  ng-repeat="dma in geoData.dmas.selected">
+                            <div class="pull-left"><img ng-src="/images/workflow/{{dma.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{dma.name}}</div>
+                            <div class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(dma, 'dmas', 'dma_{{dma.id}}')"></span></div>
                         </div>
-                    </div>
-                </div>
-                <div class="values-table">
-                    <div ng-repeat="zipCodeList in geoData.zip.selected">
-                        <div class="clearfix each-row" ng-repeat="zipCode in zipCodeList.added">
-                            <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> {{zipCode}}</div>
-                            <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(zipCode, 'zip')"></span></div>
-                        </div>
-                        <div ng-if="geoTargetingData.selected.zip.length === 0">
+                        <div ng-if="geoTargetingData.selected.dmas.length === 0">
                             <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table zipTable" ng-if="geoData.zip.selected.length >0">
+                    <div>
+                        <div class="clearfix each-row" >
+                            <div class="pull-left boldSubHeading" data-ng-bind="textConstants.ZIPPOSTCODE"></div>
+                            <div class="pull-right icon-clear" ng-click="showRemoveConfirmBox($event, 'zip');">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="values-table">
+                        <div class="countryHeading">United States</div>
+                        <div ng-repeat="zipCodeList in geoData.zip.selected">
+                            <div class="clearfix each-row" ng-repeat="zipCode in zipCodeList.added">
+                                <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> {{zipCode}}</div>
+                                <div class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(zipCode, 'zip')"></span></div>
+                            </div>
+                            <div ng-if="geoTargetingData.selected.zip.length === 0">
+                                <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

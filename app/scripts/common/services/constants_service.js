@@ -1058,6 +1058,9 @@ define(['angularAMD'], function(angularAMD) {
         this.GEOGRAPHY = 'Geography';
         this.SAVE_GEOGRAPHY = 'Save Geography';
         this.COUNTRY = 'Country';
+        this.SELECTCOUNTRY = 'Select a Country' ;
+        this.NOTHINGSELECTED = 'Nothing is Selected' ;
+        this.GEONOTE = 'Selections made in the "Select Access" <br> component will appear in this area' ;
         this.INCZIP = 'Including zip / postal codes is going to limit your geographic targeting significantly.';
         this.ZIP_CODE_LABEL = 'Separate zip / postal codes by comma. Use hyphens to denote ranges.';
         this.CONTINUE = 'Continue';

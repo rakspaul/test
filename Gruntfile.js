@@ -31,7 +31,7 @@ module.exports = function (grunt) {
      */
     grunt.registerTask('setup', ['bower:setup', 'copy:setup']);
 
-    var env = grunt.option('target') || 'local';
+    var env = grunt.option('target') || 'qa';
 
     /**
      * devel task

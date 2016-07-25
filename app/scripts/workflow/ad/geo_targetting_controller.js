@@ -1424,7 +1424,15 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }
             return match;
         };
+        $scope.showHideDropdownWithSearch = function(event) {
+            var elem = $(event.target);
+            elem.closest(".dropdown").find(".dropdown-menu-with-search").toggle() ;
+        }
+        $scope.sectionShownOnSelection = function(countryName) {
+            $(".countryNameSelected").text(countryName) ;
+            $(".sectionShownOnSelection").show() ;
 
+        }
         $scope.updateSelection = function ($event, item, type) {
             var checkbox = $event.target,
                 action = (checkbox.checked ? true : false);
@@ -1696,9 +1704,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     $scope.zipCodeTabSelected = false;
                 }
 
-                $('.targetting-container .searchInput').hide();
+                $('.targetting-container .searchInput').closest(".btn-group").hide();
             } else {
-                $('.targetting-container .searchInput').show();
+                $('.targetting-container .searchInput').closest(".btn-group").show();
             }
 
             elem = event ? $(event.target) : $('#zipCodeTab');
@@ -1845,7 +1853,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             var zipCodes = $scope.adData.zipCodes,
                 validZipCodes,
                 zipCodesRange;
-
+            $(".sectionShownOnSelection").hide() ;
             $scope.zipCodeLoader = true;
             zipCodes = zipCodes.split(/[ ,]+/);
 
