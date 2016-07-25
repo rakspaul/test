@@ -1,7 +1,7 @@
 <!-- <div class="pull-left breadcrumb_campaign"><a href="/campaigns/{{selectedCampaign.id}}">{{textConstants.CAPAIGN_DETAILS}}</a></div> -->
 <div class="clearfix reports_sub_menu_dd_holder">
     <div class="pull-left" data-ng-if="buildReport">
-        <a data-ng-click="NavigateToTab('/customreport', $event , 'reportsSubPage')"
+        <a href="/customreport"  data-ng-click="NavigateToTab('/customreport', $event , 'reportsSubPage')"
            class="clearfix new_report_generate_btn">
             <span class="icon-report-builder"></span>
             <span class="icon_txt" data-ng-bind="textConstants.BUILD_REPORT"></span>
@@ -13,7 +13,7 @@
              data-ng-if="showMediaPlanReportHeading">
         </div>
         <div class="header_tab_dropdown" id="reports_overview_tab" data-ng-show="showReportOverview">
-            <a href="javascript:void(0);"
+            <a href="{{reports_nav_url}}"
                data-ng-click="NavigateToTab('', $event ,'reportOverview')"
                data-ng-bind="textConstants.REPORTS_OVERVIEW">
             </a>
@@ -22,7 +22,7 @@
              class="header_tab_dropdown"
              data-ng-class="{'active_tab': tab.href == filters.activeTab}"
              id="{{tab.href}}">
-            <a data-ng-click="NavigateToTab('/'+ tab.href, $event , 'reportsSubPage')"
+            <a href="/{{tab.href}}" data-ng-click="NavigateToTab('/'+ tab.href, $event , 'reportsSubPage')"
                id="performance_tab_{{tab.href}}"
                style="text-transform: capitalize;"
                reportTitle="{{tab.title}}"
@@ -38,7 +38,7 @@
         <div data-ng-repeat="tab in customFilters.tabs track by $index"
              class="clearfix header_tab_dropdown"
              data-ng-class="{'active_tab': tab.href == customFilters.activeTab}">
-            <a href="javascript:void(0);"
+            <a href="/{{tab.href}}"
                class="pull-left reports_list_link"
                data-ng-click="NavigateToTab('/'+ tab.href, $event, 'reportsSubPage')"
                data-ng-bind="tab.title">
