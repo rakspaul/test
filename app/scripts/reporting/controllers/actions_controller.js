@@ -8,6 +8,7 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
                                                           ActionType, ActionSubType) {
         var loadActionTypes = true,
             loadAdsMeta = true,
+            clientId = $routeParams.subAccountId || $routeParams.accountId,
 
             metrics = {
                 all : [
@@ -29,7 +30,7 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
             loadActionTypes = false;
 
             dataService
-                .getActions()
+                .getActions(clientId)
                 .then(function (response) {
                     var action,
                         result,
@@ -75,7 +76,7 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
             loadAdsMeta = false;
 
             dataService
-                .getTactics($routeParams.campaignId)
+                .getTactics(clientId, $routeParams.campaignId)
                 .then(function (response) {
                     var tactic,
                         tactics,
@@ -202,7 +203,7 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
                     data.ad_id = data.action_tactic_ids[i];
 
                     dataService
-                        .createAction(data)
+                        .createAction(clientId, data)
                         .then( function () {
                             var args;
 

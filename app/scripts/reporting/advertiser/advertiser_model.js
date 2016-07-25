@@ -2,92 +2,108 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
     function (angularAMD) {
         'use strict';
 
-        angularAMD.factory('advertiserModel', ['advertiserService', 'constants', 'localStorageService',
-            function (advertiserService, constants,localStorageService) {
-                var advertiser = {},
-                    advertisers = [advertiser.allAdvertiserObject];
+        angularAMD.factory('advertiserModel', ['$q', '$location', '$timeout', 'advertiserService', 'constants',
+            'localStorageService', 'workflowService', 'pageFinder',
+            function ($q, $location, $timeout, advertiserService, constants, localStorageService,
+                      workflowService, pageFinder) {
 
-                advertiser.allAdvertiserObject = {id: -1, name: constants.ALL_ADVERTISERS};
-                advertiser.selectedBrand = advertiser.allAdvertiserObject;
-                advertiser.showList = false;
-                advertiser.styleDisplay = 'block';
-                advertiser.showAll = true;
-                advertiser.enable = true;
-                advertiser.cssClass = '';
+                var advertiserData = {
+                        advertiserList: [],
+                        selectedAdvertiser: {id: -1, name: constants.ALL_ADVERTISERS},
+                        allAdvertiserObject: {id: -1, name: constants.ALL_ADVERTISERS}
+                    },
+                    previousAccountId;
+
+                advertiserData.showAll = true;
+                advertiserData.enable = true;
+                advertiserData.cssClass = '';
 
                 return {
-                    getAdvertisers: function (success, searchCritera, search) {
-                        advertiserService
-                            .fetchAdvertisers(searchCritera)
-                            .then(function (response) {
-                                var resData = response.data.data;
 
-                                if (search) {
-                                    advertisers = [];
-                                    advertisers.push(advertiser.allAdvertiserObject);
-                                }
+                    fetchAdvertiserList: function(accountId) {
+                        var deferred = $q.defer();
 
-                                advertisers = [advertiser.allAdvertiserObject].concat(resData);
-                                advertiser.totalAdvertisers = advertisers.length;
-                                success.call(this, advertisers);
-                            });
+                        accountId = Number(accountId);
+                        if (previousAccountId !== accountId) {
+                            this.reset();
+                        }
+
+                        if (advertiserData.advertiserList.length > 0) {
+                            console.log('fetchAdvertiserList ', 'already fetched');
+                            $timeout(function() {
+                                deferred.resolve();
+                            }, 10);
+                            return deferred.promise;
+                        }
+
+                        workflowService.getAdvertisers(accountId, 'read').then(function (result) {
+                            if (result && result.data.data.length > 0) {
+                                advertiserData.advertiserList = _.map(result.data.data, function(a) {
+                                    return {'id': a.id, 'name': a.name};
+                                });
+                                advertiserData.advertiserList = _.sortBy(advertiserData.advertiserList, 'name');
+                                advertiserData.advertiserList.unshift(advertiserData.allAdvertiserObject);
+                                console.log('fetchAdvertiserList is fetched');
+                            } else {
+                                advertiserData.advertiserList = [advertiserData.allAdvertiserObject];
+                            }
+                            previousAccountId = accountId;
+                            deferred.resolve();
+                        });
+                        return deferred.promise;
                     },
 
-                    setSelectedAdvertisers: function (_advertiser) {
-                        var isLeafNode = localStorageService.masterClient.get().isLeafNode;
+                    allowedAdvertiser: function(advertiserId) {
 
-                        advertiser.selectedAdvertiser = _advertiser;
+                        advertiserId = Number(advertiserId);
 
-                        if (advertiserService.isDashboardAdvertiser() && !isLeafNode) {
-                            localStorage.setItem('dashboardAdvertiser', JSON.stringify(_advertiser));
+                        if (advertiserId) {
+                            advertiserData.selectedAdvertiser = _.find(advertiserData.advertiserList, function(a) {
+                                return advertiserId === a.id;
+                            });
+
+                            if (advertiserData.selectedAdvertiser) {
+                                return true;
+                            } else {
+                                return false;
+                            }
                         } else {
-                            localStorage.setItem('setAdvertiser', JSON.stringify(_advertiser));
+                            advertiserData.selectedAdvertiser = advertiserData.allAdvertiserObject;
                         }
+                        return true;
                     },
 
                     getSelectedAdvertiser: function () {
-                        var isLeafNode = localStorageService.masterClient.get().isLeafNode,
-                            savedAdvertiser;
-
-                        if (advertiserService.isDashboardAdvertiser() && !isLeafNode) {
-                            savedAdvertiser = JSON.parse(localStorage.getItem('dashboardAdvertiser'));
-                        } else {
-                            savedAdvertiser = JSON.parse(localStorage.getItem('setAdvertiser'));
-                        }
-
-                        if (savedAdvertiser !== null) {
-                            advertiser.selectedAdvertiser = savedAdvertiser;
-
-                            return advertiser.selectedAdvertiser;
-                        } else {
-                            advertiser.selectedAdvertiser = advertiser.allAdvertiserObject;
-
-                            return advertiser.allAdvertiserObject;
-                        }
+                        return advertiserData.selectedAdvertiser;
                     },
 
-                    getAdvertiser: function () {
-                        return advertiser;
-                    },
-
-                    getAllAdvertiser: function () {
-                        return advertiser.allAdvertiserObject;
+                    getAdvertiserList: function() {
+                        return advertiserData.advertiserList;
                     },
 
                     disable: function () {
-                        advertiser.enable = false;
-                        advertiser.cssClass = 'brands_filter_disabled';
+                        advertiserData.enable = false;
+                        advertiserData.cssClass = 'brands_filter_disabled';
                     },
 
                     enable: function () {
-                        advertiser.enable = true;
-                        advertiser.cssClass = '';
+                        advertiserData.enable = true;
+                        advertiserData.cssClass = '';
                     },
 
-                    callAdvertiserBroadcast: function (advertiser, event_type) {
-                        advertiserService.preForAdvertiserBroadcast(advertiser, event_type);
-                    }
+                    reset: function() {
+                        advertiserData.advertiserList = [];
+                        advertiserData.selectedAdvertiser = {id: -1, name: constants.ALL_ADVERTISERS};
+                    },
 
+                    changeAdvertiser: function(accountId, subAccountId, advertiser) {
+                        var url = '/a/' + accountId;
+                        subAccountId && (url += '/sa/' + subAccountId);
+
+                        // All Advertisers id is -1 and don't show it in the URL
+                        (advertiser.id > 0) && (url += '/adv/' + advertiser.id);
+                        $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
+                    }
                 };
             }
         ]);

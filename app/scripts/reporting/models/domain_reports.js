@@ -1,14 +1,13 @@
-define(['angularAMD', '../../login/login_model', 'common/services/role_based_service',
-    'common/services/constants_service', 'reporting/timePeriod/time_period_directive',
-    'reporting/subAccount/sub_account_directive'], function (angularAMD) {
+define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
+    'common/services/features_service', 'reporting/timePeriod/time_period_directive',
+    'reporting/subAccount/sub_account_directive', 'common/services/account_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('domainReports', ['loginModel', 'RoleBasedService', 'featuresService',
-        function (loginModel, RoleBasedService, featuresService) {
+    angularAMD.factory('domainReports', function ($location, loginModel, RoleBasedService, featuresService) {
             return {
-                getReportsTabs: function () {
+                getReportsTabs: function (params) {
                     var tabs = [],
-                        fParams = featuresService.getFeatureParams(),
+                        fParams = params || featuresService.getFeatureParams(),
                         isAgencyCostModelTransparent,
                         userRole;
 
@@ -55,7 +54,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
 
                     return {
                         tabs: tabs,
-                        activeTab: document.location.pathname.substring(1)
+                        activeTab: $location.path()
                     };
                 },
 
@@ -73,7 +72,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
 
                     return {
                         tabs: tabs,
-                        activeTab: document.location.pathname.substring(1)
+                        activeTab: $location.path()
                     };
                 },
 
@@ -113,11 +112,10 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 }
             };
         }
-    ]);
+    );
 
     angularAMD.directive('reportTabs', ['$http', '$compile', 'constants', 'featuresService', '$rootScope',
-        'localStorageService','$timeout', function ($http, $compile, constants, featuresService, $rootScope,
-                                                    localStorageService, $timeout) {
+        'localStorageService','$timeout', function ($http, $compile, constants, featuresService, $rootScope) {
         return {
             controller: function () {},
             restrict: 'EAC',
@@ -126,24 +124,24 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
 
             link: function (scope) {
                 var enableFeaturePermission = function () {
-                    var fParams = featuresService.getFeatureParams(),
+                    var fParams = featuresService.getFeatureParams();
 
-                        updateShowReportOverview = function () {
-                            if (fParams[0].report_overview &&
-                                localStorageService.selectedCampaign.get() &&
-                                localStorageService.selectedCampaign.get().id !== -1) {
-                                scope.showReportOverview = true;
-                            } else {
-                                scope.showReportOverview = false;
-                            }
-                        };
-
-                    scope.showReportOverview = false;
-                    $timeout(updateShowReportOverview, 300);
-
-                    $rootScope.$on(constants.ACCOUNT_CHANGED, function () {
-                        $timeout(updateShowReportOverview, 1500);
-                    });
+                    //     updateShowReportOverview = function () {
+                    //         if (fParams[0].report_overview &&
+                    //             localStorageService.selectedCampaign.get() &&
+                    //             localStorageService.selectedCampaign.get().id !== -1) {
+                    //             scope.showReportOverview = true;
+                    //         } else {
+                    //             scope.showReportOverview = false;
+                    //         }
+                    //     };
+                    //
+                    // scope.showReportOverview = false;
+                    // $timeout(updateShowReportOverview, 300);
+                    //
+                    // $rootScope.$on(constants.ACCOUNT_CHANGED, function () {
+                    //     $timeout(updateShowReportOverview, 1500);
+                    // });
 
                     scope.buildReport = fParams[0].scheduled_reports;
 
@@ -273,10 +271,10 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                         queryObj = {
                             url: report.url,
                             queryId: report.query_id,
-                            clientId: loginModel.getSelectedClient().id,
+                            clientId: vistoconfig.getSelectedAccountId(),
                             campaignId: $scope.selectedCampaign.id,
-                            advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                            brandId: brandsModel.getSelectedBrand().id,
+                            advertiserId: vistoconfig.getSelectAdvertiserId(),
+                            brandId: vistoconfig.getSelectedBrandId(),
                             dateFilter: 'life_time',
                             download_config_id: report.download_config_id
                         };
@@ -453,8 +451,46 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
+    angularAMD.directive('uploadReportsFiltersHeader', ['$location', '$rootScope', '$http', '$compile', 'constants',
+        'loginModel', 'accountService', function ($location, $rootScope, $http, $compile, constants,
+                                                  loginModel, accountService) {
+            return {
+                controller: function () {
+                },
+                restrict: 'EAC',
+                templateUrl: assets.html_upload_reports_filters_header,
+                link: function (scope) {
+                    scope.textConstants = constants;
+                    var masterClient = accountService.getSelectedAccount();
+                    scope.isLeafNode = true;
+                    if(masterClient.isLeafNode === false) {
+                        scope.isLeafNode = false;
+                    }
+                }
+            };
+        }]);
+
+    angularAMD.directive('dashboardFiltersHeader', ['$location', '$rootScope', '$http', '$compile', 'constants',
+        'loginModel', 'accountService', function ($location, $rootScope, $http, $compile, constants,
+                                                  loginModel, accountService) {
+            return {
+                controller: function () {
+                },
+                restrict: 'EAC',
+                templateUrl: assets.html_dashboard_filters_header,
+                link: function (scope) {
+                    scope.textConstants = constants;
+                    var masterClient = accountService.getSelectedAccount();
+                    scope.isLeafNode = true;
+                    if(masterClient.isLeafNode === false) {
+                        scope.isLeafNode = false;
+                    }
+                }
+            };
+        }]);
+
     angularAMD.directive('filtersHeader', ['$location','$rootScope','$http', '$compile', 'constants','loginModel',
-        function ($location,$rootScope,$http, $compile,constants,loginModel) {
+        'accountService', function ($location,$rootScope,$http, $compile,constants,loginModel, accountService) {
             return {
                 controller: function () {},
                 restrict: 'EAC',
@@ -462,8 +498,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 templateUrl: assets.html_filters_header,
 
                 link: function (scope, element, attrs) {
-                    var masterClient = loginModel.getMasterClient(),
-                        masterClientChanged,
+                    var masterClient = accountService.getSelectedAccount(),
                         locationUrl;
 
                     scope.reportFilter = attrs.reports;
@@ -475,30 +510,12 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                         scope.isLeafNode = false;
                     }
 
-                    masterClientChanged = $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function () {
-                        scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
-                    });
-
-                    masterClientChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function () {
-                        scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
-                    });
-
                     locationUrl = $location.url();
 
                     if (locationUrl === '/reports/list') {
                         scope.allCampaign = true;
                     } else {
                         scope.allCampaign = false;
-                    }
-
-                    if (scope.allCampaign === 'true' || scope.allCampaign === true) {
-                        scope.selectedCampaign = {
-                            id: 0,
-                            name: 'All Media Plans',
-                            kpi: 'ctr',
-                            startDate: '-1',
-                            endDate: '-1'
-                        };
                     }
                 }
             };

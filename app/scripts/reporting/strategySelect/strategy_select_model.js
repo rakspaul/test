@@ -3,70 +3,69 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
     'common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('strategySelectModel', ['urlService', 'dataService', 'requestCanceller', 'constants',
-        'vistoconfig', function (urlService, dataService, requestCanceller, constants, vistoconfig) {
-            var strategyObj = {};
+    angularAMD.factory('strategySelectModel', ['$q', '$timeout', 'urlService', 'dataService', 'requestCanceller',
+        'constants', 'vistoconfig', function ($q, $timeout, urlService, dataService, requestCanceller,
+                                              constants, vistoconfig) {
 
-            strategyObj.strategies = {};
-
-            strategyObj.selectedStrategy = {
-                id: -1,
-                name: 'Loading...'
-            };
+            var strategyList = [],
+                selectedStrategy = vistoconfig.LINE_ITEM_DROPDWON_OBJECT,
+                previousCampaignId;
 
             return {
-                getStrategies: function (campaignId) {
-                    var url = urlService.APIStrategiesForCampaign(campaignId),
-                        canceller = requestCanceller.initCanceller(constants.STRATEGY_LIST_CANCELLER),
-
-                        errorHandler = function () {
-                            strategyObj.selectedStrategy.id = -99;
-                            strategyObj.selectedStrategy.name = constants.NO_ADGROUPS_FOUND;
-                        },
-
-                        modifyStrategiesData = function (resp) {
-                            var strategyData = (resp && resp.data) ? resp.data : [];
-
-                            strategyData.unshift(vistoconfig.LINE_ITEM_DROPDWON_OBJECT);
-                            strategyObj.strategies = (strategyData !== undefined) ? strategyData : {};
-
-                            if (strategyObj.strategies.length !== undefined &&
-                                strategyObj.strategies.length > 0 &&
-                                strategyObj.selectedStrategy.id  === -1) {
-                                strategyObj.selectedStrategy.id = strategyObj.strategies[0].id;
-                                strategyObj.selectedStrategy.name = strategyObj.strategies[0].name;
-                            }
-                        };
+                fetchStrategyList: function (clientId, campaignId) {
+                    if (previousCampaignId !== campaignId) {
+                        this.reset();
+                    }
+                    var deferred = $q.defer();
+                    if (strategyList.length > 0) {
+                        $timeout(function() {
+                            deferred.resolve();
+                        }, 10);
+                        return deferred.promise;
+                    }
+                    var url = urlService.APIStrategiesForCampaign(clientId, campaignId);
+                    var canceller = requestCanceller.initCanceller(constants.STRATEGY_LIST_CANCELLER);
 
                     return dataService.fetchCancelable(url, canceller, function (response) {
-                        modifyStrategiesData((response.status  === 'OK' || response.status  === 'success') ?
-                            response.data : errorHandler);
-
-                        return strategyObj;
+                        if (response && response.data.data.length > 0) {
+                            strategyList = response.data.data;
+                            strategyList.unshift(vistoconfig.LINE_ITEM_DROPDWON_OBJECT);
+                        } else {
+                            strategyList = [vistoconfig.LINE_ITEM_DROPDWON_OBJECT];
+                        }
+                        previousCampaignId = campaignId;
+                        console.log('fetchStrategyList', 'is fetched');
+                        deferred.resolve();
                     });
                 },
 
-                setSelectedStrategy: function (_strategy) {
-                    strategyObj.selectedStrategy.id = _strategy.id;
-                    strategyObj.selectedStrategy.name = _strategy.name;
+                allowedStrategy: function(strategyId) {
+                    if (strategyId) {
+                        selectedStrategy = _.find(strategyList, function(s) {
+                            return s.id === strategyId;
+                        });
+                        if (selectedStrategy) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        selectedStrategy = vistoconfig.LINE_ITEM_DROPDWON_OBJECT;
+                    }
+                    return true;
                 },
 
-                getSelectedStrategy: function () {
-                    return strategyObj.selectedStrategy;
+                getStrategyList: function() {
+                    return strategyList;
                 },
 
-                getStrategyCount: function () {
-                    return strategyObj.strategies.length;
+                getSelectedStrategy: function() {
+                    return selectedStrategy;
                 },
 
-                getStrategyObj: function () {
-                    return strategyObj;
-                },
-
-                reset: function () {
-                    strategyObj.strategies = {};
-                    strategyObj.selectedStrategy.id = -1;
-                    strategyObj.selectedStrategy.name = 'Loading...';
+                reset: function() {
+                    strategyList = [];
+                    selectedStrategy = undefined;
                 },
 
                 allAdFormats: function () {
@@ -74,17 +73,17 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
                         adFormatsArr,
                         selectedStrategy;
 
-                    if (strategyObj.strategies && strategyObj.strategies.length > 0) {
-                        if (Number(strategyObj.selectedStrategy.id) === -1) {
-                            adFormatsArr = _.map(strategyObj.strategies, function (strategy) {
+                    if (strategyList.strategies && strategyList.strategies.length > 0) {
+                        if (Number(strategyList.selectedStrategy.id) === -1) {
+                            adFormatsArr = _.map(strategyList.strategies, function (strategy) {
                                 return strategy.ad_formats || [];
                             });
 
                             result = _.uniq(_.flatten(adFormatsArr));
                         } else {
                             selectedStrategy =
-                                _.find(strategyObj.strategies, function (strategy) {
-                                    return strategy.id === Number(strategyObj.selectedStrategy.id);
+                                _.find(strategyList.strategies, function (strategy) {
+                                    return strategy.id === Number(strategyList.selectedStrategy.id);
                                 });
 
                             result = selectedStrategy ? selectedStrategy.ad_formats : [];

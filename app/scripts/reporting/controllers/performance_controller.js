@@ -11,7 +11,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
     angularAMD.controller('PerformanceController', function ($scope,$rootScope, kpiSelectModel, campaignSelectModel,
                                                              strategySelectModel, dataService, domainReports, constants,
                                                              timePeriodModel, brandsModel, loginModel, urlService,
-                                                             advertiserModel) {
+                                                             advertiserModel, vistoconfig) {
         var _customCtrl = this,
             extractAdFormats,
 
@@ -182,9 +182,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
                 param = {
                     campaignId: $scope.selectedCampaign.id,
-                    clientId:  loginModel.getSelectedClient().id,
-                    advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                    brandId: brandsModel.getSelectedBrand().id,
+                    clientId:  vistoconfig.getSelectedAccountId(),
+                    advertiserId: vistoconfig.getSelectAdvertiserId(),
+                    brandId: vistoconfig.getSelectedBrandId(),
                     dateFilter: dateFilter,
                     tab: $scope.selected_tab
                 },
@@ -213,7 +213,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.discrepancyBusy = true;
 
             $scope.apiReturnCode=200;
-
+            $scope.init();
             url = urlService.APIVistoCustomQuery(param);
             $scope.selectedVendor = '';
 
@@ -492,7 +492,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.someDummyVarDeleteLater = kpiSelectModel.setSelectedKpi('cpm');
         };
 
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         $scope.init();
+        $scope.resetVariables();
+        $scope.strategyChangeHandler();
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event, strategy) {
             $scope.selectedFilters.time_filter = strategy;

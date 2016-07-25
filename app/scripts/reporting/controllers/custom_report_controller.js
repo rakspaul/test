@@ -2,7 +2,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
     'reporting/strategySelect/strategy_select_service', 'reporting/kpiSelect/kpi_select_model',
     'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
     'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'common/moment_utils',
-    'login/login_model', 'common/services/url_service', 'common/services/data_store_model',
+    'login/login_model', 'common/services/url_service', 'common/services/data_store_model', 'common/url_builder',
     'reporting/models/domain_reports', 'common/services/vistoconfig_service', 'common/services/features_service'],
     function (angularAMD) {
         'use strict';
@@ -12,8 +12,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                                                  strategySelectModel, kpiSelectModel, utils,
                                                                  dataService, requestCanceller, constants,
                                                                  timePeriodModel, momentService, loginModel,
-                                                                 urlService, dataStore, domainReports, vistoconfig,
-                                                                 featuresService, localStorageService) {
+                                                                 urlService, dataStore, urlBuilder,
+                                                                  domainReports, vistoconfig, featuresService,
+                                                                  localStorageService) {
             var _customctrl = this,
                 elem = $('#reportBuilderForm').find('.dropdown').find('.dd_txt'),
                 winHeight = $(window).height(),
@@ -399,7 +400,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 $scope.generateBtnDisabled = true;
 
                 dataService
-                    .getCustomReportData(reportId, params)
+                    .getCustomReportData(vistoconfig.getMasterClientId(), reportId, params)
                     .then(function (result) {
                         requestCanceller.resetCanceller(constants.NEW_REPORT_RESULT_CANCELLER);
 
@@ -413,10 +414,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     });
             };
 
-            _customctrl.getReportData = function () {
+            _customctrl.getCustomReportData = function () {
+                var paramsObj = _customctrl.createRequestParams(null, $scope.firstDimensionoffset, 1);
+
                 _customctrl
-                    .fetchReportData($scope.selectedMetricsList, _customctrl
-                        .createRequestParams(null, $scope.firstDimensionoffset, 1), null, function (respData) {
+                    .fetchCustomReportData($scope.selectedMetricsList, paramsObj, null, function (respData) {
                         $scope.fetching = false;
                         $scope.generateBtnDisabled = false;
                         _customctrl.isReportLastPage_1D = respData.last_page;
@@ -492,7 +494,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 if (!_customctrl.isReportLastPage_1D) {
                     $scope.fetching = true;
                     _customctrl.reportPageNum_1D += 1;
-                    _customctrl.getReportData();
+                    _customctrl.getCustomReportData();
                 }
             };
 
@@ -784,7 +786,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 $scope.metrics_text = text + '(' + $scope.selectedMetricsList.length + ')';
             };
 
-            $scope.reports.client_id = loginModel.getMasterClient().id;
+            $scope.reports.client_id = vistoconfig.getMasterClientId();
 
             $('.main_navigation')
                 .find('.active')
@@ -867,7 +869,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     _customctrl.reset();
                     _customctrl.createJSONforPage($scope.activeTab);
                     _customctrl.getDimensionList($scope.customeDimensionData[0], $scope.selectedMetricsList);
-                    _customctrl.getReportData();
+                    _customctrl.getCustomReportData();
                     _customctrl.inputDataOnGenerate = JSON.parse(JSON.stringify($scope.reports.reportDefinition));
 
                     str = $scope.reports.reportDefinition.dimensions.primary.dimension + ':' +
@@ -887,20 +889,21 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
             };
 
             $scope.createData = function (isIntermediateSave) {
-                $scope.requestData = {};
-                $scope.requestData.reportDefinition = {};
-                $scope.requestData.schedule = {};
-                $scope.requestData.reportDefinition.timeframe = {};
-                $scope.requestData.reportDefinition.metrics = {};
-                $scope.requestData.reportDefinition.filters = [];
-                $scope.requestData.reportDefinition.dimensions = [];
-                $scope.requestData.name = '';
-                $scope.requestData.client_id = loginModel.getMasterClient().id;
-                $scope.requestData.name = $scope.reports.name;
-                $scope.requestData.reportDefinition.timeframe = $scope.reports.reportDefinition.timeframe;
-                $scope.requestData.reportDefinition.metrics = $scope.reports.reportDefinition.metrics;
-                $scope.requestData.schedule = $scope.reports.schedule;
-                $scope.requestData.isScheduled = $scope.scheduleReportActive;
+
+                var requestData = {};
+                requestData.reportDefinition = {};
+                requestData.schedule = {};
+                requestData.reportDefinition.timeframe = {};
+                requestData.reportDefinition.metrics = {};
+                requestData.reportDefinition.filters = [];
+                requestData.reportDefinition.dimensions = [];
+                requestData.name = '';
+                requestData.client_id = vistoconfig.getMasterClientId();
+                requestData.name = $scope.reports.name;
+                requestData.reportDefinition.timeframe = $scope.reports.reportDefinition.timeframe;
+                requestData.reportDefinition.metrics = $scope.reports.reportDefinition.metrics;
+                requestData.schedule = $scope.reports.schedule;
+                requestData.isScheduled = $scope.scheduleReportActive;
 
                 if ($scope.reportTypeSelect === 'Save') {
                     if (!$scope.reports.schedule) {
@@ -909,16 +912,16 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
 
                     $scope.reports.schedule.occurance = '';
                 } else {
-                    $scope.requestData.schedule.occurance = $scope.reports.schedule.occurance;
+                    requestData.schedule.occurance = $scope.reports.schedule.occurance;
                 }
 
-                $scope.requestData.reportDefinition.dimensions.push({
+                requestData.reportDefinition.dimensions.push({
                     dimension: $scope.reports.reportDefinition.dimensions.primary.dimension,
                     type: 'Primary'
                 });
 
                 if ($scope.reports.reportDefinition.dimensions.primary.value || isIntermediateSave) {
-                    $scope.requestData.reportDefinition.filters.push({
+                    requestData.reportDefinition.filters.push({
                         dimension: $scope.reports.reportDefinition.dimensions.primary.dimension,
                         type: 'Primary',
                         values: $scope.reports.reportDefinition.dimensions.primary.value
@@ -930,14 +933,14 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 }
 
                 if ($scope.reports.reportDefinition.dimensions.secondary.name) {
-                    $scope.requestData.reportDefinition.dimensions.push({
+                    requestData.reportDefinition.dimensions.push({
                         dimension: $scope.reports.reportDefinition.dimensions.secondary.dimension,
                         type: 'Secondary'
                     });
                 }
 
                 if ($scope.reports.reportDefinition.dimensions.secondary.value) {
-                    $scope.requestData.reportDefinition.filters.push({
+                    requestData.reportDefinition.filters.push({
                         dimension: $scope.reports.reportDefinition.dimensions.secondary.dimension,
                         type: 'Secondary',
                         values: $scope.reports.reportDefinition.dimensions.secondary.value
@@ -946,14 +949,14 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
 
                 _.each($scope.additionalFilters, function (eachObj) {
                     if (eachObj.value) {
-                        $scope.requestData.reportDefinition.filters.push({
+                        requestData.reportDefinition.filters.push({
                             dimension: eachObj.key,
                             type: 'Additional',
                             values: eachObj.value
                         });
                     } else if (isIntermediateSave) {
                         // if a filter key is selected then show it with the input box
-                        $scope.requestData.reportDefinition.filters.push({
+                        requestData.reportDefinition.filters.push({
                             dimension: eachObj.key,
                             type: 'Additional'
                         });
@@ -963,11 +966,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 if ($scope.reportTypeSelect === 'Schedule As') {
                     if (!$scope.reports.schedule.customOccuranceDate) {
                         $scope.reports.schedule.customOccuranceDate = '';
-                        $scope.requestData.schedule.customOccuranceDate = '';
+                        requestData.schedule.customOccuranceDate = '';
                     }
                 }
 
-                return $scope.requestData;
+                return requestData;
             };
 
             $scope.valueWithDefault = function (o, argArr, defaultVal) {
@@ -1101,20 +1104,20 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 }
             };
 
-            $scope.scheduleReport = function () {
+            $scope.createScheduledReport = function () {
                 if ($scope.verifyReportInputs()) {
                     dataService
-                        .createScheduleReport($scope.createData())
+                        .createScheduleReport(vistoconfig.getMasterClientId(), $scope.createData())
                         .then(function (result) {
                             if (result.data.status_code === 200) {
                                 $rootScope.setErrAlertMessage('Success: The scheduled Report is listed.', 0);
-                                $location.url('/reports/schedules');
+                                $location.url(urlBuilder.customReportsListUrl());
                             }
                         });
                 }
             };
 
-            $scope.saveReport = function () {
+            $scope.createSavedReport = function () {
                 var newObjNoSched,
                     key;
 
@@ -1125,7 +1128,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     $scope.isSavedReportGen = true;
 
                     dataService
-                        .createSaveReport(newObjNoSched)
+                        .createSaveReport(vistoconfig.getMasterClientId(), newObjNoSched)
                         .then(function (result) {
                             if (result.data.status_code === 200) {
                                 $rootScope.setErrAlertMessage('Success: The Saved Report is listed.', 0);
@@ -1143,7 +1146,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 $scope.reportDownloadBusy = true;
 
                 dataService
-                    .downloadFile(urlService.downloadGeneratedRpt(reportId), 'POST', params, {
+                    .downloadFile(urlService.downloadGeneratedRpt(vistoconfig.getMasterClientId(), reportId),
+                        'POST', params, {
                         'Content-Type': 'text/plain'
                     })
                     .then(function (response) {
@@ -1339,7 +1343,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     paramsObj =
                         _customctrl.createRequestParams(value, $scope.secondDimensionOffset, 0, currentRowIndex);
 
-                    _customctrl.fetchReportData($scope.selectedMetricsList, paramsObj, currentRowIndex,
+                    _customctrl.fetchCustomReportData($scope.selectedMetricsList, paramsObj, currentRowIndex,
                         function (respData, currentRowIndex) {
                             var resultLen;
 
@@ -1856,7 +1860,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
 
                     getCustomReportMetrics = function () {
                         dataService
-                            .getCustomReportMetrics($scope.campaign)
+                            .getCustomReportMetrics(vistoconfig.getMasterClientId())
                             .then(function (result) {
                                 var modifiedDimensionArr = result.data.data[0],
                                     url;
@@ -1882,12 +1886,14 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                     $scope.buttonResetCancel = 'Cancel';
 
                                     if (localStorageService.scheduleListReportType.get() === 'Saved') {
-                                        url = urlService.savedReport($routeParams.reportId);
+                                        url = urlService.savedReport(vistoconfig.getMasterClientId(),
+                                            $routeParams.reportId);
                                         $scope.isSavedReportGen = true;
                                     } else {
                                         $scope.isSavedReportGen = false;
                                         $scope.reportTypeSelect = 'Schedule As';
-                                        url = urlService.scheduledReport($routeParams.reportId);
+                                        url = urlService.scheduledReport(vistoconfig.getMasterClientId(),
+                                            $routeParams.reportId);
                                     }
 
                                     dataStore.deleteFromCache(url);
@@ -1897,7 +1903,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                         .then(function (response) {
                                             if (response.status === 'success') {
                                                 $scope.reportData = response.data.data;
-                                                $scope.prefillData(response.data.data);
+                                                prefillData(response.data.data);
                                                 $('#toggle').prop('disabled', true);
 
                                                 $('.img_table_txt').html('Please select dimensions, timeframe and ' +
@@ -1914,7 +1920,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                         });
                                 } else if (localStorage.getItem('customReport')) {
                                     localStorageService.scheduleListReportType.remove();
-                                    $scope.prefillData(JSON.parse(localStorage.getItem('customReport')));
+                                    prefillData(JSON.parse(localStorage.getItem('customReport')));
                                 }
                             });
                     };
@@ -2162,13 +2168,14 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     $scope.cancelMetricView();
                 };
 
-                $scope.updateSchdReport = function () {
+                $scope.updateScheduledOrSavedReport = function () {
                     var self = this;
 
                     if ($scope.verifyReportInputs()) {
                         if ($scope.reportTypeSelect === 'Save') {
                             dataService
-                                .updateSavedReport($routeParams.reportId, $scope.createData())
+                                .updateSavedReport(vistoconfig.getMasterClientId(), $routeParams.reportId,
+                                    $scope.createData())
                                 .then(function (result) {
                                     if (result.data.status_code === 200) {
                                         $rootScope.setErrAlertMessage('Saved report updated successfully', 0);
@@ -2183,12 +2190,13 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                 });
                         } else {
                             dataService
-                                .updateScheduleReport($routeParams.reportId, $scope.createData())
+                                .updateScheduleReport(vistoconfig.getMasterClientId(), $routeParams.reportId,
+                                    $scope.createData())
                                 .then(function (result) {
                                     if (result.data.status_code === 200) {
                                         $rootScope.setErrAlertMessage('Scheduled report updated successfully', 0);
                                         $scope.stopRedirectingPage = false;
-                                        $location.url('/reports/schedules');
+                                        $location.url(urlBuilder.customReportsListUrl());
                                     }
                                 });
                         }
@@ -2351,7 +2359,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     localStorageService.scheduleListReportType.remove();
 
                     if ($scope.buttonLabel === 'Update') {
-                        $scope.updateSchdReport();
+                        $scope.updateScheduledOrSavedReport();
                         $scope.generateReport('Generate');
                         $('.collapseIcon').css('visibility', 'visible');
                     } else if ($scope.buttonLabel === 'Generate') {
@@ -2359,11 +2367,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         $scope.generateReport('Generate');
                         $('.collapseIcon').css('visibility', 'visible');
                     } else if ($scope.buttonLabel === 'Save') {
-                        $scope.saveReport();
+                        $scope.createSavedReport();
                         $scope.generateReport('Save');
                         $('.collapseIcon').css('visibility', 'visible');
                     } else {
-                        $scope.scheduleReport();
+                        $scope.createScheduledReport();
                         $scope.generateReport();
                         $('.collapseIcon').css('visibility', 'hidden');
                     }
@@ -2373,7 +2381,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 };
 
                 $scope.resetMetricOptions = function () {
-                    var url = '/reports/schedules';
+                    var url = urlBuilder.customReportsListUrl();
 
                     if ($scope.buttonResetCancel === 'Cancel') {
                         $location.url(url);
@@ -2429,7 +2437,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     }
                 };
 
-                $scope.prefillData = function (reportData) {
+                var prefillData = function (reportData) {
                     var responseData = reportData,
                         selectedMetricVarKeys = 0;
 
@@ -2469,7 +2477,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     }
 
                     // returns name of the breakdown/filter key passed
-                    $scope.getFilterBreakdownName = function (key) {
+                    var getFilterBreakdownName = function (key) {
                         var dimensionObj = $scope.customeDimensionData[0].dimensions,
                             name;
 
@@ -2482,7 +2490,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         return name;
                     };
 
-                    $scope.setPrimaryDimension = function (obj, fromFilters) {
+                    var setPrimaryDimension = function (obj, fromFilters) {
                         var removeIndex;
 
                         fromFilters = fromFilters || false;
@@ -2501,7 +2509,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         $scope.secondaryDimensionArr.splice(removeIndex, 1);
 
                         $scope.reports.reportDefinition.dimensions.primary.name =
-                            $scope.getFilterBreakdownName(obj.dimension);
+                            getFilterBreakdownName(obj.dimension);
 
                         $scope.reports.reportDefinition.dimensions.primary.dimension = obj.dimension;
 
@@ -2516,9 +2524,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         }
                     };
 
-                    $scope.setSecondaryDimension = function (obj) {
+                    var setSecondaryDimension = function (obj) {
                         $scope.reports.reportDefinition.dimensions.secondary.name =
-                            $scope.getFilterBreakdownName(obj.dimension);
+                            getFilterBreakdownName(obj.dimension);
 
                         $scope.reports.reportDefinition.dimensions.secondary.dimension = obj.dimension;
 
@@ -2535,21 +2543,21 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     angular.forEach(responseData.reportDefinition.dimensions,
                         function (eachObj) {
                             if ((eachObj.type === 'Primary')) {
-                                $scope.setPrimaryDimension(eachObj);
+                                setPrimaryDimension(eachObj);
                             } else if ((eachObj.type === 'Secondary')) {
-                                $scope.setSecondaryDimension(eachObj);
+                                setSecondaryDimension(eachObj);
                             }
                         });
 
                     // set breakdown filter values if exist
                     angular.forEach(responseData.reportDefinition.filters,
                         function (eachObj) {
-                            eachObj.name = $scope.getFilterBreakdownName(eachObj.dimension);
+                            eachObj.name = getFilterBreakdownName(eachObj.dimension);
 
                             if ((eachObj.type === 'Primary')) {
-                                $scope.setPrimaryDimension(eachObj, true);
+                                setPrimaryDimension(eachObj, true);
                             } else if ((eachObj.type === 'Secondary')) {
-                                $scope.setSecondaryDimension(eachObj);
+                                setSecondaryDimension(eachObj);
                             } else if ((eachObj.type !== 'Primary') && (eachObj.type !== 'Secondary')) {
                                 $scope.additionalFilters.push({
                                     key: eachObj.dimension,

@@ -4,7 +4,7 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/campaignLi
     'use strict';
 
     angularAMD.directive('campaignStrategyCard', function (utils, loginModel, constants, campaignListService,
-                                                           momentService) {
+                                                           momentService, $routeParams) {
         return {
             restrict: 'EAC',
 
@@ -148,11 +148,12 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/campaignLi
                 $scope.showTactics = function (strategy) {
                     var strategyId = strategy.id,
                         tacticsCount = strategy.tactics_count,
+                        clientId = $routeParams.subAccountId || $routeParams.accountId,
                         tacticsAccordion = $('#tactics-accordion-' + strategyId);
 
                     // TODO: check if object already requested!
                     // introducing the tactic data call initiation on click here
-                    campaignListService.requestTacticsList(strategy, constants.PERIOD_LIFE_TIME,
+                    campaignListService.requestTacticsList(clientId, strategy, constants.PERIOD_LIFE_TIME,
                         $scope.campaign, $scope.goToStrategyStartingPosition);
 
                     if (tacticsAccordion.css('display') === 'none') {

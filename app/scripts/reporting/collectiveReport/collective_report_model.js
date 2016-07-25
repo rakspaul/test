@@ -9,24 +9,15 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
 
         angularAMD.factory('collectiveReportModel', ['urlService', 'dataService', 'advertiserModel', 'brandsModel',
             'dataStore', function (urlService, dataService, advertiserModel, brandsModel,dataStore) {
-                var getReportList = function (callback) {
-                    var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaignAll')),
-                        advertiserId = advertiserModel.getSelectedAdvertiser().id,
-                        brandId = brandsModel.getSelectedBrand().id,
 
-                        url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ?
-                            selectedCampagin.id : -1);
-
-                    return dataService
-                            .getReportListData(url)
-                            .then(function (response) {
-                                callback(response.data);
-                                return response.data;
-                            });
+                var getReportList = function (clientId, advertiserId, brandId, campaignId) {
+                    var url = urlService.APIReportList(clientId, advertiserId, brandId, campaignId);
+                        return dataService.getReportListData(url);
                         },
 
-                        deleteReport = function (fileId, callback) {
-                            var url = urlService.APIDeleteReport(fileId);
+                        // delete uploaded report
+                        deleteReport = function (clientId, reportId, callback) {
+                            var url = urlService.APIDeleteReport(clientId, reportId);
 
                             return dataService
                                 .deleteRequest(url)
@@ -36,8 +27,9 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                                 });
                         },
 
-                        deleteSavedReport = function (successFn, errorFn, reportId) {
-                            var url = urlService.deleteSavedRpt(reportId);
+                        // custom report methods starts here
+                        deleteSavedReport = function (successFn, errorFn, clientId, reportId) {
+                            var url = urlService.deleteSavedRpt(clientId, reportId);
 
                             dataService
                                 .deleteRequest(url)
@@ -50,8 +42,8 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                                 });
                         },
 
-                        getScheduleReportList = function (successFn, errorFn, queryStr) {
-                            var url = urlService.scheduleReportsList();
+                        getScheduleReportList = function (successFn, errorFn, clientId, queryStr) {
+                            var url = urlService.scheduleReportsList(clientId);
 
                             if (url) {
                                 dataStore.deleteFromCache(url);
@@ -72,8 +64,8 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                                 });
                         },
 
-                        getSaveRptDetail = function (successCall, errorCall, reportId) {
-                            var url = urlService.savedReport(reportId);
+                        getSaveRptDetail = function (successCall, errorCall, clientId, reportId) {
+                            var url = urlService.savedReport(clientId, reportId);
 
                             dataService
                                 .fetch(url)
@@ -86,8 +78,8 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                                 });
                         },
 
-                        deleteScheduledReport = function (successFn, errorFn, reportId) {
-                            var url = urlService.deleteSchdRpt(reportId);
+                        deleteScheduledReport = function (successFn, errorFn, clientId, reportId) {
+                            var url = urlService.deleteSchdRpt(clientId, reportId);
 
                             dataService
                                 .deleteRequest(url)
@@ -100,8 +92,8 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                                 });
                         },
 
-                        deleteScheduledReportInstance = function (successFn, errorFn, reportId, instanceId) {
-                            var url = urlService.deleteInstanceOfSchdRpt(reportId, instanceId);
+                        deleteScheduledReportInstance = function (successFn, errorFn, clientId, reportId, instanceId) {
+                            var url = urlService.deleteInstanceOfSchdRpt(clientId, reportId, instanceId);
 
                             dataService
                                 .deleteRequest(url)
@@ -114,8 +106,8 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                                 });
                         },
 
-                        getSchdRptDetail = function (successCall, errorCall, reportId) {
-                            var url = urlService.scheduledReport(reportId);
+                        getSchdRptDetail = function (successCall, errorCall, clientId, reportId) {
+                            var url = urlService.scheduledReport(clientId, reportId);
 
                             dataService
                                 .fetch(url)
@@ -142,8 +134,8 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                                 });
                         },
 
-                        createSavedReport = function (successCall, errorCall, data) {
-                            var url = urlService.createSaveRpt();
+                        createSavedReport = function (successCall, errorCall, clientId, data) {
+                            var url = urlService.createSaveRpt(clientId);
 
                             dataService
                                 .post(url, data, {'Content-Type': 'application/json'})
@@ -156,8 +148,8 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                                 });
                         },
 
-                        archiveSchdReport = function (successCall,errorCall,reportId,instanceId) {
-                            var url = urlService.archiveSchldRpt(reportId,instanceId);
+                        archiveSchdReport = function (successCall,errorCall,clientId, reportId,instanceId) {
+                            var url = urlService.archiveSchldRpt(clientId, reportId,instanceId);
 
                             dataService
                                 .put(url)

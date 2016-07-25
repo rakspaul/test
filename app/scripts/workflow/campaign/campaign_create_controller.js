@@ -56,7 +56,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 fetchAdvertisers: function (clientId) {
                     workflowService
-                        .getAdvertisers('write', clientId)
+                        .getAdvertisers(clientId, 'write')
                         .then(function (result) {
                             if (result.status === 'OK' || result.status === 'success') {
                                 var responseData = result.data.data;

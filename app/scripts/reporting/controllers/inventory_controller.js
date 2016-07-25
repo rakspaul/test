@@ -11,7 +11,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
     angularAMD.controller('InventoryController', function ($scope, kpiSelectModel, campaignSelectModel,
                                                            strategySelectModel, columnline, dataService, constants,
                                                            timePeriodModel, loginModel, advertiserModel,
-                                                           brandsModel, urlService, domainReports) {
+                                                           brandsModel, urlService, domainReports, vistoconfig) {
         var inventoryWrapper =  {
             // Function called to draw the Strategy chart
             getStrategyChartData: function () {
@@ -29,9 +29,9 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
                     param = {
                         campaignId: $scope.selectedCampaign.id,
-                        clientId: loginModel.getSelectedClient().id,
-                        advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                        brandId: brandsModel.getSelectedBrand().id,
+                        clientId: vistoconfig.getSelectedAccountId(),
+                        advertiserId: vistoconfig.getSelectAdvertiserId(),
+                        brandId: vistoconfig.getSelectedBrandId(),
                         dateFilter: dateFilter,
                         domain: $scope.selectedFilters_tab
                     },
@@ -349,7 +349,9 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
             $('#tactic_' + id + '_body').toggle();
         };
 
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         inventoryWrapper.init();
+        inventoryWrapper.callBackStrategyChange();
 
         $(function() {
             // hot fix for the enabling the active link in the reports dropdown

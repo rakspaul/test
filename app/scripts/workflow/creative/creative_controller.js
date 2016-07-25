@@ -111,7 +111,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 fetchAdvertisers: function (clientId) {
                     workflowService
-                        .getAdvertisers('write',clientId)
+                        .getAdvertisers(clientId, 'write')
                         .then(function (result) {
                             var responseData;
 
@@ -126,7 +126,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 fetchBrands: function (clientId,advertiserId) {
                     workflowService
-                        .getBrands(clientId,advertiserId, 'write')
+                        .getBrands(clientId, advertiserId, 'write')
                         .then(function (result) {
                             var responseData;
 

@@ -97,9 +97,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
                     param = {
                         campaignId: $scope.selectedCampaign.id,
-                        clientId: loginModel.getSelectedClient().id,
-                        advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                        brandId: brandsModel.getSelectedBrand().id,
+                        clientId: vistoconfig.getSelectedAccountId(),
+                        advertiserId: vistoconfig.getSelectAdvertiserId(),
+                        brandId: vistoconfig.getSelectedBrandId(),
                         dateFilter: datefilter
                     };
 
@@ -276,22 +276,6 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 $scope.videoMode = $scope.adFormats && $scope.adFormats.videoAds;
             };
 
-            // whenever strategy change either by broadcast or from dropdown
-            $scope.$on(constants.EVENT_STRATEGY_CHANGED, function () {
-                var selectedStrategyObj = strategySelectModel.getSelectedStrategy();
-
-                extractAdFormats();
-                $scope.selectedStrategy.id = selectedStrategyObj.id;
-                $scope.selectedStrategy.name = selectedStrategyObj.name;
-
-                $scope.strategyHeading = Number($scope.selectedStrategy.id) ===
-                    vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ? constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
-
-                $scope.isStrategyDataEmpty = false;
-                $scope.resetVariables();
-                $scope.strategyChangeHandler();
-            });
-
             // resetting the variable
             $scope.resetVariables = function () {
                 $scope.performanceBusy = false;
@@ -353,7 +337,14 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 $scope.someDummyVarDeleteLater = kpiSelectModel.setSelectedKpi('cpm');
             };
 
+            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
             $scope.init();
+            extractAdFormats();
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ?
+                constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
+            $scope.isStrategyDataEmpty = false;
+            $scope.resetVariables();
+            $scope.strategyChangeHandler();
 
             // Binding click event on tab and fetch strategy method.
             $(function () {

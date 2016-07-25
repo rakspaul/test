@@ -11,7 +11,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/
                                                                          campaignSelectModel, dataService, urlService,
                                                                          advertiserModel, brandsModel, constants,
                                                                          collectiveReportModel, utils, dataStore,
-                                                                         report, reportIndex) {
+                                                                         report, reportIndex, vistoconfig) {
+            var clientId = vistoconfig.getSelectedAccountId(),
+                advertiserId = vistoconfig.getSelectAdvertiserId(),
+                brandId = vistoconfig.getSelectedBrandId();
+
             $scope.report = report;
             $scope.editScreenBusy = false;
             $scope.editedObj = angular.copy(report);
@@ -34,13 +38,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/
                 $scope.editScreenBusy = true;
 
                 dataService
-                    .post(urlService.APIEditReport(report.id), $scope.editedData, {'Content-Type': 'application/json'})
+                    .post(urlService.APIEditReport(vistoconfig.getSelectedAccountId(), report.id),
+                        $scope.editedData,{'Content-Type': 'application/json'})
                     .then(function () {
-                        var selectedCampaign,
-                            advertiserId,
-                            brandId,
-                            url;
-
                         $scope.editedObj.reportType = $scope.editedData.reportType;
                         $scope.editedObj.reportName = $scope.editedData.reportName;
                         $scope.editedObj.campaignId = $scope.editedData.campaignId;
@@ -51,19 +51,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/
                         $scope.close();
                         $rootScope.setErrAlertMessage(constants.reportEditSuccess, 0);
 
-                        selectedCampaign = JSON.parse(localStorage.getItem('selectedCampaign'));
-                        advertiserId = advertiserModel.getSelectedAdvertiser().id;
-                        brandId = brandsModel.getSelectedBrand().id;
-
-                        url = urlService.APIReportList(advertiserId, brandId, selectedCampaign ?
-                            selectedCampaign.id : -1);
-
-                        if (url) {
-                            dataStore.deleteFromCache(url);
-                        }
-
                         $scope.$parent.sort.descending = true;
-                        $scope.$parent.getReports();
                     }, function () {
                         $scope.editScreenBusy = false;
                         $rootScope.setErrAlertMessage(constants.reportEditFailed);
@@ -105,32 +93,17 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/
 
                         deleteAction: function () {
                             return function () {
-                                collectiveReportModel.deleteReport(report.id, function (response) {
-                                    var selectedCampaign,
-                                        advertiserId,
-                                        brandId,
-                                        url;
+                                collectiveReportModel.deleteReport(vistoconfig.getSelectedAccountId(),
+                                    function (response) {
+                                        if (response.status_code === 200) {
+                                            $scope.reportList.splice(reportIndex, 1);
 
-                                    if (response.status_code === 200) {
-                                        $scope.reportList.splice(reportIndex, 1);
-
-                                        // to avoid listing report getting encached, remove that url from cache.
-                                        selectedCampaign = JSON.parse(localStorage.getItem('selectedCampaign'));
-                                        advertiserId = advertiserModel.getSelectedAdvertiser().id;
-                                        brandId = brandsModel.getSelectedBrand().id;
-
-                                        url = urlService.APIReportList(advertiserId, brandId, selectedCampaign ?
-                                            selectedCampaign.id : -1);
-
-                                        if (url) {
-                                            dataStore.deleteFromCache(url);
+                                            $rootScope.setErrAlertMessage(constants.reportDeleteSuccess, 0);
+                                        } else {
+                                            $rootScope.setErrAlertMessage(constants.reportDeleteFailed);
                                         }
-
-                                        $rootScope.setErrAlertMessage(constants.reportDeleteSuccess, 0);
-                                    } else {
-                                        $rootScope.setErrAlertMessage(constants.reportDeleteFailed);
                                     }
-                                });
+                                );
 
                                 $scope.close();
                             };
@@ -153,11 +126,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/
                 }
             };
 
-            campaignSelectModel
-                .getCampaigns(brandsModel.getSelectedBrand().id)
-                .then(function (response) {
-                    $scope.campaignList = response;
-                });
+            campaignSelectModel.fetchCampaigns(clientId, advertiserId, brandId).then(function(response) {
+                $scope.campaignList = response;
+            });
 
             $scope.setSelectedCampIdAndName = function (campId, campName) {
                 $scope.editedData.campaignId = parseInt(campId);

@@ -1,13 +1,15 @@
 define(['angularAMD', 'common/services/url_service', 'reporting/timePeriod/time_period_model',
     'common/services/data_service', 'reporting/brands/brands_model', 'reporting/dashboard/dashboard_model',
     'common/services/request_cancel_service', 'common/services/constants_service', 'login/login_model',
-    'reporting/advertiser/advertiser_model', 'reporting/subAccount/sub_account_service'], function (angularAMD) {
+    'reporting/advertiser/advertiser_model',
+    'common/services/sub_account_service','common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.service('bubbleChartModel', ['urlService', 'timePeriodModel', 'dataService', 'brandsModel',
-        'dashboardModel', 'requestCanceller', 'constants', 'loginModel', 'advertiserModel', 'subAccountModel',
+        'dashboardModel', 'requestCanceller', 'constants', 'loginModel', 'advertiserModel',
+        'subAccountService', 'vistoconfig',
         function (urlService, timePeriodModel, dataService, brandsModel, dashboardModel, requestCanceller,
-                 constants, loginModel, advertiserModel, subAccountModel) {
+                 constants, loginModel, advertiserModel, subAccountService, vistoconfig) {
             var bubbleWidgetData = {
                 advertiserData: {},
                 dataNotAvailable: true,
@@ -18,9 +20,9 @@ define(['angularAMD', 'common/services/url_service', 'reporting/timePeriod/time_
 
             this.getBubbleChartData = function () {
                 var queryObj = {
-                        clientId: subAccountModel.getDashboardAccountId(),
-                        advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                        brandId: brandsModel.getSelectedBrand().id,
+                        clientId: vistoconfig.getSelectedAccountId(),
+                        advertiserId: vistoconfig.getSelectAdvertiserId(),
+                        brandId: vistoconfig.getSelectedBrandId(),
                         dateFilter: constants.PERIOD_LIFE_TIME,
                         campaignStatus: dashboardModel.campaignStatusToSend()
                     },
@@ -61,9 +63,9 @@ define(['angularAMD', 'common/services/url_service', 'reporting/timePeriod/time_
             // getBubbleChartDataForCampaign
             this.getBubbleChartDataForCampaign = function () {
                 var queryObj = {
-                        clientId: subAccountModel.getDashboardAccountId(),
-                        advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                        brandId: brandsModel.getSelectedBrand().id,
+                        clientId: vistoconfig.getSelectedAccountId(),
+                        advertiserId: vistoconfig.getSelectAdvertiserId(),
+                        brandId: vistoconfig.getSelectedBrandId(),
                         dateFilter: constants.PERIOD_LIFE_TIME,
                         campaignStatus: dashboardModel.campaignStatusToSend()
                     },
@@ -103,11 +105,11 @@ define(['angularAMD', 'common/services/url_service', 'reporting/timePeriod/time_
 
             // So that user can fire paraller request to fetch campaigns of a brands.
             this.getBubbleChartDataForCampaignWithOutCanceller = function () {
-                if (loginModel.getSelectedClient()) {
+                if (vistoconfig.getSelectedAccountId()) {
                     var queryObj = {
-                            clientId: subAccountModel.getDashboardAccountId(),
-                            advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                            brandId: brandsModel.getSelectedBrand().id,
+                            clientId: vistoconfig.getSelectedAccountId(),
+                            advertiserId: vistoconfig.getSelectAdvertiserId(),
+                            brandId: vistoconfig.getSelectedBrandId(),
                             dateFilter: constants.PERIOD_LIFE_TIME,
                             campaignStatus: dashboardModel.campaignStatusToSend()
                         },
