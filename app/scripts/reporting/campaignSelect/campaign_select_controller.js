@@ -6,11 +6,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model',
         angularAMD.controller('CampaignSelectController', function ($location, $scope, $rootScope, $routeParams,
                                                                 campaignSelectModel, constants, brandsModel,
                                                                 loginModel, utils, pageFinder) {
-<<<<<<< HEAD
-
-
-=======
->>>>>>> f7b0864f4086262a33a864fe6c9f1788d19b1bed
             var searchCriteria = utils.typeaheadParams,
                 campaignsList,
                 loadCampaigns = true,
