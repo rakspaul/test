@@ -229,8 +229,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 geoTargetingDataForPreview : function () {
                     var geoData = _.extend({}, $scope.geoData);
 
-                    geoData.zip = zipWrapper.getAllAddedZipCode(geoData.zip.selected);
-
                     if (geoData.countries && geoData.countries.selected.length > 0) {
                         geoData.COUNTRY = {};
                         geoData.COUNTRY.geoTargetList = [];
@@ -1300,18 +1298,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     }
 
                     $scope.adData.zipCodes = '';
-                },
-
-                getAllAddedZipCode : function (zipCodeList) {
-                    var addedZipCodes = [];
-
-                    _.each(zipCodeList, function (zipCodeObj) {
-                        _.each(zipCodeObj.added, function (val) {
-                            addedZipCodes.push(val);
-                        });
-                    });
-
-                    return addedZipCodes;
                 },
 
                 getSelectedZipCodes: function (zipList) {
