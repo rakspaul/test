@@ -2683,8 +2683,7 @@
                     .adGroup.openInstance {
                         padding: 0;
                         .adTitle {
-                            border-bottom: 1px solid #CDD2DA;
-                            padding: 15px;
+                            padding: 15px 15px 0 15px;
                             .pillsWrap {
                                 .labelPills:first-child {
                                     margin-left: 14px;
@@ -2692,7 +2691,7 @@
                             }
                         }
                         #collapseAdGroup {
-                            padding: 15px;
+                            padding: 15px 15px 0 15px;
                             float: left;
                             width: 100%;
                         }
@@ -2772,13 +2771,12 @@
                         cursor: pointer;
 
                         &:hover {
-                            .glyphicon,
-                            h2 {
+                            .glyphicon, h2, [class^="icon-"], [class*=" icon-"] {
                                 color: #0978C9;
                             }
                         }
 
-                        .glyphicon {
+                        .glyphicon, [class^="icon-"], [class*=" icon-"] {
                             padding: 0 !important;
                             text-align: center;
                             width: 100%;
@@ -3031,11 +3029,15 @@
                             }
                         }
 
-                        .glyphicon {
+                        .glyphicon, [class^="icon-"], [class*=" icon-"] {
                             color: @lead-gray;
-                            font-size: 32px;
-                            margin-bottom: 15px;
-                            width: 32px;
+                            font-size: 16px; 
+                            margin-bottom: 10px;
+                            height: 16px;
+                            width: 16px;
+                            &:hover {
+                                color: #0978C9;
+                            }
                         }
 
                         h2 {
@@ -3105,7 +3107,7 @@
                         position: relative;
                         width: 100%;
                         /*padding-bottom: .75%;*/
-                        margin-top : 15px ;
+                        //margin-top : 15px ;
 
                         .overlay {
                             background: #fff;

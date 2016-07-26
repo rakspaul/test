@@ -62,16 +62,24 @@
                         <li data-edit-ad-group-section
                             data-ad-group-data="{{adGroupsData}}"
                             data-ad-group-index="{{$index}}">
-                            <a class="available" data-ng-bind="textConstants.EDIT"></a>
+                            <a class="available pull-left">
+                                <span class="icon-inline-edit withIcons">{{textConstants.EDIT}}</span>
+                            </a>
                         </li>
                         <li class="disabled">
-                            <a class="available" data-ng-bind="textConstants.WF_PAUSE"></a>
+                            <a class="available pull-left">
+                                <span class="icon-paused withIcons">{{textConstants.WF_PAUSE}}</span>
+                            </a>
                         </li>
                         <li class="disabled">
-                            <a class="available" data-ng-bind="textConstants.WF_RESUME"></a>
+                            <a class="available pull-left">
+                                <span class="icon-ready withIcons">{{textConstants.WF_RESUME}}</span>
+                            </a>
                         </li>
                         <li class="disabled">
-                            <a class="available" data-ng-bind="textConstants.WF_ARCHIVE"></a>
+                            <a class="available pull-left">
+                                <span class="icon-archive withIcons">{{textConstants.WF_ARCHIVE}}</span>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -135,7 +143,7 @@
             <div class="col-md-12">
                 <a href="#"
                    class="col-md-12 text-center addMaster">
-                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                    <span class="icon-plus" aria-hidden="true"></span>
                     <h2>Create Ad</h2>
                 </a>
             </div>
