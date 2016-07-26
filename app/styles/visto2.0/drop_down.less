@@ -110,20 +110,6 @@
         width: 100%;
         line-height: 100%;
         padding: 9px 15px;
-        .withIcons {
-            width: auto !important;
-            height: auto !important;
-            font-size: 14px;
-            padding: 0;
-        }
-        .withIcons:before {
-            font-size: 16px;
-            height: 16px;
-            width: 16px;
-            margin-right: 10px;
-            padding-top: 2px;
-            display: -webkit-inline-box;
-        }
     }
 
     .disabled a {
@@ -148,7 +134,7 @@
         li {
             float: left;
             width: 100%;
-
+            
             span {
                 float: left;
                 width: 100%;
@@ -219,6 +205,24 @@
                         }
                     }
                 }
+            }
+            .withIcons {
+                width: auto !important;
+                height: auto !important;
+                font-size: 14px;
+                padding: 0;
+                cursor: pointer;
+                &:hover {
+                    background: #E1EDF9;
+                }
+            }
+            .withIcons:before {
+                font-size: 16px;
+                height: 16px;
+                width: 16px;
+                margin-right: 10px;
+                padding-top: 2px;
+                display: -webkit-inline-box;
             }
         }
 
