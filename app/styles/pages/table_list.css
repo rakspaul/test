@@ -241,7 +241,7 @@
   background-image: none;
 }
 .table-list-container .table_list_holder .view-all-link a {
-  color: #0978c9 ;
+  color: #0978c9;
   text-decoration: underline;
 }
 .reports-scheduled-list .table_list_holder div.name-col .col-md-9.no-instance.isSaved:first-child {
@@ -261,9 +261,9 @@
 }
 #searchList .searchInputSchedule {
   width: auto;
-  border-top: 1px solid #BFC9D7;
-  border-bottom: 1px solid #BFC9D7;
-  border-left: 1px solid #BFC9D7;
+  border-top: 1px solid #bfc9d7;
+  border-bottom: 1px solid #bfc9d7;
+  border-left: 1px solid #bfc9d7;
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
   float: left;
@@ -292,7 +292,7 @@
   padding: 0;
   width: 44px;
   height: 34px;
-  border-left: 1px solid #BFC9D7;
+  border-left: 1px solid #bfc9d7;
 }
 #searchList .searchInputSchedule .input-group .btn [class^="icon-"],
 #searchList .searchInputSchedule .input-group .btn [class*=" icon-"] {
@@ -322,7 +322,7 @@
   font-size: 12px ;
 }
 .view_summary_page .summarySection .icon-user {
-  color: #0564A9 ;
+  color: #0564a9;
 }
 .view_summary_page .summarySection .summarySectionHeading {
   color: #57606D ;
