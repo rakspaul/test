@@ -196,7 +196,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             featurePermission();
             $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
         });
-        
         /* End Feature Permission */
 
         $(function () {
