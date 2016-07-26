@@ -174,10 +174,10 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 .then(function (result) {
                     if (result && result.data.data.length > 0) {
 
-                        $rootScope.accountsData = accountService.getAccounts();
+                        $scope.accountsData = accountService.getAccounts();
                         accountService.getSelectedAccount() &&
                         ($scope.defaultAccountsName = accountService.getSelectedAccount().name);
-                        $scope.multipleClient = $rootScope.accountsData.length > 1;
+                        $scope.multipleClient = $scope.accountsData.length > 1;
                         $scope.pageName = pageFinder.pageBuilder($location.path()).pageName();
 
                         if (featuresService.getFeatureParams().length > 0) {
@@ -196,7 +196,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             featurePermission();
             $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
         });
-        featurePermission();
         /* End Feature Permission */
 
         $(function () {

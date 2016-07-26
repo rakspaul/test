@@ -1623,11 +1623,11 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/mediaplan/:campaignId/overview', angularAMD.route({
+                .when('/a/:accountId/sa/:subAccountId/mediaplan/:campaignId/overview', angularAMD.route({
                     templateUrl: assets.html_campaign_create_ad,
                     title: 'Media Plan - Overview',
                     controller: 'CampaignOverViewController',
-                    controllerUrl: 'workflow/controllers/campaign_overview_controller',
+                    controllerUrl: 'workflow/overview/campaign_overview_controller',
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {

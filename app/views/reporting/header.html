@@ -11,7 +11,7 @@
         <!--Mobile Menu-->
         <div class="mobileNavWrap">
             <div class="mobileNav">
-                <a href="/mediaplans" ng-mouseover="hide_navigation_dropdown($event);" ng-bind="textConstants.MEDIA_PLAN"></a>
+                <a href="javascript:void(0);" ng-click="NavigateToTab('', $event ,'mediaplanList')" ng-mouseover="hide_navigation_dropdown($event);" ng-bind="textConstants.MEDIA_PLAN"></a>
                 <a href="javascript:void(0);" reporttitle="reportOverview" ng-click="NavigateToTab('', $event ,'reportOverview')" ng-bind="textConstants.REPORTS"></a>
                 <a href="javascript:void(0);" ng-click="NavigateToTab('', $event ,'creativelist')" ng-bind="textConstants.CREATIVES"></a>
             </div>
@@ -25,7 +25,7 @@
                 <div class="arrowSelect"></div>
             </div>-->
             <div class="pull-left each_nav_link" id="campaigns_nav_link" ng-if="showMediaPlanTab">
-                <a href="/mediaplans" ng-mouseover="hide_navigation_dropdown($event);"
+                <a ng-mouseover="hide_navigation_dropdown($event);"
                    ng-click="NavigateToTab('', $event ,'mediaplanList')" ng-bind="textConstants.MEDIA_PLAN"></a>
                 <div class="arrowSelect"></div>
             </div>
@@ -68,7 +68,7 @@
                 <report-tabs></report-tabs>
             </div>
         </div>
-        
+
         <div class="main_nav_dropdown" id="admin-menu" ng-mouseleave="hide_navigation_dropdown($event)">
             <div class="nav-menu reports_header_tabs_holder clearfix">
                 <div class="clearfix reports_sub_menu_dd_holder">
@@ -79,7 +79,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="main_nav_dropdown" id="user-menu" ng-mouseleave="hide_navigation_dropdown($event)">
             <div class="clearfix nav-menu">
                 <div class="pull-right profile-data" id="profileAccountData">
@@ -93,7 +93,6 @@
                                 <span class="pull-left dd_txt" ng-bind="defaultAccountsName"></span>
                                 <span ng-show="multipleClient" class="pull-right icon-arrow-solid-down"></span>
                             </span>
-
                             <ul class="dropdown-menu">
                                 <div class="accountsList-dropdown-li">
                                     <li ng-repeat="eachaccount in accountsData" id="{{eachaccount.id}}"
