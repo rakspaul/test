@@ -11,30 +11,42 @@
 
     <script src="/scripts/workflow/vast-video/vast-client.js"></script>
     <script src="/scripts/workflow/vast-video/videojs.vast.js"></script>
+    <script src="/scripts/libs/jquery.js"></script>
 </head>
-<body>
+<body id="b">
 
-<div class="example-video-container">
-    <video id="vid2" class="video-js vjs-default-skin" autoplay controls preload="auto"
-           poster="/scripts/workflow/vast-video/video-poster.jpg"
-           data-setup='{}'
-           width='640'
-           height='400'
-    >
-        <source src="http://video-js.zencoder.com/oceans-clip.mp4" type='video/mp4'>
-        <source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm'>
-        <source src="http://video-js.zencoder.com/oceans-clip.ogv" type='video/ogg'>
-        <p>Video Playback Not Supported</p>
-    </video>
+<div class="example-video-container" id="cnt">
+    <!--<video id="vid2" class="video-js vjs-default-skin" autoplay controls preload="auto"-->
+           <!--poster="/scripts/workflow/vast-video/video-poster.jpg"-->
+           <!--data-setup='{}'-->
+           <!--width='640'-->
+           <!--height='400'-->
+    <!-->-->
+        <!--<source id ="sourceID" src="http://video-js.zencoder.com/oceans-clip.mp4" type='video/mp4'>-->
+        <!--<source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm'>-->
+        <!--<source src="http://video-js.zencoder.com/oceans-clip.ogv" type='video/ogg'>-->
+        <!--<p>Video Playback Not Supported</p>-->
+    <!--</video>-->
 </div>
 
 <script>
-        var vid2 = videojs('vid2');
-        vid2.muted(true);
-        vid2.ads();
-        vid2.vast({
-            url: localStorage.getItem("creativeTag")
+
+    var url = localStorage.getItem("creativeTag"),
+    vtag = url.substr(url.indexOf("&vtag=") + ("&vtag=".length) , url.length)
+
+    $(document).ready(function(){
+        $.ajax({
+            url: vtag,
+            dataType: 'xml',
+            success: function(result){
+                $xml = $(result),
+                $title = $xml.find( 'MediaFile[type="video/mp4"]' );
+                var videoURL = $title[0].childNodes[0].data;
+                var ele = '<video id="vid2" class="video-js vjs-default-skin" autoplay controls preload="auto" poster="/scripts/workflow/vast-video/video-poster.jpg" data-setup="{}" width="640" height="400"><source id ="sourceID" src="'+videoURL+'" type="video/mp4"><source src="http://video-js.zencoder.com/oceans-clip.webm" type="video/webm"><source src="http://video-js.zencoder.com/oceans-clip.ogv" type="video/ogg"><p>Video Playback Not Supported</p></video>';
+                $(ele).appendTo("#cnt");
+            }
         });
+    })
 </script>
 
 </body>
