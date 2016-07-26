@@ -38,8 +38,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
                 $scope.filters = domainReports.getReportsTabs($scope.fparams);
 
-
-                console.log("$scope.filters", $scope.filters);
                 $scope.customFilters = domainReports.getCustomReportsTabs();
             },
 

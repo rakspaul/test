@@ -119,14 +119,14 @@ define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
     );
 
     angularAMD.directive('reportTabs', ['$http', '$compile', 'constants', 'featuresService', '$rootScope',
-        'localStorageService','$timeout', function ($http, $compile, constants, featuresService, $rootScope) {
+        'localStorageService','$timeout', function () {
         return {
             controller: function () {},
             restrict: 'EAC',
 
             templateUrl: assets.html_report_header_tab,
 
-            link: function (scope) {
+            link: function () {
             }
         };
     }]);

@@ -1468,7 +1468,7 @@ define(['common'], function (angularAMD) {
                     controllerUrl: '/scripts/workflow/controllers/campaign_create_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, workflowService, constants, featuresService, $rootScope) {
+                        check: function ($location, workflowService, constants) {
 
                             workflowService.setMode('create');
                             workflowService.setModuleInfo({
@@ -1554,7 +1554,7 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'workflow/controllers/campaign_create_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, workflowService, constants, featuresService, $rootScope) {
+                        check: function ($location, workflowService, constants) {
 
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
@@ -1573,7 +1573,7 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'workflow/overview/campaign_overview_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, workflowService, constants, featuresService, $rootScope) {
+                        check: function ($location, workflowService, constants) {
 
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
@@ -1591,7 +1591,7 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'workflow/overview/campaign_overview_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, workflowService, constants, featuresService, $rootScope) {
+                        check: function ($location, workflowService, constants) {
 
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
@@ -1610,7 +1610,7 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, workflowService, constants, featuresService, $rootScope) {
+                        check: function ($location, workflowService, constants) {
 
                             workflowService.setMode('create');
                             workflowService.setIsAdGroup(true);
@@ -1631,7 +1631,7 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, workflowService, constants, featuresService, $rootScope) {
+                        check: function ($location, workflowService, constants) {
 
                             workflowService.setMode('create');
                             workflowService.setIsAdGroup(true);
@@ -1652,7 +1652,7 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, workflowService, constants, featuresService, $rootScope) {
+                        check: function ($location, workflowService, constants) {
 
                             workflowService.setMode('edit');
                             workflowService.setIsAdGroup(true);
@@ -1674,7 +1674,7 @@ define(['common'], function (angularAMD) {
                         controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
                         showHeader : true,
                         resolve: {
-                            check: function ($location, workflowService, constants, featuresService, $rootScope) {
+                            check: function ($location, workflowService, constants) {
 
                                 workflowService.setMode('edit');
                                 workflowService.setIsAdGroup(true);
@@ -1694,7 +1694,7 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'workflow/controllers/creative_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, workflowService, constants, featuresService, $rootScope) {
+                        check: function ($location, workflowService, constants) {
 
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
@@ -1712,7 +1712,7 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'workflow/controllers/creative_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, featuresService, $rootScope) {
+                        check: function () {
 
                         }
                     }
@@ -1726,7 +1726,7 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'workflow/controllers/creative_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, featuresService, $rootScope) {
+                        check: function () {
 
                         }
                     }
@@ -1751,7 +1751,7 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'workflow/controllers/creative_list_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, workflowService, constants, featuresService, $rootScope) {
+                        check: function ($location, workflowService, constants) {
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE,
@@ -1768,7 +1768,7 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'workflow/controllers/creative_list_controller',
                     showHeader : true,
                     resolve: {
-                        check: function ($location, workflowService, constants, featuresService, $rootScope) {
+                        check: function ($location, workflowService, constants) {
 
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
@@ -1784,7 +1784,9 @@ define(['common'], function (angularAMD) {
                     title: 'Help - Online',
                     showHeader : true,
                     controller: 'HelpController'
-                }));
+                }))
+
+                .otherwise({redirectTo: '/'});
 
             delete $httpProvider.defaults.headers.common['X-Requested-With'];
         })
@@ -1819,7 +1821,7 @@ define(['common'], function (angularAMD) {
         }])
 
         .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore,
-                       workflowService, featuresService, subAccountService, $window) {
+                       workflowService , subAccountService, $window) {
 
                 var loginCheckFunc = function () {
                     var locationPath = $location.path(),
