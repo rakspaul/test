@@ -5,7 +5,7 @@ input[type="password"],
 .has-success input[type="text"].form-control,
 input[type="textarea"],
 textarea {
-  border: 1px solid #BFC9D7;
+  border: 1px solid #bfc9d7;
   border-radius: 2px !important;
   line-height: normal;
   padding: 10px 15px;
@@ -82,7 +82,7 @@ select {
   cursor: pointer;
   overflow: hidden;
   background: url(../../images/cdesk/arrow_down2.png) no-repeat right #fff;
-  border: 1px solid #BFC9D7 !important;
+  border: 1px solid #bfc9d7 !important;
   background-size: 20px 15px;
 }
 select:hover {
@@ -90,7 +90,7 @@ select:hover {
 }
 .searchInput {
   width: auto;
-  border: 1px solid #BFC9D7;
+  border: 1px solid #bfc9d7;
   border-width: 0;
   border-radius: 2px;
   height: 36px;
@@ -99,7 +99,7 @@ select:hover {
   cursor: pointer;
   height: 36px;
   padding: 10px 15px;
-  border: 1px solid #BFC9D7;
+  border: 1px solid #bfc9d7;
 }
 .searchInput .input-group {
   position: relative;
@@ -112,7 +112,7 @@ select:hover {
   border-top-right-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
   height: 36px !important;
-  border: 1px solid #BFC9D7;
+  border: 1px solid #bfc9d7;
   text-align: left;
 }
 .searchInput .input-group input:hover {
@@ -182,7 +182,7 @@ select:hover {
   color: #363d49;
 }
 .searchInput:hover .searchInputBtnInline {
-  background: #e1edf9;
+  background: #E1EDF9;
   border-color: #939eae;
 }
 [class*="col-"] tags-input {
@@ -199,13 +199,13 @@ select:hover {
   outline: none !important;
 }
 [class*="col-"] tags-input .host .tags {
-  border: 1px solid #BFC9D7;
+  border: 1px solid #bfc9d7;
   border-radius: 2px !important;
   line-height: normal;
   padding: 2px;
   min-height: 36px;
   box-shadow: none !important;
-  border-color: #BFC9D7;
+  border-color: #bfc9d7;
   float: left;
   width: 100%;
   -webkit-appearance: none !important;
@@ -242,14 +242,14 @@ select:hover {
   padding: 3px 0 5px 22px;
 }
 .pillsWrap .labelPills {
-  background: #EDF2F8;
+  background: #edf2f8;
   margin: 0 5px 5px 0;
   padding: 7px 8px;
   display: inline-block;
   float: left;
   font: 12px "Avenir";
   line-height: 100%;
-  border: 1px solid #BFC9D7;
+  border: 1px solid #bfc9d7;
   border-radius: 3px;
 }
 .pillsWrap .brand_search_highlight {
