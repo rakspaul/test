@@ -1196,8 +1196,10 @@
 }
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dd_subheading {
   padding-right: 20px;
-  color: #6ABDFA;
-  text-transform: none;
+  color: #dce6f1;
+  text-transform: uppercase;
+  font-family: "Avenir-bold";
+  font-size: 12px;
   padding-bottom: 5px;
   cursor: default;
 }
@@ -1264,22 +1266,22 @@
   cursor: pointer;
   margin: 24px 88px 0 0;
 }
-.main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn .icon-report-builder {
+.main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn .icon-report-builder-1 {
   float: left;
   display: inline-block;
+  margin: 0 10px 0 0;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
   color: #fff;
-  margin: 0 10px 0 0px;
-  font-size: 18px;
 }
-.main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn .icon_txt {
+.main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn span {
   float: left;
-  margin-top: 1px;
+  color: #fff;
+  opacity: .6;
 }
-.main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn:hover {
-  color: #84BCE4;
-}
-.main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn:hover .icon-report-builder {
-  color: #84BCE4;
+.main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn:hover span {
+  opacity: 1;
 }
 .main_navigation_holder div.reports_header_tabs_holder .active_tab .new_report_generate_btn .icon-report-builder {
   color: #84BCE4;
@@ -1294,29 +1296,17 @@
   color: #fff;
   text-transform: none;
   cursor: pointer;
+  opacity: .6;
 }
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dropdown a:hover {
-  color: #84BCE4;
-}
-.main_navigation_holder div.reports_header_tabs_holder div.header_tab_dropdown:hover a {
-  color: #84BCE4;
-}
-.main_navigation_holder div.reports_header_tabs_holder div.header_tab_dropdown:hover a:hover {
-  color: #84BCE4;
+  color: #fff;
+  opacity: 1;
 }
 .main_navigation_holder div.reports_header_tabs_holder .active_tab a {
   color: #84BCE4;
   text-decoration: none;
 }
 .main_navigation_holder div.reports_header_tabs_holder .active_tab a:hover {
-  color: #84BCE4;
-  text-decoration: none;
-}
-.main_navigation_holder div.reports_header_tabs_holder div.active_tab:hover a {
-  color: #84BCE4;
-  text-decoration: none;
-}
-.main_navigation_holder div.reports_header_tabs_holder div.active_tab:hover a:hover {
   color: #84BCE4;
   text-decoration: none;
 }

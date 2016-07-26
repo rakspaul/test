@@ -221,11 +221,12 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
             setTimeout(function () {
                 if (!(mainMenuHolder.is(':hover') ||
+                    $('#help-menu').is(':hover') ||
                     $('#user-menu').is(':hover') ||
                     $('#reports-menu').is(':hover') ||
                     $('#admin-menu').is(':hover')) ||
                     $('#campaigns_nav_link').is(':hover')) {
-                    $('#reports-menu, #admin-menu, #user-menu').css('min-height',0).slideUp('fast');
+                    $('#reports-menu, #admin-menu, #user-menu, #help-menu').css('min-height',0).slideUp('fast');
                     mainMenuHolder.find('.selected').removeClass('selected');
                 }
             }, 400);

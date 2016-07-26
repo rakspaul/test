@@ -96,9 +96,6 @@
 .icon-browser-empty:before {
   content: "\2f";
 }
-.icon-avatar-round:before {
-  content: "\3a";
-}
 .icon-arrow-down:before {
   content: "\55";
 }
@@ -120,9 +117,6 @@
 .icon-attach:before {
   content: "\63";
 }
-.icon-back-arrow:before {
-  content: "\37";
-}
 .icon-card-view:before {
   content: "\59";
 }
@@ -137,9 +131,6 @@
 }
 .icon-mobile:before {
   content: "\77";
-}
-.icon-next-arrow:before {
-  content: "\70";
 }
 .icon-on-track:before {
   content: "\79";
@@ -293,4 +284,16 @@
 }
 .icon-stop:before {
   content: "\60";
+}
+.icon-avatar-round:before {
+  content: "\24";
+}
+.icon-back-arrow:before {
+  content: "\37";
+}
+.icon-next-arrow:before {
+  content: "\70";
+}
+.icon-signout:before {
+  content: "\3a";
 }

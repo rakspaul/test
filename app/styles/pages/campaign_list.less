@@ -2,12 +2,11 @@
 @import "../visto2.0/color.less";
 @font-face {
     font-family: "Avenir";
-    src: url("/fonts/Avenir/Avenir.eot");
-    src: url("/fonts/Avenir/Avenir.eot?#iefix") format("embedded-opentype"), url("/fonts/Avenir/Avenir.woff") format("woff"), url("/fonts/Avenir/Avenir.ttf") format("truetype") ;
+    src: url("/fonts/Avenir/Avenir-LT-45-Book.ttf") format("truetype") ;
 }
 @font-face {
     font-family: "Avenir-bold";
-    src: url("/fonts/Avenir/Avenir_bold.woff") format("woff"), url("/fonts/Avenir/Avenir_bold.woff2") format("woff2") ,  url("/fonts/Avenir/Avenir.ttf") format("truetype") ;
+    src: url("/fonts/Avenir/Avenir-LT-95-Black.ttf") format("truetype") ;
 }
 /* base variables */
 @primaryFont: "Avenir";
@@ -2113,55 +2112,69 @@ button, i, input[type="submit"] {
   z-index: 99999999;
   .profile-photo-tab {
     position: relative;
-    height: 42px;
-    width: 31px;
     text-align: right;
-    margin: 8px 15px 0 0;
-  }
-  .profile-photo-tab.selected:after {
-    bottom: 0px ;
-    border: solid 6px @regal-blue;
-    border-left: solid 8px transparent;
-    border-top: 0;
-    border-right: solid 8px transparent;
-    left: 9px ;
-  }
-  .user-photo {
-      border: solid 1px #fff;
-      padding: 1px 10px 0px 4px;
-      border-radius: 2px;
-      -moz-border-radius: 2px;
-      -webkit-border-radius: 2px;
-      font-size: 15px;
+    margin: 0 30px 0 0;
+    float: right;
+    .user-photo {
+      font-size: 24px;
       text-align: center;
       display: inline-block;
       cursor: pointer;
       color: #fff;
-      height: 32px;
-      width: 32px ;
       span {
         color: #fff;
-        font-size: 22px;
-        line-height: 35px;
+        font-size: 24px;
+        line-height: 24px;
+        width: 24px;
+        height: 24px;
+        opacity: .6;
+        margin: 13px 0 0 0;
+        float: right;
+        &:hover, &:active {
+            opacity: 1;
+        }
       }
-  }
-
-  .help-link-tab {
-    font-size: 22px;
-    margin-right: 50px;
-    margin-top: 8px;
-    span {
-      color: #fff ;
-      font-size: 16px ;
+    }
+    .account-name-nav {
+        margin: 16px 10px 0 0;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: right;
+        float: right;
     }
   }
-  .account-name-nav {
-    margin: 16px 15px 0 0;
-    font-size: 14px;
-    width: 180px;
-    cursor: pointer;
-    text-align: right;
+  .profile-photo-tab.selected:after {
+    bottom: -15px ;
+    border: solid 6px @regal-blue;
+    border-left: solid 8px transparent;
+    border-top: 0;
+    border-right: solid 8px transparent;
+    left: 89px ;
   }
+  
+  .help-link-tab {
+    margin-right: 20px;
+    margin-top: 13px;
+    cursor: pointer;
+    span {
+      color: #fff ;
+      font-size: 24px ;
+      height: 24px;
+      width: 24px;
+      opacity: .6;
+    }
+    span:hover {
+        opacity: 1;
+    }
+  }
+  .help-link-tab.selected:after {
+        bottom: -15px;
+        border: solid 6px #004478;
+        border-left: solid 8px transparent;
+        border-top: 0;
+        border-right: solid 8px transparent;
+        left: 89px;
+    }
   .main_nav_dropdown {
     display: none;
     position: absolute;
@@ -2173,7 +2186,7 @@ button, i, input[type="submit"] {
     font-size: 14px ;
     z-index: 1004 ;
     .nav-menu {
-      background-color: #103F7b;
+      background-color: @regal-blue;
       width: 100%;
       float: left;
     }
@@ -2202,6 +2215,7 @@ button, i, input[type="submit"] {
         float: left;
         position: initial;
         box-shadow: none;
+        display: block !important;
         &:before {
           display : none ;
         }
@@ -2223,26 +2237,27 @@ button, i, input[type="submit"] {
       li {
         list-style: none;
         cursor: pointer;
-        border-bottom: solid 1px @visto-blue;
         font-size: 14px;
-        padding: 8px 10px;
+        padding: 15px 0 0 0;
+        span {
+            opacity: .6;
+        }
         &:hover {
           background : transparent ;
           span {
-            border-bottom: solid 1px #fff ;
+            opacity: 1;
           }
         }
-      }
-      li:last-child {
-        border-width: 0;
+        &:first-child {
+            padding: 0;
+        }
       }
       .selected-li {
-        font-family: "Avenir-bold" ;
+        //font-family: "Avenir-bold" ;
         background: transparent;
-        &:hover {
-          span {
-            border-bottom: solid 1px transparent ;
-          }
+        span {
+          //font-family: "Avenir-bold" ;
+          opacity: 1;
         }
       }
       .username  {
@@ -2255,7 +2270,6 @@ button, i, input[type="submit"] {
         float: left;
         width: 100%;
         cursor: pointer;
-        padding-bottom: 15px;
         .dd_txt {
           white-space: nowrap;
           width: 169px;
@@ -2264,6 +2278,35 @@ button, i, input[type="submit"] {
         }
         .icon-arrow-solid-down {
           color: @label-gray;
+        }
+        .signOutBtn {
+            span {
+                color: #fff;
+                opacity: .6;
+            }
+            .icon-download {
+
+            /* Safari */
+            -webkit-transform: rotate(-90deg);
+            
+            /* Firefox */
+            -moz-transform: rotate(-90deg);
+            
+            /* IE */
+            -ms-transform: rotate(-90deg);
+            
+            /* Opera */
+            -o-transform: rotate(-90deg);
+            
+            /* Internet Explorer */
+            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+            
+            }
+            &:hover {
+                span {
+                    opacity: 1;
+                }
+            }
         }
       }
     }
@@ -2282,11 +2325,11 @@ button, i, input[type="submit"] {
     .profile-data {
       position: relative;
       background: @regal-blue;
-      width: 300px;
+      width: 260px;
       box-sizing: initial;
       -webkit-box-sizing: initial;
       -moz-box-sizing: initial;
-      padding: 15px 0 0 0;
+      padding: 30px 20px 20px 20px;
       .user-photo  {
         display: inline-block;
         font-size: 28px;
@@ -2337,6 +2380,35 @@ button, i, input[type="submit"] {
       background: transparent;
     }
   }
+  #help-menu{
+    min-height: 80px;
+    width: auto;
+    left: initial;
+    right: 80px;
+    .nav-menu {
+      background: transparent;
+      .profile-data {
+        width: auto;
+        .username {
+            width: auto;
+            margin: 0;
+            text-transform: uppercase;
+            color: #dce6f1;
+            font-size: 12px;
+            font-family: 'Avenir-bold';
+            width: auto;
+        }
+        .clearLeft {
+            margin: 15px 0 0 0;
+            color: #fff;
+            opacity: .6;
+            &:hover {
+                opacity: 1;
+            }
+        }
+      }
+    }
+  }
   .dropdown-menu {
     padding: 10px 0px ;
     background: #026DB3;
@@ -2379,7 +2451,7 @@ button, i, input[type="submit"] {
       //background: url("/images/visto_logos/visto-new-header.png") no-repeat left top;
       //width: 91px;
       //height: 40px;
-        margin: 8px 20px 0 15px;
+        margin: 8px 20px 0 30px;
         float: left;
     }
     .icon-hamburger {
