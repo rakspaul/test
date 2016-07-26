@@ -422,9 +422,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                          allow template change between same type. if its pushed, disable the template selection*/
                         if($scope.creativeMode === 'edit' && !$scope.adPage && $scope.associatedAdCount > 0){
                             var tempArr=_.filter(responseData,function (obj) {
-                                return obj.templateType ===  $scope.creativeEditData.creativeTemplate.templateType;
+                                return obj.templateType === $scope.creativeEditData.creativeTemplate.templateType;
                             });
-                            
+
                             $scope.creativeTemplates = tempArr;
                         }else{
                             $scope.creativeTemplates=responseData;
@@ -534,12 +534,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
             if (($scope.creativeMode === 'edit') && val) {
                 fireAPItoValidate(ele, val);
-            } else {
-                ele.on('change', function () {
-                    val = $(this).val();
-                    fireAPItoValidate(this, val);
-                });
             }
+
+            ele.on('change', function () {
+                val = $(this).val();
+                fireAPItoValidate(this, val);
+            });
         }
 
         function fireAPItoValidate(ele, creativeTag) {
