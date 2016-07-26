@@ -323,19 +323,18 @@
 
         <div class="pull-right" style="padding: 30px 0 0 0;position:relative;">
             <div class="pull-right btn btn-default"
-                 data-ng-show="billableAmount != '0'"
                  ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''  || (showSystemOfRecord && !systemOfRecordSelected.id) || ((lineItemType.name.toLowerCase()=='post-impression cpa' && pixelSelected.id==undefined) || (lineItemType.name.toLowerCase()=='total cpa' && pixelSelected.id==undefined) || (lineItemType.name.toLowerCase()=='post-click cpa' && pixelSelected.id==undefined))"
-                 ng-click="(mode === 'create' || cloneMediaPlanName)?createNewLineItem('create'):createNewLineItemInEditMode('create')"
+                 ng-click="navigateLineItem('create')"
                  ng-show="!Campaign.createNewLineItemLoaderEdit">Add Line Item
             </div>
 
             <!--show this button when user enters 0 as budget-->
-            <div class="pull-right btn btn-default"
-                 data-ng-show="billableAmount == '0'"
-                 ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == '' || (showSystemOfRecord && !systemOfRecordSelected.id) || ((lineItemType.name.toLowerCase()=='post-impression cpa' && pixelSelected.id==undefined) || (lineItemType.name.toLowerCase()=='total cpa' && pixelSelected.id==undefined) || (lineItemType.name.toLowerCase()=='post-click cpa' && pixelSelected.id==undefined))"
-                 ng-click="displayZeroLineItemBudgetPopUp('create')"
-                 ng-show="!Campaign.createNewLineItemLoaderEdit">Add Line Item
-            </div>
+            <!--<div class="pull-right btn btn-default"-->
+                 <!--data-ng-show="billableAmount == '0'"-->
+                 <!--ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == '' || (showSystemOfRecord && !systemOfRecordSelected.id) || ((lineItemType.name.toLowerCase()=='post-impression cpa' && pixelSelected.id==undefined) || (lineItemType.name.toLowerCase()=='total cpa' && pixelSelected.id==undefined) || (lineItemType.name.toLowerCase()=='post-click cpa' && pixelSelected.id==undefined))"-->
+                 <!--ng-click="displayZeroLineItemBudgetPopUp('create')"-->
+                 <!--ng-show="!Campaign.createNewLineItemLoaderEdit">Add Line Item-->
+            <!--</div>-->
 
             <div ng-show="Campaign.createNewLineItemLoaderEdit" class="pull-right common-loading-btn"></div>
             <div class="pull-right btn btn-link" id="hideLineItemCreateBox"
@@ -621,27 +620,26 @@
 
 
         <div class="pull-right" style="margin-top: 30px ;position:relative;">
+            <a class="btn btn-default pull-right"
+               ng-click="navigateLineItem('edit')"
+               data-ng-disabled="!editLineItem.lineItemName || editLineItem.billableAmount === '' || (
+                       ((editLineItem.lineItemType.name).toLowerCase()=='post-impression cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
+                       ((editLineItem.lineItemType.name).toLowerCase()=='total cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
+                       ((editLineItem.lineItemType.name).toLowerCase()=='post-click cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == ''))
+                       )"
+               ng-bind="textConstants.SAVE_CHANGES"
+               ng-show="!editLineItemLoaderEdit"></a>
 
-            <a class="btn btn-default pull-right"
-               ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()"
-               data-ng-show="editLineItem.billableAmount != '0'"
-               data-ng-disabled="!editLineItem.lineItemName || !editLineItem.billableAmount  || (
-                       ((editLineItem.lineItemType.name).toLowerCase()=='post-impression cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
-                       ((editLineItem.lineItemType.name).toLowerCase()=='total cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
-                       ((editLineItem.lineItemType.name).toLowerCase()=='post-click cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == ''))
-                       )"
-               ng-bind="textConstants.SAVE_CHANGES"
-               ng-show="!editLineItemLoaderEdit"></a>
-            <a class="btn btn-default pull-right"
-               ng-click="displayZeroLineItemBudgetPopUp('edit')"
-               data-ng-show="editLineItem.billableAmount == '0'"
-               data-ng-disabled="!editLineItem.lineItemName  || (
-                       ((editLineItem.lineItemType.name).toLowerCase()=='post-impression cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
-                       ((editLineItem.lineItemType.name).toLowerCase()=='total cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
-                       ((editLineItem.lineItemType.name).toLowerCase()=='post-click cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == ''))
-                       )"
-               ng-bind="textConstants.SAVE_CHANGES"
-               ng-show="!editLineItemLoaderEdit"></a>
+            <!--<a class="btn btn-default pull-right"-->
+               <!--ng-click="displayZeroLineItemBudgetPopUp('edit')"-->
+               <!--data-ng-show="editLineItem.billableAmount == '0'"-->
+               <!--data-ng-disabled="!editLineItem.lineItemName  || (-->
+                       <!--((editLineItem.lineItemType.name).toLowerCase()=='post-impression cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||-->
+                       <!--((editLineItem.lineItemType.name).toLowerCase()=='total cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||-->
+                       <!--((editLineItem.lineItemType.name).toLowerCase()=='post-click cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == ''))-->
+                       <!--)"-->
+               <!--ng-bind="textConstants.SAVE_CHANGES"-->
+               <!--ng-show="!editLineItemLoaderEdit"></a>-->
 
             <div ng-show="editLineItemLoaderEdit" class="pull-right common-loading-btn"></div>
             <a class="btn btn-link pull-right cancelLineItem" ng-click="hideLineItemEditRow($event);">Cancel</a>

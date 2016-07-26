@@ -1283,12 +1283,40 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             $scope.lineItemEndDate = $('#lineItemEndDateInput').val();
         };
 
+        // line item navigate
         $scope.displayZeroLineItemBudgetPopUp = function(section) {
             $scope.Campaign.showBudgetZeroPopup = true;
             if(section === 'create'){
                 $scope.Campaign.section = 'create';
             } else {
                 $scope.Campaign.section = 'edit';
+            }
+        };
+
+        $scope.navigateLineItem = function(section) {
+            if(section === 'create') {
+
+                if($scope.billableAmount == '0' || $scope.pricingRate == '0'){
+                    $scope.displayZeroLineItemBudgetPopUp(section);
+                } else {
+                    if($scope.mode === 'create' || $scope.cloneMediaPlanName) {
+                        $scope.createNewLineItem('create');
+                    } else {
+                        $scope.createNewLineItemInEditMode('create');
+                    }
+                }
+            } else {
+                
+                if($scope.editLineItem.billableAmount == '0' || $scope.editLineItem.pricingRate == '0'){
+                    $scope.displayZeroLineItemBudgetPopUp(section);
+                } else {
+                    if($scope.mode === 'create' || $scope.cloneMediaPlanName) {
+                        $scope.updateLineItem();
+                    } else {
+                        $scope.updateLineItemInEditMode();
+                    }
+                }
+
             }
         };
     });
