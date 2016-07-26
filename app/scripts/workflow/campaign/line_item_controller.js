@@ -1286,13 +1286,10 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         $scope.displayZeroLineItemBudgetPopUp = function(section) {
             $scope.Campaign.showBudgetZeroPopup = true;
             if(section === 'create'){
-                // $scope.Campaign.methods = "(mode === 'create' || cloneMediaPlanName)?createNewLineItem('create'):createNewLineItemInEditMode('create')";
                 $scope.Campaign.section = 'create';
             } else {
                 $scope.Campaign.section = 'edit';
             }
-
-
-        }
+        };
     });
 });
