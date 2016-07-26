@@ -421,7 +421,7 @@ define(['common'], function (angularAMD) {
                     title: 'Bootstrapping the Visto',
                     templateUrl: 'home.html',
                     controller: function($cookieStore, $location, RoleBasedService, dataService,
-                                         accountService, localStorageService) {
+                                         accountService) {
                         console.log('controller is initialized');
                         if ($cookieStore.get('cdesk_session')) {
 
@@ -439,7 +439,6 @@ define(['common'], function (angularAMD) {
                                     });
                                 } else {
                                     account = accountService.getAccounts()[0];
-                                    localStorageService.setToLocalStorage.setMasterClient(account);
                                 }
 
                                 if (account.isLeafNode) {
@@ -629,14 +628,6 @@ define(['common'], function (angularAMD) {
                             return reportsHeaderResolverWOCampaign($q, $location, $route, accountService,
                                 campaignSelectModel, advertiserModel, brandsModel);
                         }
-                        // check: function ($location, featuresService,localStorageService) {
-                        //     //redirects to default page if it has no permission to access it
-                        //     featuresService.setGetFeatureParams('report_overview');
-                        //     if(localStorageService.selectedCampaign.get()
-                        // && localStorageService.selectedCampaign.get().id == -1)  {
-                        //         $location.url('/mediaplans');
-                        //     }
-                        // }
                     }
                 }))
                 .when('/a/:accountId/adv/:advertiserId/mediaplans/reports/:reportName', angularAMD.route({
@@ -1510,7 +1501,7 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/mediaplan/create', angularAMD.route({
+                .when('/a/:accountId/mediaplan/create', angularAMD.route({
                     templateUrl: assets.html_campaign_create,
                     title: 'Create - Media Plan',
                     controller: 'CreateCampaignController',
@@ -1532,7 +1523,7 @@ define(['common'], function (angularAMD) {
                         }
                     }
                 }))
-                .when('/admin/home', angularAMD.route({
+                .when('/a/:accountId/admin/home', angularAMD.route({
                     templateUrl: assets.html_admin_home,
                     title: 'AdminHome',
                     showHeader : true,
@@ -1544,7 +1535,7 @@ define(['common'], function (angularAMD) {
                         }
                     }
                 }))
-                .when('/admin/accounts', angularAMD.route({
+                .when('/a/:accountId/admin/accounts', angularAMD.route({
                     templateUrl: assets.html_accounts,
                     title: 'Accounts',
                     controller: 'AccountsController',
@@ -1558,7 +1549,7 @@ define(['common'], function (angularAMD) {
                         }
                     }
                 }))
-                .when('/admin/users', angularAMD.route({
+                .when('/a/:accountId/admin/users', angularAMD.route({
                     templateUrl: assets.html_users,
                     title: 'Users',
                     controller: 'UsersController',
@@ -1572,7 +1563,7 @@ define(['common'], function (angularAMD) {
                         }
                     }
                 }))
-                .when('/admin/brands', angularAMD.route({
+                .when('/a/:accountId/admin/brands', angularAMD.route({
                     templateUrl: assets.html_brands,
                     title: 'AdminBrands',
                     controller: 'AdminAdvertisersController',
@@ -1600,7 +1591,7 @@ define(['common'], function (angularAMD) {
                         }
                     }
                 }))
-                .when('/mediaplan/:campaignId/edit', angularAMD.route({
+                .when('/a/:accountId/mediaplan/:campaignId/edit', angularAMD.route({
                     templateUrl: assets.html_campaign_create,
                     title: 'Edit - Media Plan',
                     controller: 'CreateCampaignController',
@@ -1618,6 +1609,28 @@ define(['common'], function (angularAMD) {
                                 redirect: true
                             });
                             workflowService.setMode('edit');
+                            featuresService.setGetFeatureParams('mediaplan_hub');
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/mediaplan/:campaignId/overview', angularAMD.route({
+                    templateUrl: assets.html_campaign_create_ad,
+                    title: 'Media Plan - Overview',
+                    controller: 'CampaignOverViewController',
+                    controllerUrl: 'workflow/overview/campaign_overview_controller',
+                    showHeader : true,
+                    resolve: {
+                        check: function ($location, workflowService, constants, featuresService, $rootScope) {
+                            $rootScope.$on('features', function () {
+                                featuresService.setGetFeatureParams('mediaplan_hub');
+                            });
+
+                            workflowService.setModuleInfo({
+                                moduleName: 'WORKFLOW',
+                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE,
+                                redirect: true
+                            });
                             featuresService.setGetFeatureParams('mediaplan_hub');
                         }
                     }
@@ -1645,31 +1658,8 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/mediaplan/:campaignId/ads/create', angularAMD.route({
-                    templateUrl: assets.html_campaign_create_adBuild,
-                    title: 'Media Plan - Ad Create',
-                    controller: 'CampaignAdsCreateController',
-                    controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
-                    showHeader : true,
-                    resolve: {
-                        check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            $rootScope.$on('features', function () {
-                                featuresService.setGetFeatureParams('ad_setup');
-                            });
-
-                            workflowService.setMode('create');
-                            workflowService.setIsAdGroup(false);
-                            workflowService.setModuleInfo({
-                                moduleName: 'WORKFLOW',
-                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
-                                redirect: true
-                            });
-                            featuresService.setGetFeatureParams('ad_setup');
-                        }
-                    }
-                }))
-
-                .when('/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/create', angularAMD.route({
+                .when('/a/:accountId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/' +
+                    'ads/create', angularAMD.route({
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Create',
                     controller: 'CampaignAdsCreateController',
@@ -1693,31 +1683,32 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/mediaplan/:campaignId/ads/:adId/edit', angularAMD.route({
+                .when('/a/:accountId/sa/:subAccountId/mediaplan/:campaignId/lineItem/:lineItemId/' +
+                    'adGroup/:adGroupId/ads/create', angularAMD.route({
                     templateUrl: assets.html_campaign_create_adBuild,
-                    title: 'Media Plan - Ad Edit',
+                    title: 'Media Plan - Ad Create',
                     controller: 'CampaignAdsCreateController',
                     controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
                             $rootScope.$on('features', function () {
-                                featuresService.setGetFeatureParams('ad_setup');
+                                featuresService.setGetFeatureParams('mediaplan_hub');
                             });
 
-                            workflowService.setMode('edit');
-                            workflowService.setIsAdGroup(false);
+                            workflowService.setMode('create');
+                            workflowService.setIsAdGroup(true);
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
                                 redirect: true
                             });
-                            featuresService.setGetFeatureParams('ad_setup');
+                            featuresService.setGetFeatureParams('mediaplan_hub');
                         }
                     }
                 }))
 
-                .when('/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/:adId/edit',
+                .when('/a/:accountId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/:adId/edit',
                     angularAMD.route({
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Edit',
@@ -1742,7 +1733,33 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/creative/add', angularAMD.route({
+                .when('/a/:accountId/sa/:subAccountId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/' +
+                    'ads/:adId/edit',
+                    angularAMD.route({
+                        templateUrl: assets.html_campaign_create_adBuild,
+                        title: 'Media Plan - Ad Edit',
+                        controller: 'CampaignAdsCreateController',
+                        controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
+                        showHeader : true,
+                        resolve: {
+                            check: function ($location, workflowService, constants, featuresService, $rootScope) {
+                                $rootScope.$on('features', function () {
+                                    featuresService.setGetFeatureParams('mediaplan_hub');
+                                });
+
+                                workflowService.setMode('edit');
+                                workflowService.setIsAdGroup(true);
+                                workflowService.setModuleInfo({
+                                    moduleName: 'WORKFLOW',
+                                    warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
+                                    redirect: true
+                                });
+                                featuresService.setGetFeatureParams('mediaplan_hub');
+                            }
+                        }
+                    }))
+
+                .when('/a/:accountId/creative/add', angularAMD.route({
                     templateUrl: assets.html_creative,
                     title: 'Add Creative',
                     controller: 'CreativeController',
@@ -1764,7 +1781,24 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/creative/:creativeId/edit', angularAMD.route({
+                .when('/a/:accountId/creative/:creativeId/edit', angularAMD.route({
+                    templateUrl: assets.html_creative,
+                    title: 'Edit Creative',
+                    controller: 'CreativeController',
+                    controllerUrl: 'workflow/controllers/creative_controller',
+                    showHeader : true,
+                    resolve: {
+                        check: function ($location, featuresService, $rootScope) {
+                            $rootScope.$on('features', function () {
+                                featuresService.setGetFeatureParams('creative_list');
+                            });
+                            featuresService.setGetFeatureParams('creative_list');
+                        }
+                    }
+                }))
+
+
+                .when('/a/:accountId/sa/:subAccountId/creative/:creativeId/edit', angularAMD.route({
                     templateUrl: assets.html_creative,
                     title: 'Edit Creative',
                     controller: 'CreativeController',
@@ -1792,7 +1826,29 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/creative/list', angularAMD.route({
+                .when('/a/:accountId/creative/list', angularAMD.route({
+                    templateUrl: assets.html_creative_list,
+                    title: 'Creative List',
+                    controller: 'CreativeListController',
+                    controllerUrl: 'workflow/controllers/creative_list_controller',
+                    showHeader : true,
+                    resolve: {
+                        check: function ($location, workflowService, constants, featuresService, $rootScope) {
+                            $rootScope.$on('features', function () {
+                                featuresService.setGetFeatureParams('creative_list');
+                            });
+
+                            workflowService.setModuleInfo({
+                                moduleName: 'WORKFLOW',
+                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE,
+                                redirect: false
+                            });
+                            featuresService.setGetFeatureParams('creative_list');
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/sa/:subAccountId/creative/list', angularAMD.route({
                     templateUrl: assets.html_creative_list,
                     title: 'Creative List',
                     controller: 'CreativeListController',

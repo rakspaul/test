@@ -11,18 +11,11 @@
              data-ng-bind="textConstants.MEDIA_PLAN_REPORTS"
              data-ng-if="showMediaPlanReportHeading">
         </div>
-        <div class="header_tab_dropdown" id="reports_overview_tab" data-ng-show="showReportOverview">
-            <a href="{{reports_nav_url}}"
-               data-ng-click="NavigateToTab('', $event ,'reportOverview')"
-               data-ng-bind="textConstants.REPORTS_OVERVIEW">
-            </a>
-        </div>
         <div data-ng-repeat="tab in filters.tabs track by $index"
              class="header_tab_dropdown"
              data-ng-class="{'active_tab': tab.href === filters.activeTab}"
              id="{{tab.href}}">
-            <a href="/{{tab.href}}"
-               data-ng-click="NavigateToTab('/' + tab.href, $event, 'reportsSubPage')"
+            <a data-ng-click="NavigateToTab('/'+ tab.href, $event , 'reportsSubPage')"
                id="performance_tab_{{tab.href}}"
                style="text-transform: capitalize;"
                reportTitle="{{tab.title}}"

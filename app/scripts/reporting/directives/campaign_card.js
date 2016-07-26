@@ -108,7 +108,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
 
                         return url;
 
-                    }
+                    };
 
                     $scope.showReportsOverview = fParams[0].report_overview;
                     $scope.showManageButton = fParams[0].mediaplan_hub;
