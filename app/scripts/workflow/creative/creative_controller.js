@@ -534,12 +534,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
             if (($scope.creativeMode === 'edit') && val) {
                 fireAPItoValidate(ele, val);
-            } else {
-                ele.on('change', function () {
-                    val = $(this).val();
-                    fireAPItoValidate(this, val);
-                });
             }
+            
+            ele.on('change', function () {
+                val = $(this).val();
+                fireAPItoValidate(this, val);
+            });
         }
 
         function fireAPItoValidate(ele, creativeTag) {
