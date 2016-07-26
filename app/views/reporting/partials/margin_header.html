@@ -1,62 +1,112 @@
 <div class="each_col platform_name_col">
-    <span class="icon_text_holder" ng-class="sortClassFunction('platform_name',sortTypeByMargin,sortReverse)" ng-click="sortTypeByMargin = 'platform_name'; sortReverse = !sortReverse;removeKpiActive();" >Buying Platform</span>
+    <span class="icon_text_holder"
+          data-ng-class="sortClassFunction('platform_name', sortTypeByMargin, sortReverse)"
+          data-ng-click="sortTypeByMargin = 'platform_name'; sortReverse = !sortReverse;removeKpiActive();">
+        Buying Platform
+    </span>
 </div>
-
 <div class="each_col second_col">
-    <span class="icon_text_holder" ng-class="sortClassFunction('spend',sortTypeByMargin,sortReverse)" ng-click="sortTypeByMargin = 'spend'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.TOTAL_COST}}</span>
+    <span class="icon_text_holder"
+          data-ng-class="sortClassFunction('spend', sortTypeByMargin, sortReverse)"
+          data-ng-click="sortTypeByMargin = 'spend'; sortReverse = !sortReverse;removeKpiActive();"
+          data-ng-bind="textConstants.TOTAL_COST">
+    </span>
 </div>
-
 <div class="each_col third_col">
-    <span class="icon_text_holder" ng-class="sortClassFunction('margin',sortTypeByMargin,sortReverse)" ng-click="sortTypeByMargin = 'margin'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.TOTAL_MARGIN}}</span>
+    <span class="icon_text_holder"
+          data-ng-class="sortClassFunction('margin', sortTypeByMargin, sortReverse)"
+          data-ng-click="sortTypeByMargin = 'margin'; sortReverse = !sortReverse; removeKpiActive();"
+          data-ng-bind="textConstants.TOTAL_MARGIN">
+    </span>
 </div>
-
-<div class="each_col forth_col" >
-        <div class="margin_hdr">
-            <span class="hdr_space">{{textConstants.CTR}}</span>
-            <span class="tooltip_show_icon" tooltip-placement="right" tooltip="CTR"></span>
-        </div>
-        <div class="sub_coldata">
-            <span class="icon_text_holder" ng-class="sortClassFunction('CTR',sortTypeByMargin,sortReverse)" ng-click="sortTypeByMargin = 'CTR'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.CTR}}</span>
-            <span class="icon_text_holder" ng-class="sortClassFunction('CPC',sortTypeByMargin,sortReverse)" ng-click="sortTypeByMargin = 'CPC'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.CPC}}</span>
-            <span class="icon_text_holder" ng-class="sortClassFunction('clicks',sortTypeByMargin,sortReverse)" ng-click="sortTypeByMargin = 'clicks'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.TOTAL_CLICKS}}</span>
-       </div>
-
+<div class="each_col forth_col">
+    <div class="margin_hdr">
+        <span class="hdr_space" data-ng-bind="textConstants.CTR"></span>
+        <span class="tooltip_show_icon" tooltip-placement="right" tooltip="CTR"></span>
+    </div>
+    <div class="sub_coldata">
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('CTR', sortTypeByMargin, sortReverse)"
+              data-ng-click="sortTypeByMargin = 'CTR'; sortReverse = !sortReverse; removeKpiActive();"
+              data-ng-bind="textConstants.CTR">
+        </span>
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('CPC', sortTypeByMargin, sortReverse)"
+              data-ng-click="sortTypeByMargin = 'CPC'; sortReverse = !sortReverse;removeKpiActive();"
+              data-ng-bind="textConstants.CPC">
+        </span>
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('clicks', sortTypeByMargin, sortReverse)"
+              data-ng-click="sortTypeByMargin = 'clicks'; sortReverse = !sortReverse; removeKpiActive();"
+              data-ng-bind="textConstants.TOTAL_CLICKS">
+        </span>
+    </div>
 </div>
-
 <div class="each_col fifth_col">
-        <div class="margin_hdr">
-            <span class="hdr_space">{{textConstants.VIEWABILITY}}</span>
-            <span class="tooltip_show_icon" tooltip-placement="right" tooltip="Viewability"></span>
-        </div>
-        <div class="sub_coldata">
-            <span class="icon_text_holder" ng-class="sortClassFunction('VIEWABLE_IMPRESSIONS',sortTypeByMargin,sortReverse)" ng-click="sortTypeByMargin = 'VIEWABLE_IMPRESSIONS'; sortReverse = !sortReverse;removeKpiActive();" >% Views</span>
-            <span class="icon_text_holder" ng-class="sortClassFunction('CPMv',sortTypeByMargin,sortReverse)" ng-click="sortTypeByMargin = 'CPMv'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.CPMV}}</span>
-            <span class="icon_text_holder" ng-class="sortClassFunction('VIEWABLE_IMPS',sortTypeByMargin,sortReverse)" ng-click="sortTypeByMargin = 'VIEWABLE_IMPS'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.TOTAL_VIEW}}</span>
-        </div>
+    <div class="margin_hdr">
+        <span class="hdr_space" data-ng-bind="textConstants.VIEWABILITY"></span>
+        <span class="tooltip_show_icon" tooltip-placement="right" tooltip="Viewability"></span>
+    </div>
+    <div class="sub_coldata">
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('VIEWABLE_IMPRESSIONS', sortTypeByMargin, sortReverse)"
+              data-ng-click="sortTypeByMargin = 'VIEWABLE_IMPRESSIONS'; sortReverse = !sortReverse; removeKpiActive();">
+            % Views
+        </span>
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('CPMv', sortTypeByMargin, sortReverse)"
+              data-ng-click="sortTypeByMargin = 'CPMv'; sortReverse = !sortReverse; removeKpiActive();"
+              data-ng-bind="textConstants.CPMV">
+        </span>
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('VIEWABLE_IMPS', sortTypeByMargin, sortReverse)"
+              data-ng-click="sortTypeByMargin = 'VIEWABLE_IMPS'; sortReverse = !sortReverse; removeKpiActive();"
+              data-ng-bind="textConstants.TOTAL_VIEW">
+        </span>
+    </div>
 </div>
-
 <div class="each_col six_col">
-        <div class="margin_hdr">
-            <span class="hdr_space">{{textConstants.CONVERSIONS}}</span>
-            <span class="tooltip_show_icon" tooltip-placement="right" tooltip="Conversions"></span>
-        </div>
-        <div class="sub_coldata">
-            <span style="width:68px;" class="icon_text_holder" ng-class="sortClassFunction('AR',sortTypeByMargin,sortReverse)" ng-click="sortTypeByMargin = 'AR'; sortReverse = !sortReverse;removeKpiActive();" >% Conv.</span>
-            <span class="icon_text_holder" ng-class="sortClassFunction('CPA',sortTypeByMargin,sortReverse)" ng-click="sortTypeByMargin = 'CPA'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.CPA}}</span>
-            <span class="icon_text_holder" ng-class="sortClassFunction('actions',sortTypeByMargin,sortReverse)" ng-click="sortTypeByMargin = 'actions'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.TOTAL_EVENTS}} </span>
-        </div>
+    <div class="margin_hdr">
+        <span class="hdr_space">{{textConstants.CONVERSIONS}}</span>
+        <span class="tooltip_show_icon" tooltip-placement="right" tooltip="Conversions"></span>
+    </div>
+    <div class="sub_coldata">
+        <span style="width:68px;"
+              class="icon_text_holder"
+              data-ng-class="sortClassFunction('AR', sortTypeByMargin, sortReverse)"
+              data-ng-click="sortTypeByMargin = 'AR'; sortReverse = !sortReverse; removeKpiActive();">
+            % Conv.
+        </span>
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('CPA', sortTypeByMargin, sortReverse)"
+              data-ng-click="sortTypeByMargin = 'CPA'; sortReverse = !sortReverse;removeKpiActive();"
+              data-ng-bind="textConstants.CPA">
+        </span>
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('actions', sortTypeByMargin, sortReverse)"
+              data-ng-click="sortTypeByMargin = 'actions'; sortReverse = !sortReverse; removeKpiActive();"
+              data-ng-bind="textConstants.TOTAL_EVENTS">
+        </span>
+    </div>
 </div>
-
 <div class="each_col seventhMargin_col">
-        <div class="margin_hdrSeventh">
-            <span class="hdr_space">{{textConstants.DELIVERY}}</span>
-            <span class="tooltip_show_icon" tooltip-placement="bottom" tooltip="Delivery"></span>
-        </div>
-         <div class="sub_coldata">
-             <span class="icon_text_holder" ng-class="sortClassFunction('-impressions',sortTypeByMargin,sortReverseForMarginImps)" ng-click="sortTypeByMargin = '-impressions'; sortReverse = sortReverseForMarginImps; sortReverseForMarginImps = !sortReverseForMarginImps; removeKpiActive();">{{textConstants.IMP_WITH_DOT}}</span>
-             <span class="icon_text_holder" ng-class="sortClassFunction('CPM',sortTypeByMargin,sortReverse)" ng-click="sortTypeByMargin = 'CPM'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.CPM}}</span>
-        </div>
+    <div class="margin_hdrSeventh">
+        <span class="hdr_space" data-ng-bind="textConstants.DELIVERY"></span>
+        <span class="tooltip_show_icon" tooltip-placement="bottom" tooltip="Delivery"></span>
+    </div>
+    <div class="sub_coldata">
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('-impressions', sortTypeByMargin, sortReverseForMarginImps)"
+              data-ng-click="sortTypeByMargin = '-impressions';
+                sortReverse = sortReverseForMarginImps;
+                sortReverseForMarginImps = !sortReverseForMarginImps;
+                removeKpiActive();"
+              data-ng-bind="textConstants.IMP_WITH_DOT">
+        </span>
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('CPM', sortTypeByMargin, sortReverse)"
+              data-ng-click="sortTypeByMargin = 'CPM'; sortReverse = !sortReverse; removeKpiActive();"
+              data-ng-bind="textConstants.CPM">
+        </span>
+    </div>
 </div>
-
-
-
