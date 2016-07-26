@@ -2286,14 +2286,18 @@ tags-input .autocomplete {
 .textRight {
   text-align: right;
 }
+.common_kpi_dropdown .default-kpi-header-icon {
+  margin-top: 0px !important;
+}
 .common_kpi_dropdown .dd_txt {
   width: 80% ;
 }
 .common_kpi_dropdown .dd_txt .dd_txt_span {
-  width: 100% ;
+  max-width: 80% ;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: right;
+  margin: 1px 2px 0px ;
 }
 @keyframes show-notification {
   from {
