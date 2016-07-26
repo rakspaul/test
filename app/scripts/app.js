@@ -875,14 +875,6 @@ define(['common'], function (angularAMD) {
                             return reportsHeaderResolverWOCampaign2($q, $location, $route, accountService,
                                 subAccountService, campaignSelectModel, advertiserModel, brandsModel);
                         }
-                        // check: function ($location, featuresService,localStorageService) {
-                        //     //redirects to default page if it has no permission to access it
-                        //     featuresService.setGetFeatureParams('report_overview');
-                        //     if(localStorageService.selectedCampaign.get()
-                        // && localStorageService.selectedCampaign.get().id == -1)  {
-                        //         $location.url('/mediaplans');
-                        //     }
-                        // }
                     }
                 }))
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplans' +
@@ -1135,10 +1127,6 @@ define(['common'], function (angularAMD) {
                             return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel,
                                 brandsModel);
                         }
-                        // check: function ($location, featuresService) {
-                        //     //redirects to default page if it has no permission to access it
-                        //     featuresService.setGetFeatureParams('mediaplan_list');
-                        // }
                     }
                 }))
                 .when('/a/:accountId/adv/:advertiserId/mediaplans', angularAMD.route({
@@ -1176,10 +1164,6 @@ define(['common'], function (angularAMD) {
                             return mediaplansHeaderResolver2($q, $location, $route, accountService, subAccountService,
                                 advertiserModel, brandsModel);
                         }
-                        // check: function ($location, featuresService) {
-                        //     //redirects to default page if it has no permission to access it
-                        //     featuresService.setGetFeatureParams('mediaplan_list');
-                        // }
                     }
                 }))
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplans', angularAMD.route({
@@ -1221,9 +1205,6 @@ define(['common'], function (angularAMD) {
                             return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel,
                                 brandsModel);
                         }
-                        // check: function ($location, featuresService) {
-                        //     featuresService.setGetFeatureParams('scheduled_reports');
-                        // }
                     }
                 }))
 
@@ -1239,9 +1220,6 @@ define(['common'], function (angularAMD) {
                             return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel,
                                 brandsModel);
                         }
-                        // check: function ($location, featuresService) {
-                        //     featuresService.setGetFeatureParams('scheduled_reports');
-                        // }
                     }
                 }))
 
@@ -1257,9 +1235,6 @@ define(['common'], function (angularAMD) {
                             return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel,
                                 brandsModel);
                         }
-                        // check: function ($location, featuresService) {
-                        //     featuresService.setGetFeatureParams('scheduled_reports');
-                        // }
                     }
                 }))
 
@@ -1275,9 +1250,6 @@ define(['common'], function (angularAMD) {
                             return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel,
                                 brandsModel);
                         }
-                        // check: function ($location, featuresService) {
-                        //     featuresService.setGetFeatureParams('collective_insights');
-                        // }
                     }
                 }))
 
@@ -1309,9 +1281,6 @@ define(['common'], function (angularAMD) {
                             return mediaplansHeaderResolver2($q, $location, $route, accountService, subAccountService,
                                 advertiserModel, brandsModel);
                         }
-                        // check: function ($location, featuresService) {
-                        //     featuresService.setGetFeatureParams('collective_insights');
-                        // }
                     }
                 }))
 
@@ -1344,9 +1313,6 @@ define(['common'], function (angularAMD) {
                             return uploadReportsHeaderResolver($q, $location, $route, accountService,
                                 campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel);
                         }
-                        // check: function ($location, featuresService) {
-                        //     featuresService.setGetFeatureParams('collective_insights');
-                        // }
                     }
                 }))
 
@@ -1415,9 +1381,6 @@ define(['common'], function (angularAMD) {
                                 subAccountService, campaignSelectModel, advertiserModel, brandsModel,
                                 collectiveReportModel);
                         }
-                        // check: function ($location, featuresService) {
-                        //     featuresService.setGetFeatureParams('collective_insights');
-                        // }
                     }
                 }))
 
@@ -1484,9 +1447,6 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     css: assets.css_reports_invoice_list,
                     resolve: {
-                        check: function ($location, featuresService) {
-                            featuresService.setGetFeatureParams('scheduled_reports');
-                        }
                     }
                 }))
 
@@ -1509,9 +1469,6 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            $rootScope.$on('features', function () {
-                                featuresService.setGetFeatureParams('create_mediaplan');
-                            });
 
                             workflowService.setMode('create');
                             workflowService.setModuleInfo({
@@ -1519,7 +1476,6 @@ define(['common'], function (angularAMD) {
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE,
                                 redirect: false
                             });
-                            featuresService.setGetFeatureParams('create_mediaplan');
                         }
                     }
                 }))
@@ -1599,9 +1555,6 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            $rootScope.$on('features', function () {
-                                featuresService.setGetFeatureParams('mediaplan_hub');
-                            });
 
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
@@ -1609,7 +1562,6 @@ define(['common'], function (angularAMD) {
                                 redirect: true
                             });
                             workflowService.setMode('edit');
-                            featuresService.setGetFeatureParams('mediaplan_hub');
                         }
                     }
                 }))
@@ -1622,16 +1574,12 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            $rootScope.$on('features', function () {
-                                featuresService.setGetFeatureParams('mediaplan_hub');
-                            });
 
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE,
                                 redirect: true
                             });
-                            featuresService.setGetFeatureParams('mediaplan_hub');
                         }
                     }
                 }))
@@ -1644,16 +1592,12 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            $rootScope.$on('features', function () {
-                                featuresService.setGetFeatureParams('mediaplan_hub');
-                            });
 
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE,
                                 redirect: true
                             });
-                            featuresService.setGetFeatureParams('mediaplan_hub');
                         }
                     }
                 }))
@@ -1667,9 +1611,6 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            $rootScope.$on('features', function () {
-                                featuresService.setGetFeatureParams('mediaplan_hub');
-                            });
 
                             workflowService.setMode('create');
                             workflowService.setIsAdGroup(true);
@@ -1678,7 +1619,6 @@ define(['common'], function (angularAMD) {
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
                                 redirect: true
                             });
-                            featuresService.setGetFeatureParams('mediaplan_hub');
                         }
                     }
                 }))
@@ -1692,9 +1632,6 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            $rootScope.$on('features', function () {
-                                featuresService.setGetFeatureParams('mediaplan_hub');
-                            });
 
                             workflowService.setMode('create');
                             workflowService.setIsAdGroup(true);
@@ -1703,7 +1640,6 @@ define(['common'], function (angularAMD) {
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
                                 redirect: true
                             });
-                            featuresService.setGetFeatureParams('mediaplan_hub');
                         }
                     }
                 }))
@@ -1717,9 +1653,6 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            $rootScope.$on('features', function () {
-                                featuresService.setGetFeatureParams('mediaplan_hub');
-                            });
 
                             workflowService.setMode('edit');
                             workflowService.setIsAdGroup(true);
@@ -1728,7 +1661,6 @@ define(['common'], function (angularAMD) {
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
                                 redirect: true
                             });
-                            featuresService.setGetFeatureParams('mediaplan_hub');
                         }
                     }
                 }))
@@ -1743,9 +1675,6 @@ define(['common'], function (angularAMD) {
                         showHeader : true,
                         resolve: {
                             check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                                $rootScope.$on('features', function () {
-                                    featuresService.setGetFeatureParams('mediaplan_hub');
-                                });
 
                                 workflowService.setMode('edit');
                                 workflowService.setIsAdGroup(true);
@@ -1754,7 +1683,6 @@ define(['common'], function (angularAMD) {
                                     warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
                                     redirect: true
                                 });
-                                featuresService.setGetFeatureParams('mediaplan_hub');
                             }
                         }
                     }))
@@ -1767,16 +1695,12 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            $rootScope.$on('features', function () {
-                                featuresService.setGetFeatureParams('creative_list');
-                            });
 
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
                                 redirect: false
                             });
-                            featuresService.setGetFeatureParams('creative_list');
                         }
                     }
                 }))
@@ -1789,10 +1713,7 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         check: function ($location, featuresService, $rootScope) {
-                            $rootScope.$on('features', function () {
-                                featuresService.setGetFeatureParams('creative_list');
-                            });
-                            featuresService.setGetFeatureParams('creative_list');
+
                         }
                     }
                 }))
@@ -1806,10 +1727,7 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         check: function ($location, featuresService, $rootScope) {
-                            $rootScope.$on('features', function () {
-                                featuresService.setGetFeatureParams('creative_list');
-                            });
-                            featuresService.setGetFeatureParams('creative_list');
+
                         }
                     }
                 }))
@@ -1834,16 +1752,11 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            $rootScope.$on('features', function () {
-                                featuresService.setGetFeatureParams('creative_list');
-                            });
-
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE,
                                 redirect: false
                             });
-                            featuresService.setGetFeatureParams('creative_list');
                         }
                     }
                 }))
@@ -1856,16 +1769,12 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            $rootScope.$on('features', function () {
-                                featuresService.setGetFeatureParams('creative_list');
-                            });
 
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE,
                                 redirect: false
                             });
-                            featuresService.setGetFeatureParams('creative_list');
                         }
                     }
                 }))
