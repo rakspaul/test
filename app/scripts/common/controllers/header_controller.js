@@ -71,6 +71,12 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             $scope.reports_nav_url = '/mediaplans/' + $scope.selectedCampaign;
         }
 
+        $scope.reports_nav_url = '' ;
+        if ($scope.selectedCampaign === -1) {
+            $scope.reports_nav_url = '/mediaplans';
+        } else {
+            $scope.reports_nav_url = '/mediaplans/' + $scope.selectedCampaign;
+        }
         $scope.getClientData = function () {
             var clientId = localStorageService.masterClient.get().id;
 
