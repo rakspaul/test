@@ -70,7 +70,7 @@
                 </div>
             </div>
             
-            <div class="col-md-3 customAdvertiserCode" style="padding: 0 0 0 10px;" data-ng-show="setSelectedAdvertiserCode == 'Others'">
+            <div class="col-md-1 customAdvertiserCode" style="padding: 0 0 0 10px;" data-ng-show="setSelectedAdvertiserCode == 'Others'">
                 <label class="greyTxt">Enter Code:</label>
                 <input type="text"
                        class="form-control col-md-12"
@@ -94,10 +94,14 @@
                        ng-model="nickname"
                        remove-special-character="remove-special-character">
             </div>
+            
+            <div class="col-md-1" style="padding: 0 0 0 10px;">
+                <span class="icon-clear" ng-show="isEditAdvertiser" data-ng-click="clearEdit()"
+                  style="position: absolute;top: 42px;left: 10px;"></span>
+            </div>
         </div>
         
-        <span class="delete_row" ng-show="isEditAdvertiser" data-ng-click="clearEdit()"
-                  style="position: absolute;top: 32px;left: 367px;"></span>
+        
     </div>
     
     <!--User List-->
