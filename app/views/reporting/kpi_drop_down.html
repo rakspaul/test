@@ -1,31 +1,31 @@
-<span class="dropdown_ul_text col-md-12 zeroPadding" data-toggle="dropdown" value="'{{kpiData.selectedKpi}}'"  style="margin-top: 3px;">
+<span class="dropdown_ul_text col-md-12 zeroPadding common_kpi_dropdown" data-toggle="dropdown" value="'{{kpiData.selectedKpi}}'"  style="margin-top: 3px;">
     <span class="icon-arrow-solid-down pull-right marginLeftFive"></span>
-    <span ng-if="whichCaller.changedrpval == 'yes'" class="pull-right">
+    <span ng-if="whichCaller.changedrpval == 'yes'" class="pull-right dd_txt">
         <span ng-if="kpiData.selectedKpi == 'vtc'||kpiData.selectedKpi == 'ctr' ||kpiData.selectedKpi == 'action_rate'"
               ng-init="changeClickedSelectedKpiAlt('cpm')"
-              class="dd_txt pull-left" style="line-height: 100%;"
-              data-ng-bind="textConstants.CPM">
+              class="dd_txt_span pull-left" style="line-height: 100%;"
+              data-ng-bind="textConstants.CPM"  title="{{textConstants.CPM}}">
         </span>
         <span ng-if="kpiData.selectedKpi == 'cpm'||kpiData.selectedKpi == 'cpa' ||kpiData.selectedKpi == 'cpc' || kpiData.selectedKpi == 'pc_cpa'"
-              class="dd_txt pull-left"
+              class="dd_txt_span pull-left"
               style="line-height: 100%;"
-              data-ng-bind="kpiData.selectedKpiDisplayName">
+              data-ng-bind="kpiData.selectedKpiDisplayName"  title="{{kpiData.selectedKpiDisplayName}}">
         </span>
         <span ng-if="kpiData.selectedKpi == 'impressions'"
               ng-init="changeClickedSelectedKpiAlt('cpm')"
-              class="pull-left" style="line-height: 100%;"
-              data-ng-bind="kpiData.selectedKpiDisplayName">
+              class="pull-left dd_txt_span" style="line-height: 100%;"
+              data-ng-bind="kpiData.selectedKpiDisplayName"  title="{{kpiData.selectedKpiDisplayName}}">
         </span>
     </span>
     <span ng-if="!whichCaller.changedrpval" class="pull-right dd_txt" ng-init="changeClickedSelectedKpiAlt(campaign_default_kpi_type)">
-        <span ng-if="kpiData.selectedKpi != 'impressions'" class="pull-left"
+        <span ng-if="kpiData.selectedKpi != 'impressions'" class="pull-left dd_txt_span"
               style="line-height: 100%;"
-              data-ng-bind="kpiData.selectedKpiDisplayName">
+              data-ng-bind="kpiData.selectedKpiDisplayName" title="{{kpiData.selectedKpiDisplayName}}">
         </span>
        <span ng-if="kpiData.selectedKpi == 'impressions'"  ng-init="changeClickedSelectedKpiAlt('ctr')"
-             class="pull-left"
+             class="pull-left dd_txt_span"
              style="line-height: 100%;"
-             data-ng-bind="kpiData.selectedKpiDisplayName">
+             data-ng-bind="kpiData.selectedKpiDisplayName" title="{{kpiData.selectedKpiDisplayName}}">
         </span>
     </span>
     <span ng-class="{vid_none_hdr_hide:whichCaller.changedrpval == 'yes'}"  class="default-kpi-header-icon pull-right" tooltip="Primary KPI" ng-if="kpiData.selectedKpi.trim().toLowerCase() === campaign_default_kpi_type.trim()"></span>
