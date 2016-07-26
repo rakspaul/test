@@ -853,7 +853,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             } else {
                 previewUrl +=  '/creative/' + creativeData.id +'/preview';
             }
-            return previewUrl;
+            
+            window.open(previewUrl);
         };
 
         $scope.ShowHide = function (obj) {
