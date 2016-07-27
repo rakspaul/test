@@ -136,6 +136,28 @@ define(['angularAMD'],
                 return url;
             },
 
+            gotoCreativeListUrl =  function() {
+                var url = '/a/' + $routeParams.accountId;
+
+                if ($routeParams.subAccountId) {
+
+                    url += '/sa/' + $routeParams.subAccountId;
+
+                } else {
+                    // user navigating from custom reports to media plans
+                    var selectedAccount = _.find(accountService.getAccounts(), function(a) {
+                        return a.id === $routeParams.accountId;
+                    });
+                    if (!selectedAccount.isLeafNode) {
+                        url += '/sa/' + $routeParams.accountId;
+                    }
+
+                }
+
+                url += '/creative/list';
+                $location.url(url);
+            },
+
             uploadReportsUrl = function() {
 
                 var url,
@@ -203,6 +225,7 @@ define(['angularAMD'],
                 gotoCannedReportsUrl : gotoCannedReportsUrl,
                 customReportsUrl : customReportsUrl,
                 customReportsListUrl : customReportsListUrl,
+                gotoCreativeListUrl : gotoCreativeListUrl,
                 uploadReportsUrl : uploadReportsUrl,
                 uploadReportsListUrl : uploadReportsListUrl
             };

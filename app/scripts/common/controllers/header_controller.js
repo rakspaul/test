@@ -137,10 +137,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             if (page === 'dashboard') {
                 $location.url(urlBuilder.dashboardUrl());
             } else if (page === 'creativelist') {
-                $('.each_nav_link').removeClass('active_tab active selected');
-                url = '/creative/list';
-                $('#creative_nav_link').addClass('active_tab');
-                $location.url(url);
+                urlBuilder.gotoCreativeListUrl();
             } else if (page === 'adminOverview') {
                 $('.each_nav_link').removeClass('active_tab active selected');
                 url = '/admin/accounts';

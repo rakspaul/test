@@ -2112,7 +2112,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     templateUrl: assets.html_creative_list,
                     title: 'Creative List',
                     controller: 'CreativeListController',
-                    controllerUrl: 'workflow/controllers/creative_list_controller',
+                    controllerUrl: 'workflow/creative/creative_list_controller',
                     showHeader : true,
 
                     resolve: {
@@ -2130,7 +2130,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     templateUrl: assets.html_creative_list,
                     title: 'Creative List',
                     controller: 'CreativeListController',
-                    controllerUrl: 'workflow/controllers/creative_list_controller',
+                    controllerUrl: 'workflow/creative/creative_list_controller',
                     showHeader : true,
 
                     resolve: {
