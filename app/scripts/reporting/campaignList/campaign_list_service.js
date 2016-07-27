@@ -36,7 +36,6 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
 
                     createTacticObject = function (tacticData, timePeriod, campaign, strategyId) {
                         var tacticObj = [],
-                            status = '',
                             adSize = '',
                             geoValues = '',
                             zipValues = '',
@@ -64,7 +63,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                                 ad_size: _.uniq(tactic.ad_size), // jshint ignore:line
                                 platform_name: tactic.platform_name,
                                 platform_icon: tactic.platform_icon_url,
-                                status: status,
+                                status: (tactic.status === undefined ? 'Draft' : tactic.status),
                                 audience_targeting: adSize || null,
                                 zip_targeting: zipValues,
                                 geo_targeting: geoValues,
@@ -82,7 +81,6 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', // jshint 
                                 is_tracking: tactic.is_tracking
                             };
 
-                            status = (tactic.status === undefined ? 'Draft' : tactic.status);
                             mediaTypeIcon = mediaTypeIconMap[tactic.media_type.toLowerCase()];
                             mediaTypeIcon || (mediaTypeIcon = 'icon-desktop');
 
