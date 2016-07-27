@@ -411,7 +411,7 @@ define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
 
     angularAMD.directive('uploadReportsFiltersHeader', ['$location', '$rootScope', '$http', '$compile', 'constants',
         'loginModel', 'accountService', 'vistoconfig', function ($location, $rootScope, $http, $compile, constants,
-                                                  loginModel, accountService, vistoconfig) {
+                                                  loginModel, accountService) {
             return {
                 controller: function () {
                 },
@@ -432,7 +432,7 @@ define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
 
     angularAMD.directive('dashboardFiltersHeader', ['$location', '$rootScope', '$http', '$compile', 'constants',
         'loginModel', 'accountService', 'vistoconfig', function ($location, $rootScope, $http, $compile, constants,
-                                                  loginModel, accountService, vistoconfig) {
+                                                  loginModel, accountService) {
             return {
                 controller: function ($scope) {
                     $scope.textConstants = constants;
@@ -451,7 +451,7 @@ define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
         }]);
 
     angularAMD.directive('filtersHeader', ['$location','$rootScope','$http', '$compile', 'constants','vistoconfig',
-        function ($location,$rootScope,$http, $compile, constants, vistoconfig) {
+        function ($location,$rootScope,$http, $compile, constants, accountService) {
             return {
                 controller: function () {},
                 restrict: 'EAC',
