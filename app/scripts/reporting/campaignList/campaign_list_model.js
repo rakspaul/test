@@ -216,7 +216,10 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
 
                         fetchCampaigns = function () {
                             var self,
-                                url;
+                                url,
+                                clientId,
+                                advertiserId,
+                                brandId;
 
                             // check scroller only inside container
                             findScrollerFromContainer.call(this);
@@ -230,9 +233,9 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
                                 self.noData = false;
                                 url = _campaignServiceUrl.call(this);
 
-                                var clientId = vistoconfig.getSelectedAccountId(),
-                                    advertiserId = vistoconfig.getSelectAdvertiserId(),
-                                    brandId = vistoconfig.getSelectedBrandId();
+                                clientId = vistoconfig.getSelectedAccountId();
+                                advertiserId = vistoconfig.getSelectAdvertiserId();
+                                brandId = vistoconfig.getSelectedBrandId();
 
                                 campaignListService.getCampaigns(url, function (result) {
                                     var data = result.data.data;

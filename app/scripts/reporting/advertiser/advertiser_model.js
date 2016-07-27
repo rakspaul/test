@@ -19,7 +19,6 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
                 advertiserData.cssClass = '';
 
                 return {
-
                     fetchAdvertiserList: function(accountId) {
                         var deferred = $q.defer();
 
@@ -33,9 +32,10 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
                             $timeout(function() {
                                 deferred.resolve();
                             }, 10);
+
                             return deferred.promise;
                         }
-
+console.log('fetchAdvertiserList()')
                         workflowService.getAdvertisers(accountId, 'read').then(function (result) {
                             if (result && result.data.data.length > 0) {
                                 advertiserData.advertiserList = _.map(result.data.data, function(a) {
@@ -50,6 +50,7 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
                             previousAccountId = accountId;
                             deferred.resolve();
                         });
+
                         return deferred.promise;
                     },
 

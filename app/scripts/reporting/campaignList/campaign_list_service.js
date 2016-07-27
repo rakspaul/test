@@ -583,7 +583,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                     setActiveInactiveCampaigns = function (campaigns, timePeriod, periodStartDate, periodEndDate) {
                         var campaignList = [],
                             campaign;
-console.log('campaigns = ', campaigns);
+
                         _.each(campaigns, function (camp) {
                             if (!angular.isObject(camp)) {
                                 return;
