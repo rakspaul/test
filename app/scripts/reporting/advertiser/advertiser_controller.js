@@ -9,6 +9,13 @@ define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils',
             searchCriteria = utils.typeaheadParams,
             loadAdvertisers = true,
 
+            eventBrandChangedFromDashBoard = // jshint ignore:line
+                $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD,
+                    function (event, args) {
+                        $scope.selectAdvertiser(args.advertiser, args.event_type);
+                    }
+                ),
+
             accountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
                 var advertiser = advertiserModel.getAllAdvertiser();
 
