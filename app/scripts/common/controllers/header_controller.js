@@ -21,6 +21,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 $scope.showReportTab = fParams[0].reports_tab;
                 $scope.showReportOverview = fParams[0].report_overview;
 
+                $scope.showCreativeList = fParams[0].creative_list;
+
                 $scope.buildReport = fParams[0].scheduled_reports;
 
                 if (fParams[0].scheduled_reports || fParams[0].collective_insights) {

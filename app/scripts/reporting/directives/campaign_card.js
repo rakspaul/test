@@ -98,7 +98,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                     $scope.redirectToOverViewPage = function(mediaplanId) {
                         var url = '',
                             masterClientId = vistoconfig.getMasterClientId(),
-                            accountId = vistoconfig.getMasterClientId();
+                            accountId = vistoconfig.getSelectedAccountId();
 
                         url = '/a/'+ masterClientId;
                         if(accountId) {

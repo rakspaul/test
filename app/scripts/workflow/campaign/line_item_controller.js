@@ -491,9 +491,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     // bulk upload loader flag
                     $scope.bulkUploadItemLoaderEdit = true;
 
-                    clientId = ($scope.selectedCampaign.clientId) ?
-                        $scope.selectedCampaign.clientId :
-                        loginModel.getSelectedClient().id;
+                    clientId = vistoconfig.getSelectedAccountId();
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +

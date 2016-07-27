@@ -450,7 +450,8 @@ define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
             };
         }]);
 
-    angularAMD.directive('filtersHeader', ['$location','$rootScope','$http', '$compile', 'constants','vistoconfig',
+    angularAMD.directive('filtersHeader', ['$location','$rootScope','$http', '$compile',
+        'constants', 'accountService',
         function ($location,$rootScope,$http, $compile, constants, accountService) {
             return {
                 controller: function () {},

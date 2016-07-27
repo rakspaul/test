@@ -662,11 +662,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 postDataObj.name = formData.campaignName;
                 postDataObj.advertiserId = Number(formData.advertiserId);
 
-                if ($scope.showSubAccount) {
-                    postDataObj.clientId = $scope.selectedCampaign.clientId;
-                } else {
-                    postDataObj.clientId = loginModel.getSelectedClient().id;
-                }
+                postDataObj.clientId = vistoconfig.getSelectedAccountId();
 
                 postDataObj.labels = _.pluck($scope.tags, 'label');
 

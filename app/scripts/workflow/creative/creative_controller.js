@@ -547,7 +547,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         function fireAPItoValidate(ele, creativeTag) {
             var creativeValidateObj = {
                     advertiserId : $scope.creative.advertiserId,
-                    clientId : loginModel.getSelectedClient().id,
+                    clientId : vistoconfig.getSelectedAccountId(),
                     data: {
                         tag: creativeTag,
                         format: $scope.creativeFormat
