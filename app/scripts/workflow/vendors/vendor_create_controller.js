@@ -11,7 +11,7 @@ define(['angularAMD'], function (angularAMD) {
                 $(this)
                     .parents('.dropdown')
                     .find('.btn')
-                    .find(".text").text($(this).text());
+                    .find('.text').text($(this).text());
 
                 $(this).parents('.dropdown').find('.btn').val($(this).data('value'));
             });
