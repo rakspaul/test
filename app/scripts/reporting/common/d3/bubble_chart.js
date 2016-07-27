@@ -73,7 +73,8 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
                     toolTipY: pathData.curveEndY,
                     objectType: (spanId === 'advertisers')? 'advertisers' : 'campaigns',
                     advertiserId: node.advertiser_id,
-                    advertiserName: node.advertiser_name
+                    advertiserName: node.advertiser_name,
+                    clientId: node.client_id
                 };
 
                 formattedData.push(object);

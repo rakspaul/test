@@ -368,7 +368,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                     quickFilterId,
                     regionTooltipId;
 
-                if (cdbDropdownId.is(':visible') && event.target.id !== 'durationMenuText') {
+                if (cdbDropdownId.is(':visible') && ($(event.target).hasClass('durationMenuText') == false) ) {
                     cdbDropdownId.closest('.each_filter').removeClass('filter_dropdown_open');
                     cdbDropdownId.hide();
                 }
