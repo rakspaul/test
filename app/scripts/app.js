@@ -1848,7 +1848,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     }
                 }))
 
-                .when('/admin/advertisers', angularAMD.route({
+                .when('/a/:accountId/admin/advertisers', angularAMD.route({
                     templateUrl: assets.html_advertisers,
                     title: 'AdminAdvertisers',
                     controller: 'AdminUsersController',
