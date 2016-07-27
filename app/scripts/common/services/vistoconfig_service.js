@@ -68,5 +68,27 @@ define(['angularAMD'], function (angularAMD) {
             id: -1,
             type: 'all'
         };
+
+        this.timeZoneNameMapper = {
+            //Britain standard time
+            'GB' : 'GMT',
+
+            //America/New_York
+            'EST' : 'EST',
+
+            'US/Eastern' : 'America/New_York',
+
+            //America/Los_Angeles
+            'US/Pacific' : 'America/Los_Angeles',
+
+            //America/Chicago
+            'US/Central' : 'America/Chicago',
+
+            //America/Denver
+            'US/Mountain' : 'America/Denver',
+
+            'GMT' : 'UTC'
+        };
+
     });
 });
