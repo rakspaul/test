@@ -23,7 +23,6 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
 
                     createTacticObject = function (tacticData, timePeriod, campaign, strategyId) {
                         var tacticObj = [],
-                            status = '',
                             adSize = '',
                             geoValues = '',
                             zipValues = '',
