@@ -123,7 +123,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     code: code,
                     nickname:nickname,
                     ownerClientId: _curCtrl.masterClientId
-                }
+                };
                 accountsService
                     .createAdvertiser(data)
                     .then(function (res) {

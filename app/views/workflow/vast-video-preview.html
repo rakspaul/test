@@ -16,23 +16,12 @@
 <body id="b">
 
 <div class="example-video-container" id="cnt">
-    <!--<video id="vid2" class="video-js vjs-default-skin" autoplay controls preload="auto"-->
-           <!--poster="/scripts/workflow/vast-video/video-poster.jpg"-->
-           <!--data-setup='{}'-->
-           <!--width='640'-->
-           <!--height='400'-->
-    <!-->-->
-        <!--<source id ="sourceID" src="http://video-js.zencoder.com/oceans-clip.mp4" type='video/mp4'>-->
-        <!--<source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm'>-->
-        <!--<source src="http://video-js.zencoder.com/oceans-clip.ogv" type='video/ogg'>-->
-        <!--<p>Video Playback Not Supported</p>-->
-    <!--</video>-->
 </div>
 
 <script>
 
     var url = localStorage.getItem("creativeTag"),
-    vtag = url.substr(url.indexOf("&vtag=") + ("&vtag=".length) , url.length)
+    vtag = url.substr(url.indexOf("&vtag=") + ("&vtag=".length) , url.length);
 
     $(document).ready(function(){
         $.ajax({
