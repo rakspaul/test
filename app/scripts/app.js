@@ -1,4 +1,5 @@
-define(['common', 'common/services/vistoconfig_service'], function (angularAMD) {
+define(['common', 'common/services/vistoconfig_service', 'reporting/strategySelect/strategy_select_model'],
+    function (angularAMD) {
     'use strict';
 
     angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
@@ -13,15 +14,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
         'ngTagsInput']);
 
 
-    var fetchCurrentAdvertiser = function($location, $route, advertiserModel, vistoconfig) {
+    var fetchCurrentAdvertiser = function ($location, $route, advertiserModel, vistoconfig) {
         var params = $route.current.params;
+
         advertiserModel
             .fetchAdvertiserList(params.subAccountId || params.accountId)
             .then(function () {
                 var advertiser;
 
                 if (advertiserModel.allowedAdvertiser(params.advertiserId)) {
-                    advertiser = vistoconfig.getSelectAdvertiserId();
+                    advertiser = vistoconfig ? vistoconfig.getSelectAdvertiserId() : {};
                     $('#advertiser_name_selected').text(advertiser.name);
                     $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
                 } else {
@@ -31,14 +33,14 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
             });
     };
 
-    var fetchCurrentBrand = function($location, $route, brandsModel, vistoconfig) {
+    var fetchCurrentBrand = function ($location, $route, brandsModel, vistoconfig) {
         var params = $route.current.params;
 
         brandsModel
             .fetchBrandList(params.subAccountId || params.accountId, params.advertiserId)
-            .then(function() {
+            .then(function () {
                 if (brandsModel.allowedBrand(params.brandId)) {
-                    var brand = vistoconfig.getSelectedBrandId();
+                    var brand = vistoconfig ? vistoconfig.getSelectedBrandId() : {};
 
                     $('#brand_name_selected').text(brand.name);
                     $('#brandsDropdown').attr('placeholder', brand.name).val('');
@@ -49,19 +51,19 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
             });
     };
 
-    var dashboardHeaderResolver = function($q, $location, $route, accountService, advertiserModel) {
-        var deferred = $q.defer();
+    var dashboardHeaderResolver = function ($q, $location, $route, accountService, advertiserModel, vistoconfig) {
+        var deferred = $q.defer(),
+            params = $route.current.params;
 
-        var params = $route.current.params;
-        accountService.fetchAccountList().then(function() {
+        accountService.fetchAccountList().then(function () {
             if (accountService.allowedAccount(params.accountId)) {
-                accountService.fetchAccountData(params.accountId).then(function() {
+                accountService.fetchAccountData(params.accountId).then(function () {
                     deferred.resolve();
                     if (params.advertiserId && params.brandId) {
                         console.log('fetching the advertiser & brand before loading dashboard. See resolve function');
                     } else {
                         // fetch the advertiser async
-                        params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel);
+                        params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
                     }
                 });
             } else {
@@ -69,353 +71,493 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                 $location.url('/tmp');
             }
         });
+
         return deferred.promise;
     };
 
-    var dashboardHeaderResolver2 = function($q, $location, $route, accountService, subAccountService, advertiserModel) {
-        var deferred = $q.defer();
+    var dashboardHeaderResolver2 =
+        function ($q, $location, $route, accountService, subAccountService, advertiserModel, vistoconfig) {
+        var deferred = $q.defer(),
+            params = $route.current.params;
 
-        var params = $route.current.params;
-        accountService.fetchAccountList().then(function() {
-            if (accountService.allowedAccount($route.current.params.accountId)) {
-                subAccountService.fetchDashboardSubAccountList($route.current.params.accountId).then(function() {
-                    if (subAccountService.allowedDashboardSubAccount($route.current.params.subAccountId)) {
-                        accountService.fetchAccountData(params.accountId).then(function() {
-                            deferred.resolve();
-                            if (params.advertiserId && params.brandId) {
-                                console.log('fetching the advertiser & brand before loading dashboard. ' +
-                                    'See resolve function');
+        accountService
+            .fetchAccountList()
+            .then(function () {
+                if (accountService.allowedAccount($route.current.params.accountId)) {
+                    subAccountService
+                        .fetchDashboardSubAccountList($route.current.params.accountId)
+                        .then(function () {
+                            if (subAccountService.allowedDashboardSubAccount($route.current.params.subAccountId)) {
+                                accountService
+                                    .fetchAccountData(params.accountId)
+                                    .then(function () {
+                                        deferred.resolve();
+                                        if (params.advertiserId && params.brandId) {
+                                            console.log('fetching the advertiser & brand before loading dashboard. ' +
+                                                'See resolve function');
+                                        } else {
+                                            // fetch the advertiser async
+                                            params.advertiserId &&
+                                                fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
+                                        }
+                                    });
                             } else {
-                                // fetch the advertiser async
-                                params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel);
+                                console.log('dashboard account ' + params.subAccountId + 'not allowed');
+                                $location.url('/tmp');
                             }
                         });
+                } else {
+                    console.log('account ' + params.accountId + ' not allowed');
+                    $location.url('/tmp');
+                }
+            });
+
+        return deferred.promise;
+    };
+
+    var reportsHeaderResolver2 = function ($q, $location, $route, accountService, subAccountService,
+                                           campaignSelectModel, strategySelectModel, advertiserModel,
+                                           brandsModel, vistoconfig) {
+            var deferred = $q.defer(),
+                params = $route.current.params;
+
+            accountService
+                .fetchAccountList()
+                .then(function () {
+                    if (accountService.allowedAccount($route.current.params.accountId)) {
+                        subAccountService
+                            .fetchSubAccountList($route.current.params.accountId)
+                            .then(function () {
+                                if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
+                                    accountService
+                                        .fetchAccountData($route.current.params.accountId)
+                                        .then(function () {
+                                            var resolvedOtherDeferrer = false;
+
+                                            campaignSelectModel
+                                                .fetchCampaign($route.current.params.subAccountId,
+                                                    $route.current.params.campaignId)
+                                                .then(function () {
+                                                    if (resolvedOtherDeferrer) {
+                                                        deferred.resolve();
+
+                                                        params.advertiserId &&
+                                                            fetchCurrentAdvertiser($location, $route,
+                                                            advertiserModel, vistoconfig);
+
+                                                        params.advertiserId && params.brandId &&
+                                                            fetchCurrentBrand($location, $route, brandsModel,
+                                                            vistoconfig);
+                                                    } else {
+                                                        resolvedOtherDeferrer = true;
+                                                    }
+                                                }, function () {
+                                                    deferred.reject('Mediaplan not found');
+                                                });
+
+                                            strategySelectModel
+                                                .fetchStrategyList($route.current.params.subAccountId,
+                                                    $route.current.params.campaignId)
+                                                .then(function () {
+                                                    if (strategySelectModel
+                                                            .allowedStrategy($route.current.params.lineitemId)) {
+                                                        console.log('broadcast set strategy');
+                                                    } else {
+                                                        console.log('strategy not allowed');
+                                                        $location.url('/tmp');
+                                                    }
+                                                    if (resolvedOtherDeferrer) {
+                                                        deferred.resolve();
+
+                                                        params.advertiserId &&
+                                                            fetchCurrentAdvertiser($location,
+                                                            $route, advertiserModel, vistoconfig);
+
+                                                        params.advertiserId && params.brandId &&
+                                                            fetchCurrentBrand($location, $route,
+                                                            brandsModel, vistoconfig);
+                                                    } else {
+                                                        resolvedOtherDeferrer = true;
+                                                    }
+                                                }, function () {
+                                                    console.log('strategies not found');
+                                                });
+                                        }, function () {
+                                            deferred.reject('Client data not found');
+                                        });
+                                } else {
+                                    console.log('sub account not allowed');
+                                    $location.url('/tmp');
+                                }
+                            });
                     } else {
-                        console.log('dashboard account ' + params.subAccountId + 'not allowed');
+                        console.log('account not allowed');
                         $location.url('/tmp');
                     }
                 });
-            } else {
-                console.log('account ' + params.accountId + ' not allowed');
-                $location.url('/tmp');
-            }
-        });
-        return deferred.promise;
-    };
 
-    var reportsHeaderResolver2 = function($q, $location, $route, accountService, subAccountService,
-                                          campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
-
-            var deferred = $q.defer();
-
-            var params = $route.current.params;
-            accountService.fetchAccountList().then(function() {
-                if (accountService.allowedAccount($route.current.params.accountId)) {
-                    subAccountService.fetchSubAccountList($route.current.params.accountId).then(function() {
-                        if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                            accountService.fetchAccountData($route.current.params.accountId).then(function() {
-                                var resolvedOtherDeferrer = false;
-                                campaignSelectModel.fetchCampaign($route.current.params.subAccountId,
-                                    $route.current.params.campaignId).then(function() {
-                                    if (resolvedOtherDeferrer) {
-                                        deferred.resolve();
-                                        params.advertiserId && fetchCurrentAdvertiser($location, $route,
-                                            advertiserModel);
-                                        params.advertiserId && params.brandId && fetchCurrentBrand($location, $route,
-                                            brandsModel);
-                                    } else {
-                                        resolvedOtherDeferrer = true;
-                                    }
-                                }, function() {
-                                    deferred.reject('Mediaplan not found');
-                                });
-                                strategySelectModel.fetchStrategyList($route.current.params.subAccountId,
-                                    $route.current.params.campaignId).then(function() {
-                                    if (strategySelectModel.allowedStrategy($route.current.params.lineitemId)) {
-                                        console.log('broadcast set strategy');
-                                    } else {
-                                        console.log('strategy not allowed');
-                                        $location.url('/tmp');
-                                    }
-                                    if (resolvedOtherDeferrer) {
-                                        deferred.resolve();
-                                        params.advertiserId && fetchCurrentAdvertiser($location, $route,
-                                            advertiserModel);
-                                        params.advertiserId && params.brandId && fetchCurrentBrand($location, $route,
-                                            brandsModel);
-                                    } else {
-                                        resolvedOtherDeferrer = true;
-                                    }
-                                }, function() {
-                                    console.log('strategies not found');
-                                });
-                            }, function() {
-                                deferred.reject('Client data not found');
-                            });
-                        } else {
-                            console.log('sub account not allowed');
-                            $location.url('/tmp');
-                        }
-                    });
-                } else {
-                    console.log('account not allowed');
-                    $location.url('/tmp');
-                }
-            });
             return deferred.promise;
         },
 
-        reportsHeaderResolver = function($q, $location, $route, accountService, campaignSelectModel,
-                                         strategySelectModel, advertiserModel, brandsModel) {
+        reportsHeaderResolver = function ($q, $location, $route, accountService, campaignSelectModel,
+                                         strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
+            var deferred = $q.defer(),
+                params = $route.current.params;
 
-            var deferred = $q.defer();
+            accountService
+                .fetchAccountList()
+                .then(function () {
+                    if (accountService.allowedAccount($route.current.params.accountId)) {
+                        accountService
+                            .fetchAccountData($route.current.params.accountId)
+                            .then(function () {
+                                var resolvedOtherDeferrer = false;
 
-            var params = $route.current.params;
-            accountService.fetchAccountList().then(function() {
-                if (accountService.allowedAccount($route.current.params.accountId)) {
-                    accountService.fetchAccountData($route.current.params.accountId).then(function() {
-                        var resolvedOtherDeferrer = false;
-                        campaignSelectModel.fetchCampaign($route.current.params.accountId,
-                            $route.current.params.campaignId).then(function() {
+                                campaignSelectModel
+                                    .fetchCampaign($route.current.params.accountId, $route.current.params.campaignId)
+                                    .then(function () {
+                                        if (resolvedOtherDeferrer) {
+                                            deferred.resolve();
 
-                            if (resolvedOtherDeferrer) {
-                                deferred.resolve();
-                                params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel);
-                                params.advertiserId && params.brandId && fetchCurrentBrand($location, $route,
-                                    brandsModel);
-                            } else {
-                                resolvedOtherDeferrer = true;
-                            }
-                        }, function() {
-                            deferred.reject('Mediaplan not found');
-                        });
-                        strategySelectModel.fetchStrategyList($route.current.params.accountId,
-                            $route.current.params.campaignId).then(function() {
-                            if (strategySelectModel.allowedStrategy($route.current.params.lineitemId)) {
-                                console.log('broadcast set strategy');
-                            } else {
-                                console.log('strategy not allowed');
-                                $location.url('/tmp');
-                            }
-                            if (resolvedOtherDeferrer) {
-                                deferred.resolve();
-                                params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel);
-                                params.advertiserId && params.brandId && fetchCurrentBrand($location, $route,
-                                    brandsModel);
-                            } else {
-                                resolvedOtherDeferrer = true;
-                            }
-                        }, function() {
-                            console.log('strategies not found');
-                        });
-                    }, function() {
-                        deferred.reject('Client data not found');
-                    });
-                } else {
-                    console.log('account not allowed');
-                    $location.url('/tmp');
-                }
-            });
+                                            params.advertiserId &&
+                                                fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
+
+                                            params.advertiserId &&
+                                                params.brandId &&
+                                                fetchCurrentBrand($location, $route, brandsModel, vistoconfig);
+                                        } else {
+                                            resolvedOtherDeferrer = true;
+                                        }
+                                    }, function () {
+                                        deferred.reject('Mediaplan not found');
+                                    });
+
+                                strategySelectModel
+                                    .fetchStrategyList($route.current.params.accountId,
+                                        $route.current.params.campaignId)
+                                    .then(function () {
+                                        if (strategySelectModel.allowedStrategy($route.current.params.lineitemId)) {
+                                            console.log('broadcast set strategy');
+                                        } else {
+                                            console.log('strategy not allowed');
+                                            $location.url('/tmp');
+                                        }
+
+                                        if (resolvedOtherDeferrer) {
+                                            deferred.resolve();
+
+                                            params.advertiserId &&
+                                                fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
+
+                                            params.advertiserId &&
+                                                params.brandId &&
+                                                fetchCurrentBrand($location, $route, brandsModel, vistoconfig);
+                                        } else {
+                                            resolvedOtherDeferrer = true;
+                                        }
+                                    }, function () {
+                                        console.log('strategies not found');
+                                    });
+                            }, function () {
+                                deferred.reject('Client data not found');
+                            });
+                    } else {
+                        console.log('account not allowed');
+                        $location.url('/tmp');
+                    }
+                });
+
             return deferred.promise;
         };
 
     // report header resolver without campaign id - we pick the campaign here
-    var reportsHeaderResolverWOCampaign = function($q, $location, $route, accountService, campaignSelectModel) {
+    var reportsHeaderResolverWOCampaign = function ($q, $location, $route, accountService, campaignSelectModel) {
         var deferred = $q.defer();
 
-        accountService.fetchAccountList().then(function() {
-            if (accountService.allowedAccount($route.current.params.accountId)) {
-                accountService.fetchAccountData($route.current.params.accountId).then(function() {
-                    var params = $route.current.params;
-                    campaignSelectModel
-                        .fetchCampaigns(params.accountId, params.advertiserId || -1, params.brandId || -1)
-                        .then(function(campaignsResponse) {
-                        if (campaignsResponse && campaignsResponse.data.data) {
-                            var campaign = campaignsResponse.data.data[0],
-                                url = '/a/' + params.accountId;
-                            if (campaign) {
-                                url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
-                                url += '/mediaplans/' + campaign.campaign_id + '/' + params.reportName;
-                            } else {
-                                (params.advertiserId > 0) && (url += '/adv/' + params.advertiserId);
-                                (params.advertiserId > 0) && (params.brandId > 0) && (url += '/b/' + params.brandId);
-                                url += '/mediaplans';
-                            }
-                            console.log('url', url);
-                            $location.url(url);
-                        }
-                        deferred.resolve();
-                    });
-                });
-            } else {
-                console.log('account not allowed');
-                $location.url('/tmp');
-            }
-        });
+        accountService
+            .fetchAccountList()
+            .then(function () {
+                if (accountService.allowedAccount($route.current.params.accountId)) {
+                    accountService
+                        .fetchAccountData($route.current.params.accountId)
+                        .then(function () {
+                            var params = $route.current.params;
+
+                            campaignSelectModel
+                                .fetchCampaigns(params.accountId, params.advertiserId || -1, params.brandId || -1)
+                                .then(function (campaignsResponse) {
+                                    if (campaignsResponse && campaignsResponse.data.data) {
+                                        var campaign = campaignsResponse.data.data[0],
+                                            url = '/a/' + params.accountId;
+                                        if (campaign) {
+                                            url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
+                                            url += '/mediaplans/' + campaign.campaign_id + '/' + params.reportName;
+                                        } else {
+                                            (params.advertiserId > 0) && (url += '/adv/' + params.advertiserId);
+
+                                            (params.advertiserId > 0) &&
+                                                (params.brandId > 0) &&
+                                                (url += '/b/' + params.brandId);
+
+                                            url += '/mediaplans';
+                                        }
+
+                                        console.log('url', url);
+                                        $location.url(url);
+                                    }
+
+                                    deferred.resolve();
+                                });
+                        });
+                } else {
+                    console.log('account not allowed');
+                    $location.url('/tmp');
+                }
+            });
+
         return deferred.promise;
     };
 
-    var reportsHeaderResolverWOCampaign2 = function($q, $location, $route, accountService, subAccountService,
+    var reportsHeaderResolverWOCampaign2 = function ($q, $location, $route, accountService, subAccountService,
                                                     campaignSelectModel) {
         var deferred = $q.defer();
 
-        accountService.fetchAccountList().then(function() {
-            if (accountService.allowedAccount($route.current.params.accountId)) {
-                subAccountService.fetchSubAccountList($route.current.params.accountId).then(function() {
-                    if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                        accountService.fetchAccountData($route.current.params.accountId).then(function() {
-                            var params = $route.current.params;
-                            campaignSelectModel
-                                .fetchCampaigns(params.subAccountId, params.advertiserId || -1, params.brandId || -1)
-                                .then(function(campaignsResponse) {
-                                if (campaignsResponse && campaignsResponse.data.data) {
-                                    var campaign = campaignsResponse.data.data[0],
-                                        url = '/a/' + params.accountId + '/sa/' + params.subAccountId;
-                                    if (campaign) {
-                                        url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
-                                        url += '/mediaplans/' + campaign.campaign_id + '/' + params.reportName;
-                                    } else {
-                                        (params.advertiserId > 0) && (url += '/adv/' + params.advertiserId);
-                                        (params.advertiserId > 0) &&
-                                        (params.brandId > 0) &&
-                                        (url += '/b/' + params.brandId);
+        accountService
+            .fetchAccountList()
+            .then(function () {
+                if (accountService.allowedAccount($route.current.params.accountId)) {
+                    subAccountService
+                        .fetchSubAccountList($route.current.params.accountId)
+                        .then(function () {
+                            if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
+                                accountService
+                                    .fetchAccountData($route.current.params.accountId)
+                                    .then(function () {
+                                        var params = $route.current.params;
 
-                                        url += '/mediaplans';
-                                    }
-                                    console.log('url', url);
-                                    $location.url(url);
-                                }
-                                deferred.resolve();
-                            });
+                                        campaignSelectModel
+                                            .fetchCampaigns(params.subAccountId, params.advertiserId || -1,
+                                                params.brandId || -1)
+                                            .then(function (campaignsResponse) {
+                                            if (campaignsResponse && campaignsResponse.data.data) {
+                                                var campaign = campaignsResponse.data.data[0],
+                                                    url = '/a/' + params.accountId + '/sa/' + params.subAccountId;
+
+                                                if (campaign) {
+                                                    url += '/adv/' + campaign.advertiser_id + '/b/' +
+                                                        (campaign.brand_id || 0);
+
+                                                    url += '/mediaplans/' + campaign.campaign_id + '/' +
+                                                        params.reportName;
+                                                } else {
+                                                    (params.advertiserId > 0) && (url += '/adv/' + params.advertiserId);
+                                                    (params.advertiserId > 0) &&
+                                                    (params.brandId > 0) &&
+                                                    (url += '/b/' + params.brandId);
+
+                                                    url += '/mediaplans';
+                                                }
+                                                console.log('url', url);
+                                                $location.url(url);
+                                            }
+                                            deferred.resolve();
+                                        });
+                                    });
+                            } else {
+                                console.log('sub account not allowed');
+                                $location.url('/tmp');
+                            }
                         });
-                    } else {
-                        console.log('sub account not allowed');
-                        $location.url('/tmp');
-                    }
-                });
-            } else {
-                console.log('account not allowed');
-                $location.url('/tmp');
-            }
-        });
+                } else {
+                    console.log('account not allowed');
+                    $location.url('/tmp');
+                }
+            });
+
         return deferred.promise;
     };
 
-    var mediaplansHeaderResolver = function($q, $location, $route, accountService, advertiserModel, brandsModel) {
-        var deferred = $q.defer();
+    var mediaplansHeaderResolver = function ($q, $location, $route, accountService, advertiserModel,
+                                             brandsModel, vistoconfig) {
+        var deferred = $q.defer(),
+            params = $route.current.params;
 
-        var params = $route.current.params;
-        accountService.fetchAccountList().then(function() {
-            if (accountService.allowedAccount(params.accountId)) {
-                accountService.fetchAccountData(params.accountId).then(function() {
-                    deferred.resolve();
-                    params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel);
-                    params.advertiserId && params.brandId && fetchCurrentBrand($location, $route, brandsModel);
-                });
-            } else {
-                console.log('account ' + params.accountId + 'not allowed');
-                $location.url('/tmp');
-            }
-        });
-        return deferred.promise;
-    };
-
-    var mediaplansHeaderResolver2 = function($q, $location, $route, accountService, subAccountService, advertiserModel,
-                                             brandsModel) {
-        var deferred = $q.defer();
-
-        var params = $route.current.params;
-        accountService.fetchAccountList().then(function() {
-            if (accountService.allowedAccount(params.accountId)) {
-                subAccountService.fetchSubAccountList(params.accountId).then(function() {
-                    if (subAccountService.allowedSubAccount(params.subAccountId)) {
-                        accountService.fetchAccountData(params.accountId).then(function() {
+        accountService
+            .fetchAccountList()
+            .then(function () {
+                if (accountService.allowedAccount(params.accountId)) {
+                    accountService
+                        .fetchAccountData(params.accountId)
+                        .then(function () {
                             deferred.resolve();
-                            params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel);
-                            params.advertiserId && params.brandId && fetchCurrentBrand($location, $route, brandsModel);
+
+                            params.advertiserId &&
+                                fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
+
+                            params.advertiserId &&
+                                params.brandId &&
+                                fetchCurrentBrand($location, $route, brandsModel, vistoconfig);
                         });
-                    } else {
-                        console.log('dashboard account not allowed');
-                        $location.url('/tmp');
-                    }
-                });
-            } else {
-                console.log('account ' + params.accountId + 'not allowed');
-                $location.url('/tmp');
-            }
-        });
+                } else {
+                    console.log('account ' + params.accountId + 'not allowed');
+                    $location.url('/tmp');
+                }
+            });
+
         return deferred.promise;
     };
 
-    var uploadReportsHeaderResolver = function($q, $location, $route, accountService, campaignSelectModel,
-                                               advertiserModel, brandsModel, collectiveReportModel) {
-        var deferred = $q.defer();
+    var mediaplansHeaderResolver2 = function ($q, $location, $route, accountService, subAccountService, advertiserModel,
+                                             brandsModel, vistoconfig) {
+        var deferred = $q.defer(),
+            params = $route.current.params;
 
-        var params = $route.current.params;
-        accountService.fetchAccountList().then(function() {
-            if (accountService.allowedAccount($route.current.params.accountId)) {
-                accountService.fetchAccountData($route.current.params.accountId).then(function() {
-                    collectiveReportModel
-                        .getReportList(params.accountId, params.advertiserId || -1, params.brandId || -1,
-                            params.campaignId || -1)
-                        .then(function(response) {
-                        if (response && response.data.data) {
-                            deferred.resolve(response.data.data);
-                        } else {
-                            deferred.resolve([]);
-                        }
-                        params.campaignId && campaignSelectModel.fetchCampaign(params.accountId, params.campaignId);
-                        !params.campaignId && campaignSelectModel.setSelectedCampaign(
-                            {id: -1, name: 'All Media Plans', kpi: 'ctr', startDate: '-1', endDate: '-1'});
-                        params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel);
-                        params.advertiserId && params.brandId && fetchCurrentBrand($location, $route, brandsModel);
-                    });
-                });
-            } else {
-                console.log('account not allowed');
-                $location.url('/tmp');
-            }
-        });
+        accountService
+            .fetchAccountList()
+            .then(function () {
+                if (accountService.allowedAccount(params.accountId)) {
+                    subAccountService
+                        .fetchSubAccountList(params.accountId)
+                        .then(function () {
+                            if (subAccountService.allowedSubAccount(params.subAccountId)) {
+                                accountService
+                                    .fetchAccountData(params.accountId)
+                                    .then(function () {
+                                        deferred.resolve();
+
+                                        params.advertiserId &&
+                                            fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
+
+                                        params.advertiserId &&
+                                            params.brandId &&
+                                            fetchCurrentBrand($location, $route, brandsModel, vistoconfig);
+                                    });
+                            } else {
+                                console.log('dashboard account not allowed');
+                                $location.url('/tmp');
+                            }
+                        });
+                } else {
+                    console.log('account ' + params.accountId + 'not allowed');
+                    $location.url('/tmp');
+                }
+            });
+
         return deferred.promise;
     };
 
-    var uploadReportsHeaderResolver2 = function($q, $location, $route, accountService, subAccountService,
+    var uploadReportsHeaderResolver = function ($q, $location, $route, accountService, campaignSelectModel,
+                                               advertiserModel, brandsModel, collectiveReportModel, vistoconfig) {
+        var deferred = $q.defer(),
+            params = $route.current.params;
+
+        accountService
+            .fetchAccountList()
+            .then(function () {
+                if (accountService.allowedAccount($route.current.params.accountId)) {
+                    accountService
+                        .fetchAccountData($route.current.params.accountId)
+                        .then(function () {
+                            collectiveReportModel
+                                .getReportList(params.accountId, params.advertiserId || -1, params.brandId || -1,
+                                    params.campaignId || -1)
+                                .then(function (response) {
+                                    if (response && response.data.data) {
+                                        deferred.resolve(response.data.data);
+                                    } else {
+                                        deferred.resolve([]);
+                                    }
+
+                                    params.campaignId &&
+                                        campaignSelectModel.fetchCampaign(params.accountId, params.campaignId);
+
+                                    !params.campaignId && campaignSelectModel.setSelectedCampaign(
+                                        {
+                                            id: -1,
+                                            name: 'All Media Plans',
+                                            kpi: 'ctr',
+                                            startDate: '-1',
+                                            endDate: '-1'
+                                        }
+                                    );
+
+                                    params.advertiserId &&
+                                        fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
+
+                                    params.advertiserId &&
+                                        params.brandId &&
+                                        fetchCurrentBrand($location, $route, brandsModel, vistoconfig);
+                                });
+                        });
+                } else {
+                    console.log('account not allowed');
+                    $location.url('/tmp');
+                }
+            });
+
+        return deferred.promise;
+    };
+
+    var uploadReportsHeaderResolver2 = function ($q, $location, $route, accountService, subAccountService,
                                                 campaignSelectModel, advertiserModel, brandsModel,
-                                                collectiveReportModel) {
-        var deferred = $q.defer();
+                                                collectiveReportModel, vistoconfig) {
+        var deferred = $q.defer(),
+            params = $route.current.params;
 
-        var params = $route.current.params;
-        accountService.fetchAccountList().then(function() {
-            if (accountService.allowedAccount($route.current.params.accountId)) {
-                subAccountService.fetchSubAccountList($route.current.params.accountId).then(function() {
-                    if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                        accountService.fetchAccountData($route.current.params.accountId).then(function() {
-                            collectiveReportModel.getReportList(params.subAccountId, params.advertiserId || -1,
-                                params.brandId || -1, params.campaignId || -1).then(function(response) {
-                                if (response && response.data.data) {
-                                    deferred.resolve(response.data.data);
-                                } else {
-                                    deferred.resolve([]);
-                                }
-                                params.campaignId && campaignSelectModel.fetchCampaign(params.subAccountId,
-                                    params.campaignId);
-                                !params.campaignId && campaignSelectModel.setSelectedCampaign(
-                                    {id: -1, name: 'All Media Plans', kpi: 'ctr', startDate: '-1', endDate: '-1'});
-                                params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel);
-                                params.advertiserId && params.brandId && fetchCurrentBrand($location, $route,
-                                    brandsModel);
-                            });
+        accountService
+            .fetchAccountList()
+            .then(function () {
+                if (accountService.allowedAccount($route.current.params.accountId)) {
+                    subAccountService
+                        .fetchSubAccountList($route.current.params.accountId)
+                        .then(function () {
+                            if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
+                                accountService
+                                    .fetchAccountData($route.current.params.accountId)
+                                    .then(function () {
+                                        collectiveReportModel.getReportList(params.subAccountId,
+                                                params.advertiserId || -1,
+                                                params.brandId || -1, params.campaignId || -1)
+                                            .then(function (response) {
+                                                if (response && response.data.data) {
+                                                    deferred.resolve(response.data.data);
+                                                } else {
+                                                    deferred.resolve([]);
+                                                }
+
+                                                params.campaignId && campaignSelectModel.fetchCampaign(
+                                                    params.subAccountId, params.campaignId);
+
+                                                !params.campaignId && campaignSelectModel.setSelectedCampaign(
+                                                    {
+                                                        id: -1,
+                                                        name: 'All Media Plans',
+                                                        kpi: 'ctr',
+                                                        startDate: '-1',
+                                                        endDate: '-1'
+                                                    }
+                                                );
+
+                                                params.advertiserId &&
+                                                    fetchCurrentAdvertiser($location, $route, advertiserModel,
+                                                    vistoconfig);
+
+                                                params.advertiserId &&
+                                                    params.brandId && fetchCurrentBrand($location, $route, brandsModel,
+                                                    vistoconfig);
+                                            });
+                                    });
+                            } else {
+                                console.log('sub account ' + params.accountId + 'not allowed');
+                                $location.url('/tmp');
+                            }
                         });
-                    } else {
-                        console.log('sub account ' + params.accountId + 'not allowed');
-                        $location.url('/tmp');
-                    }
-                });
-            } else {
-                console.log('account ' + params.accountId + ' not allowed');
-                $location.url('/tmp');
-            }
-        });
+                } else {
+                    console.log('account ' + params.accountId + ' not allowed');
+                    $location.url('/tmp');
+                }
+            });
+
         return deferred.promise;
     };
 
@@ -427,38 +569,41 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                 .when('/', angularAMD.route({
                     title: 'Bootstrapping the Visto',
                     templateUrl: 'home.html',
-                    controller: function($cookieStore, $location, RoleBasedService, dataService,
+                    controller: function ($cookieStore, $location, RoleBasedService, dataService,
                                          accountService) {
+                        var preferredClientId;
+
                         console.log('controller is initialized');
                         if ($cookieStore.get('cdesk_session')) {
-
-                            var preferredClientId = RoleBasedService.getUserData().preferred_client;
-
+                            preferredClientId = RoleBasedService.getUserData().preferred_client;
                             console.log('preferredClientId', preferredClientId);
-
                             dataService.updateRequestHeader();
 
-                            accountService.fetchAccountList().then(function() {
-                                var account,  url;
-                                if (preferredClientId) {
-                                    account = _.find(accountService.getAccounts(), function(client) {
-                                        return client.id === preferredClientId;
-                                    });
-                                } else {
-                                    account = accountService.getAccounts()[0];
-                                }
+                            accountService
+                                .fetchAccountList()
+                                .then(function () {
+                                    var account,
+                                        url;
 
-                                if (account.isLeafNode) {
-                                    url = '/a/' + account.id + '/dashboard';
-                                } else {
-                                    url = '/a/' + account.id + '/sa/' + account.id + '/dashboard';
-                                }
+                                    if (preferredClientId) {
+                                        account = _.find(accountService.getAccounts(), function (client) {
+                                            return client.id === preferredClientId;
+                                        });
+                                    } else {
+                                        account = accountService.getAccounts()[0];
+                                    }
 
-                                $location.url(url);
-                            });
+                                    if (account.isLeafNode) {
+                                        url = '/a/' + account.id + '/dashboard';
+                                    } else {
+                                        url = '/a/' + account.id + '/sa/' + account.id + '/dashboard';
+                                    }
 
+                                    $location.url(url);
+                                });
                         }
                     },
+
                     showHeader: true
                 }))
 
@@ -477,13 +622,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     title: 'Dashboard',
                     showHeader : true,
                     bodyclass: 'dashboard_body',
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, advertiserModel, brandsModel,
+                                          vistoconfig) {
                             return dashboardHeaderResolver($q, $location, $route, accountService, advertiserModel,
-                                brandsModel);
+                                brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/dashboard', angularAMD.route({
                     templateUrl: assets.html_dashboard,
                     controller: 'DashboardController',
@@ -491,13 +639,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     title: 'Dashboard',
                     showHeader : true,
                     bodyclass: 'dashboard_body',
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, advertiserModel, brandsModel,
+                                          vistoconfig) {
                             return dashboardHeaderResolver($q, $location, $route, accountService, advertiserModel,
-                                brandsModel);
+                                brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/dashboard', angularAMD.route({
                     templateUrl: assets.html_dashboard,
                     controller: 'DashboardController',
@@ -505,27 +656,32 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     title: 'Dashboard',
                     showHeader : true,
                     bodyclass: 'dashboard_body',
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, advertiserModel, brandsModel,
-                                         $timeout) {
+                        header: function ($q, $location, $route, accountService, advertiserModel, brandsModel,
+                                         $timeout, vistoconfig) {
                             var deferrer = $q.defer(),
                                 params = $route.current.params;
-                            dashboardHeaderResolver($q, $location, $route, accountService, advertiserModel, brandsModel)
-                                .then(function() {
-                                advertiserModel.fetchAdvertiserList(params.accountId).then(function() {
+
+                            dashboardHeaderResolver($q, $location, $route, accountService, advertiserModel,
+                                    brandsModel, vistoconfig)
+                                .then(function () {
+                                advertiserModel.fetchAdvertiserList(params.accountId).then(function () {
                                     if (advertiserModel.allowedAdvertiser(params.advertiserId)) {
                                         brandsModel
                                             .fetchBrandList(params.accountId, params.advertiserId)
-                                            .then(function() {
+                                            .then(function () {
                                             if (brandsModel.allowedBrand(params.brandId)) {
                                                 deferrer.resolve();
-                                                $timeout(function() {
+                                                $timeout(function () {
                                                     // hack -> wait till the dashboard (with header) page loads
                                                     params.advertiserId &&
-                                                    fetchCurrentAdvertiser($location, $route, advertiserModel);
+                                                        fetchCurrentAdvertiser($location, $route, advertiserModel,
+                                                        vistoconfig);
+
                                                     params.advertiserId &&
-                                                    params.brandId &&
-                                                    fetchCurrentBrand($location, $route, brandsModel);
+                                                        params.brandId &&
+                                                        fetchCurrentBrand($location, $route, brandsModel, vistoconfig);
                                                 }, 1000);
                                             } else {
                                                 deferrer.reject('brand not allowed');
@@ -545,6 +701,7 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/dashboard', angularAMD.route({
                     templateUrl: assets.html_dashboard,
                     controller: 'DashboardController',
@@ -552,14 +709,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     title: 'Dashboard',
                     showHeader : true,
                     bodyclass: 'dashboard_body',
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService, advertiserModel,
-                                         brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, advertiserModel,
+                                         brandsModel, vistoconfig) {
                             return dashboardHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                advertiserModel, brandsModel);
+                                advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/dashboard', angularAMD.route({
                     templateUrl: assets.html_dashboard,
                     controller: 'DashboardController',
@@ -567,14 +726,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     title: 'Dashboard',
                     showHeader : true,
                     bodyclass: 'dashboard_body',
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService, advertiserModel,
-                                         brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, advertiserModel,
+                                         brandsModel, vistoconfig) {
                             return dashboardHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                advertiserModel, brandsModel);
+                                advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/dashboard', angularAMD.route({
                     templateUrl: assets.html_dashboard,
                     controller: 'DashboardController',
@@ -582,40 +743,49 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     title: 'Dashboard',
                     showHeader : true,
                     bodyclass: 'dashboard_body',
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService, advertiserModel,
-                                         brandsModel, $timeout) {
+                        header: function ($q, $location, $route, accountService, subAccountService, advertiserModel,
+                                         brandsModel, $timeout, vistoconfig) {
                             var deferrer = $q.defer(),
                                 params = $route.current.params;
+
                             dashboardHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                advertiserModel, brandsModel).then(function() {
-                                advertiserModel.fetchAdvertiserList(params.subAccountId).then(function() {
-                                    if (advertiserModel.allowedAdvertiser(params.advertiserId)) {
-                                        brandsModel
-                                            .fetchBrandList(params.subAccountId, params.advertiserId)
-                                            .then(function() {
-                                            if (brandsModel.allowedBrand(params.brandId)) {
-                                                deferrer.resolve();
-                                                $timeout(function() {
-                                                    // hack -> wait till the dashboard (with header) page loads
-                                                    params.advertiserId &&
-                                                    fetchCurrentAdvertiser($location, $route, advertiserModel);
-                                                    params.advertiserId &&
-                                                    params.brandId &&
-                                                    fetchCurrentBrand($location, $route, brandsModel);
-                                                }, 1000);
-                                            } else {
-                                                deferrer.reject('brand not allowed');
-                                                console.log('brand not allowed');
-                                                $location.url('/tmp');
-                                            }
-                                        });
-                                    } else {
-                                        deferrer.reject('advertiser not allowed');
-                                        console.log('advertiser not allowed');
-                                        $location.url('/tmp');
-                                    }
-                                });
+                                    advertiserModel, brandsModel, vistoconfig)
+                            .then(function () {
+                                advertiserModel
+                                    .fetchAdvertiserList(params.subAccountId)
+                                    .then(function () {
+                                        if (advertiserModel.allowedAdvertiser(params.advertiserId)) {
+                                            brandsModel
+                                                .fetchBrandList(params.subAccountId, params.advertiserId)
+                                                .then(function () {
+                                                    if (brandsModel.allowedBrand(params.brandId)) {
+                                                        deferrer.resolve();
+
+                                                        $timeout(function () {
+                                                            // hack -> wait till the dashboard (with header) page loads
+                                                            params.advertiserId &&
+                                                                fetchCurrentAdvertiser($location, $route,
+                                                                advertiserModel, vistoconfig);
+
+                                                            params.advertiserId &&
+                                                                params.brandId &&
+                                                                fetchCurrentBrand($location, $route, brandsModel,
+                                                                vistoconfig);
+                                                        }, 1000);
+                                                    } else {
+                                                        deferrer.reject('brand not allowed');
+                                                        console.log('brand not allowed');
+                                                        $location.url('/tmp');
+                                                    }
+                                                });
+                                        } else {
+                                            deferrer.reject('advertiser not allowed');
+                                            console.log('advertiser not allowed');
+                                            $location.url('/tmp');
+                                        }
+                                    });
                             });
 
                             return deferrer.promise;
@@ -629,14 +799,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CampaignReportsController',
                     controllerUrl: 'reporting/controllers/campaign_reports_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, campaignSelectModel,
-                                         advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, campaignSelectModel,
+                                         advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolverWOCampaign($q, $location, $route, accountService,
-                                campaignSelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/mediaplans/reports/:reportName', angularAMD.route({
                     templateUrl: assets.html_campaign_reports,
                     title: 'Reports Overview',
@@ -644,13 +816,14 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/controllers/campaign_reports_controller',
                     showHeader : true,
                     resolve: {
-                        header: function($q, $location, $route, accountService, campaignSelectModel,
-                                         advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, campaignSelectModel,
+                                         advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolverWOCampaign($q, $location, $route, accountService,
-                                campaignSelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/reports/:reportName', angularAMD.route({
                     templateUrl: assets.html_campaign_reports,
                     title: 'Reports Overview',
@@ -658,13 +831,14 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/controllers/campaign_reports_controller',
                     showHeader : true,
                     resolve: {
-                        header: function($q, $location, $route, accountService, campaignSelectModel,
-                                         advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, campaignSelectModel,
+                                         advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolverWOCampaign($q, $location, $route, accountService,
-                                campaignSelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/overview', angularAMD.route({
                     templateUrl: assets.html_campaign_details,
                     title: 'Reports Overview',
@@ -672,13 +846,14 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/controllers/campaign_details_controller',
                     showHeader : true,
                     resolve: {
-                        header: function($q, $location, $route, accountService,  campaignSelectModel,
-                                         strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService,  campaignSelectModel,
+                                         strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver($q, $location, $route, accountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/performance',
                     angularAMD.route({
                     templateUrl: assets.html_performance,
@@ -686,70 +861,80 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'PerformanceController',
                     controllerUrl: 'reporting/controllers/performance_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, campaignSelectModel,
-                                         strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, campaignSelectModel,
+                                         strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver($q, $location, $route, accountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/cost', angularAMD.route({
                     templateUrl: assets.html_cost,
                     title: 'Reports - Cost',
                     controller: 'CostController',
                     controllerUrl: 'reporting/controllers/cost_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, campaignSelectModel,
+                        header: function ($q, $location, $route, accountService, campaignSelectModel,
                                          strategySelectModel, advertiserModel, brandsModel) {
                             return reportsHeaderResolver($q, $location, $route, accountService,
                                 campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/platform', angularAMD.route({
                     templateUrl: assets.html_platform,
                     title: 'Reports - Platform',
                     controller: 'PlatformController',
                     controllerUrl: 'reporting/controllers/platform_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, campaignSelectModel,
-                                         strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, campaignSelectModel,
+                                         strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver($q, $location, $route, accountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/inventory', angularAMD.route({
                     templateUrl: assets.html_inventory,
                     title: 'Reports - Inventory',
                     controller: 'InventoryController',
                     controllerUrl: 'reporting/controllers/inventory_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, campaignSelectModel,
-                                         strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, campaignSelectModel,
+                                         strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver($q, $location, $route, accountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/quality', angularAMD.route({
                     templateUrl: assets.html_viewability,
                     title: 'Reports - Quality',
                     controller: 'ViewabilityController',
                     controllerUrl: 'reporting/controllers/viewability_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, campaignSelectModel,
-                                         strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, campaignSelectModel,
+                                         strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver($q, $location, $route, accountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/optimization',
                     angularAMD.route({
                     templateUrl: assets.html_optimization,
@@ -757,14 +942,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'OptimizationController',
                     controllerUrl: 'reporting/controllers/optimization_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, campaignSelectModel,
-                                         strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, campaignSelectModel,
+                                         strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver($q, $location, $route, accountService, campaignSelectModel,
-                                strategySelectModel, advertiserModel, brandsModel);
+                                strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/overview',
                     angularAMD.route({
                     templateUrl: assets.html_campaign_details,
@@ -772,14 +959,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CampaignDetailsController',
                     controllerUrl: 'reporting/controllers/campaign_details_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService,  campaignSelectModel,
-                                         strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService,  campaignSelectModel,
+                                         strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver($q, $location, $route, accountService, campaignSelectModel,
-                                strategySelectModel, advertiserModel, brandsModel);
+                                strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/performance',
                     angularAMD.route({
                     templateUrl: assets.html_performance,
@@ -787,14 +976,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'PerformanceController',
                     controllerUrl: 'reporting/controllers/performance_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, campaignSelectModel,
+                        header: function ($q, $location, $route, accountService, campaignSelectModel,
                                          strategySelectModel, advertiserModel, brandsModel) {
                             return reportsHeaderResolver($q, $location, $route, accountService, campaignSelectModel,
                                 strategySelectModel, advertiserModel, brandsModel);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/cost',
                     angularAMD.route({
                     templateUrl: assets.html_cost,
@@ -802,14 +993,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CostController',
                     controllerUrl: 'reporting/controllers/cost_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, campaignSelectModel,
-                                         strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, campaignSelectModel,
+                                         strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver($q, $location, $route, accountService, campaignSelectModel,
-                                strategySelectModel, advertiserModel, brandsModel);
+                                strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/platform',
                     angularAMD.route({
                     templateUrl: assets.html_platform,
@@ -817,14 +1010,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'PlatformController',
                     controllerUrl: 'reporting/controllers/platform_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, campaignSelectModel,
-                                         strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, campaignSelectModel,
+                                         strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver($q, $location, $route, accountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/inventory',
                     angularAMD.route({
                     templateUrl: assets.html_inventory,
@@ -832,14 +1027,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'InventoryController',
                     controllerUrl: 'reporting/controllers/inventory_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, campaignSelectModel,
-                                         strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, campaignSelectModel,
+                                         strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver($q, $location, $route, accountService, campaignSelectModel,
-                                strategySelectModel, advertiserModel, brandsModel);
+                                strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/quality',
                     angularAMD.route({
                     templateUrl: assets.html_viewability,
@@ -847,14 +1044,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'ViewabilityController',
                     controllerUrl: 'reporting/controllers/viewability_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, campaignSelectModel,
-                                         strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, campaignSelectModel,
+                                         strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver($q, $location, $route, accountService, campaignSelectModel,
-                                strategySelectModel, advertiserModel, brandsModel);
+                                strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/optimization',
                     angularAMD.route({
                     templateUrl: assets.html_optimization,
@@ -862,28 +1061,32 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'OptimizationController',
                     controllerUrl: 'reporting/controllers/optimization_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, campaignSelectModel,
-                                         strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, campaignSelectModel,
+                                         strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver($q, $location, $route, accountService, campaignSelectModel,
-                                strategySelectModel, advertiserModel, brandsModel);
+                                strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/mediaplans/reports/:reportName', angularAMD.route({
                     templateUrl: assets.html_campaign_reports,
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
                     controllerUrl: 'reporting/controllers/campaign_reports_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService,
-                                         campaignSelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService,
+                                         campaignSelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolverWOCampaign2($q, $location, $route, accountService,
-                                subAccountService, campaignSelectModel, advertiserModel, brandsModel);
+                                subAccountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplans' +
                     '/reports/:reportName', angularAMD.route({
                     templateUrl: assets.html_campaign_reports,
@@ -891,11 +1094,12 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CampaignReportsController',
                     controllerUrl: 'reporting/controllers/campaign_reports_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService, campaignSelectModel,
-                                         advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                         advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolverWOCampaign2($q, $location, $route, accountService,
-                                subAccountService, campaignSelectModel, advertiserModel, brandsModel);
+                                subAccountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
@@ -906,14 +1110,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CampaignReportsController',
                     controllerUrl: 'reporting/controllers/campaign_reports_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService, campaignSelectModel,
-                                         advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                         advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolverWOCampaign2($q, $location, $route, accountService,
-                                subAccountService, campaignSelectModel, advertiserModel, brandsModel);
+                                subAccountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
                     '/:campaignId/overview', angularAMD.route({
                     templateUrl: assets.html_campaign_details,
@@ -921,14 +1127,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CampaignDetailsController',
                     controllerUrl: 'reporting/controllers/campaign_details_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService,
-                                         campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                          strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
                     '/:campaignId/performance', angularAMD.route({
                     templateUrl: assets.html_performance,
@@ -936,14 +1144,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'PerformanceController',
                     controllerUrl: 'reporting/controllers/performance_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService,
-                                         campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                          strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
                     '/:campaignId/cost', angularAMD.route({
                     templateUrl: assets.html_cost,
@@ -951,14 +1161,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CostController',
                     controllerUrl: 'reporting/controllers/cost_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService,
-                                         campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                          strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
                     '/:campaignId/platform', angularAMD.route({
                     templateUrl: assets.html_platform,
@@ -966,14 +1178,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'PlatformController',
                     controllerUrl: 'reporting/controllers/platform_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService,
-                                         campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                          strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
                     '/:campaignId/inventory', angularAMD.route({
                     templateUrl: assets.html_inventory,
@@ -981,14 +1195,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'InventoryController',
                     controllerUrl: 'reporting/controllers/inventory_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService,
-                                         campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                          strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
                     '/:campaignId/quality', angularAMD.route({
                     templateUrl: assets.html_viewability,
@@ -996,14 +1212,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'ViewabilityController',
                     controllerUrl: 'reporting/controllers/viewability_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService,
-                                         campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                          strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
                     '/:campaignId/optimization', angularAMD.route({
                     templateUrl: assets.html_optimization,
@@ -1011,14 +1229,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'OptimizationController',
                     controllerUrl: 'reporting/controllers/optimization_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService,
-                                         campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                          strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
                     '/:campaignId/li/:lineitemId/overview', angularAMD.route({
                     templateUrl: assets.html_campaign_details,
@@ -1026,14 +1246,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CampaignDetailsController',
                     controllerUrl: 'reporting/controllers/campaign_details_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService,
-                                         campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                          strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
                     '/:campaignId/li/:lineitemId/performance', angularAMD.route({
                     templateUrl: assets.html_performance,
@@ -1041,14 +1263,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'PerformanceController',
                     controllerUrl: 'reporting/controllers/performance_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService,
-                                         campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                          strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
                     '/:campaignId/li/:lineitemId/cost', angularAMD.route({
                     templateUrl: assets.html_cost,
@@ -1056,11 +1280,12 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CostController',
                     controllerUrl: 'reporting/controllers/cost_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService,
-                                         campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                          strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
@@ -1071,14 +1296,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'PlatformController',
                     controllerUrl: 'reporting/controllers/platform_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService,
-                                         campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                          strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
                     '/:campaignId/li/:lineitemId/inventory', angularAMD.route({
                     templateUrl: assets.html_inventory,
@@ -1086,14 +1313,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'InventoryController',
                     controllerUrl: 'reporting/controllers/inventory_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService,
-                                         campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                          strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
                     '/:campaignId/li/:lineitemId/quality', angularAMD.route({
                     templateUrl: assets.html_viewability,
@@ -1101,14 +1330,16 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'ViewabilityController',
                     controllerUrl: 'reporting/controllers/viewability_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService,
-                                         campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                          strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
                     '/:campaignId/li/:lineitemId/optimization', angularAMD.route({
                     templateUrl: assets.html_optimization,
@@ -1116,86 +1347,102 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'OptimizationController',
                     controllerUrl: 'reporting/controllers/optimization_controller',
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService,
-                                         campaignSelectModel, strategySelectModel, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                          strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                             return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/mediaplans', angularAMD.route({
                     templateUrl: assets.html_campaign_list,
                     title: 'Media Plan List',
                     reloadOnSearch : false,
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, advertiserModel,
+                                          brandsModel, vistoconfig) {
                             return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel,
-                                brandsModel);
+                                brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/mediaplans', angularAMD.route({
                     templateUrl: assets.html_campaign_list,
                     title: 'Media Plan List',
                     reloadOnSearch : false,
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, advertiserModel,
+                                          brandsModel, vistoconfig) {
                             return mediaplansHeaderResolver($q, $location, $route, accountService,
-                                advertiserModel, brandsModel);
+                                advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans', angularAMD.route({
                     templateUrl: assets.html_campaign_list,
                     title: 'Media Plan List',
                     reloadOnSearch : false,
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, advertiserModel,
+                                          brandsModel, vistoconfig) {
                             return mediaplansHeaderResolver($q, $location, $route, accountService,
-                                advertiserModel, brandsModel);
+                                advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/mediaplans', angularAMD.route({
                     templateUrl: assets.html_campaign_list,
                     title: 'Media Plan List',
                     reloadOnSearch : false,
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService,
-                                         advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService,
+                                         advertiserModel, brandsModel, vistoconfig) {
                             return mediaplansHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                advertiserModel, brandsModel);
+                                advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplans', angularAMD.route({
                     templateUrl: assets.html_campaign_list,
                     title: 'Media Plan List',
                     reloadOnSearch : false,
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService,
-                                         advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService,
+                                         advertiserModel, brandsModel, vistoconfig) {
                             return mediaplansHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                advertiserModel, brandsModel);
+                                advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
+
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans', angularAMD.route({
                     templateUrl: assets.html_campaign_list,
                     title: 'Media Plan List',
                     reloadOnSearch : false,
                     showHeader : true,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService, advertiserModel,
-                                         brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, advertiserModel,
+                                         brandsModel, vistoconfig) {
                             return mediaplansHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                advertiserModel, brandsModel);
+                                advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
@@ -1207,10 +1454,12 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/collectiveReport/reports_schedule_list_controller',
                     showHeader : true,
                     css: assets.css_reports_schedule_list,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, advertiserModel,
+                                          brandsModel, vistoconfig) {
                             return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel,
-                                brandsModel);
+                                brandsModel, vistoconfig);
                         }
                     }
                 }))
@@ -1222,10 +1471,12 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/controllers/custom_report_controller',
                     showHeader : true,
                     bodyclass: 'custom_report_page',
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, advertiserModel,
+                                          brandsModel, vistoconfig) {
                             return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel,
-                                brandsModel);
+                                brandsModel, vistoconfig);
                         }
                     }
                 }))
@@ -1237,10 +1488,12 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/controllers/custom_report_controller',
                     showHeader : true,
                     bodyclass: 'custom_report_page',
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, advertiserModel,
+                                          brandsModel, vistoconfig) {
                             return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel,
-                                brandsModel);
+                                brandsModel, vistoconfig);
                         }
                     }
                 }))
@@ -1252,10 +1505,12 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/controllers/custom_report_upload_controller',
                     showHeader : true,
                     css: assets.css_custom_reports,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, advertiserModel,
+                                          brandsModel, vistoconfig) {
                             return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel,
-                                brandsModel);
+                                brandsModel, vistoconfig);
                         }
                     }
                 }))
@@ -1267,10 +1522,12 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/controllers/custom_report_upload_controller',
                     showHeader : true,
                     css: assets.css_custom_reports,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, advertiserModel, brandsModel) {
+                        header: function ($q, $location, $route, accountService, advertiserModel,
+                                          brandsModel, vistoconfig) {
                             return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel,
-                                brandsModel);
+                                brandsModel, vistoconfig);
                         }
                     }
                 }))
@@ -1282,11 +1539,12 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/controllers/custom_report_upload_controller',
                     showHeader : true,
                     css: assets.css_custom_reports,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService, advertiserModel,
-                                         brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, advertiserModel,
+                                         brandsModel, vistoconfig) {
                             return mediaplansHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                advertiserModel, brandsModel);
+                                advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
@@ -1298,11 +1556,12 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/controllers/custom_report_upload_controller',
                     showHeader : true,
                     css: assets.css_custom_reports,
+
                     resolve: {
-                        header: function($q, $location, $route, accountService, subAccountService, advertiserModel,
-                                         brandsModel) {
+                        header: function ($q, $location, $route, accountService, subAccountService, advertiserModel,
+                                         brandsModel, vistoconfig) {
                             return mediaplansHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                advertiserModel, brandsModel);
+                                advertiserModel, brandsModel, vistoconfig);
                         }
                     }
                 }))
@@ -1314,15 +1573,15 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
                     showHeader : true,
                     css: assets.css_custom_reports,
+
                     resolve: {
-                        reportsList: function($q, $location, $route, accountService, campaignSelectModel,
-                                              advertiserModel, brandsModel, collectiveReportModel) {
+                        reportsList: function ($q, $location, $route, accountService, campaignSelectModel,
+                                              advertiserModel, brandsModel, collectiveReportModel, vistoconfig) {
                             return uploadReportsHeaderResolver($q, $location, $route, accountService,
-                                campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel);
+                                campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel, vistoconfig);
                         }
                     }
                 }))
-
 
                 .when('/a/:accountId/adv/:advertiserId/reports/list', angularAMD.route({
                     templateUrl: assets.html_collective_report_listing,
@@ -1331,11 +1590,12 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
                     showHeader : true,
                     css: assets.css_custom_reports,
+
                     resolve: {
-                        reportsList: function($q, $location, $route, accountService, campaignSelectModel,
-                                              advertiserModel, brandsModel, collectiveReportModel) {
+                        reportsList: function ($q, $location, $route, accountService, campaignSelectModel,
+                                              advertiserModel, brandsModel, collectiveReportModel, vistoconfig) {
                             return uploadReportsHeaderResolver($q, $location, $route, accountService,
-                                campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel);
+                                campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel, vistoconfig);
                         }
                     }
                 }))
@@ -1347,11 +1607,12 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
                     showHeader : true,
                     css: assets.css_custom_reports,
+
                     resolve: {
-                        reportsList: function($q, $location, $route, accountService, campaignSelectModel,
-                                              advertiserModel, brandsModel, collectiveReportModel) {
+                        reportsList: function ($q, $location, $route, accountService, campaignSelectModel,
+                                              advertiserModel, brandsModel, collectiveReportModel, vistoconfig) {
                             return uploadReportsHeaderResolver($q, $location, $route, accountService,
-                                campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel);
+                                campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel, vistoconfig);
                         }
                     }
                 }))
@@ -1364,11 +1625,12 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
                     showHeader : true,
                     css: assets.css_custom_reports,
+
                     resolve: {
-                        reportsList: function($q, $location, $route, accountService, campaignSelectModel,
-                                              advertiserModel, brandsModel, collectiveReportModel) {
+                        reportsList: function ($q, $location, $route, accountService, campaignSelectModel,
+                                              advertiserModel, brandsModel, collectiveReportModel, vistoconfig) {
                             return uploadReportsHeaderResolver($q, $location, $route, accountService,
-                                campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel);
+                                campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel, vistoconfig);
                         }
                     }
                 }))
@@ -1380,13 +1642,14 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
                     showHeader : true,
                     css: assets.css_custom_reports,
+
                     resolve: {
-                        reportsList: function($q, $location, $route, accountService, subAccountService,
+                        reportsList: function ($q, $location, $route, accountService, subAccountService,
                                               campaignSelectModel, advertiserModel, brandsModel,
-                                              collectiveReportModel) {
+                                              collectiveReportModel, vistoconfig) {
                             return uploadReportsHeaderResolver2($q, $location, $route, accountService,
                                 subAccountService, campaignSelectModel, advertiserModel, brandsModel,
-                                collectiveReportModel);
+                                collectiveReportModel, vistoconfig);
                         }
                     }
                 }))
@@ -1398,13 +1661,14 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
                     showHeader : true,
                     css: assets.css_custom_reports,
+
                     resolve: {
-                        reportsList: function($q, $location, $route, accountService, subAccountService,
+                        reportsList: function ($q, $location, $route, accountService, subAccountService,
                                               campaignSelectModel, advertiserModel, brandsModel,
-                                              collectiveReportModel) {
+                                              collectiveReportModel, vistoconfig) {
                             return uploadReportsHeaderResolver2($q, $location, $route, accountService,
                                 subAccountService, campaignSelectModel, advertiserModel, brandsModel,
-                                collectiveReportModel);
+                                collectiveReportModel, vistoconfig);
                         }
                     }
                 }))
@@ -1416,13 +1680,14 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
                     showHeader : true,
                     css: assets.css_custom_reports,
+
                     resolve: {
-                        reportsList: function($q, $location, $route, accountService, subAccountService,
+                        reportsList: function ($q, $location, $route, accountService, subAccountService,
                                               campaignSelectModel, advertiserModel, brandsModel,
-                                              collectiveReportModel) {
+                                              collectiveReportModel, vistoconfig) {
                             return uploadReportsHeaderResolver2($q, $location, $route, accountService,
                                 subAccountService, campaignSelectModel, advertiserModel, brandsModel,
-                                collectiveReportModel);
+                                collectiveReportModel, vistoconfig);
                         }
                     }
                 }))
@@ -1435,13 +1700,14 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
                     showHeader : true,
                     css: assets.css_custom_reports,
+
                     resolve: {
-                        reportsList: function($q, $location, $route, accountService, subAccountService,
+                        reportsList: function ($q, $location, $route, accountService, subAccountService,
                                               campaignSelectModel, advertiserModel, brandsModel,
-                                              collectiveReportModel) {
+                                              collectiveReportModel, vistoconfig) {
                             return uploadReportsHeaderResolver2($q, $location, $route, accountService,
                                 subAccountService, campaignSelectModel, advertiserModel, brandsModel,
-                                collectiveReportModel);
+                                collectiveReportModel, vistoconfig);
                         }
                     }
                 }))
@@ -1453,8 +1719,7 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/collectiveReport/reports_invoice_list_controller',
                     showHeader : true,
                     css: assets.css_reports_invoice_list,
-                    resolve: {
-                    }
+                    resolve: {}
                 }))
 
                 .when('/v1sto/invoices/:invoiceId', angularAMD.route({
@@ -1464,8 +1729,7 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controllerUrl: 'reporting/collectiveReport/reports_invoice_controller',
                     css: assets.css_reports_invoice_list,
                     showHeader : true,
-                    resolve: {
-                    }
+                    resolve: {}
                 }))
 
                 .when('/a/:accountId/mediaplan/create', angularAMD.route({
@@ -1474,9 +1738,9 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CreateCampaignController',
                     controllerUrl: '/scripts/workflow/controllers/campaign_create_controller',
                     showHeader : true,
+
                     resolve: {
                         check: function ($location, workflowService, constants) {
-
                             workflowService.setMode('create');
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
@@ -1486,10 +1750,12 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                         }
                     }
                 }))
+
                 .when('/a/:accountId/admin/home', angularAMD.route({
                     templateUrl: assets.html_admin_home,
                     title: 'AdminHome',
                     showHeader : true,
+
                     resolve: {
                         check: function ($location, loginModel) {
                             if(!loginModel.getClientData().is_super_admin){
@@ -1498,12 +1764,14 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                         }
                     }
                 }))
+
                 .when('/a/:accountId/admin/accounts', angularAMD.route({
                     templateUrl: assets.html_accounts,
                     title: 'Accounts',
                     controller: 'AccountsController',
                     controllerUrl: 'common/controllers/accounts/accounts_controller',
                     showHeader : true,
+
                     resolve: {
                         check: function ($location, loginModel) {
                             if(!loginModel.getClientData().is_super_admin){
@@ -1512,12 +1780,14 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                         }
                     }
                 }))
+
                 .when('/a/:accountId/admin/users', angularAMD.route({
                     templateUrl: assets.html_users,
                     title: 'Users',
                     controller: 'UsersController',
                     controllerUrl: 'common/controllers/users/users_controller',
                     showHeader : true,
+
                     resolve: {
                         check: function ($location, loginModel) {
                             if(!loginModel.getClientData().is_super_admin){
@@ -1526,12 +1796,14 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                         }
                     }
                 }))
+
                 .when('/a/:accountId/admin/brands', angularAMD.route({
                     templateUrl: assets.html_brands,
                     title: 'AdminBrands',
                     controller: 'AdminAdvertisersController',
                     controllerUrl: 'common/controllers/accounts/admin_brands_controller',
                     showHeader : true,
+
                     resolve: {
                         check: function ($location, loginModel) {
                             if(!loginModel.getClientData().is_super_admin){
@@ -1540,12 +1812,14 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                         }
                     }
                 }))
+
                 .when('/admin/advertisers', angularAMD.route({
                     templateUrl: assets.html_advertisers,
                     title: 'AdminAdvertisers',
                     controller: 'AdminUsersController',
                     controllerUrl: 'common/controllers/accounts/admin_advertisers_controller',
                     showHeader : true,
+
                     resolve: {
                         check: function ($location, loginModel) {
                             if(!loginModel.getClientData().is_super_admin){
@@ -1554,20 +1828,22 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                         }
                     }
                 }))
+
                 .when('/a/:accountId/mediaplan/:campaignId/edit', angularAMD.route({
                     templateUrl: assets.html_campaign_create,
                     title: 'Edit - Media Plan',
                     controller: 'CreateCampaignController',
                     controllerUrl: 'workflow/controllers/campaign_create_controller',
                     showHeader : true,
+
                     resolve: {
                         check: function ($location, workflowService, constants) {
-
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE,
                                 redirect: true
                             });
+
                             workflowService.setMode('edit');
                         }
                     }
@@ -1579,9 +1855,9 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CampaignOverViewController',
                     controllerUrl: 'workflow/overview/campaign_overview_controller',
                     showHeader : true,
+
                     resolve: {
                         check: function ($location, workflowService, constants) {
-
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE,
@@ -1597,9 +1873,9 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CampaignOverViewController',
                     controllerUrl: 'workflow/overview/campaign_overview_controller',
                     showHeader : true,
+
                     resolve: {
                         check: function ($location, workflowService, constants) {
-
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE,
@@ -1616,11 +1892,12 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CampaignAdsCreateController',
                     controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
                     showHeader : true,
+
                     resolve: {
                         check: function ($location, workflowService, constants) {
-
                             workflowService.setMode('create');
                             workflowService.setIsAdGroup(true);
+
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
@@ -1637,11 +1914,12 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CampaignAdsCreateController',
                     controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
                     showHeader : true,
+
                     resolve: {
                         check: function ($location, workflowService, constants) {
-
                             workflowService.setMode('create');
                             workflowService.setIsAdGroup(true);
+
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
@@ -1658,11 +1936,12 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CampaignAdsCreateController',
                     controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
                     showHeader : true,
+
                     resolve: {
                         check: function ($location, workflowService, constants) {
-
                             workflowService.setMode('edit');
                             workflowService.setIsAdGroup(true);
+
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
@@ -1680,11 +1959,12 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                         controller: 'CampaignAdsCreateController',
                         controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
                         showHeader : true,
+
                         resolve: {
                             check: function ($location, workflowService, constants) {
-
                                 workflowService.setMode('edit');
                                 workflowService.setIsAdGroup(true);
+
                                 workflowService.setModuleInfo({
                                     moduleName: 'WORKFLOW',
                                     warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
@@ -1700,9 +1980,9 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CreativeController',
                     controllerUrl: 'workflow/controllers/creative_controller',
                     showHeader : true,
+
                     resolve: {
                         check: function ($location, workflowService, constants) {
-
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
@@ -1718,10 +1998,9 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CreativeController',
                     controllerUrl: 'workflow/controllers/creative_controller',
                     showHeader : true,
-                    resolve: {
-                        check: function () {
 
-                        }
+                    resolve: {
+                        check: function () {}
                     }
                 }))
 
@@ -1732,10 +2011,9 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CreativeController',
                     controllerUrl: 'workflow/controllers/creative_controller',
                     showHeader : true,
-                    resolve: {
-                        check: function () {
 
-                        }
+                    resolve: {
+                        check: function () {}
                     }
                 }))
 
@@ -1745,9 +2023,9 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CreativePreviewController',
                     controllerUrl: 'workflow/controllers/creative_preview_controller',
                     showHeader : false,
+
                     resolve: {
-                        check: function () {
-                        }
+                        check: function () {}
                     }
                 }))
 
@@ -1757,6 +2035,7 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CreativeListController',
                     controllerUrl: 'workflow/controllers/creative_list_controller',
                     showHeader : true,
+
                     resolve: {
                         check: function ($location, workflowService, constants) {
                             workflowService.setModuleInfo({
@@ -1774,9 +2053,9 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                     controller: 'CreativeListController',
                     controllerUrl: 'workflow/controllers/creative_list_controller',
                     showHeader : true,
+
                     resolve: {
                         check: function ($location, workflowService, constants) {
-
                             workflowService.setModuleInfo({
                                 moduleName: 'WORKFLOW',
                                 warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE,
@@ -1829,7 +2108,6 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
 
         .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore,
                        workflowService , subAccountService, $window) {
-
                 var loginCheckFunc = function () {
                     var locationPath = $location.path(),
                         authorizationKey;
@@ -1882,11 +2160,11 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                 $('html').append('<div class="slider-msg">You are offline now</div>');
                 $('.slider-msg').show();
 
-                setTimeout(function() {
+                setTimeout(function () {
                     $('.slider-msg').fadeOut('slow');
                 }, 3000);
 
-                $rootScope.$apply(function() {
+                $rootScope.$apply(function () {
                     $rootScope.online = false;
                 });
             }, false);
@@ -1895,11 +2173,11 @@ define(['common', 'common/services/vistoconfig_service'], function (angularAMD) 
                 $('html').append('<div class="slider-msg">You are online now</div>');
                 $('.slider-msg').show() ;
 
-                setTimeout(function() {
+                setTimeout(function () {
                     $('.slider-msg').fadeOut('slow') ;
                 }, 3000);
 
-                $rootScope.$apply(function() {
+                $rootScope.$apply(function () {
                     $rootScope.online = true;
                 });
             }, false);

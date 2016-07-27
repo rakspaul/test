@@ -1,4 +1,4 @@
-define(['angularAMD', 'workflow/services/workflow_service'], function (angularAMD) {
+define(['angularAMD', 'workflow/services/workflow_service', 'common/services/features_service'], function (angularAMD) {
     angularAMD.service('accountService', function ($rootScope, $location, $q, $route, $timeout, workflowService,
                                                    subAccountService, RoleBasedService, featuresService,
                                                    pageFinder, localStorageService) {
@@ -68,7 +68,7 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                     url;
 
                 subAccountService.reset();
-                featuresService.reset();
+                featuresService.reset && featuresService.reset();
                 localStorageService.setToLocalStorage.setMasterClient(account);
 
                 page = pageFinder.pageBuilder($location.path());

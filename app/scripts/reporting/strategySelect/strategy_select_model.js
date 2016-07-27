@@ -13,18 +13,26 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
 
             return {
                 fetchStrategyList: function (clientId, campaignId) {
+                    var deferred,
+                        url,
+                        canceller;
+
                     if (previousCampaignId !== campaignId) {
                         this.reset();
                     }
-                    var deferred = $q.defer();
+
+                    deferred = $q.defer();
+
                     if (strategyList.length > 0) {
                         $timeout(function() {
                             deferred.resolve();
                         }, 10);
+
                         return deferred.promise;
                     }
-                    var url = urlService.APIStrategiesForCampaign(clientId, campaignId);
-                    var canceller = requestCanceller.initCanceller(constants.STRATEGY_LIST_CANCELLER);
+
+                    url = urlService.APIStrategiesForCampaign(clientId, campaignId);
+                    canceller = requestCanceller.initCanceller(constants.STRATEGY_LIST_CANCELLER);
 
                     return dataService.fetchCancelable(url, canceller, function (response) {
                         if (response && response.data.data.length > 0) {
@@ -33,17 +41,19 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
                         } else {
                             strategyList = [vistoconfig.LINE_ITEM_DROPDWON_OBJECT];
                         }
+
                         previousCampaignId = campaignId;
                         console.log('fetchStrategyList', 'is fetched');
                         deferred.resolve();
                     });
                 },
 
-                allowedStrategy: function(strategyId) {
+                allowedStrategy: function (strategyId) {
                     if (strategyId) {
                         selectedStrategy = _.find(strategyList, function(s) {
                             return s.id === strategyId;
                         });
+
                         if (selectedStrategy) {
                             return true;
                         } else {
@@ -52,18 +62,19 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
                     } else {
                         selectedStrategy = vistoconfig.LINE_ITEM_DROPDWON_OBJECT;
                     }
+
                     return true;
                 },
 
-                getStrategyList: function() {
+                getStrategyList: function () {
                     return strategyList;
                 },
 
-                getSelectedStrategy: function() {
+                getSelectedStrategy: function () {
                     return selectedStrategy;
                 },
 
-                reset: function() {
+                reset: function () {
                     strategyList = [];
                     selectedStrategy = undefined;
                 },
