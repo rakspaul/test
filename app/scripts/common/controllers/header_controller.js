@@ -68,6 +68,21 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
 
+        $scope.getClientData = function () {
+            var clientId = localStorageService.masterClient.get().id;
+
+            workflowService
+                .getClientData(clientId)
+                .then(function (response) {
+                    // set the type of user here in RoleBasedService.js
+                    RoleBasedService.setClientRole(response);
+                    RoleBasedService.setCurrencySymbol();
+                    featuresService.setFeatureParams(response.data.data.features, 'headercontroller');
+                    $scope.filters = domainReports.getReportsTabs();
+                    $scope.customFilters = domainReports.getCustomReportsTabs();
+                });
+        };
+
         $scope.set_account_name = function (event, id, name, isLeafNode) {
             var moduleObj = workflowService.getModuleInfo(),
                 $modalInstance;
@@ -241,7 +256,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                     quickFilterId,
                     regionTooltipId;
 
-                if (cdbDropdownId.is(':visible') && event.target.id !== 'durationMenuText') {
+                if (cdbDropdownId.is(':visible') && ($(event.target).hasClass('durationMenuText') == false) ) {
                     cdbDropdownId.closest('.each_filter').removeClass('filter_dropdown_open');
                     cdbDropdownId.hide();
                 }

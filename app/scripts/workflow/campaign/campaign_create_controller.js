@@ -411,6 +411,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         // loader Flags - normal edit save button loader
         $scope.Campaign.createNewLineItemLoaderEdit = false;
 
+        // flag for entering 0 in lineitem budget - show popup
+        $scope.Campaign.showBudgetZeroPopup = false;
+        $scope.Campaign.methods = '';
+        $scope.Campaign.section = ''; // create or edit part of the page is clicked
+
         $scope.editLineItemLoaderEdit = false;
         $scope.bulkUploadItemLoaderEdit = false;
 
@@ -1005,29 +1010,33 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         });
 
         $scope.$watch('selectedCampaign.endTime',function (newVal, oldVal) {
-            var selectedPixelData;
-            if (selectedAdvertiser) {
-                if($scope.selectedCampaign.selectedPixel.length >0) {
-                    selectedPixelData =  _.pluck($scope.selectedCampaign.selectedPixel, 'id');
+            if(newVal && oldVal &&
+                newVal !== oldVal) {
+
+                var selectedPixelData;
+                if (selectedAdvertiser) {
+                    if ($scope.selectedCampaign.selectedPixel.length > 0) {
+                        selectedPixelData = _.pluck($scope.selectedCampaign.selectedPixel, 'id');
+                    } else {
+                        selectedPixelData = $scope.editCampaignData.pixels;
+                    }
+                }
+
+                if (selectedPixelData && selectedPixelData.length > 0) {
+                    $scope.$broadcast('fetch_pixels', selectedPixelData);
                 } else {
-                    selectedPixelData = $scope.editCampaignData.pixels;
-                }
-            }
-
-            if (selectedPixelData && selectedPixelData.length >0) {
-                $scope.$broadcast('fetch_pixels', selectedPixelData);
-            } else {
-                $scope.$broadcast('fetch_pixels');
-            }
-
-            // set the flag to save the media plan along with line item
-            if ($scope.mode === 'edit') {
-                if (typeof oldVal === 'undefined') {
-                    return;
+                    $scope.$broadcast('fetch_pixels');
                 }
 
-                if (newVal !== oldVal) {
-                    $scope.saveMediaPlan = true;
+                // set the flag to save the media plan along with line item
+                if ($scope.mode === 'edit') {
+                    if (typeof oldVal === 'undefined') {
+                        return;
+                    }
+
+                    if (newVal !== oldVal) {
+                        $scope.saveMediaPlan = true;
+                    }
                 }
             }
         });

@@ -111,7 +111,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
 
             updateAdvertiser =  function (data) {
                 return dataService.put(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers/' + data.id,
+                        vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers/' + data.id,
                     data,
                     {'Content-Type': 'application/json'}
                 );
@@ -212,7 +212,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
 
             updateBrand = function (data) {
                 return dataService.put(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands/' + data.id,
+                        vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands/' + data.id,
                     data,
                     {'Content-Type': 'application/json'}
                 );
@@ -301,13 +301,19 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             },
 
             getUserAdvertiser = function (clientId) {
-                clientId = clientId || '';
-                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers?client_id='+clientId);
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers';
+                if(clientId){
+                    url += '?clientId='+clientId;
+                }
+                return dataService.fetch(url);
             },
 
             getUserBrands = function (clientId) {
-                clientId = clientId || '';
-                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands?client_id='+clientId);
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands';
+                if(clientId){
+                    url += '?clientId='+clientId;
+                }
+                return dataService.fetch(url);
             },
 
             getUserPages = function () {
