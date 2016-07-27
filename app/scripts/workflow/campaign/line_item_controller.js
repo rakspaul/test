@@ -1296,7 +1296,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         $scope.navigateLineItem = function(section) {
             if(section === 'create') {
 
-                if($scope.billableAmount == '0' || $scope.pricingRate == '0'){
+                if($scope.billableAmount === '0' || $scope.pricingRate === '0'){
                     $scope.displayZeroLineItemBudgetPopUp(section);
                 } else {
                     if($scope.mode === 'create' || $scope.cloneMediaPlanName) {
@@ -1306,8 +1306,8 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     }
                 }
             } else {
-                
-                if($scope.editLineItem.billableAmount == '0' || $scope.editLineItem.pricingRate == '0'){
+
+                if($scope.editLineItem.billableAmount === '0' || $scope.editLineItem.pricingRate === '0'){
                     $scope.displayZeroLineItemBudgetPopUp(section);
                 } else {
                     if($scope.mode === 'create' || $scope.cloneMediaPlanName) {

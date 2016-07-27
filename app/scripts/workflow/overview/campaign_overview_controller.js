@@ -700,7 +700,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             /*get all valid sizes into the sizes array*/
             _.each(creative,function (obj) {
                 obj.size?sizes.push(obj.size):'';
-            })
+            });
 
             /*check if the ad has creative set and if creative has a valid size(FUll integration Creative)*/
             if (typeof creative !== 'undefined' && creative.length > 0 && sizes.length>0) {
@@ -728,14 +728,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             '" >+' +
                             amountLeft +
                             '</span>';
-                        console.log("creative",creative);
                     } else {
                         $scope.sizeString = result[0] && result[0].join(', ');
                     }
                 }
 
-                /*check if the ad has creative set and if creative not not have a size(Trackerlite/placeholder Creative)*/
-            }else if (typeof creative !== 'undefined' && creative.length > 0 && sizes.length===0) {
+            } else if (typeof creative !== 'undefined' && creative.length > 0 && sizes.length === 0) {
                 $scope.sizeString = constants.WF_UNSPECIFIED;
 
                 /*check if the ad has no creatives set*/
