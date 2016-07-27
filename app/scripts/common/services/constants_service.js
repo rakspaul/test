@@ -655,7 +655,7 @@ define(['angularAMD'], function(angularAMD) {
 
         this.WF_SELECT_MEDIA_PLAN = 'Media Plan';
         this.WF_SELECT_AD_GROUP = 'Ad Group';
-        this.WF_NO_AD_GROUP = 'No Ad Group';
+        this.WF_NO_AD_GROUP = 'Select Ad Group';
         this.WF_CLONE_THIS_AD = 'Clone this Ad to';
         this.WF_CLONE_AD = 'Clone Ad';
         this.WF_CLONE = 'Clone';
