@@ -1,10 +1,11 @@
 define(['angularAMD', 'reporting/brands/brands_model', 'reporting/brands/brands_service', 'common/utils',
-    'common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_model',
-    'reporting/brands/brands_directive', 'common/services/sub_account_service'], function (angularAMD) {
+    'common/services/constants_service', 'common/services/vistoconfig_service', 'login/login_model',
+    'reporting/advertiser/advertiser_model', 'reporting/brands/brands_directive',
+    'common/services/sub_account_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('BrandsController', function ($scope, $rootScope, $routeParams, $location, brandsModel,
-                                                        brandsService, utils, constants) {
+                                                        brandsService, utils, constants, vistoconfig) {
         var search = false,
             searchCriteria = utils.typeaheadParams,
 
@@ -12,16 +13,19 @@ define(['angularAMD', 'reporting/brands/brands_model', 'reporting/brands/brands_
                 var accountId = $routeParams.subAccountId || $routeParams.accountId,
                     advertiserId = $routeParams.advertiserId;
 
-                brandsModel.fetchBrandList(accountId, advertiserId).then(function() {
-                    $scope.brands = brandsModel.getBrandList();
-                    console.log('$scope.brands', $scope.brands.length);
-                    if (brandsModel.allowedBrand($routeParams.brand_id)) {
-                        $scope.selectedBrand = brandsModel.getSelectedBrand();
-                    } else {
-                        console.log('brand not allowed');
-                        $location.url('/tmp');
-                    }
-                });
+                brandsModel
+                    .fetchBrandList(accountId, advertiserId)
+                    .then(function() {
+                        $scope.brands = brandsModel.getBrandList();
+                        console.log('$scope.brands', $scope.brands.length);
+
+                        if (brandsModel.allowedBrand($routeParams.brand_id)) {
+                            $scope.selectedBrand = vistoconfig.getSelectedBrandId();
+                        } else {
+                            console.log('brand not allowed');
+                            $location.url('/tmp');
+                        }
+                    });
             };
 
         $scope.textConstants = constants;
@@ -33,6 +37,7 @@ define(['angularAMD', 'reporting/brands/brands_model', 'reporting/brands/brands_
         $scope.selectBrand = function (brand) {
             $('#brand_name_selected').text(brand.name);
             $('#brandsDropdown').attr('placeholder', brand.name).val('');
+
             brandsModel.changeBrand($routeParams.accountId,
                 $routeParams.subAccountId, $routeParams.advertiserId, brand);
         };

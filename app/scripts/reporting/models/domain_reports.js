@@ -1,6 +1,7 @@
 define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
-    'common/services/features_service', 'reporting/timePeriod/time_period_directive',
-    'reporting/subAccount/sub_account_directive', 'common/services/account_service'], function (angularAMD) {
+    'common/services/features_service', 'common/services/vistoconfig_service',
+    'reporting/timePeriod/time_period_directive', 'reporting/subAccount/sub_account_directive',
+    'common/services/account_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.factory('domainReports', function ($location, loginModel, RoleBasedService, featuresService) {
@@ -126,8 +127,7 @@ define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
 
             templateUrl: assets.html_report_header_tab,
 
-            link: function () {
-            }
+            link: function () {}
         };
     }]);
 
@@ -410,18 +410,20 @@ define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
     }]);
 
     angularAMD.directive('uploadReportsFiltersHeader', ['$location', '$rootScope', '$http', '$compile', 'constants',
-        'loginModel', 'accountService', function ($location, $rootScope, $http, $compile, constants,
-                                                  loginModel, accountService) {
+        'loginModel', 'accountService', 'vistoconfig', function ($location, $rootScope, $http, $compile, constants,
+                                                  loginModel, accountService, vistoconfig) {
             return {
                 controller: function () {
                 },
                 restrict: 'EAC',
                 templateUrl: assets.html_upload_reports_filters_header,
                 link: function (scope) {
+                    var masterClient = vistoconfig.getSelectedAccountId();
+
                     scope.textConstants = constants;
-                    var masterClient = accountService.getSelectedAccount();
                     scope.isLeafNode = true;
-                    if(masterClient.isLeafNode === false) {
+
+                    if (masterClient.isLeafNode === false) {
                         scope.isLeafNode = false;
                     }
                 }
@@ -429,8 +431,8 @@ define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
         }]);
 
     angularAMD.directive('dashboardFiltersHeader', ['$location', '$rootScope', '$http', '$compile', 'constants',
-        'loginModel', 'accountService', function ($location, $rootScope, $http, $compile, constants,
-                                                  loginModel, accountService) {
+        'loginModel', 'accountService', 'vistoconfig', function ($location, $rootScope, $http, $compile, constants,
+                                                  loginModel, accountService, vistoconfig) {
             return {
                 controller: function () {
                 },
@@ -438,7 +440,7 @@ define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
                 templateUrl: assets.html_dashboard_filters_header,
                 link: function (scope) {
                     scope.textConstants = constants;
-                    var masterClient = accountService.getSelectedAccount();
+                    var masterClient = vistoconfig.getSelectedAccountId();
                     scope.isLeafNode = true;
                     if(masterClient.isLeafNode === false) {
                         scope.isLeafNode = false;
@@ -447,8 +449,8 @@ define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
             };
         }]);
 
-    angularAMD.directive('filtersHeader', ['$location','$rootScope','$http', '$compile', 'constants','loginModel',
-        'accountService', function ($location,$rootScope,$http, $compile,constants,loginModel, accountService) {
+    angularAMD.directive('filtersHeader', ['$location','$rootScope','$http', '$compile', 'constants','vistoconfig',
+        function ($location,$rootScope,$http, $compile, constants, vistoconfig) {
             return {
                 controller: function () {},
                 restrict: 'EAC',
@@ -456,7 +458,7 @@ define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
                 templateUrl: assets.html_filters_header,
 
                 link: function (scope, element, attrs) {
-                    var masterClient = accountService.getSelectedAccount(),
+                    var masterClient = vistoconfig.getSelectedAccountId(),
                         locationUrl;
 
                     scope.reportFilter = attrs.reports;

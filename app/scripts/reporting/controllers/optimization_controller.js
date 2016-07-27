@@ -13,7 +13,6 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                                               utils, actionChart, domainReports, constants,
                                                               timePeriodModel, loginModel, momentService, urlService,
                                                               advertiserModel, brandsModel, vistoconfig) {
-
         var fromLocStore = localStorage.getItem('timeSetLocStore'),
             getCustomQueryParams,
             actionDataForSelectedCampaign,

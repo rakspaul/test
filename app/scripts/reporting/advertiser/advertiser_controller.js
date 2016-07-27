@@ -1,9 +1,10 @@
 define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils',
-    'common/services/constants_service', 'reporting/advertiser/advertiser_directive'], function (angularAMD) {
+    'common/services/constants_service', 'common/services/vistoconfig_service',
+    'reporting/advertiser/advertiser_directive'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('AdvertiserController', function ($scope, $rootScope, $routeParams, $location,
-                                                            advertiserModel, utils, constants) {
+                                                            advertiserModel, utils, constants, vistoconfig) {
 
         var search = false,
             searchCriteria = utils.typeaheadParams,
@@ -14,7 +15,7 @@ define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils',
                     $scope.advertisers = advertiserModel.getAdvertiserList();
                     console.log('$scope.advertisers', $scope.advertisers.length);
                     if (advertiserModel.allowedAdvertiser($routeParams.advertiser_id)) {
-                        $scope.selectedAdvertiser = advertiserModel.getSelectedAdvertiser();
+                        $scope.selectedAdvertiser = vistoconfig.getSelectAdvertiserId();
                     } else {
                         console.log('advertiser not allowed');
                         $location.url('/tmp');

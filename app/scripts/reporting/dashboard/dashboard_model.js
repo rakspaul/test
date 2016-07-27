@@ -49,7 +49,10 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
 
                 getData = function () {
                     dashboardData.brandSelected = vistoconfig.getSelectedBrandId() !== -1;
+
+                    // TODO: Please change the following name "selectedBrand". It may be confused with "brandSelected".
                     dashboardData.selectedBrand = brandsModel.getSelectedBrand().name;
+
                     return dashboardData;
                 },
 
@@ -85,11 +88,14 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
                 constants.DASHBOARD_STATUS_ENDED
             ];
 
+            // TODO: Please change the following name "selectedBrand". It may be confused with "brandSelected".
             dashboardData.selectedBrand = brandsModel.getSelectedBrand().name;
             dashboardData.brandSelected = false;
             dashboardData.totalCampaigns = 0;
             dashboardData.totalBrands = 0;
             dashboardData.toolTip = '';
+
+            // TODO: is 'name' or 'id' of selectedAdvertiser expected here?
             dashboardData.selectedAdvertiser = advertiserModel.getSelectedAdvertiser().name;
 
             return {

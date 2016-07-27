@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 
 define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service', 'common/moment_utils',
-    'login/login_model', 'common/utils',
+    'login/login_model', 'common/services/vistoconfig_service', 'common/utils',
     'common/controllers/accounts/accounts_add_or_edit_advertiser_controller',
     'common/controllers/accounts/accounts_add_or_edit_brand_controller',
     'common/controllers/accounts/accounts_add_or_edit_controller' ], function (angularAMD) {
@@ -9,10 +9,10 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
     angularAMD.controller('AdminAdvertisersController', function ($scope, $rootScope, $modal, $compile, $filter,
                                                                   constants, accountsService, momentService,
-                                                                  loginModel, utils) {
+                                                                  loginModel, vistoconfig, utils) {
         var _curCtrl = this,
             winHeight = $(window).height();
-        _curCtrl.clientId = loginModel.getSelectedClient().id;
+        _curCtrl.clientId = vistoconfig.getMasterClientId();
 
         $('.each_nav_link').removeClass('active_tab');
         $('#admin_nav_link').addClass('active_tab');

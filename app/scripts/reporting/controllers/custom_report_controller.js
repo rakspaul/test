@@ -8,11 +8,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
         'use strict';
 
         angularAMD.controller('CustomReportController', function ($routeParams, $rootScope, $scope, $route, $window,
-                                                                 $timeout, $location, campaignSelectModel,
-                                                                 strategySelectModel, kpiSelectModel, utils,
-                                                                 dataService, requestCanceller, constants,
-                                                                 timePeriodModel, momentService, loginModel,
-                                                                 urlService, dataStore, urlBuilder,
+                                                                  $timeout, $location, campaignSelectModel,
+                                                                  strategySelectModel, kpiSelectModel, utils,
+                                                                  dataService, requestCanceller, constants,
+                                                                  timePeriodModel, momentService, loginModel,
+                                                                  urlService, dataStore, urlBuilder,
                                                                   domainReports, vistoconfig, featuresService,
                                                                   localStorageService) {
             var _customctrl = this,

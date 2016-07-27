@@ -10,7 +10,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
     angularAMD.controller('CreateCampaignController', function ($scope, $window, $rootScope, $filter, $routeParams,
                                                                 $locale, $location, $timeout, $modal, constants,
                                                                 workflowService, vistoconfig, loginModel,
-                                                                momentService,campaignService,utils) {
+                                                                momentService, campaignService, utils) {
         var selectedAdvertiser,
 
             createCampaign = {
@@ -165,7 +165,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         $scope.selectedCampaign.clientName = campaignData.clientName;
                         $scope.selectedCampaign.clientId = campaignData.clientId;
                     } else {
-                        $scope.selectedCampaign.clientId = loginModel.getSelectedClient().id;
+                        $scope.selectedCampaign.clientId = vistoconfig.getMasterClientId();
                     }
 
                     // set Advertiser
@@ -878,7 +878,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $scope.deleteCampaignFailed = false;
             $scope.numberOnlyPattern = /[^0-9]/g;
             $scope.hideKpiValue = false;
-            $scope.client = loginModel.getSelectedClient();
+            $scope.client = vistoconfig.getMasterClientId();
             $scope.isClientDropDownDisable = false;
             $scope.editCampaignData = [];
 

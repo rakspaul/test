@@ -1,11 +1,12 @@
 define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
-    'common/moment_utils', 'login/login_model', 'reporting/advertiser/advertiser_model',
-    'workflow/creative/creative_bulk_controller', 'workflow/directives/filter_directive'], function (angularAMD) {
+    'common/moment_utils', 'login/login_model', 'common/services/vistoconfig_service',
+    'reporting/advertiser/advertiser_model', 'workflow/creative/creative_bulk_controller',
+    'workflow/directives/filter_directive'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('CreativeListController', function ($scope, $rootScope, $routeParams, $route, $location,
                                                              $window, constants, domainReports, workflowService,
-                                                             momentService, loginModel) {
+                                                             momentService, loginModel, vistoconfig) {
         var checkedCreativeArr=[],
             creativeDataArr,
             winHeight = $(window).height(),
@@ -119,7 +120,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.deletePopup = false;
         $scope.successfulRecords = [];
         $scope.isCreativeSearched =  false;
-        $scope.clientId = loginModel.getSelectedClient().id;
+        $scope.clientId = vistoconfig.getMasterClientId();
 
         domainReports.highlightHeaderMenu();
 
