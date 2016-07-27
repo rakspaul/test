@@ -12,6 +12,10 @@ define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
                         isAgencyCostModelTransparent,
                         userRole;
 
+                    if (fParams[0].report_overview === true) {
+                        tabs.push({href: 'overview', title: 'Reports Overview'});
+                    }
+
                     if (fParams[0].performance === true) {
                         tabs.push({href: 'performance', title: 'Performance'});
                     }
@@ -116,44 +120,14 @@ define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
     );
 
     angularAMD.directive('reportTabs', ['$http', '$compile', 'constants', 'featuresService', '$rootScope',
-        'localStorageService','$timeout', function ($http, $compile, constants, featuresService, $rootScope) {
+        'localStorageService','$timeout', function () {
         return {
             controller: function () {},
             restrict: 'EAC',
 
             templateUrl: assets.html_report_header_tab,
 
-            link: function (scope) {
-                var enableFeaturePermission = function () {
-                    var fParams = featuresService.getFeatureParams();
-
-                    scope.buildReport = fParams[0].scheduled_reports;
-
-                    if (fParams[0].scheduled_reports || fParams[0].collective_insights) {
-                        scope.showCustomReportHeading = true;
-                    }
-
-                    if (fParams[0].report_overview ||
-                        fParams[0].inventory ||
-                        fParams[0].performance ||
-                        fParams[0].quality ||
-                        fParams[0].cost ||
-                        fParams[0].optimization_impact ||
-                        fParams[0].platform) {
-                        scope.showMediaPlanReportHeading = true;
-                    }
-                };
-
-                scope.textConstants = constants;
-                scope.showCustomReportHeading = false;
-                scope.showMediaPlanReportHeading = false;
-
-                enableFeaturePermission();
-
-                $rootScope.$on('features', function () {
-                    enableFeaturePermission();
-                });
-            }
+            link: function () {}
         };
     }]);
 

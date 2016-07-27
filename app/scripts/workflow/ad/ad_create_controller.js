@@ -853,7 +853,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             } else {
                 previewUrl +=  '/creative/' + creativeData.id +'/preview';
             }
-
             window.open(previewUrl);
         };
 

@@ -696,7 +696,9 @@
                           class="no-data-common"
                           data-ng-bind="textConstants.NO_LINKED_STRATEGIES">
                     </span>
-                    <div campaign-sort campaigns="campaigns" data-ng-show="campaign.campaignStrategies.length > 0"></div>
+                    <div campaign-sort campaigns="campaigns"
+                         data-ng-show="campaign.campaignStrategies.length > 0">
+                    </div>
                     <div class="total_campaign_list_holder">
                         <!--reusing the campaign and strategy partial view -->
                         <div campaign-strategy-card

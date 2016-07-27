@@ -47,15 +47,19 @@
                                 style="padding-right: 18px;">
                             <span class="icon-more-options"></span>
                         </button>
-                        <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
+                        <ul class="dropdown-menu" id="moreOptions">
                             <li>
                                 <a class="text-left"
                                    role="button"
-                                   data-ng-click="showBulkCreateSection();"
-                                   data-ng-bind="textConstants.BULK_UPLOAD">
+                                   data-ng-click="showBulkCreateSection();">
+                                    <span class="icon-download withIcons">Import Creative Records</span>
                                 </a>
                             </li>
-                            <li class="disabled"><a class="text-left">Get Creative Record Templates</a></li>
+                            <li class="disabled">
+                                <a class="text-left">
+                                    <span class="icon-download withIcons">Download Creative Record Templates</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -303,8 +307,14 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a target="_blank"
-                                   data-ng-href="/clientId/{{creativeData.clientId}}/adv/{{creativeData.advertiserId}}/creative/{{creativeData.id}}/preview"
-                                   data-ng-bind-html="textConstants.PREVIEW"></a>
+                                   data-ng-href="/clientId/{{creativeData.clientId}}/adv/{{creativeData.advertiserId}}/creative/{{creativeData.id}}/preview">
+                                    <span class="icon-preview withIcons">{{textConstants.PREVIEW}}</span>
+                                </a>
+                            </li>
+                            <li class="disabled">
+                                <a class="disabled">
+                                    <span class="icon-archive withIcons">{{textConstants.ARCHIVE}}</span>
+                                </a>
                             </li>
                         </ul>
                     </div>

@@ -315,7 +315,7 @@
              data-ng-bind="((platform.action_rate > 0) || (platform.action_rate === 0)) ?
                 ((platform.action_rate | number : 3) + '%') : '-'">
         </div>
-        <span data-ng-if="!adFormats.videoAds">
+        <div data-ng-if="!adFormats.videoAds">
             <div class="each_col sixth_col {{platform.kpi_type === 'CPA' ? 'bold' : ''}}"
                  data-ng-bind="((platform.cpa > 0) || (platform.cpa === 0)) ?
                     (platform.cpa | currency : undefined : 3) : '-'">
@@ -328,7 +328,7 @@
                  data-ng-bind="((platform.cpm > 0) || (platform.cpm === 0)) ?
                     (platform.cpm | currency : undefined : 3) : '-'">
             </div>
-        </span>
+        </div>
         <div data-ng-if="adFormats.videoAds"
              class="each_col eight_col {{platform.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
              data-ng-class="{vid_none: adFormats.videoAds === false}">

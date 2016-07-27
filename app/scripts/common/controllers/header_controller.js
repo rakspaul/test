@@ -13,9 +13,33 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                                                         strategySelectModel, pageFinder, urlBuilder) {
 
         var featurePermission = function () {
-                $scope.fparams = featuresService.getFeatureParams();
-                $scope.showMediaPlanTab = $scope.fparams[0].mediaplan_list;
-                $scope.showReportTab = $scope.fparams[0].reports_tab;
+                var fParams = featuresService.getFeatureParams();
+                $scope.showMediaPlanTab = fParams[0].mediaplan_list;
+                $scope.showReportTab = fParams[0].reports_tab;
+
+                $scope.showMediaPlanTab = fParams[0].mediaplan_list;
+                $scope.showReportTab = fParams[0].reports_tab;
+                $scope.showReportOverview = fParams[0].report_overview;
+
+                $scope.buildReport = fParams[0].scheduled_reports;
+
+                if (fParams[0].scheduled_reports || fParams[0].collective_insights) {
+                    $scope.showCustomReportHeading = true;
+                }
+
+                if (fParams[0].report_overview ||
+                    fParams[0].inventory ||
+                    fParams[0].performance ||
+                    fParams[0].quality ||
+                    fParams[0].cost ||
+                    fParams[0].optimization_impact ||
+                    fParams[0].platform) {
+                    $scope.showMediaPlanReportHeading = true;
+                }
+
+                $scope.filters = domainReports.getReportsTabs($scope.fparams);
+
+                $scope.customFilters = domainReports.getCustomReportsTabs();
             },
 
             showSelectedMasterClient = function (evt, clientName) {
@@ -29,11 +53,11 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 $('#user-menu').show();
             },
 
-            setMasterClientData = function (id, name, isLeafNode, event) {
-                showSelectedMasterClient(event, name);
-                accountService.changeAccount({id: id, name: name, isLeafNode: isLeafNode});
-                $scope.defaultAccountsName = name;
-            };
+        setMasterClientData = function (id, name, isLeafNode, event) {
+            showSelectedMasterClient(event, name);
+            accountService.changeAccount({id: id, name: name, isLeafNode: isLeafNode});
+            $scope.defaultAccountsName = name;
+        };
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
@@ -174,20 +198,11 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 .getClients()
                 .then(function (result) {
                     if (result && result.data.data.length > 0) {
-
                         $scope.accountsData = accountService.getAccounts();
                         vistoconfig.getSelectedAccountId() &&
                         ($scope.defaultAccountsName = accountService.getSelectedAccount().name);
                         $scope.multipleClient = $scope.accountsData.length > 1;
                         $scope.pageName = pageFinder.pageBuilder($location.path()).pageName();
-
-                        if (featuresService.getFeatureParams().length > 0) {
-                            $scope.fparams = featuresService.getFeatureParams();
-                            $scope.showMediaPlanTab = $scope.fparams[0].mediaplan_list;
-                            $scope.showReportTab = $scope.fparams[0].reports_tab;
-                            $scope.filters = domainReports.getReportsTabs($scope.fparams);
-                            $scope.customFilters = domainReports.getCustomReportsTabs();
-                        }
                     }
                 });
         }
@@ -195,7 +210,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         /* Start Feature Permission */
         $rootScope.$on('features', function () {
             featurePermission();
-            $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
+            // $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
         });
         /* End Feature Permission */
 

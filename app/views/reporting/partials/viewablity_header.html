@@ -98,7 +98,7 @@
               data-ng-click="sortTypeByViewability = 'other_view_imps_suspicious_perc';
                     sortReverse = !sortReverse;
                     removeKpiActive();"
-              data-ng-bind="textConstants.SUSPICIOUS + '<br> ' + textConstants.ACTIVITY + ' %'">
+              ng-bind-html="textConstants.SUSPICIOUS + '<br> ' + textConstants.ACTIVITY + ' %'">
         </span>
     </div>
 </div>

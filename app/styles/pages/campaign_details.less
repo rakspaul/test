@@ -201,7 +201,7 @@ body {
     }
     .heading {
       font-size: 14px ;
-      color: #0978c9 ;
+      color: @visto-blue;
       text-transform: uppercase;
       padding: 15px ;
       border-bottom : solid 1px #ebf0f5 ;
@@ -307,7 +307,7 @@ body {
         color: #2d2f31 ;
         //font-size: 14px ;
         height: 36px;
-        border: 1px solid #BFC9D7;
+        border: 1px solid @stroke-gray-borders;
         border-radius: 2px;
         .error_msg_input {
           position: absolute;
@@ -381,7 +381,7 @@ body {
           min-width: 100% ;
           box-shadow: 0 1px 7px rgba(0,0,0,.15) !important;
           -webkit-box-shadow: 0 1px 7px rgba(0,0,0,.15) !important;
-          border: solid 1px #BFC9D7;
+          border: solid 1px @stroke-gray-borders;
           border-radius: 2px;
           width: auto ;
           max-height:  600px ;
@@ -407,13 +407,13 @@ body {
               &:hover {
                 color: @raven-text;
                 text-decoration: none;
-                background-color: #E1EDF9;
+                background-color: @hover-light-blue;
               }
             }
             &:hover {
               color: @raven-text;
               text-decoration: none;
-              background-color: #E1EDF9;
+              background-color: @hover-light-blue;
               .icon-single {
                 /*background-image: url("/images/cdesk/only_check_mark.png") ;*/
                 //background : url("/images/cdesk/sprites-2.png") no-repeat  -534px -58px ;
@@ -632,11 +632,11 @@ body {
             background: #45cb41 ;
           }
           .play_color {
-            color: #0978c9 ;
+            color: @visto-blue;
             font-size: 11px ;
             margin: 0 7px 0 52px;
             .graph_color {
-              background: #0978c9 ;
+              background: @visto-blue;
             }
           }
           .view_color {
@@ -1069,7 +1069,7 @@ body {
         }
       }
       .each_header_title.active {
-        color: #0978c9 ;
+        color: @visto-blue;
         .sortable.descending {
           background-position: -433px -415px ;
         }
@@ -1324,7 +1324,7 @@ body {
         border-radius: 4px;
         -moz-border-radius: 4px;
         -webkit-border-radius: 4px;
-        background-color:  #0978c9;
+        background-color:  @visto-blue;
         height: 40px;
         color:  #ffffff;
         font-size: 12px;
@@ -1333,7 +1333,7 @@ body {
           background-color:  #2298ef;
         }
         &:active {
-          background-color:  #0564a9;
+          background-color:  @endeavour;
         }
         &:disabled {
           opacity: 0.5 ;
@@ -1349,22 +1349,22 @@ body {
         border-radius: 4px;
         -moz-border-radius: 4px;
         -webkit-border-radius: 4px;
-        border: solid 1px #0978c9;
+        border: solid 1px @visto-blue;
         background-color: #ffffff;
         height: 40px;
-        color: #0978c9;
+        color: @visto-blue;
         font-size: 12px;
         .AvenirBold() ;
         width: 130px;
         padding: 12px;
         text-align: center;
         &:hover {
-          border-color:  #0978c9;
+          border-color:  @visto-blue;
           background-color:  #6abdfa;
-          color:  #0978c9;
+          color:  @visto-blue;
         }
         &:active {
-          background-color:  #0978c9;
+          background-color:  @visto-blue;
           color:  #ffffff;
         }
       }
