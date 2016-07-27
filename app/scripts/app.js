@@ -308,6 +308,32 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
+                .when('/vendor/create', angularAMD.route({
+                    templateUrl: assets.html_vendor_create,
+                    title: 'Create - Vendor',
+                    controller: 'CreateVendorController',
+                    controllerUrl: '/workflow/vendors/vendor_create_controller',
+                    showHeader : true,
+
+                    resolve: {
+                        check: function ($location, workflowService, constants, featuresService, $rootScope) {
+                            $rootScope.$on('features', function () {
+                                featuresService.setGetFeatureParams('create_mediaplan');
+                            });
+
+                            workflowService.setMode('create');
+
+                            workflowService.setModuleInfo({
+                                moduleName: 'WORKFLOW',
+                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE,
+                                redirect: false
+                            });
+
+                            featuresService.setGetFeatureParams('create_mediaplan');
+                        }
+                    }
+                }))
+
                 .when('/vendors/list', angularAMD.route({
                     templateUrl: assets.html_vendors_list,
                     title: 'Vendors - List',
