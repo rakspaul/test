@@ -51,9 +51,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 return ret;
             };
 
-            _currCtrl.fetchAllAdvertisers = function () {
+            _currCtrl.fetchAllAdvertisers = function (clientId) {
                 accountsService
-                    .getUserAdvertiser()
+                    .getUserAdvertiser(clientId)
                     .then(function (res) {
                         if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
                             $scope.advertisersData = res.data.data;
@@ -61,9 +61,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     });
             };
 
-            _currCtrl.fetchAllBrands = function () {
+            _currCtrl.fetchAllBrands = function (clientId) {
                 accountsService
-                    .getUserBrands()
+                    .getUserBrands(clientId)
                     .then(function (res) {
                         if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
                             $scope.brandsData = res.data.data;
@@ -489,6 +489,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 } else {
                     $scope.selectedAdvertiserId = '';
                     $scope.selectedAdvertiser = 'Select Advertiser';
+                    _currCtrl.fetchAllAdvertisers(client.id);
                 }
 
                 $('html, body').animate({scrollTop : 0}, 30);
@@ -538,7 +539,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.clientId = client.id;
                 $scope.advertiserId = advObj.id;
                 $('html, body').animate({scrollTop: 0}, 30);
-
+                _currCtrl.fetchAllBrands(client.id);
                 accountsService
                     .getAdvertisersBrand(client.id, advObj.id)
                     .then(function (res) {

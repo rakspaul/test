@@ -72,6 +72,10 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         return title;
                     },
 
+                    getResponseMsg = function(res){
+                        return (res.message || res.data.message || res.data.data.message);
+                    },
+
                     validateUrl = function (url) {
                         var re =
                         /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
@@ -505,7 +509,8 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     getValueOfItem: getValueOfItem,
                     getEndAndStartDate: getEndAndStartDate,
                     validateUrl:validateUrl,
-                    validateTag:validateTag
+                    validateTag:validateTag,
+                    getResponseMsg: getResponseMsg
                 };
             }
         ]);
