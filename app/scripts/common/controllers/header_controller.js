@@ -55,7 +55,13 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
         setMasterClientData = function (id, name, isLeafNode, event) {
             showSelectedMasterClient(event, name);
-            accountService.changeAccount({id: id, name: name, isLeafNode: isLeafNode});
+
+            accountService.changeAccount({
+                id: id,
+                name: name,
+                isLeafNode: isLeafNode
+            });
+
             $scope.defaultAccountsName = name;
         };
 
