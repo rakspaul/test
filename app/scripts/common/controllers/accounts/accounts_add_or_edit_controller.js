@@ -158,13 +158,13 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
 
             function getTimezones() {
                 $scope.timezones = {
-                    EST          : 'Eastern Standard Time(UTC-05:00)',
+                    EST          : 'Eastern Standard Time (GMT-05:00)',
                     'US/Eastern' : 'Eastern Time',
-                    'US/Central' : 'Central Standard Time(UTC-06:00)',
-                    'US/Mountain': 'Mountain Standard Time(UTC-07:00)',
-                    'US/Pacific' : 'Pacific Standard Time(UTC-08:00)',
-                    UTC          : 'UTC',
-                    GB           : 'British Summer Time (UTC+01:00)'
+                    'US/Central' : 'Central Time',
+                    'US/Mountain': 'Mountain Time',
+                    'US/Pacific' : 'Pacific Time',
+                     UTC          : 'GMT',
+                     GB           : 'British Summer Time'
                 };
             }
 

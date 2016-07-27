@@ -740,9 +740,6 @@ define(['angularAMD'], function(angularAMD) {
             'Would you like to clear these settings and switch platforms?.';
         this.ARCHIVE_MESSAGE = 'Do you want to Archive / Delete the Ad?';
 
-
-        this.TIMEZONE_UK = 'Europe/London';
-        this.TIMEZONE_US = 'America/New_York';
         this.DATE_UK_FORMAT = 'DD/MM/YYYY';
         this.DATE_US_FORMAT = 'MM/DD/YYYY';
         this.DATE_UTC_FORMAT = 'YYYY-MM-DD HH:mm:ss';
