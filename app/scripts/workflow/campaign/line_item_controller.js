@@ -601,9 +601,9 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             $scope.initiateLineItemDatePicker();
         };
 
-        $scope.createNewLineItem = function (mode, lineItemObj) {
+        $scope.$parent.createNewLineItem = function (mode, lineItemObj) {
             var newItem = {};
-
+            $scope.Campaign.showBudgetZeroPopup = false;
             if (mode === 'create' ) {
                 if ($scope.lineItemName !== '') {
                     newItem = createLineItemObj(lineItemObj);
@@ -627,6 +627,8 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
         $scope.$parent.createNewLineItemInEditMode = function () {
             var newItem;
+
+            $scope.Campaign.showBudgetZeroPopup = false;
 
             // this is kept to initially create object in case we have to save it in service -
             // line item edit mode - save media plan q
@@ -1016,7 +1018,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             populateLineItemEdit(event, lineItem);
         };
 
-        $scope.updateLineItem = function () {
+        $scope.$parent.updateLineItem = function () {
             if (doesLineItemExceedBudget($scope.editLineItem.billableAmount, $scope.Campaign.totalBudget)) {
                 return false;
             }
@@ -1279,6 +1281,43 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         $scope.updateLineItemCreateDate = function () {
             $scope.lineItemStartDate = $('#lineItemStartDateInput').val();
             $scope.lineItemEndDate = $('#lineItemEndDateInput').val();
+        };
+
+        // line item navigate
+        $scope.displayZeroLineItemBudgetPopUp = function(section) {
+            $scope.Campaign.showBudgetZeroPopup = true;
+            if(section === 'create'){
+                $scope.Campaign.section = 'create';
+            } else {
+                $scope.Campaign.section = 'edit';
+            }
+        };
+
+        $scope.navigateLineItem = function(section) {
+            if(section === 'create') {
+
+                if($scope.billableAmount == '0' || $scope.pricingRate == '0'){
+                    $scope.displayZeroLineItemBudgetPopUp(section);
+                } else {
+                    if($scope.mode === 'create' || $scope.cloneMediaPlanName) {
+                        $scope.createNewLineItem('create');
+                    } else {
+                        $scope.createNewLineItemInEditMode('create');
+                    }
+                }
+            } else {
+                
+                if($scope.editLineItem.billableAmount == '0' || $scope.editLineItem.pricingRate == '0'){
+                    $scope.displayZeroLineItemBudgetPopUp(section);
+                } else {
+                    if($scope.mode === 'create' || $scope.cloneMediaPlanName) {
+                        $scope.updateLineItem();
+                    } else {
+                        $scope.updateLineItemInEditMode();
+                    }
+                }
+
+            }
         };
     });
 });
