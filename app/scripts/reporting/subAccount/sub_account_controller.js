@@ -1,10 +1,10 @@
 define(['angularAMD', 'common/services/sub_account_service', 'common/services/constants_service',
-    'login/login_model'], function (angularAMD) {
+    'login/login_model', 'common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('subAccountController', function ($scope, $rootScope, $route, $routeParams, $location,
-                                                            subAccountService, constants, loginModel, utils,
-                                                            accountService) {
+                                                            subAccountService, constants, loginModel, vistoconfig,
+                                                            utils, accountService) {
 
 
         var fetchSubAccounts =  function () {
@@ -57,7 +57,7 @@ define(['angularAMD', 'common/services/sub_account_service', 'common/services/co
             $scope.subAccountData.showAll = true;
             $routeParams.subAccountId = sub_account.id;
 
-            subAccountService.changeSubAccount(accountService.getSelectedAccount(), sub_account);
+            subAccountService.changeSubAccount(vistoconfig.getSelectedAccountId(), sub_account);
         };
 
         $scope.disableShowAll = function () {

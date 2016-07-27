@@ -1,6 +1,6 @@
 define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt_chart_model',
     'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model', 'common/moment_utils',
-    'reporting/advertiser/advertiser_model'],
+    'reporting/advertiser/advertiser_model', 'common/services/vistoconfig_service'],
     function (angularAMD) {
     'use strict';
 

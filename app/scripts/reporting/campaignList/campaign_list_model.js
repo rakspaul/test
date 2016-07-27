@@ -1,4 +1,4 @@
-define(['angularAMD','reporting/campaignList/campaign_list_service',
+define(['angularAMD', 'reporting/campaignList/campaign_list_service',
     'common/services/transformer_service', 'reporting/models/campaign_cdb_data', 'reporting/models/campaign_cost',
     'common/services/request_cancel_service', 'common/services/constants_service', 'reporting/brands/brands_model',
     'login/login_model', 'reporting/advertiser/advertiser_model', 'common/services/url_service',
@@ -6,10 +6,10 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
         // originally part of controllers/campaign_controller.js
         angularAMD.factory('campaignListModel', ['$route','$rootScope', '$location', 'campaignListService',
             'modelTransformer', 'campaignCDBData', 'campaignCost', 'requestCanceller', 'constants', 'brandsModel',
-            'loginModel', 'advertiserModel', 'urlService', 'vistoconfig','dataService','localStorageService',
+            'loginModel', 'advertiserModel', 'urlService', 'vistoconfig', 'dataService', 'localStorageService',
             function ($route,$rootScope, $location, campaignListService, modelTransformer, campaignCDBData,
                       campaignCost, requestCanceller, constants, brandsModel, loginModel, advertiserModel, urlService,
-                      vistoconfig,dataService,localStorageService) {
+                      vistoconfig, dataService, localStorageService) {
                 var Campaigns = function () {
                     this.getCapitalizeString = function (string) {
                         return string[0].toUpperCase() + string.substring(1);

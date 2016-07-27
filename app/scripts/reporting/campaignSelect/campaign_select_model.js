@@ -1,20 +1,17 @@
 define(['angularAMD', 'common/services/url_service', 'common/services/data_service',
-    'reporting/kpiSelect/kpi_select_model', 'login/login_model', 'reporting/advertiser/advertiser_model'],
-    function (angularAMD) {
+    'reporting/kpiSelect/kpi_select_model', 'login/login_model', 'reporting/advertiser/advertiser_model',
+    'common/services/vistoconfig_service'], function (angularAMD) {
         angularAMD.factory('campaignSelectModel', ['$q', '$rootScope', '$routeParams', '$timeout', 'urlService',
             'dataService', 'kpiSelectModel', 'loginModel', 'advertiserModel', 'localStorageService', 'brandsModel',
             'utils', 'vistoconfig', 'strategySelectModel',
             function ($q, $rootScope, $routeParams, $timeout, urlService, dataService, kpiSelectModel, loginModel,
                       advertiserModel, localStorageService, brandsModel, utils, vistoconfig, strategySelectModel) {
-
                 var campaign = {
                     selectedCampaign: {},
                     selectedCampaignOriginal: {}
                 };
 
-
                 campaign.setSelectedCampaign = function (_campaign) {
-
                     if (!$.isEmptyObject(_campaign)) {
                         campaign.selectedCampaign.id = (_campaign.id === undefined) ?
                             _campaign.campaign_id :
@@ -45,34 +42,36 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                             // set default kpi as ctr if it is coming as null or NA from backend.
                             campaign.selectedCampaign.kpi = 'ctr';
                         }
+
                         kpiSelectModel.setSelectedKpi(campaign.selectedCampaign.kpi);
                     }
                 };
 
                 campaign.getCampaigns = function (brand, searchCriteria) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        advertiserId = advertiserModel.getSelectedAdvertiser().id,
+                    var clientId = vistoconfig.getMasterClientId(),
+                        advertiserId = vistoconfig.getSelectAdvertiserId(),
                         url = urlService.APICampaignDropDownList(clientId, advertiserId, brand, searchCriteria);
 
                     return dataService
                         .fetch(dataService.append(url, searchCriteria))
                         .then(function (response) {
                             campaign.campaigns = (response.data.data !== undefined ? response.data.data : {});
+
                             return campaign.campaigns;
                         });
-
                 };
 
                 campaign.fetchCampaigns = function (clientId, advertiserId, brandId) {
                     var searchCriteria = utils.typeaheadParams,
                         url = urlService.APICampaignDropDownList(clientId, advertiserId, brandId, searchCriteria);
+
                     return dataService.fetch(dataService.append(url, searchCriteria));
                 };
 
                 campaign.fetchCampaign = function (clientId, campaignId) {
                     var url,
                         deferred = $q.defer();
-                    
+
                     if (campaign.getSelectedCampaign() && campaign.getSelectedCampaign().id === campaignId) {
                         console.log('fetchCampaign', 'already fetched', campaign.getSelectedCampaign());
                         $timeout(function() {
@@ -82,6 +81,7 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                     }
                     url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId + '/campaigns/' + campaignId;
+
                     dataService.getSingleCampaign(url).then(function (result) {
                         if (result.status === 'success' && !angular.isString(result.data)) {
                             campaign.selectedCampaignOriginal = result.data.data;
@@ -92,6 +92,7 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                     }, function() {
                         deferred.reject('Mediaplan not found');
                     });
+
                     return deferred.promise;
                 };
 

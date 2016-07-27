@@ -1,14 +1,14 @@
 define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service',
     'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/overview/get_adgroups_controller',
-    'workflow/directives/edit_ad_group_section', 'login/login_model','common/utils', 
+    'workflow/directives/edit_ad_group_section', 'login/login_model','common/utils',
     'workflow/overview/campaign_clone_controller',
     'workflow/campaign/campaign_archive_controller', 'common/directives/decorate_numbers',
     'common/directives/ng_upload_hidden'], function (angularAMD) {
     angularAMD.controller('CampaignOverViewController', function ($scope, $modal, $rootScope, $routeParams,
                                                                   $timeout, $location, $route, constants,
                                                                   workflowService, momentService, vistoconfig,
-                                                                  featuresService, dataService, loginModel,utils, 
-                                                                  $sce) {
+                                                                  featuresService, dataService, loginModel,
+                                                                  utils, $sce) {
         var campaignOverView = {
             modifyCampaignData: function () {
                 var campaignData = $scope.workflowData.campaignData,
@@ -396,7 +396,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.labels = [];
 
         $scope.DownloadTrackingTags = function () {
-            var clientId = loginModel.getSelectedClient().id,
+            var clientId = vistoconfig.getMasterClientId(),
 
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
@@ -1194,8 +1194,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.$on('$locationChangeStart', function (event, next) {
             var customReportUrl;
 
-            //on Broswers back button customreport behaving wierdly, this piece of code fixes it
-            if (next.indexOf('customreport') > -1){
+            //on Browsers back button customreport behaving weirdly, this piece of code fixes it
+            if (next.indexOf('customreport') > -1) {
                 customReportUrl = next.split('/')[3];
                 $location.url('/' + customReportUrl);
             }

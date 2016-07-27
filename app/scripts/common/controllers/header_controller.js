@@ -1,14 +1,15 @@
 define(['angularAMD', 'common/services/constants_service', 'login/login_model',
     'reporting/models/domain_reports', 'reporting/campaignSelect/campaign_select_model',
     'common/services/role_based_service', 'workflow/services/workflow_service', 'common/services/features_service',
-    'common/services/account_service','common/services/sub_account_service'], function (angularAMD) {
+    'common/services/account_service','common/services/sub_account_service', 'common/services/vistoconfig_service'],
+    function (angularAMD) {
     'use strict';
 
     angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location,
                                                         $modal, $routeParams, constants, loginModel, domainReports,
                                                         campaignSelectModel, RoleBasedService, workflowService,
                                                         featuresService, accountService, subAccountService,
-                                                        localStorageService, advertiserModel, brandsModel,
+                                                        vistoconfig, localStorageService, advertiserModel, brandsModel,
                                                         strategySelectModel, pageFinder, urlBuilder) {
 
         var featurePermission = function () {
@@ -175,7 +176,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                     if (result && result.data.data.length > 0) {
 
                         $scope.accountsData = accountService.getAccounts();
-                        accountService.getSelectedAccount() &&
+                        vistoconfig.getSelectedAccountId() &&
                         ($scope.defaultAccountsName = accountService.getSelectedAccount().name);
                         $scope.multipleClient = $scope.accountsData.length > 1;
                         $scope.pageName = pageFinder.pageBuilder($location.path()).pageName();

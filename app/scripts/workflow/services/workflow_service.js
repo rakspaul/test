@@ -49,7 +49,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             fetchCampaigns = function () {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns';
 
                 return dataService.fetch(url);
@@ -122,7 +122,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getPixels = function (advertiserId, client_Id, endDate, pixels, mode) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
                     url;
 
                 if (endDate) {
@@ -148,7 +148,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getRatesTypes = function (clientId,advertiserId) {
-                var client_id = loginModel.getSelectedClient().id,
+                var client_id = vistoconfig.getMasterClientId(),
                     url;
 
                 if (clientId) {
@@ -166,7 +166,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getBillingTypeValue = function (clientId, advertiserId) {
-                var client_id = loginModel.getSelectedClient().id,
+                var client_id = vistoconfig.getMasterClientId(),
                     url;
 
                 if (clientId) {
@@ -188,7 +188,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     clientId;
 
                 if (isLeafNode) {
-                    clientId = loginModel.getSelectedClient().id;
+                    clientId = vistoconfig.getMasterClientId();
                 } else {
                     clientId = data.clientId;
                 }
@@ -206,7 +206,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     campaignId;
 
                 if (isLeafNode) {
-                    clientId = loginModel.getSelectedClient().id;
+                    clientId = vistoconfig.getMasterClientId();
                 } else {
                     clientId = data.clientId;
                 }
@@ -221,7 +221,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getCampaignData = function (campaignId) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -231,7 +231,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getPlatforms = function (cacheObj, advertiserId) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
                     campaignData = JSON.parse(localStorage.getItem('campaignData')),
                     url;
 
@@ -248,7 +248,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getAdsForCampaign = function (campaignId) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -259,7 +259,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getPixelDataFile = function (campaignId) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -270,7 +270,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getAdgroups = function (campaignId, searchTerm, isForClone) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
                     url;
 
                 if (searchTerm) {
@@ -293,7 +293,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             createAdGroups = function (campaignId, data) {
-                var clientId = loginModel.getSelectedClient().id;
+                var clientId = vistoconfig.getMasterClientId();
 
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -306,7 +306,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             editAdGroups = function (campaignId, data) {
-                var clientId = loginModel.getSelectedClient().id;
+                var clientId = vistoconfig.getMasterClientId();
 
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -318,7 +318,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getAdsInAdGroup = function (campaignId, adGroupID) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/campaigns/' + campaignId +
@@ -329,7 +329,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             createAd = function (data) {
-                var clientId = loginModel.getSelectedClient().id;
+                var clientId = vistoconfig.getMasterClientId();
 
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -341,7 +341,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             updateAd = function (data) {
-                var clientId = loginModel.getSelectedClient().id;
+                var clientId = vistoconfig.getMasterClientId();
 
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -353,7 +353,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             deleteAd = function (campaignId, adId) {
-                var clientId = loginModel.getSelectedClient().id;
+                var clientId = vistoconfig.getMasterClientId();
 
                 return dataService.deleteRequest(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -365,7 +365,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             pauseAd = function (data) {
-                var clientId = loginModel.getSelectedClient().id;
+                var clientId = vistoconfig.getMasterClientId();
 
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -379,7 +379,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             resumeAd = function (data) {
-                var clientId = loginModel.getSelectedClient().id;
+                var clientId = vistoconfig.getMasterClientId();
 
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -392,7 +392,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             deleteCampaign = function (campaignId) {
-                var clientId = loginModel.getSelectedClient().id;
+                var clientId = vistoconfig.getMasterClientId();
 
                 return dataService.deleteRequest(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -403,7 +403,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             cloneCampaign  = function (data) {
-                var clientId = loginModel.getSelectedClient().id;
+                var clientId = vistoconfig.getMasterClientId();
 
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -420,7 +420,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 if (cloneObj.subAccountId) {
                     clientId = cloneObj.subAccountId;
                 } else {
-                    clientId = loginModel.getSelectedClient().id;
+                    clientId = vistoconfig.getMasterClientId();
                 }
 
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -432,7 +432,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getAd = function (data) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -443,7 +443,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getDetailedAdsInAdGroup = function (campaignId, adGroupID, adId) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -455,7 +455,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             pushCampaign = function (campaignId) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -466,7 +466,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getTaggedCreatives = function (campaignId, adId) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -483,7 +483,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 if (subAccountId) {
                     clientId = subAccountId;
                 } else {
-                    clientId = loginModel.getSelectedClient().id;
+                    clientId = vistoconfig.getMasterClientId();
                 }
 
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -493,7 +493,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
             // Ad Create Flow
             getAdServers = function (adFormat) {
-                var clientId = loginModel.getSelectedClient().id;
+                var clientId = vistoconfig.getMasterClientId();
 
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
@@ -518,7 +518,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 if (client_id) {
                     clientId = client_id;
                 } else {
-                    clientId = loginModel.getSelectedClient().id;
+                    clientId = vistoconfig.getMasterClientId();
                 }
 
                 return dataService.post(
@@ -532,7 +532,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getCreativeData = function (id, client_id) {
-                var clientId = client_id || loginModel.getSelectedClient().id;
+                var clientId = client_id || vistoconfig.getMasterClientId();
 
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
@@ -555,7 +555,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             forceSaveCreatives = function (clientId, advertiserId, data) {
-                clientId = loginModel.getSelectedClient().id;
+                clientId = vistoconfig.getMasterClientId();
 
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -613,7 +613,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             updateCreative = function (client_id, adId, id, data) {
-                var clientId = client_id || loginModel.getSelectedClient().id;
+                var clientId = client_id || vistoconfig.getMasterClientId();
 
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -627,7 +627,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             downloadCreativeTemplate = function (adServerId, templateId) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -648,7 +648,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             uploadBulkCreativeUrl = function (adServerId, creativeFormat, templateId) {
-                var clientId = loginModel.getSelectedClient().id;
+                var clientId = vistoconfig.getMasterClientId();
 
                 return vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
                     '/adserver/' + adServerId +
@@ -738,7 +738,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             getAdvertisersDomainList = function (clientId, advertiserId) {
                 var url;
 
-                clientId = loginModel.getSelectedClient().id;
+                clientId = vistoconfig.getMasterClientId();
 
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
@@ -751,7 +751,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             createAdvertisersDomainList = function (clientId, advertiserId, domainId) {
                 var domainIdstr = domainId ? '/' + domainId : '';
 
-                clientId = loginModel.getSelectedClient().id;
+                clientId = vistoconfig.getMasterClientId();
 
                 return vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
@@ -760,14 +760,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getPlatformCustomInputs = function (platformId) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' + platformId;
 
                 return dataService.fetch(url);
             },
 
             getLineItem = function (campaignId,isFromMediaPlan) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -783,7 +783,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             createLineItems = function (campaignId,client_id,data) {
-                var clientId = client_id || loginModel.getSelectedClient().id,
+                var clientId = client_id || vistoconfig.getMasterClientId(),
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -798,7 +798,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             updateLineItems = function (campaignId, client_id, data) {
-                var clientId = client_id || loginModel.getSelectedClient().id,
+                var clientId = client_id || vistoconfig.getMasterClientId(),
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -827,7 +827,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getVendorConfigs = function (advertiserId, client_id) {
-                var clientId = loginModel.getSelectedClient().id;
+                var clientId = vistoconfig.getMasterClientId();
 
                 if (client_id) {
                     clientId = client_id;
@@ -840,7 +840,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getCostAttr = function (advertiserId, client_id) {
-                var clientId = loginModel.getSelectedClient().id;
+                var clientId = vistoconfig.getMasterClientId();
 
                 if (client_id) {
                     clientId = client_id;
@@ -853,7 +853,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getSystemOfRecord = function (advertiserId, client_id) {
-                var clientId = loginModel.getSelectedClient().id;
+                var clientId = vistoconfig.getMasterClientId();
 
                 if (client_id) {
                     clientId = client_id;
@@ -866,7 +866,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getBillingTypeAndValue = function (advertiserId, client_id) {
-                var clientId = client_id || loginModel.getSelectedClient().id;
+                var clientId = client_id || vistoconfig.getMasterClientId();
 
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
@@ -883,7 +883,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getAllCampaignsForAdClone = function () {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
                     advertiserId = window.JSON.parse(localStorage.campaignData).advertiserId,
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
@@ -895,7 +895,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             cloneAd = function (data, selectedMediaPlanId) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
                         '/campaigns/' + selectedMediaPlanId + '/ads/clone';
@@ -1067,7 +1067,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             deleteLineItem = function (lineItem,client_id) {
-                var clientId = client_id || loginModel.getSelectedClient().id;
+                var clientId = client_id || vistoconfig.getMasterClientId();
 
                 return dataService.deleteRequest(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +

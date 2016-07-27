@@ -9,16 +9,16 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
     'use strict';
 
     angularAMD.controller('CustomReportUploadController', function ($modal, dataStore, $timeout, $location, $rootScope,
-                                                                   $scope, $route, $window, campaignSelectModel,
-                                                                   strategySelectModel, kpiSelectModel,
-                                                                   utils, dataService, requestCanceller,
-                                                                   constants, timePeriodModel, loginModel,
-                                                                   advertiserModel, urlService, collectiveReportModel,
-                                                                   brandsModel, vistoconfig, accountService,
-                                                                   domainReports, reportsUploadList,
+                                                                    $scope, $route, $window, campaignSelectModel,
+                                                                    strategySelectModel, kpiSelectModel,
+                                                                    utils, dataService, requestCanceller,
+                                                                    constants, timePeriodModel, loginModel,
+                                                                    advertiserModel, urlService, collectiveReportModel,
+                                                                    brandsModel, vistoconfig, accountService,
+                                                                    domainReports, reportsUploadList,
                                                                     Upload, urlBuilder) {
         var getCampaings = function () {
-            var selectedBrand = brandsModel.getSelectedBrand();
+            var selectedBrand = vistoconfig.getSelectedBrandId();
 
             campaignSelectModel
                 .getCampaigns(selectedBrand.id)

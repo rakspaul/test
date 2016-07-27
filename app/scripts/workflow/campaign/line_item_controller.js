@@ -428,7 +428,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                     clientId = ($scope.selectedCampaign.clientId) ?
                         $scope.selectedCampaign.clientId :
-                        loginModel.getSelectedClient().id;
+                        vistoconfig.getMasterClientId();
 
                     url= vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +

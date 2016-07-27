@@ -107,17 +107,12 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         url += '/mediaplan/' + mediaplanId + '/overview';
 
                         return url;
-
-                    }
+                    };
 
                     $scope.showReportsOverview = fParams[0].report_overview;
                     $scope.showManageButton = fParams[0].mediaplan_hub;
 
                     $scope.textConstants = constants;
-
-
-
-
 
                     // NOTE: The params have been modified. To utilize the new feature,
                     // pass $event as the 3rd actual param when calling this method.

@@ -1,4 +1,4 @@
-define(['common'], function (angularAMD) {
+define(['common', 'common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
     angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
@@ -13,33 +13,40 @@ define(['common'], function (angularAMD) {
         'ngTagsInput']);
 
 
-    var fetchCurrentAdvertiser = function($location, $route, advertiserModel) {
+    var fetchCurrentAdvertiser = function($location, $route, advertiserModel, vistoconfig) {
         var params = $route.current.params;
-        advertiserModel.fetchAdvertiserList(params.subAccountId || params.accountId).then(function() {
-            if (advertiserModel.allowedAdvertiser(params.advertiserId)) {
+        advertiserModel
+            .fetchAdvertiserList(params.subAccountId || params.accountId)
+            .then(function () {
+                var advertiser;
 
-                var advertiser = advertiserModel.getSelectedAdvertiser();
-                $('#advertiser_name_selected').text(advertiser.name);
-                $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
-            } else {
-                console.log('advertiser not allowed');
-                $location.url('/tmp');
-            }
-        });
+                if (advertiserModel.allowedAdvertiser(params.advertiserId)) {
+                    advertiser = vistoconfig.getSelectAdvertiserId();
+                    $('#advertiser_name_selected').text(advertiser.name);
+                    $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
+                } else {
+                    console.log('advertiser not allowed');
+                    $location.url('/tmp');
+                }
+            });
     };
 
-    var fetchCurrentBrand = function($location, $route, brandsModel) {
+    var fetchCurrentBrand = function($location, $route, brandsModel, vistoconfig) {
         var params = $route.current.params;
-        brandsModel.fetchBrandList(params.subAccountId || params.accountId, params.advertiserId).then(function() {
-            if (brandsModel.allowedBrand(params.brandId)) {
-                var brand = brandsModel.getSelectedBrand();
-                $('#brand_name_selected').text(brand.name);
-                $('#brandsDropdown').attr('placeholder', brand.name).val('');
-            } else {
-                console.log('brand not allowed');
-                $location.url('/tmp');
-            }
-        });
+
+        brandsModel
+            .fetchBrandList(params.subAccountId || params.accountId, params.advertiserId)
+            .then(function() {
+                if (brandsModel.allowedBrand(params.brandId)) {
+                    var brand = vistoconfig.getSelectedBrandId();
+
+                    $('#brand_name_selected').text(brand.name);
+                    $('#brandsDropdown').attr('placeholder', brand.name).val('');
+                } else {
+                    console.log('brand not allowed');
+                    $location.url('/tmp');
+                }
+            });
     };
 
     var dashboardHeaderResolver = function($q, $location, $route, accountService, advertiserModel) {

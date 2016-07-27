@@ -4,14 +4,14 @@
 define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/services/data_service',
     'common/services/url_service', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
     'common/services/constants_service', 'reporting/collectiveReport/collective_report_model', 'common/utils',
-    'common/services/data_store_model'], function (angularAMD) {
+    'common/services/data_store_model', 'common/services/vistoconfig_service'], function (angularAMD) {
         'use strict';
 
         angularAMD.controller('CollectiveEditReportController', function ($modal, $scope, $rootScope, $modalInstance,
-                                                                         campaignSelectModel, dataService, urlService,
-                                                                         advertiserModel, brandsModel, constants,
-                                                                         collectiveReportModel, utils, dataStore,
-                                                                         report, reportIndex, vistoconfig) {
+                                                                          campaignSelectModel, dataService, urlService,
+                                                                          advertiserModel, brandsModel, constants,
+                                                                          collectiveReportModel, utils, dataStore,
+                                                                          vistoconfig, report, reportIndex) {
             var clientId = vistoconfig.getSelectedAccountId(),
                 advertiserId = vistoconfig.getSelectAdvertiserId(),
                 brandId = vistoconfig.getSelectedBrandId();

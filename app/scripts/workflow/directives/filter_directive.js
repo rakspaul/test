@@ -1,9 +1,10 @@
-define(['angularAMD', 'workflow/services/filter_service', 'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD', 'workflow/services/filter_service', 'common/services/constants_service',
+    'common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.directive('filterDirective', function (filterService) {
         return {
-            controller: function ($scope,$rootScope, workflowService, loginModel, constants) {
+            controller: function ($scope,$rootScope, workflowService, loginModel, constants, vistoconfig) {
                 var setAdvertiserOnLSAndShow = function () {
                         //set to localstorage
                         var advertiserObj = {
@@ -49,8 +50,8 @@ define(['angularAMD', 'workflow/services/filter_service', 'common/services/const
 
                             $scope.filterData.subAccountList = accountData;
 
-                            if (loginModel.getSelectedClient().id) {
-                                $scope.filterData.subAccSelectedId = loginModel.getSelectedClient().id;
+                            if (vistoconfig.getMasterClientId()) {
+                                $scope.filterData.subAccSelectedId = vistoconfig.getMasterClientId();
                                 $scope.filterData.subAccSelectedName = loginModel.getSelectedClient().name;
                             } else {
                                 $scope.filterData.subAccSelectedName = accountData[0].displayName;

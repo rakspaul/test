@@ -4,8 +4,9 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
     'login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
     'common/services/url_service', 'reporting/kpiSelect/kpi_select_directive',
     'reporting/kpiSelect/kpi_select_controller', 'reporting/models/domain_reports',
-    'reporting/strategySelect/strategy_select_directive', 'reporting/strategySelect/strategy_select_controller',
-    'reporting/timePeriod/time_period_pick_directive'], function (angularAMD) {
+    'common/services/vistoconfig_service', 'reporting/strategySelect/strategy_select_directive',
+    'reporting/strategySelect/strategy_select_controller', 'reporting/timePeriod/time_period_pick_directive'],
+    function (angularAMD) {
     'use strict';
 
     angularAMD.controller('InventoryController', function ($scope, kpiSelectModel, campaignSelectModel,

@@ -1,19 +1,19 @@
 define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
     'workflow/services/creative_custom_module', 'login/login_model', 'common/utils',
-    'common/services/local_storage_service', 'workflow/directives/creative_drop_down',
-    '../../common/directives/ng_upload_hidden'], function (angularAMD) {
+    'common/services/local_storage_service', 'common/services/vistoconfig_service',
+    'workflow/directives/creative_drop_down', '../../common/directives/ng_upload_hidden'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('CreativeController', function ($scope, $rootScope, $routeParams, $location,
                                                          constants, workflowService, creativeCustomModule,
-                                                         loginModel, utils, localStorageService) {
+                                                         loginModel, utils, localStorageService, vistoconfig) {
 
 
         var postCrDataObj = {},
 
             processEditCreative = function () {
                 workflowService
-                    .getCreativeData($scope.creativeId,loginModel.getSelectedClient().id)
+                    .getCreativeData($scope.creativeId, vistoconfig.getMasterClientId())
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.creativeEditData = result.data.data;
@@ -424,7 +424,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                             var tempArr=_.filter(responseData,function (obj) {
                                 return obj.templateType ===  $scope.creativeEditData.creativeTemplate.templateType;
                             });
-                            
+
                             $scope.creativeTemplates = tempArr;
                         }else{
                             $scope.creativeTemplates=responseData;
@@ -597,7 +597,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         $scope.prarentHandler = function () {
-            var client = loginModel.getSelectedClient(),
+            var client = vistoconfig.getMasterClientId(),
 
                 data = {
                     id: client.id,

@@ -1,10 +1,9 @@
-define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],
+define(['angularAMD', 'common/services/vistoconfig_service'],
     function (angularAMD) {
         'use strict';
 
         angularAMD.service('ganttChart', ['$location', '$routeParams', '$rootScope',
-            '$window',
-            function ($location, $routeParams, $rootScope, $window, vistoconfig) {
+            '$window', 'vistoconfig', function ($location, $routeParams, $rootScope, $window, vistoconfig) {
                 var MIN_CALENDAR_HEIGHT = 580,
                     BRAND_PADDING = 7,
                     gantt,

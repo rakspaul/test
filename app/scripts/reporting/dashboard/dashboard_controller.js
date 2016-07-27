@@ -2,12 +2,13 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/
     'reporting/brands/brands_model', 'reporting/advertiser/advertiser_model',
     'reporting/campaignSelect/campaign_select_model','login/login_model',
     'reporting/common/d3/bubble_chart_directive','reporting/common/d3/gauge_directive',
-    'common/services/sub_account_service'], function (angularAMD) {
+    'common/services/sub_account_service', 'common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('DashboardController', function ($scope, $rootScope, $routeParams, $location, constants,
                                                            dashboardModel, brandsModel, advertiserModel,
-                                                           campaignSelectModel, loginModel, subAccountService) {
+                                                           campaignSelectModel, loginModel, subAccountService,
+                                                           vistoconfig) {
 
         var updateTitle = function () {
                 dashboardModel.setTitle();
@@ -56,8 +57,8 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/
         }
 
         $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED, function () {
-            dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());
-            dashboardModel.setSelectedAdvertiser(advertiserModel.getSelectedAdvertiser());
+            dashboardModel.setSelectedBrand(vistoconfig.getSelectedBrandId());
+            dashboardModel.setSelectedAdvertiser(vistoconfig.getSelectAdvertiserId());
             updateTitle();
         });
 
