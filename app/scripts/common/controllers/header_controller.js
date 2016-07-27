@@ -68,6 +68,11 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
 
+        $scope.redirectToAdminPage = function(){
+            var clientId = vistoconfig.getMasterClientId();
+            $location.url('/a/' + clientId + '/admin/accounts');
+        }
+
         $scope.set_account_name = function (event, id, name, isLeafNode) {
             var moduleObj = workflowService.getModuleInfo(),
                 $modalInstance;
@@ -216,7 +221,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         /* Start Feature Permission */
         $rootScope.$on('features', function () {
             featurePermission();
-            // $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
+            $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
         });
         /* End Feature Permission */
 

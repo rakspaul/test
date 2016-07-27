@@ -43,7 +43,7 @@
             </div>
             <!--Admin DD-->
             <div class="pull-left each_nav_link" id="admin_nav_link" ng-if="isSuperAdmin">
-                <a href="/admin/accounts" reporttitle="adminOverview"
+                <a data-ng-click="redirectToAdminPage()" reporttitle="adminOverview"
                    ng-click="NavigateToTab('', $event ,'adminOverview')" ng-bind="textConstants.ADMIN"></a>
 
                 <!--<a href="javascript:void(0);" reporttitle="adminOverview"-->
