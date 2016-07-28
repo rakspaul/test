@@ -531,7 +531,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             };
             
             $scope.openHelp = function() {
-                window.open('/pdf/help.pdf')
+                window.open('/pdf/help.pdf');
             };
         });
     });
