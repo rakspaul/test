@@ -2,12 +2,12 @@ var angObj = angObj || {};
 
 define(['angularAMD', '../../../workflow/services/account_service',
     '../../services/constants_service', 'common/moment_utils', 'workflow/directives/custom_date_picker',
-    'common/services/data_service', 'common/services/url_service'], function (angularAMD) {
+    'common/services/data_service', 'common/services/url_service', 'common/utils'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('AccountsAddOrEditAdvertiser', function ($scope, $rootScope, $modalInstance,
                                                                    accountsService, constants, momentService,
-                                                                   dataService, urlService) {
+                                                                   dataService, urlService, utils) {
         var _currCtrl = this,
             selectedBillingTypeName;
 
@@ -67,7 +67,7 @@ define(['angularAMD', '../../../workflow/services/account_service',
 
         // Validate the Advertiser URL entered
         $scope.validateURL = function(url){
-            var re = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
+            var re = utils.regExp().validateUrl;
             $scope.urlValidation = "";
             if (!re.test(url)) {
                 $scope.urlValidation = "Incorrect URL: Please add valid url in the field";
