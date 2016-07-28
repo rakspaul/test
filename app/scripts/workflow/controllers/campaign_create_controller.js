@@ -932,22 +932,24 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         });
 
         $scope.$watch('selectedCampaign.endTime',function (newVal, oldVal) {
-            if(newVal && oldVal &&
-                newVal !== oldVal) {
-                var selectedPixelData;
-                if (selectedAdvertiser) {
-                    if ($scope.selectedCampaign.selectedPixel.length > 0) {
-                        selectedPixelData = _.pluck($scope.selectedCampaign.selectedPixel, 'id');
-                    } else {
-                        selectedPixelData = $scope.editCampaignData.pixels;
-                    }
-
-                    if (selectedPixelData && selectedPixelData.length > 0) {
-                        $scope.$broadcast('fetch_pixels', selectedPixelData);
-                    } else {
-                        $scope.$broadcast('fetch_pixels');
-                    }
+            var selectedPixelData;
+            if (selectedAdvertiser) {
+                if ($scope.selectedCampaign.selectedPixel.length > 0) {
+                    selectedPixelData = _.pluck($scope.selectedCampaign.selectedPixel, 'id');
+                } else {
+                    selectedPixelData = $scope.editCampaignData.pixels;
                 }
+
+                if (selectedPixelData && selectedPixelData.length > 0) {
+                    $scope.$broadcast('fetch_pixels', selectedPixelData);
+                } else {
+                    $scope.$broadcast('fetch_pixels');
+                }
+            }
+
+            if(newVal && oldVal &&
+                newVal !== oldVal || selectedPixelData) {
+
 
                 // set the flag to save the media plan along with line item
                 if ($scope.mode === 'edit') {
