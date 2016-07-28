@@ -1831,8 +1831,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             selectedCreatives.creatives[i].size.size : null);
                     }
                     $scope.sizeString = creativeSizeArrC.filter(Boolean);
-                    if($scope.sizeString.length==0){
-                        $scope.sizeString='Unspecified Size'
+                    if($scope.sizeString.length === 0){
+                        $scope.sizeString='Unspecified Size';
                     }else{
                         arrC = creativeSizeArrC.filter(Boolean);
                         str = '';
