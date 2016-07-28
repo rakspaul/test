@@ -1,16 +1,36 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_service',
-        'common/services/constants_service', 'workflow/services/workflow_service' , 'login/login_model'],
+define(['angularAMD', 'common/services/data_service','common/services/vistoconfig_service'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.factory('campaignOverviewService', function () {
+        angularAMD.factory('campaignOverviewService', function (dataService,vistoconfig) {
 
-            var pauseAllAds = function(){
+            var pauseAllAds = function(params){
 
-            }
+                return dataService.post(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + params.clientId +
+                    '/campaigns/' + params.campaignId +
+                    '/ad_groups/'+ params.adGroupId+
+                    '/pause',
+                    { 'Content-Type': 'application/json' }
+                );
+
+            }, resumeAllAds = function(params){
+
+                return dataService.post(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + params.clientId +
+                    '/campaigns/' + params.campaignId +
+                    '/ad_groups/'+ params.adGroupId+
+                    '/resume',
+                    { 'Content-Type': 'application/json' }
+                );
+
+            };
 
             return {
-
+                pauseAllAds:pauseAllAds,
+                resumeAllAds:resumeAllAds
             };
         });
     }

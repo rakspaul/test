@@ -65,8 +65,15 @@
                             data-ad-group-index="{{$index}}">
                             <a class="available" data-ng-bind="textConstants.EDIT"></a>
                         </li>
-                        <li ng-class="(adGroupsData.PAUSED && adGroupsData.PAUSED == 0)?disabled:''" data-ng-click="pauseAllAds(adGroupsData)"><a class="available" data-ng-bind="textConstants.WF_PAUSE"></a></li>
-                        <li class="disabled"><a class="available" data-ng-bind="textConstants.WF_RESUME"></a></li>
+                        <li ng-class="((!adGroupsData.IN_FLIGHT || adGroupsData.IN_FLIGHT === 0) &&
+                                        (!adGroupsData.SCHEDULED || adGroupsData.SCHEDULED === 0))?'disabled':''"
+                            data-ng-click="pauseAllAds({'adGroupsData':adGroupsData,'campaignData':workflowData.campaignData})">
+                                <a class="available" data-ng-bind="textConstants.WF_PAUSE_ALL"></a>
+                        </li>
+                        <li  ng-class="(!adGroupsData.PAUSED || adGroupsData.PAUSED === 0)?'disabled':''"
+                             data-ng-click="resumeAllAds({'adGroupsData':adGroupsData,'campaignData':workflowData.campaignData})">
+                                <a class="available" data-ng-bind="textConstants.WF_RESUME_ALL"></a>
+                        </li>
                         <li class="disabled"><a class="available" data-ng-bind="textConstants.WF_ARCHIVE"></a></li>
                     </ul>
                 </div>

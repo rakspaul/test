@@ -661,7 +661,9 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_CLONE_AD = 'Clone Ad';
         this.WF_CLONE = 'Clone';
         this.WF_PAUSE = 'Pause';
+        this.WF_PAUSE_ALL = 'Pause All';
         this.WF_RESUME = 'Resume';
+        this.WF_RESUME_ALL = 'Resume All';
         this.WF_MOVE_TO = 'Move to';
         this.WF_ARCHIVE = 'Archive';
         this.WF_ARCHIVED = 'Archived';
