@@ -340,7 +340,6 @@ angular.module('ui.multiselect', [])
                     scope.isVisible = false;
                     scope.selectedAll = true;
                    // scope.multipleoption = false;
-
                     scope.toggleSelect = function () {
                         if (element.hasClass('open')) {
                             element.removeClass('open');
