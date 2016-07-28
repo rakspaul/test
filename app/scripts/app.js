@@ -561,6 +561,38 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
         return deferred.promise;
     };
 
+
+    var mediaPlanOverviewResolver = function ($q, $location, $route, accountService, subAccountService) {
+        var deferred = $q.defer();
+
+        console.log('accountService', accountService);
+        console.log('subAccountService', subAccountService);
+
+        accountService
+            .fetchAccountList()
+            .then(function () {
+                if (accountService.allowedAccount($route.current.params.accountId)) {
+                    subAccountService
+                        .fetchSubAccountList($route.current.params.accountId)
+                        .then(function () {
+                            if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
+                                accountService
+                                    .fetchAccountData($route.current.params.accountId)
+                                    .then(function () {
+                                    deferred.resolve();
+                                });
+                            }
+                        }
+                    );
+            } else {
+                console.log('account not allowed');
+                $location.url('/tmp');
+            }
+        });
+
+        return deferred.promise;
+    };
+
     app
         .config(function ($routeProvider, $httpProvider) {
             $routeProvider.caseInsensitiveMatch = true;
@@ -1751,6 +1783,41 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     }
                 }))
 
+                .when('/vendor/create', angularAMD.route({
+                    templateUrl: assets.html_vendor_create,
+                    title: 'Create - Vendor',
+                    controller: 'CreateVendorController',
+                    controllerUrl: '/workflow/vendors/vendor_create_controller',
+                    showHeader : true,
+
+                    resolve: {
+                        check: function ($location, workflowService, constants, featuresService, $rootScope) {
+                            $rootScope.$on('features', function () {
+                                featuresService.setGetFeatureParams('create_mediaplan');
+                            });
+
+                            workflowService.setMode('create');
+
+                            workflowService.setModuleInfo({
+                                moduleName: 'WORKFLOW',
+                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE,
+                                redirect: false
+                            });
+
+                            featuresService.setGetFeatureParams('create_mediaplan');
+                        }
+                    }
+                }))
+
+                .when('/vendors/list', angularAMD.route({
+                    templateUrl: assets.html_vendors_list,
+                    title: 'Vendors - List',
+                    controller: 'VendorsListController',
+                    controllerUrl: 'workflow/vendors/vendors_list_controller',
+                    showHeader : true,
+                    css: assets.css_table_list
+                }))
+
                 .when('/a/:accountId/admin/home', angularAMD.route({
                     templateUrl: assets.html_admin_home,
                     title: 'AdminHome',
@@ -1813,7 +1880,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     }
                 }))
 
-                .when('/admin/advertisers', angularAMD.route({
+                .when('/a/:accountId/admin/advertisers', angularAMD.route({
                     templateUrl: assets.html_advertisers,
                     title: 'AdminAdvertisers',
                     controller: 'AdminUsersController',
@@ -1855,16 +1922,23 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     controller: 'CampaignOverViewController',
                     controllerUrl: 'workflow/overview/campaign_overview_controller',
                     showHeader : true,
-
                     resolve: {
-                        check: function ($location, workflowService, constants) {
-                            workflowService.setModuleInfo({
-                                moduleName: 'WORKFLOW',
-                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE,
-                                redirect: true
-                            });
+                        header: function ($q, $location, $route, accountService, subAccountService) {
+                            return mediaPlanOverviewResolver($q, $location, $route, accountService, subAccountService);
                         }
                     }
+
+                    // resolve: {
+                    //
+                    //
+                    //     check: function ($location, workflowService, constants) {
+                    //         workflowService.setModuleInfo({
+                    //             moduleName: 'WORKFLOW',
+                    //             warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE,
+                    //             redirect: true
+                    //         });
+                    //     }
+                    // }
                 }))
 
                 .when('/a/:accountId/sa/:subAccountId/mediaplan/:campaignId/overview', angularAMD.route({
@@ -1875,14 +1949,20 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     showHeader : true,
 
                     resolve: {
-                        check: function ($location, workflowService, constants) {
-                            workflowService.setModuleInfo({
-                                moduleName: 'WORKFLOW',
-                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE,
-                                redirect: true
-                            });
+                        header: function ($q, $location, $route, accountService, subAccountService) {
+                            return mediaPlanOverviewResolver($q, $location, $route, accountService, subAccountService);
                         }
                     }
+
+                    // resolve: {
+                    //     check: function ($location, workflowService, constants) {
+                    //         workflowService.setModuleInfo({
+                    //             moduleName: 'WORKFLOW',
+                    //             warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE,
+                    //             redirect: true
+                    //         });
+                    //     }
+                    // }
                 }))
 
                 .when('/a/:accountId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/' +
@@ -2033,7 +2113,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     templateUrl: assets.html_creative_list,
                     title: 'Creative List',
                     controller: 'CreativeListController',
-                    controllerUrl: 'workflow/controllers/creative_list_controller',
+                    controllerUrl: 'workflow/creative/creative_list_controller',
                     showHeader : true,
 
                     resolve: {
@@ -2051,7 +2131,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     templateUrl: assets.html_creative_list,
                     title: 'Creative List',
                     controller: 'CreativeListController',
-                    controllerUrl: 'workflow/controllers/creative_list_controller',
+                    controllerUrl: 'workflow/creative/creative_list_controller',
                     showHeader : true,
 
                     resolve: {

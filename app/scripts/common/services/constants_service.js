@@ -446,6 +446,7 @@ define(['angularAMD'], function(angularAMD) {
 
         this.STRATEGY = 'Ad Group';
         this.LINE_ITEM = 'Line Item';
+        this.ZERO_MESSAGE = 'You have entered $0 for your rate or billable amount.';
 
         this.PLATFORM_NAME = 'Platform Name';
         this.COLLECTIVE_FEE = 'Collective Fee';
@@ -655,7 +656,7 @@ define(['angularAMD'], function(angularAMD) {
 
         this.WF_SELECT_MEDIA_PLAN = 'Media Plan';
         this.WF_SELECT_AD_GROUP = 'Ad Group';
-        this.WF_NO_AD_GROUP = 'No Ad Group';
+        this.WF_NO_AD_GROUP = 'Select Ad Group';
         this.WF_CLONE_THIS_AD = 'Clone this Ad to';
         this.WF_CLONE_AD = 'Clone Ad';
         this.WF_CLONE = 'Clone';
@@ -978,6 +979,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CUSTOM_REPORTS = 'Custom Reports';
         this.MEDIA_PLAN_REPORTS = 'Media Plan Reports';
         this.CREATIVES = 'Creatives';
+        this.ADD_LINE_ITEM = 'Add Line Item';
 
         // media plans
         this.NO_CATEGORY_FOR_SELECTED_ADVERISER = 'No category available for selected advertiser.';

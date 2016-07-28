@@ -231,6 +231,7 @@
                 </div>
             </div>
         </li>
+
         <li id="creative-tab">
             <a data-target="#creative"
                class="leftNavLink creative-tab-link"
@@ -241,6 +242,11 @@
                 <div class="statusLabel disabled" data-ng-if="adData.setSizes">
                     <div class="col-md-12">
                         <span class="creative_tab_sizes" style="color: #000;" data-ng-bind="adData.setSizes"></span>
+                    </div>
+                </div>
+                <div class="statusLabel disabled" data-ng-if="mode==='edit' && selectedArr.length>0 && adData.setSizes.length===0">
+                    <div class="col-md-12">
+                        <span class="creative_tab_sizes" style="color: #000;">Unspecified Size</span>
                     </div>
                 </div>
             </div>

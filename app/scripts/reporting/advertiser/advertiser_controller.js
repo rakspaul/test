@@ -7,7 +7,7 @@ define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils',
                                                             advertiserModel, utils, constants, vistoconfig) {
 
         var search = false,
-            searchCriteria = utils.typeaheadParams,
+            searchCriteria = utils.typeAheadParams,
 
             fetchAdvertisers= function () {
                 var accountId = $routeParams.subAccountId || $routeParams.accountId;

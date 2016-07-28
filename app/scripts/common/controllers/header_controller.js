@@ -21,6 +21,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 $scope.showReportTab = fParams[0].reports_tab;
                 $scope.showReportOverview = fParams[0].report_overview;
 
+                $scope.showCreativeList = fParams[0].creative_list;
+
                 $scope.buildReport = fParams[0].scheduled_reports;
 
                 if (fParams[0].scheduled_reports || fParams[0].collective_insights) {
@@ -67,6 +69,12 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
+
+        $scope.redirectToAdminPage = function(){
+            var clientId = vistoconfig.getMasterClientId();
+
+            $location.url('/a/' + clientId + '/admin/accounts');
+        };
 
         $scope.set_account_name = function (event, id, name, isLeafNode) {
             var moduleObj = workflowService.getModuleInfo(),
@@ -130,10 +138,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             if (page === 'dashboard') {
                 $location.url(urlBuilder.dashboardUrl());
             } else if (page === 'creativelist') {
-                $('.each_nav_link').removeClass('active_tab active selected');
-                url = '/creative/list';
-                $('#creative_nav_link').addClass('active_tab');
-                $location.url(url);
+                urlBuilder.gotoCreativeListUrl();
             } else if (page === 'adminOverview') {
                 $('.each_nav_link').removeClass('active_tab active selected');
                 url = '/admin/accounts';
@@ -198,25 +203,15 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             loginModel.logout();
         };
 
-
-        if ($cookieStore.get('cdesk_session')) {
-            workflowService
-                .getClients()
-                .then(function (result) {
-                    if (result && result.data.data.length > 0) {
-                        $scope.accountsData = accountService.getAccounts();
-                        vistoconfig.getSelectedAccountId() &&
-                        ($scope.defaultAccountsName = accountService.getSelectedAccount().name);
-                        $scope.multipleClient = $scope.accountsData.length > 1;
-                        $scope.pageName = pageFinder.pageBuilder($location.path()).pageName();
-                    }
-                });
-        }
-
         /* Start Feature Permission */
         $rootScope.$on('features', function () {
+            $scope.accountsData = accountService.getAccounts();
+            $scope.defaultAccountsName = accountService.getSelectedAccount().name;
+            $scope.multipleClient = $scope.accountsData.length > 1;
+            $scope.pageName = pageFinder.pageBuilder($location.path()).pageName();
+
             featurePermission();
-            // $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
+            $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
         });
         /* End Feature Permission */
 
@@ -241,7 +236,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                     quickFilterId,
                     regionTooltipId;
 
-                if (cdbDropdownId.is(':visible') && event.target.id !== 'durationMenuText') {
+                if (cdbDropdownId.is(':visible') && ($(event.target).hasClass('durationMenuText') === false) ) {
                     cdbDropdownId.closest('.each_filter').removeClass('filter_dropdown_open');
                     cdbDropdownId.hide();
                 }

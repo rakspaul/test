@@ -1,22 +1,33 @@
-<div class="nav_filters_heading">{{constants.SUB_ACCOUNT}}</div>
+<div class="nav_filters_heading" data-ng-bind="constants.SUB_ACCOUNT"></div>
 <div class="col-md-12 zeroPadding">
-    <div class="brand_name_selected" id="sub_account_name_selected" ng-click="showSubAccountDropDown()" title="{{subAccountData.selectedsubAccount.name}}"
-         ng-bind="(subAccountData.selectedsubAccount.name ? subAccountData.selectedsubAccount.name:'')"></div>
+    <div class="brand_name_selected"
+         id="sub_account_name_selected"
+         data-ng-click="showSubAccountDropDown()"
+         title="{{subAccountData.selectedsubAccount.name}}"
+         data-ng-bind="(subAccountData.selectedsubAccount.name ? subAccountData.selectedsubAccount.name:'')">
+    </div>
     <span class="icon-arrow-solid-down"></span>
 </div>
-
 <div class="clearfix">
-    <div class="brandsDropdownSearch dropdown-workflow" ng-class="subAccountData.subAccounts.length > 0 ? '' : 'loadedDropdownData' ">
+    <div class="brandsDropdownSearch dropdown-workflow"
+         data-ng-class="subAccountData.subAccounts.length > 0 ? '' : 'loadedDropdownData'">
         <ul class="dropdown-menu" role="menu" id="subAccountDropDownList">
             <div id="subAccountDropdownDiv">
-                <input class="dropdown-toggle inactive"  id="subAccountDropdown"  ng-keyup="disableShowAll();" ng-model="selectedSubAccount.name" placeHolder="{{(subAccountData.selectedsubAccount.name ? subAccountData.selectedsubAccount.name:'Select Sub-Account')}}">
+                <input class="dropdown-toggle inactive"
+                       id="subAccountDropdown"
+                       data-ng-keyup="disableShowAll();"
+                       data-ng-model="selectedSubAccount.name"
+                       placeHolder="{{(subAccountData.selectedsubAccount.name ?
+                            subAccountData.selectedsubAccount.name : 'Select Sub-Account')}}">
                 <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
             </div>
             <div  class="subAccountList_ul">
-                <li ng-repeat="saccount in subAccountData.subAccounts | filter : selectedSubAccount.name" ng-class="{'active' : saccount.id === subAccountData.selectedsubAccount.id}" title="{{saccount.displayName}}">
-                    <a data-ng-click="selectSubAccount(saccount, 'clicked')">
+                <li data-ng-repeat="subAccount in subAccountData.subAccounts | filter : selectedSubAccount.name"
+                    data-ng-class="{active: subAccount.id === subAccountData.selectedsubAccount.id}"
+                    title="{{subAccount.displayName}}">
+                    <a data-ng-click="selectSubAccount(subAccount, 'clicked')">
                         <span class="tick"></span>
-                        <span class="menuItemText" ng-bind="saccount.displayName"></span>
+                        <span class="menuItemText" data-ng-bind="subAccount.displayName"></span>
                     </a>
                 </li>
             </div>

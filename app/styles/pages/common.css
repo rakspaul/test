@@ -2299,6 +2299,25 @@ tags-input .autocomplete {
   text-align: right;
   margin: 1px 2px 0px ;
 }
+.each-box-option {
+  border: 1px solid #bfc9d7;
+  margin: 10px 10px 0 0;
+  padding: 10px;
+  height: 100px;
+  text-align: center;
+}
+.each-box-option img {
+  width: 80% ;
+}
+.each-box-option .box-option-bottom {
+  width: 100%;
+  margin-top: 20px;
+}
+.each-box-option .box-option-bottom span {
+  display: block;
+  padding: 0 !important;
+  text-align: center;
+}
 @keyframes show-notification {
   from {
     opacity: 0;

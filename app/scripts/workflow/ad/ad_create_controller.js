@@ -1828,23 +1828,26 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                     for (i in selectedCreatives.creatives) {
                         creativeSizeArrC.push(selectedCreatives.creatives[i].size ?
-                            selectedCreatives.creatives[i].size.size : '');
+                            selectedCreatives.creatives[i].size.size : null);
                     }
+                    $scope.sizeString = creativeSizeArrC.filter(Boolean);
+                    if($scope.sizeString.length === 0){
+                        $scope.sizeString='Unspecified Size';
+                    }else{
+                        arrC = creativeSizeArrC.filter(Boolean);
+                        str = '';
+                        result = noRepeatC(arrC);
 
-                    $scope.sizeString = creativeSizeArrC;
-                    arrC = creativeSizeArrC;
-                    str = '';
-                    result = noRepeatC(arrC);
-
-                    for (i = 0; i < result[0].length; i++) {
-                        if (result[1][i] > 1) {
-                            str += result[0][i] + '(' + result[1][i] + ')' + ', ';
-                        } else {
-                            str += result[0][i] + ', ';
+                        for (i = 0; i < result[0].length; i++) {
+                            if (result[1][i] > 1) {
+                                str += result[0][i] + '(' + result[1][i] + ')' + ', ';
+                            } else {
+                                str += result[0][i] + ', ';
+                            }
                         }
-                    }
 
-                    $scope.sizeString = str.substr(0, str.length - 2).replace(/X/g, 'x');
+                        $scope.sizeString = str.substr(0, str.length - 2).replace(/X/g, 'x');
+                    }
                 }
             } else {
                 $scope.sizeString = constants.WF_NOT_SET;

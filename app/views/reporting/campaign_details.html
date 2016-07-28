@@ -436,15 +436,15 @@
                     </div>
                     <div class="graph_activity">
                           <span data-ng-switch="details.actionChart">
-                              <span data-ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
-                              <span data-ng-switch-when="false"
+                              <span data-ng-switch-when="false" class="no-chart load-more">&nbsp;</span>
+                              <span data-ng-switch-when="true"
                                     class="no-data-available no-chart"
                                     data-ng-bind-html="getMessageForDataNotAvailable(campaign, 'campaign')">
                               </span>
                               <span data-ng-switch-default>
                                   <div data-ng-if="details.actionChart && campaign.kpiType"
                                        class="highcharts"
-                                       id="details_chart">
+                                       id="details_chart1">
                                       <div class="line_tooltip"></div>
                                       <div class="campaign_details_graph performance"
                                            width="450"
@@ -457,7 +457,7 @@
                                   </div>
                                   <div data-ng-if="!(details.actionChart && campaign.kpiType)"
                                        class="highcharts"
-                                       id="details_chart"
+                                       id="details_chart2"
                                        data-ng-bind-html="getMessageForDataNotAvailable(campaign, 'campaign')">
                                   </div>
                               </span>
