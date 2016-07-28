@@ -88,7 +88,7 @@
             </div>
         </div>
         
-        <div class="main_nav_dropdown" id="help-menu" ng-mouseleave="hide_navigation_dropdown($event)">
+        <div class="main_nav_dropdown" id="help-menu" ng-mouseleave="hide_navigation_dropdown($event)" ng-mouseover="hoverHelp()">
             <div class="clearfix nav-menu">
                 <div class="pull-right profile-data">
                     <div class="col-md-12 zeroPadding">
@@ -98,7 +98,7 @@
                                     Help
                                 </span>
                                 
-                                <a class="pull-left clearLeft" target="_blank">View User Manual (pdf)</a>
+                                <a class="pull-left clearLeft" target="{{condition ? '_blank' : '_self'}}" ng-href="pdf/help.pdf">View User Manual (pdf)</a>
                             </span>
                         </div>
                     </div>

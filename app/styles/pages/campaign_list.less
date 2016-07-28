@@ -2167,13 +2167,18 @@ button, i, input[type="submit"] {
         opacity: 1;
     }
   }
-  .help-link-tab.selected:after {
-        bottom: -15px;
-        border: solid 6px #004478;
-        border-left: solid 8px transparent;
-        border-top: 0;
-        border-right: solid 8px transparent;
-        left: 89px;
+    #help-menu {
+        .nav-menu {
+            &:before {
+                top: -5px;
+                border: solid 6px #004478;
+                border-left: solid 8px transparent;
+                border-top: 0;
+                border-right: solid 8px transparent;
+                left: 85px;
+                position: absolute;
+            }
+        }
     }
   .main_nav_dropdown {
     display: none;
