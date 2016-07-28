@@ -2144,18 +2144,14 @@ button, i, input[type="submit"] {
     }
   }
   .profile-photo-tab.selected:after {
-    bottom: -15px ;
-    border: solid 6px @regal-blue;
-    border-left: solid 8px transparent;
-    border-top: 0;
-    border-right: solid 8px transparent;
-    left: 89px ;
+    display: none;
   }
   
   .help-link-tab {
     margin-right: 20px;
     margin-top: 13px;
     cursor: pointer;
+    position: relative;
     span {
       color: #fff ;
       font-size: 24px ;
@@ -2167,7 +2163,8 @@ button, i, input[type="submit"] {
         opacity: 1;
     }
   }
-    #help-menu {
+    #user-menu {
+        top: 50px;
         .nav-menu {
             &:before {
                 top: -5px;
@@ -2175,7 +2172,21 @@ button, i, input[type="submit"] {
                 border-left: solid 8px transparent;
                 border-top: 0;
                 border-right: solid 8px transparent;
-                left: 85px;
+                left: 250px;
+                position: absolute;
+            }
+        }
+    }
+    #help-menu {
+        top: 37px;
+        .nav-menu {
+            &:before {
+                top: -5px;
+                border: solid 6px #004478;
+                border-left: solid 8px transparent;
+                border-top: 0;
+                border-right: solid 8px transparent;
+                left: 100px;
                 position: absolute;
             }
         }
@@ -2387,9 +2398,9 @@ button, i, input[type="submit"] {
   }
   #help-menu{
     min-height: 80px;
-    width: auto;
+    width: 200px;
     left: initial;
-    right: 80px;
+    right: -80px;
     .nav-menu {
       background: transparent;
       .profile-data {
