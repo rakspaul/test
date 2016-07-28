@@ -46,7 +46,6 @@ define(['angularAMD', 'common/services/sub_account_service', 'common/services/co
 
         $scope.selectSubAccount = function (subAccount) {
             var subAccountNameSelected = $('#sub_account_name_selected');
-
             $scope.subAccountData.selectedsubAccount.id = subAccount.id;
             subAccountNameSelected.text(subAccount.displayName);
             subAccountNameSelected.attr('title' , subAccount.displayName);
@@ -56,6 +55,7 @@ define(['angularAMD', 'common/services/sub_account_service', 'common/services/co
             $scope.subAccountData.showAll = true;
             $routeParams.subAccountId = subAccount.id;
             subAccountService.changeSubAccount(vistoconfig.getMasterClientId(), subAccount);
+
         };
 
         $scope.disableShowAll = function () {
