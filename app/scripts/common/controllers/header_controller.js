@@ -94,6 +94,10 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         };
 
         $scope.set_account_name = function (event, id, name, isLeafNode) {
+
+            $('#user_nav_link').removeClass('selected');
+            $('#user-menu').css('min-height',0).slideUp('fast');
+
             var moduleObj = workflowService.getModuleInfo(),
                 $modalInstance;
 
