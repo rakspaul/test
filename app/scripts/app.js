@@ -592,6 +592,38 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
         return deferred.promise;
     };
 
+
+    var creativeListResolver = function ($q, $location, $route, accountService, workflowService,
+                                         subAccountService, constants) {
+        var deferred = $q.defer();
+
+        accountService
+            .fetchAccountList()
+            .then(function () {
+                if (accountService.allowedAccount($route.current.params.accountId)) {
+                    subAccountService
+                        .fetchSubAccountList($route.current.params.accountId)
+                        .then(function () {
+                            workflowService.setModuleInfo({
+                                moduleName: 'WORKFLOW',
+                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE,
+                                redirect: false
+                            });
+                            deferred.resolve();
+                        }
+                    );
+                } else {
+                    console.log('account not allowed');
+                    $location.url('/tmp');
+                }
+            });
+
+        return deferred.promise;
+    };
+
+
+
+
     app
         .config(function ($routeProvider, $httpProvider) {
             $routeProvider.caseInsensitiveMatch = true;
@@ -2116,12 +2148,11 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     showHeader : true,
 
                     resolve: {
-                        check: function ($location, workflowService, constants) {
-                            workflowService.setModuleInfo({
-                                moduleName: 'WORKFLOW',
-                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE,
-                                redirect: false
-                            });
+
+                        header: function ($q, $location, $route, accountService, workflowService,
+                                          subAccountService, constants) {
+                            return creativeListResolver($q, $location, $route, accountService, workflowService,
+                                subAccountService, constants);
                         }
                     }
                 }))
@@ -2134,12 +2165,11 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     showHeader : true,
 
                     resolve: {
-                        check: function ($location, workflowService, constants) {
-                            workflowService.setModuleInfo({
-                                moduleName: 'WORKFLOW',
-                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE,
-                                redirect: false
-                            });
+
+                        header: function ($q, $location, $route, accountService, workflowService,
+                                          subAccountService, constants) {
+                            return creativeListResolver($q, $location, $route, accountService, workflowService,
+                                subAccountService, constants);
                         }
                     }
                 }))
