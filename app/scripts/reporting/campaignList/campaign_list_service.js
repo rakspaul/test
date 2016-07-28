@@ -10,7 +10,8 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
         // originally in models/campaign.js
         angularAMD.factory('campaignListService', ['dataService', 'utils', 'modelTransformer', 'campaignModel',
             'requestCanceller', 'constants', 'momentService', 'domainReports', 'loginModel', 'timePeriodModel',
-            'urlService', 'line', 'vistoconfig', 'advertiserModel', 'brandsModel', function (dataService, utils, modelTransformer, campaignModel,
+            'urlService', 'line', 'vistoconfig', 'advertiserModel',
+            'brandsModel', function (dataService, utils, modelTransformer, campaignModel,
                                             requestCanceller,
                                             constants, momentInNetworkTZ, domainReports, loginModel, timePeriodModel,
                                             urlService, line,
@@ -147,7 +148,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                             tactic.adFormats = domainReports.checkForCampaignFormat(tacticMetrics.adFormat);
                             tactic.totalImpressions = tacticMetrics.impressions;
                             tactic.grossRev = _.find(lineItemData[selectedLineItemId], function(val){
-                                return (val.ad_id == tactic.id);
+                                return (val.ad_id === tactic.id);
                             });
                             if(tactic.grossRev && tactic.grossRev.gross_rev) {
                                 tactic.grossRev = tactic.grossRev.gross_rev;
@@ -352,7 +353,8 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                                         var res = response.data;
                                                         if (res && res.data &&
                                                             res.data.length > 0) {
-                                                            maxDays[maxDays.length - 1].gross_rev = res.data[0].gross_rev;
+                                                            maxDays[maxDays.length - 1].gross_rev =
+                                                            res.data[0].gross_rev;
                                                             lineItemData[strategy.id] = res.data;
                                                         } else {
                                                             maxDays[maxDays.length - 1].gross_rev = 0;
@@ -376,7 +378,9 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                                             };
                                                         });
 
-                                                        strategy.chart = new line.highChart(lineData, parseFloat(kpiValue),
+                                                        strategy.chart = new line.highChart(
+                                                                                            lineData,
+                                                                                            parseFloat(kpiValue),
                                                             kpiTypeLower, 'strategy');
 
                                                         //d3 chart data
@@ -396,10 +400,12 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                                             deliveryData: {
                                                                 startDate: strategy.startDate,
                                                                 endDate: strategy.endDate,
-                                                                totalDays: momentInNetworkTZ.dateDiffInDays(strategy.startDate,
+                                                                totalDays: momentInNetworkTZ.dateDiffInDays(
+                                                                    strategy.startDate,
                                                                     strategy.endDate) + 1,
                                                                 deliveryDays: maxDays.length,
-                                                                bookedImpressions: maxDays[maxDays.length - 1].booked_impressions
+                                                                bookedImpressions:
+                                                                maxDays[maxDays.length - 1].booked_impressions
                                                             }
                                                         };
                                                     });

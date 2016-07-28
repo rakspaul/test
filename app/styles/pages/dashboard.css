@@ -495,6 +495,17 @@
 .main_dashboard .dashboard_screens_graph_holder .dashboard_perf_graph {
   max-height: 280px;
   position: static;
+  width: 350px;
+  margin: 0;
+}
+.main_dashboard .dashboard_budget_graph_holder .dashboard_perf_graph #advertisers,
+.main_dashboard .dashboard_perf_graph_holder .dashboard_perf_graph #advertisers,
+.main_dashboard .dashboard_screens_graph_holder .dashboard_perf_graph #advertisers {
+  width: 350px;
+  position: relative;
+  left: 50%;
+  display: block;
+  margin: 17px 0 0 -143px;
 }
 .main_dashboard .dashboard_budget_graph_holder #brands .node {
   cursor: pointer;
@@ -555,6 +566,13 @@
   display: block;
   text-align: center;
 }
+.main_dashboard .dashboard_perf_graph #dashboardContainer {
+  width: 350px;
+  left: 50%;
+  position: relative;
+  display: block;
+  margin: 17px 0 0 -151px;
+}
 .main_dashboard .dashboard_perf_graph #dashboardContainer .onTrackPerc {
   fill: #47AB1D !important;
 }
@@ -605,6 +623,7 @@
   overflow-x: hidden ;
   padding: 0px 24px;
   /*width: 1050px; */
+  border-right: 1px solid #e7edf1;
 }
 .main_dashboard .dashboard_calendar_graph_holder #calendar_widget .chart {
   font-size: 12px;
