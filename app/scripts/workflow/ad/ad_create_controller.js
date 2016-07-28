@@ -1366,7 +1366,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                     isIncluded: true
                                 };
 
-                                postGeoTargetObj.ZIPCODE.geoTargetList = _.each(geoTargetData.zip.selected,
+                                postGeoTargetObj.ZIPCODE.geoTargetList = _.map(geoTargetData.zip.selected,
                                     function (zip) { // jshint ignore:line
                                         return {
                                             countryCode : zip.countryCode,
