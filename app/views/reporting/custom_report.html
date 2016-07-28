@@ -320,12 +320,12 @@
                         <div class="col-md-12 zeroPaddingmetricContainer" style="margin-bottom: 30px;">
                             <h1 class="pull-left" style="margin: 0;">Select Metrics</h1>
 
-                            <input data-ng-click="OnSelectUnselectAllMetrics();"
+                            <input data-ng-click="metrics.OnSelectUnselectAllMetrics()"
                                    type="checkbox"
                                    data-ng-model="allMetrics"
                                    class="pull-left"
                                    id="selectAll_chkbox"
-                                   style="margin: 8px 5px 0 30px;
+                                   style="margin: 8px 5px 0 30px"
                                    ng-disabled="isAllSelectDisabled">
 
                             <span class="pull-left" style="margin-top: 5px;">Select All</span>
@@ -358,6 +358,7 @@
                                     </fieldset>
 
                             </div>
+                                </div>
 
                             <!--Pacing-->
                             <div class="col-md-2 zeroPadding" data-ng-show="pacingMetrics.length">
@@ -381,6 +382,7 @@
                                              ng-disabled="pacing_metric.isDisabled">
                                     </fieldset>
                             </div>
+                                </div>
 
                             <!--Cost-->
                             <div class="col-md-2 zeroPadding" data-ng-show="costMetrics.length">
@@ -404,6 +406,7 @@
                                      ng-disabled="cost_metric.isDisabled">
                                 </fieldset>
                             </div>
+                                </div>
 
                             <!--Video-->
                             <div class="col-md-2 zeroPadding" data-ng-show="videoMetrics.length">
@@ -426,6 +429,7 @@
                                      data-ng-bind-html="video_metric.value"
                                      ng-disabled="video_metric.isDisabled">
                                  </fieldset>
+                                    </div>
                             </div>
 
                             <!--Quality-->
@@ -434,7 +438,7 @@
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
                                            id="quality_chkbox"
-                                           ng-disabled="qualityMetrics.isDisabled
+                                           ng-disabled="qualityMetrics.isDisabled"
                                            data-ng-model="qualityMetrics.isAllSelected"
                                            data-ng-click="onMetricClick('qualityMetrics')">
                                         Quality
@@ -449,6 +453,7 @@
                                      data-ng-bind-html="quality_metrics.value"
                                      ng-disabled="quality_metrics.isDisabled">
                                     </fieldset>
+                                </div>
                                 </div>
                             <div class="col-md-12 zeroPadding" style="margin: 30px 0 0 0;">
                                 <span class="pull-left greyTxt">Imps. = Impressions</span>
