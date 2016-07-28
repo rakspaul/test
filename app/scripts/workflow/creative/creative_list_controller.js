@@ -6,7 +6,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
     angularAMD.controller('CreativeListController', function ($scope, $rootScope, $routeParams, $route, $location,
                                                              $window, constants, domainReports, workflowService,
-                                                             momentService, loginModel, vistoconfig, accountService) {
+                                                             momentService, loginModel, vistoconfig) {
         var checkedCreativeArr=[],
             creativeDataArr,
             winHeight = $(window).height(),
@@ -262,22 +262,20 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         function init() {
-            console.log("1111");
             // Note: Not sure if this is required just retaining - Sapna
-            var campaignData, clientId, clientName;
-
-
-            $scope.pageSize = 20;
-            $scope.pageNo = 1;
-            console.log("111", accountService.getSelectedAccount());
-            clientId = vistoconfig.getMasterClientId();
-            //clientName = accountService.getSelectedAccount();
-
-            $scope.creativeListLoading = true;
-            $scope.creativesNotFound = false;
-            $scope.creativeSearch = '';
-            $scope.creativeData.creatives=[];
-            creativeList.getCreativesList(clientId,'','',$scope.pageSize,$scope.pageNo);
+            // var campaignData, clientId, clientName;
+            //
+            //
+            // $scope.pageSize = 20;
+            // $scope.pageNo = 1;
+            // clientId = vistoconfig.getMasterClientId();
+            // //clientName = accountService.getSelectedAccount();
+            //
+            // $scope.creativeListLoading = true;
+            // $scope.creativesNotFound = false;
+            // $scope.creativeSearch = '';
+            // $scope.creativeData.creatives=[];
+            // creativeList.getCreativesList(clientId,'','',$scope.pageSize,$scope.pageNo);
 
 
             // if (selectedClientObj) {

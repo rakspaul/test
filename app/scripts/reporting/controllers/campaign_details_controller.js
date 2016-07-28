@@ -39,7 +39,6 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
 
                 eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function (event, args) {
                     var callbackFunctionName = args.loadingFlag === 2  ?  $scope.refreshGraph : $scope.getCdbChartData;
-console.log('eventActionCreatedFunc()...')
                     dataStore.deleteFromCache(urlService.APIActionData(clientId, campaignId));
                     updateActionItems(callbackFunctionName, args.loadingFlag, args.showExternal);
                 }),

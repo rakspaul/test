@@ -19,11 +19,11 @@ define(['angularAMD', 'common/services/constants_service',
 
                     filterService
                         .fetchAdvertisers(accountId, function (advertiserData) {
-                            var args = {
-                                from: $scope.from,
-                                clientId: accountId,
-                                advertiserId: -1
-                            };
+                            // var args = {
+                            //     from: $scope.from,
+                            //     clientId: accountId,
+                            //     advertiserId: -1
+                            // };
                             console.log('advertiserData', advertiserData);
                         });
                 };
