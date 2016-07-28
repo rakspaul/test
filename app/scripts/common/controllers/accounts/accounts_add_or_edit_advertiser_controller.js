@@ -68,11 +68,11 @@ define(['angularAMD', '../../../workflow/services/account_service',
         // Validate the Advertiser URL entered
         $scope.validateURL = function(url){
             var re = utils.regExp().validateUrl;
-            $scope.urlValidation = "";
+            $scope.urlValidation = '';
             if (!re.test(url)) {
-                $scope.urlValidation = "Incorrect URL: Please add valid url in the field";
+                $scope.urlValidation = 'Incorrect URL: Please add valid url in the field';
             }
-        }
+        };
 
         function createAdvertiserUnderClient(advId) {
             var requestData = {
