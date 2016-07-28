@@ -339,7 +339,7 @@ angular.module('ui.multiselect', [])
                     scope.textConstants = constants;
                     scope.isVisible = false;
                     scope.selectedAll = true;
-                    scope.multipleoption = false;
+                   // scope.multipleoption = false;
 
                     scope.toggleSelect = function () {
                         if (element.hasClass('open')) {
@@ -348,7 +348,7 @@ angular.module('ui.multiselect', [])
                         } else {
                             element.addClass('open');
                             $document.bind('click', clickHandler);
-                            (typeof scope.focus === 'function') && scope.focus();
+                            //(typeof scope.focus === 'function') && scope.focus();
                         }
                     };
 
