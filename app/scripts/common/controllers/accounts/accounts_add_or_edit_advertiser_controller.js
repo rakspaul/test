@@ -65,9 +65,19 @@ define(['angularAMD', '../../../workflow/services/account_service',
             return ret;
         };
 
+        // Validate the Advertiser URL entered
+        $scope.validateURL = function(url){
+            var re = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
+            $scope.urlValidation = "";
+            if (!re.test(url)) {
+                $scope.urlValidation = "Incorrect URL: Please add valid url in the field";
+            }
+        }
+
         function createAdvertiserUnderClient(advId) {
             var requestData = {
                 clientId: $scope.client.id,
+                companyUrl: $scope.advertiserData.companyUrl,
                 lookbackImpressions : 14,
                 lookbackClicks : 14,
                 adChoice: '',
