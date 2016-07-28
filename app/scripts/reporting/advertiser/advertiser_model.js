@@ -35,7 +35,7 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
 
                             return deferred.promise;
                         }
-console.log('fetchAdvertiserList()')
+
                         workflowService.getAdvertisers(accountId, 'read').then(function (result) {
                             if (result && result.data.data.length > 0) {
                                 advertiserData.advertiserList = _.map(result.data.data, function(a) {
