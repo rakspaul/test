@@ -8,7 +8,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                                                         constants, loginModel, domainReports, campaignSelectModel,
                                                         RoleBasedService, workflowService, featuresService,
                                                         subAccountModel, localStorageService) {
-        
+
         var featurePermission = function () {
                 $scope.fparams = featuresService.getFeatureParams();
                 $scope.showMediaPlanTab = $scope.fparams[0].mediaplan_list;
@@ -529,7 +529,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                     transform: 'rotate(0deg)'
                 });
             };
-            
+
             $scope.openHelp = function() {
                 window.open('/pdf/help.pdf');
             };
