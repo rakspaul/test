@@ -248,6 +248,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.showSubAccount = false;
         $scope.IncorrectClickThru=false;
         $scope.creativeId = $routeParams.creativeId;
+        localStorage.setItem('isOnchangeOfCreativeFeild', 0);
 
         $scope.creativeTagSelected = function (event, creativeType) {
             var target;
@@ -537,6 +538,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }
 
             ele.on('change', function () {
+                localStorage.setItem('isOnchangeOfCreativeFeild', 1);
                 val = $(this).val();
                 fireAPItoValidate(this, val);
             });
@@ -961,6 +963,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 .parents('.btn-group')
                 .find('.dropdown-toggle-search')
                 .attr('value=' + selText);
+        });
+        $scope.$on('$locationChangeSuccess', function () {
+            localStorage.setItem('isOnchangeOfCreativeFeild', 0);
         });
     });
 });

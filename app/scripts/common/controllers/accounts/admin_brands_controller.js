@@ -9,10 +9,11 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
     angularAMD.controller('AdminAdvertisersController', function ($scope, $rootScope, $modal, $compile, $filter,
                                                                   constants, accountsService, momentService,
-                                                                  loginModel, utils) {
+                                                                    loginModel, utils, localStorageService) {
         var _curCtrl = this,
             winHeight = $(window).height();
         _curCtrl.clientId = loginModel.getSelectedClient().id;
+        _curCtrl.masterClientId = localStorageService.masterClient.get().id;
 
         $('.each_nav_link').removeClass('active_tab');
         $('#admin_nav_link').addClass('active_tab');
@@ -23,7 +24,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.fetchAllBrands = function () {
             $scope.loadBrandList = true;
             accountsService
-                .getUserBrands(_curCtrl.clientId)
+                .getUserBrands(_curCtrl.masterClientId)
                 .then(function (res) {
                     $scope.loadBrandList = false;
 
@@ -52,7 +53,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             if ($scope.isEditBrand) {
                 data = $scope.editRequestBody;
                 data.name = $scope.brandName;
-                data.ownerClientId = _curCtrl.clientId;
+                data.ownerClientId = _curCtrl.masterClientId;
 
                 accountsService
                     .updateBrand(data)
@@ -70,9 +71,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             } else {
                 data = {
                     name: $scope.brandName,
-                    ownerClientId: _curCtrl.clientId
+                    ownerClientId: _curCtrl.masterClientId
                 };
-
                 accountsService
                     .createBrand(data)
                     .then(function (res) {

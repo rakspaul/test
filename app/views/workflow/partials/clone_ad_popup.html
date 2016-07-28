@@ -70,7 +70,7 @@
 
     <div class="clearfix col-md-12 popup-btns-holder">
         <button class="btn btn-primary pull-right" ng-show="!adArchiveLoader" type="button" ng-click="beginAdClone()"
-                >{{textConstants.WF_CLONE_AD}}</button>
+               data-ng-disabled="!adGroupName" >{{textConstants.WF_CLONE_AD}}</button>
         <div ng-show ="adArchiveLoader" class="pull-right common-loading-btn" ></div>
         <button class="secondary_txt" type="button" data-dismiss="modal" ng-click="close()" >Cancel</button>
     </div>

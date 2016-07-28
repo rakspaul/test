@@ -308,6 +308,14 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
+                .when('/vendor/create', angularAMD.route({
+                    templateUrl: assets.html_vendor_create,
+                    title: 'Create - Vendor',
+                    controller: 'CreateVendorController',
+                    controllerUrl: '/workflow/vendors/vendor_create_controller',
+                    showHeader : true
+                }))
+
                 .when('/vendors/list', angularAMD.route({
                     templateUrl: assets.html_vendors_list,
                     title: 'Vendors - List',
