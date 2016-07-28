@@ -1,4 +1,5 @@
 define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service',
+    'workflow/overview/campaign_overview_service',
     'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/overview/get_adgroups_controller',
     'workflow/directives/edit_ad_group_section', 'login/login_model','common/utils',
     'workflow/overview/campaign_clone_controller',
@@ -6,7 +7,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
     'common/directives/ng_upload_hidden'], function (angularAMD) {
     angularAMD.controller('CampaignOverViewController', function ($scope, $modal, $rootScope, $routeParams,
                                                                   $timeout, $location, $route, constants,
-                                                                  workflowService, momentService, vistoconfig,
+                                                                  workflowService, campaignOverviewService, momentService, vistoconfig,
                                                                   featuresService, dataService, loginModel,utils,
                                                                   $sce) {
         var campaignOverView = {
@@ -1164,6 +1165,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 } else {
                     return deliveryBudget;
                 }
+            }
+        };
+
+        $scope.pauseAllAds = function (adGroupsData) {
+            console.log("HHHAHAHHA",adGroupsData);
+            if(adGroupsData.paused && adGroupsData.paused > 0) {
+
+            } else {
+                return false;
             }
         };
 
