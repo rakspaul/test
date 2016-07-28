@@ -525,6 +525,10 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                     transform: 'rotate(0deg)'
                 });
             };
+            
+            $scope.openHelp = function() {
+                window.open('/pdf/help.pdf')
+            };
         });
     });
 });
