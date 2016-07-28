@@ -449,6 +449,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
                 $scope.advertiserData = {
                     id: '',
+                    companyUrl: '',
                     name: '',
                     lookbackImpressions: 14,
                     lookbackClicks: 14,
@@ -464,7 +465,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     $scope.selectedAdvertiserId = advObj.id;
                     $scope.selectedAdvertiser = advObj.name;
                     $scope.setSelectedAdvertiserCode = advObj.code;
-
+                    $scope.advertiserData.companyUrl = advObj.companyUrl || '';
                     accountsService
                         .getAdvertiserUnderClient(client.id, advObj.id)
                         .then(function (res) {
