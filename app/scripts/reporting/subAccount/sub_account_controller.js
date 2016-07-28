@@ -44,20 +44,18 @@ define(['angularAMD', 'common/services/sub_account_service', 'common/services/co
             $('#profileDropdown').hide();
         };
 
-        $scope.selectSubAccount = function (sub_account) {
+        $scope.selectSubAccount = function (subAccount) {
             var subAccountNameSelected = $('#sub_account_name_selected');
 
-            $scope.subAccountData.selectedsubAccount.id = sub_account.id;
-
-            subAccountNameSelected.text(sub_account.displayName);
-            subAccountNameSelected.attr('title' , sub_account.displayName);
-            $('#subAccountDropdown').attr('placeholder', sub_account.displayName).val('');
+            $scope.subAccountData.selectedsubAccount.id = subAccount.id;
+            subAccountNameSelected.text(subAccount.displayName);
+            subAccountNameSelected.attr('title' , subAccount.displayName);
+            $('#subAccountDropdown').attr('placeholder', subAccount.displayName).val('');
             $('#subAccountDropDownList').hide() ;
 
             $scope.subAccountData.showAll = true;
-            $routeParams.subAccountId = sub_account.id;
-
-            subAccountService.changeSubAccount(vistoconfig.getSelectedAccountId(), sub_account);
+            $routeParams.subAccountId = subAccount.id;
+            subAccountService.changeSubAccount(vistoconfig.getMasterClientId(), subAccount);
         };
 
         $scope.disableShowAll = function () {

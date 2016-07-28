@@ -39,7 +39,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
 
                 eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function (event, args) {
                     var callbackFunctionName = args.loadingFlag === 2  ?  $scope.refreshGraph : $scope.getCdbChartData;
-
+console.log('eventActionCreatedFunc()...')
                     dataStore.deleteFromCache(urlService.APIActionData(clientId, campaignId));
                     updateActionItems(callbackFunctionName, args.loadingFlag, args.showExternal);
                 }),
@@ -1340,13 +1340,15 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                     if(response.data && response.data.data && response.data.data.length > 0) {
                         $scope.campaigns.spend =  response.data.data[0].gross_rev;
                     } else {
-                        $scope.campaigns.spend =  0;
+                        $scope.campaigns.spend = 0;
                     }
                 });
-                // Fetch Spend End
 
+                // Fetch Spend End
                 campaign.getStrategiesList(clientId, $scope.campaign, constants.PERIOD_LIFE_TIME);
                 updateActionItems($scope.getCdbChartData, 1, true);
+console.log('getSetCampaignDetails(), $scope.getCdbChartData = ', $scope.getCdbChartData);
+console.log('$scope.details.actionChart = ', $scope.details.actionChart);
 
                 campaignListService.getCdbLineChart(clientId, $scope.campaign, 'life_time', function (cdbData) {
                     if (cdbData) {
@@ -1384,6 +1386,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                             kpiTypeLower,
                             activityLocalStorageInfo,
                             i;
+console.log('$scope.details.actionChart = ', $scope.details.actionChart);
 
                         if (result.status === 'success' && !angular.isString(result.data)) {
                             if (!angular.isUndefined($scope.campaign.kpiType)) {

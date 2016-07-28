@@ -563,9 +563,10 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
 
 
     var mediaPlanOverviewResolver = function ($q, $location, $route, accountService, subAccountService) {
-        console.log("accountService", accountService);
-        console.log("subAccountService", subAccountService);
         var deferred = $q.defer();
+
+        console.log('accountService', accountService);
+        console.log('subAccountService', subAccountService);
 
         accountService
             .fetchAccountList()

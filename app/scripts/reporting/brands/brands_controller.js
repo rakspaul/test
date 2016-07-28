@@ -7,7 +7,7 @@ define(['angularAMD', 'reporting/brands/brands_model', 'reporting/brands/brands_
     angularAMD.controller('BrandsController', function ($scope, $rootScope, $routeParams, $location, brandsModel,
                                                         brandsService, utils, constants, vistoconfig) {
         var search = false,
-            searchCriteria = utils.typeaheadParams,
+            searchCriteria = utils.typeAheadParams,
 
             fetchBrands = function() {
                 var accountId = $routeParams.subAccountId || $routeParams.accountId,

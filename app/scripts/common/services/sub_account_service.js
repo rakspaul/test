@@ -144,7 +144,8 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
             },
 
             changeSubAccount =  function (account, subAccount) {
-                var url = '/a/' + account.id + '/sa/' + subAccount.id;
+                var url = '/a/' + account + '/sa/' + subAccount.id;
+
                 $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
             };
 

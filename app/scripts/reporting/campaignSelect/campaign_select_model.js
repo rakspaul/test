@@ -62,7 +62,7 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                 };
 
                 campaign.fetchCampaigns = function (clientId, advertiserId, brandId) {
-                    var searchCriteria = utils.typeaheadParams,
+                    var searchCriteria = utils.typeAheadParams,
                         url = urlService.APICampaignDropDownList(clientId, advertiserId, brandId, searchCriteria);
 
                     return dataService.fetch(dataService.append(url, searchCriteria));

@@ -1,12 +1,12 @@
 define(['angularAMD','reporting/campaignSelect/campaign_select_model',
-    'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model', 'common/utils'],
-    function (angularAMD) {
+    'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model', 'common/utils',
+    'common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
         angularAMD.controller('CampaignSelectController', function ($location, $scope, $rootScope, $routeParams,
                                                                 campaignSelectModel, constants, brandsModel,
-                                                                loginModel, utils, pageFinder) {
-            var searchCriteria = utils.typeaheadParams,
+                                                                loginModel, utils, vistoconfig, pageFinder) {
+            var searchCriteria = utils.typeAheadParams,
                 campaignsList,
                 loadCampaigns = true,
 
@@ -57,37 +57,36 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model',
 
             $scope.$parent.strategyLoading = true;
 
-
             $scope.fetchCampaigns = function (search) {
                 delete searchCriteria.clientId;
                 delete searchCriteria.advertiserId;
-                console.log('fetchCampaigns');
+                console.log('fetchCampaigns(), vistoconfig.getSelectedBrandId() = ', vistoconfig.getSelectedBrandId());
 
-                campaignSelectModel.getCampaigns(searchCriteria).then(function () {
+                campaignSelectModel
+                    .getCampaigns(vistoconfig.getSelectedBrandId(), searchCriteria)
+                    .then(function () {
+                        //TODO : rewrite what to do in search condition
+                        var campObj = campaignSelectModel.getCampaignObj(),
+                            campArrObj = campObj.campaigns;
 
-                    //TODO : rewrite what to do in search condiiton
-
-                    var campObj = campaignSelectModel.getCampaignObj();
-                    var campArrObj = campObj.campaigns;
-
-                    if (search) {
-                        if ($scope.isAllMediaPlan === 'true' || $scope.isAllMediaPlan === true) {
-                            campArrObj.unshift.apply(campArrObj, $scope.campAll);
-                            $scope.campaignData.campaigns = campArrObj;
+                        if (search) {
+                            if ($scope.isAllMediaPlan === 'true' || $scope.isAllMediaPlan === true) {
+                                campArrObj.unshift.apply(campArrObj, $scope.campAll);
+                                $scope.campaignData.campaigns = campArrObj;
+                            } else {
+                                $scope.campaignData.campaigns = campObj.campaigns;
+                            }
                         } else {
-                            $scope.campaignData.campaigns = campObj.campaigns;
+                            $scope.campaignData.campaigns = $scope.campaignData.campaigns.concat(campObj.campaigns);
                         }
-                    } else {
-                        $scope.campaignData.campaigns = $scope.campaignData.campaigns.concat(campObj.campaigns);
-                    }
 
-                    _.uniq($scope.campaignData.campaigns);
-                    $scope.fetching = false;
+                        _.uniq($scope.campaignData.campaigns);
+                        $scope.fetching = false;
 
-                    if ($scope.campaignData.campaigns.length < searchCriteria.limit) {
-                        $scope.exhausted = true;
-                    }
-                });
+                        if ($scope.campaignData.campaigns.length < searchCriteria.limit) {
+                            $scope.exhausted = true;
+                        }
+                    });
 
             };
 
@@ -155,8 +154,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model',
                 elem.siblings('.dropdown_type1').addClass('mediaplan-dd-open') ;
                 $('.dropdown_type1').not('.mediaplan-dd-open').hide() ;
                 $('.mediaplan-dd-open').show() ;
-
-
             });
 
             campaignsList = $('.campaigns_list');

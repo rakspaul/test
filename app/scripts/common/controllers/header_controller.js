@@ -72,8 +72,9 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
         $scope.redirectToAdminPage = function(){
             var clientId = vistoconfig.getMasterClientId();
+
             $location.url('/a/' + clientId + '/admin/accounts');
-        }
+        };
 
         $scope.set_account_name = function (event, id, name, isLeafNode) {
             var moduleObj = workflowService.getModuleInfo(),
