@@ -146,9 +146,12 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                         if (!angular.isString(tacticMetrics)) {
                             tactic.adFormats = domainReports.checkForCampaignFormat(tacticMetrics.adFormat);
                             tactic.totalImpressions = tacticMetrics.impressions;
-                            tactic.grossRev = tactic.grossRev = _.find(lineItemData[selectedLineItemId], function(val){
+                            tactic.grossRev = _.find(lineItemData[selectedLineItemId], function(val){
                                 return (val.ad_id == tactic.id);
-                            }).gross_rev;
+                            });
+                            if(tactic.grossRev && tactic.grossRev.gross_rev) {
+                                tactic.grossRev = tactic.grossRev.gross_rev;
+                            }
                             tactic.ctr = tacticMetrics.ctr * 100;
                             tactic.actionRate = tacticMetrics.action_rate;
                             tactic.vtcData = vtcMetricsJsonModifier(tacticMetrics.video_metrics);
