@@ -1,12 +1,12 @@
 define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
     'common/moment_utils', 'login/login_model', 'common/services/vistoconfig_service',
-    'reporting/advertiser/advertiser_model', 'workflow/creative/creative_bulk_controller',
-    'workflow/directives/filter_directive'], function (angularAMD) {
+    'common/services/account_service', 'reporting/advertiser/advertiser_model',
+    'workflow/creative/creative_bulk_controller', 'workflow/directives/filter_directive'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('CreativeListController', function ($scope, $rootScope, $routeParams, $route, $location,
                                                              $window, constants, domainReports, workflowService,
-                                                             momentService, loginModel, vistoconfig) {
+                                                             momentService, loginModel, vistoconfig, accountService) {
         var checkedCreativeArr=[],
             creativeDataArr,
             winHeight = $(window).height(),
@@ -262,35 +262,46 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         function init() {
+            console.log("1111");
             // Note: Not sure if this is required just retaining - Sapna
-            var campaignData, clientId, clientName,
-              selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+            var campaignData, clientId, clientName;
+
 
             $scope.pageSize = 20;
             $scope.pageNo = 1;
+            console.log("111", accountService.getSelectedAccount());
+            clientId = vistoconfig.getMasterClientId();
+            //clientName = accountService.getSelectedAccount();
 
-            if (selectedClientObj) {
-                clientId = JSON.parse(localStorage.selectedClient).id;
-                clientName = JSON.parse(localStorage.selectedClient).name;
+            $scope.creativeListLoading = true;
+            $scope.creativesNotFound = false;
+            $scope.creativeSearch = '';
+            $scope.creativeData.creatives=[];
+            creativeList.getCreativesList(clientId,'','',$scope.pageSize,$scope.pageNo);
 
-                if (clientId) {
-                    campaignData = {
-                        clientId: clientId,
-                        clientName: clientName
-                    };
 
-                    localStorage.setItem('campaignData', JSON.stringify(campaignData));
-                }
-
-                $scope.creativeListLoading = true;
-                $scope.creativesNotFound = false;
-                $scope.creativeSearch = '';
-                $scope.creativeData.creatives=[];
-                creativeList.getCreativesList(clientId,'','',$scope.pageSize,$scope.pageNo);
-            } else {
-                $scope.creativeListLoading = false;
-                $scope.creativesNotFound = true;
-            }
+            // if (selectedClientObj) {
+            //     clientId = JSON.parse(localStorage.selectedClient).id;
+            //     clientName = JSON.parse(localStorage.selectedClient).name;
+            //
+            //     if (clientId) {
+            //         campaignData = {
+            //             clientId: clientId,
+            //             clientName: clientName
+            //         };
+            //
+            //         localStorage.setItem('campaignData', JSON.stringify(campaignData));
+            //     }
+            //
+            //     $scope.creativeListLoading = true;
+            //     $scope.creativesNotFound = false;
+            //     $scope.creativeSearch = '';
+            //     $scope.creativeData.creatives=[];
+            //     creativeList.getCreativesList(clientId,'','',$scope.pageSize,$scope.pageNo);
+            // } else {
+            //     $scope.creativeListLoading = false;
+            //     $scope.creativesNotFound = true;
+            // }
         }
 
         // broadcasted from filter directive once it fetches subaccounts
