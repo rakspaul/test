@@ -138,7 +138,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 selectedDim = $scope.reports.reportDefinition.dimensions.primary.dimension;
 
                 $scope.metricKeyArr = {};
-
                 if ($scope.selectedMetricsList.length < $scope.totalMetrics) {
                     metricsCategorizedKey = angular.copy(data.metrics);
 
@@ -158,12 +157,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     });
                 } else {
                     // when all the metrics is selected
-                    arr = angular.copy(data.dim_specific_metrics.hasOwnProperty(selectedDim) ?
-                        data.dim_specific_metrics[selectedDim] : data.metrics);
-
+                    arr = angular.copy(data.metrics);
                     _.each(metricKey1, function (v) {
                         $scope.metricKeyArr[v] = [];
-
                         _.each(arr[v], function (o) {
                             $scope.metricKeyArr[v].push({
                                 key: o,
@@ -673,22 +669,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 return isActive + ' ' + sortDirection;
             };
 
-            _customctrl.setCustomMetrics = function (data) {
-                $scope.customMetricsInit = {};
-                $scope.customMetrics = [];
 
-                _.each(data, function (key) {
-                    $scope.customMetrics.push({
-                        key: key,
-                        value: $scope.displayName[key],
-                        selected: false
-                    });
-                });
-
-                $scope.totalCustomMetrics = $scope.customMetrics.length;
-                $scope.customMetrics.isAllSelected = false;
-                $scope.customMetrics.minOneSelected = false;
-            };
 
             $scope.metrics = (function() {
                 return {
@@ -715,7 +696,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                 console.log('API issue - meta call metric obj');
                             }
                         });
-                        console.log("Total Metrics",metricsCount);
                         return metricsCount;
                     },
 
@@ -723,8 +703,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     Functionality: initialize all metrics and disables it.
                      */
                     initializeMetrics: function(dataObj) {
+                        $scope.selectedMetricsList = [];
                         _.each(metricCategoryKeys, function (metricTypeWithUnderscore, key) {
-                            $scope.metrics.disableAllMetrics(metricTypeWithUnderscore);
+                            $scope.metrics.disableSpecifiedMetrics(metricTypeWithUnderscore);
                         });
                         $scope.allMetrics = false;
                         $scope.isAllSelectDisabled = true;
@@ -756,7 +737,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                             })
                             var totalMetricName = 'total'+eachMetricName.toString().charAt(0).toUpperCase() +
                                 eachMetricName.slice(1);
-                            $scope[totalMetricName] = 0;
+                            $scope[totalMetricName] = $scope[eachMetricName].length;
                             $scope[eachMetricName].isAllSelected = true;
                             $scope[eachMetricName].minOneSelected = true;
                             $scope[eachMetricName].isDisabled = false;
@@ -765,14 +746,13 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         //select checkbox "select All"
                         $scope.allMetrics = true;
                         $scope.isAllSelectDisabled = false;
-                        console.log('$scope.selectedMetricsList count: ',$scope.selectedMetricsList.length);
                     },
 
                     /*
                     Functionality: Enables all the metrics under a single type for eg: all metrics under deliveryMetrics/costMetrics
                     Params: metricTypeWithUnderscore - holds the metrictype with underscore eg: delivery_metrics
                      */
-                    enableAllMetricsUnderAType: function(metricTypeWithUnderscore) {
+                    enableSpecifiedMetrics: function(metricTypeWithUnderscore) {
                         var apiMetricsObj = apiMetrics.metrics;
                         var eachMetricName = metricTypeWithUnderscore.split('_')[0]+'Metrics';
                         var totalMetricName = 'total'+eachMetricName.toString().charAt(0).toUpperCase() +
@@ -785,6 +765,10 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                 value: $scope.displayName[dimensionKey],
                                 selected: true,
                                 isDisabled: false
+                            });
+                            $scope.selectedMetricsList.push({
+                                key: dimensionKey,
+                                value: $scope.displayName[dimensionKey]
                             });
                         });
                         $scope[totalMetricName] = 0;
@@ -802,6 +786,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                          var apiMetricsObj = apiMetrics.metrics;
                          var eachMetricName = metricTypeWithUnderscore.split('_')[0]+'Metrics';
                          $scope[eachMetricName] = [];
+
                          _.each(apiMetricsObj[metricTypeWithUnderscore], function (dimensionKey,key) {
                              var foundAt = _.indexOf(metricsToEnableArr,dimensionKey);
 
@@ -811,7 +796,14 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                  selected: (foundAt >= 0)?true:false,
                                  isDisabled: (foundAt >= 0)?false:true
                              });
+                             if(foundAt >= 0) {
+                                 $scope.selectedMetricsList.push({
+                                     key: dimensionKey,
+                                     value: $scope.displayName[dimensionKey]
+                                 });
+                             }
                          });
+
                          var totalMetricName = 'total'+eachMetricName.toString().charAt(0).toUpperCase() +
                              eachMetricName.slice(1);
                          $scope[totalMetricName] = 0;
@@ -822,13 +814,14 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                      },
 
                     /*
-                     Functionality:  Disables all the Metrics
+                     Functionality:  Disables all the Metrics passed in array
                      Params: metricTypeWithUnderscore - holds the metrictype with underscore eg: delivery_metrics
                      */
-                    disableAllMetrics: function(metricTypeWithUnderscore) {
+                    disableSpecifiedMetrics: function(metricTypeWithUnderscore) {
                         var apiMetricsObj = apiMetrics.metrics;
                         var eachMetricName = metricTypeWithUnderscore.split('_')[0]+'Metrics';
                         $scope[eachMetricName] = [];
+
                         _.each(apiMetricsObj[metricTypeWithUnderscore],function(dimensionKey,key){
                             $scope[eachMetricName].push({
                                 key: dimensionKey,
@@ -844,6 +837,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         $scope[eachMetricName].minOneSelected = false;
                         $scope[eachMetricName].isDisabled = true;
                         $scope.isAllSelectDisabled = true;
+
                     },
 
                     /*
@@ -859,11 +853,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         var checkForSecondaryDime = (secDimension) ? true : false;
                         var apiMetricsObj = apiMetrics.metrics;
 
-
-                        console.log("Primary dimension: ", primaryDimension, dimSpecificMetrics[primaryDimension]);
-                        console.log("secondary dimension: ", secDimension, dimSpecificMetrics[secDimension]);
-
-
                         if ((dimSpecificMetrics) && (dimSpecificMetrics[primaryDimension])) {
 
                             //check whether specified dimension metric response an Array or object, if array then all,
@@ -875,6 +864,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                 //checking if secondary dimension has all metrics
                                 $scope.metrics.enableAllMetrics();
                             } else {
+                                $scope.selectedMetricsList = [];
                                 var primaryDimSpecMetrics = dimSpecificMetrics[primaryDimension];
                                 var secDimSpecMetrics = (checkForSecondaryDime) ? dimSpecificMetrics[secDimension] : undefined;
 
@@ -887,7 +877,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                     //check all metrics under that type of dimension(delivery/cost/..) eg: "delivery_metrics":["all"]
                                     if (metricTypePrimDimData && Array === metricTypePrimDimData.constructor) {
                                         if ((metricTypePrimDimData.length === 1) && metricTypePrimDimData[0] === 'all') {
-                                            $scope.metrics.enableAllMetricsUnderAType(metricTypeWithUnderscore);
+                                            $scope.metrics.enableSpecifiedMetrics(metricTypeWithUnderscore);
                                         } else if ((metricTypePrimDimData.length === 1) && (metricTypePrimDimData[0] === 'NA')) {
                                             //check for both primary and secondary
                                             if (secDimension) {
@@ -895,7 +885,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                                 $scope.metrics.enableFewMetrics(metricTypeWithUnderscore, secDimSpecMetrics[metricTypeWithUnderscore]);
                                             } else {
                                                 //disable Metric and each metric under that
-                                                $scope.metrics.disableAllMetrics(metricTypeWithUnderscore);
+                                                $scope.metrics.disableSpecifiedMetrics(metricTypeWithUnderscore);
                                             }
                                         } else {
                                             var metricsToEnableArr = [];
@@ -920,6 +910,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         } else {
                             console.log("primary dimension not in API");
                         }
+                        //change the metric text and count selected
+                        $scope.metrics.setMetrixText();
                     },
 
                     OnSelectUnselectAllMetrics: function () {
@@ -950,103 +942,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
 
             })();
 
-           /* $scope.initializeMetrics = function (dataObj, selectedDim) {
-                var metricsData,
-                    pacingMetricData,
-                    qualityMetricsData;
-
-                selectedDim = $scope.reports.reportDefinition.dimensions.primary.dimension;
-
-                metricsData = dataObj.dim_specific_metrics.hasOwnProperty(selectedDim) ?
-                    dataObj.dim_specific_metrics[selectedDim] : dataObj.metrics;
-
-                $scope.deliveryMetricsView = metricsData.delivery_metrics;
-                $scope.deliveryMetrics = [];
-
-                _.each($scope.deliveryMetricsView, function (key) {
-                    $scope.deliveryMetrics.push({
-                        key: key,
-                        value: $scope.displayName[key],
-                        selected: false
-                    });
-                });
-
-                $scope.totalDeliveryMetrics = $scope.deliveryMetrics.length;
-                $scope.deliveryMetrics.isAllSelected = false;
-                $scope.deliveryMetrics.minOneSelected = false;
-
-                // cost metrics
-                $scope.costMetricsView = metricsData.cost_metrics;
-                $scope.costMetrics = [];
-
-                _.each($scope.costMetricsView, function (key) {
-                    $scope.costMetrics.push({
-                        key: key,
-                        value: $scope.displayName[key],
-                        selected: false
-                    });
-                });
-
-                $scope.totalCostMetrics = $scope.costMetrics.length;
-                $scope.costMetrics.isAllSelected = false;
-                $scope.costMetrics.minOneSelected = false;
-
-                // pacing metrics
-                pacingMetricData = metricsData.pacing_metrics;
-                $scope.pacingMetrics = [];
-
-                _.each(pacingMetricData, function (key) {
-                    $scope.pacingMetrics.push({
-                        key: key,
-                        value: $scope.displayName[key],
-                        selected: false
-                    });
-                });
-
-                $scope.totalPacingMetrics = $scope.pacingMetrics.length;
-                $scope.pacingMetrics.isAllSelected = false;
-                $scope.pacingMetrics.minOneSelected = false;
-
-                // video metrics
-                $scope.videoMetricsView = metricsData.video_metrics;
-                $scope.videoMetrics = [];
-
-                _.each($scope.videoMetricsView, function (key) {
-                    $scope.videoMetrics.push({
-                        key: key,
-                        value: $scope.displayName[key],
-                        selected: false
-                    });
-                });
-
-                $scope.totalVideoMetrics = $scope.videoMetrics.length;
-                $scope.videoMetrics.isAllSelected = false;
-                $scope.videoMetrics.minOneSelected = false;
-
-                // Quality metrics
-                qualityMetricsData = metricsData.quality_metrics;
-                $scope.qualityMetrics = [];
-
-                _.each(qualityMetricsData, function (key) {
-                    $scope.qualityMetrics.push({
-                        key: key,
-                        value: $scope.displayName[key],
-                        selected: false
-                    });
-                });
-
-                $scope.totalQualityMetrics = $scope.qualityMetrics.length;
-                $scope.qualityMetrics.isAllSelected = false;
-                $scope.qualityMetrics.minOneSelected = false;
-
-                $scope.totalMetrics = $scope.totalDeliveryMetrics + $scope.totalCostMetrics +
-                    $scope.totalVideoMetrics + $scope.totalQualityMetrics + $scope.totalPacingMetrics;
-            };*/
-
-            /*$scope.setMetrixText = function (text) {
-                text = ($scope.totalMetrics === $scope.selectedMetricsList.length) ? 'Default' : text;
-                $scope.metrics_text = text + '(' + $scope.selectedMetricsList.length + ')';
-            };*/
 
             $scope.reports.client_id = loginModel.getMasterClient().id;
 
@@ -1072,6 +967,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 };
 
                 $scope.showAddBreakdownButton = true;
+                $scope.metrics.onDimensionSelection();
             };
 
             $scope.getMessageForDataNotAvailable = function () {
@@ -2151,7 +2047,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                 $scope.metrics.initializeMetricData(result.data.data[0]);
                                 $scope.displayName = result.data.data[0].display_name;
                                 $scope.filterList = result.data.data[0].filters;
-                                //$scope.initializeMetrics(result.data.data[0], result.data.data[0].dimensions[0]);
                                 $scope.metrics.initializeMetrics(result.data.data[0]);
                                 _customctrl.resetMetricsPopUp();
                                 $scope.customeDimensionData = result.data.data;
@@ -2353,34 +2248,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         ($scope.costMetrics.isAllSelected || !$scope.showCost) &&
                         $scope.videoMetrics.isAllSelected &&
                         ($scope.qualityMetrics.isAllSelected || !$scope.showQuality)) {
-                        console.log('setting all metrics to true - 2')
                         $scope.allMetrics = true;
                     } else {
-                        console.log("setting all metrics to true")
                         $scope.allMetrics = false;
                     }
                 };
-
-                // sapna commented for this ticket
-              //  $scope.allMetrics = false;
-
-                /*$scope.OnSelectUnselectAllMetrics = function () {
-                    var metricsTab = ['delivery', 'pacing', 'cost', 'video', 'quality'];
-
-                    _.each(metricsTab, function (mTab) {
-                        $scope[mTab + 'Metrics'].isAllSelected = $scope.allMetrics;
-
-                        _.each($scope[mTab + 'Metrics'], function (eachObj) {
-                            eachObj.selected = $scope.allMetrics;
-                        });
-
-                        $scope[mTab + 'Metrics'].minOneSelected = true;
-
-                        if (!$scope[mTab + 'Metrics'].isAllSelected) {
-                            $scope[mTab + 'Metrics'].minOneSelected = false;
-                        }
-                    });
-                };*/
 
                 $scope.onMetricClick = function (metricType, index) {
                     var totalMetricSelected = 0,
@@ -2414,12 +2286,10 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                             $scope.setAllMetrics();
                         } else {
                             $scope[metricType].isAllSelected = false;
-                            console.log("setting to all metrics false 2")
                             $scope.allMetrics = false;
                         }
                     } else {
                         $scope[metricType].minOneSelected = false;
-                        console.log("setting to all metrics false 1")
                         $scope.allMetrics = false;
                     }
                 };
@@ -2492,35 +2362,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 };
 
                 $scope.refreshMetriPopUp = function () {
-                    /*console.log("calling RefreshMetricPopUp")
-                    var metricsType = ['deliveryMetrics', 'costMetrics', 'videoMetrics', 'qualityMetrics'];
-
-                    _.each(metricsType, function (v) {
-                        _.each($scope[v], function (o) {
-                            o.selected = false;
-                        });
-
-                        $scope[v].isAllSelected = false;
-                    });
-
-                    _.each($scope.selectedMetricsList, function (selObj) {
-                        _.each(metricsType, function (v) {
-                            _.each($scope[v], function (o) {
-                                if (selObj.key === o.key) {
-                                    o.selected = true;
-                                }
-                            });
-
-                            $scope[v].isAllSelected = true;
-
-                            _.each($scope[v], function (o) {
-                                if (!o.selected) {
-                                    $scope[v].isAllSelected = false;
-                                }
-                            });
-                        });
-                    });*/
-
                     $('.metricDataViewHeader').hide();
                     $('.metricDataView').slideDown();
                 };
@@ -2878,7 +2719,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                 if (metricsObj === undefined) {
                                     each.selected = false;
                                     $scope[eachMetric].isAllSelected = false;
-                                    console.log("setting to all metrics false 3")
                                     $scope.allMetrics = false;
                                 } else {
                                     $scope.selectedMetricsList.push({
@@ -2898,12 +2738,12 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     });
 
                     if (metricVarKeys.length === selectedMetricVarKeys.length) {
-                        console.log('setting all metrics to true - 3')
                         $scope.allMetrics = true;
                     }
 
                     $scope.scheduleResponseData = JSON.parse(JSON.stringify(responseData));
-                    $scope.metrics.setMetrixText('Custom');
+                    //$scope.metrics.setMetrixText('Custom');
+                    $scope.metrics.onDimensionSelection();
                 };
 
                 // Get custom metrics
