@@ -1,7 +1,7 @@
 define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_service',
-    'common/services/vistoconfig_service'], function(angularAMD) {
-    angularAMD.service('momentService', ['loginModel', 'constants', 'vistoconfig', function(loginModel,
-                                                                                            constants, vistoconfig) {
+    'common/services/vistoconfig_service', 'common/services/vistoconfig_service'], function(angularAMD) {
+    angularAMD.service('momentService', ['loginModel', 'constants', 'vistoconfig',
+        function(loginModel, constants, vistoconfig) {
         this.today = function() {
             var m = moment.tz(loginModel.networkTimezone());
 
@@ -116,12 +116,20 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
 
         // Convert local time (EST, GMT, etc.) to UTC before sending to backend for saving.
         // Also, startTime is forced to beginning of day & endTime to end of day.
-        this.localTimeToUTC = function(dateTime, type) {
+        this.localTimeToUTC = function(dateTime, type, timezone) {
             var clientUTCTime,
                 parseDateTime,
                 currentUTCTime,
-                tz = moment().tz(this.getTimezoneName()).format('z'),
+                tz,
+                timeZoneCode,
                 timeSuffix = (type === 'startTime' ? '00:00:00' : '23:59:59');
+
+            if(timezone) {
+                timeZoneCode = vistoconfig.timeZoneNameMapper[timezone];
+                tz = moment(dateTime).tz(timeZoneCode).format('z');
+            } else {
+                tz = moment(dateTime).tz(this.getTimezoneName()).format('z');
+            }
 
             parseDateTime = Date.parse(dateTime + ' ' + timeSuffix + ' ' + tz);
             clientUTCTime = moment(parseDateTime).tz('UTC');

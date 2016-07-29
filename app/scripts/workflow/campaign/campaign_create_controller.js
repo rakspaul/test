@@ -80,12 +80,13 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         }, createCampaign.errorHandler);
                 },
 
-                fetchSubAccounts: function () {
+                fetchSubAccounts: function (callabck) {
                     workflowService
                         .getSubAccounts('write')
                         .then(function (result) {
                             if (result.status === 'OK' || result.status === 'success') {
                                 $scope.workflowData.subAccounts = result.data.data;
+                                callabck && callabck($scope.workflowData.subAccounts);
                             } else {
                                 createCampaign.errorHandler(result);
                             }
@@ -147,6 +148,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 prefillMediaPlan: function (campaignData) {
                     var advertiserObj,
+                        subAccountData,
 
                         flightDateObj = {
                             startTime: momentService.utcToLocalTime(campaignData.startTime),
@@ -164,6 +166,13 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     if (campaignData.clientId && campaignData.clientName) {
                         $scope.selectedCampaign.clientName = campaignData.clientName;
                         $scope.selectedCampaign.clientId = campaignData.clientId;
+                        createCampaign.fetchSubAccounts(function(subAccountData) {
+                            subAccountData = _.find(subAccountData, function(data) {
+                                return data.id === campaignData.clientId;
+                            });
+                            workflowService.setSubAccountTimeZone(subAccountData.timezone);
+                        });
+
                     } else {
                         $scope.selectedCampaign.clientId = loginModel.getSelectedClient().id;
                     }
@@ -507,12 +516,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         $scope.selectHandler = function (type, data) {
+            console.log("type", type, "data", data);
             switch (type) {
                 case 'client':
                     $scope.workflowData.advertisers = [];
                     $scope.workflowData.brands = [];
                     $scope.selectedCampaign.advertiser = '';
-
                     if ($scope.showSubAccount) {
                         $scope.workflowData.subAccounts = [];
                         $scope.selectedCampaign.clientId = '';
@@ -534,7 +543,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     createCampaign.fetchAdvertisers(data.id);
                     $scope.mediaPlanOverviewClient = {'id':data.id,'name':data.name};
                     resetPixelMediaPlan();
-
+                    workflowService.setSubAccountTimeZone(data.timezone);
                     break;
 
                 case 'advertiser':
@@ -634,6 +643,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 utcStartTime,
                 utcEndTime,
                 campaignCosts = [],
+                dateTimeZone,
                 i;
 
             saveMediaPlanBeforeLineItem  = saveMediaPlanBeforeLineItem || false;
@@ -674,8 +684,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     postDataObj.purchaseOrder = formData.purchaseOrder;
                 }
 
-                utcStartTime = momentService.localTimeToUTC($scope.selectedCampaign.startTime, 'startTime');
-                utcEndTime = momentService.localTimeToUTC($scope.selectedCampaign.endTime, 'endTime');
+                dateTimeZone = workflowService.getSubAccountTimeZone();
+
+                utcStartTime = momentService.localTimeToUTC($scope.selectedCampaign.startTime,
+                    'startTime', dateTimeZone);
+                utcEndTime = momentService.localTimeToUTC($scope.selectedCampaign.endTime,
+                    'endTime', dateTimeZone);
 
                 if ($scope.mode ==='edit') {
                     utcStartTime = (moment($scope.selectedCampaign.startTime)

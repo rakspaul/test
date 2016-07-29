@@ -30,6 +30,18 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             },
 
             campaignOverView = {
+                fetchSubAccounts: function (callabck) {
+                    workflowService
+                        .getSubAccounts('write')
+                        .then(function (result) {
+                            if (result.status === 'OK' || result.status === 'success') {
+                                callabck && callabck(result.data.data);
+                            } else {
+                                campaignOverView.errorHandler(result);
+                            }
+                        }, campaignOverView.errorHandler);
+                },
+
                 getCampaignData: function (campaignId) {
                     workflowService
                         .getCampaignData(campaignId)
@@ -68,6 +80,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                 clientId = responseData.clientId;
                                 advertiserId = responseData.advertiserId;
+
+                                campaignOverView.fetchSubAccounts(function(subAccountData) {
+                                    subAccountData = _.find(subAccountData, function(data) {
+                                        return data.id === clientId;
+                                    });
+                                    workflowService.setSubAccountTimeZone(subAccountData.timezone);
+                                });
 
                                 if ($scope.mode === 'edit') {
                                     if (!$scope.adGroupId) {
@@ -1173,6 +1192,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 utcStartTime,
                 utcEndTime,
                 inventoryLists,
+                dateTimeZone
 
                 wrapperToReplaceCustomPlatformHiddenValues = function(customPlatformData) {
                     _.each(customPlatformData, function(obj) {
@@ -1229,8 +1249,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     postAdDataObj.goal = formData.goal;
                 }
 
+                dateTimeZone = workflowService.getSubAccountTimeZone();
+
                 if (formData.startTime) {
-                    utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime');
+                    utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone);
 
                     // fixed for CW-4102
                     if ($scope.mode ==='edit') {
@@ -1243,7 +1265,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 }
 
                 if (formData.endTime) {
-                    utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
+                    utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime', dateTimeZone);
 
                     // fixed for CW-4102
                     if ($scope.mode ==='edit') {

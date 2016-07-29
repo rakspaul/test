@@ -626,7 +626,8 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         };
 
         $scope.$parent.createNewLineItemInEditMode = function () {
-            var newItem;
+            var newItem,
+                dateTimeZone;
 
             $scope.Campaign.showBudgetZeroPopup = false;
 
@@ -658,8 +659,10 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 // loader for save button
                 $scope.Campaign.createNewLineItemLoaderEdit = true;
 
-                newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
-                newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+                dateTimeZone = workflowService.getSubAccountTimeZone();
+
+                newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone);
+                newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime', dateTimeZone);
 
                 // in case pricerate is 30% markup remove the Markup
                 if (typeof newItem.pricingRate === 'string') {
@@ -702,7 +705,8 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         $scope.$parent.updateLineItemInEditMode = function () {
             var newItem,
                 utcStartTime,
-                utcEndTime;
+                utcEndTime,
+                dateTimeZone;
 
             // this hack is to make it work in edit mode when media plan save is requierd prior to line item
             // check if we have saved line item details in service or create a new line item object
@@ -735,14 +739,16 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     newItem = createEditLineItemObj(angular.copy(oldLineItem));
                 }
 
-                utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
+                dateTimeZone = workflowService.getSubAccountTimeZone();
+
+                utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone);
 
                 utcStartTime = (moment(newItem.startTime).isSame($scope.modifiedLineItemAPIStartTime, 'day')) ?
                     $scope.lineItemAPIStartTime : utcStartTime;
 
                 newItem.startTime = utcStartTime;
 
-                utcEndTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+                utcEndTime = momentService.localTimeToUTC(newItem.endTime, 'endTime', dateTimeZone);
 
                 utcEndTime = (moment(newItem.endTime).isSame($scope.modifiedLineItemAPIEndTime, 'day')) ?
                     $scope.lineItemAPIEndTime :  utcEndTime;
