@@ -229,16 +229,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url, { cache: false });
             },
 
-            getPlatforms = function (cacheObj, advertiserId) {
-                var clientId = vistoconfig.getMasterClientId(),
-                    campaignData = JSON.parse(localStorage.getItem('campaignData')),
-                    url;
+            getPlatforms = function (clientId, advertiserId, cacheObj) {
 
-                if (!advertiserId && campaignData) {
-                    advertiserId = campaignData.advertiserId;
-                }
-
-                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
                     '/vendors?vendorType=EXECUTION_PLATFORM&sortBy=name';
@@ -753,10 +746,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     '/inventory_lists/upload' + domainIdstr;
             },
 
-            getPlatformCustomInputs = function (platformId) {
-                var clientId = vistoconfig.getMasterClientId(),
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' + platformId;
-
+            getPlatformCustomInputs = function (clientId, platformId) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' + platformId;
                 return dataService.fetch(url);
             },
 
