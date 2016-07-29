@@ -15,7 +15,6 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                                               RoleBasedService, advertiserModel, brandsModel,
                                                               urlService, featuresService, requestCanceller) {
             var _currCtrl = this,
-                fparams,
                 extractAdFormats;
 
             $scope.textConstants = constants;
@@ -229,13 +228,15 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             });
 
             $scope.$watch('selectedCampaign', function () {
-                $scope.createDownloadReportUrl();
+                _currCtrl.createDownloadReportUrl();
+                _currCtrl.filterCostReport();
             });
 
             // creating download report url
-            $scope.createDownloadReportUrl = function () {
+            _currCtrl.createDownloadReportUrl = function () {
                 var download_report = [
                         {
+                            name: 'by_performance',
                             url: '/reportBuilder/customQueryDownload',
                             query_id: 24,
                             label: 'Platform by Performance',
@@ -243,6 +244,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                         },
 
                         {
+                            name: 'by_cost',
                             url: '/reportBuilder/customQueryDownload',
                             query_id: 24,
                             label: 'Platform by Cost',
@@ -252,6 +254,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                         },
 
                         {
+                            name: 'by_quality',
                             url: '/reportBuilder/customQueryDownload',
                             query_id: 24,
                             label: 'Platform by Quality',
@@ -442,30 +445,23 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 $scope.selectedFilters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
             });
 
-            _currCtrl.filter_download_report = function (type) {
-                $scope.download_report = _.filter($scope.download_report, function (val) {
-                    if (type === 'cost') {
-                        return val.className !== 'report_cost';
-                    }
-                });
-            };
-
-            fparams = featuresService.getFeatureParams();
-
-            $scope.showCostWidget = fparams[0].cost;
-
-            if (!$scope.showCostWidget) {
-                _currCtrl.filter_download_report('cost');
-            }
-
-            $rootScope.$on('features', function () {
+            _currCtrl.filterCostReport = function() {
                 var fparams = featuresService.getFeatureParams();
 
                 $scope.showCostWidget = fparams[0].cost;
 
                 if (!$scope.showCostWidget) {
-                    _currCtrl.filter_download_report('cost');
+                    $scope.download_report = _.filter($scope.download_report, function (report) {
+                        return report.name !== 'by_cost';
+                    });
                 }
+            };
+
+            // check the permission on load
+            _currCtrl.filterCostReport();
+
+            $rootScope.$on('features', function() {
+                _currCtrl.filterCostReport();
             });
 
             $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
