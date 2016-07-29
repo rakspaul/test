@@ -1711,7 +1711,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             var selectedItem = $scope.geoData[type].selected;
 
             if (type === 'zip') {
-                _.each(selectedItem, function (obj, index) {
+                _.each(selectedItem, function (obj) {
                     if (obj.zipCodes.added && obj.zipCodes.added.length >0) {
                         _.each(obj.zipCodes.added, function (zip, idx) {
                             if (zip === item) {
@@ -1719,7 +1719,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                             }
                         });
                     }
-                    
+
                 });
             } else {
                 if (type === 'countries') {

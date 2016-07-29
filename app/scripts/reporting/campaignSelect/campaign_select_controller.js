@@ -65,7 +65,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model',
                 campaignSelectModel
                     .getCampaigns(vistoconfig.getSelectedBrandId(), searchCriteria)
                     .then(function () {
-                        //TODO : rewrite what to do in search condition
+                        // TODO: rewrite what to do in search condition
                         var campObj = campaignSelectModel.getCampaignObj(),
                             campArrObj = campObj.campaigns;
 

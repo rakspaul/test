@@ -3,16 +3,17 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                                                       campaignSelectModel, advertiserModel, brandsModel, pageFinder) {
 
         var subAccountList = [],
-            dashboadSubAccountList = [],
+            dashboardSubAccountList = [],
             selectedSubAccount,
             selectedDashboardSubAccount,
             previousAccountId,
 
             reset = function () {
-                subAccountList = [],
-                dashboadSubAccountList = [],
-                selectedSubAccount = undefined,
+                subAccountList = [];
+                dashboardSubAccountList = [];
+                selectedSubAccount = undefined;
                 selectedDashboardSubAccount = undefined;
+
                 campaignSelectModel.reset();
                 advertiserModel.reset();
                 brandsModel.reset();
@@ -78,7 +79,7 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                     this.reset();
                 }
 
-                if (dashboadSubAccountList.length > 0) {
+                if (dashboardSubAccountList.length > 0) {
 
                     $timeout(function () {
                         deferred.resolve();
@@ -87,17 +88,17 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                     return deferred.promise;
                 }
 
-                dashboadSubAccountList = [{'id': accountId, 'displayName': 'All'}];
+                dashboardSubAccountList = [{'id': accountId, 'displayName': 'All'}];
 
                 workflowService.getDashboardSubAccount(accountId).then(function (result) {
 
                     if (result && result.data.data.length > 0) {
 
-                        dashboadSubAccountList = dashboadSubAccountList.concat(_.map(result.data.data, function (a) {
+                        dashboardSubAccountList = dashboardSubAccountList.concat(_.map(result.data.data, function (a) {
                             return {'id': a.id, 'displayName': a.displayName, 'isLeafNode': a.isLeafNode};
                         }));
 
-                        subAccountList = _.filter(dashboadSubAccountList, function (a) {
+                        subAccountList = _.filter(dashboardSubAccountList, function (a) {
                             return a.isLeafNode === true;
                         });
 
@@ -116,7 +117,7 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                 subAccountId = Number(subAccountId);
 
                 if (subAccountId) {
-                    selectedDashboardSubAccount = _.find(dashboadSubAccountList, function (client) {
+                    selectedDashboardSubAccount = _.find(dashboardSubAccountList, function (client) {
                         return subAccountId === client.id;
                     });
                     if (selectedDashboardSubAccount) {
@@ -131,8 +132,8 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                 return subAccountList;
             },
 
-            getDashboadSubAccountList = function () {
-                return dashboadSubAccountList;
+            getDashboardSubAccountList = function () {
+                return dashboardSubAccountList;
             },
 
             getSelectedSubAccount = function () {
@@ -145,22 +146,21 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
 
             changeSubAccount =  function (account, subAccount) {
                 var url = '/a/' + account + '/sa/' + subAccount.id;
-                console.log("account",account);
+                console.log('account', account);
                 $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
             };
 
         return {
-            reset : reset,
-            fetchSubAccountList : fetchSubAccountList,
-            allowedSubAccount : allowedSubAccount,
-            fetchDashboardSubAccountList : fetchDashboardSubAccountList,
-            allowedDashboardSubAccount : allowedDashboardSubAccount,
-            getSubAccounts : getSubAccounts,
-            getDashboadSubAccountList : getDashboadSubAccountList,
-            getSelectedSubAccount : getSelectedSubAccount,
+            reset                          : reset,
+            fetchSubAccountList            : fetchSubAccountList,
+            allowedSubAccount              : allowedSubAccount,
+            fetchDashboardSubAccountList   : fetchDashboardSubAccountList,
+            allowedDashboardSubAccount     : allowedDashboardSubAccount,
+            getSubAccounts                 : getSubAccounts,
+            getDashboardSubAccountList      : getDashboardSubAccountList,
+            getSelectedSubAccount          : getSelectedSubAccount,
             getSelectedDashboardSubAccount : getSelectedDashboardSubAccount,
-            changeSubAccount : changeSubAccount
+            changeSubAccount               : changeSubAccount
         };
-
     });
 });

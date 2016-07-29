@@ -313,8 +313,10 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                         strategy.map.ctr = strategyMetrics.ctr * 100;
                     },
 
-                    getStrategyCdbLineChart = function (clientId, campaign, strategy, timePeriod, kpiType, kpiValue) {
+                    getStrategyCdbLineChart = function (clientId, campaign, strategy, timePeriod, kpiType, kpiValue,
+                                                        advertiserModel, brandsModel) {
                         selectedLineItemId = strategy.id;
+
                         dataService
                             .getCdbChartData(clientId, campaign, timePeriod, 'lineitems', strategy.id)
                             .then(function (result) {

@@ -5,27 +5,25 @@ define(['angularAMD', 'common/services/sub_account_service', 'common/services/co
     angularAMD.controller('subAccountController', function ($scope, $rootScope, $route, $routeParams, $location,
                                                             subAccountService, constants, loginModel, vistoconfig,
                                                             utils, accountService) {
-
-
         var fetchSubAccounts =  function () {
             if($location.path().endsWith('/dashboard')) {
-                $scope.subAccountData.subAccounts = subAccountService.getDashboadSubAccountList();
-                $scope.subAccountData.selectedsubAccount.id =
+                $scope.subAccountData.subAccounts = subAccountService.getDashboardSubAccountList();
+                $scope.subAccountData.selectedSubAccount.id =
                     subAccountService.getSelectedDashboardSubAccount().id;
-                $scope.subAccountData.selectedsubAccount.name =
+                $scope.subAccountData.selectedSubAccount.name =
                     subAccountService.getSelectedDashboardSubAccount().displayName;
             } else {
                 $scope.subAccountData.subAccounts = subAccountService.getSubAccounts();
-                $scope.subAccountData.selectedsubAccount.id = subAccountService.getSelectedSubAccount().id;
-                $scope.subAccountData.selectedsubAccount.name = subAccountService.getSelectedSubAccount().displayName;
+                $scope.subAccountData.selectedSubAccount.id = subAccountService.getSelectedSubAccount().id;
+                $scope.subAccountData.selectedSubAccount.name = subAccountService.getSelectedSubAccount().displayName;
             }
         };
 
-
         $scope.constants = constants;
+
         $scope.subAccountData = {
             subAccounts : {},
-            selectedsubAccount :  {}
+            selectedSubAccount : {}
         };
 
         (function getOrFetchSubAccounts() {
@@ -33,7 +31,6 @@ define(['angularAMD', 'common/services/sub_account_service', 'common/services/co
                 fetchSubAccounts('subAccountCtrl');
             }
         })();
-
 
         $scope.showSubAccountDropDown = function () {
             var subAccountDropdownList = $('#subAccountDropDownList');
@@ -46,7 +43,8 @@ define(['angularAMD', 'common/services/sub_account_service', 'common/services/co
 
         $scope.selectSubAccount = function (subAccount) {
             var subAccountNameSelected = $('#sub_account_name_selected');
-            $scope.subAccountData.selectedsubAccount.id = subAccount.id;
+
+            $scope.subAccountData.selectedSubAccount.id = subAccount.id;
             subAccountNameSelected.text(subAccount.displayName);
             subAccountNameSelected.attr('title' , subAccount.displayName);
             $('#subAccountDropdown').attr('placeholder', subAccount.displayName).val('');
@@ -61,7 +59,6 @@ define(['angularAMD', 'common/services/sub_account_service', 'common/services/co
         $scope.disableShowAll = function () {
             $scope.subAccountData.showAll = false;
         };
-
 
         $(function () {
             $('header').on('click', '#subAccountDropdownDiv', function () {

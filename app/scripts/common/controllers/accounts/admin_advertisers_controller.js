@@ -9,7 +9,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
     angularAMD.controller('AdminUsersController', function ($scope, $rootScope, $modal, $compile, $filter,
                                                             constants, accountsService, momentService,
-                                                            loginModel, vistoconfig, utils, localStorageService) {
+                                                            loginModel, vistoconfig, utils) {
         var _curCtrl = this,
             winHeight = $(window).height();
         _curCtrl.clientId = vistoconfig.getSelectedAccountId();

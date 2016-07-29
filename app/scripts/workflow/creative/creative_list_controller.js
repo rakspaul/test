@@ -189,9 +189,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }
         };
 
-        $scope.deleteCreatives=function () {
-            var postDataObj = {};
-               // selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+        $scope.deleteCreatives = function () {
+            var postDataObj = {},
+               selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
 
             $scope.deletePopup = !$scope.deletePopup;
             postDataObj.idList = checkedCreativeArr;
@@ -261,44 +261,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         function init() {
-            // Note: Not sure if this is required just retaining - Sapna
-            // var campaignData, clientId, clientName;
-            //
-            //
              $scope.pageSize = 20;
              $scope.pageNo = 1;
-            // clientId = vistoconfig.getMasterClientId();
-            // //clientName = accountService.getSelectedAccount();
-            //
-            // $scope.creativeListLoading = true;
-            // $scope.creativesNotFound = false;
-            // $scope.creativeSearch = '';
-            // $scope.creativeData.creatives=[];
-            // creativeList.getCreativesList(clientId,'','',$scope.pageSize,$scope.pageNo);
-
-
-            // if (selectedClientObj) {
-            //     clientId = JSON.parse(localStorage.selectedClient).id;
-            //     clientName = JSON.parse(localStorage.selectedClient).name;
-            //
-            //     if (clientId) {
-            //         campaignData = {
-            //             clientId: clientId,
-            //             clientName: clientName
-            //         };
-            //
-            //         localStorage.setItem('campaignData', JSON.stringify(campaignData));
-            //     }
-            //
-            //     $scope.creativeListLoading = true;
-            //     $scope.creativesNotFound = false;
-            //     $scope.creativeSearch = '';
-            //     $scope.creativeData.creatives=[];
-                 creativeList.getCreativesList($scope.clientId,'','',$scope.pageSize,$scope.pageNo);
-            // } else {
-            //     $scope.creativeListLoading = false;
-            //     $scope.creativesNotFound = true;
-            // }
+             creativeList.getCreativesList($scope.clientId,'','',$scope.pageSize,$scope.pageNo);
         }
 
         // broadcasted from filter directive once it fetches subaccounts
@@ -518,8 +483,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
         // Search Clear
         $scope.searchHideInput = function () {
-            var inputSearch = $('.searchInputForm input'),
-                selectedClientObj;
+            var inputSearch = $('.searchInputForm input');
 
             isSearch = false;
             inputSearch.val('');
@@ -527,9 +491,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             if ($scope.isCreativeSearched) {
                 $scope.creativeData.creatives = [];
                 $scope.creativeListLoading = true;
-
-                // selectedClientObj =
-                //     localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
 
                 creativeList.getCreativesList($scope.clientId, '', '', 20, 1);
             }

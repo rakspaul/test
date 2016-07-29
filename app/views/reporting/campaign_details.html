@@ -26,7 +26,8 @@
                                          defaultoption="- Action Type -"
                                          data-ng-model="action.selectedType"
                                          options="type.name for type in action.types | orderBy : 'name'"
-                                         change="selected()" id="action_type_filter_dd"
+                                         change="selected()"
+                                         id="action_type_filter_dd"
                                          datashow="1"
                                          data-ng-click="resetValidation();"
                                          data-ng-change="getActionType()">
@@ -96,7 +97,6 @@
                                          datashow="4"
                                          data-ng-click="resetValidation();">
                             </multiselect>
-
                             <div data-ng-show="action.selectedMetricError"
                                  id="error_metric"
                                  class="error_message"
@@ -142,7 +142,7 @@
                         <div class="carousel-inner">
                             <div class="item active" id="costWidget" data-ng-show="showCostWidget">
                                 <div class="col-xs-3">
-                                    <div data-ng-click="setGraphData(campaign,'cost')"
+                                    <div data-ng-click="setGraphData(campaign, 'cost')"
                                          tooltip-placement="top"
                                          tooltip="Click for detailed reports"
                                          class="each_section_graph_holder bar_section_graph_holder
@@ -154,16 +154,16 @@
                                         </div>
                                         <div data-ng-if="((details.totalCostBreakdown === 0 ||
                                                 !(details.totalCostBreakdown))
-                                                && loadingCostBreakdownFlag== false )"
+                                                && loadingCostBreakdownFlag === false )"
                                              class="no-data-available"
-                                             data-ng-bind-html="getMessageForDataNotAvailable(campaign,'costs')">
+                                             data-ng-bind-html="getMessageForDataNotAvailable(campaign, 'costs')">
                                         </div>
                                         <div class="clearfix each_section_graph graph_holding_section"
                                              data-ng-if="(details.totalCostBreakdown > 0 )">
                                             <div class="pull-right section_graph_details">
                                                 <div class="each_detail"
                                                      data-ng-repeat="data in costBreakdownChartInfo track by $index"
-                                                     data-ng-if="(data.value >= 0.5 &&  data.name !='Other') ">
+                                                     data-ng-if="(data.value >= 0.5 && data.name !== 'Other') ">
                                                     <span class="graph_color {{data.className}}"></span>
                                                     {{data.name}}: {{data.value | formatCostData : '' : 0}}%
                                                 </div>
@@ -179,8 +179,8 @@
                                         <div class="graph_summary totalCostLabel"
                                              data-ng-if="(details.totalCostBreakdown > 0)">
                                             Total
-                                            <span class="graph_val" data-ng-bind="details.totalCostBreakdown |
-                                                currency : undefined : 0">
+                                            <span class="graph_val"
+                                                  data-ng-bind="details.totalCostBreakdown | currency : undefined : 0">
                                             </span>
                                         </div>
                                         <div id="costBreakdownWidget"></div>
@@ -189,7 +189,7 @@
                             </div>
                             <div class="item active" data-ng-hide="usrRole && !usrRole.showplatform">
                                 <div class="col-xs-3 platform_widget">
-                                    <div data-ng-click="setGraphData(campaign,'platform')"
+                                    <div data-ng-click="setGraphData(campaign, 'platform')"
                                          tooltip-placement="top"
                                          tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}"
                                          class="each_section_graph_holder bar_section_graph_holder
@@ -208,9 +208,9 @@
                             </div>
                             <div class="item active">
                                 <div class="col-xs-3 screens_widget">
-                                    <div data-ng-click="setGraphData(campaign,'screens')"
+                                    <div data-ng-click="setGraphData(campaign, 'screens')"
                                          tooltip-placement="top"
-                                         tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}"
+                                         tooltip="{{textConstants.CLICK_FOR_DETAILED_REPORTS}}"
                                          class="each_section_graph_holder bar_section_graph_holder
                                             bar_section_graph_holder_screen">
                                         <div class="graph_heading"
@@ -227,9 +227,9 @@
                             </div>
                             <div class="item active">
                                 <div class="col-xs-3">
-                                    <div data-ng-click="setGraphData(campaign,'adsizes')"
+                                    <div data-ng-click="setGraphData(campaign, 'adsizes')"
                                          tooltip-placement="top"
-                                         tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}"
+                                         tooltip="{{textConstants.CLICK_FOR_DETAILED_REPORTS}}"
                                          class="each_section_graph_holder bar_section_graph_holder
                                             bar_section_graph_holder_screen">
                                         <div class="graph_heading"
@@ -244,9 +244,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="item" data-ng-class="{'active': showCostWidget === false}">
+                            <div class="item" data-ng-class="{active: showCostWidget === false}">
                                 <div class="col-xs-3 formats_widget">
-                                    <div data-ng-click="setGraphData(campaign,'formats')"
+                                    <div data-ng-click="setGraphData(campaign, 'formats')"
                                          tooltip-placement="top"
                                          tooltip="Click for detailed reports"
                                          class="each_section_graph_holder bar_section_graph_holder
@@ -266,7 +266,7 @@
                             </div>
                             <div class="item" data-ng-hide="usrRole && !usrRole.showinventory">
                                 <div class="col-xs-3">
-                                    <div data-ng-click="setGraphData(campaign,'inventory')"
+                                    <div data-ng-click="setGraphData(campaign, 'inventory')"
                                          tooltip-placement="top"
                                          tooltip="{{textConstants.CLICK_FOR_DETAILED_REPORTS}}"
                                          class="each_section_graph_holder bar_section_graph_holder
@@ -285,7 +285,7 @@
                             </div>
                             <div class="item" data-ng-hide="usrRole && !usrRole.showviewability">
                                 <div class="col-xs-3">
-                                    <div data-ng-click="setGraphData(campaign,'quality')"
+                                    <div data-ng-click="setGraphData(campaign, 'quality')"
                                          tooltip-placement="top"
                                          tooltip="Click for detailed reports"
                                          class="each_section_graph_holder">
@@ -327,8 +327,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a class="left carousel-control"
-                               data-target="#myCarousel" data-slide="prev">
+                            <a class="left carousel-control" data-target="#myCarousel" data-slide="prev">
                                 <i class="glyphicon glyphicon-chevron-left"></i>
                             </a>
                             <a class="right carousel-control"
@@ -352,7 +351,7 @@
                     <form data-ng-submit="editAction()">
                         <div class="action_filter_holder" data-ng-click="$event.stopPropagation()">
                             <div class="heading">
-                                {{ textConstants.EDIT_ACTIVITY }}
+                                {{textConstants.EDIT_ACTIVITY}}
                                 <span style="color: red" data-ng-bind="editError"></span>
                             </div>
                             <div class="clearfix filter_holder">
@@ -482,7 +481,7 @@
                              data-ng-if="(actionItems && activityLogFlag === true)"
                              id="actionItem_{{action.ad_id}}{{action.id}}"
                              data-ng-repeat="action in actionItems.data | orderBy : 'created_at' : true |
-                                filter : actionsFilter  track by $index">
+                                filter : actionsFilter track by $index">
                             <div class="pull-left activity_points">
                                 <div class="{{action.make_external === true ?
                                     'activity_point_ext' : 'activity_point_int'}}">
@@ -547,7 +546,7 @@
                                     <span data-ng-if="(campaign.kpiValue > 0)"
                                           data-ng-bind="campaign.kpiValue | kpiFormatter : campaign.kpiType">
                                     </span>
-                                    {{campaign.kpiType !='null' ? campaign.kpiTypeDisplayName : 'NA'}}
+                                    {{campaign.kpiType !== 'null' ? campaign.kpiTypeDisplayName : 'NA'}}
                                 </div>
                             </div>
                             <div class="each_col col_third">
@@ -645,14 +644,14 @@
                                     <!-- put completely_filled when 100% -->
                                     <div class="selected_graph {{(getSpendWidth(campaign) >= 100) ?
                                             'completely_filled' : ''}}"
-                                         data-ng-style="{'width': getSpendWidth(campaign) + '%'};">
+                                         data-ng-style="{width: getSpendWidth(campaign) + '%'};">
                                     </div>
 
                                     <!-- put start_beginning when at start -->
                                     <div class="graph_start_point
                                             {{(getSpendTickWidth(campaign) <= 0) ? 'start_beginning' : ''}}
                                             {{(getSpendTickWidth(campaign) >= 70) ? 'start_end_point' : ''}}"
-                                         data-ng-style="{'left': getSpendTickWidth(campaign) +'%'};">
+                                         data-ng-style="{left: getSpendTickWidth(campaign) + '%'};">
                                         <div class="end_point_val">
                                             <span class="icon_KPI"
                                                   data-ng-bind="campaign.expectedMediaCost | nrFormatWithCurrency">

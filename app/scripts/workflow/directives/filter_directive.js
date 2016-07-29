@@ -31,13 +31,13 @@ define(['angularAMD', 'common/services/constants_service',
 
 
                 $scope.selectClient = function (subAccount) {
-                    console.log("subAccount", subAccount);
+                    console.log('subAccount', subAccount);
                     $('#subAcc_name_selected').text(subAccount.displayName);
                     $scope.filterData.subAccSelectedName = subAccount.displayName;
                     $scope.filterData.subAccSelectedId = subAccount.id;
                     subAccountService.changeSubAccount(vistoconfig.getMasterClientId(), subAccount);
-                       // fetchAdvertiserAndBroadCast(subAccount.id, true);
                  };
+
                 $scope.showAdvertisersDropDown = function () {
                     $('#advertisersDropDownList')
                         .toggle()
