@@ -39,6 +39,10 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 $scope.filters = domainReports.getReportsTabs($scope.fparams);
 
                 $scope.customFilters = domainReports.getCustomReportsTabs();
+                $scope.fparams = featuresService.getFeatureParams();
+                $scope.showMediaPlanTab = $scope.fparams[0].mediaplan_list;
+                $scope.showReportTab = $scope.fparams[0].reports_tab;
+                $scope.invoiceTool = $scope.fparams[0].reports_invoice;
             },
 
             showSelectedMasterClient = function (evt, clientName) {

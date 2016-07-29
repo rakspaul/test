@@ -1798,7 +1798,11 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     controllerUrl: 'reporting/collectiveReport/reports_invoice_list_controller',
                     showHeader : true,
                     css: assets.css_reports_invoice_list,
-                    resolve: {}
+                    resolve: {
+                        check: function ($location, featuresService) {
+                            featuresService.setGetFeatureParams('reports_invoice');
+                        }
+                    }
                 }))
 
                 .when('/v1sto/invoices/:invoiceId', angularAMD.route({
@@ -1807,8 +1811,11 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     controller: 'reportsInvoiceController',
                     controllerUrl: 'reporting/collectiveReport/reports_invoice_controller',
                     css: assets.css_reports_invoice_list,
-                    showHeader : true,
-                    resolve: {}
+                    resolve: {
+                        check: function ($location, featuresService) {
+                            featuresService.setGetFeatureParams('reports_invoice');
+                        }
+                    }
                 }))
 
                 .when('/a/:accountId/mediaplan/create', angularAMD.route({

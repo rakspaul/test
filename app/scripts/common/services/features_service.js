@@ -24,7 +24,8 @@ define(['angularAMD', 'workflow/services/workflow_service',
                 'ad_setup',
                 'mediaplan_hub',
                 'creative_list',
-                'reports_tab'
+                'reports_tab',
+                'reports_invoice'
             ],
 
             featureParams = [],
@@ -111,6 +112,10 @@ define(['angularAMD', 'workflow/services/workflow_service',
                     case 'REPORTS_TAB':
                         featureParams[0].reports_tab = boolStatus;
                         break;
+
+                    case 'REP_INVOICE':
+                        featureParams[0].reports_invoice = boolStatus;
+                        break;
                 }
             },
 
@@ -124,6 +129,7 @@ define(['angularAMD', 'workflow/services/workflow_service',
                 featureParams[0].platform = false;
                 featureParams[0].scheduled_reports = false;
                 featureParams[0].collective_insights = false;
+                featureParams[0].reports_invoice = false;
             },
 
             setFeatureParams = function (featuresArr) {
