@@ -253,7 +253,7 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         check: function ($location, featuresService) {
-                            featuresService.setGetFeatureParams('scheduled_reports');
+                            featuresService.setGetFeatureParams('reports_invoice');
                         }
                     }
                 }))
@@ -265,7 +265,11 @@ define(['common'], function (angularAMD) {
                     showHeader : true,
                     controllerUrl: 'reporting/collectiveReport/reports_invoice_controller',
                     css: assets.css_reports_invoice_list,
-                    resolve: {}
+                    resolve: {
+                        check: function ($location, featuresService) {
+                            featuresService.setGetFeatureParams('reports_invoice');
+                        }
+                    }
                 }))
 
                 .when('/performance', angularAMD.route({
