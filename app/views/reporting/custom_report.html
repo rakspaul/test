@@ -317,14 +317,17 @@
                 <div class="col-md-12 metricDataView">
                     <div class="metricContainer">
                         <!--Header-->
-                        <div class="col-md-12 zeroPadding" style="margin-bottom: 30px;">
+                        <div class="col-md-12 zeroPaddingmetricContainer" style="margin-bottom: 30px;">
                             <h1 class="pull-left" style="margin: 0;">Select Metrics</h1>
-                            <input data-ng-click="OnSelectUnselectAllMetrics();"
+
+                            <input data-ng-click="metrics.OnSelectUnselectAllMetrics()"
                                    type="checkbox"
                                    data-ng-model="allMetrics"
                                    class="pull-left"
                                    id="selectAll_chkbox"
-                                   style="margin: 8px 5px 0 30px;">
+                                   style="margin: 8px 5px 0 30px"
+                                   ng-disabled="isAllSelectDisabled">
+
                             <span class="pull-left" style="margin-top: 5px;">Select All</span>
                             <a class="btn btn-default pull-right" data-ng-click="saveMetrics();">Save & Close</a>
                             <a class="btn btn-link pull-right" data-ng-click="cancelMetricView();">Cancel</a>
@@ -339,18 +342,23 @@
                                            class="squaredFourChkbox"
                                            id="delivery_chkbox"
                                            data-ng-model="deliveryMetrics.isAllSelected"
-                                           data-ng-click="onMetricClick('deliveryMetrics')">
+                                           data-ng-click="onMetricClick('deliveryMetrics')"
+                                           ng-disabled="(deliveryMetrics.isDisabled)">
                                         Delivery
                                 </span>
-                                <div class="col-md-12 metricData"
-                                     relationIds="Delivery"
-                                     data-ng-repeat="delivery_metric in deliveryMetrics track by $index"
-                                     id="{{delivery_metric.key}}"
-                                     data-ng-class="{active: delivery_metric.selected}"
-                                     data-ng-click="onMetricClick('deliveryMetrics', $index)"
-                                     data-ng-bind-html="delivery_metric.value">
-                                </div>
+                                <div>
+                                    <fieldset class="col-md-12 metricData"
+                                         relationIds="Delivery"
+                                         data-ng-repeat="delivery_metric in deliveryMetrics track by $index"
+                                         id="{{delivery_metric.key}}"
+                                         data-ng-class="{active: delivery_metric.selected}"
+                                         data-ng-click="onMetricClick('deliveryMetrics', $index)"
+                                         data-ng-bind-html="delivery_metric.value"
+                                         ng-disabled="delivery_metric.isDisabled">
+                                    </fieldset>
+
                             </div>
+                                </div>
 
                             <!--Pacing-->
                             <div class="col-md-2 zeroPadding" data-ng-show="pacingMetrics.length">
@@ -359,18 +367,22 @@
                                            class="squaredFourChkbox"
                                            id="pacing_chkbox"
                                            data-ng-model="pacingMetrics.isAllSelected"
-                                           data-ng-click="onMetricClick('pacingMetrics')">
+                                           data-ng-click="onMetricClick('pacingMetrics')"
+                                           ng-disabled="pacingMetrics.isDisabled">
                                     Pacing
                                 </span>
-                                <div class="col-md-12 metricData"
-                                     relationIds='Pacing'
-                                     data-ng-repeat="pacing_metric in pacingMetrics track by $index"
-                                     id="{{pacing_metric.key}}"
-                                     data-ng-class="{active: pacing_metric.selected}"
-                                     data-ng-click="onMetricClick('pacingMetrics', $index)"
-                                     data-ng-bind-html="pacing_metric.value">
-                                </div>
+                                <div>
+                                    <fieldset class="col-md-12 metricData"
+                                             relationIds='Pacing'
+                                             data-ng-repeat="pacing_metric in pacingMetrics track by $index"
+                                             id="{{pacing_metric.key}}"
+                                             data-ng-class="{active: pacing_metric.selected}"
+                                             data-ng-click="onMetricClick('pacingMetrics', $index)"
+                                             data-ng-bind-html="pacing_metric.value"
+                                             ng-disabled="pacing_metric.isDisabled">
+                                    </fieldset>
                             </div>
+                                </div>
 
                             <!--Cost-->
                             <div class="col-md-2 zeroPadding" data-ng-show="costMetrics.length">
@@ -379,18 +391,22 @@
                                            class="squaredFourChkbox"
                                            id="cost_chkbox"
                                            data-ng-model="costMetrics.isAllSelected"
-                                           data-ng-click="onMetricClick('costMetrics')">
+                                           data-ng-click="onMetricClick('costMetrics')"
+                                           ng-disabled="costMetrics.isDisabled" >
                                         Cost tab
                                 </span>
-                                <div class="col-md-12 metricData"
+                                <div>
+                                <fieldset class="col-md-12 metricData"
                                      relationIds='Cost'
                                      data-ng-repeat="cost_metric in costMetrics track by $index"
                                      id="{{cost_metric.key}}"
                                      data-ng-class="{active:cost_metric.selected}"
                                      data-ng-click="onMetricClick('costMetrics', $index)"
-                                     data-ng-bind-html="cost_metric.value">
-                                </div>
+                                     data-ng-bind-html="cost_metric.value"
+                                     ng-disabled="cost_metric.isDisabled">
+                                </fieldset>
                             </div>
+                                </div>
 
                             <!--Video-->
                             <div class="col-md-2 zeroPadding" data-ng-show="videoMetrics.length">
@@ -399,17 +415,21 @@
                                            class="squaredFourChkbox"
                                            id="video_chkbox"
                                            data-ng-model="videoMetrics.isAllSelected"
-                                           data-ng-click="onMetricClick('videoMetrics')">
+                                           data-ng-click="onMetricClick('videoMetrics')"
+                                           ng-disabled="videoMetrics.isDisabled">
                                         Video
                                 </span>
-                                <div class="col-md-12 metricData"
+                                <div>
+                                <fieldset class="col-md-12 metricData"
                                      relationIds="Video"
                                      data-ng-repeat="video_metric in videoMetrics track by $index"
                                      id="{{video_metric.key}}"
                                      data-ng-class="{active:video_metric.selected}"
                                      data-ng-click="onMetricClick('videoMetrics', $index)"
-                                     data-ng-bind-html="video_metric.value">
-                                </div>
+                                     data-ng-bind-html="video_metric.value"
+                                     ng-disabled="video_metric.isDisabled">
+                                 </fieldset>
+                                    </div>
                             </div>
 
                             <!--Quality-->
@@ -418,19 +438,23 @@
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
                                            id="quality_chkbox"
+                                           ng-disabled="qualityMetrics.isDisabled"
                                            data-ng-model="qualityMetrics.isAllSelected"
                                            data-ng-click="onMetricClick('qualityMetrics')">
                                         Quality
                                 </span>
-                                <div class="col-md-12 metricData"
+                                <div>
+                                    <fieldset class="col-md-12 metricData"
                                      relationIds="Quality"
                                      data-ng-repeat="quality_metrics in qualityMetrics track by $index"
                                      id="{{quality_metrics.key}}"
                                      data-ng-class="{active:quality_metrics.selected}"
                                      data-ng-click="onMetricClick('qualityMetrics', $index)"
-                                     data-ng-bind-html="quality_metrics.value">
+                                     data-ng-bind-html="quality_metrics.value"
+                                     ng-disabled="quality_metrics.isDisabled">
+                                    </fieldset>
                                 </div>
-                            </div>
+                                </div>
                             <div class="col-md-12 zeroPadding" style="margin: 30px 0 0 0;">
                                 <span class="pull-left greyTxt">Imps. = Impressions</span>
                                 <span class="pull-left greyTxt"
