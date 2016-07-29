@@ -148,7 +148,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 prefillMediaPlan: function (campaignData) {
                     var advertiserObj,
-                        subAccountData,
 
                         flightDateObj = {
                             startTime: momentService.utcToLocalTime(campaignData.startTime),
@@ -516,7 +515,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         $scope.selectHandler = function (type, data) {
-            console.log("type", type, "data", data);
             switch (type) {
                 case 'client':
                     $scope.workflowData.advertisers = [];

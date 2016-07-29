@@ -1192,7 +1192,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 utcStartTime,
                 utcEndTime,
                 inventoryLists,
-                dateTimeZone
+                dateTimeZone,
 
                 wrapperToReplaceCustomPlatformHiddenValues = function(customPlatformData) {
                     _.each(customPlatformData, function(obj) {
