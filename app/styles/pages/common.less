@@ -1313,8 +1313,10 @@
 	div.reports_header_tabs_holder {
 		.header_tab_dd_subheading {
 			padding-right: 20px;
-			color: @color_18;
-			text-transform: none;
+			color: @active-gray;
+			text-transform: uppercase;
+            font-family: "Avenir-bold";
+            font-size: 12px;
 			padding-bottom: 5px;
 			cursor: default;
 		}
@@ -1382,22 +1384,24 @@
 			padding: 16px 0px 0px 0px;
 			cursor: pointer;
 			margin: 24px 88px 0 0;
-			.icon-report-builder {
+			.icon-report-builder-1 {
 				float: left;
 				display: inline-block;
-				color: @color_11;
-				margin: 0 10px 0 0px;
-				font-size: 18px;
+				margin: 0 10px 0 0;
+				font-size: 24px;
+                width: 24px;
+                height: 24px;
+                color: #fff;
 			}
-			.icon_txt {
+			span {
 				float: left;
-				margin-top: 1px;
+                color: #fff;
+                opacity: .6;
 			}
 			&:hover {
-				color: @color_19;
-				.icon-report-builder {
-					color: @color_19;
-				}
+				span {
+                    opacity: 1;
+                }
 			}
 		}
 		.active_tab {
@@ -1413,21 +1417,13 @@
 			width: 162px;
 			a {
 				text-decoration: none;
-				color: @color_11;
+				color: #fff;
 				text-transform: none;
 				cursor: pointer;
+                opacity: .6;
 				&:hover {
-					color: @color_19;
-				}
-			}
-		}
-		div.header_tab_dropdown {
-			&:hover {
-				a {
-					color: @color_19;
-					&:hover {
-						color: @color_19;
-					}
+                    color: #fff;
+                    opacity: 1;
 				}
 			}
 		}
@@ -1438,18 +1434,6 @@
 				&:hover {
 					color: @color_19;
 					text-decoration: none;
-				}
-			}
-		}
-		div.active_tab {
-			&:hover {
-				a {
-					color: @color_19;
-					text-decoration: none;
-					&:hover {
-						color: @color_19;
-						text-decoration: none;
-					}
 				}
 			}
 		}

@@ -2,7 +2,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
     'reporting/models/campaign_model', 'common/services/request_cancel_service', 'common/services/constants_service',
     'common/moment_utils', 'reporting/models/domain_reports', 'login/login_model',
     'reporting/timePeriod/time_period_model', 'common/services/url_service', 'reporting/common/charts/line',
-    'common/services/vistoconfig_service'],
+    'common/services/vistoconfig_service', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model'],
 
     function (angularAMD) {
         'use strict';
@@ -15,6 +15,8 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                             constants, momentInNetworkTZ, domainReports, loginModel, timePeriodModel,
                                             urlService, line,  vistoconfig) {
                 var listCampaign = '',
+                    lineItemData = {},
+                    selectedLineItemId = '',
 
                     setListCampaign = function (campaign) {
                         listCampaign = campaign;
@@ -143,7 +145,12 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                         if (!angular.isString(tacticMetrics)) {
                             tactic.adFormats = domainReports.checkForCampaignFormat(tacticMetrics.adFormat);
                             tactic.totalImpressions = tacticMetrics.impressions;
-                            tactic.grossRev = tacticMetrics.gross_rev;
+                            tactic.grossRev = _.find(lineItemData[selectedLineItemId], function(val){
+                                return (val.ad_id === tactic.id);
+                            });
+                            if(tactic.grossRev && tactic.grossRev.gross_rev) {
+                                tactic.grossRev = tactic.grossRev.gross_rev;
+                            }
                             tactic.ctr = tacticMetrics.ctr * 100;
                             tactic.actionRate = tacticMetrics.action_rate;
                             tactic.vtcData = vtcMetricsJsonModifier(tacticMetrics.video_metrics);
@@ -307,6 +314,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                     },
 
                     getStrategyCdbLineChart = function (clientId, campaign, strategy, timePeriod, kpiType, kpiValue) {
+                        selectedLineItemId = strategy.id;
                         dataService
                             .getCdbChartData(clientId, campaign, timePeriod, 'lineitems', strategy.id)
                             .then(function (result) {
@@ -316,9 +324,9 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                     lineData;
 
                                 if (result.status === 'success' &&
-                                    !angular.isString(result.data)) {
+                                    !angular.isString(result.data)) { // jshint ignore:line
                                     if (kpiType !== undefined || kpiType !== null) {
-                                        kpiTypeLower = angular.lowercase(kpiType);
+                                        kpiTypeLower = angular.lowercase(kpiType); // jshint ignore:line
 
                                         if (kpiTypeLower === 'action rate') {
                                             kpiTypeLower = 'action_rate';
@@ -326,52 +334,81 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
 
                                         if (result.data.data.measures_by_days.length > 0) {
                                             maxDays = result.data.data.measures_by_days;
+                                            var queryObj = {
+                                                    queryId: 15,
+                                                    clientId: loginModel.getSelectedClient().id,
+                                                    advertiserId: advertiserModel.getSelectedAdvertiser().id,
+                                                    brandId: brandsModel.getSelectedBrand().id,
+                                                    dateFilter: 'life_time',
+                                                    campaignId: campaign.id,
+                                                    lineitemId: strategy.id
+                                                },
 
-                                            getStrategyMetrics(
-                                                strategy,
-                                                _.last(maxDays),
-                                                result.data.data.adFormats
-                                            );
+                                                spendUrl = urlService.getCampaignSpend(queryObj);
+                                            (function (strategy) {
+                                                dataService
+                                                    .fetch(spendUrl)
+                                                    .then(function (response) {
+                                                        var res = response.data;
+                                                        if (res && res.data &&
+                                                            res.data.length > 0) {
+                                                            maxDays[maxDays.length - 1].gross_rev =
+                                                            res.data[0].gross_rev;
+                                                            lineItemData[strategy.id] = res.data;
+                                                        } else {
+                                                            maxDays[maxDays.length - 1].gross_rev = 0;
+                                                        }
+                                                        getStrategyMetrics(
+                                                            strategy,
+                                                            _.last(maxDays), // jshint ignore:line
+                                                            result.data.data.adFormats, res.data
+                                                        );
 
-                                            i = 0;
+                                                        i = 0;
 
-                                            lineData = _.map(maxDays, function (item) {
-                                                item.ctr *= 100;
-                                                item.vtc = item.video_metrics.vtc_rate;
+                                                        lineData = _.map(maxDays, function (item) { // jshint ignore:line
+                                                            item.ctr *= 100;
+                                                            item.vtc = item.video_metrics.vtc_rate;
 
-                                                return {
-                                                    x: i + 1,
-                                                    y: utils.roundOff(item[kpiTypeLower], 2),
-                                                    date: item.date
-                                                };
-                                            });
+                                                            return {
+                                                                x: i + 1,
+                                                                y: utils.roundOff(item[kpiTypeLower], 2),
+                                                                date: item.date
+                                                            };
+                                                        });
 
-                                            strategy.chart = new line.highChart(lineData, parseFloat(kpiValue),
-                                                kpiTypeLower, 'strategy');
+                                                        strategy.chart = new line.highChart(
+                                                                                            lineData,
+                                                                                            parseFloat(kpiValue),
+                                                            kpiTypeLower, 'strategy');
 
-                                            // d3 chart data
-                                            // REVIEW: TARGET -DELIVERY
-                                            if (kpiTypeLower === 'impressions') {
-                                                strategy.targetKPIImpressions =
-                                                    maxDays[maxDays.length - 1].booked_impressions;
-                                            }
+                                                        //d3 chart data
+                                                        //REVIEW: TARGET -DELIVERY
+                                                        if (kpiTypeLower === 'impressions') {
+                                                            strategy.targetKPIImpressions =
+                                                                maxDays[maxDays.length - 1].booked_impressions;
+                                                        }
 
-                                            strategy.lineChart = {
-                                                data: lineData,
-                                                kpiValue: parseFloat(kpiValue),
-                                                kpiType: kpiTypeLower,
-                                                from: 'strategy',
+                                                        strategy.lineChart = {
+                                                            data: lineData,
+                                                            kpiValue: parseFloat(kpiValue),
+                                                            kpiType: kpiTypeLower,
+                                                            from: 'strategy',
 
-                                                // for delivery kpi
-                                                deliveryData: {
-                                                    startDate: strategy.startDate,
-                                                    endDate: strategy.endDate,
-                                                    totalDays: momentInNetworkTZ.dateDiffInDays(strategy.startDate,
-                                                        strategy.endDate) + 1,
-                                                    deliveryDays: maxDays.length,
-                                                    bookedImpressions: maxDays[maxDays.length - 1].booked_impressions
-                                                }
-                                            };
+                                                            //for delivery kpi
+                                                            deliveryData: {
+                                                                startDate: strategy.startDate,
+                                                                endDate: strategy.endDate,
+                                                                totalDays: momentInNetworkTZ.dateDiffInDays(
+                                                                    strategy.startDate,
+                                                                    strategy.endDate) + 1,
+                                                                deliveryDays: maxDays.length,
+                                                                bookedImpressions:
+                                                                maxDays[maxDays.length - 1].booked_impressions
+                                                            }
+                                                        };
+                                                    });
+                                            }(strategy));
                                         } else {
                                             strategy.chart = false;
                                         }

@@ -15,6 +15,20 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                                                         brandsModel, domainReports, dataService,
                                                                         momentService, RoleBasedService, urlService,
                                                                         dataStore, vistoconfig, $sce) {
+
+
+            $scope.invoiceReports = {
+                clientId: loginModel.getSelectedClient().id,
+
+                advertiserId: (advertiserModel.getAdvertiser().selectedAdvertiser ?
+                    advertiserModel.getAdvertiser().selectedAdvertiser.id : -1),
+
+                brandId: (brandsModel.getSelectedBrand().id),
+                startDate: moment().subtract(365, 'day').format(constants.DATE_US_FORMAT),
+                endDate: moment().format(constants.DATE_US_FORMAT),
+                page_num: 1
+            };
+
             var _currCtrl = this;
 
             _currCtrl.last_page = false;
@@ -79,18 +93,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     }
                 });
             }
-
-            $scope.invoiceReports = {
-                clientId: vistoconfig.getMasterClientId(),
-
-                advertiserId: (advertiserModel.getAdvertiser().selectedAdvertiser ?
-                    advertiserModel.getAdvertiser().selectedAdvertiser.id : -1),
-
-                brandId: (vistoconfig.getSelectedBrandId()),
-                startDate: moment().subtract(365, 'day').format(constants.DATE_US_FORMAT),
-                endDate: moment().format(constants.DATE_US_FORMAT),
-                page_num: 1
-            };
 
             $scope.addAdjustmentData = {};
 
