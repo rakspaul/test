@@ -85,7 +85,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/fea
 
                         // fetch all the subaccounts including the leaf accounts
                         subAccountService.fetchDashboardSubAccountList(account.id).then(function() {
-                            var subAccountId = subAccountService.getDashboadSubAccountList()[0].id;
+                            var subAccountId = subAccountService.getDashboardSubAccountList()[0].id;
                             url += '/sa/' + subAccountId;
                             $location.url(page.buildPage(url));
 

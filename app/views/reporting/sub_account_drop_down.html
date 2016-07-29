@@ -3,8 +3,8 @@
     <div class="brand_name_selected"
          id="sub_account_name_selected"
          data-ng-click="showSubAccountDropDown()"
-         title="{{subAccountData.selectedsubAccount.name}}"
-         data-ng-bind="(subAccountData.selectedsubAccount.name ? subAccountData.selectedsubAccount.name:'')">
+         title="{{subAccountData.selectedSubAccount.name}}"
+         data-ng-bind="(subAccountData.selectedSubAccount.name ? subAccountData.selectedSubAccount.name : '')">
     </div>
     <span class="icon-arrow-solid-down"></span>
 </div>
@@ -17,13 +17,13 @@
                        id="subAccountDropdown"
                        data-ng-keyup="disableShowAll();"
                        data-ng-model="selectedSubAccount.name"
-                       placeHolder="{{(subAccountData.selectedsubAccount.name ?
-                            subAccountData.selectedsubAccount.name : 'Select Sub-Account')}}">
+                       placeHolder="{{(subAccountData.selectedSubAccount.name ?
+                            subAccountData.selectedSubAccount.name : 'Select Sub-Account')}}">
                 <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
             </div>
             <div  class="subAccountList_ul">
                 <li data-ng-repeat="subAccount in subAccountData.subAccounts | filter : selectedSubAccount.name"
-                    data-ng-class="{active: subAccount.id === subAccountData.selectedsubAccount.id}"
+                    data-ng-class="{active: subAccount.id === subAccountData.selectedSubAccount.id}"
                     title="{{subAccount.displayName}}">
                     <a data-ng-click="selectSubAccount(subAccount, 'clicked')">
                         <span class="tick"></span>

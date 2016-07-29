@@ -11,18 +11,15 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                                                         featuresService, accountService, subAccountService,
                                                         vistoconfig, localStorageService, advertiserModel, brandsModel,
                                                         strategySelectModel, pageFinder, urlBuilder) {
-
         var featurePermission = function () {
                 var fParams = featuresService.getFeatureParams();
+
                 $scope.showMediaPlanTab = fParams[0].mediaplan_list;
                 $scope.showReportTab = fParams[0].reports_tab;
-
                 $scope.showMediaPlanTab = fParams[0].mediaplan_list;
                 $scope.showReportTab = fParams[0].reports_tab;
                 $scope.showReportOverview = fParams[0].report_overview;
-
                 $scope.showCreativeList = fParams[0].creative_list;
-
                 $scope.buildReport = fParams[0].scheduled_reports;
 
                 if (fParams[0].scheduled_reports || fParams[0].collective_insights) {
@@ -55,17 +52,17 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 $('#user-menu').show();
             },
 
-        setMasterClientData = function (id, name, isLeafNode, event) {
-            showSelectedMasterClient(event, name);
+            setMasterClientData = function (id, name, isLeafNode, event) {
+                showSelectedMasterClient(event, name);
 
-            accountService.changeAccount({
-                id: id,
-                name: name,
-                isLeafNode: isLeafNode
-            });
+                accountService.changeAccount({
+                    id: id,
+                    name: name,
+                    isLeafNode: isLeafNode
+                });
 
-            $scope.defaultAccountsName = name;
-        };
+                $scope.defaultAccountsName = name;
+            };
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
@@ -135,6 +132,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             advertiserModel.reset();
             brandsModel.reset();
             strategySelectModel.reset();
+
             if (page === 'dashboard') {
                 $location.url(urlBuilder.dashboardUrl());
             } else if (page === 'creativelist') {
@@ -167,9 +165,11 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             if (argMenu.is(':visible') === false) {
                 $('.main_nav_dropdown').hide();
                 minHeight = argMenu.css('min-height');
+
                 argMenu.css('min-height', 0).slideDown('fast', function () {
                     $(this).css('min-height', minHeight);
                 });
+
                 $('.main_navigation_holder').find('.selected').removeClass('selected');
                 elem.closest('#' + arg + '_nav_link').addClass('selected');
                 $('.each_nav_link.active .arrowSelect').hide();
