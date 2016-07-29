@@ -48,6 +48,7 @@
   text-align: center;
   font-family: "Avenir-bold";
   color: #57606d;
+  line-height: 100%;
 }
 .table-responsive .vistoTable .thead .tr .th input[type="checkbox"] {
   float: left;
@@ -55,10 +56,10 @@
 }
 .table-responsive .vistoTable .thead .tr .th .icon-toggleclose {
   float: left;
-  font-size: 12px;
-  width: 12px;
-  height: 12px;
-  margin: 4px 0px 28px 0px;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  margin: 0 0px 28px 0px;
   cursor: pointer;
   color: #bfc9d7;
 }
@@ -67,10 +68,10 @@
 }
 .table-responsive .vistoTable .thead .tr .th .icon-toggleopen {
   float: left;
-  font-size: 12px;
-  width: 12px;
-  height: 12px;
-  margin: 4px 0px 28px 0px;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  margin: 0 0px 28px 0px;
   cursor: pointer;
   color: #004d86;
 }
@@ -138,6 +139,7 @@
   width: 100%;
   text-align: center;
   float: left;
+  line-height: 100%;
 }
 .table-responsive .vistoTable .tbody .tr .td a {
   width: auto;
@@ -151,10 +153,10 @@
 }
 .table-responsive .vistoTable .tbody .tr .td .icon-toggleclose {
   float: left;
-  font-size: 12px;
-  width: 12px;
-  height: 12px;
-  margin: 4px 0px 28px 0px;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  margin: 0px 0px 28px 0px;
   cursor: pointer;
   color: #bfc9d7;
 }
@@ -163,10 +165,10 @@
 }
 .table-responsive .vistoTable .tbody .tr .td .icon-toggleopen {
   float: left;
-  font-size: 12px;
-  width: 12px;
-  height: 12px;
-  margin: 4px 0px 28px 0px;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  margin: 0 0px 28px 0px;
   cursor: pointer;
   color: #004d86;
 }
