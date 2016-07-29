@@ -3,7 +3,7 @@
         <a  data-ng-click="NavigateToTab('/customreport', $event , 'reportsSubPage')"
            class="clearfix new_report_generate_btn">
             <span class="icon-report-builder-1 pull-left"></span>
-            <span class="pull-left" data-ng-bind="textConstants.BUILD_REPORT"></span>
+            <span class="pull-left" data-ng-bind="textConstants.BUILD_REPORT" style="margin-top: 3px;"></span>
         </a>
     </div>
     <div class="reports_sub_menu_dd canned_container">
@@ -36,7 +36,7 @@
                data-ng-click="NavigateToTab('/' + tab.href, $event, 'scheduleReports')"
                data-ng-bind="tab.title">
             </a>
-            <div class="icon-upload" style="color: #fff; margin-left: 10px;"
+            <div class="icon-upload"
                  data-ng-click="NavigateToTab('/reports/upload', $event)"
                  data-ng-show="tab.title==textConstants.COLLECTIVE_INSIGHTS">
             </div>

@@ -74,6 +74,17 @@
             <a class="pull-right">
                 <span class="icon-help"></span>
             </a>
+
+            <div class="main_nav_dropdown" id="help-menu" ng-mouseleave="hide_navigation_dropdown($event)" ng-mouseover="hoverHelp()">
+                <div class="clearfix nav-menu">
+                    <div class="pull-right profile-data">
+                        <div class="col-md-12 zeroPadding">
+                            <span class="pull-left" style="font-size: 12px; font-family: 'Avenir-bold'; opacity: .6 !important;">HELP</span>
+                            <a class="pull-left clearLeft" ng-click="openHelp()" target="_blank" style="cursor: pointer;">View User Manual (pdf)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="main_nav_dropdown" id="reports-menu" ng-mouseleave="hide_navigation_dropdown($event)">
@@ -116,11 +127,11 @@
                 <div class="pull-right profile-data" id="profileAccountData">
                     <div class="col-md-12 zeroPadding">
                         <div class="dropdown pull-left user-photo-details">
-                            <span class="clearfix dropdown_ul_text" data-toggle="dropdown">
+                            <span class="clearfix dropdown_ul_text" data-toggle="dropdown" style="cursor: default;">
                                 <span class="username pull-left" ng-bind="user_name" style="text-transform: uppercase; color: #dce6f1; font-size: 12px; font-family: 'Avenir-bold';"></span>
-                                <div class="col-md-12 zeroPadding signOutBtn" ng-click="logout()" style="cursor: pointer; margin: 15px 0;">
-                                    <span class="pull-left icon-signout"></span>
-                                    <span class="pull-left" style="margin-left: 10px;">Sign Out</span>
+                                <div class="col-md-12 zeroPadding signOutBtn" style="margin: 15px 0;">
+                                    <span class="pull-left icon-signout" ng-click="logout()" style="cursor: pointer;"></span>
+                                    <span class="pull-left" ng-click="logout()" style="cursor: pointer; margin-left: 10px;">Sign Out</span>
                                 </div>
                                 <!--<span class="pull-left dd_txt" ng-bind="defaultAccountsName"></span>-->
                                 <!--<span ng-show="multipleClient" class="pull-right icon-arrow-solid-down"></span>-->

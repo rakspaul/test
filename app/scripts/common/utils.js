@@ -20,7 +20,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     regExp = function () {
                         return {
                             removeSpecialCharacterAndSpaces : /[&\/\\#,+()@!^$~%.'":*?<>{} ]/g,
-                            validateUrl : /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/
+                            validateUrl: /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/
                         };
                     },
 

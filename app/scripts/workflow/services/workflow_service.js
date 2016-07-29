@@ -25,6 +25,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             lineitemDetailsBulk = null,
             advertiserBillingVal,
             executionType,
+            subAccountTimezone,
 
             createObj = function (platform) {
                 var integrationObj = {};
@@ -1321,6 +1322,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                 return obj;
 
+            },
+            setSubAccountTimeZone = function(timezone) {
+                console.log('setSubAccountTimeZone', timezone);
+                subAccountTimezone = timezone;
+            },
+
+            getSubAccountTimeZone = function() {
+                return subAccountTimezone;
             };
 
 
@@ -1450,8 +1459,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 getLineItemDataEdit: getLineItemDataEdit,
                 setLineItemBulkData: setLineItemBulkData,
                 getLineItemBulkData: getLineItemBulkData,
-                wrapperForActiveAdGroups: wrapperForActiveAdGroups
-
+                wrapperForActiveAdGroups: wrapperForActiveAdGroups,
+                setSubAccountTimeZone : setSubAccountTimeZone,
+                getSubAccountTimeZone : getSubAccountTimeZone
             };
     });
 });

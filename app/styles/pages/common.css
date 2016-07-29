@@ -1244,6 +1244,15 @@
   background: url("/images/cdesk/upload-icon.png") no-repeat -7px -7px;
   margin: 5px 0 0 10px;
 }
+.main_navigation_holder div.reports_header_tabs_holder .custom_container .header_tab_dropdown .icon-upload {
+  cursor: pointer;
+  opacity: .6;
+  color: #fff;
+  margin-left: 10px;
+}
+.main_navigation_holder div.reports_header_tabs_holder .custom_container .header_tab_dropdown .icon-upload:hover {
+  opacity: 1;
+}
 .main_navigation_holder div.reports_header_tabs_holder .circle_with_number {
   height: 15px;
   min-width: 18px;

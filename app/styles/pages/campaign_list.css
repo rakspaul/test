@@ -2129,17 +2129,13 @@ input[type="submit"] {
   float: right;
 }
 .main_navigation_holder .profile-photo-tab.selected:after {
-  bottom: -15px;
-  border: solid 6px #004478;
-  border-left: solid 8px transparent;
-  border-top: 0;
-  border-right: solid 8px transparent;
-  left: 89px ;
+  display: none;
 }
 .main_navigation_holder .help-link-tab {
   margin-right: 20px;
   margin-top: 13px;
   cursor: pointer;
+  position: relative;
 }
 .main_navigation_holder .help-link-tab span {
   color: #fff ;
@@ -2151,13 +2147,28 @@ input[type="submit"] {
 .main_navigation_holder .help-link-tab span:hover {
   opacity: 1;
 }
+.main_navigation_holder #user-menu {
+  top: 50px;
+}
+.main_navigation_holder #user-menu .nav-menu:before {
+  top: -5px;
+  border: solid 6px #004478;
+  border-left: solid 8px transparent;
+  border-top: 0;
+  border-right: solid 8px transparent;
+  left: 250px;
+  position: absolute;
+}
+.main_navigation_holder #help-menu {
+  top: 37px;
+}
 .main_navigation_holder #help-menu .nav-menu:before {
   top: -5px;
   border: solid 6px #004478;
   border-left: solid 8px transparent;
   border-top: 0;
   border-right: solid 8px transparent;
-  left: 85px;
+  left: 100px;
   position: absolute;
 }
 .main_navigation_holder .main_nav_dropdown {
@@ -2353,9 +2364,9 @@ input[type="submit"] {
 }
 .main_navigation_holder #help-menu {
   min-height: 80px;
-  width: auto;
+  width: 200px;
   left: initial;
-  right: 80px;
+  right: -80px;
 }
 .main_navigation_holder #help-menu .nav-menu {
   background: transparent;
