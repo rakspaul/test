@@ -6,7 +6,7 @@ define(['angularAMD', 'common/services/data_service','common/services/vistoconfi
 
             var pauseAllAds = function(params){
 
-                return dataService.post(
+                return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + params.clientId +
                     '/campaigns/' + params.campaignId +
@@ -17,7 +17,7 @@ define(['angularAMD', 'common/services/data_service','common/services/vistoconfi
 
             }, resumeAllAds = function(params){
 
-                return dataService.post(
+                return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + params.clientId +
                     '/campaigns/' + params.campaignId +

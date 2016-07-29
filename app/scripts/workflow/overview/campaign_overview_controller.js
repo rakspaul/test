@@ -339,8 +339,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if (errData.data.status === 404) {
                     $location.url('/mediaplans');
                 }
-            }
-        };
+            },
+        },
+        selectedIndex;
 
         $('.main_navigation_holder')
             .find('.active_tab')
@@ -747,7 +748,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.ToggleAdGroups = function (context, adGrpId, index, event) {
             var elem = $(event.target);
-
+            selectedIndex = index;
             if (context.showHideToggle) {
                 //Closes
                 elem.closest('.adGroup').removeClass('openInstance').addClass('closedInstance');
@@ -1169,6 +1170,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.resumeAllAds = function (dataObj) {
+            console.log(dataObj.adGroupsData);
             // enable resume only when pause count is greater than 0 even if the user clicks
             // on the disabled link
             if(dataObj.adGroupsData.PAUSED && dataObj.adGroupsData.PAUSED > 0) {
@@ -1177,7 +1179,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 param.campaignId = dataObj.campaignData.id;
                 param.adGroupId = dataObj.adGroupsData.adGroup.id;
 
-                campaignOverviewService.resumeAllAds(param);
+                campaignOverviewService.resumeAllAds(param).then(function() {
+                    $rootScope.setErrAlertMessage('All Ads in ' + dataObj.adGroupsData.adGroup.name +
+                    ' resumed' , 0);
+                    campaignOverView.getAdgroups(param.campaignId);
+                });
             } else {
                 return false;
             }
@@ -1192,7 +1198,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 param.campaignId = dataObj.campaignData.id;
                 param.adGroupId = dataObj.adGroupsData.adGroup.id;
 
-                campaignOverviewService.pauseAllAds(param);
+                campaignOverviewService.pauseAllAds(param).then(function() {
+                    $rootScope.setErrAlertMessage('All Ads in ' + dataObj.adGroupsData.adGroup.name +
+                        ' paused' , 0);
+                    campaignOverView.getAdgroups(param.campaignId);
+                });
             } else {
                 return false;
             }
