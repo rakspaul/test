@@ -53,6 +53,7 @@ define(['angularAMD', 'common/services/sub_account_service', 'common/services/co
             $scope.subAccountData.showAll = true;
             $routeParams.subAccountId = subAccount.id;
             subAccountService.changeSubAccount(vistoconfig.getMasterClientId(), subAccount);
+
         };
 
         $scope.disableShowAll = function () {

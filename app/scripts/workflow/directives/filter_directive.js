@@ -19,21 +19,31 @@ define(['angularAMD', 'common/services/constants_service',
 
                     filterService
                         .fetchAdvertisers(accountId, function (advertiserData) {
-                            var args = {
-                                from: $scope.from,
-                                clientId: accountId,
-                                advertiserId: -1
-                            };
+                            // var args = {
+                            //     from: $scope.from,
+                            //     clientId: accountId,
+                            //     advertiserId: -1
+                            // };
+                            $scope.filterData.advertiserList=advertiserData;
                             console.log('advertiserData', advertiserData);
                         });
                 };
 
 
                 $scope.selectClient = function (subAccount) {
-                     $('#subAcc_name_selected').text(subAccount.displayName);
-                     $scope.filterData.subAccountList = subAccount;
-                     fetchAdvertiserAndBroadCast(true);
+                    console.log('subAccount', subAccount);
+                    $('#subAcc_name_selected').text(subAccount.displayName);
+                    $scope.filterData.subAccSelectedName = subAccount.displayName;
+                    $scope.filterData.subAccSelectedId = subAccount.id;
+                    subAccountService.changeSubAccount(vistoconfig.getMasterClientId(), subAccount);
                  };
+
+                $scope.showAdvertisersDropDown = function () {
+                    $('#advertisersDropDownList')
+                        .toggle()
+                        .closest('.each_filter')
+                        .toggleClass('filter_dropdown_open');
+                };
 
                 $scope.selectAdvertisers = function (advertiser) {
                      var advertiserObj = {

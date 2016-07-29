@@ -60,7 +60,7 @@
                                 '' : ShowHide(creativeData)"
                            data-ng-bind="creativeData.name"></a>
                         <div class="pull-right">
-                            <div class="dropdown-workflow">
+                            <div class="dropdown-workflow" data-ng-if="creativeData.creativeTemplate.templateType === 'NORMAL'">
                                 <div class="dropdown hideOption">
                                     <button class="dropdown-toggle"
                                             type="button"

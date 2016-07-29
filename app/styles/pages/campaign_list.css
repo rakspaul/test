@@ -1,12 +1,11 @@
 /* font- face declarations */
 @font-face {
   font-family: "Avenir";
-  src: url("/fonts/Avenir/Avenir.eot");
-  src: url("/fonts/Avenir/Avenir.eot?#iefix") format("embedded-opentype"), url("/fonts/Avenir/Avenir.woff") format("woff"), url("/fonts/Avenir/Avenir.ttf") format("truetype");
+  src: url("/fonts/Avenir/Avenir-LT-45-Book.ttf") format("truetype");
 }
 @font-face {
   font-family: "Avenir-bold";
-  src: url("/fonts/Avenir/Avenir_bold.woff") format("woff"), url("/fonts/Avenir/Avenir_bold.woff2") format("woff2"), url("/fonts/Avenir/Avenir.ttf") format("truetype");
+  src: url("/fonts/Avenir/Avenir-LT-95-Black.ttf") format("truetype");
 }
 /* base variables */
 /* mixins */
@@ -2097,53 +2096,69 @@ input[type="submit"] {
 }
 .main_navigation_holder .profile-photo-tab {
   position: relative;
-  height: 42px;
-  width: 31px;
   text-align: right;
-  margin: 8px 15px 0 0;
+  margin: 0 30px 0 0;
+  float: right;
 }
-.main_navigation_holder .profile-photo-tab.selected:after {
-  bottom: 0px ;
-  border: solid 6px #004478;
-  border-left: solid 8px transparent;
-  border-top: 0;
-  border-right: solid 8px transparent;
-  left: 9px ;
-}
-.main_navigation_holder .user-photo {
-  border: solid 1px #fff;
-  padding: 1px 10px 0px 4px;
-  border-radius: 2px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  font-size: 15px;
+.main_navigation_holder .profile-photo-tab .user-photo {
+  font-size: 24px;
   text-align: center;
   display: inline-block;
   cursor: pointer;
   color: #fff;
-  height: 32px;
-  width: 32px ;
 }
-.main_navigation_holder .user-photo span {
+.main_navigation_holder .profile-photo-tab .user-photo span {
   color: #fff;
-  font-size: 22px;
-  line-height: 35px;
+  font-size: 24px;
+  line-height: 24px;
+  width: 24px;
+  height: 24px;
+  opacity: .6;
+  margin: 13px 0 0 0;
+  float: right;
+}
+.main_navigation_holder .profile-photo-tab .user-photo span:hover,
+.main_navigation_holder .profile-photo-tab .user-photo span:active {
+  opacity: 1;
+}
+.main_navigation_holder .profile-photo-tab .account-name-nav {
+  margin: 16px 10px 0 0;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: right;
+  float: right;
+}
+.main_navigation_holder .profile-photo-tab.selected:after {
+  bottom: -15px;
+  border: solid 6px #004478;
+  border-left: solid 8px transparent;
+  border-top: 0;
+  border-right: solid 8px transparent;
+  left: 89px ;
 }
 .main_navigation_holder .help-link-tab {
-  font-size: 22px;
-  margin-right: 50px;
-  margin-top: 8px;
+  margin-right: 20px;
+  margin-top: 13px;
+  cursor: pointer;
 }
 .main_navigation_holder .help-link-tab span {
   color: #fff ;
-  font-size: 16px ;
+  font-size: 24px ;
+  height: 24px;
+  width: 24px;
+  opacity: .6;
 }
-.main_navigation_holder .account-name-nav {
-  margin: 16px 15px 0 0;
-  font-size: 14px;
-  width: 180px;
-  cursor: pointer;
-  text-align: right;
+.main_navigation_holder .help-link-tab span:hover {
+  opacity: 1;
+}
+.main_navigation_holder #help-menu .nav-menu:before {
+  top: -5px;
+  border: solid 6px #004478;
+  border-left: solid 8px transparent;
+  border-top: 0;
+  border-right: solid 8px transparent;
+  left: 85px;
+  position: absolute;
 }
 .main_navigation_holder .main_nav_dropdown {
   display: none;
@@ -2156,7 +2171,7 @@ input[type="submit"] {
   z-index: 1004 ;
 }
 .main_navigation_holder .main_nav_dropdown .nav-menu {
-  background-color: #103F7b;
+  background-color: #004478;
   width: 100%;
   float: left;
 }
@@ -2185,6 +2200,7 @@ input[type="submit"] {
   float: left;
   position: initial;
   box-shadow: none;
+  display: block !important;
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown-menu:before {
   display: none ;
@@ -2206,25 +2222,26 @@ input[type="submit"] {
 .main_navigation_holder .main_nav_dropdown .user-photo-details li {
   list-style: none;
   cursor: pointer;
-  border-bottom: solid 1px #0978c9;
   font-size: 14px;
-  padding: 8px 10px;
+  padding: 15px 0 0 0;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details li span {
+  opacity: .6;
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details li:hover {
   background: transparent ;
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details li:hover span {
-  border-bottom: solid 1px #fff ;
+  opacity: 1;
 }
-.main_navigation_holder .main_nav_dropdown .user-photo-details li:last-child {
-  border-width: 0;
+.main_navigation_holder .main_nav_dropdown .user-photo-details li:first-child {
+  padding: 0;
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details .selected-li {
-  font-family: "Avenir-bold";
   background: transparent;
 }
-.main_navigation_holder .main_nav_dropdown .user-photo-details .selected-li:hover span {
-  border-bottom: solid 1px transparent ;
+.main_navigation_holder .main_nav_dropdown .user-photo-details .selected-li span {
+  opacity: 1;
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details .username {
   white-space: nowrap;
@@ -2236,7 +2253,6 @@ input[type="submit"] {
   float: left;
   width: 100%;
   cursor: pointer;
-  padding-bottom: 15px;
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown_ul_text .dd_txt {
   white-space: nowrap;
@@ -2246,6 +2262,25 @@ input[type="submit"] {
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown_ul_text .icon-arrow-solid-down {
   color: #939eae;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown_ul_text .signOutBtn span {
+  color: #fff;
+  opacity: .6;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown_ul_text .signOutBtn .icon-download {
+  /* Safari */
+  -webkit-transform: rotate(-90deg);
+  /* Firefox */
+  -moz-transform: rotate(-90deg);
+  /* IE */
+  -ms-transform: rotate(-90deg);
+  /* Opera */
+  -o-transform: rotate(-90deg);
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown_ul_text .signOutBtn:hover span {
+  opacity: 1;
 }
 .main_navigation_holder .main_nav_dropdown .logout-option-link {
   width: 100%;
@@ -2262,11 +2297,11 @@ input[type="submit"] {
 .main_navigation_holder .main_nav_dropdown .profile-data {
   position: relative;
   background: #004478;
-  width: 300px;
+  width: 260px;
   box-sizing: initial;
   -webkit-box-sizing: initial;
   -moz-box-sizing: initial;
-  padding: 15px 0 0 0;
+  padding: 30px 20px 20px 20px;
 }
 .main_navigation_holder .main_nav_dropdown .profile-data .user-photo {
   display: inline-block;
@@ -2316,6 +2351,34 @@ input[type="submit"] {
 .main_navigation_holder #user-menu .nav-menu {
   background: transparent;
 }
+.main_navigation_holder #help-menu {
+  min-height: 80px;
+  width: auto;
+  left: initial;
+  right: 80px;
+}
+.main_navigation_holder #help-menu .nav-menu {
+  background: transparent;
+}
+.main_navigation_holder #help-menu .nav-menu .profile-data {
+  width: auto;
+}
+.main_navigation_holder #help-menu .nav-menu .profile-data .username {
+  margin: 0;
+  text-transform: uppercase;
+  color: #dce6f1;
+  font-size: 12px;
+  font-family: 'Avenir-bold';
+  width: auto;
+}
+.main_navigation_holder #help-menu .nav-menu .profile-data .clearLeft {
+  margin: 15px 0 0 0;
+  color: #fff;
+  opacity: .6;
+}
+.main_navigation_holder #help-menu .nav-menu .profile-data .clearLeft:hover {
+  opacity: 1;
+}
 .main_navigation_holder .dropdown-menu {
   padding: 10px 0px ;
   background: #026DB3;
@@ -2356,7 +2419,7 @@ input[type="submit"] {
 }
 .main_navigation_holder .main_nav .main_logo {
   display: block;
-  margin: 8px 20px 0 15px;
+  margin: 8px 20px 0 30px;
   float: left;
 }
 .main_navigation_holder .main_nav .icon-hamburger {

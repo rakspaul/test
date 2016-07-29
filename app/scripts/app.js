@@ -1820,25 +1820,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     title: 'Create - Vendor',
                     controller: 'CreateVendorController',
                     controllerUrl: '/workflow/vendors/vendor_create_controller',
-                    showHeader : true,
-
-                    resolve: {
-                        check: function ($location, workflowService, constants, featuresService, $rootScope) {
-                            $rootScope.$on('features', function () {
-                                featuresService.setGetFeatureParams('create_mediaplan');
-                            });
-
-                            workflowService.setMode('create');
-
-                            workflowService.setModuleInfo({
-                                moduleName: 'WORKFLOW',
-                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE,
-                                redirect: false
-                            });
-
-                            featuresService.setGetFeatureParams('create_mediaplan');
-                        }
-                    }
+                    showHeader : true
                 }))
 
                 .when('/vendors/list', angularAMD.route({

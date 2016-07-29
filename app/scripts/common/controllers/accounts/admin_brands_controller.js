@@ -9,11 +9,11 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
     angularAMD.controller('AdminAdvertisersController', function ($scope, $rootScope, $modal, $compile, $filter,
                                                                   constants, accountsService, momentService,
-                                                                    loginModel, utils, localStorageService) {
+                                                                    loginModel, vistoconfig, utils) {
         var _curCtrl = this,
             winHeight = $(window).height();
-        _curCtrl.clientId = loginModel.getSelectedClient().id;
-        _curCtrl.masterClientId = localStorageService.masterClient.get().id;
+        _curCtrl.clientId = vistoconfig.getSelectedAccountId();
+        _curCtrl.masterClientId = vistoconfig.getMasterClientId();
 
         $('.each_nav_link').removeClass('active_tab');
         $('#admin_nav_link').addClass('active_tab');

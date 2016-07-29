@@ -274,7 +274,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                                 zipcodes: utils.rangeValue(arr.zipCodes.added).join(', ')
                             };
                         });
-                        delete geoData.zip;
                     }
 
                     return geoData;
@@ -1283,10 +1282,10 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             zipWrapper = {
                 setData : function (data) {
                     _.each(data, function(d) {
-                        d.data = d.zipcodes.split(',');
+                        d.data = d.zipcodes.replace(/\s/g, '').split(',');
                     });
 
-                    $scope.adData.zipCodes = $scope.geoData.zip.selected = angular.copy(data); // jshint ignore:line
+                    $scope.adData.zipCodes =  angular.copy(data); // jshint ignore:line
 
                     geoTargeting.addZipCode($scope.adData.zipCodes, {zipEditInit : true});
                 },
@@ -1713,13 +1712,14 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
             if (type === 'zip') {
                 _.each(selectedItem, function (obj) {
-                    if (obj.added) {
-                        _.each(obj.added, function (zip, idx) {
+                    if (obj.zipCodes.added && obj.zipCodes.added.length >0) {
+                        _.each(obj.zipCodes.added, function (zip, idx) {
                             if (zip === item) {
-                                obj.added.splice(idx, 1);
+                                obj.zipCodes.added.splice(idx, 1);
                             }
                         });
                     }
+
                 });
             } else {
                 if (type === 'countries') {
@@ -2048,6 +2048,14 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 if (saveGeoData.zip.selected.length > 0) {
                     $scope.geoData.zip.selected = [];
                     zipWrapper.setData(saveGeoData.zip.selected);
+                    if (saveGeoData.countries.selected.length  === 0 &&
+                        saveGeoData.regions.selected.length  === 0 &&
+                        saveGeoData.cities.selected.length === 0 &&
+                        saveGeoData.dmas.selected.length === 0) {
+
+                        geoTargeting.triggerGeoNavTab('geo');
+                        geoTargeting.toggleSwitch('on', 'geo');
+                    }
                 }
             } else if (geoTargets && _.size(geoTargets) > 0) {
                 // get geo Data form ads Data

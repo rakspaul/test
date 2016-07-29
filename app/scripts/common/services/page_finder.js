@@ -9,6 +9,8 @@ define(['angularAMD'],
                     pageName = 'dashboard';
                 } else if (path.endsWith('mediaplans')) {
                     pageName = 'mediaplans';
+                } else if (path.endsWith('/creative/list')) {
+                    pageName = 'creativeList';
                 } else if (path.endsWith('/reports/schedules')) {
                     pageName = 'customReportsList';
                 } else if (path.indexOf('/customreport') > 0) {
@@ -27,6 +29,9 @@ define(['angularAMD'],
                     },
                     isMediaplansPage: function() {
                         return pageName === 'mediaplans';
+                    },
+                    isCreativeListPage: function () {
+                        return pageName === 'creativeList';
                     },
                     isCannedReportsPage: function() {
                         return pageName === 'cannedReports';
@@ -62,6 +67,8 @@ define(['angularAMD'],
                             url += '/customreport';
                         } else if (this.isCustomReportsListPage()) {
                             url += '/reports/schedules';
+                        } else if (this.isCreativeListPage()){
+                            url += '/creative/list';
                         }
                         console.log('url', url);
                         return url;

@@ -1,8 +1,8 @@
 <popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
            ng-init="init('flashMessage','reportEditFailed')"></popup-msg>
-<div class="reports-invoice-list">
+<div class="reports-invoice-list col-md-12 zeroPadding">
     <div class="col-md-12 zeroPadding">
-        <h1 style="margin-top: 30px; margin-bottom:25px;" data-ng-bind="textConstants.INVOICE_REPORT"></h1>
+        <h1 style="margin: 30px 0;" data-ng-bind="textConstants.INVOICE_REPORT"></h1>
     </div>
     <div class="col-md-12 zeroPadding">
         <div class="col-md-5 zeroPadding">
@@ -49,8 +49,8 @@
     </div>
 
     <!-- Date filter -->
-    <div class="col-md-12 zeroPadding" id="invoice_data_filter" class="collapse">
-        <div class="filterInputCommon filterInputClass1">
+    <div class="col-md-12 zeroPadding collapse" id="invoice_data_filter">
+        <div class="col-md-2" style="padding: 0 10px 0 0;">
             <label class="col-sm-12 greyTxt">Status</label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
@@ -60,7 +60,7 @@
                             aria-haspopup="true"
                             aria-expanded="true">
                         <span class="text" data-ng-bind="filters.selectedStatus">
-                            Select Account
+                            All
                         </span>
                         <span class="icon-arrow-solid-down"></span>
                     </button>
@@ -87,7 +87,8 @@
                 </div>
             </div>
         </div>
-        <div class="filterInputCommon filterInputClass1">
+        
+        <div class="col-md-2" style="padding: 0 10px 0 0;">
             <label class="col-sm-12 greyTxt">Generated On</label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
@@ -121,100 +122,116 @@
                 </div>
             </div>
         </div>
-        <div class="filterInputCommon filterInputClass1">
+        
+        <div class="pull-left date" style="position: relative; margin: 0 10px 0 0; width: 115px;">
             <label class="col-sm-12 greyTxt">From</label>
-            <input type="text"
-                   id="startDateInput"
-                   class="input-sm form-control timeframe"
-                   custom-date-picker="{
-                                           format: 'yyyy-mm-dd',
-                                           orientation: 'auto',
-                                           autoclose: true,
-                                           todayHighlight: true,
-                                           forceParse: false
-                                       }"
-                   ng-model="invoiceReports.startDate"
-                   required>
-            <i class="icon-calendar glyphicon pull-right" style="top: -37px;right: 13px;border-left: solid 1px #ccc;height: 38px;width: 20px;padding:10px 0 0 8px;z-index:2;"></i>
-            <!-- <label ng-if="!invoiceReports.startDate"
-            style="display:block" class="errorLabel"
-             ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
-        </div>
-        <div class="filterInputCommon filterInputClass1">
-            <label class="col-sm-12 greyTxt">To</label>
-            <input type="text"
-                   id="endDateInput"
-                   custom-date-picker="{
-                                           format: 'yyyy-mm-dd',
-                                           orientation: 'auto',
-                                           autoclose: true,
-                                           todayHighlight: true,
-                                           forceParse: false
-                                       }"
-                   class="input-sm form-control timeframe"
-                   ng-model="invoiceReports.endDate"
-                   required>
-            <i class="icon-calendar glyphicon pull-right" style="top: -37px;right: 13px;border-left: solid 1px #ccc;height: 38px;width: 20px;padding:10px 0 0 8px;z-index:2;"></i>
-            <!-- <label ng-if="!invoiceReports.endDate"
-                style="display:block" class="errorLabel"
-                ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
-        </div>
-
-       <!-- Will add it in future -->
-        <div style="display:none;">
-        <div class="filterInputCommon filterInputClass1">
-            <label class="col-sm-12 greyTxt">Metrics</label>
-            <div class="dropdown-workflow">
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle"
-                            type="button"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="true">
-                        <span class="text" data-ng-bind="filters.selectedMetrics">
-                            Select Account
-                        </span>
-                        <span class="icon-arrow-solid-down"></span>
-                    </button>
-                    <ul class="dropdown-menu" data-toggle="dropdown">
-                        <li class="available" data-ng-click="filters.selectMetrics('Total Spend')">
-                            <a>Total Spend</a>
-                        </li>
-                        <li class="available" data-ng-click="filters.selectMetrics('Adjustments')">
-                            <a>Adjustments</a>
-                        </li>
-                        <li class="available" data-ng-click="filters.selectMetrics('Billable')">
-                            <a>Billable</a>
-                        </li>
-                    </ul>
-                </div>
+            
+            <div class="dateWrapper" style="top: 32px;">
+                <div class="pull-left" style="width: 115px;">
+                    <input type="text" style="background: transparent;"
+                        id="startDateInput"
+                        class="input-sm form-control timeframe"
+                        custom-date-picker="{
+                                                format: 'yyyy-mm-dd',
+                                                orientation: 'auto',
+                                                autoclose: true,
+                                                todayHighlight: true,
+                                                forceParse: false
+                                            }"
+                        ng-model="invoiceReports.startDate"
+                        required/>
+                </div>    
+            </div>
+            
+            <div class="col-md-12 zeroPadding">
+                <span class="icon-calendar pull-left"
+                style="padding: 10px 6px; border-left: 1px solid #BFC9D7; margin: 0 0 0 86px; height: 36px"></span>
             </div>
         </div>
-        <div class="filterInputCommon filterInputClass1">
-            <label class="col-sm-12 greyTxt">Value:</label>
-            <input type="Text"
-                   class="form-control"
-                   placeholder="Between">
+        
+        <div class="pull-left date" style="position: relative; margin: 0 10px 0 0; width: 115px;">
+            <label class="col-sm-12 greyTxt">To</label>
+            
+            <div class="dateWrapper" style="top: 32px;">
+                <div class="pull-left" style="width: 115px;">
+                    <input type="text" style="background: transparent;"
+                        id="endDateInput"
+                        custom-date-picker="{
+                                                format: 'yyyy-mm-dd',
+                                                orientation: 'auto',
+                                                autoclose: true,
+                                                todayHighlight: true,
+                                                forceParse: false
+                                            }"
+                        class="input-sm form-control timeframe"
+                        ng-model="invoiceReports.endDate"
+                        required/>
+                </div>    
+            </div>
+            
+            <div class="col-md-12 zeroPadding">
+                <span class="icon-calendar pull-left"
+                style="padding: 10px 6px; border-left: 1px solid #BFC9D7; margin: 0 0 0 86px; height: 36px"></span>
+            </div>
         </div>
-        <div class="filterInputCommon filterInputClass2">
-            <input type="number"
-                   class="form-control"
-                   data-ng-model="filters.lowValue">
+
+        <!-- Will add it in future Starts -->
+        <div class="col-md-12 zeroPadding" style="display:none;">
+            <div class="filterInputCommon filterInputClass1">
+                <label class="col-sm-12 greyTxt">Metrics</label>
+                <div class="dropdown-workflow">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="true">
+                            <span class="text" data-ng-bind="filters.selectedMetrics">
+                                Select Account
+                            </span>
+                            <span class="icon-arrow-solid-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" data-toggle="dropdown">
+                            <li class="available" data-ng-click="filters.selectMetrics('Total Spend')">
+                                <a>Total Spend</a>
+                            </li>
+                            <li class="available" data-ng-click="filters.selectMetrics('Adjustments')">
+                                <a>Adjustments</a>
+                            </li>
+                            <li class="available" data-ng-click="filters.selectMetrics('Billable')">
+                                <a>Billable</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="filterInputCommon filterInputClass1">
+                <label class="col-sm-12 greyTxt">Value:</label>
+                <input type="Text"
+                       class="form-control"
+                       placeholder="Between">
+            </div>
+            <div class="filterInputCommon filterInputClass2">
+                <input type="number"
+                       class="form-control"
+                       data-ng-model="filters.lowValue">
+            </div>
+            <div class="filterInputCommon filterInputClass2">
+                <input type="number"
+                       class="form-control"
+                       data-ng-model="filters.highValue">
+            </div>
         </div>
-        <div class="filterInputCommon filterInputClass2">
-            <input type="number"
-                   class="form-control"
-                   data-ng-model="filters.highValue">
-        </div>
-        </div>
-        <div class="filterInputCommon filterInputClassBtn">
-            <a href=""
-               style="margin-left: 10px;"
+        <!-- Will add it in future Ends -->
+        
+        <div class="filterInputCommon filterInputClassBtn pull-right" style="margin-left: 10px !important;">
+            <a href="" style="width: 100%;"
                class="btn btn-default ng-binding"
                ng-click="filters.apply()">Apply</a>
         </div>
-        <div class="filterInputCommon filterInputClassBtn">
-            <a class="btn btn-default pull-right" role="button" ng-click="filters.clear()">
+        
+        <div class="filterInputCommon filterInputClassBtn pull-right">
+            <a class="btn btn-default pull-right" role="button" ng-click="filters.clear()" style="width: 100%;">
                 <div style="top:0px !important;" class="glyphicon glyphicon-repeat pull-left" aria-hidden="true"></div>
                 <span style="margin-left:6px;">Clear</span>
             </a>
@@ -222,7 +239,7 @@
         </div>
     </div>
     <!--Table-->
-    <div class="col-md-12 report_list_table zeroPadding centerAlign" style="margin: 20px 0 30px;">
+    <div class="col-md-12 report_list_table zeroPadding centerAlign" style="margin: 30px 0;">
         <div class="table-responsive" id="table_responsive">
             <div class="vistoTable">
                 <!--Table Head-->

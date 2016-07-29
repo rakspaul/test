@@ -19,7 +19,8 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     // (as on 25th July 2016)
                     regExp = function () {
                         return {
-                            removeSpecialCharacterAndSpaces : /[&\/\\#,+()@!^$~%.'":*?<>{} ]/g
+                            removeSpecialCharacterAndSpaces : /[&\/\\#,+()@!^$~%.'":*?<>{} ]/g,
+                            validateUrl : /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/
                         };
                     },
 
