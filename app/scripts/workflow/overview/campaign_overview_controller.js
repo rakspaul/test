@@ -7,9 +7,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
     'common/directives/ng_upload_hidden'], function (angularAMD) {
     angularAMD.controller('CampaignOverViewController', function ($scope, $modal, $rootScope, $routeParams,
                                                                   $timeout, $location, $route, constants,
-                                                                  workflowService, campaignOverviewService, momentService, vistoconfig,
-                                                                  featuresService, dataService, loginModel,utils,
-                                                                  $sce) {
+                                                                  workflowService, campaignOverviewService,
+                                                                  momentService, vistoconfig, featuresService,
+                                                                  dataService, loginModel, utils, $sce) {
         var campaignOverView = {
             modifyCampaignData: function () {
                 var campaignData = $scope.workflowData.campaignData,
@@ -1170,7 +1170,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.resumeAllAds = function (dataObj) {
-            console.log(dataObj.adGroupsData);
             // enable resume only when pause count is greater than 0 even if the user clicks
             // on the disabled link
             if(dataObj.adGroupsData.PAUSED && dataObj.adGroupsData.PAUSED > 0) {
@@ -1192,7 +1191,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.pauseAllAds = function (dataObj) {
             // enable pause only when inflight count + scheduled count is greater than 0
             // even if the user clicks on the disabled link
-            if((dataObj.adGroupsData.IN_FLIGHT && dataObj.adGroupsData.IN_FLIGHT > 0) || (dataObj.adGroupsData.SCHEDULED && dataObj.adGroupsData.SCHEDULED > 0)) {
+            if((dataObj.adGroupsData.IN_FLIGHT && dataObj.adGroupsData.IN_FLIGHT > 0) ||
+                (dataObj.adGroupsData.SCHEDULED && dataObj.adGroupsData.SCHEDULED > 0)) {
                 var param = {};
                 param.clientId = dataObj.campaignData.clientId;
                 param.campaignId = dataObj.campaignData.id;
