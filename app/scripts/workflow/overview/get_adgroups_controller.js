@@ -2,7 +2,7 @@ define(['angularAMD','../../common/moment_utils'],function (angularAMD) {
     'use strict';
 
     angularAMD.controller('GetAdgroupsController', function($scope,$rootScope, $routeParams, $location,
-                                                            momentService,workflowService) {
+                                                            momentService, workflowService, urlBuilder) {
         $scope.numOfDays = function (startTime, endTime) {
             startTime = momentService.utcToLocalTime(startTime);
             endTime = momentService.utcToLocalTime(endTime);
@@ -17,11 +17,11 @@ define(['angularAMD','../../common/moment_utils'],function (angularAMD) {
                 edTime = adGroupsData.adGroup.endTime,
                 adGroupBudget = adGroupsData.adGroup.deliveryBudget,
                 lineItemId = Number(adGroupsData.adGroup.lineitemId),
+                url,
+                advertiserId;
 
-                navigateUrl = '/mediaplan/' + $routeParams.campaignId +
-                    '/lineItem/' + lineItemId +
-                    '/adGroup/' + adGroupId +
-                    '/ads/create';
+            advertiserId = $scope.workflowData.campaignData.advertiserId;
+            url = urlBuilder.adCreateUrl(advertiserId, lineItemId, adGroupId);
 
             if (typeof(Storage) !== 'undefined') {
                 // convert this to EST in ads page
@@ -36,7 +36,7 @@ define(['angularAMD','../../common/moment_utils'],function (angularAMD) {
             localStorage.setItem('groupBudget',Number(adGroupBudget));
 
             if(momentService.isGreater(edTime,momentService.todayDate())){
-                $location.url(navigateUrl);
+                $location.url(url);
             } else {
                 $rootScope.setErrAlertMessage($scope.textConstants.ADGROUP_FLIGHTPASSED_NO_NEW_ADS);
             }

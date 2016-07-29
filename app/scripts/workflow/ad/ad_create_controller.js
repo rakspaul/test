@@ -16,23 +16,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         var winHeaderHeight = $(window).height() - 50,
             winHeight,
 
-            saveDataInLocalStorage = function (data) {
-                var campaignData = {
-                    advertiserId: data.advertiserId,
-                    advertiserName: data.advertiserName,
-                    clientId: data.clientId,
-                    clientName: data.clientName
-                };
-
-                localStorage.removeItem('campaignData');
-                localStorage.setItem('campaignData', window.JSON.stringify(campaignData));
-                $rootScope.$broadcast('adCampaignDataSet');
-            },
-
             campaignOverView = {
-                getCampaignData: function (campaignId) {
+                getCampaignData: function (clientId, campaignId) {
                     workflowService
-                        .getCampaignData(campaignId)
+                        .getCampaignData(clientId, campaignId)
                         .then(function (result) {
                             var responseData, clientId, advertiserId;
 
@@ -46,7 +33,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                 }
 
                                 $scope.workflowData.campaignData = responseData;
-                                saveDataInLocalStorage(responseData);
 
                                 if ($scope.workflowData.campaignData.selectedObjectives &&
                                     $scope.workflowData.campaignData.selectedObjectives.length > 0) {
@@ -73,6 +59,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                     if (!$scope.adGroupId) {
                                         workflowService
                                             .getAd({
+                                                clientId : clientId,
                                                 campaignId: $scope.campaignId,
                                                 adId: $scope.adId
                                             })
@@ -90,7 +77,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                             });
                                     } else {
                                         workflowService
-                                            .getAdgroups($scope.campaignId)
+                                            .getAdgroups(clientId, $scope.campaignId)
                                             .then(function (result) {
                                                 var responseData,
                                                     adGroupData = {},
@@ -122,7 +109,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                                     // to get all ads with in ad group
                                                     workflowService
-                                                        .getDetailedAdsInAdGroup($scope.campaignId,
+                                                        .getDetailedAdsInAdGroup(clientId, $scope.campaignId,
                                                             $scope.adGroupId, $scope.adId)
                                                         .then(function (result) {
                                                             $scope.getAd_result = result.data.data;
@@ -1726,7 +1713,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         }
 
         $(document).ready(function() {
-            campaignOverView.getCampaignData($routeParams.campaignId);
+            var clientId = vistoconfig.getSelectedAccountId();
+            var campaignId = vistoconfig.getSelectedCampaignId();
+
+            campaignOverView.getCampaignData(clientId, campaignId);
             campaignOverView.fetchAdFormats();
             campaignOverView.fetchGoals();
             campaignOverView.fetchPrimaryKpis();

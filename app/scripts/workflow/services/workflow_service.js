@@ -220,7 +220,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            getCampaignData = function (campaignId, clientId) {
+            getCampaignData = function (clientId, campaignId) {
 
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -268,7 +268,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url, { cache: false });
             },
 
-            getAdgroups = function (campaignId, clientId, searchTerm, isForClone) {
+            getAdgroups = function (clientId, campaignId, searchTerm, isForClone) {
                 var url;
 
                 if (searchTerm) {
@@ -429,10 +429,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url);
             },
 
-            getAd = function (data) {
-                var clientId = vistoconfig.getSelectedAccountId(),
-
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+            getAd = function (clientId, data) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/campaigns/' + data.campaignId +
                         '/ads/' + data.adId;
@@ -440,10 +438,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url, { cache: false });
             },
 
-            getDetailedAdsInAdGroup = function (campaignId, adGroupID, adId) {
-                var clientId = vistoconfig.getSelectedAccountId(),
-
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+            getDetailedAdsInAdGroup = function (clientId, campaignId, adGroupID, adId) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/campaigns/' + campaignId +
                         '/ad_groups/' + adGroupID +
@@ -764,7 +760,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url);
             },
 
-            getLineItem = function (campaignId,clientId, isFromMediaPlan) {
+            getLineItem = function (clientId, campaignId, isFromMediaPlan) {
 
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -1336,6 +1332,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
             };
 
+
         return {
                 fetchCampaigns: fetchCampaigns,
                 getClientData: getClientData,
@@ -1463,6 +1460,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 setLineItemBulkData: setLineItemBulkData,
                 getLineItemBulkData: getLineItemBulkData,
                 wrapperForActiveAdGroups: wrapperForActiveAdGroups
+
             };
     });
 });

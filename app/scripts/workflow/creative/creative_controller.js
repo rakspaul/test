@@ -599,23 +599,20 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         $scope.prarentHandler = function () {
-            var client = vistoconfig.getMasterClientId(),
+            var clientId = vistoconfig.getSelectedAccountId(),
+                advertiserId = vistoconfig.getSelectAdvertiserId(),
 
                 data = {
-                    id: client.id,
-                    name: client.name
-                },
-
-                campaignData;
+                    id: clientId,
+                    name: ''
+                };
 
             if ($scope.adPage) {
-                campaignData = localStorage.getItem('campaignData');
-                campaignData = campaignData && JSON.parse(campaignData);
-                $scope.advertiserName = campaignData.advertiserName;
-                $scope.creative.advertiserId = campaignData.advertiserId;
+                $scope.advertiserName = '';
+                $scope.creative.advertiserId = advertiserId;
                 $scope.subAccountName = data.name;
-                $scope.subAccountId =  $scope.creative.clientId = data.id;
-                creatives.fetchBrands(client.id,campaignData.advertiserId);
+                $scope.subAccountId =  data.id;
+                creatives.fetchBrands(clientId, advertiserId);
             } else {
                 $scope.selectHandler('subAccount',data);
             }

@@ -579,7 +579,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                                 accountService
                                     .fetchAccountData($route.current.params.accountId)
                                     .then(function () {
-                                    deferred.resolve();
+                                        deferred.resolve();
                                 });
                             }
                         }
@@ -1979,12 +1979,12 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     // }
                 }))
 
-                .when('/a/:accountId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/' +
+                .when('/a/:accountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/' +
                     'ads/create', angularAMD.route({
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Create',
                     controller: 'CampaignAdsCreateController',
-                    controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
+                    controllerUrl: 'workflow/ad/ad_create_controller',
                     showHeader : true,
 
                     resolve: {
@@ -2001,12 +2001,12 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     }
                 }))
 
-                .when('/a/:accountId/sa/:subAccountId/mediaplan/:campaignId/lineItem/:lineItemId/' +
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/' +
                     'adGroup/:adGroupId/ads/create', angularAMD.route({
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Create',
                     controller: 'CampaignAdsCreateController',
-                    controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
+                    controllerUrl: 'workflow/ad/ad_create_controller',
                     showHeader : true,
 
                     resolve: {
@@ -2028,7 +2028,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Edit',
                     controller: 'CampaignAdsCreateController',
-                    controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
+                    controllerUrl: 'workflow/ad/ad_create_controller',
                     showHeader : true,
 
                     resolve: {

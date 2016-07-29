@@ -19,21 +19,21 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.isEndDateInPast = moment().isAfter(end, 'day');
             },
 
-            getLineItems: function (campaignId, clientId, callback) {
+            getLineItems: function (clientId, campaignId, callback) {
 
                 workflowService
-                    .getLineItem(campaignId, clientId)
+                    .getLineItem(clientId, campaignId)
                     .then(function (results) {
                         if (results.status === 'success' && results.data.statusCode === 200) {
                             $scope.lineItems = results.data.data;
-                            callback && callback(campaignId, clientId);
+                            callback && callback(clientId, campaignId);
                         }
                     });
             },
 
-            getCampaignData: function (campaignId, clientId) {
+            getCampaignData: function (clientId, campaignId) {
                 workflowService
-                    .getCampaignData(campaignId, clientId)
+                    .getCampaignData(clientId, campaignId)
                     .then(function (result) {
                         var responseData;
 
@@ -76,8 +76,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                             campaignOverView.modifyCampaignData();
 
-                            campaignOverView.getLineItems(campaignId, clientId, function (campaignId, clientId) {
-                                campaignOverView.getAdgroups(campaignId, clientId);
+                            campaignOverView.getLineItems(clientId, campaignId, function (clientId, campaignId) {
+                                campaignOverView.getAdgroups(clientId, campaignId);
                             });
                         } else {
                             campaignOverView.errorHandler(result);
@@ -164,9 +164,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }, campaignOverView.errorHandler);
             },
 
-            getAdgroups: function (campaignId, clientId, searchFlag) {
+            getAdgroups: function (clientId, campaignId, searchFlag) {
                 workflowService
-                    .getAdgroups(campaignId, clientId, searchFlag)
+                    .getAdgroups(clientId, campaignId, searchFlag)
                     .then(function (result) {
                         var responseData,
                             nonAdGroupAds,
@@ -661,8 +661,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         var campaignId = vistoconfig.getSelectedCampaignId();
-        var accountId = vistoconfig.getSelectedAccountId();
-        campaignOverView.getCampaignData(campaignId, accountId);
+        var clientId = vistoconfig.getSelectedAccountId();
+        campaignOverView.getCampaignData(clientId, campaignId);
 
         $(function () {
             $('#pushCampaignBtn').on('click', function () {
