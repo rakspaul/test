@@ -152,7 +152,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 urlBuilder.gotoCannedReportsUrl(url);
             } else if (page === 'customReports') {
                 $location.url(urlBuilder.customReportsUrl());
-            } else if (page === 'customReportsList') {
+            } else if (page === 'scheduleReports') {
                 $location.url(urlBuilder.customReportsListUrl());
             } else if (page === 'uploadReports') {
                 $location.url(urlBuilder.uploadReportsUrl());

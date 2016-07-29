@@ -622,6 +622,23 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
         return deferred.promise;
     };
 
+        var scheduleReportsHeaderResolver = function ($q, $location, $route, accountService, vistoconfig) {
+            var deferred = $q.defer(),
+                params = $route.current.params;
+
+            accountService
+                .fetchAccountList()
+                .then(function () {
+                    if (accountService.allowedAccount(params.accountId)) {
+                        deferred.resolve();
+                    } else {
+                        console.log('account ' + params.accountId + 'not allowed');
+                        $location.url('/tmp');
+                    }
+                });
+            return deferred.promise;
+        };
+
 
 
 
@@ -1520,10 +1537,8 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     css: assets.css_reports_schedule_list,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, advertiserModel,
-                                          brandsModel, vistoconfig) {
-                            return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel,
-                                brandsModel, vistoconfig);
+                        header: function ($q, $location, $route, accountService, vistoconfig) {
+                            return scheduleReportsHeaderResolver($q, $location, $route, accountService, vistoconfig);
                         }
                     }
                 }))
