@@ -1,4 +1,5 @@
 define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service',
+    'workflow/overview/campaign_overview_service',
     'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/overview/get_adgroups_controller',
     'workflow/directives/edit_ad_group_section', 'login/login_model','common/utils', 'common/services/account_service',
     'common/services/sub_account_service', 'workflow/overview/campaign_clone_controller',
@@ -337,8 +338,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if (errData.data.status === 404) {
                     $location.url('/mediaplans');
                 }
-            }
-        };
+            },
+        },
+        selectedIndex;
 
         $('.main_navigation_holder')
             .find('.active_tab')
@@ -754,7 +756,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.ToggleAdGroups = function (context, adGrpId, index, event) {
             var elem = $(event.target);
-
+            selectedIndex = index;
             if (context.showHideToggle) {
                 //Closes
                 elem.closest('.adGroup').removeClass('openInstance').addClass('closedInstance');
@@ -1172,6 +1174,45 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 } else {
                     return deliveryBudget;
                 }
+            }
+        };
+
+        $scope.resumeAllAds = function (dataObj) {
+            // enable resume only when pause count is greater than 0 even if the user clicks
+            // on the disabled link
+            if(dataObj.adGroupsData.PAUSED && dataObj.adGroupsData.PAUSED > 0) {
+                var param = {};
+                param.clientId = dataObj.campaignData.clientId;
+                param.campaignId = dataObj.campaignData.id;
+                param.adGroupId = dataObj.adGroupsData.adGroup.id;
+
+                campaignOverviewService.resumeAllAds(param).then(function() {
+                    $rootScope.setErrAlertMessage('All Ads in ' + dataObj.adGroupsData.adGroup.name +
+                    ' resumed' , 0);
+                    campaignOverView.getAdgroups(param.campaignId);
+                });
+            } else {
+                return false;
+            }
+        };
+
+        $scope.pauseAllAds = function (dataObj) {
+            // enable pause only when inflight count + scheduled count is greater than 0
+            // even if the user clicks on the disabled link
+            if((dataObj.adGroupsData.IN_FLIGHT && dataObj.adGroupsData.IN_FLIGHT > 0) ||
+                (dataObj.adGroupsData.SCHEDULED && dataObj.adGroupsData.SCHEDULED > 0)) {
+                var param = {};
+                param.clientId = dataObj.campaignData.clientId;
+                param.campaignId = dataObj.campaignData.id;
+                param.adGroupId = dataObj.adGroupsData.adGroup.id;
+
+                campaignOverviewService.pauseAllAds(param).then(function() {
+                    $rootScope.setErrAlertMessage('All Ads in ' + dataObj.adGroupsData.adGroup.name +
+                        ' paused' , 0);
+                    campaignOverView.getAdgroups(param.campaignId);
+                });
+            } else {
+                return false;
             }
         };
 
