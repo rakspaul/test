@@ -13,6 +13,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 $scope.fparams = featuresService.getFeatureParams();
                 $scope.showMediaPlanTab = $scope.fparams[0].mediaplan_list;
                 $scope.showReportTab = $scope.fparams[0].reports_tab;
+                $scope.invoiceTool = $scope.fparams[0].reports_invoice;
             },
 
             showSelectedMasterClient = function (evt, clientName) {

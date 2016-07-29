@@ -104,6 +104,7 @@ define(['angularAMD'], function(angularAMD) {
         this.FORMATS = 'Formats';
         this.PLATFORMS = 'Platforms';
         this.CREATIVES = 'Creatives';
+        this.INVOICE_TOOL = 'Billing';
         this.VIDEO_PLAYS = 'Video Plays';
         this.AD_SIZES = 'Ad Sizes';
         this.DELETE_CREATIVES = 'Are you sure you want to archive creatives?';

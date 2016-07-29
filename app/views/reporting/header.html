@@ -14,6 +14,7 @@
                 <a href="/mediaplans" ng-mouseover="hide_navigation_dropdown($event);" ng-bind="textConstants.MEDIA_PLAN"></a>
                 <a href="javascript:void(0);" reporttitle="reportOverview" ng-click="NavigateToTab('', $event ,'reportOverview')" ng-bind="textConstants.REPORTS"></a>
                 <a href="javascript:void(0);" ng-click="NavigateToTab('', $event ,'creativelist')" ng-bind="textConstants.CREATIVES"></a>
+
             </div>
             <div class="mobileHideFunc" ng-click="mobileMenuHide();"></div>
         </div>
@@ -51,6 +52,11 @@
                 <!--   ng-mouseover="show_hide_nav_dropdown($event,'admin','hover');">Admin</a>-->
 
                 <div class="arrowSelect"></div>
+            </div>
+
+            <div class="pull-left each_nav_link" id="invoiceTool_nav_link" ng-if="invoiceTool">
+                <a href="/v1sto/invoices"
+                   ng-bind="textConstants.INVOICE_TOOL"></a>
             </div>
             <!--Vendor DD-->
            <!--  <div class="pull-left each_nav_link" id="vendors_nav_link" >
