@@ -4,7 +4,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
 
     angularAMD.directive('campaignCard',
         function ($rootScope, $location, utils, constants, momentService, featuresService, $sce,
-                  campaignSelectModel, vistoconfig) {
+                  campaignSelectModel, vistoconfig, urlBuilder) {
             return {
                 restrict: 'EAC',
 
@@ -131,7 +131,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                             if (campaign.is_archived) {
                                 url = '/mediaplans/' + campaign.orderId;
                             } else {
-                                url = '/mediaplan/' + campaign.orderId + '/overview';
+                                url = urlBuilder.mediaPlanOverviewUrl(campaign.orderId);
                             }
                         } else {
                             url = '/mediaplans/' + campaign.orderId;

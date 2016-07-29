@@ -622,7 +622,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
         return deferred.promise;
     };
 
-        var scheduleReportsHeaderResolver = function ($q, $location, $route, accountService, vistoconfig) {
+        var scheduleReportsHeaderResolver = function ($q, $location, $route, accountService) {
             var deferred = $q.defer(),
                 params = $route.current.params;
 
@@ -2038,7 +2038,8 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     }
                 }))
 
-                .when('/a/:accountId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/:adId/edit',
+                .when('/a/:accountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/' +
+                    'adGroup/:adGroupId/ads/:adId/edit',
                     angularAMD.route({
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Edit',
@@ -2060,13 +2061,13 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     }
                 }))
 
-                .when('/a/:accountId/sa/:subAccountId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/' +
-                    'ads/:adId/edit',
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/' +
+                    'adGroup/:adGroupId/ads/:adId/edit',
                     angularAMD.route({
                         templateUrl: assets.html_campaign_create_adBuild,
                         title: 'Media Plan - Ad Edit',
                         controller: 'CampaignAdsCreateController',
-                        controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
+                        controllerUrl: 'workflow/ad/ad_create_controller',
                         showHeader : true,
 
                         resolve: {

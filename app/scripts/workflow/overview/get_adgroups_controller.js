@@ -12,30 +12,32 @@ define(['angularAMD','../../common/moment_utils'],function (angularAMD) {
         };
 
         $scope.createAdforAdGroup = function (adGroupsData, unallocatedAmount) {
-            var adGroupId = adGroupsData.adGroup.id,
-                stTime = adGroupsData.adGroup.startTime,
-                edTime = adGroupsData.adGroup.endTime,
-                adGroupBudget = adGroupsData.adGroup.deliveryBudget,
-                lineItemId = Number(adGroupsData.adGroup.lineitemId),
-                url,
-                advertiserId;
-
-            advertiserId = $scope.workflowData.campaignData.advertiserId;
-            url = urlBuilder.adCreateUrl(advertiserId, lineItemId, adGroupId);
+            var params = {
+                adGroupId : adGroupsData.adGroup.id,
+                stTime : adGroupsData.adGroup.startTime,
+                edTime : adGroupsData.adGroup.endTime,
+                adGroupBudget : adGroupsData.adGroup.deliveryBudget,
+                lineItemId : Number(adGroupsData.adGroup.lineitemId),
+                advertiserId : $scope.workflowData.campaignData.advertiserId
+            },
+                url;
 
             if (typeof(Storage) !== 'undefined') {
                 // convert this to EST in ads page
-                localStorage.setItem('stTime', stTime);
+                localStorage.setItem('stTime', params.stTime);
 
                 // convert this to EST in ads create page
-                localStorage.setItem('edTime', edTime);
+                localStorage.setItem('edTime', params.edTime);
             }
 
-            workflowService.setUnallocatedAmount(unallocatedAmount);
-            localStorage.setItem('unallocatedAmount',unallocatedAmount);
-            localStorage.setItem('groupBudget',Number(adGroupBudget));
+            workflowService.setUnallocatedAmount(params);
 
-            if(momentService.isGreater(edTime,momentService.todayDate())){
+            localStorage.setItem('unallocatedAmount',unallocatedAmount);
+            localStorage.setItem('groupBudget',Number(params.adGroupBudget));
+
+            url = urlBuilder.adUrl(params);
+
+            if(momentService.isGreater(params.edTime, momentService.todayDate())){
                 $location.url(url);
             } else {
                 $rootScope.setErrAlertMessage($scope.textConstants.ADGROUP_FLIGHTPASSED_NO_NEW_ADS);

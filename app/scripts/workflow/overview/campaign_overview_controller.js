@@ -9,7 +9,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                                                   $timeout, $location, $route, constants,
                                                                   workflowService, momentService, vistoconfig,
                                                                   featuresService, dataService, loginModel,utils,
-                                                                  accountService, subAccountService, $sce) {
+                                                                  accountService, subAccountService, urlBuilder,
+                                                                  campaignOverviewService, $sce) {
         var campaignOverView = {
             modifyCampaignData: function () {
                 var campaignData = $scope.workflowData.campaignData,
@@ -1108,36 +1109,34 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.goEdit = function (adsData, unallocatedBudget, adGroupsData) {
-            var campaignId = adsData.campaignId,
-                adsId = adsData.id,
-                groupId = adsData.adGroupId,
-                groupBudget = adGroupsData.adGroup.deliveryBudget,
-                lineItemId = adGroupsData.adGroup.lineitemId;
+
+            var params = {
+                adId : adsData.id,
+                adGroupId : adsData.adGroupId,
+                groupBudget : adGroupsData.adGroup.deliveryBudget,
+                lineItemId : adGroupsData.adGroup.lineitemId,
+                stTime : adsData.startTime,
+                edTime : adsData.endTime,
+                advertiserId : $scope.workflowData.campaignData.advertiserId
+            };
 
             workflowService.setUnallocatedAmount(unallocatedBudget);
             localStorage.setItem('unallocatedAmount', unallocatedBudget);
-            localStorage.setItem('groupBudget', Number(groupBudget));
-            $scope.editAdforAdGroup(campaignId, adsData.startTime, adsData.endTime, adsId, groupId, lineItemId);
+            localStorage.setItem('groupBudget', Number(params.groupBudget));
+            $scope.editAdforAdGroup(params);
         };
 
-        $scope.editAdforAdGroup = function (campaignId, stTime, edTime, adsId, groupId, lineItemId) {
-            var path = '/mediaplan/' + campaignId + '/ads/' + adsId + '/edit';
+        $scope.editAdforAdGroup = function (params) {
 
+            var url;
             if (typeof(Storage) !== 'undefined') {
                 //convert this to EST in ads page
-                localStorage.setItem('stTime', stTime);
+                localStorage.setItem('stTime', params.stTime);
                 //convert this to EST in ads create page
-                localStorage.setItem('edTime', edTime);
+                localStorage.setItem('edTime', params.edTime);
             }
-
-            if (groupId && adsId) {
-                path = '/mediaplan/' + campaignId +
-                    '/lineItem/' + lineItemId +
-                    '/adGroup/' + groupId +
-                    '/ads/' + adsId + '/edit';
-            }
-
-            $location.path(path);
+            url = urlBuilder.adUrl(params);
+            $location.path(url);
         };
 
         // Switch BTN Animation

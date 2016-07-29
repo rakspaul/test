@@ -219,7 +219,33 @@ define(['angularAMD'],
                 return url;
             },
 
-            adCreateUrl = function(advertiserId, lineItemId, adGroupId) {
+            mediaPlanOverviewUrl = function(campaignId) {
+                var url = '/a/' + $routeParams.accountId;
+
+                if ($routeParams.subAccountId) {
+
+                    url += '/sa/' + $routeParams.subAccountId;
+
+                } else {
+                    // user navigating from custom reports to media plans
+                    var selectedAccount = _.find(accountService.getAccounts(), function(a) {
+                        return a.id === $routeParams.accountId;
+                    });
+                    if (!selectedAccount.isLeafNode) {
+                        url += '/sa/' + $routeParams.accountId;
+                    }
+                }
+
+                if(campaignId) {
+                    url += '/mediaplan/' + campaignId;
+                }
+
+                url += '/overview';
+
+                return url;
+            },
+
+            adUrl = function(params) {
 
                 var url = '/a/' + $routeParams.accountId;
 
@@ -238,14 +264,20 @@ define(['angularAMD'],
 
                 }
 
-                if(advertiserId > 0) {
-                    url += '/adv/' + advertiserId;
+                if(params.advertiserId > 0) {
+                    url += '/adv/' + params.advertiserId;
                 }
 
                 url += '/mediaplan/' + $routeParams.campaignId +
-                    '/lineItem/' + lineItemId +
-                    '/adGroup/' + adGroupId +
-                    '/ads/create';
+                    '/lineItem/' + params.lineItemId +
+                    '/adGroup/' + params.adGroupId +
+                    '/ads';
+
+                if(params.adId) {
+                    url += '/' + params.adId + '/edit';
+                } else {
+                    url +='/create';
+                }
 
                 return url;
 
@@ -260,7 +292,8 @@ define(['angularAMD'],
                 gotoCreativeListUrl : gotoCreativeListUrl,
                 uploadReportsUrl : uploadReportsUrl,
                 uploadReportsListUrl : uploadReportsListUrl,
-                adCreateUrl : adCreateUrl
+                mediaPlanOverviewUrl : mediaPlanOverviewUrl,
+                adUrl : adUrl
             };
         });
     });
