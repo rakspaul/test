@@ -9,6 +9,7 @@ define(['angularAMD', 'workflow/services/workflow_service',
                 'report_overview',
                 'inventory',
                 'performance',
+                'discrepancy',
                 'quality',
                 'cost',
                 'optimization_create',
@@ -28,6 +29,15 @@ define(['angularAMD', 'workflow/services/workflow_service',
                 'reports_invoice'
             ],
 
+            dbFeatureToUIFeatureMap = {REP_OVERVIEW: 'report_overview', REP_INV: 'inventory', 
+                    REP_PERF: 'performance', REP_QUALITY: 'quality', COST: 'cost',
+                    REP_OPT_WRITE: ['optimization_create', 'optimization_transparency'], 
+                    REP_OPT_TRANSPARENCY: 'optimization_transparency', 
+                    REP_PLATFORM: 'platform', REP_SCH: 'scheduled_reports', REP_INSIGHTS: 'collective_insights',
+                    MEDIAPLAN_SETUP: 'create_mediaplan', MEDIAPLAN_HUB: 'mediaplan_hub', AD_SETUP: 'ad_setup', 
+                    MEDIAPLAN_LIST: 'mediaplan_list', CREATIVE_LIST: 'creative_list', DASHBOARD: 'dashboard',
+                    REPORTS_TAB: 'reports_tab', REP_INVOICE: 'reports_invoice', REP_DISCREPANCY: 'discrepancy'},
+
             featureParams = [],
 
             serverResponseReceived = false,
@@ -42,80 +52,16 @@ define(['angularAMD', 'workflow/services/workflow_service',
                 featureParams[0] = featureObj;
             },
 
-            setSingleFeatureParam = function (fParam, boolStatus) {
-                switch (fParam) {
-                    case 'REP_OVERVIEW':
-                        featureParams[0].report_overview = boolStatus;
-                        break;
-
-                    case 'REP_INV':
-                        featureParams[0].inventory = boolStatus;
-                        break;
-
-                    case 'REP_PERF':
-                        featureParams[0].performance = boolStatus;
-                        break;
-
-                    case 'REP_QUALITY':
-                        featureParams[0].quality = boolStatus;
-                        break;
-
-                    case 'COST':
-                        featureParams[0].cost = boolStatus;
-                        break;
-
-                    case 'REP_OPT_WRITE':
-                        featureParams[0].optimization_create = boolStatus;
-                        featureParams[0].optimization_transparency = boolStatus;
-                        break;
-
-                    case 'REP_OPT_TRANSPARENCY':
-                        featureParams[0].optimization_transparency = boolStatus;
-                        break;
-
-                    case 'REP_PLATFORM':
-                        featureParams[0].platform = boolStatus;
-                        break;
-
-                    case 'REP_SCH':
-                        featureParams[0].scheduled_reports = boolStatus;
-                        break;
-
-                    case 'REP_INSIGHTS':
-                        featureParams[0].collective_insights = boolStatus;
-                        break;
-
-                    case 'MEDIAPLAN_SETUP':
-                        featureParams[0].create_mediaplan = boolStatus;
-                        break;
-
-                    case 'MEDIAPLAN_HUB':
-                        featureParams[0].mediaplan_hub = boolStatus;
-                        break;
-
-                    case 'AD_SETUP':
-                        featureParams[0].ad_setup = boolStatus;
-                        break;
-
-                    case 'MEDIAPLAN_LIST':
-                        featureParams[0].mediaplan_list = boolStatus;
-                        break;
-
-                    case 'CREATIVE_LIST':
-                        featureParams[0].creative_list = boolStatus;
-                        break;
-
-                    case 'DASHBOARD':
-                        featureParams[0].dashboard = boolStatus;
-                        break;
-
-                    case 'REPORTS_TAB':
-                        featureParams[0].reports_tab = boolStatus;
-                        break;
-
-                    case 'REP_INVOICE':
-                        featureParams[0].reports_invoice = boolStatus;
-                        break;
+            setSingleFeatureParam = function (featureName, boolStatus) {
+                var uiFeatureName = dbFeatureToUIFeatureMap[featureName];
+                if (uiFeatureName) {
+                    if (_.isArray(uiFeatureName)) {
+                        _.each(uiFeatureName, function(feature) {
+                            featureParams[0][feature] = boolStatus;
+                        });
+                    } else {
+                        featureParams[0][uiFeatureName] = boolStatus;
+                    }
                 }
             },
 

@@ -11,7 +11,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
     angularAMD.controller('PerformanceController', function ($scope,$rootScope, kpiSelectModel, campaignSelectModel,
                                                              strategySelectModel, dataService, domainReports, constants,
                                                              timePeriodModel, brandsModel, loginModel, urlService,
-                                                             advertiserModel) {
+                                                             advertiserModel, featuresService) {
         var _customCtrl = this,
             extractAdFormats,
 
@@ -368,7 +368,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         });
 
         $scope.$watch('selectedCampaign', function () {
-            $scope.createDownloadReportUrl();
+            _customCtrl.createDownloadReportUrl();
+            _customCtrl.filterDiscrepancyReport();
         });
 
         extractAdFormats =  function () {
@@ -393,9 +394,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         });
 
         // creating download report url
-        $scope.createDownloadReportUrl = function () {
+        _customCtrl.createDownloadReportUrl = function () {
             $scope.download_report = [
                 {
+                    name: 'by_screens',
                     url: '/reportBuilder/customQueryDownload',
                     query_id: 29,
                     label: 'Performance by Screens & Formats',
@@ -404,6 +406,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 },
 
                 {
+                    name: 'by_ad_sizes',
                     url: '/reportBuilder/customQueryDownload',
                     query_id: 19,
                     label: 'Performance by Ad Sizes',
@@ -411,6 +414,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 },
 
                 {
+                    name: 'by_creatives',
                     url : '/reportBuilder/customQueryDownload',
                     query_id: 20,
                     label : 'Performance by Creatives',
@@ -418,12 +422,14 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 },
 
                 {
+                    name: 'by_days_off_week',
                     url : '/reportBuilder/customQueryDownload',
                     query_id: 21,
                     label : 'Performance by Days Of Week',
                     download_config_id: 1
                 },
                 {
+                    name: 'by_discrepancy',
                     url: '/reportBuilder/customQueryDownload',
                     query_id: 45,
                     label: 'Performance by Discrepancy',
@@ -497,7 +503,6 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event, strategy) {
             $scope.selectedFilters.time_filter = strategy;
             $scope.resetVariables();
-            $scope.createDownloadReportUrl();
             $scope.strategyChangeHandler();
         });
 
@@ -509,6 +514,25 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
             $scope.selectedFilters2 = {};
             $scope.selectedFilters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
+        });
+
+        _customCtrl.filterDiscrepancyReport = function() {
+            var fparams = featuresService.getFeatureParams();
+
+            $scope.showDiscrepancyTab = fparams[0].discrepancy;
+
+            if (!$scope.showDiscrepancyTab) {
+                $scope.download_report = _.filter($scope.download_report, function (report) {
+                    return report.name !== 'by_discrepancy';
+                });
+            }
+        };
+
+        // check the permission on load
+        _customCtrl.filterDiscrepancyReport();
+
+        $rootScope.$on('features', function() {
+            _customCtrl.filterDiscrepancyReport();
         });
 
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
