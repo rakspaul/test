@@ -12,6 +12,19 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                                                   accountService, subAccountService, urlBuilder,
                                                                   campaignOverviewService, $sce) {
         var campaignOverView = {
+
+            fetchSubAccounts: function (callabck) {
+                workflowService
+                    .getSubAccounts('write')
+                    .then(function (result) {
+                        if (result.status === 'OK' || result.status === 'success') {
+                            callabck && callabck(result.data.data);
+                        } else {
+                            campaignOverView.errorHandler(result);
+                        }
+                    }, campaignOverView.errorHandler);
+            },
+
             modifyCampaignData: function () {
                 var campaignData = $scope.workflowData.campaignData,
                     end = momentService.utcToLocalTime(campaignData.endTime),
@@ -62,6 +75,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 }
                             }
                             $scope.labels = responseData.labels;
+
+                            campaignOverView.fetchSubAccounts(function(subAccountData) {
+                                subAccountData = _.find(subAccountData, function(data) {
+                                return data.id === responseData.clientId;
+                                });
+                                workflowService.setSubAccountTimeZone(subAccountData.timezone);
+                            });
 
                             $scope.campaignStartTime =
                                 momentService.utcToLocalTime($scope.workflowData.campaignData.startTime);
@@ -996,6 +1016,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postCreateAdObj,
                 utcStartTime,
                 utcEndTime,
+                dateTimeZone,
 
                 adGroupSaveErrorHandler = function (data) {
                     var errMsg,
@@ -1032,7 +1053,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postCreateAdObj = {};
                 postCreateAdObj.name = formData.adGroupName;
 
-                utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime');
+                dateTimeZone = workflowService.getSubAccountTimeZone();
+
+                utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone);
 
                 if ($scope.adGroupData.editAdGroupFlag) {
                     utcStartTime = (moment(formData.startTime)
@@ -1042,7 +1065,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 postCreateAdObj.startTime = utcStartTime;
 
-                utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
+                utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime', dateTimeZone);
 
                 if ($scope.adGroupData.editAdGroupFlag) {
                     utcEndTime = (moment(formData.endTime)

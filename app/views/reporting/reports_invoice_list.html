@@ -2,7 +2,7 @@
            ng-init="init('flashMessage','reportEditFailed')"></popup-msg>
 <div class="reports-invoice-list col-md-12 zeroPadding">
     <div class="col-md-12 zeroPadding">
-        <h1 style="margin: 30px 0;" data-ng-bind="textConstants.INVOICE_REPORT"></h1>
+        <h1 style="margin: 30px 0 20px;" data-ng-bind="textConstants.INVOICE_REPORT"></h1>
     </div>
     <div class="col-md-12 zeroPadding">
         <div class="col-md-5 zeroPadding">
@@ -11,7 +11,7 @@
             </div>
         </div>
 
-        <div class="col-md-7 zeroPadding">
+        <div class="col-md-7 zeroPadding" style="margin-top: 14px;">
             <!--Quick Filter-->
             <button type="button" class="btn btn-default pull-right"
                     data-toggle="collapse"
@@ -239,7 +239,7 @@
         </div>
     </div>
     <!--Table-->
-    <div class="col-md-12 report_list_table zeroPadding centerAlign" style="margin: 30px 0;">
+    <div class="col-md-12 report_list_table zeroPadding centerAlign" style="margin: 20px 0 30px;">
         <div class="table-responsive" id="table_responsive">
             <div class="vistoTable">
                 <!--Table Head-->
@@ -279,7 +279,7 @@
         <div class="col-md-4 td tableTd media-plan-name-wrapper" style="min-height: 80px">
             <span class="icon-toggleclose pull-left arrowbtn" ng-click="toggleInvoiceLists(mediaPlan, $index, $event)">
             </span>
-            <a class="media-plan-name" data-ng-bind="mediaPlan.campaignName" style="margin: 1px 0 0 10px;"></a>
+            <a class="media-plan-name" data-ng-bind="mediaPlan.campaignName" style="margin: 2px 0 0 10px;"></a>
             <div class="pull-right more-options">
                 <div class="dropdown-workflow">
                     <div class="dropdown hideOption">
@@ -303,7 +303,7 @@
     <div style="display:none;" class="secondDimensionList">
         <div class="tr childRow adsList" style="border: solid 1px #ccc;">
             <div class="col-md-12 zeroPadding">
-                <div class="pillsWrap">
+                <div class="pillsWrap" style="padding-left: 30px;">
                             <span class="labelPills{{addHighlightClass(label, '</mark>') ?
                                          ' search-highlight' : ''}}"
                                   ng-repeat="label in mediaPlan.labels track by $index"
@@ -314,8 +314,8 @@
         </div>
         <div class="rowHover1 parentWrap" ng-repeat="invoice in mediaPlan.invoices track by $index">
             <div class="tr childRow adsList">
-                <div class="col-md-4 td">
-                    <div class="col-md-9 media-plan-name mediaPlanHyperLink" ng-bind="invoice.invoiceDate + ' Invoice Report'" data-ng-click="showInvoiceReport(invoice.invoiceId)"></div>
+                <div class="col-md-4 td" style="padding-left: 30px;">
+                    <div class="col-md-9 media-plan-name mediaPlanHyperLink zeroPadding" ng-bind="invoice.invoiceDate + ' Invoice Report'" data-ng-click="showInvoiceReport(invoice.invoiceId)"></div>
                     <div class="col-md-3 more-options">
                         <div class="dropdown-workflow">
                             <div class="dropdown hideOption1">
