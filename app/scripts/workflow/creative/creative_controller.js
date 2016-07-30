@@ -1,12 +1,13 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service',
     'workflow/services/creative_custom_module', 'login/login_model', 'common/utils',
-    'common/services/local_storage_service', 'common/services/vistoconfig_service',
-    'workflow/directives/creative_drop_down', '../../common/directives/ng_upload_hidden'], function (angularAMD) {
+    'common/services/local_storage_service', 'common/services/vistoconfig_service', 'common/services/account_service',
+    'workflow/directives/creative_drop_down', 'common/directives/ng_upload_hidden'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('CreativeController', function ($scope, $rootScope, $routeParams, $location,
                                                          constants, workflowService, creativeCustomModule,
-                                                         loginModel, utils, localStorageService, vistoconfig) {
+                                                         loginModel, utils, localStorageService,
+                                                          vistoconfig, accountService) {
 
 
         var postCrDataObj = {},
@@ -292,7 +293,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $scope.creativeMode = 'create';
         }
 
-        if (!loginModel.getMasterClient().isLeafNode) {
+        console.log(accountService.getSelectedAccount());
+
+        if (!accountService.getSelectedAccount().isLeafNode) {
             $scope.showSubAccount = true;
         }
 

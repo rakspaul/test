@@ -2,8 +2,9 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
     'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_service',
     'common/utils', 'common/services/constants_service', 'common/services/vistoconfig_service',
     'reporting/brands/brands_model', 'login/login_model', 'reporting/models/gauge_model',
-    'common/services/role_based_service', 'reporting/campaignList/campaign_list_filter_directive',
-    'reporting/directives/campaign_cost_sort', 'reporting/directives/campaign_sort',
+    'common/services/role_based_service', 'common/services/url_builder',
+    'reporting/campaignList/campaign_list_filter_directive', 'reporting/directives/campaign_cost_sort',
+    'reporting/directives/campaign_sort',
     'reporting/directives/campaign_card', 'reporting/directives/campaign_list_sort',
     'reporting/common/d3/quartiles_graph', 'reporting/common/d3/campaign_chart',
     'reporting/directives/campaign_cost_card'], function (angularAMD) {
@@ -12,7 +13,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
     angularAMD.controller('CampaignListController',
         function ($scope, $rootScope, $routeParams, $location, kpiSelectModel, campaignListModel, campaignSelectModel,
                   strategySelectModel, utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel,
-                  RoleBasedService, featuresService) {
+                  RoleBasedService, urlBuilder, featuresService) {
             var fParams = featuresService.getFeatureParams(),
                 forceLoadCampaignsFilter,
 
@@ -193,6 +194,10 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     }
                 }
             });
+
+            $scope.navigateToMediaPlanCreatePage = function() {
+                $location.url(urlBuilder.mediaPlanCreateUrl());
+            }
 
             $scope.$on('$locationChangeStart', function (event, next) {
                 var currentLocation = next,

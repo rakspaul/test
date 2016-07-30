@@ -594,6 +594,48 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
     };
 
 
+    var adsResolver =   function ($q, $location, $route, accountService, subAccountService,
+                                  workflowService, constants, mode) {
+        var deferred = $q.defer();
+
+        console.log('accountService', accountService);
+        console.log('subAccountService', subAccountService);
+
+        accountService
+            .fetchAccountList()
+            .then(function () {
+                if (accountService.allowedAccount($route.current.params.accountId)) {
+                    subAccountService
+                        .fetchSubAccountList($route.current.params.accountId)
+                        .then(function () {
+                                if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
+                                    accountService
+                                        .fetchAccountData($route.current.params.accountId)
+                                        .then(function () {
+                                            deferred.resolve();
+                                            workflowService.setMode(mode);
+                                            workflowService.setIsAdGroup(true);
+
+                                            workflowService.setModuleInfo({
+                                                moduleName: 'WORKFLOW',
+                                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
+                                                redirect: true
+                                            });
+
+                                        });
+                                }
+                            }
+                        );
+                } else {
+                    console.log('account not allowed');
+                    $location.url('/tmp');
+                }
+            });
+
+        return deferred.promise;
+    };
+
+
     var creativeListResolver = function ($q, $location, $route, accountService, workflowService,
                                          subAccountService, constants) {
         var deferred = $q.defer();
@@ -2010,15 +2052,11 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     showHeader : true,
 
                     resolve: {
-                        check: function ($location, workflowService, constants) {
-                            workflowService.setMode('create');
-                            workflowService.setIsAdGroup(true);
 
-                            workflowService.setModuleInfo({
-                                moduleName: 'WORKFLOW',
-                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
-                                redirect: true
-                            });
+                        header: function ($q, $location, $route, accountService, subAccountService,
+                                          workflowService, constants) {
+                            return adsResolver($q, $location, $route, accountService,
+                                subAccountService, workflowService, constants, 'create');
                         }
                     }
                 }))
@@ -2030,17 +2068,11 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     controller: 'CampaignAdsCreateController',
                     controllerUrl: 'workflow/ad/ad_create_controller',
                     showHeader : true,
-
                     resolve: {
-                        check: function ($location, workflowService, constants) {
-                            workflowService.setMode('create');
-                            workflowService.setIsAdGroup(true);
-
-                            workflowService.setModuleInfo({
-                                moduleName: 'WORKFLOW',
-                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
-                                redirect: true
-                            });
+                        header: function ($q, $location, $route, accountService, subAccountService,
+                                          workflowService, constants) {
+                            return adsResolver($q, $location, $route, accountService,
+                                subAccountService, workflowService, constants, 'create');
                         }
                     }
                 }))
@@ -2055,17 +2087,13 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     showHeader : true,
 
                     resolve: {
-                        check: function ($location, workflowService, constants) {
-                            workflowService.setMode('edit');
-                            workflowService.setIsAdGroup(true);
-
-                            workflowService.setModuleInfo({
-                                moduleName: 'WORKFLOW',
-                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
-                                redirect: true
-                            });
+                        header: function ($q, $location, $route, accountService, subAccountService,
+                                          workflowService, constants) {
+                            return adsResolver($q, $location, $route, accountService,
+                                subAccountService, workflowService, constants, 'edit');
                         }
                     }
+
                 }))
 
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/' +
@@ -2076,17 +2104,11 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         controller: 'CampaignAdsCreateController',
                         controllerUrl: 'workflow/ad/ad_create_controller',
                         showHeader : true,
-
                         resolve: {
-                            check: function ($location, workflowService, constants) {
-                                workflowService.setMode('edit');
-                                workflowService.setIsAdGroup(true);
-
-                                workflowService.setModuleInfo({
-                                    moduleName: 'WORKFLOW',
-                                    warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
-                                    redirect: true
-                                });
+                            header: function ($q, $location, $route, accountService, subAccountService,
+                                              workflowService, constants) {
+                                return adsResolver($q, $location, $route, accountService,
+                                    subAccountService, workflowService, constants, 'edit');
                             }
                         }
                     }))

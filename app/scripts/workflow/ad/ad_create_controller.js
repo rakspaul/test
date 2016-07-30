@@ -1,7 +1,7 @@
 define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/workflow_service', 'login/login_model',
     'common/services/data_service', 'workflow/services/audience_service', 'common/services/role_based_service',
     'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/services/video_service', 'common/utils',
-    'workflow/ad/budget_delivery_controller', 'workflow/ad/buying_platform_controller',
+    'common/services/url_builder', 'workflow/ad/budget_delivery_controller', 'workflow/ad/buying_platform_controller',
     'workflow/ad/targetting_controller', 'workflow/ad/geo_targetting_controller',
     'workflow/ad/audience_targetting_controller', 'workflow/ad/daypart_create_controller',
     'workflow/ad/video_targetting_controller', 'workflow/ad/inventory_filters_controller',
@@ -12,7 +12,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                                                    $locale, $location,  $filter, $timeout,
                                                                    constants, workflowService, loginModel,
                                                                    dataService, audienceService, RoleBasedService,
-                                                                   momentService, vistoconfig, videoService, utils) {
+                                                                   momentService, vistoconfig, videoService,
+                                                                   utils, urlBuilder) {
         var winHeaderHeight = $(window).height() - 50,
             winHeight,
 
@@ -292,8 +293,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             localStorage.setItem('adPlatformCustomInputs',
                                 window.JSON.stringify(responseData.adPlatformCustomInputs));
 
-                            url = '/mediaplan/' + result.data.data.campaignId + '/overview';
-                            $location.url(url);
+                            $location.url(urlBuilder.mediaPlanOverviewUrl(result.data.data.campaignId));
+
                             localStorage.setItem('topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS);
                         } else {
                             if (responseData.statusCode === 400) {
@@ -332,7 +333,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 errorHandler: function (errData) {
                     if (errData.data.status === 404) {
-                        $location.url('/mediaplans');
+                        $location.url(urlBuilder.gotoMediaplansListUrl());
                     }
                 }
             };
@@ -681,16 +682,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $scope.archivedAdFlag = false;
             $scope.archivedCampaignFlag = false;
 
+            url = urlBuilder.gotoMediaplansListUrl();
+
             if (isAdArchived) {
-                if ($scope.workflowData.campaignData.isArchived) {
-                    url = vistoconfig.MEDIA_PLANS_LINK;
-                } else {
+                if (!$scope.workflowData.campaignData.isArchived) {
                     $scope.isMediaPlanArchive = false;
                     $scope.archivedAdFlag = false;
-                    url = 'mediaplan/' + $scope.campaignId + '/overview';
+                    url = urlBuilder.mediaPlanOverviewUrl($scope.campaignId);
                 }
-            } else {
-                url = vistoconfig.MEDIA_PLANS_LINK;
             }
 
             $location.url(url);
@@ -723,8 +722,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.adArchive = false;
                         $scope.adArchiveLoader = false;
-                        url = '/mediaplan/' + $scope.campaignId + '/overview';
-                        $location.url(url);
+
+                        $location.url(urlBuilder.mediaPlanOverviewUrl($scope.campaignId));
                         localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_ARCHIVE_SUCCESS);
                     } else {
                         errorAchiveAdHandler();
@@ -757,7 +756,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.adArchive = false;
                         url = '/mediaplan/' + $scope.campaignId + '/overview';
-                        $location.url(url);
+                        $location.url(urlBuilder.mediaPlanOverviewUrl($scope.campaignId));
                         localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_PAUSE_SUCCESS);
                     } else {
                         errorAchiveAdHandler();
@@ -1879,6 +1878,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $scope.changeStatus();
                 $scope.updateCreativeData($scope.selectedArr);
             }
+        };
+
+        $scope.redirectToMediaPlanOverviewPage = function() {
+            var campaignId = vistoconfig.getSelectedCampaignId();
+            $location.url(urlBuilder.mediaPlanOverviewUrl(campaignId));
         };
 
         // on Broswers back button customreport behaving wierdly, this piece of code fixes it

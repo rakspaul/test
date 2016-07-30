@@ -13,9 +13,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                                                   campaignOverviewService, $sce) {
         var campaignOverView = {
 
-            fetchSubAccounts: function (callabck) {
+            fetchSubAccounts: function (clientId, callabck) {
                 workflowService
-                    .getSubAccounts('write')
+                    .getSubAccounts(clientId, 'write')
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             callabck && callabck(result.data.data);
@@ -76,7 +76,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             }
                             $scope.labels = responseData.labels;
 
-                            campaignOverView.fetchSubAccounts(function(subAccountData) {
+                            campaignOverView.fetchSubAccounts(responseData.clientId, function(subAccountData) {
                                 subAccountData = _.find(subAccountData, function(data) {
                                 return data.id === responseData.clientId;
                                 });
