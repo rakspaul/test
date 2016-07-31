@@ -1327,7 +1327,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                             saveAs(response.file, response.fileName);
                             $scope.reportDownloadBusy = false;
 
-                            if(($scope.schdReportList) && ($scope.schdReportList[parentIndex].instances[instanceIndex].length > 0)) {
+                            if(($scope.schdReportList) &&
+                                ($scope.schdReportList[parentIndex].instances[instanceIndex].length > 0)) {
                                 $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn =
                                     momentService.reportDateFormat();
                             }

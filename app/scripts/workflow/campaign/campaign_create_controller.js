@@ -1,6 +1,7 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service',
     'common/services/vistoconfig_service', 'login/login_model', 'common/moment_utils',
-    'workflow/campaign/campaign_service','common/utils','workflow/directives/clear_row',
+    'workflow/campaign/campaign_service','common/utils', 'common/services/account_service',
+    'workflow/directives/clear_row',
     'common/directives/ng_upload_hidden', 'workflow/campaign/pixels_controller', 'workflow/campaign/budget_controller',
     'workflow/campaign/line_item_controller', 'common/controllers/confirmation_modal_controller',
     'workflow/directives/custom_date_picker', 'workflow/campaign/campaign_archive_controller',
@@ -10,7 +11,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
     angularAMD.controller('CreateCampaignController', function ($scope, $window, $rootScope, $filter, $routeParams,
                                                                 $locale, $location, $timeout, $modal, constants,
                                                                 workflowService, vistoconfig, loginModel,
-                                                                momentService, campaignService, utils) {
+                                                                momentService, campaignService, utils,
+                                                                accountService, urlBuilder) {
         var selectedAdvertiser,
 
             createCampaign = {
@@ -429,7 +431,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
         $scope.Campaign.saveBtnLoader= false;
 
-        if (!loginModel.getMasterClient().isLeafNode) {
+        if (!accountService.getSelectedAccount().isLeafNode) {
             $scope.showSubAccount = true;
         }
 
@@ -615,14 +617,15 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         $scope.sucessHandler = function (result) {
-            var url = '/mediaplan/' + result.data.data.id + '/overview';
+
+            var campaignId = result.data.data.id;
 
             $rootScope.setErrAlertMessage('Media plan successfully' +
                 ($scope.mode === 'edit' ? ' updated ' : ' created ') , 0);
 
             $timeout(function () {
                 $scope.Campaign.saveBtnLoader= false;
-                $location.url(url);
+                $location.url(urlBuilder.mediaPlanOverviewUrl(campaignId));
             }, 800);
         };
 
@@ -642,7 +645,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 utcEndTime,
                 campaignCosts = [],
                 dateTimeZone,
-                i;
+                i,
+                campaignId = vistoconfig.getSelectedCampaignId();
 
             saveMediaPlanBeforeLineItem  = saveMediaPlanBeforeLineItem || false;
             $scope.$broadcast('show-errors-check-validity');
@@ -729,8 +733,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     }
                 }
 
-                if ($routeParams.campaignId) {
-                    postDataObj.campaignId = $routeParams.campaignId;
+                if (campaignId) {
+                    postDataObj.campaignId = campaignId;
                 }
 
                 // display loader
@@ -886,7 +890,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $scope.workflowData = {};
             $scope.selectedCampaign = {};
             $scope.repushCampaignEdit = false;
-            $scope.campaignId = $routeParams.campaignId;
+            $scope.campaignId = vistoconfig.getSelectedCampaignId();
             $scope.mode = workflowService.getMode();
             $scope.deleteCampaignFailed = false;
             $scope.numberOnlyPattern = /[^0-9]/g;
@@ -1002,12 +1006,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
         $scope.redirectUserFromArchivedCampaign = function () {
             $scope.isMediaPlanArchive = false;
-            $location.url(vistoconfig.MEDIA_PLANS_LINK);
+            $location.url(urlBuilder.gotoMediaplansListUrl());
         };
 
         $scope.redirectToOverViewPage = function (campaignId) {
             workflowService.setMediaPlanClone(null);
-            $location.url('/mediaplan/' + campaignId + '/overview');
+            $location.url(urlBuilder.mediaPlanOverviewUrl(campaignId));
         };
 
         $scope.$on('$locationChangeStart', function () {

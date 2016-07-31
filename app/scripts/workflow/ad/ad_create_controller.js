@@ -279,7 +279,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         workflowService.createAd(postDataObj);
 
                     promiseObj.then(function (result) {
-                        var responseData = result.data.data,
+                        var responseData = result.data.data;
 
                         $scope.adCreateLoader = false;
 

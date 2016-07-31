@@ -548,7 +548,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                     $rootScope.setErrAlertMessage('Error Copying Saved Report');
                                 };
 
-                                collectiveReportModel.getSaveRptDetail(copySuccess, copyError, vistoconfig.getMasterClientId(),reportId);
+                                collectiveReportModel.getSaveRptDetail(copySuccess, copyError,
+                                    vistoconfig.getMasterClientId(),reportId);
                             } else {
                                 copySuccess = function (data) {
                                     data.name = 'copy: ' + data.name;

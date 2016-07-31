@@ -613,28 +613,15 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
             .fetchAccountList()
             .then(function () {
                 if (accountService.allowedAccount($route.current.params.accountId)) {
-                    subAccountService
-                        .fetchSubAccountList($route.current.params.accountId)
-                        .then(function () {
-                                if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                                    accountService
-                                        .fetchAccountData($route.current.params.accountId)
-                                        .then(function () {
+                    deferred.resolve();
+                    workflowService.setMode(mode);
 
-                                            deferred.resolve();
-
-                                            workflowService.setModuleInfo({
-                                                moduleName: 'WORKFLOW',
-                                                warningMsg:
-                                                constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE,
-                                                redirect: true
-                                            });
-
-                                            workflowService.setMode(mode);
-                                        });
-                                }
-                            }
-                        );
+                    workflowService.setModuleInfo({
+                        moduleName: 'WORKFLOW',
+                        warningMsg:
+                        constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE,
+                        redirect: true
+                    });
                 } else {
                     console.log('account not allowed');
                     $location.url('/tmp');
@@ -695,17 +682,12 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
             .fetchAccountList()
             .then(function () {
                 if (accountService.allowedAccount($route.current.params.accountId)) {
-                    subAccountService
-                        .fetchSubAccountList($route.current.params.accountId)
-                        .then(function () {
-                            workflowService.setModuleInfo({
-                                moduleName: 'WORKFLOW',
-                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE,
-                                redirect: false
-                            });
-                            deferred.resolve();
-                        }
-                    );
+                    workflowService.setModuleInfo({
+                        moduleName: 'WORKFLOW',
+                        warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE,
+                        redirect: false
+                    });
+                    deferred.resolve();
                 } else {
                     console.log('account not allowed');
                     $location.url('/tmp');
@@ -2008,7 +1990,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     templateUrl: assets.html_campaign_create,
                     title: 'Create - Media Plan',
                     controller: 'CreateCampaignController',
-                    controllerUrl: '/scripts/workflow/controllers/campaign_create_controller',
+                    controllerUrl: 'workflow/campaign/campaign_create_controller',
                     showHeader : true,
 
                     resolve: {
@@ -2023,7 +2005,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     templateUrl: assets.html_campaign_create,
                     title: 'Edit - Media Plan',
                     controller: 'CreateCampaignController',
-                    controllerUrl: 'workflow/controllers/campaign_create_controller',
+                    controllerUrl: 'workflow/campaign/campaign_create_controller',
                     showHeader : true,
 
                     resolve: {
@@ -2192,23 +2174,6 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                 }))
 
                 .when('/a/:accountId/creative/list', angularAMD.route({
-                    templateUrl: assets.html_creative_list,
-                    title: 'Creative List',
-                    controller: 'CreativeListController',
-                    controllerUrl: 'workflow/creative/creative_list_controller',
-                    showHeader : true,
-
-                    resolve: {
-
-                        header: function ($q, $location, $route, accountService, workflowService,
-                                          subAccountService, constants) {
-                            return creativeListResolver($q, $location, $route, accountService, workflowService,
-                                subAccountService, constants);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/creative/list', angularAMD.route({
                     templateUrl: assets.html_creative_list,
                     title: 'Creative List',
                     controller: 'CreativeListController',
