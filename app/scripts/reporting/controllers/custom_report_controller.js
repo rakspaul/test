@@ -2,7 +2,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
     'reporting/strategySelect/strategy_select_service', 'reporting/kpiSelect/kpi_select_model',
     'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
     'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'common/moment_utils',
-    'login/login_model', 'common/services/url_service', 'common/services/data_store_model', 'common/url_builder',
+    'login/login_model', 'common/services/url_service', 'common/services/data_store_model',
     'reporting/models/domain_reports', 'common/services/vistoconfig_service', 'common/services/features_service'],
     function (angularAMD) {
         'use strict';
@@ -12,9 +12,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                                                   strategySelectModel, kpiSelectModel, utils,
                                                                   dataService, requestCanceller, constants,
                                                                   timePeriodModel, momentService, loginModel,
-                                                                  urlService, dataStore, urlBuilder,
+                                                                  urlService, dataStore,
                                                                   domainReports, vistoconfig, featuresService,
-                                                                  localStorageService) {
+                                                                  localStorageService,urlBuilder) {
             var _customctrl = this,
                 elem = $('#reportBuilderForm').find('.dropdown').find('.dd_txt'),
                 winHeight = $(window).height(),
@@ -389,7 +389,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 $scope.generateBtnDisabled = false;
             };
 
-            _customctrl.fetchReportData = function (selectedMetricsList, params, idx, successCallbackHandler,
+            _customctrl.fetchCustomReportData = function (selectedMetricsList, params, idx, successCallbackHandler,
                                                     errorCallbackHandler) {
                 var dropdownElem = $('#reportBuilderForm'),
                     reportId = dropdownElem.find('.dd_txt').attr('data-template_id');
@@ -1326,8 +1326,12 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         if (response.status === 'success') {
                             saveAs(response.file, response.fileName);
                             $scope.reportDownloadBusy = false;
-                            $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn =
-                                momentService.reportDateFormat();
+
+                            if(($scope.schdReportList) && ($scope.schdReportList[parentIndex].instances[instanceIndex].length > 0)) {
+                                $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn =
+                                    momentService.reportDateFormat();
+                            }
+
                         } else {
                             $scope.reportDownloadBusy = false;
                             $rootScope.setErrAlertMessage('File couldn\'t be downloaded');
