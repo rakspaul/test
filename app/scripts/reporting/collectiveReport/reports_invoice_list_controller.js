@@ -306,13 +306,13 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             // End Search functionality
 
             // Download section
-            $scope.invoiceReports.download = function (e, data) {
+            $scope.invoiceReports.download = function (e, data, mediaPlan) {
                 var url = '';
 
                 e.preventDefault();
 
                 url = data.downloadLink ? data.downloadLink :
-                      data.campaignId ? urlService.downloadInvoiceCampaign(data.campaignId) : '';
+                    mediaPlan.campaignId ? urlService.downloadInvoiceCampaign(mediaPlan.campaignId) : '';
 
                 dataService
                     .downloadFile(url)
