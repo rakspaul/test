@@ -134,8 +134,8 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                                 });
                         },
 
-                        createSavedReport = function (successCall, errorCall, clientId, data) {
-                            var url = urlService.createSaveRpt(clientId);
+                        createSavedReport = function (successCall, errorCall, data) {
+                            var url = urlService.createSaveRpt(data.client_id);
 
                             dataService
                                 .post(url, data, {'Content-Type': 'application/json'})

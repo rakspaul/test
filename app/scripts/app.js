@@ -715,7 +715,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
         return deferred.promise;
     };
 
-        var scheduleReportsHeaderResolver = function ($q, $location, $route, accountService) {
+        var scheduleReportListCreateResolver = function ($q, $location, $route, accountService) {
             var deferred = $q.defer(),
                 params = $route.current.params;
 
@@ -1631,7 +1631,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
 
                     resolve: {
                         header: function ($q, $location, $route, accountService, vistoconfig) {
-                            return scheduleReportsHeaderResolver($q, $location, $route, accountService, vistoconfig);
+                            return scheduleReportListCreateResolver($q, $location, $route, accountService, vistoconfig);
                         }
                     }
                 }))
@@ -1645,10 +1645,8 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     bodyclass: 'custom_report_page',
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, advertiserModel,
-                                          brandsModel, vistoconfig) {
-                            return mediaplansHeaderResolver($q, $location, $route, accountService, advertiserModel,
-                                brandsModel, vistoconfig);
+                        header: function ($q, $location, $route, accountService) {
+                            return scheduleReportListCreateResolver($q, $location, $route, accountService);
                         }
                     }
                 }))

@@ -1,4 +1,4 @@
-define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'common/utils', 'login/login_model',
+define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'common/utils',
     'common/services/constants_service', 'common/services/url_service', 'common/services/data_store_model',
     'common/services/data_service', 'common/moment_utils', 'common/controllers/confirmation_modal_controller',
     'common/services/vistoconfig_service', 'reporting/collectiveReport/report_schedule_delete_controller'],
@@ -7,7 +7,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
     angularAMD.controller('ReportsScheduleListController', function ($scope,$filter, $location, $modal, $rootScope,
                                                                      $routeParams, collectiveReportModel, utils,
-                                                                     loginModel, constants, urlService, dataStore,
+                                                                     constants, urlService, dataStore,
                                                                      domainReports, dataService, momentService,
                                                                      $q, $timeout, localStorageService,
                                                                      vistoconfig, urlBuilder) {
@@ -26,6 +26,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             },
 
             isValidQueryParamFilter = false;
+
+        $scope.createCustomReportUrl = urlBuilder.customReportsUrl();
 
         _curCtrl.filters = {};
         _curCtrl.isFilterExpanded = false;
@@ -368,8 +370,10 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     if (response.status === 'success') {
                         saveAs(response.file, response.fileName);
                         $scope.reportDownloadBusy = false;
-                        $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn =
-                            momentService.reportDateFormat();
+                        if($scope.schdReportList[parentIndex].instances > 0 ) {
+                            $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn =
+                                momentService.reportDateFormat();
+                        }
                     } else {
                         $scope.reportDownloadBusy = false;
                         $rootScope.setErrAlertMessage('File couldn\'t be downloaded');
@@ -544,7 +548,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                     $rootScope.setErrAlertMessage('Error Copying Saved Report');
                                 };
 
-                                collectiveReportModel.getSaveRptDetail(copySuccess, copyError, reportId);
+                                collectiveReportModel.getSaveRptDetail(copySuccess, copyError, vistoconfig.getMasterClientId(),reportId);
                             } else {
                                 copySuccess = function (data) {
                                     data.name = 'copy: ' + data.name;

@@ -31,7 +31,7 @@
         <div data-ng-repeat="tab in customFilters.tabs track by $index"
              class="clearfix header_tab_dropdown"
              data-ng-class="{'active_tab': tab.href === customFilters.activeTab}">
-            <a href="/{{tab.href}}"
+            <a
                class="pull-left reports_list_link"
                data-ng-click="NavigateToTab('/' + tab.href, $event, 'scheduleReports')"
                data-ng-bind="tab.title">
