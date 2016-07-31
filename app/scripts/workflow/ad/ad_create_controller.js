@@ -280,7 +280,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                     promiseObj.then(function (result) {
                         var responseData = result.data.data,
-                            url;
 
                         $scope.adCreateLoader = false;
 
@@ -717,7 +716,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             workflowService
                 .deleteAd($scope.campaignId, $scope.adId)
                 .then(function (result) {
-                    var url;
 
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.adArchive = false;

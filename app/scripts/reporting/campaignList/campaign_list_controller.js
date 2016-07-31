@@ -197,7 +197,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
             $scope.navigateToMediaPlanCreatePage = function() {
                 $location.url(urlBuilder.mediaPlanCreateUrl());
-            }
+            };
 
             $scope.$on('$locationChangeStart', function (event, next) {
                 var currentLocation = next,

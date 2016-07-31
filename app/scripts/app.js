@@ -625,7 +625,8 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
 
                                             workflowService.setModuleInfo({
                                                 moduleName: 'WORKFLOW',
-                                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE,
+                                                warningMsg:
+                                                constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE,
                                                 redirect: true
                                             });
 
@@ -2015,7 +2016,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     resolve: {
                         header: function ($q, $location, $route, accountService, subAccountService, workflowService) {
                             return mediaPlanCreateResolver($q, $location, $route, accountService,
-                                subAccountService, workflowService);
+                                subAccountService, workflowService, 'create');
                         }
                     }
                 }))
@@ -2030,7 +2031,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     resolve: {
                         header: function ($q, $location, $route, accountService, subAccountService, workflowService) {
                             return mediaPlanCreateResolver($q, $location, $route, accountService,
-                                subAccountService, workflowService);
+                                subAccountService, workflowService, 'edit');
                         }
                     }
                 }))
