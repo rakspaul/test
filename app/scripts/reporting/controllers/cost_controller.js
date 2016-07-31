@@ -26,7 +26,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
 
         // highlight the header menu - Dashboard, Campaigns, Reports
         domainReports.highlightHeaderMenu();
-        domainReports.highlightSubHeaderMenu();
+        //domainReports.highlightSubHeaderMenu();
 
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
         $scope.apiReturnCode = 200;

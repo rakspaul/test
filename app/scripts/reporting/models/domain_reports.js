@@ -91,14 +91,14 @@ define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
                         .addClass('active');
                 },
 
-                highlightSubHeaderMenu: function () {
-                    $('.reports_sub_menu_dd')
-                        .find('.active_tab')
-                        .removeClass('active_tab')
-                        .end()
-                        .find('#' + document.location.pathname.substring(1))
-                        .addClass('active_tab');
-                },
+                // highlightSubHeaderMenu: function () {
+                //     $('.reports_sub_menu_dd')
+                //         .find('.active_tab')
+                //         .removeClass('active_tab')
+                //         .end()
+                //         .find('#' + document.location.pathname.substring(1))
+                //         .addClass('active_tab');
+                // },
 
                 checkForCampaignFormat: function (adFormats) {
                     var videoAdsExists,

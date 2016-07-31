@@ -112,7 +112,7 @@ define(['angularAMD'],
                     var selectedAccount = _.find(accountService.getAccounts(), function(a) {
                         return a.id === $routeParams.accountId;
                     });
-                    if (selectedAccount.isLeafNode) {
+                    if (selectedAccount && selectedAccount.isLeafNode) {
                         url += '/mediaplans/' + ($routeParams.campaignId || 'reports') + reportName;
                         $location.url(url);
 

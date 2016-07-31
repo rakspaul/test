@@ -28,7 +28,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
         // highlight the header menu - Dashboard, Campaigns, Reports
         domainReports.highlightHeaderMenu();
-        domainReports.highlightSubHeaderMenu();
+        //domainReports.highlightSubHeaderMenu();
 
         $scope.sortType             = 'impressions';
         $scope.sortTypebyformats    = '-impressions';

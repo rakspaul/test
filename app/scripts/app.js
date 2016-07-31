@@ -1293,8 +1293,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     }
                 }))
 
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
-                    '/:campaignId/performance', angularAMD.route({
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/performance', angularAMD.route({
                     templateUrl: assets.html_performance,
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
