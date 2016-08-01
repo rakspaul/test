@@ -11,7 +11,7 @@
                             data-ng-disabled="(createNewAdGrp.$invalid ||
                                               !isMinimumAdGroupBudget ||
                                               !isMaximumAdGroupBudget ||
-                                              adIGroupBudget === 0)"
+                                              adIGroupBudget == 0)"
                             data-ng-click="saveAdGroup($event)"
                             data-ng-bind="textConstants.WF_AD_SAVE_CLOSE"
                             data-ng-show="!loadingBtn">
@@ -116,7 +116,7 @@
                            class="col-sm-12 control-label greyTxt errorLabel"
                            data-ng-bind="textConstants.ADGROUPBUDGETMSG">
                     </label>
-                    <label data-ng-if="adIGroupBudget === 0"
+                    <label data-ng-if="adIGroupBudget == 0"
                            class="col-sm-12 control-label greyTxt customErrorLabel"
                            data-ng-bind="textConstants.ADGROUPBUDGETGREATERTHANZEROMSG">
                     </label>
