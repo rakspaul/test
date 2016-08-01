@@ -141,6 +141,11 @@ a:hover {
   margin: 20px 0 0 0 !important;
   padding: 0 !important;
 }
+.selected_bg {
+  padding: 10px;
+  background: #FF6600;
+  margin: 61px 0 0 0;
+}
 strong {
   font-family: Avenir-bold, sans-serif;
 }
