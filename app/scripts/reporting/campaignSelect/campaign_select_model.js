@@ -48,7 +48,7 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                 };
 
                 campaign.getCampaigns = function (brand, searchCriteria) {
-                    var clientId = vistoconfig.getMasterClientId(),
+                    var clientId = vistoconfig.getSelectedAccountId(),
                         advertiserId = vistoconfig.getSelectAdvertiserId(),
                         url = urlService.APICampaignDropDownList(clientId, advertiserId, brand, searchCriteria);
 

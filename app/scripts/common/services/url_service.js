@@ -176,6 +176,8 @@ define(['angularAMD', 'common/services/vistoconfig_service',
 
                 APICampaignDropDownList = function (clientId, advertiserId, brandId) {
 
+                    brandId = Number(brandId) || -1;
+                    advertiserId = Number(advertiserId) || -1;
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/advertisers/' + advertiserId +
