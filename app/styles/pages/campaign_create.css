@@ -335,7 +335,7 @@
   float: left;
 }
 .adCreateMaster #targetting .targetingSlide .nav-tabs li a:hover span {
-  background: #e1edf9;
+  background: #E1EDF9;
   color: #fff;
 }
 .adCreateMaster #targetting .targetingSlide .nav-tabs li a span {
@@ -768,7 +768,7 @@
   display: none;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .values-table .each-row:hover {
-  background: #e1edf9;
+  background: #E1EDF9;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .values-table .each-row:hover .icon-clear {
   display: block;
@@ -1493,7 +1493,7 @@
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder .btn.active,
 #vendorCreate .campaignAdCreate .adMainWrapper .platformHolder .btn.active {
-  background: #e1edf9;
+  background: #E1EDF9;
   box-shadow: none;
   margin-left: -43px;
   width: auto;
@@ -2078,9 +2078,9 @@
 }
 #campaignCreate .firstWrapper .masterContainer .tableEdit .dropdown-toggle.btn[disabled] .icon-arrow-solid-down,
 #vendorCreate .firstWrapper .masterContainer .tableEdit .dropdown-toggle.btn[disabled] .icon-arrow-solid-down {
-  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eeeeee 65%);
-  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eeeeee 65%);
-  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #eeeeee 54%);
+  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eee 65%);
+  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #eee 65%);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #eee 54%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eee', endColorstr='#eee', GradientType=1);
 }
 #campaignCreate .firstWrapper .masterContainer .showAddCreditForm,
@@ -2989,7 +2989,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .col-md-12.kpiTable .intPlatWrap li:hover,
 #vendorCreate .firstWrapper .masterContainer .col-md-12.kpiTable .intPlatWrap li:hover {
-  background-color: #e1edf9;
+  background-color: #E1EDF9;
 }
 #campaignCreate .firstWrapper .masterContainer .col-md-12.kpiTable .intPlatWrap li:hover a,
 #vendorCreate .firstWrapper .masterContainer .col-md-12.kpiTable .intPlatWrap li:hover a {
@@ -4148,7 +4148,7 @@
 }
 #campaignCreate .popCreativeLib .creativeLib .popFooter,
 #vendorCreate .popCreativeLib .creativeLib .popFooter {
-  background: #e1edf9;
+  background: #E1EDF9;
   padding: 20px 30px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
