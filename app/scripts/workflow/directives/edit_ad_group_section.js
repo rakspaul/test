@@ -9,6 +9,7 @@ define(['angularAMD'], function (angularAMD) {
                 $scope.adGroupData.editAdGroupFlag = false;
 
                 $scope.processAdGroupEditData = function (formElem, adGroupsData, adGroupsIndex) {
+                    console.log("adGroupsData",adGroupsData);
                     //total budget for ad group
                     var campaignGetAdGroupsData = $scope.workflowData.campaignGetAdGroupsData,
 
@@ -40,6 +41,7 @@ define(['angularAMD'], function (angularAMD) {
                     $scope.adIGroupBudget = adGroupsData.adGroup.deliveryBudget;
                     $scope.updatedAt = adGroupsData.adGroup.updatedAt;
                     $scope.adGroupMinBudget = adGroupsData.adGroup.bookedSpend;
+                    $scope.disableLineItemDropDown = adGroupsData.adGroup.newFlag;// need to change
 
                     adGroupsBudget = adGroupsBudget - $scope.adIGroupBudget;
 
