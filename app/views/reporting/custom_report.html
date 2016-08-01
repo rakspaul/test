@@ -42,8 +42,12 @@
             <div class="col-md-12 zeroPadding reportRowForm">
                 <!--Dimensions-->
                 <div class="col-md-4 zeroPadding">
+                    <span class="col-md-6 greyTxt" data-ng-bind-html="textConstants.SELECT_DIMENTION"></span>
+                    <span class="col-md-6 greyTxt"
+                          data-ng-show="showPrimaryTxtBox"
+                          style="margin-left: -27px;"
+                          data-ng-bind-html="textConstants.ADD_KEYWORDS"></span>
                     <div class="col-md-12 zeroPadding dimensionKeywordSection">
-                        <span class="col-md-12 greyTxt" data-ng-bind-html="textConstants.SELECT_DIMENTION"></span>
                         <div class="clearfix title_row_separator breakdown_div dimension_block">
                             <div class="pull-left custom_report_filter custom_report_breakdown">
                                 <div class="common_dropdown">
@@ -65,7 +69,7 @@
                                         <ul class="dropdown-menu"
                                             data-ng-click="enable_generate_btn();"
                                             style="min-width: 200px;">
-                                            <li data-ng-click="select_dropdown_option($event)"
+                                            <li data-ng-click="select_dropdown_option($event);showPrimaryTxtBox=false"
                                                 data-ng-bind-html="textConstants.REPORT_CHOOSE_BREAKDOWN"
                                                 data-toggle="dropdown">
                                             </li>
