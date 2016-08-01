@@ -25,10 +25,6 @@
                             <span class="campaign_name_length" data-ng-bind="selectedObj.name"></span>
                         </div>
                         <div class="dropdown_list_scroll"
-                             lr-infinite-scroll="loadMore"
-                             scroll-threshold="200"
-                             list-exhausted="{{exhausted}}"
-                             fetching="{{fetching}}">
                             <li data-ng-repeat="campaign in campaignData.campaigns track by $index"
                                 class="campaigns_list_li {{campaign.name === selectedObj.name ? 'active' : ''}}"
                                 value="{{(campaign.campaign_id == undefined)? campaign.id : campaign.campaign_id}}"

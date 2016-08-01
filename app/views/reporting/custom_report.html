@@ -42,8 +42,12 @@
             <div class="col-md-12 zeroPadding reportRowForm">
                 <!--Dimensions-->
                 <div class="col-md-4 zeroPadding">
+                    <span class="col-md-6 greyTxt" data-ng-bind-html="textConstants.SELECT_DIMENTION"></span>
+                    <span class="col-md-6 greyTxt"
+                          data-ng-show="showPrimaryTxtBox"
+                          style="margin-left: -27px;"
+                          data-ng-bind-html="textConstants.ADD_KEYWORDS"></span>
                     <div class="col-md-12 zeroPadding dimensionKeywordSection">
-                        <span class="col-md-12 greyTxt" data-ng-bind-html="textConstants.SELECT_DIMENTION"></span>
                         <div class="clearfix title_row_separator breakdown_div dimension_block">
                             <div class="pull-left custom_report_filter custom_report_breakdown">
                                 <div class="common_dropdown">
@@ -65,7 +69,7 @@
                                         <ul class="dropdown-menu"
                                             data-ng-click="enable_generate_btn();"
                                             style="min-width: 200px;">
-                                            <li data-ng-click="select_dropdown_option($event)"
+                                            <li data-ng-click="select_dropdown_option($event);showPrimaryTxtBox=false"
                                                 data-ng-bind-html="textConstants.REPORT_CHOOSE_BREAKDOWN"
                                                 data-toggle="dropdown">
                                             </li>
@@ -1505,15 +1509,15 @@
                     (customReportData.end_time | formatDate:'D MMM YYYY') :'NA'">
             </div>
             <!--Booked Impressions booked_impressions-->
-            <div class="each_col" ng-if="customeReportData.booked_impressions != null"
-                 ng-bind="customeReportData.booked_impressions === null ? 'NA' :
-                 (customeReportData.booked_impressions | number:0)">
+            <div class="each_col" ng-if="customReportData.booked_impressions != null"
+                 ng-bind="customReportData.booked_impressions === null ? 'NA' :
+                 (customReportData.booked_impressions | number:0)">
             </div>
 
             <!--Actual Impressions actual_impressions-->
-            <div class="each_col" ng-if="customeReportData.actual_impressions != null"
-                 ng-bind="customeReportData.actual_impressions === null ? 'NA' :
-                 (customeReportData.actual_impressions | number:0)">
+            <div class="each_col" ng-if="customReportData.actual_impressions != null"
+                 ng-bind="customReportData.actual_impressions === null ? 'NA' :
+                 (customReportData.actual_impressions | number:0)">
             </div>
 
             <!--+-Impressions diff_impressions-->
@@ -1524,21 +1528,21 @@
             </div>
 
             <!--%Delivered perc_delivered-->
-            <div class="each_col" ng-if="customeReportData.perc_delivered != null"
-                 ng-bind="customeReportData.perc_delivered === null ? 'NA' :
-                 (customeReportData.perc_delivered| number:0) + '%'">
+            <div class="each_col" ng-if="customReportData.perc_delivered != null"
+                 ng-bind="customReportData.perc_delivered === null ? 'NA' :
+                 (customReportData.perc_delivered| number:0) + '%'">
             </div>
 
             <!--Booked Revenue booked_revenue-->
-            <div class="each_col" ng-if="customeReportData.booked_revenue != null"
-                 data-ng-bind="customeReportData.booked_revenue === null ? 'NA' :
-                 (customeReportData.booked_revenue | number:0)">
+            <div class="each_col" ng-if="customReportData.booked_revenue != null"
+                 data-ng-bind="customReportData.booked_revenue === null ? 'NA' :
+                 (customReportData.booked_revenue | number:0)">
             </div>
 
             <!--Actual Revenue actual_revenue-->
-            <div class="each_col" ng-if="customeReportData.actual_revenue != null"
-                 ng-bind="customeReportData.actual_revenue === null ? 'NA' :
-                 (customeReportData.actual_revenue | number:0)">
+            <div class="each_col" ng-if="customReportData.actual_revenue != null"
+                 ng-bind="customReportData.actual_revenue === null ? 'NA' :
+                 (customReportData.actual_revenue | number:0)">
             </div>
 
             <!--+/- Revenue  diff_revenue-->
@@ -1549,13 +1553,13 @@
             </div>
 
             <!--Booked CPM booked_cpm-->
-            <div class="each_col" ng-if="customeReportData.booked_cpm != null"
-                 ng-bind="customeReportData.booked_cpm | number:0">
+            <div class="each_col" ng-if="customReportData.booked_cpm != null"
+                 ng-bind="customReportData.booked_cpm | number:0">
             </div>
 
             <!--Actual CPM actual_cpm-->
-            <div class="each_col" ng-if="customeReportData.actual_cpm != null"
-                 ng-bind="customeReportData.actual_cpm === null ? 'NA' : (customeReportData.actual_cpm | number:2)">
+            <div class="each_col" ng-if="customReportData.actual_cpm != null"
+                 ng-bind="customReportData.actual_cpm === null ? 'NA' : (customReportData.actual_cpm | number:2)">
             </div>
 
             <!-- +/-CPM diff_cpm -->

@@ -82,13 +82,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         }, createCampaign.errorHandler);
                 },
 
-                fetchSubAccounts: function (callabck) {
+                fetchSubAccounts: function (callback) {
                     workflowService
                         .getSubAccounts('write')
                         .then(function (result) {
                             if (result.status === 'OK' || result.status === 'success') {
                                 $scope.workflowData.subAccounts = result.data.data;
-                                callabck && callabck($scope.workflowData.subAccounts);
+                                callback && callback($scope.workflowData.subAccounts);
                             } else {
                                 createCampaign.errorHandler(result);
                             }

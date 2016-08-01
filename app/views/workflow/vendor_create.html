@@ -42,7 +42,7 @@
                             </div>
                         </li>
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink"  data-target="#pixels" data-toggle="tab">2. Basic Settings</a>
+                            <a class="leftNavLink"  data-target="#settings" data-toggle="tab">2. Basic Settings</a>
                             <div class="statusLabel">
                                 <div class="col-md-12" ng-if="selectedCampaign.selectedPixel.length >0">
                                     <div>{{selectedCampaign.selectedPixel.length}} pixels selected</div>
@@ -54,7 +54,7 @@
                         </li>
 
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink budget-page-trigger"  data-target="#budget" data-toggle="tab">3. Permissions</a>
+                            <a class="leftNavLink budget-page-trigger"  data-target="#permissions" data-toggle="tab">3. Permissions</a>
                             <div class="statusLabel" ng-if="Campaign.totalBudget">
                                 <div class="col-md-12">
                                     <!--<div class="statusIcon icon-usd"></div>-->
@@ -78,7 +78,7 @@
                             </div>
                         </li>
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink" data-target="#addLineItems" data-toggle="tab">4. Offerings</a>
+                            <a class="leftNavLink" data-target="#offerings" data-toggle="tab">4. Offerings</a>
                             <div class="statusLabel">
                                 <div class="col-md-12" ng-if="lineItems.lineItemList.length >0">
                                     <span>{{lineItems.lineItemList.length}} Line Item{{(lineItems.lineItemList.length > 1)?'s':''}}</span>
@@ -181,16 +181,16 @@
                             <div ng-include="'/views/workflow/partials/vendor_create/vendor_select.html'"></div>
                         </div>
 
-                        <div class="tab-pane fade" id="pixels">
+                        <div class="tab-pane fade" id="settings">
                             <div ng-include="'/views/workflow/partials/vendor_create/vendor_settings.html'"></div>
                         </div>
 
-                        <div class="tab-pane fade" id="budget">
-                            <div ng-include="'/views/workflow/partials/campaign_create/budget.html'" ng-controller="BudgetController"></div>
+                        <div class="tab-pane fade" id="permissions">
+                            <div ng-include="'/views/workflow/partials/vendor_create/vendor_permissions.html'" ></div>
                         </div>
 
-                        <div class="tab-pane fade" id="addLineItems">
-                            <div ng-include="'/views/workflow/partials/campaign_create/add_list_items.html'" ng-controller="LineItemController"></div>
+                        <div class="tab-pane fade" id="offerings">
+                            <div ng-include="'/views/workflow/partials/vendor_create/vendor_offerings.html'" ></div>
                         </div>
                     </div>
                 </form>

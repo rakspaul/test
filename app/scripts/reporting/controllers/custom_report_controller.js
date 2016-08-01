@@ -331,8 +331,15 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         $scope.reportTitle += ' by ' + $scope.reports.reportDefinition.dimensions[filterDataKey].name;
                     }
 
-                    str += ((dataFormat && dataFormat === 'csv') ? '&second_dim=' : '&first_dim_filter=') +
-                        $scope.reports.reportDefinition.dimensions[filterDataKey].dimension;
+                    if (dataFormat && dataFormat === 'csv') {
+                        str += '&second_dim=';
+                    } else if(isPrimary) {
+                        str += '&filter=';
+                    } else {
+                        str += '&first_dim_filter=';
+                    }
+
+                    str += $scope.reports.reportDefinition.dimensions[filterDataKey].dimension;
 
                     if ($scope.reports.reportDefinition.dimensions[filterDataKey].value && isPrimary) {
                         str += ':' + $scope.reports.reportDefinition.dimensions[filterDataKey].value;

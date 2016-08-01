@@ -18,12 +18,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             winHeight,
 
             campaignOverView = {
-                fetchSubAccounts: function (callabck) {
+                fetchSubAccounts: function (callback) {
                     workflowService
                         .getSubAccounts('write')
                         .then(function (result) {
                             if (result.status === 'OK' || result.status === 'success') {
-                                callabck && callabck(result.data.data);
+                                callback && callback(result.data.data);
                             } else {
                                 campaignOverView.errorHandler(result);
                             }

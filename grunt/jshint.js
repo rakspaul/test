@@ -13,7 +13,8 @@ module.exports = function (grunt) {
                     '<%= cvars.app %>/<%= cvars.appjs %>/common/**/*.js',
                     '<%= cvars.app %>/<%= cvars.appjs %>/login/**/*.js',
                     '<%= cvars.app %>/<%= cvars.appjs %>/reporting/**/*.js',
-                    '<%= cvars.app %>/<%= cvars.appjs %>/workflow/**/*.js'
+                    '<%= cvars.app %>/<%= cvars.appjs %>/workflow/**/*.js',
+                    '!<%= cvars.app %>/<%= cvars.appjs %>/workflow/vast-video/jquery.js'
                 ]
             }
         }

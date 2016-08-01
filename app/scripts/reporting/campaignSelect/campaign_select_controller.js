@@ -191,6 +191,14 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model',
                     $location.url(url);
                 }
             };
+
+            campaignsList.hide();
+
+            $('.dropdown_list_scroll').on('scroll', function() {
+                if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+                    $scope.loadMore();
+                }
+            });
         });
     }
 );
