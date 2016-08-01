@@ -1363,6 +1363,12 @@ define(['angularAMD'], function(angularAMD) {
         this.VIEW_SUMMARY = 'View Summary' ;
         this.CONTRACT_DATES = 'Contract Dates' ;
         this.SEAT_ID_CONNECTIONS = 'Seat ID | Connections' ;
+        this.ENABLE = 'Enable' ;
+        this.OFFERING = 'Offering' ;
+        this.CATEGORY = 'Category' ;
+        this.BASE_RATE_TYPE = 'Base Rate & Type' ;
+        this.SEAT_ID_CONNECTIONS = 'Seat ID | Connections' ;
+
 
     });
 });

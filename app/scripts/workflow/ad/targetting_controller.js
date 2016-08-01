@@ -94,7 +94,7 @@ define(['angularAMD', '../services/workflow_service', 'workflow/services/audienc
             $('.metro-tab-content .targetting-tab-body').css('min-height', winHeight - 380 + 'px');
             $('#dmas .list_row_holder').css('min-height', winHeight - 370 + 'px');
 
-            $('.geo-selected-section').css('min-height',  winHeight - 184 + 'px');
+            $('#geo-selected-section').css('min-height',  winHeight - 184 + 'px');
             $('#zip').css('min-height', winHeight - 193  + 'px');
 
             // Day Targeting
