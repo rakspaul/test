@@ -558,6 +558,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                             .parents('.dropdown')
                             .find('button')
                             .html('Select Brand <span class="icon-arrow-solid-down"></span>');
+                        
+                        $('#advertiserDDL')
+                            .parents('.dropdown')
+                            .find('button')
+                            .html('Select Advertiser <span class="icon-arrow-solid-down"></span>');
                     }
 
                     $scope.isMediaPlanNameExist();
@@ -872,15 +877,22 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 $(this).parents('.dropdown').find('.btn').val($(this).data('value'));
             });
-
-            $('.dropdown-workflow a').each(function () {
-                var text = $(this).text();
-
-                if (text.length > 14) {
-                    $(this).val(text).text(text.substr(0, 20) + '…');
-                }
+            
+            $(document).on('click', '.dropdown .btn', function () {
+                $scope.trimText();
             });
 
+            $scope.trimText = function() {
+                $('.dropdown-workflow a').each(function () {
+                    var text = $(this).text();
+                    
+                    if (text.length > 25) {
+                        $(this).val(text).text(text.substr(0, 25) + '…');
+                    }
+                });
+            };
+            $scope.trimText();
+            
             // DDL ChkBox Prevent Default
             $('.dropdown-menu.multiSelectDDL').find('input').click(function (e) {
                 e.stopPropagation();
