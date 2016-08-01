@@ -19,7 +19,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model',
                         $scope.isAllMediaPlan = false;
                     }
                 };
-
+            $('#campaigns_list').hide();
             function resetSearchCriteria() {
                 searchCriteria.offset = constants.DEFAULT_OFFSET_START;
                 searchCriteria.key = '';
@@ -152,7 +152,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model',
                 $('.mediaplan-dd-open').removeClass('mediaplan-dd-open') ;
                 $('.report-type-col .dropdown-menu').hide() ;
                 elem.siblings('.dropdown_type1').addClass('mediaplan-dd-open') ;
-                $('.dropdown_type1').not('.mediaplan-dd-open').hide() ;
+            //    $('.dropdown_type1').not('.mediaplan-dd-open').hide() ;
                 $('.mediaplan-dd-open').show() ;
             });
 
