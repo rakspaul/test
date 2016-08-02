@@ -465,7 +465,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     $scope.selectedAdvertiserId = advObj.id;
                     $scope.selectedAdvertiser = advObj.name;
                     $scope.setSelectedAdvertiserCode = advObj.code;
-                    $scope.advertiserData.companyUrl = advObj.companyUrl || '';
                     accountsService
                         .getAdvertiserUnderClient(client.id, advObj.id)
                         .then(function (res) {
@@ -481,6 +480,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                                 $scope.selectedAdvertiser = result.name ? result.name : advObj.name;
                                 $scope.advertiserData.lookbackImpressions = result.lookbackImpressions;
                                 $scope.advertiserData.lookbackClicks = result.lookbackClicks;
+                                $scope.advertiserData.companyUrl = result.companyUrl || '';
                             }
 
                             getPixelsData(client.id,advObj.id);
