@@ -118,7 +118,7 @@
     }
 
     .dropdown-menu li.disabled>a {
-        cursor: not-allowed;
+        cursor: not-allowed !important;
     }
 
     .dropdown-menu,
@@ -204,6 +204,15 @@
                             margin-right: 8px;
                         }
                     }
+                    
+                    .disabled {
+                        cursor: not-allowed !important;
+                        opacity: .6;
+                        span, a {
+                            cursor: not-allowed !important;
+                            opacity: .6;
+                        }
+                    }
                 }
             }
             .withIcons {
@@ -215,6 +224,10 @@
                 &:hover {
                     background: #E1EDF9;
                 }
+                &.disabled {
+                    cursor: not-allowed;
+                    opacity: .6;
+                }
             }
             .withIcons:before {
                 font-size: 16px;
@@ -223,6 +236,11 @@
                 margin-right: 10px;
                 padding-top: 2px;
                 display: -webkit-inline-box;
+            }
+            &.disabled {
+                [class^="icon-"], [class*=" icon-"] {
+                    cursor: not-allowed !important;
+                }
             }
         }
 
