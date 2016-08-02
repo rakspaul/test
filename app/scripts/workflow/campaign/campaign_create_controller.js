@@ -240,7 +240,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     if (flightDateObj.endTime) {
                         $scope.selectedCampaign.endTime = $scope.modifiedMediaPlanAPIEndTime = flightDateObj.endTime;
                         $scope.initiateDatePicker();
-                        $scope.handleFlightDate(flightDateObj);
+                        $scope.handleEndFlightDate(flightDateObj);
                     }
 
                     // set updateAt value in hidden field.
@@ -560,6 +560,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             .parents('.dropdown')
                             .find('button')
                             .html('Select Brand <span class="icon-arrow-solid-down"></span>');
+
+                        $('#advertiserDDL')
+                            .parents('.dropdown')
+                            .find('button')
+                            .html('Select Advertiser <span class="icon-arrow-solid-down"></span>');
                     }
 
                     $scope.isMediaPlanNameExist();
@@ -588,7 +593,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         // media plan master dates handle
-        $scope.handleFlightDate = function (data) {
+        $scope.handleEndFlightDate = function (data) {
             var startTime = data.startTime,
                 endTime = data.endTime,
                 endDateElem = $('#endDateInput'),
@@ -873,13 +878,20 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $(this).parents('.dropdown').find('.btn').val($(this).data('value'));
             });
 
-            $('.dropdown-workflow a').each(function () {
-                var text = $(this).text();
-
-                if (text.length > 14) {
-                    $(this).val(text).text(text.substr(0, 20) + '…');
-                }
+            $(document).on('click', '.dropdown .btn', function () {
+                $scope.trimText();
             });
+
+            $scope.trimText = function() {
+                $('.dropdown-workflow a').each(function () {
+                    var text = $(this).text();
+
+                    if (text.length > 25) {
+                        $(this).val(text).text(text.substr(0, 25) + '…');
+                    }
+                });
+            };
+            $scope.trimText();
 
             // DDL ChkBox Prevent Default
             $('.dropdown-menu.multiSelectDDL').find('input').click(function (e) {

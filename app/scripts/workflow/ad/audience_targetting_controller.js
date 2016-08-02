@@ -269,6 +269,9 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
 
         // final save from audience segment
         $scope.saveAdWithAudience = function () {
+            if($scope.selectedAudience.length <= 0){
+                $scope.adData.isAudienceSelected = null;
+            }
             $scope.saveCopyOfSelectedAudience = angular.copy($scope.selectedAudience);
             audienceService.setSelectedAudience($scope.saveCopyOfSelectedAudience);
             audienceService.setAndOr($scope.andOr);

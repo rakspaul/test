@@ -493,9 +493,23 @@
 }
 .edit-dialog .modal-dialog {
   width: 710px ;
+  margin-top: 100px;
+}
+.edit-dialog .modal-dialog .modal-header .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
 }
 .delete-dialog .modal-dialog {
-  width: 464px ;
+  width: 464px;
+  margin-top: 100px;
+}
+.delete-dialog .modal-dialog .modal-header .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
 }
 body div div.nav_filters .dropdown ul.dropdown-menu {
   max-height: none;

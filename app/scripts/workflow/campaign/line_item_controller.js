@@ -30,7 +30,13 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     ind,
                     startDateElem = $('#startDateInput'),
                     endDateElem = $('#endDateInput'),
-                    highestEndTime;
+                    highestEndTime,
+                    campaignStartTime,
+                    campaignEndTime;
+
+                campaignStartTime = $scope.selectedCampaign.startTime;
+                campaignEndTime = $scope.selectedCampaign.endTime;
+
 
                 // startDate input Element
                 if (!_.contains(['IN_FLIGHT', 'ENDED'], $scope.selectedCampaign.status)) {
@@ -46,11 +52,16 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     });
 
                     if (ascending.length > 0) {
+
                         lowestStartTime = ascending[0];
-                        startDateElem.datepicker('setEndDate', lowestStartTime);
+
+                        if(moment(campaignStartTime).isAfter(moment(lowestStartTime))) {
+                            startDateElem.datepicker('setEndDate', lowestStartTime);
+                        }
+
                     } else {
-                        startDateElem.datepicker('setStartDate', $scope.selectedCampaign.startTime);
-                        startDateElem.datepicker('setEndDate', $scope.selectedCampaign.endTime);
+                        startDateElem.datepicker('setStartDate', campaignStartTime);
+                        startDateElem.datepicker('setEndDate', campaignEndTime);
                     }
                 }
 
@@ -69,7 +80,9 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                 if (descending.length > 0) {
                     highestEndTime = descending[0];
-                    endDateElem.datepicker('setStartDate', highestEndTime);
+                    if(moment(campaignEndTime).isBefore(moment(highestEndTime))) {
+                        endDateElem.datepicker('setStartDate', highestEndTime);
+                    }
                 } else {
                     endDateElem.datepicker('setStartDate',$scope.selectedCampaign.endTime);
                 }
