@@ -117,13 +117,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     });
             }
 
-            $('.main_navigation')
-                .find('.active')
-                .removeClass('active')
-                .end()
-                .find('#creative_nav_link')
-                .addClass('active');
-
             $scope.pixelIndex = null;
             $scope.pixelFormData = {
                 name: '',
@@ -671,6 +664,15 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $('#admin_nav_link').addClass('active_tab');
             $('.miniTabLinks .btn').removeClass('active');
             $('#accounts_link').addClass('active');
+            
+            $( document ).ready(function() {
+                $('.main_navigation')
+                    .find('.active')
+                    .removeClass('active')
+                    .end()
+                    .find('#admin_nav_link')
+                    .addClass('active');
+            });
 
             $('#pixelExpirationDate').datepicker('update', new Date());
 

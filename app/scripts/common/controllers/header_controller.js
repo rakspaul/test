@@ -156,7 +156,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         };
 
         $scope.NavigateToTab = function (url, event, page) {
-            $('.header_tab_dropdown').removeClass('active_tab active selected');
+            $('.each_nav_link').removeClass('active_tab active selected');
 
             if (page === 'reportOverview') {
                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
@@ -177,9 +177,13 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 url = '/creative/list';
                 $('#creative_nav_link').addClass('active_tab');
             } else if (page === 'adminOverview') {
-                $('.each_nav_link').removeClass('active_tab active selected');
                 url = '/admin/accounts';
+                $('.each_nav_link').removeClass('active_tab active selected');
                 $('#admin_nav_link').addClass('active_tab');
+            } else if (page === 'invoiceTool') {
+                url = '/v1sto/invoices';
+                $('.each_nav_link').removeClass('active_tab active selected');
+                $('#invoiceTool_nav_link').addClass('active_tab');
             } else if (page === 'mediaplanList') {
                 $('.each_nav_link').removeClass('active_tab active selected');
                 url = '/mediaplans';

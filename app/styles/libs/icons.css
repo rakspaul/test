@@ -111,9 +111,6 @@
 .icon-alert:before {
   content: "\31";
 }
-.icon-audience:before {
-  content: "\64";
-}
 .icon-attach:before {
   content: "\63";
 }
@@ -140,9 +137,6 @@
 }
 .icon-video:before {
   content: "\54";
-}
-.icon-user:before {
-  content: "\35";
 }
 .icon-unlocked:before {
   content: "\51";
@@ -285,9 +279,6 @@
 .icon-stop:before {
   content: "\60";
 }
-.icon-avatar-round:before {
-  content: "\24";
-}
 .icon-back-arrow:before {
   content: "\37";
 }
@@ -296,4 +287,13 @@
 }
 .icon-signout:before {
   content: "\3a";
+}
+.icon-avatar-round:before {
+  content: "\24";
+}
+.icon-user:before {
+  content: "\35";
+}
+.icon-audience:before {
+  content: "\64";
 }
