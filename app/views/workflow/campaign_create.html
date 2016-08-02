@@ -121,9 +121,25 @@
                                         <span class="icon-more-options"></span>
                                     </button>
                                     <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
-                                        <li class="disabled"><a>{{textConstants.WF_PAUSE}}</a></li>
-                                        <li class="disabled"><a>{{textConstants.WF_RESUME}}</a></li>
-                                        <li><a class="available" id="archiveAdbtn" ng-hide="(mode!='edit')" ng-click="cancelArchiveCampaign()">{{textConstants.WF_ARCHIVE}}</a></li>
+                                        <li class="disabled" disabled="disabled">
+                                                <span class="disabled icon-paused withIcons col-md-12"
+                                                    style="width: 100% !important; margin: 0;
+                                                    padding: 9px 15px !important; white-space: nowrap;">{{textConstants.WF_PAUSE}}
+                                                </span>
+                                        </li>
+                                        <li class="disabled" disabled="disabled">
+                                                <span class="disabled icon-ready withIcons col-md-12"
+                                                    style="width: 100% !important; margin: 0;
+                                                    padding: 9px 15px !important; white-space: nowrap;">{{textConstants.WF_RESUME}}
+                                                </span>
+                                        </li>
+                                        <li class="available">
+                                                <span class="available icon-archive withIcons col-md-12"
+                                                    id="archiveAdbtn" ng-hide="(mode!='edit')"
+                                                    style="width: 100% !important; margin: 0;
+                                                    padding: 9px 15px !important; white-space: nowrap;"
+                                                    ng-click="cancelArchiveCampaign()">{{textConstants.WF_ARCHIVE}}</span>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>

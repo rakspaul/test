@@ -72,7 +72,7 @@
                 text-align: left;
 
                 .statusIcon {
-                    margin: -1px 5px 0 0;
+                    margin: -2px 5px 0 0 !important;
                     float: left;
                 }
 
@@ -120,6 +120,16 @@
                 clear: left;
                 text-align: right;
             }
+        }
+        
+        [class^="icon-"],
+        [class*=" icon-"] {
+            height: 16px;
+            width: 16px;
+            font-size: 16px;
+            display: inline-block;
+            fill: currentColor;
+            color: @coal;
         }
 
         .greyTxt {

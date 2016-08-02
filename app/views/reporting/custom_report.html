@@ -397,7 +397,7 @@
                                            data-ng-model="costMetrics.isAllSelected"
                                            data-ng-click="onMetricClick('costMetrics')"
                                            ng-disabled="costMetrics.isDisabled" >
-                                        Cost tab
+                                        Cost
                                 </span>
                                 <div>
                                 <fieldset class="col-md-12 metricData"
@@ -1194,7 +1194,7 @@
             <div class="each_col_delivery"
                  data-ng-if="customReportData.pccr >= -1"
                  data-ng-bind="customReportData.pccr === -1 ? 'NA' :
-                    (customReportData.pccr | number : 2)">
+                    ((customReportData.pccr | number : 2) + '%')">
             </div>
             <div class="each_col_delivery"
                  data-ng-if="customReportData.actions >= -1"
@@ -1378,7 +1378,7 @@
             <div class="each_col"
                  data-ng-if="customReportData.completion_rate >= -1"
                  data-ng-bind="customReportData.completion_rate === -1 ? 'NA' :
-                    (customReportData.completion_rate | number : 2)">
+                    ((customReportData.completion_rate | number : 2)+'%')">
             </div>
 
             <!--Mutes mutes-->
@@ -1421,7 +1421,7 @@
             <div class="each_col"
                  data-ng-if="customReportData.measurable_perc >= -1"
                  data-ng-bind="customReportData.measurable_perc === -1 ? 'NA' :
-                    (customReportData.measurable_perc | number : 0)">
+                    ((customReportData.measurable_perc | number : 0)+'%')">
             </div>
             <div class="each_col"
                  data-ng-if="customReportData.viewable_imps >= -1"
@@ -1431,7 +1431,7 @@
             <div class="each_col"
                  data-ng-if="customReportData.viewable_perc >= -1"
                  data-ng-bind="customReportData.viewable_perc === -1 ? 'NA' :
-                    (customReportData.viewable_perc | number : 0)">
+                    ((customReportData.viewable_perc | number : 0)+'%')">
             </div>
             <div class="each_col"
                  data-ng-if="customReportData.viewable_imps_5s >= -1"
@@ -1451,27 +1451,27 @@
             <div class="each_col"
                  data-ng-if="customReportData.suspicious_act_perc >= -1"
                  data-ng-bind="customReportData.suspicious_act_perc === -1 ? 'NA' :
-                    (customReportData.suspicious_act_perc | number : 0)">
+                    ((customReportData.suspicious_act_perc | number : 0)+'%')">
             </div>
             <div class="each_col"
                  data-ng-if="customReportData.viewable_25 >= -1"
                  data-ng-bind="customReportData.viewable_25 === -1 ? 'NA' :
-                    (customReportData.viewable_25 | number : 0)">
+                    ((customReportData.viewable_25 | number : 0)+'%')">
             </div>
             <div class="each_col"
                  data-ng-if="customReportData.viewable_50 >= -1"
                  data-ng-bind="customReportData.viewable_50 === -1 ? 'NA' :
-                    (customReportData.viewable_50 | number : 0)">
+                    ((customReportData.viewable_50 | number : 0)+'%')">
             </div>
             <div class="each_col"
                  data-ng-if="customReportData.viewable_75 >= -1"
                  data-ng-bind="customReportData.viewable_75 === -1 ? 'NA' :
-                    (customReportData.viewable_75 | number : 0)">
+                    ((customReportData.viewable_75 | number : 0)+'%')">
             </div>
             <div class="each_col"
                  data-ng-if="customReportData.viewable_100 >= -1"
                  data-ng-bind="customReportData.viewable_100 === -1 ? 'NA' :
-                    (customReportData.viewable_100 | number : 0)">
+                    ((customReportData.viewable_100 | number : 0)+'%')">
             </div>
         </script>
 
