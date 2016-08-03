@@ -1369,6 +1369,8 @@ define(['angularAMD'], function(angularAMD) {
         this.BASE_RATE_TYPE = 'Base Rate & Type' ;
         this.SEAT_ID_CONNECTIONS = 'Seat ID | Connections' ;
 
+        this.REPORT_BUILDER_METRIC_TOOLTIP = "Metrics that don't apply to the selected Dimension(s) will be disabled.";
+
 
     });
 });
