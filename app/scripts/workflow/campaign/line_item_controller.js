@@ -84,9 +84,9 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                 if (descending.length > 0) {
                     highestEndTime = descending[0];
-                    if(moment(campaignEndTime).isBefore(moment(highestEndTime))) {
+                    //if(moment(campaignEndTime).isBefore(moment(highestEndTime))) {
                         endDateElem.datepicker('setStartDate', highestEndTime);
-                    }
+                    //}
                 } else {
                     endDateElem.datepicker('setStartDate',$scope.selectedCampaign.endTime);
                 }
