@@ -1273,5 +1273,24 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.INVOICE_CONFIRM_UPLOAD =
             'Once the invoice status changed to upload, user must upload the file to change the status.';
         this.CODE_FIELD_EMPTY = 'Please add code';
+
+        //vendors page
+        this.VENDORS = 'Vendors' ;
+        this.VENDOR_CONFIGURATION = 'My Vendor Configurations';
+        this.CONFIGURATION = 'Configuration';
+        this.ID = 'ID';
+        this.VENDOR = 'Vendor';
+        this.OWNER = 'Owner';
+        this.CURRENCY = 'Currency';
+        this.UPDATED = 'Updated';
+        this.VIEW_SUMMARY = 'View Summary' ;
+        this.CONTRACT_DATES = 'Contract Dates' ;
+        this.SEAT_ID_CONNECTIONS = 'Seat ID | Connections' ;
+        this.ENABLE = 'Enable' ;
+        this.OFFERING = 'Offering' ;
+        this.CATEGORY = 'Category' ;
+        this.BASE_RATE_TYPE = 'Base Rate & Type' ;
+        this.SEAT_ID_CONNECTIONS = 'Seat ID | Connections' ;
+        this.REPORT_BUILDER_METRIC_TOOLTIP = 'Metrics that don\'t apply to the selected Dimension(s) will be disabled.';
     });
 });
