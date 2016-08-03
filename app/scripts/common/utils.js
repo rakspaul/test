@@ -641,6 +641,15 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     return o;
                 }
 
+                function formatStringWithDate(string,date,format){
+                    if(typeof date === 'undefined' || typeof format === 'undefined')
+                        return string;
+
+                    var formattedDate = moment(date).format(format);
+                    return string.replace('{0}',formattedDate);
+                }
+
+
                 return {
                     formatDate: formatDate,
                     regExp: regExp,
@@ -664,7 +673,8 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     validateTag:validateTag,
                     stripCommaFromNumber: stripCommaFromNumber,
                     rangeValue : rangeValue,
-                    getResponseMsg: getResponseMsg
+                    getResponseMsg: getResponseMsg,
+		    formatStringWithDate:formatStringWithDate
                 };
             }
         ]);
