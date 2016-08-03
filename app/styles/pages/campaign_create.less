@@ -2706,12 +2706,25 @@
                     }
 
                     .adCreateBtn {
-                        border: 1px dashed #939EAE !important;
+                        border: 2px dashed @stroke-gray-borders !important;
                         cursor: pointer;
-
+                        border-radius: 2px;
+                        background: #fff;
                         &:hover {
-                            .glyphicon, h2, [class^="icon-"], [class*=" icon-"] {
-                                color: @visto-blue;
+                            border: 2px dashed @label-gray !important;
+                            background: @hover-light-blue;
+                            .glyphicon, h3, [class^="icon-"], [class*=" icon-"] {
+                                color: @lead-gray !important;
+                            }
+                        }
+                        &:focus, &:active {
+                            border: 2px dashed @stroke-gray-borders !important;
+                            background: @active-gray;
+                            .glyphicon, [class^="icon-"], [class*=" icon-"] {
+                                color: @lead-gray !important;
+                            }
+                            h3 {
+                                color: @coal !important;
                             }
                         }
 
@@ -2828,6 +2841,17 @@
 
                         .addMaster {
                             text-decoration: none;
+                            .icon-plus {
+                                font-size: 32px;
+                                height: 32px;
+                                width: 32px;
+                                margin: 0;
+                                color: @label-gray;
+                            }
+                            h3 {
+                                color: @label-gray;
+                                margin: 3px 0 0 0;
+                            }
                         }
 
                         .adStatus {
@@ -3233,7 +3257,7 @@
                 .campTitleWrap {
                     clear: both;
                     float: left;
-                    padding: 5px 0 0 0 !important;
+                    padding: 0 !important;
 
                     .activeLabel {
                         background-color: #70d43d;
@@ -3273,7 +3297,7 @@
                         float: left;
                         font-size: 0 !important;
                         height: 16px;
-                        margin-top: 6px;
+                        margin-top: 4px;
                         width: 16px;
                     }
                 }
@@ -3326,7 +3350,7 @@
                 h4 {
                     float: left;
                     font-family:  Avenir, sans-serif;
-                    margin: 6px 0 0 10px;
+                    margin: 5px 0 0 10px;
                     padding-bottom: 5px;
                     word-wrap: break-word;
                 }
@@ -3390,7 +3414,6 @@
                 }
 
                 span {
-                    color: #000;
                     float: left;
                     line-height: 100%;
                     margin: 0 0 8px 0;
