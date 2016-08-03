@@ -489,7 +489,10 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
                     }
 
                     url += '/adv/' + obj.advertiserId;
-                    url += '/b/' + obj.brandId + '/dashboard';
+                    if(obj.brandId) {
+                        url += '/b/' + obj.brandId;
+                    }
+                    url += '/dashboard';
                     $location.url(url);
                 }
             });
