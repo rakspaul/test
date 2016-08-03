@@ -84,6 +84,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="pull-left filter_input_txtbox" data-ng-show="showPrimaryTxtBox">
                                 <input type="text"
                                        name="filter"
@@ -310,10 +311,8 @@
                 <div class="col-md-12 zeroPadding metricDataViewHeader">
                     <span class="pull-left greyTxt">Metrics</span>
                     <div class="pull-left clearLeft">
-                        <a href="#" class="pull-left" data-ng-click="refreshMetriPopUp()">
-                            <span class="pull-left" data-ng-bind="metrics_text"></span>
-                            <span class="pull-left icon-inline-edit" style="margin-left: 8px; color: #428bca;"></span>
-                        </a>
+                        <button type="button" class="pull-left btn btn-default" data-ng-click="refreshMetriPopUp()" ng-disabled="!showMetricsButton"><span class="text">Select Metrics</span></button>
+                        <span class="pull-left marginLeft marginTop" data-ng-bind="metrics_text"></span>
                     </div>
                 </div>
 
@@ -324,15 +323,21 @@
                         <div class="col-md-12 zeroPaddingmetricContainer" style="margin-bottom: 30px;">
                             <h1 class="pull-left" style="margin: 0;">Select Metrics</h1>
 
-                            <input data-ng-click="metrics.OnSelectUnselectAllMetrics()"
+                            <input data-ng-click="metrics.selectUnSelectAvailableMetrics()"
                                    type="checkbox"
                                    data-ng-model="allMetrics"
                                    class="pull-left"
                                    id="selectAll_chkbox"
                                    style="margin: 8px 5px 0 30px"
-                                   ng-disabled="isAllSelectDisabled">
+                                   >
 
-                            <span class="pull-left" style="margin-top: 5px;">Select All</span>
+                            <span class="pull-left" style="margin-top: 5px">Select All Available</span>
+                            <div class="pull-left tooltip_holder" style="margin-left: 10px;margin-top: 5px">
+                                <span class="tooltip_show_icon"></span>
+
+                                <div class="common_tooltip"
+                                     ng-bind="textConstants.REPORT_BUILDER_METRIC_TOOLTIP"></div>
+                            </div>
                             <a class="btn btn-default pull-right" data-ng-click="saveMetrics();">Save & Close</a>
                             <a class="btn btn-link pull-right" data-ng-click="cancelMetricView();">Cancel</a>
                         </div>
@@ -341,7 +346,7 @@
                         <div class="col-md-12 zeroPadding">
                             <!--Delivery-->
                             <div class="col-md-2 zeroPadding" data-ng-show="deliveryMetrics.length">
-                                <span class="col-md-12 zeroPadding">
+                                <span class="col-md-12 zeroPadding" data-ng-class="{disabled_txt:deliveryMetrics.isDisabled}">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
                                            id="delivery_chkbox"
@@ -366,7 +371,7 @@
 
                             <!--Pacing-->
                             <div class="col-md-2 zeroPadding" data-ng-show="pacingMetrics.length">
-                                <span class="col-md-12 zeroPadding">
+                                <span class="col-md-12 zeroPadding" data-ng-class="{disabled_txt:pacingMetrics.isDisabled}">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
                                            id="pacing_chkbox"
@@ -390,7 +395,7 @@
 
                             <!--Cost-->
                             <div class="col-md-2 zeroPadding" data-ng-show="costMetrics.length">
-                                <span class="col-md-12 zeroPadding">
+                                <span class="col-md-12 zeroPadding" data-ng-class="{disabled_txt:costMetrics.isDisabled}">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
                                            id="cost_chkbox"
@@ -414,7 +419,7 @@
 
                             <!--Video-->
                             <div class="col-md-2 zeroPadding" data-ng-show="videoMetrics.length">
-                                <span class="col-md-12 zeroPadding">
+                                <span class="col-md-12 zeroPadding" data-ng-class="{disabled_txt:videoMetrics.isDisabled}">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
                                            id="video_chkbox"
@@ -438,7 +443,7 @@
 
                             <!--Quality-->
                             <div class="col-md-4 zeroPadding" data-ng-show="qualityMetrics.length">
-                                <span class="col-md-12 zeroPadding">
+                                <span class="col-md-12 zeroPadding" data-ng-class="{disabled_txt:qualityMetrics.isDisabled}">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
                                            id="quality_chkbox"
