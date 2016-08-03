@@ -101,7 +101,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         $scope.init();
-        $scope.callBackStrategyChange();
+
 
         $scope.strategiesCostData = function (param) {
             var errorHandler =  function () {
@@ -264,7 +264,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 });
             }
         };
-
+        $scope.callBackStrategyChange();
+        
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
             $scope.sortType = 'kpi_metrics.' + args;
             $scope.sortTypeSubSort ='kpi_metrics.' + args;
