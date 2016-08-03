@@ -1,10 +1,17 @@
-define(['angularAMD', '../common/d3/gauge', 'reporting/models/gauge_model', 'common/services/constants_service'],
+define(['angularAMD', '../common/d3/gauge', 'reporting/models/gauge_model', 'common/services/constants_service','common/services/account_service','common/services/sub_account_service'],
     function (angularAMD) {
     'use strict';
 
     angularAMD.controller('GaugeController', function ($scope, $rootScope, $window, $location, gauge, gaugeModel,
-                                                       constants) {
-        var campaigns = '/mediaplans';
+                                                       constants,accountService,subAccountService,vistoconfig) {
+        var campaigns;
+
+        if(accountService.getSelectedAccount().isLeafNode) {
+            campaigns = '/a/'+vistoconfig.getMasterClientId()+'/mediaplans';
+        }else {
+            var firstSubAccount = subAccountService.getSubAccounts()[0].id;
+            campaigns = '/a/'+vistoconfig.getMasterClientId()+'/sa/'+firstSubAccount+'/mediaplans';
+        }
 
         gauge.setLeftArcClickHandler(function () {
             gaugeModel.dashboard.selectedFilter = constants.ACTIVE_ONTRACK;
