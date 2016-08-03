@@ -21,7 +21,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 {byplatforms: 'Platform'},
                 {bydaysofweek: 'DOW'},
                 {bycreatives: 'Creatives'},
-                {byadsizes: 'Adsizes'}
+                {byadsizes: 'Adsizes'},
+                {bydiscrepancy: 'Discrepancy'}
             ];
 
         $scope.textConstants = constants;
@@ -135,16 +136,6 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $scope.strategyFound = true;
         $scope.vendorList = [];
 
-        performaceTabMap = [
-            {byscreens: 'Screen'},
-            {byformats: 'Format'},
-            {byplatforms: 'Platform'},
-            {bydaysofweek: 'DOW'},
-            {bycreatives: 'Creatives'},
-            {byadsizes: 'Adsizes'},
-            {bydiscrepancy: 'Discrepancy'}
-        ];
-
         $scope.download_urls = {
             screens: null,
             daysOfWeek: null,
@@ -247,8 +238,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                         return item.ad_id === -1 && item.ad_group_id === -1;
                                     });
 
-                                $scope['strategyPerfDataBy' + tab]  =
-                                    _.each($scope['strategyPerfDataBy' + tab], function (item) {
+                                _.each($scope['strategyPerfDataBy' + tab], function (item) {
                                     item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                 });
 
@@ -272,13 +262,19 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                 $scope.showPerfMetrix = false;
                                 $scope['strategyPerfDataBy' + tab]  = result.data.data;
 
-                                $scope['strategyPerfDataBy' + tab]  =
-                                    _.each($scope['strategyPerfDataBy' + tab], function (item) {
-                                        item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
-                                    });
+                                _.each($scope['strategyPerfDataBy' + tab], function (item) {
+                                    item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
+                                });
                             }
 
                             if (param.tab === 'bydiscrepancy') {
+                                // remove duplicate SOR name
+                                $scope['strategyPerfDataBy' + tab] = _customCtrl.removeDuplicateSOR(
+                                    $scope['strategyPerfDataBy' + tab]);
+                                _.each($scope.groupThem, function(item) {
+                                    item.perf_metrics = _customCtrl.removeDuplicateSOR(item.perf_metrics);
+                                });
+
                                 _.each($scope['strategyPerfDataBy' + tab], function (item) {
                                     var vendorName = (item.nodes.length === 1) ? item.nodes[0].name : item.category;
 
@@ -300,6 +296,22 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                         errorHandlerForPerformanceTab(result);
                     }
                 }, errorHandlerForPerformanceTab);
+        };
+
+        _customCtrl.removeDuplicateSOR = function(vendorData) {
+            var sorRecord = _.find(vendorData, function(item) {
+                return item.category === 'System of Record';
+            });
+            if (sorRecord && sorRecord.nodes.length === 1) {
+                return _.reject(vendorData, function (item) {
+                        return item.nodes.length === 1 && 
+                            item.nodes[0].name.toUpperCase() === sorRecord.nodes[0].name.toUpperCase() && 
+                            item.category !== sorRecord.category;
+                    });
+            } else {
+                return vendorData;
+            }
+
         };
 
         $scope.select_vender_option = function (arg) {
