@@ -1092,14 +1092,17 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             processLineItemsObj = function (lineItemList) {
-                var newItemList = [];
+                var newItemList = [],
+                    dateTimeZone;
+
+                dateTimeZone = this.getSubAccountTimeZone();
 
                 _.each(lineItemList, function (item) {
                     var newItemObj = {};
 
                     newItemObj.adGroupName = item.adGroupName;
-                    item.startTime = momentService.localTimeToUTC(item.startTime, 'startTime');
-                    item.endTime = momentService.localTimeToUTC(item.endTime, 'endTime');
+                    item.startTime = momentService.localTimeToUTC(item.startTime, 'startTime', dateTimeZone);
+                    item.endTime = momentService.localTimeToUTC(item.endTime, 'endTime', dateTimeZone);
 
                     if (typeof item.pricingRate === 'string') {
                         item.pricingRate = Number(item.pricingRate.split('%')[0]);
