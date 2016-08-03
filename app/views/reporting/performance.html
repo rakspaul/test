@@ -729,11 +729,11 @@
                       style="margin-left: 2px">
                 </span>
             </strong>
-            <strong class="col-md-2 text-left">{{(vendor.nodes.length ==1) ? (vendor.category) : ''}}</strong>
+            <strong class="col-md-2 text-left">{{vendor.nodes.length == 1 ? vendor.category : ''}}</strong>
 
             <!--Column 2-->
             <strong class="col-md-2 zeroPadding text-left"
-                    data-ng-bind="((vendor.imps > 0) || (vendor.imps === 0)) ? (vendor.imps | number : 0) : '-'">
+                    data-ng-bind="vendor.imps >= 0 ? (vendor.imps | number : 0) : '-'">
             </strong>
 
             <!--Column 3-->
@@ -758,7 +758,7 @@
                 <span data-ng-bind="node.name" class="pull-left discrepancySecLevelName"></span>
                 <span class="pull-left text-left" style="width: 65px;" data-ng-bind="vendor.category"></span>
                 <div class="col-md-2 text-right"
-                     data-ng-bind="((node.imps > 0) || (node.imps === 0)) ? (node.imps | number : 0) : '-'"
+                     data-ng-bind="node.imps >= 0 ? (node.imps | number : 0) : '-'"
                      style="padding: 0">
                 </div>
             </div>

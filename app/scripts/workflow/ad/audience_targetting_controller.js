@@ -474,15 +474,9 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
         };
 
         $scope.selectKeyword = function (keyword) {
-            var input = $.trim($('#selectAud').find('.keyword-txt').val()),
-                index;
+            var index;
 
             $scope.selectedKeywords=[];
-
-            // If user has not entered anything (blanks are trimmed off), don't do anything.
-            if (!input) {
-                return;
-            }
 
             index = _.findIndex($scope.selectedKeywords, function (item) {
                 return item === keyword;
@@ -510,7 +504,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
         $scope.clearKeywordSearch = function (evt) {
             $scope.selectedKeywords=[];
             $('.keyword-txt').val('');
-            evt && $(evt.target).hide();
+            evt && $(evt.currentTarget).parent().hide();
 
             if ($scope.isAudienceTargetingSearched) {
                 $scope.isAudienceTargetingSearched = false;
@@ -523,9 +517,10 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
             $scope.pageNumber = 1;
             $scope.dropdownCss.display = keyword.length > 0 ? 'block' : 'none';
 
+            $scope.isAudienceTargetingSearched = true;
+
             if (event.which === 13) {
                 if (keyword.length){
-                    $scope.isAudienceTargetingSearched = true;
 
                     // fetch audience for keyword entered by user
                     $scope.selectKeyword(keyword);
