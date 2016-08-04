@@ -64,25 +64,30 @@
                                                          <ul class="dropdown-menu"
                                                              id="moreOptions"
                                                              style="right: 0; left: initial;">
-                                                            <li class="{{disablePause}}"
-                                                                data-ng-click="cancelAdPause()">
-                                                                <a data-ng-bind="textConstants.WF_PAUSE"></a>
+                                                            <li class="{{disablePause}}" data-ng-click="cancelAdPause()">
+                                                                <span class="icon-paused withIcons"
+                                                                      style="width: 100% !important; padding: 9px 15px !important; white-space: nowrap;"
+                                                                      data-ng-bind="textConstants.WF_PAUSE"></span>
                                                             </li>
-                                                            <li class="{{disableResume}}"
-                                                                data-ng-click="cancelAdResume()">
-                                                                <a data-ng-bind="textConstants.WF_RESUME"></a>
+                                                            <li class="{{disableResume}}" data-ng-click="cancelAdResume()">
+                                                                <span class="icon-ready withIcons"
+                                                                      style="width: 100% !important; padding: 9px 15px !important; white-space: nowrap;"
+                                                                      data-ng-bind="textConstants.WF_RESUME"></span>
                                                             </li>
                                                             <li class="disabled">
-                                                                <a data-ng-bind="textConstants.WF_MOVE_TO"></a>
+                                                                <span class="icon-move withIcons disabled" disabled="disabled"
+                                                                      style="width: 100% !important; padding: 9px 15px !important; white-space: nowrap;"
+                                                                      data-ng-bind="textConstants.WF_MOVE_TO"></span>
                                                             </li>
                                                             <li data-ng-click="showClonePopup()">
-                                                                <a data-ng-bind="textConstants.WF_CLONE"></a>
+                                                                <span class="icon-copy withIcons"
+                                                                      style="width: 100% !important; padding: 9px 15px !important; white-space: nowrap;"
+                                                                      data-ng-bind="textConstants.WF_CLONE"></span>
                                                             </li>
-                                                            <li>
-                                                                <a id="archiveAdbtn"
-                                                                   data-ng-click="cancelAdArchive()"
-                                                                   data-ng-bind="textConstants.WF_ARCHIVE">
-                                                                </a>
+                                                            <li id="archiveAdbtn" data-ng-click="cancelAdArchive()">
+                                                                <span class="icon-archive withIcons"
+                                                                      style="width: 100% !important; padding: 9px 15px !important; white-space: nowrap;"
+                                                                      data-ng-bind="textConstants.WF_ARCHIVE"></span>
                                                             </li>
                                                          </ul>
                                                     </div>

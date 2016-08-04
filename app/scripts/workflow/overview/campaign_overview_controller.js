@@ -1,15 +1,29 @@
 define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service',
+    'workflow/overview/campaign_overview_service',
     'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/overview/get_adgroups_controller',
-    'workflow/directives/edit_ad_group_section', 'login/login_model','common/utils', 
+    'workflow/directives/edit_ad_group_section', 'login/login_model','common/utils',
     'workflow/overview/campaign_clone_controller',
     'workflow/campaign/campaign_archive_controller', 'common/directives/decorate_numbers',
     'common/directives/ng_upload_hidden'], function (angularAMD) {
     angularAMD.controller('CampaignOverViewController', function ($scope, $modal, $rootScope, $routeParams,
                                                                   $timeout, $location, $route, constants,
-                                                                  workflowService, momentService, vistoconfig,
-                                                                  featuresService, dataService, loginModel,utils, 
-                                                                  $sce) {
+                                                                  workflowService, campaignOverviewService,
+                                                                  momentService, vistoconfig, featuresService,
+                                                                  dataService, loginModel, utils, $sce) {
         var campaignOverView = {
+
+            fetchSubAccounts: function (callabck) {
+                workflowService
+                    .getSubAccounts('write')
+                    .then(function (result) {
+                        if (result.status === 'OK' || result.status === 'success') {
+                            callabck && callabck(result.data.data);
+                        } else {
+                            campaignOverView.errorHandler(result);
+                        }
+                    }, campaignOverView.errorHandler);
+            },
+
             modifyCampaignData: function () {
                 var campaignData = $scope.workflowData.campaignData,
                     end = momentService.utcToLocalTime(campaignData.endTime),
@@ -61,6 +75,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 }
                             }
                             $scope.labels = responseData.labels;
+
+                            campaignOverView.fetchSubAccounts(function(subAccountData) {
+                                subAccountData = _.find(subAccountData, function(data) {
+                                return data.id === responseData.clientId;
+                                });
+                                workflowService.setSubAccountTimeZone(subAccountData.timezone);
+                            });
 
                             $scope.campaignStartTime =
                                 momentService.utcToLocalTime($scope.workflowData.campaignData.startTime);
@@ -338,8 +359,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if (errData.data.status === 404) {
                     $location.url('/mediaplans');
                 }
-            }
-        };
+            },
+        },
+        selectedIndex;
 
         $('.main_navigation_holder')
             .find('.active_tab')
@@ -670,6 +692,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.appendSizes = function (creative) {
             var creativeSizeArr = [],
+                sizes=[],
                 i,
                 arr,
                 result,
@@ -696,8 +719,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 return [a, b];
             }
+            /*get all valid sizes into the sizes array*/
+            _.each(creative,function (obj) {
+                obj.size?sizes.push(obj.size):'';
+            });
 
-            if (typeof creative !== 'undefined' && creative.length > 0 && creative[0].size) {
+            /*check if the ad has creative set and if creative has a valid size(FUll integration Creative)*/
+            if (typeof creative !== 'undefined' && creative.length > 0 && sizes.length>0) {
                 if (creative.length === 1) {
                     $scope.sizeString = creative[0].size.size;
                 } else if (creative.length > 1) {
@@ -726,7 +754,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.sizeString = result[0] && result[0].join(', ');
                     }
                 }
-            } else {
+
+            }else if (typeof creative !== 'undefined' && creative.length > 0 && sizes.length===0) {
+                $scope.sizeString = constants.WF_UNSPECIFIED;
+
+                /*check if the ad has no creatives set*/
+            }else {
                 $scope.sizeString = constants.WF_NOT_SET;
             }
 
@@ -735,7 +768,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.ToggleAdGroups = function (context, adGrpId, index, event) {
             var elem = $(event.target);
-
+            selectedIndex = index;
             if (context.showHideToggle) {
                 //Closes
                 elem.closest('.adGroup').removeClass('openInstance').addClass('closedInstance');
@@ -974,6 +1007,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postCreateAdObj,
                 utcStartTime,
                 utcEndTime,
+                dateTimeZone,
 
                 adGroupSaveErrorHandler = function (data) {
                     var errMsg,
@@ -1010,7 +1044,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postCreateAdObj = {};
                 postCreateAdObj.name = formData.adGroupName;
 
-                utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime');
+                dateTimeZone = workflowService.getSubAccountTimeZone();
+
+                utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone);
 
                 if ($scope.adGroupData.editAdGroupFlag) {
                     utcStartTime = (moment(formData.startTime)
@@ -1020,7 +1056,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 postCreateAdObj.startTime = utcStartTime;
 
-                utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
+                utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime', dateTimeZone);
 
                 if ($scope.adGroupData.editAdGroupFlag) {
                     utcEndTime = (moment(formData.endTime)
@@ -1153,6 +1189,45 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 } else {
                     return deliveryBudget;
                 }
+            }
+        };
+
+        $scope.resumeAllAds = function (dataObj) {
+            // enable resume only when pause count is greater than 0 even if the user clicks
+            // on the disabled link
+            if(dataObj.adGroupsData.PAUSED && dataObj.adGroupsData.PAUSED > 0) {
+                var param = {};
+                param.clientId = dataObj.campaignData.clientId;
+                param.campaignId = dataObj.campaignData.id;
+                param.adGroupId = dataObj.adGroupsData.adGroup.id;
+
+                campaignOverviewService.resumeAllAds(param).then(function() {
+                    $rootScope.setErrAlertMessage('All Ads in ' + dataObj.adGroupsData.adGroup.name +
+                    ' resumed' , 0);
+                    campaignOverView.getAdgroups(param.campaignId);
+                });
+            } else {
+                return false;
+            }
+        };
+
+        $scope.pauseAllAds = function (dataObj) {
+            // enable pause only when inflight count + scheduled count is greater than 0
+            // even if the user clicks on the disabled link
+            if((dataObj.adGroupsData.IN_FLIGHT && dataObj.adGroupsData.IN_FLIGHT > 0) ||
+                (dataObj.adGroupsData.SCHEDULED && dataObj.adGroupsData.SCHEDULED > 0)) {
+                var param = {};
+                param.clientId = dataObj.campaignData.clientId;
+                param.campaignId = dataObj.campaignData.id;
+                param.adGroupId = dataObj.adGroupsData.adGroup.id;
+
+                campaignOverviewService.pauseAllAds(param).then(function() {
+                    $rootScope.setErrAlertMessage('All Ads in ' + dataObj.adGroupsData.adGroup.name +
+                        ' paused' , 0);
+                    campaignOverView.getAdgroups(param.campaignId);
+                });
+            } else {
+                return false;
             }
         };
 

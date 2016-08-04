@@ -26,6 +26,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             lineitemDetailsBulk = null,
             advertiserBillingVal,
             executionType,
+            subAccountTimezone,
 
             createObj = function (platform) {
                 var integrationObj = {};
@@ -1091,14 +1092,17 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             processLineItemsObj = function (lineItemList) {
-                var newItemList = [];
+                var newItemList = [],
+                    dateTimeZone;
+
+                dateTimeZone = this.getSubAccountTimeZone();
 
                 _.each(lineItemList, function (item) {
                     var newItemObj = {};
 
                     newItemObj.adGroupName = item.adGroupName;
-                    item.startTime = momentService.localTimeToUTC(item.startTime, 'startTime');
-                    item.endTime = momentService.localTimeToUTC(item.endTime, 'endTime');
+                    item.startTime = momentService.localTimeToUTC(item.startTime, 'startTime', dateTimeZone);
+                    item.endTime = momentService.localTimeToUTC(item.endTime, 'endTime', dateTimeZone);
 
                     if (typeof item.pricingRate === 'string') {
                         item.pricingRate = Number(item.pricingRate.split('%')[0]);
@@ -1369,10 +1373,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return lineitemDetailsBulk ;
             },
 
-            // stripCommaFromNumber = function (num) {
-            //     return String(num).replace(/,/g, '');
-            // },
-
             wrapperForActiveAdGroups = function(groupList) {
                 // this wrapper is written because when the ad group api is called with ACTIVE parameter
                 // response structure is different from normal API
@@ -1386,6 +1386,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                 return obj;
 
+            },
+            setSubAccountTimeZone = function(timezone) {
+                console.log('setSubAccountTimeZone', timezone);
+                subAccountTimezone = timezone;
+            },
+
+            getSubAccountTimeZone = function() {
+                return subAccountTimezone;
             };
 
         return {
@@ -1514,8 +1522,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 getLineItemDataEdit: getLineItemDataEdit,
                 setLineItemBulkData: setLineItemBulkData,
                 getLineItemBulkData: getLineItemBulkData,
-                // stripCommaFromNumber: stripCommaFromNumber,
-                wrapperForActiveAdGroups: wrapperForActiveAdGroups
+                wrapperForActiveAdGroups: wrapperForActiveAdGroups,
+                setSubAccountTimeZone : setSubAccountTimeZone,
+                getSubAccountTimeZone : getSubAccountTimeZone
             };
     });
 });

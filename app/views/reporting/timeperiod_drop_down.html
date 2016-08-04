@@ -1,16 +1,18 @@
-<a class="dropdown-toggle active" ng-click="timePeriodClicked()" id="cdbMenu">
-  <div class="col-md-12 zeroPadding">
-    <span id="durationMenuText" ng-bind="timeData.displayTimePeriod" class="header_filter_arrow_dropdown"></span>
-    <span class="sort-image-inactive"></span>
-    <span class="icon-arrow-solid-down"></span>
-  </div>
-  
+<a class="dropdown-toggle active" data-ng-click="timePeriodClicked()" id="cdbMenu">
+    <div class="col-md-12 zeroPadding">
+        <span id="durationMenuText"
+              data-ng-bind="timeData.displayTimePeriod"
+              class="header_filter_arrow_dropdown durationMenuText">
+        </span>
+        <span class="sort-image-inactive"></span>
+        <span class="icon-arrow-solid-down durationMenuText"></span>
+    </div>
 </a>
 <ul class="dropdown-menu cdbMenu_options" role="menu" id="cdbDropdown">
-  <li ng-repeat="timeObj in timeData.timePeriodList track by $index" class={{timeObj.className}}>
-      <a data-ng-click="filterByTimePeriod(timeObj)">
-      <span class="tick"></span>
-      <span class="menuItemText" id="{{timeObj.key}}" ng-bind="timeObj.display"></span>
-    </a>
-  </li>
+    <li data-ng-repeat="timeObj in timeData.timePeriodList track by $index" class={{timeObj.className}}>
+        <a data-ng-click="filterByTimePeriod(timeObj)">
+            <span class="tick"></span>
+            <span class="menuItemText" id="{{timeObj.key}}" data-ng-bind="timeObj.display"></span>
+        </a>
+    </li>
 </ul>

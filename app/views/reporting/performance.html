@@ -10,8 +10,8 @@
             <filters-header reports="true" strategies="true"></filters-header>
         </div>
         <div class="common-load-icon_viewability" data-ng-show="strategyLoading && selectedCampaign.id != -1"></div>
-        <div class="smallSreenScrollContainer">
-            <div class="performance_container smallSreenScrollDiv"
+        <div class="smallScreenScrollContainer">
+            <div class="performance_container smallScreenScrollDiv"
                  data-ng-hide="strategyLoading && selectedCampaign.id != -1">
                 <div class="no_data_found" data-ng-if="!strategyFound"
                      data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
@@ -34,7 +34,7 @@
                             <div class="each_tab " id="bydaysofweek">
                                 <div class="each_tab_text" data-ng-bind="textConstants.DAYS_OF_WEEK"></div>
                             </div>
-                            <div class="each_tab " id="bydiscrepancy">
+                            <div class="each_tab " id="bydiscrepancy" data-ng-show="showDiscrepancyTab">
                                 <div class="each_tab_text" data-ng-bind="textConstants.DISCREPANCY"></div>
                             </div>
                         </div>
@@ -115,9 +115,9 @@
                                         <div class="common-load-icon" data-ng-show="dowBusy"></div>
                                         <div class="clearfix each_row_list"
                                              data-ng-show="!dowBusy"
-                                             data-ng-repeat="daysofweekData in strategyPerfDataByDOW |
+                                             data-ng-repeat="daysOfWeekData in strategyPerfDataByDOW |
                                                 orderBy : sortTypebydaysofweek : sortReverseDaysTab track by $index"
-                                             data-ng-include="'daysofweekTpl'">
+                                             data-ng-include="'daysOfWeekTpl'">
                                         </div>
                                     </div>
                                 </div>
@@ -131,10 +131,10 @@
                                             <div class="each_col first_col" data-ng-bind="tactic.name"></div>
                                             <div class="row_list_holder">
                                                 <div class="clearfix each_row_list"
-                                                     data-ng-repeat="daysofweekData in tactic.perf_metrics |
+                                                     data-ng-repeat="daysOfWeekData in tactic.perf_metrics |
                                                         orderBy : sortTypebydaysofweek : sortReverseDaysTab
                                                         track by $index"
-                                                     data-ng-include="'daysofweekTpl'">
+                                                     data-ng-include="'daysOfWeekTpl'">
                                                 </div>
                                             </div>
                                         </div>
@@ -159,6 +159,7 @@
                             <div class="clearfix reports_performance_header" data-ng-hide="discrepancyBusy">
                                 <discrepancy-header></discrepancy-header>
                             </div>
+
                             <!--Discrepancy Container-->
                             <div class="col-md-12 zeroPadding strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
@@ -264,7 +265,7 @@
                         </div>
                         <div class="reports_details_outer_container"
                              data-ng-show="!dataNotFoundForCreatives"
-                             data-ng-class="{strategy_video_disabled : adFormats.videoAds === false}">
+                             data-ng-class="{strategy_video_disabled: adFormats.videoAds === false}">
                             <div class="clearfix reports_performance_header" data-ng-hide="creativeBusy">
                                 <creatives-header></creatives-header>
                             </div>
@@ -280,7 +281,7 @@
                                         <div class="clearfix each_row_list"
                                              data-ng-show="!creativeBusy"
                                              data-ng-repeat="creativesData in strategyPerfDataByCreatives |
-                                                orderBy : sortTypebycreatives : sortReverseCreativesTab
+                                                orderBy : sortTypeByCreatives : sortReverseCreativesTab
                                                 track by $index"
                                              data-ng-include="'CreativesTpl'">
                                         </div>
@@ -289,7 +290,7 @@
                                 <div class="all_strategies_holder" data-ng-show="!creativeBusy">
                                     <div class="each_strategy_holder clearfix"
                                          data-ng-repeat="tactic in groupThem |
-                                            orderBy : sortTypebycreatives : sortReverseCreativesTab track by $index"
+                                            orderBy : sortTypeByCreatives : sortReverseCreativesTab track by $index"
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
@@ -300,7 +301,7 @@
                                             <div class="row_list_holder">
                                                 <div class="clearfix each_row_list"
                                                      data-ng-repeat="creativesData in tactic.perf_metrics |
-                                                        orderBy : sortTypebycreatives : sortReverseCreativesTab
+                                                        orderBy : sortTypeByCreatives : sortReverseCreativesTab
                                                         track by $index"
                                                      data-ng-include="'CreativesTpl'">
                                                 </div>
@@ -334,16 +335,16 @@
                                         <div class="common-load-icon" data-ng-show="adSizesBusy"></div>
                                         <div class="clearfix each_row_list"
                                              data-ng-show="!adSizesBusy"
-                                             data-ng-repeat="adsizesData in strategyPerfDataByAdsizes |
-                                                orderBy : sortTypebyadsizes : sortReverseAddSizes track by $index"
-                                             data-ng-include="'AdsizesTpl'">
+                                             data-ng-repeat="adSizesData in strategyPerfDataByAdsizes |
+                                                orderBy : sortTypeByAdSizes : sortReverseAdSizes track by $index"
+                                             data-ng-include="'AdSizesTpl'">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder" data-ng-show="!adSizesBusy">
                                     <div class="each_strategy_holder clearfix"
                                          data-ng-repeat="tactic in groupThem |
-                                            orderBy : sortTypebyadsizes : sortReverseAddSizes track by $index"
+                                            orderBy : sortTypeByAdSizes : sortReverseAdSizes track by $index"
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
@@ -353,10 +354,10 @@
                                             </div>
                                             <div class="row_list_holder">
                                                 <div class="clearfix each_row_list"
-                                                     data-ng-repeat="adsizesData in tactic.perf_metrics |
-                                                        orderBy : sortTypebyadsizes : sortReverseAddSizes
+                                                     data-ng-repeat="adSizesData in tactic.perf_metrics |
+                                                        orderBy : sortTypeByAdSizes : sortReverseAdSizes
                                                         track by $index"
-                                                     data-ng-include="'AdsizesTpl'">
+                                                     data-ng-include="'AdSizesTpl'">
                                                 </div>
                                             </div>
                                         </div>
@@ -442,70 +443,70 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="daysofweekTpl">
-    <div class="each_col sec_col" data-ng-bind="daysofweekData.dimension"></div>
-    <div class="each_col third_col {{daysofweekData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
-         data-ng-bind="((daysofweekData.impressions > 0) || (daysofweekData.impressions === 0)) ?
-            (daysofweekData.impressions | number : 0) : '-'">
+<script type="text/ng-template" id="daysOfWeekTpl">
+    <div class="each_col sec_col" data-ng-bind="daysOfWeekData.dimension"></div>
+    <div class="each_col third_col {{daysOfWeekData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
+         data-ng-bind="((daysOfWeekData.impressions > 0) || (daysOfWeekData.impressions === 0)) ?
+            (daysOfWeekData.impressions | number : 0) : '-'">
     </div>
     <div class="vid_col" data-ng-show="adFormats.videoAds === true">
         <div class="each_col third_col"
-             data-ng-bind="((daysofweekData.video_played > 0) || (daysofweekData.video_played === 0)) ?
-                (daysofweekData.video_played | number : 0) : '-'">
+             data-ng-bind="((daysOfWeekData.video_played > 0) || (daysOfWeekData.video_played === 0)) ?
+                (daysOfWeekData.video_played | number : 0) : '-'">
         </div>
         <div class="vid_data_hdr">
             <div>
                 <div class="vid_quartile_data"
-                     data-ng-bind="((daysofweekData.vtc_25 > 0) || (daysofweekData.vtc_25 === 0)) ?
-                        (daysofweekData.vtc_25 | nrFormat : 2) : '-'">
+                     data-ng-bind="((daysOfWeekData.vtc_25 > 0) || (daysOfWeekData.vtc_25 === 0)) ?
+                        (daysOfWeekData.vtc_25 | nrFormat : 2) : '-'">
                 </div>
                 <div class="vid_quartile_data"
-                     data-ng-bind="((daysofweekData.vtc_50 > 0) || (daysofweekData.vtc_50 === 0)) ?
-                        (daysofweekData.vtc_50 | nrFormat : 2) : '-'">
+                     data-ng-bind="((daysOfWeekData.vtc_50 > 0) || (daysOfWeekData.vtc_50 === 0)) ?
+                        (daysOfWeekData.vtc_50 | nrFormat : 2) : '-'">
                 </div>
                 <div class="vid_quartile_data"
-                     data-ng-bind="((daysofweekData.vtc_75 > 0) || (daysofweekData.vtc_75 === 0)) ?
-                        (daysofweekData.vtc_75 | nrFormat : 2) : '-'">
+                     data-ng-bind="((daysOfWeekData.vtc_75 > 0) || (daysOfWeekData.vtc_75 === 0)) ?
+                        (daysOfWeekData.vtc_75 | nrFormat : 2) : '-'">
                 </div>
                 <div class="vid_quartile_data"
-                     data-ng-bind="((daysofweekData.vtc_100 > 0) || (daysofweekData.vtc_100 === 0)) ?
-                        (daysofweekData.vtc_100 | nrFormat : 2) : '-'">
+                     data-ng-bind="((daysOfWeekData.vtc_100 > 0) || (daysOfWeekData.vtc_100 === 0)) ?
+                        (daysOfWeekData.vtc_100 | nrFormat : 2) : '-'">
                 </div>
             </div>
         </div>
-        <div class="each_col third_col {{daysofweekData.kpi_type === 'VTC' ? 'bold' : ''}}">
-            <span data-ng-bind="((daysofweekData.vtc_100 > 0) || (daysofweekData.vtc_100 === 0)) ?
-                ((daysofweekData.vtc_100 | number : 3) + '%') : '-'">
+        <div class="each_col third_col {{daysOfWeekData.kpi_type === 'VTC' ? 'bold' : ''}}">
+            <span data-ng-bind="((daysOfWeekData.vtc_100 > 0) || (daysOfWeekData.vtc_100 === 0)) ?
+                ((daysOfWeekData.vtc_100 | number : 3) + '%') : '-'">
             </span>
         </div>
     </div>
-    <div class="each_col forth_col {{daysofweekData.kpi_type === 'CTR' ? 'bold' : ''}}"
-         data-ng-bind="((daysofweekData.ctr > 0) || (daysofweekData.ctr === 0)) ?
-            ((daysofweekData.ctr | number : 3) + '%') : '-'">
+    <div class="each_col forth_col {{daysOfWeekData.kpi_type === 'CTR' ? 'bold' : ''}}"
+         data-ng-bind="((daysOfWeekData.ctr > 0) || (daysOfWeekData.ctr === 0)) ?
+            ((daysOfWeekData.ctr | number : 3) + '%') : '-'">
     </div>
-    <div class="each_col fifth_col {{daysofweekData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}"
-         data-ng-bind="((daysofweekData.action_rate > 0) || (daysofweekData.action_rate === 0)) ?
-            ((daysofweekData.action_rate | number : 3) + '%') : '-'">
+    <div class="each_col fifth_col {{daysOfWeekData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}"
+         data-ng-bind="((daysOfWeekData.action_rate > 0) || (daysOfWeekData.action_rate === 0)) ?
+            ((daysOfWeekData.action_rate | number : 3) + '%') : '-'">
     </div>
     <span  data-ng-if="!adFormats.videoAds">
-        <div class="each_col sixth_col {{daysofweekData.kpi_type === 'CPA' ? 'bold' : ''}}"
-             data-ng-bind="((daysofweekData.cpa > 0) || (daysofweekData.cpa === 0)) ?
-                (daysofweekData.cpa | currency : undefined : 3) : '-'">
+        <div class="each_col sixth_col {{daysOfWeekData.kpi_type === 'CPA' ? 'bold' : ''}}"
+             data-ng-bind="((daysOfWeekData.cpa > 0) || (daysOfWeekData.cpa === 0)) ?
+                (daysOfWeekData.cpa | currency : undefined : 3) : '-'">
         </div>
-        <div class="each_col seventh_col {{daysofweekData.kpi_type === 'CPC' ? 'bold' : ''}}"
-             data-ng-bind="((daysofweekData.cpc > 0) || (daysofweekData.cpc === 0)) ?
-                (daysofweekData.cpc | currency : undefined : 3) : '-'">
+        <div class="each_col seventh_col {{daysOfWeekData.kpi_type === 'CPC' ? 'bold' : ''}}"
+             data-ng-bind="((daysOfWeekData.cpc > 0) || (daysOfWeekData.cpc === 0)) ?
+                (daysOfWeekData.cpc | currency : undefined : 3) : '-'">
         </div>
-        <div class="each_col eight_col {{daysofweekData.kpi_type === 'CPM' ? 'bold' : ''}}"
-             data-ng-bind="((daysofweekData.cpm > 0) || (daysofweekData.cpm === 0)) ?
-                (daysofweekData.cpm | currency : undefined : 3) : '-'">
+        <div class="each_col eight_col {{daysOfWeekData.kpi_type === 'CPM' ? 'bold' : ''}}"
+             data-ng-bind="((daysOfWeekData.cpm > 0) || (daysOfWeekData.cpm === 0)) ?
+                (daysOfWeekData.cpm | currency : undefined : 3) : '-'">
         </div>
     </span>
     <div data-ng-if="adFormats.videoAds"
-         class="each_col eight_col {{daysofweekData.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
-         data-ng-class="{vid_none: adFormats.videoAds === false}">
-        {{daysofweekData[selectedFilters.kpi_type.toLowerCase()] | appendDollar :
-        selectedFilters2.kpi_type}}
+         class="each_col eight_col {{daysOfWeekData.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
+         data-ng-class="{vid_none: adFormats.videoAds === false}"
+         data-ng-bind="daysOfWeekData[selectedFilters.kpi_type.toLowerCase()] |
+            appendDollar : selectedFilters2.kpi_type">
     </div>
 </script>
 
@@ -643,68 +644,68 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="AdsizesTpl">
-    <div class="each_col sec_col" data-ng-bind="adsizesData.dimension | formatUrl : 15"></div>
-    <div class="each_col third_col {{adsizesData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
-         data-ng-bind="((adsizesData.impressions > 0) || (adsizesData.impressions === 0)) ?
-            (adsizesData.impressions | number : 0) : '-'">
+<script type="text/ng-template" id="AdSizesTpl">
+    <div class="each_col sec_col" data-ng-bind="adSizesData.dimension | formatUrl : 15"></div>
+    <div class="each_col third_col {{adSizesData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
+         data-ng-bind="((adSizesData.impressions > 0) || (adSizesData.impressions === 0)) ?
+            (adSizesData.impressions | number : 0) : '-'">
     </div>
     <span  data-ng-if="adFormats.videoAds">
         <div class="each_col third_col"
-             data-ng-bind="((adsizesData.video_played > 0) || (adsizesData.video_played === 0)) ?
-                (adsizesData.video_played | number : 0) : '-'">
+             data-ng-bind="((adSizesData.video_played > 0) || (adSizesData.video_played === 0)) ?
+                (adSizesData.video_played | number : 0) : '-'">
         </div>
         <div class="vid_data_hdr">
             <div>
                 <div class="vid_quartile_data"
-                     data-ng-bind="((adsizesData.vtc_25 > 0) || (adsizesData.vtc_25 === 0)) ?
-                        (adsizesData.vtc_25 | nrFormat : 2) : '-'">
+                     data-ng-bind="((adSizesData.vtc_25 > 0) || (adSizesData.vtc_25 === 0)) ?
+                        (adSizesData.vtc_25 | nrFormat : 2) : '-'">
                 </div>
                 <div class="vid_quartile_data"
-                     data-ng-bind="((adsizesData.vtc_50 > 0) || (adsizesData.vtc_50 === 0)) ?
-                        (adsizesData.vtc_50 | nrFormat : 2) : '-'">
+                     data-ng-bind="((adSizesData.vtc_50 > 0) || (adSizesData.vtc_50 === 0)) ?
+                        (adSizesData.vtc_50 | nrFormat : 2) : '-'">
                 </div>
                 <div class="vid_quartile_data"
-                     data-ng-bind="((adsizesData.vtc_75 > 0) || (adsizesData.vtc_75 === 0)) ?
-                        (adsizesData.vtc_75 | nrFormat : 2) : '-'">
+                     data-ng-bind="((adSizesData.vtc_75 > 0) || (adSizesData.vtc_75 === 0)) ?
+                        (adSizesData.vtc_75 | nrFormat : 2) : '-'">
                 </div>
                 <div class="vid_quartile_data"
-                     data-ng-bind="((adsizesData.vtc_100 > 0) || (adsizesData.vtc_100 === 0)) ?
-                        (adsizesData.vtc_100 | nrFormat : 2) : '-'">
+                     data-ng-bind="((adSizesData.vtc_100 > 0) || (adSizesData.vtc_100 === 0)) ?
+                        (adSizesData.vtc_100 | nrFormat : 2) : '-'">
                 </div>
             </div>
         </div>
-        <div class="each_col third_col {{adsizesData.kpi_type === 'VTC' ? 'bold' : ''}}"
-             data-ng-bind="((adsizesData.vtc_100 > 0) || (adsizesData.vtc_100 === 0)) ?
-                ((adsizesData.vtc_100 | number : 2) + '%') : '-'">
+        <div class="each_col third_col {{adSizesData.kpi_type === 'VTC' ? 'bold' : ''}}"
+             data-ng-bind="((adSizesData.vtc_100 > 0) || (adSizesData.vtc_100 === 0)) ?
+                ((adSizesData.vtc_100 | number : 2) + '%') : '-'">
         </div>
     </span>
-    <div class="each_col forth_col {{adsizesData.kpi_type === 'CTR' ? 'bold' : ''}}"
-         data-ng-bind="((adsizesData.ctr > 0) || (adsizesData.ctr === 0)) ?
-            ((adsizesData.ctr | number : 3) + '%') : '-'">
+    <div class="each_col forth_col {{adSizesData.kpi_type === 'CTR' ? 'bold' : ''}}"
+         data-ng-bind="((adSizesData.ctr > 0) || (adSizesData.ctr === 0)) ?
+            ((adSizesData.ctr | number : 3) + '%') : '-'">
     </div>
-    <div class="each_col fifth_col {{adsizesData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}"
-         data-ng-bind="((adsizesData.action_rate > 0) || (adsizesData.action_rate === 0)) ?
-            ((adsizesData.action_rate | number : 3) + '%') : '-'">
+    <div class="each_col fifth_col {{adSizesData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}"
+         data-ng-bind="((adSizesData.action_rate > 0) || (adSizesData.action_rate === 0)) ?
+            ((adSizesData.action_rate | number : 3) + '%') : '-'">
     </div>
     <span  data-ng-if="!adFormats.videoAds">
-        <div class="each_col sixth_col {{adsizesData.kpi_type === 'CPA' ? 'bold' : ''}}"
-             data-ng-bind="((adsizesData.cpa > 0) || (adsizesData.cpa === 0)) ?
-                (adsizesData.cpa | currency : undefined : 3) : '-'">
+        <div class="each_col sixth_col {{adSizesData.kpi_type === 'CPA' ? 'bold' : ''}}"
+             data-ng-bind="((adSizesData.cpa > 0) || (adSizesData.cpa === 0)) ?
+                (adSizesData.cpa | currency : undefined : 3) : '-'">
         </div>
-        <div class="each_col seventh_col {{adsizesData.kpi_type === 'CPC' ? 'bold' : ''}}"
-             data-ng-bind="((adsizesData.cpc > 0) || (adsizesData.cpc === 0)) ?
-                (adsizesData.cpc | currency : undefined : 3) : '-'">
+        <div class="each_col seventh_col {{adSizesData.kpi_type === 'CPC' ? 'bold' : ''}}"
+             data-ng-bind="((adSizesData.cpc > 0) || (adSizesData.cpc === 0)) ?
+                (adSizesData.cpc | currency : undefined : 3) : '-'">
         </div>
-        <div class="each_col eight_col {{adsizesData.kpi_type === 'CPM' ? 'bold' : ''}}"
-             data-ng-bind="((adsizesData.cpm > 0) || (adsizesData.cpm === 0)) ?
-                (adsizesData.cpm | currency : undefined : 3) : '-'">
+        <div class="each_col eight_col {{adSizesData.kpi_type === 'CPM' ? 'bold' : ''}}"
+             data-ng-bind="((adSizesData.cpm > 0) || (adSizesData.cpm === 0)) ?
+                (adSizesData.cpm | currency : undefined : 3) : '-'">
         </div>
     </span>
     <div data-ng-if="adFormats.videoAds"
-         class="each_col eight_col {{adsizesData.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
+         class="each_col eight_col {{adSizesData.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
          data-ng-class="{vid_none: adFormats.videoAds === false}"
-         data-ng-bind="adsizesData[selectedFilters.kpi_type.toLowerCase()] | appendDollar : selectedFilters2.kpi_type">
+         data-ng-bind="adSizesData[selectedFilters.kpi_type.toLowerCase()] | appendDollar : selectedFilters2.kpi_type">
     </div>
 </script>
 
@@ -728,11 +729,11 @@
                       style="margin-left: 2px">
                 </span>
             </strong>
-            <strong class="col-md-2 text-left">{{(vendor.nodes.length ==1) ? (vendor.category) : ''}}</strong>
+            <strong class="col-md-2 text-left">{{vendor.nodes.length == 1 ? vendor.category : ''}}</strong>
 
             <!--Column 2-->
             <strong class="col-md-2 zeroPadding text-left"
-                    data-ng-bind="((vendor.imps > 0) || (vendor.imps === 0)) ? (vendor.imps | number : 0) : '-'">
+                    data-ng-bind="vendor.imps >= 0 ? (vendor.imps | number : 0) : '-'">
             </strong>
 
             <!--Column 3-->
@@ -757,7 +758,7 @@
                 <span data-ng-bind="node.name" class="pull-left discrepancySecLevelName"></span>
                 <span class="pull-left text-left" style="width: 65px;" data-ng-bind="vendor.category"></span>
                 <div class="col-md-2 text-right"
-                     data-ng-bind="((node.imps > 0) || (node.imps === 0)) ? (node.imps | number : 0) : '-'"
+                     data-ng-bind="node.imps >= 0 ? (node.imps | number : 0) : '-'"
                      style="padding: 0">
                 </div>
             </div>

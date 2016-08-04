@@ -294,9 +294,11 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
             $scope.init();
 
             $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function () {
-                $scope.$apply(function() {
-                    $location.path('/mediaplans/' + campaignSelectModel.getSelectedCampaign().id);
-                });
+                $timeout(function () {
+                    $scope.$apply(function () {
+                        $location.path('/mediaplans/' + campaignSelectModel.getSelectedCampaign().id);
+                    });
+                }, 0);
             });
 
             getSetCampaignDetails = function() {
@@ -1193,7 +1195,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 if (!campaign || campaign.id === -1) {
                     return constants.MSG_DATA_NOT_AVAILABLE;
                 } else if (campaign.durationLeft() === 'Yet to start') {
-                    return constants.MSG_CAMPAIGN_YET_TO_START;
+                    return utils.formatStringWithDate(constants.MSG_CAMPAIGN_YET_TO_START,campaign.startDate,constants.REPORTS_DATE_FORMAT);
                 } else if (campaign.daysSinceEnded() > 1000) {
                     return constants.MSG_CAMPAIGN_VERY_OLD;
                 } else if (campaign.kpiType === 'null') {

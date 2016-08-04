@@ -1,5 +1,7 @@
-define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_service'], function(angularAMD) {
-    angularAMD.service('momentService', ['loginModel', 'constants', function(loginModel, constants) {
+define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_service',
+    'common/services/vistoconfig_service', 'common/services/vistoconfig_service'], function(angularAMD) {
+    angularAMD.service('momentService', ['loginModel', 'constants', 'vistoconfig',
+        function(loginModel, constants, vistoconfig) {
         this.today = function() {
             var m = moment.tz(loginModel.networkTimezone());
 
@@ -91,13 +93,7 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
 
         // Set the timezone name based on the timezone abbreviation, and store in localStorage ('clientRoleObj').
         this.setTimezoneName = function(timezone, clientRoleObj) {
-            if (timezone === 'BST' || timezone === 'GB') {
-                // Set to British time for all UK
-                clientRoleObj.timezoneName = constants.TIMEZONE_UK;
-            } else {
-                // For all other timezones, set it to EST
-                clientRoleObj.timezoneName = constants.TIMEZONE_US;
-            }
+            clientRoleObj.timezoneName = vistoconfig.timeZoneNameMapper[timezone];
         };
 
         // Create a new moment object based on the timezoneName stored in LocalStorage ('clientRoleObj').
@@ -120,12 +116,20 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
 
         // Convert local time (EST, GMT, etc.) to UTC before sending to backend for saving.
         // Also, startTime is forced to beginning of day & endTime to end of day.
-        this.localTimeToUTC = function(dateTime, type) {
+        this.localTimeToUTC = function(dateTime, type, timezone) {
             var clientUTCTime,
                 parseDateTime,
                 currentUTCTime,
-                tz = this.getTimezoneName() === constants.TIMEZONE_UK ? 'GMT' : 'EST',
+                tz,
+                timeZoneCode,
                 timeSuffix = (type === 'startTime' ? '00:00:00' : '23:59:59');
+
+            if(timezone) {
+                timeZoneCode = vistoconfig.timeZoneNameMapper[timezone];
+                tz = moment(dateTime).tz(timeZoneCode).format('z');
+            } else {
+                tz = moment(dateTime).tz(this.getTimezoneName()).format('z');
+            }
 
             parseDateTime = Date.parse(dateTime + ' ' + timeSuffix + ' ' + tz);
             clientUTCTime = moment(parseDateTime).tz('UTC');
@@ -152,7 +156,7 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
             } else {
                 d = dateTime.slice(0, 10).split('-');
                 parsedDate = Date.parse(d[1] + '/' + d[2] + '/' + d[0] + ' ' + dateTime.slice(11, 19) + ' UTC');
-                tz = this.getTimezoneName() === constants.TIMEZONE_UK ? 'GMT' : 'EST';
+                tz = this.getTimezoneName();
 
                 return moment(parsedDate).tz(tz).format(format) ;
             }

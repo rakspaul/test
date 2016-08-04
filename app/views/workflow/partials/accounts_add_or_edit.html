@@ -186,6 +186,9 @@
             <label class="col-sm-12 greyTxt" for="pixelCode">Ad Choices Code Block:</label>
             <textarea data-ng-model="adChoiceCode" id="pixelCode"></textarea>
         </div>
+        <div class="col-md-12 zeroPadding"
+             data-ng-show="enableAdChoice"
+             data-ng-bind="textConstants.NOTE_ADCHOICE_CODE"></div>
     </div>
 
     <!--Billing & Invoices-->

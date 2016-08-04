@@ -2,12 +2,12 @@ var angObj = angObj || {};
 
 define(['angularAMD', '../../../workflow/services/account_service',
     '../../services/constants_service', 'common/moment_utils', 'workflow/directives/custom_date_picker',
-    'common/services/data_service', 'common/services/url_service'], function (angularAMD) {
+    'common/services/data_service', 'common/services/url_service', 'common/utils'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('AccountsAddOrEditAdvertiser', function ($scope, $rootScope, $modalInstance,
                                                                    accountsService, constants, momentService,
-                                                                   dataService, urlService) {
+                                                                   dataService, urlService, utils) {
         var _currCtrl = this,
             selectedBillingTypeName;
 
@@ -65,9 +65,19 @@ define(['angularAMD', '../../../workflow/services/account_service',
             return ret;
         };
 
+        // Validate the Advertiser URL entered
+        $scope.validateURL = function(url){
+            var re = utils.regExp().validateUrl;
+            $scope.urlValidation = '';
+            if (!re.test(url)) {
+                $scope.urlValidation = 'Incorrect URL: Please add valid url in the field';
+            }
+        };
+
         function createAdvertiserUnderClient(advId) {
             var requestData = {
                 clientId: $scope.client.id,
+                companyUrl: $scope.advertiserData.companyUrl,
                 lookbackImpressions : 14,
                 lookbackClicks : 14,
                 adChoice: '',

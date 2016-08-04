@@ -45,6 +45,18 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12 zeroPadding campaignUrl">
+                <label class="col-sm-12 greyTxt" data-ng-bind="'Advertiser Url'"></label>
+                <div class="form-group col-md-12 zeroPadding">
+                    <input type="text"
+                           style="width: 100%;"
+                           data-ng-change="urlValidation=''"
+                           data-ng-blur="validateURL(advertiserData.companyUrl)"
+                           data-ng-model="advertiserData.companyUrl">
+                </div>
+            </div>
+            <div class="col-md-12 zeroPadding errorText" data-ng-show="urlValidation" data-ng-bind="urlValidation">
+            </div>
             <div class="adChoices">
                 <div class="col-md-12 zeroPadding">
                     <h1 class="pull-left">Ad Choices</h1>
@@ -53,6 +65,8 @@
                     <label class="col-sm-12 greyTxt" for="adChoiceCode">Ad Choices Code Block:</label>
                     <textarea id="adChoiceCode" data-ng-model="advertiserAddOrEditData.adChoiceCode"></textarea>
                 </div>
+                <div class="col-md-12 zeroPadding"
+                     data-ng-bind="textConstants.NOTE_ADCHOICE_CODE"></div>
             </div>
 
             <!--IAB Category-->
@@ -264,6 +278,7 @@
                            class="form-control"
                            maxlength="128"
                            data-ng-model="pixelFormData.name"
+                           remove-special-character="remove-special-character"
                            data-ng-keyup="checkDuplicatePixel(pixelFormData.name)">
                     <label class="errorText"
                            style="margin-top: 6px"
@@ -368,27 +383,31 @@
                     </textarea>
                 </div>
 
-                <!--Segment Name-->
-                <div class="pull-left" data-ng-if="pixelFormData.segmentName && isEditMode">
-                    <label class="greyTxt pull-left" style="padding-top: 0 !important;">Segment Name:</label>
-                    <span class="pull-left clearLeft"
-                          data-ng-bind="pixelFormData.segmentName"></span>
+                <div class="form-group col-md-6 zeroPadding">
+                    <!--Segment Name-->
+                    <div class="pull-left" data-ng-if="pixelFormData.segmentName && isEditMode">
+                        <label class="greyTxt pull-left" style="padding-top: 0 !important;">Segment Name:</label>
+                        <span class="pull-left clearLeft"
+                              data-ng-bind="pixelFormData.segmentName"></span>
+                    </div>
                 </div>
-
-                <a class="pull-right btn btn-default"
-                   style="margin-bottom: 15px;"
-                   data-ng-click="savePixel()"
-                   data-ng-bind="pixelIndex!=null ? 'Update Pixel' : 'Save Pixel'">
-                    Save Pixel
-                </a>
-                <a class="pull-right btn btn-link" data-ng-click="cancelPixel();" aria-label="Close">Cancel</a>
-                <a class="pull-right btn btn-default"
-                   data-dismiss="modal"
-                   data-ng-if="pixelIndex !== null && advertiserData.pixels[pixelIndex].isFeedData !== true"
-                   data-ng-click="removePixel();"
-                   aria-label="Close">
-                    Remove Pixel
-                </a>
+                
+                <div class="form-group col-md-6 zeroPaddding">
+                    <a class="pull-right btn btn-default"
+                        style="margin-bottom: 15px;"
+                        data-ng-click="savePixel()"
+                        data-ng-bind="pixelIndex!=null ? 'Update Pixel' : 'Save Pixel'">
+                        Save Pixel
+                    </a>
+                    <a class="pull-right btn btn-link" data-ng-click="cancelPixel();" aria-label="Close">Cancel</a>
+                    <a class="pull-right btn btn-default"
+                        data-dismiss="modal"
+                        data-ng-if="pixelIndex !== null && advertiserData.pixels[pixelIndex].isFeedData !== true"
+                        data-ng-click="removePixel();"
+                        aria-label="Close">
+                        Remove Pixel
+                    </a>
+                </div>
             </div>
 
             <div class="pixelTable">

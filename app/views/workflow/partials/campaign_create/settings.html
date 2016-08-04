@@ -24,8 +24,10 @@
         <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels" data-ng-bind="textConstants.ADVERTISERS"></label>
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
-                <button class="btn btn-default dropdown-with-search-btn" type="button" data-ng-bind="selectedCampaign.advertiserName ? selectedCampaign.advertiserName : 'Select Advertiser'" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown();showHideDropdownWithSearch($event)" ng-disabled="!selectedCampaign.clientId">
+                <button class="btn btn-default dropdown-with-search-btn" type="button"
+                        aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown();showHideDropdownWithSearch($event)" ng-disabled="!selectedCampaign.clientId">
                     <!--<span class="text">{{selectedCampaign.advertiserName ? selectedCampaign.advertiserName : 'Select Advertiser'}}</span>-->
+                    <span class="text" data-ng-bind="selectedCampaign.advertiserName ? selectedCampaign.advertiserName : 'Select Advertiser'"></span>
                     <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-with-search" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit' && !cloneMediaPlanName">
@@ -102,12 +104,12 @@
 
             <div class="dateContainer">
                 <label class="col-sm-12  greyTxt miniLabels" data-ng-bind="textConstants.START_DATE"></label>
-                <input type="text" ng-disabled="!cloneMediaPlanName && (selectedCampaign.status ==='IN_FLIGHT' || selectedCampaign.status ==='ENDED')" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control mediaplanStartTime" readonly name="startTime" ng-init="selectedCampaign.startTime" ng-model="selectedCampaign.startTime" ng-value="selectedCampaign.startTime" ng-change=" handleFlightDate(selectedCampaign)" required />
+                <input type="text" ng-disabled="!cloneMediaPlanName && (selectedCampaign.status ==='IN_FLIGHT' || selectedCampaign.status ==='ENDED')" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control mediaplanStartTime" readonly name="startTime" ng-init="selectedCampaign.startTime" ng-model="selectedCampaign.startTime" ng-change=" handleEndFlightDate(selectedCampaign)" required />
             </div>
 
             <div class="dateContainer" style="padding-left: 10px;">
                 <label class="col-sm-12  greyTxt miniLabels" data-ng-bind="textConstants.END_DATE"></label>
-                <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control mediaplanEndTime" readonly name="endTime" ng-init="selectedCampaign.endTime" ng-model="selectedCampaign.endTime" value="selectedCampaign.endTime" required/>
+                <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control mediaplanEndTime" readonly name="endTime" ng-init="selectedCampaign.endTime" ng-model="selectedCampaign.endTime" required/>
             </div>
 
             <label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12  greyTxt errorLabel" data-ng-bind="textConstants.STARTDATE_REQUIRED">.</label>

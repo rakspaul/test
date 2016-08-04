@@ -15,7 +15,7 @@
             <div class="common-load-icon_viewability"
                  data-ng-show="strategyLoading && selectedCampaign.id !== -1">
             </div>
-            <div class="cost_container smallSreenScrollContainer"
+            <div class="cost_container smallScreenScrollContainer"
                  data-ng-hide="strategyLoading && selectedCampaign.id !== -1"
                  style="margin-top: 20px;">
                 <div class="no_data_found"
@@ -23,14 +23,15 @@
                      style="width: 1200px;"
                      data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
                 </div>
-                <div class="reports_main_page_holder smallSreenScrollDiv"
+                <div class="reports_main_page_holder smallScreenScrollDiv"
                      data-ng-show="strategyFound"
                      style="overflow-y: auto;">
                     <div class="reports_cost_header_holder smallScreenScrollContent">
                         <!--cost filter -->
                         <div class="clearfix cost_header_holder">
                             <div class="col-md-1 zeroPadding"
-                                 data-ng-class="sortClassFunction('-impressions', sortType, sortReverseDefaultSelection)"
+                                 data-ng-class="sortClassFunction('-impressions', sortType,
+                                    sortReverseDefaultSelection)"
                                  data-ng-click="sortType = '-impressions';
                                     sortReverse = sortReverseDefaultSelection;
                                     sortReverseDefaultSelection = !sortReverseDefaultSelection;
@@ -57,17 +58,18 @@
                             <div class="col-md-1 zeroPadding text-center"
                                  data-ng-class="sortClassFunction('data_cost', sortType,sortReverse)"
                                  data-ng-bind="textConstants.DATA"
-                                 data-ng-click="sortType = 'data_cost'; sortReverse = !sortReverse;removeKpiActive();">
+                                 data-ng-click="sortType = 'data_cost';
+                                    sortReverse = !sortReverse;removeKpiActive();">
                             </div>
                             <div class="col-md-1 zeroPadding text-center"
-                                 data-ng-class="sortClassFunction('ad_serving_cost',sortType,sortReverse)"
+                                 data-ng-class="sortClassFunction('ad_serving_cost', sortType, sortReverse)"
                                  data-ng-bind="textConstants.AD_SERVING"
                                  data-ng-click="sortType = 'ad_serving_cost';
                                     sortReverse = !sortReverse;
                                     removeKpiActive();">
                             </div>
                             <div class="col-md-1 zeroPadding text-center"
-                                 data-ng-class="sortClassFunction('ad_verification_cost',sortType,sortReverse)"
+                                 data-ng-class="sortClassFunction('ad_verification_cost', sortType, sortReverse)"
                                  data-ng-bind="textConstants.AD_VERIFICATION"
                                  data-ng-click="sortType = 'ad_verification_cost';
                                     sortReverse = !sortReverse;
@@ -184,7 +186,8 @@
                                                 <div class="col-md-1 zeroPadding {{tactic.kpi_type === 'IMPRESSIONS' ?
                                                         'bold' : ''}}"
                                                      data-ng-bind="tactic.impressions != null ?
-                                                        (tactic.impressions | nrFormat : 0) : '-'"></div>
+                                                        (tactic.impressions | nrFormat : 0) : '-'">
+                                                </div>
                                                 <div class="col-md-1 zeroPadding textRight {{tactic.kpi_type ===
                                                         selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
                                                      data-ng-bind="(tactic[(selectedFilters.kpi_type.toLowerCase() ===

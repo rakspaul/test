@@ -177,6 +177,7 @@
 .modal-backdrop.in {
   opacity: .8;
   z-index: 99999999 !important;
+  display: none !important;
 }
 .modal {
   z-index: 999999999 !important;
@@ -348,7 +349,7 @@
   display: inline-block;
 }
 .popup-holder .popup-btns-holder {
-  background: #f5f9fd;
+  background: #edf2f8;
   padding: 20px 30px;
   border-radius: 0 0 5px 5px;
   -moz-border-radius: 0 0 5px 5px;
@@ -1196,8 +1197,10 @@
 }
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dd_subheading {
   padding-right: 20px;
-  color: #6ABDFA;
-  text-transform: none;
+  color: #dce6f1;
+  text-transform: uppercase;
+  font-family: "Avenir-bold";
+  font-size: 12px;
   padding-bottom: 5px;
   cursor: default;
 }
@@ -1242,6 +1245,15 @@
   background: url("/images/cdesk/upload-icon.png") no-repeat -7px -7px;
   margin: 5px 0 0 10px;
 }
+.main_navigation_holder div.reports_header_tabs_holder .custom_container .header_tab_dropdown .icon-upload {
+  cursor: pointer;
+  opacity: .6;
+  color: #fff;
+  margin-left: 10px;
+}
+.main_navigation_holder div.reports_header_tabs_holder .custom_container .header_tab_dropdown .icon-upload:hover {
+  opacity: 1;
+}
 .main_navigation_holder div.reports_header_tabs_holder .circle_with_number {
   height: 15px;
   min-width: 18px;
@@ -1264,25 +1276,25 @@
   cursor: pointer;
   margin: 24px 88px 0 0;
 }
-.main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn .icon-report-builder {
+.main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn .icon-report-builder-1 {
   float: left;
   display: inline-block;
+  margin: 0 10px 0 0;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
   color: #fff;
-  margin: 0 10px 0 0px;
-  font-size: 18px;
 }
-.main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn .icon_txt {
+.main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn span {
   float: left;
-  margin-top: 1px;
+  color: #fff;
+  opacity: .6;
 }
-.main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn:hover {
-  color: #84BCE4;
-}
-.main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn:hover .icon-report-builder {
-  color: #84BCE4;
+.main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn:hover span {
+  opacity: 1;
 }
 .main_navigation_holder div.reports_header_tabs_holder .active_tab .new_report_generate_btn .icon-report-builder {
-  color: #84BCE4;
+  opacity: 1;
 }
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dropdown {
   padding: 2px 20px 2px 0px;
@@ -1294,30 +1306,18 @@
   color: #fff;
   text-transform: none;
   cursor: pointer;
+  opacity: .6;
 }
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dropdown a:hover {
-  color: #84BCE4;
-}
-.main_navigation_holder div.reports_header_tabs_holder div.header_tab_dropdown:hover a {
-  color: #84BCE4;
-}
-.main_navigation_holder div.reports_header_tabs_holder div.header_tab_dropdown:hover a:hover {
-  color: #84BCE4;
+  color: #fff;
+  opacity: 1;
 }
 .main_navigation_holder div.reports_header_tabs_holder .active_tab a {
-  color: #84BCE4;
+  opacity: 1;
   text-decoration: none;
 }
 .main_navigation_holder div.reports_header_tabs_holder .active_tab a:hover {
-  color: #84BCE4;
-  text-decoration: none;
-}
-.main_navigation_holder div.reports_header_tabs_holder div.active_tab:hover a {
-  color: #84BCE4;
-  text-decoration: none;
-}
-.main_navigation_holder div.reports_header_tabs_holder div.active_tab:hover a:hover {
-  color: #84BCE4;
+  opacity: 1;
   text-decoration: none;
 }
 .main_navigation_holder #reports_nav_link.each_nav_link.active div.header_tab_dropdown.active_tab {
@@ -1674,7 +1674,7 @@ multiselect .dropdown-menu > li > a {
   color: #57606d;
 }
 .blue-edit-icon:hover {
-  color: #0978C9;
+  color: #0978c9;
 }
 .common-popup-container {
   overflow: auto;
@@ -1933,7 +1933,7 @@ tags-input .autocomplete {
   cursor: not-allowed;
 }
 .slider-msg {
-  border: solid 1px #0978C9;
+  border: solid 1px #0978c9;
   border-radius: 2px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
@@ -1944,9 +1944,9 @@ tags-input .autocomplete {
   background: #fff;
   z-index: 99999999;
   width: 200px;
-  -webkit-box-shadow: 0px 0px 2px #0978C9;
-  -moz-box-shadow: 0px 0px 2px #0978C9;
-  box-shadow: 0px 0px 2px #0978C9;
+  -webkit-box-shadow: 0px 0px 2px #0978c9;
+  -moz-box-shadow: 0px 0px 2px #0978c9;
+  box-shadow: 0px 0px 2px #0978c9;
   text-align: center;
   animation: show-notification 0.6s;
   -moz-animation: show-notification 0.6s;
@@ -1957,7 +1957,28 @@ tags-input .autocomplete {
   font-size: 14px ;
 }
 .marginLeft {
-  margin: 0 0 0 10px ;
+  margin-left: 10px ;
+}
+.marginRight {
+  margin-right: 10px ;
+}
+.marginBottom {
+  margin-bottom: 10px ;
+}
+.marginRightFive {
+  margin-right: 5px ;
+}
+.marginTop {
+  margin-top: 10px ;
+}
+.marginRightFive {
+  margin-right: 5px ;
+}
+.marginBottomTwenty {
+  margin-bottom: 20px ;
+}
+.marginBottomThirty {
+  margin-bottom: 30px ;
 }
 .searchInputWithClear .iconSearchBtn {
   padding: 8px 7px 7px;
@@ -2196,7 +2217,7 @@ tags-input .autocomplete {
 }
 .listToBeSelected .segmentHeader .searchClearInputBtn {
   right: 42px;
-  border-right: 1px solid #BFC9D7;
+  border-right: 1px solid #bfc9d7;
   height: 36px;
   background: transparent !important;
   top: 0px;
@@ -2206,7 +2227,7 @@ tags-input .autocomplete {
 .listToBeSelected .segmentHeader .searchClearInputBtn:hover,
 .listToBeSelected .segmentHeader .searchClearInputBtn:target {
   border-width: 0px !important;
-  border-right: 1px solid #BFC9D7 !important;
+  border-right: 1px solid #bfc9d7 !important;
 }
 .listToBeSelected .segmentHeader .searchClearInputBtn .icon-clear {
   background: transparent !important;
@@ -2240,7 +2261,7 @@ tags-input .autocomplete {
   width: 100%;
   border-radius: 2px;
   background: #eee;
-  border: 1px solid #BFC9D7;
+  border: 1px solid #bfc9d7;
   text-align: left;
   padding: 7px 10px;
 }
@@ -2277,6 +2298,38 @@ tags-input .autocomplete {
 .textRight {
   text-align: right;
 }
+.common_kpi_dropdown .default-kpi-header-icon {
+  margin-top: 0px !important;
+}
+.common_kpi_dropdown .dd_txt {
+  width: 80% ;
+}
+.common_kpi_dropdown .dd_txt .dd_txt_span {
+  max-width: 80% ;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
+  margin: 1px 2px 0px ;
+}
+.each-box-option {
+  border: 1px solid #bfc9d7;
+  margin: 10px 10px 0 0;
+  padding: 10px;
+  height: 100px;
+  text-align: center;
+}
+.each-box-option img {
+  width: 80% ;
+}
+.each-box-option .box-option-bottom {
+  width: 100%;
+  margin-top: 20px;
+}
+.each-box-option .box-option-bottom span {
+  display: block;
+  padding: 0 !important;
+  text-align: center;
+}
 @keyframes show-notification {
   from {
     opacity: 0;
@@ -2306,4 +2359,79 @@ tags-input .autocomplete {
     opacity: 1;
     transform: scale(1);
   }
+}
+.options-selected-section {
+  min-height: 400px;
+  background: #edf2f8;
+  border: solid 1px #dce6f1;
+}
+.options-selected-section .boldSubHeading {
+  color: #939EAE ;
+  font-family: "Avenir-bold";
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.options-selected-section .default-selected-section {
+  color: #939EAE;
+  text-align: center;
+  padding-top: 100px;
+  margin-bottom: 12px;
+}
+.options-selected-section .default-selected-section .smallText {
+  margin-top: 6px ;
+  font-size: 12px ;
+}
+.options-selected-section .default-selected-section .icon-location {
+  font-size: 40px;
+  display: block;
+  height: auto;
+  width: auto;
+  color: #939EAE;
+}
+.tableTag {
+  margin-top: 30px;
+}
+.tableTag .emptyCreativesFlag {
+  background: #f5f9fd;
+  float: left;
+  width: 100%;
+}
+.tableTag .emptyCreativesFlag span {
+  color: #939eb6;
+  float: left;
+  margin-bottom: 30px;
+  margin-top: 60px;
+  text-align: center;
+  width: 100%;
+}
+.tableTag .table {
+  margin-bottom: 0;
+}
+.tableTag .table tbody {
+  display: block;
+  max-height: 400px;
+  overflow: auto;
+  padding-bottom: 30px ;
+}
+.tableTag .table tbody tr,
+.tableTag .table thead {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+.tableTag .table tbody tr {
+  margin: 0;
+}
+.tableTag .table tbody tr td {
+  background: #fff !important;
+}
+.tableTag .table thead {
+  border: 1px solid #dde6eb;
+  border-bottom: 2px solid #dde6eb;
+}
+.tableTag .table thead th {
+  height: 50px;
+  padding: 20px;
+  padding-top: 14px;
+  vertical-align: top;
 }

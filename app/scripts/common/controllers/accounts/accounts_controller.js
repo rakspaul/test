@@ -51,9 +51,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 return ret;
             };
 
-            _currCtrl.fetchAllAdvertisers = function () {
+            _currCtrl.fetchAllAdvertisers = function (clientId) {
                 accountsService
-                    .getUserAdvertiser()
+                    .getUserAdvertiser(clientId)
                     .then(function (res) {
                         if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
                             $scope.advertisersData = res.data.data;
@@ -61,9 +61,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     });
             };
 
-            _currCtrl.fetchAllBrands = function () {
+            _currCtrl.fetchAllBrands = function (clientId) {
                 accountsService
-                    .getUserBrands()
+                    .getUserBrands(clientId)
                     .then(function (res) {
                         if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
                             $scope.brandsData = res.data.data;
@@ -116,13 +116,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     },function () {
                     });
             }
-
-            $('.main_navigation')
-                .find('.active')
-                .removeClass('active')
-                .end()
-                .find('#creative_nav_link')
-                .addClass('active');
 
             $scope.pixelIndex = null;
             $scope.pixelFormData = {
@@ -449,6 +442,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
                 $scope.advertiserData = {
                     id: '',
+                    companyUrl: '',
                     name: '',
                     lookbackImpressions: 14,
                     lookbackClicks: 14,
@@ -464,7 +458,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     $scope.selectedAdvertiserId = advObj.id;
                     $scope.selectedAdvertiser = advObj.name;
                     $scope.setSelectedAdvertiserCode = advObj.code;
-
                     accountsService
                         .getAdvertiserUnderClient(client.id, advObj.id)
                         .then(function (res) {
@@ -480,6 +473,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                                 $scope.selectedAdvertiser = result.name ? result.name : advObj.name;
                                 $scope.advertiserData.lookbackImpressions = result.lookbackImpressions;
                                 $scope.advertiserData.lookbackClicks = result.lookbackClicks;
+                                $scope.advertiserData.companyUrl = result.companyUrl || '';
                             }
 
                             getPixelsData(client.id,advObj.id);
@@ -489,6 +483,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 } else {
                     $scope.selectedAdvertiserId = '';
                     $scope.selectedAdvertiser = 'Select Advertiser';
+                    _currCtrl.fetchAllAdvertisers(client.id);
                 }
 
                 $('html, body').animate({scrollTop : 0}, 30);
@@ -538,7 +533,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.clientId = client.id;
                 $scope.advertiserId = advObj.id;
                 $('html, body').animate({scrollTop: 0}, 30);
-
+                _currCtrl.fetchAllBrands(client.id);
                 accountsService
                     .getAdvertisersBrand(client.id, advObj.id)
                     .then(function (res) {
@@ -669,6 +664,15 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $('#admin_nav_link').addClass('active_tab');
             $('.miniTabLinks .btn').removeClass('active');
             $('#accounts_link').addClass('active');
+            
+            $( document ).ready(function() {
+                $('.main_navigation')
+                    .find('.active')
+                    .removeClass('active')
+                    .end()
+                    .find('#admin_nav_link')
+                    .addClass('active');
+            });
 
             $('#pixelExpirationDate').datepicker('update', new Date());
 

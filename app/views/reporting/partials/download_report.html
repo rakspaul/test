@@ -2,15 +2,23 @@
     <div class="dropdown">
         <button class="btn btn-default" data-toggle="dropdown">
             <span class="icon-download"></span>
-            <span class="download_anchor" id="performance_download_btn" href="">{{textConstants.DOWNLOAD_REPORT}}</span>
+            <span class="download_anchor"
+                  id="performance_download_btn"
+                  href="" data-ng-bind="textConstants.DOWNLOAD_REPORT">
+            </span>
             <span class="icon-arrow-solid-down"></span>
         </button>
-        
         <ul class="dropdown-menu" id="performance_download" style="left: initial; right: 0;">
-            <li ng-repeat="report in download_report" class="{{report.className}} {{selectedCampaign.id == -1 ? 'disabled' : '' }}">
-                <a ng-click="(selectedCampaign.id !== -1 ? downloadPerformanceReport(report) : '')">{{report.label}}</a>
+            <li data-ng-repeat="report in download_report"
+                class="{{report.className}} {{selectedCampaign.id == -1 ? 'disabled' : '' }}">
+                <a data-ng-click="(selectedCampaign.id !== -1 ? downloadPerformanceReport(report) : '')"
+                   data-ng-bind="report.label">
+                </a>
             </li>
         </ul>
     </div>
 </div>
-<span class="download-report-load-icon" ng-if="reportDownloadBusy">{{textConstants.DOWNLOADING}} </span>
+<span class="download-report-load-icon"
+      data-ng-if="reportDownloadBusy"
+      data-ng-bind="textConstants.DOWNLOADING">
+</span>

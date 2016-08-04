@@ -15,7 +15,6 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                                               RoleBasedService, advertiserModel, brandsModel,
                                                               urlService, featuresService, requestCanceller) {
             var _currCtrl = this,
-                fparams,
                 extractAdFormats;
 
             $scope.textConstants = constants;
@@ -25,10 +24,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.sortReverse = false;
             $scope.sortReverseKpiDropdown = true;
 
-            $scope.sortTypebyPerformance = '-impressions';
-            $scope.sortTypebyCost = '-impressions';
-            $scope.sortTypebyViewability = '-other_view_impressions';
-            $scope.sortTypebyMargin = '-impressions';
+            $scope.sortTypeByPerformance = '-impressions';
+            $scope.sortTypeByCost = '-impressions';
+            $scope.sortTypeByViewability = '-other_view_impressions';
+            $scope.sortTypeByMargin = '-impressions';
             $scope.sortReverseForPerfImps = true;
             $scope.sortReverseForCostImps = true;
             $scope.sortReverseForQualImps = true;
@@ -75,7 +74,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 } else if ($scope.apiReturnCode === 404 || $scope.apiReturnCode >= 500) {
                     return constants.MSG_UNKNOWN_ERROR_OCCURED;
                 } else if (campaignSelectModel.durationLeft() === 'Yet to start') {
-                    return constants.MSG_CAMPAIGN_YET_TO_START;
+                    return utils.formatStringWithDate(constants.MSG_CAMPAIGN_YET_TO_START ,campaign.startDate,constants.REPORTS_DATE_FORMAT);
                 } else if (campaignSelectModel.daysSinceEnded() > 1000) {
                     return constants.MSG_CAMPAIGN_VERY_OLD;
                 } else if ($scope.selectedCampaign.kpi === 'null') {
@@ -229,13 +228,15 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             });
 
             $scope.$watch('selectedCampaign', function () {
-                $scope.createDownloadReportUrl();
+                _currCtrl.createDownloadReportUrl();
+                _currCtrl.filterCostReport();
             });
 
             // creating download report url
-            $scope.createDownloadReportUrl = function () {
+            _currCtrl.createDownloadReportUrl = function () {
                 var download_report = [
                         {
+                            name: 'by_performance',
                             url: '/reportBuilder/customQueryDownload',
                             query_id: 24,
                             label: 'Platform by Performance',
@@ -243,6 +244,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                         },
 
                         {
+                            name: 'by_cost',
                             url: '/reportBuilder/customQueryDownload',
                             query_id: 24,
                             label: 'Platform by Cost',
@@ -252,6 +254,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                         },
 
                         {
+                            name: 'by_quality',
                             url: '/reportBuilder/customQueryDownload',
                             query_id: 24,
                             label: 'Platform by Quality',
@@ -369,25 +372,25 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                     viewModeSwitchContainer.hide();
 
                     if ($scope.selected_tab === 'viewability') {
-                        if (jQuery.inArray($scope.sortTypebyViewability, tabImps) !== '-1') {
+                        if (jQuery.inArray($scope.sortTypeByViewability, tabImps) !== '-1') {
                             $('.kpi-dd-holder').addClass('active');
                         } else {
                             $scope.removeKpiActive();
                         }
                     } else if ($scope.selected_tab === 'performance') {
-                        if (jQuery.inArray($scope.sortTypebyPerformance, tabImps) !== '-1') {
+                        if (jQuery.inArray($scope.sortTypeByPerformance, tabImps) !== '-1') {
                             $('.kpi-dd-holder').addClass('active');
                         } else {
                             $scope.removeKpiActive();
                         }
                     } else if ($scope.selected_tab === 'cost') {
-                        if (jQuery.inArray($scope.sortTypebyCost, tabImps) !== '-1') {
+                        if (jQuery.inArray($scope.sortTypeByCost, tabImps) !== '-1') {
                             $('.kpi-dd-holder').addClass('active');
                         } else {
                             $scope.removeKpiActive();
                         }
                     } else if ($scope.selected_tab === 'margin') {
-                        if (jQuery.inArray($scope.sortTypebyCost, tabImps) !== '-1') {
+                        if (jQuery.inArray($scope.sortTypeByCost, tabImps) !== '-1') {
                             $('.kpi-dd-holder').addClass('active');
                         } else {
                             $scope.removeKpiActive();
@@ -442,44 +445,37 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 $scope.selectedFilters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
             });
 
-            _currCtrl.filter_download_report = function (type) {
-                $scope.download_report = _.filter($scope.download_report, function (val) {
-                    if (type === 'cost') {
-                        return val.className !== 'report_cost';
-                    }
-                });
-            };
-
-            fparams = featuresService.getFeatureParams();
-
-            $scope.showCostWidget = fparams[0].cost;
-
-            if (!$scope.showCostWidget) {
-                _currCtrl.filter_download_report('cost');
-            }
-
-            $rootScope.$on('features', function () {
+            _currCtrl.filterCostReport = function() {
                 var fparams = featuresService.getFeatureParams();
 
                 $scope.showCostWidget = fparams[0].cost;
 
                 if (!$scope.showCostWidget) {
-                    _currCtrl.filter_download_report('cost');
+                    $scope.download_report = _.filter($scope.download_report, function (report) {
+                        return report.name !== 'by_cost';
+                    });
                 }
+            };
+
+            // check the permission on load
+            _currCtrl.filterCostReport();
+
+            $rootScope.$on('features', function() {
+                _currCtrl.filterCostReport();
             });
 
             $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
                 if ($scope.selected_tab === 'viewability') {
-                    $scope.sortTypebyViewability = args;
+                    $scope.sortTypeByViewability = args;
                     $scope.sortReverse = sortorder;
                 } else if ($scope.selected_tab === 'performance') {
-                    $scope.sortTypebyPerformance = args;
+                    $scope.sortTypeByPerformance = args;
                     $scope.sortReverse = sortorder;
                 } else if ($scope.selected_tab === 'cost') {
-                    $scope.sortTypebyCost = args;
+                    $scope.sortTypeByCost = args;
                     $scope.sortReverse = sortorder;
                 } else if ($scope.selected_tab === 'margin') {
-                    $scope.sortTypebyMargin = args;
+                    $scope.sortTypeByMargin = args;
                     $scope.sortReverse = sortorder;
                 }
             });

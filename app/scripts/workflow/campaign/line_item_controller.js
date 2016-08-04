@@ -19,6 +19,10 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             CONST_POST_CLICK_CPA = 'Post-Click CPA',
             oldLineItem,
             oldLineItemIndex,
+            lineItemAPIEndTimeList = [],
+            lineItemAPIStartTimeList = [],
+            modifiedLineItemAPIStartTimeList = [],
+            modifiedLineItemAPIEndTimeList = [],
 
             validateMediaPlanDates = function () {
                 var startDatelow = [],
@@ -30,7 +34,13 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     ind,
                     startDateElem = $('#startDateInput'),
                     endDateElem = $('#endDateInput'),
-                    highestEndTime;
+                    highestEndTime,
+                    campaignStartTime,
+                    campaignEndTime;
+
+                campaignStartTime = $scope.selectedCampaign.startTime;
+                campaignEndTime = $scope.selectedCampaign.endTime;
+
 
                 // startDate input Element
                 if (!_.contains(['IN_FLIGHT', 'ENDED'], $scope.selectedCampaign.status)) {
@@ -46,11 +56,16 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     });
 
                     if (ascending.length > 0) {
+
                         lowestStartTime = ascending[0];
-                        startDateElem.datepicker('setEndDate', lowestStartTime);
+
+                        if(moment(campaignStartTime).isAfter(moment(lowestStartTime))) {
+                            startDateElem.datepicker('setEndDate', lowestStartTime);
+                        }
+
                     } else {
-                        startDateElem.datepicker('setStartDate', $scope.selectedCampaign.startTime);
-                        startDateElem.datepicker('setEndDate', $scope.selectedCampaign.endTime);
+                        startDateElem.datepicker('setStartDate', campaignStartTime);
+                        startDateElem.datepicker('setEndDate', campaignEndTime);
                     }
                 }
 
@@ -69,7 +84,9 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                 if (descending.length > 0) {
                     highestEndTime = descending[0];
-                    endDateElem.datepicker('setStartDate', highestEndTime);
+                    //if(moment(campaignEndTime).isBefore(moment(highestEndTime))) {
+                        endDateElem.datepicker('setStartDate', highestEndTime);
+                    //}
                 } else {
                     endDateElem.datepicker('setStartDate',$scope.selectedCampaign.endTime);
                 }
@@ -601,9 +618,9 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             $scope.initiateLineItemDatePicker();
         };
 
-        $scope.createNewLineItem = function (mode, lineItemObj) {
+        $scope.$parent.createNewLineItem = function (mode, lineItemObj) {
             var newItem = {};
-
+            $scope.Campaign.showBudgetZeroPopup = false;
             if (mode === 'create' ) {
                 if ($scope.lineItemName !== '') {
                     newItem = createLineItemObj(lineItemObj);
@@ -626,7 +643,10 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         };
 
         $scope.$parent.createNewLineItemInEditMode = function () {
-            var newItem;
+            var newItem,
+                dateTimeZone;
+
+            $scope.Campaign.showBudgetZeroPopup = false;
 
             // this is kept to initially create object in case we have to save it in service -
             // line item edit mode - save media plan q
@@ -656,8 +676,10 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 // loader for save button
                 $scope.Campaign.createNewLineItemLoaderEdit = true;
 
-                newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
-                newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+                dateTimeZone = workflowService.getSubAccountTimeZone();
+
+                newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone);
+                newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime', dateTimeZone);
 
                 // in case pricerate is 30% markup remove the Markup
                 if (typeof newItem.pricingRate === 'string') {
@@ -700,11 +722,13 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         $scope.$parent.updateLineItemInEditMode = function () {
             var newItem,
                 utcStartTime,
-                utcEndTime;
+                utcEndTime,
+                dateTimeZone;
 
             // this hack is to make it work in edit mode when media plan save is requierd prior to line item
             // check if we have saved line item details in service or create a new line item object
             newItem = workflowService.getLineItemDataEdit();
+            console.log("lineItemAPIStartTimeList", lineItemAPIStartTimeList, "oldLineItemIndex", oldLineItemIndex);
 
             if (!newItem) {
                 newItem = createEditLineItemObj(angular.copy(oldLineItem));
@@ -733,17 +757,19 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     newItem = createEditLineItemObj(angular.copy(oldLineItem));
                 }
 
-                utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
+                dateTimeZone = workflowService.getSubAccountTimeZone();
 
-                utcStartTime = (moment(newItem.startTime).isSame($scope.modifiedLineItemAPIStartTime, 'day')) ?
-                    $scope.lineItemAPIStartTime : utcStartTime;
+                utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone);
+
+                utcStartTime = (moment(newItem.startTime).isSame(modifiedLineItemAPIStartTimeList[oldLineItemIndex], 'day')) ?
+                    lineItemAPIStartTimeList[oldLineItemIndex] : utcStartTime;
 
                 newItem.startTime = utcStartTime;
 
-                utcEndTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+                utcEndTime = momentService.localTimeToUTC(newItem.endTime, 'endTime', dateTimeZone);
 
-                utcEndTime = (moment(newItem.endTime).isSame($scope.modifiedLineItemAPIEndTime, 'day')) ?
-                    $scope.lineItemAPIEndTime :  utcEndTime;
+                utcEndTime = (moment(newItem.endTime).isSame(modifiedLineItemAPIEndTimeList[oldLineItemIndex], 'day')) ?
+                    lineItemAPIEndTimeList[oldLineItemIndex] :  utcEndTime;
 
                 newItem.endTime = utcEndTime;
 
@@ -1016,7 +1042,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             populateLineItemEdit(event, lineItem);
         };
 
-        $scope.updateLineItem = function () {
+        $scope.$parent.updateLineItem = function () {
             if (doesLineItemExceedBudget($scope.editLineItem.billableAmount, $scope.Campaign.totalBudget)) {
                 return false;
             }
@@ -1078,11 +1104,12 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             }
         };
 
+
         // ******** Line item edit mode ******
         $scope.$parent.processLineItemEditMode = function (lineItemList) {
             $scope.lineItems.lineItemList.length = 0;
 
-            _.each(lineItemList, function (item) {
+            _.each(lineItemList, function (item, idx) {
                 var index = _.findIndex($scope.type, function (type) {
                         return type.id === item.billingTypeId;
                     }),
@@ -1128,11 +1155,11 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 $scope.pricingRate = item.billingRate;
 
                 // line start Date
-                $scope.lineItemAPIStartTime = item.startTime;
+                lineItemAPIStartTimeList[idx] = item.startTime;
                 $scope.lineItemStartDate = momentService.utcToLocalTime(item.startTime);
 
                 // line Item End Date
-                $scope.lineItemAPIEndTime = item.endTime;
+                lineItemAPIEndTimeList[idx] = item.endTime;
                 $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime);
 
                 if ( $scope.campaignDate ) {
@@ -1156,8 +1183,8 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     }
                 }
 
-                $scope.modifiedLineItemAPIStartTime = $scope.lineItemStartDate;
-                $scope.modifiedLineItemAPIEndTime = $scope.lineItemEndDate;
+                modifiedLineItemAPIStartTimeList[idx] = $scope.lineItemStartDate;
+                modifiedLineItemAPIEndTimeList[idx] = $scope.lineItemEndDate;
 
                 campaignId = item.campaignId;
                 $scope.createNewLineItem('create', item);
@@ -1279,6 +1306,43 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         $scope.updateLineItemCreateDate = function () {
             $scope.lineItemStartDate = $('#lineItemStartDateInput').val();
             $scope.lineItemEndDate = $('#lineItemEndDateInput').val();
+        };
+
+        // line item navigate
+        $scope.displayZeroLineItemBudgetPopUp = function(section) {
+            $scope.Campaign.showBudgetZeroPopup = true;
+            if(section === 'create'){
+                $scope.Campaign.section = 'create';
+            } else {
+                $scope.Campaign.section = 'edit';
+            }
+        };
+
+        $scope.navigateLineItem = function(section) {
+            if(section === 'create') {
+
+                if($scope.billableAmount === '0' || $scope.pricingRate === '0'){
+                    $scope.displayZeroLineItemBudgetPopUp(section);
+                } else {
+                    if($scope.mode === 'create' || $scope.cloneMediaPlanName) {
+                        $scope.createNewLineItem('create');
+                    } else {
+                        $scope.createNewLineItemInEditMode('create');
+                    }
+                }
+            } else {
+
+                if($scope.editLineItem.billableAmount === '0' || $scope.editLineItem.pricingRate === '0'){
+                    $scope.displayZeroLineItemBudgetPopUp(section);
+                } else {
+                    if($scope.mode === 'create' || $scope.cloneMediaPlanName) {
+                        $scope.updateLineItem();
+                    } else {
+                        $scope.updateLineItemInEditMode();
+                    }
+                }
+
+            }
         };
     });
 });

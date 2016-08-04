@@ -99,6 +99,10 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                         params += '&campaign_ids=' + qryObj.campaignIds;
                     }
 
+                    if (qryObj.lineitemId) {
+                        params += '&lineitem_id=' + qryObj.lineitemId;
+                    }
+
                     if (qryObj.ad_group_id === 0) {
                         params += '&ad_group_id=0';
                     }

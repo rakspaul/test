@@ -106,12 +106,12 @@
         &:hover {
             color: @raven-text;
             text-decoration: none;
-            background-color: #E1EDF9;
+            background-color: @hover-light-blue;
         }
         &:focus {
             color: @raven-text;
             text-decoration: none;
-            background-color: #E1EDF9;
+            background-color: @hover-light-blue;
         }
       }
     }
@@ -173,7 +173,7 @@
         &:hover, &:focus {
             color: @raven-text;
             text-decoration: none;
-            background-color: #E1EDF9;
+            background-color: @hover-light-blue;
         }
       }
       li.active {
@@ -533,6 +533,15 @@
     .dashboard_perf_graph {
       max-height: 280px;
       position: static;
+      width: 350px;
+      margin: 0;
+      #advertisers {
+            width: 350px;
+            position: relative;
+            left: 50%;
+            display: block;
+            margin: 17px 0 0 -143px;
+      }
     }
   }
 
@@ -564,7 +573,7 @@
         &:hover, &:focus {
             color: @raven-text;
             text-decoration: none;
-            background-color: #E1EDF9;
+            background-color: @hover-light-blue;
         }
       }
     }
@@ -599,6 +608,13 @@
     #dashboardContainer , #brands {
       display: block;
       text-align: center;
+    }
+    #dashboardContainer {
+        width: 350px;
+        left: 50%;
+        position: relative;
+        display: block;
+        margin: 17px 0 0 -151px;
     }
     #dashboardContainer {
         .onTrackPerc {
@@ -658,6 +674,7 @@
       overflow-x : hidden ;
       padding: 0px 24px;
       /*width: 1050px; */
+      border-right: 1px solid #e7edf1;
       .chart {
         font-size: 12px;
       }

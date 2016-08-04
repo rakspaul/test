@@ -557,7 +557,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.$on('switchPlatformFunc', function (obj, tab) {
             var customFieldErrorElem = $('.customFieldErrorMsg'),
                 $modalInstance,
-                seatId;
+                platformId;
 
             if (customFieldErrorElem.length > 0) {
                 $modalInstance = $modal.open({
@@ -604,8 +604,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             if (!$scope.TrackingIntegrationsSelected &&
                 $scope.adData.platform !== undefined &&
                 (tab !== undefined && tab[0] === '#buying')) {
-                seatId =  $('input[name=platformSeatId]').val();
-                $('#seatId_'+seatId).trigger('click');
+                platformId =  $('input[name=platformId]').val();
+                $('#platformId_'+platformId).trigger('click');
             } else {
                 _buyingPlatform.hideCustomPlatformBox();
             }

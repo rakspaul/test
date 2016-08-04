@@ -128,7 +128,10 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                     this.resetFilters = function (type) {
                         this.campaignList = [];
                         this.timePeriod = 'life_time';
-                        this.busy = true;
+
+                        if(!this.noData) {
+                            this.busy = true;
+                        }
 
                         this.performanceParams = {
                             nextPage: 1,

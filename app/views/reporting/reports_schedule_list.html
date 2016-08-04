@@ -21,7 +21,7 @@
                     class="btn btn-default"
                     data-toggle="collapse"
                     data-target="#schedule_report_filter"
-                    style="height:36px;"
+                    style="height: 36px;"
                     data-ng-click="clickedOnFilterIcon()">
                 <span class="icon-filter" style="margin: -1px 0 0;"></span>
             </button>
@@ -29,32 +29,11 @@
 
         <!--Search Input-->
         <div class="btn-group pull-right" style="margin-right: 10px;">
-            <div class="searchInput pull-left">
-                <a class="btn btn-default searchInputBtnInline"
-                   data-ng-click="searchShowInput();filters.searchText=null"
-                   style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                    <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
-                </a>
-            </div>
-
-            <!--Quick Filter-->
-            <div class="pull-right">
-                <button type="button"
-                        class="btn btn-default"
-                        data-toggle="collapse"
-                        data-target="#schedule_report_filter"
-                        style="height: 36px;"
-                        data-ng-click="clickedOnFilterIcon()">
-                    <span class="icon-filter" style="margin: -1px 0 0;"></span>
-                </button>
-            </div>
-
             <!--Search Input-->
-            <div class="btn-group pull-right" style="margin-right: 10px;">
+            <div class="btn-group pull-right">
                 <div class="searchInput pull-left">
                     <a class="btn btn-default searchInputBtnInline"
-                       data-ng-click="searchShowInput(); filters.searchText = null"
-                        style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                       data-ng-click="searchShowInput(); filters.searchText = null">
                         <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
                     </a>
                     <div class="input-group searchInputForm" >
@@ -72,124 +51,124 @@
                     </div>
                 </div>
             </div>
-
-            <div id="schedule_report_filter" class="collapse">
-                <div class="col-md-12 zeroPadding" style="margin: 20px 0;">
-                    <!--Report Types-->
-                    <div class="col-md-2" style="padding: 0 10px 0 0;">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <label  class="col-sm-12 greyTxt miniLabels data-ng-binding"
-                                    data-ng-bind="textConstants.REPORT_TYPES">
-                            </label>
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle"
-                                        type="button"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true"
-                                        aria-expanded="true">
-                                    <span class="text"
-                                          data-ng-bind="filters.reportType ? filters.reportType : 'All Types'">
-                                    </span>
-                                    <span class="icon-arrow-solid-down"></span>
-                                </button>
-                                <ul class="dropdown-menu"
-                                    aria-labelledby="unitcostType"
-                                    data-ng-model="adData.unitType"
-                                    id="unitcostType"
-                                    data-toggle="dropdown">
-                                    <li data-ng-repeat="type in textConstants.REPORT_LIST_REPORTTYPES">
-                                        <a data-ng-click="select_filter_option('reportType, type)"
-                                           data-ng-bind="type">
-                                        </a>
-                                    </li>
-                                </ul>
-                                <input type="hidden"
-                                       name="unitType"
-                                       data-ng-model="adData.unitType.name"
-                                       data-ng-update-hidden>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Generated -->
-                    <div class="col-md-2" style="padding: 0 10px 0 0;">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <label  class="col-sm-12 greyTxt miniLabels data-ng-binding"
-                                    data-ng-bind="textConstants.GENERATED">
-                            </label>
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle"
-                                        type="button"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true"
-                                        aria-expanded="true">
-                                    <span class="text"
-                                          data-ng-bind="filters.generated ? filters.generated : 'All'">
-                                    </span>
-                                    <span class="icon-arrow-solid-down"></span>
-                                </button>
-                                <ul class="dropdown-menu"
-                                    aria-labelledby="unitcostType"
-                                    data-ng-model="adData.unitType"
-                                    id="unitcostType"
-                                    data-toggle="dropdown">
-                                    <li data-ng-repeat="type in textConstants.REPORT_LIST_GENERATEON">
-                                        <a data-ng-click="select_filter_option('generated', type.key)"
-                                           data-ng-bind="type.value">
-                                        </a>
-                                    </li>
-                                </ul>
-                                <input type="hidden"
-                                       name="unitType"
-                                       data-ng-model="adData.unitType.name"
-                                       data-ng-update-hidden>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Dimensions -->
-                    <div class="col-md-6" style="padding: 0 10px 0 0;">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <label  class="col-sm-12 greyTxt miniLabels data-ng-binding"
-                                    data-ng-bind="textConstants.DIMENSIONS_FIVE">
-                            </label>
-                            <div class="dropdown">
-                                <tags-input
-                                        data-ng-model="dimensionFilterModel"
-                                        display-property="value"
-                                        placeholder="Type here..."
-                                        add-from-autocomplete-only="true"
-                                        on-tag-added="addDimensionFilter()"
-                                        on-tag-removed="removeDimensionFilter()"
-                                        max-tags="5">
-                                    <auto-complete source="loadDimensionsList($query)"
-                                                   min-length="1"
-                                                   load-on-down-arrow="true"
-                                                   max-results-to-show="50">
-                                    </auto-complete>
-                                </tags-input>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="margin-top: 32px; padding: 0 10px 0 0;" class="col-md-1">
-                        <a href=""
-                           data-toggle="tab"
-                           id="applyFilter"
-                           class="btn btn-primary data-ng-binding"
-                           data-ng-click="getScheduledReports()">
-                            Apply
-                        </a>
-                    </div>
-                    <div style="margin-top: 32px;" class="col-md-1 zeroPadding">
-                        <a class="btn btn-default pull-right" role="button" data-ng-click="clearFilters()">
-                            <div style="top: 0 !important;"
-                                 class="glyphicon glyphicon-repeat pull-left"
-                                 aria-hidden="true">
-                            </div>
-                            <span style="margin-left: 6px;">Clear</span>
-                        </a>
+        </div>
+    </div>
+    
+    <div id="schedule_report_filter" class="col-md-12 zeroPadding collapse">
+        <div class="col-md-12 zeroPadding" style="margin: 5px 0 15px;">
+            <!--Report Types-->
+            <div class="col-md-2" style="padding: 0 10px 0 0;">
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <label  class="col-sm-12 greyTxt miniLabels data-ng-binding"
+                            data-ng-bind="textConstants.REPORT_TYPES">
+                    </label>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="true">
+                            <span class="text"
+                                  data-ng-bind="filters.reportType ? filters.reportType : 'All Types'">
+                            </span>
+                            <span class="icon-arrow-solid-down"></span>
+                        </button>
+                        <ul class="dropdown-menu"
+                            aria-labelledby="unitcostType"
+                            data-ng-model="adData.unitType"
+                            id="unitcostType"
+                            data-toggle="dropdown">
+                            <li data-ng-repeat="type in textConstants.REPORT_LIST_REPORTTYPES">
+                                <a data-ng-click="select_filter_option('reportType, type)"
+                                   data-ng-bind="type">
+                                </a>
+                            </li>
+                        </ul>
+                        <input type="hidden"
+                               name="unitType"
+                               data-ng-model="adData.unitType.name"
+                               data-ng-update-hidden>
                     </div>
                 </div>
+            </div>
+
+            <!-- Generated -->
+            <div class="col-md-2" style="padding: 0 10px 0 0;">
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <label  class="col-sm-12 greyTxt miniLabels data-ng-binding"
+                            data-ng-bind="textConstants.GENERATED">
+                    </label>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="true">
+                            <span class="text"
+                                  data-ng-bind="filters.generated ? filters.generated : 'All'">
+                            </span>
+                            <span class="icon-arrow-solid-down"></span>
+                        </button>
+                        <ul class="dropdown-menu"
+                            aria-labelledby="unitcostType"
+                            data-ng-model="adData.unitType"
+                            id="unitcostType"
+                            data-toggle="dropdown">
+                            <li data-ng-repeat="type in textConstants.REPORT_LIST_GENERATEON">
+                                <a data-ng-click="select_filter_option('generated', type.key)"
+                                   data-ng-bind="type.value">
+                                </a>
+                            </li>
+                        </ul>
+                        <input type="hidden"
+                               name="unitType"
+                               data-ng-model="adData.unitType.name"
+                               data-ng-update-hidden>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dimensions -->
+            <div class="col-md-6" style="padding: 0 10px 0 0;">
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <label  class="col-sm-12 greyTxt miniLabels data-ng-binding"
+                            data-ng-bind="textConstants.DIMENSIONS_FIVE">
+                    </label>
+                    <div class="dropdown">
+                        <tags-input
+                                data-ng-model="dimensionFilterModel"
+                                display-property="value"
+                                placeholder="Type here..."
+                                add-from-autocomplete-only="true"
+                                on-tag-added="addDimensionFilter()"
+                                on-tag-removed="removeDimensionFilter()"
+                                max-tags="5">
+                            <auto-complete source="loadDimensionsList($query)"
+                                           min-length="1"
+                                           load-on-down-arrow="true"
+                                           max-results-to-show="50">
+                            </auto-complete>
+                        </tags-input>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 32px; padding: 0 10px 0 0;" class="col-md-1">
+                <a href=""
+                   data-toggle="tab"
+                   id="applyFilter"
+                   class="btn btn-primary data-ng-binding"
+                   data-ng-click="getScheduledReports()">
+                    Apply
+                </a>
+            </div>
+            <div style="margin-top: 32px;" class="col-md-1 zeroPadding">
+                <a class="btn btn-default pull-right" role="button" data-ng-click="clearFilters()">
+                    <div style="top: 0 !important;"
+                         class="glyphicon glyphicon-repeat pull-left"
+                         aria-hidden="true">
+                    </div>
+                    <span style="margin-left: 6px;">Clear</span>
+                </a>
             </div>
         </div>
     </div>
@@ -202,7 +181,7 @@
         </span>
     </div>
 
-    <div class="col-md-12 zeroPadding table_list_holder smallScreenScrollContent">
+    <div class="col-md-12 zeroPadding table_list_holder smallScreenScrollContent" style="margin-top: 15px;">
         <!--Table Header-->
         <div class="col-md-12 zeroPadding table-header">
             <div class="col-md-4 table-th name-col sort-icon-holder">

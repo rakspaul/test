@@ -1,4 +1,4 @@
-<div ng-repeat="strategy in campaign.campaignStrategies"  class="strategy_tactic_holder" id="strategy_{{strategy.id}}">
+<div data-ng-repeat="strategy in campaign.campaignStrategies"  class="strategy_tactic_holder" id="strategy_{{strategy.id}}">
     <div class="clearfix each_campaign_list_container only_strategy_container">
         <div class="strategy_title" data-ng-bind="textConstants.LINE_ITEM"></div>
         <div class="clearfix">
@@ -9,7 +9,7 @@
                                               txtlength="75">
                     </truncate-text-with-hover>
                 </div>
-                <div class="heading" ng-bind="campaign.brandName"></div>
+                <div class="heading" data-ng-bind="campaign.brandName"></div>
             </div>
         </div>
 
@@ -18,49 +18,50 @@
             <div class="days_left_holder">
                 <div class="total_days_holder">
                     <div class="clearfix days_end_points">
-                        <span class="start_end" ng-bind="strategy.startDate | date :'d MMM y'"></span>
-                        <span class="finish_end" ng-bind="strategy.endDate | date :'d MMM y'"></span>
+                        <span class="start_end" data-ng-bind="strategy.startDate | date : 'd MMM y'"></span>
+                        <span class="finish_end" data-ng-bind="strategy.endDate | date : 'd MMM y'"></span>
                     </div>
-                    <div ng-init="duration_s = strategy.durationLeft()"></div>
-                    <div class="days_over" ng-style="{'width':strategy.durationCompletion() +'%'};">
-                        <span ng-if="duration_s == 'Yet to start'"
-                              ng-bind="textConstants.YET_TO_START"
+                    <div data-ng-init="duration_s = strategy.durationLeft()"></div>
+                    <div class="days_over" data-ng-style="{'width':strategy.durationCompletion() +'%'};">
+                        <span data-ng-if="duration_s == 'Yet to start'"
+                              data-ng-bind="textConstants.YET_TO_START"
                               class="days_over_text start_text">
                         </span>
-                        <span ng-if="duration_s == 'Ended'"
-                              ng-bind="textConstants.ENDED"
-                              class="days_over_text ended_text" >
+                        <span data-ng-if="duration_s == 'Ended'"
+                              data-ng-bind="textConstants.ENDED"
+                              class="days_over_text ended_text">
                         </span>
-                        <span ng-if="duration_s > 0"
-                              ng-bind="duration_s + ' ' + textConstants.DAYS_LEFT"
+                        <span data-ng-if="duration_s > 0"
+                              data-ng-bind="duration_s + ' ' + textConstants.DAYS_LEFT"
                               class="days_over_text">
                         </span>
                     </div>
-                    <div ng-if="duration_s == 'Started today'"
-                         ng-bind="textConstants.STARTED_TODAY"
+                    <div data-ng-if="duration_s == 'Started today'"
+                         data-ng-bind="textConstants.STARTED_TODAY"
                          class="days_not_over_text start_text">
                     </div>
-                    <div ng-if="duration_s == 'Ending today'"
-                         ng-bind="textConstants.ENDING_TODAY"
-                         class="days_not_over_text ended_text" >
+                    <div data-ng-if="duration_s == 'Ending today'"
+                         data-ng-bind="textConstants.ENDING_TODAY"
+                         class="days_not_over_text ended_text">
                     </div>
                 </div>
             </div>
             <div class="clearfix campaigns_list_buttons_holder">
-                <div class="pull-left clearfix tactics_open_btn" ng-click="showTactics(strategy)">
+                <div class="pull-left clearfix tactics_open_btn" data-ng-click="showTactics(strategy)">
                     <div class="pull-left open_icon">
                         <span></span>
                         <span></span>
                         <span></span>
                     </div>
                     <div class="pull-left"
-                         ng-bind="(strategy.tactics_count > 1) ? (strategy.tactics_count+' Ads') : (strategy.tactics_count+' Ad')">
+                         data-ng-bind="(strategy.tactics_count > 1) ?
+                            (strategy.tactics_count+' Ads') : (strategy.tactics_count+' Ad')">
                     </div>
                 </div>
                 <a>
                     <div class="btn btn-default pull-right"
-                         ng-bind="textConstants.VIEW_REPORT"
-                         ng-click="$parent.$parent.viewReports(campaign, strategy)">
+                         data-ng-bind="textConstants.VIEW_REPORT"
+                         data-ng-click="$parent.$parent.viewReports(campaign, strategy)">
                     </div>
                 </a>
             </div>
@@ -69,22 +70,26 @@
         <!--Column 2-->
         <div class="col-md-4 each_campaign_section metric_campaign_section">
             <div class="clearfix metric_graph_header">
-                <span class="metric_title" ng-bind="textConstants.SPEND"></span>
-                <span class="metric_val" ng-bind="strategy.grossRev | currency:undefined: 2"></span>
+                <span class="metric_title" data-ng-bind="textConstants.SPEND"></span>
+                <span class="metric_val" data-ng-bind="strategy.grossRev | currency:undefined: 2"></span>
             </div>
             <div class="metric_graph {{getSpendClassForStrategy(strategy)}}">
                 <div class="full_metric_graph">
                     <!-- put completely_filled when 100% -->
-                    <div class="selected_graph {{(getSpendWidthForStrategy(strategy) >= 100) ? 'completely_filled' : ''}}"
-                         ng-style="{width: getSpendWidthForStrategy(strategy) + '%'};">
+                    <div class="selected_graph {{(getSpendWidthForStrategy(strategy) >= 100) ?
+                            'completely_filled' : ''}}"
+                         data-ng-style="{width: getSpendWidthForStrategy(strategy) + '%'};">
                     </div>
+
                     <!-- put start_beginning when at start -->
-                    <div class="graph_start_point {{(getSpendTickWidthForStrategy(strategy) <= 0) ?
-                            'start_beginning' : ''}} {{(getSpendTickWidthForStrategy(strategy) >= 88) ?
-                            'start_end_point' : ''}}"
-                         ng-style="{left: getSpendTickWidthForStrategy(strategy) +'%'};">
+                    <div class="graph_start_point
+                            {{(getSpendTickWidthForStrategy(strategy) <= 0) ? 'start_beginning' : ''}}
+                            {{(getSpendTickWidthForStrategy(strategy) >= 88) ? 'start_end_point' : ''}}"
+                         data-ng-style="{left: getSpendTickWidthForStrategy(strategy) + '%'};">
                         <div class="end_point_val">
-                            <span class="icon_KPI" ng-bind="strategy.expectedMediaCost | nrFormatWithCurrency"></span>
+                            <span class="icon_KPI"
+                                  data-ng-bind="strategy.expectedMediaCost | nrFormatWithCurrency">
+                            </span>
                             <div class="end_point_line"></div>
                         </div>
                     </div>
@@ -92,35 +97,36 @@
                         <!-- put completed_end_point when at end -->
                         <div class="end_point_val">
                             <div class="end_point_line"></div>
-                            <span ng-bind="textConstants.BUDGET + ': ' + strategy.totalMediaCost|currency:undefined:2">
+                            <span data-ng-bind="textConstants.BUDGET + ': ' +
+                                strategy.totalMediaCost | currency : undefined : 2">
                             </span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="clearfix metric_graph_details">
-                <div class="each_metric_graph_details" ng-if="strategy.totalImpressions">
-                    <span class="detail_val" ng-bind="strategy.totalImpressions | nrFormat : 0"></span>
-                    <span ng-bind="textConstants.IMP_WITH_DOT"></span>
+                <div class="each_metric_graph_details" data-ng-if="strategy.totalImpressions">
+                    <span class="detail_val" data-ng-bind="strategy.totalImpressions | nrFormat : 0"></span>
+                    <span data-ng-bind="textConstants.IMP_WITH_DOT"></span>
                 </div>
-                <div class="each_metric_graph_details metric_graph_details_ctr" ng-if="strategy.ctr > 0">
-                    <span class="detail_val" ng-bind="(strategy.ctr | roundThisOff : 3) + '%'"></span>
-                    <span ng-bind="textConstants.CTR"></span>
+                <div class="each_metric_graph_details metric_graph_details_ctr" data-ng-if="strategy.ctr > 0">
+                    <span class="detail_val" data-ng-bind="(strategy.ctr | roundThisOff : 3) + '%'"></span>
+                    <span data-ng-bind="textConstants.CTR"></span>
                 </div>
 
                 <!-- when action rate is present -->
-                <div class="each_metric_graph_details metric_graph_details_action" ng-if="strategy.vtc_rate === 0">
-                    <span class="detail_val" ng-bind="(strategy.actionRate | number : 3) + '%'">{{}}%</span>
-                    <span>{{textConstants.ACTION_RATE}}</span>
+                <div class="each_metric_graph_details metric_graph_details_action" data-ng-if="strategy.vtc_rate === 0">
+                    <span class="detail_val" data-ng-bind="(strategy.actionRate | number : 3) + '%'"></span>
+                    <span data-ng-bind="textConstants.ACTION_RATE"></span>
                 </div>
-                <div class="each_metric_graph_details  metric_graph_details_vtc" ng-if="strategy.vtc_rate > 0">
-                    <div class="quartile_details_VTC_btn" ng-mouseover="VTCpopup($event, 1)"
-                         ng-mouseout="VTCpopup($event, 0)">
-                        <span class="detail_val" ng-bind="(strategy.vtc_rate | number : 3) + '%'"></span>
-                        <span ng-bind="textConstants.VTC"></span>
+                <div class="each_metric_graph_details  metric_graph_details_vtc" data-ng-if="strategy.vtc_rate > 0">
+                    <div class="quartile_details_VTC_btn" data-ng-mouseover="VTCpopup($event, 1)"
+                         data-ng-mouseout="VTCpopup($event, 0)">
+                        <span class="detail_val" data-ng-bind="(strategy.vtc_rate | number : 3) + '%'"></span>
+                        <span data-ng-bind="textConstants.VTC"></span>
                     </div>
                     <div class="quartile_details_VTC">
-                        <div class="quartile_details_title" ng-bind="textConstants.QUARTILE_DETAILS"></div>
+                        <div class="quartile_details_title" data-ng-bind="textConstants.QUARTILE_DETAILS"></div>
                         <div class="quartile_details_graph"
                              width="328"
                              height="158"
@@ -137,34 +143,34 @@
             <div class="graph_details_KPI">
                 <div class="clearfix details_KPI_row1">
                     <span class="details_KPI_title"
-                          ng-bind="campaign.kpiType !== 'null' ?  campaign.kpiType : 'NA' | displayToCamelCase">
+                          data-ng-bind="campaign.kpiType !== 'null' ?  campaign.kpiTypeDisplayName : 'NA'">
                     </span>
                     <span class="pull-right details_KPI_row2"
-                          ng-if="campaign.kpiValue || strategy.targetKPIImpressions">
-                        <span ng-if="strategy.chart !== false"
-                              ng-bind="campaign.kpiType.toLowerCase() === 'impressions' ?
+                          data-ng-if="campaign.kpiValue || strategy.targetKPIImpressions">
+                        <span data-ng-if="strategy.chart !== false"
+                              data-ng-bind="campaign.kpiType.toLowerCase() === 'impressions' ?
                                     (strategy.targetKPIImpressions|nrFormat : 0) :
                                     (campaign.kpiValue | kpiFormatter:campaign.kpiType)">
                         </span>
-                        <span class="icon_KPI" ng-if="strategy.chart !==false"></span>
+                        <span class="icon_KPI" data-ng-if="strategy.chart !== false"></span>
                     </span>
-                    <span class="pull-right cumulative_val" ng-if="strategy.chart !==false">
+                    <span class="pull-right cumulative_val" data-ng-if="strategy.chart !==false">
                         {{textConstants.CUMULATIVE_VALUE}}
-                            <span ng-bind="(campaign.kpiType.toLowerCase() === 'impressions') ?
-                                (strategy.totalImpressions |  kpiFormatter:campaign.kpiType:1) :
-                                (strategy.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1)">
-                            </span>
+                        <span data-ng-bind="(campaign.kpiType.toLowerCase() === 'impressions') ?
+                            (strategy.totalImpressions |  kpiFormatter:campaign.kpiType:1) :
+                            (strategy.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1)">
+                        </span>
                     </span>
                 </div>
             </div>
             <div class="graph_KPI_outer_holder">
-              <span ng-switch="strategy.chart">
-                <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
-                <span ng-switch-when="false" class="no-chart"
-                      ng-bind-html="getMessageForDataNotAvailable(strategy)">
+              <span data-ng-switch="strategy.chart">
+                <span data-ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
+                <span data-ng-switch-when="false" class="no-chart"
+                      data-ng-bind-html="getMessageForDataNotAvailable(strategy)">
                 </span>
-                <span ng-switch-default>
-                    <div ng-if="(strategy.chart && campaign.kpiType)" class="graph_KPI_holder" >
+                <span data-ng-switch-default>
+                    <div data-ng-if="(strategy.chart && campaign.kpiType)" class="graph_KPI_holder">
                         <div class="campaign_details_graph"
                              width="355"
                              height="111"
@@ -174,8 +180,8 @@
                              chart-tag="{{strategy.id}}">
                         </div>
                     </div>
-                    <div ng-if="!(strategy.chart && campaign.kpiType)" class="graph_KPI_holder"
-                         ng-bind-html="getMessageForDataNotAvailable(strategy)">
+                    <div data-ng-if="!(strategy.chart && campaign.kpiType)" class="graph_KPI_holder"
+                         data-ng-bind-html="getMessageForDataNotAvailable(strategy)">
                     </div>
                 </span>
               </span>
@@ -188,9 +194,9 @@
     <!-- end of tactics -->
 </div>
 
-<span ng-if='campaign.campaignStrategiesLoadMore.length' class="col-md-12 load-more-strategies">
-    <a ng-click="loadMoreStrategies(campaign.orderId)"
+<span data-ng-if='campaign.campaignStrategiesLoadMore.length' class="col-md-12 load-more-strategies">
+    <a data-ng-click="loadMoreStrategies(campaign.orderId)"
        class="btn btn-link"
-       ng-bind="textConstants.LOAD_MORE_STRATEGIES">
+       data-ng-bind="textConstants.LOAD_MORE_STRATEGIES">
     </a>
 </span>

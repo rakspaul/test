@@ -1,42 +1,39 @@
 <h3 class="col-md-6 adName"
     data-ng-bind="selectedCampaign.campaignName.length > 0 ?
         (selectedCampaign.campaignName | textEllipsis: 40 ) : editCampaignData.name">
-    {{}}
 </h3>
 
 <!--Pixel Option List-->
 <div class="col-md-8" style="padding: 0 10px 0 0;">
-
     <label for="nameTitleCampaign"
            class="col-sm-12 labelQuestTxt"
            style="margin-bottom: 5px;"
            data-ng-bind="textConstants.MEDIAPLAN_PIXEL_SELECT">
     </label>
-
     <div class="col-md-12 zeroPadding btn-group create"
          role="group"
          style="margin: 20px 0 10px 0;">
         <span class="pull-left"
-              ng-bind-html="textConstants.MEDIAPLAN_PIXEL_REQUIRED">
+              data-ng-bind-html="textConstants.MEDIAPLAN_PIXEL_REQUIRED">
         </span>
 
         <!--Search/Quickfilters Input-->
-        <div class="col-md-12 zeroPadding" style="margin-top:20px;display:none">
+        <div class="col-md-12 zeroPadding" style="margin-top: 20px; display: none">
             <div class="btn-group pull-right">
                 <button type="button"
                         class="btn btn-default pull-right disabled"
                         style="border-top-right-radius: 2px; border-bottom-right-radius: 2px;">
                     <span class="icon-filter" style="margin: -1px 0 0;"></span>
                 </button>
-
                 <div class="searchInput pull-right">
                     <a class="btn btn-default searchInputBtn"
-                       ng-click="searchShowInput()"
+                       data-ng-click="searchShowInput()"
                        style="border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0;">
                         <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
                     </a>
-
-                    <a class="btn btn-default searchInputBtnInline" ng-click="campaignSearchFunc()" style="border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0;">
+                    <a class="btn btn-default searchInputBtnInline"
+                       data-ng-click="campaignSearchFunc()"
+                       style="border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0;">
                         <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
                     </a>
                     <div class="input-group searchInputForm" style="width:300px !important;">
@@ -44,15 +41,19 @@
                                class="form-control"
                                name="campaignsSearch"
                                search-box
-                               placeholder="Search Line Items..." ng-model="searchText">
-                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput($event)">
+                               placeholder="Search Line Items..."
+                               data-ng-model="searchText">
+                        <div class="btn btn-default searchClearInputBtn" data-ng-click="searchHideInput($event)">
                             <span class="icon-clear" aria-hidden="true" style="margin: 0;"></span>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <span class="pull-right" style="padding:8px 5px 8px 0 ;" data-ng-bind="selectedPixel.length">Pixels in list</span>
+            <span class="pull-right"
+                  style="padding:8px 5px 8px 0 ;"
+                  data-ng-bind="selectedPixel.length">
+                Pixels in list
+            </span>
         </div>
     </div>
 
@@ -62,23 +63,24 @@
             <div class="thead thin">
                 <div class="tr">
                     <div class="th col-md-9">
-                        <input type="checkbox" ng-click="selectAllPixel($event)" ng-checked="selectAllPixelChecked"/>
+                        <input type="checkbox"
+                               data-ng-click="selectAllPixel($event)"
+                               data-ng-checked="selectAllPixelChecked">
                         <span>Pixel Name</span>
                     </div>
                     <div class="th col-md-3">Created</div>
                 </div>
             </div>
-
             <div class="tbody thin" style="overflow:auto;">
                 <!--Table Data Sample-->
-                <div class="tr" ng-repeat="pixel in  selectedCampaign.pixelList | filter:searchText" >
+                <div class="tr" data-ng-repeat="pixel in  selectedCampaign.pixelList | filter:searchText">
                     <div class="td col-md-9">
-                        <input type="checkbox" ng-click="selectPixel(pixel)" ng-checked="pixel.isChecked" />
-                        <a>{{pixel.name}}</a>
+                        <input type="checkbox" data-ng-click="selectPixel(pixel)" data-ng-checked="pixel.isChecked">
+                        <a data-ng-bind="pixel.name"></a>
                     </div>
                     <span class="td col-md-3" data-ng-bind="pixel.createdAt"></span>
                 </div>
-                <div ng-if="selectedCampaign.pixelList.length === 0" class="tr no-data-common" >
+                <div data-ng-if="selectedCampaign.pixelList.length === 0" class="tr no-data-common">
                     <div class="td" data-ng-bind="textConstants.DATANOTAVAILABLE"></div>
                 </div>
             </div>
@@ -87,18 +89,27 @@
     <!--Pixel Table Sample Start-->
 </div>
 
-<div class="col-md-4" style="padding: 10px; background: #ECF3F8; margin: 61px 0 0 0;">
-    <label for="nameTitleCampaign" class="pull-left labelQuestTxt" style="margin: 0 !important;" data-ng-bind="textConstants.MEDIAPLAN_PIXEL_SELECTED + ' ' +  (selectedCampaign.selectedPixel.length)"></label>
-    <a class="btn btn-default pull-right" ng-click="clearAllSelectedPixel()"  data-ng-bind="textConstants.RESET_LABEL"></a>
-    <div class="col-md-12 zeroPadding selectedPixels" style="overflow:auto;">
-        <div class="col-md-12 zeroPadding pixelName" ng-repeat="eachselectedPixel in  selectedCampaign.selectedPixel " >
-            <span>{{eachselectedPixel.name}}</span>
-            <a class="icon-close pull-right" ng-click="selectPixel(eachselectedPixel)"></a>
+<div class="col-md-4 selected_bg">
+    <label for="nameTitleCampaign"
+           class="pull-left labelQuestTxt"
+           style="margin: 0 !important;"
+           data-ng-bind="textConstants.MEDIAPLAN_PIXEL_SELECTED + ' ' +  (selectedCampaign.selectedPixel.length)">
+    </label>
+    <a class="btn btn-default pull-right"
+       data-ng-click="clearAllSelectedPixel()"
+       data-ng-bind="textConstants.RESET_LABEL">
+    </a>
+    <div class="col-md-12 zeroPadding selectedPixels" style="overflow: auto;">
+        <div class="col-md-12 zeroPadding pixelName"
+             data-ng-repeat="eachselectedPixel in selectedCampaign.selectedPixel ">
+            <span data-ng-bind="eachselectedPixel.name"></span>
+            <a class="icon-close pull-right" data-ng-click="selectPixel(eachselectedPixel)"></a>
         </div>
-
     </div>
 </div>
-
 <a data-toggle="tab" data-target="#budget" role="tab" class="nextWrapper leftNavLink contacts">
-    <span class="btn btn-default" ng-click="highlightLeftNav(2)" data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE"></span>
+    <span class="btn btn-default"
+          data-ng-click="highlightLeftNav(2)"
+          data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE">
+    </span>
 </a>

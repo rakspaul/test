@@ -248,6 +248,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.showSubAccount = false;
         $scope.IncorrectClickThru=false;
         $scope.creativeId = $routeParams.creativeId;
+        localStorage.setItem('isOnchangeOfCreativeFeild', 0);
 
         $scope.creativeTagSelected = function (event, creativeType) {
             var target;
@@ -417,7 +418,19 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         responseData = result.data.data;
-                        $scope.creativeTemplates = responseData;
+
+                        /*In creative library page, in edit mode, if ads count for a creative>0,
+                         allow template change between same type. if its pushed, disable the template selection*/
+                        if($scope.creativeMode === 'edit' && !$scope.adPage && $scope.associatedAdCount > 0){
+                            var tempArr=_.filter(responseData,function (obj) {
+                                return obj.templateType === $scope.creativeEditData.creativeTemplate.templateType;
+                            });
+
+                            $scope.creativeTemplates = tempArr;
+                        }else{
+                            $scope.creativeTemplates=responseData;
+                        }
+
                     } else {
                         console.log('failed to get Channels');
                         creatives.errorHandler(result);
@@ -522,12 +535,13 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
             if (($scope.creativeMode === 'edit') && val) {
                 fireAPItoValidate(ele, val);
-            } else {
-                ele.on('change', function () {
-                    val = $(this).val();
-                    fireAPItoValidate(this, val);
-                });
             }
+
+            ele.on('change', function () {
+                localStorage.setItem('isOnchangeOfCreativeFeild', 1);
+                val = $(this).val();
+                fireAPItoValidate(this, val);
+            });
         }
 
         function fireAPItoValidate(ele, creativeTag) {
@@ -949,6 +963,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 .parents('.btn-group')
                 .find('.dropdown-toggle-search')
                 .attr('value=' + selText);
+        });
+        $scope.$on('$locationChangeSuccess', function () {
+            localStorage.setItem('isOnchangeOfCreativeFeild', 0);
         });
     });
 });

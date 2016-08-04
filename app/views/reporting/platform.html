@@ -25,9 +25,9 @@
 
         <div class="common-load-icon_viewability" data-ng-show="strategyLoading && selectedCampaign.id !== -1"></div>
     </div>
-    <div class="platform_container smallSreenScrollContainer"
+    <div class="platform_container smallScreenScrollContainer"
          data-ng-hide="strategyLoading && selectedCampaign.id !== -1">
-        <div class="reports_tabs_content_container smallSreenScrollDiv">
+        <div class="reports_tabs_content_container smallScreenScrollDiv">
             <div class="reports_tabs_content_container  smallScreenScrollContent">
                 <!-- -------START :  Platform Tabs ------------------------ -->
                 <div class="clearfix">
@@ -48,7 +48,7 @@
 
                 <div class="no_data_found" data-ng-if="!strategyFound"
                      data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
-                    <div class="reports_tabs_content_container smallSreenScrollDiv"></div>
+                    <div class="reports_tabs_content_container smallScreenScrollDiv"></div>
                 </div>
 
                 <div data-ng-show="strategyFound">
@@ -78,7 +78,7 @@
                                         <div class="clearfix each_row_list expandRow"
                                              data-ng-show="!performanceBusy"
                                              data-ng-repeat="platform in platformData |
-                                                orderBy : sortTypebyPerformance : sortReverse track by $index"
+                                                orderBy : sortTypeByPerformance : sortReverse track by $index"
                                              data-ng-include="'performanceTpl'">
                                         </div>
                                     </div>
@@ -86,7 +86,7 @@
                                 <div class="all_strategies_holder" data-ng-show="!performanceBusy">
                                     <div class="each_strategy_holder clearfix"
                                          data-ng-repeat="platform in tacticPlatformData |
-                                            orderBy : sortTypebyPerformance : sortReverse track by $index"
+                                            orderBy : sortTypeByPerformance : sortReverse track by $index"
                                          data-ng-if="platform.ad_id">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
@@ -122,14 +122,14 @@
                                         <div class="clearfix each_row_list expandRow"
                                              data-ng-show="!costBusy"
                                              data-ng-repeat="platform in platformData |
-                                                orderBy : sortTypebyCost : sortReverse track by $index"
+                                                orderBy : sortTypeByCost : sortReverse track by $index"
                                              data-ng-include="'costTpl'"></div>
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder" data-ng-show="!costBusy">
                                     <div class="each_strategy_holder clearfix"
                                          data-ng-repeat="platform in tacticPlatformData |
-                                            orderBy : sortTypebyCost : sortReverse track by $index"
+                                            orderBy : sortTypeByCost : sortReverse track by $index"
                                          data-ng-if="platform.ad_id">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
@@ -173,14 +173,14 @@
                                              data-ng-if="!adFormats.videoAds || !videoMode"
                                              class="clearfix each_row_list expandRow"
                                              data-ng-repeat="platform in platformData |
-                                                orderBy : sortTypebyViewability : sortReverse  track by $index"
+                                                orderBy : sortTypeByViewability : sortReverse  track by $index"
                                              data-ng-include="'viewabilityTpl'">
                                         </div>
                                         <div data-ng-show="!viewabilityBusy"
                                              data-ng-if="adFormats.videoAds && videoMode"
                                              class="clearfix each_row_list expandRow"
                                              data-ng-repeat="platform in platformData |
-                                                orderBy : sortTypebyViewability : sortReverse  track by $index"
+                                                orderBy : sortTypeByViewability : sortReverse  track by $index"
                                              data-ng-include="'videoViewabilityTpl'">
                                         </div>
                                     </div>
@@ -188,7 +188,7 @@
                                 <div class="all_strategies_holder" data-ng-show="!viewabilityBusy">
                                     <div class="each_strategy_holder clearfix"
                                          data-ng-repeat="platform in tacticPlatformData |
-                                            orderBy : sortTypebyViewability : sortReverse track by $index"
+                                            orderBy : sortTypeByViewability : sortReverse track by $index"
                                          data-ng-if="platform.ad_id">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
@@ -233,7 +233,7 @@
                                         <div data-ng-show="!marginBusy"
                                              class="clearfix each_row_list expandRow"
                                              data-ng-repeat="platform in platformData |
-                                                orderBy : sortTypebyMargin : sortReverse  track by $index"
+                                                orderBy : sortTypeByMargin : sortReverse  track by $index"
                                              data-ng-include="'marginTpl'">
                                         </div>
                                     </div>
@@ -241,7 +241,7 @@
                                 <div class="all_strategies_holder" data-ng-show="!marginBusy">
                                     <div class="each_strategy_holder clearfix"
                                          data-ng-repeat="platform in tacticPlatformData |
-                                            orderBy : sortTypebyMargin : sortReverse track by $index"
+                                            orderBy : sortTypeByMargin : sortReverse track by $index"
                                          data-ng-if="platform.ad_id">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
@@ -315,7 +315,7 @@
              data-ng-bind="((platform.action_rate > 0) || (platform.action_rate === 0)) ?
                 ((platform.action_rate | number : 3) + '%') : '-'">
         </div>
-        <span data-ng-if="!adFormats.videoAds">
+        <div data-ng-if="!adFormats.videoAds">
             <div class="each_col sixth_col {{platform.kpi_type === 'CPA' ? 'bold' : ''}}"
                  data-ng-bind="((platform.cpa > 0) || (platform.cpa === 0)) ?
                     (platform.cpa | currency : undefined : 3) : '-'">
@@ -328,7 +328,7 @@
                  data-ng-bind="((platform.cpm > 0) || (platform.cpm === 0)) ?
                     (platform.cpm | currency : undefined : 3) : '-'">
             </div>
-        </span>
+        </div>
         <div data-ng-if="adFormats.videoAds"
              class="each_col eight_col {{platform.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
              data-ng-class="{vid_none: adFormats.videoAds === false}">

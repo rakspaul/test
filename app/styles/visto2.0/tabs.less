@@ -72,7 +72,7 @@
                 text-align: left;
 
                 .statusIcon {
-                    margin: -1px 5px 0 0;
+                    margin: -2px 5px 0 0 !important;
                     float: left;
                 }
 
@@ -121,6 +121,16 @@
                 text-align: right;
             }
         }
+        
+        [class^="icon-"],
+        [class*=" icon-"] {
+            height: 16px;
+            width: 16px;
+            font-size: 16px;
+            display: inline-block;
+            fill: currentColor;
+            color: @coal;
+        }
 
         .greyTxt {
             padding: 0 0 0 5px !important;
@@ -135,7 +145,7 @@
 
             a {
                 font-family: Avenir-bold, sans-serif;
-                color: #0978c9;
+                color: @visto-blue;
                 border-radius: 0;
                 background: transparent;
             }
@@ -156,7 +166,7 @@
     .nav-tabs > li.active > a:hover,
     .nav-tabs > li.active > a:focus {
         border-width: 0;
-        color: #0978c9;
+        color: @visto-blue;
         background: transparent;
     }
 
@@ -198,7 +208,7 @@
 
     .active .titleLabel {
         font-family: Avenir-bold, sans-serif;
-        color: #0978c9;
+        color: @visto-blue;
     }
 
     .eachStepCompLabel {
@@ -271,7 +281,7 @@
         border-bottom: 2px solid @label-gray;
     }
     .btn-link.active {
-        border-bottom: 2px solid #0978C9;
+        border-bottom: 2px solid @visto-blue;
         color: #57606C;
     }
 }

@@ -1,20 +1,30 @@
-<div ng-show="(barData.data.length > 0 && total > 0)">
-	<div class="platform_number" ng-if="barData.showLabel" ng-style="disableLabel">
-		<span> {{ textConstants.TOP_THREE }}</span>
+<div data-ng-show="(barData.data.length > 0 && total > 0)">
+	<div class="platform_number" data-ng-if="barData.showLabel" data-ng-style="disableLabel">
+		<span data-ng-bind="textConstants.TOP_THREE"></span>
 	</div>
-	<div  class="clearfix"   ng-class="{common_bar_data:barData.showLabel == true}">
+	<div  class="clearfix" data-ng-class="{common_bar_data:barData.showLabel === true}">
 		<div class="clearfix each_section_graph format_section_graph dataScreenIconsText">
-			<div ng-repeat="d in barData.data track by $index" class="clearfix each_bar_section_holder">
+			<div data-ng-repeat="d in barData.data track by $index" class="clearfix each_bar_section_holder">
 				<div class="pull-left barIcon {{d.className}}"></div>
-				<div class="pull-left imgContainer" ng-if="d.icon_url"><img ng-src="{{d.icon_url}}" height='15'/></div>
-				<div class="pull-left graphValues" ng-switch on="page">
-					<span class="graphValues_title">{{d.type}}{{separator}}</span>
-					<span ng-switch-when="dashboard" class="graphValues_number" >{{d.value > 0 ? (d.value | dashboardKpiFormatter : d.kpiType) : ''}}</span>
-					<span ng-switch-default class="graphValues_number" >{{d.value > 0 ? (d.value | kpiFormatter : d.kpiType) : ''}}</span>
+				<div class="pull-left imgContainer" data-ng-if="d.icon_url">
+                    <img data-ng-src="{{d.icon_url}}" height="15">
+                </div>
+				<div class="pull-left graphValues" data-ng-switch on="page">
+					<span class="graphValues_title" data-ng-bind="d.type + separator"></span>
+					<span data-ng-switch-when="dashboard" class="graphValues_number"
+                          data-ng-bind="d.value > 0 ? (d.value | dashboardKpiFormatter : d.kpiType) : ''">
+                    </span>
+					<span data-ng-switch-default
+                          class="graphValues_number"
+                          data-ng-bind="d.value > 0 ? (d.value | kpiFormatter : d.kpiType) : ''">
+                    </span>
 				</div>
 			</div>
 		</div>
-		<div class="barChartWidget" ></div>
+		<div class="barChartWidget"></div>
 	</div>
 </div>
-<div ng-if="(!total || barData.data.length == 0 )" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable('', barData.graphName)"></div>
+<div data-ng-if="(!total || barData.data.length === 0)"
+	 class="no-data-available"
+     data-ng-bind-html="getMessageForDataNotAvailable('', barData.graphName)">
+</div>

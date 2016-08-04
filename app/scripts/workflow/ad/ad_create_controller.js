@@ -12,7 +12,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                                                    $locale, $location,  $filter, $timeout,
                                                                    constants, workflowService, loginModel,
                                                                    dataService, audienceService, RoleBasedService,
-                                                                   momentService, vistoconfig, videoService,utils) {
+                                                                   momentService, vistoconfig, videoService, utils) {
         var winHeaderHeight = $(window).height() - 50,
             winHeight,
 
@@ -30,6 +30,18 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             },
 
             campaignOverView = {
+                fetchSubAccounts: function (callback) {
+                    workflowService
+                        .getSubAccounts('write')
+                        .then(function (result) {
+                            if (result.status === 'OK' || result.status === 'success') {
+                                callback && callback(result.data.data);
+                            } else {
+                                campaignOverView.errorHandler(result);
+                            }
+                        }, campaignOverView.errorHandler);
+                },
+
                 getCampaignData: function (campaignId) {
                     workflowService
                         .getCampaignData(campaignId)
@@ -68,6 +80,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                 clientId = responseData.clientId;
                                 advertiserId = responseData.advertiserId;
+
+                                campaignOverView.fetchSubAccounts(function(subAccountData) {
+                                    subAccountData = _.find(subAccountData, function(data) {
+                                        return data.id === clientId;
+                                    });
+                                    workflowService.setSubAccountTimeZone(subAccountData.timezone);
+                                });
 
                                 if ($scope.mode === 'edit') {
                                     if (!$scope.adGroupId) {
@@ -853,7 +872,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             } else {
                 previewUrl +=  '/creative/' + creativeData.id +'/preview';
             }
-
             window.open(previewUrl);
         };
 
@@ -1161,8 +1179,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 postGeoTargetObj,
                 buildGeoTargetingParams,
                 geoTargetData,
-                zipObj,
-                zipPostArr,
                 selectedAudience,
                 segmentObj,
                 dayPart,
@@ -1176,6 +1192,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 utcStartTime,
                 utcEndTime,
                 inventoryLists,
+                dateTimeZone,
 
                 wrapperToReplaceCustomPlatformHiddenValues = function(customPlatformData) {
                     _.each(customPlatformData, function(obj) {
@@ -1232,8 +1249,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     postAdDataObj.goal = formData.goal;
                 }
 
+                dateTimeZone = workflowService.getSubAccountTimeZone();
+
                 if (formData.startTime) {
-                    utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime');
+                    utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone);
 
                     // fixed for CW-4102
                     if ($scope.mode ==='edit') {
@@ -1246,7 +1265,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 }
 
                 if (formData.endTime) {
-                    utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
+                    utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime', dateTimeZone);
 
                     // fixed for CW-4102
                     if ($scope.mode ==='edit') {
@@ -1364,41 +1383,19 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             }
 
                             if (geoTargetData.zip.selected.length > 0) {
-                                zipObj = geoTargetData.zip.selected;
-                                zipPostArr = [];
-
-                                _.each(zipObj, function (zipArr) {
-                                    if (zipArr.added) {
-                                        _.each(zipArr.added, function (obj) {
-                                            var arr = obj.split('-'),
-                                                start,
-                                                end,
-                                                i;
-
-                                            if (arr.length > 1) {
-                                                start = Number(arr[0]);
-                                                end = Number(arr[1]);
-
-                                                for (i = start; i <= end; i++) {
-                                                    zipPostArr.push(String(i));
-                                                }
-                                            } else {
-                                                zipPostArr.push(arr[0]);
-                                            }
-                                        });
-                                    }
-                                });
 
                                 postGeoTargetObj.ZIPCODE = {
                                     isIncluded: true
                                 };
 
-                                postGeoTargetObj.ZIPCODE.geoTargetList=[];
-
-                                postGeoTargetObj.ZIPCODE.geoTargetList.push({
-                                    countryCode:'US',
-                                    zipcodes:zipPostArr
-                                });
+                                postGeoTargetObj.ZIPCODE.geoTargetList = _.map(geoTargetData.zip.selected,
+                                    function (zip) { // jshint ignore:line
+                                        return {
+                                            countryCode : zip.countryCode,
+                                            zipcodes : utils.rangeValue(zip.data)
+                                        };
+                                    }
+                                );
                             }
                         } else {
                             if ($scope.mode === 'edit') {
@@ -1853,23 +1850,26 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                     for (i in selectedCreatives.creatives) {
                         creativeSizeArrC.push(selectedCreatives.creatives[i].size ?
-                            selectedCreatives.creatives[i].size.size : '');
+                            selectedCreatives.creatives[i].size.size : null);
                     }
+                    $scope.sizeString = creativeSizeArrC.filter(Boolean);
+                    if($scope.sizeString.length === 0){
+                        $scope.sizeString='Unspecified Size';
+                    }else{
+                        arrC = creativeSizeArrC.filter(Boolean);
+                        str = '';
+                        result = noRepeatC(arrC);
 
-                    $scope.sizeString = creativeSizeArrC;
-                    arrC = creativeSizeArrC;
-                    str = '';
-                    result = noRepeatC(arrC);
-
-                    for (i = 0; i < result[0].length; i++) {
-                        if (result[1][i] > 1) {
-                            str += result[0][i] + '(' + result[1][i] + ')' + ', ';
-                        } else {
-                            str += result[0][i] + ', ';
+                        for (i = 0; i < result[0].length; i++) {
+                            if (result[1][i] > 1) {
+                                str += result[0][i] + '(' + result[1][i] + ')' + ', ';
+                            } else {
+                                str += result[0][i] + ', ';
+                            }
                         }
-                    }
 
-                    $scope.sizeString = str.substr(0, str.length - 2).replace(/X/g, 'x');
+                        $scope.sizeString = str.substr(0, str.length - 2).replace(/X/g, 'x');
+                    }
                 }
             } else {
                 $scope.sizeString = constants.WF_NOT_SET;

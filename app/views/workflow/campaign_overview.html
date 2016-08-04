@@ -20,22 +20,22 @@
                     <div class="pull-left accountTitleTag"
                          data-ng-if="workflowData.campaignData.clientName && !isLeafNode">
                         <span class="tagTitle" data-ng-bind="textConstants.SUB_ACCOUNT"></span>
-                        <span class="" data-ng-bind="selectedClientName"></span>
+                        <span data-ng-bind="selectedClientName"></span>
                         <span class="slash-divider" style="padding-left:5px;">/</span>
                     </div>
                     <div class="pull-left" style="padding-left:5px;">
                         <span class="tagTitle" data-ng-bind="textConstants.ADVERTISER"></span>
-                        <span class=""  data-ng-bind="workflowData.campaignData.advertiserName"></span>
+                        <span data-ng-bind="workflowData.campaignData.advertiserName"></span>
                         <span class="slash-divider">/</span>
                     </div>
                     <div class="pull-left" style="padding-left:5px;" data-ng-if="workflowData.campaignData.brandName">
                         <span class="tagTitle" data-ng-bind="textConstants.BRAND"></span>
-                        <span class="" data-ng-bind="workflowData.campaignData.brandName"></span>
+                        <span data-ng-bind="workflowData.campaignData.brandName"></span>
                         <span class="slash-divider">/</span>
                     </div>
                     <div class="pull-left" style="padding-left:5px;">
                         <span class="tagTitle" data-ng-bind="textConstants.VID"></span>
-                        <span class="" data-ng-bind="workflowData.campaignData.id"></span>
+                        <span data-ng-bind="workflowData.campaignData.id"></span>
                     </div>
                 </div>
                 <div class="col-md-12 zeroPadding">
@@ -70,24 +70,30 @@
                                     </button>
                                     <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
                                         <li>
-                                            <a data-ng-click="editCampaign(workflowData.campaignData)"
-                                               data-ng-bind="textConstants.EDIT">
+                                            <a data-ng-click="editCampaign(workflowData.campaignData)">
+                                                <span class="icon-inline-edit withIcons">{{textConstants.EDIT}}</span>
                                             </a>
                                         </li>
                                         <li class="disabled" data-ng-click="cancelAdPause()">
-                                            <a data-ng-bind="textConstants.WF_PAUSE"></a></li>
+                                            <a>
+                                                <span class="icon-paused withIcons">{{textConstants.WF_PAUSE}}</span>
+                                            </a>
+                                        </li>
                                         <li class="disabled" data-ng-click="cancelAdResume()">
-                                            <a data-ng-bind="textConstants.WF_RESUME"></a></li>
+                                            <a>
+                                                <span class="icon-ready withIcons">{{textConstants.WF_RESUME}}</span>
+                                            </a>
+                                        </li>
                                         <li>
-                                            <a data-ng-click="cloneCampaign()"
-                                               data-ng-bind="textConstants.CLONE">
+                                            <a data-ng-click="cloneCampaign()">
+                                                <span class="icon-copy withIcons">{{textConstants.CLONE}}</span>
                                             </a>
                                         </li>
                                         <li>
                                             <a class="available"
                                                id="archiveAdbtn"
-                                               data-ng-bind="textConstants.WF_ARCHIVE"
                                                data-ng-click="cancelArchiveCampaign()">
+                                                <span class="icon-archive withIcons">{{textConstants.WF_ARCHIVE}}</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -98,7 +104,8 @@
                                 <button type="button"
                                         class="btn btn-primary pull-right"
                                         id="pushCampaignBtn"
-                                        data-ng-disabled="disablePushBtn" data-ng-bind="textConstants.WF_PUSH_CAMPAIGN">
+                                        data-ng-disabled="disablePushBtn"
+                                        data-ng-bind="textConstants.WF_PUSH_CAMPAIGN">
                                 </button>
                             </div>
                         </div>
@@ -107,21 +114,20 @@
                 <div class="col-md-12 zeroPadding campSettingOverView">
                     <div class="pull-left">
                         <span class="greyTxt" data-ng-bind="textConstants.DELBUDGET"></span>
-                        <span class=""
-                              data-ng-bind="(workflowData.campaignData.deliveryBudget || 0) | currency: undefined: 0">
+                        <span data-ng-bind="(workflowData.campaignData.deliveryBudget || 0) | currency : undefined : 0">
                         </span>
                     </div>
                     <div class="pull-left">
                         <span class="greyTxt" data-ng-bind="textConstants.FLIGHTDATES"></span>
-                        <span data-ng-if="workflowData.campaignData.startTime" class="">
+                        <span data-ng-if="workflowData.campaignData.startTime">
                             <span class="icon-calendar" style="margin: 1px 6px 0 0;"></span>
-                            <span style="float: left; clear: none;">
-                                {{utcToLocalTime(workflowData.campaignData.startTime, 'ddd DD MMM  YYYY')}} -
-                                {{utcToLocalTime(workflowData.campaignData.endTime, 'ddd DD MMM YYYY')}}
+                            <span style="float: left; clear: none;"
+                                  data-ng-bind="utcToLocalTime(workflowData.campaignData.startTime, 'ddd DD MMM  YYYY') + ' - '
+                                        + utcToLocalTime(workflowData.campaignData.endTime, 'ddd DD MMM YYYY')">
                             </span>
                             <span style="clear: none; margin-left: 8px;"
+                                  data-ng-bind="'(' + workflowData.campaignData.numOfDays + ' Days)'"
                                   data-ng-if="workflowData.campaignData.numOfDays">
-                                ({{workflowData.campaignData.numOfDays}} Days)
                             </span>
                         </span>
                     </div>
@@ -155,6 +161,7 @@
                                   style="text-align: center;"
                                   data-ng-bind="textConstants.ADGROUPS">
                             </span>
+
                             <!--Abi if value is zero add this class to the span below emptyValueTxt-->
                             <span class="col-md-12 zeroPadding emptyValueTxt "
                                   data-ng-bind="workflowData.campaignData.adGroupCount || 0">
@@ -209,18 +216,18 @@
                                         <span class="icon-more-options"></span>
                                     </button>
                                     <ul class="dropdown-menu" id="moreOptions" style="left: 0; left: initial;">
-                                        <li>
-                                            <a class="text-left"
+                                        <li class="available">
+                                            <a class="available pull-left"
                                                data-ng-click="pixelsDownload()"
-                                               role="button"
-                                               data-ng-bind="textConstants.EXPORT_CONVERSION_PIXELS">
+                                               role="button">
+                                                <span class="icon-download withIcons">{{textConstants.EXPORT_CONVERSION_PIXELS}}</span>
                                             </a>
                                         </li>
-                                        <li>
-                                            <a class="text-left"
+                                        <li class="available">
+                                            <a class="available pull-left"
                                                data-ng-click="DownloadTrackingTags()"
-                                               role="button"
-                                               data-ng-bind="textConstants.TAGS_FOR_TRACKING_ONLY_ADS">
+                                               role="button">
+                                                <span class="icon-download withIcons">{{textConstants.TAGS_FOR_TRACKING_ONLY_ADS}}</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -256,7 +263,8 @@
                                        data-ng-model="adGroupsSearch.term"
                                        data-ng-keyup="adGroupsSearchFunc($event)"
                                        placeholder="Search Ad Groups and Ads...">
-                                <div class="btn btn-default searchClearInputBtn" data-ng-click="adGroupsHideInput($event)">
+                                <div class="btn btn-default searchClearInputBtn"
+                                     data-ng-click="adGroupsHideInput($event)">
                                     <span class="icon-clear" aria-hidden="true"></span>
                                 </div>
                             </div>
@@ -287,12 +295,14 @@
                 </div>
                 <div data-ng-show='isAdGroupsBusy' class="load-more">&nbsp;</div>
                 <div class="col-md-12 adContainer" data-ng-show="!isAdGroupsBusy">
-
                     <!--START of independant ads block-->
                     <div class="adGroupSelectionWrap">
                         <!--Start of group individual ads into groups-->
-                        <div class="col-md-12 adGroupCreate" data-ng-show="showCreateAdGrp" style="margin-bottom:15px;">
-                            <div data-ng-include="'/views/workflow/partials/overview_partials/overview_createAdgroups.html'">
+                        <div class="col-md-12 adGroupCreate"
+                             data-ng-show="showCreateAdGrp"
+                             style="margin-bottom: 15px;">
+                            <div data-ng-include=
+                                         "'/views/workflow/partials/overview_partials/overview_createAdgroups.html'">
                             </div>
                         </div>
                         <!--END of group individual ads into groups-->
@@ -306,6 +316,7 @@
 
                         <div class="singleCardWrap active">
                             <div class="overlay"></div>
+
                             <!--=== Single Ad Ready ===-->
                             <div class="col-md-3 adModule"
                                  data-ng-repeat="adsData in workflowData.campaignAdsData track by adsData.id"
@@ -326,7 +337,8 @@
                                                           adsData.state === 'INCOMPLETE')"
                                             data-ng-bind="textConstants.NOTPUSHEDPAR">
                                         </span>
-                                        <span data-ng-if="(adsData.sourceId)" class="pull-right greyTxt adDisplay"
+                                        <span data-ng-if="(adsData.sourceId)"
+                                              class="pull-right greyTxt adDisplay"
                                               data-ng-show="(adsData.sourceId && (adsData.pushStatus !== 'FAILED' &&
                                                             adsData.pushStatus !== 'IN_PROGRESS' &&
                                                             adsData.pushStatus !== 'UNPUSHED'))"
@@ -334,7 +346,7 @@
                                               data-ng-bind="'ID:'+adsData.sourceId | formatUrl : 8">
                                         </span>
                                     </div>
-                                    <div style="margin-top:3px;">
+                                    <div style="margin-top: 3px;">
                                         <span class="greyTxt adDisplay"
                                               title="{{adsData.platform.displayName}}"
                                               data-ng-bind="adsData.platform.displayName | formatUrl : 12">
@@ -421,7 +433,8 @@
                                 <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">
                                     <span data-ng-bind="adsData.state"></span>
                                     <span data-ng-if="adsData.pushStatus === 'FAILED'"
-                                          class="pull-right icon-warning" aria-hidden="true"
+                                          class="pull-right icon-warning"
+                                          aria-hidden="true"
                                           tooltip="{{adsData.pushFeedback ? adsData.pushFeedback : ''}}">
                                     </span>
                                     <span class="pull-right icon-tracking" data-ng-if="adsData.isTracking"></span>
@@ -482,7 +495,9 @@
                             </span>
                         </div>
                         <div class="col-md-1">
-                            <a href=""><span class="glyphicon glyphicon-cog editStepOne" aria-hidden="true"></span></a>
+                            <a href="">
+                                <span class="glyphicon glyphicon-cog editStepOne" aria-hidden="true"></span>
+                            </a>
                         </div>
                         <div class="col-md-1"></div>
                     </div>
@@ -760,7 +775,9 @@
                                 <div class="col-md-12 spacingInput"></div>
                                 <div class="col-md-12">
                                     <div class="col-md-2 zeroPadding" data-ng-bind="textConstants.WF_UNIT_COST"></div>
-                                    <div class="form-group col-md-4"><input type="text" class="form-control"></div>
+                                    <div class="form-group col-md-4">
+                                        <input type="text" class="form-control">
+                                    </div>
                                     <div class="form-group col-md-3">
                                         <select class="form-control" id="unitcost">
                                             <option data-ng-repeat="unitcost in unitcosts"
@@ -783,6 +800,7 @@
                                 </div>
                             </div>
                             <!-- Tab1 Setting Ends -->
+
                             <!-- Tabs Buying Platform -->
                             <div class="tab-pane" id="buying">
                                 <!-- buying platform holder starts -->
@@ -848,7 +866,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <span class="" data-ng-bind="textConstants.WF_DELIVERY_PACING"></span>
+                                        <span data-ng-bind="textConstants.WF_DELIVERY_PACING"></span>
                                         <a class="col-md-12 zeroPadding"
                                            href=""
                                            data-ng-bind="textConstants.WF_HEADER_DELIVERY_FREQUENCY">
@@ -921,8 +939,8 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <!-- collective media screen holder Ends -->
+
                                 <!-- Collective Bidder Holder -->
                                 <div class="collectBidderScreenHolder">
                                     <div class="col-md-12 platformHeading">
@@ -935,7 +953,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <span class="" data-ng-bind="textConstants.BIDSTRATEGY"></span>
+                                        <span data-ng-bind="textConstants.BIDSTRATEGY"></span>
                                         <a class="col-md-12 zeroPadding"
                                            href=""
                                            data-ng-bind="textConstants.WF_HEADER_DELIVERY_FREQUENCY">
@@ -961,7 +979,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="col-md-2 zeroPading">
-                                            <span class="" data-ng-bind="textConstants.STRATEGY"></span>
+                                            <span data-ng-bind="textConstants.STRATEGY"></span>
                                             <input type="text"
                                                    size="12"
                                                    name="strageu"
