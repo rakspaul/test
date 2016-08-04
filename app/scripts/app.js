@@ -75,6 +75,33 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
         return deferred.promise;
     };
 
+    var adminHeaderResolver = function($q, $location, $route, accountService, loginModel,
+                                       vistoconfig){
+
+        if(!loginModel.getClientData().is_super_admin){
+            $location.url('/dashboard');
+        }
+        var deferred = $q.defer(),
+            params = $route.current.params;
+
+        accountService
+            .fetchAccountList()
+            .then(function () {
+                if (accountService.allowedAccount($route.current.params.accountId)) {
+                     accountService
+                            .fetchAccountData(params.accountId)
+                            .then(function () {
+                                deferred.resolve();
+                            });
+                } else {
+                    console.log('account ' + params.accountId + ' not allowed');
+                    $location.url('/tmp');
+                }
+            });
+
+        return deferred.promise;
+    }
+
     var dashboardHeaderResolver2 =
         function ($q, $location, $route, accountService, subAccountService, advertiserModel, vistoconfig) {
         var deferred = $q.defer(),
@@ -1941,6 +1968,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                             }
                         }
                     }
+
                 }))
 
                 .when('/a/:accountId/admin/accounts', angularAMD.route({
@@ -1949,12 +1977,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     controller: 'AccountsController',
                     controllerUrl: 'common/controllers/accounts/accounts_controller',
                     showHeader : true,
-
                     resolve: {
-                        check: function ($location, loginModel) {
-                            if(!loginModel.getClientData().is_super_admin){
-                                $location.url('/dashboard');
-                            }
+                        header: function ($q, $location, $route, accountService, loginModel, vistoconfig) {
+                            return adminHeaderResolver($q, $location, $route, accountService, loginModel, vistoconfig);
                         }
                     }
                 }))
@@ -2146,7 +2171,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     controllerUrl: 'workflow/creative/creative_controller',
                     showHeader : true,
 
-                    
+
                 }))
 
                 .when('/a/:accountId/creative/:creativeId/edit', angularAMD.route({
