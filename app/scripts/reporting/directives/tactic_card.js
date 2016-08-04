@@ -179,7 +179,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                     if (!tactic) {
                         return constants.MSG_DATA_NOT_AVAILABLE;
                     } else  if ( tactic.durationLeft() === 'Yet to start') {
-                        return constants.MSG_TACTIC_YET_TO_START;
+                        return utils.formatStringWithDate(constants.MSG_TACTIC_YET_TO_START,tactic.startDate,constants.REPORTS_DATE_FORMAT);
                     } else if (tactic.daysSinceEnded() > 1000) {
                         return constants.MSG_TACTIC_VERY_OLD;
                     } else if (tactic.kpiType === 'null') {
