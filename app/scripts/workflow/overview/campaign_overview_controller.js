@@ -39,7 +39,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     .getCampaignData(clientId, campaignId)
                     .then(function (result) {
                         var responseData,
-                            subAccountData;
+                            accountData;
 
                         if (result.status === 'OK' || result.status === 'success') {
                             //redirect user to media plan list screen if campaign is archived campaign
@@ -65,10 +65,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             }
                             $scope.labels = responseData.labels;
 
-                            subAccountData = _.find(subAccountService.getSubAccounts(), function(data) {
-                                return data.id === responseData.clientId;
-                            });
-                            workflowService.setSubAccountTimeZone(subAccountData.timezone);
+                            accountData = accountService.getSelectedAccount();
+
+                            if(!accountData.isLeafNode) {
+                                accountData = _.find(subAccountService.getSubAccounts(), function (data) {
+                                    return data.id === responseData.clientId;
+                                });
+                            }
+
+                            workflowService.setSubAccountTimeZone(accountData.timezone);
 
                             $scope.campaignStartTime =
                                 momentService.utcToLocalTime($scope.workflowData.campaignData.startTime);
@@ -388,14 +393,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.loadingBtn = false;
         $scope.isMinimumAdGroupBudget = true;
         $scope.isMaximumAdGroupBudget = true;
-        console.log(subAccountService.getSelectedSubAccount());
-        if(subAccountService.getSelectedSubAccount()) {
-            $scope.selectedClientName = subAccountService.getSelectedSubAccount().displayName;
-            $scope.isLeafNode = subAccountService.getSelectedSubAccount().isLeafNode;
-        } else {
-            $scope.selectedClientName = accountService.getSelectedAccount().name;
-            $scope.isLeafNode = accountService.getSelectedAccount().isLeafNode;
-        }
+
+        // if(subAccountService.getSelectedSubAccount()) {
+        //     $scope.selectedClientName = subAccountService.getSelectedSubAccount().displayName;
+        //     $scope.isLeafNode = subAccountService.getSelectedSubAccount().isLeafNode;
+        // } else {
+        //     $scope.selectedClientName = accountService.getSelectedAccount().name;
+        //     $scope.isLeafNode = accountService.getSelectedAccount().isLeafNode;
+        // }
 
 
         $scope.adGroupsSearch = {
@@ -487,7 +492,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.campaignArchiveLoader = false;
 
         $scope.editCampaign = function (workflowcampaignData) {
-            var url = '/a/' + $routeParams.accountId+'/mediaplan/'+ workflowcampaignData.id+'/edit';
+            var url = '/a/' + $routeParams.accountId;
+
+            if($routeParams.subAccountId) {
+               url += '/sa/' + $routeParams.subAccountId;
+            }
+
+            url += '/mediaplan/'+ workflowcampaignData.id+'/edit'
 
             $location.url(url);
         };

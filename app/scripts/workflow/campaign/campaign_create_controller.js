@@ -70,18 +70,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         }, createCampaign.errorHandler);
                 },
 
-                fetchSubAccounts: function (callback) {
-                    workflowService
-                        .getSubAccounts('write')
-                        .then(function (result) {
-                            if (result.status === 'OK' || result.status === 'success') {
-                                $scope.workflowData.subAccounts = result.data.data;
-                                callback && callback($scope.workflowData.subAccounts);
-                            } else {
-                                createCampaign.errorHandler(result);
-                            }
-                        }, createCampaign.errorHandler);
-                },
 
                 fetchRateTypes: function () {
                     if ($scope.selectedCampaign.advertiserId) {
@@ -121,9 +109,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         });
                 },
 
-                fetchLineItemDetails: function (campaignId) {
+                fetchLineItemDetails: function (clientId, campaignId) {
                     workflowService
-                        .getLineItem(campaignId, true)
+                        .getLineItem(clientId, campaignId, true)
                         .then(function (results) {
                             if (results.status === 'success' && results.data.statusCode === 200) {
                                 $scope.lineItems.lineItemList = [];
@@ -137,7 +125,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 },
 
                 prefillMediaPlan: function (campaignData) {
+
                     var advertiserObj,
+                        accountData,
 
                         flightDateObj = {
                             startTime: momentService.utcToLocalTime(campaignData.startTime),
@@ -155,12 +145,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     if (campaignData.clientId && campaignData.clientName) {
                         $scope.selectedCampaign.clientName = campaignData.clientName;
                         $scope.selectedCampaign.clientId = campaignData.clientId;
-                        createCampaign.fetchSubAccounts(function(subAccountData) {
-                            subAccountData = _.find(subAccountData, function(data) {
+
+                        accountData = accountService.getSelectedAccount();
+
+                        if(!accountData.isLeafNode) {
+                            accountData = _.find(subAccountService.getSubAccounts(), function (data) {
                                 return data.id === campaignData.clientId;
                             });
-                            workflowService.setSubAccountTimeZone(subAccountData.timezone);
-                        });
+                        }
+
+                        workflowService.setSubAccountTimeZone(accountData.timezone);
 
                     } else {
                         $scope.selectedCampaign.clientId = vistoconfig.getMasterClientId();
@@ -280,7 +274,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }
 
                     // line item edit mode
-                    createCampaign.fetchLineItemDetails(campaignData.id);
+                    createCampaign.fetchLineItemDetails(campaignData.clientId, campaignData.id);
 
                     $scope.editCampaignData = campaignData;
                 }
@@ -491,9 +485,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.processEditCampaignData = function () {
-            console.log("$scope.workflowData.subAccounts ",$scope.workflowData.subAccounts );
+
+
             workflowService
-                .getCampaignData($scope.client, $scope.campaignId)
+                .getCampaignData(vistoconfig.getSelectedAccountId(), $scope.campaignId)
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         if (result.data.data.isArchived) {

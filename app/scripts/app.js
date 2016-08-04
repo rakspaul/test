@@ -2063,6 +2063,22 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         }
                     }))
 
+                    .when('/a/:accountId/sa/:subAccountId/mediaplan/:campaignId/edit', angularAMD.route({
+                        templateUrl: assets.html_campaign_create,
+                        title: 'Edit - Media Plan',
+                        controller: 'CreateCampaignController',
+                        controllerUrl: 'workflow/campaign/campaign_create_controller',
+                        showHeader : true,
+
+
+                        resolve: {
+                            header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants) {
+                                return mediaPlanCreateResolver($q, $location, $route, accountService,
+                                    subAccountService, workflowService, constants, 'edit');
+                            }
+                        }
+                    }))
+
                     .when('/a/:accountId/mediaplan/:campaignId/overview', angularAMD.route({
                         templateUrl: assets.html_campaign_create_ad,
                         title: 'Media Plan - Overview',
