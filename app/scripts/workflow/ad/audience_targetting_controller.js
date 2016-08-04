@@ -4,11 +4,6 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
 
     angularAMD.controller('AudienceTargettingController', function ($scope, audienceService,
                                                                     workflowService, constants) {
-        $scope.$on('adCampaignDataSet', function () {
-            var campaignData = localStorage.getItem('campaignData');
-            campaignData = campaignData && JSON.parse(campaignData);
-            $scope.advertiserId = campaignData.advertiserId;
-        });
 
         var editOneTimeFlag = false,
 
@@ -102,7 +97,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
                         selectedSource: $scope.selectedSource,
                         selectedCategory: $scope.selectedCategory,
                         seatId: $scope.adData.platformSeatId,
-                        advertiserId:$scope.advertiserId
+                        advertiserId: $scope.workflowData.campaignData.advertiserId
                     };
 
                     if (!loadMoreFlag) {
