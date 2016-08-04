@@ -2206,6 +2206,17 @@ button, i, input[type="submit"] {
       width: 100%;
       float: left;
     }
+    .dropMenuHeaderTxt {
+        opacity: 1 !important;
+        text-transform: uppercase;
+        color: @active-gray !important;
+        font-size: 12px;
+        font-family: 'Avenir-bold';
+        &:hover {
+            color: @active-gray !important;
+            opacity: 1 !important;
+        }
+    }
     .user-photo-details {
       width: 100%;
       float: left;
@@ -3244,6 +3255,9 @@ button, i, input[type="submit"] {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      a {
+        color: @raven-text;
+      }
       span.menuItemText {
         display: block;
         overflow: hidden;

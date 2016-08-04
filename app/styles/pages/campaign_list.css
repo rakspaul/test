@@ -2186,6 +2186,17 @@ input[type="submit"] {
   width: 100%;
   float: left;
 }
+.main_navigation_holder .main_nav_dropdown .dropMenuHeaderTxt {
+  opacity: 1 !important;
+  text-transform: uppercase;
+  color: #dce6f1 !important;
+  font-size: 12px;
+  font-family: 'Avenir-bold';
+}
+.main_navigation_holder .main_nav_dropdown .dropMenuHeaderTxt:hover {
+  color: #dce6f1 !important;
+  opacity: 1 !important;
+}
 .main_navigation_holder .main_nav_dropdown .user-photo-details {
   width: 100%;
   float: left;
@@ -3163,6 +3174,9 @@ input[type="submit"] {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+.nav_filters .dropdown-menu li a {
+  color: #21252b;
 }
 .nav_filters .dropdown-menu li span.menuItemText {
   display: block;

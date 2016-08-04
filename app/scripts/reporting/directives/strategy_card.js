@@ -208,7 +208,7 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/campaignLi
                     if (!strategy) {
                         return constants.MSG_DATA_NOT_AVAILABLE;
                     } else if (strategy.durationLeft() === 'Yet to start') {
-                        return constants.MSG_STRATEGY_YET_TO_START;
+                        return utils.formatStringWithDate(constants.MSG_STRATEGY_YET_TO_START,strategy.startDate,constants.REPORTS_DATE_FORMAT);
                     } else if (strategy.daysSinceEnded() > 1000) {
                         return constants.MSG_STRATEGY_VERY_OLD;
                     } else if (strategy.kpiType === 'null') {

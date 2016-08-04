@@ -339,7 +339,7 @@
         <!--Format-->
         <div class="col-md-1 td text-center">
             <span class="{{getAdFormatIconName(creativeData.creativeFormat)}}" aria-hidden="true"></span>
-            <span style="text-transform: capitalize;" data-ng-bind="creativeData.creativeFormat|lowercase"></span>
+            <span style="text-transform: capitalize; margin-top: 10px;" data-ng-bind="creativeData.creativeFormat|lowercase"></span>
         </div>
 
         <!--Ad Server-->
@@ -358,8 +358,8 @@
         </div>
 
         <!--Advertiser-->
-        <div class="col-md-2 td" tooltip="{{creativeData.advertiser.name}}">
-            <span data-ng-bind="creativeData.advertiser.name | textEllipsis: 40"></span>
+        <div class="col-md-2 td text-left" tooltip="{{creativeData.advertiser.name}}">
+            <span style="text-align: left" data-ng-bind="creativeData.advertiser.name | textEllipsis: 40"></span>
         </div>
 
         <!--Platform-->
@@ -368,8 +368,8 @@
         </div>
 
         <!--Created-->
-        <div class="col-md-2 td">
-            <span data-ng-bind="utcToLocalTime(creativeData.updatedAt,'DD MMM YYYY  HH:mm A')"></span>
+        <div class="col-md-2 td text-left">
+            <span style="text-align: left" data-ng-bind="utcToLocalTime(creativeData.updatedAt,'DD MMM YYYY  HH:mm A')"></span>
         </div>
     </div>
     <div style="display:none;" class="secondDimensionList secondDimensionCreativeList">

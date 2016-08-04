@@ -117,13 +117,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     });
             }
 
-            $('.main_navigation')
-                .find('.active')
-                .removeClass('active')
-                .end()
-                .find('#creative_nav_link')
-                .addClass('active');
-
             $scope.pixelIndex = null;
             $scope.pixelFormData = {
                 name: '',
@@ -465,7 +458,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     $scope.selectedAdvertiserId = advObj.id;
                     $scope.selectedAdvertiser = advObj.name;
                     $scope.setSelectedAdvertiserCode = advObj.code;
-                    $scope.advertiserData.companyUrl = advObj.companyUrl || '';
                     accountsService
                         .getAdvertiserUnderClient(client.id, advObj.id)
                         .then(function (res) {
@@ -481,6 +473,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                                 $scope.selectedAdvertiser = result.name ? result.name : advObj.name;
                                 $scope.advertiserData.lookbackImpressions = result.lookbackImpressions;
                                 $scope.advertiserData.lookbackClicks = result.lookbackClicks;
+                                $scope.advertiserData.companyUrl = result.companyUrl || '';
                             }
 
                             getPixelsData(client.id,advObj.id);
@@ -671,6 +664,15 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $('#admin_nav_link').addClass('active_tab');
             $('.miniTabLinks .btn').removeClass('active');
             $('#accounts_link').addClass('active');
+            
+            $( document ).ready(function() {
+                $('.main_navigation')
+                    .find('.active')
+                    .removeClass('active')
+                    .end()
+                    .find('#admin_nav_link')
+                    .addClass('active');
+            });
 
             $('#pixelExpirationDate').datepicker('update', new Date());
 

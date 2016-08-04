@@ -213,6 +213,7 @@
 .modal-backdrop.in {
 	opacity: .8;
 	z-index: 99999999 !important;
+    display: none !important;
 }
 .modal {
 	z-index: 999999999 !important;
@@ -391,7 +392,7 @@
 		display: inline-block;
 	}
 	.popup-btns-holder {
-		background: #f5f9fd;
+		background: @periwinkle-gray;
 		padding: 20px 30px;
 		border-radius: 0 0 5px 5px;
 		-moz-border-radius: 0 0 5px 5px;
@@ -1416,7 +1417,7 @@
 		.active_tab {
 			.new_report_generate_btn {
 				.icon-report-builder {
-					color: @color_19;
+					opacity: 1;
 				}
 			}
 		}
@@ -1438,10 +1439,10 @@
 		}
 		.active_tab {
 			a {
-				color: @color_19;
+                opacity: 1;
 				text-decoration: none;
 				&:hover {
-					color: @color_19;
+					opacity: 1;
 					text-decoration: none;
 				}
 			}
@@ -2570,7 +2571,7 @@ tags-input .autocomplete {
         background: #f5f9fd;
         float: left;
         width: 100%;
- 		 
+
         span {
             color: #939eb6;
             float: left;

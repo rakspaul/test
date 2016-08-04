@@ -1,6 +1,6 @@
 define(['angularAMD'],
     function (angularAMD) {
-        angularAMD.factory('urlBuilder', function ($location, $routeParams, accountService, subAccountService) {
+        angularAMD.factory('urlBuilder', function ($location, $routeParams, accountService, subAccountService,vistoconfig) {
 
             var dashboardUrl = function() {
                 var url = '/a/' + $routeParams.accountId;
@@ -58,7 +58,7 @@ define(['angularAMD'],
                     var selectedAccount = _.find(accountService.getAccounts(), function(a) {
                         return a.id === $routeParams.accountId;
                     });
-                    if (selectedAccount.isLeafNode) {
+                    if (selectedAccount && selectedAccount.isLeafNode) {
                         url += '/mediaplans';
                         console.log('url', url);
                         $location.url(url);
@@ -81,6 +81,8 @@ define(['angularAMD'],
 
             gotoCannedReportsUrl =  function(reportName) {
                 var url = '/a/' + $routeParams.accountId;
+                var advertiserId = vistoconfig.getSelectAdvertiserId();
+                var brandId = vistoconfig.getSelectedBrandId();
                 if ($routeParams.subAccountId) {
                     var leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
                         return a.id === $routeParams.subAccountId;
@@ -96,14 +98,16 @@ define(['angularAMD'],
                                 url += '/b/' + $routeParams.brandId;
                             }
                         }
-
                     } else {
 
                         url += '/sa/' + subAccountService.getSubAccounts()[0].id;
                     }
 
-                    url += '/mediaplans/' + ($routeParams.campaignId || 'reports') + reportName;
+                    if(advertiserId && brandId) {
+                        url += '/adv/' +advertiserId+'/b/'+brandId;
+                    }
 
+                    url += '/mediaplans/' + ($routeParams.campaignId || 'reports') + reportName;
                     $location.url(url);
 
                 } else {
@@ -145,22 +149,22 @@ define(['angularAMD'],
             gotoCreativeListUrl =  function() {
                 var url = '/a/' + $routeParams.accountId;
 
-                if ($routeParams.subAccountId) {
-
-                    url += '/sa/' + $routeParams.subAccountId;
-
-                } else {
-                    // user navigating from custom reports to media plans
-                    var selectedAccount = _.find(accountService.getAccounts(), function(a) {
-                        return a.id === $routeParams.accountId;
-                    });
-                    if (!selectedAccount.isLeafNode) {
-                        url += '/sa/' + $routeParams.accountId;
-                    }
-
-                }
-
                 url += '/creative/list';
+                console.log("url", url);
+                $location.url(url);
+            },
+
+            gotoAdminUrl = function(){
+                var url = '/a/' + $routeParams.accountId + '/admin/accounts';
+                console.log("url......", url);
+                $location.url(url);
+            },
+
+            gotoCreativeUrl  = function() {
+                var url = '/a/' + $routeParams.accountId;
+
+                url += '/creative/add';
+                console.log("url", url);
                 $location.url(url);
             },
 
@@ -300,7 +304,9 @@ define(['angularAMD'],
                 uploadReportsUrl : uploadReportsUrl,
                 uploadReportsListUrl : uploadReportsListUrl,
                 mediaPlanOverviewUrl : mediaPlanOverviewUrl,
-                adUrl : adUrl
+                adUrl : adUrl,
+                gotoCreativeUrl : gotoCreativeUrl,
+                gotoAdminUrl: gotoAdminUrl
             };
         });
     });

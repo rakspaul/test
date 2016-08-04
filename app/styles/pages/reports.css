@@ -1256,7 +1256,7 @@ div.strategy_total_container .discrepancyTplRow .discrepancyName {
   width: 250px;
 }
 div.strategy_total_container div.strategy_total_container_header {
-  background: #f5f9fd;
+  background: #edf2f8;
   border: solid 1px #ccd9e3;
   border-top-width: 2px ;
   padding: 15px 20px 5px 20px ;
@@ -4404,6 +4404,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   padding: 9px 0 0 15px;
   cursor: pointer;
 }
+.report_generator_and_response .report_builder_container .metricDataView .metricContainer .metricData:disabled {
+  color: #aaa ;
+}
 .report_generator_and_response .report_builder_container .metricDataView .metricContainer .metricData.active {
   background-image: url(../../images/cdesk/checkMark.png);
   background-repeat: no-repeat;
@@ -5174,4 +5177,7 @@ body.custom_report_page .bodyWrap {
 }
 .marginRight {
   margin-right: 10px ;
+}
+.disabled_txt {
+  color: #aaa ;
 }

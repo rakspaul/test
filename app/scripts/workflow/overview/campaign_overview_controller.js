@@ -13,18 +13,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                                                   campaignOverviewService, $sce) {
         var campaignOverView = {
 
-            fetchSubAccounts: function (clientId, callabck) {
-                workflowService
-                    .getSubAccounts(clientId, 'write')
-                    .then(function (result) {
-                        if (result.status === 'OK' || result.status === 'success') {
-                            callabck && callabck(result.data.data);
-                        } else {
-                            campaignOverView.errorHandler(result);
-                        }
-                    }, campaignOverView.errorHandler);
-            },
-
             modifyCampaignData: function () {
                 var campaignData = $scope.workflowData.campaignData,
                     end = momentService.utcToLocalTime(campaignData.endTime),
@@ -50,7 +38,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 workflowService
                     .getCampaignData(clientId, campaignId)
                     .then(function (result) {
-                        var responseData;
+                        var responseData,
+                            subAccountData;
 
                         if (result.status === 'OK' || result.status === 'success') {
                             //redirect user to media plan list screen if campaign is archived campaign
@@ -76,12 +65,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             }
                             $scope.labels = responseData.labels;
 
-                            campaignOverView.fetchSubAccounts(responseData.clientId, function(subAccountData) {
-                                subAccountData = _.find(subAccountData, function(data) {
+                            subAccountData = _.find(subAccountService.getSubAccounts(), function(data) {
                                 return data.id === responseData.clientId;
-                                });
-                                workflowService.setSubAccountTimeZone(subAccountData.timezone);
                             });
+                            workflowService.setSubAccountTimeZone(subAccountData.timezone);
 
                             $scope.campaignStartTime =
                                 momentService.utcToLocalTime($scope.workflowData.campaignData.startTime);
@@ -1017,6 +1004,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 utcStartTime,
                 utcEndTime,
                 dateTimeZone,
+                clientId = vistoconfig.getSelectedAccountId(),
 
                 adGroupSaveErrorHandler = function (data) {
                     var errMsg,
@@ -1095,7 +1083,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 workflowService[formData.adgroupId ? 'editAdGroups' : 'createAdGroups']
-                ($routeParams.campaignId, postCreateAdObj).then(function (result) {
+                (clientId, $routeParams.campaignId, postCreateAdObj).then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.loadingBtn = false;
                         formElem[0].reset();

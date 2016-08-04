@@ -71,12 +71,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
 
-        $scope.redirectToAdminPage = function(){
-            var clientId = vistoconfig.getMasterClientId();
-
-            $location.url('/a/' + clientId + '/admin/accounts');
-        };
-
         $scope.set_account_name = function (event, id, name, isLeafNode) {
 
             $('#user_nav_link').removeClass('selected');
@@ -135,21 +129,22 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         };
 
         $scope.NavigateToTab = function (url, event, page) {
-            $('.header_tab_dropdown').removeClass('active_tab active selected');
+            $('.each_nav_link').removeClass('active_tab active selected');
 
             advertiserModel.reset();
             brandsModel.reset();
             strategySelectModel.reset();
-
+            console.log("page", page);
             if (page === 'dashboard') {
                 $location.url(urlBuilder.dashboardUrl());
             } else if (page === 'creativelist') {
                 urlBuilder.gotoCreativeListUrl();
             } else if (page === 'adminOverview') {
+                urlBuilder.gotoAdminUrl();
+            } else if (page === 'invoiceTool') {
+                url = '/v1sto/invoices';
                 $('.each_nav_link').removeClass('active_tab active selected');
-                url = '/admin/accounts';
-                $('#admin_nav_link').addClass('active_tab');
-                $location.url(url);
+                $('#invoiceTool_nav_link').addClass('active_tab');
             } else if (page === 'mediaplanList') {
                 urlBuilder.gotoMediaplansListUrl();
             } else if (page === 'reportsSubPage') {

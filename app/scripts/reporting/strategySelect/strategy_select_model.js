@@ -51,7 +51,7 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
                 allowedStrategy: function (strategyId) {
                     if (strategyId) {
                         selectedStrategy = _.find(strategyList, function(s) {
-                            return s.id === strategyId;
+                            return Number(s.id) === Number(strategyId);
                         });
 
                         if (selectedStrategy) {
@@ -73,6 +73,11 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
                 getSelectedStrategy: function () {
                     return selectedStrategy;
                 },
+
+                getStrategyCount: function () {
+                    return strategyList.length;
+                },
+
 
                 reset: function () {
                     strategyList = [];

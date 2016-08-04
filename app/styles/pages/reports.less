@@ -1176,7 +1176,7 @@ div.strategy_total_container {
         }
     }
     div.strategy_total_container_header {
-        background: @reportHighlight  ;
+        background: @periwinkle-gray;
         border: solid 1px @reportBorder ;
         border-top-width: 2px ;
         padding: 15px 20px 5px 20px ;
@@ -4514,6 +4514,9 @@ only screen and (min-device-pixel-ratio: 2) {
                 .metricData {
                     padding: 9px 0 0 15px;
                     cursor: pointer;
+                    &:disabled {
+                        color : #aaa ;
+                    }
                 }
                 .metricData.active {
                     background-image: url(../../images/cdesk/checkMark.png);
@@ -5380,4 +5383,7 @@ body.custom_report_page {
 }
 .marginRight {
     margin-right: 10px ;
+}
+.disabled_txt {
+    color : #aaa ;
 }

@@ -122,7 +122,7 @@
   padding: 0;
 }
 .adCreateMaster #targetting #dayTargeting .dayTargetLower {
-  background-color: rgba(237, 241, 248, 0.5);
+  background-color: #edf2f8;
   float: left;
   padding: 0 30px 30px 30px;
   width: 100%;
@@ -2510,18 +2510,52 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn,
 #vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn {
-  border: 1px dashed #939EAE !important;
+  border: 2px dashed #bfc9d7 !important;
   cursor: pointer;
+  border-radius: 2px;
+  background: #fff;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover,
+#vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover {
+  border: 2px dashed #939eae !important;
+  background: #E1EDF9;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover .glyphicon,
 #vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover .glyphicon,
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover h2,
-#vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover h2,
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover h3,
+#vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover h3,
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover [class^="icon-"],
 #vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover [class^="icon-"],
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover [class*=" icon-"],
 #vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover [class*=" icon-"] {
-  color: #0978c9;
+  color: #57606d !important;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:focus,
+#vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:focus,
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:active,
+#vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:active {
+  border: 2px dashed #bfc9d7 !important;
+  background: #dce6f1;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:focus .glyphicon,
+#vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:focus .glyphicon,
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:active .glyphicon,
+#vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:active .glyphicon,
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:focus [class^="icon-"],
+#vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:focus [class^="icon-"],
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:active [class^="icon-"],
+#vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:active [class^="icon-"],
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:focus [class*=" icon-"],
+#vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:focus [class*=" icon-"],
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:active [class*=" icon-"],
+#vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:active [class*=" icon-"] {
+  color: #57606d !important;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:focus h3,
+#vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:focus h3,
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:active h3,
+#vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:active h3 {
+  color: #363d49 !important;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn .glyphicon,
 #vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn .glyphicon,
@@ -2634,6 +2668,19 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .addMaster,
 #vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .addMaster {
   text-decoration: none;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .addMaster .icon-plus,
+#vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .addMaster .icon-plus {
+  font-size: 32px;
+  height: 32px;
+  width: 32px;
+  margin: 0;
+  color: #939eae;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .addMaster h3,
+#vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .addMaster h3 {
+  color: #939eae;
+  margin: 3px 0 0 0;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus,
 #vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus {
@@ -3049,7 +3096,7 @@
 #vendorCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap {
   clear: both;
   float: left;
-  padding: 5px 0 0 0 !important;
+  padding: 0 !important;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .activeLabel,
 #vendorCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .activeLabel {
@@ -3090,7 +3137,7 @@
   float: left;
   font-size: 0 !important;
   height: 16px;
-  margin-top: 6px;
+  margin-top: 4px;
   width: 16px;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap:hover .overview-camp-name,
@@ -3138,7 +3185,7 @@
 #vendorCreate .firstWrapper .masterContainer .campAdHeader h4 {
   float: left;
   font-family: Avenir, sans-serif;
-  margin: 6px 0 0 10px;
+  margin: 5px 0 0 10px;
   padding-bottom: 5px;
   word-wrap: break-word;
 }
@@ -3202,7 +3249,6 @@
 }
 #campaignCreate .firstWrapper .masterContainer .collapseHeader span,
 #vendorCreate .firstWrapper .masterContainer .collapseHeader span {
-  color: #000;
   float: left;
   line-height: 100%;
   margin: 0 0 8px 0;
@@ -3582,7 +3628,7 @@
 }
 #campaignCreate .firstWrapper .maxWidthAdj .adWrap,
 #vendorCreate .firstWrapper .maxWidthAdj .adWrap {
-  background: #eef5fc;
+  background: #edf2f8;
   border-top: 1px solid #bfc9d7;
   margin: 0;
 }

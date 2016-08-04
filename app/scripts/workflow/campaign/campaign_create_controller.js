@@ -12,23 +12,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                                                 $locale, $location, $timeout, $modal, constants,
                                                                 workflowService, vistoconfig, loginModel,
                                                                 momentService, campaignService, utils,
-                                                                accountService, urlBuilder) {
+                                                                accountService, urlBuilder, subAccountService) {
         var selectedAdvertiser,
 
             createCampaign = {
                 campaignData: {},
-
-                clients: function () {
-                    workflowService
-                        .getClients()
-                        .then(function (result) {
-                            if (result.status === 'OK' || result.status === 'success') {
-                                $scope.workflowData.clients = _.sortBy(result.data.data, 'name');
-                            } else {
-                                createCampaign.errorHandler(result);
-                            }
-                        }, createCampaign.errorHandler);
-                },
 
                 vendor: function (costCategoryId) {
                     workflowService
@@ -240,7 +228,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     if (flightDateObj.endTime) {
                         $scope.selectedCampaign.endTime = $scope.modifiedMediaPlanAPIEndTime = flightDateObj.endTime;
                         $scope.initiateDatePicker();
-                        $scope.handleFlightDate(flightDateObj);
+                        $scope.handleEndFlightDate(flightDateObj);
                     }
 
                     // set updateAt value in hidden field.
@@ -518,23 +506,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.selectHandler = function (type, data) {
             switch (type) {
-                case 'client':
-                    $scope.workflowData.advertisers = [];
-                    $scope.workflowData.brands = [];
-                    $scope.selectedCampaign.advertiser = '';
-                    if ($scope.showSubAccount) {
-                        $scope.workflowData.subAccounts = [];
-                        $scope.selectedCampaign.clientId = '';
-                        createCampaign.fetchSubAccounts();
-                    } else {
-                        $scope.selectedCampaign.clientId = data.id;
-                        createCampaign.fetchAdvertisers(data.id);
-                    }
-
-                    createCampaign.fetchRateTypes();
-
-                    break;
-
                 case 'subAccount':
                     $scope.selectedCampaign.advertiser = '';
                     $scope.selectedCampaign.advertiserName = 'Select Advertiser';
@@ -560,6 +531,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             .parents('.dropdown')
                             .find('button')
                             .html('Select Brand <span class="icon-arrow-solid-down"></span>');
+
+                        $('#advertiserDDL')
+                            .parents('.dropdown')
+                            .find('button')
+                            .html('Select Advertiser <span class="icon-arrow-solid-down"></span>');
                     }
 
                     $scope.isMediaPlanNameExist();
@@ -588,7 +564,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         // media plan master dates handle
-        $scope.handleFlightDate = function (data) {
+        $scope.handleEndFlightDate = function (data) {
             var startTime = data.startTime,
                 endTime = data.endTime,
                 endDateElem = $('#endDateInput'),
@@ -646,6 +622,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 campaignCosts = [],
                 dateTimeZone,
                 i,
+                clientId = vistoconfig.getSelectedAccountId(),
                 campaignId = vistoconfig.getSelectedCampaignId();
 
             saveMediaPlanBeforeLineItem  = saveMediaPlanBeforeLineItem || false;
@@ -674,7 +651,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.name = formData.campaignName;
                 postDataObj.advertiserId = Number(formData.advertiserId);
 
-                postDataObj.clientId = vistoconfig.getSelectedAccountId();
+
 
                 postDataObj.labels = _.pluck($scope.tags, 'label');
 
@@ -747,7 +724,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 workflowService[($scope.mode === 'edit' && !$scope.cloneMediaPlanName) ?
-                    'updateCampaign' : 'saveCampaign'](postDataObj).then(function (result) {
+                    'updateCampaign' : 'saveCampaign'](clientId, postDataObj).then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         workflowService.setMediaPlanClone(null);
                         $scope.cloneMediaPlanName = null;
@@ -873,13 +850,20 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $(this).parents('.dropdown').find('.btn').val($(this).data('value'));
             });
 
-            $('.dropdown-workflow a').each(function () {
-                var text = $(this).text();
-
-                if (text.length > 14) {
-                    $(this).val(text).text(text.substr(0, 20) + '…');
-                }
+            $(document).on('click', '.dropdown .btn', function () {
+                $scope.trimText();
             });
+
+            $scope.trimText = function() {
+                $('.dropdown-workflow a').each(function () {
+                    var text = $(this).text();
+
+                    if (text.length > 25) {
+                        $(this).val(text).text(text.substr(0, 25) + '…');
+                    }
+                });
+            };
+            $scope.trimText();
 
             // DDL ChkBox Prevent Default
             $('.dropdown-menu.multiSelectDDL').find('input').click(function (e) {
@@ -899,11 +883,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.isClientDropDownDisable = false;
             $scope.editCampaignData = [];
 
-            if ($scope.client.name) {
-                $scope.isClientDropDownDisable = true;
-                $scope.clientName = $scope.client.name;
-                ($scope.mode === 'create') && $scope.selectHandler('client', $scope.client, null);
-            }
+            var clientData = accountService.getSelectedAccount();
+            $scope.workflowData.subAccounts = _.sortBy(subAccountService.getSubAccounts(), 'displayName');
+            $scope.isClientDropDownDisable = true;
+            ($scope.mode === 'create') && $scope.selectHandler('subAccount', clientData, null);
 
             $(document).ready(function () {
                 var cloneMediaPlanObj = workflowService.getMediaPlanClone();

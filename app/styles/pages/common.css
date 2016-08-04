@@ -177,6 +177,7 @@
 .modal-backdrop.in {
   opacity: .8;
   z-index: 99999999 !important;
+  display: none !important;
 }
 .modal {
   z-index: 999999999 !important;
@@ -348,7 +349,7 @@
   display: inline-block;
 }
 .popup-holder .popup-btns-holder {
-  background: #f5f9fd;
+  background: #edf2f8;
   padding: 20px 30px;
   border-radius: 0 0 5px 5px;
   -moz-border-radius: 0 0 5px 5px;
@@ -1293,7 +1294,7 @@
   opacity: 1;
 }
 .main_navigation_holder div.reports_header_tabs_holder .active_tab .new_report_generate_btn .icon-report-builder {
-  color: #84BCE4;
+  opacity: 1;
 }
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dropdown {
   padding: 2px 20px 2px 0px;
@@ -1312,11 +1313,11 @@
   opacity: 1;
 }
 .main_navigation_holder div.reports_header_tabs_holder .active_tab a {
-  color: #84BCE4;
+  opacity: 1;
   text-decoration: none;
 }
 .main_navigation_holder div.reports_header_tabs_holder .active_tab a:hover {
-  color: #84BCE4;
+  opacity: 1;
   text-decoration: none;
 }
 .main_navigation_holder #reports_nav_link.each_nav_link.active div.header_tab_dropdown.active_tab {

@@ -1,7 +1,8 @@
-define(['angularAMD','common/services/constants_service', 'common/services/role_based_service'],
+define(['angularAMD','common/services/constants_service', 'common/services/role_based_service',
+    'common/moment_utils'],
     function (angularAMD) {
-        angularAMD.factory('utils', ['$location', '$sce', 'constants',
-            function ($location, $sce, constants) {
+        angularAMD.factory('utils', ['$location', '$sce', 'constants', 'momentService',
+            function ($location, $sce, constants, momentService) {
                 var
                     // NOTE: Used in
                     // 1) campaign_list_service.js
@@ -641,6 +642,14 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     return o;
                 }
 
+                function formatStringWithDate(string,date,format){
+                    if(date) {
+                        var formattedDate = moment(date).format(format);
+                        return string.replace('{0}',formattedDate);
+                    }
+                }
+
+
                 return {
                     formatDate: formatDate,
                     regExp: regExp,
@@ -664,7 +673,8 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     validateTag:validateTag,
                     stripCommaFromNumber: stripCommaFromNumber,
                     rangeValue : rangeValue,
-                    getResponseMsg: getResponseMsg
+                    getResponseMsg: getResponseMsg,
+		    formatStringWithDate:formatStringWithDate
                 };
             }
         ]);
