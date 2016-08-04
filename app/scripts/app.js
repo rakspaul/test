@@ -2170,8 +2170,6 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         controller: 'CreativeController',
                         controllerUrl: 'workflow/creative/creative_controller',
                         showHeader : true,
-
-
                     }))
 
                     .when('/a/:accountId/creative/:creativeId/edit', angularAMD.route({
@@ -2236,7 +2234,6 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     }))
 
                     .otherwise({redirectTo: '/'});
-
                 delete $httpProvider.defaults.headers.common['X-Requested-With'];
             })
 

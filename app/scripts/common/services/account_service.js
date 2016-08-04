@@ -69,7 +69,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/fea
 
                 subAccountService.reset();
                 featuresService.reset && featuresService.reset();
-                localStorageService.setToLocalStorage.setMasterClient(account);
 
                 page = pageFinder.pageBuilder($location.path());
                 url = '/a/' + account.id;

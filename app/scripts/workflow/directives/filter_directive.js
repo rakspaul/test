@@ -5,7 +5,7 @@ define(['angularAMD', 'common/services/constants_service',
 
     angularAMD.directive('filterDirective', function () {
         return {
-            controller: function ($scope,$rootScope, workflowService, loginModel, constants, vistoconfig,
+            controller: function ($scope,$rootScope, $location, workflowService, loginModel, constants, vistoconfig,
                                   accountService, subAccountService, filterService) {
 
                 $scope.filterData = {};
@@ -14,23 +14,36 @@ define(['angularAMD', 'common/services/constants_service',
                 $scope.filterData.subAccSelectedId = '';
                 $scope.constants = constants;
 
-                var fetchAdvertiserAndBroadCast = function (accountId, onClientSelect) {
+                var fetchAdvertiserAndBroadCast = function (clientId, onClientSelect) {
+
                     onClientSelect = onClientSelect || false;
 
                     filterService
-                        .fetchAdvertisers(accountId, function (advertiserData) {
-                            $scope.filterData.advertiserList=advertiserData;
+                        .fetchAdvertisers(clientId, function (advertiserData) {
+
+                            $scope.filterData.advertiserList= [{
+                                id: '-1',
+                                name: constants.ALL_ADVERTISERS
+                            }].concat(advertiserData);
+
+                            $scope.filterData.advertiserSelectedId  = Number($scope.filterData.advertiserList[0].id);
+                            $scope.filterData.advertiserSelectedName = $scope.filterData.advertiserList[0].name;
+
+                            $rootScope.$broadcast('filterChanged', {
+                                clientId: clientId,
+                                advertiserId: $scope.filterData.advertiserSelectedId
+                            });
                         });
-                        //$scope.getCreatives();
                 };
 
 
                 $scope.selectClient = function (subAccount) {
-                    console.log('subAccount', subAccount);
+                    console.log("subAccount", subAccount);
                     $('#subAcc_name_selected').text(subAccount.displayName);
                     $scope.filterData.subAccSelectedName = subAccount.displayName;
                     $scope.filterData.subAccSelectedId = subAccount.id;
-                    subAccountService.changeSubAccount(vistoconfig.getMasterClientId(), subAccount);
+                    fetchAdvertiserAndBroadCast(subAccount.id);
+
                  };
 
                 $scope.showAdvertisersDropDown = function () {
@@ -53,7 +66,6 @@ define(['angularAMD', 'common/services/constants_service',
                      $scope.filterData.advertiserSelectedId = advertiser.id;
 
                      //set to localstorage
-                     localStorage.setItem('setAdvertiser', JSON.stringify(advertiserObj));
 
                      args = {
                          from: $scope.from,
@@ -64,12 +76,13 @@ define(['angularAMD', 'common/services/constants_service',
                      $rootScope.$broadcast('filterChanged',args);
                 };
 
-                var accountId,
-                    accountList = subAccountService.getSubAccounts();
 
+                var accountList = subAccountService.getSubAccounts();
                 $scope.filterData.subAccountList = accountList;
-                accountId = accountList[0].id;
-                fetchAdvertiserAndBroadCast(accountId);
+                $scope.filterData.subAccSelectedName = accountList[0].displayName;
+                $scope.filterData.subAccSelectedId = accountList[0].id;
+                fetchAdvertiserAndBroadCast(accountList[0].id);
+
             },
 
             restrict: 'EAC',

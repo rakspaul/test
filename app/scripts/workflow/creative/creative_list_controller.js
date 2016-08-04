@@ -13,20 +13,18 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             isSearch = false,
 
             creativeList = {
-                getCreativesList: function (clientId, formats, query, pageSize, pageNo) {
-                    var advertiserId = (localStorage.getItem('setAdvertiser')) ?
-                        JSON.parse(localStorage.getItem('setAdvertiser')).id : -1;
+                getCreativesList: function (params) {
+                    workflowService.getCreativesforCreativeList(params, function (result) {
 
-                    workflowService.getCreativesforCreativeList(clientId, formats, query, pageSize, pageNo,
-                        advertiserId, function (result) {
-                            var alreadyFound;
+                        var alreadyFound;
 
                         $scope.creativeListLoading = false;
                         $scope.creativesNotFound = false;
 
-                        if ($scope.creativeData.creatives.length === 0 || query || pageNo === 1) {
-                            $scope.creativeData.creatives.length = 0;
+                        if ($scope.creativeData.creatives.length === 0 || params.query || params.pageNo === 1) {
+
                             $scope.creativeData.creatives = result.data.data;
+
                         } else {
                             if (result.data.data && result.data.data.length > 0) {
                                 alreadyFound = _.filter(
@@ -46,13 +44,13 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                             $scope.loadCreativeData=false;
                         }
 
-                        if (pageNo >= 1) {
-                            $scope.pageNo = Number(pageNo)+1;
+                        if (params.pageNo >= 1) {
+                            $scope.pageNo = Number(params.pageNo)+1;
                         }
 
                         $scope.creativeData.creatives_count += result.data.data.length;
 
-                        if (result.data.data.length === 0 && pageNo === 1) {
+                        if (result.data.data.length === 0 && params.pageNo === 1) {
                             $scope.creativesNotFound = true;
                             $scope.loadCreativeData=false;
                         }
@@ -261,14 +259,16 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         function init() {
-             $scope.pageSize = 20;
-             $scope.pageNo = 1;
              creativeList.getCreativesList($scope.clientId,'','',$scope.pageSize,$scope.pageNo);
         }
 
         // broadcasted from filter directive once it fetches subaccounts
-        $rootScope.$on('filterChanged',function () {
-            init();
+        $rootScope.$on('filterChanged',function (event, args) {
+            $scope.creativeListLoading = true;
+            $scope.creativeData.creatives = [];
+            args.pageNo = $scope.pageNo;
+            args.pageSize = $scope.pageSize;
+            creativeList.getCreativesList(args);
         });
 
         if ($scope.isLeafNode) {

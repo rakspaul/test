@@ -193,7 +193,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             updateCampaign = function (clientId, data) {
-                
+
                 var campaignId = data.campaignId;
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId,
@@ -665,23 +665,22 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 }
             },
 
-            getCreativesforCreativeList = function (clientId, formats, query, pageSize, pageNo, advertiserId,
-                                                   success, failure) {
-                var queryStr = query ? query : '',
-                    creativeFormats = formats ? 'creativeFormat=' + formats : '',
+            getCreativesforCreativeList = function (params, success, failure) {
+
+                var queryStr = params.query || '',
+                    creativeFormats = params.formats ? 'creativeFormat=' + params.formats : '',
                     url,
                     canceller,
-                    advertiserString = '';
+                    advertiserString = '',
+                    pageSize = params.pageSize ? '&pageSize=' + params.pageSize : '',
+                    pageNo = params.pageNo ? '&pageNo=' + params.pageNo : '';
 
-                pageSize = pageSize ? '&pageSize=' + pageSize : '';
-                pageNo = pageNo ? '&pageNo=' + pageNo : '';
-
-                if (advertiserId > 0) {
+                if (params.advertiserId > 0) {
                     advertiserString = '/advertisers/' + advertiserId;
                 }
 
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId + advertiserString +
+                    '/clients/' + params.clientId + advertiserString +
                     '/creatives?' + creativeFormats + queryStr + pageSize + pageNo;
 
                 canceller = requestCanceller.initCanceller(constants.ADDLIBRARY_FILTER_CANCELLER);
