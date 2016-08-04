@@ -10,19 +10,20 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
                 var advertiserData = {
                         advertiserList: [],
                         selectedAdvertiser: {id: -1, name: constants.ALL_ADVERTISERS},
-                        allAdvertiserObject: {id: -1, name: constants.ALL_ADVERTISERS}
+                        allAdvertiserObject: {id: -1, name: constants.ALL_ADVERTISERS},
+                        showAll: true,
+                        enable: true,
+                        cssClass: ''
                     },
+
                     previousAccountId;
 
-                advertiserData.showAll = true;
-                advertiserData.enable = true;
-                advertiserData.cssClass = '';
-
                 return {
-                    fetchAdvertiserList: function(accountId) {
+                    fetchAdvertiserList: function (accountId) {
                         var deferred = $q.defer();
 
                         accountId = Number(accountId);
+
                         if (previousAccountId !== accountId) {
                             this.reset();
                         }
@@ -41,12 +42,14 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
                                 advertiserData.advertiserList = _.map(result.data.data, function(a) {
                                     return {'id': a.id, 'name': a.name};
                                 });
+
                                 advertiserData.advertiserList = _.sortBy(advertiserData.advertiserList, 'name');
                                 advertiserData.advertiserList.unshift(advertiserData.allAdvertiserObject);
                                 console.log('fetchAdvertiserList is fetched');
                             } else {
                                 advertiserData.advertiserList = [advertiserData.allAdvertiserObject];
                             }
+
                             previousAccountId = accountId;
                             deferred.resolve();
                         });
@@ -55,7 +58,6 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
                     },
 
                     allowedAdvertiser: function(advertiserId) {
-
                         advertiserId = Number(advertiserId);
 
                         if (advertiserId) {
@@ -71,6 +73,7 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
                         } else {
                             advertiserData.selectedAdvertiser = advertiserData.allAdvertiserObject;
                         }
+
                         return true;
                     },
 
@@ -99,6 +102,7 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
 
                     changeAdvertiser: function(accountId, subAccountId, advertiser) {
                         var url = '/a/' + accountId;
+
                         subAccountId && (url += '/sa/' + subAccountId);
 
                         // All Advertisers id is -1 and don't show it in the URL
