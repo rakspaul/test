@@ -3,10 +3,7 @@
            ng-init="init('partialSaveAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
 
 <div class="popCreativeLib" ng-show="isAddCreativePopup" ng-controller="CreativeController">
-<!--<div class="popCreativeLib" ng-init ="abc()" ng-show="isAddCreativePopup" ng-controller="CreativeController">-->
 <div id="creative">
-    <!--<popup-msg ng-show="createAlertMessage" ng-controller="popUpMsgCtr"-->
-               <!--ng-init="init('createAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>-->
     <!-- Header Starts -->
     <div class="page_header_container">
         <div class="col-md-10 containerWrap">
@@ -15,8 +12,6 @@
             <p class="">Back</p>
             </div>
             <div class="col-md-12 zeroPadding">
-            <!--<span class="breadcrumbFlow">Creative Tag Library</span>-->
-            <!--<img src="/assets/images/workflow/arrowBreadcrumbs.png" class="pull-left" alt="" width="10" style="margin: 5px 18px;"/>-->
             <h2 class="pull-left" style="margin: 0;" data-ng-bind="textConstants.CREATIVE_SETUP"></h2>
             </div>
         </div>
@@ -25,21 +20,12 @@
     <!--=== List Starts ===-->
     <div class="creativeList">
         <div class="col-md-12 containerWrap">
-            <!--<div class="col-md-6 zeroPadding clearfix nav_filters" >-->
-            <!--    <creative-drop-down></creative-drop-down>-->
-            <!--</div>-->
-
             <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate ng-submit="submitForm(formCreativeCreate)">
 				<div class="col-md-6 zeroPadding pull-right saveCreativeBtn">
-                    <!--<div class="col-md-12" style="margin-top: 10px;" ng-show="savingCreative = true">-->
                         <span class="common-loading-btn pull-right" ng-show="savingCreative" style="width:118px"></span>
-                    <!--</div>-->
 					<button type="submit" class="btn btn-primary pull-right" ng-disabled="savingCreative" id="saveCreative" ng-hide="savingCreative" data-ng-bind="textConstants.SAVE_CREATIVE"></button>
                     <a class="btn btn-link pull-right" role="button" ng-disabled="disableCancelSave" ng-click="cancelBtn()" data-ng-bind="textConstants.CANCEL"></a>
                 </div>
-                <!--<div class="col-md-12 zeroPadding clearfix nav_filters">-->
-                <!--<creative-drop-down></creative-drop-down>-->
-                <!--</div>-->
 
                     <div class="form-group col-md-8" show-errors>
                         <label for="name" class="greyTxt" style="margin-top: 0;">Creative Name</label>

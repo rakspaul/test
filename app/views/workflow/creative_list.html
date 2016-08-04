@@ -290,7 +290,7 @@
                    data-ng-checked="creativeData.active"
                    data-ng-click="selectedCreativeCheckbox(creativeData)">
             <a href="javascript:void(0);"
-               data-ng-click="ShowHideTag(creativeData, $index)"
+               data-ng-click="ShowHideCreativeWin(creativeData, $index)"
                tooltip="{{creativeData.name}}"
                data-ng-bind="creativeData.name.length > 0 ? (creativeData.name | textEllipsis: 40 ) : ''">
             </a>

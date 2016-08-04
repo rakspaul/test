@@ -1,8 +1,7 @@
-define(['angularAMD','common/services/constants_service', 'common/services/role_based_service',
-    'common/moment_utils'],
+define(['angularAMD','common/services/constants_service', 'common/services/role_based_service'],
     function (angularAMD) {
-        angularAMD.factory('utils', ['$location', '$sce', 'constants', 'momentService',
-            function ($location, $sce, constants, momentService) {
+        angularAMD.factory('utils', ['$location', '$sce', 'constants',
+            function ($location, $sce, constants) {
                 var
                     // NOTE: Used in
                     // 1) campaign_list_service.js

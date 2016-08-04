@@ -569,7 +569,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.WF_SET_FREQUENCY_CAP = 'Set per User frequency cap';
         this.WF_IMPRESSION_PER = 'Impression per';
 
-        this.WF_DATE_FORMAT = "D MMM YYYY";
+        this.WF_DATE_FORMAT = 'D MMM YYYY';
 
         this.YESTERDAY = 'Yesterday';
         this.WF_NOT_SET = 'Not Set';

@@ -150,21 +150,17 @@ define(['angularAMD'],
                 var url = '/a/' + $routeParams.accountId;
 
                 url += '/creative/list';
-                console.log("url", url);
                 $location.url(url);
             },
 
             gotoAdminUrl = function(){
                 var url = '/a/' + $routeParams.accountId + '/admin/accounts';
-                console.log("url......", url);
                 $location.url(url);
             },
 
             gotoCreativeUrl  = function() {
                 var url = '/a/' + $routeParams.accountId;
-
                 url += '/creative/add';
-                console.log("url", url);
                 $location.url(url);
             },
 

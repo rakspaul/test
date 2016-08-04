@@ -75,8 +75,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
             return deferred.promise;
         };
 
-        var adminHeaderResolver = function($q, $location, $route, accountService, loginModel,
-                                           vistoconfig){
+        var adminHeaderResolver = function($q, $location, $route, accountService, loginModel) {
 
             if(!loginModel.getClientData().is_super_admin){
                 $location.url('/dashboard');
@@ -100,7 +99,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                 });
 
             return deferred.promise;
-        }
+        };
 
         var dashboardHeaderResolver2 =
             function ($q, $location, $route, accountService, subAccountService, advertiserModel, vistoconfig) {
@@ -710,8 +709,8 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
         };
 
 
-        var creativeListResolver = function ($q, $location, $route, accountService, workflowService,
-                                             subAccountService, constants) {
+        var creativeResolver = function ($q, $location, $route, accountService, workflowService,
+                                             subAccountService, constants, message) {
             var deferred = $q.defer();
 
             accountService
@@ -727,10 +726,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                                         deferred.resolve();
                                         workflowService.setModuleInfo({
                                             moduleName: 'WORKFLOW',
-                                            warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE,
+                                            warningMsg: message,
                                             redirect: false
                                         });
-
                                     });
                             });
                     } else {
@@ -2174,17 +2172,30 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         controller: 'CreativeController',
                         controllerUrl: 'workflow/creative/creative_controller',
                         showHeader : true,
+                        resolve: {
+
+                            header: function ($q, $location, $route, accountService, workflowService,
+                                              subAccountService, constants) {
+                                return creativeResolver($q, $location, $route, accountService, workflowService,
+                                    subAccountService, constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE);
+                            }
+                        }
                     }))
 
                     .when('/a/:accountId/creative/:creativeId/edit', angularAMD.route({
                         templateUrl: assets.html_creative,
                         title: 'Edit Creative',
                         controller: 'CreativeController',
-                        controllerUrl: 'workflow/controllers/creative_controller',
+                        controllerUrl: 'workflow/creative/creative_controller',
                         showHeader : true,
 
                         resolve: {
-                            check: function () {}
+
+                            header: function ($q, $location, $route, accountService, workflowService,
+                                              subAccountService) {
+                                return creativeResolver($q, $location, $route, accountService, workflowService,
+                                    subAccountService);
+                            }
                         }
                     }))
 
@@ -2193,11 +2204,16 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         templateUrl: assets.html_creative,
                         title: 'Edit Creative',
                         controller: 'CreativeController',
-                        controllerUrl: 'workflow/controllers/creative_controller',
+                        controllerUrl: 'workflow/creative/creative_controller',
                         showHeader : true,
 
                         resolve: {
-                            check: function () {}
+
+                            header: function ($q, $location, $route, accountService, workflowService,
+                                              subAccountService) {
+                                return creativeResolver($q, $location, $route, accountService, workflowService,
+                                    subAccountService);
+                            }
                         }
                     }))
 
@@ -2205,7 +2221,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         templateUrl: assets.html_creative_preview,
                         title: 'Preview Creative',
                         controller: 'CreativePreviewController',
-                        controllerUrl: 'workflow/controllers/creative_preview_controller',
+                        controllerUrl: 'workflow/creative/creative/creative_preview_controller',
                         showHeader : false,
 
                         resolve: {
@@ -2224,8 +2240,8 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
 
                             header: function ($q, $location, $route, accountService, workflowService,
                                               subAccountService, constants) {
-                                return creativeListResolver($q, $location, $route, accountService, workflowService,
-                                    subAccountService, constants);
+                                return creativeResolver($q, $location, $route, accountService, workflowService,
+                                    subAccountService, constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
                             }
                         }
                     }))

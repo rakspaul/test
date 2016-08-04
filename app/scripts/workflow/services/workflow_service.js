@@ -668,17 +668,20 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
             getCreativesforCreativeList = function (params, success, failure) {
 
-                var queryStr = params.query || '',
-                    creativeFormats = params.formats ? 'creativeFormat=' + params.formats : '',
+                var queryStr,
+                    creativeFormats,
                     url,
                     canceller,
                     advertiserString = '',
-                    pageSize = params.pageSize ? '&pageSize=' + params.pageSize : '',
-                    pageNo = params.pageNo ? '&pageNo=' + params.pageNo : '';
+                    pageSize,
+                    pageNo;
 
-                if (params.advertiserId > 0) {
-                    advertiserString = '/advertisers/' + advertiserId;
-                }
+
+                queryStr = params.query ? ('query=' + params.query) : '';
+                creativeFormats = params.formats ? ('creativeFormat=' + params.formats) : '';
+                pageSize = params.pageSize ? ('&pageSize=' + params.pageSize ) : '';
+                pageNo = params.pageNo ? ( '&pageNo=' + params.pageNo ) : '';
+                advertiserString = params.advertiserId > 0 ? ('/advertisers/' + params.advertiserId) : '';
 
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + params.clientId + advertiserString +
