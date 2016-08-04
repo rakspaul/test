@@ -150,6 +150,12 @@ define(['angularAMD'],
                 $location.url(url);
             },
 
+            gotoAdminUrl = function(){
+                var url = '/a/' + $routeParams.accountId + '/admin/accounts';
+                console.log("url......", url);
+                $location.url(url);
+            },
+
             gotoCreativeUrl  = function() {
                 var url = '/a/' + $routeParams.accountId;
 
@@ -295,7 +301,8 @@ define(['angularAMD'],
                 uploadReportsListUrl : uploadReportsListUrl,
                 mediaPlanOverviewUrl : mediaPlanOverviewUrl,
                 adUrl : adUrl,
-                gotoCreativeUrl : gotoCreativeUrl
+                gotoCreativeUrl : gotoCreativeUrl,
+                gotoAdminUrl: gotoAdminUrl
             };
         });
     });
