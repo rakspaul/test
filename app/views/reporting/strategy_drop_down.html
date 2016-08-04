@@ -15,7 +15,7 @@
                 class="{{(strategy.name | formatUrl:26 ) == selectedObj.name?'active':''}}"
                 value="{{strategy.id}}"
                 title="{{strategy.name}}"
-                data-ng-click="add_active_to_strategy(strategy);"
+                data-ng-click="selectStrategy(strategy)"
                 ng-bind="(strategy.name | formatUrl:26)"></li>
             </li>
         </ul>
