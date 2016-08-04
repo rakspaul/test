@@ -1,6 +1,6 @@
 define(['angularAMD'],
     function (angularAMD) {
-        angularAMD.factory('urlBuilder', function ($location, $routeParams, accountService, subAccountService) {
+        angularAMD.factory('urlBuilder', function ($location, $routeParams, accountService, subAccountService,vistoconfig) {
 
             var dashboardUrl = function() {
                 var url = '/a/' + $routeParams.accountId;
@@ -81,6 +81,8 @@ define(['angularAMD'],
 
             gotoCannedReportsUrl =  function(reportName) {
                 var url = '/a/' + $routeParams.accountId;
+                var advertiserId = vistoconfig.getSelectAdvertiserId();
+                var brandId = vistoconfig.getSelectedBrandId();
                 if ($routeParams.subAccountId) {
                     var leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
                         return a.id === $routeParams.subAccountId;
@@ -96,14 +98,16 @@ define(['angularAMD'],
                                 url += '/b/' + $routeParams.brandId;
                             }
                         }
-
                     } else {
 
                         url += '/sa/' + subAccountService.getSubAccounts()[0].id;
                     }
 
-                    url += '/mediaplans/' + ($routeParams.campaignId || 'reports') + reportName;
+                    if(advertiserId && brandId) {
+                        url += '/adv/' +advertiserId+'/b/'+brandId;
+                    }
 
+                    url += '/mediaplans/' + ($routeParams.campaignId || 'reports') + reportName;
                     $location.url(url);
 
                 } else {
