@@ -543,16 +543,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.trackingIntegrationId = '';
 
         $scope.$watch('adData.platformId', function (newValue) {
+            console.log("111");
             $scope.$parent.changePlatform(newValue);
-        });
-
-        $rootScope.$on('adCampaignDataSet', function () {
-            var clientId = vistoconfig.getSelectedAccountId(),
-                advertiserId = vistoconfig.getSelectAdvertiserId();
-
-            if ($scope.mode === 'create') {
-                _buyingPlatform.fetchPlatforms(clientId, advertiserId);
-            }
         });
 
         $scope.$on('updatePlatform', function (event, platform) {
@@ -563,6 +555,14 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         });
 
         $scope.$on('switchPlatformFunc', function (obj, tab) {
+
+            var clientId = vistoconfig.getSelectedAccountId(),
+                advertiserId = vistoconfig.getSelectAdvertiserId();
+
+            if ($scope.mode === 'create') {
+                _buyingPlatform.fetchPlatforms(clientId, advertiserId);
+            }
+
             var customFieldErrorElem = $('.customFieldErrorMsg'),
                 $modalInstance,
                 platformId;

@@ -12,23 +12,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                                                 $locale, $location, $timeout, $modal, constants,
                                                                 workflowService, vistoconfig, loginModel,
                                                                 momentService, campaignService, utils,
-                                                                accountService, urlBuilder) {
+                                                                accountService, urlBuilder, subAccountService) {
         var selectedAdvertiser,
 
             createCampaign = {
                 campaignData: {},
-
-                clients: function () {
-                    workflowService
-                        .getClients()
-                        .then(function (result) {
-                            if (result.status === 'OK' || result.status === 'success') {
-                                $scope.workflowData.clients = _.sortBy(result.data.data, 'name');
-                            } else {
-                                createCampaign.errorHandler(result);
-                            }
-                        }, createCampaign.errorHandler);
-                },
 
                 vendor: function (costCategoryId) {
                     workflowService
@@ -518,23 +506,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.selectHandler = function (type, data) {
             switch (type) {
-                case 'client':
-                    $scope.workflowData.advertisers = [];
-                    $scope.workflowData.brands = [];
-                    $scope.selectedCampaign.advertiser = '';
-                    if ($scope.showSubAccount) {
-                        $scope.workflowData.subAccounts = [];
-                        $scope.selectedCampaign.clientId = '';
-                        createCampaign.fetchSubAccounts();
-                    } else {
-                        $scope.selectedCampaign.clientId = data.id;
-                        createCampaign.fetchAdvertisers(data.id);
-                    }
-
-                    createCampaign.fetchRateTypes();
-
-                    break;
-
                 case 'subAccount':
                     $scope.selectedCampaign.advertiser = '';
                     $scope.selectedCampaign.advertiserName = 'Select Advertiser';
@@ -651,6 +622,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 campaignCosts = [],
                 dateTimeZone,
                 i,
+                clientId = vistoconfig.getSelectedAccountId(),
                 campaignId = vistoconfig.getSelectedCampaignId();
 
             saveMediaPlanBeforeLineItem  = saveMediaPlanBeforeLineItem || false;
@@ -679,7 +651,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.name = formData.campaignName;
                 postDataObj.advertiserId = Number(formData.advertiserId);
 
-                postDataObj.clientId = vistoconfig.getSelectedAccountId();
+
 
                 postDataObj.labels = _.pluck($scope.tags, 'label');
 
@@ -752,7 +724,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 workflowService[($scope.mode === 'edit' && !$scope.cloneMediaPlanName) ?
-                    'updateCampaign' : 'saveCampaign'](postDataObj).then(function (result) {
+                    'updateCampaign' : 'saveCampaign'](clientId, postDataObj).then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         workflowService.setMediaPlanClone(null);
                         $scope.cloneMediaPlanName = null;
@@ -911,11 +883,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.isClientDropDownDisable = false;
             $scope.editCampaignData = [];
 
-            if ($scope.client.name) {
-                $scope.isClientDropDownDisable = true;
-                $scope.clientName = $scope.client.name;
-                ($scope.mode === 'create') && $scope.selectHandler('client', $scope.client, null);
-            }
+            var clientData = accountService.getSelectedAccount();
+            $scope.workflowData.subAccounts = _.sortBy(subAccountService.getSubAccounts(), 'displayName');
+            $scope.isClientDropDownDisable = true;
+            ($scope.mode === 'create') && $scope.selectHandler('subAccount', clientData, null);
 
             $(document).ready(function () {
                 var cloneMediaPlanObj = workflowService.getMediaPlanClone();

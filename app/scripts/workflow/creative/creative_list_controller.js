@@ -6,7 +6,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
     angularAMD.controller('CreativeListController', function ($scope, $rootScope, $routeParams, $route, $location,
                                                              $window, constants, domainReports, workflowService,
-                                                             momentService, loginModel, vistoconfig,accountService) {
+                                                             momentService, loginModel, vistoconfig,accountService, urlBuilder) {
         var checkedCreativeArr=[],
             creativeDataArr,
             winHeight = $(window).height(),
@@ -339,7 +339,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.creativeCreate=function () {
             workflowService.setCreativeEditMode('create');
             workflowService.setCreativeEditData(null);
-            $location.url('/creative/add');
+            $location.url(urlBuilder.gotoCreativeUrl());
         };
 
         $scope.showBulkCreateSection = function () {

@@ -39,7 +39,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         keywords = params.selectedKeywords,
                         source = params.selectedSource,
                         classification = params.selectedCategory,
-                        clientId =  vistoconfig.getMasterClientId(),
+                        clientId =  vistoconfig.getSelectedAccountId(),
                         advertiserId=params.advertiserId,
                         url,
                         i,

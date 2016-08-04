@@ -19,14 +19,9 @@ define(['angularAMD', 'common/services/constants_service',
 
                     filterService
                         .fetchAdvertisers(accountId, function (advertiserData) {
-                            // var args = {
-                            //     from: $scope.from,
-                            //     clientId: accountId,
-                            //     advertiserId: -1
-                            // };
                             $scope.filterData.advertiserList=advertiserData;
-                            console.log('advertiserData', advertiserData);
                         });
+                        //$scope.getCreatives();
                 };
 
 
@@ -73,7 +68,7 @@ define(['angularAMD', 'common/services/constants_service',
                     accountList = subAccountService.getSubAccounts();
 
                 $scope.filterData.subAccountList = accountList;
-                accountId = vistoconfig.getSelectedAccountId();
+                accountId = accountList[0].id;
                 fetchAdvertiserAndBroadCast(accountId);
             },
 

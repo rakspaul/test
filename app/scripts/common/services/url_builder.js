@@ -145,22 +145,16 @@ define(['angularAMD'],
             gotoCreativeListUrl =  function() {
                 var url = '/a/' + $routeParams.accountId;
 
-                if ($routeParams.subAccountId) {
-
-                    url += '/sa/' + $routeParams.subAccountId;
-
-                } else {
-                    // user navigating from custom reports to media plans
-                    var selectedAccount = _.find(accountService.getAccounts(), function(a) {
-                        return a.id === $routeParams.accountId;
-                    });
-                    if (!selectedAccount.isLeafNode) {
-                        url += '/sa/' + $routeParams.accountId;
-                    }
-
-                }
-
                 url += '/creative/list';
+                console.log("url", url);
+                $location.url(url);
+            },
+
+            gotoCreativeUrl  = function() {
+                var url = '/a/' + $routeParams.accountId;
+
+                url += '/creative/add';
+                console.log("url", url);
                 $location.url(url);
             },
 
@@ -300,7 +294,8 @@ define(['angularAMD'],
                 uploadReportsUrl : uploadReportsUrl,
                 uploadReportsListUrl : uploadReportsListUrl,
                 mediaPlanOverviewUrl : mediaPlanOverviewUrl,
-                adUrl : adUrl
+                adUrl : adUrl,
+                gotoCreativeUrl : gotoCreativeUrl
             };
         });
     });

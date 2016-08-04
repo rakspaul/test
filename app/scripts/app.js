@@ -613,15 +613,23 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
             .fetchAccountList()
             .then(function () {
                 if (accountService.allowedAccount($route.current.params.accountId)) {
-                    deferred.resolve();
-                    workflowService.setMode(mode);
+                    subAccountService
+                        .fetchSubAccountList($route.current.params.accountId)
+                        .then(function () {
+                                accountService
+                                    .fetchAccountData($route.current.params.accountId)
+                                    .then(function () {
+                                        deferred.resolve();
+                                        workflowService.setMode(mode);
 
-                    workflowService.setModuleInfo({
-                        moduleName: 'WORKFLOW',
-                        warningMsg:
-                        constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE,
-                        redirect: true
-                    });
+                                        workflowService.setModuleInfo({
+                                            moduleName: 'WORKFLOW',
+                                            warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE,
+                                            redirect: true
+                                        });
+                                    });
+
+                        });
                 } else {
                     console.log('account not allowed');
                     $location.url('/tmp');
@@ -682,12 +690,21 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
             .fetchAccountList()
             .then(function () {
                 if (accountService.allowedAccount($route.current.params.accountId)) {
-                    workflowService.setModuleInfo({
-                        moduleName: 'WORKFLOW',
-                        warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE,
-                        redirect: false
-                    });
-                    deferred.resolve();
+                    subAccountService
+                        .fetchSubAccountList($route.current.params.accountId)
+                        .then(function () {
+                            accountService
+                                .fetchAccountData($route.current.params.accountId)
+                                .then(function () {
+                                    deferred.resolve();
+                                workflowService.setModuleInfo({
+                                    moduleName: 'WORKFLOW',
+                                    warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE,
+                                    redirect: false
+                                });
+
+                            });
+                        });
                 } else {
                     console.log('account not allowed');
                     $location.url('/tmp');
@@ -705,7 +722,11 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                 .fetchAccountList()
                 .then(function () {
                     if (accountService.allowedAccount(params.accountId)) {
-                        deferred.resolve();
+                        accountService
+                            .fetchAccountData($route.current.params.accountId)
+                            .then(function () {
+                                deferred.resolve();
+                            });
                     } else {
                         console.log('account ' + params.accountId + 'not allowed');
                         $location.url('/tmp');
@@ -767,7 +788,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     templateUrl: assets.html_reports_login,
                     title: 'Login',
                     controller: 'loginController',
-                    showHeader : true,
+                    showHeader : false,
                     controllerUrl: 'login/login_controller'
                 }))
 
@@ -2122,18 +2143,10 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     templateUrl: assets.html_creative,
                     title: 'Add Creative',
                     controller: 'CreativeController',
-                    controllerUrl: 'workflow/controllers/creative_controller',
+                    controllerUrl: 'workflow/creative/creative_controller',
                     showHeader : true,
 
-                    resolve: {
-                        check: function ($location, workflowService, constants) {
-                            workflowService.setModuleInfo({
-                                moduleName: 'WORKFLOW',
-                                warningMsg: constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
-                                redirect: false
-                            });
-                        }
-                    }
+                    
                 }))
 
                 .when('/a/:accountId/creative/:creativeId/edit', angularAMD.route({

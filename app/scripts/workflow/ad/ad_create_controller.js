@@ -1,40 +1,32 @@
 define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/workflow_service', 'login/login_model',
     'common/services/data_service', 'workflow/services/audience_service', 'common/services/role_based_service',
     'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/services/video_service', 'common/utils',
-    'common/services/url_builder', 'workflow/ad/budget_delivery_controller', 'workflow/ad/buying_platform_controller',
-    'workflow/ad/targetting_controller', 'workflow/ad/geo_targetting_controller',
-    'workflow/ad/audience_targetting_controller', 'workflow/ad/daypart_create_controller',
-    'workflow/ad/video_targetting_controller', 'workflow/ad/inventory_filters_controller',
-    'workflow/creative/creative_controller', 'workflow/creative/creative_list_controller',
-    'workflow/creative/creative_tag_controller', 'workflow/services/platform_custom_module',
-    'workflow/ad/ad_clone_controller'], function (angularAMD) {
+    'common/services/url_builder', 'common/services/sub_account_service', 'workflow/ad/budget_delivery_controller',
+    'workflow/ad/buying_platform_controller', 'workflow/ad/targetting_controller',
+    'workflow/ad/geo_targetting_controller', 'workflow/ad/audience_targetting_controller',
+    'workflow/ad/daypart_create_controller', 'workflow/ad/video_targetting_controller',
+    'workflow/ad/inventory_filters_controller', 'workflow/creative/creative_controller',
+    'workflow/creative/creative_list_controller', 'workflow/creative/creative_tag_controller',
+    'workflow/services/platform_custom_module', 'workflow/ad/ad_clone_controller'], function (angularAMD) {
     angularAMD.controller('CampaignAdsCreateController', function ($scope, $modal, $rootScope, $routeParams,
                                                                    $locale, $location,  $filter, $timeout,
                                                                    constants, workflowService, loginModel,
                                                                    dataService, audienceService, RoleBasedService,
                                                                    momentService, vistoconfig, videoService,
-                                                                   utils, urlBuilder) {
+                                                                   utils, urlBuilder, subAccountService) {
         var winHeaderHeight = $(window).height() - 50,
             winHeight,
 
             campaignOverView = {
-                fetchSubAccounts: function (callback) {
-                    workflowService
-                        .getSubAccounts('write')
-                        .then(function (result) {
-                            if (result.status === 'OK' || result.status === 'success') {
-                                callback && callback(result.data.data);
-                            } else {
-                                campaignOverView.errorHandler(result);
-                            }
-                        }, campaignOverView.errorHandler);
-                },
 
                 getCampaignData: function (clientId, campaignId) {
                     workflowService
                         .getCampaignData(clientId, campaignId)
                         .then(function (result) {
-                            var responseData, clientId, advertiserId;
+                            var responseData,
+                                clientId,
+                                advertiserId,
+                                subAccountData;
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data;
@@ -68,12 +60,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                 clientId = responseData.clientId;
                                 advertiserId = responseData.advertiserId;
 
-                                campaignOverView.fetchSubAccounts(function(subAccountData) {
-                                    subAccountData = _.find(subAccountData, function(data) {
-                                        return data.id === clientId;
-                                    });
-                                    workflowService.setSubAccountTimeZone(subAccountData.timezone);
+                                subAccountData = _.find(subAccountService.getSubAccounts(), function(data) {
+                                    return data.id === responseData.clientId;
                                 });
+                                workflowService.setSubAccountTimeZone(subAccountData.timezone);
 
                                 if ($scope.mode === 'edit') {
                                     if (!$scope.adGroupId) {

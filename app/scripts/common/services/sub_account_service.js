@@ -42,7 +42,7 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                             if (result && result.data.data.length > 0) {
 
                                 subAccountList = _.map(result.data.data, function (a) {
-                                    return {'id': a.id, 'displayName': a.displayName};
+                                    return {'id': a.id, 'displayName': a.displayName, 'timezone' : a.timezone};
                                 });
 
                                 subAccountList = _.sortBy(subAccountList, 'displayName');

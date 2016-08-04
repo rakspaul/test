@@ -184,16 +184,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 }
             },
 
-            saveCampaign = function (data) {
-                var isLeafNode = loginModel.getMasterClient().isLeafNode,
-                    clientId;
-
-                if (isLeafNode) {
-                    clientId = vistoconfig.getMasterClientId();
-                } else {
-                    clientId = data.clientId;
-                }
-
+            saveCampaign = function (clientId, data) {
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns',
                     data,
@@ -201,19 +192,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            updateCampaign = function (data) {
-                var isLeafNode = loginModel.getMasterClient().isLeafNode,
-                    clientId,
-                    campaignId;
-
-                if (isLeafNode) {
-                    clientId = vistoconfig.getMasterClientId();
-                } else {
-                    clientId = data.clientId;
-                }
-
-                campaignId = data.campaignId;
-
+            updateCampaign = function (clientId, data) {
+                
+                var campaignId = data.campaignId;
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId,
                     data,
@@ -284,8 +265,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url, { cache: false });
             },
 
-            createAdGroups = function (campaignId, data) {
-                var clientId = vistoconfig.getSelectedAccountId();
+            createAdGroups = function (clientId, campaignId, data) {
 
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -297,8 +277,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            editAdGroups = function (campaignId, data) {
-                var clientId = vistoconfig.getSelectedAccountId();
+            editAdGroups = function (clientId, campaignId, data) {
 
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +

@@ -1,4 +1,5 @@
-define(['angularAMD', '../common/d3/gauge', 'reporting/models/gauge_model', 'common/services/constants_service','common/services/account_service','common/services/sub_account_service'],
+define(['angularAMD', '../common/d3/gauge', 'reporting/models/gauge_model', 'common/services/constants_service',
+    'common/services/account_service','common/services/sub_account_service'],
     function (angularAMD) {
     'use strict';
 
