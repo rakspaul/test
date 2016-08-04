@@ -15,7 +15,8 @@
                 <div class="msg" data-ng-bind="textConstants.ENABLETARGETINGAD"></div>
                 <div class="btn-holder">
                     <a data-target="#buying"
-                       data-toggle="tab" style="width: auto; margin: 0;"
+                       data-toggle="tab"
+                       style="width: auto; margin: 0;"
                        class="pull-right btn btn-primary leftNavLink"
                        data-ng-bind="textConstants.SELECTPLATFORM">
                     </a>
@@ -36,9 +37,11 @@
         </span>
         <div class="icon-audience"></div>
         <p data-ng-bind="textConstants.AUDSEGMENTS"></p>
-        <div class="cardTxtWrap" data-ng-if="!audienceDataForPreview || audienceDataForPreview.length == 0">
+        <div class="cardTxtWrap" data-ng-if="!audienceDataForPreview || audienceDataForPreview.length === 0">
             <span data-ng-bind="textConstants.REACHAUD"></span>
-            <p style="margin: 0;"><span data-ng-bind="textConstants.ALLAUD"></span></p>
+            <p style="margin: 0;">
+                <span data-ng-bind="textConstants.ALLAUD"></span>
+            </p>
         </div>
         <div class="cardTxtWrap targetDataSaved"
              data-ng-if="audienceDataForPreview && audienceDataForPreview.length > 0">
@@ -80,44 +83,40 @@
                data-ng-click="selectAudTarget()">
     </div>
     <!--END : Audience Targeting Card-->
+
     <!--START : Geo Targeting Card-->
     <div class="col-md-6 cardSelectHolder"
          data-ng-if="!isPlatformSelected || (isPlatformSelected && isGeoTargetEnabled)"
          data-ng-class="{true: 'active'}[selectedTargeting['geography']]">
         <span data-ng-if="geoPreviewData"
               class="icon-trash"
-              data-ng-style="(geoPreviewData.include.count > 0 || geoPreviewData.exclude.count > 0) ?
-                            {'display': 'block'} : {'display': 'none'}"
+              data-ng-style="(geoPreviewData.include.count > 0 || geoPreviewData.exclude.count > 0) ? {'display': 'block'} : {'display': 'none'}"
               data-ng-click="deletetargets('GEO', $event)">
         </span>
         <div class="icon-location"></div>
-        <p>Geography</span></p>
+        <p>Geography</p>
         <div class="cardTxtWrap" data-ng-if="!geoPreviewData.include && !geoPreviewData.exclude">
             <span data-ng-bind="textConstants.TARGETAUDLOC"></span>
-            <p style="margin: 0;"><span>All Geo default</span></p>
+            <p style="margin: 0;">
+                <span>All Geo default</span>
+            </p>
         </div>
         <div class="cardTxtWrap targetDataSaved"
              data-ng-if="geoPreviewData.include || geoPreviewData.exclude">
             <div class="targetDataSavedTop" data-ng-if="geoPreviewData.include.count > 0">
                 <div class="icon-target"></div>
                 <span data-ng-bind="textConstants.INCLUDED"></span>
-                <div class="badge">
-                    {{geoPreviewData.include.count}}
-                </div>
+                <div class="badge" data-ng-bind="geoPreviewData.include.count"></div>
             </div>
-            <span class="targetListItem">
-                {{geoPreviewData.include.label}}
-            </span>
-
+            <span class="targetListItem" data-ng-bind="geoPreviewData.include.label"></span>
             <div class="targetDataSavedTop"
                  style="padding-top: 20px;"
                  data-ng-if="geoPreviewData.exclude.count > 0">
                 <div class="icon-exclude"></div>
                 <span data-ng-bind="textConstants.EXCLUDED"></span>
-                <div class="badge">{{geoPreviewData.exclude.count}}</div>
+                <div class="badge" data-ng-bind="geoPreviewData.exclude.count"></div>
             </div>
-            <span class="targetListItem" data-ng-if="geoPreviewData.exclude.count">
-                {{geoPreviewData.exclude.label}}
+            <span class="targetListItem" data-ng-if="geoPreviewData.exclude.count" data-ng-bind="geoPreviewData.exclude.label">
             </span>
         </div>
         <span data-ng-if="$parent.isPlatformSelected"
@@ -147,7 +146,9 @@
         <p data-ng-bind="textConstants.DAYPART"></p>
         <div class="cardTxtWrap" data-ng-if="!selectedDayParts['data'] || selectedDayParts['data'].length === 0">
             <span data-ng-bind="textConstants.SELECTADREST"></span>
-            <p style="margin: 0;"><span data-ng-bind="textConstants.ALLDAYSTIMES"></span></p>
+            <p style="margin: 0;">
+                <span data-ng-bind="textConstants.ALLDAYSTIMES"></span>
+            </p>
         </div>
         <div class="cardTxtWrap targetDataSaved"
              data-ng-if="selectedDayParts['data'] && selectedDayParts['data'].length > 0">
@@ -212,7 +213,9 @@
                          !adData.videoPreviewData.positions ||
                          !adData.videoPreviewData.playbackMethods">
             <span>Target your video ads to specific players and placements</span>
-            <p style="margin: 0;"><span></span></p>
+            <p style="margin: 0;">
+                <span></span>
+            </p>
         </div>
         <div class="cardTxtWrap targetDataSaved">
             <div class="video-targetting-holder">

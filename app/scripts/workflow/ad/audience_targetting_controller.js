@@ -470,8 +470,8 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
 
         $scope.selectKeyword = function (keyword) {
             var index;
-
-            $scope.selectedKeywords=[];
+console.log('selectKeyword()')
+            $scope.selectedKeywords = [];
 
             index = _.findIndex($scope.selectedKeywords, function (item) {
                 return item === keyword;
