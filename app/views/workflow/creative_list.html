@@ -33,7 +33,7 @@
                     <span class="icon-inline-edit"></span>
                     <span data-ng-bind="textConstants.EDIT"></span>
                 </button>
-                <button type="button" class="btn btn-default" data-ng-click="cancelDelete();">
+                <button type="button" class="btn btn-default" ng-disabled='(!checkedCreativeArr || checkedCreativeArr.length === 0)' data-ng-click="cancelDelete();">
                     <span class="icon-archive"></span>
                     <span data-ng-bind="textConstants.ARCHIVE"></span>
                 </button>

@@ -7,8 +7,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
     angularAMD.controller('CreativeListController', function ($scope, $rootScope, $routeParams, $route, $location,
                                                              $window, constants, domainReports, workflowService,
                                                              momentService, loginModel, vistoconfig,accountService, urlBuilder) {
-        var checkedCreativeArr=[],
-            creativeDataArr,
+        var creativeDataArr,
             winHeight = $(window).height(),
             isSearch = false,
             creativeParams,
@@ -98,6 +97,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.deletePopup = false;
         $scope.successfulRecords = [];
         $scope.isCreativeSearched =  false;
+        $scope.checkedCreativeArr=[];
         $scope.clientId = vistoconfig.getMasterClientId();
 
         domainReports.highlightHeaderMenu();
@@ -132,7 +132,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         $scope.creativeData.creatives[i].active=false;
                     }
                 }
-                checkedCreativeArr = [];
+                $scope.checkedCreativeArr = [];
             } else {
                 for (i in $scope.creativeData.creatives) {
                     if ($scope.creativeData.creatives[i].pushedCount <= 0) {
@@ -149,38 +149,34 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 i;
 
             if (selectedType !== 'allSelected') {
-                creativeAlreadySelected = checkedCreativeArr.indexOf(creative.id);
+                creativeAlreadySelected = $scope.checkedCreativeArr.indexOf(creative.id);
 
                 if (creativeAlreadySelected === -1) {
-                    checkedCreativeArr.push(creative.id);
+                    $scope.checkedCreativeArr.push(creative.id);
                 } else {
-                    checkedCreativeArr.splice(Number(creativeAlreadySelected),1);
+                    $scope.checkedCreativeArr.splice(Number(creativeAlreadySelected),1);
                 }
             } else {
-                checkedCreativeArr=[];
+                $scope.checkedCreativeArr=[];
 
                 for (i in $scope.creativeData.creatives) {
                     if ($scope.creativeData.creatives[i].pushedCount <= 0) {
-                        checkedCreativeArr.push($scope.creativeData.creatives[i].id);
+                        $scope.checkedCreativeArr.push($scope.creativeData.creatives[i].id);
                     }
                 }
             }
         };
 
         $scope.deleteCreatives = function () {
-            var postDataObj = {},
-               selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+            var postDataObj = {};
 
             $scope.deletePopup = !$scope.deletePopup;
-            postDataObj.idList = checkedCreativeArr;
-
-            if (selectedClientObj) {
-                creativeList.deleteCreatives( $scope.clientId,postDataObj);
-            }
+            postDataObj.idList = $scope.checkedCreativeArr;
+            creativeList.deleteCreatives(creativeParams.clientId, postDataObj);
         };
 
         $scope.cancelDelete=function () {
-            if (checkedCreativeArr.length > 0) {
+            if ($scope.checkedCreativeArr.length > 0) {
                 $scope.deletePopup=!$scope.deletePopup;
             }
         };
