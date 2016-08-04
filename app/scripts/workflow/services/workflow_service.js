@@ -433,17 +433,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url);
             },
 
-            getTaggedCreatives = function (campaignId, adId) {
-                var clientId = vistoconfig.getSelectedAccountId(),
-
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/campaigns/' + campaignId +
-                        '/ads/' + adId;
-
-                return dataService.fetch(url);
-            },
-
             // creative Library Flow
             getVendorsAdServer = function (clientId) {
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
