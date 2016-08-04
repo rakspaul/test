@@ -594,14 +594,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.sucessHandler = function (result) {
 
-            var campaignId = result.data.data.id;
+            var url = '/a/' + $routeParams.accountId+'/sa/'+result.data.data.clientId+'/mediaplan/'+ result.data.data.id+'/overview';
 
             $rootScope.setErrAlertMessage('Media plan successfully' +
                 ($scope.mode === 'edit' ? ' updated ' : ' created ') , 0);
 
             $timeout(function () {
                 $scope.Campaign.saveBtnLoader= false;
-                $location.url(urlBuilder.mediaPlanOverviewUrl(campaignId));
+
+                $location.url(url);
             }, 800);
         };
 
@@ -646,6 +647,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 formData = _.object(_.pluck(formElem, 'name'), _.pluck(formElem, 'value'));
                 postDataObj = {};
                 createCampaign.getBrandId(formData.brandId, postDataObj);
+
+                //client
+                if ($scope.showSubAccount) {
+                    postDataObj.clientId = $scope.selectedCampaign.clientId;
+                } else {
+                    postDataObj.clientId = loginModel.getSelectedClient().id;
+                }
 
                 // create mode
                 postDataObj.name = formData.campaignName;
@@ -724,7 +732,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 workflowService[($scope.mode === 'edit' && !$scope.cloneMediaPlanName) ?
-                    'updateCampaign' : 'saveCampaign'](clientId, postDataObj).then(function (result) {
+                    'updateCampaign' : 'saveCampaign'](postDataObj.clientId , postDataObj).then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         workflowService.setMediaPlanClone(null);
                         $scope.cloneMediaPlanName = null;

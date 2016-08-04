@@ -643,6 +643,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         subAccountService
                             .fetchSubAccountList($route.current.params.accountId)
                             .then(function () {
+
                                 accountService
                                     .fetchAccountData($route.current.params.accountId)
                                     .then(function () {
@@ -2039,10 +2040,11 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         controllerUrl: 'workflow/campaign/campaign_create_controller',
                         showHeader : true,
 
+
                         resolve: {
-                            header: function ($q, $location, $route, accountService, subAccountService, workflowService) {
+                            header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants) {
                                 return mediaPlanCreateResolver($q, $location, $route, accountService,
-                                    subAccountService, workflowService, 'create');
+                                    subAccountService, workflowService, constants, 'create');
                             }
                         }
                     }))
@@ -2054,10 +2056,11 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         controllerUrl: 'workflow/campaign/campaign_create_controller',
                         showHeader : true,
 
+
                         resolve: {
-                            header: function ($q, $location, $route, accountService, subAccountService, workflowService) {
+                            header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants) {
                                 return mediaPlanCreateResolver($q, $location, $route, accountService,
-                                    subAccountService, workflowService, 'edit');
+                                    subAccountService, workflowService, constants, 'edit');
                             }
                         }
                     }))
@@ -2163,6 +2166,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                                 }
                             }
                         }))
+
 
                     .when('/a/:accountId/creative/add', angularAMD.route({
                         templateUrl: assets.html_creative,
