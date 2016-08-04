@@ -70,7 +70,7 @@
                                         data-toggle="dropdown"
                                         aria-haspopup="true"
                                         aria-expanded="true"
-                                        data-ng-disabled="disableLineItemDropDown">
+                                        data-ng-disabled="disableLineItemDropDown" data-toggle="dropdown">
                                     <span class="text"
                                           data-ng-bind="adGroupData.lineitemName ?
                                                         adGroupData.lineitemName :
@@ -80,9 +80,9 @@
                                 </button>
                                 <ul class="dropdown-menu" >
                                     <li data-ng-repeat="lineItem in lineItems"
-                                        class="available"
+                                        class=""
                                         data-ng-model="adGroupData.lineitemName"
-                                        data-ng-click="selectLineItems($event, lineItem)">
+                                        data-ng-click="selectLineItems($event, lineItem)" data-toggle="dropdown">
                                         <a data-ng-bind="lineItem.name"></a>
                                     </li>
                                     <input type="hidden"
