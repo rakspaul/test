@@ -32,9 +32,6 @@
                         <input type="text" class="form-control ng-pristine ng-valid"  id="name" name="name" ng-model="name" placeholder="Enter up to 250 characters, no punctuation or special characters." remove-special-character="remove-special-character" required>
                         <label ng-if="formCreativeCreate.name.$error.required"  class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.WF_MANDATORY_CREATIVE_NAME"></label>
                     </div>
-                    <div class="col-md-12 zeroPadding clearfix nav_filters" style="display:none;">
-                        <!--<creative-drop-down></creative-drop-down>-->
-                    </div>
                     <span class="col-md-12 labelQuestTxt" style="margin-top: 30px !important;" data-ng-bind="textConstants.CREATIVE_FOR"></span>
                     <div class="col-sm-8 zeroPadding">
                         <!-- SubAccount start -->
@@ -62,7 +59,7 @@
                                 <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels" style="margin: 0;" data-ng-bind="textConstants.ADVERTISERS"></label>
                                 <div class="col-md-12 zeroPadding dropdown-workflow">
                                     <div class="dropdown">
-                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="adPage || (pushedCount>0) || (associatedAdCount>0)">
+                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="(!advertisers || advertisers.length === 0) || adPage || (pushedCount>0) || (associatedAdCount>0)">
                                             <span class="text">{{advertiserName ? advertiserName : 'Select Advertiser' }}</span>
                                             <!--<span class="text" ng-if="mode == 'edit'">{{mode == 'edit' ? editCampaignData.advertiserName : 'Select Advertiser' }}</span>-->
                                             <span class="icon-arrow-solid-down"></span>
@@ -79,7 +76,7 @@
                                 <label for="brandDDL" class="col-sm-12  greyTxt miniLabels" style="margin: 0;" data-ng-bind="textConstants.BRAND"></label>
                                 <div class="col-md-12 zeroPadding dropdown-workflow">
                                     <div class="dropdown">
-                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-ng-disabled="(!brands || brands.length === 0)">
                                             <span class="text">{{brandName ? brandName : 'Select Brand' }}</span>
                                             <span class="icon-arrow-solid-down"></span>
                                         </button>
@@ -141,7 +138,6 @@
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'" ng-disabled="pushedCount>0" aria-expanded="true" title={{CreativeTemplate.name}}>
-                                    <!--<span class="text">{{CreativeTemplate ? CreativeTemplate.name:'Select Template'}}</span>-->
                                     <span class="icon-arrow-solid-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="sel1" id="templateDDL">
@@ -152,18 +148,7 @@
                                 <input name="creativeTemplate" ng-model="adData.creativeTemplate" type="hidden"  ng-update-hidden/>
                             </div>
                         </div>
-                        <!--<label ng-if="formCreativeCreate.creativeTemplate.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Server size.</label>-->
                     </div>
-                    <!--Static template Ui Elements-->
-                    <!--<div class="form-group col-md-8" style="clear: left;" show-errors>-->
-                        <!--<label for="tag" class="col-md-12 zeroPadding greyTxt" data-ng-bind="textConstants.CREATIVE_SECURE_TAG"></label>-->
-                        <!--<textarea class="form-control col-md-12 ng-pristine ng-valid" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag" required></textarea>-->
-                        <!--<label ng-if="formCreativeCreate.tag.$error.required" class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.SSL_ERROR_MESSAGE"></label>-->
-                        <!--<label ng-show="IncorrectTag" class="col-sm-12 control-label customErrorLabel">{{IncorrectTagMessage}}</label>-->
-                    <!--</div>-->
-                    <!--&lt;!&ndash;<div ng-if="TrackingIntegrationsSelected" ng-hide="TrackingIntegrationsSelected" class="form-group col-md-8" style="clear: left;">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<textarea class="form-control col-md-12 ng-pristine ng-valid" rows="15" name="tag" id="tag" ng-value="'%%TRACKER%%'"></textarea>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
 
                     <div class="form-group col-md-4 radioBtnToggle" style="padding-top: 20px; clear: left;">
                         <div class="schedule-on-off-btn pull-left">

@@ -76,12 +76,18 @@ define(['angularAMD', 'common/services/constants_service',
                      $rootScope.$broadcast('filterChanged',args);
                 };
 
-
-                var accountList = subAccountService.getSubAccounts();
-                $scope.filterData.subAccountList = accountList;
-                $scope.filterData.subAccSelectedName = accountList[0].displayName;
-                $scope.filterData.subAccSelectedId = accountList[0].id;
-                fetchAdvertiserAndBroadCast(accountList[0].id);
+                var accountData =  accountService.getSelectedAccount();
+                var clientId;
+                if(!accountData.isLeafNode) {
+                    accountData = subAccountService.getSubAccounts();
+                    clientId = accountData[0].id;
+                    $scope.filterData.subAccountList = accountData;
+                    $scope.filterData.subAccSelectedName = accountData[0].displayName;
+                    $scope.filterData.subAccSelectedId = accountData[0].id;
+                } else {
+                    clientId = accountData.id;
+                }
+                fetchAdvertiserAndBroadCast(clientId);
 
             },
 

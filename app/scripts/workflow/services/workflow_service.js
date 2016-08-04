@@ -499,12 +499,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            getCreativeData = function (id, client_id) {
+            getCreativeData = function (client_id, creativeId) {
                 var clientId = client_id || vistoconfig.getSelectedAccountId();
 
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
-                    '/creatives/' + id);
+                    '/creatives/' + creativeId);
             },
 
             getCreativePreViewData  = function(params) {
