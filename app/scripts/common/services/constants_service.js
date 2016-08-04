@@ -231,7 +231,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MSG_DATA_NOT_AVAILABLE = '<span class="no-data-common">Data not available</span>';
         this.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD = '<span class="data_not_found">Data not available</span>';
         this.MSG_CAMPAIGN_YET_TO_START = '<span class="no-data-common">This Media Plan is Scheduled to start on {0}.</span>';
-        this.MSG_STRATEGY_YET_TO_START = '<span class="no-data-common">This Ad is Scheduled to start on {0}.</span>';
+        this.MSG_STRATEGY_YET_TO_START = '<span class="no-data-common">This Lineitem is Scheduled to start on {0}.</span>';
         this.MSG_TACTIC_YET_TO_START = '<span class="no-data-common">This Ad is Scheduled to start on {0}.</span>';
         this.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA =
             '<span class="no-data-common">Media Plan is In Flight. Data is not yet available.</span>';
