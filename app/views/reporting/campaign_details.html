@@ -536,50 +536,55 @@
             <div id="detailedPage" class="campaigns_details_holder">
                 <!--date holder-->
                 <div class="clearfix flight_dates_holder">
-                    <div class="clearfix campaign_overview_details" style="padding: 0 15px;">
+                    <div class="col-md-12 clearfix campaign_overview_details" style="padding: 0 15px;">
                         <div class="pull-left campaign_overview_details_title"
                              data-ng-bind="textConstants.CAMPAIGN_OVERVIEW">
                         </div>
+                        
                         <div class="pull-right campaign_overview_details_categories">
-                            <div class="each_col col_sec">
-                                <div class="col_heading" data-ng-bind="textConstants.KPI"></div>
-                                <div class="col_val">
+                            <div class="pull-left" style="margin-left: 20px;">
+                                <div class="pull-left greyTxt" data-ng-bind="textConstants.KPI"></div>
+                                <div class="pull-left clearLeft">
                                     <span data-ng-if="(campaign.kpiValue > 0)"
                                           data-ng-bind="campaign.kpiValue | kpiFormatter : campaign.kpiType">
                                     </span>
                                     {{campaign.kpiType !='null' ? campaign.kpiTypeDisplayName : 'NA'}}
                                 </div>
                             </div>
-                            <div class="each_col col_third">
-                                <div class="col_heading" data-ng-bind="textConstants.IMP_WITH_DOT"></div>
-                                <div class="col_val"
+                            
+                            <div class="pull-left" style="margin-left: 20px;">
+                                <div class="pull-left greyTxt" data-ng-bind="textConstants.IMP_WITH_DOT"></div>
+                                <div class="pull-left clearLeft"
                                      data-ng-bind="((campaigns.cdbDataMap[campaign.orderId].impressions > 0) ||
                                         (campaigns.cdbDataMap[campaign.orderId].impressions === 0)) ?
                                         (campaigns.cdbDataMap[campaign.orderId].impressions | nrFormat : 0) : '-'">
                                 </div>
                             </div>
-                            <div class="each_col col_forth">
-                                <div class="col_heading" data-ng-bind="textConstants.CTR"></div>
-                                <div class="col_val"
+                            
+                            <div class="pull-left" style="margin-left: 20px;">
+                                <div class="pull-left greyTxt" data-ng-bind="textConstants.CTR"></div>
+                                <div class="pull-left clearLeft"
                                      data-ng-bind="((campaigns.cdbDataMap[campaign.orderId].ctr > 0) ||
                                         (campaigns.cdbDataMap[campaign.orderId].ctr === 0)) ?
                                         ((campaigns.cdbDataMap[campaign.orderId].ctr | number : 3) + '%') : '-'">
                                 </div>
                             </div>
-                            <div class="each_col col_fifth"
+                            
+                            <div class="pull-left" style="margin-left: 20px;"
                                  data-ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
-                                <div class="col_heading" data-ng-bind="textConstants.ACTION_RATE"></div>
-                                <div class="col_val"
+                                <div class="pull-left greyTxt" data-ng-bind="textConstants.ACTION_RATE"></div>
+                                <div class="pull-left clearLeft"
                                      data-ng-bind="((campaigns.cdbDataMap[campaign.orderId].action_rate > 0) ||
                                         (campaigns.cdbDataMap[campaign.orderId].action_rate === 0)) ?
                                         ((campaigns.cdbDataMap[campaign.orderId].action_rate | number : 3) + '%') :
                                         '-'">
                                 </div>
                             </div>
-                            <div class="each_col col_fifth"
+                            
+                            <div class="pull-left" style="margin-left: 20px;"
                                  data-ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate > 0">
-                                <div class="col_heading" data-ng-bind="textConstants.VTC"></div>
-                                <div class="col_val"
+                                <div class="pull-left greyTxt" data-ng-bind="textConstants.VTC"></div>
+                                <div class="pull-left clearLeft"
                                      data-ng-bind="((campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate > 0)
                                         || (campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0)) ?
                                         ((campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate | number : 3) +
@@ -592,7 +597,7 @@
                                 {{campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate > 0 ?
                                 'campaign_overview_graphs_with_vtc' : ''}}">
                         <!--Column 1-->
-                        <div class="col-md-4 each_col col_first">
+                        <div class="col-md-6 each_col col_first">
                             <div class="col_heading"></div>
                             <div class="days_left_holder">
                                 <div class="total_days_holder">
@@ -633,7 +638,7 @@
                         </div>
 
                         <!--Column 2-->
-                        <div class="col-md-4 each_col col_spend">
+                        <div class="col-md-6 each_col col_spend">
                             <div class="col_heading clearfix" data-ng-bind="textConstants.SPEND">
                                 <span class="metric_val"
                                       data-ng-bind="(campaigns.spend > 0) ? (
