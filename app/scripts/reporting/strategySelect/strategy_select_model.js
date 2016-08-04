@@ -74,6 +74,11 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
                     return selectedStrategy;
                 },
 
+                getStrategyCount: function () {
+                    return strategyList.length;
+                },
+
+
                 reset: function () {
                     strategyList = [];
                     selectedStrategy = undefined;
