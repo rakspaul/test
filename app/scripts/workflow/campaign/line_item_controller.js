@@ -677,7 +677,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                         if (results.status === 'success' && results.data.statusCode === 201) {
                             campaignObj = $scope.createCampaignAccess();
-                            campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
+                            campaignObj.fetchLineItemDetails(vistoconfig.getSelectedAccountId(),$scope.selectedCampaign.campaignId);
                             $scope.selectedCampaign.resetLineItemParameters();
                             newItem = createLineItemObj();
                             workflowService.setLineItemData(null);
@@ -769,7 +769,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                         if (results.status === 'success' &&
                             (results.data.statusCode === 200 || results.data.statusCode === 201)) {
                             campaignObj = $scope.createCampaignAccess();
-                            campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
+                            campaignObj.fetchLineItemDetails(vistoconfig.getSelectedAccountId(), $scope.selectedCampaign.campaignId);
                             $scope.calculateLineItemTotal();
                             workflowService.setLineItemDataEdit(null);
                         } else {
