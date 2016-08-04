@@ -204,6 +204,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
             getCampaignData = function (clientId, campaignId) {
 
+
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/campaigns/' + campaignId;

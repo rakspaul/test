@@ -487,7 +487,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.campaignArchiveLoader = false;
 
         $scope.editCampaign = function (workflowcampaignData) {
-            $location.url('/mediaplan/' + workflowcampaignData.id + '/edit');
+            var url = '/a/' + $routeParams.accountId+'/mediaplan/'+ workflowcampaignData.id+'/edit';
+
+            $location.url(url);
         };
 
         $scope.utcToLocalTime = function (date, format) {

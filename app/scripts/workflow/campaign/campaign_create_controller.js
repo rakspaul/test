@@ -491,8 +491,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.processEditCampaignData = function () {
+            console.log("$scope.workflowData.subAccounts ",$scope.workflowData.subAccounts );
             workflowService
-                .getCampaignData($scope.campaignId)
+                .getCampaignData($scope.client, $scope.campaignId)
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         if (result.data.data.isArchived) {
