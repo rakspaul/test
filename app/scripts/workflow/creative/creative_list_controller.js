@@ -304,7 +304,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             moreOptCreative.html('<span class="icon-more-options"></span>');
 
             // broadCast method for calling adServers for bulk Upload page.
-            $scope.$broadcast('bulkUploadSelected');
+            $scope.$broadcast('bulkUploadSelected', creativeParams);
         };
 
         $scope.showSuccessBulkUpload = function () {
@@ -550,12 +550,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         // Pagination
         $(function () {
             $(window).scroll(function () {
-                var selectedClientObj;
-
                 if ($(window).scrollTop() + $(window).height() === $(document).height() &&
                     !isSearch && !$scope.creativeLastPage) {
                     creativeParams.pageNo = $scope.pageNo + 1;
-                    console.log("$scope.pageNo", $scope.pageNo);
                     if (window.location.href.indexOf('creative/list') > -1) {
                         creativeList.getCreativesList(creativeParams);
                     }

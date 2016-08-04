@@ -297,29 +297,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     });
                 },
 
-                // Function to get creatives for list view
-                getTaggedCreatives: function (campaignId, adId) {
-                    workflowService
-                        .getTaggedCreatives(campaignId, adId)
-                        .then(function (result) {
-                            var responseData;
-
-                            if (result.status === 'OK' || result.status === 'success') {
-                                responseData = result.data.data;
-
-                                if (responseData.creatives.length > 0) {
-                                    $scope.emptyCreativesFlag = false;
-                                } else {
-                                    $scope.emptyCreativesFlag = true;
-                                }
-
-                                $scope.creativeData.creativeInfo = responseData;
-                            } else {
-                                campaignOverView.errorHandler(result);
-                            }
-                        }, campaignOverView.errorHandler);
-                },
-
                 errorHandler: function (errData) {
                     if (errData.data.status === 404) {
                         $location.url(urlBuilder.gotoMediaplansListUrl());

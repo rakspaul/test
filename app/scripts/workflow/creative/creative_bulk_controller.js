@@ -31,9 +31,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             },
 
             // Get all adserver in Creative Library Page
-            getAdServers = function () {
+            getAdServers = function (clientId) {
                 workflowService
-                    .getVendorsAdServer()
+                    .getVendorsAdServer(clientId)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.creativeAdServers = result.data.data;
@@ -272,8 +272,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
         };
 
-        $scope.$on('bulkUploadSelected' , function () {
-            getAdServers();
+        $scope.$on('bulkUploadSelected' , function (event, args) {
+            console.log(args.clientId)
+            getAdServers(args.clientId);
         });
 
         $('.dropdown-menu li a').click(function () {

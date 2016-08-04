@@ -445,15 +445,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             // creative Library Flow
-            getVendorsAdServer = function (subAccountId) {
-                var clientId;
-
-                if (subAccountId) {
-                    clientId = subAccountId;
-                } else {
-                    clientId = vistoconfig.getSelectedAccountId();
-                }
-
+            getVendorsAdServer = function (clientId) {
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
                     '/vendors?vendorType=ADSERVING');
@@ -1350,7 +1342,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 getAd: getAd,
                 getDetailedAdsInAdGroup: getDetailedAdsInAdGroup,
                 pushCampaign: pushCampaign,
-                getTaggedCreatives: getTaggedCreatives,
                 getVendorsAdServer: getVendorsAdServer,
                 getAdServers: getAdServers,
                 getTemplates: getTemplates,
