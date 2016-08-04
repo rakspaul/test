@@ -153,8 +153,8 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/campaignLi
 
                     // TODO: check if object already requested!
                     // introducing the tactic data call initiation on click here
-                    campaignListService.requestTacticsList(clientId, strategy, constants.PERIOD_LIFE_TIME,
-                        $scope.campaign, $scope.goToStrategyStartingPosition);
+                    campaignListService.getTacticsList(clientId, $scope.campaign, strategy, constants.PERIOD_LIFE_TIME,
+                        $scope.goToStrategyStartingPosition);
 
                     if (tacticsAccordion.css('display') === 'none') {
                         if (tacticsCount > 0) {

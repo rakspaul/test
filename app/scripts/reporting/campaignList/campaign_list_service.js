@@ -112,7 +112,6 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                         } else {
                             tacticDataService = dataService.getStrategyTacticList(clientId, campaign.id, strategy.id);
                         }
-
                         tacticDataService.then(function (response) {
                             var result = response.data,
                                 pageSize = 3,
@@ -122,11 +121,11 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                             if (result.status === 'OK' && !angular.isString(data)) {
                                 if (data.length >= 0) {
                                     if (data.length <= pageSize) {
-                                        strategy.strategyTactics = createTacticObject(clientId, campaign,
-                                            strategy.id, timePeriod, data);
+                                        strategy.strategyTactics = createTacticObject(clientId, campaign, strategy.id,
+                                            data, timePeriod);
                                     } else {
                                         strategy.strategyTactics = createTacticObject(clientId, campaign, strategy.id,
-                                            timePeriod, data.slice(0, pageSize));
+                                            data.slice(0, pageSize), timePeriod);
                                         strategy.strategyTacticsLoadMore = data.slice(pageSize);
                                     }
                                 }
