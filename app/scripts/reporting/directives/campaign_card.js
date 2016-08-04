@@ -316,7 +316,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         if (!campaign) {
                             return constants.MSG_DATA_NOT_AVAILABLE;
                         } else if (campaign.durationLeft() === 'Yet to start') {
-                            return constants.MSG_CAMPAIGN_YET_TO_START;
+                            return utils.formatStringWithDate(constants.MSG_CAMPAIGN_YET_TO_START ,campaign.startDate,constants.REPORTS_DATE_FORMAT);
                         } else if (campaign.daysSinceEnded() > 1000) {
                             return constants.MSG_CAMPAIGN_VERY_OLD;
                         } else if (campaign.kpiType === 'null') {
