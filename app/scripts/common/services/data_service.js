@@ -78,7 +78,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getStrategyTacticList =  function (clientId, adGroupId, campaignId) {
+                getStrategyTacticList =  function (clientId, campaignId, adGroupId) {
                     var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
