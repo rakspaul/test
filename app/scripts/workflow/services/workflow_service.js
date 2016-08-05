@@ -244,8 +244,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url, { cache: false });
             },
 
-            getAdgroups = function (clientId, campaignId, searchTerm, isForClone) {
-                var url;
+            getAdgroups = function (campaignId, searchTerm, isForClone) {
+                var url,
+                    clientId = vistoconfig.getSelectedAccountId();
 
                 if (searchTerm) {
                     url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
@@ -831,8 +832,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getAllCampaignsForAdClone = function () {
-                var clientId = vistoconfig.getMasterClientId(),
-                    advertiserId = window.JSON.parse(localStorage.campaignData).advertiserId,
+                console.log("vistoconfig.getSelectedAccountId()",vistoconfig.getSelectedAccountId());
+                var clientId = vistoconfig.getSelectedAccountId(),
+                    advertiserId = Number(vistoconfig.getSelectAdvertiserId()),
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
                         '/advertisers/' + advertiserId + '/campaigns?status=ACTIVE';

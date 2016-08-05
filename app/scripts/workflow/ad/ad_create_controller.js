@@ -87,7 +87,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                             });
                                     } else {
                                         workflowService
-                                            .getAdgroups(clientId, $scope.campaignId)
+                                            .getAdgroups( $scope.campaignId)
                                             .then(function (result) {
                                                 var responseData,
                                                     adGroupData = {},
