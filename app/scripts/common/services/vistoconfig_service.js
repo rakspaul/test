@@ -84,7 +84,11 @@ define(['angularAMD'], function (angularAMD) {
             { kpi: 'cpa',                           displayName: 'CPA' },
             { kpi: 'cpc',                           displayName: 'CPC' },
             { kpi: 'cpm',                           displayName: 'CPM' },
-            { kpi: 'pc_cpa',                        displayName: 'Post Click CPA' }
+            { kpi: 'pc_cpa',                        displayName: 'Post Click CPA' },
+            { kpi: 'viewable_impressions',          displayName: 'Viewable Impression' },
+            { kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' },
+            { kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
+            { kpi: 'spend',                         displayName: 'Spend' }
         ];
 
         this.PERFORMANCE_LINK = '/performance';
