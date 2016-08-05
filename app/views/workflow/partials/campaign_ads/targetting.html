@@ -137,58 +137,56 @@
     <div class="col-md-6 cardSelectHolder"
          data-ng-if="(!isPlatformSelected || (isPlatformSelected && isDaypartTargetEnabled))"
          data-ng-class="{true: 'active'}[selectedTargeting['daily']]">
-        <span data-ng-if="selectedDayParts['data'].length  > 0"
+        <span data-ng-if="selectedDayParts.data.length  > 0"
               class="icon-trash"
-              data-ng-style="(selectedDayParts['data'].length > 0) ? {'display': 'block'} : {'display': 'none'}"
+              data-ng-style="(selectedDayParts.data.length > 0) ? {'display': 'block'} : {'display': 'none'}"
               data-ng-click="deletetargets('DAYPART', $event)">
         </span>
         <div class="icon-activity"></div>
         <p data-ng-bind="textConstants.DAYPART"></p>
-        <div class="cardTxtWrap" data-ng-if="!selectedDayParts['data'] || selectedDayParts['data'].length === 0">
+        <div class="cardTxtWrap" data-ng-if="!selectedDayParts.data || selectedDayParts.data.length === 0">
             <span data-ng-bind="textConstants.SELECTADREST"></span>
             <p style="margin: 0;">
                 <span data-ng-bind="textConstants.ALLDAYSTIMES"></span>
             </p>
         </div>
-        <div class="cardTxtWrap targetDataSaved"
-             data-ng-if="selectedDayParts['data'] && selectedDayParts['data'].length > 0">
+        <div class="cardTxtWrap targetDataSaved" data-ng-if="selectedDayParts.data && selectedDayParts.data.length > 0">
             <div class="targetDataSavedTop">
                 <div class="icon-target"></div>
                 <span data-ng-bind="textConstants.INCLUDED"></span>
                 <div class="badge" data-ng-bind="dayPartTotal"></div>
             </div>
-            <span class="targetListItem"
-                  data-ng-if="selectedDayParts['selected'] !== 'Custom schedule'">
-                {{selectedDayParts['selected']}}
+            <span class="targetListItem" data-ng-if="selectedDayParts.selected !== 'Custom schedule'">
+                {{selectedDayParts.selected}}
             </span>
             <span class="targetListItem"
-                  data-ng-if="selectedDayParts['data'].length >= 1 && selectedDayParts['selected'] === 'Custom schedule'">
-                {{selectedDayParts['data'][0].day}}
-                {{(selectedDayParts['data'][0].startTime) ? selectedDayParts['data'][0].startTime : ''}}
-                {{(selectedDayParts['data'][0].endTime) ? selectedDayParts['data'][0].endTime : ''}}
+                  data-ng-if="selectedDayParts.data.length >= 1 && selectedDayParts.selected === 'Custom schedule'">
+                {{selectedDayParts.data[0].day}}
+                {{(selectedDayParts.data[0].startTime) ? selectedDayParts.data[0].startTime : ''}}
+                {{(selectedDayParts.data[0].endTime) ? selectedDayParts.data[0].endTime : ''}}
             </span>
             <span class="targetListItem"
-                  data-ng-if="selectedDayParts['data'].length >= 2 && selectedDayParts['selected'] === 'Custom schedule'">
-                {{selectedDayParts['data'][1].day}}
-                {{(selectedDayParts['data'][1].startTime) ? selectedDayParts['data'][1].startTime : ''}}
-                {{(selectedDayParts['data'][1].endTime) ? selectedDayParts['data'][1].endTime : ''}}
+                  data-ng-if="selectedDayParts.data.length >= 2 && selectedDayParts.selected === 'Custom schedule'">
+                {{selectedDayParts.data[1].day}}
+                {{(selectedDayParts.data[1].startTime) ? selectedDayParts.data[1].startTime : ''}}
+                {{(selectedDayParts.data[1].endTime) ? selectedDayParts.data[1].endTime : ''}}
             </span>
             <span class="targetListItem"
-                  data-ng-if="selectedDayParts['data'].length >= 3 && selectedDayParts['selected'] === 'Custom schedule'">
-                {{selectedDayParts['data'][2].day}}
-                {{(selectedDayParts['data'][2].startTime) ? selectedDayParts['data'][2].startTime : ''}}
-                {{(selectedDayParts['data'][2].endTime) ? selectedDayParts['data'][2].endTime : ''}}
+                  data-ng-if="selectedDayParts.data.length >= 3 && selectedDayParts.selected === 'Custom schedule'">
+                {{selectedDayParts.data[2].day}}
+                {{(selectedDayParts.data[2].startTime) ? selectedDayParts.data[2].startTime : ''}}
+                {{(selectedDayParts.data[2].endTime) ? selectedDayParts.data[2].endTime : ''}}
             </span>
             <span class="targetListItemMore"
-                  data-ng-if="selectedDayParts['data'].length > 3 && selectedDayParts['selected'] === 'Custom schedule'">
-                +{{selectedDayParts['data'].length - 3}} more
+                  data-ng-if="selectedDayParts.data.length > 3 && selectedDayParts.selected === 'Custom schedule'">
+                +{{selectedDayParts.data.length - 3}} more
             </span>
         </div>
         <span data-ng-if="$parent.isPlatformSelected"
               class="onSelectBtn active"
               data-ng-click="selectDayTarget()">
         </span>
-        <input data-ng-if="!selectedDayParts['data'] || selectedDayParts['data'].length === 0"
+        <input data-ng-if="!selectedDayParts.data || selectedDayParts.data.length === 0"
                type="button"
                name="platform"
                value="Create"

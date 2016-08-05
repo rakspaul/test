@@ -6,21 +6,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
         angularAMD.factory('audienceService', function (vistoconfig, dataService, constants, workflowService,
                                                         loginModel) {
             var audience,
-
                 source,
-
                 keywords,
-
                 selAudiences,
-
                 andOrStatus,
-
                 dayPartData,
-
                 dayTimeSelectedObj,
-
                 daytimeArrObj,
-
                 dayArr,
 
                 setAudience = function (aud) {
@@ -131,9 +123,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     var searchKey = params.searchKey,
                         url;
 
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + loginModel.getSelectedClient().id +
-                        '/segments?query=' + searchKey;
+                    url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + loginModel.getSelectedClient().id + '/segments?query=' + searchKey;
 
                     return dataService.fetch(url, {cache: false});
                 },
@@ -201,7 +191,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 };
 
             return {
-
                 setAudience : setAudience,
                 getAudience : getAudience,
                 fetchAudience : fetchAudience,
@@ -225,7 +214,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 getDayTimeSelectedObj : getDayTimeSelectedObj,
                 setDayTimeArr : setDayTimeArr,
                 getDayTimeArr : getDayTimeArr
-
             };
         });
     }

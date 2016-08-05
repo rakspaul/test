@@ -13,7 +13,7 @@
                     </div>
                     <div class="section_filter_list">
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.draft}}"
-                             ng-click="campaigns.setQuickFilter(constants.DRAFT_CONDITION)">
+                             data-ng-click="campaigns.setQuickFilter(constants.DRAFT_CONDITION)">
                             <div class="pull-left">
                                 {{constants.DRAFT}}
                             </div>
@@ -22,7 +22,7 @@
                             </div>
                         </div>
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.ready}}"
-                             ng-click="campaigns.setQuickFilter(constants.READY_CONDITION)">
+                             data-ng-click="campaigns.setQuickFilter(constants.READY_CONDITION)">
                             <div class="pull-left">
                                 {{constants.SCHEDULED}}
                             </div>
@@ -31,7 +31,7 @@
                             </div>
                         </div>
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.active.bothItem}}"
-                             ng-click="campaigns.setQuickFilter(constants.ACTIVE_CONDITION)">
+                             data-ng-click="campaigns.setQuickFilter(constants.ACTIVE_CONDITION)">
                             <div class="pull-left">
                                 {{constants.INFLIGHT_LABEL}}
                             </div>
@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         <!-- <div class="clearfix each_filter {{campaigns.dashboard.status.paused }}"
-                                ng-click="campaigns.setQuickFilter(constants.PAUSED_CONDITION)">
+                                data-ng-click="campaigns.setQuickFilter(constants.PAUSED_CONDITION)">
                             <div class="pull-left">
                                 {{constants.PAUSED}}
                             </div>
@@ -49,7 +49,7 @@
                             </div>
                         </div> -->
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.completed }}"
-                             ng-click="campaigns.setQuickFilter(constants.COMPLETED_CONDITION)">
+                             data-ng-click="campaigns.setQuickFilter(constants.COMPLETED_CONDITION)">
                             <div class="pull-left">
                                 {{constants.ENDED}}
                             </div>
@@ -58,7 +58,7 @@
                             </div>
                         </div>
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.archived }}"
-                             ng-click="campaigns.setQuickFilter(constants.ARCHIVED_CONDITION)">
+                             data-ng-click="campaigns.setQuickFilter(constants.ARCHIVED_CONDITION)">
                             <div class="pull-left">
                                 {{constants.ARCHIVED}}
                             </div>
@@ -75,7 +75,7 @@
                     <div class="section_filter_list">
                         <!-- add active when it is selected -->
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.active.ontrack}}"
-                             ng-click="campaigns.setQuickFilter(constants.ACTIVE_ONTRACK)">
+                             data-ng-click="campaigns.setQuickFilter(constants.ACTIVE_ONTRACK)">
                             <div class="pull-left">
                                 {{constants.ON_TRACK}}
                             </div>
@@ -84,7 +84,7 @@
                             </div>
                         </div>
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.active.underperforming }}"
-                             ng-click="campaigns.setQuickFilter(constants.ACTIVE_UNDERPERFORMING)">
+                             data-ng-click="campaigns.setQuickFilter(constants.ACTIVE_UNDERPERFORMING)">
                             <div class="pull-left" >
                                 {{constants.UNDERPERFORMING}}
                             </div>
@@ -101,7 +101,7 @@
                     </div>
                     <div class="section_filter_list">
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.active.endingSoon }}"
-                             ng-click="campaigns.setQuickFilter(constants.ENDING_SOON_CONDITION)">
+                             data-ng-click="campaigns.setQuickFilter(constants.ENDING_SOON_CONDITION)">
                             <div class="pull-left">
                                 {{constants.ENDING_SOON}}
                             </div>
@@ -111,7 +111,7 @@
                         </div>
                         <!--View All-->
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.active.all }}"
-                             ng-click="campaigns.setQuickFilter(constants.ALL_CONDITION)">
+                             data-ng-click="campaigns.setQuickFilter(constants.ALL_CONDITION)">
                             <div class="pull-left">
                                 {{constants.ALL}}
                             </div>
