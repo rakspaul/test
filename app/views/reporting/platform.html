@@ -342,7 +342,11 @@
                 data-ng-if="selectedFilters.kpi_type=='cpm' ||
                     selectedFilters.kpi_type=='cpc' ||
                     selectedFilters.kpi_type=='cpa' ||
-                    selectedFilters.kpi_type=='pc_cpa'"
+                    selectedFilters.kpi_type=='pc_cpa' ||
+                    selectedFilters.kpi_type=='viewable_impressions' ||
+                    selectedFilters.kpi_type=='viewable_impressions_perc' ||
+                    selectedFilters.kpi_type=='suspicious_impressions_perc' ||
+                    selectedFilters.kpi_type=='spend'"
                 data-ng-bind="platform[selectedFilters.kpi_type.toLowerCase()] |
                     appendDollar : selectedFilters2.kpi_type">
             </span>

@@ -6,7 +6,7 @@
               class="dd_txt_span pull-right" style="line-height: 100%;"
               data-ng-bind="textConstants.CPM"  title="{{textConstants.CPM}}">
         </span>
-        <span ng-if="kpiData.selectedKpi == 'cpm'||kpiData.selectedKpi == 'cpa' ||kpiData.selectedKpi == 'cpc' || kpiData.selectedKpi == 'pc_cpa'"
+        <span ng-if="checkNewkpiDropDownAlt()"
               class="dd_txt_span pull-right"
               style="line-height: 100%;"
               data-ng-bind="kpiData.selectedKpiDisplayName"  title="{{kpiData.selectedKpiDisplayName}}">
