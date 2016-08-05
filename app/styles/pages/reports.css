@@ -51,6 +51,10 @@
   left: 0px;
   width: 284px;
 }
+/* Generic Class */
+.overflowAuto {
+  overflow: auto;
+}
 /* Link: v1sto/invoices/invoiceId
    Content: LineItem, Adjustments
 */
@@ -1248,6 +1252,9 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   color: #939ead;
   line-height: 20px;
   font-size: 12px;
+}
+div.strategy_total_container {
+  width: 1964px;
 }
 div.strategy_total_container .discrepancyTplRow {
   margin-bottom: 10px ;
@@ -2595,6 +2602,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   border: solid 1px #ccd9e3;
   padding: 10px 20px;
   border-bottom: 0px ;
+  width: 1964px;
 }
 .reports_tabs_content_container .reports_block .reports_performance_header .dropdown-menu.kpi_indicator_ul ul.drop_list {
   width: 80% ;

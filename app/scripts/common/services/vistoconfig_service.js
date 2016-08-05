@@ -58,12 +58,12 @@ define(['angularAMD'], function (angularAMD) {
             {kpiType: 'CPM',                        displayName: 'CPM'},
             {kpiType: 'CTR',                        displayName: 'CTR'},
             {kpiType: 'IMPRESSIONS',                displayName: 'Impressions'},
-            {kpiType: 'VTC',                        displayName: 'VTC'},
-            {kpiType: 'VIEWABLE IMPRESSIONS',       displayName: 'Viewable Impression'},
-            {kpiType: 'VIEWABLE RATE',              displayName: 'Viewable Rate'},
+            {kpiType: 'POST CLICK CPA',             displayName: 'Post Click CPA'},
             {kpiType: 'SUSPICIOUS ACTIVITY RATE',   displayName: 'Suspicious Activity %'},
             {kpiType: 'SPEND',                      displayName: 'Spend'},
-            {kpiType: 'POST CLICK CPA',             displayName: 'Post Click CPA'}
+            {kpiType: 'VIEWABLE IMPRESSIONS',       displayName: 'Viewable Impression'},
+            {kpiType: 'VIEWABLE RATE',              displayName: 'Viewable Rate'},
+            {kpiType: 'VTC',                        displayName: 'VTC'}
         ];
 
         this.kpiDropDown = [
@@ -72,12 +72,12 @@ define(['angularAMD'], function (angularAMD) {
             { kpi: 'cpc',                           displayName: 'CPC' },
             { kpi: 'cpm',                           displayName: 'CPM' },
             { kpi: 'ctr',                           displayName: 'CTR' },
-            { kpi: 'vtc',                           displayName: 'VTC' },
+            { kpi: 'pc_cpa',                        displayName: 'Post Click CPA' },
+            { kpi: 'spend',                         displayName: 'Spend' },
+            { kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
             { kpi: 'viewable_impressions',          displayName: 'Viewable Impression' },
             { kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' },
-            { kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
-            { kpi: 'spend',                         displayName: 'Spend' },
-            { kpi: 'pc_cpa',                        displayName: 'Post Click CPA' }
+            { kpi: 'vtc',                           displayName: 'VTC' }
         ];
 
         this.newkpiDropDownAlt = [
@@ -85,10 +85,10 @@ define(['angularAMD'], function (angularAMD) {
             { kpi: 'cpc',                           displayName: 'CPC' },
             { kpi: 'cpm',                           displayName: 'CPM' },
             { kpi: 'pc_cpa',                        displayName: 'Post Click CPA' },
-            { kpi: 'viewable_impressions',          displayName: 'Viewable Impression' },
-            { kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' },
+            { kpi: 'spend',                         displayName: 'Spend' },
             { kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
-            { kpi: 'spend',                         displayName: 'Spend' }
+            { kpi: 'viewable_impressions',          displayName: 'Viewable Impression' },
+            { kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' }
         ];
 
         this.PERFORMANCE_LINK = '/performance';

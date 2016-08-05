@@ -42,6 +42,21 @@
 <div class="each_col seventh_col" >
     <span class="icon_text_holder" data-ng-class="sortClassFunction('-cpm',sortTypebyformats,sortReverseForCostscpmFormats)" data-ng-click="sortTypebyformats = '-cpm'; sortReverseFormatTab = sortReverseForCostscpmFormats; sortReverseForCostscpmFormats = !sortReverseForCostscpmFormats; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
 </div>
+<div class="each_col seventh_col" >
+    <span class="icon_text_holder" data-ng-class="sortClassFunction('-pc_cpa',sortTypebyformats,sortReverseForCostscpmFormats)" data-ng-click="sortTypebyformats = '-pc_cpa'; sortReverseFormatTab = sortReverseForCostscpmFormats; sortReverseForCostscpmFormats = !sortReverseForCostscpmFormats; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'pc_cpa'"></span>{{textConstants.PC_CPA}}</span>
+</div>
+<div class="each_col seventh_col" >
+    <span class="icon_text_holder" data-ng-class="sortClassFunction('-spend',sortTypebyformats,sortReverseForCostscpmFormats)" data-ng-click="sortTypebyformats = '-spend'; sortReverseFormatTab = sortReverseForCostscpmFormats; sortReverseForCostscpmFormats = !sortReverseForCostscpmFormats; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'spend'"></span>{{textConstants.SPEND}}</span>
+</div>
+<div class="each_col seventh_col" >
+    <span class="icon_text_holder" data-ng-class="sortClassFunction('-suspicious_impressions_perc',sortTypebyformats,sortReverseForCostscpmFormats)" data-ng-click="sortTypebyformats = '-suspicious_impressions_perc'; sortReverseFormatTab = sortReverseForCostscpmFormats; sortReverseForCostscpmFormats = !sortReverseForCostscpmFormats; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'suspicious_impressions_perc'"></span>{{textConstants.SUSPICIOUS_ACTIVITY}}</span>
+</div>
+<div class="each_col seventh_col" >
+    <span class="icon_text_holder" data-ng-class="sortClassFunction('-viewable_impressions',sortTypebyformats,sortReverseForCostscpmFormats)" data-ng-click="sortTypebyformats = '-viewable_impressions'; sortReverseFormatTab = sortReverseForCostscpmFormats; sortReverseForCostscpmFormats = !sortReverseForCostscpmFormats; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'viewable_impressions'"></span>{{textConstants.VIEWABLE_IMPRESSION}}</span>
+</div>
+<div class="each_col seventh_col" >
+    <span class="icon_text_holder" data-ng-class="sortClassFunction('-viewable_impressions_perc',sortTypebyformats,sortReverseForCostscpmFormats)" data-ng-click="sortTypebyformats = '-viewable_impressions_perc'; sortReverseFormatTab = sortReverseForCostscpmFormats; sortReverseForCostscpmFormats = !sortReverseForCostscpmFormats; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'viewable_impressions_perc'"></span>{{textConstants.VIEWABLE_RATE}}</span>
+</div>
 </span>
 <div class="each_col seventh_col" >
     <div data-ng-if="adFormats.videoAds"  class="dropdown kpi-dd-holder " >

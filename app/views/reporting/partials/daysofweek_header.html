@@ -42,6 +42,21 @@
 <div class="each_col seventh_col">
     <span class="icon_text_holder" data-ng-class="sortClassFunction('-cpm',sortTypebydaysofweek,sortReverseForCostscpmDaysofweek)" data-ng-click="sortTypebydaysofweek = '-cpm'; sortReverseDaysTab = sortReverseForCostscpmDaysofweek; sortReverseForCostscpmDaysofweek = !sortReverseForCostscpmDaysofweek; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
 </div>
+<div class="each_col seventh_col">
+    <span class="icon_text_holder" data-ng-class="sortClassFunction('-pc_cpa',sortTypebydaysofweek,sortReverseForCostscpmDaysofweek)" data-ng-click="sortTypebydaysofweek = '-pc_cpa'; sortReverseDaysTab = sortReverseForCostscpmDaysofweek; sortReverseForCostscpmDaysofweek = !sortReverseForCostscpmDaysofweek; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'pc_cpa'"></span>{{textConstants.PC_CPA}}</span>
+</div>
+<div class="each_col seventh_col">
+    <span class="icon_text_holder" data-ng-class="sortClassFunction('-spend',sortTypebydaysofweek,sortReverseForCostscpmDaysofweek)" data-ng-click="sortTypebydaysofweek = '-spend'; sortReverseDaysTab = sortReverseForCostscpmDaysofweek; sortReverseForCostscpmDaysofweek = !sortReverseForCostscpmDaysofweek; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'spend'"></span>{{textConstants.SPEND}}</span>
+</div>
+<div class="each_col seventh_col">
+    <span class="icon_text_holder" data-ng-class="sortClassFunction('-suspicious_impressions_perc',sortTypebydaysofweek,sortReverseForCostscpmDaysofweek)" data-ng-click="sortTypebydaysofweek = '-suspicious_impressions_perc'; sortReverseDaysTab = sortReverseForCostscpmDaysofweek; sortReverseForCostscpmDaysofweek = !sortReverseForCostscpmDaysofweek; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'suspicious_impressions_perc'"></span>{{textConstants.SUSPICIOUS_ACTIVITY}}</span>
+</div>
+<div class="each_col seventh_col">
+    <span class="icon_text_holder" data-ng-class="sortClassFunction('-viewable_impressions',sortTypebydaysofweek,sortReverseForCostscpmDaysofweek)" data-ng-click="sortTypebydaysofweek = '-viewable_impressions'; sortReverseDaysTab = sortReverseForCostscpmDaysofweek; sortReverseForCostscpmDaysofweek = !sortReverseForCostscpmDaysofweek; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'viewable_impressions'"></span>{{textConstants.VIEWABLE_IMPRESSION}}</span>
+</div>
+<div class="each_col seventh_col">
+    <span class="icon_text_holder" data-ng-class="sortClassFunction('-viewable_impressions_perc',sortTypebydaysofweek,sortReverseForCostscpmDaysofweek)" data-ng-click="sortTypebydaysofweek = '-viewable_impressions_perc'; sortReverseDaysTab = sortReverseForCostscpmDaysofweek; sortReverseForCostscpmDaysofweek = !sortReverseForCostscpmDaysofweek; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'viewable_impressions_perc'"></span>{{textConstants.VIEWABLE_RATE}}</span>
+</div>
 </span>
 <div class="each_col seventh_col" >
     <div data-ng-if="adFormats.videoAds"  class="dropdown kpi-dd-holder " >
