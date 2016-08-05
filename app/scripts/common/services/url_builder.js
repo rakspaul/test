@@ -12,7 +12,7 @@ define(['angularAMD'],
                 } else {
                     // user navigating from custom reports to media plans
                     var selectedAccount = _.find(accountService.getAccounts(), function(a) {
-                        return a.id === $routeParams.accountId;
+                        return Number(a.id) === Number($routeParams.accountId);
                     });
                     if (!selectedAccount.isLeafNode) {
                         url += '/sa/' + $routeParams.accountId;
@@ -32,7 +32,7 @@ define(['angularAMD'],
                 if ($routeParams.subAccountId) {
 
                     var leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
-                        return a.id === $routeParams.subAccountId;
+                        return Number(a.id) === Number($routeParams.subAccountId);
                     });
 
                     if (leafSubAccount) {
@@ -56,17 +56,16 @@ define(['angularAMD'],
                 } else {
                     // user navigating from custom reports to media plans
                     var selectedAccount = _.find(accountService.getAccounts(), function(a) {
-                        return a.id === $routeParams.accountId;
+                        return Number(a.id) === Number($routeParams.accountId);
                     });
+
                     if (selectedAccount && selectedAccount.isLeafNode) {
                         url += '/mediaplans';
-                        console.log('url', url);
                         $location.url(url);
                     } else {
                         subAccountService.fetchSubAccountList($routeParams.accountId).then(function() {
                             url += '/sa/' + subAccountService.getSubAccounts()[0].id;
                             url += '/mediaplans';
-                            console.log('url', url);
                             $location.url(url);
                         });
                     }
@@ -83,9 +82,9 @@ define(['angularAMD'],
                 var url = '/a/' + $routeParams.accountId;
                 var advertiserId = vistoconfig.getSelectAdvertiserId();
                 var brandId = vistoconfig.getSelectedBrandId();
-                if ($routeParams.subAccountId) {
+                if ($routeParams.subAccountId) { console.log("am in if",$routeParams)
                     var leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
-                        return a.id === $routeParams.subAccountId;
+                        return Number(a.id) === Number($routeParams.subAccountId);
                     });
                     if (leafSubAccount) {
 
@@ -111,21 +110,19 @@ define(['angularAMD'],
                     $location.url(url);
 
                 } else {
-
                     // user navigating from custom reports to canned reports
                     var selectedAccount = _.find(accountService.getAccounts(), function(a) {
-                        return a.id === $routeParams.accountId;
+                        return Number(a.id) === Number($routeParams.accountId);
                     });
                     if (selectedAccount && selectedAccount.isLeafNode) {
-                        url += '/mediaplans/' + ($routeParams.campaignId || 'reports') + reportName;
+                       // url += '/mediaplans/' + ($routeParams.campaignId || 'reports') + reportName;
+                        url += '/mediaplans/reports' + reportName;
                         $location.url(url);
 
                     } else {
-
                         subAccountService.fetchSubAccountList($routeParams.accountId).then(function() {
                             url += '/sa/' + subAccountService.getSubAccounts()[0].id;
-                            url += '/mediaplans/' + ($routeParams.campaignId || 'reports') + reportName;
-                            console.log('url', url);
+                            url += '/mediaplans/reports' + reportName;
                             $location.url(url);
                         });
                     }
@@ -174,7 +171,7 @@ define(['angularAMD'],
                 if ($routeParams.subAccountId) {
 
                     leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
-                        return a.id === $routeParams.subAccountId;
+                        return Number(a.id) === Number($routeParams.subAccountId);
                     });
 
                     if (leafSubAccount) {
@@ -199,7 +196,7 @@ define(['angularAMD'],
 
                 if ($routeParams.subAccountId) {
                     leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
-                        return a.id === $routeParams.subAccountId;
+                        return Number(a.id) === Number($routeParams.subAccountId);
                     });
 
                     if (leafSubAccount) {
@@ -235,7 +232,7 @@ define(['angularAMD'],
                 } else {
                     // user navigating from custom reports to media plans
                     var selectedAccount = _.find(accountService.getAccounts(), function(a) {
-                        return a.id === Number($routeParams.accountId);
+                        return Number(a.id) === Number($routeParams.accountId);
                     });
                     if (!selectedAccount.isLeafNode) {
                         url += '/sa/' + $routeParams.accountId;
@@ -262,7 +259,7 @@ define(['angularAMD'],
                 } else {
                     // user navigating from custom reports to media plans
                     var selectedAccount = _.find(accountService.getAccounts(), function(a) {
-                        return a.id === $routeParams.accountId;
+                        return Number(a.id) === Number($routeParams.accountId);
                     });
                     if (!selectedAccount.isLeafNode) {
                         url += '/sa/' + $routeParams.accountId;
