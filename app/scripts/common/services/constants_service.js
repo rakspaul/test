@@ -870,6 +870,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ADGROUPS = 'Ad Groups';
         this.ADS = 'Ads';
         this.CREATIVES = 'Creatives';
+        this.ADMIN = 'Admin';
         this.LAST_UPDATED = 'Last Updated';
         this.SORT = 'Sort';
         this.LATEST = 'Latest';
