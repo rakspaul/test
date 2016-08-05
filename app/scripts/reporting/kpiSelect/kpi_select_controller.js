@@ -30,6 +30,13 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
         $scope.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
 
+        $scope.checkNewkpiDropDownAlt = function(){
+            var ret = _.find($scope.kpiData.newkpiDropDownAlt,function(obj){
+                return obj.kpi == $scope.kpiData.selectedKpi;
+            });
+            return (ret ? true : false);
+        }
+
         $scope.setSelectedKpi = function (_kpi) {
             kpiSelectModel.setSelectedKpi(_kpi);
             $scope.kpiData.selectedKpi = kpiSelectModel.getSelectedKpi();

@@ -1,6 +1,6 @@
 <div class="clearfix campaign_list_header_holder">
     <!--Column 1-->
-    <div class="col-md-4">
+    <div class="col-md-6" style="padding-left: 0;">
         <div class="unselectable each_header_title brand_title active_title pull-left {{$parent.details.sortClass('brandName')}}"  ng-style="{'cursor':'default'}">
             {{textConstants.ADVERTISERS}}
         </div>
@@ -10,12 +10,12 @@
     </div>
     
     <!--Column 2-->
-    <div class="col-md-4 unselectable each_header_title metrics_title">
+    <div class="col-md-6 unselectable each_header_title metrics_title">
         {{textConstants.METRICS_LIFE_TIME}}
     </div>
     
     <!--Column 3-->
-    <div class="col-md-4 unselectable each_header_title kpi_title">
+    <div class="col-md-4 unselectable each_header_title kpi_title" style="display: none;">
         <div class="pull-left text-center">
             {{textConstants.KPI}}
         </div>
