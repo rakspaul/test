@@ -4,7 +4,8 @@ define(['angularAMD'], function (angularAMD) {
     angularAMD.controller('AdClone', function($scope ,$rootScope, $timeout, $routeParams, $location, $modalInstance,
                                               vistoconfig, getMediaPlansForClone, workflowService, constants,
                                               localStorageService) {
-        var selectedMediaPlanId = parseInt($routeParams.campaignId),
+
+        var selectedMediaPlanId = vistoconfig.getSelectedAccountId(),
             selectedAdGroupId = -1,
 
             clone = {
@@ -36,9 +37,10 @@ define(['angularAMD'], function (angularAMD) {
                 },
 
                 getAdGroups: function(){
+                    // var campaignId = vistoconfig.getSelectedCampaignId();
                     // make api call to fetch all media plan - used in ad clone popup
                     workflowService
-                        .getAdgroups(selectedMediaPlanId, false,true)
+                        .getAdgroups( selectedMediaPlanId, false,true)
                         .then(function (result) {
                             var responseData,
                                 index;

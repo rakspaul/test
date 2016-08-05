@@ -180,7 +180,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             getAdgroups: function (clientId, campaignId, searchFlag) {
                 workflowService
-                    .getAdgroups(clientId, campaignId, searchFlag)
+                    .getAdgroups(campaignId, searchFlag)
                     .then(function (result) {
                         var responseData,
                             nonAdGroupAds,
