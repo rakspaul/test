@@ -31,6 +31,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ARCHIVED_CONDITION = 'archived';
         this.ALL_CONDITION = 'all';
         this.REPORTS_OVERVIEW = 'Reports Overview';
+        this.ADMIN = 'Admin';
+        this.INVOICE_TOOL = 'Billing';
 
         this.ONTRACK = 'ontrack';
         this.ENDING_SOON = 'Ending Soon';
