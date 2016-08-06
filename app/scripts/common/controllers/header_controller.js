@@ -77,10 +77,19 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             $('#user-menu').css('min-height',0).slideUp('fast');
 
             var moduleObj = workflowService.getModuleInfo(),
-                $modalInstance;
+                $modalInstance,
+                accountList;
+
+            if(!isLeafNode) {
+                accountService
+                    .fetchAccountData(id)
+                    .then(function (result) {
+                        accountList = result.data.data;
+                    });
+            }
 
             if (moduleObj && moduleObj.moduleName === 'WORKFLOW') {
-                if (localStorageService.masterClient.get().id !== id) {
+                if (vistoconfig.getMasterClientId() !== id) {
                     $modalInstance = $modal.open({
                         templateUrl: assets.html_change_account_warning,
                         controller: 'AccountChangeController',
@@ -99,15 +108,17 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                             accountChangeAction: function () {
                                 return function () {
                                     setMasterClientData(id, name,isLeafNode, event);
-
-                                    if (!localStorageService.masterClient.get().isLeafNode) {
-                                        subAccountService.resetDashboardSubAccStorage();
-                                    }
-
-                                    // TODO: check this condition ...
+                                    var url;
                                     // when enters as workflow user should we broadcast masterclient - sapna
                                     if (moduleObj.redirect) {
-                                        $location.url('/mediaplans');
+                                        url = '/a/' + id;
+                                        if(accountList && accountList.length >0) {
+                                            console.log("accountList", accountList);
+                                            url += '/sa/'+ accountList[0].id;
+                                        }
+                                        url += '/mediaplans';
+                                        $location.url(url);
+
                                     } else {
                                         $route.reload();
                                     }

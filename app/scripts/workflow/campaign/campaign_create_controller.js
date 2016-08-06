@@ -618,6 +618,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 campaignCosts = [],
                 dateTimeZone,
                 i,
+                clientId = vistoconfig.getSelectedAccountId(),
                 campaignId = vistoconfig.getSelectedCampaignId();
 
             saveMediaPlanBeforeLineItem  = saveMediaPlanBeforeLineItem || false;

@@ -672,9 +672,13 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     if (accountService.allowedAccount($route.current.params.accountId)) {
                         var isLeafNode = accountService.getSelectedAccount().isLeafNode;
                         if(!isLeafNode) {
-                            subAccountService.fetchSubAccountList($route.current.params.accountId).then(function () {
-                                fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred,redirect,
-                                    constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE,mode);
+                            subAccountService
+                                .fetchSubAccountList($route.current.params.accountId)
+                                .then(function () {
+                                    if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
+                                        fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred, redirect,
+                                            constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);
+                                    }
                             });
                         } else {
                             fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred,redirect,
