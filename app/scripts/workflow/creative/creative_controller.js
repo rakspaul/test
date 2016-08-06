@@ -277,7 +277,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
 
         $scope.selectHandler = function (type, data) {
-            console.log("data", data, "type", type);
+            console.log('data', data, 'type', type);
             switch (type) {
                 case 'subAccount':
                     $scope.advertisers = {};
@@ -584,7 +584,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
 
             $scope.adPage = $scope.campaignId ? true : false;
-            console.log("$scope.adPage", $scope.adPage);
+            console.log('$scope.adPage', $scope.adPage);
 
             creatives.getCreativeSizes();
             creatives.fetchCreativeTagTypes();
@@ -598,7 +598,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 getAdServersInLibraryPage(accountData.id);
-                console.log("accountData", accountData);
+                console.log('accountData', accountData);
             }
 
         };

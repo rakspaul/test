@@ -498,7 +498,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                url += '/sa/' + $routeParams.subAccountId;
             }
 
-            url += '/mediaplan/'+ workflowcampaignData.id+'/edit'
+            url += '/mediaplan/'+ workflowcampaignData.id+'/edit';
 
             $location.url(url);
         };

@@ -337,11 +337,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             workflowService.setCreativeEditData(obj);
             $scope.$parent.isAddCreativePopup = true;
 
-            url = '/a/' + $routeParams.accountId
+            url = '/a/' + $routeParams.accountId;
 
             isLeafNode = accountService.getSelectedAccount().isLeafNode;
 
-            console.log("isLeafNode", isLeafNode);
+            console.log('isLeafNode', isLeafNode);
 
             if(!isLeafNode) {
                 url += '/sa/' + creativeParams.clientId;
@@ -349,7 +349,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
             url += '/creative/'+ obj.id + '/edit';
 
-            console.log("url", url);
+            console.log('url', url);
 
             $location.url(url);
         };

@@ -103,7 +103,7 @@ define(['angularAMD'],
                 var url = '/a/' + $routeParams.accountId;
                 var advertiserId = vistoconfig.getSelectAdvertiserId();
                 var brandId = vistoconfig.getSelectedBrandId();
-                if ($routeParams.subAccountId) { console.log("am in if",$routeParams)
+                if ($routeParams.subAccountId) { console.log('am in if',$routeParams);
                     var leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
                         return Number(a.id) === Number($routeParams.subAccountId);
                     });

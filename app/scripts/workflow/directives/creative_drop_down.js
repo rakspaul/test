@@ -3,7 +3,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
 
     angularAMD.directive('creativeDropDown', function () {
         return {
-            controller: function ($scope, workflowService, accountService, subAccountService) {
+            controller: function ($scope, workflowService, accountService) {
                 var creativeFilter = {
                     setDefaultValues : function (obj, type) {
                         var campaignData = localStorage.getItem('campaignData');

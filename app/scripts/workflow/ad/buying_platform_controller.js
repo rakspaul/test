@@ -543,7 +543,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.trackingIntegrationId = '';
 
         $scope.$watch('adData.platformId', function (newValue) {
-            console.log("111");
             $scope.$parent.changePlatform(newValue);
         });
 

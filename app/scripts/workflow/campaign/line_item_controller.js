@@ -1312,7 +1312,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     $scope.displayZeroLineItemBudgetPopUp(section);
                 } else {
                     if($scope.saveMediaPlan && $scope.showConfirmPopupCreate === true){
-                        $scope.saveCampaign('create', true)
+                        $scope.saveCampaign('create', true);
                     } else if($scope.mode === 'create' || $scope.cloneMediaPlanName) {
                         $scope.createNewLineItem('create');
                     } else {
