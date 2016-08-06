@@ -74,12 +74,6 @@ define(['angularAMD'],
 
             mediaPlanCreateUrl = function() {
                 var url = '/a/' + $routeParams.accountId;
-                url += '/mediaplan/create';
-                $location.url(url);
-            },
-
-            mediaPlanCloneUrl = function() {
-                var url = '/a/' + $routeParams.accountId;
                 if ($routeParams.subAccountId) {
 
                     url += '/sa/' + $routeParams.subAccountId;
@@ -94,7 +88,6 @@ define(['angularAMD'],
                     }
 
                 }
-
                 url += '/mediaplan/create';
                 $location.url(url);
             },
@@ -311,7 +304,6 @@ define(['angularAMD'],
                 dashboardUrl : dashboardUrl,
                 gotoMediaplansListUrl : gotoMediaplansListUrl,
                 mediaPlanCreateUrl : mediaPlanCreateUrl,
-                mediaPlanCloneUrl : mediaPlanCloneUrl,
                 gotoCannedReportsUrl : gotoCannedReportsUrl,
                 customReportsUrl : customReportsUrl,
                 customReportsListUrl : customReportsListUrl,

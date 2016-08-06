@@ -73,7 +73,7 @@ define(['angularAMD'],function (angularAMD) {
                     }, errorMediaPlanHandler);
             } else {
                 workflowService.setMediaPlanClone(params);
-                $location.url(urlBuilder.mediaPlanCloneUrl());
+                $location.url(urlBuilder.mediaPlanCreateUrl());
                 $scope.close();
             }
         };

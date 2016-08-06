@@ -642,12 +642,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj = {};
                 createCampaign.getBrandId(formData.brandId, postDataObj);
 
-                //client
-                if ($scope.showSubAccount) {
-                    postDataObj.clientId = $scope.selectedCampaign.clientId;
-                } else {
-                    postDataObj.clientId = loginModel.getSelectedClient().id;
-                }
+                postDataObj.clientId = clientId;
 
                 // create mode
                 postDataObj.name = formData.campaignName;
@@ -909,6 +904,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.isClientDropDownDisable = true;
 
                 if($scope.mode === 'create' && !$scope.cloneMediaPlanName) {
+                    if(!clientData.isLeafNode) {
+                        clientData = subAccountService.getSelectedSubAccount();
+                        $scope.selectedCampaign.clientName = clientData.displayName;
+                    }
+
                     $scope.selectHandler('subAccount', clientData, null);
                 }
 

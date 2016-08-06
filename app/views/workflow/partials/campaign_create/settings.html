@@ -48,7 +48,7 @@
         <label for="brandDDL" class="col-sm-12  greyTxt miniLabels" data-ng-bind="textConstants.BRAND"></label>
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()" ng-disabled=" workflowData.brands.length == 0">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()" ng-disabled="!workflowData.brands || workflowData.brands.length == 0">
                     <span class="text" data-ng-bind="selectedCampaign.brandName || 'Select Brand'"></span>
                     <span class="icon-arrow-solid-down"></span>
                 </button>
