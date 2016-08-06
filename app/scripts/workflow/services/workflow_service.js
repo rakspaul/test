@@ -359,9 +359,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            cloneCampaign  = function (data) {
-                var clientId = vistoconfig.getMasterClientId();
-
+            cloneCampaign  = function (clientId, data) {
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId + '/campaigns/' + data.id + '/clone',

@@ -79,6 +79,27 @@ define(['angularAMD'],
                 $location.url(url);
             },
 
+            mediaPlanCloneUrl = function() {
+                var url = '/a/' + $routeParams.accountId;
+                if ($routeParams.subAccountId) {
+
+                    url += '/sa/' + $routeParams.subAccountId;
+
+                } else {
+                    // user navigating from custom reports to media plans
+                    var selectedAccount = _.find(accountService.getAccounts(), function(a) {
+                        return a.id === $routeParams.accountId;
+                    });
+                    if (!selectedAccount.isLeafNode) {
+                        url += '/sa/' + $routeParams.accountId;
+                    }
+
+                }
+
+                url += '/mediaplan/create';
+                $location.url(url);
+            },
+
             gotoCannedReportsUrl =  function(reportName) {
                 var url = '/a/' + $routeParams.accountId;
                 var advertiserId = vistoconfig.getSelectAdvertiserId();
@@ -293,6 +314,7 @@ define(['angularAMD'],
                 dashboardUrl : dashboardUrl,
                 gotoMediaplansListUrl : gotoMediaplansListUrl,
                 mediaPlanCreateUrl : mediaPlanCreateUrl,
+                mediaPlanCloneUrl : mediaPlanCloneUrl,
                 gotoCannedReportsUrl : gotoCannedReportsUrl,
                 customReportsUrl : customReportsUrl,
                 customReportsListUrl : customReportsListUrl,

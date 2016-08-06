@@ -486,7 +486,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.processEditCampaignData = function () {
 
-
             workflowService
                 .getCampaignData(vistoconfig.getSelectedAccountId(), $scope.campaignId)
                 .then(function (result) {
@@ -887,11 +886,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.isClientDropDownDisable = false;
             $scope.editCampaignData = [];
 
-            var clientData = accountService.getSelectedAccount();
-            $scope.workflowData.subAccounts = _.sortBy(subAccountService.getSubAccounts(), 'displayName');
-            $scope.isClientDropDownDisable = true;
-            ($scope.mode === 'create') && $scope.selectHandler('subAccount', clientData, null);
-
             $(document).ready(function () {
                 var cloneMediaPlanObj = workflowService.getMediaPlanClone();
 
@@ -909,6 +903,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.campaignDate = cloneMediaPlanObj.date;
                     $scope.flightDateChosen = cloneMediaPlanObj.originalFlightdates;
                     $scope.mode = 'create';
+                }
+
+                var clientData = accountService.getSelectedAccount();
+                $scope.workflowData.subAccounts = _.sortBy(subAccountService.getSubAccounts(), 'displayName');
+                $scope.isClientDropDownDisable = true;
+
+                if($scope.mode === 'create' && !$scope.cloneMediaPlanName) {
+                    $scope.selectHandler('subAccount', clientData, null);
                 }
 
                 if ($scope.mode === 'edit' || $scope.cloneMediaPlanName) {
@@ -1006,6 +1008,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 workflowService.setMediaPlanClone(null);
             }
         });
+
+        $scope.redirectToMediaPlanList = function() {
+            $location.url(urlBuilder.gotoMediaplansListUrl());
+        }
 
         $scope.$watch('selectedCampaign.endTime',function (newVal, oldVal) {
             if(newVal && oldVal &&
