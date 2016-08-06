@@ -101,25 +101,10 @@ define(['angularAMD'],
                         return Number(a.id) === Number($routeParams.subAccountId);
                     });
                     if (leafSubAccount) {
-
                         url += '/sa/' + $routeParams.subAccountId;
-
-                        // All Advertisers id is -1 and don't show it in the URL
-                        if($routeParams.advertiserId > 0) {
-                            url += '/adv/' + $routeParams.advertiserId;
-                            if($routeParams.brandId >= 0) {
-                                url += '/b/' + $routeParams.brandId;
-                            }
-                        }
                     } else {
-
                         url += '/sa/' + subAccountService.getSubAccounts()[0].id;
                     }
-
-                    if(advertiserId && brandId) {
-                        url += '/adv/' +advertiserId+'/b/'+brandId;
-                    }
-
                     url += '/mediaplans/' + ($routeParams.campaignId || 'reports') + reportName;
                     $location.url(url);
 

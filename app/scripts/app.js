@@ -359,11 +359,10 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                                     url = '/a/' + params.accountId + '/sa/' + params.subAccountId;
 
                                 if (campaign) {
-                                    url += '/adv/' + campaign.advertiser_id + '/b/' +
-                                        (campaign.brand_id || 0);
-
-                                    url += '/mediaplans/' + campaign.campaign_id + '/' +
-                                        params.reportName;
+                                    if(params.advertiserId) {
+                                        url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
+                                    }
+                                    url += '/mediaplans/' + campaign.campaign_id + '/' + params.reportName;
                                 } else {
                                     (params.advertiserId > 0) && (url += '/adv/' + params.advertiserId);
                                     (params.advertiserId > 0) && (params.brandId > 0) && (url += '/b/' + params.brandId);
@@ -1338,6 +1337,22 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         }
                     }))
 
+                    .when('/a/:accountId/sa/:subAccountId/mediaplans/reports/:reportName', angularAMD.route({
+                        templateUrl: assets.html_campaign_reports,
+                        title: 'Reports Overview',
+                        controller: 'CampaignReportsController',
+                        controllerUrl: 'reporting/controllers/campaign_reports_controller',
+                        showHeader : true,
+
+                        resolve: {
+                            header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                              advertiserModel, brandsModel, vistoconfig) {
+                                return reportsHeaderResolverWOCampaign2($q, $location, $route, accountService,
+                                    subAccountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig);
+                            }
+                        }
+                    }))
+
                     .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
                         '/:campaignId/overview', angularAMD.route({
                         templateUrl: assets.html_campaign_details,
@@ -1356,6 +1371,24 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                     }))
 
                     .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans'+
+                        '/:campaignId/performance', angularAMD.route({
+                        templateUrl: assets.html_performance,
+                        title: 'Reports - Performance',
+                        controller: 'PerformanceController',
+                        controllerUrl: 'reporting/controllers/performance_controller',
+                        showHeader : true,
+
+                        resolve: {
+                            header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                              strategySelectModel, advertiserModel, brandsModel, vistoconfig) { console.log("advertiser and brand attached")
+                                return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
+                                    campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
+                            }
+                        }
+                    }))
+
+
+                    .when('/a/:accountId/sa/:subAccountId/mediaplans'+
                         '/:campaignId/performance', angularAMD.route({
                         templateUrl: assets.html_performance,
                         title: 'Reports - Performance',
@@ -1389,8 +1422,41 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         }
                     }))
 
-                    .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
-                        '/:campaignId/platform', angularAMD.route({
+                    .when('/a/:accountId/sa/:subAccountId/mediaplans' +
+                        '/:campaignId/cost', angularAMD.route({
+                        templateUrl: assets.html_cost,
+                        title: 'Reports - Cost',
+                        controller: 'CostController',
+                        controllerUrl: 'reporting/controllers/cost_controller',
+                        showHeader : true,
+
+                        resolve: {
+                            header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                              strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
+                                return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
+                                    campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
+                            }
+                        }
+                    }))
+
+
+                    .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/platform', angularAMD.route({
+                        templateUrl: assets.html_platform,
+                        title: 'Reports - Platform',
+                        controller: 'PlatformController',
+                        controllerUrl: 'reporting/controllers/platform_controller',
+                        showHeader : true,
+
+                        resolve: {
+                            header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                              strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
+                                return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
+                                    campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
+                            }
+                        }
+                    }))
+
+                    .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/platform', angularAMD.route({
                         templateUrl: assets.html_platform,
                         title: 'Reports - Platform',
                         controller: 'PlatformController',
@@ -1423,7 +1489,40 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         }
                     }))
 
+                    .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/inventory', angularAMD.route({
+                        templateUrl: assets.html_inventory,
+                        title: 'Reports - Inventory',
+                        controller: 'InventoryController',
+                        controllerUrl: 'reporting/controllers/inventory_controller',
+                        showHeader : true,
+
+                        resolve: {
+                            header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                              strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
+                                return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
+                                    campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
+                            }
+                        }
+                    }))
+
                     .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
+                        '/:campaignId/quality', angularAMD.route({
+                        templateUrl: assets.html_viewability,
+                        title: 'Reports - Quality',
+                        controller: 'ViewabilityController',
+                        controllerUrl: 'reporting/controllers/viewability_controller',
+                        showHeader : true,
+
+                        resolve: {
+                            header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                              strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
+                                return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
+                                    campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
+                            }
+                        }
+                    }))
+
+                    .when('/a/:accountId/sa/:subAccountId/mediaplans' +
                         '/:campaignId/quality', angularAMD.route({
                         templateUrl: assets.html_viewability,
                         title: 'Reports - Quality',
@@ -1442,6 +1541,22 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
 
                     .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
                         '/:campaignId/optimization', angularAMD.route({
+                        templateUrl: assets.html_optimization,
+                        title: 'Reports - Optimization Impact',
+                        controller: 'OptimizationController',
+                        controllerUrl: 'reporting/controllers/optimization_controller',
+                        showHeader : true,
+
+                        resolve: {
+                            header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
+                                              strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
+                                return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
+                                    campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
+                            }
+                        }
+                    }))
+
+                    .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/optimization', angularAMD.route({
                         templateUrl: assets.html_optimization,
                         title: 'Reports - Optimization Impact',
                         controller: 'OptimizationController',
