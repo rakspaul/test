@@ -2,9 +2,9 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
     function (angularAMD) {
         'use strict';
 
-        angularAMD.factory('advertiserModel', ['$q', '$location', '$timeout', 'advertiserService', 'constants',
+        angularAMD.factory('advertiserModel', ['$route','$q', '$location', '$timeout', 'advertiserService', 'constants',
             'localStorageService', 'workflowService', 'pageFinder',
-            function ($q, $location, $timeout, advertiserService, constants, localStorageService,
+            function ($route,$q, $location, $timeout, advertiserService, constants, localStorageService,
                       workflowService, pageFinder) {
 
                 var advertiserData = {
@@ -102,12 +102,17 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
 
                     changeAdvertiser: function(accountId, subAccountId, advertiser) {
                         var url = '/a/' + accountId;
-
                         subAccountId && (url += '/sa/' + subAccountId);
 
-                        // All Advertisers id is -1 and don't show it in the URL
-                        (advertiser.id > 0) && (url += '/adv/' + advertiser.id);
-                        $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
+                        // append advertiser, mediaplans and canned report name when an advertiser is selected from dropdown in canned reports
+                        if ($location.path().split('/').indexOf('mediaplans') > 0) {
+                            var cannedReportName = _.last($location.path().split('/'));
+                            (advertiser.id > 0) && (url += '/adv/' + advertiser.id+'/b/0/mediaplans/'+$route.current.params.campaignId+'/'+cannedReportName);
+                            $location.url(url);
+                        } else {
+                            (advertiser.id > 0) && (url += '/adv/' + advertiser.id);
+                            $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
+                        }
                     }
                 };
             }
