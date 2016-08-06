@@ -4,7 +4,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
     'login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
     'common/services/url_service', 'reporting/kpiSelect/kpi_select_directive',
     'reporting/kpiSelect/kpi_select_controller', 'reporting/models/domain_reports',
-    'common/services/vistoconfig_service', 'reporting/strategySelect/strategy_select_directive',
+    'common/services/vistoconfig_service', 'common/utils', 'reporting/strategySelect/strategy_select_directive',
     'reporting/strategySelect/strategy_select_controller', 'reporting/timePeriod/time_period_pick_directive'],
     function (angularAMD) {
     'use strict';
@@ -12,7 +12,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
     angularAMD.controller('InventoryController', function ($scope, kpiSelectModel, campaignSelectModel,
                                                            strategySelectModel, columnline, dataService, constants,
                                                            timePeriodModel, loginModel, advertiserModel,
-                                                           brandsModel, urlService, domainReports, vistoconfig) {
+                                                           brandsModel, urlService, domainReports, vistoconfig, utils) {
         var inventoryWrapper =  {
             // Function called to draw the Strategy chart
             getStrategyChartData: function () {

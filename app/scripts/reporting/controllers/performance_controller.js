@@ -2,7 +2,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
     'reporting/strategySelect/strategy_select_service', 'common/services/data_service',
     'reporting/models/domain_reports', 'common/services/constants_service', 'reporting/timePeriod/time_period_model',
     'reporting/brands/brands_model', 'login/login_model', 'common/services/url_service',
-    'reporting/advertiser/advertiser_model', 'common/services/vistoconfig_service',
+    'reporting/advertiser/advertiser_model', 'common/services/vistoconfig_service', 'common/services/features_service', 'common/utils',
     'reporting/timePeriod/time_period_controller', 'reporting/kpiSelect/kpi_select_directive',
     'reporting/strategySelect/strategy_select_directive', 'reporting/strategySelect/strategy_select_controller',
     'reporting/timePeriod/time_period_pick_directive'], function (angularAMD) {
@@ -11,7 +11,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
     angularAMD.controller('PerformanceController', function ($scope,$rootScope, kpiSelectModel, campaignSelectModel,
                                                              strategySelectModel, dataService, domainReports, constants,
                                                              timePeriodModel, brandsModel, loginModel, urlService,
-                                                             advertiserModel, vistoconfig, featuresService) {
+                                                             advertiserModel, vistoconfig, featuresService, utils) {
         var _customCtrl = this,
             extractAdFormats,
 
@@ -304,8 +304,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             });
             if (sorRecord && sorRecord.nodes.length === 1) {
                 return _.reject(vendorData, function (item) {
-                        return item.nodes.length === 1 && 
-                            item.nodes[0].name.toUpperCase() === sorRecord.nodes[0].name.toUpperCase() && 
+                        return item.nodes.length === 1 &&
+                            item.nodes[0].name.toUpperCase() === sorRecord.nodes[0].name.toUpperCase() &&
                             item.category !== sorRecord.category;
                     });
             } else {

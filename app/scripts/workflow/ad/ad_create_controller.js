@@ -701,7 +701,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     $scope.adArchive = false;
                     $rootScope.setErrAlertMessage($scope.textConstants.WF_AD_PAUSE_FAILURE);
                 },
-                clientId = vistoconfig.getSelectedAccountId();
+                clientId = vistoconfig.getSelectedAccountId(),
 
                 pauseAdDataObj = {
                     name: $scope.getAd_result.name,

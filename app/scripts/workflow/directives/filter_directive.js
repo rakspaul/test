@@ -38,7 +38,7 @@ define(['angularAMD', 'common/services/constants_service',
 
 
                 $scope.selectClient = function (subAccount) {
-                    console.log("subAccount", subAccount);
+                    console.log('subAccount', subAccount);
                     $('#subAcc_name_selected').text(subAccount.displayName);
                     $scope.filterData.subAccSelectedName = subAccount.displayName;
                     $scope.filterData.subAccSelectedId = subAccount.id;
@@ -54,13 +54,15 @@ define(['angularAMD', 'common/services/constants_service',
                 };
 
                 $scope.selectAdvertisers = function (advertiser) {
-                     var advertiserObj = {
-                             id: advertiser.id,
-                             name: advertiser.name,
-                             referedFrom: 'filterDirective'
-                         },
+                     //var advertiserObj = {
+                     //        id: advertiser.id,
+                     //        name: advertiser.name,
+                     //        referedFrom: 'filterDirective'
+                     //    },
+                     //
+                     //    args;
 
-                         args;
+                     var args;
 
                      $scope.filterData.advertiserSelectedName = advertiser.name;
                      $scope.filterData.advertiserSelectedId = advertiser.id;

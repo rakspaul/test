@@ -93,7 +93,7 @@ define(['angularAMD'], function (angularAMD) {
                                     url += '/sa/' + $routeParams.subAccountId;
                                 }
 
-                                url += '/adv/'+$routeParams.advertiserId
+                                url += '/adv/'+$routeParams.advertiserId;
 
                                 url += '/mediaplan/'+responseData.campaignId;
 
@@ -106,7 +106,7 @@ define(['angularAMD'], function (angularAMD) {
                                 }
 
                                 url += '/ads/'+ responseData.id + '/edit';
-                                
+
 
                                 clone.updateLocalStorage(requestData.ad_group);
 

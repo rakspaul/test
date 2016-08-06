@@ -618,7 +618,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 campaignCosts = [],
                 dateTimeZone,
                 i,
-                clientId = vistoconfig.getSelectedAccountId(),
                 campaignId = vistoconfig.getSelectedCampaignId();
 
             saveMediaPlanBeforeLineItem  = saveMediaPlanBeforeLineItem || false;
@@ -1011,7 +1010,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.redirectToMediaPlanList = function() {
             $location.url(urlBuilder.gotoMediaplansListUrl());
-        }
+        };
 
         $scope.$watch('selectedCampaign.endTime',function (newVal, oldVal) {
             if(newVal && oldVal &&

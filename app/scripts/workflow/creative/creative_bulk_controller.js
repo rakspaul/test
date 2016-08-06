@@ -273,7 +273,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         $scope.$on('bulkUploadSelected' , function (event, args) {
-            console.log(args.clientId)
             getAdServers(args.clientId);
         });
 
