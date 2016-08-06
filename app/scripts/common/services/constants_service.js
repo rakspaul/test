@@ -95,9 +95,13 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.CTR = 'CTR';
         this.VTC = 'VTC';
         this.CPM = 'CPM';
+        this.SUSPICIOUS_ACTIVITY = 'Suspicious Activity %';
+        this.VIEWABLE_IMPRESSION = 'Viewable Impression';
+        this.VIEWABLE_RATE = 'Viewable Rate';
         this.ESTREACH = 'Estimated Pool Size';
         this.CPC = 'CPC';
         this.CPA = 'CPA';
+        this.PC_CPA = 'Post Click CPA';
         this.ACTION_RATE = 'Action Rate';
         this.SCREENS = 'Screens';
         this.FORMATS = 'Formats';
@@ -414,7 +418,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.BASED_ONLY_ON_VIEWABLE_IMPS = 'Value based only on Viewable Impressions.';
         this.VIEWABLE = 'Viewable';
         this.MEASURABLE = 'Measurable';
-        this.SUSPICIOUS_ACTIVITY = 'Suspicious Activity';
         this.SSL_ERROR_MESSAGE = 'Please enter a SSL compatible tag.';
 
         this.STRATEGY = 'Ad Group';

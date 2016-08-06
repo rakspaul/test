@@ -29,10 +29,16 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
         $scope.kpiData.newkpiDropDownAlt = kpiSelectModel.getKpiObj().newkpiDropDownAlt;
 
         $scope.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
+        $scope.kpiData.selectedKpiDisplayName = _.find($scope.kpiData.newkpiDropDownAlt,function(obj){
+            return obj.kpi === $scope.kpiData.selectedKpiAlt;
+        });
+        if($scope.kpiData.selectedKpiDisplayName && $scope.kpiData.selectedKpiDisplayName.displayName){
+            $scope.kpiData.selectedKpiDisplayName = $scope.kpiData.selectedKpiDisplayName.displayName;
+        }
 
         $scope.checkNewkpiDropDownAlt = function(){
             var ret = _.find($scope.kpiData.newkpiDropDownAlt,function(obj){
-                return obj.kpi == $scope.kpiData.selectedKpi;
+                return obj.kpi === $scope.kpiData.selectedKpiAlt;
             });
             return (ret ? true : false);
         }

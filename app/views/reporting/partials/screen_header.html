@@ -150,7 +150,7 @@
             {{textConstants.CPC}}
         </span>
     </div>
-    <div class="each_col seventh_col">
+    <div class="each_col eight_col">
         <span class="icon_text_holder"
               data-ng-class="sortClassFunction('-cpm', sortTypeScreens, sortReverseForCostscpm)"
               data-ng-click="sortTypeScreens = '-cpm';
@@ -162,6 +162,76 @@
                   data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpm'">
             </span>
             {{textConstants.CPM}}
+        </span>
+    </div>
+    <div class="each_col ninth_col">
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('-pc_cpa', sortTypeScreens, sortReverseForCostscpm)"
+              data-ng-click="sortTypeScreens = '-pc_cpa';
+                sortReverse = sortReverseForCostscpm;
+                sortReverseForCostscpm = !sortReverseForCostscpm;
+                removeKpiActive();">
+            <span class="default-kpi-header-icon"
+                  tooltip="Primary KPI"
+                  data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'pc_cpa'">
+            </span>
+            <span data-ng-bind="textConstants.PC_CPA"></span>
+        </span>
+    </div>
+    <div class="each_col tenth_col">
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('-spend', sortTypeScreens, sortReverseForCostscpm)"
+              data-ng-click="sortTypeScreens = '-spend';
+                sortReverse = sortReverseForCostscpm;
+                sortReverseForCostscpm = !sortReverseForCostscpm;
+                removeKpiActive();">
+            <span class="default-kpi-header-icon"
+                  tooltip="Primary KPI"
+                  data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'spend'">
+            </span>
+            <span data-ng-bind="textConstants.SPEND"></span>
+        </span>
+    </div>
+    <div class="each_col eleventh_col">
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('-suspicious_impressions_perc', sortTypeScreens, sortReverseForCostscpm)"
+              data-ng-click="sortTypeScreens = '-suspicious_impressions_perc';
+                sortReverse = sortReverseForCostscpm;
+                sortReverseForCostscpm = !sortReverseForCostscpm;
+                removeKpiActive();">
+            <span class="default-kpi-header-icon"
+                  tooltip="Primary KPI"
+                  data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'suspicious_impressions_perc'">
+            </span>
+            <span data-ng-bind="textConstants.SUSPICIOUS_ACTIVITY"></span>
+        </span>
+    </div>
+    <div class="each_col">
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('-viewable_impressions', sortTypeScreens, sortReverseForCostscpm)"
+              data-ng-click="sortTypeScreens = '-viewable_impressions';
+                sortReverse = sortReverseForCostscpm;
+                sortReverseForCostscpm = !sortReverseForCostscpm;
+                removeKpiActive();">
+            <span class="default-kpi-header-icon"
+                  tooltip="Primary KPI"
+                  data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'viewable_impressions'">
+            </span>
+            <span data-ng-bind="textConstants.VIEWABLE_IMPRESSION"></span>
+        </span>
+    </div>
+    <div class="each_col">
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('-viewable_impressions_perc', sortTypeScreens, sortReverseForCostscpm)"
+              data-ng-click="sortTypeScreens = '-viewable_impressions_perc';
+                sortReverse = sortReverseForCostscpm;
+                sortReverseForCostscpm = !sortReverseForCostscpm;
+                removeKpiActive();">
+            <span class="default-kpi-header-icon"
+                  tooltip="Primary KPI"
+                  data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'viewable_impressions_perc'">
+            </span>
+            <span data-ng-bind="textConstants.VIEWABLE_RATE"></span>
         </span>
     </div>
 </div>

@@ -304,8 +304,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             });
             if (sorRecord && sorRecord.nodes.length === 1) {
                 return _.reject(vendorData, function (item) {
-                        return item.nodes.length === 1 && 
-                            item.nodes[0].name.toUpperCase() === sorRecord.nodes[0].name.toUpperCase() && 
+                        return item.nodes.length === 1 &&
+                            item.nodes[0].name.toUpperCase() === sorRecord.nodes[0].name.toUpperCase() &&
                             item.category !== sorRecord.category;
                     });
             } else {
@@ -382,6 +382,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $scope.$watch('selectedCampaign', function () {
             _customCtrl.createDownloadReportUrl();
             _customCtrl.filterDiscrepancyReport();
+        });
+        $scope.$watch('[adFormats.videoAds, selected_tab]', function (arr) {
+            var width = (arr[0] || arr[1] == "bydiscrepancy") ? "100%" : "1964px";
+            $(".reports_performance_header, .strategy_total_container").css("width",width);
         });
 
         extractAdFormats =  function () {
@@ -546,6 +550,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $rootScope.$on('features', function() {
             _customCtrl.filterDiscrepancyReport();
         });
+
+
 
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
             if ($scope.selected_tab === 'byformats') {
