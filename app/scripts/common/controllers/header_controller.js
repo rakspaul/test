@@ -134,7 +134,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             advertiserModel.reset();
             brandsModel.reset();
             strategySelectModel.reset();
-            console.log("page", page);
             if (page === 'dashboard') {
                 $location.url(urlBuilder.dashboardUrl());
             } else if (page === 'creativelist') {
