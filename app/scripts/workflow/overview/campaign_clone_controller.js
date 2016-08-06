@@ -122,6 +122,7 @@ define(['angularAMD'],function (angularAMD) {
             var target =  event.target,
                 cloneMediaPlanName = target.value,
                 advertiserId = $scope.workflowData.campaignData.advertiserId,
+                clientId = $scope.workflowData.campaignData.clientId,
 
                 cloneObj={
                     advertiserId:advertiserId,
@@ -133,7 +134,7 @@ define(['angularAMD'],function (angularAMD) {
 
             if (advertiserId) {
                 workflowService
-                    .checkforUniqueMediaPlan(cloneObj)
+                    .checkforUniqueMediaPlan(clientId, cloneObj)
                     .then(function (results) {
                         if (results.status === 'OK' || results.status === 'success') {
                             var responseData = results.data.data;

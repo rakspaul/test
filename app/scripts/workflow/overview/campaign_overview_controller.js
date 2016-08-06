@@ -180,7 +180,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             getAdgroups: function (clientId, campaignId, searchFlag) {
                 workflowService
-                    .getAdgroups(campaignId, searchFlag)
+                    .getAdgroups(clientId, campaignId, searchFlag)
                     .then(function (result) {
                         var responseData,
                             nonAdGroupAds,
@@ -417,7 +417,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.labels = [];
 
         $scope.DownloadTrackingTags = function () {
-            var clientId = vistoconfig.getMasterClientId(),
+            var clientId = vistoconfig.getSelectedAccountId(),
 
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +

@@ -87,7 +87,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                             });
                                     } else {
                                         workflowService
-                                            .getAdgroups( $scope.campaignId)
+                                            .getAdgroups(clientId, $scope.campaignId)
                                             .then(function (result) {
                                                 var responseData,
                                                     adGroupData = {},
@@ -238,7 +238,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 },
 
                 saveAds: function (postDataObj) {
-                    var promiseObj;
+                    var promiseObj,
+                        clientId = vistoconfig.getSelectedAccountId();
 
                     function adSaveErrorHandler (data) {
                         var errMsg = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE;
@@ -264,9 +265,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         postDataObj.state = $scope.state;
                     }
 
-                    promiseObj = $scope.adId ?
-                        workflowService.updateAd(postDataObj) :
-                        workflowService.createAd(postDataObj);
+                    promiseObj = workflowService[$scope.adId ? 'updateAd' : 'createAd'](clientId, postDataObj);
 
                     promiseObj.then(function (result) {
                         var responseData = result.data.data;
@@ -670,7 +669,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         };
 
         $scope.archiveAd = function () {
-            var errorAchiveAdHandler;
+            var errorAchiveAdHandler,
+                clientId = vistoconfig.getSelectedAccountId();
 
             $scope.adArchiveLoader = true;
 
@@ -681,7 +681,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             };
 
             workflowService
-                .deleteAd($scope.campaignId, $scope.adId)
+                .deleteAd(clientId, $scope.campaignId, $scope.adId)
                 .then(function (result) {
 
                     if (result.status === 'OK' || result.status === 'success') {
@@ -701,6 +701,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     $scope.adArchive = false;
                     $rootScope.setErrAlertMessage($scope.textConstants.WF_AD_PAUSE_FAILURE);
                 },
+                clientId = vistoconfig.getSelectedAccountId();
 
                 pauseAdDataObj = {
                     name: $scope.getAd_result.name,
@@ -714,7 +715,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 };
 
             workflowService
-                .pauseAd(pauseAdDataObj)
+                .pauseAd(clientId, pauseAdDataObj)
                 .then(function (result) {
                     var url;
 
