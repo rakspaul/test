@@ -101,7 +101,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
             return deferred.promise;
         };
 
-        var invoiceHeader = function($q, $location, $route, accountService, loginModel){
+        var invoiceHeader = function($q, $location, $route, accountService){
 
             var deferred = $q.defer(),
                 params = $route.current.params;
