@@ -152,6 +152,28 @@ define(['angularAMD'],
                 $location.url(url);
             },
 
+            gotoInvoiceTool = function(){
+                var url;
+
+                url = '/a/' + $routeParams.accountId;
+                if ($routeParams.subAccountId) {
+                    url += '/sa/' + $routeParams.subAccountId;
+                }
+                url += '/v1sto/invoices';
+                $location.url(url);
+            },
+
+            gotoInvoiceReport = function(invoiceId){
+                var url;
+
+                url = '/a/' + $routeParams.accountId;
+                if ($routeParams.subAccountId) {
+                    url += '/sa/' + $routeParams.subAccountId;
+                }
+                url += '/v1sto/invoices/'+invoiceId;
+                $location.url(url);
+            },
+
             gotoCreativeUrl  = function() {
                 var url = '/a/' + $routeParams.accountId;
                 url += '/creative/add';
@@ -296,7 +318,9 @@ define(['angularAMD'],
                 mediaPlanOverviewUrl : mediaPlanOverviewUrl,
                 adUrl : adUrl,
                 gotoCreativeUrl : gotoCreativeUrl,
-                gotoAdminUrl: gotoAdminUrl
+                gotoAdminUrl: gotoAdminUrl,
+                gotoInvoiceTool: gotoInvoiceTool,
+                gotoInvoiceReport: gotoInvoiceReport
             };
         });
     });

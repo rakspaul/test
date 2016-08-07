@@ -18,10 +18,11 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
             _curCtrl.invoiceId = $routeParams.invoiceId;
 
+            _curCtrl.clientId = vistoconfig.getSelectedAccountId();
             // Get the details of the invoice
             _curCtrl.getInvoiceDetials = function () {
                 var res;
-                dataService.fetch(urlService.getInvoiceDetials($routeParams.invoiceId)).then(function (result) {
+                dataService.fetch(urlService.getInvoiceDetials(_curCtrl.clientId, _curCtrl.invoiceId)).then(function (result) {
                     if (result.status === 'success' || result.status === 'OK') {
                         res = result.data.data;
                         $scope.invoiceDetails = res;
@@ -47,10 +48,10 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     });
             };
 
-            $scope.clientName = vistoconfig.getMasterClientId() ? loginModel.getSelectedClient().name : '';
-
-            $scope.advertiserName = advertiserModel.getAdvertiser().selectedAdvertiser ?
-                advertiserModel.getAdvertiser().selectedAdvertiser.name : 'All Advertisers';
+            //$scope.clientName = vistoconfig.getMasterClientId() ? loginModel.getSelectedClient().name : '';
+            //
+            //$scope.advertiserName = advertiserModel.getAdvertiser().selectedAdvertiser ?
+            //    advertiserModel.getAdvertiser().selectedAdvertiser.name : 'All Advertisers';
 
             $scope.noteData = {
                 notes: '',
@@ -139,8 +140,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         constants.INVOICE_TEMPLATE_DOWNLOAD_ERR;
 
                 url = isInvoiceReport ?
-                    urlService.downloadInvoiceWithId(_curCtrl.invoiceId) :
-                    urlService.downloadTemplateWithCampaignId($scope.invoiceDetails.campaignId);
+                    urlService.downloadInvoiceWithId(_curCtrl.clientId, _curCtrl.invoiceId) :
+                    urlService.downloadTemplateWithCampaignId(_curCtrl.clientId, $scope.invoiceDetails.campaignId);
 
                 dataService
                     .downloadFile(url)

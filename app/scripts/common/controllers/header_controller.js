@@ -158,9 +158,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             } else if (page === 'adminOverview') {
                 urlBuilder.gotoAdminUrl();
             } else if (page === 'invoiceTool') {
-                url = '/v1sto/invoices';
-                $('.each_nav_link').removeClass('active_tab active selected');
-                $('#invoiceTool_nav_link').addClass('active_tab');
+                urlBuilder.gotoInvoiceTool();
             } else if (page === 'mediaplanList') {
                 urlBuilder.gotoMediaplansListUrl();
             } else if (page === 'reportsSubPage') {

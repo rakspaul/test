@@ -14,14 +14,13 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                                                         loginModel, constants, advertiserModel,
                                                                         brandsModel, domainReports, dataService,
                                                                         momentService, RoleBasedService, urlService,
-                                                                        dataStore, vistoconfig, $sce) {
-
+                                                                        dataStore, vistoconfig, urlBuilder,
+                                                                        $sce) {
 
             $scope.invoiceReports = {
-                clientId: loginModel.getSelectedClient().id,
+                clientId: vistoconfig.getMasterClientId(),
 
-                advertiserId: (advertiserModel.getAdvertiser().selectedAdvertiser ?
-                    advertiserModel.getAdvertiser().selectedAdvertiser.id : -1),
+                advertiserId: advertiserModel.getSelectedAdvertiser().id,
 
                 brandId: (brandsModel.getSelectedBrand().id),
                 startDate: moment().subtract(365, 'day').format(constants.DATE_US_FORMAT),
@@ -107,7 +106,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 $scope.fetching = true;
                 !isLoadMore && _currCtrl.resetPagination();
                 $scope.noDataFound = false;
-
                 dataService
                     .fetch(urlService.getInvoiceData($scope.invoiceReports, _currCtrl.getQueryStr()))
                     .then(function (result) {
@@ -391,7 +389,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             });
 
             $scope.showInvoiceReport = function (invoiceId) {
-                $location.url('/v1sto/invoices/' + invoiceId);
+                urlBuilder.gotoInvoiceReport(invoiceId);
             };
 
             $(document).ready(function () {

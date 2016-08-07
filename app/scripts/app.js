@@ -101,6 +101,29 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
             return deferred.promise;
         };
 
+        var invoiceHeader = function($q, $location, $route, accountService){
+
+            var deferred = $q.defer(),
+                params = $route.current.params;
+
+            accountService
+                .fetchAccountList()
+                .then(function () {
+                    if (accountService.allowedAccount($route.current.params.accountId)) {
+                        accountService
+                            .fetchAccountData(params.accountId)
+                            .then(function () {
+                                deferred.resolve();
+                            });
+                    } else {
+                        console.log('account ' + params.accountId + ' not allowed');
+                        $location.url('/tmp');
+                    }
+                });
+
+            return deferred.promise;
+        };
+
         var dashboardHeaderResolver2 =
             function ($q, $location, $route, accountService, subAccountService, advertiserModel, vistoconfig) {
                 var deferred = $q.defer(),
@@ -2045,7 +2068,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                             }
                         }))
 
-                    .when('/v1sto/invoices', angularAMD.route({
+                    .when('/a/:accountId/sa/:subAccountId/v1sto/invoices', angularAMD.route({
                         templateUrl: assets.html_reports_invoice_list,
                         title: 'Invoices Reports',
                         controller: 'ReportsInvoiceListController',
@@ -2053,21 +2076,21 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         showHeader : true,
                         css: assets.css_reports_invoice_list,
                         resolve: {
-                            check: function ($location, featuresService) {
-                                featuresService.setGetFeatureParams('reports_invoice');
-                            }
+                                header: function ($q, $location, $route, accountService, loginModel, vistoconfig) {
+                                    return invoiceHeader($q, $location, $route, accountService, loginModel, vistoconfig);
+                                }
                         }
                     }))
 
-                    .when('/v1sto/invoices/:invoiceId', angularAMD.route({
+                    .when('/a/:accountId/sa/:subAccountId/v1sto/invoices/:invoiceId', angularAMD.route({
                         templateUrl: assets.html_reports_invoice,
                         title: 'Media Plan - Overview',
                         controller: 'reportsInvoiceController',
                         controllerUrl: 'reporting/collectiveReport/reports_invoice_controller',
                         css: assets.css_reports_invoice_list,
                         resolve: {
-                            check: function ($location, featuresService) {
-                                featuresService.setGetFeatureParams('reports_invoice');
+                            header: function ($q, $location, $route, accountService, loginModel, vistoconfig) {
+                                return invoiceHeader($q, $location, $route, accountService, loginModel, vistoconfig);
                             }
                         }
                     }))

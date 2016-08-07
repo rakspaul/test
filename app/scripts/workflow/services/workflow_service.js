@@ -102,10 +102,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
             getAdvertisers = function (clientId, accessLevel) {
                 var isDashboardSubAccount = $location.path().endsWith('/dashboard');
+                var isBillingInvoice = $location.path().endsWith('/invoices');
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
-                if (accessLevel && !isDashboardSubAccount) {
+                if (accessLevel && !isDashboardSubAccount && !isBillingInvoice) {
                     url = url + '?access_level=' + accessLevel;
-                } else if (isDashboardSubAccount) {
+                } else if (isDashboardSubAccount || isBillingInvoice) {
                     url = url + '?level=all';
                 }
 
