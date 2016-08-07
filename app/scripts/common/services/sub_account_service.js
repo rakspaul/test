@@ -45,7 +45,8 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                                     return {'id': a.id, 'displayName': a.displayName, 'timezone' : a.timezone};
                                 });
 
-                                subAccountList = _.sortBy(subAccountList, 'displayName');
+                                // commented by sapna - need to checkout with Abhimanyu that why this sorting has been done though in the subaccount dropdown not applied.
+                               // subAccountList = _.sortBy(subAccountList, 'displayName');
 
                                 previousAccountId = accountId;
 
