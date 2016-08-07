@@ -156,7 +156,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             resetTemplate = function () {
                 $scope.onTemplateSelected('','');
                 $scope.adData.creativeTemplate = '';
-                //$scope.CreativeTemplate.name = 'Select Template';
             },
 
             resetAdServer = function () {
@@ -277,18 +276,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
 
         $scope.selectHandler = function (type, data) {
-            console.log('data', data, 'type', type);
             switch (type) {
-                case 'subAccount':
-                    $scope.advertisers = {};
-                    $scope.subAccountName = data.displayName;
-                    $scope.creative.clientId = data.id;
-                    creatives.fetchAdvertisers(data.id);
-                    reset.advertiser();
-                    reset.brand();
-                    getAdServersInLibraryPage($scope.creative.clientId);
-                    break;
-
                 case 'advertiser':
                     $scope.brands = {};
                     $scope.advertiserName = data.name;
@@ -304,6 +292,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     break;
             }
         };
+
+        $scope.changeSubAccount =  function(account) {
+            var url = '/a/' + $routeParams.accountId+'/sa/'+ account.id +'/creative/add';
+            $location.url(url);
+        }
 
         //  function on adFormat selected
         $scope.adFormatSelection = function (adFormatName, flag) {
@@ -590,15 +583,22 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             creatives.fetchCreativeTagTypes();
 
             if (!$scope.adPage) {
-                var accountData = accountService.getSelectedAccount();
+                var accountData = accountService.getSelectedAccount(),
+                    selectedSubAccount =  subAccountService.getSelectedSubAccount(),
+                    clientId = accountData.id;
 
                 if (!accountData.isLeafNode) {
                     $scope.showSubAccount = true;
                     $scope.subAccounts = subAccountService.getSubAccounts();
+                    $scope.subAccountName = selectedSubAccount.displayName;
+                    clientId = selectedSubAccount.id;
                 }
 
-                getAdServersInLibraryPage(accountData.id);
-                console.log('accountData', accountData);
+                $scope.creative.clientId = clientId;
+                creatives.fetchAdvertisers(clientId);
+                reset.advertiser();
+                reset.brand();
+                getAdServersInLibraryPage(clientId);
             }
 
         };

@@ -141,8 +141,24 @@ define(['angularAMD'],
             },
 
             gotoCreativeListUrl =  function() {
-                var url = '/a/' + $routeParams.accountId;
+                var url,
+                    leafSubAccount;
 
+                url = '/a/' + $routeParams.accountId;
+
+                if ($routeParams.subAccountId) {
+
+                    leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
+                        return Number(a.id) === Number($routeParams.subAccountId);
+                    });
+
+                    if (leafSubAccount) {
+                        url += '/sa/' + $routeParams.subAccountId;
+                    } else {
+                        url += '/sa/' + subAccountService.getSubAccounts()[0].id;
+                    }
+
+                }
                 url += '/creative/list';
                 $location.url(url);
             },
@@ -176,6 +192,19 @@ define(['angularAMD'],
 
             gotoCreativeUrl  = function() {
                 var url = '/a/' + $routeParams.accountId;
+                if ($routeParams.subAccountId) {
+
+                    leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
+                        return Number(a.id) === Number($routeParams.subAccountId);
+                    });
+
+                    if (leafSubAccount) {
+                        url += '/sa/' + $routeParams.subAccountId;
+                    } else {
+                        url += '/sa/' + subAccountService.getSubAccounts()[0].id;
+                    }
+
+                }
                 url += '/creative/add';
                 $location.url(url);
             },

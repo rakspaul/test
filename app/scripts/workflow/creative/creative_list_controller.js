@@ -13,7 +13,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             creativeParams,
             creativeList = {
                 getCreativesList: function (params) {
-                    workflowService.getCreativesforCreativeList(params, function (result) {
+                    workflowService
+                        .getCreativesforCreativeList(params)
+                        .then(function (result) {
                          var response = result.data.data;
 
                         $scope.creativeListLoading = false;
@@ -224,6 +226,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             args.pageSize = $scope.pageSize;
             creativeList.getCreativesList(args);
         });
+
+        $scope.changeSubAccount =  function(account) {
+            var url = '/a/' + $routeParams.accountId+'/sa/'+ account.id +'/creative/list';
+            $location.url(url);
+        }
 
         $scope.updateCreative = function () {
             var putCrDataObj = {};
@@ -546,6 +553,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         // Pagination
         $(function () {
             $(window).scroll(function () {
+                console.log("111111");
                 if ($(window).scrollTop() + $(window).height() === $(document).height() &&
                     !isSearch && !$scope.creativeLastPage) {
                     creativeParams.pageNo = $scope.pageNo + 1;

@@ -5,7 +5,7 @@ define(['angularAMD', 'common/services/constants_service',
 
     angularAMD.directive('filterDirective', function () {
         return {
-            controller: function ($scope,$rootScope, $location, workflowService, loginModel, constants, vistoconfig,
+            controller: function ($scope, $rootScope, $location, $routeParams, workflowService, loginModel, constants, vistoconfig,
                                   accountService, subAccountService, filterService) {
 
                 $scope.filterData = {};
@@ -37,15 +37,6 @@ define(['angularAMD', 'common/services/constants_service',
                 };
 
 
-                $scope.selectClient = function (subAccount) {
-                    console.log('subAccount', subAccount);
-                    $('#subAcc_name_selected').text(subAccount.displayName);
-                    $scope.filterData.subAccSelectedName = subAccount.displayName;
-                    $scope.filterData.subAccSelectedId = subAccount.id;
-                    fetchAdvertiserAndBroadCast(subAccount.id);
-
-                 };
-
                 $scope.showAdvertisersDropDown = function () {
                     $('#advertisersDropDownList')
                         .toggle()
@@ -54,14 +45,6 @@ define(['angularAMD', 'common/services/constants_service',
                 };
 
                 $scope.selectAdvertisers = function (advertiser) {
-                     //var advertiserObj = {
-                     //        id: advertiser.id,
-                     //        name: advertiser.name,
-                     //        referedFrom: 'filterDirective'
-                     //    },
-                     //
-                     //    args;
-
                      var args;
 
                      $scope.filterData.advertiserSelectedName = advertiser.name;
@@ -78,18 +61,29 @@ define(['angularAMD', 'common/services/constants_service',
                      $rootScope.$broadcast('filterChanged',args);
                 };
 
-                var accountData =  accountService.getSelectedAccount();
-                var clientId;
-                if(!accountData.isLeafNode) {
-                    accountData = subAccountService.getSubAccounts();
-                    clientId = accountData[0].id;
-                    $scope.filterData.subAccountList = accountData;
-                    $scope.filterData.subAccSelectedName = accountData[0].displayName;
-                    $scope.filterData.subAccSelectedId = accountData[0].id;
-                } else {
-                    clientId = accountData.id;
+                $scope.changeSubAccount =  function(account) {
+                    var url = '/a/' + $routeParams.accountId+'/sa/'+ account.id +'/creative/list';
+                    $location.url(url);
                 }
-                fetchAdvertiserAndBroadCast(clientId);
+
+                $(function() {
+                    var accountData =  accountService.getSelectedAccount(),
+                        selectedSubAccount,
+                        clientId;
+
+                    if(!accountData.isLeafNode) {
+                        accountData = subAccountService.getSubAccounts();
+                        selectedSubAccount = subAccountService.getSelectedSubAccount();
+                        clientId = selectedSubAccount.id;
+                        $scope.filterData.subAccountList = _.sortBy(accountData, 'displayName');
+                        $scope.filterData.subAccSelectedName = selectedSubAccount.displayName;
+                        $scope.filterData.subAccSelectedId = selectedSubAccount.id;
+                    } else {
+                        clientId = accountData.id;
+                    }
+                    fetchAdvertiserAndBroadCast(clientId);
+                });
+
 
             },
 

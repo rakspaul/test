@@ -11,7 +11,7 @@
                     <li ng-repeat="subaccount in filterData.subAccountList track by subaccount.id"
                         title="{{subaccount.displayName}}"
                         ng-class="{'active' : subaccount.id === filterData.subAccSelectedId}">
-                        <a data-ng-click="selectClient(subaccount)"><span class="menuItemText">{{subaccount.displayName}}</span></a>
+                        <a data-ng-click="changeSubAccount(subaccount)"><span class="menuItemText">{{subaccount.displayName}}</span></a>
                     </li>
                 </div>
             </ul>

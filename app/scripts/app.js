@@ -765,12 +765,47 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                             subAccountService
                                 .fetchSubAccountList($route.current.params.accountId)
                                 .then(function () {
-                                    fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred,redirect,
-                                        constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
+                                    if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
+                                        fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred, redirect,
+                                            constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
+                                    }
                                 });
                         } else {
                             fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred,redirect,
                                 constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
+                        }
+                    } else {
+                        console.log('account not allowed');
+                        $location.url('/tmp');
+                    }
+                });
+
+            return deferred.promise;
+        };
+
+
+        var creativeResolver = function ($q, $location, $route, accountService, workflowService,
+                                             subAccountService, constants) {
+            var deferred = $q.defer();
+            var redirect = false;
+
+            accountService
+                .fetchAccountList()
+                .then(function () {
+                    if (accountService.allowedAccount($route.current.params.accountId)) {
+                        var isLeafNode = accountService.getSelectedAccount().isLeafNode;
+                        if(!isLeafNode) {
+                            subAccountService
+                                .fetchSubAccountList($route.current.params.accountId)
+                                .then(function () {
+                                    if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
+                                        fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred, redirect,
+                                            constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE);
+                                    }
+                                });
+                        } else {
+                            fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred,redirect,
+                                constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE);
                         }
                     } else {
                         console.log('account not allowed');
@@ -2378,7 +2413,28 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         controller: 'CreativeController',
                         controllerUrl: 'workflow/creative/creative_controller',
                         showHeader : true,
+                        resolve: {
+                            header: function ($q, $location, $route, accountService, subAccountService,
+                                              workflowService, constants) {
+                                return creativeResolver($q, $location, $route, accountService,
+                                    workflowService, subAccountService, constants);
+                            }
+                        }
+                    }))
 
+                    .when('/a/:accountId/sa/:subAccountId/creative/add', angularAMD.route({
+                        templateUrl: assets.html_creative,
+                        title: 'Add Creative',
+                        controller: 'CreativeController',
+                        controllerUrl: 'workflow/creative/creative_controller',
+                        showHeader : true,
+                        resolve: {
+                            header: function ($q, $location, $route, accountService, subAccountService,
+                                              workflowService, constants) {
+                                return creativeResolver($q, $location, $route, accountService,
+                                    workflowService, subAccountService, constants);
+                            }
+                        }
 
                     }))
 
@@ -2388,9 +2444,12 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         controller: 'CreativeController',
                         controllerUrl: 'workflow/controllers/creative_controller',
                         showHeader : true,
-
                         resolve: {
-                            check: function () {}
+                            header: function ($q, $location, $route, accountService, subAccountService,
+                                              workflowService, constants) {
+                                return creativeResolver($q, $location, $route, accountService,
+                                    workflowService, subAccountService, constants);
+                            }
                         }
                     }))
 
@@ -2416,6 +2475,23 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
 
                         resolve: {
                             check: function () {}
+                        }
+                    }))
+
+                    .when('/a/:accountId/sa/:subAccountId/creative/list', angularAMD.route({
+                        templateUrl: assets.html_creative_list,
+                        title: 'Creative List',
+                        controller: 'CreativeListController',
+                        controllerUrl: 'workflow/creative/creative_list_controller',
+                        showHeader : true,
+
+                        resolve: {
+
+                            header: function ($q, $location, $route, accountService, workflowService,
+                                              subAccountService, constants) {
+                                return creativeListResolver($q, $location, $route, accountService, workflowService,
+                                    subAccountService, constants);
+                            }
                         }
                     }))
 

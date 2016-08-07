@@ -622,7 +622,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 }
             },
 
-            getCreativesforCreativeList = function (params, success, failure) {
+            getCreativesforCreativeList = function (params) {
 
                 var queryStr,
                     creativeFormats,
@@ -643,9 +643,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     '/clients/' + params.clientId + advertiserString +
                     '/creatives?' + creativeFormats + queryStr + pageSize + pageNo;
 
-                canceller = requestCanceller.initCanceller(constants.ADDLIBRARY_FILTER_CANCELLER);
-
-                return dataService.fetchCancelable(url, canceller, success, failure);
+                return dataService.fetch(url);
             },
 
             getDMAs = function (platformId, data, requestType, success, failure) {
