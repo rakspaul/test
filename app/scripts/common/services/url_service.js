@@ -341,19 +341,19 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                         '/invoices/' + invoiceId;
                 },
 
-                getInvoiceData = function (clientId, invoiceReports, queryStr) {
+                getInvoiceData = function ( invoiceReports, queryStr) {
                     var url;
 
                     if (invoiceReports.isSearched) {
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                            '/clients/' + clientId +
+                            '/clients/' + invoiceReports.clientId +
                             '/invoices/search' +
                             '?advertiser_id=' + invoiceReports.advertiserId +
                             '&brand_id=' + invoiceReports.brandId +
                             '&search_term=' + invoiceReports.searchTerm + queryStr;
                     } else {
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                            '/clients/' + clientId +
+                            '/clients/' + invoiceReports.clientId +
                             '/invoices/list' +
                             '?advertiser_id=' + invoiceReports.advertiserId +
                             '&brand_id=' + invoiceReports.brandId + queryStr;

@@ -176,6 +176,52 @@ define(['angularAMD'],
                 $location.url(url);
             },
 
+            gotoInvoiceTool = function(){
+                //var url = '/a/' + $routeParams.accountId + '/v1sto/invoices';
+                var url,
+                    leafSubAccount;
+
+                url = '/a/' + $routeParams.accountId;
+                if ($routeParams.subAccountId) {
+                    url += '/sa/' + $routeParams.subAccountId;
+                    //leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
+                    //    return Number(a.id) === Number($routeParams.subAccountId);
+                    //});
+                    //
+                    //if (leafSubAccount) {
+                    //    url += '/sa/' + $routeParams.subAccountId;
+                    //    // All Advertisers id is -1 and don't show it in the URL
+                    //    ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
+                    //} else {
+                    //    url += '/sa/' + subAccountService.getSubAccounts()[0].id;
+                    //}
+                }
+                url += '/v1sto/invoices';
+                $location.url(url);
+            },
+
+            gotoInvoiceReport = function(invoiceId){
+                var url,
+                    leafSubAccount;
+
+                url = '/a/' + $routeParams.accountId;
+                if ($routeParams.subAccountId) {
+                    url += '/sa/' + $routeParams.subAccountId;
+                    //leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
+                    //    return Number(a.id) === Number($routeParams.subAccountId);
+                    //});
+                    //
+                    //if (leafSubAccount) {
+                    //    url += '/sa/' + $routeParams.subAccountId;
+                    //    // All Advertisers id is -1 and don't show it in the URL
+                    //    ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
+                    //} else {
+                    //    url += '/sa/' + subAccountService.getSubAccounts()[0].id;
+                    //}
+                }
+                url += '/v1sto/invoices/'+invoiceId;
+                $location.url(url);
+            }
             gotoCreativeUrl  = function() {
                 var url = '/a/' + $routeParams.accountId;
                 url += '/creative/add';
@@ -321,7 +367,9 @@ define(['angularAMD'],
                 mediaPlanOverviewUrl : mediaPlanOverviewUrl,
                 adUrl : adUrl,
                 gotoCreativeUrl : gotoCreativeUrl,
-                gotoAdminUrl: gotoAdminUrl
+                gotoAdminUrl: gotoAdminUrl,
+                gotoInvoiceTool: gotoInvoiceTool,
+                gotoInvoiceReport: gotoInvoiceReport
             };
         });
     });

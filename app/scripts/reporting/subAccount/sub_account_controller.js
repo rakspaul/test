@@ -13,9 +13,15 @@ define(['angularAMD', 'common/services/sub_account_service', 'common/services/co
                 $scope.subAccountData.selectedSubAccount.name =
                     subAccountService.getSelectedDashboardSubAccount().displayName;
             } else {
-                $scope.subAccountData.subAccounts = subAccountService.getSubAccounts();
-                $scope.subAccountData.selectedSubAccount.id = subAccountService.getSelectedSubAccount().id;
-                $scope.subAccountData.selectedSubAccount.name = subAccountService.getSelectedSubAccount().displayName;
+                $scope.subAccountData.subAccounts = subAccountService.getDashboardSubAccountList();
+                $scope.subAccountData.selectedSubAccount.id =
+                    subAccountService.getSelectedDashboardSubAccount().id;
+                $scope.subAccountData.selectedSubAccount.name =
+                    subAccountService.getSelectedDashboardSubAccount().displayName;
+              //  $scope.subAccountData.subAccounts = subAccountService.getSubAccounts();
+              //  $scope.subAccountData.selectedSubAccount.id = vistoconfig.getSelectedAccountId();
+               // $scope.subAccountData.selectedSubAccount.id = subAccountService.getSelectedSubAccount().id;
+               // $scope.subAccountData.selectedSubAccount.name = subAccountService.getSelectedSubAccount().displayName;
             }
         };
 
