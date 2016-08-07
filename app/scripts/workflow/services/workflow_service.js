@@ -676,7 +676,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             createAdvertisersDomainList = function (clientId, advertiserId, domainId) {
                 var domainIdstr = domainId ? '/' + domainId : '';
 
-                clientId = vistoconfig.getMasterClientId();
+                // clientId = vistoconfig.getMasterClientId();
 
                 return vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
