@@ -108,8 +108,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                                         url = '/a/' + id;
                                         if(!isLeafNode) {
 
-                                            workflowService
-                                                .getSubAccounts (id)
+                                            subAccountService
+                                                .fetchSubAccountList (id)
                                                 .then(function (result) {
                                                     deferred.resolve();
                                                     accountList = result.data.data;
