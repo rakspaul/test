@@ -4,7 +4,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
 
     angularAMD.directive('campaignCard',
         function ($rootScope, $location, utils, constants, momentService, featuresService, $sce,
-                  campaignSelectModel, vistoconfig, urlBuilder) {
+                  campaignSelectModel, vistoconfig, urlBuilder, accountService) {
             return {
                 restrict: 'EAC',
 
@@ -97,13 +97,14 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
 
                     $scope.redirectToOverViewPage = function(mediaplanId) {
                         var url = '',
-                            masterClientId = vistoconfig.getMasterClientId(),
-                            accountId = vistoconfig.getSelectedAccountId();
+                            accountData = accountService.getSelectedAccount();
 
-                        url = '/a/'+ masterClientId;
-                        if(accountId) {
-                            url += '/sa/' + accountId;
+                        url = '/a/'+ accountData.id;
+
+                        if(!accountData.isLeafNode) {
+                            url += '/sa/' + accountService.getSelectedAccount().id;
                         }
+
                         url += '/mediaplan/' + mediaplanId + '/overview';
 
                         return url;

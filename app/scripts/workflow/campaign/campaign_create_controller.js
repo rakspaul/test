@@ -154,7 +154,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             });
                         }
 
-                        workflowService.setSubAccountTimeZone(accountData.timezone);
+                        workflowService.setAccountTimeZone(accountData.timezone);
 
                     } else {
                         $scope.selectedCampaign.clientId = vistoconfig.getMasterClientId();
@@ -501,7 +501,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.selectHandler = function (type, data) {
             switch (type) {
-                case 'subAccount':
+                case 'account':
                     $scope.selectedCampaign.advertiser = '';
                     $scope.selectedCampaign.advertiserName = 'Select Advertiser';
                     $scope.selectedCampaign.clientId = data.id;
@@ -509,7 +509,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     createCampaign.fetchAdvertisers(data.id);
                     $scope.mediaPlanOverviewClient = {'id':data.id,'name':data.name};
                     resetPixelMediaPlan();
-                    workflowService.setSubAccountTimeZone(data.timezone);
+                    workflowService.setAccountTimeZone(data.timezone);
                     break;
 
                 case 'advertiser':
@@ -657,7 +657,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     postDataObj.purchaseOrder = formData.purchaseOrder;
                 }
 
-                dateTimeZone = workflowService.getSubAccountTimeZone();
+                dateTimeZone = workflowService.getAccountTimeZone();
 
                 utcStartTime = momentService.localTimeToUTC($scope.selectedCampaign.startTime,
                     'startTime', dateTimeZone);
@@ -910,7 +910,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.selectedCampaign.clientName = clientData.displayName;
                     }
 
-                    $scope.selectHandler('subAccount', clientData, null);
+                    $scope.selectHandler('account', clientData, null);
                 }
 
                 if ($scope.mode === 'edit' || $scope.cloneMediaPlanName) {

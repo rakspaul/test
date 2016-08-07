@@ -24,7 +24,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/fea
                     if (result && result.data.data.length > 0) {
 
                         accountList = _.map(result.data.data, function (org) {
-                            return {'id': org.id, 'name': org.name, 'isLeafNode': org.isLeafNode};
+                            return {'id': org.id, 'name': org.name, 'isLeafNode': org.isLeafNode, 'timezone' : org.timezone};
                         });
 
                         accountList = _.sortBy(accountList, 'name');

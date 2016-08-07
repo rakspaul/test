@@ -659,7 +659,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 // loader for save button
                 $scope.Campaign.createNewLineItemLoaderEdit = true;
 
-                dateTimeZone = workflowService.getSubAccountTimeZone();
+                dateTimeZone = workflowService.getAccountTimeZone();
 
                 newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone);
                 newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime', dateTimeZone);
@@ -739,7 +739,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     newItem = createEditLineItemObj(angular.copy(oldLineItem));
                 }
 
-                dateTimeZone = workflowService.getSubAccountTimeZone();
+                dateTimeZone = workflowService.getAccountTimeZone();
 
                 utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone);
 

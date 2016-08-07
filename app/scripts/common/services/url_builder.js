@@ -1,6 +1,6 @@
 define(['angularAMD'],
     function (angularAMD) {
-        angularAMD.factory('urlBuilder', function ($location, $routeParams, accountService, subAccountService,vistoconfig) {
+        angularAMD.factory('urlBuilder', function ($location, $routeParams, accountService, subAccountService) {
 
             var dashboardUrl = function() {
                 var url = '/a/' + $routeParams.accountId;
@@ -83,7 +83,7 @@ define(['angularAMD'],
                     var selectedAccount = _.find(accountService.getAccounts(), function(a) {
                         return a.id === $routeParams.accountId;
                     });
-                    if (!selectedAccount.isLeafNode) {
+                    if (selectedAccount && !selectedAccount.isLeafNode) {
                         url += '/sa/' + $routeParams.accountId;
                     }
 
@@ -94,8 +94,6 @@ define(['angularAMD'],
 
             gotoCannedReportsUrl =  function(reportName) {
                 var url = '/a/' + $routeParams.accountId;
-                var advertiserId = vistoconfig.getSelectAdvertiserId();
-                var brandId = vistoconfig.getSelectedBrandId();
                 if ($routeParams.subAccountId) { console.log('am in if',$routeParams);
                     var leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
                         return Number(a.id) === Number($routeParams.subAccountId);

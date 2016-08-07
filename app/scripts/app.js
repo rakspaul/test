@@ -1384,7 +1384,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
 
                         resolve: {
                             header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
-                                              strategySelectModel, advertiserModel, brandsModel, vistoconfig) { console.log("advertiser and brand attached")
+                                              strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
                                 return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
                                     campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
                             }
@@ -2173,9 +2173,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         showHeader : true,
 
                         resolve: {
-                            header: function ($q, $location, $route, accountService, subAccountService, workflowService) {
+                            header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants) {
                                 return mediaPlanCreateResolver($q, $location, $route, accountService,
-                                    subAccountService, workflowService, 'create');
+                                    subAccountService, workflowService, constants, 'create');
                             }
                         }
                     }))
@@ -2192,6 +2192,21 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                             header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants) {
                                 return mediaPlanCreateResolver($q, $location, $route, accountService,
                                     subAccountService, workflowService, constants, 'create');
+                            }
+                        }
+                    }))
+
+                    .when('/a/:accountId/sa/:subAccountId/mediaplan/:campaignId/edit', angularAMD.route({
+                        templateUrl: assets.html_campaign_create,
+                        title: 'Edit - Media Plan',
+                        controller: 'CreateCampaignController',
+                        controllerUrl: 'workflow/campaign/campaign_create_controller',
+                        showHeader : true,
+
+                        resolve: {
+                            header: function ($q, $location, $route, accountService, subAccountService, workflowService) {
+                                return mediaPlanCreateResolver($q, $location, $route, accountService,
+                                    subAccountService, workflowService, 'edit');
                             }
                         }
                     }))
@@ -2218,9 +2233,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         controllerUrl: 'workflow/overview/campaign_overview_controller',
                         showHeader : true,
                         resolve: {
-                            header: function ($q, $location, $route, accountService, subAccountService, workflowService) {
+                            header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants) {
                                 return mediaPlanOverviewResolver($q, $location, $route, accountService,
-                                    subAccountService, workflowService);
+                                    subAccountService, workflowService, constants);
                             }
                         }
 

@@ -73,7 +73,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 });
                             }
 
-                            workflowService.setSubAccountTimeZone(accountData.timezone);
+                            workflowService.setAccountTimeZone(accountData.timezone);
 
                             $scope.campaignStartTime =
                                 momentService.utcToLocalTime($scope.workflowData.campaignData.startTime);
@@ -353,7 +353,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             },
         },
-        selectedIndex;
+        selectedIndex,
+
+        accountData = accountService.getSelectedAccount();
+
 
         $('.main_navigation_holder')
             .find('.active_tab')
@@ -394,15 +397,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.isMinimumAdGroupBudget = true;
         $scope.isMaximumAdGroupBudget = true;
 
-        // if(subAccountService.getSelectedSubAccount()) {
-        //     $scope.selectedClientName = subAccountService.getSelectedSubAccount().displayName;
-        //     $scope.isLeafNode = subAccountService.getSelectedSubAccount().isLeafNode;
-        // } else {
-        //     $scope.selectedClientName = accountService.getSelectedAccount().name;
-        //     $scope.isLeafNode = accountService.getSelectedAccount().isLeafNode;
-        // }
-
-
         $scope.adGroupsSearch = {
             term: '',
             termsArr: [],
@@ -415,6 +409,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.isAdGroupsBusy = false;
         $scope.adGroupData = {};
         $scope.labels = [];
+
+        $scope.isLeafNode = accountData.isLeafNode;
+        if(!$scope.isLeafNode) {
+            $scope.selectedClientName = subAccountService.getSelectedSubAccount().displayName;
+        } else {
+            $scope.selectedClientName = accountData.name;
+        }
+
 
         $scope.DownloadTrackingTags = function () {
             var clientId = vistoconfig.getSelectedAccountId(),
@@ -1054,7 +1056,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postCreateAdObj = {};
                 postCreateAdObj.name = formData.adGroupName;
 
-                dateTimeZone = workflowService.getSubAccountTimeZone();
+                dateTimeZone = workflowService.getAccountTimeZone();
 
                 utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone);
 

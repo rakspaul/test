@@ -13,7 +13,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                                                    constants, workflowService, loginModel,
                                                                    dataService, audienceService, RoleBasedService,
                                                                    momentService, vistoconfig, videoService,
-                                                                   utils, urlBuilder, subAccountService) {
+                                                                   utils, urlBuilder, accountService, subAccountService) {
         var winHeaderHeight = $(window).height() - 50,
             winHeight,
 
@@ -26,7 +26,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             var responseData,
                                 clientId,
                                 advertiserId,
-                                subAccountData;
+                                accountData;
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data;
@@ -60,10 +60,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                 clientId = responseData.clientId;
                                 advertiserId = responseData.advertiserId;
 
-                                subAccountData = _.find(subAccountService.getSubAccounts(), function(data) {
-                                    return data.id === responseData.clientId;
-                                });
-                                workflowService.setSubAccountTimeZone(subAccountData.timezone);
+                                accountData =  accountService.getSelectedAccount();
+                                if(!accountData.isLeafNode) {
+                                    accountData = _.find(subAccountService.getSubAccounts(), function(data) {
+                                        return data.id === responseData.clientId;
+                                    });
+                                }
+
+                                workflowService.setAccountTimeZone(accountData.timezone);
 
                                 if ($scope.mode === 'edit') {
                                     if (!$scope.adGroupId) {
@@ -1201,7 +1205,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     postAdDataObj.goal = formData.goal;
                 }
 
-                dateTimeZone = workflowService.getSubAccountTimeZone();
+                dateTimeZone = workflowService.getAccountTimeZone();
 
                 if (formData.startTime) {
                     utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone);
