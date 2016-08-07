@@ -7,7 +7,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
     angularAMD.controller('CreativeController', function ($scope, $rootScope, $routeParams, $location,
                                                          constants, workflowService, creativeCustomModule,
                                                          loginModel, utils, localStorageService,
-                                                          vistoconfig, accountService, subAccountService) {
+                                                          vistoconfig, accountService, subAccountService, advertiserModel) {
 
 
         var postCrDataObj = {},
@@ -207,7 +207,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 {id: 3, name: 'Rich Media', active: false, disabled: true},
                                 {id: 4, name: 'Social',     active: false, disabled: true}
                             ];
-
                             if ($scope.creativeMode === 'edit') {
                                 processEditCreative(responseData.clientId);
                             }
@@ -296,7 +295,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.changeSubAccount =  function(account) {
             var url = '/a/' + $routeParams.accountId+'/sa/'+ account.id +'/creative/add';
             $location.url(url);
-        }
+        };
 
         //  function on adFormat selected
         $scope.adFormatSelection = function (adFormatName, flag) {
@@ -579,22 +578,37 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.adPage = $scope.campaignId ? true : false;
             console.log('$scope.adPage', $scope.adPage);
 
+            var accountData = accountService.getSelectedAccount(),
+                selectedSubAccount =  subAccountService.getSelectedSubAccount(),
+                clientId = accountData.id;
+
+            if (!accountData.isLeafNode) {
+                $scope.showSubAccount = true;
+                $scope.subAccounts = subAccountService.getSubAccounts();
+                $scope.subAccountName = selectedSubAccount.displayName;
+                clientId = selectedSubAccount.id;
+                $scope.subAccountId =  $scope.creative.clientId = clientId;
+            }
+
+
+            if ($scope.adPage) {
+                var selectedAdvertiser = advertiserModel.getSelectedAdvertiser();
+                $scope.advertiserName = selectedAdvertiser.name;
+                $scope.creative.advertiserId = selectedAdvertiser.id;
+                creatives.fetchBrands(clientId, selectedAdvertiser.id);
+            }
+
+
             creatives.getCreativeSizes();
             creatives.fetchCreativeTagTypes();
 
+            if ($scope.mode !== 'edit' && $scope.adPage) {
+                creatives.fetchAdFormats();
+                $scope.$broadcast('adFormatChanged', 'DISPLAY');
+            }
+
+
             if (!$scope.adPage) {
-                var accountData = accountService.getSelectedAccount(),
-                    selectedSubAccount =  subAccountService.getSelectedSubAccount(),
-                    clientId = accountData.id;
-
-                if (!accountData.isLeafNode) {
-                    $scope.showSubAccount = true;
-                    $scope.subAccounts = subAccountService.getSubAccounts();
-                    $scope.subAccountName = selectedSubAccount.displayName;
-                    clientId = selectedSubAccount.id;
-                }
-
-                $scope.creative.clientId = clientId;
                 creatives.fetchAdvertisers(clientId);
                 reset.advertiser();
                 reset.brand();

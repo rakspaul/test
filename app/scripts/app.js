@@ -623,8 +623,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
             return deferred.promise;
         };
 
-
-        var fetchAccountDataSetWSInfo = function($route,constants,accountService,workflowService,deferred,redirect,warningMsg,mode,adGroup) {
+        var fetchAccountDataSetWSInfo = function($route, $location, constants, accountService, workflowService,
+                                                 vistoconfig, advertiserModel, deferred, redirect, warningMsg,
+                                                 mode, adGroup) {
             accountService
                 .fetchAccountData($route.current.params.accountId)
                 .then(function () {
@@ -636,6 +637,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         workflowService.setIsAdGroup(true);
                     }
 
+                    $route.current.params.advertiserId &&
+                    fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
+
                     workflowService.setModuleInfo({
                         moduleName: 'WORKFLOW',
                         warningMsg: warningMsg,
@@ -646,7 +650,8 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
 
 
         var mediaPlanOverviewResolver = function ($q, $location, $route, accountService,
-                                                  subAccountService, workflowService, constants) {
+                                                  subAccountService, workflowService, constants, vistoconfig,
+                                                  advertiserModel) {
             var deferred = $q.defer();
             var redirect = true;
 
@@ -663,13 +668,14 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                                 .fetchSubAccountList($route.current.params.accountId)
                                 .then(function () {
                                     if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                                        fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred,redirect,
+                                        fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService,
+                                            vistoconfig, advertiserModel, deferred, redirect,
                                             constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE);
                                     }
                                 });
                         } else {
-                            fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred,redirect,
-                                constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE);
+                            fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig,
+                                advertiserModel, deferred, redirect, constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE);
                         }
                     } else {
                         console.log('account not allowed');
@@ -682,7 +688,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
 
 
         var mediaPlanCreateResolver =  function ($q, $location, $route, accountService,
-                                                 subAccountService, workflowService, constants, mode) {
+                                                 subAccountService, workflowService, constants, vistoconfig, advertiserModel, mode) {
             var deferred = $q.defer();
             var redirect = true;
 
@@ -699,13 +705,13 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                                 .fetchSubAccountList($route.current.params.accountId)
                                 .then(function () {
                                     if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                                        fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred, redirect,
+                                        fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred, redirect,
                                             constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);
                                     }
                             });
                         } else {
-                            fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred,redirect,
-                                constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE,mode);
+                            fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred,redirect,
+                                constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);
                         }
                     } else {
                         console.log('account not allowed');
@@ -718,7 +724,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
 
 
         var adsResolver =   function ($q, $location, $route, accountService, subAccountService,
-                                      workflowService, constants, mode) {
+                                      workflowService, vistoconfig, advertiserModel, constants, mode) {
             var deferred = $q.defer();
             var redirect = true;
 
@@ -733,12 +739,12 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         if(!isLeafNode) {
                             subAccountService.fetchSubAccountList($route.current.params.accountId).then(function () {
                                 if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                                    fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred,redirect,
+                                    fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred,redirect,
                                         constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE, mode, true);
                                 }
                             });
                         }else {
-                            fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred,redirect,
+                            fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred, redirect,
                                 constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE, mode, true);
                         }
                     } else {
@@ -752,7 +758,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
 
 
         var creativeListResolver = function ($q, $location, $route, accountService, workflowService,
-                                             subAccountService, constants) {
+                                             subAccountService, constants, vistoconfig, advertiserModel) {
             var deferred = $q.defer();
             var redirect = false;
 
@@ -766,12 +772,12 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                                 .fetchSubAccountList($route.current.params.accountId)
                                 .then(function () {
                                     if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                                        fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred, redirect,
+                                        fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred, redirect,
                                             constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
                                     }
                                 });
                         } else {
-                            fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred,redirect,
+                            fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred,redirect,
                                 constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
                         }
                     } else {
@@ -785,7 +791,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
 
 
         var creativeResolver = function ($q, $location, $route, accountService, workflowService,
-                                             subAccountService, constants) {
+                                             subAccountService, constants, vistoconfig, advertiserModel) {
             var deferred = $q.defer();
             var redirect = false;
 
@@ -799,12 +805,12 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                                 .fetchSubAccountList($route.current.params.accountId)
                                 .then(function () {
                                     if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                                        fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred, redirect,
+                                        fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred, redirect,
                                             constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE);
                                     }
                                 });
                         } else {
-                            fetchAccountDataSetWSInfo($route, constants, accountService, workflowService, deferred,redirect,
+                            fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred,redirect,
                                 constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE);
                         }
                     } else {
@@ -1773,6 +1779,20 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         }
                     }))
 
+                    .when('/a/:accountId/sa/:subAccountId/mediaplans', angularAMD.route({
+                        templateUrl: assets.html_campaign_list,
+                        title: 'Media Plan List',
+                        reloadOnSearch : false,
+                        showHeader : true,
+                        resolve: {
+                            header: function ($q, $location, $route, accountService, subAccountService,
+                                              advertiserModel, brandsModel, vistoconfig) {
+                                return mediaplansHeaderResolver2($q, $location, $route, accountService, subAccountService,
+                                    advertiserModel, brandsModel, vistoconfig);
+                            }
+                        }
+                    }))
+
                     .when('/a/:accountId/mediaplans', angularAMD.route({
                         templateUrl: assets.html_campaign_list,
                         title: 'Media Plan List',
@@ -1818,20 +1838,6 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         }
                     }))
 
-                    .when('/a/:accountId/sa/:subAccountId/mediaplans', angularAMD.route({
-                        templateUrl: assets.html_campaign_list,
-                        title: 'Media Plan List',
-                        reloadOnSearch : false,
-                        showHeader : true,
-
-                        resolve: {
-                            header: function ($q, $location, $route, accountService, subAccountService,
-                                              advertiserModel, brandsModel, vistoconfig) {
-                                return mediaplansHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                    advertiserModel, brandsModel, vistoconfig);
-                            }
-                        }
-                    }))
 
                     .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplans', angularAMD.route({
                         templateUrl: assets.html_campaign_list,
@@ -2252,9 +2258,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         showHeader : true,
 
                         resolve: {
-                            header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants) {
+                            header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants, vistoconfig, advertiserModel) {
                                 return mediaPlanCreateResolver($q, $location, $route, accountService,
-                                    subAccountService, workflowService, constants, 'create');
+                                    subAccountService, workflowService, constants, vistoconfig, advertiserModel, 'create');
                             }
                         }
                     }))
@@ -2268,9 +2274,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
 
 
                         resolve: {
-                            header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants) {
+                            header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants, vistoconfig, advertiserModel) {
                                 return mediaPlanCreateResolver($q, $location, $route, accountService,
-                                    subAccountService, workflowService, constants, 'create');
+                                    subAccountService, workflowService, constants, vistoconfig, advertiserModel, 'create');
                             }
                         }
                     }))
@@ -2283,9 +2289,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         showHeader : true,
 
                         resolve: {
-                            header: function ($q, $location, $route, accountService, subAccountService, workflowService) {
+                            header: function ($q, $location, $route, accountService, subAccountService, workflowService, vistoconfig, advertiserModel) {
                                 return mediaPlanCreateResolver($q, $location, $route, accountService,
-                                    subAccountService, workflowService, 'edit');
+                                    subAccountService, workflowService, vistoconfig, advertiserModel, 'edit');
                             }
                         }
                     }))
@@ -2298,9 +2304,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         showHeader : true,
 
                         resolve: {
-                            header: function ($q, $location, $route, accountService, subAccountService, workflowService) {
+                            header: function ($q, $location, $route, accountService, subAccountService, workflowService, vistoconfig, advertiserModel) {
                                 return mediaPlanCreateResolver($q, $location, $route, accountService,
-                                    subAccountService, workflowService, 'edit');
+                                    subAccountService, workflowService, vistoconfig, advertiserModel, 'edit');
                             }
                         }
                     }))
@@ -2312,9 +2318,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         controllerUrl: 'workflow/overview/campaign_overview_controller',
                         showHeader : true,
                         resolve: {
-                            header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants) {
+                            header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants, vistoconfig, advertiserModel) {
                                 return mediaPlanOverviewResolver($q, $location, $route, accountService,
-                                    subAccountService, workflowService, constants);
+                                    subAccountService, workflowService, constants, vistoconfig, advertiserModel);
                             }
                         }
 
@@ -2330,9 +2336,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
 
                         resolve: {
                             header: function ($q, $location, $route, accountService, subAccountService,
-                                              workflowService, constants) {
+                                              workflowService, constants, vistoconfig, advertiserModel) {
                                 return mediaPlanOverviewResolver($q, $location, $route, accountService,
-                                    subAccountService, workflowService, constants);
+                                    subAccountService, workflowService, constants, vistoconfig, advertiserModel);
                             }
                         }
                     }))
@@ -2348,9 +2354,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         resolve: {
 
                             header: function ($q, $location, $route, accountService, subAccountService,
-                                              workflowService, constants) {
+                                              workflowService, vistoconfig, advertiserModel, constants) {
                                 return adsResolver($q, $location, $route, accountService,
-                                    subAccountService, workflowService, constants, 'create');
+                                    subAccountService, workflowService, vistoconfig, advertiserModel, constants, 'create');
                             }
                         }
                     }))
@@ -2364,9 +2370,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         showHeader : true,
                         resolve: {
                             header: function ($q, $location, $route, accountService, subAccountService,
-                                              workflowService, constants) {
+                                              workflowService, vistoconfig, advertiserModel, constants) {
                                 return adsResolver($q, $location, $route, accountService,
-                                    subAccountService, workflowService, constants, 'create');
+                                    subAccountService, workflowService, vistoconfig, advertiserModel, constants, 'create');
                             }
                         }
                     }))
@@ -2382,9 +2388,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
 
                             resolve: {
                                 header: function ($q, $location, $route, accountService, subAccountService,
-                                                  workflowService, constants) {
+                                                  workflowService, vistoconfig, advertiserModel, constants) {
                                     return adsResolver($q, $location, $route, accountService,
-                                        subAccountService, workflowService, constants, 'edit');
+                                        subAccountService, workflowService, vistoconfig, advertiserModel, constants, 'edit');
                                 }
                             }
 
@@ -2400,9 +2406,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                             showHeader : true,
                             resolve: {
                                 header: function ($q, $location, $route, accountService, subAccountService,
-                                                  workflowService, constants) {
+                                                  workflowService, vistoconfig, advertiserModel, constants) {
                                     return adsResolver($q, $location, $route, accountService,
-                                        subAccountService, workflowService, constants, 'edit');
+                                        subAccountService, workflowService, vistoconfig, advertiserModel, constants, 'edit');
                                 }
                             }
                         }))
@@ -2415,9 +2421,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         showHeader : true,
                         resolve: {
                             header: function ($q, $location, $route, accountService, subAccountService,
-                                              workflowService, constants) {
+                                              workflowService, constants, vistoconfig, advertiserModel) {
                                 return creativeResolver($q, $location, $route, accountService,
-                                    workflowService, subAccountService, constants);
+                                    workflowService, subAccountService, constants, vistoconfig, advertiserModel);
                             }
                         }
                     }))
@@ -2430,9 +2436,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         showHeader : true,
                         resolve: {
                             header: function ($q, $location, $route, accountService, subAccountService,
-                                              workflowService, constants) {
+                                              workflowService, constants, vistoconfig, advertiserModel) {
                                 return creativeResolver($q, $location, $route, accountService,
-                                    workflowService, subAccountService, constants);
+                                    workflowService, subAccountService, constants, vistoconfig, advertiserModel);
                             }
                         }
 
@@ -2442,13 +2448,13 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         templateUrl: assets.html_creative,
                         title: 'Edit Creative',
                         controller: 'CreativeController',
-                        controllerUrl: 'workflow/controllers/creative_controller',
+                        controllerUrl: 'workflow/creative/creative_controller',
                         showHeader : true,
                         resolve: {
                             header: function ($q, $location, $route, accountService, subAccountService,
-                                              workflowService, constants) {
+                                              workflowService, constants, vistoconfig, advertiserModel) {
                                 return creativeResolver($q, $location, $route, accountService,
-                                    workflowService, subAccountService, constants);
+                                    workflowService, subAccountService, constants, vistoconfig, advertiserModel);
                             }
                         }
                     }))
@@ -2458,11 +2464,14 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         templateUrl: assets.html_creative,
                         title: 'Edit Creative',
                         controller: 'CreativeController',
-                        controllerUrl: 'workflow/controllers/creative_controller',
+                        controllerUrl: 'workflow/creative/creative_controller',
                         showHeader : true,
-
                         resolve: {
-                            check: function () {}
+                            header: function ($q, $location, $route, accountService, subAccountService,
+                                              workflowService, constants, vistoconfig, advertiserModel) {
+                                return creativeResolver($q, $location, $route, accountService,
+                                    workflowService, subAccountService, constants, vistoconfig, advertiserModel);
+                            }
                         }
                     }))
 
@@ -2488,9 +2497,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         resolve: {
 
                             header: function ($q, $location, $route, accountService, workflowService,
-                                              subAccountService, constants) {
+                                              subAccountService, constants, vistoconfig, advertiserModel) {
                                 return creativeListResolver($q, $location, $route, accountService, workflowService,
-                                    subAccountService, constants);
+                                    subAccountService, constants, vistoconfig, advertiserModel);
                             }
                         }
                     }))
@@ -2505,9 +2514,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         resolve: {
 
                             header: function ($q, $location, $route, accountService, workflowService,
-                                              subAccountService, constants) {
+                                              subAccountService, constants, vistoconfig, advertiserModel) {
                                 return creativeListResolver($q, $location, $route, accountService, workflowService,
-                                    subAccountService, constants);
+                                    subAccountService, constants, vistoconfig, advertiserModel);
                             }
                         }
                     }))

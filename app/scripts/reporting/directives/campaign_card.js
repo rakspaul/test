@@ -4,7 +4,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
 
     angularAMD.directive('campaignCard',
         function ($rootScope, $location, utils, constants, momentService, featuresService, $sce,
-                  campaignSelectModel, vistoconfig, urlBuilder, accountService) {
+                  campaignSelectModel, vistoconfig, urlBuilder, accountService, subAccountService) {
             return {
                 restrict: 'EAC',
 
@@ -102,7 +102,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         url = '/a/'+ accountData.id;
 
                         if(!accountData.isLeafNode) {
-                            url += '/sa/' + accountService.getSelectedAccount().id;
+                            url += '/sa/' + subAccountService.getSelectedSubAccount().id;
                         }
 
                         url += '/mediaplan/' + mediaplanId + '/overview';

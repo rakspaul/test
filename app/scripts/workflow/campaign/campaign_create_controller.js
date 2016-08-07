@@ -590,7 +590,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.changeSubAccount =  function(account) {
             var url = '/a/' + $routeParams.accountId+'/sa/'+ account.id +'/mediaplan/create';
             $location.url(url);
-        }
+        };
 
         $scope.sucessHandler = function (result) {
 

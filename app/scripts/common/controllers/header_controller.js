@@ -76,9 +76,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             $('#user-menu').css('min-height',0).slideUp('fast');
 
             var moduleObj = workflowService.getModuleInfo(),
-                $modalInstance,
-                accountList;
-
+                $modalInstance;
 
             if (moduleObj && moduleObj.moduleName === 'WORKFLOW') {
                 if (vistoconfig.getMasterClientId() !== id) {

@@ -43,7 +43,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     });
                 },
 
-                getCreativeAds:function (creativeId,index) {
+                getCreativeAds : function (creativeId,index) {
                     workflowService
                         .getCreativeAds(creativeId)
                         .then(function (result) {
@@ -56,7 +56,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         });
                 },
 
-                deleteCreatives:function (clientId, creativeIds) {
+                deleteCreatives : function (clientId, creativeIds) {
                     workflowService
                         .deleteCreatives(clientId,creativeIds)
                         .then(function (result) {
@@ -66,6 +66,16 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                                 creativeList.errorHandler();
                             }
                         });
+                },
+
+                onScrollFetchCreatives :  function (){
+                    if ($(window).scrollTop() + $(window).height() === $(document).height() &&
+                        !isSearch && !$scope.creativeLastPage) {
+                        creativeParams.pageNo = $scope.pageNo + 1;
+                        if (window.location.href.indexOf('creative/list') > -1) {
+                            creativeList.getCreativesList(creativeParams);
+                        }
+                    }
                 },
 
                 errorHandler: function () {
@@ -230,7 +240,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.changeSubAccount =  function(account) {
             var url = '/a/' + $routeParams.accountId+'/sa/'+ account.id +'/creative/list';
             $location.url(url);
-        }
+        };
 
         $scope.updateCreative = function () {
             var putCrDataObj = {};
@@ -552,16 +562,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
         // Pagination
         $(function () {
-            $(window).scroll(function () {
-                console.log("111111");
-                if ($(window).scrollTop() + $(window).height() === $(document).height() &&
-                    !isSearch && !$scope.creativeLastPage) {
-                    creativeParams.pageNo = $scope.pageNo + 1;
-                    if (window.location.href.indexOf('creative/list') > -1) {
-                        creativeList.getCreativesList(creativeParams);
-                    }
-                }
-            });
+            $(window).on('scroll', creativeList.onScrollFetchCreatives);
+        });
+
+        $scope.$on('$destroy', function () {
+            $(window).off('scroll', creativeList.onScrollFetchCreatives);
         });
 
         // Clear Preview Mouse Out

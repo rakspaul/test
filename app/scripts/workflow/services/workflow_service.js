@@ -627,7 +627,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 var queryStr,
                     creativeFormats,
                     url,
-                    canceller,
                     advertiserString = '',
                     pageSize,
                     pageNo;

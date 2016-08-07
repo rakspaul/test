@@ -64,7 +64,7 @@ define(['angularAMD', 'common/services/constants_service',
                 $scope.changeSubAccount =  function(account) {
                     var url = '/a/' + $routeParams.accountId+'/sa/'+ account.id +'/creative/list';
                     $location.url(url);
-                }
+                };
 
                 $(function() {
                     var accountData =  accountService.getSelectedAccount(),

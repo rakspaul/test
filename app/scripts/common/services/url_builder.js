@@ -191,7 +191,10 @@ define(['angularAMD'],
             },
 
             gotoCreativeUrl  = function() {
-                var url = '/a/' + $routeParams.accountId;
+                var url,
+                    leafSubAccount;
+
+                url = '/a/' + $routeParams.accountId;
                 if ($routeParams.subAccountId) {
 
                     leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
