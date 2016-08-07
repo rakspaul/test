@@ -5,7 +5,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
     function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location,
+    angularAMD.controller('HeaderController', function ($q, $scope, $rootScope, $route, $cookieStore, $location,
                                                         $modal, $routeParams, constants, loginModel, domainReports,
                                                         campaignSelectModel, RoleBasedService, workflowService,
                                                         featuresService, accountService, subAccountService,
@@ -72,7 +72,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         $scope.version = version;
 
         $scope.set_account_name = function (event, id, name, isLeafNode) {
-
             $('#user_nav_link').removeClass('selected');
             $('#user-menu').css('min-height',0).slideUp('fast');
 
@@ -80,13 +79,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 $modalInstance,
                 accountList;
 
-            if(!isLeafNode) {
-                accountService
-                    .fetchAccountData(id)
-                    .then(function (result) {
-                        accountList = result.data.data;
-                    });
-            }
 
             if (moduleObj && moduleObj.moduleName === 'WORKFLOW') {
                 if (vistoconfig.getMasterClientId() !== id) {
@@ -107,21 +99,34 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
                             accountChangeAction: function () {
                                 return function () {
+                                    var deferred = $q.defer();
+
                                     setMasterClientData(id, name,isLeafNode, event);
                                     var url;
                                     // when enters as workflow user should we broadcast masterclient - sapna
                                     if (moduleObj.redirect) {
                                         url = '/a/' + id;
-                                        if(accountList && accountList.length >0) {
-                                            console.log("accountList", accountList);
-                                            url += '/sa/'+ accountList[0].id;
+                                        if(!isLeafNode) {
+
+                                            workflowService
+                                                .getSubAccounts (id)
+                                                .then(function (result) {
+                                                    deferred.resolve();
+                                                    accountList = result.data.data;
+                                                    url += '/sa/'+ accountList[0].id + '/mediaplans';
+                                                    $location.url(url);
+                                                });
+
+
+                                        } else {
+                                            $location.url(url + '/mediaplans');
                                         }
-                                        url += '/mediaplans';
-                                        $location.url(url);
 
                                     } else {
                                         $route.reload();
                                     }
+                                    return deferred.promise;
+
                                 };
                             }
                         }
@@ -130,6 +135,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             } else {
                 setMasterClientData(id, name,isLeafNode, event);
             }
+
         };
 
         $scope.showProfileMenu = function () {
