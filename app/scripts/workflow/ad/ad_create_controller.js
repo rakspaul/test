@@ -821,7 +821,19 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         };
 
         $scope.getPreviewUrl = function(creativeData) {
-            var previewUrl =  '/clientId/'+ creativeData.clientId +'/adv/'+ creativeData.advertiserId;
+            var previewUrl,
+                isLeafNode;
+
+
+            previewUrl = '/a/' + $routeParams.accountId;
+            isLeafNode = accountService.getSelectedAccount().isLeafNode;
+
+            if(!isLeafNode) {
+                previewUrl += '/sa/' + $routeParams.subAccountId;
+            }
+
+            previewUrl +=  '/adv/'+ creativeData.advertiserId;
+            
             if($scope.adId) {
                 previewUrl += '/campaignId/'+ $scope.campaignId +'/adId/'+ $scope.adId +
                     '/creative/'+ creativeData.id +'/preview';

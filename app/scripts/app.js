@@ -789,6 +789,38 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
             return deferred.promise;
         };
 
+        var creativePreviewResolver = function ($q, $location, $route, accountService, workflowService,
+                                             subAccountService, constants, vistoconfig, advertiserModel) {
+            var deferred = $q.defer();
+            var redirect = false;
+
+            accountService
+                .fetchAccountList()
+                .then(function () {
+                    if (accountService.allowedAccount($route.current.params.accountId)) {
+                        var isLeafNode = accountService.getSelectedAccount().isLeafNode;
+                        if(!isLeafNode) {
+                            subAccountService
+                                .fetchSubAccountList($route.current.params.accountId)
+                                .then(function () {
+                                    if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
+                                        fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred, redirect,
+                                            constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
+                                    }
+                                });
+                        } else {
+                            fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred,redirect,
+                                constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
+                        }
+                    } else {
+                        console.log('account not allowed');
+                        $location.url('/tmp');
+                    }
+                });
+
+            return deferred.promise;
+        };
+
 
         var creativeResolver = function ($q, $location, $route, accountService, workflowService,
                                              subAccountService, constants, vistoconfig, advertiserModel) {
@@ -2475,17 +2507,6 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         }
                     }))
 
-                    .when('/creative/:creativeId/preview', angularAMD.route({
-                        templateUrl: assets.html_creative_preview,
-                        title: 'Preview Creative',
-                        controller: 'CreativePreviewController',
-                        controllerUrl: 'workflow/controllers/creative_preview_controller',
-                        showHeader : false,
-
-                        resolve: {
-                            check: function () {}
-                        }
-                    }))
 
                     .when('/a/:accountId/sa/:subAccountId/creative/list', angularAMD.route({
                         templateUrl: assets.html_creative_list,
@@ -2516,6 +2537,78 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                             header: function ($q, $location, $route, accountService, workflowService,
                                               subAccountService, constants, vistoconfig, advertiserModel) {
                                 return creativeListResolver($q, $location, $route, accountService, workflowService,
+                                    subAccountService, constants, vistoconfig, advertiserModel);
+                            }
+                        }
+                    }))
+
+                    .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/creative/:creativeId/preview', angularAMD.route({
+                        templateUrl: assets.html_creative_preview,
+                        title: 'Preview Creative',
+                        controller: 'CreativePreviewController',
+                        controllerUrl: 'workflow/creative/creative_preview_controller',
+                        showHeader : false,
+
+                        resolve: {
+
+                            header: function ($q, $location, $route, accountService, workflowService,
+                                              subAccountService, constants, vistoconfig, advertiserModel) {
+                                return creativePreviewResolver($q, $location, $route, accountService, workflowService,
+                                    subAccountService, constants, vistoconfig, advertiserModel);
+                            }
+                        }
+                    }))
+
+
+
+                    .when('/a/:accountId/adv/:advertiserId/creative/:creativeId/preview', angularAMD.route({
+                        templateUrl: assets.html_creative_preview,
+                        title: 'Preview Creative',
+                        controller: 'CreativePreviewController',
+                        controllerUrl: 'workflow/creative/creative_preview_controller',
+                        showHeader : false,
+
+                        resolve: {
+
+                            header: function ($q, $location, $route, accountService, workflowService,
+                                              subAccountService, constants, vistoconfig, advertiserModel) {
+                                return creativePreviewResolver($q, $location, $route, accountService, workflowService,
+                                    subAccountService, constants, vistoconfig, advertiserModel);
+                            }
+                        }
+                    }))
+
+                    .when('/a/:accountId/sa/:subAccountId//clientId/:clientId/adv/:advertiserId/campaignId/:campaignId/adId/:adId/creative/' +
+                        ':creativeId/preview', angularAMD.route({
+                        templateUrl: assets.html_creative_preview,
+                        title: 'Preview Creative',
+                        controller: 'CreativePreviewController',
+                        controllerUrl: 'workflow/creative/creative_preview_controller',
+                        showHeader : false,
+
+                        resolve: {
+
+                            header: function ($q, $location, $route, accountService, workflowService,
+                                              subAccountService, constants, vistoconfig, advertiserModel) {
+                                return creativePreviewResolver($q, $location, $route, accountService, workflowService,
+                                    subAccountService, constants, vistoconfig, advertiserModel);
+                            }
+                        }
+                    }))
+
+                    .when('/a/:accountId/clientId/:clientId/adv/:advertiserId/campaignId/:campaignId/adId/:adId/creative/' +
+                        ':creativeId/preview', angularAMD.route({
+                        templateUrl: assets.html_creative_preview,
+                        title: 'Preview Creative',
+                        controller: 'CreativePreviewController',
+                        controllerUrl: 'workflow/creative/creative_preview_controller',
+                        showHeader : false,
+
+                        resolve: {
+
+                            header: function ($q, $location, $route, accountService, workflowService,
+                                              subAccountService, constants, vistoconfig, advertiserModel) {
+                                return creativePreviewResolver($q, $location, $route, accountService, workflowService,
                                     subAccountService, constants, vistoconfig, advertiserModel);
                             }
                         }

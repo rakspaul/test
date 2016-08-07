@@ -371,6 +371,31 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $location.url(url);
         };
 
+
+        $scope.getPreviewUrl = function(creativeData) {
+
+            var previewUrl,
+                isLeafNode;
+
+
+            previewUrl = '/a/' + $routeParams.accountId;
+            isLeafNode = accountService.getSelectedAccount().isLeafNode;
+
+            if(!isLeafNode) {
+                previewUrl += '/sa/' + $routeParams.subAccountId;
+            }
+
+            previewUrl +=  '/adv/'+ creativeData.advertiserId;
+
+            if($scope.adId) {
+                previewUrl += '/campaignId/'+ $scope.campaignId +'/adId/'+ $scope.adId +
+                    '/creative/'+ creativeData.id +'/preview';
+            } else {
+                previewUrl +=  '/creative/' + creativeData.id +'/preview';
+            }
+            window.open(previewUrl);
+        };
+
         $scope.previewCreative = function (creativeData) {
             $scope.previewCreativeId = creativeData.id;
             $scope.previewCreativeName = creativeData.name;
