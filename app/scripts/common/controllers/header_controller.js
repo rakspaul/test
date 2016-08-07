@@ -110,10 +110,10 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
                                             subAccountService
                                                 .fetchSubAccountList (id)
-                                                .then(function (result) {
+                                                .then(function () {
                                                     deferred.resolve();
-                                                    accountList = result.data.data;
-                                                    url += '/sa/'+ accountList[0].id + '/mediaplans';
+                                                    var subAccountId = subAccountService.getSubAccounts()[0].id;
+                                                    url += '/sa/'+ subAccountId+ '/mediaplans';
                                                     $location.url(url);
                                                 });
 
