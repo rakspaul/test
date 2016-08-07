@@ -3,20 +3,10 @@ define(['angularAMD', 'common/services/vistoconfig_service',
         'use strict';
 
         angularAMD.service('urlService', ['vistoconfig', 'constants', 'loginModel',
-            function (vistoconfig, constants, loginModel) {
+            function (vistoconfig) {
 
-                // Convention is to start all api urls with API.
-                var APIlastViewedAction = function (campaignId) {
-                    var clientId =  loginModel.getSelectedClient().id;
 
-                    return vistoconfig.apiPaths.workflow_apiServicesUrl +
-                        '/clients/' + clientId +
-                        '/campaigns/' + campaignId +
-                        '/viewedActions';
-                },
-
-                APIeditAction = function (actionId) {
-                    var clientId =  loginModel.getSelectedClient().id;
+                var APIeditAction = function (clientId, actionId) {
 
                     return vistoconfig.apiPaths.workflow_apiServicesUrl +
                         '/clients/' + clientId +
@@ -24,14 +14,17 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                 },
 
                 APIloginAction = function () {
+
                     return vistoconfig.apiPaths.WORKFLOW_API_URL + '/login';
                 },
 
                 APIlogoutAction = function () {
+
                     return vistoconfig.apiPaths.WORKFLOW_API_URL + '/logout';
                 },
 
                 APIuserInfo = function () {
+
                     return vistoconfig.apiPaths.workflow_apiServicesUrl + '/userinfo';
                 },
 
@@ -124,6 +117,7 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                 },
 
                 APIVistoCustomQuery = function (qryObj) {
+
                     var params = this.buildParams(qryObj),
                         qryUrl = qryObj.url ? qryObj.url : '/reportBuilder/customQuery';
 
@@ -131,6 +125,7 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                 },
 
                 APICampaignCountsSummary = function (timePeriod, clientId, advertiserId, brandId, status) {
+
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/campaigns/summary/counts?advertiser_id=' + advertiserId +
@@ -148,6 +143,7 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                 },
 
                 APISpendWidgetForCampaigns = function (qryObj) {
+
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + qryObj.clientId +
                         '/brands/' + qryObj.brandId +
@@ -156,6 +152,7 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                 },
 
                 APICalendarWidgetForAdvertiser = function (clientId, advertiserId, brandId, sortColumn, status) {
+
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/advertisers/campaigns/meta?advertiser_id=' + advertiserId + '&brand_id=' + brandId +
@@ -163,14 +160,14 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                 },
 
                 APICalendarWidgetForAllAdvertisers = function (clientId, advertiserId, sortColumn, status) {
+
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/advertisers/campaigns/meta?advertiser_id=' + advertiserId + '&topCount=5&sort_column=' +
                         sortColumn + '&campaignState=' + status;
                 },
 
-                APIActionData = function (campaignId) {
-                    var clientId =  loginModel.getSelectedClient().id;
+                APIActionData = function (clientId, campaignId) {
 
                     return vistoconfig.apiPaths.workflow_apiServicesUrl +
                         '/clients/' + clientId +
@@ -178,8 +175,9 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                 },
 
                 APICampaignDropDownList = function (clientId, advertiserId, brandId) {
-                    clientId =  loginModel.getSelectedClient().id;
 
+                    brandId = Number(brandId) || -1;
+                    advertiserId = Number(advertiserId) || -1;
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/advertisers/' + advertiserId +
@@ -187,17 +185,12 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                         '/campaigns/meta?x=x';
                 },
 
-                APIStrategiesForCampaign = function (campaingId) {
-                    var clientId =  loginModel.getSelectedClient().id;
-
-                    return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                        '/clients/' + clientId +
-                        '/campaigns/' + campaingId +
-                        '/lineitems/meta';
+                APIStrategiesForCampaign = function (clientId, campaingId) {
+                    return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' +
+                        campaingId + '/lineitems/meta';
                 },
 
-                APIReportList = function (advertiserId, brandId, campaignId) {
-                    var clientId =  loginModel.getSelectedClient().id;
+                APIReportList = function (clientId, advertiserId, brandId, campaignId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
@@ -205,40 +198,35 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                         (campaignId > 0 ? '&campaign_id=' + campaignId : '');
                 },
 
-                APIUploadReport = function () {
-                    var clientId =  loginModel.getSelectedClient().id;
+                APIUploadReport = function (clientId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/uploadedreports/upload';
                 },
 
-                APIDeleteReport = function (reportId) {
-                    var clientId =  loginModel.getSelectedClient().id;
+                APIDeleteReport = function (clientId, reportId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/uploadedreports/' + reportId;
                 },
 
-                APIEditReport = function (reportId) {
-                    var clientId =  loginModel.getSelectedClient().id;
+                APIEditReport = function (clientId, reportId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/uploadedreports/' + reportId;
                 },
 
-                APIDownloadReport = function (reportId) {
-                    var clientId =  loginModel.getSelectedClient().id;
+                APIDownloadReport = function (clientId, reportId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/uploadedreports/download/' + reportId;
                 },
 
-                scheduleReportsList = function () {
-                    var clientId =  loginModel.getMasterClient().id;
+                scheduleReportsList = function (clientId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
@@ -246,64 +234,56 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                 },
 
                 // download option from the report builder
-                downloadGeneratedRpt = function (reportId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                downloadGeneratedRpt = function (clientId, reportId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/custom_reports/download/' + reportId;
                 },
 
-                downloadSchdRpt = function (instanceId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                downloadSchdRpt = function (clientId, instanceId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/scheduledreports/downloadReport/' + instanceId;
                 },
 
-                downloadSavedRpt = function (instanceId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                downloadSavedRpt = function (clientId, instanceId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/savedreports/downloadReport/' + instanceId;
                 },
 
-                scheduledReport = function (reportId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                scheduledReport = function (clientId, reportId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/scheduledreports/getReport/' + reportId;
                 },
 
-                savedReport = function (reportId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                savedReport = function (clientId, reportId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/savedreports/getReport/' + reportId;
                 },
 
-                deleteSchdRpt = function (reportId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                deleteSchdRpt = function (clientId, reportId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/scheduledreports/deleteReport/' + reportId;
                 },
 
-                deleteSavedRpt = function (reportId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                deleteSavedRpt = function (clientId, reportId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/savedreports/deleteReport/' + reportId;
                 },
 
-                deleteInstanceOfSchdRpt = function (reportId, instanceId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                deleteInstanceOfSchdRpt = function (clientId, reportId, instanceId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
@@ -311,24 +291,21 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                         '/' + instanceId;
                 },
 
-                createScheduledRpt = function () {
-                    var clientId =  loginModel.getMasterClient().id;
+                createScheduledRpt = function (clientId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/scheduledreports/createReport';
                 },
 
-                createSaveRpt = function () {
-                    var clientId =  loginModel.getMasterClient().id;
+                createSaveRpt = function (clientId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/savedreports/createReport';
                 },
 
-                archiveSchldRpt = function (reportId, instanceId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                archiveSchldRpt = function (clientId, reportId, instanceId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
@@ -336,16 +313,14 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                         '/' + instanceId;
                 },
 
-                updateScheduledRpt = function (reportId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                updateScheduledRpt = function (clientId, reportId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/scheduledreports/updateReport/' + reportId;
                 },
 
-                updateSavedRpt = function (reportId) {
-                    var clientId =  loginModel.getMasterClient().id;
+                updateSavedRpt = function (clientId, reportId) {
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
@@ -359,28 +334,26 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                         '/pixels_download';
                 },
 
-                getInvoiceDetials = function (invoiceId){
-                    var clientId =  loginModel.getSelectedClient().id;
+                getInvoiceDetials = function (clientId, invoiceId){
 
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/invoices/' + invoiceId;
                 },
 
-                getInvoiceData = function (invoiceReports, queryStr) {
-                    var clientId =  loginModel.getSelectedClient().id,
-                        url;
+                getInvoiceData = function ( invoiceReports, queryStr) {
+                    var url;
 
                     if (invoiceReports.isSearched) {
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                            '/clients/' + clientId +
+                            '/clients/' + invoiceReports.clientId +
                             '/invoices/search' +
                             '?advertiser_id=' + invoiceReports.advertiserId +
                             '&brand_id=' + invoiceReports.brandId +
                             '&search_term=' + invoiceReports.searchTerm + queryStr;
                     } else {
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                            '/clients/' + clientId +
+                            '/clients/' + invoiceReports.clientId +
                             '/invoices/list' +
                             '?advertiser_id=' + invoiceReports.advertiserId +
                             '&brand_id=' + invoiceReports.brandId + queryStr;
@@ -389,38 +362,33 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                     return url;
                 },
 
-                saveInvoiceListCredits = function (invoiceId){
-                    var clientId =  loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
+                saveInvoiceListCredits = function (clientId, invoiceId){
 
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
                     return url + '/clients/' + clientId + '/invoices/' + invoiceId + '/adjustments';
                 },
 
-                downloadInvoiceCampaign = function (campaignId){
-                    var clientId =  loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
+                downloadInvoiceCampaign = function (clientId, campaignId){
 
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
                     return url + '/clients/' + clientId + '/invoices/campaign_id/' + campaignId + '/download';
                 },
 
-                downloadTemplateWithCampaignId = function (campaignId){
-                    var clientId =  loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
+                downloadTemplateWithCampaignId = function (clientId, campaignId){
 
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
                     return url + '/clients/' + clientId + '/invoices/campaign_id/' + campaignId + '/templatedownload';
                 },
 
-                downloadInvoiceWithId = function (invoiceId){
-                    var clientId =  loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
+                downloadInvoiceWithId = function (clientId, invoiceId){
 
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
                     return url + '/clients/' + clientId + '/invoices/' + invoiceId + '/download';
                 },
 
-                uploadInvoiceData = function (invoiceId){
-                    var clientId =  loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
+                uploadInvoiceData = function (clientId, invoiceId){
 
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW;
                     return url + '/clients/' + clientId + '/invoices/' + invoiceId + '/upload';
                 },
 
@@ -431,7 +399,6 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                 };
 
                 return {
-                    APIlastViewedAction : APIlastViewedAction,
                     APIeditAction : APIeditAction,
                     APIloginAction : APIloginAction,
                     APIlogoutAction : APIlogoutAction,

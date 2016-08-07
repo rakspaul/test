@@ -2,16 +2,16 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
     'reporting/strategySelect/strategy_select_service', 'common/services/data_service',
     'reporting/models/domain_reports', 'common/services/constants_service', 'reporting/timePeriod/time_period_model',
     'reporting/brands/brands_model', 'login/login_model', 'common/services/url_service',
-    'reporting/advertiser/advertiser_model', 'reporting/timePeriod/time_period_controller',
-    'reporting/kpiSelect/kpi_select_directive', 'reporting/strategySelect/strategy_select_directive',
-    'reporting/strategySelect/strategy_select_controller', 'reporting/timePeriod/time_period_pick_directive'],
-    function (angularAMD) {
+    'reporting/advertiser/advertiser_model', 'common/services/vistoconfig_service', 'common/services/features_service', 'common/utils',
+    'reporting/timePeriod/time_period_controller', 'reporting/kpiSelect/kpi_select_directive',
+    'reporting/strategySelect/strategy_select_directive', 'reporting/strategySelect/strategy_select_controller',
+    'reporting/timePeriod/time_period_pick_directive'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('PerformanceController', function ($scope,$rootScope, kpiSelectModel, campaignSelectModel,
                                                              strategySelectModel, dataService, domainReports, constants,
                                                              timePeriodModel, brandsModel, loginModel, urlService,
-                                                             advertiserModel, featuresService) {
+                                                             advertiserModel, vistoconfig, featuresService, utils) {
         var _customCtrl = this,
             extractAdFormats,
 
@@ -29,7 +29,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
         // highlight the header menu - Dashboard, Campaigns, Reports
         domainReports.highlightHeaderMenu();
-        domainReports.highlightSubHeaderMenu();
+        //domainReports.highlightSubHeaderMenu();
 
         $scope.sortType             = 'impressions';
         $scope.sortTypebyformats    = '-impressions';
@@ -173,9 +173,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
                 param = {
                     campaignId: $scope.selectedCampaign.id,
-                    clientId:  loginModel.getSelectedClient().id,
-                    advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                    brandId: brandsModel.getSelectedBrand().id,
+                    clientId:  vistoconfig.getSelectedAccountId(),
+                    advertiserId: vistoconfig.getSelectAdvertiserId(),
+                    brandId: vistoconfig.getSelectedBrandId(),
                     dateFilter: dateFilter,
                     tab: $scope.selected_tab
                 },
@@ -204,7 +204,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.discrepancyBusy = true;
 
             $scope.apiReturnCode=200;
-
+            $scope.init();
             url = urlService.APIVistoCustomQuery(param);
             $scope.selectedVendor = '';
 
@@ -384,8 +384,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             _customCtrl.filterDiscrepancyReport();
         });
         $scope.$watch('[adFormats.videoAds, selected_tab]', function (arr) {
-            var width = (arr[0] || arr[1] == "bydiscrepancy") ? "100%" : "1964px";
-            $(".reports_performance_header, .strategy_total_container").css("width",width);
+            var width = (arr[0] || arr[1] === 'bydiscrepancy') ? '100%' : '1964px';
+            $('.reports_performance_header, .strategy_total_container').css('width',width);
         });
 
         extractAdFormats =  function () {
@@ -514,7 +514,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.someDummyVarDeleteLater = kpiSelectModel.setSelectedKpi('cpm');
         };
 
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         $scope.init();
+        $scope.resetVariables();
+        $scope.strategyChangeHandler();
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event, strategy) {
             $scope.selectedFilters.time_filter = strategy;

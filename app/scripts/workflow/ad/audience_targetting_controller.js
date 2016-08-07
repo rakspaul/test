@@ -3,10 +3,9 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
     'use strict';
 
     angularAMD.controller('AudienceTargettingController', function ($scope, audienceService,
-                                                                    workflowService, constants) {
+                                                                    workflowService, constants, vistoconfig) {
 
         var editOneTimeFlag = false,
-
 
             _audienceTargetting = {
                 processAudienceEdit: function () {
@@ -97,7 +96,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
                         selectedSource: $scope.selectedSource,
                         selectedCategory: $scope.selectedCategory,
                         seatId: $scope.adData.platformSeatId,
-                        advertiserId: $scope.workflowData.campaignData.advertiserId
+                        advertiserId: vistoconfig.getSelectAdvertiserId()
                     };
 
                     if (!loadMoreFlag) {

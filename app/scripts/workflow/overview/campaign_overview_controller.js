@@ -1,28 +1,17 @@
 define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service',
     'workflow/overview/campaign_overview_service',
     'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/overview/get_adgroups_controller',
-    'workflow/directives/edit_ad_group_section', 'login/login_model','common/utils',
-    'workflow/overview/campaign_clone_controller',
+    'workflow/directives/edit_ad_group_section', 'login/login_model','common/utils', 'common/services/account_service',
+    'common/services/sub_account_service', 'workflow/overview/campaign_clone_controller',
     'workflow/campaign/campaign_archive_controller', 'common/directives/decorate_numbers',
     'common/directives/ng_upload_hidden'], function (angularAMD) {
     angularAMD.controller('CampaignOverViewController', function ($scope, $modal, $rootScope, $routeParams,
                                                                   $timeout, $location, $route, constants,
-                                                                  workflowService, campaignOverviewService,
-                                                                  momentService, vistoconfig, featuresService,
-                                                                  dataService, loginModel, utils, $sce) {
+                                                                  workflowService, momentService, vistoconfig,
+                                                                  featuresService, dataService, loginModel,utils,
+                                                                  accountService, subAccountService, urlBuilder,
+                                                                  campaignOverviewService, $sce) {
         var campaignOverView = {
-
-            fetchSubAccounts: function (callabck) {
-                workflowService
-                    .getSubAccounts('write')
-                    .then(function (result) {
-                        if (result.status === 'OK' || result.status === 'success') {
-                            callabck && callabck(result.data.data);
-                        } else {
-                            campaignOverView.errorHandler(result);
-                        }
-                    }, campaignOverView.errorHandler);
-            },
 
             modifyCampaignData: function () {
                 var campaignData = $scope.workflowData.campaignData,
@@ -33,24 +22,24 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.isEndDateInPast = moment().isAfter(end, 'day');
             },
 
-            getLineItems: function (callback) {
-                var campaignId = $scope.workflowData.campaignData.id;
+            getLineItems: function (clientId, campaignId, callback) {
 
                 workflowService
-                    .getLineItem(campaignId)
+                    .getLineItem(clientId, campaignId)
                     .then(function (results) {
                         if (results.status === 'success' && results.data.statusCode === 200) {
                             $scope.lineItems = results.data.data;
-                            callback && callback(campaignId);
+                            callback && callback(clientId, campaignId);
                         }
                     });
             },
 
-            getCampaignData: function (campaignId) {
+            getCampaignData: function (clientId, campaignId) {
                 workflowService
-                    .getCampaignData(campaignId)
+                    .getCampaignData(clientId, campaignId)
                     .then(function (result) {
-                        var responseData;
+                        var responseData,
+                            accountData;
 
                         if (result.status === 'OK' || result.status === 'success') {
                             //redirect user to media plan list screen if campaign is archived campaign
@@ -76,12 +65,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             }
                             $scope.labels = responseData.labels;
 
-                            campaignOverView.fetchSubAccounts(function(subAccountData) {
-                                subAccountData = _.find(subAccountData, function(data) {
-                                return data.id === responseData.clientId;
+                            accountData = accountService.getSelectedAccount();
+
+                            if(!accountData.isLeafNode) {
+                                accountData = _.find(subAccountService.getSubAccounts(), function (data) {
+                                    return data.id === responseData.clientId;
                                 });
-                                workflowService.setSubAccountTimeZone(subAccountData.timezone);
-                            });
+                            }
+
+                            workflowService.setAccountTimeZone(accountData.timezone);
 
                             $scope.campaignStartTime =
                                 momentService.utcToLocalTime($scope.workflowData.campaignData.startTime);
@@ -98,8 +90,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                             campaignOverView.modifyCampaignData();
 
-                            campaignOverView.getLineItems(function (campaignId) {
-                                campaignOverView.getAdgroups(campaignId);
+                            campaignOverView.getLineItems(clientId, campaignId, function (clientId, campaignId) {
+                                campaignOverView.getAdgroups(clientId, campaignId);
                             });
                         } else {
                             campaignOverView.errorHandler(result);
@@ -186,9 +178,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }, campaignOverView.errorHandler);
             },
 
-            getAdgroups: function (campaignId, searchFlag) {
+            getAdgroups: function (clientId, campaignId, searchFlag) {
                 workflowService
-                    .getAdgroups(campaignId, searchFlag)
+                    .getAdgroups(clientId, campaignId, searchFlag)
                     .then(function (result) {
                         var responseData,
                             nonAdGroupAds,
@@ -361,7 +353,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             },
         },
-        selectedIndex;
+        selectedIndex,
+
+        accountData = accountService.getSelectedAccount();
+
 
         $('.main_navigation_holder')
             .find('.active_tab')
@@ -401,8 +396,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.loadingBtn = false;
         $scope.isMinimumAdGroupBudget = true;
         $scope.isMaximumAdGroupBudget = true;
-        $scope.selectedClientName = loginModel.getSelectedClient().name;
-        $scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
 
         $scope.adGroupsSearch = {
             term: '',
@@ -417,8 +410,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.adGroupData = {};
         $scope.labels = [];
 
+        $scope.isLeafNode = accountData.isLeafNode;
+        if(!$scope.isLeafNode) {
+            $scope.selectedClientName = subAccountService.getSelectedSubAccount().displayName;
+        } else {
+            $scope.selectedClientName = accountData.name;
+        }
+
+
         $scope.DownloadTrackingTags = function () {
-            var clientId = loginModel.getSelectedClient().id,
+            var clientId = vistoconfig.getSelectedAccountId(),
 
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
@@ -493,7 +494,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.campaignArchiveLoader = false;
 
         $scope.editCampaign = function (workflowcampaignData) {
-            $location.url('/mediaplan/' + workflowcampaignData.id + '/edit');
+            var url = '/a/' + $routeParams.accountId;
+
+            if($routeParams.subAccountId) {
+               url += '/sa/' + $routeParams.subAccountId;
+            }
+
+            url += '/mediaplan/'+ workflowcampaignData.id+'/edit';
+
+            $location.url(url);
         };
 
         $scope.utcToLocalTime = function (date, format) {
@@ -676,7 +685,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             return adFormatMapper[adFormat.toLowerCase()];
         };
 
-        campaignOverView.getCampaignData($routeParams.campaignId);
+        var campaignId = vistoconfig.getSelectedCampaignId();
+        var clientId = vistoconfig.getSelectedAccountId();
+        campaignOverView.getCampaignData(clientId, campaignId);
 
         $(function () {
             $('#pushCampaignBtn').on('click', function () {
@@ -755,7 +766,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }
                 }
 
-            }else if (typeof creative !== 'undefined' && creative.length > 0 && sizes.length===0) {
+            } else if (typeof creative !== 'undefined' && creative.length > 0 && sizes.length === 0) {
                 $scope.sizeString = constants.WF_UNSPECIFIED;
 
                 /*check if the ad has no creatives set*/
@@ -1008,6 +1019,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 utcStartTime,
                 utcEndTime,
                 dateTimeZone,
+                clientId = vistoconfig.getSelectedAccountId(),
 
                 adGroupSaveErrorHandler = function (data) {
                     var errMsg,
@@ -1044,7 +1056,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postCreateAdObj = {};
                 postCreateAdObj.name = formData.adGroupName;
 
-                dateTimeZone = workflowService.getSubAccountTimeZone();
+                dateTimeZone = workflowService.getAccountTimeZone();
 
                 utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone);
 
@@ -1086,7 +1098,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 workflowService[formData.adgroupId ? 'editAdGroups' : 'createAdGroups']
-                ($routeParams.campaignId, postCreateAdObj).then(function (result) {
+                (clientId, $routeParams.campaignId, postCreateAdObj).then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.loadingBtn = false;
                         formElem[0].reset();
@@ -1123,36 +1135,34 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.goEdit = function (adsData, unallocatedBudget, adGroupsData) {
-            var campaignId = adsData.campaignId,
-                adsId = adsData.id,
-                groupId = adsData.adGroupId,
-                groupBudget = adGroupsData.adGroup.deliveryBudget,
-                lineItemId = adGroupsData.adGroup.lineitemId;
+
+            var params = {
+                adId : adsData.id,
+                adGroupId : adsData.adGroupId,
+                groupBudget : adGroupsData.adGroup.deliveryBudget,
+                lineItemId : adGroupsData.adGroup.lineitemId,
+                stTime : adsData.startTime,
+                edTime : adsData.endTime,
+                advertiserId : $scope.workflowData.campaignData.advertiserId
+            };
 
             workflowService.setUnallocatedAmount(unallocatedBudget);
             localStorage.setItem('unallocatedAmount', unallocatedBudget);
-            localStorage.setItem('groupBudget', Number(groupBudget));
-            $scope.editAdforAdGroup(campaignId, adsData.startTime, adsData.endTime, adsId, groupId, lineItemId);
+            localStorage.setItem('groupBudget', Number(params.groupBudget));
+            $scope.editAdforAdGroup(params);
         };
 
-        $scope.editAdforAdGroup = function (campaignId, stTime, edTime, adsId, groupId, lineItemId) {
-            var path = '/mediaplan/' + campaignId + '/ads/' + adsId + '/edit';
+        $scope.editAdforAdGroup = function (params) {
 
+            var url;
             if (typeof(Storage) !== 'undefined') {
                 //convert this to EST in ads page
-                localStorage.setItem('stTime', stTime);
+                localStorage.setItem('stTime', params.stTime);
                 //convert this to EST in ads create page
-                localStorage.setItem('edTime', edTime);
+                localStorage.setItem('edTime', params.edTime);
             }
-
-            if (groupId && adsId) {
-                path = '/mediaplan/' + campaignId +
-                    '/lineItem/' + lineItemId +
-                    '/adGroup/' + groupId +
-                    '/ads/' + adsId + '/edit';
-            }
-
-            $location.path(path);
+            url = urlBuilder.adUrl(params);
+            $location.path(url);
         };
 
         // Switch BTN Animation
@@ -1232,7 +1242,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.pixelsDownload = function () {
-            var clientId = loginModel.getSelectedClient().id,
+            var clientId = vistoconfig.getSelectedAccountId(),
                 campaignId = $scope.workflowData.campaignData.id,
 
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -1269,8 +1279,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.$on('$locationChangeStart', function (event, next) {
             var customReportUrl;
 
-            //on Broswers back button customreport behaving wierdly, this piece of code fixes it
-            if (next.indexOf('customreport') > -1){
+            //on Browsers back button customreport behaving weirdly, this piece of code fixes it
+            if (next.indexOf('customreport') > -1) {
                 customReportUrl = next.split('/')[3];
                 $location.url('/' + customReportUrl);
             }

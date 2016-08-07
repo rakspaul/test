@@ -512,6 +512,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.READY = 'Ready';
         this.IMPRESSIONS = 'Impressions';
         this.CREATIVES = 'Creatives';
+        this.ADMIN = 'Admin';
         this.TARGETING = 'Targeting';
         this.CONTINUE = 'Continue';
         this.PREVIOUS = 'Previous';

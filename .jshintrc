@@ -19,7 +19,7 @@
     "undef"     : true,
     "unused"    : true,
     "strict"    : false,
-    "maxlen"    : 120,
+    "maxlen"    : 180,
 
     "asi"          : false,
     "boss"         : false,

@@ -1,11 +1,10 @@
-define(['angularAMD', '../../common/services/url_service', 'common/services/data_service', // jshint ignore:line
+define(['angularAMD', '../../common/services/url_service', 'common/services/data_service',
     'common/services/request_cancel_service', 'common/services/constants_service',
     'common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.service('strategySelectModel', ['urlService', 'dataService', 'requestCanceller', 'constants',
+    angularAMD.service('strategySelectService', ['urlService', 'dataService', 'requestCanceller', 'constants',
         'vistoconfig', function (urlService, dataService, requestCanceller, constants, vistoconfig) {
-
             var strategyObj = {
                 strategies :  {},
                 selectedStrategy : {id: -1, name: 'Loading...'}

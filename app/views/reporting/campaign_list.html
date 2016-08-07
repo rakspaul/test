@@ -19,7 +19,7 @@
     <div class="col-md-12 zeroPadding" style="margin-top: 15px;">
         <!--Create Media Plan Btn-->
         <div class="pull-left btn-group create" role="group" aria-label="...">
-            <a class="btn btn-default" href="/mediaplan/create"  ng-if="showCreateMediaPlan">
+            <a class="btn btn-default" ng-click="navigateToMediaPlanCreatePage()"  ng-if="showCreateMediaPlan">
                 <span class="icon-plus"></span>
                 <span data-ng-bind="textConstants.CREATE"></span>
             </a>

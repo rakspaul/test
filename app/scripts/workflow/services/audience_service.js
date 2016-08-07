@@ -39,7 +39,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         keywords = params.selectedKeywords,
                         source = params.selectedSource,
                         classification = params.selectedCategory,
-                        clientId =  loginModel.getSelectedClient().id,
+                        clientId =  vistoconfig.getSelectedAccountId(),
                         advertiserId=params.advertiserId,
                         url,
                         i,
@@ -132,7 +132,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         url;
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + loginModel.getSelectedClient().id +
+                        '/clients/' + vistoconfig.getMasterClientId() +
                         '/segments?query=' + searchKey;
 
                     return dataService.fetch(url, {cache: false});

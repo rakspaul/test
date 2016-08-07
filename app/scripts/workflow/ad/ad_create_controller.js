@@ -1,52 +1,32 @@
 define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/workflow_service', 'login/login_model',
     'common/services/data_service', 'workflow/services/audience_service', 'common/services/role_based_service',
     'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/services/video_service', 'common/utils',
-    'workflow/ad/budget_delivery_controller', 'workflow/ad/buying_platform_controller',
-    'workflow/ad/targetting_controller', 'workflow/ad/geo_targetting_controller',
-    'workflow/ad/audience_targetting_controller', 'workflow/ad/daypart_create_controller',
-    'workflow/ad/video_targetting_controller', 'workflow/ad/inventory_filters_controller',
-    'workflow/creative/creative_controller', 'workflow/creative/creative_list_controller',
-    'workflow/creative/creative_tag_controller', 'workflow/services/platform_custom_module',
-    'workflow/ad/ad_clone_controller'], function (angularAMD) {
+    'common/services/url_builder', 'common/services/sub_account_service', 'workflow/ad/budget_delivery_controller',
+    'workflow/ad/buying_platform_controller', 'workflow/ad/targetting_controller',
+    'workflow/ad/geo_targetting_controller', 'workflow/ad/audience_targetting_controller',
+    'workflow/ad/daypart_create_controller', 'workflow/ad/video_targetting_controller',
+    'workflow/ad/inventory_filters_controller', 'workflow/creative/creative_controller',
+    'workflow/creative/creative_list_controller', 'workflow/creative/creative_tag_controller',
+    'workflow/services/platform_custom_module', 'workflow/ad/ad_clone_controller'], function (angularAMD) {
     angularAMD.controller('CampaignAdsCreateController', function ($scope, $modal, $rootScope, $routeParams,
                                                                    $locale, $location,  $filter, $timeout,
                                                                    constants, workflowService, loginModel,
                                                                    dataService, audienceService, RoleBasedService,
-                                                                   momentService, vistoconfig, videoService, utils) {
+                                                                   momentService, vistoconfig, videoService,
+                                                                   utils, urlBuilder, accountService, subAccountService) {
         var winHeaderHeight = $(window).height() - 50,
             winHeight,
 
-            saveDataInLocalStorage = function (data) {
-                var campaignData = {
-                    advertiserId: data.advertiserId,
-                    advertiserName: data.advertiserName,
-                    clientId: data.clientId,
-                    clientName: data.clientName
-                };
-
-                localStorage.removeItem('campaignData');
-                localStorage.setItem('campaignData', window.JSON.stringify(campaignData));
-                $rootScope.$broadcast('adCampaignDataSet');
-            },
-
             campaignOverView = {
-                fetchSubAccounts: function (callback) {
-                    workflowService
-                        .getSubAccounts('write')
-                        .then(function (result) {
-                            if (result.status === 'OK' || result.status === 'success') {
-                                callback && callback(result.data.data);
-                            } else {
-                                campaignOverView.errorHandler(result);
-                            }
-                        }, campaignOverView.errorHandler);
-                },
 
-                getCampaignData: function (campaignId) {
+                getCampaignData: function (clientId, campaignId) {
                     workflowService
-                        .getCampaignData(campaignId)
+                        .getCampaignData(clientId, campaignId)
                         .then(function (result) {
-                            var responseData, clientId, advertiserId;
+                            var responseData,
+                                clientId,
+                                advertiserId,
+                                accountData;
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data;
@@ -58,7 +38,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                 }
 
                                 $scope.workflowData.campaignData = responseData;
-                                saveDataInLocalStorage(responseData);
 
                                 if ($scope.workflowData.campaignData.selectedObjectives &&
                                     $scope.workflowData.campaignData.selectedObjectives.length > 0) {
@@ -81,17 +60,20 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                 clientId = responseData.clientId;
                                 advertiserId = responseData.advertiserId;
 
-                                campaignOverView.fetchSubAccounts(function(subAccountData) {
-                                    subAccountData = _.find(subAccountData, function(data) {
-                                        return data.id === clientId;
+                                accountData =  accountService.getSelectedAccount();
+                                if(!accountData.isLeafNode) {
+                                    accountData = _.find(subAccountService.getSubAccounts(), function(data) {
+                                        return data.id === responseData.clientId;
                                     });
-                                    workflowService.setSubAccountTimeZone(subAccountData.timezone);
-                                });
+                                }
+
+                                workflowService.setAccountTimeZone(accountData.timezone);
 
                                 if ($scope.mode === 'edit') {
                                     if (!$scope.adGroupId) {
                                         workflowService
                                             .getAd({
+                                                clientId : clientId,
                                                 campaignId: $scope.campaignId,
                                                 adId: $scope.adId
                                             })
@@ -109,7 +91,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                             });
                                     } else {
                                         workflowService
-                                            .getAdgroups($scope.campaignId)
+                                            .getAdgroups(clientId, $scope.campaignId)
                                             .then(function (result) {
                                                 var responseData,
                                                     adGroupData = {},
@@ -141,7 +123,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                                     // to get all ads with in ad group
                                                     workflowService
-                                                        .getDetailedAdsInAdGroup($scope.campaignId,
+                                                        .getDetailedAdsInAdGroup(clientId, $scope.campaignId,
                                                             $scope.adGroupId, $scope.adId)
                                                         .then(function (result) {
                                                             $scope.getAd_result = result.data.data;
@@ -260,7 +242,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 },
 
                 saveAds: function (postDataObj) {
-                    var promiseObj;
+                    var promiseObj,
+                        clientId = vistoconfig.getSelectedAccountId();
 
                     function adSaveErrorHandler (data) {
                         var errMsg = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE;
@@ -286,13 +269,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         postDataObj.state = $scope.state;
                     }
 
-                    promiseObj = $scope.adId ?
-                        workflowService.updateAd(postDataObj) :
-                        workflowService.createAd(postDataObj);
+                    promiseObj = workflowService[$scope.adId ? 'updateAd' : 'createAd'](clientId, postDataObj);
 
                     promiseObj.then(function (result) {
-                        var responseData = result.data.data,
-                            url;
+                        var responseData = result.data.data;
 
                         $scope.adCreateLoader = false;
 
@@ -305,8 +285,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             localStorage.setItem('adPlatformCustomInputs',
                                 window.JSON.stringify(responseData.adPlatformCustomInputs));
 
-                            url = '/mediaplan/' + result.data.data.campaignId + '/overview';
-                            $location.url(url);
+                            $location.url(urlBuilder.mediaPlanOverviewUrl(result.data.data.campaignId));
+
                             localStorage.setItem('topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS);
                         } else {
                             if (responseData.statusCode === 400) {
@@ -320,32 +300,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     });
                 },
 
-                // Function to get creatives for list view
-                getTaggedCreatives: function (campaignId, adId) {
-                    workflowService
-                        .getTaggedCreatives(campaignId, adId)
-                        .then(function (result) {
-                            var responseData;
-
-                            if (result.status === 'OK' || result.status === 'success') {
-                                responseData = result.data.data;
-
-                                if (responseData.creatives.length > 0) {
-                                    $scope.emptyCreativesFlag = false;
-                                } else {
-                                    $scope.emptyCreativesFlag = true;
-                                }
-
-                                $scope.creativeData.creativeInfo = responseData;
-                            } else {
-                                campaignOverView.errorHandler(result);
-                            }
-                        }, campaignOverView.errorHandler);
-                },
-
                 errorHandler: function (errData) {
                     if (errData.data.status === 404) {
-                        $location.url('/mediaplans');
+                        $location.url(urlBuilder.gotoMediaplansListUrl());
                     }
                 }
             };
@@ -694,16 +651,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $scope.archivedAdFlag = false;
             $scope.archivedCampaignFlag = false;
 
+            url = urlBuilder.gotoMediaplansListUrl();
+
             if (isAdArchived) {
-                if ($scope.workflowData.campaignData.isArchived) {
-                    url = vistoconfig.MEDIA_PLANS_LINK;
-                } else {
+                if (!$scope.workflowData.campaignData.isArchived) {
                     $scope.isMediaPlanArchive = false;
                     $scope.archivedAdFlag = false;
-                    url = 'mediaplan/' + $scope.campaignId + '/overview';
+                    url = urlBuilder.mediaPlanOverviewUrl($scope.campaignId);
                 }
-            } else {
-                url = vistoconfig.MEDIA_PLANS_LINK;
             }
 
             $location.url(url);
@@ -718,7 +673,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         };
 
         $scope.archiveAd = function () {
-            var errorAchiveAdHandler;
+            var errorAchiveAdHandler,
+                clientId = vistoconfig.getSelectedAccountId();
 
             $scope.adArchiveLoader = true;
 
@@ -729,15 +685,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             };
 
             workflowService
-                .deleteAd($scope.campaignId, $scope.adId)
+                .deleteAd(clientId, $scope.campaignId, $scope.adId)
                 .then(function (result) {
-                    var url;
 
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.adArchive = false;
                         $scope.adArchiveLoader = false;
-                        url = '/mediaplan/' + $scope.campaignId + '/overview';
-                        $location.url(url);
+
+                        $location.url(urlBuilder.mediaPlanOverviewUrl($scope.campaignId));
                         localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_ARCHIVE_SUCCESS);
                     } else {
                         errorAchiveAdHandler();
@@ -750,6 +705,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     $scope.adArchive = false;
                     $rootScope.setErrAlertMessage($scope.textConstants.WF_AD_PAUSE_FAILURE);
                 },
+                clientId = vistoconfig.getSelectedAccountId(),
 
                 pauseAdDataObj = {
                     name: $scope.getAd_result.name,
@@ -763,14 +719,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 };
 
             workflowService
-                .pauseAd(pauseAdDataObj)
+                .pauseAd(clientId, pauseAdDataObj)
                 .then(function (result) {
                     var url;
 
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.adArchive = false;
                         url = '/mediaplan/' + $scope.campaignId + '/overview';
-                        $location.url(url);
+                        $location.url(urlBuilder.mediaPlanOverviewUrl($scope.campaignId));
                         localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_PAUSE_SUCCESS);
                     } else {
                         errorAchiveAdHandler();
@@ -1249,7 +1205,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     postAdDataObj.goal = formData.goal;
                 }
 
-                dateTimeZone = workflowService.getSubAccountTimeZone();
+                dateTimeZone = workflowService.getAccountTimeZone();
 
                 if (formData.startTime) {
                     utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone);
@@ -1748,7 +1704,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         }
 
         $(document).ready(function() {
-            campaignOverView.getCampaignData($routeParams.campaignId);
+            var clientId = vistoconfig.getSelectedAccountId();
+            var campaignId = vistoconfig.getSelectedCampaignId();
+
+            campaignOverView.getCampaignData(clientId, campaignId);
             campaignOverView.fetchAdFormats();
             campaignOverView.fetchGoals();
             campaignOverView.fetchPrimaryKpis();
@@ -1889,6 +1848,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $scope.changeStatus();
                 $scope.updateCreativeData($scope.selectedArr);
             }
+        };
+
+        $scope.redirectToMediaPlanOverviewPage = function() {
+            var campaignId = vistoconfig.getSelectedCampaignId();
+            $location.url(urlBuilder.mediaPlanOverviewUrl(campaignId));
         };
 
         // on Broswers back button customreport behaving wierdly, this piece of code fixes it

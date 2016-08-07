@@ -3,7 +3,7 @@ define(['angularAMD'],function (angularAMD) {
 
     angularAMD.controller('CampaignClone', function ($scope, $routeParams, $location, $timeout, $modalInstance,
                                                      constants, vistoconfig, campaignCloneAction, workflowService,
-                                                     localStorageService, momentService) {
+                                                     localStorageService, momentService, urlBuilder) {
         var today = momentService.utcToLocalTime();
 
         $scope.showCloneLoader = false;
@@ -33,6 +33,7 @@ define(['angularAMD'],function (angularAMD) {
                 cloneStartDate = $scope.newMediaPlanDate,
                 errorMediaPlanHandler,
                 flightDateSelected = $('input[name="chooseFlightDate"]:checked').val(),
+                clientId = vistoconfig.getSelectedAccountId(),
 
                 params = {
                     id: Number($routeParams.campaignId),
@@ -58,15 +59,13 @@ define(['angularAMD'],function (angularAMD) {
                 };
 
                 workflowService
-                    .cloneCampaign(params)
+                    .cloneCampaign(clientId, params)
                     .then(function (results) {
-                        var url,
-                            responseData;
+                        var responseData;
 
                         if (results.status === 'OK' || results.status === 'success') {
                             responseData = results.data.data;
-                            url = '/mediaplan/' + responseData.id + '/overview';
-                            $location.url(url);
+                            $location.url(urlBuilder.mediaPlanOverviewUrl(responseData.id));
                             $scope.close();
                         } else {
                             errorMediaPlanHandler();
@@ -74,7 +73,7 @@ define(['angularAMD'],function (angularAMD) {
                     }, errorMediaPlanHandler);
             } else {
                 workflowService.setMediaPlanClone(params);
-                $location.url(vistoconfig.MEDIAPLAN_CREATE);
+                $location.url(urlBuilder.mediaPlanCreateUrl());
                 $scope.close();
             }
         };
@@ -122,6 +121,7 @@ define(['angularAMD'],function (angularAMD) {
             var target =  event.target,
                 cloneMediaPlanName = target.value,
                 advertiserId = $scope.workflowData.campaignData.advertiserId,
+                clientId = $scope.workflowData.campaignData.clientId,
 
                 cloneObj={
                     advertiserId:advertiserId,
@@ -133,7 +133,7 @@ define(['angularAMD'],function (angularAMD) {
 
             if (advertiserId) {
                 workflowService
-                    .checkforUniqueMediaPlan(cloneObj)
+                    .checkforUniqueMediaPlan(clientId, cloneObj)
                     .then(function (results) {
                         if (results.status === 'OK' || results.status === 'success') {
                             var responseData = results.data.data;

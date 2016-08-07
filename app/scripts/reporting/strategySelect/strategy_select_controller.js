@@ -2,68 +2,35 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
     'reporting/strategySelect/strategy_select_service', 'common/services/constants_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('StrategySelectController', function ($scope, $rootScope, campaignSelectModel,
-                                                                strategySelectModel , constants) {
-        var eventCampaignStrategyChangedFunc;
+    angularAMD.controller('StrategySelectController', function ($scope, $rootScope, $routeParams, $location,
+                                                                campaignSelectModel, strategySelectModel , constants) {
 
         $scope.strategyData = {
-            strategies: {},
-
-            selectedStrategy:  {
-                id: -1,
-                name: 'Loading...'
-            }
+            strategies: strategySelectModel.getStrategyList(),
+            selectedStrategy: strategySelectModel.getSelectedStrategy()
         };
 
         $scope.$parent.strategyLoading =  true;
         $scope.isStrategyDropDownShow = true;
-
-        // On this event, only fetch list of strategies and retain selected Strategy (done from outside).
-        eventCampaignStrategyChangedFunc =  $rootScope.$on(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED, function () {
-            // reset strategy list
-            strategySelectModel.getStrategyObj().strategies = {};
-
-            // fetch strategies
-            $scope.fetchStrategies();
-        });
-
-        $scope.reset = function () {
-            // clean up models
-            strategySelectModel.reset();
-
-            $scope.strategyData.strategies = strategySelectModel.getStrategyObj().strategies;
-            $scope.strategyData.selectedStrategy = strategySelectModel.getStrategyObj().selectedStrategy;
-
-            $scope.$watch(function () {
-                return $scope.strategyData.selectedStrategy;
-            });
-        };
 
         $scope.add_active_to_strategy = function () {
             $('.dropdown_type1_holder').removeClass('active');
             $('.dropdown_type2').addClass('active');
         };
 
-        $scope.setStrategy = function (strategy) {
-            strategySelectModel.setSelectedStrategy(strategy);
-
-            if (strategySelectModel.getStrategyCount() === 1)  {
-                $scope.$parent.isStrategyDropDownShow = false;
-            } else {
-                $scope.$parent.isStrategyDropDownShow = true;
+        $scope.selectStrategy = function(strategy) {
+            var url = '/a/' + $routeParams.accountId;
+            if ($routeParams.subAccountId) {
+                url += '/sa/' + $routeParams.subAccountId;
             }
+            ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
+            ($routeParams.advertiserId > 0 && $routeParams.brandId >= 0) && (url += '/b/' + $routeParams.brandId);
+            url += '/mediaplans/' + $routeParams.campaignId + '/li/' + strategy.id + '/';
+            var reportName = _.last($location.path().split('/'));
+            url += reportName;
 
-            $scope.strategyData.selectedStrategy.id = (strategy.id === undefined) ?
-                (strategy.lineitemId === undefined ? strategy.strategyId : strategy.lineitemId): strategy.id;
-
-            $scope.strategyData.selectedStrategy.name = (strategy.name === undefined) ?
-                strategy.strategy_name: strategy.name;
-
-            $rootScope.$broadcast(constants.EVENT_STRATEGY_CHANGED, strategy);
-
-            if ($scope.strategyData.selectedStrategy.id !== -1 && $scope.strategyData.selectedStrategy.id !== -99) {
-                $scope.$parent.strategyLoading = false;
-            }
+            console.log('url', url);
+            $location.url(url);
         };
 
         $scope.fetchStrategies = function () {
@@ -87,26 +54,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 $scope.strategyData.selectedStrategy.name = constants.NO_ADGROUPS_FOUND;
             }
         };
-
-        $scope.fetchStrategies();
-
-        // Function called when the user clicks on the strategy dropdown
-        $('#strategies_list').click(function (e) {
-            var selectedStrategy;
-
-            $scope.$parent.strategyLoading = true;
-
-            selectedStrategy = {
-                id: $(e.target).attr('value'),
-                name:  $(e.target).text()
-            };
-
-            $scope.setStrategy(selectedStrategy);
-        });
-
-        $scope.$on('$destroy', function () {
-            eventCampaignStrategyChangedFunc();
-        });
     });
 });
 

@@ -1,4 +1,4 @@
-define(['angularAMD','reporting/campaignList/campaign_list_service',
+define(['angularAMD', 'reporting/campaignList/campaign_list_service',
     'common/services/transformer_service', 'reporting/models/campaign_cdb_data', 'reporting/models/campaign_cost',
     'common/services/request_cancel_service', 'common/services/constants_service', 'reporting/brands/brands_model',
     'login/login_model', 'reporting/advertiser/advertiser_model', 'common/services/url_service',
@@ -6,10 +6,10 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
         // originally part of controllers/campaign_controller.js
         angularAMD.factory('campaignListModel', ['$route','$rootScope', '$location', 'campaignListService',
             'modelTransformer', 'campaignCDBData', 'campaignCost', 'requestCanceller', 'constants', 'brandsModel',
-            'loginModel', 'advertiserModel', 'urlService', 'vistoconfig','dataService','localStorageService',
+            'loginModel', 'advertiserModel', 'urlService', 'vistoconfig', 'dataService', 'localStorageService',
             function ($route,$rootScope, $location, campaignListService, modelTransformer, campaignCDBData,
                       campaignCost, requestCanceller, constants, brandsModel, loginModel, advertiserModel, urlService,
-                      vistoconfig,dataService,localStorageService) {
+                      vistoconfig, dataService, localStorageService) {
                 var Campaigns = function () {
                     this.getCapitalizeString = function (string) {
                         return string[0].toUpperCase() + string.substring(1);
@@ -75,8 +75,8 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                     this.nextPage = 1;
                     this.sortParam = 'start_date';
                     this.sortDirection = 'desc';
-                    this.brandId = brandsModel.getSelectedBrand().id;
-                    this.client_id = loginModel.getSelectedClient().id;
+                    this.brandId = vistoconfig.getSelectedBrandId();
+                    this.client_id = vistoconfig.getSelectedAccountId();
 
                     this.dashboard = {
                         filterTotal: 1,
@@ -216,7 +216,10 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
 
                         fetchCampaigns = function () {
                             var self,
-                                url;
+                                url,
+                                clientId,
+                                advertiserId,
+                                brandId;
 
                             // check scroller only inside container
                             findScrollerFromContainer.call(this);
@@ -229,6 +232,10 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                                 self = this;
                                 self.noData = false;
                                 url = _campaignServiceUrl.call(this);
+
+                                clientId = vistoconfig.getSelectedAccountId();
+                                advertiserId = vistoconfig.getSelectAdvertiserId();
+                                brandId = vistoconfig.getSelectedBrandId();
 
                                 campaignListService.getCampaigns(url, function (result) {
                                     var data = result.data.data;
@@ -269,9 +276,9 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                                         angular.forEach(campaignData, function (campaign) {
                                             var queryObj = {
                                                     queryId: 14,
-                                                    clientId: loginModel.getSelectedClient().id,
-                                                    advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                                                    brandId: brandsModel.getSelectedBrand().id,
+                                                    clientId: clientId,
+                                                    advertiserId: advertiserId,
+                                                    brandId: brandId,
                                                     dateFilter: 'life_time',
                                                     campaignIds: campaign.id
                                                 },
@@ -288,7 +295,8 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                                                     .then(function (response) {
                                                         self.busy = false;
 
-                                                        if (response.data) {
+                                                        if(response.data && response.data.data &&
+                                                            response.data.data.length > 0) {
                                                             campaign.spend = response.data.data[0].gross_rev;
                                                         } else {
                                                             campaign.spend = 0;
@@ -299,7 +307,8 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                                                             campaign.kpi_value = 0;
                                                         }
 
-                                                        campaignListService.getCdbLineChart(campaign, self.timePeriod,
+                                                        campaignListService.getCdbLineChart(clientId,
+                                                            campaign, self.timePeriod,
                                                             function (cdbData) {
                                                                 if (cdbData) {
                                                                     self.cdbDataMap[campaign.orderId] =
@@ -325,10 +334,6 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                                             }(campaign));
                                         }, self.campaignList);
 
-                                        // as we change the brand, we are updating the campaign model as well.
-                                        if (brandsModel.getSelectedBrand().id !== -1 && self.campaignList.length) {
-                                            $rootScope.$broadcast('updateCampaignAsBrandChange', self.campaignList[0]);
-                                        }
                                     } else {
                                         self.performanceParams.lastPage = true;
                                     }
@@ -400,12 +405,6 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                                             }
                                         }, self.costBreakdownList);
 
-                                        // as we change the brand, we are updating the campaign model as well.
-                                        if (brandsModel.getSelectedBrand().id !== -1 && self.costBreakdownList.length) {
-                                            $rootScope.$broadcast('updateCampaignAsBrandChange',
-                                                self.costBreakdownList[0]);
-                                        }
-
                                         self.costIds = self.costIds.substring(0, self.costIds.length - 1);
 
                                         if (self.costIds !== '') {
@@ -454,9 +453,9 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                          * coming from dashboard then (active, ontrack)/(active, under performing)
                          */
                         fetchDashboardData = function (forceLoadFilter) {
-                            var clientId = loginModel.getSelectedClient().id,
-                                advertiserId = advertiserModel.getSelectedAdvertiser().id,
-                                brandId = brandsModel.getSelectedBrand().id,
+                            var clientId = vistoconfig.getSelectedAccountId(),
+                                advertiserId = vistoconfig.getSelectAdvertiserId(),
+                                brandId = vistoconfig.getSelectedBrandId(),
 
                                 url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                                     '/campaigns/summary/counts?date_filter=' + this.timePeriod +
@@ -517,8 +516,8 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
 
                         fetchCostData = function () {
                             var self = this,
-                                advertiserId = advertiserModel.getSelectedAdvertiser().id,
-                                brandId = brandsModel.getSelectedBrand().id,
+                                advertiserId = vistoconfig.getSelectAdvertiserId(),
+                                brandId = vistoconfig.getSelectedBrandId(),
 
                                 hideLoader = function () {
                                     _.each(costidsList, function (value) {
@@ -834,7 +833,10 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                         },
 
                         _campaignServiceUrl = function (from) {
-                            var nextPageNumber,
+                            var clientId = vistoconfig.getSelectedAccountId(),
+                                advertiserId = vistoconfig.getSelectAdvertiserId(),
+                                brandId = vistoconfig.getSelectedBrandId(),
+                                nextPageNumber,
                                 params;
 
                             if (from === 'costBreakdown') {
@@ -844,9 +846,9 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                             }
 
                             params = [
-                                'client_id=' + loginModel.getSelectedClient().id,
-                                'advertiser_id=' + advertiserModel.getSelectedAdvertiser().id,
-                                'brand_id=' + brandsModel.getSelectedBrand().id,
+                                'client_id=' + clientId,
+                                'advertiser_id=' + advertiserId,
+                                'brand_id=' + brandId,
                                 'date_filter=' + this.timePeriod,
                                 'page_num=' + nextPageNumber,
                                 'page_size=' + this.pageSize

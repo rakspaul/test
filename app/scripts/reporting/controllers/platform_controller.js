@@ -4,6 +4,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
     'reporting/timePeriod/time_period_model', 'login/login_model', 'common/services/role_based_service',
     'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'common/services/url_service',
     'common/services/features_service', 'common/services/request_cancel_service',
+    'common/utils',
     'reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller',
     'reporting/timePeriod/time_period_pick_directive', 'reporting/kpiSelect/kpi_select_directive'],
     function (angularAMD) {
@@ -13,7 +14,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                                               strategySelectModel, dataService, constants,
                                                               domainReports, vistoconfig, timePeriodModel, loginModel,
                                                               RoleBasedService, advertiserModel, brandsModel,
-                                                              urlService, featuresService, requestCanceller) {
+                                                              urlService, featuresService, requestCanceller,
+                                                              utils) {
             var _currCtrl = this,
                 extractAdFormats;
 
@@ -96,9 +98,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
                     param = {
                         campaignId: $scope.selectedCampaign.id,
-                        clientId: loginModel.getSelectedClient().id,
-                        advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                        brandId: brandsModel.getSelectedBrand().id,
+                        clientId: vistoconfig.getSelectedAccountId(),
+                        advertiserId: vistoconfig.getSelectAdvertiserId(),
+                        brandId: vistoconfig.getSelectedBrandId(),
                         dateFilter: datefilter
                     };
 
@@ -279,22 +281,6 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 $scope.videoMode = $scope.adFormats && $scope.adFormats.videoAds;
             };
 
-            // whenever strategy change either by broadcast or from dropdown
-            $scope.$on(constants.EVENT_STRATEGY_CHANGED, function () {
-                var selectedStrategyObj = strategySelectModel.getSelectedStrategy();
-
-                extractAdFormats();
-                $scope.selectedStrategy.id = selectedStrategyObj.id;
-                $scope.selectedStrategy.name = selectedStrategyObj.name;
-
-                $scope.strategyHeading = Number($scope.selectedStrategy.id) ===
-                    vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ? constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
-
-                $scope.isStrategyDataEmpty = false;
-                $scope.resetVariables();
-                $scope.strategyChangeHandler();
-            });
-
             // resetting the variable
             $scope.resetVariables = function () {
                 $scope.performanceBusy = false;
@@ -356,7 +342,14 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 $scope.someDummyVarDeleteLater = kpiSelectModel.setSelectedKpi('cpm');
             };
 
+            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
             $scope.init();
+            extractAdFormats();
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ?
+                constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
+            $scope.isStrategyDataEmpty = false;
+            $scope.resetVariables();
+            $scope.strategyChangeHandler();
 
             // Binding click event on tab and fetch strategy method.
             $(function () {

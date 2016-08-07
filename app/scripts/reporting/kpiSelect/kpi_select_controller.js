@@ -41,7 +41,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 return obj.kpi === $scope.kpiData.selectedKpiAlt;
             });
             return (ret ? true : false);
-        }
+        };
 
         $scope.setSelectedKpi = function (_kpi) {
             kpiSelectModel.setSelectedKpi(_kpi);

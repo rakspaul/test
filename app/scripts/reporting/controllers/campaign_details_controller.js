@@ -15,33 +15,31 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
         'use strict';
 
         angularAMD.controller('CampaignDetailsController', function ($rootScope, $scope, $routeParams,
-                                                                $window, $filter,$location,  $timeout,
-                                                                timePeriodModel, modelTransformer, campaignCDBData,
-                                                                campaignListService, campaignListModel,
-                                                                campaignSelectModel, strategySelectModel, actionChart,
-                                                                dataService, utils, pieChart, solidGaugeChart,
-                                                                constants, featuresService, loginModel, loginService,
-                                                                brandsModel, urlService, momentService,
-                                                                RoleBasedService, advertiserModel, kpiSelectModel,
-                                                                dataStore, vistoconfig, domainReports,
-                                                                editAction, activityList) {
+                                                                     $window, $filter,$location,  $timeout,
+                                                                     timePeriodModel, modelTransformer, campaignCDBData,
+                                                                     campaignListService, campaignSelectModel,
+                                                                     strategySelectModel, strategySelectService,
+                                                                     actionChart, dataService, utils, pieChart,
+                                                                     solidGaugeChart, constants, featuresService,
+                                                                     loginModel, loginService, brandsModel, urlService,
+                                                                     momentService, RoleBasedService, advertiserModel,
+                                                                     kpiSelectModel, dataStore, vistoconfig,
+                                                                     domainReports, editAction, activityList) {
+
             var orderBy = $filter('orderBy'),
                 campaign = campaignListService,
-                Campaigns = campaignListModel,
                 fParams = featuresService.getFeatureParams(),
                 getSetCampaignDetails,
 
                 // API call for campaign details
-                clientId = loginModel.getSelectedClient().id,
-
-                url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                    '/clients/' + clientId +
-                    '/campaigns/' + $routeParams.campaignId,
+                clientId = vistoconfig.getSelectedAccountId(),
+                advertiserId = vistoconfig.getSelectAdvertiserId(),
+                brandId = vistoconfig.getSelectedBrandId(),
+                campaignId = vistoconfig.getSelectedCampaignId(),
 
                 eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function (event, args) {
                     var callbackFunctionName = args.loadingFlag === 2  ?  $scope.refreshGraph : $scope.getCdbChartData;
-
-                    dataStore.deleteFromCache(urlService.APIActionData($routeParams.campaignId));
+                    dataStore.deleteFromCache(urlService.APIActionData(clientId, campaignId));
                     updateActionItems(callbackFunctionName, args.loadingFlag, args.showExternal);
                 }),
 
@@ -55,9 +53,9 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 return {
                     queryId: queryId,
                     campaignId: $scope.campaign.orderId,
-                    clientId: loginModel.getSelectedClient().id,
-                    advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                    brandId: brandsModel.getSelectedBrand().id,
+                    clientId: clientId,
+                    advertiserId: advertiserId,
+                    brandId: brandId,
                     dateFilter: dateFilter
                 };
             }
@@ -141,7 +139,10 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 $scope.showOptimization = fParams[0].optimization_transparency;
             });
 
-            $scope.campaigns = new Campaigns();
+            $scope.campaigns = {
+                spend: 0,
+                cdbDataMap: {}
+            };
 
             $scope.activityLogFlag = false;
             brandsModel.disable();
@@ -301,199 +302,201 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 }, 0);
             });
 
-            getSetCampaignDetails = function() {
+            $scope.getCostBreakdownData  = function (campaign) {
+                //  get cost break down data
+                var params = getCustomQueryParams(14);
+
+                delete params.campaignId;
+                params.campaignIds = campaign.orderId;
+
                 dataService
-                    .getSingleCampaign(url)
+                    .fetch(urlService.APIVistoCustomQuery(params))
                     .then(function (result) {
-                        var dataArr,
-                            selectedCampaign,
-                            params,
-                            spendUrl;
+                        var costData,
+                            inventoryCostPercent,
+                            sum,
+                            dataCostPercent,
+                            servingCostPercent,
+                            other,
+                            cBreakdownChartColors = [],
+                            cBreakdownChartData = [],
+                            findOthers;
+
+                        $scope.loadingCostBreakdownFlag = false;
 
                         if (result.status === 'success' && !angular.isString(result.data)) {
-                            dataArr = [result.data.data];
-                            $scope.adFormats = domainReports.checkForCampaignFormat(dataArr[0].adFormats);
-                            $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
+                            if (result.data.data.length > 0) {
+                                costData = result.data.data[0];
+                                inventoryCostPercent = 0;
+                                dataCostPercent = 0;
+                                servingCostPercent = 0;
 
-                            selectedCampaign = {
-                                id: $scope.campaign.id,
-                                name: $scope.campaign.name,
-                                startDate: $scope.campaign.start_date,
-                                endDate: $scope.campaign.end_date,
-                                kpi: $scope.campaign.kpi_type.toLowerCase()
-                            };
-
-                            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
-                            campaignSelectModel.setSelectedCampaign(selectedCampaign);
-
-                            // Fetch Spend Start
-                            params = getCustomQueryParams(14);
-                            delete params.campaignId;
-                            params.campaignIds = $scope.campaign.id;
-                            spendUrl = urlService.getCampaignSpend(params);
-
-                            dataService.fetch(spendUrl).then(function(response) {
-                                if(response.data){
-                                    $scope.campaigns.spend =  response.data.data[0].gross_rev;
-                                } else {
-                                    $scope.campaigns.spend =  0;
+                                if (costData.gross_rev > 0.0) {
+                                    inventoryCostPercent = costData.inventory_cost * 100 / costData.gross_rev;
+                                    dataCostPercent = costData.data_cost * 100 / costData.gross_rev;
+                                    servingCostPercent = costData.serving_cost * 100 / costData.gross_rev;
                                 }
-                            });
-                            // Fetch Spend End
 
-                            campaign.getStrategiesData(clientId, $scope.campaign, constants.PERIOD_LIFE_TIME);
-                            updateActionItems($scope.getCdbChartData, 1, true);
+                                sum = inventoryCostPercent + dataCostPercent + servingCostPercent;
+                                other = 0;
 
-                            campaignListService.getCdbLineChart($scope.campaign, 'life_time', function (cdbData) {
-                                if (cdbData) {
-                                    $scope.campaigns.cdbDataMap[$routeParams.campaignId] =
-                                        modelTransformer.transform(cdbData, campaignCDBData);
-                                    $scope.campaigns.cdbDataMap[$routeParams.campaignId].modified_vtc_metrics =
-                                        campaignListService
-                                            .vtcMetricsJsonModifier(
-                                                $scope.campaigns.cdbDataMap[$routeParams.campaignId].video_metrics
-                                            );
+                                if (sum < 100) {
+                                    other = 100 - sum;
                                 }
-                            });
 
-                            $scope.getCostBreakdownData($scope.campaign);
-                            $scope.getPlatformData();
-                            $scope.getAdSizeGraphData($scope.campaign);
-                            $scope.getScreenGraphData($scope.campaign);
-                            $scope.getFormatsGraphData($scope.campaign);
-                            $scope.getInventoryGraphData($scope.campaign);
-                            $scope.getCostViewabilityData($scope.campaign);
-                        } else {
-                            if (result.status === 204 && result.data === '' ) {
-                                // if data not found
-                                $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
+                                $scope.getCostBreakdownInfo = [
+                                    {
+                                        name: 'Inventory',
+                                        value: inventoryCostPercent,
+                                        className: 'color1',
+                                        colorCode: '#F8810E'
+                                    },
 
-                                $scope.campaign = _.findWhere(campaignSelectModel, {
-                                    id: $scope.selectedCampaign.id
-                                });
+                                    {
+                                        name: 'Data',
+                                        value: dataCostPercent,
+                                        className: 'color2',
+                                        colorCode: '#0072BC'
+                                    },
 
-                                $scope.campaign.campaignTitle = $scope.campaign.name;
+                                    {
+                                        name: 'Ad Serving',
+                                        value: servingCostPercent,
+                                        className: 'color3',
+                                        colorCode: '#45CB41'
+                                    },
 
-                                $scope.details = {
-                                    campaign: null,
-                                    details: null,
-                                    actionChart:false
+                                    {
+                                        name: 'Other',
+                                        value: other,
+                                        className: 'color4',
+                                        colorCode: '#BFC3D1'
+                                    }
+                                ];
+
+                                $scope.details.totalCostBreakdown = costData.gross_rev;
+
+                                $scope.order = function (predicate, reverse) {
+                                    $scope.costBreakdownChartInfo =
+                                        orderBy($scope.getCostBreakdownInfo, predicate, reverse);
                                 };
 
-                                $scope.loadingPlatformFlag = false;
-                                $scope.loadingAdSizeFlag = false;
-                                $scope.loadingFormatFlag = false;
-                                $scope.activityLogFlag = true;
-                                $scope.setWidgetLoadedStatus();
-                                $scope.setEmptyWidget();
-                                $scope.campaign.getSelectedCampaign = campaignSelectModel.getSelectedCampaign;
-                                $scope.campaign.durationLeft = campaignSelectModel.durationLeft;
-                                $scope.campaign.daysSinceEnded = campaignSelectModel.daysSinceEnded;
-                            } else {
-                                if (result.status ==='error') {
-                                    $scope.apiReturnCode = result.data.status;
-                                } else {
-                                    $scope.apiReturnCode = result.status;
-                                }
+                                $scope.order('-value', false);
+                                cBreakdownChartColors = [];
+                                cBreakdownChartData = [];
 
-                                $scope.setWidgetLoadedStatus();
+                                _.each($scope.costBreakdownChartInfo, function (data) {
+                                    if (data.name !== 'Other') {
+                                        cBreakdownChartColors.push(data.colorCode);
+                                        cBreakdownChartData.push(data.value);
+                                    }
+                                });
+
+                                //  Put Others as Last
+                                findOthers =
+                                    _.findWhere($scope.costBreakdownChartInfo, {name: 'Other'});
+
+                                cBreakdownChartColors.push(findOthers.colorCode);
+                                cBreakdownChartData.push(findOthers.value);
+
+                                // set Up configuration for Cost breakdown chart
+                                $scope.costBreakDownPieChartConfig = {
+                                    data: cBreakdownChartData,
+                                    width: 108,
+                                    height: 108,
+                                    widgetId: 'costBreakdownWidget',
+                                    colors: cBreakdownChartColors
+                                };
                             }
                         }
                     }, function () {
-                        console.log('call failed');
+                        console.log('cost break down call failed');
                     });
             };
 
-            $timeout(function(){
-                getSetCampaignDetails();
-            }, 1000);
+            // Platform Widget Starts
+            $scope.getPlatformData =  function () {
+                var params = getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_PLATFORMS),
+                    kpiModel = kpiSelectModel.selectedKpi;
 
-            // TODO: Performance Chart - Moving to D3
-            $scope.getCdbChartData = function (campaign) {
-                // API call for campaign chart
+                // Set default api return code 200
+                $scope.apiReturnCode = 200;
+
                 dataService
-                    .getCdbChartData(campaign, 'life_time', 'campaigns', null)
+                    .fetch(urlService.APIVistoCustomQuery(params))
                     .then(function (result) {
-                        var lineData = [],
-                            showExternal = true,
-                            maxDays,
-                            kpiType,
-                            kpiTypeLower,
-                            activityLocalStorageInfo,
-                            i;
+                        var kpiData,
+                            resultData,
+                            sortedData,
+                            platformData = [],
+                            hasVideoAds;
 
-                        if (result.status === 'success' && !angular.isString(result.data)) {
-                            if (!angular.isUndefined($scope.campaign.kpiType)) {
-                                if (result.data.data.measures_by_days.length > 0) {
-                                    maxDays = result.data.data.measures_by_days;
-                                    kpiType = ($scope.campaign.kpiType);
-                                    kpiTypeLower = kpiType.toLowerCase();
+                        $scope.loadingPlatformFlag = false;
+                        $scope.chartDataPlatform = [];
+                        $scope.chartData = [];
 
-                                    if (kpiTypeLower === 'action rate') {
-                                        kpiTypeLower = 'action_rate';
-                                    }
+                        if ((result.status === 'OK' || result.status === 'success') &&
+                            !angular.isString(result.data)) {
+                            // Step 2 Data Mod Restructure of the Array on memory
+                            resultData = result.data.data;
 
-                                    for (i = 0; i < maxDays.length; i++) {
-                                        maxDays[i].ctr *= 100;
-                                        maxDays[i].vtc = maxDays[i].video_metrics.vtc_rate;
+                            platformData = [];
 
-                                        lineData.push({
-                                            x: i + 1,
-                                            y: utils.roundOff(maxDays[i][kpiTypeLower], 2),
-                                            date: maxDays[i].date
-                                        });
-                                    }
+                            // for a video campaign, if set(default) kPI is vtc and dosen’t have video data.
+                            // we are showing data not found.
+                            hasVideoAds = $scope.adFormats && kpiModel.toLowerCase() === 'vtc' &&
+                                !$scope.adFormats.videoAds;
 
-                                    $scope.details.lineData = lineData;
-                                    $scope.details.maxDays =  maxDays;
+                            if (resultData && resultData.length > 0 && !hasVideoAds) {
+                                platformData = _.map(resultData, function (obj) {
+                                    obj['action rate'] = obj.action_rate;
 
-                                    $scope.details.actionChart =
-                                        actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue),
-                                            $scope.campaign.kpiType, activityList.data.data, 450, 330, null,
-                                            undefined, showExternal);
+                                    return obj;
+                                });
 
-                                    // D3 chart object for action performance chart
-                                    $scope.details.lineChart = {
-                                        data: lineData,
-                                            kpiValue: parseFloat($scope.campaign.kpiValue),
-                                            kpiType: $scope.campaign.kpiType,
-                                            from: 'action_performance',
+                                // This Sorts the Data order by CTR or CPA
+                                sortedData = _.sortBy(platformData, kpiModel);
 
-                                            // for delivery kpi
-                                            deliveryData: {
-                                                startDate: $scope.campaign.startDate,
-                                                endDate: $scope.campaign.endDate,
+                                sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpiModel) ?
+                                    sortedData : sortedData.reverse();
 
-                                                totalDays: momentService.dateDiffInDays($scope.campaign.startDate,
-                                                    $scope.campaign.endDate) + 1,
+                                sortedData = _.sortBy(sortedData, function (obj) {
+                                    return obj[kpiModel] === 0;
+                                });
 
-                                                deliveryDays: maxDays.length,
-                                                bookedImpressions: maxDays[maxDays.length-1].booked_impressions
-                                        },
+                                sortedData = sortedData.slice(0, 3);
 
-                                        // customisation
-                                        activityList: activityList.data.data,
-                                            showExternal: showExternal
+                                $scope.chartDataPlatform = _.map(sortedData, function(data) {
+                                    var type = data.platform_name,
+                                        icon_url = data.platform_icon_url === 'Unknown' ?
+                                            'platform_logo.png' :
+                                        type.toLowerCase().replace(/ /g, '_') + '.png';
+
+                                    kpiData = data[kpiModel];
+                                    icon_url = '/images/platform_favicons/' + icon_url;
+
+                                    return {
+                                        gross_env: data.gross_rev,
+                                        className: '',
+                                        icon_url: icon_url,
+                                        type: type,
+                                        value: kpiData,
+                                        kpiType: kpiModel
                                     };
-
-                                    activityLocalStorageInfo = JSON.parse(localStorage.getItem('activityLocalStorage'));
-
-                                    if (activityLocalStorageInfo !== null) {
-                                        if ((activityLocalStorageInfo.actionSel) !== null) {
-                                            $scope.makeCampaignSelected(activityLocalStorageInfo.actionSel);
-                                        }
-                                    }
-                                } else {
-                                    $scope.details.actionChart = false;
-                                }
-                            } else {
-                                $scope.details.actionChart = false;
+                                });
                             }
-                        } else {
-                            $scope.details.actionChart = false;
                         }
+
+                        $scope.platformBarChartConfig = {
+                            data: $scope.chartDataPlatform,
+                            showLabel: true,
+                            graphName: 'platforms'
+                        };
+                    }, function () {
+                        console.log('Platform data call failed');
                     });
             };
+            // Platform Widget Ends
 
             // Function called when the user clicks on the Load more button
             $scope.loadMoreStrategies = function () {
@@ -505,7 +508,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 if (strategiesYetToLoad.length > 0) {
                     strategiesToLoadNow = strategiesYetToLoad.splice(0, pageSize);
 
-                    newStrategyData = campaign.requestStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME,
+                    newStrategyData = campaign.moreStrategiesData(clientId, $scope.campaign, constants.PERIOD_LIFE_TIME,
                         strategiesToLoadNow);
 
                     $scope.campaign.campaignStrategies.push.apply(
@@ -534,8 +537,8 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 if (tacticsYetToLoad.length > 0) {
                     tacticsToLoadNow = tacticsYetToLoad.splice(0, pageSize);
 
-                    newTacticData = campaign.requestTacticsData(strategy, constants.PERIOD_LIFE_TIME,
-                        $scope.campaign, tacticsToLoadNow);
+                    newTacticData = campaign.moreTacticsData(clientId, $scope.campaign, strategy,
+                        constants.PERIOD_LIFE_TIME, tacticsToLoadNow);
 
                     strategy.strategyTactics.push.apply(strategy.strategyTactics, newTacticData);
                 }
@@ -555,11 +558,11 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                     splitIdListLen = splitIdList.length;
 
                     for(i = 0; i < splitIdListLen; i++) {
-                          targetId = splitIdList[i];
-                           myContainer.find('#actionItem_' + targetId).addClass('active');
+                        targetId = splitIdList[i];
+                        myContainer.find('#actionItem_' + targetId).addClass('active');
 
-                           if (scrollTo.length > 0) {
-                               myContainer.animate({
+                        if (scrollTo.length > 0) {
+                            myContainer.animate({
                                 scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                             });
                         }
@@ -576,118 +579,6 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                         });
                     }
                 }
-            };
-
-            $scope.getCostBreakdownData  = function (campaign) {
-                //  get cost break down data
-                var params = getCustomQueryParams(14);
-
-                delete params.campaignId;
-                params.campaignIds = campaign.orderId;
-
-                dataService
-                    .fetch(urlService.APIVistoCustomQuery(params))
-                    .then(function (result) {
-                        var costData,
-                            inventoryCostPercent,
-                            sum,
-                            dataCostPercent,
-                            servingCostPercent,
-                            other,
-                            cBreakdownChartColors = [],
-                            cBreakdownChartData = [],
-                            findOthers;
-
-                        $scope.loadingCostBreakdownFlag = false;
-
-                        if (result.status === 'success' && !angular.isString(result.data)) {
-                             if (result.data.data.length > 0) {
-                                 costData = result.data.data[0];
-                                 inventoryCostPercent = 0;
-                                 dataCostPercent = 0;
-                                 servingCostPercent = 0;
-
-                                 if (costData.gross_rev > 0.0) {
-                                    inventoryCostPercent = costData.inventory_cost * 100 / costData.gross_rev;
-                                    dataCostPercent = costData.data_cost * 100 / costData.gross_rev;
-                                    servingCostPercent = costData.serving_cost * 100 / costData.gross_rev;
-                                 }
-
-                                 sum = inventoryCostPercent + dataCostPercent + servingCostPercent;
-                                 other = 0;
-
-                                 if (sum < 100) {
-                                     other = 100 - sum;
-                                 }
-
-                                 $scope.getCostBreakdownInfo = [
-                                     {
-                                         name: 'Inventory',
-                                         value: inventoryCostPercent,
-                                         className: 'color1',
-                                         colorCode: '#F8810E'
-                                     },
-
-                                     {
-                                         name: 'Data',
-                                         value: dataCostPercent,
-                                         className: 'color2',
-                                         colorCode: '#0072BC'
-                                     },
-
-                                     {
-                                         name: 'Ad Serving',
-                                         value: servingCostPercent,
-                                         className: 'color3',
-                                         colorCode: '#45CB41'
-                                     },
-
-                                     {
-                                         name: 'Other',
-                                         value: other,
-                                         className: 'color4',
-                                         colorCode: '#BFC3D1'
-                                     }
-                                 ];
-
-                                 $scope.details.totalCostBreakdown = costData.gross_rev;
-
-                                 $scope.order = function (predicate, reverse) {
-                                     $scope.costBreakdownChartInfo =
-                                         orderBy($scope.getCostBreakdownInfo, predicate, reverse);
-                                 };
-
-                                 $scope.order('-value', false);
-                                 cBreakdownChartColors = [];
-                                 cBreakdownChartData = [];
-
-                                 _.each($scope.costBreakdownChartInfo, function (data) {
-                                    if (data.name !== 'Other') {
-                                         cBreakdownChartColors.push(data.colorCode);
-                                         cBreakdownChartData.push(data.value);
-                                    }
-                                 });
-
-                                 //  Put Others as Last
-                                 findOthers =
-                                     _.findWhere($scope.costBreakdownChartInfo, {name: 'Other'});
-
-                                 cBreakdownChartColors.push(findOthers.colorCode);
-                                 cBreakdownChartData.push(findOthers.value);
-
-                                 // set Up configuration for Cost breakdown chart
-                                 $scope.costBreakDownPieChartConfig = {
-                                     data: cBreakdownChartData,
-                                     width: 108,
-                                     height: 108,
-                                     widgetId: 'costBreakdownWidget',
-                                     colors: cBreakdownChartColors
-                                 };
-                             }
-                        }
-                    }, function () {
-                        console.log('cost break down call failed');
-                    });
             };
 
             $scope.getInventoryGraphData  = function () {
@@ -907,90 +798,6 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
             };
             // Screen Widget Ends
 
-            // Platform Widget Starts
-            $scope.getPlatformData =  function () {
-                var params = getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_PLATFORMS),
-                    kpiModel = kpiSelectModel.selectedKpi;
-
-                // Set default api return code 200
-                $scope.apiReturnCode = 200;
-
-                dataService
-                    .fetch(urlService.APIVistoCustomQuery(params))
-                    .then(function (result) {
-                        var kpiData,
-                            resultData,
-                            sortedData,
-                            platformData = [],
-                            hasVideoAds;
-
-                        $scope.loadingPlatformFlag = false;
-                        $scope.chartDataPlatform = [];
-                        $scope.chartData = [];
-
-                        if ((result.status === 'OK' || result.status === 'success') &&
-                            !angular.isString(result.data)) {
-                            // Step 2 Data Mod Restructure of the Array on memory
-                            resultData = result.data.data;
-
-                            platformData = [];
-
-                            // for a video campaign, if set(default) kPI is vtc and dosen’t have video data.
-                            // we are showing data not found.
-                            hasVideoAds = $scope.adFormats && kpiModel.toLowerCase() === 'vtc' &&
-                                !$scope.adFormats.videoAds;
-
-                            if (resultData && resultData.length > 0 && !hasVideoAds) {
-                                platformData = _.map(resultData, function (obj) {
-                                    obj['action rate'] = obj.action_rate;
-
-                                    return obj;
-                                });
-
-                                // This Sorts the Data order by CTR or CPA
-                                sortedData = _.sortBy(platformData, kpiModel);
-
-                                sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpiModel) ?
-                                    sortedData : sortedData.reverse();
-
-                                sortedData = _.sortBy(sortedData, function (obj) {
-                                    return obj[kpiModel] === 0;
-                                });
-
-                                sortedData = sortedData.slice(0, 3);
-
-                                $scope.chartDataPlatform = _.map(sortedData, function(data) {
-                                    var type = data.platform_name,
-                                        icon_url = data.platform_icon_url === 'Unknown' ?
-                                            'platform_logo.png' :
-                                            type.toLowerCase().replace(/ /g, '_') + '.png';
-
-                                    kpiData = data[kpiModel];
-                                    icon_url = '/images/platform_favicons/' + icon_url;
-
-                                    return {
-                                        gross_env: data.gross_rev,
-                                        className: '',
-                                        icon_url: icon_url,
-                                        type: type,
-                                        value: kpiData,
-                                        kpiType: kpiModel
-                                    };
-                                });
-                            }
-                        }
-
-                        $scope.platformBarChartConfig = {
-                            data: $scope.chartDataPlatform,
-                            showLabel: true,
-                            graphName: 'platforms'
-                        };
-                    }, function () {
-                        console.log('Platform data call failed');
-                    });
-            };
-            // Platform Widget Ends
-
             $scope.getFormatsGraphData = function () {
                 var formatTypeMap = vistoconfig.formatTypeMap,
                     params = getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_FORMATS);
@@ -1046,7 +853,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                                     var kpiData = data[kpiModel],
 
                                     // It removes empty space and makes a single word and then convert to lower case
-                                    screenType = data.dimension.replace(/ /g,'').toLowerCase();
+                                        screenType = data.dimension.replace(/ /g,'').toLowerCase();
 
                                     return {
                                         gross_env: data.gross_rev,
@@ -1073,16 +880,16 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 var params = getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_QUALITY),
                     viewData;
 
-                 // get cost break down data
-                 $scope.getCostViewabilityFlag = 0;
+                // get cost break down data
+                $scope.getCostViewabilityFlag = 0;
 
                 dataService
                     .fetch(urlService.APIVistoCustomQuery(params))
                     .then(function (result) {
                         var highChartSeriesObj = [];
 
-                         $scope.getCostViewabilityFlag = 1;
-                         $scope.loadingViewabilityFlag = false;
+                        $scope.getCostViewabilityFlag = 1;
+                        $scope.loadingViewabilityFlag = false;
 
                         if (result.status === 'success' && !angular.isString(result.data.data)) {
                             viewData = result.data.data;
@@ -1092,7 +899,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                                 pct_video: viewData.view_metrics.video_viewability_metrics.video_viewable_perc,
 
                                 pct_total: viewData.view_metrics.viewable_imps_perc >
-                                    viewData.view_metrics.video_viewability_metrics.video_viewable_perc ?
+                                viewData.view_metrics.video_viewability_metrics.video_viewable_perc ?
                                     viewData.view_metrics.viewable_imps_perc :
                                     viewData.view_metrics.video_viewability_metrics.video_viewable_perc
                             };
@@ -1178,15 +985,15 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
             };
 
             $scope.viewReports = function (campaign, strategy) {
-                campaignSelectModel.setSelectedCampaign(campaign);
-                strategySelectModel.setSelectedStrategy(strategy);
-                kpiSelectModel.setSelectedKpi(campaign.kpiType);
+                var url = '/a/' + $routeParams.accountId;
+                if ($routeParams.subAccountId) {
+                    url += '/sa/' + $routeParams.subAccountId;
+                }
 
-                // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just
-                // fetch strategy list and retain selected strategy.
-                localStorage.setItem('isNavigationFromCampaigns', true);
-
-                utils.goToLocation(vistoconfig.PERFORMANCE_LINK);
+                ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
+                ($routeParams.advertiserId > 0 && $routeParams.brandId >= 0) && (url += '/b/' + $routeParams.brandId);
+                url += '/mediaplans/' + $routeParams.campaignId + '/li/' + strategy.id + '/performance';
+                $location.url(url);
             };
 
             $scope.getMessageForDataNotAvailable = function (campaign, dataSetType) {
@@ -1201,7 +1008,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 } else if (campaign.kpiType === 'null') {
                     return constants.MSG_CAMPAIGN_KPI_NOT_SET;
                 } else if (campaign.status === 'active') {
-                  return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
+                    return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
                 } else if (dataSetType === 'activities') {
                     return constants.MSG_CAMPAIGN_NOT_OPTIMIZED;
                 } else if (dataSetType === 'inventory' || dataSetType === 'viewability') {
@@ -1241,28 +1048,29 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
             };
 
             $scope.setGraphData = function (campaign, type) {
-                if (campaign) {
-                    campaign.type = type;
-                    campaignSelectModel.setSelectedCampaign(campaign);
-                    strategySelectModel.setSelectedStrategy(vistoconfig.LINE_ITEM_DROPDWON_OBJECT);
-                    kpiSelectModel.setSelectedKpi(campaign.kpiType);
-                }
+                var url = '/a/' + $routeParams.accountId;
 
-                $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
+                if ($routeParams.subAccountId) {
+                    url += '/sa/' + $routeParams.subAccountId;
+                }
+                ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
+                ($routeParams.advertiserId > 0 && $routeParams.brandId >= 0) && (url += '/b/' + $routeParams.brandId);
+                url += '/mediaplans/' + $routeParams.campaignId;
 
                 if (type === 'cost') {
-                    utils.goToLocation(vistoconfig.COST_LINK);
+                    url += '/cost';
                 } else if (type === 'quality' || type === 'videoViewability') {
-                    utils.goToLocation(vistoconfig.QUALITY_LINK);
+                    url += '/quality';
                 } else if (type === 'inventory') {
-                    utils.goToLocation(vistoconfig.INVENTORY_LINK);
+                    url += '/inventory';
                 } else if (type === 'platform') {
-                    utils.goToLocation(vistoconfig.PLATFORM_LINK);
+                    url += '/platform';
                 } else if (type === 'view_report' || type === 'formats' || type === 'screens' || type === 'adsizes') {
-                    utils.goToLocation(vistoconfig.PERFORMANCE_LINK);
+                    url += '/performance';
                 } else {
-                    utils.goToLocation(vistoconfig.OPTIMIZATION_LINK);
+                    url += '/Optimization';
                 }
+                $location.url(url);
             };
 
             $scope.watchActionFilter = function (filter, showExternal) {
@@ -1508,6 +1316,148 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                     activityList: activityList.data.data,
                     showExternal: showExternal
                 };
+            };
+
+            getSetCampaignDetails = function() {
+                var dataArr,
+                    params,
+                    spendUrl;
+
+                dataArr = [campaignSelectModel.getSelectedCampaignOriginal()];
+
+                $scope.adFormats = domainReports.checkForCampaignFormat(dataArr[0].adFormats);
+                $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
+                $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
+
+                // Fetch Spend Start
+                params = getCustomQueryParams(14);
+                delete params.campaignId;
+                params.campaignIds = $scope.campaign.id;
+                spendUrl = urlService.getCampaignSpend(params);
+
+                dataService.fetch(spendUrl).then(function(response) {
+                    if(response.data && response.data.data && response.data.data.length > 0) {
+                        $scope.campaigns.spend =  response.data.data[0].gross_rev;
+                    } else {
+                        $scope.campaigns.spend = 0;
+                    }
+                });
+
+                // Fetch Spend End
+                campaign.getStrategiesList(clientId, $scope.campaign, constants.PERIOD_LIFE_TIME);
+                updateActionItems($scope.getCdbChartData, 1, true);
+console.log('getSetCampaignDetails(), $scope.getCdbChartData = ', $scope.getCdbChartData);
+console.log('$scope.details.actionChart = ', $scope.details.actionChart);
+
+                campaignListService.getCdbLineChart(clientId, $scope.campaign, 'life_time', function (cdbData) {
+                    if (cdbData) {
+                        $scope.campaigns.cdbDataMap[campaignId] =
+                            modelTransformer.transform(cdbData, campaignCDBData);
+                        $scope.campaigns.cdbDataMap[campaignId].modified_vtc_metrics =
+                            campaignListService
+                                .vtcMetricsJsonModifier(
+                                    $scope.campaigns.cdbDataMap[campaignId].video_metrics
+                                );
+                    }
+                });
+
+                $scope.getCostBreakdownData($scope.campaign);
+                $scope.getPlatformData();
+                $scope.getAdSizeGraphData($scope.campaign);
+                $scope.getScreenGraphData($scope.campaign);
+                $scope.getFormatsGraphData($scope.campaign);
+                $scope.getInventoryGraphData($scope.campaign);
+                $scope.getCostViewabilityData($scope.campaign);
+            };
+
+            getSetCampaignDetails();
+
+            // TODO: Performance Chart - Moving to D3
+            $scope.getCdbChartData = function (campaign) {
+                // API call for campaign chart
+                dataService
+                    .getCdbChartData(clientId, campaign, 'life_time', 'campaigns', null)
+                    .then(function (result) {
+                        var lineData = [],
+                            showExternal = true,
+                            maxDays,
+                            kpiType,
+                            kpiTypeLower,
+                            activityLocalStorageInfo,
+                            i;
+console.log('$scope.details.actionChart = ', $scope.details.actionChart);
+
+                        if (result.status === 'success' && !angular.isString(result.data)) {
+                            if (!angular.isUndefined($scope.campaign.kpiType)) {
+                                if (result.data.data.measures_by_days.length > 0) {
+                                    maxDays = result.data.data.measures_by_days;
+                                    kpiType = ($scope.campaign.kpiType);
+                                    kpiTypeLower = kpiType.toLowerCase();
+
+                                    if (kpiTypeLower === 'action rate') {
+                                        kpiTypeLower = 'action_rate';
+                                    }
+
+                                    for (i = 0; i < maxDays.length; i++) {
+                                        maxDays[i].ctr *= 100;
+                                        maxDays[i].vtc = maxDays[i].video_metrics.vtc_rate;
+
+                                        lineData.push({
+                                            x: i + 1,
+                                            y: utils.roundOff(maxDays[i][kpiTypeLower], 2),
+                                            date: maxDays[i].date
+                                        });
+                                    }
+
+                                    $scope.details.lineData = lineData;
+                                    $scope.details.maxDays =  maxDays;
+
+                                    $scope.details.actionChart =
+                                        actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue),
+                                            $scope.campaign.kpiType, activityList.data.data, 450, 330, null,
+                                            undefined, showExternal);
+
+                                    // D3 chart object for action performance chart
+                                    $scope.details.lineChart = {
+                                        data: lineData,
+                                            kpiValue: parseFloat($scope.campaign.kpiValue),
+                                            kpiType: $scope.campaign.kpiType,
+                                            from: 'action_performance',
+
+                                            // for delivery kpi
+                                            deliveryData: {
+                                                startDate: $scope.campaign.startDate,
+                                                endDate: $scope.campaign.endDate,
+
+                                                totalDays: momentService.dateDiffInDays($scope.campaign.startDate,
+                                                    $scope.campaign.endDate) + 1,
+
+                                                deliveryDays: maxDays.length,
+                                                bookedImpressions: maxDays[maxDays.length-1].booked_impressions
+                                        },
+
+                                        // customisation
+                                        activityList: activityList.data.data,
+                                            showExternal: showExternal
+                                    };
+
+                                    activityLocalStorageInfo = JSON.parse(localStorage.getItem('activityLocalStorage'));
+
+                                    if (activityLocalStorageInfo !== null) {
+                                        if ((activityLocalStorageInfo.actionSel) !== null) {
+                                            $scope.makeCampaignSelected(activityLocalStorageInfo.actionSel);
+                                        }
+                                    }
+                                } else {
+                                    $scope.details.actionChart = false;
+                                }
+                            } else {
+                                $scope.details.actionChart = false;
+                            }
+                        } else {
+                            $scope.details.actionChart = false;
+                        }
+                    });
             };
 
             $scope.$on('$destroy', function () {

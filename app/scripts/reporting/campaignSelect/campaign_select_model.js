@@ -1,28 +1,17 @@
-define(['angularAMD', '../../common/services/url_service', 'common/services/data_service',
-    'reporting/kpiSelect/kpi_select_model', 'login/login_model', 'reporting/advertiser/advertiser_model'],
-    function (angularAMD) {
-        angularAMD.factory('campaignSelectModel', ['$rootScope', 'urlService', 'dataService', 'kpiSelectModel',
-            'loginModel', 'advertiserModel', 'localStorageService', function ($rootScope, urlService, dataService,
-                                                                              kpiSelectModel, loginModel,
-                                                                              advertiserModel, localStorageService) {
-                var campaign = {};
+define(['angularAMD', 'common/services/url_service', 'common/services/data_service',
+    'reporting/kpiSelect/kpi_select_model', 'login/login_model', 'reporting/advertiser/advertiser_model',
+    'common/services/vistoconfig_service'], function (angularAMD) {
+        angularAMD.factory('campaignSelectModel', ['$q', '$rootScope', '$routeParams', '$timeout', 'urlService',
+            'dataService', 'kpiSelectModel', 'loginModel', 'advertiserModel', 'localStorageService', 'brandsModel',
+            'utils', 'vistoconfig', 'strategySelectModel',
+            function ($q, $rootScope, $routeParams, $timeout, urlService, dataService, kpiSelectModel, loginModel,
+                      advertiserModel, localStorageService, brandsModel, utils, vistoconfig, strategySelectModel) {
+                var campaign = {
+                    selectedCampaign: {},
+                    selectedCampaignOriginal: {}
+                };
 
-                campaign.campaigns = {};
-
-                campaign.selectedCampaign = (localStorageService.selectedCampaign.get() === undefined) ?
-                    {
-                        id: -1,
-                        name: 'Loading...',
-                        kpi: 'ctr',
-                        startDate: '-1',
-                        endDate: '-1'
-                    } :
-                    localStorageService.selectedCampaign.get();
-
-                campaign.setSelectedCampaign = function (_campaign, fileIndex, allCampaign) {
-                    var campaignNameSelected,
-                        campaignElems;
-
+                campaign.setSelectedCampaign = function (_campaign) {
                     if (!$.isEmptyObject(_campaign)) {
                         campaign.selectedCampaign.id = (_campaign.id === undefined) ?
                             _campaign.campaign_id :
@@ -54,59 +43,71 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
                             campaign.selectedCampaign.kpi = 'ctr';
                         }
 
-                        if (allCampaign === 'true' || allCampaign === true) {
-                            localStorage.setItem('selectedCampaignAll', JSON.stringify(campaign.selectedCampaign));
-                        } else {
-                            if (campaign.selectedCampaign.id !== 0) {
-                                localStorageService.selectedCampaign.set(campaign.selectedCampaign);
-                            } else {
-                                $rootScope.$broadcast('CAMPAIGN_CHANGE');
-                            }
-                        }
-
                         kpiSelectModel.setSelectedKpi(campaign.selectedCampaign.kpi);
-
-                        if (campaign.selectedCampaign.name) {
-                            if (fileIndex === undefined) {
-                                campaignNameSelected = $('.campaign_name_selected');
-                                campaignNameSelected.text(campaign.selectedCampaign.name);
-                                campaignNameSelected.prop('title', campaign.selectedCampaign.name);
-                                $('#campaignDropdown').val(campaign.selectedCampaign.name);
-                            } else {
-                                campaignElems = $($('.campaign_name_selected')[fileIndex]);
-                                campaignElems.text(campaign.selectedCampaign.name);
-                                campaignElems.attr('campaignId', campaign.selectedCampaign.id);
-                                $('.campaignDropdown').val(campaign.selectedCampaign.name);
-                            }
-                        }
                     }
                 };
 
                 campaign.getCampaigns = function (brand, searchCriteria) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        advertiserId = advertiserModel.getSelectedAdvertiser().id,
+                    var clientId = vistoconfig.getSelectedAccountId(),
+                        advertiserId = vistoconfig.getSelectAdvertiserId(),
                         url = urlService.APICampaignDropDownList(clientId, advertiserId, brand, searchCriteria);
 
                     return dataService
                         .fetch(dataService.append(url, searchCriteria))
                         .then(function (response) {
-                            var _selectedCamp;
-
-                            campaign.campaigns = (response.data.data !== undefined) ? response.data.data : {};
-
-                            if (campaign.campaigns.length > 0 && campaign.selectedCampaign.id === -1) {
-                                _selectedCamp = campaign.campaigns[0];
-                                campaign.setSelectedCampaign(_selectedCamp);
-                            }
+                            campaign.campaigns = (response.data.data !== undefined ? response.data.data : {});
 
                             return campaign.campaigns;
                         });
+                };
 
+                campaign.fetchCampaigns = function (clientId, advertiserId, brandId) {
+                    var searchCriteria = utils.typeAheadParams,
+                        url = urlService.APICampaignDropDownList(clientId, advertiserId, brandId, searchCriteria);
+
+                    return dataService.fetch(dataService.append(url, searchCriteria));
+                };
+
+                campaign.fetchCampaign = function (clientId, campaignId) {
+                    var url,
+                        deferred = $q.defer();
+
+                    if (campaign.getSelectedCampaign() && campaign.getSelectedCampaign().id === campaignId) {
+                        console.log('fetchCampaign', 'already fetched', campaign.getSelectedCampaign());
+                        $timeout(function() {
+                            deferred.resolve();
+                        }, 5);
+                        return deferred.promise;
+                    }
+                    url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                        '/clients/' + clientId + '/campaigns/' + campaignId;
+
+                    dataService.getSingleCampaign(url).then(function (result) {
+                        if (result.status === 'success' && !angular.isString(result.data)) {
+                            campaign.selectedCampaignOriginal = result.data.data;
+                            campaign.setSelectedCampaign(result.data.data);
+                            console.log('fetchCampaign', 'is fetched');
+                        }
+                        deferred.resolve();
+                    }, function() {
+                        deferred.reject('Mediaplan not found');
+                    });
+
+                    return deferred.promise;
+                };
+
+                campaign.reset = function() {
+                    campaign.selectedCampaign = {};
+                    campaign.selectedCampaignOriginal = {};
+                    strategySelectModel.reset();
                 };
 
                 campaign.getSelectedCampaign = function () {
-                    return (localStorageService.selectedCampaign.get()) ?
-                        localStorageService.selectedCampaign.get():campaign.selectedCampaign;
+                    return campaign.selectedCampaign;
+                };
+
+                campaign.getSelectedCampaignOriginal = function () {
+                    return campaign.selectedCampaignOriginal;
                 };
 
                 campaign.durationLeft = function () {

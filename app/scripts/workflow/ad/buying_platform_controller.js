@@ -3,7 +3,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
     'use strict';
 
     angularAMD.controller('BuyingPlatformController', function ($scope, $timeout, $modal, $filter, $rootScope,
-                                                                constants, workflowService, platformCustomeModule) {
+                                                                constants, workflowService, vistoconfig,
+                                                                platformCustomeModule) {
         var tempPlatform,
             storedResponse,
             oldPlatformName,
@@ -50,9 +51,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     $scope.selectPlatform(null, platform, selectedSeats);
                 },
 
-                fetchPlatforms: function (platform) {
+                fetchPlatforms: function (clientId, advertiserId, platform) {
                     workflowService
-                        .getPlatforms({cache: false})
+                        .getPlatforms(clientId, advertiserId, {cache: false})
                         .then(function (result) {
                             var responseData,
                                 adsDetails,
@@ -333,7 +334,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
         $scope.platformCustomInputs = function () {
             var platformWrap = $('.platWrap'),
-                tabName = 'buying_strategy';
+                tabName = 'buying_strategy',
+                clientId = vistoconfig.getSelectedAccountId();
 
             $scope.adData.customInpNameSpaceList = [];
 
@@ -343,7 +345,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $scope.adData.customPlatformLoader = true;
             _buyingPlatform.showCustomFieldBox();
             workflowService
-                .getPlatformCustomInputs($scope.adData.platformId)
+                .getPlatformCustomInputs(clientId, $scope.adData.platformId)
                 .then(function (result) {
                     var platformCustomeJson,
                         adPlatformCustomInputsLocalStorageValue;
@@ -544,17 +546,22 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $scope.$parent.changePlatform(newValue);
         });
 
-        $rootScope.$on('adCampaignDataSet', function () {
-            if ($scope.mode === 'create') {
-                _buyingPlatform.fetchPlatforms();
-            }
-        });
-
         $scope.$on('updatePlatform', function (event, platform) {
-            _buyingPlatform.fetchPlatforms(platform);
+            var clientId = vistoconfig.getSelectedAccountId(),
+                advertiserId = vistoconfig.getSelectAdvertiserId();
+
+            _buyingPlatform.fetchPlatforms(clientId, advertiserId, platform);
         });
 
         $scope.$on('switchPlatformFunc', function (obj, tab) {
+
+            var clientId = vistoconfig.getSelectedAccountId(),
+                advertiserId = vistoconfig.getSelectAdvertiserId();
+
+            if ($scope.mode === 'create') {
+                _buyingPlatform.fetchPlatforms(clientId, advertiserId);
+            }
+
             var customFieldErrorElem = $('.customFieldErrorMsg'),
                 $modalInstance,
                 platformId;
