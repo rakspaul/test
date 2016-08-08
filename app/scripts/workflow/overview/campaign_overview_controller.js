@@ -720,8 +720,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 return [a, b];
             }
             /*get all valid sizes into the sizes array*/
+
             _.each(creative,function (obj) {
-                obj.size?sizes.push(obj.size):'';
+                obj.size ? sizes.push(obj.size) : '';
             });
 
             /*check if the ad has creative set and if creative has a valid size(FUll integration Creative)*/
