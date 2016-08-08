@@ -979,7 +979,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     },
 
                     selectAvailableMetrics: function() {
-                        var currentTotalMetricSel= 0;
                         var isAllSelected = true;
 
                         _.each(metricVarKeys,function(eachVarKey){

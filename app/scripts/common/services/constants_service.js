@@ -1307,7 +1307,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ERROR = 'Error:';
         this.NOTE_ADCHOICE_CODE = 'Note: Empty ad choice field will take default ad choice code from the system.';
         this.WF_PAUSE_ALL = 'Pause All';
-        this.WF_RESUME_ALL = 'Resume All'
+        this.WF_RESUME_ALL = 'Resume All';
 
     });
 });
