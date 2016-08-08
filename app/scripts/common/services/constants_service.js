@@ -1299,5 +1299,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.SEAT_ID_CONNECTIONS = 'Seat ID | Connections' ;
         this.REPORT_BUILDER_METRIC_TOOLTIP = 'Metrics that don\'t apply to the selected Dimension(s) will be disabled.';
         this.WF_UNSPECIFIED = 'Unspecified Size';
+        this.SELECTCOUNTRY = 'Select Country'
+
     });
 });
