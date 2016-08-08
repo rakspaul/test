@@ -1320,17 +1320,17 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         };
 
         $scope.navigateLineItem = function(section) {
-            var zeroFlag = false; // flag to show zero popup
+            var zeroBudgetOrRateFlag = false; // flag to show zero popup - set flag when budget or rate is 0
 
             if(section === 'create') {
                 if($scope.billableAmount === '0') {
-                    zeroFlag = true;
+                    zeroBudgetOrRateFlag = true;
                 }
                 else if($scope.pricingRate === '0' && $scope.lineItemType.name !== 'Flat Fee' ){
-                    zeroFlag = true;
+                    zeroBudgetOrRateFlag = true;
                 }
 
-                if(zeroFlag){
+                if(zeroBudgetOrRateFlag){
                     $scope.displayZeroLineItemBudgetPopUp(section);
                 } else {
                     if($scope.mode === 'create' || $scope.cloneMediaPlanName) {
@@ -1340,15 +1340,15 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     }
                 }
             } else {
-                
+
                 if($scope.editLineItem.billableAmount === '0'){
-                    zeroFlag = true;
+                    zeroBudgetOrRateFlag = true;
                 }
                 else if($scope.editLineItem.pricingRate === '0' && $scope.editLineItem.lineItemType.name !== 'Flat Fee' ){
-                    zeroFlag = true;
+                    zeroBudgetOrRateFlag = true;
                 }
 
-                if($scope.editLineItem.billableAmount === '0' || $scope.editLineItem.pricingRate === '0'){
+                if(zeroBudgetOrRateFlag){
                     $scope.displayZeroLineItemBudgetPopUp(section);
                 } else {
                     if($scope.mode === 'create' || $scope.cloneMediaPlanName) {
