@@ -534,9 +534,12 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                     transform: 'rotate(0deg)'
                 });
             };
+            
+            var clientId = localStorageService.masterClient.get().id;
+            console.log(clientId);
 
             $scope.openHelp = function() {
-                window.open('/pdf/help.pdf');
+                window.open('/clients/'+clientId+'/userguide/download', '_blank');
             };
         });
     });

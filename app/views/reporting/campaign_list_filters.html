@@ -1,9 +1,10 @@
 <!--campaign card sort-->
 <div class="campaign_list_header_holder">
     <!--Column 1-->
-    <div class="col-md-4 zeroPadding">
-      <div data-ng-repeat="sortField in campaigns.sortFieldList track by $index" class="col-md-4 each_header_title {{sortField.className}}">
-        <a data-ng-click="campaigns.sortCampaigns(sortField.key)" id="campaign_list_sort">
+    <div class="col-md-6 zeroPadding">
+      <div data-ng-repeat="sortField in campaigns.sortFieldList track by $index"
+           class="col-md-4 each_header_title {{sortField.className}}" style="padding-left: 25px;">
+        <a data-ng-click="campaigns.sortCampaigns(sortField.key)" class="pull-left" id="campaign_list_sort">
           <span class="unselectable">
               {{sortField.display}}&nbsp;
               <span class="{{campaigns.sortIcon(sortField.key)}}"></span>
@@ -13,10 +14,10 @@
     </div>
 
     <!--Column 2-->
-    <div class="col-md-4 each_header_title metrics_title unselectable" data-ng-bind="textConstants.METRICS"></div>
+    <div class="col-md-6 each_header_title metrics_title unselectable" data-ng-bind="textConstants.METRICS"></div>
 
     <!--Column 3-->
-    <div class="col-md-4 each_header_title kpi_title unselectable">
+    <div class="col-md-4 each_header_title kpi_title unselectable" style="display: none;">
         <div class="pull-left" data-ng-bind="textConstants.KPI"></div>
         <div class="pull-left tooltip_holder">
             <span class="tooltip_show_icon"></span>
