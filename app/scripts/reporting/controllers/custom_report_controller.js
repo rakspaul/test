@@ -1828,11 +1828,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 elem.closest('.dropdown').find('.dd_txt').attr('id', elem.attr('id'));
                 elem.closest('.breakdown_div').find('.filter_input_txtbox').show();
 
-               $scope.metrics.initializeMetrics();
-               $scope.showMetricsButton = false;
-
-
-
+                if(String(elem.text()) === 'Choose Dimension') {
+                    $scope.metrics.initializeMetrics();
+                    $scope.showMetricsButton = false;
+                }
+                
                 if (arg) {
                     var startDate, endDate;
 
