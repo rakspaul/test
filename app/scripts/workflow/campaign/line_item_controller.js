@@ -1338,6 +1338,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 }
 
                 if(zeroBudgetOrRateFlag){
+
                     $scope.displayZeroLineItemBudgetPopUp(section);
                 } else {
                     if($scope.mode === 'create' || $scope.cloneMediaPlanName) {
