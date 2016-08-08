@@ -281,6 +281,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         // shows error message if line item billable amount exceed media plan budget
         // return true if the line item budget exceeds media plan budget
         function doesLineItemExceedBudget(billableAmount,totalBudget) {
+            totalBudget = totalBudget || 0;
             if (Number(billableAmount) > totalBudget) {
                 $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
                 return true;
@@ -1319,9 +1320,17 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         };
 
         $scope.navigateLineItem = function(section) {
-            if(section === 'create') {
+            var zeroBudgetOrRateFlag = false; // flag to show zero popup - set flag when budget or rate is 0
 
-                if($scope.billableAmount === '0' || $scope.pricingRate === '0'){
+            if(section === 'create') {
+                if($scope.billableAmount === '0') {
+                    zeroBudgetOrRateFlag = true;
+                }
+                else if($scope.pricingRate === '0' && $scope.lineItemType.name !== 'Flat Fee' ){
+                    zeroBudgetOrRateFlag = true;
+                }
+
+                if(zeroBudgetOrRateFlag){
                     $scope.displayZeroLineItemBudgetPopUp(section);
                 } else {
                     if($scope.mode === 'create' || $scope.cloneMediaPlanName) {
@@ -1332,7 +1341,14 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 }
             } else {
 
-                if($scope.editLineItem.billableAmount === '0' || $scope.editLineItem.pricingRate === '0'){
+                if($scope.editLineItem.billableAmount === '0'){
+                    zeroBudgetOrRateFlag = true;
+                }
+                else if($scope.editLineItem.pricingRate === '0' && $scope.editLineItem.lineItemType.name !== 'Flat Fee' ){
+                    zeroBudgetOrRateFlag = true;
+                }
+
+                if(zeroBudgetOrRateFlag){
                     $scope.displayZeroLineItemBudgetPopUp(section);
                 } else {
                     if($scope.mode === 'create' || $scope.cloneMediaPlanName) {
