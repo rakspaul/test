@@ -1282,9 +1282,6 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   line-height: 20px;
   font-size: 12px;
 }
-div.strategy_total_container {
-  width: 1964px;
-}
 div.strategy_total_container .discrepancyTplRow {
   margin-bottom: 10px ;
 }
@@ -2692,7 +2689,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   display: block;
 }
 .reports_tabs_content_container .performancePlatformHeader .seventh_col {
-  width: 90px !important;
+  /*width: 90px !important;*/
   cursor: pointer;
 }
 .reports_tabs_content_container .performancePlatformHeader .seventh_col .arrrow_img {
@@ -3009,7 +3006,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container div.sec_col {
   min-width: 70px ;
-  width: 180px ;
+  width: 188px ;
   text-align: left ;
 }
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container div.sec_col.vid_show {
