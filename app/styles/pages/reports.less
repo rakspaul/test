@@ -47,6 +47,44 @@
 .overflowAuto{
     overflow: auto;
 }
+.reports_details_outer_container.overflowAuto {
+    border-left: solid 1px #ccd9e3 ;
+    border-right: solid 1px #ccd9e3 ;
+    .reports_performance_header {
+        border-left: 0px !important ;
+        border-right : 0px !important;
+    }
+    div.strategy_total_container_header {
+        border-left: 0px ;
+        border-right : 0px ;
+    }
+}
+
+.reports_tabs_content_container {
+ #reports_byadsizes_block{
+        .reports_details_outer_container.overflowAuto{
+            .each_col{
+                width:140px;
+            }
+            .each_col.first_col {
+                width: 100% ;
+            }
+        }
+    }
+}
+
+    div.reports_tabs_content_container {
+    div#reports_bycreatives_block {
+        div.reports_details_outer_container.strategy_video_disabled.overflowAuto {
+            div.each_col {
+                width: 140px ;
+            }
+            .each_col.first_col {
+                width: 100% ;
+            }
+        }
+    }
+}
 
 /* Link: v1sto/invoices/invoiceId
    Content: LineItem, Adjustments
@@ -717,6 +755,11 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
             }
         }
     }
+    .dropdown-menu.kpi_indicator_ul2 {
+        left: auto ;
+        right : 0px ;
+        width: 200px ;
+    }
 }
 
 .common_reports_container , .breadcrumb_campaign_strategy , .smallScreenScrollDiv {
@@ -1176,7 +1219,6 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     font-size: 12px;
 }
 div.strategy_total_container {
-    width: 1964px;
     .discrepancyTplRow {
         margin-bottom: 10px ;
         .discrepancyName {
@@ -2603,7 +2645,7 @@ div.strategy_total_container {
         color: #313233 ;
         .each_col {
             float: left;
-            width: 146px;
+            width: 148px;
             text-align: right;
             margin: 5px 0 10px 15px ;
         }
@@ -2715,7 +2757,7 @@ div.strategy_total_container {
     /*hot fix for the KPI drpdown of platform header so that nothing else will break*/
     .performancePlatformHeader {
         .seventh_col {
-            width: 90px !important;
+            /*width: 90px !important;*/
             cursor: pointer;
             .arrrow_img {
                 margin-left: 5px ;
@@ -3062,7 +3104,7 @@ div.strategy_total_container {
             }
             div.sec_col {
                 min-width: 70px ;
-                width: 180px ;
+                width: 188px ;
                 text-align: left ;
                 &.vid_show{
                     width: 280px ;
