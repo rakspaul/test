@@ -534,12 +534,19 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                     transform: 'rotate(0deg)'
                 });
             };
-            
-            var clientId = localStorageService.masterClient.get().id;
-            console.log(clientId);
+
 
             $scope.openHelp = function() {
-                window.open('/clients/'+clientId+'/userguide/download', '_blank');
+                workflowService.getVistoUserManual()
+                    .then(function (res) {
+                        if (res.status === 'OK' || res.status === 'success') {
+                            var fileURL = URL.createObjectURL(res);
+                            console.log('fileUrl', fileURL);
+                            window.open(fileURL);
+                        }
+                    },function (err) {
+                        console.log('Error = ', err);
+                    });
             };
         });
     });
