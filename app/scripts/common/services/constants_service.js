@@ -957,7 +957,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MAX_SPEND_FOR_ADGROUP = 'Maximum Spend for Ad Group';
         this.LINE_ITEM = 'Line Item';
         this.MAX_YOU_CAN_SPEND = 'What\'s the maximum you can spend for your Ad Group?';
-
+        this.ADD_LINE_ITEM = 'Add Line Item';
+        this.ZERO_MESSAGE = 'You have entered $0 for your rate or billable amount.';
 
 
         //Audience Targeting
