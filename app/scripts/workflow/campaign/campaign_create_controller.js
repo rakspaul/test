@@ -230,13 +230,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                     // set startDate
                     if (flightDateObj.startTime) {
-                        $scope.selectedCampaign.startTime =
-                            $scope.modifiedMediaPlanAPIStartTime = flightDateObj.startTime;
+                        $scope.selectedCampaign.startTime = flightDateObj.startTime;
                     }
 
                     // set endDate
                     if (flightDateObj.endTime) {
-                        $scope.selectedCampaign.endTime = $scope.modifiedMediaPlanAPIEndTime = flightDateObj.endTime;
+                        $scope.selectedCampaign.endTime = flightDateObj.endTime;
                         $scope.initiateDatePicker();
                         $scope.handleEndFlightDate(flightDateObj);
                     }
@@ -695,13 +694,14 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     'endTime', dateTimeZone);
 
                 if ($scope.mode ==='edit') {
-                    utcStartTime = (moment($scope.selectedCampaign.startTime)
-                        .isSame($scope.modifiedMediaPlanAPIStartTime, 'day')) ?
-                        $scope.mediaPlanAPIStartTime : utcStartTime;
 
-                    utcEndTime = (moment($scope.selectedCampaign.endTime)
-                        .isSame($scope.modifiedMediaPlanAPIEndTime, 'day')) ?
-                        $scope.mediaPlanAPIEndTime :  utcEndTime;
+                    if(moment(utcStartTime).startOf('day').isSame(moment($scope.mediaPlanAPIStartTime).startOf('day')))  {
+                        utcStartTime = $scope.mediaPlanAPIStartTime;
+                    }
+
+                    if(moment(utcEndTime).unix() === moment($scope.mediaPlanAPIEndTime).unix())  {
+                        utcEndTime = $scope.mediaPlanAPIEndTime;
+                    }
                 }
 
                 postDataObj.startTime = utcStartTime;

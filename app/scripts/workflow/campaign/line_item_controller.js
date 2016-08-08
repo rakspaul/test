@@ -21,8 +21,6 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             oldLineItemIndex,
             lineItemAPIEndTimeList = [],
             lineItemAPIStartTimeList = [],
-            modifiedLineItemAPIStartTimeList = [],
-            modifiedLineItemAPIEndTimeList = [],
 
             validateMediaPlanDates = function () {
                 var startDatelow = [],
@@ -761,15 +759,17 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                 utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone);
 
-                utcStartTime = (moment(newItem.startTime).isSame(modifiedLineItemAPIStartTimeList[oldLineItemIndex], 'day')) ?
-                    lineItemAPIStartTimeList[oldLineItemIndex] : utcStartTime;
+                if(moment(utcStartTime).startOf('day').isSame(moment(lineItemAPIStartTimeList[oldLineItemIndex]).startOf('day')))  {
+                    utcStartTime = lineItemAPIStartTimeList[oldLineItemIndex];
+                }
 
                 newItem.startTime = utcStartTime;
 
                 utcEndTime = momentService.localTimeToUTC(newItem.endTime, 'endTime', dateTimeZone);
 
-                utcEndTime = (moment(newItem.endTime).isSame(modifiedLineItemAPIEndTimeList[oldLineItemIndex], 'day')) ?
-                    lineItemAPIEndTimeList[oldLineItemIndex] :  utcEndTime;
+                if(moment(utcEndTime).unix() === moment(lineItemAPIEndTimeList[oldLineItemIndex]).unix())  {
+                    utcEndTime = lineItemAPIEndTimeList[oldLineItemIndex];
+                }
 
                 newItem.endTime = utcEndTime;
 
@@ -1182,9 +1182,6 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                                 $scope.lineItemdiffDays);
                     }
                 }
-
-                modifiedLineItemAPIStartTimeList[idx] = $scope.lineItemStartDate;
-                modifiedLineItemAPIEndTimeList[idx] = $scope.lineItemEndDate;
 
                 campaignId = item.campaignId;
                 $scope.createNewLineItem('create', item);
