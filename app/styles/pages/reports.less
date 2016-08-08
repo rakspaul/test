@@ -47,6 +47,44 @@
 .overflowAuto{
     overflow: auto;
 }
+.reports_details_outer_container.overflowAuto {
+    border-left: solid 1px #ccd9e3 ;
+    border-right: solid 1px #ccd9e3 ;
+    .reports_performance_header {
+        border-left: 0px !important ;
+        border-right : 0px !important;
+    }
+    div.strategy_total_container_header {
+        border-left: 0px ;
+        border-right : 0px ;
+    }
+}
+
+.reports_tabs_content_container {
+ #reports_byadsizes_block{
+        .reports_details_outer_container.overflowAuto{
+            .each_col{
+                width:140px;
+            }
+            .each_col.first_col {
+                width: 100% ;
+            }
+        }
+    }
+}
+
+    div.reports_tabs_content_container {
+    div#reports_bycreatives_block {
+        div.reports_details_outer_container.strategy_video_disabled.overflowAuto {
+            div.each_col {
+                width: 140px ;
+            }
+            .each_col.first_col {
+                width: 100% ;
+            }
+        }
+    }
+}
 
 /* Link: v1sto/invoices/invoiceId
    Content: LineItem, Adjustments
@@ -716,6 +754,11 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
                 display: none;
             }
         }
+    }
+    .dropdown-menu.kpi_indicator_ul2 {
+        left: auto ;
+        right : 0px ;
+        width: 200px ;
     }
 }
 
@@ -2603,7 +2646,7 @@ div.strategy_total_container {
         color: #313233 ;
         .each_col {
             float: left;
-            width: 146px;
+            width: 148px;
             text-align: right;
             margin: 5px 0 10px 15px ;
         }
