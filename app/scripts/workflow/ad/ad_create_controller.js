@@ -449,8 +449,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             if (responseData.startTime) {
                 $scope.apiStartTime = responseData.startTime;
 
-                $scope.adData.startTime = $scope.modifiedAPIStartTime =
-                    momentService.utcToLocalTime(responseData.startTime);
+                $scope.adData.startTime = momentService.utcToLocalTime(responseData.startTime);
 
                 dateObj.adStartDate = $scope.adData.startTime;
             }
@@ -458,8 +457,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             if (responseData.endTime) {
                 $scope.apiEndTime = responseData.endTime;
 
-                $scope.adData.endTime = $scope.modifiedAPIEndTime =
-                    momentService.utcToLocalTime(responseData.endTime);
+                $scope.adData.endTime = momentService.utcToLocalTime(responseData.endTime);
 
                 dateObj.adEndDate = $scope.adData.endTime;
             }
@@ -1256,9 +1254,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                     // fixed for CW-4102
                     if ($scope.mode ==='edit') {
-                        utcStartTime = (moment(formData.startTime)
-                            .isSame($scope.modifiedAPIStartTime, 'day')) ?
-                            $scope.apiStartTime : utcStartTime;
+
+                        if(moment(utcStartTime).startOf('day').isSame(moment($scope.apiStartTime).startOf('day')))  {
+                            utcStartTime = $scope.apiStartTime;
+                        }
                     }
 
                     postAdDataObj.startTime = utcStartTime;
@@ -1269,9 +1268,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                     // fixed for CW-4102
                     if ($scope.mode ==='edit') {
-                        utcEndTime = (moment(formData.endTime)
-                            .isSame($scope.modifiedAPIEndTime, 'day')) ?
-                            $scope.apiEndTime :  utcEndTime;
+
+                        if(moment(utcEndTime).unix() === moment($scope.apiEndTime).unix())  {
+                            utcEndTime = $scope.apiEndTime;
+                        }
                     }
                     postAdDataObj.endTime = utcEndTime;
                 }
