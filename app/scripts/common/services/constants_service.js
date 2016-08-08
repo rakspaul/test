@@ -958,7 +958,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MAX_SPEND_FOR_ADGROUP = 'Maximum Spend for Ad Group';
         this.LINE_ITEM = 'Line Item';
         this.MAX_YOU_CAN_SPEND = 'What\'s the maximum you can spend for your Ad Group?';
-
+        this.ADD_LINE_ITEM = 'Add Line Item';
+        this.ZERO_MESSAGE = 'You have entered $0 for your rate or billable amount.';
 
 
         //Audience Targeting
@@ -1299,5 +1300,14 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.BASE_RATE_TYPE = 'Base Rate & Type' ;
         this.SEAT_ID_CONNECTIONS = 'Seat ID | Connections' ;
         this.REPORT_BUILDER_METRIC_TOOLTIP = 'Metrics that don\'t apply to the selected Dimension(s) will be disabled.';
+        this.WF_UNSPECIFIED = 'Unspecified Size';
+
+        this.NOTHINGSELECTED = 'Nothing is Selected' ;
+        this.GEONOTE = 'Selections made in the "Select Access" <br> component will appear in this area' ;
+        this.ERROR = 'Error:';
+        this.NOTE_ADCHOICE_CODE = 'Note: Empty ad choice field will take default ad choice code from the system.';
+        this.WF_PAUSE_ALL = 'Pause All';
+        this.WF_RESUME_ALL = 'Resume All'
+
     });
 });

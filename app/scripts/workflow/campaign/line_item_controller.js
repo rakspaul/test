@@ -19,6 +19,8 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             CONST_POST_CLICK_CPA = 'Post-Click CPA',
             oldLineItem,
             oldLineItemIndex,
+            lineItemAPIEndTimeList = [],
+            lineItemAPIStartTimeList = [],
 
             validateMediaPlanDates = function () {
                 var startDatelow = [],
@@ -264,6 +266,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         // shows error message if line item billable amount exceed media plan budget
         // return true if the line item budget exceeds media plan budget
         function doesLineItemExceedBudget(billableAmount,totalBudget) {
+            totalBudget = totalBudget || 0;
             if (Number(billableAmount) > totalBudget) {
                 $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
                 return true;
@@ -743,15 +746,17 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                 utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone);
 
-                utcStartTime = (moment(newItem.startTime).isSame($scope.modifiedLineItemAPIStartTime, 'day')) ?
-                    $scope.lineItemAPIStartTime : utcStartTime;
+                if(moment(utcStartTime).startOf('day').isSame(moment(lineItemAPIStartTimeList[oldLineItemIndex]).startOf('day')))  {
+                    utcStartTime = lineItemAPIStartTimeList[oldLineItemIndex];
+                }
 
                 newItem.startTime = utcStartTime;
 
                 utcEndTime = momentService.localTimeToUTC(newItem.endTime, 'endTime', dateTimeZone);
 
-                utcEndTime = (moment(newItem.endTime).isSame($scope.modifiedLineItemAPIEndTime, 'day')) ?
-                    $scope.lineItemAPIEndTime :  utcEndTime;
+                if(moment(utcEndTime).unix() === moment(lineItemAPIEndTimeList[oldLineItemIndex]).unix())  {
+                    utcEndTime = lineItemAPIEndTimeList[oldLineItemIndex];
+                }
 
                 newItem.endTime = utcEndTime;
 
@@ -1164,10 +1169,6 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     }
                 }
 
-                $scope.modifiedLineItemAPIStartTime = $scope.lineItemStartDate;
-                $scope.modifiedLineItemAPIEndTime = $scope.lineItemEndDate;
-
-                campaignId = item.campaignId;
                 $scope.createNewLineItem('create', item);
             });
         };
@@ -1300,15 +1301,17 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         };
 
         $scope.navigateLineItem = function(section) {
-            if ($scope.saveMediaPlan && $scope.showConfirmPopupCreate === false) {
-
-                // show popup
-                $scope.showConfirmPopupCreate = true;
-                return false;
-            }
+            var zeroBudgetOrRateFlag = false; // flag to show zero popup - set flag when budget or rate is 0
 
             if(section === 'create') {
-                 if($scope.billableAmount === '0' || $scope.pricingRate === '0'){
+                if($scope.billableAmount === '0') {
+                    zeroBudgetOrRateFlag = true;
+                }
+                else if($scope.pricingRate === '0' && $scope.lineItemType.name !== 'Flat Fee' ){
+                    zeroBudgetOrRateFlag = true;
+                }
+
+                if(zeroBudgetOrRateFlag){
                     $scope.displayZeroLineItemBudgetPopUp(section);
                 } else {
                     if($scope.saveMediaPlan && $scope.showConfirmPopupCreate === true){
@@ -1321,7 +1324,14 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 }
             } else {
 
-                if($scope.editLineItem.billableAmount === '0' || $scope.editLineItem.pricingRate === '0'){
+                if($scope.editLineItem.billableAmount === '0'){
+                    zeroBudgetOrRateFlag = true;
+                }
+                else if($scope.editLineItem.pricingRate === '0' && $scope.editLineItem.lineItemType.name !== 'Flat Fee' ){
+                    zeroBudgetOrRateFlag = true;
+                }
+
+                if(zeroBudgetOrRateFlag){
                     $scope.displayZeroLineItemBudgetPopUp(section);
                 } else {
                     if($scope.mode === 'create' || $scope.cloneMediaPlanName) {

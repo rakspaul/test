@@ -89,24 +89,19 @@
                                            data-ng-bind="stable.dimension | formatUrl : 15">
                                         </a>
                                      </span>
-                                    <span class="cpa_col cpa_data pull-right
-                                            {{stable.kpi_type === selectedFilters.kpi_type.toUpperCase() ?
-                                            'bold' : ''}}"
+                                    <span class="cpa_col cpa_data pull-right {{stable.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
                                           data-ng-bind="(stable[(selectedFilters.kpi_type.toLowerCase() === 'vtc') ?
-                                            'vtc_100' : selectedFilters.kpi_type.toLowerCase()] |
-                                            appendDollar : selectedFilters.kpi_type.toLowerCase())">
+                                            'vtc_100' : selectedFilters.kpi_type.toLowerCase()] | appendDollar : selectedFilters.kpi_type.toLowerCase())">
                                     </span>
-                                    <span class="imps_del_data imps_del_col pull-right
-                                            {{stable.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
-                                          data-ng-bind="((stable.impressions > 0) || (stable.impressions === 0)) ?
-                                            (stable.impressions | number : 0) : '-'">
+                                    <span class="imps_del_data imps_del_col pull-right {{stable.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
+                                          data-ng-bind="((stable.impressions > 0) || (stable.impressions === 0)) ? (stable.impressions | number : 0) : '-'">
                                     </span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="inventory_strategy_chart no_data_found"
-                         data-ng-if="!strategyFound  && !strategyBusy"
+                         data-ng-if="!strategyFound && !strategyBusy"
                          data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
                     </div>
                 </div>
@@ -143,9 +138,7 @@
 
                                     <!-- (PARTIAL CHART)-->
                                     <div class="highcharts" data-ng-if="!tactic.chart">
-                                        <span class="no-chart"
-                                              data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
-                                        </span>
+                                        <span class="no-chart" data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></span>
                                     </div>
                                 </span>
                             </span>
@@ -153,29 +146,25 @@
                         <div class="pull-right inventory_chart_details_list_holder">
                             <div class="inventory_chart_details_list">
                                 <div class="chart_details_cols_row inventory_each_chart_details clearfix"
-                                     data-ng-repeat="tableData in tactic.data | orderBy:'-impressions' track by $index">
+                                     data-ng-repeat="tableData in tactic.data | orderBy : '-impressions' track by $index">
                                     <span class="row_index" data-ng-bind="$index + 1"></span>
                                     <span class="url_val" title="{{tableData.dimension}}"
                                           data-ng-if="(selectedFilters_tab !== 'domains')"
                                           data-ng-bind="tableData.dimension | formatUrl : 20">
                                     </span>
-                                    <span class="url_val" title="{{tableData.dimension}}"
-                                          data-ng-if="(selectedFilters_tab === 'domains')">
+                                    <span class="url_val" title="{{tableData.dimension}}" data-ng-if="(selectedFilters_tab === 'domains')">
                                         <a href="http://{{ tableData.dimension}}"
                                            target='_blank' id="inventory_domain"
                                            data-ng-bind="tableData.dimension | formatUrl : 15">
                                         </a>
                                     </span>
-                                    <span class="cpa_col cpa_data pull-right
-                                            {{tableData.kpi_type === selectedFilters.kpi_type.toUpperCase() ?
-                                            'bold' : ''}}"
+                                    <span class="cpa_col cpa_data pull-right {{tableData.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
                                           data-ng-bind="(tableData[(selectedFilters.kpi_type.toLowerCase() === 'vtc') ?
                                             'vtc_100' : selectedFilters.kpi_type.toLowerCase()] |
                                             appendDollar : selectedFilters.kpi_type.toLowerCase())">
                                     </span>
-                                    <span class="imps_del_data imps_del_col pull-right
-                                            {{tableData.kpi_type === 'IMPRESSIONS' ? 'bold' : ''}}"
-                                          data-ng-bind="((tableData.impressions >0)|| (tableData.impressions === 0)) ?
+                                    <span class="imps_del_data imps_del_col pull-right {{tableData.kpi_type === 'IMPRESSIONS' ? 'bold' : ''}}"
+                                          data-ng-bind="((tableData.impressions > 0)|| (tableData.impressions === 0)) ?
                                             (tableData.impressions | number:0) : '-'">
                                     </span>
                                 </div>

@@ -641,24 +641,20 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                             campaign.setVariables();
                             campaign.setMomentInNetworkTz(momentInNetworkTZ);
 
-                            campaign.kpiType  = campaign.kpiType.toLowerCase().split(' ').join('_');
+                           // campaign.kpiType  = campaign.kpiType.toLowerCase().split(' ').join('_');
 
                             // TODO: set default to DELIVERY if null or undefined
                             if (campaign.kpiType === 'null' || campaign.kpiType === '') {
                                 campaign.kpiType = 'IMPRESSIONS';
                                 campaign.kpiValue = 0;
                             }
-
                             if (campaign.kpiType === 'IMPRESSIONS') {
-                                campaign.kpiTypeDisplayName = 'IMPRESSIONS';
+                                campaign.kpiTypeDisplayName = 'Impressions';
                             } else {
                                 campaign.kpiTypeDisplayName = _.find(vistoconfig.kpiDropDown, function (obj) {
                                     return obj.kpi === campaign.kpiType;
                                 });
-
-                                if (campaign.kpiTypeDisplayName) {
-                                    campaign.kpiTypeDisplayName = campaign.kpiTypeDisplayName.displayName;
-                                }
+                                campaign.kpiTypeDisplayName = campaign.kpiTypeDisplayName ? campaign.kpiTypeDisplayName.displayName : utils.capitaliseAllText(campaign.kpiType);
                             }
 
                             campaignList.push(campaign);

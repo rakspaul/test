@@ -14,11 +14,13 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
         kpiData.newkpiDropDownAlt = vistoconfig.newkpiDropDownAlt;
 
         kpiData.setSelectedKpi = function (_kpi) {
+            _kpi = _kpi.replace(/ /g,"_");
             localStorage.setItem('selectedKpi', _kpi);
             kpiData.selectedKpi = _kpi;
         };
 
         kpiData.setSelectedKpiAlt = function (_kpi) {
+            _kpi = _kpi.replace(/ /g,"_");
             localStorage.setItem('selectedKpiAlt', _kpi);
             kpiData.selectedKpiAlt = _kpi;
         };

@@ -37,7 +37,7 @@ define(['angularAMD'], function (angularAMD) {
                     $scope.adgroupId = adGroupsData.adGroup.id;
                     $scope.adGroupName = adGroupsData.adGroup.name;
                     $scope.tags = workflowService.recreateLabels(_.uniq(adGroupsData.labels));
-                    $scope.adIGroupBudget = adGroupsData.adGroup.deliveryBudget;
+                    $scope.adIGroupBudget = parseFloat(adGroupsData.adGroup.deliveryBudget);
                     $scope.updatedAt = adGroupsData.adGroup.updatedAt;
                     $scope.adGroupMinBudget = adGroupsData.bookedSpend;
                     $scope.disableLineItemDropDown = adGroupsData.hasDeliveryingAds;

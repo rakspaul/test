@@ -185,6 +185,13 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         $location.url(url);
                     },
 
+                    capitaliseAllText = function(text){
+                        text = text.split(" ");
+                        _.each(text,function(t, i){
+                            text[i] = t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
+                        });
+                        return text.join(" ");
+                    },
                     // NOTE: NOT USED anywhere.
                     // (as on 25th July 2016)
                     allValuesSame = function (arr) {
@@ -673,7 +680,8 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     stripCommaFromNumber: stripCommaFromNumber,
                     rangeValue : rangeValue,
                     getResponseMsg: getResponseMsg,
-		    formatStringWithDate:formatStringWithDate
+		            formatStringWithDate:formatStringWithDate,
+                    capitaliseAllText: capitaliseAllText
                 };
             }
         ]);
