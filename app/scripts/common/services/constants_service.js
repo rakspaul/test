@@ -1302,5 +1302,10 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.WF_UNSPECIFIED = 'Unspecified Size';
         this.SELECTCOUNTRY = 'Select Country'
 
+        this.NOTHINGSELECTED = 'Nothing is Selected' ;
+        this.GEONOTE = 'Selections made in the "Select Access" <br> component will appear in this area' ;
+        this.ERROR = 'Error:';
+        this.NOTE_ADCHOICE_CODE = 'Note: Empty ad choice field will take default ad choice code from the system.';
+
     });
 });
