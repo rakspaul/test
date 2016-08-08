@@ -1827,7 +1827,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 elem.closest('.dropdown').find('.dd_txt').text(elem.text());
                 elem.closest('.dropdown').find('.dd_txt').attr('id', elem.attr('id'));
                 elem.closest('.breakdown_div').find('.filter_input_txtbox').show();
-
                $scope.metrics.initializeMetrics();
                $scope.showMetricsButton = false;
 
