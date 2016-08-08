@@ -170,12 +170,7 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
             $scope.loadingMore = true;
             $scope.brandNotSelected = false;
 
-            if (filter === undefined) {
-                ganttChartModel.filter = 'end_date';
-            } else {
-                ganttChartModel.filter = filter;
-            }
-
+            ganttChartModel.filter = filter || 'end_date';
             ganttChartModel
                 .getGanttChartData()
                 .then(function (result) {
@@ -314,7 +309,7 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
                     !_curCtrl.calendarLastPage &&
                     ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight)) {
                     ganttChartModel.pageCount++;
-                    $scope.loadMoreItems();
+                    $scope.loadMoreItems(ganttChartModel.filter);
                 }
             });
         };
