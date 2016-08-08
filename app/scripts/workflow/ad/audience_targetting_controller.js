@@ -4,9 +4,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
 
     angularAMD.controller('AudienceTargettingController', function ($scope, audienceService,
                                                                     workflowService, constants) {
-
         var editOneTimeFlag = false,
-
 
             _audienceTargetting = {
                 processAudienceEdit: function () {
@@ -209,7 +207,6 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
             left: '0'
         };
 
-
         $scope.isAudienceTargetingSearched = false;
         $scope.showAudienceLoader = false;
 
@@ -267,6 +264,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
             if($scope.selectedAudience.length <= 0){
                 $scope.adData.isAudienceSelected = null;
             }
+
             $scope.saveCopyOfSelectedAudience = angular.copy($scope.selectedAudience);
             audienceService.setSelectedAudience($scope.saveCopyOfSelectedAudience);
             audienceService.setAndOr($scope.andOr);
@@ -471,7 +469,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
         $scope.selectKeyword = function (keyword) {
             var index;
 
-            $scope.selectedKeywords=[];
+            $scope.selectedKeywords = [];
 
             index = _.findIndex($scope.selectedKeywords, function (item) {
                 return item === keyword;
@@ -508,19 +506,16 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
         };
 
         // keyword user choice
-        $scope.showKeywords = function (keyword, event) {
+        $scope.showKeywords = function (event, keyword) {
+            event.stopPropagation();
             $scope.pageNumber = 1;
             $scope.dropdownCss.display = keyword.length > 0 ? 'block' : 'none';
-
             $scope.isAudienceTargetingSearched = true;
 
             if (event.which === 13) {
                 if (keyword.length){
-
                     // fetch audience for keyword entered by user
                     $scope.selectKeyword(keyword);
-
-                    return false;
                 } else {
                     // fetch all audience when user clears the textBox
                     $scope.clearKeywordSearch();

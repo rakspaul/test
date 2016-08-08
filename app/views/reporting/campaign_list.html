@@ -1,9 +1,9 @@
-<popup-msg ng-show="alertMessage"
-           ng-controller="popUpMsgCtr"
-           ng-init="init('alertMessage', 'WF_CAMPAIGN_ARCHIVE_FAILURE')">
+<popup-msg data-ng-show="alertMessage"
+           data-ng-controller="popUpMsgCtr"
+           data-ng-init="init('alertMessage', 'WF_CAMPAIGN_ARCHIVE_FAILURE')">
 </popup-msg>
 
-<div id="detailedPage" class="dashboard_outer_container yo" ng-controller="CampaignListController">
+<div id="detailedPage" class="dashboard_outer_container yo" data-ng-controller="CampaignListController">
     <!-- header-->
     <div class="clearfix page_header_container campaign_list_header">
         <div class="pull-left campaign_name_holder">
@@ -19,7 +19,7 @@
     <div class="col-md-12 zeroPadding" style="margin-top: 15px;">
         <!--Create Media Plan Btn-->
         <div class="pull-left btn-group create" role="group" aria-label="...">
-            <a class="btn btn-default" href="/mediaplan/create"  ng-if="showCreateMediaPlan">
+            <a class="btn btn-default" href="/mediaplan/create"  data-ng-if="showCreateMediaPlan">
                 <span class="icon-plus"></span>
                 <span data-ng-bind="textConstants.CREATE"></span>
             </a>
@@ -32,7 +32,7 @@
         <div class="btn-group pull-right" style="margin-right: 10px;">
             <div class="searchInput pull-right">
                 <a class="btn btn-default searchInputBtnInline"
-                   ng-click="campaignSearchFunc()"
+                   data-ng-click="campaignSearchFunc()"
                    style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
                     <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
                 </a>
@@ -41,20 +41,19 @@
                            class="form-control"
                            name="campaignsSearch"
                            search-box
-                           ng-model="campaigns.searchTerm"
-                           ng-keyup="campaignSearchFunc($event)"
+                           data-ng-model="campaigns.searchTerm"
+                           data-ng-keyup="campaignSearchFunc($event)"
                            placeholder="Search Media Plans...">
-                    <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput($event)">
+                    <div class="btn btn-default searchClearInputBtn" data-ng-click="searchHideInput($event)">
                         <span class="icon-clear" aria-hidden="true"></span>
                     </div>
-
                 </div>
             </div>
         </div>
 
         <!--  campaigns.appliedQuickFilterText -->
         <span class="pull-right"
-              ng-bind="campaigns.searchTerm ? campaigns.dashboard.quickFilterSelectedCount + ' out of ' +
+              data-ng-bind="campaigns.searchTerm ? campaigns.dashboard.quickFilterSelectedCount + ' out of ' +
                 campaigns.dashboard.filterTotal + ' Media Plans' :
                 campaigns.dashboard.quickFilterSelectedCount + ' Media Plans'"
               style="font-size: 12px; margin: 10px 10px 0 0;">
@@ -66,12 +65,12 @@
         <div class="cost_col_header_tabs_holder" style="margin-top: 15px;">
             <div class="clearfix cost_tabs_margin" style="display: none;">
                 <div class="clearfix cost_tabs_holder">
-                    <div class="each_tab" id="performance_tab" ng-click="campaigns.getData('performance_tab')">
+                    <div class="each_tab" id="performance_tab" data-ng-click="campaigns.getData('performance_tab')">
                         <div class="each_tab_text" data-ng-bind="textConstants.PERFORMANCE"></div>
                     </div>
-                    <div class="each_tab cost_tab" id="cost_tab" ng-show="isAgencyCostModelTransparent && showCostTab">
+                    <div class="each_tab cost_tab" id="cost_tab" data-ng-show="isAgencyCostModelTransparent && showCostTab">
                         <div class="each_tab_text"
-                             ng-click="campaigns.getData('cost_tab')"
+                             data-ng-click="campaigns.getData('cost_tab')"
                              data-ng-bind="textConstants.COST_BREAKDOWN">
                         </div>
                     </div>
@@ -101,19 +100,17 @@
         <!-- PERFORMANCE DIV -->
         <div class="each_section_block total_campaign_list_holder" id="performance_block">
             <div class="all_campaigns_container">
-
                 <div  class="no-campaign-available"
-                      ng-if="campaigns.noData"
+                      data-ng-if="campaigns.noData"
                       data-ng-bind="textConstants.NO_RELEVANT_CAMPAIGNS">
                 </div>
-
-                <div ng-show='campaigns.busy' class="load-more">&nbsp;</div>
-
+                <div data-ng-show="campaigns.busy" class="load-more">&nbsp;</div>
                 <div class="clearfix row-fluid each_campaign_holder"
                      data-ng-repeat="campaign in campaigns.campaignList">
                     <!-- campaign strategy card -->
-                    <div ng-if="(campaigns.dashboard.filterTotal > 0)"
-                         campaign-card campaign="campaign"
+                    <div data-ng-if="(campaigns.dashboard.filterTotal > 0)"
+                         campaign-card
+                         campaign="campaign"
                          campaigns="campaigns"
                          class="col-md-12 zeroPadding">
                     </div>
@@ -122,8 +119,10 @@
             </div>
         </div>
         <!-- END OF PERFORMANCE DIV -->
-    </div><!--end of scrollable container-->
-    <div class="col-md-12 load-more" id="load_more" ng-show="campaigns.loadMoreCampaigns">&nbsp;</div>
+    </div>
+    <!--end of scrollable container-->
+
+    <div class="col-md-12 load-more" id="load_more" data-ng-show="campaigns.loadMoreCampaigns">&nbsp;</div>
     <campaign-drop-down selected-obj=selectedCampaign style="visibility: hidden"></campaign-drop-down>
 </div>
 

@@ -1,10 +1,8 @@
-define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils',
-    'common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_directive',
-    'reporting/subAccount/sub_account_service'], function (angularAMD) {
+define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils', 'common/services/constants_service', 'login/login_model',
+    'reporting/advertiser/advertiser_directive', 'reporting/subAccount/sub_account_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AdvertiserController', function ($scope, $rootScope, advertiserModel, utils,
-                                                            constants, loginModel) {
+    angularAMD.controller('AdvertiserController', function ($scope, $rootScope, advertiserModel, utils, constants, loginModel) {
         var search = false,
             searchCriteria = utils.typeAheadParams,
             loadAdvertisers = true,

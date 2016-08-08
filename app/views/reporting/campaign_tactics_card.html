@@ -1,6 +1,4 @@
-<div id="tactics-accordion-{{strategy.id}}"
-     class="clearfix tactics_container col-md-12 zeroPadding"
-     style="display: none">
+<div id="tactics-accordion-{{strategy.id}}" class="clearfix tactics_container col-md-12 zeroPadding" style="display: none">
     <div id="loading_icon_{{strategy.id}}" style="display: none" class="load-more">&nbsp;</div>
     <div data-ng-repeat="tactic in strategy.strategyTactics track by tactic.id"
          class="clearfix tactics_linkage_lines each_tactic_holder">
@@ -10,8 +8,7 @@
                     <div class="each_campaign_section" style="padding-right: 0;">
                         <div class="campaign_status_icon {{tactic.status.toLowerCase()}}_bulb"
                              tooltip-placement="left"
-                             tooltip="{{tactic.status.toLowerCase() === 'in_flight' ?
-                                'In Flight' : tactic.status.toLowerCase() | toCamelCase}}">
+                             tooltip="{{tactic.status.toLowerCase() === 'in_flight' ? 'In Flight' : tactic.status.toLowerCase() | toCamelCase}}">
                         </div>
                     </div>
                     <div class="each_campaign_section zeroPadding">
@@ -60,7 +57,6 @@
                 <div class="col-md-4 each_campaign_section campaign_list_details">
                     <div class="days_left_holder">
                         <div class="total_days_holder">
-
                             <div class="clearfix days_end_points">
                                 <span class="start_end" data-ng-bind="tactic.startDate | date :'d MMM y'"></span>
                                 <span class="finish_end" data-ng-bind="tactic.endDate | date :'d MMM y'"></span>
@@ -115,11 +111,9 @@
                             <div class="graph_start_point
                                     {{(getSpendTickWidthForTactic(tactic) <= 0) ? 'start_beginning' : ''}}
                                     {{(getSpendTickWidthForTactic(tactic) >= 88) ? 'start_end_point' : ''}}"
-                                 data-ng-style="{'left':getSpendTickWidthForTactic(tactic) +'%'};">
+                                 data-ng-style="{'left':getSpendTickWidthForTactic(tactic) + '%'};">
                                 <div class="end_point_val">
-                                    <span class="icon_KPI"
-                                          data-ng-bind="tactic.expectedMediaCost | nrFormatWithCurrency">
-                                    </span>
+                                    <span class="icon_KPI" data-ng-bind="tactic.expectedMediaCost | nrFormatWithCurrency"></span>
                                     <div class="end_point_line"></div>
                                 </div>
                             </div>
@@ -128,15 +122,13 @@
                             <div class="graph_end_point completed_end_point budget_graph_val">
                                 <div class="end_point_val">
                                     <div class="end_point_line"></div>
-                                    <span data-ng-bind="textConstants.BUDGET + ': ' +
-                                            (tactic.totalMediaCost | currency : undefined : 2)">
-                                    </span>
+                                    <span data-ng-bind="textConstants.BUDGET + ': ' + (tactic.totalMediaCost | currency : undefined : 2)"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="clearfix metric_graph_details">
-                        <div class="each_metric_graph_details" data-ng-if="tactic.chart != false">
+                        <div class="each_metric_graph_details" data-ng-if="tactic.chart !== false">
                             <span class="detail_val" data-ng-bind="tactic.totalImpressions | nrFormat : 0"></span>
                             <span data-ng-bind="textConstants.IMP_WITH_DOT"></span>
                         </div>
