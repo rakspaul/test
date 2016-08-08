@@ -2586,6 +2586,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container .reports_block.quar_data .each_col {
   width: 92px;
   border: 1px none #ff6600;
+  margin: 5px 0px 10px 2px !important;
 }
 .reports_tabs_content_container .reports_block .each_col {
   float: left;
