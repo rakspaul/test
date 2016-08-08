@@ -479,7 +479,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 // disabled checkBox if its primary!=Impression && UnitCost!=CPM
                 if (((responseData.kpiType && (responseData.kpiType).toUpperCase() !== 'IMPRESSIONS') ||
-                    ((responseData.rateType) && ((responseData.rateType).toUpperCase()!== 'CPM' ) )) && responseData.enabledBudgetCalculation) {
+                   ((responseData.rateType) && ((responseData.rateType).toUpperCase()!== 'CPM' ) ))
+                   && responseData.enabledBudgetCalculation) {
                     $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', true);
                 } else {
                     $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', false);
