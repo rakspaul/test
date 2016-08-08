@@ -202,7 +202,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         {id: 1, name: 'Display',    active: true},
                         {id: 2, name: 'Video',      active: false},
                         {id: 3, name: 'Rich Media', active: false},
-                        {id: 4, name: 'Social',     active: false}
+                        {id: 4, name: 'Social',     active: false},
+                        {id: 5, name: 'Native',     active: false}
+
                     ];
 
                     // default value
@@ -853,7 +855,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 display: 'image',
                 video: 'video',
                 'rich media': 'rich-media',
-                social: 'social'
+                social: 'social',
+                // native : 'native'
             };
 
             return adFormatMapper[adFormat.toLowerCase()];
