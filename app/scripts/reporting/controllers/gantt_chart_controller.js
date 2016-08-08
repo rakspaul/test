@@ -15,13 +15,19 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
         $scope.message = constants.MSG_DATA_NOT_AVAILABLE;
 
         $scope.calendar = function (filter) {
-            $scope.selected = 'quarter';
+            if(localStorage.clientRoleObj) {
+                $scope.selected = 'quarter';
 
-            if (advertiserModel.getSelectedAdvertiser().id === -1) {
-                _curCtrl.filter = filter;
-                $scope.init(null, filter);
-            } else {
-                $scope.init('single_brand', filter);
+                if (advertiserModel.getSelectedAdvertiser().id === -1) {
+                    _curCtrl.filter = filter;
+                    $scope.init(null, filter);
+                } else {
+                    $scope.init('single_brand', filter);
+                }
+            }else{
+                setTimeout(function(){
+                    $scope.calendar(filter);
+                },100);
             }
         };
 
