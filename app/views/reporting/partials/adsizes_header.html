@@ -4,6 +4,9 @@
 <div class="each_col third_col">
     <span class="icon_text_holder" data-ng-class="sortClassFunction('-impressions',sortTypeByAdSizes,!sortReverseAdSizes)" data-ng-click="sortTypeByAdSizes = '-impressions'; sortReverseAdSizes = !sortReverseAdSizes;removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</span>
 </div>
+<div class="each_col third_col">
+    <span class="icon_text_holder" data-ng-class="sortClassFunction('-clicks',sortTypeByAdSizes,!sortReverseAdSizes)" data-ng-click="sortTypeByAdSizes = '-clicks'; sortReverseAdSizes = !sortReverseAdSizes;removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'clicks'"></span>{{textConstants.CLICKS}}</span>
+</div>
 <span  data-ng-show="adFormats.videoAds  == true">
     <div class="each_col third_col">
         <span class="icon_text_holder" data-ng-class="sortClassFunction('video_played',sortTypeByAdSizes,sortReverseAdSizes)" data-ng-click="sortTypeByAdSizes = 'video_played'; sortReverseAdSizes = !sortReverseAdSizes;removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'video_played'"></span>{{textConstants.VIDEO_PLAYS}}</span>
