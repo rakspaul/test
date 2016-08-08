@@ -844,7 +844,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     return memo + (obj.cost || 0);
                 }, 0);
 
-                $scope.adIGroupBudget = $scope.adGroupMinBudget;
+                $scope.adIGroupBudget = parseFloat($scope.adGroupMinBudget);
                 $scope.extractor($scope.workflowData.campaignAdsData, adGroupCreateformElem);
             } else {
                 $scope.resetAdsData();
