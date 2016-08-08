@@ -7,9 +7,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
     'common/controllers/accounts/accounts_add_or_edit_controller' ], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AdminAdvertisersController', function ($scope, $rootScope, $modal, $compile, $filter,
-                                                                  constants, accountsService, momentService,
-                                                                    loginModel, utils, localStorageService) {
+    angularAMD.controller('AdminAdvertisersController', function ($scope, $rootScope, $modal, $compile, $filter, constants, accountsService, momentService,
+                                                                  loginModel, utils, localStorageService) {
         var _curCtrl = this,
             winHeight = $(window).height();
         _curCtrl.clientId = loginModel.getSelectedClient().id;

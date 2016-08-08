@@ -8,115 +8,82 @@
                     <div class="pull-right close_sliding_dropdown icon-filter"></div>
                 </div>
                 <div class="each_section">
-                    <div class="filter_title">
-                        {{constants.CAMPAIGN_STATUS}}
-                    </div>
+                    <div class="filter_title" data-ng-bind="constants.CAMPAIGN_STATUS"></div>
                     <div class="section_filter_list">
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.draft}}"
                              data-ng-click="campaigns.setQuickFilter(constants.DRAFT_CONDITION)">
-                            <div class="pull-left">
-                                {{constants.DRAFT}}
-                            </div>
+                            <div class="pull-left" data-ng-bind="constants.DRAFT"></div>
                             <div class="pull-right">
-                                <div class="number">{{campaigns.dashboard.draft}}</div>
+                                <div class="number" data-ng-bind="campaigns.dashboard.draft"></div>
                             </div>
                         </div>
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.ready}}"
                              data-ng-click="campaigns.setQuickFilter(constants.READY_CONDITION)">
-                            <div class="pull-left">
-                                {{constants.SCHEDULED}}
-                            </div>
+                            <div class="pull-left" data-ng-bind="constants.SCHEDULED"></div>
                             <div class="pull-right">
-                                <div class="number">{{campaigns.dashboard.ready}}</div>
+                                <div class="number" data-ng-bind="campaigns.dashboard.ready"></div>
                             </div>
                         </div>
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.active.bothItem}}"
                              data-ng-click="campaigns.setQuickFilter(constants.ACTIVE_CONDITION)">
-                            <div class="pull-left">
-                                {{constants.INFLIGHT_LABEL}}
-                            </div>
+                            <div class="pull-left" data-ng-bind="constants.INFLIGHT_LABEL"></div>
                             <div class="pull-right">
-                                <div class="number">{{campaigns.dashboard.active.total}}</div>
+                                <div class="number" data-ng-bind="campaigns.dashboard.active.total"></div>
                             </div>
                         </div>
-                        <!-- <div class="clearfix each_filter {{campaigns.dashboard.status.paused }}"
-                                data-ng-click="campaigns.setQuickFilter(constants.PAUSED_CONDITION)">
-                            <div class="pull-left">
-                                {{constants.PAUSED}}
-                            </div>
-                            <div class="pull-right">
-                                <div class="number">{{campaigns.dashboard.paused}}</div>
-                            </div>
-                        </div> -->
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.completed }}"
                              data-ng-click="campaigns.setQuickFilter(constants.COMPLETED_CONDITION)">
-                            <div class="pull-left">
-                                {{constants.ENDED}}
-                            </div>
+                            <div class="pull-left" data-ng-bind="constants.ENDED"></div>
                             <div class="pull-right">
-                                <div class="number">{{campaigns.dashboard.completed}}</div>
+                                <div class="number" data-ng-bind="campaigns.dashboard.completed"></div>
                             </div>
                         </div>
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.archived }}"
                              data-ng-click="campaigns.setQuickFilter(constants.ARCHIVED_CONDITION)">
-                            <div class="pull-left">
-                                {{constants.ARCHIVED}}
-                            </div>
+                            <div class="pull-left" data-ng-bind="constants.ARCHIVED"></div>
                             <div class="pull-right">
-                                <div class="number">{{campaigns.dashboard.archived}}</div>
+                                <div class="number" data-ng-bind="campaigns.dashboard.archived"></div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="each_section">
-                    <div class="filter_title">
-                        {{constants.PERFORMANCE}}
-                    </div>
+                    <div class="filter_title" data-ng-bind="constants.PERFORMANCE"></div>
                     <div class="section_filter_list">
                         <!-- add active when it is selected -->
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.active.ontrack}}"
                              data-ng-click="campaigns.setQuickFilter(constants.ACTIVE_ONTRACK)">
-                            <div class="pull-left">
-                                {{constants.ON_TRACK}}
-                            </div>
+                            <div class="pull-left" data-ng-bind="constants.ON_TRACK"></div>
                             <div class="pull-right">
-                                <div class="number">{{campaigns.dashboard.active.ontrack}}</div>
+                                <div class="number" data-ng-bind="campaigns.dashboard.active.ontrack"></div>
                             </div>
                         </div>
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.active.underperforming }}"
                              data-ng-click="campaigns.setQuickFilter(constants.ACTIVE_UNDERPERFORMING)">
-                            <div class="pull-left" >
-                                {{constants.UNDERPERFORMING}}
-                            </div>
+                            <div class="pull-left" data-ng-bind="constants.UNDERPERFORMING"></div>
                             <div class="pull-right">
-                                <div class="number">{{campaigns.dashboard.active.underperforming}}</div>
+                                <div class="number" data-ng-bind="campaigns.dashboard.active.underperforming"></div>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div class="each_section">
-                    <div class="filter_title">
-                        {{constants.CAMPAIGNS}}
-                    </div>
+                    <div class="filter_title" data-ng-bind="constants.CAMPAIGNS"></div>
                     <div class="section_filter_list">
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.active.endingSoon }}"
                              data-ng-click="campaigns.setQuickFilter(constants.ENDING_SOON_CONDITION)">
-                            <div class="pull-left">
-                                {{constants.ENDING_SOON}}
-                            </div>
+                            <div class="pull-left" data-ng-bind="constants.ENDING_SOON"></div>
                             <div class="pull-right">
-                                <div class="number">{{campaigns.dashboard.active.total}}</div>
+                                <div class="number" data-ng-bind="campaigns.dashboard.active.total"></div>
                             </div>
                         </div>
+
                         <!--View All-->
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.active.all }}"
                              data-ng-click="campaigns.setQuickFilter(constants.ALL_CONDITION)">
-                            <div class="pull-left">
-                                {{constants.ALL}}
-                            </div>
+                            <div class="pull-left" data-ng-bind="constants.ALL"></div>
                             <div class="pull-right">
-                                <div class="number">{{campaigns.dashboard.all}}</div>
+                                <div class="number" data-ng-bind="campaigns.dashboard.all"></div>
                             </div>
                         </div>
                     </div>
@@ -124,14 +91,4 @@
             </div>
         </div>
     </div>
-    <!--   <div class="filters_selected_holder">
-          <div class="each_selected_filter">
-              <div class="heading">
-                  Status
-              </div>
-              <div class="value">
-
-              </div>
-          </div>
-      </div> -->
 </div>

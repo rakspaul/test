@@ -4,8 +4,7 @@
          id="advertiser_name_selected"
          data-ng-click="showAdvertisersDropDown()"
          title="{{advertiserData.selectedAdvertiser.name}}"
-         data-ng-bind="(advertiserData.selectedAdvertiser.name ?
-            advertiserData.selectedAdvertiser.name : 'All Advertisers')">
+         data-ng-bind="(advertiserData.selectedAdvertiser.name ? advertiserData.selectedAdvertiser.name : 'All Advertisers')">
     </div>
     <span class="icon-arrow-solid-down"></span>
 </div>
@@ -18,8 +17,7 @@
                        id="advertisersDropdown"
                        data-ng-keyup="disableShowAll();"
                        data-ng-model="selectedAdvertiser.name"
-                       placeHolder="{{(advertiserData.selectedAdvertiser.name ?
-                        advertiserData.selectedAdvertiser.name : 'Select Advertiser')}}">
+                       placeHolder="{{(advertiserData.selectedAdvertiser.name ? advertiserData.selectedAdvertiser.name : 'Select Advertiser')}}">
                 <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
             </div>
             <div  class="advertisersList_ul">
@@ -30,9 +28,7 @@
                     title="{{advertiser.name}}">
                     <a data-ng-click="selectAdvertiser(advertiser, 'clicked')">
                         <span class="tick"></span>
-                        <span class="menuItemText"
-                              data-ng-bind="advertiser.advertiserDisplayName || advertiser.name">
-                        </span>
+                        <span class="menuItemText" data-ng-bind="advertiser.advertiserDisplayName || advertiser.name"></span>
                     </a>
                 </li>
             </div>

@@ -4,10 +4,7 @@
         <div class="clearfix">
             <div class="each_campaign_section">
                 <div class="main_heading pull-left">
-                    <truncate-text-with-hover txt="{{strategy.name}}"
-                                              txt-html="{{strategy.name}}"
-                                              txtlength="75">
-                    </truncate-text-with-hover>
+                    <truncate-text-with-hover txt="{{strategy.name}}" txt-html="{{strategy.name}}" txtlength="75"></truncate-text-with-hover>
                 </div>
                 <div class="heading" data-ng-bind="campaign.brandName"></div>
             </div>
@@ -22,12 +19,12 @@
                         <span class="finish_end" data-ng-bind="strategy.endDate | date : 'd MMM y'"></span>
                     </div>
                     <div data-ng-init="duration_s = strategy.durationLeft()"></div>
-                    <div class="days_over" data-ng-style="{'width':strategy.durationCompletion() +'%'};">
-                        <span data-ng-if="duration_s == 'Yet to start'"
+                    <div class="days_over" data-ng-style="{'width':strategy.durationCompletion() + '%'};">
+                        <span data-ng-if="duration_s === 'Yet to start'"
                               data-ng-bind="textConstants.YET_TO_START"
                               class="days_over_text start_text">
                         </span>
-                        <span data-ng-if="duration_s == 'Ended'"
+                        <span data-ng-if="duration_s === 'Ended'"
                               data-ng-bind="textConstants.ENDED"
                               class="days_over_text ended_text">
                         </span>
@@ -36,11 +33,11 @@
                               class="days_over_text">
                         </span>
                     </div>
-                    <div data-ng-if="duration_s == 'Started today'"
+                    <div data-ng-if="duration_s === 'Started today'"
                          data-ng-bind="textConstants.STARTED_TODAY"
                          class="days_not_over_text start_text">
                     </div>
-                    <div data-ng-if="duration_s == 'Ending today'"
+                    <div data-ng-if="duration_s === 'Ending today'"
                          data-ng-bind="textConstants.ENDING_TODAY"
                          class="days_not_over_text ended_text">
                     </div>
@@ -54,8 +51,7 @@
                         <span></span>
                     </div>
                     <div class="pull-left"
-                         data-ng-bind="(strategy.tactics_count > 1) ?
-                            (strategy.tactics_count+' Ads') : (strategy.tactics_count+' Ad')">
+                         data-ng-bind="(strategy.tactics_count > 1) ? (strategy.tactics_count+' Ads') : (strategy.tactics_count + ' Ad')">
                     </div>
                 </div>
                 <a>
@@ -76,8 +72,7 @@
             <div class="metric_graph {{getSpendClassForStrategy(strategy)}}">
                 <div class="full_metric_graph">
                     <!-- put completely_filled when 100% -->
-                    <div class="selected_graph {{(getSpendWidthForStrategy(strategy) >= 100) ?
-                            'completely_filled' : ''}}"
+                    <div class="selected_graph {{(getSpendWidthForStrategy(strategy) >= 100) ? 'completely_filled' : ''}}"
                          data-ng-style="{width: getSpendWidthForStrategy(strategy) + '%'};">
                     </div>
 
@@ -87,9 +82,7 @@
                             {{(getSpendTickWidthForStrategy(strategy) >= 88) ? 'start_end_point' : ''}}"
                          data-ng-style="{left: getSpendTickWidthForStrategy(strategy) + '%'};">
                         <div class="end_point_val">
-                            <span class="icon_KPI"
-                                  data-ng-bind="strategy.expectedMediaCost | nrFormatWithCurrency">
-                            </span>
+                            <span class="icon_KPI" data-ng-bind="strategy.expectedMediaCost | nrFormatWithCurrency"></span>
                             <div class="end_point_line"></div>
                         </div>
                     </div>
@@ -97,9 +90,7 @@
                         <!-- put completed_end_point when at end -->
                         <div class="end_point_val">
                             <div class="end_point_line"></div>
-                            <span data-ng-bind="textConstants.BUDGET + ': ' +
-                                strategy.totalMediaCost | currency : undefined : 2">
-                            </span>
+                            <span data-ng-bind="textConstants.BUDGET + ': ' + strategy.totalMediaCost | currency : undefined : 2"></span>
                         </div>
                     </div>
                 </div>
@@ -142,15 +133,13 @@
         <div class="col-md-4 each_campaign_section campaign_section_KPI">
             <div class="graph_details_KPI">
                 <div class="clearfix details_KPI_row1">
-                    <span class="details_KPI_title"
-                          data-ng-bind="campaign.kpiType !== 'null' ?  campaign.kpiTypeDisplayName : 'NA'">
-                    </span>
+                    <span class="details_KPI_title" data-ng-bind="campaign.kpiType !== 'null' ?  campaign.kpiTypeDisplayName : 'NA'"></span>
                     <span class="pull-right details_KPI_row2"
                           data-ng-if="campaign.kpiValue || strategy.targetKPIImpressions">
                         <span data-ng-if="strategy.chart !== false"
                               data-ng-bind="campaign.kpiType.toLowerCase() === 'impressions' ?
                                     (strategy.targetKPIImpressions|nrFormat : 0) :
-                                    (campaign.kpiValue | kpiFormatter:campaign.kpiType)">
+                                    (campaign.kpiValue | kpiFormatter : campaign.kpiType)">
                         </span>
                         <span class="icon_KPI" data-ng-if="strategy.chart !== false"></span>
                     </span>
@@ -158,33 +147,35 @@
                         {{textConstants.CUMULATIVE_VALUE}}
                         <span data-ng-bind="(campaign.kpiType.toLowerCase() === 'impressions') ?
                             (strategy.totalImpressions |  kpiFormatter:campaign.kpiType:1) :
-                            (strategy.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1)">
+                            (strategy.map[campaign.kpiType.toLowerCase()] | kpiFormatter : campaign.kpiType : 1)">
                         </span>
                     </span>
                 </div>
             </div>
             <div class="graph_KPI_outer_holder">
-              <span data-ng-switch="strategy.chart">
-                <span data-ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
-                <span data-ng-switch-when="false" class="no-chart"
-                      data-ng-bind-html="getMessageForDataNotAvailable(strategy)">
-                </span>
-                <span data-ng-switch-default>
-                    <div data-ng-if="(strategy.chart && campaign.kpiType)" class="graph_KPI_holder">
-                        <div class="campaign_details_graph"
-                             width="355"
-                             height="111"
-                             campaign-chart
-                             chart-data="{{strategy.lineChart}}"
-                             chart-location="strategy"
-                             chart-tag="{{strategy.id}}">
+                <span data-ng-switch="strategy.chart">
+                    <span data-ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
+                    <span data-ng-switch-when="false"
+                          class="no-chart"
+                          data-ng-bind-html="getMessageForDataNotAvailable(strategy)">
+                    </span>
+                    <span data-ng-switch-default>
+                        <div data-ng-if="(strategy.chart && campaign.kpiType)" class="graph_KPI_holder">
+                            <div class="campaign_details_graph"
+                                 width="355"
+                                 height="111"
+                                 campaign-chart
+                                 chart-data="{{strategy.lineChart}}"
+                                 chart-location="strategy"
+                                 chart-tag="{{strategy.id}}">
+                            </div>
                         </div>
-                    </div>
-                    <div data-ng-if="!(strategy.chart && campaign.kpiType)" class="graph_KPI_holder"
-                         data-ng-bind-html="getMessageForDataNotAvailable(strategy)">
-                    </div>
+                        <div data-ng-if="!(strategy.chart && campaign.kpiType)"
+                             class="graph_KPI_holder"
+                             data-ng-bind-html="getMessageForDataNotAvailable(strategy)">
+                        </div>
+                    </span>
                 </span>
-              </span>
             </div>
         </div>
     </div>

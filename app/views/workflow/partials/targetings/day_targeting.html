@@ -7,7 +7,11 @@
             <span class="pull-left" style="clear: left; font-size: 12px;" data-ng-bind="textConstants.DAFAULTADNOTE"></span>
         </div>
         <div class="pull-right">
-            <button class="pull-right btn btn-default" data-ng-click="saveDayPart($event)" data-ng-disabled="saveDayPartFlag" data-ng-bind="textConstants.SAVEDAYPART"></button>
+            <button class="pull-right btn btn-default"
+                    data-ng-click="saveDayPart($event)"
+                    data-ng-disabled="saveDayPartFlag"
+                    data-ng-bind="textConstants.SAVEDAYPART">
+            </button>
             <button class="pull-right btn btn-link" data-ng-click="resetDayPartTargetingVariables();" data-ng-bind="textConstants.CANCEL"></button>
         </div>
     </div>
@@ -49,7 +53,12 @@
                             <a value="7" data-ng-bind="textConstants.CUTSCHEDULE"></a>
                         </li>
                     </ul>
-                    <input type="hidden" name="dayTimesel" class="dayTimesel" data-ng-model="dayTimeSelected" value="dayTimeSelected" data-ng-Update-Hidden required/>
+                    <input type="hidden"
+                           name="dayTimesel"
+                           class="dayTimesel"
+                           data-ng-model="dayTimeSelected"
+                           value="dayTimeSelected"
+                           data-ng-Update-Hidden required>
                 </div>
             </div>
         </div>
@@ -68,29 +77,48 @@
                                    hidden="hidden"
                                    class="btn_rad advertiserClass"
                                    id="timeAdvertiser"
-                                   data-ng-click="timeZoneType($event,'Advertiser');">
+                                   data-ng-click="timeZoneType($event, 'Advertiser');">
                         </label>
-
                         <label class="btn btn-default timeEndUser" style="width: auto;">
                             <span data-ng-bind="textConstants.ENDUSER"></span>
-                            <input type="radio" name="timeZone" group="timeZone" value="End User" hidden="hidden" class="btn_rad endUserClass" id="timeEndUser" data-ng-click="timeZoneType($event,'End User');">
+                            <input type="radio"
+                                   name="timeZone"
+                                   group="timeZone"
+                                   value="End User"
+                                   hidden="hidden"
+                                   class="btn_rad endUserClass"
+                                   id="timeEndUser"
+                                   data-ng-click="timeZoneType($event, 'End User');">
                         </label>
                     </div>
                 </div>
             </div>
-
             <div class="col-md-6 zeroPadding">
                 <div class="col-md-12 zeroPadding radioBtnToggle timeZone">
                     <label class="col-sm-12 greyTxt" style="text-align: right; padding-right: 107px !important;" data-ng-bind="textConstants.CLOCK"></label>
                     <div class="form-group btn-group miniToggle pull-right">
                         <label class="btn btn-default active 12hr" style="width: auto;">
                             <span data-ng-bind="textConstants.HR12"></span>
-                            <input type="radio" name="timeClock" checked group="timeClock" value="12 hr" hidden="hidden" class="btn_rad" id="12hr" data-ng-click="timeFormat($event,12);">
+                            <input type="radio"
+                                   name="timeClock"
+                                   checked
+                                   group="timeClock"
+                                   value="12 hr"
+                                   hidden="hidden"
+                                   class="btn_rad"
+                                   id="12hr"
+                                   data-ng-click="timeFormat($event, 12);">
                         </label>
-
                         <label class="btn btn-default 24hr" style="width: auto;">
                             <span data-ng-bind="textConstants.HR24"></span>
-                            <input type="radio" name="timeClock" group="timeClock" value="24 hr" hidden="hidden" class="btn_rad" id="24hr" data-ng-click="timeFormat($event,24);">
+                            <input type="radio"
+                                   name="timeClock"
+                                   group="timeClock"
+                                   value="24 hr"
+                                   hidden="hidden"
+                                   class="btn_rad"
+                                   id="24hr"
+                                   data-ng-click="timeFormat($event, 24);">
                         </label>
                     </div>
                 </div>
@@ -102,11 +130,9 @@
     <div class="col-md-12 zeroPadding bottomBorder" style="margin: 20px 0;">
         <span class="greyTxt pull-left" data-ng-bind="textConstants.DELADTIME"></span>
     </div>
-
     <div class="col-md-2 zeroPadding pull-left" data-ng-init="Schedule.customLength = 0">
         <a class="pull-left" style="padding: 0; margin-bottom: 15px;" data-ng-click="addMoreCustom()" data-ng-bind="textConstants.ADDDAYPART"></a>
     </div>
-
     <div class="col-md-2 zeroPadding pull-right">
         <a class="pull-right" style="padding: 0;" data-ng-click="clearDayPart()" data-ng-bind="textConstants.CLEARALL"></a>
     </div>
@@ -115,63 +141,139 @@
             <div class="col-md-2 zeroPadding dailyRow">
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" data-ng-bind="Schedule.dayPart[$index]['day']" aria-haspopup="true" aria-expanded="true">
+                        <button class="btn btn-default dropdown-toggle"
+                                type="button"
+                                data-toggle="dropdown"
+                                data-ng-bind="Schedule.dayPart[$index].day"
+                                aria-haspopup="true"
+                                aria-expanded="true">
                             <span class="icon-arrow-solid-down"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dayTime" id="selectDay" data-toggle="dropdown">
                             <li class="available">
-                                <a data-ng-click="selectday($index,'Sunday')" data-ng-bind="textConstants.SUNDAY"></a>
+                                <a data-ng-click="selectday($index, 'Sunday')" data-ng-bind="textConstants.SUNDAY"></a>
                             </li>
                             <li class="available">
-                                <a data-ng-click="selectday($index,'Monday')" data-ng-bind="textConstants.MONDAY"></a>
+                                <a data-ng-click="selectday($index, 'Monday')" data-ng-bind="textConstants.MONDAY"></a>
                             </li>
                             <li class="available">
-                                <a data-ng-click="selectday($index,'Tuesday')" data-ng-bind="textConstants.TUESDAY"></a>
+                                <a data-ng-click="selectday($index, 'Tuesday')" data-ng-bind="textConstants.TUESDAY"></a>
                             </li>
                             <li class="available">
-                                <a data-ng-click="selectday($index,'Wednesday')" data-ng-bind="textConstants.WEDNESDAY"></a>
+                                <a data-ng-click="selectday($index, 'Wednesday')" data-ng-bind="textConstants.WEDNESDAY"></a>
                             </li>
                             <li class="available">
-                                <a data-ng-click="selectday($index,'Thursday')" data-ng-bind="textConstants.THURSDAY"></a>
+                                <a data-ng-click="selectday($index, 'Thursday')" data-ng-bind="textConstants.THURSDAY"></a>
                             </li>
                             <li class="available">
-                                <a data-ng-click="selectday($index,'Friday')" data-ng-bind="textConstants.FRIDAY"></a>
+                                <a data-ng-click="selectday($index, 'Friday')" data-ng-bind="textConstants.FRIDAY"></a>
                             </li>
                             <li class="available">
-                                <a data-ng-click="selectday($index,'Saturday')" data-ng-bind="textConstants.SATURDAY"></a>
+                                <a data-ng-click="selectday($index, 'Saturday')" data-ng-bind="textConstants.SATURDAY"></a>
                             </li>
                         </ul>
-                        <input data-ng-if="dayTimeSelected === 'Custom schedule' && (modeSet!='edit') && (intermediateChange)" type="hidden" name="day" class="" data-ng-model="Schedule.dayPart[$index]['day']" data-ng-init="Schedule.dayPart[$index]['day']='Sunday'" value="{{Schedule.dayPart[$index]['day']}}" field="day" index="{{$index}}" data-ng-Update-Hidden-Days />
-                        <input type="hidden" name="day" class="" data-ng-model="Schedule.dayPart[$index]['day']" value="{{Schedule.dayPart[$index]['day']}}" field="day" index="{{$index}}" data-ng-Update-Hidden-Days />
+                        <input data-ng-if="dayTimeSelected === 'Custom schedule' && (modeSet !== 'edit') && (intermediateChange)"
+                               type="hidden"
+                               name="day"
+                               data-ng-model="Schedule.dayPart[$index].day"
+                               data-ng-init="Schedule.dayPart[$index].day = 'Sunday'"
+                               value="{{Schedule.dayPart[$index].day}}"
+                               field="day"
+                               index="{{$index}}"
+                               data-ng-Update-Hidden-Days>
+                        <input type="hidden"
+                               name="day"
+                               data-ng-model="Schedule.dayPart[$index].day"
+                               value="{{Schedule.dayPart[$index].day}}"
+                               field="day"
+                               index="{{$index}}"
+                               data-ng-Update-Hidden-Days>
                     </div>
                 </div>
             </div>
             <div class="col-md-2 zeroPadding hourRow">
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" data-ng-bind="returnTime(Schedule.dayPart[$index]['stTime'])" aria-expanded="true">
+                        <button class="btn btn-default dropdown-toggle"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                data-ng-bind="returnTime(Schedule.dayPart[$index].stTime)"
+                                aria-expanded="true">
                             <span class="icon-arrow-solid-down"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dayTime" id="startTime" data-toggle="dropdown">
-                            <li class="available" data-ng-click="selectStartTime($parent.$index,time.time)" data-ng-value="time.time" data-ng-repeat="time in getStartTimes"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
+                            <li class="available"
+                                data-ng-click="selectStartTime($parent.$index, time.time)"
+                                data-ng-value="time.time"
+                                data-ng-repeat="time in getStartTimes">
+                                <a data-ng-bind="twelve ? time.twelveHrFormat: time.twentyfourHrFormat"></a>
+                            </li>
                         </ul>
-                        <input data-ng-if="dayTimeSelected != 'Custom schedule'" type="hidden" name="stTime" class="" data-ng-model="Schedule.dayPart[$index]['stTime']" data-ng-value="{{time.time}}" field="stTime" index="{{$index}}" data-ng-Update-Hidden-Days/>
-                        <input data-ng-if="dayTimeSelected === 'Custom schedule' && (modeSet!='edit') && (intermediateChange)" type="hidden" name="stTime" class="" data-ng-model="Schedule.dayPart[$index]['stTime']" data-ng-init="Schedule.dayPart[$index]['stTime']='24'" data-ng-value="{{time.time}}" field="stTime" index="{{$index}}" data-ng-Update-Hidden-Days/>
+                        <input data-ng-if="dayTimeSelected !== 'Custom schedule'"
+                               type="hidden"
+                               name="stTime"
+                               data-ng-model="Schedule.dayPart[$index].stTime"
+                               data-ng-value="{{time.time}}"
+                               field="stTime"
+                               index="{{$index}}"
+                               data-ng-Update-Hidden-Days>
+                        <input data-ng-if="dayTimeSelected === 'Custom schedule' && (modeSet !== 'edit') && (intermediateChange)"
+                               type="hidden"
+                               name="stTime"
+                               data-ng-model="Schedule.dayPart[$index].stTime"
+                               data-ng-init="Schedule.dayPart[$index].stTime='24'"
+                               data-ng-value="{{time.time}}"
+                               field="stTime"
+                               index="{{$index}}"
+                               data-ng-Update-Hidden-Days>
                     </div>
                 </div>
             </div>
-            <div class="midTo" data-ng-if="Schedule.dayPart[$index]['stTime'] < 24" data-ng-bind="textConstants.TO"></div>
-            <div class="col-md-2 zeroPadding hourRow" data-ng-if="Schedule.dayPart[$index]['stTime'] < 24">
+            <div class="midTo" data-ng-if="Schedule.dayPart[$index].stTime < 24" data-ng-bind="textConstants.TO"></div>
+            <div class="col-md-2 zeroPadding hourRow" data-ng-if="Schedule.dayPart[$index].stTime < 24">
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle " type="button" data-toggle="dropdown" aria-haspopup="true" data-ng-bind="returnTime(Schedule.dayPart[$index]['edTime'])" aria-expanded="true">
+                        <button class="btn btn-default dropdown-toggle"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                data-ng-bind="returnTime(Schedule.dayPart[$index].edTime)"
+                                aria-expanded="true">
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dayTime" id="endTime" data-toggle="dropdown">
-                            <li class="available" data-ng-click="selectEndTime($parent.$parent.$index,time.time)" data-ng-repeat="time in getStartTimes| limitTo:1" data-ng-value="time.time" data-ng-if="Schedule.dayPart[$parent.$index]['stTime'] === 23"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
-                            <li class="available" data-ng-click="selectEndTime($parent.$parent.$index,time.time)" data-ng-value="time.time" data-ng-repeat="time in getStartTimes | limitTo: getStartTimes.length-1" data-ng-if="Schedule.dayPart[$parent.$index]['stTime'] !== 23 && Schedule.dayPart[$parent.$index]['stTime'] < time.time"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
+                            <li class="available"
+                                data-ng-click="selectEndTime($parent.$parent.$index, time.time)"
+                                data-ng-repeat="time in getStartTimes| limitTo : 1"
+                                data-ng-value="time.time"
+                                data-ng-if="Schedule.dayPart[$parent.$index].stTime === 23">
+                                <a data-ng-bind="twelve ? time.twelveHrFormat: time.twentyfourHrFormat"></a>
+                            </li>
+                            <li class="available"
+                                data-ng-click="selectEndTime($parent.$parent.$index, time.time)"
+                                data-ng-value="time.time"
+                                data-ng-repeat="time in getStartTimes | limitTo : getStartTimes.length - 1"
+                                data-ng-if="Schedule.dayPart[$parent.$index].stTime !== 23 && Schedule.dayPart[$parent.$index].stTime < time.time">
+                                <a data-ng-bind="twelve ? time.twelveHrFormat: time.twentyfourHrFormat"></a>
+                            </li>
                         </ul>
-                        <input data-ng-if="dayTimeSelected != 'Custom schedule'" type="hidden" name="edTime" class="" data-ng-model="Schedule.dayPart[$index]['edTime']" data-ng-value="{{time.time}}" field="edTime" index="{{$index}}" data-ng-Update-Hidden-Days/>
-                        <input data-ng-if="dayTimeSelected == 'Custom schedule' && (modeSet!='edit') && (intermediateChange)" type="hidden" name="edTime" class="" data-ng-model="Schedule.dayPart[$index]['edTime']" data-ng-init="Schedule.dayPart[$index]['edTime']='23'" data-ng-value="{{time.time}}" field="edTime" index="{{$index}}" data-ng-Update-Hidden-Days/>
+                        <input data-ng-if="dayTimeSelected !== 'Custom schedule'"
+                               type="hidden"
+                               name="edTime"
+                               data-ng-model="Schedule.dayPart[$index].edTime"
+                               data-ng-value="{{time.time}}"
+                               field="edTime"
+                               index="{{$index}}"
+                               data-ng-Update-Hidden-Days>
+                        <input data-ng-if="dayTimeSelected === 'Custom schedule' && (modeSet !== 'edit') && (intermediateChange)"
+                               type="hidden"
+                               name="edTime"
+                               data-ng-model="Schedule.dayPart[$index].edTime"
+                               data-ng-init="Schedule.dayPart[$index].edTime = '23'"
+                               data-ng-value="{{time.time}}"
+                               field="edTime"
+                               index="{{$index}}"
+                               data-ng-Update-Hidden-Days>
                     </div>
                 </div>
             </div>
