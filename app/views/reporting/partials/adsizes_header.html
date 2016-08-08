@@ -37,6 +37,21 @@
 <div class="each_col fifth_col">
     <span class="icon_text_holder" data-ng-class="sortClassFunction('-cpm',sortTypeByAdSizes,sortReverseForCostscpmAdsizes)" data-ng-click="sortTypeByAdSizes = '-cpm'; sortReverseAdSizes = sortReverseForCostscpmAdsizes; sortReverseForCostscpmAdsizes = !sortReverseForCostscpmAdsizes; removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
 </div>
+<div class="each_col fifth_col">
+    <span class="icon_text_holder" data-ng-class="sortClassFunction('-pc_cpa',sortTypeByAdSizes,sortReverseForCostscpmAdsizes)" data-ng-click="sortTypeByAdSizes = '-pc_cpa'; sortReverseAdSizes = sortReverseForCostscpmAdsizes; sortReverseForCostscpmAdsizes = !sortReverseForCostscpmAdsizes; removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'pc_cpa'"></span>{{textConstants.PC_CPA}}</span>
+</div>
+<div class="each_col fifth_col">
+    <span class="icon_text_holder" data-ng-class="sortClassFunction('-spend',sortTypeByAdSizes,sortReverseForCostscpmAdsizes)" data-ng-click="sortTypeByAdSizes = '-spend'; sortReverseAdSizes = sortReverseForCostscpmAdsizes; sortReverseForCostscpmAdsizes = !sortReverseForCostscpmAdsizes; removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'spend'"></span>{{textConstants.SPEND}}</span>
+</div>
+<div class="each_col fifth_col">
+    <span class="icon_text_holder" data-ng-class="sortClassFunction('-suspicious_impressions_perc',sortTypeByAdSizes,sortReverseForCostscpmAdsizes)" data-ng-click="sortTypeByAdSizes = '-suspicious_impressions_perc'; sortReverseAdSizes = sortReverseForCostscpmAdsizes; sortReverseForCostscpmAdsizes = !sortReverseForCostscpmAdsizes; removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'suspicious_impressions_perc'"></span>{{textConstants.SUSPICIOUS_ACTIVITY}}</span>
+</div>
+<div class="each_col fifth_col">
+    <span class="icon_text_holder" data-ng-class="sortClassFunction('-viewable_impressions',sortTypeByAdSizes,sortReverseForCostscpmAdsizes)" data-ng-click="sortTypeByAdSizes = '-viewable_impressions'; sortReverseAdSizes = sortReverseForCostscpmAdsizes; sortReverseForCostscpmAdsizes = !sortReverseForCostscpmAdsizes; removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'viewable_impressions'"></span>{{textConstants.VIEWABLE_IMPRESSION}}</span>
+</div>
+<div class="each_col fifth_col">
+    <span class="icon_text_holder" data-ng-class="sortClassFunction('-viewable_impressions_perc',sortTypeByAdSizes,sortReverseForCostscpmAdsizes)" data-ng-click="sortTypeByAdSizes = '-viewable_impressions_perc'; sortReverseAdSizes = sortReverseForCostscpmAdsizes; sortReverseForCostscpmAdsizes = !sortReverseForCostscpmAdsizes; removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'viewable_impressions_perc'"></span>{{textConstants.VIEWABLE_RATE}}</span>
+</div>
 </span>
 <div class="each_col seventh_col">
     <div data-ng-if="adFormats.videoAds"  class="dropdown kpi-dd-holder">

@@ -31,6 +31,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ARCHIVED_CONDITION = 'archived';
         this.ALL_CONDITION = 'all';
         this.REPORTS_OVERVIEW = 'Reports Overview';
+        this.ADMIN = 'Admin';
+        this.INVOICE_TOOL = 'Billing';
 
         this.ONTRACK = 'ontrack';
         this.ENDING_SOON = 'Ending Soon';
@@ -93,9 +95,13 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.CTR = 'CTR';
         this.VTC = 'VTC';
         this.CPM = 'CPM';
+        this.SUSPICIOUS_ACTIVITY = 'Suspicious Activity %';
+        this.VIEWABLE_IMPRESSION = 'Viewable Impression';
+        this.VIEWABLE_RATE = 'Viewable Rate';
         this.ESTREACH = 'Estimated Pool Size';
         this.CPC = 'CPC';
         this.CPA = 'CPA';
+        this.PC_CPA = 'Post Click CPA';
         this.ACTION_RATE = 'Action Rate';
         this.SCREENS = 'Screens';
         this.FORMATS = 'Formats';
@@ -231,7 +237,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MSG_DATA_NOT_AVAILABLE = '<span class="no-data-common">Data not available</span>';
         this.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD = '<span class="data_not_found">Data not available</span>';
         this.MSG_CAMPAIGN_YET_TO_START = '<span class="no-data-common">This Media Plan is Scheduled to start on {0}.</span>';
-        this.MSG_STRATEGY_YET_TO_START = '<span class="no-data-common">This Ad is Scheduled to start on {0}.</span>';
+        this.MSG_STRATEGY_YET_TO_START = '<span class="no-data-common">This Lineitem is Scheduled to start on {0}.</span>';
         this.MSG_TACTIC_YET_TO_START = '<span class="no-data-common">This Ad is Scheduled to start on {0}.</span>';
         this.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA =
             '<span class="no-data-common">Media Plan is In Flight. Data is not yet available.</span>';
@@ -412,7 +418,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.BASED_ONLY_ON_VIEWABLE_IMPS = 'Value based only on Viewable Impressions.';
         this.VIEWABLE = 'Viewable';
         this.MEASURABLE = 'Measurable';
-        this.SUSPICIOUS_ACTIVITY = 'Suspicious Activity';
         this.SSL_ERROR_MESSAGE = 'Please enter a SSL compatible tag.';
 
         this.STRATEGY = 'Ad Group';
@@ -568,7 +573,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.WF_SET_FREQUENCY_CAP = 'Set per User frequency cap';
         this.WF_IMPRESSION_PER = 'Impression per';
 
-        this.WF_DATE_FORMAT = "D MMM YYYY";
+        this.WF_DATE_FORMAT = 'D MMM YYYY';
 
         this.YESTERDAY = 'Yesterday';
         this.WF_NOT_SET = 'Not Set';

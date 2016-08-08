@@ -3,19 +3,23 @@
     <span data-ng-if="whichCaller.changedrpval === 'yes'" class="pull-right dd_txt">
         <span data-ng-if="kpiData.selectedKpi === 'vtc' || kpiData.selectedKpi === 'ctr' || kpiData.selectedKpi === 'action_rate'"
               data-ng-init="changeClickedSelectedKpiAlt('cpm')"
-              class="dd_txt_span pull-right" style="line-height: 100%;"
+              class="dd_txt_span pull-right"
+              style="line-height: 100%;"
               data-ng-bind="textConstants.CPM"
               title="{{textConstants.CPM}}">
         </span>
-        <span data-ng-if="kpiData.selectedKpi === 'cpm' || kpiData.selectedKpi === 'cpa' || kpiData.selectedKpi === 'cpc' || kpiData.selectedKpi === 'pc_cpa'"
+        <span ng-if="checkNewkpiDropDownAlt()"
               class="dd_txt_span pull-right"
               style="line-height: 100%;"
-              data-ng-bind="kpiData.selectedKpiDisplayName" title="{{kpiData.selectedKpiDisplayName}}">
+              data-ng-bind="kpiData.selectedKpiDisplayName"
+              title="{{kpiData.selectedKpiDisplayName}}">
         </span>
         <span data-ng-if="kpiData.selectedKpi === 'impressions'"
               data-ng-init="changeClickedSelectedKpiAlt('cpm')"
-              class="pull-right dd_txt_span" style="line-height: 100%;"
-              data-ng-bind="kpiData.selectedKpiDisplayName" title="{{kpiData.selectedKpiDisplayName}}">
+              class="pull-right dd_txt_span"
+              style="line-height: 100%;"
+              data-ng-bind="kpiData.selectedKpiDisplayName"
+              title="{{kpiData.selectedKpiDisplayName}}">
         </span>
         <span data-ng-class="{vid_none_hdr_hide:whichCaller.changedrpval === 'yes'}"
               class="default-kpi-header-icon pull-right"

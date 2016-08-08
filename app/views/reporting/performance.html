@@ -43,13 +43,14 @@
 
                     <!-- -------START :  Screen Block ----------------------------- -->
                     <div data-ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block'"
+                         class="overflowAuto"
                          id="reports_byscreens_block"
                          style="{{defaultDisplayScreen}}">
                         <div class="no_data_found"
                              data-ng-if="dataNotFoundForScreen"
                              data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
                         </div>
-                        <div class="reports_details_outer_container" data-ng-if="!dataNotFoundForScreen">
+                        <div class="reports_details_outer_container overflowAuto" data-ng-if="!dataNotFoundForScreen">
                             <div class="clearfix reports_performance_header" data-ng-hide="screenBusy">
                                 <screen-header></screen-header>
                             </div>
@@ -100,7 +101,7 @@
                              data-ng-if="dataNotFoundForDOW"
                              data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
                         </div>
-                        <div class="reports_details_outer_container" data-ng-show="!dataNotFoundForDOW">
+                        <div class="reports_details_outer_container overflowAuto" data-ng-show="!dataNotFoundForDOW">
                             <div class="clearfix reports_performance_header" data-ng-hide="dowBusy">
                                 <daysofweek-header></daysofweek-header>
                             </div>
@@ -154,14 +155,15 @@
                              data-ng-if="dataNotFoundForDiscrepancy"
                              data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
                         </div>
-                        <div class="reports_details_outer_container" data-ng-if="!dataNotFoundForDiscrepancy">
+                        <div class="reports_details_outer_container overflowAuto" data-ng-if="!dataNotFoundForDiscrepancy">
                             <!--Header-->
-                            <div class="clearfix reports_performance_header" data-ng-hide="discrepancyBusy">
+                            <div ext class="clearfix reports_performance_header"
+                                 data-ng-hide="discrepancyBusy">
                                 <discrepancy-header></discrepancy-header>
                             </div>
 
                             <!--Discrepancy Container-->
-                            <div class="col-md-12 zeroPadding strategy_total_container ">
+                            <div class="col-md-12 zeroPadding strategy_total_container">
                                 <div class="strategy_total_container_header clearfix">
                                     <div class="each_col first_col" data-ng-hide="discrepancyBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
@@ -210,7 +212,7 @@
                              data-ng-if="dataNotFoundForFormat"
                              data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
                         </div>
-                        <div class="reports_details_outer_container" data-ng-show="!dataNotFoundForFormat">
+                        <div class="reports_details_outer_container overflowAuto" data-ng-show="!dataNotFoundForFormat">
                             <div class="clearfix reports_performance_header" data-ng-hide="formatBusy">
                                 <format-header></format-header>
                             </div>
@@ -263,7 +265,7 @@
                              data-ng-if="dataNotFoundForCreatives"
                              data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
                         </div>
-                        <div class="reports_details_outer_container"
+                        <div class="reports_details_outer_container overflowAuto"
                              data-ng-show="!dataNotFoundForCreatives"
                              data-ng-class="{strategy_video_disabled: adFormats.videoAds === false}">
                             <div class="clearfix reports_performance_header" data-ng-hide="creativeBusy">
@@ -320,7 +322,7 @@
                           style="{{defaultDisplayAdSize}}">
                         <div class="no_data_found" data-ng-if="dataNotFoundForAdsizes"
                              data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-                        <div class="reports_details_outer_container" data-ng-show="!dataNotFoundForAdsizes">
+                        <div class="reports_details_outer_container overflowAuto" data-ng-show="!dataNotFoundForAdsizes">
                             <div class="clearfix reports_performance_header" data-ng-hide="adSizesBusy">
                                 <adsizes-header></adsizes-header>
                             </div>
@@ -431,6 +433,26 @@
              data-ng-bind="((screenData.cpm > 0) || (screenData.cpm === 0)) ?
                 (screenData.cpm | currency : undefined : 3) : '-'">
         </div>
+        <div class="each_col eight_col {{screenData.kpi_type === 'pc_cpa' ? 'bold' : ''}}"
+             data-ng-bind="((screenData.pc_cpa > 0) || (screenData.pc_cpa === 0)) ?
+                (screenData.pc_cpa | currency : undefined : 3) : '-'">
+        </div>
+        <div class="each_col eight_col {{screenData.kpi_type === 'spend' ? 'bold' : ''}}"
+             data-ng-bind="((screenData.spend > 0) || (screenData.spend === 0)) ?
+                (screenData.spend | currency : undefined : 3) : '-'">
+        </div>
+        <div class="each_col eight_col {{screenData.kpi_type === 'suspicious_impressions_perc' ? 'bold' : ''}}"
+             data-ng-bind="((screenData.suspicious_impressions_perc > 0) || (screenData.suspicious_impressions_perc === 0)) ?
+                ((screenData.suspicious_impressions_perc | number : 3) + '%') : '-'">
+        </div>
+        <div class="each_col eight_col {{screenData.kpi_type === 'viewable_impressions' ? 'bold' : ''}}"
+             data-ng-bind="((screenData.viewable_impressions > 0) || (screenData.viewable_impressions === 0)) ?
+                (screenData.viewable_impressions | number : 0) : '-'">
+        </div>
+        <div class="each_col eight_col {{screenData.kpi_type === 'viewable_impressions_perc' ? 'bold' : ''}}"
+             data-ng-bind="((screenData.viewable_impressions_perc > 0) || (screenData.viewable_impressions_perc === 0)) ?
+                ((screenData.viewable_impressions_perc | number : 3) + '%') : '-'">
+        </div>
     </span>
     <div data-ng-if="adFormats.videoAds"
          class="each_col eight_col {{screenData.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
@@ -439,7 +461,7 @@
               style="visibility: hidden"
               data-ng-bind="selectedFilters.kpi_type = 'cpm'">
         </span>
-        <span data-ng-bind="screenData[selectedFilters.kpi_type] | appendDollor: selectedFilters.kpi_type"></span>
+        <span data-ng-bind="screenData[selectedFilters.kpi_type] | appendDollar : selectedFilters.kpi_type"></span>
     </div>
 </script>
 
@@ -500,6 +522,26 @@
         <div class="each_col eight_col {{daysOfWeekData.kpi_type === 'CPM' ? 'bold' : ''}}"
              data-ng-bind="((daysOfWeekData.cpm > 0) || (daysOfWeekData.cpm === 0)) ?
                 (daysOfWeekData.cpm | currency : undefined : 3) : '-'">
+        </div>
+        <div class="each_col eight_col {{daysOfWeekData.kpi_type === 'pc_cpa' ? 'bold' : ''}}"
+             data-ng-bind="((daysOfWeekData.pc_cpa > 0) || (daysOfWeekData.pc_cpa === 0)) ?
+                (daysOfWeekData.pc_cpa | currency : undefined : 3) : '-'">
+        </div>
+        <div class="each_col eight_col {{daysOfWeekData.kpi_type === 'spend' ? 'bold' : ''}}"
+             data-ng-bind="((daysOfWeekData.spend > 0) || (daysOfWeekData.spend === 0)) ?
+                (daysOfWeekData.spend | currency : undefined : 3) : '-'">
+        </div>
+        <div class="each_col eight_col {{daysOfWeekData.kpi_type === 'suspicious_impressions_perc' ? 'bold' : ''}}"
+             data-ng-bind="((daysOfWeekData.suspicious_impressions_perc > 0) || (daysOfWeekData.suspicious_impressions_perc === 0)) ?
+                ((daysOfWeekData.suspicious_impressions_perc | number : 3) + '%') : '-'">
+        </div>
+        <div class="each_col eight_col {{daysOfWeekData.kpi_type === 'viewable_impressions' ? 'bold' : ''}}"
+             data-ng-bind="((daysOfWeekData.viewable_impressions > 0) || (daysOfWeekData.viewable_impressions === 0)) ?
+                (daysOfWeekData.viewable_impressions | number : 0) : '-'">
+        </div>
+        <div class="each_col eight_col {{daysOfWeekData.kpi_type === 'viewable_impressions_perc' ? 'bold' : ''}}"
+             data-ng-bind="((daysOfWeekData.viewable_impressions_perc > 0) || (daysOfWeekData.viewable_impressions_perc === 0)) ?
+                ((daysOfWeekData.viewable_impressions_perc | number : 3) + '%') : '-'">
         </div>
     </span>
     <div data-ng-if="adFormats.videoAds"
@@ -565,6 +607,21 @@
         </div>
         <div class="each_col eight_col {{formatData.kpi_type === 'CPM' ? 'bold' : ''}}">
             {{((formatData.cpm > 0) || (formatData.cpm === 0)) ? (formatData.cpm | currency : undefined : 3) : '-'}}
+        </div>
+        <div class="each_col eight_col {{formatData.kpi_type === 'pc_cpa' ? 'bold' : ''}}">
+            {{((formatData.pc_cpa > 0) || (formatData.pc_cpa === 0)) ? (formatData.pc_cpa | currency : undefined : 3) : '-'}}
+        </div>
+        <div class="each_col eight_col {{formatData.kpi_type === 'spend' ? 'bold' : ''}}">
+            {{((formatData.spend > 0) || (formatData.spend === 0)) ? (formatData.spend | currency : undefined : 3) : '-'}}
+        </div>
+        <div class="each_col eight_col {{formatData.kpi_type === 'suspicious_impressions_perc' ? 'bold' : ''}}">
+            {{((formatData.suspicious_impressions_perc > 0) || (formatData.suspicious_impressions_perc === 0)) ? ((formatData.suspicious_impressions_perc | number : 3) + '%') : '-'}}
+        </div>
+        <div class="each_col eight_col {{formatData.kpi_type === 'viewable_impressions' ? 'bold' : ''}}">
+            {{((formatData.viewable_impressions > 0) || (formatData.viewable_impressions === 0)) ? (formatData.viewable_impressions | number : 0) : '-'}}
+        </div>
+        <div class="each_col eight_col {{formatData.kpi_type === 'viewable_impressions_perc' ? 'bold' : ''}}">
+            {{((formatData.viewable_impressions_perc > 0) || (formatData.viewable_impressions_perc === 0)) ? ((formatData.viewable_impressions_perc | number : 3) + '%') : '-'}}
         </div>
     </span>
     <div data-ng-if="adFormats.videoAds"
@@ -634,6 +691,26 @@
              data-ng-bind="((creativesData.cpm > 0) || (creativesData.cpm === 0)) ?
                 (creativesData.cpm | currency : undefined : 3) : '-'">
         </div>
+        <div class="each_col eight_col {{creativesData.kpi_type === 'pc_cpa' ? 'bold' : ''}}"
+             data-ng-bind="((creativesData.pc_cpa > 0) || (creativesData.pc_cpa === 0)) ?
+                (creativesData.pc_cpa | currency : undefined : 3) : '-'">
+        </div>
+        <div class="each_col eight_col {{creativesData.kpi_type === 'spend' ? 'bold' : ''}}"
+             data-ng-bind="((creativesData.spend > 0) || (creativesData.spend === 0)) ?
+                (creativesData.spend | currency : undefined : 3) : '-'">
+        </div>
+        <div class="each_col eight_col {{creativesData.kpi_type === 'suspicious_impressions_perc' ? 'bold' : ''}}"
+             data-ng-bind="((creativesData.suspicious_impressions_perc > 0) || (creativesData.suspicious_impressions_perc === 0)) ?
+                ((creativesData.suspicious_impressions_perc | number : 3) + '%') : '-'">
+        </div>
+        <div class="each_col eight_col {{creativesData.kpi_type === 'viewable_impressions' ? 'bold' : ''}}"
+             data-ng-bind="((creativesData.viewable_impressions > 0) || (creativesData.viewable_impressions === 0)) ?
+                (creativesData.viewable_impressions | number : 0) : '-'">
+        </div>
+        <div class="each_col eight_col {{creativesData.kpi_type === 'viewable_impressions_perc' ? 'bold' : ''}}"
+             data-ng-bind="((creativesData.viewable_impressions_perc > 0) || (creativesData.viewable_impressions_perc === 0)) ?
+                ((creativesData.viewable_impressions_perc | number : 3) + '%') : '-'">
+        </div>
     </span>
     <div data-ng-if="adFormats.videoAds"
          class="each_col seventh_col last_col {{creativesData.kpi_type ===
@@ -700,6 +777,26 @@
         <div class="each_col eight_col {{adSizesData.kpi_type === 'CPM' ? 'bold' : ''}}"
              data-ng-bind="((adSizesData.cpm > 0) || (adSizesData.cpm === 0)) ?
                 (adSizesData.cpm | currency : undefined : 3) : '-'">
+        </div>
+        <div class="each_col eight_col {{adSizesData.kpi_type === 'pc_cpa' ? 'bold' : ''}}"
+             data-ng-bind="((adSizesData.pc_cpa > 0) || (adSizesData.pc_cpa === 0)) ?
+                (adSizesData.pc_cpa | currency : undefined : 3) : '-'">
+        </div>
+        <div class="each_col eight_col {{adSizesData.kpi_type === 'spend' ? 'bold' : ''}}"
+             data-ng-bind="((adSizesData.spend > 0) || (adSizesData.spend === 0)) ?
+                (adSizesData.spend | currency : undefined : 3) : '-'">
+        </div>
+        <div class="each_col eight_col {{adSizesData.kpi_type === 'suspicious_impressions_perc' ? 'bold' : ''}}"
+             data-ng-bind="((adSizesData.suspicious_impressions_perc > 0) || (adSizesData.suspicious_impressions_perc === 0)) ?
+                ((adSizesData.suspicious_impressions_perc | number : 3) + '%') : '-'">
+        </div>
+        <div class="each_col eight_col {{adSizesData.kpi_type === 'viewable_impressions' ? 'bold' : ''}}"
+             data-ng-bind="((adSizesData.viewable_impressions > 0) || (adSizesData.viewable_impressions === 0)) ?
+                (adSizesData.viewable_impressions | number : 0) : '-'">
+        </div>
+        <div class="each_col eight_col {{adSizesData.kpi_type === 'viewable_impressions_perc' ? 'bold' : ''}}"
+             data-ng-bind="((adSizesData.viewable_impressions_perc > 0) || (adSizesData.viewable_impressions_perc === 0)) ?
+                ((adSizesData.viewable_impressions_perc | number : 3) + '%') : '-'">
         </div>
     </span>
     <div data-ng-if="adFormats.videoAds"
