@@ -2,7 +2,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
     'reporting/strategySelect/strategy_select_service', 'common/services/data_service',
     'reporting/models/domain_reports', 'common/services/constants_service', 'reporting/timePeriod/time_period_model',
     'reporting/brands/brands_model', 'login/login_model', 'common/services/url_service',
-    'reporting/advertiser/advertiser_model', 'reporting/timePeriod/time_period_controller',
+    'reporting/advertiser/advertiser_model', 'common/utils', 'reporting/timePeriod/time_period_controller',
     'reporting/kpiSelect/kpi_select_directive', 'reporting/strategySelect/strategy_select_directive',
     'reporting/strategySelect/strategy_select_controller', 'reporting/timePeriod/time_period_pick_directive'],
     function (angularAMD) {
@@ -11,7 +11,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
     angularAMD.controller('PerformanceController', function ($scope,$rootScope, kpiSelectModel, campaignSelectModel,
                                                              strategySelectModel, dataService, domainReports, constants,
                                                              timePeriodModel, brandsModel, loginModel, urlService,
-                                                             advertiserModel, featuresService) {
+                                                             advertiserModel, utils, featuresService) {
         var _customCtrl = this,
             extractAdFormats,
 
@@ -384,8 +384,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             _customCtrl.filterDiscrepancyReport();
         });
         $scope.$watch('[adFormats.videoAds, selected_tab]', function (arr) {
-            var width = (arr[0] || arr[1] == "bydiscrepancy") ? "100%" : "1985px";
-            $(".reports_performance_header, .strategy_total_container").css("width",width);
+            var width = (arr[0] || arr[1] === 'bydiscrepancy') ? '100%' : '1985px';
+            $('.reports_performance_header, .strategy_total_container').css('width',width);
         });
 
         extractAdFormats =  function () {

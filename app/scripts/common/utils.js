@@ -1,8 +1,6 @@
-define(['angularAMD','common/services/constants_service', 'common/services/role_based_service',
-    'common/moment_utils'],
+define(['angularAMD','common/services/constants_service', 'common/services/role_based_service'],
     function (angularAMD) {
-        angularAMD.factory('utils', ['$location', '$sce', 'constants', 'momentService',
-            function ($location, $sce, constants, momentService) {
+        angularAMD.factory('utils', ['$location', '$sce', 'constants', function ($location, $sce, constants) {
                 var
                     // NOTE: Used in
                     // 1) campaign_list_service.js
@@ -187,11 +185,11 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     },
 
                     capitaliseAllText = function(text){
-                        text = text.split(" ");
+                        text = text.split(' ');
                         _.each(text,function(t, i){
                             text[i] = t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
                         });
-                        return text.join(" ");
+                        return text.join(' ');
                     },
                     // NOTE: NOT USED anywhere.
                     // (as on 25th July 2016)

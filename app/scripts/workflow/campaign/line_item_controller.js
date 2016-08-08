@@ -727,7 +727,6 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             // this hack is to make it work in edit mode when media plan save is requierd prior to line item
             // check if we have saved line item details in service or create a new line item object
             newItem = workflowService.getLineItemDataEdit();
-            console.log("lineItemAPIStartTimeList", lineItemAPIStartTimeList, "oldLineItemIndex", oldLineItemIndex);
 
             if (!newItem) {
                 newItem = createEditLineItemObj(angular.copy(oldLineItem));
