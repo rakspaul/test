@@ -189,7 +189,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 fetchAudienceCategories : fetchAudienceCategories,
                 setAudienceSource : setAudienceSource,
                 getAudienceSource : getAudienceSource,
-                fetchAudiencekeywords : fetchAudiencekeywords,
                 setAudienceKeywords : setAudienceKeywords,
                 getAudienceKeywords : getAudienceKeywords,
                 setSelectedAudience : setSelectedAudience,
