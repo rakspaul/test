@@ -438,14 +438,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 // disabled checkBox if its primary!=Impression && UnitCost!=CPM
                 if (((responseData.kpiType && (responseData.kpiType).toUpperCase() !== 'IMPRESSIONS') ||
-                    (responseData.rateType).toUpperCase()!== 'CPM') && responseData.enabledBudgetCalculation) {
+                   ((responseData.rateType) && ((responseData.rateType).toUpperCase()!== 'CPM' ) ))
+                   && responseData.enabledBudgetCalculation) {
                     $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', true);
                 } else {
                     $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', false);
                 }
 
-                if (((responseData.kpiType && (responseData.kpiType).toUpperCase() === 'IMPRESSIONS')) &&
-                    (responseData.rateType).toUpperCase() === 'CPM') {
+                if (((responseData.kpiType && (responseData.kpiType).toUpperCase() === 'IMPRESSIONS')) && 
+                    ((responseData.rateType) && (responseData.rateType).toUpperCase() === 'CPM')) {
                     $('.external_chkbox').show();
                 } else {
                     $('.external_chkbox').hide();
@@ -1587,10 +1588,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 adData.budgetExceeded ||
                 adData.adBudgetExceedUnallocated ||
                 !adData.adName ||
-                adData.targetValue.length === 0 ||
-                adData.unitCost.length === 0 ||
-                adData.totalAdBudget.length === 0 ||
-                adData.budgetAmount.length === 0
+                (adData.targetValue && (adData.targetValue.length === 0) ) ||
+                (adData.unitCost && (adData.unitCost.length === 0)) ||
+                (adData.totalAdBudget && (adData.totalAdBudget.length === 0 ))||
+                (adData.budgetAmount && (adData.budgetAmount.length === 0))
             );
         };
 
