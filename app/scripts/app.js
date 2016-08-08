@@ -2321,9 +2321,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         showHeader : true,
 
                         resolve: {
-                            header: function ($q, $location, $route, accountService, subAccountService, workflowService, vistoconfig, advertiserModel) {
+                            header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants, vistoconfig, advertiserModel) {
                                 return mediaPlanCreateResolver($q, $location, $route, accountService,
-                                    subAccountService, workflowService, vistoconfig, advertiserModel, 'edit');
+                                    subAccountService, workflowService, constants, vistoconfig, advertiserModel, 'edit');
                             }
                         }
                     }))
@@ -2336,9 +2336,9 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         showHeader : true,
 
                         resolve: {
-                            header: function ($q, $location, $route, accountService, subAccountService, workflowService, vistoconfig, advertiserModel) {
+                            header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants, vistoconfig, advertiserModel) {
                                 return mediaPlanCreateResolver($q, $location, $route, accountService,
-                                    subAccountService, workflowService, vistoconfig, advertiserModel, 'edit');
+                                    subAccountService, workflowService, constants, vistoconfig, advertiserModel, 'edit');
                             }
                         }
                     }))
