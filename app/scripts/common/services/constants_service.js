@@ -906,6 +906,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ZERO_MESSAGE = 'You have entered $0 for your rate or billable amount.';
 
 
+
         //Audience Targeting
         this.SAVEAUD = 'Save Audience';
         this.SELSEGMENTS = 'Select Segments';
