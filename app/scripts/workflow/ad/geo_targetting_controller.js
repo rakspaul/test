@@ -1273,7 +1273,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             zipWrapper = {
                 setData : function (data) {
                     _.each(data, function(d) {
-                        d.data = d.zipcodes.replace(/\s/g, '').split(',');
+                        d.data = d.zipcodes.replace(/\s*,\s*/g, ',').split(',');
                     });
 
                     $scope.adData.zipCodes =  angular.copy(data); // jshint ignore:line
