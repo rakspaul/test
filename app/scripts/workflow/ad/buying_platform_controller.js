@@ -287,7 +287,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 return value;
             };
-console.log('Buying platform controler!!!')
+
         $scope.adData.customPlatformLoader = false;
 
         $scope.selectPlatform = function (event, platform, seat) {
