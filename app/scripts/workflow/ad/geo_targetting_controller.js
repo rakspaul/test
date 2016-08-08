@@ -1810,7 +1810,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 zipCodesList = [];
 
             $scope.zipCodeLoader = true;
-            zipCodes = zipCodes.split(/[ ,]+/);
+
+            zipCodes = zipCodes.replace(/\s*,\s*/g, ','); //removing space after comma
+            zipCodes = zipCodes.replace(/['"]+/g, ''); //removing double quotes and single quotes.
+
+            zipCodes = zipCodes.split(/[,]+/);
 
             geoTargeting.validateZipCodes(zipCodes, function (data) {
                 $scope.zipCodeLoader = false;
