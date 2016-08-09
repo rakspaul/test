@@ -3002,6 +3002,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container.vid_show div.each_col {
   width: 70px ;
 }
+.reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container.vid_show .each_col.seventh_col {
+  width: 110px ;
+}
+.reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container.vid_show .each_col.eight_col {
+  width: 86px ;
+}
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container div.each_col {
   width: 115px ;
 }
