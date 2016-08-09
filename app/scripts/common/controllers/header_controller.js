@@ -540,9 +540,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 workflowService.getVistoUserManual()
                     .then(function (res) {
                         if (res.status === 'OK' || res.status === 'success') {
-                            var fileURL = URL.createObjectURL(res);
-                            console.log('fileUrl', fileURL);
-                            window.open(fileURL);
+                            saveAs(res.file, res.fileName);
                         }
                     },function (err) {
                         console.log('Error = ', err);
