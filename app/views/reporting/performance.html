@@ -50,7 +50,7 @@
                              data-ng-if="dataNotFoundForScreen"
                              data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
                         </div>
-                        <div class="reports_details_outer_container overflowAuto" data-ng-if="!dataNotFoundForScreen">
+                        <div class="reports_details_outer_container overflowAuto" data-ng-show="!dataNotFoundForScreen">
                             <div class="clearfix reports_performance_header" data-ng-hide="screenBusy">
                                 <screen-header></screen-header>
                             </div>
@@ -157,7 +157,7 @@
                         </div>
                         <div class="reports_details_outer_container overflowAuto" data-ng-if="!dataNotFoundForDiscrepancy">
                             <!--Header-->
-                            <div ext class="clearfix reports_performance_header"
+                            <div class="clearfix reports_performance_header"
                                  data-ng-hide="discrepancyBusy">
                                 <discrepancy-header></discrepancy-header>
                             </div>
