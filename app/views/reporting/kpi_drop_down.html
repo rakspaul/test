@@ -11,8 +11,8 @@
         <span ng-if="checkNewkpiDropDownAlt()"
               class="dd_txt_span pull-right"
               style="line-height: 100%;"
-              data-ng-bind="kpiData.selectedKpiDisplayName"
-              title="{{kpiData.selectedKpiDisplayName}}">
+              data-ng-bind="getDisplayKpiName()"
+              title="{{getDisplayKpiName()}}">
         </span>
         <span data-ng-if="kpiData.selectedKpi === 'impressions'"
               data-ng-init="changeClickedSelectedKpiAlt('cpm')"
@@ -71,7 +71,7 @@
     </ul>
     <div  data-ng-if="whichCaller.changedrpval === 'yes'" class="direction_arrows">
         <div data-ng-repeat="kpidir in kpiData.newkpiDropDownAlt track by $index">
-            <div data-ng-click="myData.doClick($event, kpidir)" class="kpi_arrow_sort point_up" value="{{kpidir}}">&nbsp;</div>
+            <div data-ng-click="myData.doClick($event, kpidir)" class="kpi_arrow_sort point_up" value="{{kpidir.kpi}}">&nbsp;</div>
         </div>
     </div>
 </div>

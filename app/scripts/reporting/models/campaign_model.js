@@ -71,7 +71,6 @@ define(['angularAMD'], function (angularAMD) {
             }
 
             if (endDate.isSame(today)) {
-                // campaign ending today
                 return 'Ending today';
             }
 
@@ -80,14 +79,14 @@ define(['angularAMD'], function (angularAMD) {
                 return 'Started today';
             }
 
-            return Math.round(endDate.diff(today, 'days', true)) + 1;
+            return Math.round(endDate.diff(today, 'days', true));
         };
 
         this.durationCompletion = function () {
             var today = this.momentInNetworkTZ.today(),
                 endDate = this.momentInNetworkTZ.newMoment(this.endDate),
                 startDate = this.momentInNetworkTZ.newMoment(this.startDate),
-                totalDays = endDate.diff(startDate, 'days') + 1,
+                totalDays = endDate.diff(startDate, 'days'),
                 daysOver = Math.round(today.diff(startDate, 'days', true));
 
             if (today.isBefore(startDate)) {
@@ -105,7 +104,7 @@ define(['angularAMD'], function (angularAMD) {
             var today = this.momentInNetworkTZ.today(),
                 endDate = this.momentInNetworkTZ.newMoment(this.endDate);
 
-            return !endDate.isBefore(today) ? 0 : Math.round(today.diff(endDate, 'days', true)) + 1;
+            return !endDate.isBefore(today) ? 0 : Math.round(today.diff(endDate, 'days', true));
         };
     });
 });

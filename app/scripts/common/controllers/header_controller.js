@@ -5,8 +5,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
     function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('HeaderController', function ($q, $scope, $rootScope, $route, $cookieStore, $location,
-                                                        $modal, $routeParams, constants, loginModel, domainReports,
+    angularAMD.controller('HeaderController', function ($http, $q, $scope, $rootScope, $route, $cookieStore, $location,
+                                                        $modal, $routeParams, $sce, constants, loginModel, domainReports,
                                                         campaignSelectModel, RoleBasedService, workflowService,
                                                         featuresService, accountService, subAccountService,
                                                         vistoconfig, localStorageService, advertiserModel, brandsModel,
@@ -408,8 +408,19 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 });
             };
 
+            $scope.showFiles = false;
+
             $scope.openHelp = function() {
-                window.open('/pdf/help.pdf');
+                var clientId = loginModel.getMasterClient().id;
+                var url  = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/userguide/download';
+                $http.get(url, {responseType:'arraybuffer'})
+                    .success(function (response) {
+                        var file = new Blob([response], {type: 'application/pdf'});
+                        var fileURL = URL.createObjectURL(file);
+                        $scope.content = $sce.trustAsResourceUrl(fileURL);
+                        $scope.showFiles = true;
+                });
+
             };
         });
     });

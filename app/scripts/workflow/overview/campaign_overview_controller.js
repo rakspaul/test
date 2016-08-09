@@ -990,6 +990,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 utcEndTime,
                 dateTimeZone,
                 clientId = vistoconfig.getSelectedAccountId(),
+                isDateChanged = true,
 
                 adGroupSaveErrorHandler = function (data) {
                     var errMsg,
@@ -1024,8 +1025,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
                 postCreateAdObj = {};
                 postCreateAdObj.name = formData.adGroupName;
-                dateTimeZone = workflowService.getAccountTimeZone();
-                utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone);
+
+                dateTimeZone = workflowService.getSubAccountTimeZone();
+
+                if($scope.adGroupData.modifiedAdGroupAPIStartTime && moment(formData.startTime).startOf('day').isSame(moment($scope.adGroupData.modifiedAdGroupAPIStartTime).startOf('day'))) {
+                    isDateChanged = false;
+                }
+
+                utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone, isDateChanged);
 
                 if ($scope.adGroupData.editAdGroupFlag) {
                     if (moment(utcStartTime).startOf('day').isSame(moment($scope.adGroupData.modifiedAdGroupAPIStartTime).startOf('day')))  {

@@ -2530,7 +2530,7 @@ define(['common', 'common/services/vistoconfig_service', 'reporting/strategySele
                         title: 'Creative List',
                         controller: 'CreativeListController',
                         controllerUrl: 'workflow/creative/creative_list_controller',
-                        showHeader : true,
+                        showHeader: true,
 
                         resolve: {
 

@@ -1,7 +1,7 @@
 <div class="each_col sec_col">
     <span class="icon_text_holder" data-ng-class="sortClassFunction('dimension',sortTypeByCreatives,sortReverseCreativesTab)" data-ng-click="sortTypeByCreatives = 'dimension'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'Creatives'"></span>{{textConstants.CREATIVE}}</span>
 </div>
-<div class="each_col third_col">
+<div class="each_col third_col imps-col">
     <span class="icon_text_holder" data-ng-class="sortClassFunction('-impressions',sortTypeByCreatives,!sortReverseCreativesTab)" data-ng-click="sortTypeByCreatives = '-impressions'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</span>
 </div>
 <div class="each_col third_col">

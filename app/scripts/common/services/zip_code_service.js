@@ -173,7 +173,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
             },
 
             checkZipCodes = function (zipCodes, codeList) {
-                var zipCode = zipCodes.split(/[,]+/),
+                var zipCode = zipCodes.replace(/\s*,\s*/g, ',').split(/[,]+/),
                     inValidCode = [],
                     validCode = [],
                     results;

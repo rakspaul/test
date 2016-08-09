@@ -431,7 +431,7 @@
                  data-ng-bind="((platform.impressions > 0) || (platform.impressions === 0)) ?
                     (platform.impressions | number : 0) : '-'">
             </div>
-            <div class="col-md-1 zeroPadding text-left {{platform.kpi_type ===
+            <div class="col-md-1 text-right {{platform.kpi_type ===
                       selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
                  data-ng-bind="selectedFilters.kpi_type.toLowerCase() === 'vtc' ? platform['vtc_100'] :
                       platform[selectedFilters.kpi_type.toLowerCase()] | appendDollar :
