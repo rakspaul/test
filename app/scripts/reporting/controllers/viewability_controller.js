@@ -2,7 +2,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
     'reporting/strategySelect/strategy_select_service', 'common/services/data_service',
     'reporting/models/domain_reports', 'common/services/constants_service', 'common/services/vistoconfig_service',
     'reporting/timePeriod/time_period_model', 'login/login_model', 'common/services/url_service',
-    'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'common/utils', 
+    'common/utils', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
     'reporting/strategySelect/strategy_select_directive', 'reporting/strategySelect/strategy_select_controller',
     'reporting/timePeriod/time_period_pick_directive'], function (angularAMD) {
     'use strict';
@@ -10,7 +10,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
     angularAMD.controller('ViewabilityController', function ($scope, kpiSelectModel, campaignSelectModel,
                                                              strategySelectModel, dataService, domainReports, constants,
                                                              vistoconfig, timePeriodModel, loginModel, urlService,
-                                                             advertiserModel, brandsModel, utils) {
+                                                             utils) {
         var extractAdFormats =  function () {
             $scope.adFormats = domainReports.checkForCampaignFormat(strategySelectModel.allAdFormats());
             $scope.videoMode = $scope.adFormats && $scope.adFormats.videoAds;
@@ -110,9 +110,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
                 queryObj = {
                     campaignId: $scope.selectedCampaign.id,
-                    clientId:  loginModel.getSelectedClient().id,
-                    advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                    brandId: brandsModel.getSelectedBrand().id,
+                    clientId:  vistoconfig.getSelectedAccountId(),
+                    advertiserId: vistoconfig.getSelectAdvertiserId(),
+                    brandId: vistoconfig.getSelectedBrandId(),
                     dateFilter: dateFilter
                 };
 
@@ -198,28 +198,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             ];
         };
 
-        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function () {
-            $scope.init();
-
-            // update the selected Campaign
-            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
-        });
-
         $scope.$watch('selectedCampaign', function () {
             $scope.createDownloadReportUrl();
         });
-
-        $scope.$on(constants.EVENT_STRATEGY_CHANGED, function () {
-            extractAdFormats();
-            $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id;
-            $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name;
-
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ?
-                constants.CAMPAIGN_TOTAL : constants.AD_GROUP_TOTAL;
-
-            $scope.callBackStrategyChange();
-        });
-
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event, strategy) {
             $scope.selectedFilters.time_filter = strategy;
@@ -278,6 +259,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             dropListLi.css('color', '#000');
         };
 
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
+        $scope.init();
+        $scope.callBackStrategyChange();
+        extractAdFormats();
 
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortOrder) {
             $scope.sortType = 'view_metrics.' + args;

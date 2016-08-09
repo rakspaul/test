@@ -10,7 +10,7 @@
     <div id="searchList" class="col-md-12 zeroPadding">
     <div class="col-md-12 zeroPadding btn_list_filters">
         <div class="btn-group" role="group" aria-label="...">
-            <a role="button" class="btn btn-default" data-ng-click="reset_custom_report()" href="/customreport">
+            <a role="button" class="btn btn-default" data-ng-click="reset_custom_report()" href="{{createCustomReportUrl}}">
                 <span class="icon-plus pull-left"></span><span data-ng-bind="textConstants.CREATE"></span>
             </a>
         </div>
@@ -53,7 +53,7 @@
             </div>
         </div>
     </div>
-    
+
     <div id="schedule_report_filter" class="col-md-12 zeroPadding collapse">
         <div class="col-md-12 zeroPadding" style="margin: 5px 0 15px;">
             <!--Report Types-->
@@ -79,7 +79,7 @@
                             id="unitcostType"
                             data-toggle="dropdown">
                             <li data-ng-repeat="type in textConstants.REPORT_LIST_REPORTTYPES">
-                                <a data-ng-click="select_filter_option('reportType, type)"
+                                <a data-ng-click="select_filter_option('reportType', type)"
                                    data-ng-bind="type">
                                 </a>
                             </li>

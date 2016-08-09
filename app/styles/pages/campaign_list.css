@@ -3175,6 +3175,9 @@ input[type="submit"] {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.nav_filters .dropdown-menu li a {
+  color: #21252b;
+}
 .nav_filters .dropdown-menu li span.menuItemText {
   display: block;
   overflow: hidden;

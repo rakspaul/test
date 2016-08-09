@@ -58,7 +58,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('start', [
-       'connect:server'
+        'connect:server'
     ]);
 
     grunt.registerTask('compressFile', [

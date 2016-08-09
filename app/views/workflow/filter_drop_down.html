@@ -1,18 +1,17 @@
 <div class="clearfix nav_filters creative_filter_dropdowns">
-    <div class="pull-left each_filter advertisers_filter">
+    <div class="pull-left each_filter advertisers_filter" ng-if="filterData.subAccountList.length > 0">
         <div class="greyTxt">{{constants.SUB_ACCOUNT}}</div>
         <div class="dropdown">
-            <div class="dropdown_name_selected" data-model="subAcc_name_selected" id="sub_account_name_selected"
-                 data-toggle="dropdown" title="{{filterData.subAccSelectedName}}">
-                <p>{{filterData.subAccSelectedName? filterData.subAccSelectedName : 'Loading..'}}</p><span
-                class="icon-arrow-solid-down"></span>
+            <div class="dropdown_name_selected" id="subAcc_name_selected"
+                 data-toggle="dropdown" title="{{filterData.subAccSelectedName}}" ng-bind="filterData.subAccSelectedName ? filterData.subAccSelectedName : 'Loading..'">
             </div>
+            <span class="icon-arrow-solid-down"></span>
             <ul class="dropdown-menu" role="menu" id="subAccountDropDownList">
                 <div class="clientsList_ul" id="clientsList_ul">
                     <li ng-repeat="subaccount in filterData.subAccountList track by subaccount.id"
                         title="{{subaccount.displayName}}"
                         ng-class="{'active' : subaccount.id === filterData.subAccSelectedId}">
-                        <a data-ng-click="selectClient(subaccount)"><span class="menuItemText">{{subaccount.displayName}}</span></a>
+                        <a data-ng-click="changeSubAccount(subaccount)"><span class="menuItemText">{{subaccount.displayName}}</span></a>
                     </li>
                 </div>
             </ul>

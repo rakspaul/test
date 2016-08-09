@@ -1,15 +1,11 @@
-define(['angularAMD','reporting/campaignList/campaign_list_service',
-    'common/services/transformer_service', 'reporting/models/campaign_cdb_data', 'reporting/models/campaign_cost',
-    'common/services/request_cancel_service', 'common/services/constants_service', 'reporting/brands/brands_model',
-    'login/login_model', 'reporting/advertiser/advertiser_model', 'common/services/url_service',
-    'common/services/vistoconfig_service','../../common/services/data_service'], function (angularAMD) {
+define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/services/transformer_service', 'reporting/models/campaign_cdb_data',
+    'reporting/models/campaign_cost', 'common/services/request_cancel_service', 'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model',
+    'reporting/advertiser/advertiser_model', 'common/services/url_service', 'common/services/vistoconfig_service','../../common/services/data_service'], function (angularAMD) {
         // originally part of controllers/campaign_controller.js
-        angularAMD.factory('campaignListModel', ['$route','$rootScope', '$location', 'campaignListService',
-            'modelTransformer', 'campaignCDBData', 'campaignCost', 'requestCanceller', 'constants', 'brandsModel',
-            'loginModel', 'advertiserModel', 'urlService', 'vistoconfig','dataService','localStorageService',
-            function ($route,$rootScope, $location, campaignListService, modelTransformer, campaignCDBData,
-                      campaignCost, requestCanceller, constants, brandsModel, loginModel, advertiserModel, urlService,
-                      vistoconfig,dataService,localStorageService) {
+        angularAMD.factory('campaignListModel', ['$route','$rootScope', '$location', 'campaignListService', 'modelTransformer', 'campaignCDBData', 'campaignCost',
+            'requestCanceller', 'constants', 'brandsModel', 'loginModel', 'advertiserModel', 'urlService', 'vistoconfig', 'dataService', 'localStorageService',
+            function ($route,$rootScope, $location, campaignListService, modelTransformer, campaignCDBData, campaignCost, requestCanceller, constants, brandsModel, loginModel,
+                      advertiserModel, urlService, vistoconfig, dataService, localStorageService) {
                 var Campaigns = function () {
                     this.getCapitalizeString = function (string) {
                         return string[0].toUpperCase() + string.substring(1);
@@ -75,8 +71,8 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                     this.nextPage = 1;
                     this.sortParam = 'start_date';
                     this.sortDirection = 'desc';
-                    this.brandId = brandsModel.getSelectedBrand().id;
-                    this.client_id = loginModel.getSelectedClient().id;
+                    this.brandId = vistoconfig.getSelectedBrandId();
+                    this.client_id = vistoconfig.getSelectedAccountId();
 
                     this.dashboard = {
                         filterTotal: 1,
@@ -129,7 +125,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                         this.campaignList = [];
                         this.timePeriod = 'life_time';
 
-                        if(!this.noData) {
+                        if (!this.noData) {
                             this.busy = true;
                         }
 
@@ -154,8 +150,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
 
                 Campaigns.prototype = function () {
                     var reloadGraphs = function () {
-                            campaignListService.loadGraphs(this.campaignList,
-                                timePeriodApiMapping(this.selectedTimePeriod.key));
+                            campaignListService.loadGraphs(this.campaignList, timePeriodApiMapping(this.selectedTimePeriod.key));
                         },
 
                         resetCostBreakdown = function () {
@@ -175,8 +170,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                                 this.searchTerm = searchTerm;
                             }
 
-                            if (performanceTab.hasClass('active') === false &&
-                                $('#cost_tab').hasClass('active') === false) {
+                            if (performanceTab.hasClass('active') === false && $('#cost_tab').hasClass('active') === false) {
                                 performanceTab.addClass('active');
                             }
 
@@ -216,19 +210,25 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
 
                         fetchCampaigns = function () {
                             var self,
-                                url;
+                                url,
+                                clientId,
+                                advertiserId,
+                                brandId;
 
                             // check scroller only inside container
                             findScrollerFromContainer.call(this);
 
-                            if ((!this.performanceParams.lastPage && (this.dashboard.filterTotal > 0) ||
-                                (this.scrollFlag > 0)) || this.searchTerm) {
-                                // Reseting scrollFlag
+                            if ((!this.performanceParams.lastPage && (this.dashboard.filterTotal > 0) || (this.scrollFlag > 0)) || this.searchTerm) {
+                                // Resetting scrollFlag
                                 this.scrollFlag = 0;
 
                                 self = this;
                                 self.noData = false;
                                 url = _campaignServiceUrl.call(this);
+
+                                clientId = vistoconfig.getSelectedAccountId();
+                                advertiserId = vistoconfig.getSelectAdvertiserId();
+                                brandId = vistoconfig.getSelectedBrandId();
 
                                 campaignListService.getCampaigns(url, function (result) {
                                     var data = result.data.data;
@@ -263,15 +263,14 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                                     self.performanceParams.nextPage += 1;
 
                                     if (data.length > 0) {
-                                        var campaignData = campaignListService.setActiveInactiveCampaigns(data,
-                                            timePeriodApiMapping(self.timePeriod));
+                                        var campaignData = campaignListService.setActiveInactiveCampaigns(data, timePeriodApiMapping(self.timePeriod));
 
                                         angular.forEach(campaignData, function (campaign) {
                                             var queryObj = {
                                                     queryId: 14,
-                                                    clientId: loginModel.getSelectedClient().id,
-                                                    advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                                                    brandId: brandsModel.getSelectedBrand().id,
+                                                    clientId: clientId,
+                                                    advertiserId: advertiserId,
+                                                    brandId: brandId,
                                                     dateFilter: 'life_time',
                                                     campaignIds: campaign.id
                                                 },
@@ -282,13 +281,13 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                                             contextThis.push(campaign);
                                             self.busy = false;
 
-                                            (function(campaign) {
+                                            (function (campaign) {
                                                 dataService
                                                     .fetch(spendUrl)
                                                     .then(function (response) {
                                                         self.busy = false;
 
-                                                        if (response.data) {
+                                                        if(response.data && response.data.data && response.data.data.length > 0) {
                                                             campaign.spend = response.data.data[0].gross_rev;
                                                         } else {
                                                             campaign.spend = 0;
@@ -299,36 +298,22 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                                                             campaign.kpi_value = 0;
                                                         }
 
-                                                        campaignListService.getCdbLineChart(campaign, self.timePeriod,
-                                                            function (cdbData) {
-                                                                if (cdbData) {
-                                                                    self.cdbDataMap[campaign.orderId] =
-                                                                        modelTransformer.transform(
-                                                                            cdbData,
-                                                                            campaignCDBData
-                                                                        );
+                                                        campaignListService.getCdbLineChart(clientId, campaign, self.timePeriod, function (cdbData) {
+                                                            if (cdbData) {
+                                                                self.cdbDataMap[campaign.orderId] = modelTransformer.transform(cdbData, campaignCDBData);
 
-                                                                    self
-                                                                        .cdbDataMap[campaign.orderId]
-                                                                        .modified_vtc_metrics =
-                                                                            campaignListService.vtcMetricsJsonModifier(
-                                                                                self
-                                                                                    .cdbDataMap[campaign.orderId]
-                                                                                    .video_metrics
-                                                                            );
-                                                                }
+                                                                self
+                                                                    .cdbDataMap[campaign.orderId]
+                                                                    .modified_vtc_metrics =
+                                                                        campaignListService.vtcMetricsJsonModifier(self.cdbDataMap[campaign.orderId].video_metrics);
                                                             }
-                                                        );
+                                                        });
                                                     }, function () {
                                                         self.busy = false;
                                                     });
                                             }(campaign));
                                         }, self.campaignList);
 
-                                        // as we change the brand, we are updating the campaign model as well.
-                                        if (brandsModel.getSelectedBrand().id !== -1 && self.campaignList.length) {
-                                            $rootScope.$broadcast('updateCampaignAsBrandChange', self.campaignList[0]);
-                                        }
                                     } else {
                                         self.performanceParams.lastPage = true;
                                     }
@@ -351,9 +336,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                         fetchCostBreakdown = function () {
                             findScrollerFromContainer.call(this);
 
-                            if (!this.CBdownParams.lastPage &&
-                                (this.dashboard.filterTotal > 0) &&
-                                (this.scrollFlag > 0)) {
+                            if (!this.CBdownParams.lastPage && (this.dashboard.filterTotal > 0) && (this.scrollFlag > 0)) {
                                 var self,
                                     url;
 
@@ -381,10 +364,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                                     self.CBdownParams.nextPage += 1;
 
                                     if (data.length > 0) {
-                                        campaignData = campaignListService.setActiveInactiveCampaigns(
-                                            data,
-                                            timePeriodApiMapping(self.timePeriod)
-                                        );
+                                        campaignData = campaignListService.setActiveInactiveCampaigns(data, timePeriodApiMapping(self.timePeriod));
 
                                         angular.forEach(campaignData, function (campaign) {
                                             if (!hasCampaignId(this, campaign.id)) {
@@ -399,12 +379,6 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                                                 campaign.kpi_value = 0;
                                             }
                                         }, self.costBreakdownList);
-
-                                        // as we change the brand, we are updating the campaign model as well.
-                                        if (brandsModel.getSelectedBrand().id !== -1 && self.costBreakdownList.length) {
-                                            $rootScope.$broadcast('updateCampaignAsBrandChange',
-                                                self.costBreakdownList[0]);
-                                        }
 
                                         self.costIds = self.costIds.substring(0, self.costIds.length - 1);
 
@@ -454,11 +428,12 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                          * coming from dashboard then (active, ontrack)/(active, under performing)
                          */
                         fetchDashboardData = function (forceLoadFilter) {
-                            var clientId = loginModel.getSelectedClient().id,
-                                advertiserId = advertiserModel.getSelectedAdvertiser().id,
-                                brandId = brandsModel.getSelectedBrand().id,
+                            var clientId = vistoconfig.getSelectedAccountId(),
+                                advertiserId = vistoconfig.getSelectAdvertiserId(),
+                                brandId = vistoconfig.getSelectedBrandId(),
 
-                                url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
+                                url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                                    '/clients/' + clientId +
                                     '/campaigns/summary/counts?date_filter=' + this.timePeriod +
                                     '&advertiser_id=' + advertiserId,
 
@@ -517,8 +492,8 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
 
                         fetchCostData = function () {
                             var self = this,
-                                advertiserId = advertiserModel.getSelectedAdvertiser().id,
-                                brandId = brandsModel.getSelectedBrand().id,
+                                advertiserId = vistoconfig.getSelectAdvertiserId(),
+                                brandId = vistoconfig.getSelectedBrandId(),
 
                                 hideLoader = function () {
                                     _.each(costidsList, function (value) {
@@ -534,7 +509,8 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                                 };
                             });
 
-                            campaignListService.getCampaignCostData(this.costIds,
+                            campaignListService.getCampaignCostData(
+                                this.costIds,
                                 moment(this.costDate.startDate).format('YYYY-MM-DD'),
                                 moment(this.costDate.endDate).format('YYYY-MM-DD'),
                                 advertiserId, brandId,
@@ -562,8 +538,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                         dashboardFilter = function (type, state) {
                             requestCanceller.cancelLastRequest(constants.CAMPAIGN_LIST_CANCELLER);
 
-                            if ((state === 'endingSoon') ||
-                                (this.dashboard.status.active.endingSoon === constants.ACTIVE)) {
+                            if ((state === 'endingSoon') || (this.dashboard.status.active.endingSoon === constants.ACTIVE)) {
                                 this.sortParam = 'end_date';
                                 this.sortDirection = 'asc';
                             }
@@ -834,7 +809,10 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                         },
 
                         _campaignServiceUrl = function (from) {
-                            var nextPageNumber,
+                            var clientId = vistoconfig.getSelectedAccountId(),
+                                advertiserId = vistoconfig.getSelectAdvertiserId(),
+                                brandId = vistoconfig.getSelectedBrandId(),
+                                nextPageNumber,
                                 params;
 
                             if (from === 'costBreakdown') {
@@ -844,9 +822,9 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
                             }
 
                             params = [
-                                'client_id=' + loginModel.getSelectedClient().id,
-                                'advertiser_id=' + advertiserModel.getSelectedAdvertiser().id,
-                                'brand_id=' + brandsModel.getSelectedBrand().id,
+                                'client_id=' + clientId,
+                                'advertiser_id=' + advertiserId,
+                                'brand_id=' + brandId,
                                 'date_filter=' + this.timePeriod,
                                 'page_num=' + nextPageNumber,
                                 'page_size=' + this.pageSize
@@ -869,19 +847,16 @@ define(['angularAMD','reporting/campaignList/campaign_list_service',
 
                             if (this.appliedQuickFilter === constants.ARCHIVED_CONDITION) {
                                 params.push('cond_type=' + constants.ARCHIVED_CONDITION);
-                            } else if (this.appliedQuickFilter === constants.ACTIVE_ONTRACK ||
-                                this.appliedQuickFilter === constants.ACTIVE_UNDERPERFORMING) {
+                            } else if (this.appliedQuickFilter === constants.ACTIVE_ONTRACK || this.appliedQuickFilter === constants.ACTIVE_UNDERPERFORMING) {
                                 params.push('cond_type=kpi_status');
                             } else {
                                 params.push('cond_type=status');
                             }
 
                             if (this.searchTerm) {
-                                return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                                    '/search/campaigns?' + params.join('&');
+                                return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/search/campaigns?' + params.join('&');
                             } else {
-                                return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                                    '/reportBuilder/customQuery?query_id=42&' + params.join('&');
+                                return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?query_id=42&' + params.join('&');
                             }
                         },
 

@@ -17,7 +17,7 @@ define(['angularAMD','workflow/services/workflow_service'], function (angularAMD
 
             fetchAdvertisers = function (clientId, callbackFunction) {
                 workflowService
-                    .getAdvertisers('read', clientId)
+                    .getAdvertisers(clientId, 'read')
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             callbackFunction(result.data.data);

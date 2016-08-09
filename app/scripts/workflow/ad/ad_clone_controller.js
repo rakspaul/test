@@ -4,13 +4,17 @@ define(['angularAMD'], function (angularAMD) {
     angularAMD.controller('AdClone', function($scope ,$rootScope, $timeout, $routeParams, $location, $modalInstance,
                                               vistoconfig, getMediaPlansForClone, workflowService, constants,
                                               localStorageService) {
-        var selectedMediaPlanId = parseInt($routeParams.campaignId),
+
+        var selectedMediaPlanId,
             selectedAdGroupId = -1,
 
             clone = {
                 getAllMediaPlan: function () {
+                    var clientId = vistoconfig.getSelectedAccountId(),
+                        advertiserId = Number(vistoconfig.getSelectAdvertiserId());
+
                     // make api call to fetch all media plan - used in ad clone popup
-                    workflowService.getAllCampaignsForAdClone().then(function(result){
+                    workflowService.getAllCampaignsForAdClone(clientId, advertiserId).then(function(result){
                         var responseData,
                             index;
 
@@ -28,17 +32,20 @@ define(['angularAMD'], function (angularAMD) {
                                     '<span class="greyTxt">(Current)</span>';
                                 selectedMediaPlanId = $scope.mediaPlanList[index].id;
                             }
-                            clone.getAdGroups();
+                            clone.getAdGroups(selectedMediaPlanId);
                         } else {
                             clone.errorHandler(result);
                         }
                     });
                 },
 
-                getAdGroups: function(){
+                getAdGroups: function(selectedMediaPlanId){
+                    // var campaignId = vistoconfig.getSelectedCampaignId();
                     // make api call to fetch all media plan - used in ad clone popup
+                    var clientId = vistoconfig.getSelectedAccountId();
+
                     workflowService
-                        .getAdgroups(selectedMediaPlanId, false,true)
+                        .getAdgroups(clientId, selectedMediaPlanId, false,true)
                         .then(function (result) {
                             var responseData,
                                 index;
@@ -69,28 +76,42 @@ define(['angularAMD'], function (angularAMD) {
                             ad_group: selectedAdGroupId
                         },
 
-                        responseData;
+                        responseData,
+                        clientId = vistoconfig.getSelectedAccountId();
 
                     workflowService
-                        .cloneAd(requestData,selectedMediaPlanId)
+                        .cloneAd(clientId, requestData,selectedMediaPlanId)
                         .then(function(result){
                             var url;
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data;
-                                url = '/mediaplan/'+responseData.campaignId+'/';
+
+                                url = '/a/' + $routeParams.accountId;
+
+                                if ($routeParams.subAccountId) {
+                                    url += '/sa/' + $routeParams.subAccountId;
+                                }
+
+                                url += '/adv/'+$routeParams.advertiserId;
+
+                                url += '/mediaplan/'+responseData.campaignId;
 
                                 if (responseData.lineitemId) {
-                                    url += 'lineItem/'+responseData.lineitemId+'/';
+                                    url += '/lineItem/'+responseData.lineitemId;
                                 }
 
                                 if (responseData.adGroupId){
-                                    url += 'adGroup/'+responseData.adGroupId+'/';
+                                    url += '/adGroup/'+responseData.adGroupId;
                                 }
 
-                                url += 'ads/'+responseData.id+'/edit';
+                                url += '/ads/'+ responseData.id + '/edit';
+
+
                                 clone.updateLocalStorage(requestData.ad_group);
+
                                 $scope.close();
+
                                 $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_CLONE_SUCCESS, 0);
 
                                 $timeout(function(){
@@ -138,7 +159,7 @@ define(['angularAMD'], function (angularAMD) {
             selectedAdGroupId = -1;
             $scope.adGroupName = null;
 
-            clone.getAdGroups();
+            clone.getAdGroups(selectedMediaPlanId);
         };
 
         $scope.defaultDropdownToggle = function (event) {

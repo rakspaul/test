@@ -33,7 +33,7 @@
                     <span class="icon-inline-edit"></span>
                     <span data-ng-bind="textConstants.EDIT"></span>
                 </button>
-                <button type="button" class="btn btn-default" data-ng-click="cancelDelete();">
+                <button type="button" class="btn btn-default" ng-disabled='(!checkedCreativeArr || checkedCreativeArr.length === 0)' data-ng-click="cancelDelete();">
                     <span class="icon-archive"></span>
                     <span data-ng-bind="textConstants.ARCHIVE"></span>
                 </button>
@@ -290,7 +290,7 @@
                    data-ng-checked="creativeData.active"
                    data-ng-click="selectedCreativeCheckbox(creativeData)">
             <a href="javascript:void(0);"
-               data-ng-click="ShowHideTag(creativeData, $index)"
+               data-ng-click="ShowHideCreativeWin(creativeData, $index)"
                tooltip="{{creativeData.name}}"
                data-ng-bind="creativeData.name.length > 0 ? (creativeData.name | textEllipsis: 40 ) : ''">
             </a>
@@ -307,7 +307,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a target="_blank"
-                                   data-ng-href="/clientId/{{creativeData.clientId}}/adv/{{creativeData.advertiserId}}/creative/{{creativeData.id}}/preview">
+                                   data-ng-click = "getPreviewUrl(creativeData)">
                                     <span class="icon-preview withIcons">{{textConstants.PREVIEW}}</span>
                                 </a>
                             </li>

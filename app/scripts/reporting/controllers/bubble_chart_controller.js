@@ -1,11 +1,11 @@
 define(['angularAMD', 'login/login_model','login/login_service', 'reporting/common/d3/bubble_chart',
     'reporting/models/bubble_chart_model','reporting/brands/brands_model', 'common/services/constants_service',
-    'reporting/advertiser/advertiser_model'], function (angularAMD) {
+    'reporting/advertiser/advertiser_model', 'common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('BubbleChartController', function ($scope, $cookieStore, $location, loginModel, loginService,
                                                              bubbleChart, bubbleChartModel, brandsModel, constants,
-                                                             advertiserModel) {
+                                                             advertiserModel, vistoconfig) {
         var _curCtrl = this;
 
         _curCtrl.defaultFilter = {
@@ -19,7 +19,7 @@ define(['angularAMD', 'login/login_model','login/login_service', 'reporting/comm
 
             // Fetch the new data now.
             bubbleChartModel
-                .getBubbleChartDataForCampaign()
+                .getBubbleChartDataForCampaign(vistoconfig.getSelectAdvertiserId())
                 .then(function () {
                     $scope.spendBusy = false;
 
@@ -41,8 +41,8 @@ define(['angularAMD', 'login/login_model','login/login_service', 'reporting/comm
         function getSpendDataForAdvertisers() {
             var o = {};
 
-            o.advertiserId = advertiserModel.getSelectedAdvertiser().id;
-            o.brandId = brandsModel.getSelectedBrand().id;
+            o.advertiserId = vistoconfig.getSelectAdvertiserId();
+            o.brandId = vistoconfig.getSelectedBrandId();
             o.dateFilter = constants.PERIOD_LIFE_TIME;
 
             (JSON.stringify(o) === JSON.stringify(_curCtrl.defaultFilter)) ?
@@ -89,7 +89,7 @@ define(['angularAMD', 'login/login_model','login/login_service', 'reporting/comm
         $scope.dataFound = true;
         $scope.style = constants.DATA_NOT_AVAILABLE_STYLE;
 
-        if (advertiserModel.getSelectedAdvertiser().id === -1) {
+        if (vistoconfig.getSelectAdvertiserId() === -1) {
             getSpendDataForAdvertisers();
         } else {
             getSpendDataForCampaigns();
@@ -100,7 +100,7 @@ define(['angularAMD', 'login/login_model','login/login_service', 'reporting/comm
             bubbleChart.cleaningBubbleChart('campaigns');
 
             // All Advertisers is selected
-            if (advertiserModel.getSelectedAdvertiser().id === -1) {
+            if (vistoconfig.getSelectAdvertiserId() === -1) {
                 getSpendDataForAdvertisers();
             } else {
                 getSpendDataForCampaigns();
@@ -108,10 +108,6 @@ define(['angularAMD', 'login/login_model','login/login_service', 'reporting/comm
         };
 
         $scope.$on(constants.EVENT_STATUS_FILTER_CHANGED, function () {
-            $scope.refresh();
-        });
-
-        $scope.$on(constants.EVENT_BRAND_CHANGED, function () {
             $scope.refresh();
         });
 

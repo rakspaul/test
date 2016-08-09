@@ -2,16 +2,17 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
     'reporting/strategySelect/strategy_select_service', 'reporting/common/charts/column_line',
     'common/services/data_service', 'common/services/constants_service', 'reporting/timePeriod/time_period_model',
     'login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
-    'common/services/url_service', 'reporting/models/domain_reports', 'common/utils',
-    'reporting/kpiSelect/kpi_select_directive', 'reporting/kpiSelect/kpi_select_controller',
-    'reporting/strategySelect/strategy_select_directive', 'reporting/strategySelect/strategy_select_controller',
-    'reporting/timePeriod/time_period_pick_directive'], function (angularAMD) {
+    'common/services/url_service', 'reporting/kpiSelect/kpi_select_directive',
+    'reporting/kpiSelect/kpi_select_controller', 'reporting/models/domain_reports',
+    'common/services/vistoconfig_service', 'common/utils', 'reporting/strategySelect/strategy_select_directive',
+    'reporting/strategySelect/strategy_select_controller', 'reporting/timePeriod/time_period_pick_directive'],
+    function (angularAMD) {
     'use strict';
 
     angularAMD.controller('InventoryController', function ($scope, kpiSelectModel, campaignSelectModel,
                                                            strategySelectModel, columnline, dataService, constants,
                                                            timePeriodModel, loginModel, advertiserModel,
-                                                           brandsModel, urlService, domainReports, utils) {
+                                                           brandsModel, urlService, domainReports, vistoconfig, utils) {
         var inventoryWrapper =  {
             // Function called to draw the Strategy chart
             getStrategyChartData: function () {
@@ -29,9 +30,9 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
                     param = {
                         campaignId: $scope.selectedCampaign.id,
-                        clientId: loginModel.getSelectedClient().id,
-                        advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                        brandId: brandsModel.getSelectedBrand().id,
+                        clientId: vistoconfig.getSelectedAccountId(),
+                        advertiserId: vistoconfig.getSelectAdvertiserId(),
+                        brandId: vistoconfig.getSelectedBrandId(),
                         dateFilter: dateFilter,
                         domain: $scope.selectedFilters_tab
                     },
@@ -286,7 +287,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
             } else if ($scope.apiReturnCode === 404 || $scope.apiReturnCode >= 500) {
                 return constants.MSG_UNKNOWN_ERROR_OCCURED;
             } else if (campaignSelectModel.durationLeft() === 'Yet to start') {
-                return utils.formatStringWithDate(constants.MSG_CAMPAIGN_YET_TO_START ,campaign.startDate,constants.REPORTS_DATE_FORMAT);
+                return utils.formatStringWithDate(constants.MSG_CAMPAIGN_YET_TO_START , campaign.startDate,constants.REPORTS_DATE_FORMAT);
             } else if (campaignSelectModel.daysSinceEnded() > 1000) {
                 return constants.MSG_CAMPAIGN_VERY_OLD;
             } else if ($scope.selectedCampaign.kpi === 'null') {
@@ -349,7 +350,9 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
             $('#tactic_' + id + '_body').toggle();
         };
 
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         inventoryWrapper.init();
+        inventoryWrapper.callBackStrategyChange();
 
         $(function() {
             // hot fix for the enabling the active link in the reports dropdown

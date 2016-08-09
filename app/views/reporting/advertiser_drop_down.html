@@ -3,8 +3,9 @@
     <div class="brand_name_selected"
          id="advertiser_name_selected"
          data-ng-click="showAdvertisersDropDown()"
-         title="{{advertiserData.selectedAdvertiser.name}}"
-         data-ng-bind="(advertiserData.selectedAdvertiser.name ? advertiserData.selectedAdvertiser.name : 'All Advertisers')">
+         title="{{selectedAdvertiser.name}}"
+         data-ng-bind="(selectedAdvertiser.name ?
+            selectedAdvertiser.name : 'All Advertisers')">
     </div>
     <span class="icon-arrow-solid-down"></span>
 </div>
@@ -17,14 +18,15 @@
                        id="advertisersDropdown"
                        data-ng-keyup="disableShowAll();"
                        data-ng-model="selectedAdvertiser.name"
-                       placeHolder="{{(advertiserData.selectedAdvertiser.name ? advertiserData.selectedAdvertiser.name : 'Select Advertiser')}}">
+                       placeHolder="{{(selectedAdvertiser.name ?
+                        selectedAdvertiser.name : 'Select Advertiser')}}">
                 <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
             </div>
             <div  class="advertisersList_ul">
                 <!--removed track by as on dashboard its giving dupes error-->
                 <li data-ng-repeat="advertiser in advertisers | filter : selectedAdvertiser.name"
                     data-ng-hide="isExcludedByAdvertiserFilter"
-                    data-ng-class="{'active': advertiser.id === advertiserData.selectedAdvertiser.id}"
+                    data-ng-class="{'active': advertiser.id === selectedAdvertiser.id}"
                     title="{{advertiser.name}}">
                     <a data-ng-click="selectAdvertiser(advertiser, 'clicked')">
                         <span class="tick"></span>

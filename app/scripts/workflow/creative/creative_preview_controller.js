@@ -4,12 +4,12 @@ define(['angularAMD', '../services/workflow_service', 'login/login_model', 'repo
 
     angularAMD.controller('CreativePreviewController', function ($scope, $rootScope, $routeParams, $location,
                                                                  workflowService, loginModel, advertiserModel,
-                                                             localStorageService) {
+                                                             localStorageService, vistoconfig) {
         var params = {
                 campaignId: $routeParams.campaignId,
                 adId: $routeParams.adId,
                 creativeId: Number($routeParams.creativeId),
-                clientId: $routeParams.clientId,
+                clientId: vistoconfig.getSelectedAccountId(),
                 advertiserId: $routeParams.advertiserId
             },
 
