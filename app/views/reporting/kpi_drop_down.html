@@ -11,8 +11,8 @@
         <span ng-if="checkNewkpiDropDownAlt()"
               class="dd_txt_span pull-right"
               style="line-height: 100%;"
-              data-ng-bind="kpiData.selectedKpiDisplayName"
-              title="{{kpiData.selectedKpiDisplayName}}">
+              data-ng-bind="getDisplayKpiName()"
+              title="{{getDisplayKpiName()}}">
         </span>
         <span data-ng-if="kpiData.selectedKpi === 'impressions'"
               data-ng-init="changeClickedSelectedKpiAlt('cpm')"
