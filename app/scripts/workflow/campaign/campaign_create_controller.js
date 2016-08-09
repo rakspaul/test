@@ -646,7 +646,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 utcEndTime,
                 campaignCosts = [],
                 dateTimeZone,
-                i;
+                i,
+                isDateChanged = true;
 
             saveMediaPlanBeforeLineItem  = saveMediaPlanBeforeLineItem || false;
             $scope.$broadcast('show-errors-check-validity');
@@ -688,8 +689,13 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 dateTimeZone = workflowService.getSubAccountTimeZone();
 
+                if(moment($scope.selectedCampaign.startTime).startOf('day').isSame(moment($scope.mediaPlanAPIStartTime).startOf('day'))) {
+                    isDateChanged = false;
+                }
+
                 utcStartTime = momentService.localTimeToUTC($scope.selectedCampaign.startTime,
-                    'startTime', dateTimeZone);
+                    'startTime', dateTimeZone, isDateChanged);
+
                 utcEndTime = momentService.localTimeToUTC($scope.selectedCampaign.endTime,
                     'endTime', dateTimeZone);
 

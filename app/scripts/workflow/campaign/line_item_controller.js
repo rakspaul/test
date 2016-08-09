@@ -722,7 +722,8 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             var newItem,
                 utcStartTime,
                 utcEndTime,
-                dateTimeZone;
+                dateTimeZone,
+                isDateChanged;
 
             // this hack is to make it work in edit mode when media plan save is requierd prior to line item
             // check if we have saved line item details in service or create a new line item object
@@ -757,7 +758,11 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                 dateTimeZone = workflowService.getSubAccountTimeZone();
 
-                utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone);
+                if(moment(newItem.startTime).startOf('day').isSame(moment(lineItemAPIStartTimeList[oldLineItemIndex]).startOf('day'))) {
+                    isDateChanged = false;
+                }
+
+                utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone, isDateChanged);
 
                 if(moment(utcStartTime).startOf('day').isSame(moment(lineItemAPIStartTimeList[oldLineItemIndex]).startOf('day')))  {
                     utcStartTime = lineItemAPIStartTimeList[oldLineItemIndex];

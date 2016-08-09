@@ -1009,6 +1009,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 utcStartTime,
                 utcEndTime,
                 dateTimeZone,
+                isDateChanged = true,
 
                 adGroupSaveErrorHandler = function (data) {
                     var errMsg,
@@ -1047,7 +1048,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 dateTimeZone = workflowService.getSubAccountTimeZone();
 
-                utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone);
+                if(moment(formData.startTime).startOf('day').isSame(moment($scope.adGroupData.modifiedAdGroupAPIStartTime).startOf('day'))) {
+                    isDateChanged = false;
+                }
+
+                utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone, isDateChanged);
 
                 if ($scope.adGroupData.editAdGroupFlag) {
 
