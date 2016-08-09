@@ -1396,9 +1396,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return subAccountTimezone;
             },
 
+            // getVistoUserManual =  function() {
+            //     var clientId = loginModel.getMasterClient().id,
+            //         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/userguide/download';
+            //     return dataService.downloadFile(url);
+            // };
+
             getVistoUserManual =  function() {
                 var clientId = loginModel.getMasterClient().id,
-                    url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/userguide/download';
+                    url = 'http://ampqaapp001.ewr004.collective-media.net:9000/api/reporting/v3/clients/' + clientId + '/userguide/download';
                 return dataService.downloadFile(url);
             };
 
