@@ -1,7 +1,4 @@
-/**
- * Created by laldinglianat on 09/08/16.
- */
-define(['angularAMD'], function (angularAMD) {
+define(['angularAMD', 'common/services/vistoconfig_service'], function (angularAMD) {
     angularAMD.service('routeResolvers', function () {
         var
             accountDataWithReportList = function ($location, $route, accountService, collectiveReportModel, advertiserModel, brandsModel, campaignSelectModel,
