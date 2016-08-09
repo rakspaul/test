@@ -56,25 +56,25 @@
   overflow: auto;
 }
 .reports_details_outer_container.overflowAuto {
-  border-left: solid 1px #ccd9e3 ;
-  border-right: solid 1px #ccd9e3 ;
-}
-.reports_details_outer_container.overflowAuto .reports_performance_header {
-  border-left: 0px !important ;
-  border-right: 0px !important;
-}
-.reports_details_outer_container.overflowAuto div.strategy_total_container_header {
-  border-left: 0px ;
-  border-right: 0px ;
+  /*    border-left: solid 1px #ccd9e3 ;
+    border-right: solid 1px #ccd9e3 ;
+    .reports_performance_header {
+        border-left: 0px !important ;
+        border-right : 0px !important;
+    }
+    div.strategy_total_container_header {
+        border-left: 0px ;
+        border-right : 0px ;
+    }*/
 }
 .reports_tabs_content_container #reports_byadsizes_block .reports_details_outer_container.overflowAuto .each_col {
-  width: 140px;
+  width: 128px;
 }
 .reports_tabs_content_container #reports_byadsizes_block .reports_details_outer_container.overflowAuto .each_col.first_col {
   width: 100% ;
 }
 div.reports_tabs_content_container div#reports_bycreatives_block div.reports_details_outer_container.strategy_video_disabled.overflowAuto div.each_col {
-  width: 140px ;
+  width: 126px ;
 }
 div.reports_tabs_content_container div#reports_bycreatives_block div.reports_details_outer_container.strategy_video_disabled.overflowAuto .each_col.first_col {
   width: 100% ;
@@ -675,7 +675,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li:focus {
   color: #21252b;
   text-decoration: none;
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
 }
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li span {
   padding: 0;
@@ -813,7 +813,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .common_reports_container .download_report:hover,
 .breadcrumb_campaign_strategy .download_report:hover,
 .smallScreenScrollDiv .download_report:hover {
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
   border: 1px solid #bfc9d7;
 }
 .common_reports_container .download_anchor,
@@ -2590,7 +2590,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container .reports_block .each_col {
   float: left;
-  width: 148px;
+  width: 132px;
   text-align: right;
   margin: 5px 0 10px 15px ;
 }
@@ -2629,7 +2629,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   border: solid 1px #ccd9e3;
   padding: 10px 20px;
   border-bottom: 0px ;
-  width: 1964px;
+  /*width: 1964px;*/
 }
 .reports_tabs_content_container .reports_block .reports_performance_header .dropdown-menu.kpi_indicator_ul ul.drop_list {
   width: 80% ;
@@ -4168,7 +4168,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   cursor: pointer;
 }
 .report_generator_and_response #dynamicHeader .downReport:hover {
-  background: #E1EDF9;
+  background: #e1edf9;
 }
 .report_generator_and_response #dynamicHeader .subTitle {
   display: block;
