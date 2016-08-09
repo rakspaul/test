@@ -117,7 +117,7 @@
                                         <div class="clearfix each_row_list"
                                              data-ng-show="!dowBusy"
                                              data-ng-repeat="daysOfWeekData in strategyPerfDataByDOW |
-                                                orderBy : sortTypebydaysofweek : sortReverseDaysTab track by $index"
+                                                orderBy : sortTypebydaysofweek : sortReverse track by $index"
                                              data-ng-include="'daysOfWeekTpl'">
                                         </div>
                                     </div>
@@ -125,7 +125,7 @@
                                 <div class="all_strategies_holder" data-ng-show="!dowBusy">
                                     <div class="each_strategy_holder clearfix"
                                          data-ng-repeat="tactic in groupThem |
-                                            orderBy : sortTypebydaysofweek : sortReverseDaysTab track by $index"
+                                            orderBy : sortTypebydaysofweek : sortReverse track by $index"
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
@@ -133,7 +133,7 @@
                                             <div class="row_list_holder">
                                                 <div class="clearfix each_row_list"
                                                      data-ng-repeat="daysOfWeekData in tactic.perf_metrics |
-                                                        orderBy : sortTypebydaysofweek : sortReverseDaysTab
+                                                        orderBy : sortTypebydaysofweek : sortReverse
                                                         track by $index"
                                                      data-ng-include="'daysOfWeekTpl'">
                                                 </div>
@@ -228,7 +228,7 @@
                                         <div class="clearfix each_row_list"
                                              data-ng-show="!formatBusy"
                                              data-ng-repeat="formatData in strategyPerfDataByFormat |
-                                                orderBy : sortTypebyformats : sortReverseFormatTab track by $index"
+                                                orderBy : sortTypebyformats : sortReverse track by $index"
                                              data-ng-include="'formatTpl'">
                                         </div>
                                     </div>
@@ -236,7 +236,7 @@
                                 <div class="all_strategies_holder" data-ng-show="!formatBusy">
                                     <div class="each_strategy_holder clearfix"
                                          data-ng-repeat="tactic in groupThem |
-                                            orderBy : sortTypebyformats : sortReverseFormatTab track by $index"
+                                            orderBy : sortTypebyformats : sortReverse track by $index"
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
@@ -283,7 +283,7 @@
                                         <div class="clearfix each_row_list"
                                              data-ng-show="!creativeBusy"
                                              data-ng-repeat="creativesData in strategyPerfDataByCreatives |
-                                                orderBy : sortTypeByCreatives : sortReverseCreativesTab
+                                                orderBy : sortTypeByCreatives : sortReverse
                                                 track by $index"
                                              data-ng-include="'CreativesTpl'">
                                         </div>
@@ -292,7 +292,7 @@
                                 <div class="all_strategies_holder" data-ng-show="!creativeBusy">
                                     <div class="each_strategy_holder clearfix"
                                          data-ng-repeat="tactic in groupThem |
-                                            orderBy : sortTypeByCreatives : sortReverseCreativesTab track by $index"
+                                            orderBy : sortTypeByCreatives : sortReverse track by $index"
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
@@ -338,7 +338,7 @@
                                         <div class="clearfix each_row_list"
                                              data-ng-show="!adSizesBusy"
                                              data-ng-repeat="adSizesData in strategyPerfDataByAdsizes |
-                                                orderBy : sortTypeByAdSizes : sortReverseAdSizes track by $index"
+                                                orderBy : sortTypeByAdSizes : sortReverse track by $index"
                                              data-ng-include="'AdSizesTpl'">
                                         </div>
                                     </div>
@@ -346,7 +346,7 @@
                                 <div class="all_strategies_holder" data-ng-show="!adSizesBusy">
                                     <div class="each_strategy_holder clearfix"
                                          data-ng-repeat="tactic in groupThem |
-                                            orderBy : sortTypeByAdSizes : sortReverseAdSizes track by $index"
+                                            orderBy : sortTypeByAdSizes : sortReverse track by $index"
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
