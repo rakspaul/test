@@ -1398,7 +1398,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
             getVistoUserManual =  function() {
                 var clientId = loginModel.getMasterClient().id,
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/userguide/download';
+                    url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/userguide/download';
                 return dataService.downloadFile(url);
             };
 
