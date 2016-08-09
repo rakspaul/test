@@ -535,8 +535,18 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 });
             };
 
+
             $scope.openHelp = function() {
-                window.open('/pdf/help.pdf');
+                workflowService.getVistoUserManual()
+                    .then(function (res) {
+                        if (res.status === 'OK' || res.status === 'success') {
+                            var fileURL = URL.createObjectURL(res);
+                            console.log('fileUrl', fileURL);
+                            window.open(fileURL);
+                        }
+                    },function (err) {
+                        console.log('Error = ', err);
+                    });
             };
         });
     });

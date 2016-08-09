@@ -655,13 +655,15 @@ define(['common'], function (angularAMD) {
                         }
                     }
                 }))
-
+                
                 .when('/help', angularAMD.route({
                     templateUrl: assets.html_help,
                     title: 'Help - Online',
                     showHeader : true,
                     controller: 'HelpController'
                 }))
+                
+                
 
                 .otherwise({redirectTo: '/'});
 
