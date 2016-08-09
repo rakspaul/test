@@ -461,11 +461,11 @@
     <div data-ng-if="adFormats.videoAds"
          class="each_col eight_col {{screenData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
          data-ng-class="{vid_none: adFormats.videoAds === false}">
-        <span data-ng-if="selectedFilters.kpi_type === 'vtc'"
-              style="visibility: hidden"
-              data-ng-bind="selectedFilters.kpi_type = 'cpm'">
-        </span>
-        <span data-ng-bind="screenData[selectedFilters.kpi_type] | appendDollar : selectedFilters.kpi_type"></span>
+        <!--<span data-ng-if="selectedFilters.kpi_type === 'vtc'"-->
+              <!--style="visibility: hidden"-->
+              <!--data-ng-bind="selectedFilters.kpi_type = 'cpm'">-->
+        <!--</span>-->
+        <span data-ng-bind="screenData[selectedFilters.kpi_type] | suffixPrefixCannedReport : selectedFilters.kpi_type"></span>
     </div>
 </script>
 
@@ -554,9 +554,8 @@
     </span>
     <div data-ng-if="adFormats.videoAds"
          class="each_col eight_col {{daysOfWeekData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
-         data-ng-class="{vid_none: adFormats.videoAds === false}"
-         data-ng-bind="daysOfWeekData[selectedFilters.kpi_type.toLowerCase()] |
-            appendDollar : selectedFilters2.kpi_type">
+         data-ng-class="{vid_none: adFormats.videoAds === false}">
+        <span data-ng-bind="daysOfWeekData[selectedFilters.kpi_type] | suffixPrefixCannedReport : selectedFilters.kpi_type"></span>
     </div>
 </script>
 
@@ -638,8 +637,8 @@
     </span>
     <div data-ng-if="adFormats.videoAds"
          class="each_col eight_col {{formatData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
-         data-ng-class="{vid_none: adFormats.videoAds === false}"
-         data-ng-bind="formatData[selectedFilters.kpi_type.toLowerCase()] | appendDollar : selectedFilters2.kpi_type">
+         data-ng-class="{vid_none: adFormats.videoAds === false}">
+        <span data-ng-bind="formatData[selectedFilters.kpi_type] | suffixPrefixCannedReport : selectedFilters.kpi_type"></span>
     </div>
 </script>
 
@@ -729,11 +728,9 @@
         </div>
     </span>
     <div data-ng-if="adFormats.videoAds"
-         class="each_col seventh_col last_col {{creativesData.kpi_type ===
-            selectedFilters.kpi_type ? 'bold' : ''}}"
-         data-ng-class="{vid_none : adFormats.videoAds === false}"
-         data-ng-bind="creativesData[selectedFilters.kpi_type.toLowerCase()] |
-            appendDollar : selectedFilters2.kpi_type">
+         class="each_col eight_col {{creativesData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
+         data-ng-class="{vid_none: adFormats.videoAds === false}">
+        <span data-ng-bind="creativesData[selectedFilters.kpi_type] | suffixPrefixCannedReport : selectedFilters.kpi_type"></span>
     </div>
 </script>
 
@@ -821,8 +818,8 @@
     </span>
     <div data-ng-if="adFormats.videoAds"
          class="each_col eight_col {{adSizesData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
-         data-ng-class="{vid_none: adFormats.videoAds === false}"
-         data-ng-bind="adSizesData[selectedFilters.kpi_type.toLowerCase()] | appendDollar : selectedFilters2.kpi_type">
+         data-ng-class="{vid_none: adFormats.videoAds === false}">
+        <span data-ng-bind="adSizesData[selectedFilters.kpi_type] | suffixPrefixCannedReport : selectedFilters.kpi_type"></span>
     </div>
 </script>
 
