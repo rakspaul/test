@@ -1250,7 +1250,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 dateTimeZone = workflowService.getSubAccountTimeZone();
 
-                if(moment(formData.startTime).startOf('day').isSame(moment($scope.apiStartTime).startOf('day'))) {
+                if($scope.apiStartTime && moment(formData.startTime).startOf('day').isSame(moment($scope.apiStartTime).startOf('day'))) {
                     isDateChanged = false;
                 }
 

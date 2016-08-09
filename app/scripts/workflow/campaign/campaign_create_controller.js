@@ -689,7 +689,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 dateTimeZone = workflowService.getSubAccountTimeZone();
 
-                if(moment($scope.selectedCampaign.startTime).startOf('day').isSame(moment($scope.mediaPlanAPIStartTime).startOf('day'))) {
+                if($scope.mediaPlanAPIStartTime && moment($scope.selectedCampaign.startTime).startOf('day').isSame(moment($scope.mediaPlanAPIStartTime).startOf('day'))) {
                     isDateChanged = false;
                 }
 
