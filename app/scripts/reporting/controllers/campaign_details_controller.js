@@ -325,10 +325,9 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
             // init function sets the selected campaign onclick of campaign in campaign list page. CRPT-3440
             $scope.init();
 
-            //TODO :  sapna I dont udnerstand why need to call this when we click any canned report
-            // $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function () {
-            //     $location.path('/mediaplans/' + campaignSelectModel.getSelectedCampaign().id);
-            // });
+            $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function () {
+                $location.path('/mediaplans/' + campaignSelectModel.getSelectedCampaign().id);
+            });
 
             getSetCampaignDetails = function() {
                 dataService
