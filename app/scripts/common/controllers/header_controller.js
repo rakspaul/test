@@ -541,9 +541,10 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 // workflowService.getVistoUserManual()
                 //     .then(function (res) {
                 //         if (res.status === 'OK' || res.status === 'success') {
-                //             // console.log('res',res)
-                //            saveAs(res.file, res.fileName);
-                //             // window.open(res.fileName);
+                //             var file = new Blob([res], {type: 'application/pdf'});
+                //             var fileURL = URL.createObjectURL(file);
+                //             $scope.content = $sce.trustAsResourceUrl(fileURL);
+                //             $scope.showFiles = true;
                 //         }
                 //     },function (err) {
                 //         console.log('Error = ', err);
@@ -555,16 +556,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                         var fileURL = URL.createObjectURL(file);
                         $scope.content = $sce.trustAsResourceUrl(fileURL);
                         $scope.showFiles = true;
-                    });
-                // var clientId = loginModel.getMasterClient().id;
-                // $http.get('http://ampqaapp001.ewr004.collective-media.net:9000/api/reporting/v3/clients/' + clientId + '/userguide/download', {responseType:'arraybuffer'})
-                //     .success(function (response) {
-                //         var file = new Blob([response], {type: 'application/pdf'});
-                //         var fileURL = URL.createObjectURL(file);
-                //         $scope.content = $sce.trustAsResourceUrl(fileURL);
-                //         $scope.showFiles = true;
-                //
-                //     });
+                });
+               
             };
         });
     });
