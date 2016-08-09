@@ -461,19 +461,11 @@
     <div data-ng-if="adFormats.videoAds"
          class="each_col eight_col {{screenData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
          data-ng-class="{vid_none: adFormats.videoAds === false}">
-        <span data-ng-if="selectedFilters.kpi_type === 'vtc'"
-              style="visibility: hidden"
-              data-ng-bind="selectedFilters.kpi_type = 'cpm'">
-        </span>
-        <span data-ng-if="selectedFilters.kpi_type !== 'suspicious_impressions_perc' &&
-                          selectedFilters.kpi_type !== 'viewable_impressions' &&
-                          selectedFilters.kpi_type !== 'viewable_impressions_perc'"
-            data-ng-bind="screenData[selectedFilters.kpi_type] | appendDollar : selectedFilters.kpi_type"></span>
-        <span data-ng-if="selectedFilters.kpi_type === 'suspicious_impressions_perc' ||
-                          selectedFilters.kpi_type === 'viewable_impressions_perc' "
-              data-ng-bind="screenData[selectedFilters.kpi_type] | number : 3"></span>
-        <span data-ng-if="selectedFilters.kpi_type === 'viewable_impressions'"
-              data-ng-bind="screenData[selectedFilters.kpi_type] | number : 0"></span>
+        <!--<span data-ng-if="selectedFilters.kpi_type === 'vtc'"-->
+              <!--style="visibility: hidden"-->
+              <!--data-ng-bind="selectedFilters.kpi_type = 'cpm'">-->
+        <!--</span>-->
+        <span data-ng-bind="screenData[selectedFilters.kpi_type] | suffixPrefixCannedReport : selectedFilters.kpi_type"></span>
     </div>
 </script>
 
@@ -563,15 +555,7 @@
     <div data-ng-if="adFormats.videoAds"
          class="each_col eight_col {{daysOfWeekData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
          data-ng-class="{vid_none: adFormats.videoAds === false}">
-        <span data-ng-if="selectedFilters.kpi_type !== 'suspicious_impressions_perc' &&
-                          selectedFilters.kpi_type !== 'viewable_impressions' &&
-                          selectedFilters.kpi_type !== 'viewable_impressions_perc'"
-              data-ng-bind="daysOfWeekData[selectedFilters.kpi_type] | appendDollar : selectedFilters.kpi_type"></span>
-        <span data-ng-if="selectedFilters.kpi_type === 'suspicious_impressions_perc' ||
-                          selectedFilters.kpi_type === 'viewable_impressions_perc' "
-              data-ng-bind="daysOfWeekData[selectedFilters.kpi_type] | number : 3"></span>
-        <span data-ng-if="selectedFilters.kpi_type === 'viewable_impressions'"
-              data-ng-bind="daysOfWeekData[selectedFilters.kpi_type] | number : 0"></span>
+        <span data-ng-bind="daysOfWeekData[selectedFilters.kpi_type] | suffixPrefixCannedReport : selectedFilters.kpi_type"></span>
     </div>
 </script>
 
@@ -654,15 +638,7 @@
     <div data-ng-if="adFormats.videoAds"
          class="each_col eight_col {{formatData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
          data-ng-class="{vid_none: adFormats.videoAds === false}">
-        <span data-ng-if="selectedFilters.kpi_type !== 'suspicious_impressions_perc' &&
-                          selectedFilters.kpi_type !== 'viewable_impressions' &&
-                          selectedFilters.kpi_type !== 'viewable_impressions_perc'"
-              data-ng-bind="formatData[selectedFilters.kpi_type] | appendDollar : selectedFilters.kpi_type"></span>
-        <span data-ng-if="selectedFilters.kpi_type === 'suspicious_impressions_perc' ||
-                          selectedFilters.kpi_type === 'viewable_impressions_perc' "
-              data-ng-bind="formatData[selectedFilters.kpi_type] | number : 3"></span>
-        <span data-ng-if="selectedFilters.kpi_type === 'viewable_impressions'"
-              data-ng-bind="formatData[selectedFilters.kpi_type] | number : 0"></span>
+        <span data-ng-bind="formatData[selectedFilters.kpi_type] | suffixPrefixCannedReport : selectedFilters.kpi_type"></span>
     </div>
 </script>
 
@@ -754,15 +730,7 @@
     <div data-ng-if="adFormats.videoAds"
          class="each_col eight_col {{creativesData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
          data-ng-class="{vid_none: adFormats.videoAds === false}">
-        <span data-ng-if="selectedFilters.kpi_type !== 'suspicious_impressions_perc' &&
-                          selectedFilters.kpi_type !== 'viewable_impressions' &&
-                          selectedFilters.kpi_type !== 'viewable_impressions_perc'"
-              data-ng-bind="creativesData[selectedFilters.kpi_type] | appendDollar : selectedFilters.kpi_type"></span>
-        <span data-ng-if="selectedFilters.kpi_type === 'suspicious_impressions_perc' ||
-                          selectedFilters.kpi_type === 'viewable_impressions_perc' "
-              data-ng-bind="creativesData[selectedFilters.kpi_type] | number : 3"></span>
-        <span data-ng-if="selectedFilters.kpi_type === 'viewable_impressions'"
-              data-ng-bind="creativesData[selectedFilters.kpi_type] | number : 0"></span>
+        <span data-ng-bind="creativesData[selectedFilters.kpi_type] | suffixPrefixCannedReport : selectedFilters.kpi_type"></span>
     </div>
 </script>
 
@@ -851,15 +819,7 @@
     <div data-ng-if="adFormats.videoAds"
          class="each_col eight_col {{adSizesData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
          data-ng-class="{vid_none: adFormats.videoAds === false}">
-        <span data-ng-if="selectedFilters.kpi_type !== 'suspicious_impressions_perc' &&
-                          selectedFilters.kpi_type !== 'viewable_impressions' &&
-                          selectedFilters.kpi_type !== 'viewable_impressions_perc'"
-              data-ng-bind="adSizesData[selectedFilters.kpi_type] | appendDollar : selectedFilters.kpi_type"></span>
-        <span data-ng-if="selectedFilters.kpi_type === 'suspicious_impressions_perc' ||
-                          selectedFilters.kpi_type === 'viewable_impressions_perc' "
-              data-ng-bind="adSizesData[selectedFilters.kpi_type] | number : 3"></span>
-        <span data-ng-if="selectedFilters.kpi_type === 'viewable_impressions'"
-              data-ng-bind="adSizesData[selectedFilters.kpi_type] | number : 0"></span>
+        <span data-ng-bind="adSizesData[selectedFilters.kpi_type] | suffixPrefixCannedReport : selectedFilters.kpi_type"></span>
     </div>
 </script>
 
