@@ -758,7 +758,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                 dateTimeZone = workflowService.getSubAccountTimeZone();
 
-                if(moment(newItem.startTime).startOf('day').isSame(moment(lineItemAPIStartTimeList[oldLineItemIndex]).startOf('day'))) {
+                if(lineItemAPIStartTimeList[oldLineItemIndex] && moment(newItem.startTime).startOf('day').isSame(moment(lineItemAPIStartTimeList[oldLineItemIndex]).startOf('day'))) {
                     isDateChanged = false;
                 }
 

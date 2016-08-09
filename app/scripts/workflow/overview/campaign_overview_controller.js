@@ -1048,7 +1048,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 dateTimeZone = workflowService.getSubAccountTimeZone();
 
-                if(moment(formData.startTime).startOf('day').isSame(moment($scope.adGroupData.modifiedAdGroupAPIStartTime).startOf('day'))) {
+                if($scope.adGroupData.modifiedAdGroupAPIStartTime && moment(formData.startTime).startOf('day').isSame(moment($scope.adGroupData.modifiedAdGroupAPIStartTime).startOf('day'))) {
                     isDateChanged = false;
                 }
 
