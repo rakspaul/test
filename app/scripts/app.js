@@ -656,18 +656,6 @@ define(['common'], function (angularAMD) {
                     }
                 }))
                 
-                .when('/clientId/:clientId/userguide/download', angularAMD.route({
-                    templateUrl: assets.html_creative_preview,
-                    title: 'Preview Creative',
-                    controller: 'CreativePreviewController',
-                    controllerUrl: 'workflow/creative/creative_preview_controller',
-                    showHeader : false,
-
-                    resolve: {
-                        check: function () {}
-                    }
-                }))
-
                 .when('/help', angularAMD.route({
                     templateUrl: assets.html_help,
                     title: 'Help - Online',
