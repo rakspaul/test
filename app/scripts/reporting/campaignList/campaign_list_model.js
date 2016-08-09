@@ -226,7 +226,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
 
                             if ((!this.performanceParams.lastPage && (this.dashboard.filterTotal > 0) ||
                                 (this.scrollFlag > 0)) || this.searchTerm) {
-                                // Reseting scrollFlag
+                                // Resetting scrollFlag
                                 this.scrollFlag = 0;
 
                                 self = this;
@@ -236,7 +236,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
                                 clientId = vistoconfig.getSelectedAccountId();
                                 advertiserId = vistoconfig.getSelectAdvertiserId();
                                 brandId = vistoconfig.getSelectedBrandId();
-
+console.log('fetchCampaigns(): url = ', url, ', clientId = ', clientId, ', advertiserId = ', advertiserId, ', brandId = ', brandId);
                                 campaignListService.getCampaigns(url, function (result) {
                                     var data = result.data.data;
 
@@ -289,7 +289,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
                                             contextThis.push(campaign);
                                             self.busy = false;
 
-                                            (function(campaign) {
+                                            (function (campaign) {
                                                 dataService
                                                     .fetch(spendUrl)
                                                     .then(function (response) {
@@ -311,20 +311,12 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
                                                             campaign, self.timePeriod,
                                                             function (cdbData) {
                                                                 if (cdbData) {
-                                                                    self.cdbDataMap[campaign.orderId] =
-                                                                        modelTransformer.transform(
-                                                                            cdbData,
-                                                                            campaignCDBData
-                                                                        );
+                                                                    self.cdbDataMap[campaign.orderId] = modelTransformer.transform(cdbData, campaignCDBData);
 
                                                                     self
                                                                         .cdbDataMap[campaign.orderId]
                                                                         .modified_vtc_metrics =
-                                                                            campaignListService.vtcMetricsJsonModifier(
-                                                                                self
-                                                                                    .cdbDataMap[campaign.orderId]
-                                                                                    .video_metrics
-                                                                            );
+                                                                            campaignListService.vtcMetricsJsonModifier(self.cdbDataMap[campaign.orderId].video_metrics);
                                                                 }
                                                             }
                                                         );

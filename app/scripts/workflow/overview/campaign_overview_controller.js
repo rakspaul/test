@@ -472,7 +472,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.isAdGroupsSearched = false;
                 }
 
-                campaignOverView.getAdgroups($routeParams.campaignId, $scope.adGroupsSearch.term);
+                campaignOverView.getAdgroups($routeParams.subAccountId ? $routeParams.subAccountId : $routeParams.accountId, $routeParams.campaignId, $scope.adGroupsSearch.term);
             }
         };
 
@@ -1097,8 +1097,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     postCreateAdObj.adIds = dataArray;
                 }
 
-                workflowService[formData.adgroupId ? 'editAdGroups' : 'createAdGroups']
-                (clientId, $routeParams.campaignId, postCreateAdObj).then(function (result) {
+                workflowService[formData.adgroupId ? 'editAdGroups' : 'createAdGroups'](clientId, $routeParams.campaignId, postCreateAdObj)
+                    .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.loadingBtn = false;
                         formElem[0].reset();
@@ -1232,8 +1232,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 param.adGroupId = dataObj.adGroupsData.adGroup.id;
 
                 campaignOverviewService.pauseAllAds(param).then(function() {
-                    $rootScope.setErrAlertMessage('All Ads in ' + dataObj.adGroupsData.adGroup.name +
-                        ' paused' , 0);
+                    $rootScope.setErrAlertMessage('All Ads in ' + dataObj.adGroupsData.adGroup.name + ' paused' , 0);
                     campaignOverView.getAdgroups(param.campaignId);
                 });
             } else {
