@@ -4,9 +4,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
     'common/services/vistoconfig_service', 'common/services/sub_account_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.service('screenChartModel', ['$filter','$rootScope', 'urlService', 'dataService', 'brandsModel',
-        'dashboardModel', 'constants', 'loginModel', 'RoleBasedService', 'advertiserModel', 'vistoconfig',
-        'subAccountService', function ($rootScope, $filter, urlService, dataService, brandsModel, dashboardModel, constants,
+    angularAMD.service('screenChartModel', ['$rootScope', '$filter', 'urlService', 'dataService', 'brandsModel',
+        'dashboardModel', 'constants', 'loginModel', 'RoleBasedService', 'advertiserModel', 'vistoconfig', 'featuresService',
+        function ($rootScope, $filter, urlService, dataService, brandsModel, dashboardModel, constants,
                                      loginModel, RoleBasedService, advertiserModel, vistoconfig, featuresService) {
             var screenWidgetData = {
                     selectedMetric: constants.SPEND,
