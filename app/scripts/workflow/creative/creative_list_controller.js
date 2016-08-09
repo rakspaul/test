@@ -21,14 +21,14 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         $scope.creativeListLoading = false;
                         $scope.creativesNotFound = false;
 
-                        if(response.length >0) {
+                        if (response.length > 0) {
                             if (!$scope.creativeData.creatives || $scope.creativeData.creatives.length === 0) {
                                 $scope.creativeData.creatives = result.data.data;
                             } else {
                                 $scope.creativeData.creatives = $scope.creativeData.creatives.concat(response);
                             }
                         } else {
-                            if($scope.creativeData.creatives.length >0) {
+                            if ($scope.creativeData.creatives.length > 0) {
                                 $scope.creativeLastPage = true;
                             } else {
                                 $scope.creativesNotFound = true;
@@ -48,8 +48,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         .getCreativeAds(creativeId)
                         .then(function (result) {
                             if (result.status === 'OK' || result.status === 'success') {
-                                $scope.creativeAds.creativeAdData[index]=result.data.data;
-
+                                $scope.creativeAds.creativeAdData[index] = result.data.data;
                             } else {
                                 creativeList.errorHandler();
                             }
@@ -68,10 +67,10 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         });
                 },
 
-                onScrollFetchCreatives :  function (){
-                    if ($(window).scrollTop() + $(window).height() === $(document).height() &&
-                        !isSearch && !$scope.creativeLastPage) {
+                onScrollFetchCreatives :  function () {
+                    if ($(window).scrollTop() + $(window).height() === $(document).height() && !isSearch && !$scope.creativeLastPage) {
                         creativeParams.pageNo = $scope.pageNo + 1;
+
                         if (window.location.href.indexOf('creative/list') > -1) {
                             creativeList.getCreativesList(creativeParams);
                         }
@@ -169,7 +168,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     $scope.checkedCreativeArr.splice(Number(creativeAlreadySelected),1);
                 }
             } else {
-                $scope.checkedCreativeArr=[];
+                $scope.checkedCreativeArr = [];
 
                 for (i in $scope.creativeData.creatives) {
                     if ($scope.creativeData.creatives[i].pushedCount <= 0) {
@@ -187,9 +186,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             creativeList.deleteCreatives(creativeParams.clientId, postDataObj);
         };
 
-        $scope.cancelDelete=function () {
+        $scope.cancelDelete = function () {
             if ($scope.checkedCreativeArr.length > 0) {
-                $scope.deletePopup=!$scope.deletePopup;
+                $scope.deletePopup = !$scope.deletePopup;
             }
         };
 
@@ -238,7 +237,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         });
 
         $scope.changeSubAccount =  function(account) {
-            var url = '/a/' + $routeParams.accountId+'/sa/'+ account.id +'/creative/list';
+            var url = '/a/' + $routeParams.accountId+'/sa/' + account.id + '/creative/list';
             $location.url(url);
         };
 
@@ -255,19 +254,13 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $scope.updateForceSaveData = putCrDataObj;
 
             workflowService
-                .updateCreative(
-                    $scope.selectedCreativeData.clientId,
-                    $scope.selectedCreativeData.advertiserId,
-                    $scope.selectedCreativeData.id,
-                    putCrDataObj
-               )
+                .updateCreative($scope.selectedCreativeData.clientId, $scope.selectedCreativeData.advertiserId, $scope.selectedCreativeData.id, putCrDataObj)
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.selectedCreativeData.updatedAt = result.data.data.updatedAt;
                         $scope.creativeData.creatives[$scope.selectedCreativePos] = result.data.data;
                         $scope.showViewTagPopup = false;
-                    } else if (result.data.data.message ===
-                        'Creative with this tag already exists. If you still want to save, use force save') {
+                    } else if (result.data.data.message === 'Creative with this tag already exists. If you still want to save, use force save') {
                         $scope.showDuplicateTagPopup = true;
                         $scope.IncorrectTag = false;
                     }
@@ -360,11 +353,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
             console.log('isLeafNode', isLeafNode);
 
-            if(!isLeafNode) {
+            if (!isLeafNode) {
                 url += '/sa/' + creativeParams.clientId;
             }
 
-            url += '/creative/'+ obj.id + '/edit';
+            url += '/creative/' + obj.id + '/edit';
 
             console.log('url', url);
 
@@ -372,7 +365,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
 
-        $scope.getPreviewUrl = function(creativeData) {
+        $scope.getPreviewUrl = function (creativeData) {
 
             var previewUrl,
                 isLeafNode;
@@ -385,14 +378,14 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 previewUrl += '/sa/' + $routeParams.subAccountId;
             }
 
-            previewUrl +=  '/adv/'+ creativeData.advertiserId;
+            previewUrl +=  '/adv/' + creativeData.advertiserId;
 
             if($scope.adId) {
-                previewUrl += '/campaignId/'+ $scope.campaignId +'/adId/'+ $scope.adId +
-                    '/creative/'+ creativeData.id +'/preview';
+                previewUrl += '/campaignId/'+ $scope.campaignId + '/adId/' + $scope.adId + '/creative/' + creativeData.id + '/preview';
             } else {
                 previewUrl +=  '/creative/' + creativeData.id +'/preview';
             }
+
             window.open(previewUrl);
         };
 
@@ -442,11 +435,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
         $scope.saveDuplicate = function () {
             workflowService
-                .forceSaveCreatives(
-                    $scope.selectedCreativeData.clientId,
-                    $scope.selectedCreativeData.advertiserId,
-                    $scope.updateForceSaveData
-               )
+                .forceSaveCreatives($scope.selectedCreativeData.clientId, $scope.selectedCreativeData.advertiserId, $scope.updateForceSaveData)
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.showDuplicateTagPopup = false;
