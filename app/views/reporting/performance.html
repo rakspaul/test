@@ -646,9 +646,9 @@
 <script type="text/ng-template" id="CreativesTpl">
     <div class="each_col sec_col"
          title="{{creativesData.dimension}}"
-         data-ng-bind="creativesData.dimension | formatUrl : 15">
+         data-ng-bind="creativesData.dimension | formatUrl : 12">
     </div>
-    <div class="each_col third_col {{creativesData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
+    <div class="each_col third_col imps-col {{creativesData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
          data-ng-bind="((creativesData.impressions > 0) || (creativesData.impressions === 0)) ?
             (creativesData.impressions | number : 0) : '-'">
     </div>
