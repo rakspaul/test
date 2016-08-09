@@ -1394,12 +1394,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
             getSubAccountTimeZone = function() {
                 return subAccountTimezone;
-            },
-
-            getVistoUserManual =  function() {
-                var clientId = loginModel.getMasterClient().id,
-                    url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/userguide/download';
-                return dataService.downloadFile(url);
             };
 
         return {
@@ -1530,8 +1524,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 getLineItemBulkData: getLineItemBulkData,
                 wrapperForActiveAdGroups: wrapperForActiveAdGroups,
                 setSubAccountTimeZone : setSubAccountTimeZone,
-                getSubAccountTimeZone : getSubAccountTimeZone,
-                getVistoUserManual : getVistoUserManual
+                getSubAccountTimeZone : getSubAccountTimeZone
             };
     });
 });

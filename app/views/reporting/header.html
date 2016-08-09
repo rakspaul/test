@@ -7,7 +7,6 @@
         <a href="/dashboard" class="main_logo" id="logo" style="cursor:pointer;">
             <img ng-src="/images/visto_logos/Visto_Logo_hi-res.svg" alt="" height="32"/>
         </a>
-
         <!--Mobile Menu-->
         <div class="mobileNavWrap">
             <div class="mobileNav">
@@ -53,6 +52,7 @@
                    ng-bind="textConstants.INVOICE_TOOL"></a>
                 <div class="arrowSelect"></div>
             </div>
+
             <!--Vendor DD-->
            <!--  <div class="pull-left each_nav_link" id="vendors_nav_link" >
                 <a href="javascript:void(0);" reporttitle="vendorsList"
@@ -65,12 +65,12 @@
             <span class="user-photo pull-right"><span class="icon-avatar-round"></span></span>
             <span class="pull-right account-name-nav" ng-bind="defaultAccountsName"></span>
         </div>
-        
+
         <div class="pull-right help-link-tab" ng-mouseover="show_hide_nav_dropdown($event,'help');">
             <a class="pull-right">
                 <span class="icon-help"></span>
             </a>
-            
+
             <div class="main_nav_dropdown" id="help-menu" ng-mouseleave="hide_navigation_dropdown($event)" ng-mouseover="hoverHelp()">
                 <div class="clearfix nav-menu">
                     <div class="pull-right profile-data">
@@ -99,7 +99,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="main_nav_dropdown" id="user-menu" ng-mouseleave="hide_navigation_dropdown($event)">
             <div class="clearfix nav-menu">
                 <div class="pull-right profile-data" id="profileAccountData">
@@ -114,7 +114,7 @@
                                 <!--<span class="pull-left dd_txt" ng-bind="defaultAccountsName"></span>-->
                                 <!--<span ng-show="multipleClient" class="pull-right icon-arrow-solid-down"></span>-->
                             </span>
-                            
+
                             <div class="col-md-12 zeroPadding" style="border-top: 1px solid #e1edf9;">
                                 <span class="pull-left dropMenuHeaderTxt" style="margin: 15px 0;">ACCOUNTS</span>
                             </div>
@@ -133,7 +133,32 @@
                 </div>
             </div>
         </div>
-        
+
+        <!--<div class="common-popup-container" ng-show="showFiles">-->
+            <!--<div class="popup">-->
+                <!--<span class="close unselectable" aria-hidden="true" ng-click="showFiles = false" >x</span>-->
+                <!--<object data="{{content}}" type="application/pdf"  style="width:600px;height:600px;"></object>-->
+
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="popContainerHolder" ng-show="showFiles" >
+            <div class="popContainer popup-holder" style="width: 700px;">
+                <div class="modal-content">
+                    <div class="clearfix modal-header">
+                        <span class="icon-close close unselectable"
+                              aria-hidden="true"
+                              data-ng-click="showFiles = false">
+                        </span>
+                    </div>
+                    <div class="modal-body">
+                        <object data="{{content}}" type="application/pdf" style="width: 100%; height: 600px;">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 

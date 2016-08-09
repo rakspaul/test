@@ -1,13 +1,13 @@
 define(['angularAMD', 'common/services/constants_service', 'login/login_model',
     'reporting/models/domain_reports', 'reporting/campaignSelect/campaign_select_model',
     'common/services/role_based_service', 'workflow/services/workflow_service', 'common/services/features_service',
-    'reporting/subAccount/sub_account_service'], function (angularAMD) {
+    'reporting/subAccount/sub_account_service','common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location, $modal,
                                                         constants, loginModel, domainReports, campaignSelectModel,
                                                         RoleBasedService, workflowService, featuresService,
-                                                        subAccountModel, localStorageService) {
+                                                        subAccountModel, localStorageService,$http, $sce, vistoconfig) {
 
         var featurePermission = function () {
                 $scope.fparams = featuresService.getFeatureParams();
@@ -535,16 +535,19 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 });
             };
 
-
+            $scope.showFiles = false;
+            
             $scope.openHelp = function() {
-                workflowService.getVistoUserManual()
-                    .then(function (res) {
-                        if (res.status === 'OK' || res.status === 'success') {
-                            saveAs(res.file, res.fileName);
-                        }
-                    },function (err) {
-                        console.log('Error = ', err);
-                    });
+                var clientId = loginModel.getMasterClient().id;
+                var url  = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/userguide/download';
+                $http.get('http://ampqaapp001.ewr004.collective-media.net:9000/api/reporting/v3/clients/' + clientId + '/userguide/download', {responseType:'arraybuffer'})
+                    .success(function (response) {
+                        var file = new Blob([response], {type: 'application/pdf'});
+                        var fileURL = URL.createObjectURL(file);
+                        $scope.content = $sce.trustAsResourceUrl(fileURL);
+                        $scope.showFiles = true;
+                });
+
             };
         });
     });
