@@ -1,10 +1,8 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/constants_service',
-    'common/services/data_service', 'login/login_model', 'common/services/request_cancel_service',
-    'common/moment_utils'], function (angularAMD) {
+define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/constants_service', 'common/services/data_service', 'login/login_model',
+    'common/services/request_cancel_service', 'common/moment_utils'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('workflowService', function ($rootScope, vistoconfig, constants, dataService, loginModel,
-                                                        requestCanceller, momentService, $location) {
+    angularAMD.factory('workflowService', function ($rootScope, vistoconfig, constants, dataService, loginModel, requestCanceller, momentService, $location) {
         var mode,
             adDetails,
             newCreative,
@@ -36,7 +34,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 integrationObj.iconUrl = platform.iconURL;
                 integrationObj.customInputJson = platform.vendorExecutionPlatform.customInputJson;
                 integrationObj.executionVendorType = platform.vendorExecutionPlatform.executionVendorType;
-                integrationObj.active = true; // TODO hardcoded true for now...
+
+                // TODO hardcoded true for now...
+                integrationObj.active = true;
+
                 integrationObj.summary = platform.description;
                 integrationObj.vendorCapabilities = platform.vendorCapabilities;
                 integrationObj.seats = platform.seats;
@@ -101,9 +102,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getAdvertisers = function (clientId, accessLevel) {
-                var isDashboardSubAccount = $location.path().endsWith('/dashboard');
-                var isBillingInvoice = $location.path().endsWith('/invoices');
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
+                var isDashboardSubAccount = $location.path().endsWith('/dashboard'),
+                    isBillingInvoice = $location.path().endsWith('/invoices'),
+                    url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
+
                 if (accessLevel && !isDashboardSubAccount && !isBillingInvoice) {
                     url = url + '?access_level=' + accessLevel;
                 } else if (isDashboardSubAccount || isBillingInvoice) {
@@ -114,8 +116,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getBrands =  function (clientId, advertiserId, accessLevel) {
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
-                    '/advertisers/' + advertiserId + '/brands';
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + clientId +
+                    '/advertisers/' + advertiserId +
+                    '/brands';
+
                 if (accessLevel) {
                     url += '?access_level=' + accessLevel;
                 }
@@ -194,8 +199,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             updateCampaign = function (clientId, data) {
-
                 var campaignId = data.campaignId;
+
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId,
                     data,
@@ -204,8 +209,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getCampaignData = function (clientId, campaignId) {
-
-
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/campaigns/' + campaignId;
@@ -214,7 +217,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getPlatforms = function (clientId, advertiserId, cacheObj) {
-
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
@@ -448,7 +450,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
-                        '/advertisers/' + data.advertiserId + '/creatives',
+                        '/advertisers/' + data.advertiserId +
+                        '/creatives',
                     data, {
                         'Content-Type': 'application/json'
                     }
@@ -515,7 +518,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             validateCreative = function(o){
                 return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + o.clientId +
-                        '/advertisers/' + o.advertiserId + '/creatives/validate',
+                        '/advertisers/' + o.advertiserId +
+                        '/creatives/validate',
                     o.data,
                     {'Content-Type': 'application/json'}
                 );
@@ -623,14 +627,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getCreativesforCreativeList = function (params) {
-
                 var queryStr,
                     creativeFormats,
                     url,
-                    advertiserString = '',
+                    advertiserString,
                     pageSize,
                     pageNo;
-
 
                 queryStr = params.query ? ('query=' + params.query) : '';
                 creativeFormats = params.formats ? ('creativeFormat=' + params.formats) : '';
@@ -674,8 +676,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             createAdvertisersDomainList = function (clientId, advertiserId, domainId) {
                 var domainIdstr = domainId ? '/' + domainId : '';
 
-                // clientId = vistoconfig.getMasterClientId();
-
                 return vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
@@ -684,11 +684,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
             getPlatformCustomInputs = function (clientId, platformId) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' + platformId;
+
                 return dataService.fetch(url);
             },
 
             getLineItem = function (clientId, campaignId, isFromMediaPlan) {
-
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/campaigns/' + campaignId +
@@ -823,13 +823,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     url += '&ad_group=' + data.ad_group;
                 }
 
-                return dataService.post(
-                    url,
-
-                    data, {
-                        'Content-Type': 'application/json'
-                    }
-                );
+                return dataService.post(url, data, {'Content-Type': 'application/json'});
             },
 
             platformResponseModifier = function (resp) {
@@ -849,11 +843,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     }
                 }
 
-                platforms.fullIntegrationsPlatforms =
-                    _.sortBy(platforms.fullIntegrationsPlatforms, 'displayName');
-
-                platforms.trackingPlatforms =
-                    _.sortBy(platforms.trackingPlatforms, 'displayName');
+                platforms.fullIntegrationsPlatforms = _.sortBy(platforms.fullIntegrationsPlatforms, 'displayName');
+                platforms.trackingPlatforms = _.sortBy(platforms.trackingPlatforms, 'displayName');
 
                 return platforms;
             },
@@ -906,10 +897,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                             config.vendorName = data[j].vendorName;
                             config.configName = data[j].name;
                             config.adFormat = data[j].clientVendorOfferings[i].name;
-
-                            config.rate = 'Media Cost + ' + data[j].clientVendorOfferings[i].rateValue + ' ' +
-                                data[j].clientVendorOfferings[i].rateType.name;
-
+                            config.rate = 'Media Cost + ' + data[j].clientVendorOfferings[i].rateValue + ' ' + data[j].clientVendorOfferings[i].rateType.name;
                             config.category = data[j].clientVendorOfferings[i].costCategory.name;
                             processedData.configs.push(config);
                         }
@@ -932,9 +920,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         rateTypeObj = _.pluck(obj.clientVendorOfferings, 'rateType');
                         costAttrbs.rateTypeId = _.pluck(rateTypeObj, 'id')[0];
 
-                        costAttrbs.clientVendorConfigurationId =
-                            _.pluck(obj.clientVendorOfferings,
-                                'clientVendorConfigurationId')[0];
+                        costAttrbs.clientVendorConfigurationId = _.pluck(obj.clientVendorOfferings, 'clientVendorConfigurationId')[0];
 
                         costAttrbs.vendor.push({
                             id: obj.vendorId,
@@ -1245,8 +1231,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             wrapperForActiveAdGroups = function(groupList) {
                 // this wrapper is written because when the ad group api is called with ACTIVE parameter
                 // response structure is different from normal API
-                var obj = {};
-                obj.ad_groups = [];
+                var obj = {
+                    ad_groups: []
+                };
 
                 _.each(groupList,function(group,key) {
                     obj.ad_groups[key] = {};
@@ -1254,8 +1241,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 });
 
                 return obj;
-
             },
+
             setAccountTimeZone = function(timezone) {
                 accountTimezone = timezone;
             },
@@ -1264,134 +1251,133 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return accountTimezone;
             };
 
-
         return {
-                fetchCampaigns: fetchCampaigns,
-                getClientData: getClientData,
-                getSubAccounts: getSubAccounts,
-                getDashboardSubAccount: getDashboardSubAccount,
-                getClients: getClients,
-                getAdvertisers: getAdvertisers,
-                getBrands: getBrands,
-                getPixels: getPixels,
-                getRatesTypes: getRatesTypes,
-                getBillingTypeValue: getBillingTypeValue,
-                saveCampaign: saveCampaign,
-                updateCampaign: updateCampaign,
-                getCampaignData: getCampaignData,
-                getPlatforms: getPlatforms,
-                getAdsForCampaign: getAdsForCampaign,
-                getAdgroups: getAdgroups,
-                createAdGroups: createAdGroups,
-                editAdGroups: editAdGroups,
-                getAdsInAdGroup: getAdsInAdGroup,
-                createAd: createAd,
-                updateAd: updateAd,
-                deleteAd: deleteAd,
-                pauseAd: pauseAd,
-                resumeAd: resumeAd,
-                deleteCampaign: deleteCampaign,
-                cloneCampaign: cloneCampaign,
-                checkforUniqueMediaPlan: checkforUniqueMediaPlan,
-                getAd: getAd,
-                getDetailedAdsInAdGroup: getDetailedAdsInAdGroup,
-                pushCampaign: pushCampaign,
-                getVendorsAdServer: getVendorsAdServer,
-                getAdServers: getAdServers,
-                getTemplates: getTemplates,
-                getCreativeSizes: getCreativeSizes,
-                saveCreatives: saveCreatives,
-                getCreativeData: getCreativeData,
-                getCreativePreViewData: getCreativePreViewData,
-                forceSaveCreatives: forceSaveCreatives,
-                getCreatives: getCreatives,
-                validateCreative: validateCreative,
-                deleteCreatives: deleteCreatives,
-                getCreativeAds: getCreativeAds,
-                updateCreative: updateCreative,
-                downloadCreativeTemplate: downloadCreativeTemplate,
-                downloadCreativeErrors: downloadCreativeErrors,
-                uploadBulkCreativeUrl: uploadBulkCreativeUrl,
-                getCountries: getCountries,
-                getRegions: getRegions,
-                getCities: getCities,
-                getCreativesforCreativeList: getCreativesforCreativeList,
-                getDMAs: getDMAs,
-                getAdvertisersDomainList: getAdvertisersDomainList,
-                createAdvertisersDomainList: createAdvertisersDomainList,
-                getPlatformCustomInputs: getPlatformCustomInputs,
-                getLineItem: getLineItem,
-                createLineItems: createLineItems,
-                updateLineItems: updateLineItems,
-                getVideoTargetsType: getVideoTargetsType,
-                getObjectives: getObjectives,
-                getVendors: getVendors,
-                getVendorConfigs: getVendorConfigs,
-                getCostAttr: getCostAttr,
-                getSystemOfRecord: getSystemOfRecord,
-                getBillingTypeAndValue: getBillingTypeAndValue,
-                getVendorForSelectedCostCategory: getVendorForSelectedCostCategory,
-                getAllCampaignsForAdClone: getAllCampaignsForAdClone,
-                cloneAd: cloneAd,
-                platformResponseModifier: platformResponseModifier,
-                platformCreateObj: platformCreateObj,
-                recreateLabels: recreateLabels,
-                processVendorConfig: processVendorConfig,
-                processCostAttr: processCostAttr,
-                processLineItemsObj: processLineItemsObj,
-                deleteLineItem: deleteLineItem,
-                addCommaToNumber: addCommaToNumber,
-                getPublisher: getPublisher,
-                getUnitSize: getUnitSize,
-                getPlacement: getPlacement,
-                validateZipCodes: validateZipCodes,
-                segrigateInventory: segrigateInventory,
-                setModuleInfo: setModuleInfo,
-                getModuleInfo: getModuleInfo,
-                clearModuleInfo: clearModuleInfo,
-                setMode: setMode,
-                getMode: getMode,
-                setIsAdGroup: setIsAdGroup,
-                getIsAdGroup: getIsAdGroup,
-                setUnallocatedAmount: setUnallocatedAmount,
-                getUnallocatedAmount: getUnallocatedAmount,
-                setAdsDetails: setAdsDetails,
-                getAdsDetails: getAdsDetails,
-                setNewCreative: setNewCreative,
-                getNewCreative: getNewCreative,
-                setPlatform: setPlatform,
-                setPlatformSeat: setPlatformSeat,
-                setVendorExecutionType: setVendorExecutionType,
-                getVendorExecutionType: getVendorExecutionType,
-                getPlatform: getPlatform,
-                getSeat: getSeat,
-                setSavedGeo: setSavedGeo,
-                resetSavedGeo: resetSavedGeo,
-                getSavedGeo: getSavedGeo,
-                setDeleteModule: setDeleteModule,
-                getDeleteModule: getDeleteModule,
-                resetDeleteModule: resetDeleteModule,
-                setCreativeEditData: setCreativeEditData,
-                getCreativeEditData: getCreativeEditData,
-                setCreativeEditMode: setCreativeEditMode,
-                getCreativeEditMode: getCreativeEditMode,
-                setRateTypes: setRateTypes,
-                getRateTypes: getRateTypes,
-                setAdvertiserTypeValue: setAdvertiserTypeValue,
-                getAdvertiserTypeValue: getAdvertiserTypeValue,
-                setSelectedAdvertiser: setSelectedAdvertiser,
-                getSelectedAdvertiser: getSelectedAdvertiser,
-                setMediaPlanClone: setMediaPlanClone,
-                getMediaPlanClone: getMediaPlanClone,
-                setLineItemData: setLineItemData,
-                getLineItemData: getLineItemData,
-                setLineItemDataEdit: setLineItemDataEdit,
-                getLineItemDataEdit: getLineItemDataEdit,
-                setLineItemBulkData: setLineItemBulkData,
-                getLineItemBulkData: getLineItemBulkData,
-                wrapperForActiveAdGroups: wrapperForActiveAdGroups,
-                setAccountTimeZone : setAccountTimeZone,
-                getAccountTimeZone : getAccountTimeZone
-            };
+            fetchCampaigns: fetchCampaigns,
+            getClientData: getClientData,
+            getSubAccounts: getSubAccounts,
+            getDashboardSubAccount: getDashboardSubAccount,
+            getClients: getClients,
+            getAdvertisers: getAdvertisers,
+            getBrands: getBrands,
+            getPixels: getPixels,
+            getRatesTypes: getRatesTypes,
+            getBillingTypeValue: getBillingTypeValue,
+            saveCampaign: saveCampaign,
+            updateCampaign: updateCampaign,
+            getCampaignData: getCampaignData,
+            getPlatforms: getPlatforms,
+            getAdsForCampaign: getAdsForCampaign,
+            getAdgroups: getAdgroups,
+            createAdGroups: createAdGroups,
+            editAdGroups: editAdGroups,
+            getAdsInAdGroup: getAdsInAdGroup,
+            createAd: createAd,
+            updateAd: updateAd,
+            deleteAd: deleteAd,
+            pauseAd: pauseAd,
+            resumeAd: resumeAd,
+            deleteCampaign: deleteCampaign,
+            cloneCampaign: cloneCampaign,
+            checkforUniqueMediaPlan: checkforUniqueMediaPlan,
+            getAd: getAd,
+            getDetailedAdsInAdGroup: getDetailedAdsInAdGroup,
+            pushCampaign: pushCampaign,
+            getVendorsAdServer: getVendorsAdServer,
+            getAdServers: getAdServers,
+            getTemplates: getTemplates,
+            getCreativeSizes: getCreativeSizes,
+            saveCreatives: saveCreatives,
+            getCreativeData: getCreativeData,
+            getCreativePreViewData: getCreativePreViewData,
+            forceSaveCreatives: forceSaveCreatives,
+            getCreatives: getCreatives,
+            validateCreative: validateCreative,
+            deleteCreatives: deleteCreatives,
+            getCreativeAds: getCreativeAds,
+            updateCreative: updateCreative,
+            downloadCreativeTemplate: downloadCreativeTemplate,
+            downloadCreativeErrors: downloadCreativeErrors,
+            uploadBulkCreativeUrl: uploadBulkCreativeUrl,
+            getCountries: getCountries,
+            getRegions: getRegions,
+            getCities: getCities,
+            getCreativesforCreativeList: getCreativesforCreativeList,
+            getDMAs: getDMAs,
+            getAdvertisersDomainList: getAdvertisersDomainList,
+            createAdvertisersDomainList: createAdvertisersDomainList,
+            getPlatformCustomInputs: getPlatformCustomInputs,
+            getLineItem: getLineItem,
+            createLineItems: createLineItems,
+            updateLineItems: updateLineItems,
+            getVideoTargetsType: getVideoTargetsType,
+            getObjectives: getObjectives,
+            getVendors: getVendors,
+            getVendorConfigs: getVendorConfigs,
+            getCostAttr: getCostAttr,
+            getSystemOfRecord: getSystemOfRecord,
+            getBillingTypeAndValue: getBillingTypeAndValue,
+            getVendorForSelectedCostCategory: getVendorForSelectedCostCategory,
+            getAllCampaignsForAdClone: getAllCampaignsForAdClone,
+            cloneAd: cloneAd,
+            platformResponseModifier: platformResponseModifier,
+            platformCreateObj: platformCreateObj,
+            recreateLabels: recreateLabels,
+            processVendorConfig: processVendorConfig,
+            processCostAttr: processCostAttr,
+            processLineItemsObj: processLineItemsObj,
+            deleteLineItem: deleteLineItem,
+            addCommaToNumber: addCommaToNumber,
+            getPublisher: getPublisher,
+            getUnitSize: getUnitSize,
+            getPlacement: getPlacement,
+            validateZipCodes: validateZipCodes,
+            segrigateInventory: segrigateInventory,
+            setModuleInfo: setModuleInfo,
+            getModuleInfo: getModuleInfo,
+            clearModuleInfo: clearModuleInfo,
+            setMode: setMode,
+            getMode: getMode,
+            setIsAdGroup: setIsAdGroup,
+            getIsAdGroup: getIsAdGroup,
+            setUnallocatedAmount: setUnallocatedAmount,
+            getUnallocatedAmount: getUnallocatedAmount,
+            setAdsDetails: setAdsDetails,
+            getAdsDetails: getAdsDetails,
+            setNewCreative: setNewCreative,
+            getNewCreative: getNewCreative,
+            setPlatform: setPlatform,
+            setPlatformSeat: setPlatformSeat,
+            setVendorExecutionType: setVendorExecutionType,
+            getVendorExecutionType: getVendorExecutionType,
+            getPlatform: getPlatform,
+            getSeat: getSeat,
+            setSavedGeo: setSavedGeo,
+            resetSavedGeo: resetSavedGeo,
+            getSavedGeo: getSavedGeo,
+            setDeleteModule: setDeleteModule,
+            getDeleteModule: getDeleteModule,
+            resetDeleteModule: resetDeleteModule,
+            setCreativeEditData: setCreativeEditData,
+            getCreativeEditData: getCreativeEditData,
+            setCreativeEditMode: setCreativeEditMode,
+            getCreativeEditMode: getCreativeEditMode,
+            setRateTypes: setRateTypes,
+            getRateTypes: getRateTypes,
+            setAdvertiserTypeValue: setAdvertiserTypeValue,
+            getAdvertiserTypeValue: getAdvertiserTypeValue,
+            setSelectedAdvertiser: setSelectedAdvertiser,
+            getSelectedAdvertiser: getSelectedAdvertiser,
+            setMediaPlanClone: setMediaPlanClone,
+            getMediaPlanClone: getMediaPlanClone,
+            setLineItemData: setLineItemData,
+            getLineItemData: getLineItemData,
+            setLineItemDataEdit: setLineItemDataEdit,
+            getLineItemDataEdit: getLineItemDataEdit,
+            setLineItemBulkData: setLineItemBulkData,
+            getLineItemBulkData: getLineItemBulkData,
+            wrapperForActiveAdGroups: wrapperForActiveAdGroups,
+            setAccountTimeZone : setAccountTimeZone,
+            getAccountTimeZone : getAccountTimeZone
+        };
     });
 });

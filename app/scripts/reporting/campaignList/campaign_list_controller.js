@@ -1,19 +1,14 @@
-define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaignList/campaign_list_model',
-    'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_service',
-    'common/utils', 'common/services/constants_service', 'common/services/vistoconfig_service',
-    'reporting/brands/brands_model', 'login/login_model', 'reporting/models/gauge_model',
-    'common/services/role_based_service', 'common/services/url_builder',
-    'reporting/campaignList/campaign_list_filter_directive', 'reporting/directives/campaign_cost_sort',
-    'reporting/directives/campaign_sort',
-    'reporting/directives/campaign_card', 'reporting/directives/campaign_list_sort',
-    'reporting/common/d3/quartiles_graph', 'reporting/common/d3/campaign_chart',
+define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaignList/campaign_list_model', 'reporting/campaignSelect/campaign_select_model',
+    'reporting/strategySelect/strategy_select_service', 'common/utils', 'common/services/constants_service', 'common/services/vistoconfig_service',
+    'reporting/brands/brands_model', 'login/login_model', 'reporting/models/gauge_model', 'common/services/role_based_service', 'common/services/url_builder',
+    'reporting/campaignList/campaign_list_filter_directive', 'reporting/directives/campaign_cost_sort', 'reporting/directives/campaign_sort',
+    'reporting/directives/campaign_card', 'reporting/directives/campaign_list_sort', 'reporting/common/d3/quartiles_graph', 'reporting/common/d3/campaign_chart',
     'reporting/directives/campaign_cost_card'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('CampaignListController',
-        function ($scope, $rootScope, $routeParams, $location, kpiSelectModel, campaignListModel, campaignSelectModel,
-                  strategySelectModel, utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel,
-                  RoleBasedService, urlBuilder, featuresService) {
+        function ($scope, $rootScope, $routeParams, $location, kpiSelectModel, campaignListModel, campaignSelectModel, strategySelectModel, utils, constants, vistoconfig,
+                  brandsModel, loginModel, gaugeModel, RoleBasedService, urlBuilder, featuresService) {
             var fParams = featuresService.getFeatureParams(),
                 forceLoadCampaignsFilter,
 
@@ -101,9 +96,11 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
             $scope.viewReports = function (campaign) {
                 var url = '/a/' + $routeParams.accountId;
+
                 if ($routeParams.subAccountId) {
                     url += '/sa/' + $routeParams.subAccountId;
                 }
+
                 url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
                 url += '/mediaplans/' + campaign.id + '/overview';
                 $location.url(url);
@@ -177,16 +174,16 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 // Don't attempt to scroll if:
                 // - there's no data, or
                 // - last page is already loaded.
-                if ($scope.campaigns.dashboard.quickFilterSelectedCount <= 5 ||
-                    (($scope.campaigns.performanceParams.nextPage - 1) * 5 >=
+                if ($scope.campaigns.dashboard.quickFilterSelectedCount <= 5 || (($scope.campaigns.performanceParams.nextPage - 1) * 5 >=
                     $scope.campaigns.dashboard.quickFilterSelectedCount)) {
                     $scope.campaigns.loadMoreCampaigns = false;
+
                     return;
                 }
 
-                if (!$scope.campaigns.busy && ($(window).scrollTop() +
-                    $(window).height() > $(document).height() - 100)) {
+                if (!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() > $(document).height() - 100)) {
                     $scope.campaigns.loadMoreCampaigns = true;
+
                     if ($scope.campaigns.searchTerm) {
                         $scope.campaigns.fetchData($scope.campaigns.searchTerm);
                     } else {

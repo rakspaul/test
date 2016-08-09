@@ -1,46 +1,45 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
-    'common/moment_utils', 'login/login_model', 'common/services/vistoconfig_service',
-    'common/services/account_service', 'reporting/advertiser/advertiser_model',
-    'workflow/creative/creative_bulk_controller', 'workflow/directives/filter_directive'], function (angularAMD) {
+define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service', 'common/moment_utils', 'login/login_model',
+    'common/services/vistoconfig_service', 'common/services/account_service', 'reporting/advertiser/advertiser_model', 'workflow/creative/creative_bulk_controller',
+    'workflow/directives/filter_directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CreativeListController', function ($scope, $rootScope, $routeParams, $route, $location,
-                                                             $window, constants, domainReports, workflowService,
-                                                             momentService, loginModel, vistoconfig,accountService, urlBuilder) {
+    angularAMD.controller('CreativeListController', function ($scope, $rootScope, $routeParams, $route, $location, $window, constants, domainReports, workflowService,
+                                                              momentService, loginModel, vistoconfig,accountService, urlBuilder) {
         var creativeDataArr,
             winHeight = $(window).height(),
             isSearch = false,
             creativeParams,
+
             creativeList = {
                 getCreativesList: function (params) {
                     workflowService
                         .getCreativesforCreativeList(params)
                         .then(function (result) {
-                         var response = result.data.data;
+                             var response = result.data.data;
 
-                        $scope.creativeListLoading = false;
-                        $scope.creativesNotFound = false;
+                            $scope.creativeListLoading = false;
+                            $scope.creativesNotFound = false;
 
-                        if (response.length > 0) {
-                            if (!$scope.creativeData.creatives || $scope.creativeData.creatives.length === 0) {
-                                $scope.creativeData.creatives = result.data.data;
+                            if (response.length > 0) {
+                                if (!$scope.creativeData.creatives || $scope.creativeData.creatives.length === 0) {
+                                    $scope.creativeData.creatives = result.data.data;
+                                } else {
+                                    $scope.creativeData.creatives = $scope.creativeData.creatives.concat(response);
+                                }
                             } else {
-                                $scope.creativeData.creatives = $scope.creativeData.creatives.concat(response);
+                                if ($scope.creativeData.creatives.length > 0) {
+                                    $scope.creativeLastPage = true;
+                                } else {
+                                    $scope.creativesNotFound = true;
+                                }
                             }
-                        } else {
-                            if ($scope.creativeData.creatives.length > 0) {
-                                $scope.creativeLastPage = true;
-                            } else {
-                                $scope.creativesNotFound = true;
-                            }
-                        }
 
-                        creativeDataArr = $scope.creativeData.creatives;
-                        $scope.defineSize();
+                            creativeDataArr = $scope.creativeData.creatives;
+                            $scope.defineSize();
 
-                    }, function (error) {
-                        console.log('error = ', error);
-                    });
+                        }, function (error) {
+                            console.log('error = ', error);
+                        });
                 },
 
                 getCreativeAds : function (creativeId,index) {
@@ -119,7 +118,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             position: 'absolute',
             left: '50%',
             margin: '0 0 0 -15px',
-            'z-index' :'999'
+            'z-index': '999'
         });
 
         $scope.redirectAdEditPage=function (adData) {
@@ -238,6 +237,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
         $scope.changeSubAccount =  function(account) {
             var url = '/a/' + $routeParams.accountId+'/sa/' + account.id + '/creative/list';
+
             $location.url(url);
         };
 
@@ -327,12 +327,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
               workflowService
                   .downloadCreativeErrors($scope.errorRecordsFileName)
                   .then(function (response) {
-                  if (response.status === 'success') {
-                      saveAs(response.file, response.fileName);
-                  } else {
-                      $scope.downloadBusy = false;
-                  }
-              });
+                      if (response.status === 'success') {
+                          saveAs(response.file, response.fileName);
+                      } else {
+                          $scope.downloadBusy = false;
+                      }
+                  });
         };
 
         $scope.showRecordList = function () {
@@ -348,9 +348,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $scope.$parent.isAddCreativePopup = true;
 
             url = '/a/' + $routeParams.accountId;
-
             isLeafNode = accountService.getSelectedAccount().isLeafNode;
-
             console.log('isLeafNode', isLeafNode);
 
             if (!isLeafNode) {
@@ -358,9 +356,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }
 
             url += '/creative/' + obj.id + '/edit';
-
             console.log('url', url);
-
             $location.url(url);
         };
 
@@ -374,13 +370,13 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             previewUrl = '/a/' + $routeParams.accountId;
             isLeafNode = accountService.getSelectedAccount().isLeafNode;
 
-            if(!isLeafNode) {
+            if (!isLeafNode) {
                 previewUrl += '/sa/' + $routeParams.subAccountId;
             }
 
             previewUrl +=  '/adv/' + creativeData.advertiserId;
 
-            if($scope.adId) {
+            if ($scope.adId) {
                 previewUrl += '/campaignId/'+ $scope.campaignId + '/adId/' + $scope.adId + '/creative/' + creativeData.id + '/preview';
             } else {
                 previewUrl +=  '/creative/' + creativeData.id +'/preview';

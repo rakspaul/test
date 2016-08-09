@@ -1,15 +1,11 @@
-define(['angularAMD', 'reporting/campaignList/campaign_list_service',
-    'common/services/transformer_service', 'reporting/models/campaign_cdb_data', 'reporting/models/campaign_cost',
-    'common/services/request_cancel_service', 'common/services/constants_service', 'reporting/brands/brands_model',
-    'login/login_model', 'reporting/advertiser/advertiser_model', 'common/services/url_service',
-    'common/services/vistoconfig_service','../../common/services/data_service'], function (angularAMD) {
+define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/services/transformer_service', 'reporting/models/campaign_cdb_data',
+    'reporting/models/campaign_cost', 'common/services/request_cancel_service', 'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model',
+    'reporting/advertiser/advertiser_model', 'common/services/url_service', 'common/services/vistoconfig_service','../../common/services/data_service'], function (angularAMD) {
         // originally part of controllers/campaign_controller.js
-        angularAMD.factory('campaignListModel', ['$route','$rootScope', '$location', 'campaignListService',
-            'modelTransformer', 'campaignCDBData', 'campaignCost', 'requestCanceller', 'constants', 'brandsModel',
-            'loginModel', 'advertiserModel', 'urlService', 'vistoconfig', 'dataService', 'localStorageService',
-            function ($route,$rootScope, $location, campaignListService, modelTransformer, campaignCDBData,
-                      campaignCost, requestCanceller, constants, brandsModel, loginModel, advertiserModel, urlService,
-                      vistoconfig, dataService, localStorageService) {
+        angularAMD.factory('campaignListModel', ['$route','$rootScope', '$location', 'campaignListService', 'modelTransformer', 'campaignCDBData', 'campaignCost',
+            'requestCanceller', 'constants', 'brandsModel', 'loginModel', 'advertiserModel', 'urlService', 'vistoconfig', 'dataService', 'localStorageService',
+            function ($route,$rootScope, $location, campaignListService, modelTransformer, campaignCDBData, campaignCost, requestCanceller, constants, brandsModel, loginModel,
+                      advertiserModel, urlService, vistoconfig, dataService, localStorageService) {
                 var Campaigns = function () {
                     this.getCapitalizeString = function (string) {
                         return string[0].toUpperCase() + string.substring(1);
@@ -129,7 +125,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
                         this.campaignList = [];
                         this.timePeriod = 'life_time';
 
-                        if(!this.noData) {
+                        if (!this.noData) {
                             this.busy = true;
                         }
 
@@ -154,8 +150,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
 
                 Campaigns.prototype = function () {
                     var reloadGraphs = function () {
-                            campaignListService.loadGraphs(this.campaignList,
-                                timePeriodApiMapping(this.selectedTimePeriod.key));
+                            campaignListService.loadGraphs(this.campaignList, timePeriodApiMapping(this.selectedTimePeriod.key));
                         },
 
                         resetCostBreakdown = function () {
@@ -175,8 +170,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
                                 this.searchTerm = searchTerm;
                             }
 
-                            if (performanceTab.hasClass('active') === false &&
-                                $('#cost_tab').hasClass('active') === false) {
+                            if (performanceTab.hasClass('active') === false && $('#cost_tab').hasClass('active') === false) {
                                 performanceTab.addClass('active');
                             }
 
@@ -224,8 +218,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
                             // check scroller only inside container
                             findScrollerFromContainer.call(this);
 
-                            if ((!this.performanceParams.lastPage && (this.dashboard.filterTotal > 0) ||
-                                (this.scrollFlag > 0)) || this.searchTerm) {
+                            if ((!this.performanceParams.lastPage && (this.dashboard.filterTotal > 0) || (this.scrollFlag > 0)) || this.searchTerm) {
                                 // Resetting scrollFlag
                                 this.scrollFlag = 0;
 
@@ -270,8 +263,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
                                     self.performanceParams.nextPage += 1;
 
                                     if (data.length > 0) {
-                                        var campaignData = campaignListService.setActiveInactiveCampaigns(data,
-                                            timePeriodApiMapping(self.timePeriod));
+                                        var campaignData = campaignListService.setActiveInactiveCampaigns(data, timePeriodApiMapping(self.timePeriod));
 
                                         angular.forEach(campaignData, function (campaign) {
                                             var queryObj = {
@@ -295,8 +287,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
                                                     .then(function (response) {
                                                         self.busy = false;
 
-                                                        if(response.data && response.data.data &&
-                                                            response.data.data.length > 0) {
+                                                        if(response.data && response.data.data && response.data.data.length > 0) {
                                                             campaign.spend = response.data.data[0].gross_rev;
                                                         } else {
                                                             campaign.spend = 0;
@@ -307,19 +298,16 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
                                                             campaign.kpi_value = 0;
                                                         }
 
-                                                        campaignListService.getCdbLineChart(clientId,
-                                                            campaign, self.timePeriod,
-                                                            function (cdbData) {
-                                                                if (cdbData) {
-                                                                    self.cdbDataMap[campaign.orderId] = modelTransformer.transform(cdbData, campaignCDBData);
+                                                        campaignListService.getCdbLineChart(clientId, campaign, self.timePeriod, function (cdbData) {
+                                                            if (cdbData) {
+                                                                self.cdbDataMap[campaign.orderId] = modelTransformer.transform(cdbData, campaignCDBData);
 
-                                                                    self
-                                                                        .cdbDataMap[campaign.orderId]
-                                                                        .modified_vtc_metrics =
-                                                                            campaignListService.vtcMetricsJsonModifier(self.cdbDataMap[campaign.orderId].video_metrics);
-                                                                }
+                                                                self
+                                                                    .cdbDataMap[campaign.orderId]
+                                                                    .modified_vtc_metrics =
+                                                                        campaignListService.vtcMetricsJsonModifier(self.cdbDataMap[campaign.orderId].video_metrics);
                                                             }
-                                                        );
+                                                        });
                                                     }, function () {
                                                         self.busy = false;
                                                     });
@@ -348,9 +336,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
                         fetchCostBreakdown = function () {
                             findScrollerFromContainer.call(this);
 
-                            if (!this.CBdownParams.lastPage &&
-                                (this.dashboard.filterTotal > 0) &&
-                                (this.scrollFlag > 0)) {
+                            if (!this.CBdownParams.lastPage && (this.dashboard.filterTotal > 0) && (this.scrollFlag > 0)) {
                                 var self,
                                     url;
 
@@ -378,10 +364,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
                                     self.CBdownParams.nextPage += 1;
 
                                     if (data.length > 0) {
-                                        campaignData = campaignListService.setActiveInactiveCampaigns(
-                                            data,
-                                            timePeriodApiMapping(self.timePeriod)
-                                        );
+                                        campaignData = campaignListService.setActiveInactiveCampaigns(data, timePeriodApiMapping(self.timePeriod));
 
                                         angular.forEach(campaignData, function (campaign) {
                                             if (!hasCampaignId(this, campaign.id)) {
@@ -449,7 +432,8 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
                                 advertiserId = vistoconfig.getSelectAdvertiserId(),
                                 brandId = vistoconfig.getSelectedBrandId(),
 
-                                url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
+                                url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                                    '/clients/' + clientId +
                                     '/campaigns/summary/counts?date_filter=' + this.timePeriod +
                                     '&advertiser_id=' + advertiserId,
 
@@ -525,7 +509,8 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
                                 };
                             });
 
-                            campaignListService.getCampaignCostData(this.costIds,
+                            campaignListService.getCampaignCostData(
+                                this.costIds,
                                 moment(this.costDate.startDate).format('YYYY-MM-DD'),
                                 moment(this.costDate.endDate).format('YYYY-MM-DD'),
                                 advertiserId, brandId,
@@ -553,8 +538,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
                         dashboardFilter = function (type, state) {
                             requestCanceller.cancelLastRequest(constants.CAMPAIGN_LIST_CANCELLER);
 
-                            if ((state === 'endingSoon') ||
-                                (this.dashboard.status.active.endingSoon === constants.ACTIVE)) {
+                            if ((state === 'endingSoon') || (this.dashboard.status.active.endingSoon === constants.ACTIVE)) {
                                 this.sortParam = 'end_date';
                                 this.sortDirection = 'asc';
                             }
@@ -863,19 +847,16 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service',
 
                             if (this.appliedQuickFilter === constants.ARCHIVED_CONDITION) {
                                 params.push('cond_type=' + constants.ARCHIVED_CONDITION);
-                            } else if (this.appliedQuickFilter === constants.ACTIVE_ONTRACK ||
-                                this.appliedQuickFilter === constants.ACTIVE_UNDERPERFORMING) {
+                            } else if (this.appliedQuickFilter === constants.ACTIVE_ONTRACK || this.appliedQuickFilter === constants.ACTIVE_UNDERPERFORMING) {
                                 params.push('cond_type=kpi_status');
                             } else {
                                 params.push('cond_type=status');
                             }
 
                             if (this.searchTerm) {
-                                return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                                    '/search/campaigns?' + params.join('&');
+                                return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/search/campaigns?' + params.join('&');
                             } else {
-                                return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                                    '/reportBuilder/customQuery?query_id=42&' + params.join('&');
+                                return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?query_id=42&' + params.join('&');
                             }
                         },
 
