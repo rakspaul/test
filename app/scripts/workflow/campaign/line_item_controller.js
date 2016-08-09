@@ -353,10 +353,12 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
         $scope.CONST_COGS_PERCENT = 'COGS+ %';
         $scope.CONST_FLAT_FEE = 'Flat Fee';
+        $scope.volumeType = ['Impressions','Clicks','Actions'];
         $scope.pixelSelected = {};
         $scope.pixelSelected.name = 'Select from list';
         $scope.systemOfRecordSelected = {};
         $scope.systemOfRecordSelected.name = 'Select from list';
+        $scope.selectedVolumeType = '';
         $scope.selectedCampaign.lineItemBillableAmountTotal = 0;
         $scope.selectedCampaign.createItemList = false;
         $scope.showUploadRecordsMessageLineItems = false;
