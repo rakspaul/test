@@ -180,7 +180,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="item active" data-ng-hide="usrRole && !usrRole.showplatform">
+                            <div class="item active" data-ng-show="showPlatform">
                                 <div class="col-xs-3 platform_widget">
                                     <div data-ng-click="setGraphData(campaign,'platform')"
                                          tooltip-placement="top"
@@ -197,7 +197,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="item active">
+                            <div class="item active" data-ng-show="showPerformance">
                                 <div class="col-xs-3 screens_widget">
                                     <div data-ng-click="setGraphData(campaign,'screens')"
                                          tooltip-placement="top"
@@ -214,7 +214,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="item active">
+                            <div class="item active" data-ng-show="showPerformance">
                                 <div class="col-xs-3">
                                     <div data-ng-click="setGraphData(campaign,'adsizes')"
                                          tooltip-placement="top"
@@ -231,7 +231,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="item" data-ng-class="{'active': showCostWidget === false}">
+                            <div class="item" data-ng-class="{'active': showCostWidget === false}" data-ng-show="showPerformance">
                                 <div class="col-xs-3 formats_widget">
                                     <div data-ng-click="setGraphData(campaign,'formats')"
                                          tooltip-placement="top"
@@ -249,7 +249,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="item" data-ng-hide="usrRole && !usrRole.showinventory">
+                            <div class="item" data-ng-show="showInventory">
                                 <div class="col-xs-3">
                                     <div data-ng-click="setGraphData(campaign,'inventory')"
                                          tooltip-placement="top"
@@ -266,7 +266,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="item" data-ng-hide="usrRole && !usrRole.showviewability">
+                            <div class="item" data-ng-show="showViewAbility">
                                 <div class="col-xs-3">
                                     <div data-ng-click="setGraphData(campaign,'quality')"
                                          tooltip-placement="top"

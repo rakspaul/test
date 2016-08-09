@@ -134,11 +134,46 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                     });
             }
 
-            $rootScope.$on('features', function () {
+            function enableFeaturePermission(){
                 var fParams = featuresService.getFeatureParams();
 
                 $scope.createOptimization = fParams[0].optimization_create;
                 $scope.showOptimization = fParams[0].optimization_transparency;
+                $scope.showPlatform = fParams[0].platform;
+                $scope.showPerformance = fParams[0].performance; //if performance is false hide screens/adsizes/formats widget
+                $scope.showViewAbility = fParams[0].quality;
+                $scope.showInventory = fParams[0].inventory;
+                $scope.showCostWidget = fParams[0].cost;
+                $scope.createOptimization = fParams[0].optimization_create;
+                $scope.showOptimization = fParams[0].optimization_transparency;
+                setWidgetInCarousel();
+            }
+
+            enableFeaturePermission();
+
+            function setWidgetInCarousel() {
+                setTimeout(function(){
+                    var selAllCarousalWidget = '#myCarousel > .carousel-inner .item:not(.ng-hide)',
+                        totalWidget = $(selAllCarousalWidget).length,
+                        activelength = (totalWidget >= 4) ? 4 : totalWidget;
+
+                    $(selAllCarousalWidget).removeClass("active");
+                    $(selAllCarousalWidget).slice(0, activelength).addClass("active");
+                    if(totalWidget && totalWidget <= 4){
+                        $('a[data-target="#myCarousel"]').hide();
+                    }else{
+                        $('a[data-target="#myCarousel"][data-slide="next"]').show();
+                    }
+                },25);
+            }
+
+
+            $rootScope.$on('features', function () {
+                enableFeaturePermission();
+            });
+
+            $rootScope.$on(constants.ACCOUNT_CHANGED, function () {
+                enableFeaturePermission();
             });
 
             $scope.campaigns = new Campaigns();
@@ -180,9 +215,6 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 return (dir === 'asc' ? 'desc': 'asc');
             };
 
-            $scope.showCostWidget = fParams[0].cost;
-            $scope.createOptimization = fParams[0].optimization_create;
-            $scope.showOptimization = fParams[0].optimization_transparency;
 
             $scope.details.resetSortParams = function () {
                 $scope.details.sortParam = undefined;
