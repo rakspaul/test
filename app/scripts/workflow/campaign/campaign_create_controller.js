@@ -214,13 +214,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                     // set startDate
                     if (flightDateObj.startTime) {
-                        $scope.selectedCampaign.startTime =
-                            $scope.modifiedMediaPlanAPIStartTime = flightDateObj.startTime;
+                        $scope.selectedCampaign.startTime = flightDateObj.startTime;
                     }
 
                     // set endDate
                     if (flightDateObj.endTime) {
-                        $scope.selectedCampaign.endTime = $scope.modifiedMediaPlanAPIEndTime = flightDateObj.endTime;
+                        $scope.selectedCampaign.endTime = flightDateObj.endTime;
                         $scope.initiateDatePicker();
                         $scope.handleEndFlightDate(flightDateObj);
                     }
@@ -670,13 +669,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     'endTime', dateTimeZone);
 
                 if ($scope.mode ==='edit') {
-                    utcStartTime = (moment($scope.selectedCampaign.startTime)
-                        .isSame($scope.modifiedMediaPlanAPIStartTime, 'day')) ?
-                        $scope.mediaPlanAPIStartTime : utcStartTime;
 
-                    utcEndTime = (moment($scope.selectedCampaign.endTime)
-                        .isSame($scope.modifiedMediaPlanAPIEndTime, 'day')) ?
-                        $scope.mediaPlanAPIEndTime :  utcEndTime;
+                    if(moment(utcStartTime).startOf('day').isSame(moment($scope.mediaPlanAPIStartTime).startOf('day')))  {
+                        utcStartTime = $scope.mediaPlanAPIStartTime;
+                    }
+
+                    if(moment(utcEndTime).unix() === moment($scope.mediaPlanAPIEndTime).unix())  {
+                        utcEndTime = $scope.mediaPlanAPIEndTime;
+                    }
                 }
 
                 postDataObj.startTime = utcStartTime;
@@ -1019,33 +1019,29 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.$watch('selectedCampaign.endTime',function (newVal, oldVal) {
-            if(newVal && oldVal &&
-                newVal !== oldVal) {
-
-                var selectedPixelData;
-                if (selectedAdvertiser) {
-                    if ($scope.selectedCampaign.selectedPixel.length > 0) {
-                        selectedPixelData = _.pluck($scope.selectedCampaign.selectedPixel, 'id');
-                    } else {
-                        selectedPixelData = $scope.editCampaignData.pixels;
-                    }
+            var selectedPixelData;
+            if (selectedAdvertiser) {
+                if($scope.selectedCampaign.selectedPixel.length >0) {
+                    selectedPixelData =  _.pluck($scope.selectedCampaign.selectedPixel, 'id');
+                } else {
+                    selectedPixelData = $scope.editCampaignData.pixels;
                 }
 
-                if (selectedPixelData && selectedPixelData.length > 0) {
+                if (selectedPixelData && selectedPixelData.length >0) {
                     $scope.$broadcast('fetch_pixels', selectedPixelData);
                 } else {
                     $scope.$broadcast('fetch_pixels');
                 }
+            }
 
-                // set the flag to save the media plan along with line item
-                if ($scope.mode === 'edit') {
-                    if (typeof oldVal === 'undefined') {
-                        return;
-                    }
+            // set the flag to save the media plan along with line item
+            if ($scope.mode === 'edit') {
+                if (typeof oldVal === 'undefined') {
+                    return;
+                }
 
-                    if (newVal !== oldVal) {
-                        $scope.saveMediaPlan = true;
-                    }
+                if (newVal !== oldVal) {
+                    $scope.saveMediaPlan = true;
                 }
             }
         });

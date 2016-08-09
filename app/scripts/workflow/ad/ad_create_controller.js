@@ -202,7 +202,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         {id: 1, name: 'Display',    active: true},
                         {id: 2, name: 'Video',      active: false},
                         {id: 3, name: 'Rich Media', active: false},
-                        {id: 4, name: 'Social',     active: false}
+                        {id: 4, name: 'Social',     active: false},
+                        {id: 5, name: 'Native',     active: false}
+
                     ];
 
                     // default value
@@ -406,8 +408,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             if (responseData.startTime) {
                 $scope.apiStartTime = responseData.startTime;
 
-                $scope.adData.startTime = $scope.modifiedAPIStartTime =
-                    momentService.utcToLocalTime(responseData.startTime);
+                $scope.adData.startTime = momentService.utcToLocalTime(responseData.startTime);
 
                 dateObj.adStartDate = $scope.adData.startTime;
             }
@@ -415,8 +416,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             if (responseData.endTime) {
                 $scope.apiEndTime = responseData.endTime;
 
-                $scope.adData.endTime = $scope.modifiedAPIEndTime =
-                    momentService.utcToLocalTime(responseData.endTime);
+                $scope.adData.endTime = momentService.utcToLocalTime(responseData.endTime);
 
                 dateObj.adEndDate = $scope.adData.endTime;
             }
@@ -436,14 +436,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 // disabled checkBox if its primary!=Impression && UnitCost!=CPM
                 if (((responseData.kpiType && (responseData.kpiType).toUpperCase() !== 'IMPRESSIONS') ||
-                    (responseData.rateType).toUpperCase()!== 'CPM') && responseData.enabledBudgetCalculation) {
+                   ((responseData.rateType) && ((responseData.rateType).toUpperCase()!== 'CPM' ) )) &&
+                    responseData.enabledBudgetCalculation) {
                     $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', true);
                 } else {
                     $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', false);
                 }
 
                 if (((responseData.kpiType && (responseData.kpiType).toUpperCase() === 'IMPRESSIONS')) &&
-                    (responseData.rateType).toUpperCase() === 'CPM') {
+                    ((responseData.rateType) && (responseData.rateType).toUpperCase() === 'CPM')) {
                     $('.external_chkbox').show();
                 } else {
                     $('.external_chkbox').hide();
@@ -833,7 +834,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             }
 
             previewUrl +=  '/adv/'+ creativeData.advertiserId;
-            
+
             if($scope.adId) {
                 previewUrl += '/campaignId/'+ $scope.campaignId +'/adId/'+ $scope.adId +
                     '/creative/'+ creativeData.id +'/preview';
@@ -853,7 +854,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 display: 'image',
                 video: 'video',
                 'rich media': 'rich-media',
-                social: 'social'
+                social: 'social',
+                // native : 'native'
             };
 
             return adFormatMapper[adFormat.toLowerCase()];
@@ -1224,9 +1226,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                     // fixed for CW-4102
                     if ($scope.mode ==='edit') {
-                        utcStartTime = (moment(formData.startTime)
-                            .isSame($scope.modifiedAPIStartTime, 'day')) ?
-                            $scope.apiStartTime : utcStartTime;
+
+                        if(moment(utcStartTime).startOf('day').isSame(moment($scope.apiStartTime).startOf('day')))  {
+                            utcStartTime = $scope.apiStartTime;
+                        }
                     }
 
                     postAdDataObj.startTime = utcStartTime;
@@ -1237,9 +1240,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                     // fixed for CW-4102
                     if ($scope.mode ==='edit') {
-                        utcEndTime = (moment(formData.endTime)
-                            .isSame($scope.modifiedAPIEndTime, 'day')) ?
-                            $scope.apiEndTime :  utcEndTime;
+
+                        if(moment(utcEndTime).unix() === moment($scope.apiEndTime).unix())  {
+                            utcEndTime = $scope.apiEndTime;
+                        }
                     }
                     postAdDataObj.endTime = utcEndTime;
                 }
@@ -1584,10 +1588,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 adData.budgetExceeded ||
                 adData.adBudgetExceedUnallocated ||
                 !adData.adName ||
-                adData.targetValue.length === 0 ||
-                adData.unitCost.length === 0 ||
-                adData.totalAdBudget.length === 0 ||
-                adData.budgetAmount.length === 0
+                (adData.targetValue && (adData.targetValue.length === 0) ) ||
+                (adData.unitCost && (adData.unitCost.length === 0)) ||
+                (adData.totalAdBudget && (adData.totalAdBudget.length === 0 ))||
+                (adData.budgetAmount && (adData.budgetAmount.length === 0))
             );
         };
 

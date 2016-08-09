@@ -26,7 +26,6 @@ define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils',
         $scope.textConstants = constants;
 
         $scope.selectAdvertiser = function (advertiser) {
-console.log('selectAdvertiser()...');
             $('#advertisersDropDownList').hide() ;
             $('#advertiser_name_selected').text(advertiser.name);
             $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');

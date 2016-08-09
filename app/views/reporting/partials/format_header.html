@@ -4,6 +4,9 @@
 <div class="each_col third_col">
     <span class="icon_text_holder" data-ng-class="sortClassFunction('impressions',sortTypebyformats,!sortReverseFormatTab)" data-ng-click="sortTypebyformats = 'impressions'; sortReverseFormatTab = !sortReverseFormatTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</span>
 </div>
+<div class="each_col third_col">
+    <span class="icon_text_holder" data-ng-class="sortClassFunction('clicks',sortTypebyformats,!sortReverseFormatTab)" data-ng-click="sortTypebyformats = 'clicks'; sortReverseFormatTab = !sortReverseFormatTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'clicks'"></span>{{textConstants.CLICKS}}</span>
+</div>
 <div class="vid_col" data-ng-show="adFormats.videoAds == true">
 <div class="each_col third_col">
             <span class="icon_text_holder" data-ng-class="sortClassFunction('video_played',sortTypebyformats,sortReverseFormatTab)"

@@ -378,9 +378,13 @@
 
 <script type="text/ng-template" id="screenTpl">
     <div class="each_col sec_col" data-ng-bind="screenData.dimension"></div>
-    <div class="each_col third_col {{screenData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
+    <div class="each_col third_col bold {{screenData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
          data-ng-bind="((screenData.impressions > 0) || (screenData.impressions === 0)) ?
             (screenData.impressions | number : 0) : '-'">
+    </div>
+    <div class="each_col third_col"
+         data-ng-bind="((screenData.clicks > 0) || (screenData.clicks === 0)) ?
+            (screenData.clicks | number : 0) : '-'">
     </div>
     <div class="vid_col" data-ng-show="adFormats.videoAds === true">
         <div class="each_col third_col"
@@ -407,7 +411,7 @@
                 </div>
             </div>
         </div>
-        <div class="each_col third_col {{screenData.kpi_type === 'VTC' ? 'bold' : ''}}">
+        <div class="each_col third_col bold {{screenData.kpi_type === 'VTC' ? 'bold' : ''}}">
             <span data-ng-bind="((screenData.vtc_100 > 0) || (screenData.vtc_100 === 0)) ?
                 ((screenData.vtc_100 | number : 3) + '%') : '-'">
             </span>
@@ -467,9 +471,13 @@
 
 <script type="text/ng-template" id="daysOfWeekTpl">
     <div class="each_col sec_col" data-ng-bind="daysOfWeekData.dimension"></div>
-    <div class="each_col third_col {{daysOfWeekData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
+    <div class="each_col third_col bold {{daysOfWeekData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
          data-ng-bind="((daysOfWeekData.impressions > 0) || (daysOfWeekData.impressions === 0)) ?
             (daysOfWeekData.impressions | number : 0) : '-'">
+    </div>
+    <div class="each_col third_col"
+         data-ng-bind="((daysOfWeekData.clicks > 0) || (daysOfWeekData.clicks === 0)) ?
+        (daysOfWeekData.clicks | number : 0) : '-'">
     </div>
     <div class="vid_col" data-ng-show="adFormats.videoAds === true">
         <div class="each_col third_col"
@@ -496,7 +504,7 @@
                 </div>
             </div>
         </div>
-        <div class="each_col third_col {{daysOfWeekData.kpi_type === 'VTC' ? 'bold' : ''}}">
+        <div class="each_col third_col bold {{daysOfWeekData.kpi_type === 'VTC' ? 'bold' : ''}}">
             <span data-ng-bind="((daysOfWeekData.vtc_100 > 0) || (daysOfWeekData.vtc_100 === 0)) ?
                 ((daysOfWeekData.vtc_100 | number : 3) + '%') : '-'">
             </span>
@@ -554,9 +562,13 @@
 
 <script type="text/ng-template" id="formatTpl">
     <div class="each_col sec_col" data-ng-bind="formatData.dimension | toPascalCase"></div>
-    <div class="each_col third_col {{formatData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
+    <div class="each_col third_col bold {{formatData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
          data-ng-bind="((formatData.impressions > 0) || (formatData.impressions === 0)) ?
             (formatData.impressions | number : 0) : '-'">
+    </div>
+    <div class="each_col third_col"
+         data-ng-bind="((formatData.clicks > 0) || (formatData.clicks === 0)) ?
+        (formatData.clicks | number : 0) : '-'">
     </div>
     <div class="vid_col" data-ng-show="adFormats.videoAds === true">
         <div class="each_col third_col"
@@ -583,7 +595,7 @@
                 </div>
             </div>
         </div>
-        <div class="each_col third_col {{formatData.kpi_type === 'VTC' ? 'bold' : ''}}">
+        <div class="each_col third_col bold {{formatData.kpi_type === 'VTC' ? 'bold' : ''}}">
             <span data-ng-bind="((formatData.vtc_100 > 0) || (formatData.vtc_100 === 0)) ?
                 ((formatData.vtc_100 | number : 3) + '%') : '-'">
             </span>
@@ -636,9 +648,13 @@
          title="{{creativesData.dimension}}"
          data-ng-bind="creativesData.dimension | formatUrl : 15">
     </div>
-    <div class="each_col third_col {{creativesData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
+    <div class="each_col third_col bold {{creativesData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
          data-ng-bind="((creativesData.impressions > 0) || (creativesData.impressions === 0)) ?
             (creativesData.impressions | number : 0) : '-'">
+    </div>
+    <div class="each_col third_col"
+         data-ng-bind="((creativesData.clicks > 0) || (creativesData.clicks === 0)) ?
+        (creativesData.clicks | number : 0) : '-'">
     </div>
     <span  data-ng-if="adFormats.videoAds">
         <div class="each_col third_col"
@@ -665,7 +681,7 @@
                 </div>
             </div>
         </div>
-        <div class="each_col third_col {{creativesData.kpi_type === 'VTC' ? 'bold' : ''}}"
+        <div class="each_col third_col bold  {{creativesData.kpi_type === 'VTC' ? 'bold' : ''}}"
              data-ng-bind="((creativesData.vtc_100 > 0) || (creativesData.vtc_100 === 0)) ?
                 ((creativesData.vtc_100 | number : 3) + '%') : '-'">
         </div>
@@ -723,9 +739,13 @@
 
 <script type="text/ng-template" id="AdSizesTpl">
     <div class="each_col sec_col" data-ng-bind="adSizesData.dimension | formatUrl : 15"></div>
-    <div class="each_col third_col {{adSizesData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
+    <div class="each_col third_col bold {{adSizesData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
          data-ng-bind="((adSizesData.impressions > 0) || (adSizesData.impressions === 0)) ?
             (adSizesData.impressions | number : 0) : '-'">
+    </div>
+    <div class="each_col third_col"
+         data-ng-bind="((adSizesData.clicks > 0) || (adSizesData.clicks === 0)) ?
+        (adSizesData.clicks | number : 0) : '-'">
     </div>
     <span  data-ng-if="adFormats.videoAds">
         <div class="each_col third_col"

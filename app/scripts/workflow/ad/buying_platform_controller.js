@@ -32,12 +32,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                             });
 
                     if (selectedPlatformIndex !== -1) {
-                        selectedSeat = _.findIndex(
-                            $scope.workflowData.platforms[selectedPlatformIndex].seats,
-                            function (item) {
-                                return item.id === platform.vendorSeatId;
-                            }
-                        );
+                        selectedSeat = _.findIndex($scope.workflowData.platforms[selectedPlatformIndex].seats, function (item) {
+                            return item.id === platform.vendorSeatId;
+                        });
 
                         selectedSeats = $scope.workflowData.platforms[selectedPlatformIndex].seats[selectedSeat];
                     }
@@ -85,14 +82,10 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                                             _buyingPlatform.trackingPlatformCarouselData(responseData);
                                         } else {
                                             for (i in responseData.fullIntegrationsPlatforms) {
-                                                if (adsDetails.platform.id ===
-                                                    responseData.fullIntegrationsPlatforms[i].id) {
+                                                if (adsDetails.platform.id === responseData.fullIntegrationsPlatforms[i].id) {
                                                     responseData.fullIntegrationsPlatforms[i].active = true;
                                                 } else {
-                                                    responseData.fullIntegrationsPlatforms[i].active =
-                                                        responseData.fullIntegrationsPlatforms[i].active ?
-                                                            platformStatus :
-                                                            false;
+                                                    responseData.fullIntegrationsPlatforms[i].active = responseData.fullIntegrationsPlatforms[i].active ? platformStatus : false;
                                                 }
                                             }
 
@@ -114,7 +107,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                                     $scope.workflowData.platforms = responseData.fullIntegrationsPlatforms;
                                     _buyingPlatform.trackingPlatformCarouselData(responseData);
                                 }
-
                             } else {
                                 _buyingPlatform.errorHandler(result);
                             }
@@ -152,12 +144,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                                         $scope.defaultPlatform.vendorSeatId !== seat.id) {
                                         tempPlatform = platform;
 
-                                        $scope.changePlatformMessage =
-                                            'Your entries for the following settings are not compatible with ' +
-                                            $filter('toPascalCase')(platform.name) +
-                                            ': ' +
-                                            settings +
-                                            '. Would you like to clear these settings and switch platforms?';
+                                        $scope.changePlatformMessage = 'Your entries for the following settings are not compatible with ' +
+                                            $filter('toPascalCase')(platform.name) + ': ' +
+                                            settings + '. Would you like to clear these settings and switch platforms?';
 
                                         $scope.changePlatformPopup = true;
                                     } else {
@@ -175,7 +164,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                     $rootScope.$broadcast('targettingCapability', platform);
                 },
-                 resetCreatives:function () {
+
+                resetCreatives:function () {
                     $scope.adData.setSizes = constants.WF_NOT_SET;
                     $scope.creativeData.creativeInfo = 'undefined';
                     $scope.$parent.selectedArr.length = 0;
@@ -284,20 +274,15 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     value;
 
                 _.each($scope.adData.customInpNameSpaceList, function(customInpNameSpaceList) {
-                    _.each(
-                        customInpNameSpaceList.platformCustomInputGroupList,
-                        function(platformCustomInputGroupList) {
-                            var inputObj = _.filter(
-                                platformCustomInputGroupList.platformCustomInputList,
-                                function(obj) {
-                                    return _.indexOf(ids, obj.id) !== -1;
-                                }
-                            );
-
-                            if (!value && inputObj.length>0) {
-                                value =  customInpNameSpaceList.name;
-                            }
+                    _.each(customInpNameSpaceList.platformCustomInputGroupList, function(platformCustomInputGroupList) {
+                        var inputObj = _.filter(platformCustomInputGroupList.platformCustomInputList, function(obj) {
+                            return _.indexOf(ids, obj.id) !== -1;
                         });
+
+                        if (!value && inputObj.length > 0) {
+                            value =  customInpNameSpaceList.name;
+                        }
+                    });
                 });
 
                 return value;
@@ -337,13 +322,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 tabName = 'buying_strategy',
                 clientId = vistoconfig.getSelectedAccountId();
 
-            $scope.adData.customInpNameSpaceList = [];
-
             platformWrap.html('');
-
+            $scope.adData.customInpNameSpaceList = [];
             $scope.adData.customInpNameSpaceList = [];
             $scope.adData.customPlatformLoader = true;
             _buyingPlatform.showCustomFieldBox();
+
             workflowService
                 .getPlatformCustomInputs(clientId, $scope.adData.platformId)
                 .then(function (result) {
@@ -360,10 +344,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         if (result.data.data.customInputJson !== '') {
                             platformCustomeJson = JSON.parse(result.data.data.customInputJson);
 
-                            if (platformCustomeJson.platformCustomInputNamespaceList &&
-                                platformCustomeJson.platformCustomInputNamespaceList.length > 2) {
-                                $scope.adData.customInpNameSpaceList =
-                                    _.sortBy(platformCustomeJson.platformCustomInputNamespaceList, 'displayOrder');
+                            if (platformCustomeJson.platformCustomInputNamespaceList && platformCustomeJson.platformCustomInputNamespaceList.length > 2) {
+                                $scope.adData.customInpNameSpaceList = _.sortBy(platformCustomeJson.platformCustomInputNamespaceList, 'displayOrder');
 
                                 _.each($scope.adData.customInpNameSpaceList, function (obj, idx) {
                                     obj.className = idx === 0 ? 'active' : '';
@@ -371,27 +353,21 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                             }
 
                             if ($scope.mode === 'edit') {
-                                adPlatformCustomInputsLocalStorageValue =
-                                    localStorage.getItem('adPlatformCustomInputs');
+                                adPlatformCustomInputsLocalStorageValue = localStorage.getItem('adPlatformCustomInputs');
 
-                                $scope.$parent.postPlatformDataObj =
-                                    (adPlatformCustomInputsLocalStorageValue &&
-                                    JSON.parse(adPlatformCustomInputsLocalStorageValue)) ||
-                                    platformCustomeJson;
+                                $scope.$parent.postPlatformDataObj = (adPlatformCustomInputsLocalStorageValue &&
+                                    JSON.parse(adPlatformCustomInputsLocalStorageValue)) || platformCustomeJson;
                             }
 
                             if ($scope.$parent.postPlatformDataObj) {
                                 tabName = getplatformCustomNameSpace($scope.$parent.postPlatformDataObj);
-
-                                platformCustomeModule.init(platformCustomeJson, platformWrap,
-                                    $scope.$parent.postPlatformDataObj);
+                                platformCustomeModule.init(platformCustomeJson, platformWrap, $scope.$parent.postPlatformDataObj);
 
                                 if (tabName) {
                                     $timeout(function () {
                                         $('#' + tabName).click();
                                     }, 500);
                                 }
-
                             } else {
                                 if (oldPlatformName !== $scope.adData.platform) {
                                     // maintain state of building platform strategy when user selects it
@@ -418,15 +394,18 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $scope.$parent.postPlatformDataObj = null;
             localStorage.removeItem('adPlatformCustomInputs');
             _buyingPlatform.setPlatform(null, tempPlatform, tempPlatform.seats[0]);
-
             storedResponse.targets.geoTargets = {};
             $rootScope.$broadcast('resetTargeting');
             $scope.platformCustomInputs();
         };
 
         $scope.showTrackingSetupInfoPopUp = function (event, trackingIntegration) {
-            var relativeX = $(event.target).closest('.offeringWrap').offset().left -
-                $(event.target).closest('.carousel-inner').offset().left + 50;
+            var relativeX = $(event.target)
+                                .closest('.offeringWrap')
+                                .offset().left - $(event.target)
+                                .closest('.carousel-inner')
+                                .offset()
+                                .left + 50;
 
             $scope.trackingIntegration = trackingIntegration;
 
@@ -471,6 +450,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 });
 
             $scope.inventoryTabSelected = type;
+
             if (type === 'appnexus_direct') {
                 $rootScope.$broadcast('directInvenotry', $scope.adData);
             }
@@ -517,9 +497,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     }
                 });
             } else {
-                if ($scope.workflowData.adsData &&
-                    $scope.workflowData.adsData.adPlatformCustomInputs &&
-                    $scope.workflowData.adsData.adPlatformCustomInputs.length > 0) {
+                if ($scope.workflowData.adsData && $scope.workflowData.adsData.adPlatformCustomInputs && $scope.workflowData.adsData.adPlatformCustomInputs.length > 0) {
                     $scope.$parent.postPlatformDataObj = $scope.workflowData.adsData.adPlatformCustomInputs;
                 }
             }
@@ -608,11 +586,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 return false;
             }
 
-            if (!$scope.TrackingIntegrationsSelected &&
-                $scope.adData.platform !== undefined &&
-                (tab !== undefined && tab[0] === '#buying')) {
+            if (!$scope.TrackingIntegrationsSelected && $scope.adData.platform !== undefined && (tab !== undefined && tab[0] === '#buying')) {
                 platformId =  $('input[name=platformId]').val();
-                $('#platformId_'+platformId).trigger('click');
+                $('#platformId_' + platformId).trigger('click');
             } else {
                 _buyingPlatform.hideCustomPlatformBox();
             }

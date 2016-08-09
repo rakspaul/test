@@ -824,7 +824,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     return memo + (obj.cost || 0);
                 }, 0);
 
-                $scope.adIGroupBudget = $scope.adGroupMinBudget;
+                $scope.adIGroupBudget = parseFloat($scope.adGroupMinBudget);
                 $scope.extractor($scope.workflowData.campaignAdsData, adGroupCreateformElem);
             } else {
                 $scope.resetAdsData();
@@ -1028,16 +1028,19 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone);
 
                 if ($scope.adGroupData.editAdGroupFlag) {
-                    utcStartTime = (moment(formData.startTime).isSame($scope.adGroupData.modifiedAdGroupAPIStartTime, 'day')) ?
-                        $scope.adGroupData.modifiedAdGroupAPIStartTime : utcStartTime;
+                    if (moment(utcStartTime).startOf('day').isSame(moment($scope.adGroupData.modifiedAdGroupAPIStartTime).startOf('day')))  {
+                        utcStartTime = $scope.adGroupData.modifiedAdGroupAPIStartTime;
+                    }
                 }
 
                 postCreateAdObj.startTime = utcStartTime;
                 utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime', dateTimeZone);
 
                 if ($scope.adGroupData.editAdGroupFlag) {
-                    utcEndTime = (moment(formData.endTime).isSame($scope.adGroupData.modifiedAdGroupAPIEndTime, 'day')) ?
-                        $scope.adGroupData.modifiedAdGroupAPIEndTime : utcEndTime;
+                    // if api end unix time and form end unix time is same then will take api end time
+                    if (moment(utcEndTime).unix() === moment($scope.adGroupData.modifiedAdGroupAPIEndTime).unix())  {
+                        utcEndTime = $scope.adGroupData.modifiedAdGroupAPIEndTime;
+                    }
                 }
 
                 postCreateAdObj.endTime = utcEndTime;

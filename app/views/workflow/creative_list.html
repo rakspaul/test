@@ -385,10 +385,10 @@
                 </span>
                 <a data-ng-click="redirectAdEditPage(adData)"
                    tooltip="{{adData.campaignName}}/{{adData.adName}}"
-                   data-ng-bind="adData.campaignName | textEllipsis: 45}} / {{adData.adName | textEllipsis: 45">
+                   data-ng-bind="(adData.campaignName | textEllipsis: 45) + ' / ' +  (adData.adName | textEllipsis: 45)">
                 </a>
                 <div class="pull-right">
-                    <div class="dropdown-workflow" data-ng-if="adData.creativeTemplate.templateType === 'NORMAL'">
+                    <div class="dropdown-workflow" data-ng-if="creativeData.creativeTemplate.templateType === 'NORMAL'">
                         <div class="dropdown hideOption">
                             <button class="dropdown-toggle"
                                     type="button"
