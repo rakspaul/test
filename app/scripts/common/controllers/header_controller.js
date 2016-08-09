@@ -536,11 +536,11 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             };
 
             $scope.showFiles = false;
-            
+
             $scope.openHelp = function() {
                 var clientId = loginModel.getMasterClient().id;
                 var url  = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/userguide/download';
-                $http.get('http://ampqaapp001.ewr004.collective-media.net:9000/api/reporting/v3/clients/' + clientId + '/userguide/download', {responseType:'arraybuffer'})
+                $http.get(url, {responseType:'arraybuffer'})
                     .success(function (response) {
                         var file = new Blob([response], {type: 'application/pdf'});
                         var fileURL = URL.createObjectURL(file);

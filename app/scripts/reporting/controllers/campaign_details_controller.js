@@ -28,7 +28,6 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
             var orderBy = $filter('orderBy'),
                 campaign = campaignListService,
                 Campaigns = campaignListModel,
-                fParams = featuresService.getFeatureParams(),
                 getSetCampaignDetails,
 
                 // API call for campaign details
@@ -157,8 +156,8 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                         totalWidget = $(selAllCarousalWidget).length,
                         activelength = (totalWidget >= 4) ? 4 : totalWidget;
 
-                    $(selAllCarousalWidget).removeClass("active");
-                    $(selAllCarousalWidget).slice(0, activelength).addClass("active");
+                    $(selAllCarousalWidget).removeClass('active');
+                    $(selAllCarousalWidget).slice(0, activelength).addClass('active');
                     if(totalWidget && totalWidget <= 4){
                         $('a[data-target="#myCarousel"]').hide();
                     }else{
