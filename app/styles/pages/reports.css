@@ -2869,7 +2869,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header div.each_col,
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container div.each_col {
-  width: 78px  ;
+  width: 70px  ;
 }
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header div.each_col.first_col,
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container div.each_col.first_col {
@@ -2881,12 +2881,20 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header div.each_col.sec_col,
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container div.each_col.sec_col {
-  width: 275px ;
+  width: 202px ;
   text-transform: capitalize;
 }
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header .vid_data_hdr,
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container .vid_data_hdr {
   padding-left: 30px ;
+}
+.reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header .each_col.seventh_col.last_col,
+.reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container .each_col.seventh_col.last_col {
+  width: 165px ;
+}
+.reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header .each_col.imps-col,
+.reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container .each_col.imps-col {
+  width: 115px ;
 }
 .reports_tabs_content_container #reports_byadsizes_block .each_col {
   width: 149px;
@@ -2900,7 +2908,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   text-align: left;
 }
 .reports_tabs_content_container #reports_byadsizes_block.reports_block.quar_data .each_col {
-  width: 94px;
+  width: 100px;
   text-align: right;
 }
 .reports_tabs_content_container #reports_byadsizes_block.reports_block.quar_data .each_col.first_col {
