@@ -459,7 +459,7 @@
         </div>
     </span>
     <div data-ng-if="adFormats.videoAds"
-         class="each_col eight_col {{screenData.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
+         class="each_col eight_col {{screenData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
          data-ng-class="{vid_none: adFormats.videoAds === false}">
         <span data-ng-if="selectedFilters.kpi_type === 'vtc'"
               style="visibility: hidden"
@@ -553,7 +553,7 @@
         </div>
     </span>
     <div data-ng-if="adFormats.videoAds"
-         class="each_col eight_col {{daysOfWeekData.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
+         class="each_col eight_col {{daysOfWeekData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
          data-ng-class="{vid_none: adFormats.videoAds === false}"
          data-ng-bind="daysOfWeekData[selectedFilters.kpi_type.toLowerCase()] |
             appendDollar : selectedFilters2.kpi_type">
@@ -637,7 +637,7 @@
         </div>
     </span>
     <div data-ng-if="adFormats.videoAds"
-         class="each_col eight_col {{formatData.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
+         class="each_col eight_col {{formatData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
          data-ng-class="{vid_none: adFormats.videoAds === false}"
          data-ng-bind="formatData[selectedFilters.kpi_type.toLowerCase()] | appendDollar : selectedFilters2.kpi_type">
     </div>
@@ -730,7 +730,7 @@
     </span>
     <div data-ng-if="adFormats.videoAds"
          class="each_col seventh_col last_col {{creativesData.kpi_type ===
-            selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
+            selectedFilters.kpi_type ? 'bold' : ''}}"
          data-ng-class="{vid_none : adFormats.videoAds === false}"
          data-ng-bind="creativesData[selectedFilters.kpi_type.toLowerCase()] |
             appendDollar : selectedFilters2.kpi_type">
@@ -820,7 +820,7 @@
         </div>
     </span>
     <div data-ng-if="adFormats.videoAds"
-         class="each_col eight_col {{adSizesData.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
+         class="each_col eight_col {{adSizesData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
          data-ng-class="{vid_none: adFormats.videoAds === false}"
          data-ng-bind="adSizesData[selectedFilters.kpi_type.toLowerCase()] | appendDollar : selectedFilters2.kpi_type">
     </div>
