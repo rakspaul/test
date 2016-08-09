@@ -162,7 +162,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
             };
 
             $scope.init = function () {
-                var pathArray = window.location.pathname.split('/'),
+                var pathArray = window.location.pathname.substr(1,window.location.pathname.length).split('/'),
                     firstLevelLocation = pathArray[1],
                     secondLevelLocation = pathArray[2],
                     selectedCampaignNew;
