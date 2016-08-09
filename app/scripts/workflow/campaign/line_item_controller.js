@@ -1095,7 +1095,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         $scope.$parent.processLineItemEditMode = function (lineItemList) {
             $scope.lineItems.lineItemList.length = 0;
 
-            _.each(lineItemList, function (item) {
+            _.each(lineItemList, function (item, idx) {
                 var index = _.findIndex($scope.type, function (type) {
                         return type.id === item.billingTypeId;
                     }),
@@ -1141,11 +1141,11 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 $scope.pricingRate = item.billingRate;
 
                 // line start Date
-                $scope.lineItemAPIStartTime = item.startTime;
+                lineItemAPIStartTimeList[idx] = item.startTime;
                 $scope.lineItemStartDate = momentService.utcToLocalTime(item.startTime);
 
                 // line Item End Date
-                $scope.lineItemAPIEndTime = item.endTime;
+                lineItemAPIEndTimeList[idx] = item.endTime;
                 $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime);
 
                 if ( $scope.campaignDate ) {
