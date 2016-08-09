@@ -52,7 +52,7 @@
                    ng-bind="textConstants.INVOICE_TOOL"></a>
                 <div class="arrowSelect"></div>
             </div>
-            <object data="{{content}}" type="application/pdf" ng-show="showFiles" style="width:600px;height:600px;">asdfasdf</object>
+
             <!--Vendor DD-->
            <!--  <div class="pull-left each_nav_link" id="vendors_nav_link" >
                 <a href="javascript:void(0);" reporttitle="vendorsList"
@@ -130,6 +130,31 @@
                             </ul>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="common-popup-container" ng-show="showFiles">-->
+            <!--<div class="popup">-->
+                <!--<span class="close unselectable" aria-hidden="true" ng-click="showFiles = false" >x</span>-->
+                <!--<object data="{{content}}" type="application/pdf"  style="width:600px;height:600px;"></object>-->
+
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="popContainerHolder" ng-show="showFiles" >
+            <div class="popContainer popup-holder" style="width: 700px;">
+                <div class="modal-content">
+                    <div class="clearfix modal-header">
+                        <span class="icon-close close unselectable"
+                              aria-hidden="true"
+                              data-ng-click="showFiles = false">
+                        </span>
+                    </div>
+                    <div class="modal-body">
+                        <object data="{{content}}" type="application/pdf" style="width: 100%; height: 600px;">
+                    </div>
+
                 </div>
             </div>
         </div>

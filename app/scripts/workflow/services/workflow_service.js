@@ -1404,8 +1404,23 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
             getVistoUserManual =  function() {
                 var clientId = loginModel.getMasterClient().id,
-                    url = 'http://ampqaapp001.ewr004.collective-media.net:9000/api/reporting/v3/clients/' + clientId + '/userguide/download';
-                return dataService.downloadFile(url);
+                    url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/userguide/download';
+
+                // $http.get('http://ampqaapp001.ewr004.collective-media.net:9000/api/reporting/v3/clients/' + clientId + '/userguide/download', {responseType:'arraybuffer'})
+                //     .success(function (response) {
+                //         var file = new Blob([response], {type: 'application/pdf'});
+                //         var fileURL = URL.createObjectURL(file);
+                //         $scope.content = $sce.trustAsResourceUrl(fileURL);
+                //         $scope.showFiles = true;
+                //
+                //     });
+
+                return dataService.fetch(url, {
+                    responseType:'arraybuffer'
+                });
+
+
+
             };
 
         return {
