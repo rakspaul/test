@@ -575,7 +575,7 @@
                                 {{campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate > 0 ?
                                 'campaign_overview_graphs_with_vtc' : ''}}">
                         <!--Column 1-->
-                        <div class="col-md-6 each_col col_first">
+                        <div class="col-md-4 each_col col_first">
                             <div class="col_heading"></div>
                             <div class="days_left_holder">
                                 <div class="total_days_holder">
@@ -616,7 +616,7 @@
                         </div>
 
                         <!--Column 2-->
-                        <div class="col-md-6 each_col col_spend">
+                        <div class="col-md-4 each_col col_spend">
                             <div class="col_heading clearfix">{{textConstants.SPEND}}
                                 <span class="metric_val"
                                       data-ng-bind="(campaigns.spend > 0) ? (
@@ -659,7 +659,7 @@
                         </div>
 
                         <!--Column 3-->
-                        <div class="col-md-4 each_col col_vtc"
+                        <div class="col-md-4 each_col col_vtc" 
                              data-ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate > 0">
                             <div class="col_heading clearfix" data-ng-bind="textConstants.QUARTILE_DETAILS"></div>
                             <div class="quartile_details_graph"
