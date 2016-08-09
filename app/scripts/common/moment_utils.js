@@ -124,6 +124,10 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
                 timeZoneCode,
                 timeSuffix = (type === 'startTime' ? '00:00:00' : '23:59:59');
 
+            if(typeof isDateChanged === 'undefined') {
+                isDateChanged = true;
+            }
+
             if(timezone) {
                 timeZoneCode = vistoconfig.timeZoneNameMapper[timezone];
                 tz = moment(dateTime).tz(timeZoneCode).format('z');
