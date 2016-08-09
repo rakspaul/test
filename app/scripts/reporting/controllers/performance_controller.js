@@ -383,7 +383,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             _customCtrl.createDownloadReportUrl();
             _customCtrl.filterDiscrepancyReport();
         });
-        $scope.$watch('[adFormats.videoAds, selected_tab]', function (arr) {
+        $scope.$watch('[adFormats.videoAds, selected_tab, selectedStrategy.id]', function (arr) {
             var width = (arr[0] || arr[1] === 'bydiscrepancy') ? '100%' : '1985px';
             $('.reports_performance_header, .strategy_total_container').css('width',width);
         });
