@@ -513,7 +513,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
                 dayTimeSelected,
                 daytimeArr;
 
-            event.stopPropagation();
+            event && event.preventDefault();
             adDaypartTargets.dayTime = $scope.dayTimeSelected;
             adDaypartTargets.isIncluded=true;
             adDaypartTargets.timeZone = $scope.timezoneFormat;
