@@ -296,7 +296,7 @@
                 <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown"
                     name="lineItemType">
                     <li class="available" ng-repeat="type in volumeType"
-                        ng-click="setSystemOfRecord(sor,'create')"><a>{{type}}</a></li>
+                        ng-click="setVolumeType(type,'create')"><a>{{type}}</a></li>
                 </ul>
                 <input type="hidden" class="form-control" ng-model="systemOfRecordSelected.id"
                        name="systemOfRecordSelected"/>

@@ -172,6 +172,10 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             newItem.billableAmount = $scope.billableAmount;
             newItem.volume = $scope.volume;
 
+            if($scope.selectedVolumeType){
+                newItem.volumeType = $scope.selectedVolumeType;
+            }
+
             // in case pricerate is 30% markup remove the Markup
             if (typeof $scope.pricingRate === 'string') {
                 newItem.pricingRate = Number($scope.pricingRate.split('%')[0]);
@@ -359,6 +363,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         $scope.systemOfRecordSelected = {};
         $scope.systemOfRecordSelected.name = 'Select from list';
         $scope.selectedVolumeType = '';
+        $scope.editLineItem.selectedVolumeType = '';
         $scope.selectedCampaign.lineItemBillableAmountTotal = 0;
         $scope.selectedCampaign.createItemList = false;
         $scope.showUploadRecordsMessageLineItems = false;
@@ -1213,6 +1218,14 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 $scope.systemOfRecordSelected = sor;
             } else {
                 $scope.editLineItem.systemOfRecordSelected = sor;
+            }
+        };
+
+        $scope.setVolumeType = function (volumeType, mode) {
+            if (mode === 'create') {
+                $scope.selectedVolumeType = volumeType;
+            } else {
+                $scope.editLineItem.selectedVolumeType = volumeType;
             }
         };
 
