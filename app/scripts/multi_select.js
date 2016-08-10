@@ -295,6 +295,8 @@ angular.module('ui.multiselect', [])
                                 if (scope.items) {
                                     if (modelCtrl.$modelValue.length === scope.items.length) {
                                         scope.toggleSelectAll(true);
+                                    } else {
+                                        scope.selectedAll = true;
                                     }
                                 }
                             }
