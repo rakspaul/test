@@ -5,7 +5,7 @@
         <span class="caret pull-right"></span>
     </button>
     <ul class="dropdown-menu" id="{{datashow}}">
-        <div data-ng-if= "(datashow === 2)">
+        <div data-ng-if= "(datashow == 2)">
             <li data-ng-show="multipleoption">
                 <button class="btn-link btn-small selectAllBtn" data-ng-show="datashow"  data-ng-click="toggleSelectAll(selectedAll)">
                     <i data-ng-class="{'icon-ok': !selectedAll, 'icon-empty': selectedAll}"></i>
@@ -13,7 +13,7 @@
                 </button>
             </li>
         </div>
-        <div data-ng-if= "(datashow === 3)">
+        <div data-ng-if= "(datashow == 3)">
             <li data-ng-show="true">
                 <button class="btn-link btn-small selectAllBtn" data-ng-show="datashow"  data-ng-click="toggleSelectAll(selectedAll)">
                     <i data-ng-class="{'icon-ok': !selectedAll, 'icon-empty': selectedAll}"></i>

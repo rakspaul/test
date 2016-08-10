@@ -2147,6 +2147,9 @@ input[type="submit"] {
 .main_navigation_holder .help-link-tab span:hover {
   opacity: 1;
 }
+.main_navigation_holder .help-link-tab #help-menu {
+  cursor: default;
+}
 .main_navigation_holder #user-menu {
   top: 50px;
 }

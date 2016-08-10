@@ -129,9 +129,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                     var fParams = featuresService.getFeatureParams(),
 
                         updateShowReportOverview = function () {
-                            if (fParams[0].report_overview &&
-                                localStorageService.selectedCampaign.get() &&
-                                localStorageService.selectedCampaign.get().id !== -1) {
+                            if (fParams[0].report_overview) {
                                 scope.showReportOverview = true;
                             } else {
                                 scope.showReportOverview = false;

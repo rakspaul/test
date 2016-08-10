@@ -533,7 +533,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
             $scope.openHelp = function() {
                 var clientId = loginModel.getMasterClient().id;
-                var url  = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/userguide/download';
+                var url  = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/userguide/download';
                 $http.get(url, {responseType:'arraybuffer'})
                     .success(function (response) {
                         var file = new Blob([response], {type: 'application/pdf'});
