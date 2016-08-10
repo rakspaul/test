@@ -252,8 +252,7 @@
                 <div class="btn-group create pull-right" role="group" aria-label="...">
                     <!--Search Input-->
                     <a role="button" class="btn btn-default pull-right" data-ng-click="downLoadPixel();"
-                       data-ng-disabled="advertiserData.disableDownLoadPixel"
-                       style="border-right: 0;">
+                       data-ng-disabled="advertiserData.disableDownLoadPixel">
                         <span class="icon-download"></span>
                         <span>Download Selected Pixels</span>
                     </a>
@@ -279,6 +278,7 @@
                            maxlength="128"
                            data-ng-model="pixelFormData.name"
                            remove-special-character="remove-special-character"
+                           data-ng-disabled="isEditMode && pixelFormData.id"
                            data-ng-keyup="checkDuplicatePixel(pixelFormData.name)">
                     <label class="errorText"
                            style="margin-top: 6px"
@@ -394,9 +394,8 @@
                     </div>
                 </div>
 
-                <div class="form-group col-md-6 zeroPaddding">
+                <div class="form-group col-md-6 zeroPadding" style="margin: 15px 0;">
                     <a class="pull-right btn btn-default"
-                        style="margin-bottom: 15px;"
                         data-ng-click="savePixel()"
                         data-ng-bind="pixelIndex!=null ? 'Update Pixel' : 'Save Pixel'">
                         Save Pixel
