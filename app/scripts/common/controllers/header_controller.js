@@ -71,6 +71,21 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
 
+        $scope.getClientData = function () {
+            var clientId = localStorageService.masterClient.get().id;
+
+            workflowService
+                .getClientData(clientId)
+                .then(function (response) {
+                    // set the type of user here in RoleBasedService.js
+                    RoleBasedService.setClientRole(response);
+                    RoleBasedService.setCurrencySymbol();
+                    featuresService.setFeatureParams(response.data.data.features, 'headercontroller');
+                    $scope.filters = domainReports.getReportsTabs();
+                    $scope.customFilters = domainReports.getCustomReportsTabs();
+                });
+        };
+
         $scope.set_account_name = function (event, id, name, isLeafNode) {
             $('#user_nav_link').removeClass('selected');
             $('#user-menu').css('min-height',0).slideUp('fast');
