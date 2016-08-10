@@ -238,10 +238,10 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-with-search" >
                                 <div id="brandsDropdownDiv" class="search-inside-dropdown">
-                                    <input class="dropdown-toggle inactive" ng-model="country.name"/>
+                                    <input class="dropdown-toggle inactive" ng-model="geoData.zip.name"/>
                                     <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
                                 </div>
-                                <li ng-repeat="country in geoData.countries.data | filter : country.name" class="available" ><a ng-click="showHideDropdownWithSearch($event);sectionShownOnSelection(country);">{{country.name}}</a></li>
+                                <li ng-repeat="country in geoData.countries.data | filter : geoData.zip.name" class="available" ><a ng-click="showHideDropdownWithSearch($event);sectionShownOnSelection(country);">{{country.name}}</a></li>
                             </ul>
                         </div>
                     </div>
