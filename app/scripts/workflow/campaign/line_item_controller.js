@@ -221,6 +221,10 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             newItem.billableAmount = $scope.editLineItem.billableAmount;
             newItem.volume = $scope.editLineItem.volume;
 
+            if($scope.editLineItem.selectedVolumeType){
+                newItem.volumeType = $scope.editLineItem.selectedVolumeType;
+            }
+
             // in case pricerate is 30% markup remove the Markup
             if (typeof $scope.editLineItem.pricingRate === 'string') {
                 newItem.pricingRate = Number($scope.editLineItem.pricingRate.split('%')[0]);
@@ -323,6 +327,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             $scope.editLineItem.pricingRate = lineItem.pricingRate;
             $scope.editLineItem.billableAmount = lineItem.billableAmount;
             $scope.editLineItem.volume = lineItem.volume;
+            $scope.editLineItem.selectedVolumeType = lineItem.volumeType;
             $scope.editLineItem.hasInFlightAds = lineItem.hasInFlightAds;
 
             // if pixel is empty show select from list in edit section for create/edit mode
@@ -1151,6 +1156,9 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 $scope.lineItemType.id = item.billingTypeId;
                 $scope.billableAmount = item.billableAmount;
                 $scope.volume = item.volume;
+                if(item.volumeType) {
+                    $scope.volumeType = item.volumeType;
+                }
                 $scope.pricingRate = item.billingRate;
 
                 // line start Date
