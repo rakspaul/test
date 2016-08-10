@@ -459,12 +459,10 @@
         </div>
     </span>
     <div data-ng-if="adFormats.videoAds"
-         class="each_col eight_col {{screenData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
+         class="each_col eight_col"
+         ng-class="checkForBoldClass(screenData)"
          data-ng-class="{vid_none: adFormats.videoAds === false}">
-        <!--<span data-ng-if="selectedFilters.kpi_type === 'vtc'"-->
-              <!--style="visibility: hidden"-->
-              <!--data-ng-bind="selectedFilters.kpi_type = 'cpm'">-->
-        <!--</span>-->
+
         <span data-ng-bind="screenData[selectedFilters.kpi_type] | suffixPrefixCannedReport : selectedFilters.kpi_type"></span>
     </div>
 </script>
@@ -553,7 +551,7 @@
         </div>
     </span>
     <div data-ng-if="adFormats.videoAds"
-         class="each_col eight_col {{daysOfWeekData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
+         class="each_col eight_col"
          data-ng-class="{vid_none: adFormats.videoAds === false}">
         <span data-ng-bind="daysOfWeekData[selectedFilters.kpi_type] | suffixPrefixCannedReport : selectedFilters.kpi_type"></span>
     </div>
@@ -636,7 +634,7 @@
         </div>
     </span>
     <div data-ng-if="adFormats.videoAds"
-         class="each_col eight_col {{formatData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
+         class="each_col eight_col"
          data-ng-class="{vid_none: adFormats.videoAds === false}">
         <span data-ng-bind="formatData[selectedFilters.kpi_type] | suffixPrefixCannedReport : selectedFilters.kpi_type"></span>
     </div>
@@ -728,7 +726,7 @@
         </div>
     </span>
     <div data-ng-if="adFormats.videoAds"
-         class="each_col eight_col {{creativesData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
+         class="each_col eight_col"
          data-ng-class="{vid_none: adFormats.videoAds === false}">
         <span data-ng-bind="creativesData[selectedFilters.kpi_type] | suffixPrefixCannedReport : selectedFilters.kpi_type"></span>
     </div>
@@ -817,7 +815,7 @@
         </div>
     </span>
     <div data-ng-if="adFormats.videoAds"
-         class="each_col eight_col {{adSizesData.kpi_type === selectedFilters.kpi_type ? 'bold' : ''}}"
+         class="each_col eight_col"
          data-ng-class="{vid_none: adFormats.videoAds === false}">
         <span data-ng-bind="adSizesData[selectedFilters.kpi_type] | suffixPrefixCannedReport : selectedFilters.kpi_type"></span>
     </div>
