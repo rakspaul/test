@@ -24,7 +24,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
                     $scope.headerText = '';
                 }
 
-                $('.dropdown_list_scroll').scrollWithInDiv();
+                $('.dropdown_list_scroll').scrollWithinDiv();
 
                 $scope.$watch('selectedObj.name', function () {
                     if ($scope.allCampaign === 'true' || $scope.allCampaign === true) {

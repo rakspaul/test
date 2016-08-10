@@ -1,12 +1,9 @@
-define(['angularAMD','reporting/campaignSelect/campaign_select_model',
-    'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model', 'common/utils'],
-    function (angularAMD) {
+define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model',
+    'common/utils'], function (angularAMD) {
     'use strict';
 
-        angularAMD.controller('CampaignSelectController', function ($location,$scope, $rootScope,
-                                                                campaignSelectModel, constants, brandsModel,
-                                                                loginModel, utils) {
-            var searchCriteria = utils.typeaheadParams,
+        angularAMD.controller('CampaignSelectController', function ($location,$scope, $rootScope, campaignSelectModel, constants, brandsModel, loginModel, utils) {
+            var searchCriteria = utils.typeAheadParams,
                 campaignsList,
 
                 setMediaPlan = function() {
@@ -81,9 +78,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model',
                         startDate: '-1',
                         endDate: '-1'
                     };
-                } else if (($scope.isAllMediaPlan === 'true' ||
-                    $scope.isAllMediaPlan === true) &&
-                    selectedCampaign.id === 0) {
+                } else if (($scope.isAllMediaPlan === 'true' || $scope.isAllMediaPlan === true) && selectedCampaign.id === 0) {
                     selectedCampaign = {
                         id: 0,
                         name: 'All Media Plans',
@@ -167,7 +162,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model',
             };
 
             $scope.init = function () {
-                var pathArray = window.location.pathname.split('/'),
+                var pathArray = window.location.pathname.substr(1,window.location.pathname.length).split('/'),
                     firstLevelLocation = pathArray[1],
                     secondLevelLocation = pathArray[2],
                     selectedCampaignNew;
@@ -236,6 +231,12 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model',
                 }
 
                 campaignsList.hide();
+            });
+
+            $('.dropdown_list_scroll').on('scroll', function() {
+                if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+                    $scope.loadMore();
+                }
             });
         });
     }

@@ -404,7 +404,7 @@ define(['angularAMD', '../../../common/services/constants_service'], function (a
                             svg.append('text')
                                 .attr('id', 'kpi_type_text')
                                 .attr('x', -15)
-                                .attr('y', adjustY)
+                                .attr('y', adjustY - 10)
                                 .style('font-size', '12px')
                                 .style('fill', '#57595b')
                                 .text(_config.kpiType.toLowerCase() !== 'impressions' ?

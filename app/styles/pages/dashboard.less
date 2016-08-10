@@ -1,3 +1,6 @@
+
+@import "../visto2.0/color.less";
+
 .AvenirBold() {
   font-family: "Avenir-bold" ;
 }
@@ -19,7 +22,7 @@
   font-family: "Avenir";
   font-size: 12px;
   width: auto;
-  color: #21252b;
+  color: @raven-text;
   .data_not_found {
       font-family: "Avenir-bold";
       font-size: 26px;
@@ -63,7 +66,7 @@
         font-size: 10px;
         width: 10px;
         height: 10px;
-        color: #939EAE;
+        color: @label-gray;
       }
     }
     .dropdown_ul {
@@ -93,7 +96,7 @@
         max-height: 280px;
         overflow: auto;
       li {
-        color: #21252b;
+        color: @raven-text;
         font-family: Avenir;
         font-size: 14px;
         line-height: 100%;
@@ -101,14 +104,14 @@
         overflow: hidden;
         cursor: pointer;
         &:hover {
-            color: #21252b;
+            color: @raven-text;
             text-decoration: none;
-            background-color: #E1EDF9;
+            background-color: @hover-light-blue;
         }
         &:focus {
-            color: #21252b;
+            color: @raven-text;
             text-decoration: none;
-            background-color: #E1EDF9;
+            background-color: @hover-light-blue;
         }
       }
     }
@@ -161,16 +164,16 @@
         text-align: left;
         float: left;
         width: 100%;
-        color: #21252b;
+        color: @raven-text;
         font-family: Avenir;
         font-size: 14px;
         line-height: 100%;
         padding: 9px 15px;
         overflow: hidden;
         &:hover, &:focus {
-            color: #21252b;
+            color: @raven-text;
             text-decoration: none;
-            background-color: #E1EDF9;
+            background-color: @hover-light-blue;
         }
       }
       li.active {
@@ -245,7 +248,7 @@
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     margin: 0 0 0 40px;
-    color: #21252b;
+    color: @raven-text;
     font-size: 14px;
     background-color: #ffffff;
     span {
@@ -506,7 +509,7 @@
           .calendar_legend_holder {
             margin-top: 12px ;
             .legend_color {
-              background :  #939eae;
+              background : @label-gray;
               width: 101px;
               height: 2px;
               margin-bottom: 2px;
@@ -530,6 +533,15 @@
     .dashboard_perf_graph {
       max-height: 280px;
       position: static;
+      width: 350px;
+      margin: 0;
+      #advertisers {
+            width: 350px;
+            position: relative;
+            left: 50%;
+            display: block;
+            margin: 17px 0 0 -143px;
+      }
     }
   }
 
@@ -552,16 +564,16 @@
       left: -18px;
       width: 100px;
       li {
-        color: #21252b;
+        color: @raven-text;
         font-family: Avenir;
         font-size: 14px;
         line-height: 100%;
         padding: 9px 15px;
         overflow: hidden;
         &:hover, &:focus {
-            color: #21252b;
+            color: @raven-text;
             text-decoration: none;
-            background-color: #E1EDF9;
+            background-color: @hover-light-blue;
         }
       }
     }
@@ -582,7 +594,7 @@
 			right: -10px;
   		}
   		.metrics_text {
-            color: #939eae !important;
+            color: @label-gray !important;
             text-align: left;
             font-size: 14px !important;
             font-weight: normal;
@@ -596,6 +608,13 @@
     #dashboardContainer , #brands {
       display: block;
       text-align: center;
+    }
+    #dashboardContainer {
+        width: 350px;
+        left: 50%;
+        position: relative;
+        display: block;
+        margin: 17px 0 0 -151px;
     }
     #dashboardContainer {
         .onTrackPerc {
@@ -613,7 +632,7 @@
     }
     .each_screen_bar {
     	margin: 40px 15px ;
-    	color:  #57606d;
+    	color:  @lead-gray;
       font-size: 14px;
     	.screen_bar_icon {
     		height: 28px ;
@@ -655,6 +674,7 @@
       overflow-x : hidden ;
       padding: 0px 24px;
       /*width: 1050px; */
+      border-right: 1px solid #e7edf1;
       .chart {
         font-size: 12px;
       }
@@ -693,7 +713,7 @@
       padding: 15px 18px 0px;
       .show_link {
         margin: 7px 8px 0 0px;
-        color: #939eae !important;
+        color: @label-gray !important;
         text-align: left;
         font-size: 14px !important;
         font-weight: normal;
@@ -821,7 +841,7 @@
 
 .dashboard_screens_graph_holder {
   .bar_section_graph_holder_screen {
-    color: rgb(87, 96, 109) ;
+    color: @lead-gray;
     font-weight: 500;
     font-size: 14px;
     .graphValues.pull-left {

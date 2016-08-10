@@ -1,232 +1,255 @@
-
-<!-- Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
-<popup-msg ng-show="flashMessage"
-           ng-controller="popUpMsgCtr"
-           ng-init="init('flashMessage','reportEditFailed')">
+<!-- Message on top, if that is an error message add "red_msg" class to "top_message_box" container -->
+<popup-msg data-ng-show="flashMessage"
+           data-ng-controller="popUpMsgCtr"
+           data-ng-init="init('flashMessage','reportEditFailed')">
 </popup-msg>
-<!-- End of Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
+<!-- End of Message on top, if that is an error message add "red_msg" class to "top_message_box" container -->
 
-<div class="reports-scheduled-list col-md-12 zeroPadding">
-    <h1 class="col-md-12 zeroPadding" style="margin: 30px 0;" ng-bind-html="textConstants.SCHEDULED_REPORTS"></h1>
+<div class="table-list-container reports-scheduled-list col-md-12 zeroPadding">
+    <h1 class="col-md-12 zeroPadding" style="margin: 30px 0;" data-ng-bind-html="textConstants.SCHEDULED_REPORTS"></h1>
     <div id="searchList" class="col-md-12 zeroPadding">
     <div class="col-md-12 zeroPadding btn_list_filters">
         <div class="btn-group" role="group" aria-label="...">
-            <a role="button" class="btn btn-default" ng-click="reset_custom_report()" href="/customreport">
-                <span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span>
+            <a role="button" class="btn btn-default" data-ng-click="reset_custom_report()" href="/customreport">
+                <span class="icon-plus pull-left"></span><span data-ng-bind="textConstants.CREATE"></span>
             </a>
         </div>
-        
+
         <!--Quick Filter-->
         <div class="pull-right">
-            <button type="button" class="btn btn-default"
+            <button type="button"
+                    class="btn btn-default"
                     data-toggle="collapse"
                     data-target="#schedule_report_filter"
-                    style="height:36px;"
+                    style="height: 36px;"
                     data-ng-click="clickedOnFilterIcon()">
                 <span class="icon-filter" style="margin: -1px 0 0;"></span>
             </button>
-            <!-- attribute data-toogle="collapse"  attached to id="toggle-example"-->
         </div>
 
         <!--Search Input-->
         <div class="btn-group pull-right" style="margin-right: 10px;">
-            <div class="searchInput pull-left">
-                <a class="btn btn-default searchInputBtnInline" ng-click="searchShowInput();filters.searchText=null"
-                    style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                    <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
-                </a>
-                <div class="input-group searchInputForm" >
-                    <input type="text"
-                           class="form-control"
-                           id="creativeSearch"
-                           search-box
-                           name="creativeSearch"
-                           ng-model="creativeSearch"
-                           ng-keyup="select_filter_option('reportName', creativeSearch, $event)"
-                           placeholder="Search Reports By Report Name..">
-                    <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput($event)">
-                        <span class="icon-clear" aria-hidden="true"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="schedule_report_filter" class="collapse">
-            <div class="col-md-12 zeroPadding" style="margin: 20px 0;">
-                <!--Report Types-->
-                <div class="col-md-2" style="padding: 0 10px 0 0;">
-                    <div class="col-md-12 zeroPadding dropdown-workflow">
-                        <label  class="col-sm-12 greyTxt miniLabels ng-binding"
-                                data-ng-bind="textConstants.REPORT_TYPES">
-                        </label>
-                        <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle"
-                                    type="button"
-                                    data-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="true">
-                                <span class="text"
-                                      ng-bind="filters.reportType ? filters.reportType : 'All Types'">
-                                </span>
-                                <span class="icon-arrow-solid-down"></span>
-                            </button>
-                            <ul class="dropdown-menu"
-                                aria-labelledby="unitcostType"
-                                ng-model="adData.unitType"
-                                id="unitcostType"
-                                data-toggle="dropdown">
-                                <li ng-repeat="type in textConstants.REPORT_LIST_REPORTTYPES">
-                                    <a ng-click="select_filter_option('reportType',type)" ng-bind="type"></a>
-                                </li>
-                            </ul>
-                            <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden />
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Generated -->
-                <div class="col-md-2" style="padding: 0 10px 0 0;">
-                    <div class="col-md-12 zeroPadding dropdown-workflow">
-                        <label  class="col-sm-12 greyTxt miniLabels ng-binding"
-                                data-ng-bind="textConstants.GENERATED">
-                        </label>
-                        <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle"
-                                    type="button"
-                                    data-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="true">
-                                <span class="text" ng-bind="filters.generated ? filters.generated : 'All'"></span>
-                                <span class="icon-arrow-solid-down"></span>
-                            </button>
-                            <ul class="dropdown-menu"
-                                aria-labelledby="unitcostType"
-                                ng-model="adData.unitType"
-                                id="unitcostType"
-                                data-toggle="dropdown">
-                                <li ng-repeat="type in textConstants.REPORT_LIST_GENERATEON">
-                                    <a ng-click="select_filter_option('generated' , type.key)"
-                                       ng-bind="type.value">
-                                    </a>
-                                </li>
-                            </ul>
-                            <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden />
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Dimensions -->
-                <div class="col-md-6" style="padding: 0 10px 0 0;">
-                    <div class="col-md-12 zeroPadding dropdown-workflow">
-                        <label  class="col-sm-12 greyTxt miniLabels ng-binding"
-                                data-ng-bind="textConstants.DIMENSIONS_FIVE">
-                        </label>
-                        <div class="dropdown">
-                            <tags-input
-                                    ng-model="dimensionFilterModel"
-                                    display-property="value"
-                                    placeholder="Type here..."
-                                    add-from-autocomplete-only="true"
-                                    on-tag-added="addDimensionFilter()"
-                                    on-tag-removed="removeDimensionFilter()"
-                                    max-tags="5">
-                                <auto-complete source="loadDimensionsList($query)"
-                                               min-length="1"
-                                               load-on-down-arrow="true"
-                                               max-results-to-show="50"></auto-complete>
-                            </tags-input>
-                        </div>
-                    </div>
-                </div>
-                <div style="margin-top:32px; padding: 0 10px 0 0;" class="col-md-1">
-                    <a href=""
-                       data-toggle="tab"
-                       id="applyFilter"
-                       class="btn btn-primary ng-binding"
-                       ng-click="getScheduledReports()">Apply</a>
-                </div>
-                <div style="margin-top:32px;" class="col-md-1 zeroPadding">
-                    <a class="btn btn-default pull-right" role="button" ng-click="clearFilters()">
-                        <div style="top:0px !important;" class="glyphicon glyphicon-repeat pull-left" aria-hidden="true"></div>
-                        <span style="margin-left:6px;">Clear</span>
+            <!--Search Input-->
+            <div class="btn-group pull-right">
+                <div class="searchInput pull-left">
+                    <a class="btn btn-default searchInputBtnInline"
+                       data-ng-click="searchShowInput(); filters.searchText = null">
+                        <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
                     </a>
+                    <div class="input-group searchInputForm" >
+                        <input type="text"
+                               class="form-control"
+                               id="creativeSearch"
+                               search-box
+                               name="creativeSearch"
+                               data-ng-model="creativeSearch"
+                               data-ng-keyup="select_filter_option('reportName', creativeSearch, $event)"
+                               placeholder="Search Reports By Report Name...">
+                        <div class="btn btn-default searchClearInputBtn" data-ng-click="searchHideInput($event)">
+                            <span class="icon-clear" aria-hidden="true"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="schedule_report_filter" class="col-md-12 zeroPadding collapse">
+        <div class="col-md-12 zeroPadding" style="margin: 5px 0 15px;">
+            <!--Report Types-->
+            <div class="col-md-2" style="padding: 0 10px 0 0;">
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <label  class="col-sm-12 greyTxt miniLabels data-ng-binding"
+                            data-ng-bind="textConstants.REPORT_TYPES">
+                    </label>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="true">
+                            <span class="text"
+                                  data-ng-bind="filters.reportType ? filters.reportType : 'All Types'">
+                            </span>
+                            <span class="icon-arrow-solid-down"></span>
+                        </button>
+                        <ul class="dropdown-menu"
+                            aria-labelledby="unitcostType"
+                            data-ng-model="adData.unitType"
+                            id="unitcostType"
+                            data-toggle="dropdown">
+                            <li data-ng-repeat="type in textConstants.REPORT_LIST_REPORTTYPES">
+                                <a data-ng-click="select_filter_option('reportType', type)"
+                                   data-ng-bind="type">
+                                </a>
+                            </li>
+                        </ul>
+                        <input type="hidden"
+                               name="unitType"
+                               data-ng-model="adData.unitType.name"
+                               data-ng-update-hidden>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generated -->
+            <div class="col-md-2" style="padding: 0 10px 0 0;">
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <label  class="col-sm-12 greyTxt miniLabels data-ng-binding"
+                            data-ng-bind="textConstants.GENERATED">
+                    </label>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="true">
+                            <span class="text"
+                                  data-ng-bind="filters.generated ? filters.generated : 'All'">
+                            </span>
+                            <span class="icon-arrow-solid-down"></span>
+                        </button>
+                        <ul class="dropdown-menu"
+                            aria-labelledby="unitcostType"
+                            data-ng-model="adData.unitType"
+                            id="unitcostType"
+                            data-toggle="dropdown">
+                            <li data-ng-repeat="type in textConstants.REPORT_LIST_GENERATEON">
+                                <a data-ng-click="select_filter_option('generated', type.key)"
+                                   data-ng-bind="type.value">
+                                </a>
+                            </li>
+                        </ul>
+                        <input type="hidden"
+                               name="unitType"
+                               data-ng-model="adData.unitType.name"
+                               data-ng-update-hidden>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dimensions -->
+            <div class="col-md-6" style="padding: 0 10px 0 0;">
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <label  class="col-sm-12 greyTxt miniLabels data-ng-binding"
+                            data-ng-bind="textConstants.DIMENSIONS_FIVE">
+                    </label>
+                    <div class="dropdown">
+                        <tags-input
+                                data-ng-model="dimensionFilterModel"
+                                display-property="value"
+                                placeholder="Type here..."
+                                add-from-autocomplete-only="true"
+                                on-tag-added="addDimensionFilter()"
+                                on-tag-removed="removeDimensionFilter()"
+                                max-tags="5">
+                            <auto-complete source="loadDimensionsList($query)"
+                                           min-length="1"
+                                           load-on-down-arrow="true"
+                                           max-results-to-show="50">
+                            </auto-complete>
+                        </tags-input>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 32px; padding: 0 10px 0 0;" class="col-md-1">
+                <a href=""
+                   data-toggle="tab"
+                   id="applyFilter"
+                   class="btn btn-primary data-ng-binding"
+                   data-ng-click="getScheduledReports()">
+                    Apply
+                </a>
+            </div>
+            <div style="margin-top: 32px;" class="col-md-1 zeroPadding">
+                <a class="btn btn-default pull-right" role="button" data-ng-click="clearFilters()">
+                    <div style="top: 0 !important;"
+                         class="glyphicon glyphicon-repeat pull-left"
+                         aria-hidden="true">
+                    </div>
+                    <span style="margin-left: 6px;">Clear</span>
+                </a>
+            </div>
+        </div>
     </div>
 
-    <div style="text-align:center;">
+    <div style="text-align: center;">
         <span class="download-report-load-icon"
-              style="margin:5px 0px;"
-              ng-if="reportDownloadBusy"
-              ng-bind-html="textConstants.DOWNLOADING">
+              style="margin: 5px 0;"
+              data-ng-if="reportDownloadBusy"
+              data-ng-bind-html="textConstants.DOWNLOADING">
         </span>
     </div>
 
-    <div class="col-md-12 zeroPadding scheduled_list_table smallSreenScrollContent">
+    <div class="col-md-12 zeroPadding table_list_holder smallScreenScrollContent" style="margin-top: 15px;">
         <!--Table Header-->
         <div class="col-md-12 zeroPadding table-header">
-                <div class="col-md-4 table-th name-col sort-icon-holder">
-                    <span ng-click="sortReverse =! sortReverse" ng-bind-html="textConstants.REPORT_NAME"></span>
-                    <span class="common-sort-icon" ng-class="(!sortReverse?'ascending':'descending')"></span>
-                </div>
-                <div class="col-md-2 table-th frequency-col" ng-bind-html="textConstants.SCHEDULE_LIST_REPORT_TYPE" >
-                </div>
-                <div class="col-md-2 table-th" ng-bind-html="textConstants.REPORT_GENERATED"></div>
-                <div class="col-md-2 table-th" ng-bind-html="textConstants.SCHEDULE_LIST_DIMENSIONS"></div>
-                <div class="col-md-2 table-th" ng-bind-html="textConstants.CREATED_BY"></div>
+            <div class="col-md-4 table-th name-col sort-icon-holder">
+                <span data-ng-click="sortReverse = !sortReverse" data-ng-bind-html="textConstants.REPORT_NAME"></span>
+                <span class="common-sort-icon" data-ng-class="(!sortReverse ? 'ascending' : 'descending')"></span>
+            </div>
+            <div class="col-md-2 table-th frequency-col"
+                 data-ng-bind-html="textConstants.SCHEDULE_LIST_REPORT_TYPE">
+            </div>
+            <div class="col-md-2 table-th" data-ng-bind-html="textConstants.REPORT_GENERATED"></div>
+            <div class="col-md-2 table-th" data-ng-bind-html="textConstants.SCHEDULE_LIST_DIMENSIONS"></div>
+            <div class="col-md-2 table-th" data-ng-bind-html="textConstants.CREATED_BY"></div>
         </div>
+
         <!--Table Body-->
         <div class="col-md-12 zeroPadding table-body">
-            <div class="row" style="margin-top: 20px;" ng-if="showScheduleListLoader">
+            <div class="row" style="margin-top: 20px;" data-ng-if="showScheduleListLoader">
                 <div class="common-loading-area"></div>
             </div>
             <div class="no_data_found"
-                 ng-bind="textconstants.DATANOTAVAILABLE"
-                 ng-if="!showScheduleListLoader && schdReportList.length === 0">
+                 data-ng-bind="textConstants.DATANOTAVAILABLE"
+                 data-ng-if="!showScheduleListLoader && schdReportList.length === 0">
             </div>
 
             <div class="row"
-                 ng-if="!showScheduleListLoader"
-                 ng-repeat="srlist in schdReportList | orderBy:'name':sortReverse track by $index">
+                 data-ng-if="!showScheduleListLoader"
+                 data-ng-repeat="srlist in schdReportList | orderBy : 'name' : sortReverse track by $index">
                 <div class="clearfix rowHover"
-                     ng-class="{downloaded:((srlist.instances.length > 0) && (srlist.instances[0].viewedOn.length > 0))}">
+                     data-ng-class="{downloaded: ((srlist.instances.length > 0) &&
+                        (srlist.instances[0].viewedOn.length > 0))}">
 
                     <!--Column 1-->
                     <div class="col-md-4 table-td name-col">
                         <div class="col-md-9"
-                             ng-class="{'no-instance':srlist.instances.length <= 0, 'isSaved':srlist.frequency=='Saved'}"
+                             data-ng-class="{'no-instance': srlist.instances.length <= 0,
+                                'isSaved':srlist.frequency=='Saved'}"
                              title="{{srlist.name}}"
-                             ng-click="redirect_or_open_2nd_dimension($event, $index, srlist.reportId, srlist.frequency);">
+                             data-ng-click="redirect_or_open_2nd_dimension($event, $index, srlist.reportId,
+                                srlist.frequency);">
                             {{srlist.name}}
-                            <span ng-if="srlist.instances.length > 0"
-                                  ng-bind-html="' (' + srlist.instances.length + ')'">
+                            <span data-ng-if="srlist.instances.length > 0"
+                                  data-ng-bind-html="' (' + srlist.instances.length + ')'">
                             </span>
                         </div>
-
                         <div class="col-md-3 table-td more-options">
                             <div class="dropdown-workflow">
                                 <div class="dropdown hideOption">
                                     <span data-toggle="dropdown">
                                         <div class="option-horizontal">
-                                            <span></span><span></span><span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
                                         </div>
                                     </span>
                                     <ul class="dropdown-menu">
-                                        <li ng-click="editSchdReport(srlist.reportId, srlist.frequency)">
-                                            <a ng-bind-html="textConstants.EDIT"></a>
+                                        <li data-ng-click="editSchdReport(srlist.reportId, srlist.frequency)">
+                                            <a data-ng-bind-html="textConstants.EDIT"></a>
                                         </li>
-                                        <li ng-click="copyScheduleRpt(srlist.reportId, srlist.frequency)">
-                                            <a ng-bind-html="textConstants.COPY"></a>
+                                        <li data-ng-click="copyScheduleRpt(srlist.reportId, srlist.frequency)">
+                                            <a data-ng-bind-html="textConstants.COPY"></a>
                                         </li>
-                                        <li ng-click="deleteSchdRpt(srlist.reportId, srlist.frequency)">
-                                            <a ng-bind-html="textConstants.DELETE"></a>
+                                        <li data-ng-click="deleteSchdRpt(srlist.reportId, srlist.frequency)">
+                                            <a data-ng-bind-html="textConstants.DELETE"></a>
                                         </li>
 
                                         <li class="headerDownload"
-                                            ng-click="downloadSavedReport($parent.$index,$index,srlist.reportId)"
-                                            ng-if="srlist.frequency=='Saved'">
+                                            data-ng-click="downloadSavedReport($parent.$index,$index,srlist.reportId)"
+                                            data-ng-if="srlist.frequency=='Saved'">
                                             <span class="icon-download zeroPadding pull-left"></span>
                                             <a class="pull-left">Download</a>
                                         </li>
@@ -237,11 +260,11 @@
                     </div>
 
                     <!--Column 2-->
-                    <div class="col-md-2 table-td frequency-col" ng-bind-html="srlist.frequency"></div>
+                    <div class="col-md-2 table-td frequency-col" data-ng-bind-html="srlist.frequency"></div>
 
                     <!--Column 3-->
                     <div class="col-md-2 table-td"
-                         ng-bind-html="(srlist.frequency != 'Saved' ?
+                         data-ng-bind-html="(srlist.frequency != 'Saved' ?
                             (srlist.instances[0].completedOn === undefined ?
                             'Pending Status' :
                             srlist.instances[0].completedOn) :
@@ -251,42 +274,44 @@
 
                     <!--Column 4-->
                     <div class="col-md-2 table-td"
-                         ng-bind-html="srlist.dimensions"
-                         style="white-space: nowrap; text-overflow: ellipsis; overflow:hidden;">
+                         data-ng-bind-html="srlist.dimensions"
+                         style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
                     </div>
 
                     <!--Column 5-->
-                    <div class="col-md-2 table-td" ng-bind-html="srlist.createdBy"></div>
+                    <div class="col-md-2 table-td" data-ng-bind-html="srlist.createdBy"></div>
 
                 </div>
-                <div class="inner-row" ng-if="srlist.instances.length > 0" >
+                <div class="inner-row" data-ng-if="srlist.instances.length > 0">
                     <div class="clearfix rowHover"
-                         ng-repeat="inst in srlist.instances | limitTo: scheduleInstCount[$parent.$index] track by $index"
-                         ng-class="{downloaded:inst.viewedOn.length > 0}">
-
+                         data-ng-repeat="inst in srlist.instances | limitTo: scheduleInstCount[$parent.$index]
+                            track by $index"
+                         data-ng-class="{downloaded: inst.viewedOn.length > 0}">
                         <div class="table-td name-col">
-                            <span class="col-md-9 arrow" ng-bind-html="srlist.name"></span>
+                            <span class="col-md-9 arrow" data-ng-bind-html="srlist.name"></span>
                             <div class="col-md-3">
                                 <div class="table-td more-options">
                                     <div class="dropdown-workflow">
                                         <div class="dropdown hideOption">
                                             <span data-toggle="dropdown">
                                                 <div class="option-horizontal">
-                                                    <span></span><span></span><span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
                                                 </div>
                                             </span>
                                             <ul class="dropdown-menu">
-                                                <li ng-click="downloadSchdReport($parent.$index, $index,
+                                                <li data-ng-click="downloadSchdReport($parent.$index, $index,
                                                         srlist.instances[$index].instanceId)">
-                                                    <a ng-bind-html="textConstants.DOWNLOAD"></a>
+                                                    <a data-ng-bind-html="textConstants.DOWNLOAD"></a>
                                                 </li>
-                                                <li ng-click="deleteSchdRptInstance(srlist.reportId,
+                                                <li data-ng-click="deleteSchdRptInstance(srlist.reportId,
                                                         srlist.instances[$index].instanceId)">
-                                                    <a ng-bind-html="textConstants.DELETE"></a>
+                                                    <a data-ng-bind-html="textConstants.DELETE"></a>
                                                 </li>
-                                                <li ng-click="archiveSchdRpt(srlist.reportId,
+                                                <li data-ng-click="archiveSchdRpt(srlist.reportId,
                                                         srlist.instances[$index].instanceId)">
-                                                    <a ng-bind-html="textConstants.ARCHIEVE"></a>
+                                                    <a data-ng-bind-html="textConstants.ARCHIVE"></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -294,17 +319,19 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-md-2 table-td frequency-col" ng-bind-html="srlist.frequency"></div>
-                        <div class="col-md-2 table-td" ng-bind-html="inst.completedOn | date : 'EEE, MMM d yyyy'"></div>
-                        <div class="col-md-2 table-td" ng-bind-html="srlist.dimensions"></div>
-                        <div class="col-md-2 table-td" ng-bind-html="srlist.createdBy"></div>
+                        <div class="col-md-2 table-td frequency-col" data-ng-bind-html="srlist.frequency"></div>
+                        <div class="col-md-2 table-td"
+                             data-ng-bind-html="inst.completedOn | date : 'EEE, MMM d yyyy'">
+                        </div>
+                        <div class="col-md-2 table-td" data-ng-bind-html="srlist.dimensions"></div>
+                        <div class="col-md-2 table-td" data-ng-bind-html="srlist.createdBy"></div>
                     </div>
                     <div class="row view-all-link"
-                         ng-if="(srlist.instances.length > 3) && (scheduleInstCount[$parent.$index] < srlist.instances.length)">
+                         data-ng-if="(srlist.instances.length > 3) && (scheduleInstCount[$parent.$index] <
+                            srlist.instances.length)">
                         <div class="col-md-12 table-td">
-                            <a ng-click="setScheduleInstCount($parent.$index,srlist.instances.length)"
-                               href="javascript:void(0);" ng-bind-html="textConstants.VIEW_ALL_REPORTS"></a>
+                            <a data-ng-click="setScheduleInstCount($parent.$index,srlist.instances.length)"
+                               href="javascript:void(0);" data-ng-bind-html="textConstants.VIEW_ALL_REPORTS"></a>
                         </div>
                     </div>
                 </div>

@@ -1,39 +1,36 @@
 <div class="clearfix campaign_list_header_holder">
     <!--Column 1-->
-    <div class="col-md-4">
-        <div class="unselectable each_header_title brand_title active_title pull-left {{$parent.details.sortClass('brandName')}}"  ng-style="{'cursor':'default'}">
-            {{textConstants.ADVERTISERS}}
+    <div class="col-md-6" style="padding-left: 0;">
+        <div class="unselectable each_header_title brand_title active_title pull-left {{$parent.details.sortClass('brandName')}}"
+             ng-style="{'cursor':'default'}"
+             data-ng-bind="textConstants.ADVERTISERS">
         </div>
-        <div class=" unselectable each_header_title flight_dates_title pull-right {{$parent.details.sortClass('startDate')}}"  id="details_dates_sort"  ng-click="$parent.details.callStrategiesSorting('startDate',$parent.campaign.campaignStrategies.length )"  ng-class="($parent.campaign.campaignStrategies.length > 1 ? 'active':'deactive')" >
-            {{textConstants.FLIGHT_DATES}}<span class="sortable {{$parent.details.sortIcon('startDate')}}"></span>
+        <div class=" unselectable each_header_title flight_dates_title pull-right {{$parent.details.sortClass('startDate')}}"
+             id="details_dates_sort"
+             data-ng-click="$parent.details.callStrategiesSorting('startDate', $parent.campaign.campaignStrategies.length)"
+             data-ng-class="($parent.campaign.campaignStrategies.length > 1 ? 'active' : 'deactive')">
+            {{textConstants.FLIGHT_DATES}}
+            <span class="sortable {{$parent.details.sortIcon('startDate')}}"></span>
         </div>
     </div>
-    
+
     <!--Column 2-->
-    <div class="col-md-4 unselectable each_header_title metrics_title">
-        {{textConstants.METRICS_LIFE_TIME}}
-    </div>
-    
+    <div class="col-md-6 unselectable each_header_title metrics_title" data-ng-bind="textConstants.METRICS_LIFE_TIME"></div>
+
     <!--Column 3-->
-    <div class="col-md-4 unselectable each_header_title kpi_title">
-        <div class="pull-left text-center">
-            {{textConstants.KPI}}
-        </div>
+    <div class="col-md-4 unselectable each_header_title kpi_title" style="display: none;">
+        <div class="pull-left text-center" data-ng-bind="textConstants.KPI"></div>
         <div class="pull-left tooltip_holder">
-              <span class="tooltip_show_icon"></span>
-              <div class="common_tooltip">
+            <span class="tooltip_show_icon"></span>
+            <div class="common_tooltip">
                 <div class="target_zone">
-                  <div class="target_zone_lines"></div>
-                  {{textConstants.TARGET_ZONE}}
+                    <div class="target_zone_lines"></div>
+                    {{textConstants.TARGET_ZONE}}
                 </div>
-                <div class="legend_line ontarget_line">
-                    {{textConstants.KPI_ON_TARGET}}
-                </div>
-                <div class="legend_line underperformance_line">
-                    {{textConstants.KPI_UNDERPERFORMANCE}}
-                </div>
-                
-              </div>
+                <div class="legend_line ontarget_line" data-ng-bind="textConstants.KPI_ON_TARGET"></div>
+                <div class="legend_line underperformance_line" data-ng-bind="textConstants.KPI_UNDERPERFORMANCE"></div>
+            </div>
         </div>
-    </div>                
-</div>{{actionsFilter}}
+    </div>
+</div>
+{{actionsFilter}}

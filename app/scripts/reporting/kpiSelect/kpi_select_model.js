@@ -1,7 +1,7 @@
-define(['angularAMD'], function (angularAMD) {
+define(['angularAMD', 'common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('kpiSelectModel', function () {
+    angularAMD.factory('kpiSelectModel', function (vistoconfig) {
         var kpiData = {};
 
         kpiData.selectedKpi = (localStorage.getItem('selectedKpi') === undefined) ?
@@ -10,15 +10,17 @@ define(['angularAMD'], function (angularAMD) {
         kpiData.selectedKpiAlt = (localStorage.getItem('selectedKpiAlt') === undefined) ?
             'cpm' : localStorage.getItem('selectedKpiAlt');
 
-        kpiData.kpiDropDown = ['ctr', 'action_rate', 'cpa', 'cpc', 'cpm', 'vtc'];
-        kpiData.newkpiDropDownAlt = ['cpm', 'cpc', 'cpa'];
+        kpiData.kpiDropDown = vistoconfig.kpiDropDown;
+        kpiData.newkpiDropDownAlt = vistoconfig.newkpiDropDownAlt;
 
         kpiData.setSelectedKpi = function (_kpi) {
+            _kpi = _kpi.replace(/ /g, '_');
             localStorage.setItem('selectedKpi', _kpi);
             kpiData.selectedKpi = _kpi;
         };
 
         kpiData.setSelectedKpiAlt = function (_kpi) {
+            _kpi = _kpi.replace(/ /g, '_');
             localStorage.setItem('selectedKpiAlt', _kpi);
             kpiData.selectedKpiAlt = _kpi;
         };

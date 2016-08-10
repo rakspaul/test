@@ -29,19 +29,9 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
                             _campaign.id;
 
                         campaign.selectedCampaign.name = _campaign.name;
-
-                        campaign.selectedCampaign.kpi = (_campaign.kpi === undefined) ?
-                            (_campaign.kpi_type.toLowerCase()) :
-                            _campaign.kpi.toLowerCase();
-
-                        campaign.selectedCampaign.startDate = (_campaign.startDate === undefined) ?
-                            _campaign.start_date :
-                            _campaign.startDate;
-
-                        campaign.selectedCampaign.endDate = (_campaign.endDate === undefined) ?
-                            _campaign.end_date :
-                            _campaign.endDate;
-
+                        campaign.selectedCampaign.kpi = (_campaign.kpi === undefined) ? (_campaign.kpi_type.toLowerCase()) : _campaign.kpi.toLowerCase();
+                        campaign.selectedCampaign.startDate = (_campaign.startDate === undefined) ? _campaign.start_date : _campaign.startDate;
+                        campaign.selectedCampaign.endDate = (_campaign.endDate === undefined) ? _campaign.end_date : _campaign.endDate;
                         campaign.selectedCampaign.cost_transparency = _campaign.cost_transparency;
                         campaign.selectedCampaign.redirectWidget = _campaign.type || '';
 

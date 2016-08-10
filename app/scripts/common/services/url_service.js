@@ -99,6 +99,10 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                         params += '&campaign_ids=' + qryObj.campaignIds;
                     }
 
+                    if (qryObj.lineitemId) {
+                        params += '&lineitem_id=' + qryObj.lineitemId;
+                    }
+
                     if (qryObj.ad_group_id === 0) {
                         params += '&ad_group_id=0';
                     }
@@ -151,17 +155,17 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                         '&date_filter=life_time&campaign_status=' + qryObj.campaignStatus + '&top_count=5';
                 },
 
-                APICalendarWidgetForBrand = function (clientId, advertiserId, brandId, sortColumn, status) {
+                APICalendarWidgetForAdvertiser = function (clientId, advertiserId, brandId, sortColumn, status) {
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
-                        '/brands/campaigns/meta?advertiser_id=' + advertiserId + '&brand_id=' + brandId +
+                        '/advertisers/campaigns/meta?advertiser_id=' + advertiserId + '&brand_id=' + brandId +
                         '&topCount=25&sort_column=' + sortColumn + '&campaignState=' + status;
                 },
 
-                APICalendarWidgetForAllBrands = function (clientId, advertiserId, sortColumn, status) {
+                APICalendarWidgetForAllAdvertisers = function (clientId, advertiserId, sortColumn, status) {
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
-                        '/brands/campaigns/meta?advertiser_id=' + advertiserId + '&topCount=5&sort_column=' +
+                        '/advertisers/campaigns/meta?advertiser_id=' + advertiserId + '&topCount=5&sort_column=' +
                         sortColumn + '&campaignState=' + status;
                 },
 
@@ -437,8 +441,8 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                     APICampaignCountsSummary : APICampaignCountsSummary,
                     APISpendWidgetForAllBrands : APISpendWidgetForAllBrands,
                     APISpendWidgetForCampaigns : APISpendWidgetForCampaigns,
-                    APICalendarWidgetForBrand : APICalendarWidgetForBrand,
-                    APICalendarWidgetForAllBrands : APICalendarWidgetForAllBrands,
+                    APICalendarWidgetForAdvertiser : APICalendarWidgetForAdvertiser,
+                    APICalendarWidgetForAllAdvertisers : APICalendarWidgetForAllAdvertisers,
                     APIActionData : APIActionData,
                     APICampaignDropDownList : APICampaignDropDownList,
                     APIStrategiesForCampaign : APIStrategiesForCampaign,

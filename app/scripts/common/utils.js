@@ -1,8 +1,11 @@
 define(['angularAMD','common/services/constants_service', 'common/services/role_based_service'],
     function (angularAMD) {
-        angularAMD.factory('utils', ['$location', '$sce', 'constants',
-            function ($location, $sce, constants) {
-                var formatDate = function (input) {
+        angularAMD.factory('utils', ['$location', '$sce', 'constants', function ($location, $sce, constants) {
+                var
+                    // NOTE: Used in
+                    // 1) campaign_list_service.js
+                    // (as on 25th July 2016)
+                    formatDate = function (input) {
                         var date = new Date(input),
                             dayOfMonth = date.getDate(),
                             suffixes = ['th', 'st', 'nd', 'rd'],
@@ -11,18 +14,26 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         return relevantDigits <= 3 ? suffixes[relevantDigits] : suffixes[0];
                     },
 
+                    // NOTE: NOT USED anywhere.
+                    // (as on 25th July 2016)
                     regExp = function () {
                         return {
-                            removeSpecialCharacterAndSpaces : /[&\/\\#,+()@!^$~%.'":*?<>{} ]/g
+                            removeSpecialCharacterAndSpaces : /[&\/\\#,+()@!^$~%.'":*?<>{} ]/g,
+                            validateUrl: /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/
                         };
                     },
 
+                    // NOTE: NOT USED anywhere.
+                    // (as on 25th July 2016)
                     convertToEST = function (date, format) {
                         var d1,
                             d2,
                             tz,
                             finalDate,
-                            parsedDate;
+                            parsedDate,
+                            returnValue;
+
+                        date = date || '';
 
                         if (date) {
                             d1 = date.slice(0, 10);
@@ -33,14 +44,18 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         }
 
                         if (date === '') {
-                            return moment().format(format);
+                            returnValue = moment().format(format);
                         } else if (format === '') {
-                            return moment(parsedDate).tz('EST').format(constants.DATE_US_FORMAT);
+                            returnValue = moment(parsedDate).tz('EST').format(constants.DATE_US_FORMAT);
                         } else {
-                            return moment(parsedDate).tz('EST').format(format);
+                            returnValue = moment(parsedDate).tz('EST').format(format);
                         }
+
+                        return returnValue;
                     },
 
+                    // NOTE: NOT USED anywhere.
+                    // (as on 25th July 2016)
                     convertToUTC = function (date, type) {
                         var timeSuffix = (type === 'ST' ? '00:00:00' : '23:59:59'),
                             tz = 'EST',
@@ -50,6 +65,9 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             .format(constants.DATE_UTC_FORMAT);
                     },
 
+                    // NOTE: Used in
+                    // 1) collective_edit_report_controller.js
+                    // (as on 25th July 2016)
                     reportTypeOptions = function () {
                         return [
                             {name: 'PCAR'},
@@ -59,11 +77,17 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         ];
                     },
 
+                    // NOTE: NOT USED anywhere.
+                    // (as on 25th July 2016)
                     makeTitle = function (input) {
                         var title = '<div id="legend">',
-                            i;
+                            i,
+                            length;
 
-                        for (i = 0; i < input.length; i++) {
+                        input = input || [];
+                        length = input.length;
+
+                        for (i = 0; i < length; i++) {
                             title += '<a id="a"' + (i + 1) + '>' + input[i] + '</a>';
                         }
 
@@ -72,10 +96,17 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         return title;
                     },
 
-                    getResponseMsg = function(res){
+                    // NOTE: Used in
+                    // 1) admin_advertisers_controller.js
+                    // 2) admin_brands_controller.js
+                    // (as on 25th July 2016)
+                    getResponseMsg = function (res) {
                         return (res.message || res.data.message || res.data.data.message);
                     },
 
+                    // NOTE: Used in
+                    // 1) creative_controller.js
+                    // (as on 25th July 2016)
                     validateUrl = function (url) {
                         var re =
                         /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
@@ -83,79 +114,143 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         return re.test(url);
                     },
 
+                    // NOTE: Used in
+                    // 1) creative_controller.js
+                    // (as on 25th July 2016)
                     validateTag = function (scriptTag) {
                         var pattern = new RegExp(/.*(https:).*/),
+                            tagLower;
+
+                        scriptTag = scriptTag || '';
+
+                        if (scriptTag) {
                             tagLower = scriptTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
-
-                        if (tagLower.match(pattern)) {
-                            return true;
-                        } else {
-                            return false;
                         }
+
+                        return tagLower.match(pattern) ? true : false;
                     },
 
+                    // NOTE: Used in
+                    // 1) brands_controller.js
+                    // 2) campaign_list_controller.js
+                    // (as on 25th July 2016)
                     highlightSearch = function (text, search) {
+                        var returnValue;
+
+                        text = text || '';
+                        search = search || '';
+
                         if (!search) {
-                            return $sce.trustAsHtml(text);
+                            returnValue = $sce.trustAsHtml(text);
+                        } else {
+                            returnValue = $sce.trustAsHtml(
+                                window.unescape(text.replace(new RegExp(window.escape(search), 'gi'),
+                                '<span class="brand_search_highlight">$&</span>'))
+                            );
                         }
 
-                        return $sce.trustAsHtml(window.unescape(text.replace(new RegExp(window.escape(search), 'gi'),
-                            '<span class="brand_search_highlight">$&</span>')));
+                        return returnValue;
                     },
 
+                    // NOTE: Used in
+                    // 1) campaign_list_service.js
+                    // 2) campaign_details_controller.js
+                    // 3) optimization_controller.js
+                    // 4) campaign_card.js
+                    // 5) campaign_cost_card.js
+                    // 6) strategy_card.js
+                    // 7) tactic_card.js
+                    // (as on 25th July 2016)
                     roundOff = function (value, places) {
-                        var factor = Math.pow(10, places);
+                        var factor;
+
+                        value = value || 0;
+                        places = places || 0;
+                        factor = Math.pow(10, places);
 
                         return Math.round(value * factor) / factor;
                     },
 
+                    // NOTE: Used in
+                    // 1) campaign_list_controller.js
+                    // 2) campaign_details_controller.js
+                    // 3) campaign_card.js
+                    // 4) campaign_cost_card.js
+                    // 5) strategy_card.js
+                    // 6) tactic_card.js
+                    // (as on 25th July 2016)
                     goToLocation = function (url) {
+                        url = url || '/';
                         $location.url(url);
                     },
 
+                    capitaliseAllText = function(text){
+                        text = text.split(' ');
+                        _.each(text,function(t, i){
+                            text[i] = t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
+                        });
+                        return text.join(' ');
+                    },
+                    // NOTE: NOT USED anywhere.
+                    // (as on 25th July 2016)
                     allValuesSame = function (arr) {
-                        var i;
+                        var i,
+                            length,
+                            returnValue = true;
 
-                        for (i = 1; i < arr.length; i++) {
+                        arr = arr || [];
+                        length = arr.length;
+
+                        for (i = 1; i < length; i++) {
                             if (arr[i] !== arr[0]) {
-                                return false;
+                                returnValue = false;
+                                break;
                             }
                         }
 
-                        return true;
+                        return returnValue;
                     },
 
-                    // clones any javascript object recursively
-                    clone = function clone(obj) {
-                        var temp,
-                            key;
+                    // NOTE: Used in
+                    // 1) data_service.js
+                    // (as on 25th July 2016)
+                    // Note: clones any javascript object recursively
+                    clone = function (obj) {
+                        var key,
+                            returnValue;
 
                         if (!obj || typeof(obj) !== 'object') {
-                            return obj;
-                        }
+                            returnValue = obj;
+                        } else {
+                            returnValue = obj.constructor();
 
-                        temp = obj.constructor();
-
-                        for (key in obj) {
-                            if (obj.hasOwnProperty(key)) {
-                                temp[key] = clone(obj[key]);
+                            for (key in obj) {
+                                if (obj.hasOwnProperty(key)) {
+                                    returnValue[key] = clone(obj[key]);
+                                }
                             }
                         }
 
-                        return temp;
+                        return returnValue;
                     },
 
+                    // NOTE: This is an internal variable. It is NOT exposed externally.
                     SEARCH_OBJECT = {
                         key: '',
                         limit: constants.DEFAULT_LIMIT_COUNT,
                         offset: constants.DEFAULT_OFFSET_START
                     },
 
+                    // NOTE: Used in
+                    // 1) campaign_card.js
+                    // 2) strategy_card.js
+                    // 3) tactic_card.js
+                    // (as on 25th July 2016)
                     // Note: You can provide limit, offset and key as arguments for initializing.
                     // Please follow the above order for initialization.
                     // Will consider first three parameters only.
                     VTCpopupfunc = function (event, flag) {
-                        var elem = $(event.target),
+                        var elem,
                             leftPos,
                             vtcContainer,
                             vtcBtnContainer,
@@ -165,6 +260,10 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             parentPos,
                             leftPosTactic;
 
+                        event = event || window.event;
+                        flag = flag || 0;
+
+                        elem = $(event.target);
                         elem.closest('.each_campaign_list_container').find('.quartile_details_VTC').show();
 
                         if (flag === 1) {
@@ -191,8 +290,8 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                                 .find('.quartile_details_VTC')
 
                                 .css({
-                                    'left': leftPosNumber,
-                                    'display': 'block'
+                                    left: leftPosNumber,
+                                    display: 'block'
                                 });
 
                             if (elem.closest('.tactics_container').length === 0) {
@@ -236,6 +335,11 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         }
                     },
 
+                    // NOTE: Used in
+                    // 1) login_controller.js
+                    // 2) collective_report_listing_controller.js
+                    // 3) actions.js
+                    // (as on 25th July 2016)
                     detectBrowserInfo = function () {
                         var nAgt = navigator.userAgent,
                             browserName = navigator.appName,
@@ -342,46 +446,91 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             fullVersion:  fullVersion,
                             majorVersion: majorVersion
                         };
+                    },
+
+                    // NOTE: Used in
+                    // 1) ad_create_controller.js
+                    // 2) campaign_create_controller.js
+                    // 3) campaign_overview_controller.js
+                    // (as on 25th July 2016)
+                    stripCommaFromNumber = function (num) {
+                        num = num || 0;
+
+                        return String(num).replace(/,/g, '');
+                    },
+
+                    // NOTE: Used in
+                    // 1) ad_create_controller.js
+                    // 2) geo_targetting_controller.js
+                    // (as on 25th July 2016)
+                    rangeValue = function (list) {
+                        var start,
+                            end,
+                            i,
+                            tmpArr= [];
+
+                        _.each(list , function (item) { // jshint ignore:line
+                            item = item.split('-');
+
+                            if (item.length > 1) {
+                                start = Number(item[0]);
+                                end = Number(item[1]);
+                                for (i = start; i <= end; i++) {
+                                    tmpArr.push(String(i));
+                                }
+                            } else {
+                                tmpArr.push(item[0]);
+                            }
+                        });
+
+                        return tmpArr;
                     };
 
-                function getTypeaheadParams() {
+                // NOTE: Used in
+                // 1) advertiser_controller.js
+                // 2) brands_controller.js
+                // 3) campaign_select_controller.js
+                // 4) dashboard_model.js
+                // (as on 25th July 2016)
+                function getTypeAheadParams() {
                     var search = clone(SEARCH_OBJECT),
                         size = 3,
                         i;
 
-                    if (arguments.length === 0) {
-                        return search;
-                    }
+                    if (arguments.length > 0) {
+                        if (arguments.length < 3) {
+                            size = arguments.length;
+                        }
 
-                    if (arguments.length < 3) {
-                        size = arguments.length;
-                    }
+                        for (i = 0; i < size; i++) {
+                            switch (i) {
+                                case 0:
+                                    if (!isNaN(arguments[i])) {
+                                        search.limit = arguments[i];
+                                    }
 
-                    for (i = 0; i < size; i++) {
-                        switch (i) {
-                            case 0:
-                                if (!isNaN(arguments[i])) {
-                                    search.limit = arguments[i];
-                                }
+                                    break;
 
-                                break;
+                                case 1:
+                                    if (!isNaN(arguments[i])) {
+                                        search.offset = arguments[i];
+                                    }
 
-                            case 1:
-                                if (!isNaN(arguments[i])) {
-                                    search.offset = arguments[i];
-                                }
+                                    break;
 
-                                break;
-
-                            case 2:
-                                search.key = arguments[i];
-                                break;
+                                case 2:
+                                    search.key = arguments[i];
+                                    break;
+                            }
                         }
                     }
 
                     return search;
                 }
 
+                // NOTE: Used in
+                // 1) data_service.js
+                // (as on 25th July 2016)
                 function getParameterByName(url, name) {
                     var results = '',
                         regex;
@@ -396,6 +545,9 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     return results;
                 }
 
+                // NOTE: Used in
+                // 1) cost_controller.js
+                // (as on 25th July 2016)
                 function hasItem(data, key, val) {
                     var retVal = false;
 
@@ -408,6 +560,9 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     return retVal;
                 }
 
+                // NOTE: Used in
+                // 1) reports_schedule_list_controller.js
+                // (as on 25th July 2016)
                 function getValueOfItem(data, key) {
                     var retVal = '';
 
@@ -420,6 +575,9 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     return retVal;
                 }
 
+                // NOTE: Used in
+                // 1) reports_invoice_list_controller.js
+                // (as on 25th July 2016)
                 function getEndAndStartDate(timeFrame) {
                     var o = {},
                         startWeekDate;
@@ -489,6 +647,14 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     return o;
                 }
 
+                function formatStringWithDate(string,date,format){
+                    if(date) {
+                        var formattedDate = moment(date).format(format);
+                        return string.replace('{0}',formattedDate);
+                    }
+                }
+
+
                 return {
                     formatDate: formatDate,
                     regExp: regExp,
@@ -498,7 +664,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     allValuesSame: allValuesSame,
                     clone: clone,
                     highlightSearch: highlightSearch,
-                    typeaheadParams: getTypeaheadParams(),
+                    typeAheadParams: getTypeAheadParams(),
                     getParameterByName: getParameterByName,
                     detectBrowserInfo: detectBrowserInfo,
                     VTCpopupfunc: VTCpopupfunc,
@@ -510,14 +676,18 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     getEndAndStartDate: getEndAndStartDate,
                     validateUrl:validateUrl,
                     validateTag:validateTag,
-                    getResponseMsg: getResponseMsg
+                    stripCommaFromNumber: stripCommaFromNumber,
+                    rangeValue : rangeValue,
+                    getResponseMsg: getResponseMsg,
+		            formatStringWithDate:formatStringWithDate,
+                    capitaliseAllText: capitaliseAllText
                 };
             }
         ]);
 
-        $.fn.scrollWithInDiv = function () {
+        $.fn.scrollWithinDiv = function () {
             this.bind('mousewheel DOMMouseScroll', function (e) {
-                var scrollTo = null;
+                var scrollTo;
 
                 if (e.type === 'mousewheel') {
                     scrollTo = (e.originalEvent.wheelDelta * -1);

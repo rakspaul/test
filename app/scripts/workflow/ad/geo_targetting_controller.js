@@ -1,9 +1,8 @@
 define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
-    'common/services/zip_code_service', 'lrInfiniteScroll'], function (angularAMD) {
+    'common/services/zip_code_service', 'common/utils', 'lrInfiniteScroll'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('GeoTargettingController', function ($scope, $rootScope, $timeout, $filter, constants,
-                                                               workflowService, zipCode) {
+    angularAMD.controller('GeoTargettingController', function ($scope, $rootScope, $timeout, $filter, constants, workflowService, zipCode, utils) {
         var DATA_MAX_SIZE = 200,
 
             defaultParams = {
@@ -229,8 +228,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 geoTargetingDataForPreview : function () {
                     var geoData = _.extend({}, $scope.geoData);
 
-                    geoData.zip = zipWrapper.getAllAddedZipCode(geoData.zip.selected);
-
                     if (geoData.countries && geoData.countries.selected.length > 0) {
                         geoData.COUNTRY = {};
                         geoData.COUNTRY.geoTargetList = [];
@@ -263,13 +260,21 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         delete geoData.dmas;
                     }
 
-                    if (geoData.zip && geoData.zip.length > 0) {
+                    if (geoData.zip.selected && geoData.zip.selected.length > 0) {
+
                         geoData.ZIP_CODE = {};
                         geoData.ZIP_CODE.geoTargetList = [];
-                        geoData.ZIP_CODE.geoTargetList = geoData.zip;
-                        geoData.ZIP_CODE.isIncluded = geoData.zip.length > 0 ? true : false;
-                        delete geoData.zip;
+                        geoData.ZIP_CODE.isIncluded = true;
+
+                        geoData.ZIP_CODE.geoTargetList = _.map(geoData.zip.selected, function(arr) {
+                            return {
+                                countryCode: arr.countryCode,
+                                countryName: arr.countryName,
+                                zipcodes: utils.rangeValue(arr.zipCodes.added).join(', ')
+                            };
+                        });
                     }
+
                     return geoData;
                 },
 
@@ -384,12 +389,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                             $scope.geoSelectedItems[idx].countries[countryLen].regions[regionLen].cities = [];
                         }
 
-                        pos1 = _.findIndex(
-                            $scope.geoSelectedItems[idx].countries[countryLen].regions[regionLen].cities,
-                            function (obj) {
-                                return item.countryCode === obj.countryCode;
-                            }
-                        );
+                        pos1 = _.findIndex($scope.geoSelectedItems[idx].countries[countryLen].regions[regionLen].cities, function (obj) {
+                            return item.countryCode === obj.countryCode;
+                        });
 
                         if (pos1 >= 0) {
                             regionLen = pos1;
@@ -650,11 +652,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                                 $scope.geoSelectedItems[idx].countries[countryLen].regions = [];
                             }
 
-                            pos1 = _.findIndex(
-                                $scope.geoSelectedItems[idx].countries[countryLen].regions,
-                                function (obj) {
-                                    return item.parent.id === obj.id;
-                                });
+                            pos1 = _.findIndex($scope.geoSelectedItems[idx].countries[countryLen].regions, function (obj) {
+                                return item.parent.id === obj.id;
+                            });
 
                             if (pos1 < 0) {
                                 $scope.geoSelectedItems[idx].countries[countryLen].regions.push(item.parent);
@@ -667,11 +667,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                                 $scope.geoSelectedItems[idx].countries[countryLen].regions[regionLen].cities = [];
                             }
 
-                            pos2 = _.findIndex(
-                                $scope.geoSelectedItems[idx].countries[countryLen].regions[regionLen].cities,
-                                function (obj) {
-                                    return item.id === obj.id;
-                                });
+                            pos2 = _.findIndex($scope.geoSelectedItems[idx].countries[countryLen].regions[regionLen].cities, function (obj) {
+                                return item.id === obj.id;
+                            });
 
                             if (pos2 >= 0) {
                                 regionLen = pos1;
@@ -828,13 +826,13 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 },
 
                 validateZipCodes :  function (zipCodes, callback) {
-                    var zipCodeArr = rangeValue(zipCodes),
+                    var zipCodeArr = utils.rangeValue(zipCodes),
                         params;
 
                     params = {
                         vendorId: $scope.adData.platformId,
                         data:  {
-                            country_code: 'US',
+                            country_code: $scope.geoData.zip.country.code,
                             zip_codes: zipCodeArr.join(',')
                         }
                     };
@@ -842,50 +840,51 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     workflowService
                         .validateZipCodes(params)
                         .then(function (result) {
-                            var responseData = result.data.data;
-
-                            callback && callback(responseData);
-                            console.log('responseData = ', responseData);
+                            callback && callback(result.data.data);
+                            console.log('responseData = ', result.data.data);
                         }, function (error) {
                             console.log('error = ', error);
                         });
                 },
 
                 addZipCode : function (zipCodes) {
-                    var addedZipCodeList = $scope.geoData.zip.selected,
-                        addedZipCodes = zipWrapper.getAllAddedZipCode(addedZipCodeList),
-                        zipCodesObj = zipCode.checkZipCodes(zipCodes, addedZipCodes);
+                    var selectedZipCode,
+                        addedZipCodeList = [],
+                        newZipCodeLst =[],
 
-                    _.each(zipCodesObj.duplicate, function (removeval) {
-                        _.each(addedZipCodeList, function (obj, idx) {
-                            if (obj) {
-                                _.each(obj.added, function (val) {
-                                    if (removeval === val) {
-                                        addedZipCodeList.splice(idx, 1);
-                                    }
-                                });
-                            }
+                        addNewZipCodeFunc =  function(zipList, addedZipCodes) {
+                            return zipCode.checkZipCodes(zipList, addedZipCodes);
+                        };
+
+                        selectedZipCode = $.extend(true, [], $scope.geoData.zip.selected);
+
+                    _.each(zipCodes, function(arr) {
+
+                        if($scope.geoData.zip.selected.length >0) {
+                            _.each(selectedZipCode, function (addedZipList, idx) {
+                                if(addedZipList.countryCode === arr.countryCode) {
+                                    addedZipCodeList = addedZipList.data;
+                                    $scope.geoData.zip.selected.splice(idx, 1);
+                                }
+                            });
+                        }
+
+                        newZipCodeLst.push({
+                            countryName : arr.countryName,
+                            countryCode : arr.countryCode,
+                            zipCodes : addNewZipCodeFunc(arr.zipcodes, addedZipCodeList)
                         });
                     });
 
-                    _.each(zipCodesObj.removed, function (removeval) {
-                        _.each(addedZipCodeList, function (obj, idx) {
-                            if (obj) {
-                                _.each(obj.added, function (val) {
-                                    if (removeval === val) {
-                                        addedZipCodeList.splice(idx, 1);
-                                    }
-                                });
-                            }
-                        });
+                    _.each(newZipCodeLst , function(arr) {
+                        arr.data = arr.zipCodes.added;
                     });
 
-                    $scope.zipCodesObj = zipCodesObj;
+                    //clear the zip code text box.
                     $scope.adData.zipCodes = '';
 
-                    if ($scope.zipCodesObj.added && $scope.zipCodesObj.added.length > 0) {
-                        $scope.geoData.zip.selected.push(zipCodesObj);
-                    }
+                    $scope.geoData.zip.selected = newZipCodeLst.concat($scope.geoData.zip.selected);
+                    console.log('$scope.geoData.zip.selected', $scope.geoData.zip.selected);
                 },
 
                 toggleSwitch : function (flag, mainTab) {
@@ -1070,29 +1069,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     $scope.geoData.regions.queryParams = _.extend({}, defaultParams);
                     this.list();
                 }
-            },
-
-            rangeValue = function (list) {
-                var start,
-                    end,
-                    i,
-                    tmpArr= [];
-
-                _.each(list , function (item) {
-                    item = item.split('-');
-
-                    if (item.length > 1) {
-                        start = Number(item[0]);
-                        end = Number(item[1]);
-                        for (i = start; i <= end; i++) {
-                            tmpArr.push(String(i));
-                        }
-                    } else {
-                        tmpArr.push(item[0]);
-                    }
-                });
-
-                return tmpArr;
             },
 
             // For GEO - Cities related methods
@@ -1296,18 +1272,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             // For DMAs - related methods
             zipWrapper = {
                 setData : function (data) {
-                    var zipEditableObj,
-                        zipEditable,
-                        i;
+                    _.each(data, function(d) {
+                        d.data = d.zipcodes.replace(/\s*,\s*/g, ',').split(',');
+                    });
 
-                    zipEditableObj = $scope.geoData.zip.selected = angular.copy(data);
-                    zipEditable = [];
-
-                    for (i = 0; i < zipEditableObj.length; i++) {
-                        zipEditable[i] = zipEditableObj[i].code;
-                    }
-
-                    $scope.adData.zipCodes = zipEditable.toString();
+                    $scope.adData.zipCodes =  angular.copy(data); // jshint ignore:line
 
                     geoTargeting.addZipCode($scope.adData.zipCodes, {zipEditInit : true});
                 },
@@ -1319,18 +1288,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     }
 
                     $scope.adData.zipCodes = '';
-                },
-
-                getAllAddedZipCode : function (zipCodeList) {
-                    var addedZipCodes = [];
-
-                    _.each(zipCodeList, function (zipCodeObj) {
-                        _.each(zipCodeObj.added, function (val) {
-                            addedZipCodes.push(val);
-                        });
-                    });
-
-                    return addedZipCodes;
                 },
 
                 getSelectedZipCodes: function (zipList) {
@@ -1374,7 +1331,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
         $scope.saveGeography = function (cancelClicked) {
             var geoTargetsData = workflowService.getAdsDetails(),
-                modifedGeoTargetObj = geoTargeting.geoTargetingDataForPreview();
+                modifiedGeoTargetObj = geoTargeting.geoTargetingDataForPreview();
 
             zipWrapper.resetZipCode();
 
@@ -1388,7 +1345,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }
 
             workflowService.setSavedGeo({
-                modify: modifedGeoTargetObj,
+                modify: modifiedGeoTargetObj,
                 original: $.extend(true, [], $scope.geoData)
             });
 
@@ -1423,6 +1380,17 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 }
             }
             return match;
+        };
+
+        $scope.showHideDropdownWithSearch = function(event) {
+            $(event.target).closest('.dropdown').find('.dropdown-menu-with-search').toggle() ;
+        };
+
+        $scope.sectionShownOnSelection = function(country) {
+            $scope.geoData.zip.country = country;
+            $('.countryNameSelected').text(country.name) ;
+            $('.sectionShownOnSelection').show() ;
+
         };
 
         $scope.updateSelection = function ($event, item, type) {
@@ -1463,35 +1431,28 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
             // if we uncheck country, region and city belongs too country uncheck
             if (!checked && type === 'countries') {
-                $scope.geoData.regions.selected =
-                    _.filter($scope.geoData.regions.selected , function (obj) {
-                        return obj.countryCode !== item.countryCode;
-                    });
+                $scope.geoData.regions.selected = _.filter($scope.geoData.regions.selected, function (obj) {
+                    return obj.countryCode !== item.countryCode;
+                });
 
-                $scope.geoData.cities.selected =
-                    _.filter($scope.geoData.cities.selected , function (obj) {
-                        return obj.countryCode !== item.countryCode;
-                    });
+                $scope.geoData.cities.selected = _.filter($scope.geoData.cities.selected, function (obj) {
+                    return obj.countryCode !== item.countryCode;
+                });
 
-                geoTargeting.selectedGeoItemArr =
-                    _.filter(geoTargeting.selectedGeoItemArr, function (obj) {
-                        return obj.countryCode !== item.countryCode;
-                    });
+                geoTargeting.selectedGeoItemArr = _.filter(geoTargeting.selectedGeoItemArr, function (obj) {
+                    return obj.countryCode !== item.countryCode;
+                });
             }
 
             // if we uncheck regions, city belongs to regions should uncheck
             if (!checked && type === 'regions') {
-                $scope.geoData.cities.selected = _.filter(
-                    $scope.geoData.cities.selected,
-                    function (obj) {
-                        return obj.parent.id !== item.id;
-                    });
+                $scope.geoData.cities.selected = _.filter($scope.geoData.cities.selected, function (obj) {
+                    return obj.parent.id !== item.id;
+                });
 
-                geoTargeting.selectedGeoItemArr = _.filter(
-                    geoTargeting.selectedGeoItemArr,
-                    function (obj) {
-                        return  obj.parent.id !== item.id;
-                    });
+                geoTargeting.selectedGeoItemArr = _.filter(geoTargeting.selectedGeoItemArr, function (obj) {
+                    return  obj.parent.id !== item.id;
+                });
             }
 
             // if country is selected and city is selected and if we are selecting region for which city
@@ -1696,9 +1657,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     $scope.zipCodeTabSelected = false;
                 }
 
-                $('.targetting-container .searchInput').hide();
+                $('.targetting-container .searchInput').closest('.btn-group').hide();
             } else {
-                $('.targetting-container .searchInput').show();
+                $('.targetting-container .searchInput').closest('.btn-group').show();
             }
 
             elem = event ? $(event.target) : $('#zipCodeTab');
@@ -1734,13 +1695,14 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
             if (type === 'zip') {
                 _.each(selectedItem, function (obj) {
-                    if (obj.added) {
-                        _.each(obj.added, function (zip, idx) {
+                    if (obj.zipCodes.added && obj.zipCodes.added.length >0) {
+                        _.each(obj.zipCodes.added, function (zip, idx) {
                             if (zip === item) {
-                                obj.added.splice(idx, 1);
+                                obj.zipCodes.added.splice(idx, 1);
                             }
                         });
                     }
+
                 });
             } else {
                 if (type === 'countries') {
@@ -1844,12 +1806,17 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.checkZipCodes =  function () {
             var zipCodes = $scope.adData.zipCodes,
                 validZipCodes,
-                zipCodesRange;
+                zipCodesRange,
+                zipCodesList = [];
 
             $scope.zipCodeLoader = true;
-            zipCodes = zipCodes.split(/[ ,]+/);
 
-            geoTargeting.validateZipCodes(zipCodes , function (data) {
+            zipCodes = zipCodes.replace(/\s*,\s*/g, ','); //removing space after comma
+            zipCodes = zipCodes.replace(/['"]+/g, ''); //removing double quotes and single quotes.
+
+            zipCodes = zipCodes.split(/[,]+/);
+
+            geoTargeting.validateZipCodes(zipCodes, function (data) {
                 $scope.zipCodeLoader = false;
 
                 if (data && data.length > 0) {
@@ -1860,14 +1827,20 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         return parseInt(item, 10);
                     });
 
-                    zipCodesRange = rangeValue(zipCodes).map(function (item) {
+                    zipCodesRange = utils.rangeValue(zipCodes).map(function (item) {
                         return parseInt(item, 10);
                     });
 
-                    zipCodes = _.difference(zipCodesRange, validZipCodes);
+                    zipCodes = _.difference(zipCodesRange, validZipCodes); // jshint ignore:line
                 }
 
-                geoTargeting.addZipCode(zipCodes.join(','));
+                zipCodesList.push({
+                    countryName : $scope.geoData.zip.country.name,
+                    countryCode : $scope.geoData.zip.country.code,
+                    zipcodes :  zipCodes.join(',')
+                });
+
+                geoTargeting.addZipCode(zipCodesList);
             });
         };
 
@@ -2062,6 +2035,14 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 if (saveGeoData.zip.selected.length > 0) {
                     $scope.geoData.zip.selected = [];
                     zipWrapper.setData(saveGeoData.zip.selected);
+                    if (saveGeoData.countries.selected.length  === 0 &&
+                        saveGeoData.regions.selected.length  === 0 &&
+                        saveGeoData.cities.selected.length === 0 &&
+                        saveGeoData.dmas.selected.length === 0) {
+
+                        geoTargeting.triggerGeoNavTab('geo');
+                        geoTargeting.toggleSwitch('on', 'geo');
+                    }
                 }
             } else if (geoTargets && _.size(geoTargets) > 0) {
                 // get geo Data form ads Data
@@ -2117,6 +2098,14 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 if (geoTargets && geoTargets.ZIP_CODE) {
                     $scope.geoData.zip.selected = [];
                     zipWrapper.setData(geoTargets.ZIP_CODE.geoTargetList);
+                    if (!(geoTargets && geoTargets.COUNTRY) &&
+                        !(geoTargets && geoTargets.REGION) &&
+                        !(geoTargets && geoTargets.CITY) &&
+                        !(geoTargets && geoTargets.DMA)) {
+
+                        geoTargeting.triggerGeoNavTab('geo');
+                        geoTargeting.toggleSwitch('on', 'geo');
+                    }
                 }
             } else {
                 // on load reset geo targeting variables.

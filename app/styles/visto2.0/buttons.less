@@ -1,4 +1,7 @@
 // Visto 2.0 Buttons
+
+@import "color.less";
+
 .btn,
 select {
     border-radius: 2px;
@@ -22,24 +25,24 @@ select {
 }
 
 .btn:hover {
-    background: #E1EDF9 !important;
+    background: @hover-light-blue !important;
 }
 
 .btn-primary {
-    background: #0978C9;
+    background: @visto-blue;
 }
 
 .btn-primary:hover {
-    background: #0564A9 !important;
+    background: @endeavour !important;
 }
 
 .btn-primary:active,
 .btn-primary.active {
-    background: #004D86;
+    background: @congress-blue;
 }
 
 .btn-link {
-    color: #363D49;
+    color: @coal;
 }
 
 .btn-link:hover, .btn-link:active {
@@ -48,28 +51,28 @@ select {
 }
 
 .btn-default {
-    color: #57606d;
+    color: @lead-gray;
     font-size: 14px;
-    border: 1px solid #BFC9D7;
+    border: 1px solid @stroke-gray-borders;
     background: #fff;
     &:hover {
-        border: 1px solid #939EAE;
+        border: 1px solid @label-gray;
     }
     &:not(.label-btn):hover {
-        background: #e1edf9;
+        background: @hover-light-blue;;
         box-shadow: none !important;
     }
 
     &:not(.label-btn):active,
     &:not(.label-btn).active {
-        background: #E1EDF9;
+        background: @hover-light-blue;;
         box-shadow: none !important;
     }
 }
 
 .btn-default:active, .btn-default:focus, .btn-default:target{
-  background-color: #DCE6F1 !important;
-  border: 1px solid #BFC9D7 !important;
+  background-color: @active-gray !important;
+  border: 1px solid @stroke-gray-borders !important;
   box-shadow: none;
 }
 
@@ -100,26 +103,26 @@ select {
             border-radius: 0;
             box-shadow: none;
 
-            
+
 
             &.active,
             &.active:hover {
-                background-color: #DCE6F1 !important;
-                border: 1px solid #BFC9D7;
-                color: #363D49;
+                background-color: @active-gray !important;
+                border: 1px solid @stroke-gray-borders;
+                color: @coal;
                 box-shadow: none;
 
                 span {
-                    color: #363D49;
+                    color: @coal;
                 }
             }
-            
+
             &:hover {
-                background-color: #0564A9;
-                color: #363D49;
-                border: 1px solid #BFC9D7;
+                background-color: @endeavour;
+                color: @coal;
+                border: 1px solid @stroke-gray-borders;
                 span {
-                    color: #363D49;
+                    color: @coal;
                 }
             }
 
@@ -141,7 +144,7 @@ select {
             }
 
             span {
-                color: #363D49;
+                color: @coal;
             }
         }
     }
@@ -157,57 +160,57 @@ select {
         height: 36px;
         float: left;
         margin: 0 !important;
-        color: #363D49;
+        color: @coal;
         background-color: #ffffff;
         font-family: Avenir, sans-serif;
-        border: 1px solid #BFC9D7;
+        border: 1px solid @stroke-gray-borders;
         border-left: 0;
         position: relative;
         padding: 10px 15px;
 
         &:hover {
-            background: #E1EDF9 !important;
+            background: @hover-light-blue !important;
             .hideRadioBtn {
                 background-color: none !important;
                 span, [class^="icon-"], [class*=" icon-"] {
-                    color: #363D49;
+                    color: @coal;
                     background: none !important;
                 }
             }
         }
- 
+
         &.first {
-            border-left: 1px solid #BFC9D7;
+            border-left: 1px solid @stroke-gray-borders;
         }
 
         &.active {
-            background-color: #DCE6F1 !important;
+            background-color: @active-gray !important;
             box-shadow: none;
-            color:#363D49;
+            color:@coal;
 
             span {
-                color:#363D49;
+                color:@coal;
             }
-            
+
             &.hover {
                 .hideRadioBtn {
-                    color: #363D49 !important;
+                    color: @coal !important;
                     background-color: transparent !important;
                     span {
-                        color:#363D49;
+                        color:@coal;
                     }
                 }
             }
 
             .hideRadioBtn {
-                color: #363D49 !important;
+                color: @coal !important;
                 background-color: transparent !important;
             }
         }
 
         span {
             float: left;
-            color: #21252b;
+            color: @raven-text;
             font-size: 14px;
             margin: 2px 0 0 10px;
         }
@@ -241,19 +244,19 @@ select {
     .btn-primary {
         border-top-left-radius: 2px !important;
         border-bottom-left-radius: 2px !important;
-        border: 1px solid #BFC9D7;
+        border: 1px solid @stroke-gray-borders;
     }
 }
 
 .firstCreateBtnGroup {
     border-top-left-radius: 2px !important;
     border-bottom-left-radius: 2px !important;
-    border: 1px solid #BFC9D7 !important;
+    border: 1px solid @stroke-gray-borders !important;
 }
 
 .lastBtnGroup {
     .btn-primary {
-        border: 1px solid #BFC9D7;
+        border: 1px solid @stroke-gray-borders;
         border-left: 0;
         border-top-right-radius: 2px !important;
         border-bottom-right-radius: 2px !important;
@@ -261,7 +264,7 @@ select {
 }
 
 .lastCreateBtnGroup {
-    border: 1px solid #BFC9D7 !important;
+    border: 1px solid @stroke-gray-borders !important;
     border-left: 0 !important;
     border-top-right-radius: 2px !important;
     border-bottom-right-radius: 2px !important;
@@ -273,7 +276,7 @@ select {
     cursor: pointer;
 
     .togBtnBg {
-        background: #0978c9;
+        background: @visto-blue;
         border-radius: 40px;
         width: 45px;
         height: 17px;
@@ -312,7 +315,7 @@ select {
       width: 14px;
       padding: 0;
       margin: -1px 10px 0 0;
-      color: #363d49;
+      color: @coal;
     }
     .dropdown {
       .dropdown-toggle {
@@ -321,7 +324,7 @@ select {
         [class^="icon-"], [class*=" icon-"] {
           margin: 0;
         }
-      }   
+      }
     }
     .dropdown:hover {
       box-shadow: none;
@@ -356,7 +359,7 @@ select {
     font-size: 12px;
     width: 12px;
     height: 12px;
-    color: #21252B;
+    color: @raven-text;
     opacity: .25;
 }
 
@@ -380,7 +383,7 @@ input.cmn-toggle-round + label {
     padding: 2px;
     width: 72px;
     height: 36px;
-    background-color: #BFC9D7;
+    background-color: @stroke-gray-borders;
     border-radius: 2px;
 
     &:before,
@@ -402,7 +405,7 @@ input.cmn-toggle-round + label {
 
     &:after {
         width: 20px;
-        background-color: #DCE6F1;
+        background-color: @active-gray;
         border-radius: 2px;
         //box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         transition: margin 0.4s;
@@ -412,7 +415,7 @@ input.cmn-toggle-round + label {
 }
 
 input.cmn-toggle-round:checked + label:before {
-    background-color: #0978C9;
+    background-color: @visto-blue;
     background-image: url(/images/workflow/checkMark.svg);
     background-repeat: no-repeat;
     background-position-x: 15px;
@@ -430,21 +433,21 @@ input.cmn-toggle-round:checked + label:after {
         padding: 9px 15px;
         width: auto;
         cursor: pointer;
-        color:#363D49;
+        color:@coal;
         background-color:#ffffff;
         font-family: Avenir;
         border-radius: 2px;
-        border: 1px solid #BFC9D7 !important;
+        border: 1px solid @stroke-gray-borders !important;
         margin-right: 15px;
-        
+
         &:hover {
-            background-color: #E1EDF9 !important;
-            border: 1px solid #939EAE !important;
+            background-color: @hover-light-blue !important;
+            border: 1px solid @label-gray !important;
         }
-        
+
         &.active {
-            background-color: #DCE6F1 !important;
-            border: 1px solid #BFC9D7 !important;
+            background-color: @active-gray !important;
+            border: 1px solid @stroke-gray-borders !important;
             box-shadow: none;
         }
 
@@ -484,7 +487,7 @@ input.cmn-toggle-round:checked + label:after {
 //Pills Styling
 tags-input {
     .tags .tag-item {
-        background: #edf2f8;
+        background: @periwinkle-gray;
         width: auto !important;
         padding: 6px 5px !important;
         .remove-button {
@@ -503,10 +506,10 @@ tags-input {
             }
         }
         li:hover, li:focus, .suggestion-item.selected {
-            background: #e1edf9 !important;
+            background: @hover-light-blue !important;
             padding: 3px 15px !important;
             span {
-                color: #21252b;
+                color:@raven-text;
                 text-decoration: none;
             }
         }

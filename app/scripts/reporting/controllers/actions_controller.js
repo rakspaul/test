@@ -11,13 +11,18 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
 
             metrics = {
                 all : [
+                    'Action Rate',
                     'CPA',
                     'CPC',
                     'CPM',
                     'CTR',
-                    'VTC',
-                    'Action Rate',
-                    'Delivery (Impressions)'
+                    'Delivery (Impressions)',
+                    'PC CPA',
+                    'Suspicious Activity %',
+                    'Spend',
+                    'Viewable Impressions',
+                    'Viewable Rate',
+                    'VTC'
                 ]
             };
 

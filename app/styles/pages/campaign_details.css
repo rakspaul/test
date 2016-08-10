@@ -187,7 +187,7 @@ body {
 }
 .campaign_details_page .action_filter_holder .heading {
   font-size: 14px ;
-  color: #0978c9 ;
+  color: #0978c9;
   text-transform: uppercase;
   padding: 15px ;
   border-bottom: solid 1px #ebf0f5 ;
@@ -289,7 +289,7 @@ body {
   min-width: 178px;
   color: #2d2f31 ;
   height: 36px;
-  border: 1px solid #BFC9D7;
+  border: 1px solid #bfc9d7;
   border-radius: 2px;
 }
 .campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .error_msg_input {
@@ -357,7 +357,7 @@ body {
   min-width: 100% ;
   box-shadow: 0 1px 7px rgba(0, 0, 0, 0.15) !important;
   -webkit-box-shadow: 0 1px 7px rgba(0, 0, 0, 0.15) !important;
-  border: solid 1px #BFC9D7;
+  border: solid 1px #bfc9d7;
   border-radius: 2px;
   width: auto ;
   max-height: 600px ;
@@ -376,7 +376,7 @@ body {
   text-align: left;
 }
 .campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu li {
-  color: #57606d ;
+  color: #57606d;
 }
 .campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu li a {
   padding: 0px ;
@@ -623,12 +623,12 @@ body {
   background: #45cb41 ;
 }
 .campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .each_section_graph .section_graph_details .play_color {
-  color: #0978c9 ;
+  color: #0978c9;
   font-size: 11px ;
   margin: 0 7px 0 52px;
 }
 .campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .each_section_graph .section_graph_details .play_color .graph_color {
-  background: #0978c9 ;
+  background: #0978c9;
 }
 .campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .each_section_graph .section_graph_details .view_color {
   color: #4cc94a ;
@@ -670,7 +670,7 @@ body {
   border-right: 0px ;
 }
 .campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_video_viewability .sub_headings {
-  color: #21252b ;
+  color: #21252b;
   font-size: 12px ;
   margin-bottom: 10px;
   font-family: "Avenir-bold";
@@ -1046,7 +1046,7 @@ body {
   background-position: -433px -349px;
 }
 .campaign_details_page .campaigns_details_holder .campaign_list_header_holder .each_header_title.active {
-  color: #0978c9 ;
+  color: #0978c9;
 }
 .campaign_details_page .campaigns_details_holder .campaign_list_header_holder .each_header_title.active .sortable.descending {
   background-position: -433px -415px;
@@ -1129,7 +1129,7 @@ body {
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .only_strategy_container .strategy_title {
   color: #939eaf;
   font-size: 12px;
-  margin: 0 0 5px 15px;
+  margin: 0 0 5px 10px;
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .only_strategy_container .first_section {
   margin-top: 30px ;
@@ -1410,7 +1410,7 @@ body {
   width: 120px;
 }
 .campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_other_details {
-  color: #21252b ;
+  color: #21252b;
   font-size: 12px ;
   margin-top: 3px;
   width: 328px;
@@ -1464,7 +1464,7 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #21252b ;
+  color: #21252b;
 }
 .campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_date {
   font-size: 12px ;
@@ -1565,5 +1565,5 @@ body {
   font-size: 16px;
   display: inline-block;
   fill: currentColor;
-  color: #57606D;
+  color: #57606d;
 }

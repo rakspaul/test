@@ -55,8 +55,8 @@
                       style="padding: 9px 15px 8px 15px;"
                       data-ng-if="!client.hasChildren"
                       data-ng-click="AddOrEditAdvertiserModal({}, 'create', client)">
-                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                    Add Advertiser
+                    <span class="icon-plus pull-left" aria-hidden="true"></span>
+                    <span class="pull-left" style="margin: 2px 0 0 10px;">Add Advertiser</span>
                 </span>
             </div>
             <div class="advertiser-list"
@@ -75,13 +75,13 @@
                         </span>
                         <span class="pull-left adding-section"
                               data-ng-click="AddOrEditBrandModal(adv, 'create', client, brand)">
-                            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                            Add Brand
+                            <span class="icon-plus pull-left" aria-hidden="true"></span>
+                            <span class="pull-left" style="margin: 2px 0 0 10px;">Add Brand</span>
                         </span>
                         <span class="pull-left adding-section"
                               data-ng-click="show_advertisers_resp_brands($event, client.id, adv.id);">
-                            <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-                            View Brands
+                            <span class="icon-list pull-left" aria-hidden="true"></span>
+                            <span class="pull-left" style="margin: 2px 0 0 10px;">View Brands</span>
                         </span>
                     </div>
                     <div class="advertiser-resp-brands-list"

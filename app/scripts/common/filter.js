@@ -1,65 +1,92 @@
 define(['angularAMD', 'common/services/constants_service', 'common/services/role_based_service'],
     function (angularAMD) {
         angularAMD
-            .filter('spliter', function () {
+            // NOTE: Not used anywhere
+            // (as on 19th July 2016)
+            .filter('splitter', function () {
                 return function (input, splitIndex) {
                     // do some bounds checking here to ensure it has that index
                     return input.split(' ')[splitIndex];
                 };
             })
 
+            // NOTE: Used in
+            // 1) bar_chart.html
+            // (as on 19th July 2016)
             .filter('dashboardKpiFormatter', function ($filter, constants) {
                 return function (input, kpiType) {
+                    var returnValue;
+
                     if (input && kpiType) {
                         kpiType = kpiType.toLowerCase();
 
                         if (kpiType === 'ctr' || kpiType === 'action_rate' || kpiType === 'action rate') {
-                            return input + '%';
+                            returnValue = input + '%';
                         } else if (kpiType === 'vtc') {
-                            return input + '%';
+                            returnValue = input + '%';
                         } else if (kpiType === 'cpc' || kpiType === 'cpa' || kpiType === 'cpm') {
-                            return constants.currencySymbol + input;
+                            returnValue = constants.currencySymbol + input;
                         } else if (kpiType === 'gross_rev' || kpiType === 'impressions') {
-                            return input + '%';
+                            returnValue = input + '%';
                         }
                     }
+
+                    return returnValue;
                 };
             })
 
+            // NOTE: Used in:
+            // 1) campaign_card.html
+            // 2) campaign_tactics_card.html
+            // 3) campaign_cost_card.html
+            // 4) campaign_details.html
+            // 5) campaign_strategy_card.html
+            // 6) custom_report.html
+            // 7) bar_chart.html
+            // (as on 19th July 2016)
             .filter('kpiFormatter', function ($filter, constants, $locale, RoleBasedService) {
                 return function (input, kpiType, precision) {
+                    var returnValue;
+
                     RoleBasedService.setCurrencySymbol();
 
                     if (input && kpiType) {
                         kpiType = kpiType.toLowerCase();
 
                         if (kpiType === 'ctr' || kpiType === 'action_rate' || kpiType === 'action rate') {
-                            return $filter('number')(input, 3) + '%';
+                            returnValue = $filter('number')(input, 3) + '%';
                         } else if (kpiType === 'cpc' || kpiType === 'cpa' || kpiType === 'cpm') {
-                            return constants.currencySymbol + $filter('number')(input, 3);
+                            returnValue = constants.currencySymbol + $filter('number')(input, 3);
                         } else if (kpiType === 'actions' ||
                             kpiType === 'clicks' ||
                             kpiType === 'impressions' ||
                             kpiType === 'delivery') {
-                            return $filter('number')(input, 0);
+                            returnValue = $filter('number')(input, 0);
                         } else if (kpiType === 'vtc' && !precision) {
-                            return $filter('number')(input, 0) + '%';
+                            returnValue = $filter('number')(input, 0) + '%';
                         } else if (kpiType === 'vtc' && precision) {
-                            return $filter('number')(input, 3) + '%';
+                            returnValue = $filter('number')(input, 3) + '%';
                         } else {
                             // unknown kpiType
-                            return $filter('number')(input, 0);
+                            returnValue = $filter('number')(input, 0);
                         }
                     } else {
                         if (kpiType.toLowerCase() === 'impressions') {
-                            return 0;
+                            returnValue = 0;
                         }
 
-                        return 'NA';
+                        returnValue = 'NA';
                     }
+
+                    return returnValue;
                 };
             })
 
+            // NOTE: Used in
+            // 1) campaign_create.html
+            // 2) performance.html
+            // 3) budget.html
+            // (as on 19th July 2016)
             .filter('setDecimal', function () {
                 return function (input, places) {
                     var factor;
@@ -74,71 +101,90 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
                 };
             })
 
+            // NOTE: Used in
+            // 1) campaign_overview.html
+            // 2) campaign_tactics_card.html
+            // (as on 22nd July 2016)
             .filter('toCamelCase', function () {
                 return function (str) {
-                    return str.toLowerCase().replace(/['']/g, '').replace(/\W+/g, ' ').replace(/ (.)/g, function ($1) {
-                        return $1.toUpperCase();
-                    }).replace(/ /g, '');
+                    return str
+                        .toLowerCase()
+                        .replace(/['']/g, '')
+                        .replace(/\W+/g, ' ')
+                        .replace(/ (.)/g, function ($1) {
+                            return $1.toUpperCase();
+                        }).replace(/ /g, '');
                 };
             })
 
+            // NOTE: Used in
+            // 1) campaign_details.html
+            // 2) campaign_tactics_card.html
+            // 3) campaign_card.html
+            // 4) campaign_strategy_card.html
+            // (as on 22nd July 2016)
             .filter('displayToCamelCase', function (toCamelCaseFilter, toTitleCaseFilter) {
                 return function (input) {
+                    var returnValue;
+
                     if (!input) {
-                        return '';
+                        returnValue = '';
+                    } else if (input.toLowerCase() === 'delivery') {
+                        returnValue = toTitleCaseFilter(input);
+                    } else if (input.toLowerCase() === 'clicks') {
+                        returnValue = toTitleCaseFilter(input);
+                    } else if (input.toLowerCase() === 'viewable impressions') {
+                        returnValue = 'Viewable Impressions';
+                    } else if (input.toLowerCase() === 'impressions') {
+                        returnValue = toTitleCaseFilter(input);
+                    } else if (input.toLowerCase() === 'select from list') {
+                        returnValue = 'Select From list';
+                    } else {
+                        returnValue = input.toUpperCase();
                     }
 
-                    if (input.toLowerCase() === 'delivery') {
-                        return toTitleCaseFilter(input);
-                    }
-
-                    if (input.toLowerCase() === 'clicks') {
-                        return toTitleCaseFilter(input);
-                    }
-
-                    if (input.toLowerCase() === 'viewable impressions') {
-                        return 'Viewable Impressions';
-                    }
-
-                    if (input.toLowerCase() === 'impressions') {
-                        return toTitleCaseFilter(input);
-                    }
-
-                    if (input.toLowerCase() === 'select from list') {
-                        return 'Select From list';
-                    }
-
-                    return input.toUpperCase();
+                    return returnValue;
                 };
             })
 
+            // NOTE: Used in
+            // 1) ad_create_controller.js
+            // 2) campaign_cost_card.html
+            // 3) campaign_card.html
+            // 4) inventory.html
+            // (as on 22nd July 2016)
             .filter('toTitleCase', function () {
                 return function (input) {
-                    if (!input) {
-                        return '';
+                    var returnValue = '';
+
+                    if (input) {
+                        returnValue = input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
                     }
 
-                    input = input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
-
-                    return input;
+                    return returnValue;
                 };
             })
 
+            // NOTE: Used in
+            // 1) screen_chart_model.js
+            // 2) buying_platform.js
+            // 3) campaign_create_controller.js
+            // 4) performance.html
+            // 5) overview_getAdgroups.html
+            // (as on 22nd July 2016)
             .filter('toPascalCase', function (toTitleCaseFilter) {
                 return function (input) {
                     var splitStr = input.split(' '),
                         finalStr = '',
                         i;
 
-                    if (!input) {
-                        return '';
-                    }
+                    if (input) {
+                        for (i = 0; i < splitStr.length; i++) {
+                            finalStr += toTitleCaseFilter(splitStr[i]);
 
-                    for (i = 0; i < splitStr.length; i++) {
-                        finalStr += toTitleCaseFilter(splitStr[i]);
-
-                        if (i + 1 < splitStr.length) {
-                            finalStr += ' ';
+                            if (i + 1 < splitStr.length) {
+                                finalStr += ' ';
+                            }
                         }
                     }
 
@@ -146,102 +192,141 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
                 };
             })
 
+            // NOTE: Not used anywhere.
+            // (as on 22nd July 2016)
+            // TODO: As this functionality is available in the standard JS library, is this filter really needed???
             .filter('toUpperCase', function () {
                 return function (input) {
-                    if (!input) {
-                        return '';
+                    var returnValue = '';
+
+                    if (input) {
+                        returnValue = input.toUpperCase();
                     }
 
-                    return input.toUpperCase();
+                    return returnValue;
                 };
             })
 
+            // NOTE: Not used anywhere.
+            // (as on 22nd July 2016)
+            // TODO: As this functionality is available in the standard JS library, is this filter really needed???
             .filter('toLowerCase', function () {
                 return function (input) {
-                    if (!input) {
-                        return '';
+                    var returnValue = '';
+
+                    if (input) {
+                        returnValue = input.toLowerCase();
                     }
 
-                    return input.toLowerCase();
+                    return returnValue;
                 };
             })
 
+            // NOTE: Used in
+            // 1) campaign_details.html
+            // (as on 22nd July 2016)
             .filter('formatCostData', function ($filter) {
                 return function (input, symbol, places) {
+                    var returnValue;
+
+                    symbol = symbol || '';
+
                     if (input === undefined) {
-                        return 'NA';
+                        returnValue = 'NA';
+                    } else {
+                        if (places !== undefined) {
+                            returnValue = symbol + $filter('number')(input, places);
+                        } else {
+                            returnValue = symbol + input;
+                        }
                     }
 
-                    if (!symbol) {
-                        symbol = '';
-                    }
-
-                    if (places !== undefined) {
-                        return symbol + $filter('number')(input, places);
-                    }
-
-                    return symbol + input;
+                    return returnValue;
                 };
             })
 
+            // NOTE: Not used anywhere.
+            // (as on 22nd July 2016)
             .filter('truncateString', function () {
                 return function (input, stringLength) {
+                    var returnValue;
+
                     if (!input) {
-                        return 'NA';
+                        returnValue = 'NA';
+                    } else {
+                        returnValue = input.substring(0, stringLength) + (input.length > stringLength ? ' [...]' : '');
                     }
 
-                    return input.substring(0, stringLength) + (input.length > stringLength ? ' [...]' : '');
+                    return returnValue;
                 };
             })
 
+            // NOTE: Used in
+            // 1) campaign_strategy_card.html
+            // (as on 22nd July 2016)
             .filter('roundThisOff', function () {
                 return function (input, places) {
-                    var factor = Math.pow(10, places);
+                    var factor;
+
+                    places = places || 0;
+                    factor = Math.pow(10, places);
 
                     return Math.round(input * factor) / factor;
                 };
             })
 
+            // NOTE: Used in
+            // 1) campaign_list_service.js
+            // (as on 22nd July 2016)
             .filter('vtcRoundOff', function () {
                 return function (input, places) {
-                    var factor = Math.pow(10, places);
+                    var factor;
+
+                    input = input || 0;
+                    places = places || 0;
 
                     places = input > 1 ? 0 : places;
+                    factor = Math.pow(10, places);
 
                     return Math.round(input * factor) / factor;
                 };
             })
 
-            .filter('displayActionSubtypes', function () {
+            // NOTE: Not used anywhere
+            // (as on 19th July 2016)
+            .filter('displayActionSubTypes', function () {
                 return function (actionSubTypes) {
                     var length = actionSubTypes.length,
                         subType = '',
                         i;
 
                     if (!actionSubTypes) {
-                        return '-';
-                    }
-
-                    if (length > 1) {
-                        for (i = 0; i < actionSubTypes.length; i++) {
-                            subType += actionSubTypes[i].name;
-
-                            if (i !== actionSubTypes.length - 1) {
-                                subType += ', ';
-                            }
-                        }
-
-                        return subType;
+                        subType = '-';
                     } else {
-                        return actionSubTypes[0].name;
+                        if (length > 1) {
+                            for (i = 0; i < actionSubTypes.length; i++) {
+                                subType += actionSubTypes[i].name;
+
+                                if (i !== actionSubTypes.length - 1) {
+                                    subType += ', ';
+                                }
+                            }
+                        } else {
+                            subType = actionSubTypes[0].name;
+                        }
                     }
+
+                    return subType;
                 };
             })
 
+            // NOTE: Used in
+            // 1) campaign_details.html
+            // (as on 19th July 2016)
             .filter('formatActionDate', function ($filter) {
                 return function (input) {
                     var _date = new Date(input),
-                        formatDate = '';
+                        formatDate;
 
                     if (moment(_date).diff(moment(), 'days') === 0) {
                         // today - format 01:29 PM
@@ -255,6 +340,9 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
                 };
             })
 
+            // NOTE: Used in
+            // 1) campaign_details.html
+            // (as on 19th July 2016)
             .filter('platformIconCss', function () {
                 return function (input, defaultIcon) {
                     var _style = '',
@@ -265,109 +353,146 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
 
                         _style = 'background:url("' + icon + '") no-repeat scroll 0 0 rgba(0, 0, 0, 0);' +
                             'width: 17px;' + 'height: 17px;' + 'display: inline-block;' + 'background-size:17px;"';
-
-                        return _style;
                     }
+
+                    return _style;
                 };
             })
 
-            // Used in _inventory.html file
+            // NOTE: Used in
+            // 1) inventory.html
+            // (as on 19th July 2016)
             .filter('formatUrl', function (constants) {
                 return function (url, l) {
+                    var returnValue;
+
                     if (!url) {
-                        return url;
-                    }
-
-                    if (url === constants.NO_MEDIAPLANS_FOUND || url === constants.NO_ADGROUPS_FOUND) {
-                        return url;
-                    }
-
-                    if (!l) {
-                        l = 20;
-                    }
-
-                    if (url.length > parseInt(l * 2 + 3)) {
-                        return url.substring(0, l) + ' ... ' + url.substring(url.length - l);
+                        returnValue =  url;
                     } else {
-                        return url;
+                        if (url === constants.NO_MEDIAPLANS_FOUND || url === constants.NO_ADGROUPS_FOUND) {
+                            returnValue =  url;
+                        } else {
+                            if (!l) {
+                                l = 20;
+                            }
+
+                            if (url.length > parseInt(l * 2 + 3)) {
+                                returnValue = url.substring(0, l) + ' ... ' + url.substring(url.length - l);
+                            } else {
+                                returnValue = url;
+                            }
+                        }
                     }
+
+                    return returnValue;
                 };
             })
 
-            .filter('appendDollor', function (constants, $locale, RoleBasedService) {
+            // NOTE: Used in
+            // 1) inventory.html
+            // 2) optimization.html
+            // 3) performance.html
+            // 4) platform.html
+            // 5) cost.html
+            // (as on 19th July 2016)
+            .filter('appendDollar', function (constants, $locale, RoleBasedService) {
                 return function (val, type) {
-                    RoleBasedService.setCurrencySymbol();
+                    var returnValue;
 
-                    if(!val) {
-                        return '-';
-                    } else if (type.toLowerCase() === 'delivery (impressions)') {
-                        return (val.toFixed(0)).toLocaleString();
-                    } else {
-                        val = val.toFixed(3);
-
-                        return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' ||
-                            type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ?
-                            val + '%' :
-                            constants.currencySymbol + val;
-                    }
-                };
-            })
-
-            // This is used in tooltip for optimization tab
-            .filter('appendDollarWithoutFormat', function (constants, $locale, RoleBasedService) {
-                return function (val, type) {
                     RoleBasedService.setCurrencySymbol();
 
                     if (!val) {
-                        return '-';
+                        returnValue = '-';
                     } else if (type.toLowerCase() === 'delivery (impressions)') {
-                        return val.toLocaleString();
+                        returnValue = (val.toFixed(0)).toLocaleString();
                     } else {
-                        return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' ||
-                            type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ?
-                            parseFloat(val.toFixed(6)) + '%' :
-                            constants.currencySymbol + parseFloat(val.toFixed(6));
+                        val = val.toFixed(3);
+
+                        returnValue = (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' ||
+                        type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ?
+                        val + '%' : constants.currencySymbol + val;
                     }
+
+                    return returnValue;
                 };
             })
 
+            // NOTE: Used in
+            // 1) optimization.html
+            // (as on 19th July 2016)
+            .filter('appendDollarWithoutFormat', function (constants, $locale, RoleBasedService) {
+                return function (val, type) {
+                    var returnValue;
+
+                    RoleBasedService.setCurrencySymbol();
+
+                    if (!val) {
+                        returnValue = '-';
+                    } else if (type.toLowerCase() === 'delivery (impressions)') {
+                        returnValue = val.toLocaleString();
+                    } else {
+                        returnValue = (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' ||
+                            type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ?
+                            parseFloat(val.toFixed(6)) + '%' : constants.currencySymbol + parseFloat(val.toFixed(6));
+                    }
+
+                    return returnValue;
+                };
+            })
+
+            // NOTE: Not used anywhere
+            // (as on 19th July 2016)
             .filter('calculatePerc', function () {
                 return function (delivered, total) {
                     var width;
 
                     if (!delivered || !total) {
-                        return 0;
-                    }
+                        width = 0;
+                    } else {
+                        width = parseInt(delivered / total) * 124;
 
-                    width = parseInt(delivered / total) * 124;
-
-                    // @124 is the css width of the progress bar
-                    if (width > 124) {
-                        return 124;
+                        // @124 is the css width of the progress bar
+                        if (width > 124) {
+                            width = 124;
+                        }
                     }
 
                     return width;
                 };
             })
 
+            // NOTE: Used in
+            // 1) campaign_details.html
+            // 2) optimization.html
+            // (as on 19th July 2016)
             .filter('newlines', function () {
                 return function (input) {
                     return input.replace(/(?:\r\n|\r|\n)/g, '<br />');
                 };
             })
 
+            // NOTE: Used in
+            // 1) campaign_details.html
+            // 2) optimization.html
+            // (as on 19th July 2016)
             .filter('removeSpecialCharacter', function () {
                 return function (input) {
                     return input.replace(/(?:<)/g, '&lt;');
                 };
             })
 
-            .filter('morelines', function () {
+            // NOTE: Used in
+            // 1) campaign_details.html
+            // 2) optimization.html
+            // (as on 19th July 2016)
+            .filter('moreLines', function () {
                 return function (input) {
                     return input.replace('\\n', '<br />');
                 };
             })
 
+            // NOTE: Not used anywhere
+            // (as on 19th July 2016)
             .filter('zeroToBeLast', function () {
                 return function (array, key) {
                     var present = array.filter(function (item) {
@@ -382,108 +507,158 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
                 };
             })
 
+            // NOTE: Used in
+            // 1)  campaign_chart.js
+            // 2)  campaign_tactics_card.html
+            // 3)  campaign_overview.html
+            // 4)  campaign_card.html
+            // 5)  campaign_cost_card.html
+            // 6)  campaign_details.html
+            // 7)  campaign_strategy_card.html
+            // 8)  cost.html
+            // 9)  overview_getAdgroups.html
+            // 10) performance.html
+            // 11) platform.html
+            // 12) viewability.html
+            // (as on 19th July 2016)
             .filter('nrFormat', function () {
                 return function (value, key) {
-                    var y = Math.abs(value);
+                    var returnValue,
+                        y = Math.abs(value);
 
                     if (y <= 0) {
-                        return y;
+                        returnValue = y;
+                    } else {
+                        key = key || 2;
+
+                        if (y < 9999) {
+                            returnValue = value.toFixed(key);
+                        } else if (y < 1000000) {
+                            returnValue = (value / 1000).toFixed(key) + 'K';
+                        } else if (y < 10000000) {
+                            returnValue = (value / 1000000).toFixed(key) + 'M';
+                        } else if (y < 1000000000) {
+                            returnValue = (value / 1000000).toFixed(key) + 'M';
+                        } else if (y < 1000000000000) {
+                            returnValue = (value / 1000000000).toFixed(key) + 'B';
+                        } else {
+                            returnValue = '1T+';
+                        }
                     }
 
-                    if(key === undefined ) {
-                        key = 2 ;
-                    }
-
-                    if (y < 9999) {
-                        return value.toFixed(key);
-                    }
-
-                    if (y < 1000000) {
-                        return (value / 1000).toFixed(key) + 'K';
-                    }
-
-                    if (y < 10000000) {
-                        return (value / 1000000).toFixed(key) + 'M';
-                    }
-
-                    if (y < 1000000000) {
-                        return (value / 1000000).toFixed(key) + 'M';
-                    }
-
-                    if (y < 1000000000000) {
-                        return (value / 1000000000).toFixed(key) + 'B';
-                    }
-
-                    return '1T+';
+                    return returnValue;
                 };
             })
 
-            // i18n of currency fails when the currency symbol comes at the end of the value
+            // NOTE: Used in
+            // 1) campaign_tactics_card.html
+            // 2) campaign_overview.html
+            // 3) campaign_card.html
+            // 4) campaign_cost_card.html
+            // 5) campaign_details.html
+            // 6) campaign_strategy_card.html
+            // (as on 19th July 2016)
             .filter('nrFormatWithCurrency', function ($filter) {
+                // i18n of currency fails when the currency symbol comes at the end of the value
                 return function (value) {
-                    var y = Math.abs(value);
+                    var y = Math.abs(value),
+                        returnValue;
 
                     if (y < 9999) {
-                        return $filter('currency')(value.toFixed(2));
+                        returnValue = $filter('currency')(value.toFixed(2));
+                    } else if (y < 1000000) {
+                        returnValue = $filter('currency')((value / 1000).toFixed(2)) + 'K';
+                    } else if (y < 10000000) {
+                        returnValue = $filter('currency')((value / 1000000).toFixed(2)) + 'M';
+                    } else if (y < 1000000000) {
+                        returnValue = $filter('currency')((value / 1000000).toFixed(2)) + 'M';
+                    } else if (y < 1000000000000) {
+                        returnValue = $filter('currency')((value / 1000000000).toFixed(2)) + 'B';
+                    } else {
+                        returnValue = '1T+';
                     }
 
-                    if (y < 1000000) {
-                        return $filter('currency')((value / 1000).toFixed(2)) + 'K';
-                    }
-
-                    if (y < 10000000) {
-                        return $filter('currency')((value / 1000000).toFixed(2)) + 'M';
-                    }
-
-                    if (y < 1000000000) {
-                        return $filter('currency')((value / 1000000).toFixed(2)) + 'M';
-                    }
-
-                    if (y < 1000000000000) {
-                        return $filter('currency')((value / 1000000000).toFixed(2)) + 'B';
-                    }
-
-                    return '1T+';
+                    return returnValue;
                 };
             })
 
+            // NOTE: Used in
+            // 1) collective_report_listing.html
+            // (as on 19th July 2016)
             .filter('reportDateFilter', function ($filter, momentService) {
                 return function (value) {
                     return momentService.reportDateFormat(value);
                 };
             })
 
-            .filter('formatDate',function($filter,momentService){
-                return function(value,format) {
+            // NOTE: Used in
+            // 1) custom_report.html
+            // (as on 19th July 2016)
+            .filter('formatDate',function ($filter, momentService){
+                return function (value,format) {
                     return momentService.formatDate(value,format);
                 };
             })
 
+            // NOTE: Used in
+            // 1)  campaign_list.html
+            // 2)  creative_list.html
+            // 3)  campain_header.html (TODO: the typo is in the file name. Correct the typo in the file name.)
+            // 4)  add_list_items.html
+            // 5)  budget.html
+            // 6)  pixels.html
+            // 7)  custom_report.html
+            // 8)  campaign_ad_create.html
+            // 9   campaign_overview.html
+            // 10) accounts_add_or_edit_advertiser.html
+            // 11) add_list_items.html
+            // 12) overview_getAdgroups.html
+            // (as on 19th July 2016)
             .filter('textEllipsis', function () {
                 return function (input, len) {
-                    var dispName;
+                    var displayName = '';
 
-                    if (!input) {
-                        return '';
+                    input = input || '';
+
+                    if (input) {
+                        displayName = input;
+
+                        if (input.length > len) {
+                            displayName = input.substring(0, len) + '...';
+                        }
                     }
 
-                    dispName = input;
-
-                    if (input.length > len) {
-                        dispName = input.substring(0, len) + '...';
-                    }
-
-                    return dispName;
+                    return displayName;
                 };
             })
 
-            .filter('positive', function() {
-                return function(input) {
+            // NOTE: Not used anywhere
+            // (as on 19th July 2016)
+            .filter('positive', function () {
+                return function (input) {
                     if (!input) {
                         return 0;
                     }
 
                     return Math.abs(input);
+                };
+            })
+
+            // Used: Canned report
+            // performance.html
+            .filter('suffixPrefixCannedReport', function (constants) {
+                return function (val, type) {
+                    var retVal = '-';
+                    if(val) {
+                        if(type === 'suspicious_impressions_perc' || type === 'viewable_impressions_perc'){
+                            retVal = val.toFixed(3) + '%';
+                        }else if(type === 'viewable_impressions'){
+                            retVal = val.toFixed(0);
+                        } else{
+                            retVal = constants.currencySymbol + val.toFixed(3);
+                        }
+                    }
+                    return retVal;
                 };
             });
     }

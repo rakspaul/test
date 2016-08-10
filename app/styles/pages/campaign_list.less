@@ -1,13 +1,12 @@
 /* font- face declarations */
-
+@import "../visto2.0/color.less";
 @font-face {
     font-family: "Avenir";
-    src: url("/fonts/Avenir/Avenir.eot");
-    src: url("/fonts/Avenir/Avenir.eot?#iefix") format("embedded-opentype"), url("/fonts/Avenir/Avenir.woff") format("woff"), url("/fonts/Avenir/Avenir.ttf") format("truetype") ;
+    src: url("/fonts/Avenir/Avenir-LT-45-Book.ttf") format("truetype") ;
 }
 @font-face {
     font-family: "Avenir-bold";
-    src: url("/fonts/Avenir/Avenir_bold.woff") format("woff"), url("/fonts/Avenir/Avenir_bold.woff2") format("woff2") ,  url("/fonts/Avenir/Avenir.ttf") format("truetype") ;
+    src: url("/fonts/Avenir/Avenir-LT-95-Black.ttf") format("truetype") ;
 }
 /* base variables */
 @primaryFont: "Avenir";
@@ -45,12 +44,12 @@
 }
 .valStyle() {
   font-family: "Avenir-bold" ;
-  color:  #57606d;
+  color:  @lead-gray;
   font-size: 14px;
 }
 .darkBoldVal() {
   font-family: "Avenir-bold" ;
-  color:  #21252b;
+  color:  @raven-text;
   font-size: 14px;
 }
 .graphHeadingFont() {
@@ -68,7 +67,7 @@ body {
   height: auto;
   background: #fff;
   background-repeat: repeat;
-  color:  #21252b ;
+  color:  @raven-text;
 }
 
 .btn:focus, input:focus, textarea:focus, select:focus, input:focus:invalid:focus, textarea:focus:invalid:focus, select:focus:invalid:focus {
@@ -1049,7 +1048,7 @@ button, i, input[type="submit"] {
 }
 .cost_cols_holder {
   .first_col , .second_col {
-    color: #0978c9 ;
+    color: @visto-blue;
   }
 }
 .total_cost {
@@ -1181,7 +1180,7 @@ button, i, input[type="submit"] {
     }
     .active {
       a {
-        color: #0978c9 ;
+        color: @visto-blue;
         span span {
           background: url("/images/cdesk/sprites.png") no-repeat -197px -348px ;
           display: inline-block;
@@ -1224,7 +1223,7 @@ button, i, input[type="submit"] {
             }
           }
           .legend_line {
-            border-top : solid 2px #0978c9 ;
+            border-top : solid 2px @visto-blue;
             padding-top: 3px ;
 
           }
@@ -1247,11 +1246,11 @@ button, i, input[type="submit"] {
       margin: 0px 0 10px ;
       .each_campaign_section {
         float: left;
-        padding: 0 15px;
+        padding: 0 10px;
       }
       .main_heading {
         font-size: 18px ;
-        color: #21252b ;
+        color: @raven-text;
         line-height: 24px ;
         .AvenirBold();
         word-wrap: break-word;
@@ -1265,12 +1264,12 @@ button, i, input[type="submit"] {
         }
       }
       .heading {
-          color: #57606d ;
+          color: @lead-gray;
           font-size: 14px ;
           margin-top: 2px ;
           padding-left: 15px ;
           margin-left: 15px;
-          border-left: 1px solid #57606d;
+          border-left: 1px solid @lead-gray;
           float: left;
       }
       .campaign_section_KPI {
@@ -1296,7 +1295,7 @@ button, i, input[type="submit"] {
               font-size: 12px;
               span {
                 font-family: "Avenir-bold" ;
-                color:  #57606d;
+                color:  @lead-gray;
                 font-size: 14px;
               }
             }
@@ -1311,7 +1310,7 @@ button, i, input[type="submit"] {
             span {
               float: right ;
               font-family: "Avenir-bold" ;
-              color:  #57606d;
+              color:  @lead-gray;
               font-size: 14px;
             }
             span.icon_KPI  {
@@ -1367,7 +1366,7 @@ button, i, input[type="submit"] {
             }
             span.detail_val {
               .valStyle();
-              color: #57606d ;
+              color: @lead-gray;
             }
           }
           .metric_graph_details_ctr {
@@ -1387,7 +1386,7 @@ button, i, input[type="submit"] {
             .quartile_details_title {
               font-size: 14px ;
               font-family: "Avenir-bold" ;
-              color: #21252b ;
+              color: @raven-text;
             }
             .quartile_details_VTC_btn {
               border: solid 1px #dde6eb;
@@ -1467,7 +1466,7 @@ button, i, input[type="submit"] {
             -moz-border-radius: 2px;
             -webkit-border-radius: 2px;
             font-family: "Avenir";
-            color: #57606d;
+            color: @lead-gray;
             font-size: 12px;
             cursor: pointer;
             height: 30px ;
@@ -1512,7 +1511,7 @@ button, i, input[type="submit"] {
     }
     .each_campaign_list_container.true_archive {
         .days_over, .days_over:after {
-            background: #57606D;
+            background: @lead-gray;
         }
     }
   }
@@ -1592,7 +1591,7 @@ button, i, input[type="submit"] {
       position: relative;
       height: 100% ;
       max-width : 100% ;
-      background: #0978c9 ;
+      background: @visto-blue;
       border-radius: 4px ;
       -moz-border-radius: 4px ;
       -webkit-border-radius: 4px ;
@@ -1677,7 +1676,7 @@ button, i, input[type="submit"] {
         .end_point_val span.icon_KPI {
           background: url("/images/cdesk/target_indicator_dark.png") no-repeat 0px 3px ;
           padding-left: 15px;
-          color: #21252b;
+          color: @raven-text;
           font-size: 12px;
           padding-right: 0px ;
           left: -6px ;
@@ -1756,7 +1755,7 @@ button, i, input[type="submit"] {
         span {
           display: block;
           height: 21px;
-          color: #21252b ;
+          color: @raven-text;
           font-size: 12px ;
           border-radius: 4px;
           -moz-border-radius: 4px;
@@ -1875,7 +1874,7 @@ button, i, input[type="submit"] {
         }
       }
       li.active a {
-        color: #0978C9 ;
+        color: @visto-blue;
         .sortable.ascending {
           background: url("/images/cdesk/sprites.png") no-repeat -195px -412px ;
         }
@@ -2023,7 +2022,7 @@ button, i, input[type="submit"] {
       .each_cost_col {
         font-family: "Avenir" ;
         font-weight: normal;
-        color: #57606d ;
+        color: @lead-gray;
       }
       .total_cost {
         font-family: "Avenir-bold" ;
@@ -2107,61 +2106,91 @@ button, i, input[type="submit"] {
 
 .main_navigation_holder {
   height: 50px;
-  background: #0978c9;
+  background: @visto-blue;
   padding: 0px;
   position: relative;
   z-index: 99999999;
   .profile-photo-tab {
     position: relative;
-    height: 42px;
-    width: 31px;
     text-align: right;
-    margin: 8px 15px 0 0;
-  }
-  .profile-photo-tab.selected:after {
-    bottom: 0px ;
-    border: solid 6px #004478;
-    border-left: solid 8px transparent;
-    border-top: 0;
-    border-right: solid 8px transparent;
-    left: 9px ;
-  }
-  .user-photo {
-      border: solid 1px #fff;
-      padding: 1px 10px 0px 4px;
-      border-radius: 2px;
-      -moz-border-radius: 2px;
-      -webkit-border-radius: 2px;
-      font-size: 15px;
+    margin: 0 30px 0 0;
+    float: right;
+    .user-photo {
+      font-size: 24px;
       text-align: center;
       display: inline-block;
       cursor: pointer;
       color: #fff;
-      height: 32px;
-      width: 32px ;
       span {
         color: #fff;
-        font-size: 22px;
-        line-height: 35px;
+        font-size: 24px;
+        line-height: 24px;
+        width: 24px;
+        height: 24px;
+        opacity: .6;
+        margin: 13px 0 0 0;
+        float: right;
+        &:hover, &:active {
+            opacity: 1;
+        }
       }
-  }
-
-  .help-link-tab {
-    font-size: 22px;
-    margin-right: 50px;
-    margin-top: 8px;
-    span {
-      color: #fff ;
-      font-size: 16px ;
+    }
+    .account-name-nav {
+        margin: 16px 10px 0 0;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: right;
+        float: right;
     }
   }
-  .account-name-nav {
-    margin: 16px 15px 0 0;
-    font-size: 14px;
-    width: 180px;
-    cursor: pointer;
-    text-align: right;
+  .profile-photo-tab.selected:after {
+    display: none;
   }
+  
+  .help-link-tab {
+    margin-right: 20px;
+    margin-top: 13px;
+    cursor: pointer;
+    position: relative;
+    span {
+      color: #fff ;
+      font-size: 24px ;
+      height: 24px;
+      width: 24px;
+      opacity: .6;
+    }
+    span:hover {
+        opacity: 1;
+    }
+  }
+    #user-menu {
+        top: 50px;
+        .nav-menu {
+            &:before {
+                top: -5px;
+                border: solid 6px #004478;
+                border-left: solid 8px transparent;
+                border-top: 0;
+                border-right: solid 8px transparent;
+                left: 250px;
+                position: absolute;
+            }
+        }
+    }
+    #help-menu {
+        top: 37px;
+        .nav-menu {
+            &:before {
+                top: -5px;
+                border: solid 6px #004478;
+                border-left: solid 8px transparent;
+                border-top: 0;
+                border-right: solid 8px transparent;
+                left: 100px;
+                position: absolute;
+            }
+        }
+    }
   .main_nav_dropdown {
     display: none;
     position: absolute;
@@ -2173,9 +2202,20 @@ button, i, input[type="submit"] {
     font-size: 14px ;
     z-index: 1004 ;
     .nav-menu {
-      background-color: #103F7b;
+      background-color: @regal-blue;
       width: 100%;
       float: left;
+    }
+    .dropMenuHeaderTxt {
+        opacity: 1 !important;
+        text-transform: uppercase;
+        color: @active-gray !important;
+        font-size: 12px;
+        font-family: 'Avenir-bold';
+        &:hover {
+            color: @active-gray !important;
+            opacity: 1 !important;
+        }
     }
     .user-photo-details {
       width: 100%;
@@ -2202,6 +2242,7 @@ button, i, input[type="submit"] {
         float: left;
         position: initial;
         box-shadow: none;
+        display: block !important;
         &:before {
           display : none ;
         }
@@ -2216,33 +2257,34 @@ button, i, input[type="submit"] {
           margin-top: 4px;
         }
         .icon-arrow-solid-down {
-          color: #939EAE;
+          color: @label-gray;
           margin-top: 2px;
         }
       }
       li {
         list-style: none;
         cursor: pointer;
-        border-bottom: solid 1px #0978c9;
         font-size: 14px;
-        padding: 8px 10px;
+        padding: 15px 0 0 0;
+        span {
+            opacity: .6;
+        }
         &:hover {
           background : transparent ;
           span {
-            border-bottom: solid 1px #fff ;
+            opacity: 1;
           }
         }
-      }
-      li:last-child {
-        border-width: 0;
+        &:first-child {
+            padding: 0;
+        }
       }
       .selected-li {
-        font-family: "Avenir-bold" ;
+        //font-family: "Avenir-bold" ;
         background: transparent;
-        &:hover {
-          span {
-            border-bottom: solid 1px transparent ;
-          }
+        span {
+          //font-family: "Avenir-bold" ;
+          opacity: 1;
         }
       }
       .username  {
@@ -2255,7 +2297,6 @@ button, i, input[type="submit"] {
         float: left;
         width: 100%;
         cursor: pointer;
-        padding-bottom: 15px;
         .dd_txt {
           white-space: nowrap;
           width: 169px;
@@ -2263,7 +2304,36 @@ button, i, input[type="submit"] {
           text-overflow: ellipsis;
         }
         .icon-arrow-solid-down {
-          color: #939EAE;
+          color: @label-gray;
+        }
+        .signOutBtn {
+            span {
+                color: #fff;
+                opacity: .6;
+            }
+            .icon-download {
+
+            /* Safari */
+            -webkit-transform: rotate(-90deg);
+            
+            /* Firefox */
+            -moz-transform: rotate(-90deg);
+            
+            /* IE */
+            -ms-transform: rotate(-90deg);
+            
+            /* Opera */
+            -o-transform: rotate(-90deg);
+            
+            /* Internet Explorer */
+            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+            
+            }
+            &:hover {
+                span {
+                    opacity: 1;
+                }
+            }
         }
       }
     }
@@ -2271,7 +2341,7 @@ button, i, input[type="submit"] {
       width: 100%;
       text-align: center;
       float: left;
-      background: #0564A9;
+      background: @endeavour;
       .logout_link {
         width: 100%;
         float: left;
@@ -2281,12 +2351,12 @@ button, i, input[type="submit"] {
     }
     .profile-data {
       position: relative;
-      background: #004478;
-      width: 300px;
+      background: @regal-blue;
+      width: 260px;
       box-sizing: initial;
       -webkit-box-sizing: initial;
       -moz-box-sizing: initial;
-      padding: 15px 0 0 0;
+      padding: 30px 20px 20px 20px;
       .user-photo  {
         display: inline-block;
         font-size: 28px;
@@ -2337,6 +2407,35 @@ button, i, input[type="submit"] {
       background: transparent;
     }
   }
+  #help-menu{
+    min-height: 80px;
+    width: 200px;
+    left: initial;
+    right: -80px;
+    .nav-menu {
+      background: transparent;
+      .profile-data {
+        width: auto;
+        .username {
+            width: auto;
+            margin: 0;
+            text-transform: uppercase;
+            color: #dce6f1;
+            font-size: 12px;
+            font-family: 'Avenir-bold';
+            width: auto;
+        }
+        .clearLeft {
+            margin: 15px 0 0 0;
+            color: #fff;
+            opacity: .6;
+            &:hover {
+                opacity: 1;
+            }
+        }
+      }
+    }
+  }
   .dropdown-menu {
     padding: 10px 0px ;
     background: #026DB3;
@@ -2379,7 +2478,7 @@ button, i, input[type="submit"] {
       //background: url("/images/visto_logos/visto-new-header.png") no-repeat left top;
       //width: 91px;
       //height: 40px;
-        margin: 8px 20px 0 15px;
+        margin: 8px 20px 0 30px;
         float: left;
     }
     .icon-hamburger {
@@ -2407,7 +2506,7 @@ button, i, input[type="submit"] {
         top: 50px;
         left: 0px;
         z-index: 10;
-        background: #004478;
+        background: @regal-blue;
         width: 200px;
         box-sizing: initial;
         -webkit-box-sizing: initial;
@@ -2575,7 +2674,7 @@ button, i, input[type="submit"] {
   font-size: 11px;
 }
 .quartile_details_graph .dots0 {
-  fill: #0978c9;
+  fill: @visto-blue;
 }
 .quartile_details_graph .dots1 {
   fill: #4cc94a;
@@ -2590,12 +2689,12 @@ button, i, input[type="submit"] {
   stroke-width: 0;
 }
 .quartile_details_graph .labels {
-  fill: #21252b;
+  fill: @raven-text;
   font-size: 11px;
 }
 
 .quartile_details_graph .path0 {
-  stroke: #0978c9;
+  stroke: @visto-blue;
   stroke-width: 1;
   fill: none;
 }
@@ -2666,7 +2765,7 @@ button, i, input[type="submit"] {
   font-size: 12px;
 }
 .campaign_details_graph .dots0 {
-  fill: #0978c9;
+  fill: @visto-blue;
 }
 .campaign_details_graph .dots1 {
   fill: #4cc94a;
@@ -2681,7 +2780,7 @@ button, i, input[type="submit"] {
   stroke-width: 0;
 }
 .campaign_details_graph .labels {
-  fill: #21252b;
+  fill: @raven-text;
   font-size: 11px;
 }
 
@@ -2747,7 +2846,7 @@ button, i, input[type="submit"] {
   width: 100%;
   //margin: 5px auto 2px ;
   font-size: 14px;
-  color: #21252B;
+  color: @raven-text;
   line-height: 20px;
   li.active {
     font-family: "Avenir-bold" ;
@@ -2789,7 +2888,7 @@ button, i, input[type="submit"] {
         position: static;
         float: right;
         margin: 3px 0 0 8px;
-        color: #939EAE;
+        color: @label-gray;
     }
   }
   .each_filter {
@@ -2850,16 +2949,16 @@ button, i, input[type="submit"] {
             a {
                 float: left;
                 width: 100%;
-                color: #21252b;
+                color: @raven-text;
                 font-family: Avenir;
                 font-size: 14px;
                 line-height: 100%;
                 padding: 9px 15px;
                 overflow: hidden;
                 &:hover, &:focus {
-                    color: #21252b;
+                    color: @raven-text;
                     text-decoration: none;
-                    background-color: #E1EDF9;
+                    background-color: @hover-light-blue;
                 }
                 span {
                     padding: 0;
@@ -2870,9 +2969,9 @@ button, i, input[type="submit"] {
             a {
                 background: #fff;
                 &:hover, &:focus {
-                    color: #21252b;
+                    color: @raven-text;
                     text-decoration: none;
-                    background-color: #E1EDF9;
+                    background-color: @hover-light-blue;
                 }
             }
         }
@@ -2996,7 +3095,7 @@ button, i, input[type="submit"] {
 /*}*/
 
   .nav_filters_heading {
-    color: #939eae !important;
+    color: @label-gray !important;
     padding: 10px 0 5px 0 !important;
     text-align: left;
     font-size: 12px !important;
@@ -3018,7 +3117,7 @@ button, i, input[type="submit"] {
       cursor:default;
       opacity: .4;
     }
-     
+
   }
   .campaign_name_selected {
     height: 20px ;
@@ -3042,13 +3141,13 @@ button, i, input[type="submit"] {
     width: 10px;
     height: 10px;
     font-size: 10px;
-    color: #939EAE;
+    color: @label-gray;
   }
   .brandsDropdownSearch {
     position: relative;
     #brandsDropdownDiv , #subAccountDropdownDiv, .advertisersList_ul {
         width: 100%;
-        border-bottom: solid 1px #BFC9D7;
+        border-bottom: solid 1px @stroke-gray-borders;
         //padding: 5px 10px;
         float: left;
         input {
@@ -3060,7 +3159,7 @@ button, i, input[type="submit"] {
             float: left;
             width: 100%;
             a {
-                color: #21252b;
+                color: @raven-text;
                 font-family: Avenir;
                 font-size: 14px;
                 line-height: 100%;
@@ -3069,9 +3168,9 @@ button, i, input[type="submit"] {
                 float: left;
                 width: 100%;
                 &:hover, &:focus {
-                    color: #21252b;
+                    color: @raven-text;
                     text-decoration: none;
-                    background-color: #E1EDF9;
+                    background-color: @hover-light-blue;
                 }
                 span {
                     padding: 0;
@@ -3094,14 +3193,14 @@ button, i, input[type="submit"] {
             a {
                 float: left;
                 width: 100%;
-                color: #21252b;
+                color: @raven-text;
                 font-family: Avenir;
                 font-size: 14px;
                 line-height: 100%;
                 padding: 9px 15px !important;
                 overflow: hidden;
                 &:hover, &:focus {
-                    color: #21252b;
+                    color: @raven-text;
                     text-decoration: none;
                     background-color: #E1EDF9;
                 }
@@ -3114,7 +3213,7 @@ button, i, input[type="submit"] {
             a {
                 background: transparent;
                 &:hover, &:focus {
-                    color: #21252b;
+                    color: @raven-text;
                     text-decoration: none;
                     background-color: #E1EDF9;
                 }
@@ -3151,7 +3250,7 @@ button, i, input[type="submit"] {
   .dropdown-menu {
     li {
       font-size: 14px;
-      color: #21252B;
+      color: @raven-text;
       padding: 5px 10px;
       overflow: hidden;
       white-space: nowrap;
@@ -3180,19 +3279,19 @@ button, i, input[type="submit"] {
         text-align: center;
         padding: 10px 15px;
         width: auto;
-        border: 1px solid #BFC9D7;
+        border: 1px solid @stroke-gray-borders;
         border-radius: 2px;
         min-height: 36px;
       }
       .sliding_dropdown_btn:hover, .sliding_dropdown_btn:active, .sliding_dropdown_btn:focus {
-        background-color:#DCE6F1;
+        background-color: @active-gray;
       }
       .sliding_dropdown_container_quick {
         position: absolute;
         top: -5px;
         right: -5px;
         width: 207px;
-        border: solid 1px #BFC9D7;
+        border: solid 1px @stroke-gray-borders;
         z-index: 100;
         background-color: #fff;
         min-height: 300px;
@@ -3202,11 +3301,11 @@ button, i, input[type="submit"] {
         //-webkit-box-shadow: 2px 0 4px #ccc;
         // overflow: auto;
         .each_section {
-          border-bottom: solid 1px #BFC9D7 ;
+          border-bottom: solid 1px @stroke-gray-borders;
           padding: 10px 0 ;
           .filter_title {
             font-family: "Avenir-bold";
-            color: #939eae;
+            color: @label-gray;
             font-size: 12px;
             padding: 0px 10px;
             text-transform: uppercase;
@@ -3215,11 +3314,11 @@ button, i, input[type="submit"] {
           .close_sliding_dropdown {
             cursor: pointer;
             width: auto;
-            border: 1px solid #BFC9D7;
+            border: 1px solid @stroke-gray-borders;
             border-radius: 2px;
             height: 36px;
             padding: 10px 15px;
-            background: #DCE6F1;
+            background: @active-gray;
             margin-top: 4px;
           }
           .section_filter_list {
@@ -3235,7 +3334,7 @@ button, i, input[type="submit"] {
                   border-radius: 30%;
                   -moz-border-radius: 30%;
                   -webkit-border-radius: 20px;
-                  border: solid 1px #BFC9D7;
+                  border: solid 1px @stroke-gray-borders;
                   min-width: 30px;
                   height: 16px;
                   line-height: 14px;
@@ -3243,23 +3342,23 @@ button, i, input[type="submit"] {
                   padding: 0 5px ;
               }
               &:hover {
-                color: #0978c9 ;
+                color: @visto-blue;
                 background: #f5f9fd ;
                 .number {
-                  border-color : #0978c9 ;
+                  border-color : @visto-blue;
                   cursor: pointer;
                 }
               }
             }
             .each_filter.active  {
-              color: #0978c9 ;
+              color: @visto-blue;
               background: #E6F2FA ;
               cursor: default;
               div {
                 cursor: default;
               }
               .number {
-                border-color: #0978c9 ;
+                border-color: @visto-blue;
                 cursor: default;
               }
             }
@@ -3284,7 +3383,7 @@ button, i, input[type="submit"] {
     .each_selected_filter {
       margin-right: 20px ;
       .heading {
-        color: #57606d ;
+        color: @lead-gray;
       }
       .value {
 
@@ -3320,7 +3419,7 @@ button, i, input[type="submit"] {
       text-align: center;
     }
     .column.icon-settings:hover {
-      color: #0978C9;
+      color: @visto-blue;
     }
     .data_holder {
       height: 550px ;

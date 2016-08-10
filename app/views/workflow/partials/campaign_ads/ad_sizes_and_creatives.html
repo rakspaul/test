@@ -36,7 +36,7 @@
     </div>
 </div>
 
-<div class="col-md-12 zeroPadding creativeTableTag">
+<div class="col-md-12 zeroPadding tableTag">
     <div class="table-responsive">
         <table class="table">
             <thead>
@@ -60,7 +60,7 @@
                                 '' : ShowHide(creativeData)"
                            data-ng-bind="creativeData.name"></a>
                         <div class="pull-right">
-                            <div class="dropdown-workflow">
+                            <div class="dropdown-workflow" data-ng-if="creativeData.creativeTemplate.templateType === 'NORMAL'">
                                 <div class="dropdown hideOption">
                                     <button class="dropdown-toggle"
                                             type="button"
@@ -133,7 +133,7 @@
                                rows="15"
                                name="tag"
                                id="tag"
-                               data-ng-model="creativeObj.creativeCustomInputs[0].value"
+                               data-ng-model="creativeObj.tag"
                                data-ng-readonly="true"
                                data-ng-bind="creativeObj.tag"
                                required>

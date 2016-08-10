@@ -51,6 +51,46 @@ define(['angularAMD'], function (angularAMD) {
             DISPLAY: 'icon-desktop'
         };
 
+        this.kpiList = [
+            {kpiType: 'ACTION RATE',                displayName: 'Action Rate'},
+            {kpiType: 'CPA',                        displayName: 'CPA'},
+            {kpiType: 'CPC',                        displayName: 'CPC'},
+            {kpiType: 'CPM',                        displayName: 'CPM'},
+            {kpiType: 'CTR',                        displayName: 'CTR'},
+            {kpiType: 'IMPRESSIONS',                displayName: 'Impressions'},
+            {kpiType: 'POST CLICK CPA',             displayName: 'Post Click CPA'},
+            {kpiType: 'SUSPICIOUS ACTIVITY RATE',   displayName: 'Suspicious Activity %'},
+            {kpiType: 'SPEND',                      displayName: 'Spend'},
+            {kpiType: 'VIEWABLE IMPRESSIONS',       displayName: 'Viewable Impression'},
+            {kpiType: 'VIEWABLE RATE',              displayName: 'Viewable Rate'},
+            {kpiType: 'VTC',                        displayName: 'VTC'}
+        ];
+
+        this.kpiDropDown = [
+            { kpi: 'action_rate',                   displayName: 'Action Rate' },
+            { kpi: 'cpa',                           displayName: 'CPA' },
+            { kpi: 'cpc',                           displayName: 'CPC' },
+            { kpi: 'cpm',                           displayName: 'CPM' },
+            { kpi: 'ctr',                           displayName: 'CTR' },
+            { kpi: 'pc_cpa',                        displayName: 'Post Click CPA' },
+            { kpi: 'spend',                         displayName: 'Spend' },
+            { kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
+            { kpi: 'viewable_impressions',          displayName: 'Viewable Impression' },
+            { kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' },
+            { kpi: 'vtc',                           displayName: 'VTC' }
+        ];
+
+        this.newkpiDropDownAlt = [
+            { kpi: 'cpa',                           displayName: 'CPA' },
+            { kpi: 'cpc',                           displayName: 'CPC' },
+            { kpi: 'cpm',                           displayName: 'CPM' },
+            { kpi: 'pc_cpa',                        displayName: 'Post Click CPA' },
+            { kpi: 'spend',                         displayName: 'Spend' },
+            { kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
+            { kpi: 'viewable_impressions',          displayName: 'Viewable Impression' },
+            { kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' }
+        ];
+
         this.PERFORMANCE_LINK = '/performance';
         this.PLATFORM_LINK = '/platform';
         this.COST_LINK = '/cost';
@@ -68,5 +108,27 @@ define(['angularAMD'], function (angularAMD) {
             id: -1,
             type: 'all'
         };
+
+        this.timeZoneNameMapper = {
+            //Britain standard time
+            'GB' : 'GMT',
+
+            //America/New_York
+            'EST' : 'EST',
+
+            'US/Eastern' : 'America/New_York',
+
+            //America/Los_Angeles
+            'US/Pacific' : 'America/Los_Angeles',
+
+            //America/Chicago
+            'US/Central' : 'America/Chicago',
+
+            //America/Denver
+            'US/Mountain' : 'America/Denver',
+
+            'GMT' : 'UTC'
+        };
+
     });
 });

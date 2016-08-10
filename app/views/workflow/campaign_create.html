@@ -121,9 +121,25 @@
                                         <span class="icon-more-options"></span>
                                     </button>
                                     <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
-                                        <li class="disabled"><a>{{textConstants.WF_PAUSE}}</a></li>
-                                        <li class="disabled"><a>{{textConstants.WF_RESUME}}</a></li>
-                                        <li><a class="available" id="archiveAdbtn" ng-hide="(mode!='edit')" ng-click="cancelArchiveCampaign()">{{textConstants.WF_ARCHIVE}}</a></li>
+                                        <li class="disabled" disabled="disabled">
+                                                <span class="disabled icon-paused withIcons col-md-12"
+                                                    style="width: 100% !important; margin: 0;
+                                                    padding: 9px 15px !important; white-space: nowrap;">{{textConstants.WF_PAUSE}}
+                                                </span>
+                                        </li>
+                                        <li class="disabled" disabled="disabled">
+                                                <span class="disabled icon-ready withIcons col-md-12"
+                                                    style="width: 100% !important; margin: 0;
+                                                    padding: 9px 15px !important; white-space: nowrap;">{{textConstants.WF_RESUME}}
+                                                </span>
+                                        </li>
+                                        <li class="available">
+                                                <span class="available icon-archive withIcons col-md-12"
+                                                    id="archiveAdbtn" ng-hide="(mode!='edit')"
+                                                    style="width: 100% !important; margin: 0;
+                                                    padding: 9px 15px !important; white-space: nowrap;"
+                                                    ng-click="cancelArchiveCampaign()">{{textConstants.WF_ARCHIVE}}</span>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -226,6 +242,35 @@
                     <div class="clearfix popup-footer" >
                         <button type="button" ng-click="archiveCampaign($event,campaignId)" class="common_primary_btn pull-right" ng-hide="deleteCampaignFailed">Archive</button>
                         <button type="button" ng-click="cancelArchiveCampaign()"class="secondary_txt pull-right" >Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="common-popup-container" ng-show="Campaign.showBudgetZeroPopup">
+                <div class="popup">
+                    <div class="popup-header-body">
+                        <div class="clearfix">
+                            <h1 class="pull-left">{{textConstants.ADD_LINE_ITEM}}</h1>
+                            <span class="close unselectable" aria-hidden="true" >x</span>
+                        </div>
+                        <div class="popup-content">
+                            {{textConstants.ZERO_MESSAGE}}
+                        </div>
+                    </div>
+                    <div class="clearfix popup-footer" >
+                        <button type="button"
+                                ng-hide="Campaign.section != 'create'"
+                                ng-click="(mode === 'create' || cloneMediaPlanName)?createNewLineItem('create'):createNewLineItemInEditMode('create')"
+                                class="common_primary_btn pull-right"
+                                ng-hide="deleteCampaignFailed">{{textConstants.ADD_LINE_ITEM}}</button>
+
+                        <button type="button"
+                                ng-hide="Campaign.section != 'edit'"
+                                ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()"
+                                class="common_primary_btn pull-right"
+                                ng-hide="deleteCampaignFailed">{{textConstants.ADD_LINE_ITEM}}</button>
+                        <button type="button" class="secondary_txt pull-right" data-ng-click="Campaign.showBudgetZeroPopup = false">Cancel</button>
                     </div>
 
                 </div>

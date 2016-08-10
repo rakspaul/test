@@ -29,10 +29,38 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
         $scope.kpiData.newkpiDropDownAlt = kpiSelectModel.getKpiObj().newkpiDropDownAlt;
 
         $scope.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
+        $scope.kpiData.selectedKpiDisplayName = _.find($scope.kpiData.newkpiDropDownAlt,function(obj){
+            return obj.kpi === $scope.kpiData.selectedKpiAlt;
+        });
+        if($scope.kpiData.selectedKpiDisplayName && $scope.kpiData.selectedKpiDisplayName.displayName){
+            $scope.kpiData.selectedKpiDisplayName = $scope.kpiData.selectedKpiDisplayName.displayName;
+        }
+
+        $scope.checkNewkpiDropDownAlt = function(){
+            var ret = _.find($scope.kpiData.newkpiDropDownAlt,function(obj){
+                return obj.kpi === $scope.kpiData.selectedKpiAlt;
+            });
+            return (ret ? true : false);
+        };
+
+        $scope.getDisplayKpiName = function(){
+            var ret;
+            _.each($scope.kpiData.kpiDropDown,function(obj){
+                if(obj.kpi === $scope.kpiData.selectedKpi){
+                    ret = obj.displayName;
+                }
+            });
+            return ret;
+        };
 
         $scope.setSelectedKpi = function (_kpi) {
             kpiSelectModel.setSelectedKpi(_kpi);
             $scope.kpiData.selectedKpi = kpiSelectModel.getSelectedKpi();
+            _.each($scope.kpiData.kpiDropDown,function(obj){
+                if(obj.kpi === $scope.kpiData.selectedKpi){
+                    $scope.kpiData.selectedKpiDisplayName = obj.displayName;
+                }
+            });
         };
 
         $scope.setSelectedKpiAlt = function (_kpi, event_type) {
@@ -57,10 +85,10 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
         $scope.myData = {};
 
-        $scope.myData.doClick = function ($event, value) {
+        $scope.myData.doClick = function ($event, data) {
             var targetTags = $('.direction_arrows div.kpi_arrow_sort'),
                 sortOrder = false,
-                _selectedKpi = value,
+                _selectedKpi = data.kpi,
                 dropList = $('.drop_list li'),
                 classesPresent = $event.currentTarget.className;
 
@@ -112,8 +140,8 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 $('.direction_arrows div.kpi_arrow_sort.active').show();
             }
 
-            $scope.theKpiToblue = value;
-            $rootScope.$broadcast('dropdown-arrow-clicked',value,sortOrder);
+            $scope.theKpiToblue = data.kpi;
+            $rootScope.$broadcast('dropdown-arrow-clicked',data.kpi,sortOrder);
 
             if (_selectedKpi) {
                 $scope.changeClickedSelectedKpiAlt(_selectedKpi);

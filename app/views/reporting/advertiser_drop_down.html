@@ -1,23 +1,34 @@
-<div class="nav_filters_heading">{{textConstants.ADVERTISER}}</div>
+<div class="nav_filters_heading" data-ng-bind="textConstants.ADVERTISER"></div>
 <div class="col-md-12 zeroPadding">
-    <div class="brand_name_selected" id="advertiser_name_selected" ng-click="showAdvertisersDropDown()" title="{{advertiserData.selectedAdvertiser.name}}"
-         ng-bind="(advertiserData.selectedAdvertiser.name ? advertiserData.selectedAdvertiser.name : 'All Advertisers')"></div>
+    <div class="brand_name_selected"
+         id="advertiser_name_selected"
+         data-ng-click="showAdvertisersDropDown()"
+         title="{{advertiserData.selectedAdvertiser.name}}"
+         data-ng-bind="(advertiserData.selectedAdvertiser.name ? advertiserData.selectedAdvertiser.name : 'All Advertisers')">
+    </div>
     <span class="icon-arrow-solid-down"></span>
 </div>
-
 <div class="clearfix">
-    <div class="brandsDropdownSearch dropdown-workflow" ng-class="advertisers.length > 0 ? '' : 'loadedDropdownData' ">
+    <div class="brandsDropdownSearch dropdown-workflow"
+         data-ng-class="advertisers.length > 0 ? '' : 'loadedDropdownData'">
         <ul class="dropdown-menu" role="menu" id="advertisersDropDownList">
             <div id="brandsDropdownDiv">
-                <input class="dropdown-toggle inactive"  id="advertisersDropdown"  ng-keyup="disableShowAll();" ng-model="selectedAdvertiser.name" placeHolder="{{(advertiserData.selectedAdvertiser.name ? advertiserData.selectedAdvertiser.name : 'Select Advertiser')}}" />
+                <input class="dropdown-toggle inactive"
+                       id="advertisersDropdown"
+                       data-ng-keyup="disableShowAll();"
+                       data-ng-model="selectedAdvertiser.name"
+                       placeHolder="{{(advertiserData.selectedAdvertiser.name ? advertiserData.selectedAdvertiser.name : 'Select Advertiser')}}">
                 <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
             </div>
             <div  class="advertisersList_ul">
                 <!--removed track by as on dashboard its giving dupes error-->
-                <li ng-repeat="advertiser in advertisers  | filter : selectedAdvertiser.name" ng-hide="isExcludedByAdvertiserFilter" ng-class="{'active' : advertiser.id === advertiserData.selectedAdvertiser.id}" title="{{advertiser.name}}" >
+                <li data-ng-repeat="advertiser in advertisers | filter : selectedAdvertiser.name"
+                    data-ng-hide="isExcludedByAdvertiserFilter"
+                    data-ng-class="{'active': advertiser.id === advertiserData.selectedAdvertiser.id}"
+                    title="{{advertiser.name}}">
                     <a data-ng-click="selectAdvertiser(advertiser, 'clicked')">
                         <span class="tick"></span>
-                        <span class="menuItemText" ng-bind="advertiser.name"></span>
+                        <span class="menuItemText" data-ng-bind="advertiser.advertiserDisplayName || advertiser.name"></span>
                     </a>
                 </li>
             </div>

@@ -536,7 +536,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             if (($scope.creativeMode === 'edit') && val) {
                 fireAPItoValidate(ele, val);
             }
-            
+
             ele.on('change', function () {
                 localStorage.setItem('isOnchangeOfCreativeFeild', 1);
                 val = $(this).val();

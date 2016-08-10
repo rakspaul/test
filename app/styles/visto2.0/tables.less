@@ -1,5 +1,5 @@
 // Visto 2.0 Tables
-
+@import "color.less";
 // Table Design
 .table {
     thead {
@@ -42,48 +42,49 @@
       float: left;
       width: 100%;
       padding: 0;
-      border-bottom: 1px solid #939eae;
+      border-bottom: 1px solid @label-gray;
       .tr {
         float: left;
         width: 100%;
         background-color: #fff;
-        border: 1px solid #bfc9d7;
+        border: 1px solid @stroke-gray-borders;
         .th {
           padding: 20px 10px 0;
           vertical-align: top;
           min-height: 60px;
           font-family: "Avenir-bold";
-          color: #57606d;
+          color: @lead-gray;
           span, a {
             width: 100%;
             text-align: center;
             font-family: "Avenir-bold";
-            color: #57606d;
+            color: @lead-gray;
+            line-height: 100%;
           }
           input[type="checkbox"] {
             float: left;
-            margin: 4px 10px 0 21px;
+            margin: 0 10px 0 21px;
           }
           .icon-toggleclose {
             float: left;
-            font-size: 12px;
-            width: 12px;
-            height: 12px;
-            margin: 4px 0px 28px 0px;
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+            margin: 0 0px 28px 0px;
             cursor: pointer;
-            color: #bfc9d7;
+            color: @stroke-gray-borders;
           }
           .icon-toggleclose:hover {
-            color: #939eae;
+            color: @label-gray;
           }
           .icon-toggleopen {
             float: left;
-            font-size: 12px;
-            width: 12px;
-            height: 12px;
-            margin: 4px 0px 28px 0px;
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+            margin: 0 0px 28px 0px;
             cursor: pointer;
-            color: #004d86;
+            color: @congress-blue;
           }
           .icon-toggleopen:hover {
             color: #0563a9;
@@ -101,7 +102,7 @@
           background-color: #f7f7f7;
           padding: 10px 10px;
           font-family: "Avenir-bold";
-          color: #57606d;
+          color: @lead-gray;
           input[type="checkbox"] {
             float: left;
             margin-right: 10px;
@@ -150,37 +151,38 @@
             width: 100%;
             text-align: center;
             float: left;
+            line-height: 100%;
           }
           a {
             width: auto;
           }
           input[type="checkbox"] {
             float: left;
-            margin: 4px 10px 0;
+            margin: 0 10px 0;
           }
           a:hover {
             cursor: pointer;
           }
           .icon-toggleclose {
             float: left;
-            font-size: 12px;
-            width: 12px;
-            height: 12px;
-            margin: 4px 0px 28px 0px;
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+            margin: 0px 0px 28px 0px;
             cursor: pointer;
-            color: #bfc9d7;
+            color: @stroke-gray-borders;
           }
           .icon-toggleclose:hover {
-            color: #939eae;
+            color: @label-gray;
           }
           .icon-toggleopen {
             float: left;
-            font-size: 12px;
-            width: 12px;
-            height: 12px;
-            margin: 4px 0px 28px 0px;
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+            margin: 0 0px 28px 0px;
             cursor: pointer;
-            color: #004d86;
+            color: @congress-blue;
           }
           .icon-toggleopen:hover {
             color: #0563a9;
@@ -190,10 +192,10 @@
           border-left: 1px solid rgba(191, 201, 215, 0.5);
           padding-left: 10px;
           a {
-            color: #21252b;
+            color: @raven-text;
           }
           a:hover {
-            color: #0978C9;
+            color: @visto-blue;
           }
           .incompleteCreative {
             float: left;
@@ -233,7 +235,7 @@
         }
         .parentWrap:hover {
           .td {
-            background: #E1EDF9;
+            background: @hover-light-blue;
           }
         }
       }
@@ -317,12 +319,12 @@
     }
   }
   .yellowTable {
-    background: #FEFBF0;
+    background: @accent-yellow;
     .thead {
         .tr {
             border-left: 0;
             border-right: 0;
-            background: #FEFBF0;
+            background: @accent-yellow;
             .th {
                 min-height: 34px !important;
                 padding: 7px 10px 0 !important;
@@ -335,7 +337,7 @@
         .tr {
             .td {
                 border-width: 0;
-                background: #FEFBF0;
+                background: @accent-yellow;
             }
             .td:first-child {
                 border-width: 0;
@@ -381,6 +383,6 @@
             }
         }
     }
-   
+
 
 }

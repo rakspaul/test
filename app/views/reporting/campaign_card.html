@@ -3,19 +3,20 @@
     <div class="col-md-12 zeroPadding">
         <!--Status Icon-->
         <div class="pull-left campaign_status_icon {{campaign.status.toLowerCase()}}_bulb"
-             ng-hide="campaign.is_archived == true" tooltip-placement="bottom"
-             tooltip="{{campaign.status.toLowerCase() == 'in_flight' ?
-             'In Flight':( campaign.status.toLowerCase() | toTitleCase ) }}">
+             data-ng-hide="campaign.is_archived === true"
+             tooltip-placement="bottom"
+             tooltip="{{campaign.status.toLowerCase() === 'in_flight' ?
+                'In Flight' : ( campaign.status.toLowerCase() | toTitleCase ) }}">
         </div>
-        
-        <div class="pull-left campaign_status_icon icon-archive" ng-if="campaign.is_archived == true"
+        <div class="pull-left campaign_status_icon icon-archive"
+             data-ng-if="campaign.is_archived === true"
              tooltip-placement="bottom"
              tooltip="Archived">
         </div>
 
         <!--Title / Brand Name-->
         <div class="pull-left main_heading">
-            <a ng-click="redirectTo(showManageButton,campaign, campaigns.dashboard.appliedFilterType, $event)">
+            <a data-ng-click="redirectTo(showManageButton,campaign, campaigns.dashboard.appliedFilterType, $event)">
                 <truncate-text-with-hover
                         txt="{{campaign.campaignTitle}}"
                         txt-html="{{campaign.campaignTitleHtml}}"
@@ -24,138 +25,157 @@
                 </truncate-text-with-hover>
             </a>
         </div>
+
         <!--Brand Name-->
-        <div class="heading" ng-bind="campaign.adv_name"></div>
+        <div class="heading" data-ng-bind="campaign.adv_name"></div>
     </div>
+
     <!--Label Pills-->
     <div class="col-md-12 zeroPadding">
         <div class="pillsWrap">
-            <span ng-if="campaign.labels.length > 0"></span>
+            <span data-ng-if="campaign.labels.length > 0"></span>
             <span class="labelPills{{addHighlightClass(label, '</mark>') ? ' brand_search_highlight' : ''}}"
-                  ng-repeat="label in campaign.labels track by $index"
-                  ng-bind-html="label">
+                  data-ng-repeat="label in campaign.labels track by $index"
+                  data-ng-bind-html="label">
             </span>
         </div>
     </div>
 
     <!--Time Left-->
-    <div class="col-md-4 each_campaign_section campaign_list_details">
+    <div class="col-md-6 each_campaign_section campaign_list_details">
         <div class="days_left_holder">
             <div class="total_days_holder">
                 <div class="clearfix days_end_points">
-                    <span class="start_end" ng-bind="campaign.startDate | date :'d MMM y'"></span>
-                    <span class="finish_end" ng-bind="campaign.endDate | date :'d MMM y'"></span>
+                    <span class="start_end" data-ng-bind="campaign.startDate | date :'d MMM y'"></span>
+                    <span class="finish_end" data-ng-bind="campaign.endDate | date :'d MMM y'"></span>
                 </div>
-                <div ng-init="duration=campaign.durationLeft()"></div>
-                <div class="days_over" ng-style="{'width':campaign.durationCompletion() +'%'};">
-                    <span ng-if="duration == 'Yet to start'" ng-hide="campaign.is_archived == true"
+                <div data-ng-init="duration=campaign.durationLeft()"></div>
+                <div class="days_over" data-ng-style="{'width': campaign.durationCompletion() + '%'};">
+                    <span data-ng-if="duration === 'Yet to start'"
+                          data-ng-hide="campaign.is_archived === true"
                           class="days_over_text start_text"
-                          ng-bind="textConstants.YET_TO_START">
+                          data-ng-bind="textConstants.YET_TO_START">
                     </span>
-                    <span ng-if="campaign.is_archived == true" ng-bind="textConstants.WF_ARCHIVED"
+                    <span data-ng-if="campaign.is_archived === true"
+                          data-ng-bind="textConstants.WF_ARCHIVED"
                           class="days_over_text start_text" style="color:#57606D;">
                     </span>
-                    <span ng-if="duration == 'Ended'"
+                    <span data-ng-if="duration === 'Ended'"
                           class="days_over_text ended_text"
-                          ng-bind="textConstants.ENDED">
+                          data-ng-bind="textConstants.ENDED">
                     </span>
-                    <span ng-if="duration > 0" ng-hide="campaign.is_archived == true"
-                          ng-bind="duration + ' ' + textConstants.DAYS_LEFT"
+                    <span data-ng-if="duration > 0"
+                          data-ng-hide="campaign.is_archived === true"
+                          data-ng-bind="duration + ' ' + textConstants.DAYS_LEFT"
                           class="days_over_text">
                     </span>
                 </div>
-                <div ng-if="duration == 'Started today'"
+                <div data-ng-if="duration === 'Started today'"
                      class="days_not_over_text start_text"
-                     ng-bind="textConstants.STARTED_TODAY">
+                     data-ng-bind="textConstants.STARTED_TODAY">
                 </div>
-                <div ng-if="duration == 'Ending today'"
+                <div data-ng-if="duration === 'Ending today'"
                      class="days_not_over_text ended_text"
-                     ng-bind="textConstants.ENDING_TODAY">
+                     data-ng-bind="textConstants.ENDING_TODAY">
                 </div>
             </div>
         </div>
         <div class="clearfix campaigns_list_buttons_holder">
-            <a id="campaigns_view_report" ng-show="showReportsOverview"> <!-- href="/#/performance" -->
+            <!-- href="/#/performance" -->
+            <a id="campaigns_view_report" data-ng-show="showReportsOverview">
                 <div class="btn btn-default pull-right"
-                     ng-click="$parent.viewReports(campaign, 'campaignCard')"
+                     data-ng-click="$parent.viewReports(campaign, 'campaignCard')"
                      style="margin-left: 10px;"
-                     ng-bind="textConstants.VIEW_REPORT">
+                     data-ng-bind="textConstants.VIEW_REPORT">
                 </div>
             </a>
-           <a href="/mediaplan/{{campaign.orderId}}/overview" id="campaigns_activity_btn" ng-show="showManageButton">
-               <div class="btn btn-default pull-right" ng-show="(campaigns.dashboard.appliedFilterType !== 'archived' && campaigns.dashboard.appliedFilterType !== 'all') || (campaigns.dashboard.appliedFilterType == 'all' && !campaign.is_archived)">
-                   <span ng-bind="textConstants.MANAGE"></span>
+           <a href="/mediaplan/{{campaign.orderId}}/overview"
+              id="campaigns_activity_btn" data-ng-show="showManageButton">
+               <div class="btn btn-default pull-right"
+                    data-ng-show="(campaigns.dashboard.appliedFilterType !== 'archived' &&
+                        campaigns.dashboard.appliedFilterType !== 'all') ||
+                        (campaigns.dashboard.appliedFilterType === 'all' && !campaign.is_archived)">
+                   <span data-ng-bind="textConstants.MANAGE"></span>
                 </div>
             </a>
-
         </div>
     </div>
 
     <!--Metrics-->
-    <div class="col-md-4 each_campaign_section metric_campaign_section">
+    <div class="col-md-6 each_campaign_section metric_campaign_section">
         <div class="clearfix metric_graph_header">
-            <span class="metric_title" ng-bind="textConstants.SPEND"></span>
-            <span class="metric_val" ng-bind="campaign.spend| currency:undefined:0"></span>
+            <span class="metric_title" data-ng-bind="textConstants.SPEND"></span>
+            <span class="metric_val" data-ng-bind="campaign.spend | currency : undefined : 0"></span>
         </div>
         <div class="metric_graph {{getSpendClass(campaign)}}">
             <div class="full_metric_graph">
+                <!-- put completely_filled when 100% -->
                 <div class="selected_graph {{(getSpendWidth(campaign) >= 100) ? 'completely_filled' : ''}}"
-                     ng-style="{'width': getSpendWidth(campaign) +'%'};"> <!-- put completely_filled when 100% -->
+                     data-ng-style="{'width': getSpendWidth(campaign) + '%'};">
                 </div>
+
+                <!-- put start_beginning when at start -->
                 <div class="graph_start_point {{(getSpendTickWidth(campaign) <= 0) ? 'start_beginning' : ''}}
                                               {{(getSpendTickWidth(campaign) >= 88) ? 'start_end_point' : ''}}"
-                     ng-style="{'left': getSpendTickWidth(campaign) +'%'};"
-                     ng-hide="(campaigns.durationLeft(campaign) == 0)"><!-- put start_beginning when at start -->
+                     data-ng-style="{'left': getSpendTickWidth(campaign) + '%'};"
+                     data-ng-hide="(campaigns.durationLeft(campaign) === 0)">
                     <div class="end_point_val">
-                        <span class="icon_KPI" ng-bind="campaign.expectedMediaCost | nrFormatWithCurrency"></span>
+                        <span class="icon_KPI" data-ng-bind="campaign.expectedMediaCost | nrFormatWithCurrency"></span>
                         <div class="end_point_line"></div>
                     </div>
                 </div>
+
+                <!-- put completed_end_point when at end -->
                 <div class="graph_end_point completed_end_point budget_graph_val"
-                     ng-hide="(campaigns.durationLeft(campaign) == 0)"><!-- put completed_end_point when at end -->
+                     data-ng-hide="(campaigns.durationLeft(campaign) === 0)">
                     <div class="end_point_val">
                         <div class="end_point_line"></div>
-                        <span ng-bind='textConstants.BUDGET_WITH_COLON + " " +
-                            (campaign.totalMediaCost | currency:undefined:0)'>
+                        <span data-ng-bind='textConstants.BUDGET_WITH_COLON + " " +
+                            (campaign.totalMediaCost | currency : undefined : 0)'>
                         </span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="clearfix metric_graph_details"
-             ng-show="campaigns.cdbDataMap[campaign.orderId].impressions">
+             data-ng-show="campaigns.cdbDataMap[campaign.orderId].impressions">
             <div class="each_metric_graph_details">
-                <span class="detail_val" ng-bind="campaigns.cdbDataMap[campaign.orderId].impressions |
-                    nrFormat:0"></span>
-                <span ng-bind="textConstants.IMP_WITH_DOT"></span>
+                <span class="detail_val"
+                      data-ng-bind="campaigns.cdbDataMap[campaign.orderId].impressions | nrFormat : 0">
+                </span>
+                <span data-ng-bind="textConstants.IMP_WITH_DOT"></span>
             </div>
             <div class="each_metric_graph_details metric_graph_details_ctr">
-                <span class="detail_val" ng-bind="(campaigns.cdbDataMap[campaign.orderId].ctr |
-                    number:3)+'%'"></span>
-                <span ng-bind="textConstants.CTR"></span>
+                <span class="detail_val"
+                      data-ng-bind="(campaigns.cdbDataMap[campaign.orderId].ctr | number : 3) + '%'">
+                </span>
+                <span data-ng-bind="textConstants.CTR"></span>
             </div>
             <div class="each_metric_graph_details metric_graph_details_action"
-                 ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
-                <span class="detail_val" ng-bind="(campaigns.cdbDataMap[campaign.orderId].action_rate | number:3)+'%'">
+                 data-ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
+                <span class="detail_val"
+                      data-ng-bind="(campaigns.cdbDataMap[campaign.orderId].action_rate | number : 3) + '%'">
                 </span>
-                <span ng-bind="textConstants.ACTION_RATE_R_CAPS"></span>
+                <span data-ng-bind="textConstants.ACTION_RATE_R_CAPS"></span>
             </div>
              <div class="each_metric_graph_details metric_graph_details_vtc"
-                  ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate > 0">
+                  data-ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate > 0">
                 <div class="quartile_details_VTC_btn"
-                     ng-mouseover="VTCpopup($event, 1)"
-                     ng-mouseout="VTCpopup($event, 0)">
+                     data-ng-mouseover="VTCpopup($event, 1)"
+                     data-ng-mouseout="VTCpopup($event, 0)">
                     <span class="detail_val"
-                          ng-bind="(campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate | number :3)+'%'">
+                          data-ng-bind="(campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate | number : 3)
+                            + '%'">
                     </span>
-                    <span ng-bind="textConstants.VTC"></span>
+                    <span data-ng-bind="textConstants.VTC"></span>
                 </div>
                 <div class="quartile_details_VTC" >
-                    <div class="quartile_details_title" ng-bind="textConstants.QUARTILE_DETAILS"></div>
+                    <div class="quartile_details_title" data-ng-bind="textConstants.QUARTILE_DETAILS"></div>
                     <div class="quartile_details_graph"
                          width="328"
                          height="158"
-                         quartiles-graph chart-data="{{campaigns.cdbDataMap[campaign.orderId].modified_vtc_metrics}}">
+                         quartiles-graph
+                         chart-data="{{campaigns.cdbDataMap[campaign.orderId].modified_vtc_metrics}}">
                     </div>
                 </div>
             </div>
@@ -163,32 +183,35 @@
     </div>
 
     <!--KPI-->
-    <div class="col-md-4 each_campaign_section campaign_section_KPI">
+    <div class="col-md-4 each_campaign_section campaign_section_KPI" style="display: none;">
         <div class="graph_details_KPI">
             <div class="clearfix details_KPI_row1">
                 <span class="details_KPI_title"
-                      ng-bind="campaign.kpiType!='null' ? (campaign.kpiType | displayToCamelCase) : 'NA'">
+                      data-ng-bind="campaign.kpiType !== 'null' ? (campaign.kpiTypeDisplayName) : 'NA'">
                 </span>
-                <span class="pull-right details_KPI_row2" ng-if="campaign.kpiValue">
-                    <span ng-show="campaign.kpiValue"
-                          ng-bind="campaign.kpiValue | kpiFormatter : campaign.kpiType">
+                <span class="pull-right details_KPI_row2" data-ng-if="campaign.kpiValue">
+                    <span data-ng-show="campaign.kpiValue"
+                          data-ng-bind="campaign.kpiValue | kpiFormatter : campaign.kpiType">
                     </span>
-                    <span ng-if="campaign.chart !==false" class="icon_KPI"></span>
+                    <span data-ng-if="campaign.chart !==false" class="icon_KPI"></span>
                 </span>
-                <span class="pull-right cumulative_val" ng-if="campaign.chart !==false">
+                <span class="pull-right cumulative_val" data-ng-if="campaign.chart !==false">
                     {{textConstants.CUMULATIVE_VALUE}}&nbsp;
-                    <span>{{campaigns.cdbDataMap[campaign.orderId][campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType}}
+                    <span data-ng-bind="campaigns.cdbDataMap[campaign.orderId][campaign.kpiType.toLowerCase()] |
+                                        kpiFormatter : campaign.kpiType">
                     </span>
                 </span>
             </div>
         </div>
         <div class="graph_KPI_outer_holder">
-            <span ng-switch="campaign.chart">
-                <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
-                <span ng-switch-when="false" class="no-chart" ng-bind-html="getMessageForDataNotAvailable(campaign)">
+            <span data-ng-switch="campaign.chart">
+                <span data-ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
+                <span data-ng-switch-when="false"
+                      class="no-chart"
+                      data-ng-bind-html="getMessageForDataNotAvailable(campaign)">
                 </span>
-                <span ng-switch-default>
-                    <div class="graph_KPI_holder" ng-if="campaign.chart && campaign.kpiType">
+                <span data-ng-switch-default>
+                    <div class="graph_KPI_holder" data-ng-if="campaign.chart && campaign.kpiType">
                         <div class="campaign_details_graph"
                              width="355"
                              height="111"
@@ -197,18 +220,17 @@
                              chart-location="campaign"
                              chart-tag="{{campaign.id}}">
                         </div>
-                        <!-- <highchart id="" class="graph_KPI_holder" config="campaign.chart" chartTitle="">
-                        </highchart> -->
                     </div>
                     <div class="graph_KPI_holder"
-                         ng-if="!(campaign.chart && campaign.kpiType)"
-                         ng-bind-html="getMessageForDataNotAvailable(campaign)">
+                         data-data-ng-if="!(campaign.chart && campaign.kpiType)"
+                         data-data-ng-bind-html="getMessageForDataNotAvailable(campaign)">
                     </div>
                 </span>
             </span>
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $('[data-toggle="tooltip"]').tooltip();

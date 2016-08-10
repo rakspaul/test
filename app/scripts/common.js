@@ -58,6 +58,10 @@ define([
     'common/directive',
     'workflow/campaign/campaign_create_controller',
     'workflow/campaign/line_item_controller',
+    
+    'workflow/vendors/vendors_list_controller',
+    'workflow/vendors/vendor_create_controller',
+
     'reporting/collectiveReport/reports_schedule_list_controller',
     'reporting/collectiveReport/collective_report_listing_controller',
     'highcharts',

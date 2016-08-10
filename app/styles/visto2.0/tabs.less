@@ -1,3 +1,6 @@
+
+@import "color.less";
+
 // Left Column Nav
 .left_column_nav {
     padding: 30px 0 0 0;
@@ -24,7 +27,7 @@
 
         .titleLabel {
             font-size: 14px;
-            color: #939eae;
+            color: @label-gray;
             cursor: default;
         }
 
@@ -40,7 +43,7 @@
 
             &.ng-scope span:last-child,
             &.disabled span {
-                //color: #939eae;
+                //color: @label-gray;
                 padding-left: 3px;
             }
 
@@ -60,7 +63,7 @@
 
             .col-md-5 {
                 font-size: 11px;
-                color: #939eae;
+                color: @label-gray;
                 padding-right: 5px;
             }
 
@@ -69,7 +72,7 @@
                 text-align: left;
 
                 .statusIcon {
-                    margin: -1px 5px 0 0;
+                    margin: -2px 5px 0 0 !important;
                     float: left;
                 }
 
@@ -95,7 +98,7 @@
                 font-size: 14px;
                 width: 100%;
                 float: left;
-                color: #939eae;
+                color: @label-gray;
                 text-decoration: none;
                 padding: 4px;
                 border-width: 0;
@@ -111,7 +114,7 @@
         span {
             font-size: 12px;
             float: left;
-            color: #21252b;
+            color: @raven-text;
             line-height: 100%;
             &:first-child {
                 clear: left;
@@ -119,10 +122,20 @@
             }
         }
         
+        [class^="icon-"],
+        [class*=" icon-"] {
+            height: 16px;
+            width: 16px;
+            font-size: 16px;
+            display: inline-block;
+            fill: currentColor;
+            color: @coal;
+        }
+
         .greyTxt {
             padding: 0 0 0 5px !important;
             font-size: 12px;
-            color: #939eae;
+            color: @label-gray;
         }
 
         .active {
@@ -132,7 +145,7 @@
 
             a {
                 font-family: Avenir-bold, sans-serif;
-                color: #0978c9;
+                color: @visto-blue;
                 border-radius: 0;
                 background: transparent;
             }
@@ -153,7 +166,7 @@
     .nav-tabs > li.active > a:hover,
     .nav-tabs > li.active > a:focus {
         border-width: 0;
-        color: #0978c9;
+        color: @visto-blue;
         background: transparent;
     }
 
@@ -195,7 +208,7 @@
 
     .active .titleLabel {
         font-family: Avenir-bold, sans-serif;
-        color: #0978c9;
+        color: @visto-blue;
     }
 
     .eachStepCompLabel {
@@ -255,7 +268,7 @@
         float: left;
         margin-right: 30px;
         font-size: 13px;
-        color: #939EAE;
+        color: @label-gray;
         text-decoration: none;
         text-transform: uppercase;
         padding: 5px 0 5px 0;
@@ -264,11 +277,11 @@
         box-shadow: none;
     }
     .btn-link:hover {
-        color: #939EAE;
-        border-bottom: 2px solid #939EAE;
+        color: @label-gray;
+        border-bottom: 2px solid @label-gray;
     }
     .btn-link.active {
-        border-bottom: 2px solid #0978C9;
+        border-bottom: 2px solid @visto-blue;
         color: #57606C;
     }
 }

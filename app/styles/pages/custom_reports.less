@@ -1,4 +1,5 @@
 
+@import "../visto2.0/color.less";
 
 .reports_upload_page , .reports_list_page{
 /*  .report_heading_dropdown_txt {
@@ -12,13 +13,13 @@
     margin-bottom:8px;
     height:auto;
     width:100%;
-    color: #57606d;
+    color: @lead-gray;
   }
   .table_header {
     border:1px solid #dde6eb;
     padding:20px;
     margin-top:10px ;
-    color:  #21252b;
+    color:  @raven-text;
   }
   .each-col {
     float: left;
@@ -130,7 +131,7 @@
     margin-left: 4px;
     padding: 5px 8px;
     font-size: 14px;
-    color: #57606d;
+    color: @lead-gray;
     line-height: 16px;
   }
   .img_table_txt {
@@ -140,14 +141,14 @@
     color: #B4B8BD;
     line-height: 27px;
     a {
-      color: #0978C9;
+      color: @visto-blue;
       text-decoration: underline;
     }
   }
   .img_type_format {
     text-align: center;
     font-size: 14px;
-    color: #21252B;
+    color: @raven-text;
     line-height: 20px;
   }
   .img_type_format {
@@ -191,7 +192,7 @@
     margin-bottom: 20px;
     background-color: #3aa0e6;
     width: 0;
-    background-image: linear-gradient(90deg, #2298EF 0%, #0978C9 100%);
+    background-image: linear-gradient(90deg, #2298EF 0%, @visto-blue 100%);
     border-radius: 40px;
     -moz-border-radius: 40px;
     -webkit-border-radius: 40px;
@@ -199,12 +200,12 @@
   .progress-upload-info {
     opacity: 0.3;
     font-size: 20px;
-    color: #21252B;
+    color: @raven-text;
     line-height: 27px;
   }
   .progress_percentage {
     font-size: 26px ;
-    color: #21252b ;
+    color: @raven-text;
     font-family: "Avenir-bold" ;
   }
   .delete-col {
@@ -296,7 +297,7 @@
   .redo-status {
     background: url('/images/cdesk/failed_icon.png') no-repeat left 8px;
     padding-left: 18px;
-    color: #0978C9;
+    color: @visto-blue;
     span {
       border-bottom: dashed 1px #C0E1FA;
     }
@@ -417,9 +418,9 @@
     margin: 23px 0 0;
     font-family: "Avenir-bold" ;
     font-size: 12px;
-    color: #0978C9;
+    color: @visto-blue;
     background-color: #fff;
-    border: solid 1px #0978C9;
+    border: solid 1px @visto-blue;
     border-radius: 2px;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
@@ -455,10 +456,29 @@
 
 .edit-dialog .modal-dialog {
     width :710px ;
+    margin-top: 100px;
+    .modal-header {
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+    }
 }
 .delete-dialog .modal-dialog {
-    width :464px ;
+    width :464px;
+    margin-top: 100px;
+    .modal-header {
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+    }
 }
+
 body {
   div {
     div.nav_filters {

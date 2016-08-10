@@ -28,7 +28,6 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
             var orderBy = $filter('orderBy'),
                 campaign = campaignListService,
                 Campaigns = campaignListModel,
-                fParams = featuresService.getFeatureParams(),
                 getSetCampaignDetails,
 
                 // API call for campaign details
@@ -134,11 +133,46 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                     });
             }
 
-            $rootScope.$on('features', function () {
+            function enableFeaturePermission(){
                 var fParams = featuresService.getFeatureParams();
 
                 $scope.createOptimization = fParams[0].optimization_create;
                 $scope.showOptimization = fParams[0].optimization_transparency;
+                $scope.showPlatform = fParams[0].platform;
+                $scope.showPerformance = fParams[0].performance; //if performance is false hide screens/adsizes/formats widget
+                $scope.showViewAbility = fParams[0].quality;
+                $scope.showInventory = fParams[0].inventory;
+                $scope.showCostWidget = fParams[0].cost;
+                $scope.createOptimization = fParams[0].optimization_create;
+                $scope.showOptimization = fParams[0].optimization_transparency;
+                setWidgetInCarousel();
+            }
+
+            enableFeaturePermission();
+
+            function setWidgetInCarousel() {
+                setTimeout(function(){
+                    var selAllCarousalWidget = '#myCarousel > .carousel-inner .item:not(.ng-hide)',
+                        totalWidget = $(selAllCarousalWidget).length,
+                        activelength = (totalWidget >= 4) ? 4 : totalWidget;
+
+                    $(selAllCarousalWidget).removeClass('active');
+                    $(selAllCarousalWidget).slice(0, activelength).addClass('active');
+                    if(totalWidget && totalWidget <= 4){
+                        $('a[data-target="#myCarousel"]').hide();
+                    }else{
+                        $('a[data-target="#myCarousel"][data-slide="next"]').show();
+                    }
+                },25);
+            }
+
+
+            $rootScope.$on('features', function () {
+                enableFeaturePermission();
+            });
+
+            $rootScope.$on(constants.ACCOUNT_CHANGED, function () {
+                enableFeaturePermission();
             });
 
             $scope.campaigns = new Campaigns();
@@ -180,9 +214,6 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 return (dir === 'asc' ? 'desc': 'asc');
             };
 
-            $scope.showCostWidget = fParams[0].cost;
-            $scope.createOptimization = fParams[0].optimization_create;
-            $scope.showOptimization = fParams[0].optimization_transparency;
 
             $scope.details.resetSortParams = function () {
                 $scope.details.sortParam = undefined;
@@ -294,9 +325,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
             $scope.init();
 
             $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function () {
-                $scope.$apply(function() {
-                    $location.path('/mediaplans/' + campaignSelectModel.getSelectedCampaign().id);
-                });
+                $location.path('/mediaplans/' + campaignSelectModel.getSelectedCampaign().id);
             });
 
             getSetCampaignDetails = function() {
@@ -1193,7 +1222,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 if (!campaign || campaign.id === -1) {
                     return constants.MSG_DATA_NOT_AVAILABLE;
                 } else if (campaign.durationLeft() === 'Yet to start') {
-                    return constants.MSG_CAMPAIGN_YET_TO_START;
+                    return utils.formatStringWithDate(constants.MSG_CAMPAIGN_YET_TO_START,campaign.startDate,constants.REPORTS_DATE_FORMAT);
                 } else if (campaign.daysSinceEnded() > 1000) {
                     return constants.MSG_CAMPAIGN_VERY_OLD;
                 } else if (campaign.kpiType === 'null') {
@@ -1246,7 +1275,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                     kpiSelectModel.setSelectedKpi(campaign.kpiType);
                 }
 
-                $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
+                //$rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
 
                 if (type === 'cost') {
                     utils.goToLocation(vistoconfig.COST_LINK);

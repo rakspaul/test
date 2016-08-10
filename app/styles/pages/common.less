@@ -1,3 +1,6 @@
+
+@import "../visto2.0/color.less";
+
 @color_1: #0978c9;
 @color_2: #21252B;
 @color_3: #ccc;
@@ -21,7 +24,7 @@
 @color_21: #57606c;
 @color_22: #939dac;
 @color_23: #57606D;
-@color_24: #0978C9;
+@color_24: @visto-blue;
 @color_25: #F24444;
 @font-family_1: Avenir;
 @font-family_2: "Avenir-bold";
@@ -209,10 +212,12 @@
 }
 .modal-backdrop.in {
 	opacity: .8;
-	z-index: 999999 !important;
+	z-index: 99999999 !important;
+    display: none !important;
 }
 .modal {
 	z-index: 999999999 !important;
+	background: rgba(0,0,0,0.8);
 }
 .closePopBtn {
 	position: absolute;
@@ -223,7 +228,7 @@
 	font-size: 12px;
 	width: 12px;
 	height: 12px;
-	color: @color_2;
+	color: @raven-text;
 	opacity: .25;
 }
 .about_popup {
@@ -314,7 +319,7 @@
 }
 .popup-holder {
 	font-size: 14px;
-	color: @color_2;
+	color:@raven-text;
 	text-align: left;
 	line-height: 20px;
 	border-radius: 5px;
@@ -369,7 +374,7 @@
 	}
 
     span.tagTitle {
-        color: #939eae;
+        color: @label-gray;
         margin-right:5px;
     }
 
@@ -388,7 +393,7 @@
 		display: inline-block;
 	}
 	.popup-btns-holder {
-		background: #f5f9fd;
+		background: @periwinkle-gray;
 		padding: 20px 30px;
 		border-radius: 0 0 5px 5px;
 		-moz-border-radius: 0 0 5px 5px;
@@ -561,7 +566,7 @@
 		h1 {
 			width: 90%;
 			word-wrap: break-word;
-			color: @color_2;
+			color: @raven-text;
 			padding-top: 20px;
 			padding-left: 30px;
 			padding-bottom: 15px;
@@ -578,7 +583,7 @@
 			font-size: 12px;
 			width: 12px;
 			height: 12px;
-			color: @color_2;
+			color: @raven-text;
 			opacity: .25;
 			margin: 6px;
 		}
@@ -815,7 +820,7 @@
 	height: 36px;
 	text-align: center;
 	width: 150px;
-	background: #0978c9;
+	background: @visto-blue;
 	font-size: 12px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -841,7 +846,7 @@
 	height: 36px;
 	text-align: center;
 	width: 150px;
-	background: #0978c9;
+	background: @visto-blue;
 	font-size: 12px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -860,7 +865,7 @@
 	height: 36px;
 	text-align: center;
 	width: 150px;
-	background: #0978c9;
+	background: @visto-blue;
 	font-size: 12px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -871,7 +876,7 @@
 	cursor: pointer;
 	border: 0px;
 	padding: 0px;
-	border: solid 1px #0978c9;
+	border: solid 1px @visto-blue;
 	color: @color_1;
 	background: #fff;
 }
@@ -888,7 +893,7 @@
 	}
 }
 .common_primary_btn.loading-icon {
-	background: url("/images/cdesk/loading_white.gif") no-repeat center center #0978c9;
+	background: url("/images/cdesk/loading_white.gif") no-repeat center center @visto-blue;
 	opacity: 0.3;
 	font-size: 0;
 }
@@ -899,7 +904,7 @@
 	width: 1040px;
 	margin: 0 auto;
 	font-size: 14px;
-	color: @color_2;
+	color: @raven-text;
 	line-height: 20px;
 	.advertisers_filter {
 		margin-right: 30px;
@@ -921,7 +926,7 @@
 		}
 		li {
 			font-size: 14px;
-			color: @color_2;
+			color: @raven-text;
 			padding: 5px 10px;
 			overflow: hidden;
 			white-space: nowrap;
@@ -968,7 +973,7 @@
 			}
 			.icon-arrow-solid-down {
 				font-size: 10px;
-				color: #939EAE;
+				color: @label-gray;
 				height: 4px;
 				width: 2px;
 				line-height: 16px;
@@ -1217,7 +1222,7 @@
         width: 10px;
         height: 10px;
         font-size: 10px;
-        color: #939EAE;
+        color: @label-gray;
     }
 	.brandsDropdownSearch {
 		position: relative;
@@ -1310,8 +1315,10 @@
 	div.reports_header_tabs_holder {
 		.header_tab_dd_subheading {
 			padding-right: 20px;
-			color: @color_18;
-			text-transform: none;
+			color: @active-gray;
+			text-transform: uppercase;
+            font-family: "Avenir-bold";
+            font-size: 12px;
 			padding-bottom: 5px;
 			cursor: default;
 		}
@@ -1356,6 +1363,15 @@
 					background: url("/images/cdesk/upload-icon.png") no-repeat -7px -7px;
 					margin: 5px 0 0 10px;
 				}
+                .icon-upload {
+                    cursor: pointer;
+                    opacity: .6;
+                    color: #fff;
+                    margin-left: 10px;
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
 			}
 		}
 		.circle_with_number {
@@ -1379,28 +1395,30 @@
 			padding: 16px 0px 0px 0px;
 			cursor: pointer;
 			margin: 24px 88px 0 0;
-			.icon-report-builder {
+			.icon-report-builder-1 {
 				float: left;
 				display: inline-block;
-				color: @color_11;
-				margin: 0 10px 0 0px;
-				font-size: 18px;
+				margin: 0 10px 0 0;
+				font-size: 24px;
+                width: 24px;
+                height: 24px;
+                color: #fff;
 			}
-			.icon_txt {
+			span {
 				float: left;
-				margin-top: 1px;
+                color: #fff;
+                opacity: .6;
 			}
 			&:hover {
-				color: @color_19;
-				.icon-report-builder {
-					color: @color_19;
-				}
+				span {
+                    opacity: 1;
+                }
 			}
 		}
 		.active_tab {
 			.new_report_generate_btn {
 				.icon-report-builder {
-					color: @color_19;
+					opacity: 1;
 				}
 			}
 		}
@@ -1410,43 +1428,23 @@
 			width: 162px;
 			a {
 				text-decoration: none;
-				color: @color_11;
+				color: #fff;
 				text-transform: none;
 				cursor: pointer;
+                opacity: .6;
 				&:hover {
-					color: @color_19;
-				}
-			}
-		}
-		div.header_tab_dropdown {
-			&:hover {
-				a {
-					color: @color_19;
-					&:hover {
-						color: @color_19;
-					}
+                    color: #fff;
+                    opacity: 1;
 				}
 			}
 		}
 		.active_tab {
 			a {
-				color: @color_19;
+                opacity: 1;
 				text-decoration: none;
 				&:hover {
-					color: @color_19;
+					opacity: 1;
 					text-decoration: none;
-				}
-			}
-		}
-		div.active_tab {
-			&:hover {
-				a {
-					color: @color_19;
-					text-decoration: none;
-					&:hover {
-						color: @color_19;
-						text-decoration: none;
-					}
 				}
 			}
 		}
@@ -1612,7 +1610,7 @@
 			    float: left;
 			}
 		}
-		
+
 		.arrow_img {
 			background: url("/images/cdesk/common_down_arrow.png") no-repeat center center;
 			height: 18px;
@@ -1630,7 +1628,7 @@
             width: 10px;
             height: 10px;
             font-size: 10px;
-            color: #939EAE;
+            color: @label-gray;
         }
 		.dropdown-menu {
 			padding: 5px 0;
@@ -1657,7 +1655,7 @@
 				&:hover {
                     color: #21252b;
                     text-decoration: none;
-                    background-color: #E1EDF9;
+                    background-color: @hover-light-blue;
 				}
 			}
 		}
@@ -1827,7 +1825,7 @@ multiselect {
 	margin-left: 10px;
 	padding: 7px;
 	font-size: 16px;
-	color: @color_23;
+	color: @lead-gray;
 	&:hover {
 		color: @color_24;
 	}
@@ -1902,7 +1900,7 @@ multiselect {
 		}
 		.popup-footer {
 			padding: 20px 30px;
-			background: #E1EDF9;
+			background: @hover-light-blue;
 			border-bottom-left-radius: 5px;
 			border-bottom-right-radius: 5px;
 			bottom: 0;
@@ -1940,15 +1938,15 @@ multiselect {
     margin : 3px 10px 0 0 ;
 }
 .draft_bulb {
-	border: solid 3px #939eae;
+	border: solid 3px @label-gray;
 	background: transparent;
 }
 .incomplete_bulb {
-	border: solid 3px #939eae;
+	border: solid 3px @label-gray;
 	background: transparent;
 }
 .ready_bulb {
-	border: solid 3px #004478;
+	border: solid 3px @status-ready;
 	background: transparent;
 }
 
@@ -2021,7 +2019,7 @@ multiselect {
 	border-radius: 4px;
 	height: 36px;
 	display: inline-block;
-	background: url("/images/cdesk/loading_white.gif") no-repeat center center #0978c9;
+	background: url("/images/cdesk/loading_white.gif") no-repeat center center @visto-blue;
 	opacity: 0.3;
 }
 .common-loading-area {
@@ -2100,7 +2098,7 @@ tags-input .autocomplete {
 	cursor: not-allowed ;
 }
 .slider-msg {
-	border: solid 1px #0978C9;
+	border: solid 1px @visto-blue;
     border-radius: 2px;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
@@ -2111,9 +2109,9 @@ tags-input .autocomplete {
     background: #fff;
     z-index: 99999999;
     width: 200px;
-    -webkit-box-shadow: 0px 0px 2px #0978C9;
-    -moz-box-shadow: 0px 0px 2px #0978C9;
-    box-shadow: 0px 0px 2px #0978C9;
+    -webkit-box-shadow: 0px 0px 2px @visto-blue;
+    -moz-box-shadow: 0px 0px 2px @visto-blue;
+    box-shadow: 0px 0px 2px @visto-blue;
     text-align: center;
     animation: show-notification .6s  ;
     -moz-animation: show-notification .6s  ;
@@ -2125,7 +2123,28 @@ tags-input .autocomplete {
 }
 
 .marginLeft {
-	margin : 0 0 0 10px ;
+	margin-left :10px ;
+}
+.marginRight {
+	margin-right : 10px ;
+}
+.marginBottom {
+	margin-bottom: 10px ;
+}
+.marginRightFive {
+	margin-right: 5px ;
+}
+.marginTop {
+	margin-top: 10px ;
+}
+.marginRightFive {
+	margin-right: 5px ;
+}
+.marginBottomTwenty {
+	margin-bottom: 20px ;
+}
+.marginBottomThirty {
+	margin-bottom: 30px ;
 }
 .searchInputWithClear {
 	.iconSearchBtn {
@@ -2146,7 +2165,7 @@ tags-input .autocomplete {
 	}
 }
 .selectedAtRight {
-      background: #edf2f8;
+      background: @periwinkle-gray;
       float: left;
       margin-left: 2%;
       //height: 476px;
@@ -2162,7 +2181,7 @@ tags-input .autocomplete {
         max-height: 560px;
 
         .segWrap {
-            border-bottom: 1px solid #bfc9d7;
+            border-bottom: 1px solid @stroke-gray-borders;
             float: left;
             margin-top: 20px;
             padding-bottom: 10px;
@@ -2264,7 +2283,7 @@ tags-input .autocomplete {
 
       .segBodyTable,
       .segHeaderTable {
-          border: 1px solid #bfc9d7;
+          border: 1px solid @stroke-gray-borders;
           margin-top: 20px;
           padding: 0;
 
@@ -2274,7 +2293,7 @@ tags-input .autocomplete {
           .columnFour,
           .columnFive,
           .columnSix {
-              border-right: 1px solid #bfc9d7;
+              border-right: 1px solid @stroke-gray-borders;
               float: left;
               height: 52px;
               padding: 17px 5px 0 8px;
@@ -2294,7 +2313,7 @@ tags-input .autocomplete {
               }
           }
           .columnThree {
-              border-right: 0px solid #bfc9d7;
+              border-right: 0px solid @stroke-gray-borders;
           }
       }
 
@@ -2310,7 +2329,7 @@ tags-input .autocomplete {
               overflow: auto;
               width: 100%;
               max-height: 400px ;
-              border-bottom: solid 1px #bfc9d7;
+              border-bottom: solid 1px @stroke-gray-borders;
           }
       }
 
@@ -2341,35 +2360,35 @@ tags-input .autocomplete {
           }
 
           .ui-slider {
-              background: #dce6f1;
+              background: @active-gray;
               border-radius: 2px;
               border-width: 0;
 
               .ui-slider-handle {
                   background: #fff;
-                  border: 1px solid #bfc9d7;
+                  border: 1px solid @stroke-gray-borders;
                   border-radius: 2px;
                   height: 35px;
                   top: -12px;
                   width: 13px;
               }
           }
-          
+
         .searchInputBtn {
             &:active, &:focus, &:hover, &:target {
                 border-width: 0px !important;
             }
         }
-          
+
         .searchClearInputBtn {
             right: 42px;
-            border-right: 1px solid #BFC9D7;
+            border-right: 1px solid @stroke-gray-borders;
             height: 36px;
             background: transparent !important;
             top: 0px;
             &:active, &:focus, &:hover, &:target {
                 border-width: 0px !important;
-                border-right: 1px solid #BFC9D7 !important;
+                border-right: 1px solid @stroke-gray-borders !important;
             }
             .icon-clear {
                 background: transparent !important;
@@ -2384,7 +2403,7 @@ tags-input .autocomplete {
       }
 
       .segHeaderTable {
-          border-bottom: 2px solid #bfc9d7;
+          border-bottom: 2px solid @stroke-gray-borders;
 
           .columnOne,
           .columnTwo,
@@ -2398,7 +2417,7 @@ tags-input .autocomplete {
       }
 
       .segTotal {
-          color: #939eae;
+          color: @label-gray;
           float: left;
           font-size: 14px;
           padding-top: 5px;
@@ -2410,7 +2429,7 @@ tags-input .autocomplete {
     width: 100%;
     border-radius: 2px;
     background: #eee;
-    border: 1px solid #BFC9D7;
+    border: 1px solid @stroke-gray-borders;
     text-align: left;
     padding: 7px 10px;
 }
@@ -2420,8 +2439,8 @@ tags-input .autocomplete {
 .dropdown-menu.campaigns_list {
 	padding-top: 0px ;
 }
-.nav_filters .brandsDropdownSearch.loadedDropdownData #brandsDropdownDiv input, 
-.nav_filters .brandsDropdownSearch.loadedDropdownData #subAccountDropdownDiv input, 
+.nav_filters .brandsDropdownSearch.loadedDropdownData #brandsDropdownDiv input,
+.nav_filters .brandsDropdownSearch.loadedDropdownData #subAccountDropdownDiv input,
 .nav_filters .brandsDropdownSearch.loadedDropdownData .advertisersList_ul input ,
 .nav_filters .loadedDropdownData #campaignsDropdownDiv input {
 	background: url("/images/loading.gif") no-repeat right center !important;
@@ -2444,6 +2463,46 @@ tags-input .autocomplete {
 	}
 }
 /*End of Dropdown which has search input box*/
+.textRight {
+	text-align: right;
+}
+
+.common_kpi_dropdown {
+	.default-kpi-header-icon {
+		margin-top: 0px !important;
+	}
+	.dd_txt {
+		width: 80% ;
+		.dd_txt_span {
+			max-width :80% ;
+			overflow: hidden;
+			text-overflow : ellipsis;
+			text-align: right;
+			margin: 1px 2px 0px ;
+		}
+	}
+}
+
+.each-box-option {
+	border: 1px solid @stroke-gray-borders ;
+    margin: 10px 10px 0 0;
+    padding: 10px;
+    height: 100px;
+	text-align: center;
+    img {
+    	width: 80% ;
+    }
+    .box-option-bottom {
+		width: 100%;
+		margin-top: 20px;
+    	span {
+    		display: block;
+    		padding: 0 !important;
+    		text-align: center;
+    	}
+    }
+}
+
 
 @keyframes show-notification {
     from {
@@ -2478,5 +2537,104 @@ tags-input .autocomplete {
         transform: scale(1);
     }
 }
+
+.options-selected-section {
+    min-height: 400px;
+    background: @periwinkle-gray;
+    border : solid 1px @active-gray;
+    .boldSubHeading {
+        color: #939EAE ;
+        font-family: "Avenir-bold";
+        font-size: 12px;
+        text-transform: uppercase;
+    }
+    .default-selected-section {
+        color: #939EAE;
+        text-align: center;
+        padding-top: 100px;
+        margin-bottom: 12px;
+        .smallText {
+            margin-top: 6px ;
+            font-size: 12px ;
+        }
+        .icon-location {
+            font-size: 40px;
+            display: block;
+            height: auto;
+            width: auto;
+            color: #939EAE;
+        }
+    }
+}
+.tableTag {
+    margin-top: 30px;
+
+    .emptyCreativesFlag {
+        background: #f5f9fd;
+        float: left;
+        width: 100%;
+
+        span {
+            color: #939eb6;
+            float: left;
+            margin-bottom: 30px;
+            margin-top: 60px;
+            text-align: center;
+            width: 100%;
+        }
+    }
+
+    .table {
+        margin-bottom: 0;
+
+        tbody {
+            display:block;
+            max-height: 400px;
+            overflow: auto;
+            padding-bottom: 30px ;
+        }
+
+        tbody tr,
+        thead {
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        tbody {
+            tr {
+                margin: 0;
+
+                td {
+                    background: #fff !important;
+                }
+            }
+        }
+
+        thead {
+            border: 1px solid #dde6eb;
+            border-bottom: 2px solid #dde6eb;
+
+            th {
+                height: 50px;
+                padding: 20px;
+                padding-top: 14px;
+                vertical-align: top;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 

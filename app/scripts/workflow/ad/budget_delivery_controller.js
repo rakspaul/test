@@ -1,8 +1,10 @@
 define(['angularAMD', '../../common/services/constants_service', 'common/moment_utils',
-    '../../common/directives/ng_upload_hidden', 'workflow/directives/custom_date_picker'], function (angularAMD) {
+    'common/services/vistoconfig_service', 'common/directives/ng_upload_hidden',
+    'workflow/directives/custom_date_picker'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('BudgetDeliveryController', function ($scope, constants, momentService, workflowService) {
+    angularAMD.controller('BudgetDeliveryController', function ($scope, constants, momentService,
+                                                                vistoconfig, workflowService) {
         var unallocatedAmount = 0,
             adMaximumRevenue = 0;
 
@@ -18,15 +20,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/moment_
         $scope.adData.budgetAmount = '';
 
         // Kpi Types in an array of objects, sorted alphabetically
-        $scope.adData.primaryKpiList = [
-            {kpiType: 'ACTION RATE', displayName: 'Action Rate'},
-            {kpiType: 'CPA',         displayName: 'CPA'},
-            {kpiType: 'CPC',         displayName: 'CPC'},
-            {kpiType: 'CPM',         displayName: 'CPM'},
-            {kpiType: 'CTR',         displayName: 'CTR'},
-            {kpiType: 'IMPRESSIONS', displayName: 'Impressions'},
-            {kpiType: 'VTC',         displayName: 'VTC'}
-        ];
+        $scope.adData.primaryKpiList = vistoconfig.kpiList;
 
         $scope.ImpressionPerUserValidator = function () {
             var impressionPerUser = Number($scope.adData.quantity),

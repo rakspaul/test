@@ -1,3 +1,5 @@
+/* done color.less remove later */
+/* done color.less remove later */
 #accountDropDown_0 .icon-arrow-right,
 #accountDropDown_1 .icon-arrow-right,
 #accountDropDown_2 .icon-arrow-right,
@@ -48,6 +50,34 @@
   position: absolute;
   left: 0px;
   width: 284px;
+}
+/* Generic Class */
+.overflowAuto {
+  overflow: auto;
+}
+.reports_details_outer_container.overflowAuto {
+  /*    border-left: solid 1px #ccd9e3 ;
+    border-right: solid 1px #ccd9e3 ;
+    .reports_performance_header {
+        border-left: 0px !important ;
+        border-right : 0px !important;
+    }
+    div.strategy_total_container_header {
+        border-left: 0px ;
+        border-right : 0px ;
+    }*/
+}
+.reports_tabs_content_container #reports_byadsizes_block .reports_details_outer_container.overflowAuto .each_col {
+  width: 128px;
+}
+.reports_tabs_content_container #reports_byadsizes_block .reports_details_outer_container.overflowAuto .each_col.first_col {
+  width: 100% ;
+}
+div.reports_tabs_content_container div#reports_bycreatives_block div.reports_details_outer_container.strategy_video_disabled.overflowAuto div.each_col {
+  width: 126px ;
+}
+div.reports_tabs_content_container div#reports_bycreatives_block div.reports_details_outer_container.strategy_video_disabled.overflowAuto .each_col.first_col {
+  width: 100% ;
 }
 /* Link: v1sto/invoices/invoiceId
    Content: LineItem, Adjustments
@@ -110,7 +140,7 @@
 }
 .performance_container #reports_bydiscrepancy_block .compareDropdownCnt .dropdownCmp .compareToButton .icon {
   font-size: 9px;
-  color: #939EAE;
+  color: #939eae;
   padding-top: 2px;
 }
 .each_cost_col .tooltip_holder {
@@ -391,7 +421,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .each_reports_row_heading {
   font-family: "Avenir";
   padding: 90px 0 0 0;
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
 }
@@ -407,7 +437,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   text-transform: none;
 }
 .each_reports_row_heading.optimization_heading .after_before_title {
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
   font-size: 12px ;
@@ -491,6 +521,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .reports_main_page_holder {
   margin: 0px auto 80px;
   /*width: 1200px;*/
+  min-height: 200px ;
   /*  .each_cost_col {
     .first_col.icon_text_holder {
       width: 33px;
@@ -577,7 +608,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   padding: 0;
   width: 15px;
   display: block;
-  height: 25px;
+  height: 32px;
 }
 .reports_main_page_holder .direction_arrows div div.kpi_arrow_sort.active.is_active_point_up {
   background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 3px;
@@ -623,10 +654,12 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   visibility: visible;
 }
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul {
-  width: 130px ;
+  width: auto ;
   text-align: left;
   min-width: 100px;
   top: 20px ;
+  max-height: 150px;
+  overflow: auto;
 }
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li {
   padding: 9px 15px !important;
@@ -648,25 +681,30 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   padding: 0;
   display: none;
 }
+.reports_main_page_holder .dropdown-menu.kpi_indicator_ul2 {
+  left: auto ;
+  right: 0px ;
+  width: 200px ;
+}
 .common_reports_container,
 .breadcrumb_campaign_strategy,
-.smallSreenScrollDiv {
+.smallScreenScrollDiv {
   font-family: "Avenir";
   position: relative;
 }
 .common_reports_container #optimization_strategies_dd,
 .breadcrumb_campaign_strategy #optimization_strategies_dd,
-.smallSreenScrollDiv #optimization_strategies_dd {
+.smallScreenScrollDiv #optimization_strategies_dd {
   width: 80% ;
 }
 .common_reports_container .dropdown_ul_text,
 .breadcrumb_campaign_strategy .dropdown_ul_text,
-.smallSreenScrollDiv .dropdown_ul_text {
+.smallScreenScrollDiv .dropdown_ul_text {
   cursor: pointer;
 }
 .common_reports_container .dropdown_ul_text .arrrow_img,
 .breadcrumb_campaign_strategy .dropdown_ul_text .arrrow_img,
-.smallSreenScrollDiv .dropdown_ul_text .arrrow_img {
+.smallScreenScrollDiv .dropdown_ul_text .arrrow_img {
   background: url("/images/cdesk/common_down_arrow.png") no-repeat center center;
   display: inline-block;
   height: 10px;
@@ -675,23 +713,23 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .dropdown_type1,
 .breadcrumb_campaign_strategy .dropdown_type1,
-.smallSreenScrollDiv .dropdown_type1 {
+.smallScreenScrollDiv .dropdown_type1 {
   position: relative;
 }
 .common_reports_container .dropdown_type1 .arrrow_img,
 .breadcrumb_campaign_strategy .dropdown_type1 .arrrow_img,
-.smallSreenScrollDiv .dropdown_type1 .arrrow_img,
+.smallScreenScrollDiv .dropdown_type1 .arrrow_img,
 .common_reports_container .dropdown_type2 .arrrow_img,
 .breadcrumb_campaign_strategy .dropdown_type2 .arrrow_img,
-.smallSreenScrollDiv .dropdown_type2 .arrrow_img {
+.smallScreenScrollDiv .dropdown_type2 .arrrow_img {
   background: url("/images/cdesk/common_down_arrow.png") no-repeat center center;
 }
 .common_reports_container .download_report,
 .breadcrumb_campaign_strategy .download_report,
-.smallSreenScrollDiv .download_report {
+.smallScreenScrollDiv .download_report {
   height: 36px;
   width: auto;
-  border: solid 1px #BFC9D7;
+  border: solid 1px #bfc9d7;
   font-size: 14px;
   border-radius: 2px;
   -moz-border-radius: 2px;
@@ -704,13 +742,13 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .download_report .dropdown,
 .breadcrumb_campaign_strategy .download_report .dropdown,
-.smallSreenScrollDiv .download_report .dropdown {
+.smallScreenScrollDiv .download_report .dropdown {
   width: 100%;
   height: 100%;
 }
 .common_reports_container .download_report .dropdown ul.dropdown-menu,
 .breadcrumb_campaign_strategy .download_report .dropdown ul.dropdown-menu,
-.smallSreenScrollDiv .download_report .dropdown ul.dropdown-menu {
+.smallScreenScrollDiv .download_report .dropdown ul.dropdown-menu {
   width: auto;
   min-width: 220px;
   max-width: 300px;
@@ -724,29 +762,29 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .download_report .dropdown ul.dropdown-menu li,
 .breadcrumb_campaign_strategy .download_report .dropdown ul.dropdown-menu li,
-.smallSreenScrollDiv .download_report .dropdown ul.dropdown-menu li {
+.smallScreenScrollDiv .download_report .dropdown ul.dropdown-menu li {
   padding: 0px;
   float: left;
   width: 100%;
 }
 .common_reports_container .download_report .dropdown ul.dropdown-menu li a,
 .breadcrumb_campaign_strategy .download_report .dropdown ul.dropdown-menu li a,
-.smallSreenScrollDiv .download_report .dropdown ul.dropdown-menu li a {
+.smallScreenScrollDiv .download_report .dropdown ul.dropdown-menu li a {
   white-space: normal;
   font-size: 14px;
   text-transform: none;
-  color: #363D49;
+  color: #363d49;
   padding: 5px 10px;
   margin: 0;
 }
 .common_reports_container .download_report a,
 .breadcrumb_campaign_strategy .download_report a,
-.smallSreenScrollDiv .download_report a {
+.smallScreenScrollDiv .download_report a {
   color: #363d49;
 }
 .common_reports_container .download_report .dropdown_ul_text,
 .breadcrumb_campaign_strategy .download_report .dropdown_ul_text,
-.smallSreenScrollDiv .download_report .dropdown_ul_text {
+.smallScreenScrollDiv .download_report .dropdown_ul_text {
   width: 100%;
   height: 100%;
   display: block;
@@ -754,48 +792,48 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .download_report .dropdown_ul,
 .breadcrumb_campaign_strategy .download_report .dropdown_ul,
-.smallSreenScrollDiv .download_report .dropdown_ul {
+.smallScreenScrollDiv .download_report .dropdown_ul {
   width: 100%;
 }
 .common_reports_container .download_report .dropdown_ul_perf,
 .breadcrumb_campaign_strategy .download_report .dropdown_ul_perf,
-.smallSreenScrollDiv .download_report .dropdown_ul_perf {
+.smallScreenScrollDiv .download_report .dropdown_ul_perf {
   width: 100%;
 }
 .common_reports_container .download_report .dropdown_ul_perf li a,
 .breadcrumb_campaign_strategy .download_report .dropdown_ul_perf li a,
-.smallSreenScrollDiv .download_report .dropdown_ul_perf li a {
+.smallScreenScrollDiv .download_report .dropdown_ul_perf li a {
   background: transparent !important;
 }
 .common_reports_container .download_report .dropdown_ul_inv,
 .breadcrumb_campaign_strategy .download_report .dropdown_ul_inv,
-.smallSreenScrollDiv .download_report .dropdown_ul_inv {
+.smallScreenScrollDiv .download_report .dropdown_ul_inv {
   width: 100%;
 }
 .common_reports_container .download_report:hover,
 .breadcrumb_campaign_strategy .download_report:hover,
-.smallSreenScrollDiv .download_report:hover {
-  background-color: #e1edf9;
+.smallScreenScrollDiv .download_report:hover {
+  background-color: #E1EDF9;
   border: 1px solid #bfc9d7;
 }
 .common_reports_container .download_anchor,
 .breadcrumb_campaign_strategy .download_anchor,
-.smallSreenScrollDiv .download_anchor {
+.smallScreenScrollDiv .download_anchor {
   float: left;
   text-decoration: none;
   margin: 0 10px;
 }
 .common_reports_container .icon-download,
 .breadcrumb_campaign_strategy .icon-download,
-.smallSreenScrollDiv .icon-download {
+.smallScreenScrollDiv .icon-download {
   float: left;
   font-size: 14px;
 }
 .common_reports_container .icon-arrow-solid-down,
 .breadcrumb_campaign_strategy .icon-arrow-solid-down,
-.smallSreenScrollDiv .icon-arrow-solid-down {
+.smallScreenScrollDiv .icon-arrow-solid-down {
   float: left;
-  color: #939EAE;
+  color: #939eae;
   font-size: 10px;
   height: 10px;
   width: 10px;
@@ -803,32 +841,32 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .download_anchor_li_disabled a,
 .breadcrumb_campaign_strategy .download_anchor_li_disabled a,
-.smallSreenScrollDiv .download_anchor_li_disabled a {
+.smallScreenScrollDiv .download_anchor_li_disabled a {
   color: #ccc !important;
 }
 .common_reports_container .download_anchor_li_disabled:hover,
 .breadcrumb_campaign_strategy .download_anchor_li_disabled:hover,
-.smallSreenScrollDiv .download_anchor_li_disabled:hover {
+.smallScreenScrollDiv .download_anchor_li_disabled:hover {
   background: #fff !important;
 }
 .common_reports_container .dropdown_type1,
 .breadcrumb_campaign_strategy .dropdown_type1,
-.smallSreenScrollDiv .dropdown_type1 {
+.smallScreenScrollDiv .dropdown_type1 {
   color: #313233;
 }
 .common_reports_container .dropdown_type1 #campaigns_list,
 .breadcrumb_campaign_strategy .dropdown_type1 #campaigns_list,
-.smallSreenScrollDiv .dropdown_type1 #campaigns_list {
+.smallScreenScrollDiv .dropdown_type1 #campaigns_list {
   top: -20px;
 }
 .common_reports_container .dropdown_type1 .dropdown-menu,
 .breadcrumb_campaign_strategy .dropdown_type1 .dropdown-menu,
-.smallSreenScrollDiv .dropdown_type1 .dropdown-menu {
+.smallScreenScrollDiv .dropdown_type1 .dropdown-menu {
   width: 660px ;
 }
 .common_reports_container .dropdown_type1 .campaign_name_length,
 .breadcrumb_campaign_strategy .dropdown_type1 .campaign_name_length,
-.smallSreenScrollDiv .dropdown_type1 .campaign_name_length {
+.smallScreenScrollDiv .dropdown_type1 .campaign_name_length {
   display: block;
   max-width: 660px;
   overflow: hidden;
@@ -842,7 +880,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .dropdown_type1 .dropdown_ul_text .dd_txt,
 .breadcrumb_campaign_strategy .dropdown_type1 .dropdown_ul_text .dd_txt,
-.smallSreenScrollDiv .dropdown_type1 .dropdown_ul_text .dd_txt {
+.smallScreenScrollDiv .dropdown_type1 .dropdown_ul_text .dd_txt {
   max-width: 660px;
   overflow: hidden;
   display: inline-block;
@@ -853,12 +891,12 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .dropdown_type1 .dropdown_ul_text input#campaignDropdown,
 .breadcrumb_campaign_strategy .dropdown_type1 .dropdown_ul_text input#campaignDropdown,
-.smallSreenScrollDiv .dropdown_type1 .dropdown_ul_text input#campaignDropdown {
+.smallScreenScrollDiv .dropdown_type1 .dropdown_ul_text input#campaignDropdown {
   border: 0;
 }
 .common_reports_container .dropdown_type2,
 .breadcrumb_campaign_strategy .dropdown_type2,
-.smallSreenScrollDiv .dropdown_type2 {
+.smallScreenScrollDiv .dropdown_type2 {
   color: #313233;
   /*margin-top: 15px;*/
   max-width: 100%;
@@ -866,7 +904,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .dropdown_type2 #strategy_dropdown,
 .breadcrumb_campaign_strategy .dropdown_type2 #strategy_dropdown,
-.smallSreenScrollDiv .dropdown_type2 #strategy_dropdown {
+.smallScreenScrollDiv .dropdown_type2 #strategy_dropdown {
   max-width: 150px;
   overflow: hidden;
   display: inline-block;
@@ -875,7 +913,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container #strategies_list,
 .breadcrumb_campaign_strategy #strategies_list,
-.smallSreenScrollDiv #strategies_list {
+.smallScreenScrollDiv #strategies_list {
   width: 450px;
   max-height: 200px;
   overflow: auto;
@@ -883,12 +921,12 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .performance_selection,
 .breadcrumb_campaign_strategy .performance_selection,
-.smallSreenScrollDiv .performance_selection {
+.smallScreenScrollDiv .performance_selection {
   cursor: pointer;
 }
 .common_reports_container .performance_selection .performance_symbol,
 .breadcrumb_campaign_strategy .performance_selection .performance_symbol,
-.smallSreenScrollDiv .performance_selection .performance_symbol {
+.smallScreenScrollDiv .performance_selection .performance_symbol {
   display: inline-block;
   background: url("/images/cdesk/sprites.png") no-repeat -250px -222px;
   height: 30px;
@@ -898,21 +936,21 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .performance_selection .top_perf_symbol,
 .breadcrumb_campaign_strategy .performance_selection .top_perf_symbol,
-.smallSreenScrollDiv .performance_selection .top_perf_symbol {
+.smallScreenScrollDiv .performance_selection .top_perf_symbol {
   background: url("/images/cdesk/sprites.png") no-repeat -250px -148px;
 }
 .common_reports_container .performance_selection .performance_text,
 .breadcrumb_campaign_strategy .performance_selection .performance_text,
-.smallSreenScrollDiv .performance_selection .performance_text {
+.smallScreenScrollDiv .performance_selection .performance_text {
   float: left;
   margin-top: 5px;
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
 }
 .common_reports_container .inventory_strategy_chart,
 .breadcrumb_campaign_strategy .inventory_strategy_chart,
-.smallSreenScrollDiv .inventory_strategy_chart {
+.smallScreenScrollDiv .inventory_strategy_chart {
   background: #fff;
   border: solid 1px #ccd9e3;
   min-height: 200px;
@@ -921,7 +959,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .inventory_strategy_chart .no-chart,
 .breadcrumb_campaign_strategy .inventory_strategy_chart .no-chart,
-.smallSreenScrollDiv .inventory_strategy_chart .no-chart {
+.smallScreenScrollDiv .inventory_strategy_chart .no-chart {
   margin: 120px auto 0;
   display: block;
   text-align: center;
@@ -932,7 +970,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .inventory_strategy_chart .no-chart-data,
 .breadcrumb_campaign_strategy .inventory_strategy_chart .no-chart-data,
-.smallSreenScrollDiv .inventory_strategy_chart .no-chart-data {
+.smallScreenScrollDiv .inventory_strategy_chart .no-chart-data {
   margin: 37px 10px 0;
   display: block;
   text-align: center;
@@ -942,30 +980,30 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .inventory_strategy_chart .inventory_chart,
 .breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_chart,
-.smallSreenScrollDiv .inventory_strategy_chart .inventory_chart {
+.smallScreenScrollDiv .inventory_strategy_chart .inventory_chart {
   height: 240px;
   width: 450px ;
 }
 .common_reports_container .inventory_strategy_chart .inventory_chart .highcharts_kpi_titles,
 .breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_chart .highcharts_kpi_titles,
-.smallSreenScrollDiv .inventory_strategy_chart .inventory_chart .highcharts_kpi_titles {
+.smallScreenScrollDiv .inventory_strategy_chart .inventory_chart .highcharts_kpi_titles {
   margin-left: 56px;
   color: #666;
 }
 .common_reports_container .inventory_strategy_chart .inventory_each_chart_details,
 .breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details,
-.smallSreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details {
+.smallScreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details {
   margin-bottom: 10px;
 }
 .common_reports_container .inventory_strategy_chart .inventory_each_chart_details span,
 .breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details span,
-.smallSreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details span {
+.smallScreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details span {
   display: inline-block;
   float: left;
 }
 .common_reports_container .inventory_strategy_chart .inventory_each_chart_details span.row_index,
 .breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details span.row_index,
-.smallSreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details span.row_index {
+.smallScreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details span.row_index {
   color: #57606d;
   font-size: 13px;
   margin-top: 1px;
@@ -973,16 +1011,16 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .inventory_strategy_chart .inventory_each_chart_details .cpa_data,
 .breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details .cpa_data,
-.smallSreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details .cpa_data,
+.smallScreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details .cpa_data,
 .common_reports_container .inventory_strategy_chart .inventory_each_chart_details .imps_del_data,
 .breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details .imps_del_data,
-.smallSreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details .imps_del_data {
+.smallScreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details .imps_del_data {
   color: #57606d;
   font-size: 14px;
 }
 .common_reports_container .inventory_strategy_chart .inventory_each_chart_details .url_val,
 .breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details .url_val,
-.smallSreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details .url_val {
+.smallScreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details .url_val {
   padding: 0px 10px;
   margin: 0px 0px 0px 10px;
   width: 260px;
@@ -994,130 +1032,135 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .inventory_strategy_chart.no_data_found,
 .breadcrumb_campaign_strategy .inventory_strategy_chart.no_data_found,
-.smallSreenScrollDiv .inventory_strategy_chart.no_data_found {
+.smallScreenScrollDiv .inventory_strategy_chart.no_data_found {
   padding-top: 150px ;
   min-height: 280px;
   margin-top: 0px ;
 }
 .common_reports_container .inventory_charts_details_holder .chart_inventory_header,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header,
-.smallSreenScrollDiv .inventory_charts_details_holder .chart_inventory_header,
+.smallScreenScrollDiv .inventory_charts_details_holder .chart_inventory_header,
 .common_reports_container .reports_chart_details_holder .chart_inventory_header,
 .breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header,
-.smallSreenScrollDiv .reports_chart_details_holder .chart_inventory_header {
+.smallScreenScrollDiv .reports_chart_details_holder .chart_inventory_header {
   margin-top: 21px;
   margin-right: 20px;
 }
 .common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list,
-.smallSreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list,
+.smallScreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list,
 .common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list,
 .breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list,
-.smallSreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list {
+.smallScreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list {
   width: 530px ;
 }
 .common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
-.smallSreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
+.smallScreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
 .common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
 .breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
-.smallSreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col {
+.smallScreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col {
   width: 122px ;
 }
 .common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text,
-.smallSreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text,
+.smallScreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text,
 .common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text,
 .breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text,
-.smallSreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text {
+.smallScreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text {
   padding-right: 0 ;
   padding-left: 0 ;
 }
 .common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
-.smallSreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
+.smallScreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
 .common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
 .breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img,
-.smallSreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img {
+.smallScreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .arrrow_img {
   margin: 4px 0 0 8px ;
 }
 .common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span,
-.smallSreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span,
+.smallScreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span,
 .common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span,
 .breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span,
-.smallSreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span {
+.smallScreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dd_txt span {
   margin-top: 2px ;
 }
 .common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col,
-.smallSreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col,
+.smallScreenScrollDiv .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col,
 .common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col,
 .breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col,
-.smallSreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col {
+.smallScreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col ~ .imps_del_col {
   margin-top: 2px ;
 }
 .common_reports_container .inventory_charts_details_holder .dropdown-menu,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .dropdown-menu,
-.smallSreenScrollDiv .inventory_charts_details_holder .dropdown-menu {
+.smallScreenScrollDiv .inventory_charts_details_holder .dropdown-menu {
   height: 162px;
   width: 112px;
 }
+.common_reports_container .inventory_charts_details_holder .kpi_indicator_ul,
+.breadcrumb_campaign_strategy .inventory_charts_details_holder .kpi_indicator_ul,
+.smallScreenScrollDiv .inventory_charts_details_holder .kpi_indicator_ul {
+  width: auto;
+}
 .common_reports_container .inventory_container .load-more,
 .breadcrumb_campaign_strategy .inventory_container .load-more,
-.smallSreenScrollDiv .inventory_container .load-more {
+.smallScreenScrollDiv .inventory_container .load-more {
   margin: 20px auto ;
 }
 .common_reports_container .inventory_chart_details_list,
 .breadcrumb_campaign_strategy .inventory_chart_details_list,
-.smallSreenScrollDiv .inventory_chart_details_list {
+.smallScreenScrollDiv .inventory_chart_details_list {
   width: 520px;
   float: right;
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
 }
 .common_reports_container .inventory_chart_details_list_holder,
 .breadcrumb_campaign_strategy .inventory_chart_details_list_holder,
-.smallSreenScrollDiv .inventory_chart_details_list_holder {
+.smallScreenScrollDiv .inventory_chart_details_list_holder {
   width: 520px ;
   margin-top: 20px;
 }
 .common_reports_container .cpa_col,
 .breadcrumb_campaign_strategy .cpa_col,
-.smallSreenScrollDiv .cpa_col {
+.smallScreenScrollDiv .cpa_col {
   width: 120px;
   text-align: right;
 }
 .common_reports_container .cpa_col .dropdown-menu,
 .breadcrumb_campaign_strategy .cpa_col .dropdown-menu,
-.smallSreenScrollDiv .cpa_col .dropdown-menu {
+.smallScreenScrollDiv .cpa_col .dropdown-menu {
   min-width: 110px;
   left: 20px;
   text-align: left;
 }
 .common_reports_container .cpa_col .dropdown-menu li,
 .breadcrumb_campaign_strategy .cpa_col .dropdown-menu li,
-.smallSreenScrollDiv .cpa_col .dropdown-menu li {
+.smallScreenScrollDiv .cpa_col .dropdown-menu li {
   padding-left: 10px;
 }
 .common_reports_container .data_not_found .span,
 .breadcrumb_campaign_strategy .data_not_found .span,
-.smallSreenScrollDiv .data_not_found .span {
+.smallScreenScrollDiv .data_not_found .span {
   font-family: "Avenir-bold";
   font-size: 18px;
   color: #313233;
 }
 .common_reports_container .imps_del_col,
 .breadcrumb_campaign_strategy .imps_del_col,
-.smallSreenScrollDiv .imps_del_col {
+.smallScreenScrollDiv .imps_del_col {
   width: 120px;
   text-align: right;
   cursor: default;
 }
 .common_reports_container .each_chart_accordion_holder .chart_accordion_heading,
 .breadcrumb_campaign_strategy .each_chart_accordion_holder .chart_accordion_heading,
-.smallSreenScrollDiv .each_chart_accordion_holder .chart_accordion_heading {
+.smallScreenScrollDiv .each_chart_accordion_holder .chart_accordion_heading {
   background: #f5f9fd;
   height: 70px;
   padding-top: 25px;
@@ -1131,22 +1174,22 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .each_chart_accordion_holder .inventory_strategy_chart,
 .breadcrumb_campaign_strategy .each_chart_accordion_holder .inventory_strategy_chart,
-.smallSreenScrollDiv .each_chart_accordion_holder .inventory_strategy_chart {
+.smallScreenScrollDiv .each_chart_accordion_holder .inventory_strategy_chart {
   border-top: 0px;
 }
 .common_reports_container .each_chart_accordion_holder .closed,
 .breadcrumb_campaign_strategy .each_chart_accordion_holder .closed,
-.smallSreenScrollDiv .each_chart_accordion_holder .closed {
+.smallScreenScrollDiv .each_chart_accordion_holder .closed {
   display: none;
 }
 .common_reports_container .each_chart_accordion_holder .open,
 .breadcrumb_campaign_strategy .each_chart_accordion_holder .open,
-.smallSreenScrollDiv .each_chart_accordion_holder .open {
+.smallScreenScrollDiv .each_chart_accordion_holder .open {
   display: block;
 }
 .common_reports_container .inventory_tabs,
 .breadcrumb_campaign_strategy .inventory_tabs,
-.smallSreenScrollDiv .inventory_tabs {
+.smallScreenScrollDiv .inventory_tabs {
   text-transform: uppercase;
   border: solid 1px #ccd9e3;
   border-bottom: 0px;
@@ -1156,7 +1199,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .inventory_tabs span,
 .breadcrumb_campaign_strategy .inventory_tabs span,
-.smallSreenScrollDiv .inventory_tabs span {
+.smallScreenScrollDiv .inventory_tabs span {
   display: inline-block;
   border-right: solid 1px #ccd9e3;
   float: left;
@@ -1167,7 +1210,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .inventory_tabs span a,
 .breadcrumb_campaign_strategy .inventory_tabs span a,
-.smallSreenScrollDiv .inventory_tabs span a {
+.smallScreenScrollDiv .inventory_tabs span a {
   color: #57606d;
   font-size: 13px;
   text-decoration: none;
@@ -1181,36 +1224,36 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .inventory_tabs span:hover a,
 .breadcrumb_campaign_strategy .inventory_tabs span:hover a,
-.smallSreenScrollDiv .inventory_tabs span:hover a {
+.smallScreenScrollDiv .inventory_tabs span:hover a {
   color: #0978c9;
 }
 .common_reports_container .inventory_tabs span.inventory_tab_active,
 .breadcrumb_campaign_strategy .inventory_tabs span.inventory_tab_active,
-.smallSreenScrollDiv .inventory_tabs span.inventory_tab_active {
+.smallScreenScrollDiv .inventory_tabs span.inventory_tab_active {
   border-bottom: 0px;
 }
 .common_reports_container .inventory_tabs span.inventory_tab_active a,
 .breadcrumb_campaign_strategy .inventory_tabs span.inventory_tab_active a,
-.smallSreenScrollDiv .inventory_tabs span.inventory_tab_active a {
+.smallScreenScrollDiv .inventory_tabs span.inventory_tab_active a {
   background: #fff;
   height: 37px;
   color: #0978c9;
 }
 .common_reports_container .inventory_tabs span:last-child,
 .breadcrumb_campaign_strategy .inventory_tabs span:last-child,
-.smallSreenScrollDiv .inventory_tabs span:last-child {
+.smallScreenScrollDiv .inventory_tabs span:last-child {
   border-right: 0px;
 }
 .common_reports_container .inventory_tabs span:last-child a,
 .breadcrumb_campaign_strategy .inventory_tabs span:last-child a,
-.smallSreenScrollDiv .inventory_tabs span:last-child a {
+.smallScreenScrollDiv .inventory_tabs span:last-child a {
   border-radius: 0px 5px 0px 0px;
   -moz-border-radius: 0px 5px 0px 0px;
   -webkit-border-radius: 0px 5px 0px 0px;
 }
 .common_reports_container .inventory_tabs span:first-child a,
 .breadcrumb_campaign_strategy .inventory_tabs span:first-child a,
-.smallSreenScrollDiv .inventory_tabs span:first-child a {
+.smallScreenScrollDiv .inventory_tabs span:first-child a {
   border-radius: 5px 0px 0px 0px;
   -moz-border-radius: 5px 0px 0px 0px;
   -webkit-border-radius: 5px 0px 0px 0px;
@@ -1223,7 +1266,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   background: url("/images/loading.gif") no-repeat scroll 70% 9% rgba(0, 0, 0, 0);
   margin: 5px auto 0 42px ;
   display: inline-block;
-  color: #21252B ;
+  color: #21252b;
   text-transform: uppercase;
   font-size: 10px;
 }
@@ -1246,7 +1289,7 @@ div.strategy_total_container .discrepancyTplRow .discrepancyName {
   width: 250px;
 }
 div.strategy_total_container div.strategy_total_container_header {
-  background: #f5f9fd;
+  background: #edf2f8;
   border: solid 1px #ccd9e3;
   border-top-width: 2px ;
   padding: 15px 20px 5px 20px ;
@@ -1265,7 +1308,7 @@ div.strategy_total_container div.strategy_total_container_header .rowHasSubRow {
 }
 div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow .icon-arrow-solid-down {
   font-size: 10px;
-  color: #939EAE;
+  color: #939eae;
   -ms-transform: rotate(-90deg);
   -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
@@ -1280,7 +1323,7 @@ div.strategy_total_container div.strategy_total_container_header .discrepancyTpl
   margin-top: 7px;
 }
 div.strategy_total_container div.strategy_total_container_header div.each_col.first_col {
-  color: #21252b ;
+  color: #21252b;
   font-size: 18px;
   font-family: "Avenir";
 }
@@ -1389,7 +1432,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_video_mode_outer_container .strategy_total_container div.each_col.seventh_col,
 .custom_report_response_table .strategy_total_container div.each_col.seventh_col {
   font-size: 14px ;
-  color: #57606d ;
+  color: #57606d;
 }
 .viewability_details_outer_container,
 .viewability_details_video_mode_outer_container {
@@ -1663,7 +1706,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_viewability_block .viewability_header .each_col,
 .viewability_details_video_mode_outer_container .viewability_header .each_col {
   padding-top: 0px;
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
 }
@@ -1848,7 +1891,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .view_mode_switch_container {
   float: none ;
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   margin-top: -20px;
   position: absolute;
@@ -1881,7 +1924,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin: 0 10px;
 }
 .view_mode_switch_container .video_btn span.switch {
-  background: #0978c9 ;
+  background: #0978c9;
   height: 20px ;
   width: 30px ;
   border: 0px ;
@@ -2543,10 +2586,14 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container .reports_block.quar_data .each_col {
   width: 92px;
   border: 1px none #ff6600;
+  margin: 5px 0px 10px 2px !important;
+}
+.reports_tabs_content_container .reports_block.quar_data .each_col.fifth_col {
+  text-align: center !important;
 }
 .reports_tabs_content_container .reports_block .each_col {
   float: left;
-  width: 146px;
+  width: 132px;
   text-align: right;
   margin: 5px 0 10px 15px ;
 }
@@ -2585,6 +2632,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   border: solid 1px #ccd9e3;
   padding: 10px 20px;
   border-bottom: 0px ;
+  /*width: 1964px;*/
 }
 .reports_tabs_content_container .reports_block .reports_performance_header .dropdown-menu.kpi_indicator_ul ul.drop_list {
   width: 80% ;
@@ -2593,7 +2641,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin-top: 10px ;
 }
 .reports_tabs_content_container .reports_block .reports_performance_header .each_col {
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
   margin: 6px 0 2px 15px;
@@ -2614,7 +2662,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   border-bottom: 0px ;
 }
 .reports_tabs_content_container .reports_block .reports_platform_header .each_col {
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
   margin: 6px 0 2px 15px;
@@ -2645,7 +2693,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   display: block;
 }
 .reports_tabs_content_container .performancePlatformHeader .seventh_col {
-  width: 90px !important;
+  /*width: 90px !important;*/
   cursor: pointer;
 }
 .reports_tabs_content_container .performancePlatformHeader .seventh_col .arrrow_img {
@@ -2771,7 +2819,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container #reports_byadsizes_block .vid_data_hdr {
   margin-left: 1px
-    width: 297px;
+            width: 297px;
 }
 .reports_tabs_content_container #reports_byadsizes_block .reports_details_outer_container .each_col {
   width: 120px;
@@ -2824,7 +2872,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header div.each_col,
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container div.each_col {
-  width: 78px  ;
+  width: 70px  ;
 }
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header div.each_col.first_col,
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container div.each_col.first_col {
@@ -2836,12 +2884,20 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header div.each_col.sec_col,
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container div.each_col.sec_col {
-  width: 275px ;
+  width: 202px ;
   text-transform: capitalize;
 }
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header .vid_data_hdr,
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container .vid_data_hdr {
   padding-left: 30px ;
+}
+.reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header .each_col.seventh_col.last_col,
+.reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container .each_col.seventh_col.last_col {
+  width: 165px ;
+}
+.reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header .each_col.imps-col,
+.reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container .each_col.imps-col {
+  width: 115px ;
 }
 .reports_tabs_content_container #reports_byadsizes_block .each_col {
   width: 149px;
@@ -2855,7 +2911,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   text-align: left;
 }
 .reports_tabs_content_container #reports_byadsizes_block.reports_block.quar_data .each_col {
-  width: 94px;
+  width: 100px;
   text-align: right;
 }
 .reports_tabs_content_container #reports_byadsizes_block.reports_block.quar_data .each_col.first_col {
@@ -2957,12 +3013,18 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container.vid_show div.each_col {
   width: 70px ;
 }
+.reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container.vid_show .each_col.seventh_col {
+  width: 110px ;
+}
+.reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container.vid_show .each_col.eight_col {
+  width: 86px ;
+}
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container div.each_col {
   width: 115px ;
 }
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container div.sec_col {
   min-width: 70px ;
-  width: 180px ;
+  width: 188px ;
   text-align: left ;
 }
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container div.sec_col.vid_show {
@@ -3080,7 +3142,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .viewLabelTxt {
   float: left;
-  color: #939EAE;
+  color: #939eae;
   margin: 4px 0 0 5px;
   font-size: 12px;
 }
@@ -3201,7 +3263,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_cost_header_holder .cost_header_holder .each_cost_col,
 #reports_platform_cost_block .cost_header_holder .each_cost_col {
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
   line-height: 17px ;
@@ -3212,7 +3274,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_cost_header_holder .cost_header_holder .more_options .dropdown-menu li a,
 #reports_platform_cost_block .cost_header_holder .more_options .dropdown-menu li a {
-  color: #21252b ;
+  color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
 }
@@ -3284,7 +3346,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_cost_header_holder .cost_transparency_container .strategy_total_row .each_cost_heading,
 #reports_platform_cost_block .cost_transparency_container .strategy_total_row .each_cost_heading {
   font-size: 18px ;
-  color: #21252b ;
+  color: #21252b;
   font-size: 18px;
   font-family: "Avenir";
 }
@@ -3385,7 +3447,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   /*      &.fifth_col{
         min-width: 11px;
         width: 51px;
-
       }*/
 }
 #reports_platform_cost_block .reports_platform_header .each_cost_col.fifth_col,
@@ -3742,7 +3803,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   background-image: url("/images/reports_login/password_icon.png");
 }
 .reports_login_outer_container .reports_login_box .keep_signed_in {
-  color: #939eae ;
+  color: #939eae;
 }
 .reports_login_outer_container .reports_login_box .forgot_pass_holder {
   position: relative;
@@ -3808,7 +3869,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   background: #359eea ;
 }
 .reports_login_outer_container .reports_login_box .login_btn:active {
-  background: #0564a9 ;
+  background: #0564a9;
 }
 .reports_login_outer_container .reports_login_box .login_btn.loading {
   font-size: 0px ;
@@ -3825,7 +3886,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_login_outer_container .reports_login_box .email_anchor a {
   text-decoration: underline;
-  color: #939eae ;
+  color: #939eae;
 }
 .reports_login_outer_container .reports_login_box .email_anchor a:hover {
   color: #359eea ;
@@ -3887,7 +3948,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   padding: 0;
   margin: 1px 0 0 7px;
   position: static;
-  color: #939EAE;
+  color: #939eae;
 }
 .viewability_header .kpi-dd-holder {
   padding-right: 13px;
@@ -4116,7 +4177,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response #dynamicHeader .downReport {
   display: none;
-  border: solid 1px #BFC9D7;
+  border: solid 1px #bfc9d7;
   padding: 7px 15px;
   margin-top: -6px;
   height: 36px;
@@ -4124,7 +4185,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   cursor: pointer;
 }
 .report_generator_and_response #dynamicHeader .downReport:hover {
-  background: #e1edf9;
+  background: #E1EDF9;
 }
 .report_generator_and_response #dynamicHeader .subTitle {
   display: block;
@@ -4358,7 +4419,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   color: #0978c9;
 }
 .report_generator_and_response .report_builder_container .custom_report_col .each_option.active:hover {
-  color: #21252b ;
+  color: #21252b;
 }
 .report_generator_and_response .report_builder_container .custom_report_col .each_option:hover {
   border: solid 2px #0978c9;
@@ -4395,6 +4456,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   padding: 9px 0 0 15px;
   cursor: pointer;
 }
+.report_generator_and_response .report_builder_container .metricDataView .metricContainer .metricData:disabled {
+  color: #aaa ;
+}
 .report_generator_and_response .report_builder_container .metricDataView .metricContainer .metricData.active {
   background-image: url(../../images/cdesk/checkMark.png);
   background-repeat: no-repeat;
@@ -4413,7 +4477,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   float: left;
 }
 .report_generator_and_response .report_builder_container .filter_btn {
-  color: #0978c9 ;
+  color: #0978c9;
   cursor: pointer;
   margin-top: 6px;
 }
@@ -4430,7 +4494,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin-left: 20px;
 }
 .report_generator_and_response .custom_response_screenshot_container {
-  background: #edf2f8 ;
+  background: #edf2f8;
   padding: 30px 0 0px 0;
   border-top: solid 2px #ccd9e3 ;
   float: left;
@@ -4529,7 +4593,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   float: left;
 }
 .report_generator_and_response div.create_scheduled_report .each-col .label-txt {
-  color: #939eae ;
+  color: #939eae;
   font-size: 12px ;
   margin-bottom: 10px ;
 }
@@ -4567,7 +4631,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response div.create_scheduled_report .schedule-on-off-btn .btn-default {
   background-color: #E9EDF2;
-  border-color: #BFC9D7 ;
+  border-color: #bfc9d7;
 }
 .report_generator_and_response div.create_scheduled_report .schedule-on-off-btn .btn-default:focus,
 .report_generator_and_response div.create_scheduled_report .schedule-on-off-btn .btn-default:active,
@@ -5005,7 +5069,7 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
   margin-top: 0 ;
 }
 .report_response_and_tabs .custom_report_scroll .heading_first_dimension:hover .more_dimension_arrow {
-  background-color: #DCE6F1 ;
+  background-color: #dce6f1;
 }
 .heading_first_dimension {
   color: #5C5C5C ;
@@ -5016,7 +5080,7 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
   padding-left: 40px;
 }
 .heading_first_dimension:hover {
-  background-color: #DCE6F1;
+  background-color: #dce6f1;
   cursor: default;
 }
 .new_breakdown_div .filter_input_txtbox {
@@ -5054,7 +5118,7 @@ body.custom_report_page .bodyWrap {
 #newDatePickerBox {
   position: relative;
   float: right !important;
-  border: solid 0px #BFC9D7;
+  border: solid 0px #bfc9d7;
 }
 #newDatePickerBox button {
   float: right;
@@ -5066,14 +5130,14 @@ body.custom_report_page .bodyWrap {
 #newDatePickerBox .startPicker,
 #newDatePickerBox .endPicker {
   float: left ;
-  border: solid 0px #BFC9D7;
+  border: solid 0px #bfc9d7;
   margin-top: 8px;
   margin-right: -4px;
   border-radius: 2px;
 }
 #newDatePickerBox .startPicker input,
 #newDatePickerBox .endPicker input {
-  border: solid 1px #BFC9D7;
+  border: solid 1px #bfc9d7;
   padding-right: -2px;
   width: 131px;
   height: 36px;
@@ -5085,7 +5149,7 @@ body.custom_report_page .bodyWrap {
 #newDatePickerBox .endPicker #endDateInputGlyph {
   pointer-events: none;
   height: 33px;
-  border-left: solid 1px #BFC9D7;
+  border-left: solid 1px #bfc9d7;
   padding-left: 8px;
   padding-top: 8px;
   left: -33px;
@@ -5139,14 +5203,14 @@ body.custom_report_page .bodyWrap {
   }
 }
 @media (max-width: 1260px) {
-  .smallSreenScrollContainer {
+  .smallScreenScrollContainer {
     overflow: hidden;
   }
-  .smallSreenScrollContainer .smallSreenScrollDiv {
+  .smallScreenScrollContainer .smallScreenScrollDiv {
     overflow: auto;
     width: 100%;
   }
-  .smallSreenScrollContainer .smallSreenScrollDiv .smallSreenScrollContent {
+  .smallScreenScrollContainer .smallScreenScrollDiv .smallSreenScrollContent {
     width: 1200px ;
   }
 }
@@ -5154,7 +5218,7 @@ body.custom_report_page .bodyWrap {
   margin-top: 0px;
   top: 92px ;
 }
-.quality_page_holder .smallSreenScrollContainer {
+.quality_page_holder .smallScreenScrollContainer {
   margin-top: 30px ;
 }
 .clickCursor {
@@ -5165,4 +5229,7 @@ body.custom_report_page .bodyWrap {
 }
 .marginRight {
   margin-right: 10px ;
+}
+.disabled_txt {
+  color: #aaa ;
 }

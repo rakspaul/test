@@ -1,6 +1,5 @@
 define(['angularAMD', '../services/audience_service', 'workflow/services/workflow_service',
     'workflow/directives/clear_row'], function (angularAMD) {
-    'use strict';
 
     angularAMD.controller('daypartController', function ($scope, $timeout, audienceService, workflowService) {
         var _dayPartTargetting = this;
@@ -358,21 +357,18 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
             workflowService.setAdsDetails(fetchedObj);
         };
 
-
-        $scope.$on('updateDayPart',function (isRedirectFlag) {
+        $scope.$on('updateDayPart', function (isRedirectFlag) {
             var fetchedObj =  workflowService.getAdsDetails(),
                 scheduleObj;
 
-            if (fetchedObj.targets &&
-                fetchedObj.targets.adDaypartTargets &&
-                _.size(fetchedObj.targets.adDaypartTargets) > 0) {
+            if (fetchedObj.targets && fetchedObj.targets.adDaypartTargets && _.size(fetchedObj.targets.adDaypartTargets) > 0) {
                 _dayPartTargetting.setTimeZone(fetchedObj.targets.adDaypartTargets.timeZone);
 
                 if (angular.lowercase(fetchedObj.targets.adDaypartTargets.dayTime) ===
                     angular.lowercase('Custom Schedule')) {
                     scheduleObj = fetchedObj.targets.adDaypartTargets.schedule;
                     $scope.Schedule.daytimeArr.length = 0;
-                    $scope.Schedule.dayPart.length=0;
+                    $scope.Schedule.dayPart.length = 0;
 
                     _.each(scheduleObj, function (obj) {
                         var i;
@@ -453,7 +449,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
         };
 
         $scope.setSelectedDayparts = function (){
-            var daypartObj = localStorage.getItem('dayPart'),
+            var dayPartObj = localStorage.getItem('dayPart'),
                 selectedDayTime = localStorage.getItem('dayTimeSelected'),
                 dayTimeArr = localStorage.getItem('daytimeArr'),
                 previouslySavedData = audienceService.getDayPartdata();
@@ -466,15 +462,15 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
                 $scope.dayTimeSelected = JSON.parse(selectedDayTime);
             }
 
-            if (daypartObj) {
-                $scope.Schedule.dayPart = JSON.parse(daypartObj);
+            if (dayPartObj) {
+                $scope.Schedule.dayPart = JSON.parse(dayPartObj);
             }
 
             if (dayTimeArr) {
                 $scope.Schedule.daytimeArr = JSON.parse(dayTimeArr);
             }
 
-            if (!daypartObj && !selectedDayTime && !dayTimeArr){
+            if (!dayPartObj && !selectedDayTime && !dayTimeArr){
                 $scope.timeSelected = 'All days and times';
                 $scope.Schedule.dayTimeSelected(0);
             }
@@ -503,7 +499,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
             _dayPartTargetting.hideDayPartTargetingBox();
         };
 
-        $scope.saveDayPart = function (isRedirectFlag) {
+        $scope.saveDayPart = function (event, isRedirectFlag) {
             var adDaypartTargets = {},
                 sunday,
                 monday,
@@ -517,6 +513,7 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
                 dayTimeSelected,
                 daytimeArr;
 
+            event.stopPropagation();
             adDaypartTargets.dayTime = $scope.dayTimeSelected;
             adDaypartTargets.isIncluded=true;
             adDaypartTargets.timeZone = $scope.timezoneFormat;
@@ -587,6 +584,8 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
 
             dayPart = angular.copy($scope.Schedule.dayPart);
             dayTimeSelected= angular.copy($scope.dayTimeSelected);
+
+            console.log('IT COMES HERE???');
             audienceService.setDayPartDispObj(dayPart,dayTimeSelected);
             adDaypartTargets= angular.copy(adDaypartTargets);
             audienceService.setDayPartData(adDaypartTargets);
@@ -948,6 +947,5 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
         });
 
         $scope.resetDayPartTargetingVariables();
-
     });
 });

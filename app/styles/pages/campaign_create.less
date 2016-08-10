@@ -1,3 +1,6 @@
+
+@import "../visto2.0/color.less";
+
 .adCreateMaster {
     .campTitleWrap {
         .activeLabel {
@@ -13,7 +16,7 @@
         }
 
         .inActiveLabel {
-            background-color: #939eae;
+            background-color: @label-gray;
         }
 
         .label {
@@ -22,67 +25,6 @@
             font-size: 0 !important;
             height: 15px;
             width: 15px;
-        }
-    }
-
-    #creative {
-        .creativeTableTag {
-            margin-top: 30px;
-
-            .emptyCreativesFlag {
-                background: #f5f9fd;
-                float: left;
-                width: 100%;
-
-                span {
-                    color: #939eb6;
-                    float: left;
-                    margin-bottom: 30px;
-                    margin-top: 60px;
-                    text-align: center;
-                    width: 100%;
-                }
-            }
-
-            .table {
-                margin-bottom: 0;
-
-                tbody {
-                    display:block;
-                    max-height: 400px;
-                    overflow: auto;
-                    padding-bottom: 30px ;
-                }
-
-                tbody tr,
-                thead {
-                    display: table;
-                    table-layout: fixed;
-                    width: 100%;
-                }
-
-                tbody {
-                    tr {
-                        margin: 0;
-
-                        td {
-                            background: #fff !important;
-                        }
-                    }
-                }
-
-                thead {
-                    border: 1px solid #dde6eb;
-                    border-bottom: 2px solid #dde6eb;
-
-                    th {
-                        height: 50px;
-                        padding: 20px;
-                        padding-top: 14px;
-                        vertical-align: top;
-                    }
-                }
-            }
         }
     }
 
@@ -116,7 +58,7 @@
 
                 a {
                     background: transparent;
-                    color: #0978c9 !important;
+                    color: @visto-blue !important;
                     font-size: 16px !important;
                 }
             }
@@ -200,7 +142,7 @@
 
     #targetting {
         .addTargetBtn {
-            color: #0978c9;
+            color: @visto-blue;
             float: left;
             font-size: 15px;
             margin-top: 20px;
@@ -215,7 +157,7 @@
             padding: 0;
 
             .dayTargetLower {
-                background-color: rgba(237, 241, 248, .5);
+                background-color: @periwinkle-gray;
                 float: left;
                 padding: 0 30px 30px 30px;
                 width: 100%;
@@ -318,17 +260,17 @@
                 width: auto;
                 li {
                     background: #fff;
-                    border: 1px solid #BFC9D7;
+                    border: 1px solid @stroke-gray-borders;
                     border-bottom-right-radius: 2px;
                     border-top-right-radius: 2px;
                     text-align: center;
                     padding: 0 20px;
                     &.active {
-                        background: #0978c9;
-                        border: 1px solid #0978c9;
+                        background: @visto-blue;
+                        border: 1px solid @visto-blue;
 
                         a {
-                            background: #0978c9;
+                            background: @visto-blue;
                             color: #fff;
                             font-family:  Avenir, sans-serif;
                             margin: 0;
@@ -337,7 +279,7 @@
                         }
                     }
                     a {
-                        color: #0978c9;
+                        color: @visto-blue;
                         padding: 6px 0;
                         width: 100%;
                     }
@@ -390,7 +332,7 @@
             display: none;
             height: auto;
             left: 100%;
-            min-height: 94% !important;
+            min-height: 93% !important;
             opacity: 0;
             padding: 0 0 30px 30px;
             position: absolute;
@@ -419,7 +361,7 @@
                     font-size: 10px;
                     margin-right: -3px;
                     margin-top: 2px;
-                    color: #939EAE;
+                    color: @label-gray;
                     .icon-arrow-solid-down,
                     span.icon-arrow-solid-down:before {
                         display: none !important;
@@ -440,7 +382,7 @@
                 }
 
                 .removeDay {
-                    color: #363d49;
+                    color: @coal;
                     cursor: pointer;
                     float: left;
                     font-size: 16px;
@@ -467,13 +409,13 @@
                     float: left;
 
                     &:hover span {
-                        background: #E1EDF9;
+                        background: @hover-light-blue;
                         color: #fff;
                     }
 
                     span {
                         background: #fff;
-                        border: 1px solid #BFC9D7;
+                        border: 1px solid @stroke-gray-borders;
                         border-radius: 20px;
                         color: #555;
                         display: inline-block;
@@ -505,8 +447,8 @@
                 }
 
                 li.active a span {
-                    background: #0978c9;
-                    border: 1px solid #0978c9;
+                    background: @visto-blue;
+                    border: 1px solid @visto-blue;
                     border-radius: 20px;
                     color: #fff;
                     display: inline-block;
@@ -523,8 +465,8 @@
                         float: left;
 
                         span {
-                            background: #0978c9;
-                            border: 1px solid #0978c9;
+                            background: @visto-blue;
+                            border: 1px solid @visto-blue;
                             border-radius: 20px;
                             color: #fff;
                             display: inline-block;
@@ -554,7 +496,7 @@
                 }
 
                 .splitterDash {
-                    border: 1px solid #bfc9d7;
+                    border: 1px solid @stroke-gray-borders;
                     float: left;
                     margin: 26px 0 0 0;
                     width: 100px;
@@ -567,32 +509,32 @@
                 width: 100%;
 
                 .segmentDrop {
-                    border: 2px dashed #bfc9d7 !important;
+                    border: 2px dashed @stroke-gray-borders !important;
                     margin-bottom: 30px;
 
                     span {
-                        color: #939eae;
+                        color: @label-gray;
                         font-size: 14px;
                     }
                 }
 
                 .segmentRow {
-                    background: #edf2f8;
-                    border-left: 1px solid #bfc9d7;
-                    border-right: 1px solid #bfc9d7;
+                    background: @periwinkle-gray;
+                    border-left: 1px solid @stroke-gray-borders;
+                    border-right: 1px solid @stroke-gray-borders;
                     float: left;
                     padding: 5px 15px;
                     width: 100%;
 
                     &:first-child {
-                        border-top: 1px solid #bfc9d7;
+                        border-top: 1px solid @stroke-gray-borders;
                         border-top-left-radius: 4px;
                         border-top-right-radius: 4px;
                         padding-top: 10px;
                     }
 
                     &:last-child {
-                        border-bottom: 1px solid #bfc9d7;
+                        border-bottom: 1px solid @stroke-gray-borders;
                         border-bottom-left-radius: 4px;
                         border-bottom-right-radius: 4px;
                         padding-bottom: 10px;
@@ -618,7 +560,7 @@
 
                         .segmentMove {
                             background-color: rgba(255, 255, 255, .5);
-                            border: 1px solid #bfc9d7;
+                            border: 1px solid @stroke-gray-borders;
                             border-radius: 2px;
                             float: left;
                             height: 36px;
@@ -626,7 +568,7 @@
                             width: 100%;
 
                             .icon-more-options {
-                                color: #bfc9d7;
+                                color: @stroke-gray-borders;
                                 -webkit-transform: rotate(90deg);
                                 -moz-transform: rotate(90deg);
                                 -o-transform: rotate(90deg);
@@ -658,7 +600,7 @@
                 }
 
                 .segmentRow.andRow {
-                    border-top: 1px solid #bfc9d7;
+                    border-top: 1px solid @stroke-gray-borders;
                     padding-top: 10px;
                 }
 
@@ -688,7 +630,7 @@
             }
 */
             h2 {
-                color: #21252b;
+                color: @raven-text;
                 font-size: 18px;
                 margin: 0;
                 width: 100%;
@@ -774,13 +716,13 @@
             .targetting-tab-header {
                 padding: 10px 20px ;
                 .target-label {
-                    color: #939eae ;
+                    color: @label-gray;
                     display: inline-block;
                     margin: 8px 10px 0 0 ;
                 }
                 .btn-group {
                     .btn {
-                        color: #0978c9 ;
+                        color: @visto-blue;
                     }
                     .common_tooltip {
                         bottom: 46px;
@@ -842,7 +784,7 @@
                     padding-right: 0;
 
                     h5 {
-                        color: #21252b;
+                        color: @raven-text;
                         font-family:  Avenir, sans-serif;
                         font-size: 14px;
                         margin: 25px 0;
@@ -904,7 +846,7 @@
                             border-width: 0;
 
                             .col-md-8 {
-                                color: #939eae;
+                                color: @label-gray;
                             }
 
                             .col-md-4 a {
@@ -924,16 +866,16 @@
                         }
 
                         td a {
-                            color: #939eae;
+                            color: @label-gray;
                             cursor: pointer;
                         }
 
                         .glyphicon {
-                            color: #0978c9;
+                            color: @visto-blue;
                         }
 
                         .glyphicon.child {
-                            color: #939eae;
+                            color: @label-gray;
                         }
                     }
                 }
@@ -947,7 +889,7 @@
                 }
 
                 .emptyTableLabel {
-                    color: #939eae;
+                    color: @label-gray;
                     float: left;
                     font-size: 14px;
                     margin: 0 0 30px;
@@ -955,14 +897,17 @@
                     text-align: left;
                     width: 100%;
                 }
-
+                .countryHeading {
+                   padding: 5px 2px 2px 10px;
+                }
                 .values-table {
                     max-height: 200px;
                     overflow-y: auto;
 
                     .each-row {
-                        border-bottom: solid 2px #DDE6EB;
-
+                        .countryHeading {
+                            padding: 5px 2px 2px 10px;
+                        }
                         .group {
                             clear: left;
                             float: left;
@@ -975,6 +920,19 @@
                                 width: 100%;
                             }
                         }
+                        .icon-clear {
+                               display: none;
+                        }
+                        &:hover {
+                               background: @hover-light-blue;
+                               .icon-clear {
+                                   display: block;
+                               }
+                         }
+
+
+
+
                     }
                 }
 
@@ -1040,7 +998,7 @@
 
                             a {
                                 background: #fff;
-                                color: #21252b;
+                                color: @raven-text;
                                 font-family:  Avenir, sans-serif;
                                 margin-top: 1px;
                                 text-decoration: none;
@@ -1055,7 +1013,7 @@
                         a {
                             background-color: transparent;
                             border-width: 0;
-                            color: #21252b;
+                            color: @raven-text;
                             margin: 0;
                             text-decoration: none;
                         }
@@ -1096,7 +1054,10 @@
                     border: 1px solid #dde6eb;
                     border-top: none;
                     padding: 20px !important;
-
+                    min-height: 400px ;
+                    .sectionShownOnSelection {
+                        display: none;
+                    }
                     .error {
                         color: red;
                         display: block;
@@ -1119,7 +1080,7 @@
                     }
 
                     //.btn {
-                    //    background: #0978c9;
+                    //    background: @visto-blue;
                     //    border-width: 0;
                     //    color: #fff;
                     //    margin-right: 5px;
@@ -1128,12 +1089,12 @@
                     //
                     //    &:last-child {
                     //        background: #fff;
-                    //        color: #0978c9;
+                    //        color: @visto-blue;
                     //    }
                     //}
 
                     span {
-                        color: #21252b;
+                        color: @raven-text;
                         font-size: 14px;
                         margin-bottom: 10px;
                         width: 100%;
@@ -1143,7 +1104,7 @@
         }
 
         .targettingSelected {
-            border: 1px solid #BFC9D7;
+            border: 1px solid @stroke-gray-borders;
             margin-top: 20px;
             padding: 0 !important;
             -o-transition:border .2s ease-out, background 2s ease-in;
@@ -1153,14 +1114,14 @@
             transition:border .2s ease-out, background 2s ease-in;
 
             &:hover {
-                border: 1px solid #0978c9;
+                border: 1px solid @visto-blue;
             }
 
             .tsBody {
                 padding: 20px;
 
                 a {
-                    color: #0978c9;
+                    color: @visto-blue;
                     float: left;
                     padding-top: 20px;
                     text-decoration: none;
@@ -1174,14 +1135,14 @@
                 .dmas,
                 .regioncity,
                 .zipCode {
-                    border-bottom: 1px solid #939EAE;
+                    border-bottom: 1px solid @label-gray;
                     margin: 0 0 15px;
                     padding: 0 0 15px;
                     width: 93%;
                 }
 
                 h5 {
-                    color: #939eae;
+                    color: @label-gray;
                     font-family: Avenir, sans-serif;
                 }
 
@@ -1197,20 +1158,20 @@
                 }
 
                 .show_more_less {
-                    color: #0978c9;
+                    color: @visto-blue;
                     cursor: pointer;
                     margin: 5px 0 10px;
                 }
 
                 span {
-                    color: #21252b;
+                    color: @raven-text;
                     float: left;
                     font-size: 14px;
                     padding: 5px 0;
                     width: 100%;
 
                     &:first-child {
-                        color: #939eae;
+                        color: @label-gray;
                         padding-bottom: 20px;
                     }
                 }
@@ -1221,7 +1182,7 @@
             }
 
             .tsHeader {
-                border-bottom: 2px solid #BFC9D7;
+                border-bottom: 2px solid @stroke-gray-borders;
                 padding: 25px 20px 20px;
 
                 a {
@@ -1230,7 +1191,7 @@
                 }
 
                 .col-md-6 span {
-                    color: #21252b;
+                    color: @raven-text;
                     float: left;
 
                     img {
@@ -1239,7 +1200,7 @@
                 }
 
                 h2 {
-                    color: #21252b;
+                    color: @raven-text;
                     float: left;
                     font-size: 18px;
                     margin: 0;
@@ -1327,7 +1288,7 @@
     }
 }
 
-#campaignCreate {
+#campaignCreate , #vendorCreate {
     float: left;
     width: 100%;
 
@@ -1438,7 +1399,7 @@
             #formAdCreate {
                 .one-time-sixteen{
                     font-size: 16px;
-                    color:#939eae;
+                    color:@label-gray;
                 }
                 float: left;
                 height: 100%;
@@ -1537,7 +1498,7 @@
                     }
 
                     p {
-                        color: #0978c9;
+                        color: @visto-blue;
                         float: left;
                         margin: 2px 0 20px 10px;
                     }
@@ -1722,7 +1683,7 @@
             }
 
             .platformHolder {
-                border: 1px solid #bfc9d7;
+                border: 1px solid @stroke-gray-borders;
                 border-radius: 1px;
                 float: left;
                 margin-right: 2%;
@@ -1734,7 +1695,7 @@
 
                 &:hover {
                     background-color: rgba(225, 237, 249, 0.4);
-                    border: 1px solid #0978c9;
+                    border: 1px solid @visto-blue;
 
                     .icon-inline-edit {
                         display: inline-block;
@@ -1746,7 +1707,7 @@
                 }
 
                 &:last-child {
-                    /*border: 1px dashed #939EAE;*/
+                    /*border: 1px dashed @label-gray;*/
                     visibility: hidden;
                     /*span {
                         margin: 80px 0 10px 0;
@@ -1771,14 +1732,14 @@
                 }
 
                 .btn.active {
-                    background: #E1EDF9;
+                    background: @hover-light-blue;
                     box-shadow: none;
                     margin-left: -43px;
                     width: auto;
                 }
 
                 .icon-inline-edit {
-                    color: #0978c9;
+                    color: @visto-blue;
                     display: none;
                     font-size: 16px;
                     height: 16px;
@@ -1799,7 +1760,7 @@
                 }
 
                 p {
-                    color: #21252b;
+                    color: @raven-text;
                     font-family:  Avenir-bold, sans-serif;
                     font-size: 14px;
                     margin: 0;
@@ -2033,7 +1994,7 @@
                 border-bottom: 1px solid rgba(191, 201, 215, 0.5);
             }
             .addRowMedia {
-                color: #0978C9;
+                color: @visto-blue;
                 float: left;
                 padding: 15px 0;
 
@@ -2047,7 +2008,7 @@
                 }
 
                 span {
-                    color: #0978C9;
+                    color: @visto-blue;
                     float: left;
                     font-size: 14px;
 
@@ -2078,7 +2039,7 @@
                     height: 10px;
                     margin: 5px 5px 0 0;
                     float: left;
-                    color: #939EAE;
+                    color: @label-gray;
                 }
                 .icon-arrow-solid-down.active {
                     /* Safari */
@@ -2096,7 +2057,7 @@
 
             .addCreditForm {
                 display: none;
-                background: #FEFBF0;
+                background: @accent-yellow;
                 padding: 0 10px 0 10px;
                 border-top: 1px solid rgba(191, 201, 215, 0.5);
                 border-bottom: 1px solid rgba(191, 201, 215, 0.5);
@@ -2150,7 +2111,7 @@
                     font-size: 10px;
                     height: 10px;
                     width: 10px;
-                    color: #939EAE;
+                    color: @label-gray;
                     margin: 2px 5px 0 0;
                 }
             }
@@ -2224,7 +2185,7 @@
                     font-size: 10px;
                     height: 10px;
                     width: 10px;
-                    color: #939EAE;
+                    color: @label-gray;
                     margin: 2px 5px 0 0;
                 }
             }
@@ -2252,7 +2213,7 @@
             }
 
             .createItemList , .editItemList  {
-                background: #FEFBF0;
+                background: @accent-yellow;
                 padding: 0 10px 10px 10px;
                 margin-top : 10px ;
                 .listItemValues , .listItemSmallValues {
@@ -2311,7 +2272,7 @@
                 float: left;
                 width: 100%;
                 display: none;
-                background: #FEFBF0;
+                background: @accent-yellow;
                 padding: 0 10px 10px 10px;
                 border: 1px solid rgba(191, 201, 215, 0.5);
                 border-top: 0;
@@ -2347,7 +2308,7 @@
                     height: 10px;
                     margin: 5px 5px 0 0;
                     float: left;
-                    color: #939EAE;
+                    color: @label-gray;
                 }
                 .icon-arrow-solid-down.active {
                     /* Safari */
@@ -2365,7 +2326,7 @@
 
             .addCreditForm {
                 display: none;
-                background: #FEFBF0;
+                background: @accent-yellow;
                 padding: 0 10px 0 10px;
                 border-top: 1px solid rgba(191, 201, 215, 0.5);
                 border-bottom: 1px solid rgba(191, 201, 215, 0.5);
@@ -2419,7 +2380,7 @@
                     font-size: 10px;
                     height: 10px;
                     width: 10px;
-                    color: #939EAE;
+                    color: @label-gray;
                     margin: 2px 5px 0 0;
                 }
             }
@@ -2493,7 +2454,7 @@
                     font-size: 10px;
                     height: 10px;
                     width: 10px;
-                    color: #939EAE;
+                    color: @label-gray;
                     margin: 2px 5px 0 0;
                 }
             }
@@ -2612,13 +2573,13 @@
                                     width: 24px;
                                 }
                                 .icon-toggleclose {
-                                    color: #bfc9d7;
+                                    color: @stroke-gray-borders;
                                     &:hover {
-                                        color: #939eae;
+                                        color: @label-gray;
                                     }
                                 }
                                 .icon-toggleopen {
-                                    color: #004d86;
+                                    color: @congress-blue;
                                     &:hover {
                                         color: #0563a9;
                                     }
@@ -2630,11 +2591,11 @@
                             }
 
                             span.adGroupTxt {
-                                color: #57606D;
+                                color: @lead-gray;
                                 font-size: 14px;
 
                                 .icon-calendar {
-                                    color: #57606D;
+                                    color: @lead-gray;
                                     float: left;
                                     margin: 1px 6px 0 0;
                                 }
@@ -2661,8 +2622,7 @@
                     .adGroup.openInstance {
                         padding: 0;
                         .adTitle {
-                            border-bottom: 1px solid #CDD2DA;
-                            padding: 15px;
+                            padding: 15px 15px 0 15px;
                             .pillsWrap {
                                 .labelPills:first-child {
                                     margin-left: 14px;
@@ -2670,7 +2630,7 @@
                             }
                         }
                         #collapseAdGroup {
-                            padding: 15px;
+                            padding: 15px 15px 0 15px;
                             float: left;
                             width: 100%;
                         }
@@ -2704,7 +2664,7 @@
                         padding: 0;
                         width: 100%;
                         .adGroupCreateForm {
-                            border: 1px solid #939EAE;
+                            border: 1px solid @label-gray;
                             border-bottom: 0;
                             float: left;
                             padding: 30px 30px 0 30px;
@@ -2718,7 +2678,7 @@
 
                         .adGroupCreateModules {
                             background: #fff;
-                            border: 1px solid #939EAE;
+                            border: 1px solid @label-gray;
                             float: left;
                             padding: .75% 0 0 .75%;
                             width: 100%;
@@ -2746,17 +2706,29 @@
                     }
 
                     .adCreateBtn {
-                        border: 1px dashed #939EAE !important;
+                        border: 2px dashed @stroke-gray-borders !important;
                         cursor: pointer;
-
+                        border-radius: 2px;
+                        background: #fff;
                         &:hover {
-                            .glyphicon,
-                            h2 {
-                                color: #0978C9;
+                            border: 2px dashed @label-gray !important;
+                            background: @hover-light-blue;
+                            .glyphicon, h3, [class^="icon-"], [class*=" icon-"] {
+                                color: @lead-gray !important;
+                            }
+                        }
+                        &:focus, &:active {
+                            border: 2px dashed @stroke-gray-borders !important;
+                            background: @active-gray;
+                            .glyphicon, [class^="icon-"], [class*=" icon-"] {
+                                color: @lead-gray !important;
+                            }
+                            h3 {
+                                color: @coal !important;
                             }
                         }
 
-                        .glyphicon {
+                        .glyphicon, [class^="icon-"], [class*=" icon-"] {
                             padding: 0 !important;
                             text-align: center;
                             width: 100%;
@@ -2772,15 +2744,15 @@
                     }
 
                     .adGroupSelectionWrap {
-                        /*border: 1px dashed #939EAE;*/
+                        /*border: 1px dashed @label-gray;*/
                         float: left;
                         /*padding: 20px 0 .75% 0;*/
                         position: relative;
                         width: 100%;
                         .btnCreateGroup {
                             background: #F7FAFE;
-                            border: 1px dashed #939EAE;
-                            color: #57606d;
+                            border: 1px dashed @label-gray;
+                            color: @lead-gray;
                             cursor: pointer;
                             left: 50%;
                             line-height: 100%;
@@ -2793,23 +2765,23 @@
                             z-index: 10;
 
                             span {
-                                color: #57606d;
+                                color: @lead-gray;
                             }
                         }
 
                         .btnCreateGroup:hover {
-                            border: 1px dashed #0978C9;
-                            color: #0978C9;
+                            border: 1px dashed @visto-blue;
+                            color: @visto-blue;
 
                             span {
-                                color: #0978C9;
+                                color: @visto-blue;
                             }
                         }
                     }
 
                     .adGroupSelectionWrap.active {
                         //background: #fff;
-                        //border: 1px solid #939EAE;
+                        //border: 1px solid @label-gray;
                         border-width: 0;
                         padding-top: 0;
 
@@ -2826,7 +2798,7 @@
 
                         /*.singleCardWrap {
                             margin-top: 30px;
-                            border: 1px dashed #939eae;
+                            border: 1px dashed @label-gray;
                         }*/
                     }
 
@@ -2846,14 +2818,14 @@
                         }
                         &:hover {
                             background-color: rgba(225, 237, 249, .4);
-                            border: 1px solid #0978C9;
+                            border: 1px solid @visto-blue;
 
                             .icon-settings {
-                                color: #57606D;
+                                color: @lead-gray;
                                 display: block;
 
                                 &:hover {
-                                    color: #0978C9;
+                                    color: @visto-blue;
                                 }
                             }
                         }
@@ -2869,6 +2841,17 @@
 
                         .addMaster {
                             text-decoration: none;
+                            .icon-plus {
+                                font-size: 32px;
+                                height: 32px;
+                                width: 32px;
+                                margin: 0;
+                                color: @label-gray;
+                            }
+                            h3 {
+                                color: @label-gray;
+                                margin: 3px 0 0 0;
+                            }
                         }
 
                         .adStatus {
@@ -2899,19 +2882,19 @@
                         }
 
                         .adStatus.incomplete {
-                            background: #939eae;
+                            background: @label-gray;
                         }
 
                         .adStatus.ready {
-                            background: #004478;
+                            background: @status-ready;
                         }
 
                         .adStatus.scheduled {
-                            background: #2c9aec;
+                            background:@status-scheduled;
                         }
 
                         .adStatus.inflight {
-                            background: #70d43d;
+                            background: @status-inflight;
                         }
 
                         .adStatus.deploying {
@@ -2927,16 +2910,13 @@
                         }
 
                         .adStatus.ended {
-                            background: #707AEB;
+                            background: @status-ended;
                         }
 
                         .adStatus.paused {
-                            background: #98B5C8;
+                            background: @status-paused;
                         }
 
-                        .adStatus.paused {
-                            background: #98B5C8;
-                        }
 
                         .adTitle {
                             padding: 20px 20px 15px;
@@ -2970,7 +2950,7 @@
                         }
 
                         .adTxtGray {
-                            color: #939eae;
+                            color: @label-gray;
                             font-size: 12px;
                             padding-left: 10px;
                         }
@@ -2998,7 +2978,7 @@
                         }
 
                         .dateAd {
-                            color: #57606D;
+                            color: @lead-gray;
                             display: block;
                             font-size: 14px;
                             padding: 0 0 15px 0;
@@ -3009,15 +2989,19 @@
                             }
                         }
 
-                        .glyphicon {
-                            color: #57606d;
-                            font-size: 32px;
-                            margin-bottom: 15px;
-                            width: 32px;
+                        .glyphicon, [class^="icon-"], [class*=" icon-"] {
+                            color: @lead-gray;
+                            font-size: 16px;
+                            margin-bottom: 10px;
+                            height: 16px;
+                            width: 16px;
+                            &:hover {
+                                color: #0978C9;
+                            }
                         }
 
                         h2 {
-                            color: #57606d;
+                            color: @lead-gray;
                             font-family: Avenir, sans-serif;
                             font-size: 20px;
                             height: 54px;
@@ -3034,12 +3018,12 @@
                             padding: 0 5px 0 0;
 
                             &:hover {
-                                color: #0978C9;
+                                color: @visto-blue;
                             }
                         }
 
                         .icon-settings {
-                            color: #0978C9;
+                            color: @visto-blue;
                             cursor: pointer;
                             display: none;
                             position: absolute;
@@ -3083,7 +3067,7 @@
                         position: relative;
                         width: 100%;
                         /*padding-bottom: .75%;*/
-                        margin-top : 15px ;
+                        //margin-top : 15px ;
 
                         .overlay {
                             background: #fff;
@@ -3152,13 +3136,13 @@
                 }
 
                 .searchAds {
-                    border-bottom: 1px solid #BFC9D7;
+                    border-bottom: 1px solid @stroke-gray-borders;
                     display: table;
                     margin: 0 auto;
                     width: 1200px;
 
                     .col-md-10 {
-                        border-right: 1px solid #BFC9D7;
+                        border-right: 1px solid @stroke-gray-borders;
                         float: left;
 
                         button {
@@ -3216,10 +3200,10 @@
                     top: initial !important;
 
                     li:hover {
-                        background-color: #E1EDF9;
+                        background-color: @hover-light-blue;
 
                         a {
-                            color: #21252b;
+                            color: @raven-text;
                             text-decoration: none;
                         }
                     }
@@ -3246,13 +3230,13 @@
                     }
 
                     span {
-                        color: #21252b;
+                        color: @raven-text;
                         float: left;
                         font-size: 14px;
                     }
 
                     span.tagTitle {
-                        color: #939eae;
+                        color: @label-gray;
                         margin-left: 50px;
                         margin-right: 5px;
                     }
@@ -3265,7 +3249,7 @@
                 .campIdTime {
                     font-size: 12px;
                     clear: left;
-                    color: #939eae;
+                    color: @label-gray;
                     float: left;
                     padding: 3px 0 15px 0;
                 }
@@ -3273,7 +3257,7 @@
                 .campTitleWrap {
                     clear: both;
                     float: left;
-                    padding: 5px 0 0 0 !important;
+                    padding: 0 !important;
 
                     .activeLabel {
                         background-color: #70d43d;
@@ -3284,7 +3268,7 @@
                     }
 
                     h1 {
-                        color: #21252b;
+                        color: @raven-text;
                         float: left;
                         font-size: 26px;
                         margin: 0 10px;
@@ -3292,7 +3276,7 @@
                     }
 
                     .inActiveLabel {
-                        background-color: #939eae;
+                        background-color: @label-gray;
                     }
 
                     .overview-camp-name {
@@ -3305,7 +3289,7 @@
                     }
 
                     .overview-camp-name:hover {
-                        color: #0978C9;
+                        color: @visto-blue;
                     }
 
                     .statuslabel {
@@ -3313,7 +3297,7 @@
                         float: left;
                         font-size: 0 !important;
                         height: 16px;
-                        margin-top: 6px;
+                        margin-top: 4px;
                         width: 16px;
                     }
                 }
@@ -3321,12 +3305,12 @@
                 .campTitleWrap:hover {
                     .overview-camp-name,
                     .campaign-name-edit {
-                        color: #0978C9;
+                        color: @visto-blue;
                     }
                 }
 
                 .campSettingOverView {
-                    border-bottom: 1px solid #BFC9D7;
+                    border-bottom: 1px solid @stroke-gray-borders;
 
                     .campBodyWrap {
                         display: block;
@@ -3353,7 +3337,7 @@
                         }
 
                         span {
-                            color: #57606d;
+                            color: @lead-gray;
                             font-size: 14px;
                         }
                     }
@@ -3366,7 +3350,7 @@
                 h4 {
                     float: left;
                     font-family:  Avenir, sans-serif;
-                    margin: 6px 0 0 10px;
+                    margin: 5px 0 0 10px;
                     padding-bottom: 5px;
                     word-wrap: break-word;
                 }
@@ -3395,7 +3379,7 @@
 
                     .common-load-more {
                         background-position: center 10px;
-                        border: solid 1px #0978C9;
+                        border: solid 1px @visto-blue;
                         border-radius: 4px;
                         margin: 0;
                         padding: 17px;
@@ -3430,7 +3414,6 @@
                 }
 
                 span {
-                    color: #000;
                     float: left;
                     line-height: 100%;
                     margin: 0 0 8px 0;
@@ -3726,7 +3709,7 @@
             }
 
             .settingWrap {
-                border-left: 1px solid #BFC9D7;
+                border-left: 1px solid @stroke-gray-borders;
                 float: left;
                 min-height: 730px;
                 padding: 30px 0 60px 25px;
@@ -3757,7 +3740,7 @@
                 .adName {
                     background: #FFF;
                     height: 30px;
-                    margin-top: -40px;
+                    margin-top: -44px;
                     padding: 0 0 10px;
                 }
                 #addAdditionalCost {
@@ -3785,8 +3768,8 @@
             width: 100%;
 
             .adWrap {
-                background: rgb(238, 245, 252) ;
-                border-top: 1px solid #BFC9D7;
+                background: @periwinkle-gray;
+                border-top: 1px solid @stroke-gray-borders;
                 margin: 0;
                 .create-adgroup-btn-row {
                     display: table;
@@ -3827,7 +3810,7 @@
                     }
 
                     label {
-                        color: #939eae;
+                        color: @label-gray;
                         float: left;
                         font-size: 12px;
                         margin: 0;
@@ -3893,7 +3876,7 @@
             }
 
             p {
-                color: #0978c9;
+                color: @visto-blue;
                 float: left;
                 margin: 2px 0 20px 10px;
             }
@@ -4065,7 +4048,7 @@
                     }
 
                     p {
-                        color: #0978c9;
+                        color: @visto-blue;
                         float: left;
                         margin: 1px 0 20px 10px;
                     }
@@ -4308,7 +4291,7 @@
             }
 
             .closePopBtn {
-                color: #21252B;
+                color: @raven-text;
                 cursor: pointer;
                 font-size: 12px;
                 height: 12px;
@@ -4351,7 +4334,7 @@
             }
 
             .popFooter {
-                background: #E1EDF9;
+                background:@hover-light-blue;
                 padding: 20px 30px;
                 border-bottom-left-radius: 5px;
                 border-bottom-right-radius: 5px;
@@ -4397,7 +4380,7 @@
         }
 
         tbody tr {
-            color: #57606d;
+            color: @lead-gray;
             margin: 10px 0 20px;
         }
     }
@@ -4456,7 +4439,7 @@
         width: 10px;
         height: 10px;
         cursor: pointer;
-        color: #939EAE;
+        color: @label-gray;
         margin: 5px 10px 0 0;
         /* Safari */
         -webkit-transform: rotate(-90deg);
@@ -4504,16 +4487,16 @@
     }
 
     .adding-section {
-        color: #939eae;
+        color: @label-gray;
         padding: 5px 10px;
         margin: 0px 0 0 10px;
         background: #F7FAFF;
-        border: 1px dashed #939EAE;
+        border: 1px dashed @label-gray;
         cursor: pointer;
 
         &:hover {
-            border: 1px dashed #0978C9;
-            color: #0978C9;
+            border: 1px dashed @visto-blue;
+            color: @visto-blue;
         }
     }
 
@@ -4554,7 +4537,7 @@
     .each-account-details {
         margin: 0;
         padding: 15px 0;
-        border-top: 2px solid #939eae;
+        border-top: 2px solid @label-gray;
         > .particular-account-box {
             margin: 0px ;
             .common_primary_btn {
@@ -4567,7 +4550,7 @@
         .each-account-details {
             margin: 0;
             padding: 15px 0;
-            border-top: 2px solid #939eae;
+            border-top: 2px solid @label-gray;
             > .particular-account-box {
                 margin: 0px ;
                 .common_primary_btn {
@@ -4578,7 +4561,7 @@
 
         .subClient {
             .each-account-details {
-                border-top: 1px solid #bfc9d7;
+                border-top: 1px solid @stroke-gray-borders;
             }
             .each-account-details:last-child {
                 padding-bottom: 0;
@@ -4714,7 +4697,7 @@
         display: none;
         .add-filters {
             position: relative;
-            background: #EDF2F8;
+            background: @periwinkle-gray;
             padding: 10px 30px;
             margin-bottom: 30px;
             .delete_row {
@@ -4727,11 +4710,11 @@
             }
         }
         .addRowMedia {
-            color: #0978C9;
+            color: @visto-blue;
             float: left;
             padding: 15px 0;
             span {
-                color: #0978C9;
+                color: @visto-blue;
                 float: left;
                 font-size: 14px;
             }
@@ -4782,7 +4765,7 @@
                     width: 100%;
                     margin: 0 0 30px 0;
                     position: relative;
-                    background: #EDF2F8;
+                    background: @periwinkle-gray;
                     padding: 10px 30px;
                     .pixelLayer {
                         float: left;
@@ -4803,7 +4786,7 @@
                     margin-top: 30px;
                 }
                 input[type="text"], select {
-                    border: 1px solid #BFC9D7;
+                    border: 1px solid @stroke-gray-borders;
                     border-radius: 2px !important;
                     line-height: normal;
                     padding: 10px 12px 7px 12px;
@@ -4848,7 +4831,7 @@
     }
 
     .add_filter_link {
-        color: #0978C9;
+        color: @visto-blue;
         text-align: right;
 
         span {
@@ -4894,8 +4877,8 @@
 }
 
 .keywordWrap {
-    background: #edf2f8;
-    border: 1px solid #bfc9d7;
+    background: @periwinkle-gray;
+    border: 1px solid @stroke-gray-borders;
     border-radius: 2px;
     float: left;
     font-size: 12px;
@@ -4938,7 +4921,7 @@
 }
 
 .video-dimension {
-    background: #EDF2F8;
+    background: @periwinkle-gray;
     padding: 30px ;
     margin: 30px 0;
     .each-video-dimension {
@@ -4980,3 +4963,46 @@
         }
     }
 }
+
+.adCreateMaster #targetting {
+    #geographyTargeting {
+        .tabbable {
+            padding-right: 20px !important ;
+        }
+
+        .selectedTables {
+            margin-top: 25px ;
+            h2 {
+                width:auto ;
+            }
+            .each-row {
+                padding: 6px 10px 4px 10px ;
+
+            }
+            .table {
+                border-bottom: solid 2px #DBE6F6;
+                margin: 5px 0 ;
+            }
+            .icon-clear {
+                cursor: pointer;
+                font-size: 14px ;
+                margin-top: 2px ;
+            }
+        }
+    }
+}
+
+
+.head-table {
+   border: solid 1px #ddd ;
+    border-bottom: solid 2px #ddd ;
+    padding: 20px ;
+}
+.body-table {
+    .each-tr {
+        border-bottom : solid 1px #ddd ;
+        padding: 20px ;
+    }
+}
+
+

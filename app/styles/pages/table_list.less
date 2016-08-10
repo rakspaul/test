@@ -1,29 +1,14 @@
-.reports-scheduled-list {
-  .scheduled-list-header {
-    margin : 30px 0 20px ;
-  }
+@import "../visto2.0/color.less";
+
+.table-list-container {
   h2 {
     margin-top: 0px ;
   }
-  .scheduled-list-nav {
-    margin-bottom: 23px ;
-    .each-nav {
-      color: #939eae ;
-      font-size: 13px ;
-      text-transform: uppercase;
-      cursor: pointer;
-      margin-right: 34px ;
-    }
-    .each-nav.active {
-      color: #57606c ;
-      border-bottom: solid 2px #0978c9 ;
-    }
-  }
-  .scheduled_list_table {
+  .table_list_holder {
     margin-bottom: 40px ;
     background: #fff;
     .table-header {
-      border-bottom: 2px solid #939eae;
+      border-bottom: 2px solid @label-gray;
     }
     .row {
       margin: 0 ;
@@ -33,6 +18,22 @@
       //overflow: hidden;
       text-overflow: ellipsis ;
     }
+    .vendorFirstCol {
+      width: 30% ;
+    }
+    .vendorSecCol {
+      width:5% ;
+    }
+    .vendorThirdCol , .vendorFifthCol , .vendorSevCol {
+      width:15% ;
+    }
+    .vendorForthCol {
+      width:12%;
+    }
+    .vendorSixCol {
+      width: 8% ;
+    }
+
     .table-th , .table-td  {
       float: left;
       //width: 200px ;
@@ -112,6 +113,10 @@
         font-family: "Avenir" ;
       }
     }
+    .campaign_status_icon {
+      height: 12px ;
+      width: 12px ;
+    }
     .row.open {
       .table-td {
         .col-md-9 {
@@ -134,7 +139,7 @@
 
       .highlight-row,
       .rowHover:hover {
-          background-color: #DCE6F1;
+          background-color: @hover-light-blue;
           .hideOption {
               display:block;
           }
@@ -170,8 +175,9 @@
           width: 140px;
           border-color: #dde6eb ;
           border-radius:3px;
+          padding:  0 ;
           li {
-            padding: 5px 0;
+            padding: 0;
             cursor: pointer;
             &:hover {
               background: #FFFFFF ;
@@ -194,7 +200,7 @@
             }
             a {
                 margin: 0;
-                color: #0978c9;
+                color: @visto-blue;
                 clear: none;
                 width: auto;
                 display: inline-block;
@@ -240,12 +246,12 @@
       }
     }
     .table-th  {
-      padding: 20px;
-      border-color: #bfc9d7;
+      padding: 20px 10px;
+      border-color: @stroke-gray-borders;
       border-width: 1px 0 0 0;
       border-style: solid ;
       font-family:Avenir-bold;
-      color: #57606D;
+      color: @lead-gray;
       &:first-child {
         border-left-width : 1px  ;
         background-image : none ;
@@ -258,8 +264,8 @@
       border-color: rgba(191, 201, 215, 0.5);
       border-width: 0px 0 1px 1px ;
       border-style: solid ;
-      padding: 10px 20px;
-      height: 36px;
+      padding: 10px ;
+      height: 40px;
       //background-color: #ffffff ;
       &:last-child {
         border-right-width : 1px  ;
@@ -272,7 +278,7 @@
         background-image: none;
       }
       a {
-        color: #0978c9 ;
+        color: @visto-blue;
         text-decoration: underline;
       }
     }
@@ -281,7 +287,7 @@
 }
 
 .reports-scheduled-list {
-  .scheduled_list_table  {
+  .table_list_holder  {
       div{
           &.name-col{
               .col-md-9  {
@@ -319,9 +325,9 @@
 
     .searchInputSchedule {
         width: auto;
-        border-top: 1px solid #BFC9D7;
-        border-bottom: 1px solid #BFC9D7;
-        border-left: 1px solid #BFC9D7;
+        border-top: 1px solid @stroke-gray-borders;
+        border-bottom: 1px solid @stroke-gray-borders;
+        border-left: 1px solid @stroke-gray-borders;
         border-top-left-radius: 2px;
         border-bottom-left-radius: 2px;
         float: left;
@@ -348,7 +354,7 @@
                 padding: 0;
                 width: 44px;
                 height: 34px;
-                border-left: 1px solid #BFC9D7;
+                border-left: 1px solid @stroke-gray-borders;
                 [class^="icon-"], [class*=" icon-"] {
                     float: right;
                     cursor: pointer;
@@ -367,5 +373,73 @@
 
     }
 }
+.view-summary-dialog .modal-dialog {
+  width: 1200px ;
+}
+.view_summary_page {
+  .summarySection {
+    border: solid 1px rgba(191, 201, 215, 0.5) ;
+    padding: 20px ;
+    margin-right: 20px ;
+    .summarySectionRow {
+      margin-top: 5px ;
+    }
+    .glyphicon-ok-sign , .icon-user {
+      color: #57606D ;
+      font-size: 12px ;
+    }
+    .icon-user {
+      color : @endeavour;
+    }
+    .summarySectionHeading {
+      color: #57606D ;
+      font-size: 16px;
+      margin-bottom: 10px ;
+    }
+    &:last-child {
+      margin: 0 ;
+    }
+  }
+  .modal-header {
+    margin-bottom: 30px ;
+  }
+  .summaryHeadline {
+    .glyphicon-ok-sign {
+      color : #70d43d ;
+      margin-right: 5px ;
+    }
+  }
+  .summaryValues {
+    margin : 20px 0 25px ;
+    .marginLeft {
+      margin-left : 50px ;
+    }
+    .icon-calendar {
+      margin-right: 5px ;
+    }
+  }
+}
+#vendorConfigurationPage {
+  .table_list_holder {
+    .table-td-val {
+      display: inline-block;
+      width: 100%;
+      overflow: hidden;
+      text-overflow : ellipsis ;
+    }
+    .vendor_name {
+        display: inline-block;
+        width: 130%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .rowHover:hover {
+      .vendor_name {
+        width: 100%;
+      }
+    }
 
+  }
+
+}
 

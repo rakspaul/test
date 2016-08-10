@@ -9,10 +9,81 @@
     <div class="col-md-12 zeroPadding">
         <form id="userCreateEditForm" name="userCreateEditForm" class="col-md-12 zeroPadding">
             <div class="col-md-12 zeroPadding">
+                
+                <div class="form-group col-md-3" show-errors style="padding-left: 0;">
+                    <label class="col-sm-12 greyTxt" for="lastName">Home Account:</label>
+                    <div class="zeroPadding dropdown-workflow dropdown-multi">
+                        <div class="dropdown" style="z-index: 999999" id = "accountDropDown_{{$index}}" >
+                            <button class="btn btn-default"
+                                    type="button"
+                                    aria-haspopup="true"
+                                    aria-expanded="true"
+                                    data-ng-click="openAccountsDropdown($event);">
+                                <span class="text" data-ng-bind="permissions[$index].clientName"></span>
+                                <span class="icon-arrow-solid-down"></span>
+                            </button>
+                            <ul class="dropdown-menu clientDropdownCnt"
+                                id="clientDropdown_0"
+                                data-ng-init="accountIndex=$index">
+                                <li data-ng-repeat="client in userModalData.Clients" style="position: relative">
+                                    <a data-ng-click="selectClientOption(client.id, client.name, accountIndex)"
+                                       data-ng-bind="client.name">
+                                    </a>
+                                    <span class="icon-arrow-solid-down icon-arrow-right"
+                                          data-ng-click="getSubClientList(client.id, client.name, 0, accountIndex)"
+                                          data-ng-if="!client.isLeafNode">
+                                    </span>
+                                </li>
+                            </ul>
+                            <div data-ng-if="loadingClientDropDown[accountIndex]"
+                                 style="position: absolute;
+                                        width: 100%;
+                                        height: 200px;
+                                        background: rgba(255, 255, 255, 0.63);
+                                        z-index: 999999;">
+                                <span class="common-load-more"
+                                      style="position: absolute; top: 40px; left: 134px;">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group col-md-3" show-errors style="padding: 0 15px;">
+                    <label class="col-sm-12 greyTxt" for="firstName">First Name:</label>
+                    <input id="firstName"
+                           name="firstName"
+                           type="text"
+                           data-ng-model="userConsoleFormDetails.firstName"
+                           class="form-control"
+                           required>
+                </div>
+                
+                <div class="form-group col-md-3" show-errors style="padding: 0 15px;">
+                    <label class="col-sm-12 greyTxt" for="lastName">Last Name:</label>
+                    <input id="lastName"
+                           name="lastName"
+                           type="text"
+                           data-ng-model="userConsoleFormDetails.lastName"
+                           class="form-control"
+                           required>
+                </div>
+                
+                <div class="form-group col-md-3" show-errors>
+                    <label class="col-sm-12 greyTxt" for="password">Password:</label>
+                    <input id="password"
+                           name="password"
+                           type="password"
+                           data-ng-model="userConsoleFormDetails.password"
+                           data-ng-disabled="isEdit"
+                           class="form-control"
+                           required>
+                </div>
+                
                 <div class="form-group col-md-3" show-errors style="padding-left: 0;">
                     <label class="col-sm-12 greyTxt">
                         <span class="icon-user pull-left"></span>
-                        User Login:
+                        <span class="pull-left" style="margin-left: 5px;">User Login:</span>
                     </label>
                     <input name="userLogin"
                            type="email"
@@ -24,37 +95,10 @@
                         Invalid email address.
                     </label>
                 </div>
-                <div class="form-group col-md-2" show-errors>
-                    <label class="col-sm-12 greyTxt" for="firstName">First Name:</label>
-                    <input id="firstName"
-                           name="firstName"
-                           type="text"
-                           data-ng-model="userConsoleFormDetails.firstName"
-                           class="form-control"
-                           required>
-                </div>
-                <div class="form-group col-md-2" show-errors>
-                    <label class="col-sm-12 greyTxt" for="lastName">Last Name:</label>
-                    <input id="lastName"
-                           name="lastName"
-                           type="text"
-                           data-ng-model="userConsoleFormDetails.lastName"
-                           class="form-control"
-                           required>
-                </div>
-                <div class="form-group col-md-2" show-errors>
-                    <label class="col-sm-12 greyTxt" for="password">Password:</label>
-                    <input id="password"
-                           name="password"
-                           type="password"
-                           data-ng-model="userConsoleFormDetails.password"
-                           data-ng-disabled="isEdit"
-                           class="form-control"
-                           required>
-                </div>
-                <div class="form-group col-md-2" data-ng-if="showSuperAdminButton">
-                    <label class="pull-left greyTxt" style="width: 100%;">User Active Status</label>
-                    <div class="pull-left">
+                
+                <div class="form-group pull-left" data-ng-if="showSuperAdminButton" style="padding: 0 15px;">
+                    <label class="pull-left greyTxt">User Active Status</label>
+                    <div class="pull-left clearLeft">
                         <input id="userState"
                                class="cmn-toggle cmn-toggle-round"
                                data-ng-model="userConsoleFormDetails.status"
@@ -63,9 +107,10 @@
                         <label for="userState"></label>
                     </div>
                 </div>
-                <div class="form-group col-md-1" style="padding-right: 0;" data-ng-if="showSuperAdminButton">
-                    <label class="pull-right greyTxt">Super User</label>
-                    <div class="pull-right">
+                
+                <div class="form-group pull-left" style="padding: 0 15px;" data-ng-if="showSuperAdminButton">
+                    <label class="pull-left greyTxt">Super User</label>
+                    <div class="pull-left clearLeft">
                         <input id="cmn-toggle-1"
                                class="cmn-toggle cmn-toggle-round"
                                data-ng-model="isCurr_SuperUser"
@@ -75,6 +120,7 @@
                     </div>
                 </div>
             </div>
+                
             <div class="form-group col-md-12 zeroPadding" data-ng-if="!isCurr_SuperUser">
                 <div class="accounts col-md-12 add-filters"
                      data-ng-repeat="(permissionIndex, item) in permissions track by $index"
@@ -97,7 +143,7 @@
                                 <ul class="dropdown-menu clientDropdownCnt"
                                     id="clientDropdown_0"
                                     data-ng-init="accountIndex=$index">
-                                    <li data-ng-repeat="client in userModalData.Clients" style="position:relative">
+                                    <li data-ng-repeat="client in userModalData.Clients" style="position: relative">
                                         <a data-ng-click="selectClientOption(client.id, client.name, accountIndex)"
                                            data-ng-bind="client.name">
                                         </a>
@@ -111,10 +157,10 @@
                                      style="position: absolute;
                                             width: 100%;
                                             height: 200px;
-                                            background: rgba(255,255,255,0.63);
+                                            background: rgba(255, 255, 255, 0.63);
                                             z-index: 99999;">
                                     <span class="common-load-more"
-                                          style="position: absolute; top: 40px;left: 134px;">
+                                          style="position: absolute; top: 40px; left: 134px;">
                                     </span>
                                 </div>
                             </div>
@@ -169,7 +215,7 @@
                             <label for="{{userPerPages.code}}_{{$parent.$index}}_id"
                                    data-ng-bind="userPerPages.name"
                                    class="pull-left"
-                                   style="margin: 1px 0 0 5px;cursor:pointer;">
+                                   style="margin: 1px 0 0 5px; cursor: pointer;">
                                 Text
                             </label>
                         </div>
@@ -181,14 +227,16 @@
                         <div class="form-group col-md-4" style="padding-left: 0;">
                             <label class="col-md-12 zeroPadding greyTxt">Advertiser Name:</label>
                             <div class="zeroPadding dropdown-workflow">
-                                <div class="dropdown" data-ng-init="accountIndex=$parent.$index;permissionIndex=$index;">
+                                <div class="dropdown"
+                                     data-ng-init="accountIndex = $parent.$index; permissionIndex = $index;">
                                     <button class="btn btn-default dropdown-toggle"
                                             type="button"
                                             data-toggle="dropdown"
                                             aria-haspopup="true"
                                             aria-expanded="true">
                                         <span class="text"
-                                              data-ng-bind="permissions[$parent.$index].resources[$index].advertiserName">
+                                              data-ng-bind=
+                                                      "permissions[$parent.$index].resources[$index].advertiserName">
                                         </span>
                                         <span class="icon-arrow-solid-down"></span>
                                     </button>
@@ -219,7 +267,8 @@
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="accountType">
                                         <li data-ng-repeat="brand in dropdownList[$parent.$index][$index].brands">
-                                            <a data-ng-click="selectBrand(brand, $parent.$parent.$index, $parent.$index)"
+                                            <a data-ng-click=
+                                                       "selectBrand(brand, $parent.$parent.$index, $parent.$index)"
                                                data-ng-bind="brand.name">
                                             </a>
                                         </li>

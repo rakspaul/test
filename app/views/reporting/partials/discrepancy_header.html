@@ -1,44 +1,44 @@
 <div class="col-md-12" style="padding: 10px 0 0 15px">
     <!--Column 1-->
-   <span class="pull-left text-left" style="width:280px;">
-      Vendor
-  </span>
+    <span class="pull-left text-left" style="width:280px;">Vendor</span>
+    <span class="pull-left text-left" style="width: 80px;">Type</span>
 
-    <span class="pull-left text-left" style="width: 80px;">
-      Type
-  </span>
     <!--Column 2-->
-  <span class="col-md-2 text-right">
-       Imps*
-  </span>
+    <span class="col-md-2 text-right">Imps*</span>
 
     <!--Column 3-->
-    <div class="col-md-5" style="padding-left:106px;">
+    <div class="col-md-5" style="padding-left: 106px;">
         <div class="col-md-12 dropdown-workflow compareDropdownCnt">
             <span >Compare To</span>
-
             <span class="dropdown dropdownCmp">
-                <button style="" class="btn btn-default dropdown-toggle compareToButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <span class="text" ng-bind="selectedVendor ? selectedVendor : 'All Types'" style="color:#313233;"></span>
-                    <span class="icon-arrow-solid-down icon" style=""></span>
+                <button class="btn btn-default dropdown-toggle compareToButton"
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="true">
+                    <span class="text"
+                          data-ng-bind="selectedVendor ? selectedVendor : 'All Types'"
+                          style="color: #313233;">
+                    </span>
+                    <span class="icon-arrow-solid-down icon"></span>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                    <li ng-repeat="vendor in vendorList">
-                        <a ng-click="select_vender_option(vendor.name)" ng-bind="vendor.name" ></a>
+                <ul class="dropdown-menu"
+                    aria-labelledby="unitcostType"
+                    data-ng-model="adData.unitType"
+                    id="unitcostType"
+                    data-toggle="dropdown">
+                    <li data-ng-repeat="vendor in vendorList">
+                        <a data-ng-click="select_vender_option(vendor.name)"
+                           data-ng-bind="vendor.name + '('+vendor.category+')'" >
+                        </a>
                     </li>
                 </ul>
-                <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden />
+                <input type="hidden" name="unitType" data-ng-model="adData.unitType.name" data-ng-update-hidden>
             </span>
         </div>
-
         <div class="col-md-12 zeroPadding">
-                 <span class="col-md-6 zeroPadding">
-                 Impression<br />Gap
-             </span>
-
-                 <span class="col-md-6 zeroPadding text-right">
-                 Rate of<br/>Discrepancy (%)
-             </span>
+            <span class="col-md-6 zeroPadding">Impression<br>Gap</span>
+            <span class="col-md-6 zeroPadding text-right">Rate of<br/>Discrepancy (%)</span>
         </div>
     </div>
 </div>

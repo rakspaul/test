@@ -8,96 +8,103 @@
                class="helpLink col-md-12 zeroPadding"
                data-ng-bind="textConstants.HOWMANINVENFILTERS">
             </a>
-
             <div class="col-md-12 zeroPadding radioBtnToggle">
                 <div class="btn-group miniToggle">
-                    <label class="btn btn-default whitelist{{workflowData.whiteListsSelected ? ' active disabled' : ''}}"
+                    <label class="btn btn-default whitelist
+                                {{workflowData.whiteListsSelected ? ' active disabled' : ''}}"
                            style="width: auto;">
                         <span>Whitelist</span>
                         <input type="radio"
                                name="inventoryList"
                                group="budgetGroup"
                                value="INCLUDE"
-                               ng-model="adData.inventory.domainAction"
-                               ng-checked="adData.inventory.domainAction === 'INCLUDE' ? true : false"
+                               data-ng-model="adData.inventory.domainAction"
+                               data-ng-checked="adData.inventory.domainAction === 'INCLUDE' ? true : false"
                                hidden="hidden"
                                class="btn_rad whitelist"
-                               ng-click="showDomainListTypePopupCue('INCLUDE', $event)">
+                               data-ng-click="showDomainListTypePopupCue('INCLUDE', $event)">
                     </label>
-                    <label class="btn btn-default blacklist{{workflowData.blackListsSelected ? ' active disabled' : ''}}"
+                    <label class="btn btn-default blacklist
+                                {{workflowData.blackListsSelected ? ' active disabled' : ''}}"
                            style="width: auto;">
                         <span>Blacklist</span>
                         <input type="radio"
                                name="inventoryList"
                                group="budgetGroup"
                                value="EXCLUDE"
-                               ng-model="adData.inventory.domainAction"
-                               ng-checked="adData.inventory.domainAction === 'EXCLUDE' ? true : false"
+                               data-ng-model="adData.inventory.domainAction"
+                               data-ng-checked="adData.inventory.domainAction === 'EXCLUDE' ? true : false"
                                hidden="hidden"
                                class="btn_rad blacklist"
-                               ng-click="showDomainListTypePopupCue('EXCLUDE', $event)">
+                               data-ng-click="showDomainListTypePopupCue('EXCLUDE', $event)">
                     </label>
                     <div id="domain-list-type-popup-cue"
                          class="domain-list-type-popup-cue popUpCue"
-                         ng-show="changeDomainListType">
+                         data-ng-show="changeDomainListType">
                         <span class="col-md-12 zeroPadding" style="height: auto;">
                             Change filter type and remove selected lists?
                         </span>
                         <a href="javascript:void(0);"
                            class="leftNavLink pull-right btn btn-primary"
-                           ng-click="continueDomainListTypeChange()"
+                           data-ng-click="continueDomainListTypeChange()"
                            data-ng-bind="textConstants.CONTINUE"></a>
                         <a class="pull-right btn btn-link"
                            data-ng-bind="textConstants.CANCEL"
-                           ng-click="hideDomainListTypePopupCue()">
+                           data-ng-click="hideDomainListTypePopupCue()">
                         </a>
                     </div>
                 </div>
             </div>
-
             <div class="col-md-9 zeroPadding inventory_upload_btn" style="margin: 20px 0 0;">
                 <button class="pull-left btn btn-default"
                         style="margin-bottom:20px;"
-                        ng-click="showInventoryModal()"
-                        ng-show="workflowData.inventoryData.length > 0 ?  true : false"
+                        data-ng-click="showInventoryModal()"
+                        data-ng-show="workflowData.inventoryData.length > 0 ?  true : false"
                         data-ng-bind="textConstants.INVENTORY_SELECT_FROM_EXISTING">
                 </button>
+
                 <!--1-->
-                <!-- TODO: Temp, put CSS in stylesheet -->
                 <span class="no-domain-list-found greyTxt"
-                      ng-bind="textConstants.NO_DOMAIN_LIST_FOUND"
+                      data-ng-bind="textConstants.NO_DOMAIN_LIST_FOUND"
                       style="padding: 0 0 10px !important; display: block;"
-                      ng-show="workflowData.inventoryData.length === 0 ?  true : false">
+                      data-ng-show="workflowData.inventoryData.length === 0 ?  true : false">
                 </span>
-                <button class="pull-left btn btn-default" ngf-select="selectFiles($files, 'INVENTORY_CREATE','DOMAIN')"
-                        ngf-accept="'.csv,.txt'" ngf-multiple="false" ngf-allow-dir="false"
-                        data-ng-bind="textConstants.INVENTORY_UPLOAD_NEW_DOMAIN" style="display: block"
+                <button class="pull-left btn btn-default"
+                        ngf-select="selectFiles($files, 'INVENTORY_CREATE','DOMAIN')"
+                        ngf-accept="'.csv, .txt'"
+                        ngf-multiple="false"
+                        ngf-allow-dir="false"
+                        data-ng-bind="textConstants.INVENTORY_UPLOAD_NEW_DOMAIN"
+                        style="display: block"
                         data-ng-disabled="!adData.domainEnable">
                 </button>
-
-                <button class="pull-left btn btn-default" ngf-select="selectFiles($files, 'INVENTORY_CREATE','APP')"
-                        ngf-accept="'.csv,.txt'" ngf-multiple="false" ngf-allow-dir="false"
-                        data-ng-bind="textConstants.INVENTORY_UPLOAD_NEW_APP" style="display: block"
+                <button class="pull-left btn btn-default"
+                        ngf-select="selectFiles($files, 'INVENTORY_CREATE', 'APP')"
+                        ngf-accept="'.csv, .txt'"
+                        ngf-multiple="false"
+                        ngf-allow-dir="false"
+                        data-ng-bind="textConstants.INVENTORY_UPLOAD_NEW_APP"
+                        style="display: block"
                         data-ng-disabled="!adData.appEnable">
                 </button>
                 <span class="greyTxt pull-left" data-ng-bind="textConstants.CSVTXTFILE"></span>
-
             </div>
         </div>
         <!-- Header Ends -->
+
         <!-- Body Starts -->
         <div class="col-md-2 zeroPadding hideRightPanel"></div>
-        <div class="col-md-10" ng-repeat="inventory in workflowData.selectedLists">
+        <div class="col-md-10" data-ng-repeat="inventory in workflowData.selectedLists">
             <div class="filterList"
-                 ng-show="(workflowData.whiteListsSelected && workflowData.selectedWhiteLists.length > 0) ||
+                 data-ng-show="(workflowData.whiteListsSelected && workflowData.selectedWhiteLists.length > 0) ||
                         (workflowData.blackListsSelected && workflowData.selectedBlackLists.length > 0)">
                 <div class="filterHead" style="position: relative;">
                     <span class="pull-left"
                           style="width: auto;"
-                          ng-bind="inventory.name + ' (' + inventory.domainList.length + ')'">
+                          data-ng-bind="inventory.name + ' (' + inventory.domainList.length + ')'">
                     </span>
                     <a class="icon-trash pull-right"
-                       ng-click="showRemoveDomainListPopup($event)"
+                       data-ng-click="showRemoveDomainListPopup($event)"
                        data-id="{{inventory.id}}"
                        style="margin: 10px 0 0 50px;">
                     </a>
@@ -108,15 +115,15 @@
                         <a href="javascript:void(0);"
                            class="leftNavLink pull-right btn btn-primary"
                            style="margin-right: 0;"
-                           ng-click="workflowData.removeDomainList()"
+                           data-ng-click="workflowData.removeDomainList()"
                            data-ng-bind="textConstants.CONTINUE"></a>
                         <a class="pull-right btn btn-link"
                            data-ng-bind="textConstants.CANCEL"
-                           ng-click="hideRemoveDomainListPopup()">
+                           data-ng-click="hideRemoveDomainListPopup()">
                         </a>
                     </div>
                     <button class="btn btn-default pull-right"
-                            ng-click="workflowData.assignCurrentInventory(inventory)"
+                            data-ng-click="workflowData.assignCurrentInventory(inventory)"
                             ngf-select="selectFiles($files, 'INVENTORY_UPDATE', inventory.inventoryType)"
                             ngf-accept="'.csv,.txt'"
                             ngf-multiple="false"
@@ -124,46 +131,48 @@
                             data-ng-bind="textConstants.INVENTORY_REPLACE_CURRENT_LIST">
                     </button>
                     <div class="pull-left clearLeft sort-icon-holder active list_val_col"
-                         ng-click="workflowData.sort(inventory.id);"
+                         data-ng-click="workflowData.sort(inventory.id);"
                          id="{{'sort-icon-holder-' + inventory.id}}"
                          style="display: inline-block;
                          margin-top: 5px;">
-                        <span class="pull-left" data-ng-bind="(inventory.inventoryType === 'DOMAIN')?textConstants.DOMAIN:textConstants.APP"></span>
+                        <span class="pull-left"
+                              data-ng-bind="(inventory.inventoryType === 'DOMAIN') ?
+                                textConstants.DOMAIN : textConstants.APP">
+                        </span>
                         <span class="pull-left common-sort-icon ascending"></span>
                     </div>
                 </div>
                 <div class="filterBody">
                     <div id="{{'collapsed-' + inventory.id}}"
-                         ng-show="inventory.domainNamesDisplay === 'collapsed'">
+                         data-ng-show="inventory.domainNamesDisplay === 'collapsed'">
                         <ul class="zeroPadding">
-                            <li ng-repeat="domain in inventory.domainList |
-                                    orderBy: proxyOrderBy : inventory.reverseOrder |
-                                    limitTo: 3"
+                            <li data-ng-repeat="domain in inventory.domainList |
+                                    orderBy: proxyOrderBy : inventory.reverseOrder | limitTo: 3"
                                 style="list-style: none; color: #939eae; padding: 5px 0;"
                                 data-ng-bind="domain">
                             </li>
                         </ul>
                         <div class="clearfix"
-                             ng-show="inventory.domainList.length > 3"
+                             data-ng-show="inventory.domainList.length > 3"
                              style="display: inline-block;">
-                            <span ng-click="workflowData.changeDomainNamesDisplay('expanded', inventory.id)"
+                            <span data-ng-click="workflowData.changeDomainNamesDisplay('expanded', inventory.id)"
                                   style="cursor: pointer; color: #0978c9;"
-                                  ng-bind="'+ ' + (inventory.domainList.length - 3) + ' more'">
+                                  data-ng-bind="'+ ' + (inventory.domainList.length - 3) + ' more'">
                             </span>
                         </div>
                     </div>
                     <div id="{{'expanded-' + inventory.id}}"
-                         ng-show="inventory.domainNamesDisplay === 'expanded'">
+                         data-ng-show="inventory.domainNamesDisplay === 'expanded'">
                         <ul class="zeroPadding"
                             style="max-height: 470px; overflow: auto;">
-                            <li ng-repeat="domain in inventory.domainList |
+                            <li data-ng-repeat="domain in inventory.domainList |
                                     orderBy : proxyOrderBy : inventory.reverseOrder"
                                 style="list-style: none; color: #939eae; padding: 5px 0;"
                                 data-ng-bind="domain">
                             </li>
                         </ul>
                         <div class="clearfix" style="display: inline-block;">
-                            <span ng-click="workflowData.changeDomainNamesDisplay('collapsed', inventory.id)"
+                            <span data-ng-click="workflowData.changeDomainNamesDisplay('collapsed', inventory.id)"
                                   style="cursor: pointer; color: #0978c9;">
                                 Show less
                             </span>
@@ -172,34 +181,33 @@
                 </div>
             </div>
         </div>
-
         <!-- Body Ends -->
     </div>
 </div>
 
 <!-- Modal Upload List Start -->
-<div class="popInventoryLib" ng-show="showDomainListPopup">
+<div class="popInventoryLib" data-ng-show="showDomainListPopup">
     <form id="inventoryNewForm" name="inventoryNewForm" novalidate>
         <div class="inventoryLib">
             <div class="thick-margin"></div>
             <div class="headerLib">
-                <span class="icon-close closePopBtn" aria-hidden="true" ng-click="closeDomainListPop()"></span>
-                <h1 ng-bind="workflowData.whiteListsSelected ?
+                <span class="icon-close closePopBtn" aria-hidden="true" data-ng-click="closeDomainListPop()"></span>
+                <h1 data-ng-bind="workflowData.whiteListsSelected ?
                     textConstants.UPLOAD_WHITE_LIST :
                     textConstants.UPLOAD_BLACK_LIST"></h1>
                 <div class="pop-list">
                     <div class="filterHead">
-                        <div class="sort-icon-holder active" ng-click="workflowData.sortInventoryNew();"
+                        <div class="sort-icon-holder active" data-ng-click="workflowData.sortInventoryNew();"
                              style="display: inline-block;">
-                            <span ng-bind="textConstants.DOMAIN"></span>
+                            <span data-ng-bind="textConstants.DOMAIN"></span>
                             <span class="common-sort-icon ascending"></span>
                         </div>
                     </div>
                     <div class="filterBody">
                         <ul>
-                            <li ng-repeat="domainName in workflowData.csvFileContents |
+                            <li data-ng-repeat="domainName in workflowData.csvFileContents |
                                     orderBy : proxyOrderBy : inventoryNew.reverseOrder"
-                                ng-bind="domainName">
+                                data-ng-bind="domainName">
                             </li>
                         </ul>
                     </div>
@@ -217,9 +225,9 @@
                                    id="listName"
                                    class="form-control"
                                    remove-special-character="remove-special-character"
-                                   ng-model="adData.listName"
+                                   data-ng-model="adData.listName"
                                    placeholder="Enter List Name"
-                                   ng-disabled="!inventoryCreate ? true : false"
+                                   data-ng-disabled="!inventoryCreate ? true : false"
                                    autofocus
                                    required>
                             <label class="col-sm-12 control-label errorLabel"
@@ -232,13 +240,13 @@
             <div class="col-md-12 popFooter">
                 <button type="button"
                         class="btn btn-primary pull-right"
-                        ng-disabled="!adData.listName.length || (files && files.length === 0)"
-                        ng-click="uploadDomain((fileType === 'DOMAIN')?'DOMAIN':'APP')"
+                        data-ng-disabled="!adData.listName.length || (files && files.length === 0)"
+                        data-ng-click="uploadDomain((fileType === 'DOMAIN')?'DOMAIN':'APP')"
                         data-ng-bind="textConstants.IMPORT">
                 </button>
                 <button type="button"
                         class="btn btn-link pull-right"
-                        ng-click="closeDomainListPop()"
+                        data-ng-click="closeDomainListPop()"
                         data-ng-bind="textConstants.CANCEL">
                 </button>
             </div>
@@ -248,22 +256,34 @@
 <!-- Modal End -->
 
 <!-- Modal Select Existing List Start -->
-<div class="popInventoryLib" ng-show="showExistingListPopup">
+<div class="popInventoryLib" data-ng-show="showExistingListPopup">
     <form id="inventoryExistingForm" name="inventoryExistingForm" novalidate>
         <div class="inventoryLib">
             <div class="headerLib">
                 <span class="icon-close closePopBtn"
                       aria-hidden="true"
-                      ng-click="saveCancelExistingListPopup('cancel')">
+                      data-ng-click="saveCancelExistingListPopup('cancel')">
                 </span>
-                <h1 ng-bind="'Select from existing ' +
+                <h1 data-ng-bind="'Select from existing ' +
                                 (adData.inventory.domainAction === 'INCLUDE' ? 'Whitelists' : 'Blacklists')">
                 </h1>
                 <div class="pull-right allTypeLists">
                   <div class="btn-group create" role="group" aria-label="...">
-                      <button type="button" class="btn btn-default active" data-ng-click="filterInventoryList($event ,'ALL')"><span data-ng-bind="textConstants.ALL_LISTS"></span></button>
-                      <button type="button" class="btn btn-default" data-ng-click="filterInventoryList($event,'DOMAIN')"><span data-ng-bind="textConstants.DOMAIN_LISTS"></span></button>
-                      <button type="button" class="btn btn-default" data-ng-click="filterInventoryList($event,'APP')"><span data-ng-bind="textConstants.APP_LISTS"></span></button>
+                      <button type="button"
+                              class="btn btn-default active"
+                              data-ng-click="filterInventoryList($event ,'ALL')">
+                          <span data-ng-bind="textConstants.ALL_LISTS"></span>
+                      </button>
+                      <button type="button"
+                              class="btn btn-default"
+                              data-ng-click="filterInventoryList($event, 'DOMAIN')">
+                          <span data-ng-bind="textConstants.DOMAIN_LISTS"></span>
+                      </button>
+                      <button type="button"
+                              class="btn btn-default"
+                              data-ng-click="filterInventoryList($event,'APP')">
+                          <span data-ng-bind="textConstants.APP_LISTS"></span>
+                      </button>
                     </div>
                 </div>
             </div>
@@ -274,40 +294,44 @@
                         <input type="text"
                                class="form-control"
                                name="domainListsSearch"
-                               ng-model="adData.domainListsSearch"
+                               data-ng-model="adData.domainListsSearch"
                                placeholder="Search domain lists">
                         <span class="icon-search"></span>
                     </div>
                     <ul class="col-md-12 zeroPadding domain-lists">
-                        <li ng-repeat="inventoryData in workflowData.inventoryData |
-                            filter: {domainAction: adData.inventory.domainAction, name: adData.domainListsSearch,inventoryType: inventry.inventoryType}"
+                        <li data-ng-repeat="inventoryData in workflowData.inventoryData |
+                                filter: {
+                                    domainAction: adData.inventory.domainAction,
+                                    name: adData.domainListsSearch,
+                                    inventoryType: inventry.inventoryType
+                                }"
                             class="selected">
                             <input class="checkboxcls"
                                    type="checkbox"
                                    id="{{inventoryData.id}}"
                                    value="{{inventoryData.id}}"
                                    name="{{inventoryData.name}}"
-                                   ng-checked="inventoryData.checked ? true : false"
-                                   ng-click="workflowData.inventoryStateChanged($event, inventoryData);"/>
-                            <span ng-bind="inventoryData.inventoryType | toTitleCase"></span>
-                            <span class="titleList" ng-bind="inventoryData.name"></span>
+                                   data-ng-checked="inventoryData.checked ? true : false"
+                                   data-ng-click="workflowData.inventoryStateChanged($event, inventoryData);">
+                            <span data-ng-bind="inventoryData.inventoryType | toTitleCase"></span>
+                            <span class="titleList" data-ng-bind="inventoryData.name"></span>
                         </li>
                     </ul>
-                    <div ng-show="workflowData.inventoryData && workflowData.inventoryData === 0"
+                    <div data-ng-show="workflowData.inventoryData && workflowData.inventoryData === 0"
                          class="dataFromCreativeLibraryNotFound">
-                        <span ng-if="!loadingFlag">Data Not Found</span>
-                        <div ng-if="loadingFlag" class="loading-icon"></div>
+                        <span data-ng-if="!loadingFlag">Data Not Found</span>
+                        <div data-ng-if="loadingFlag" class="loading-icon"></div>
                     </div>
                 </div>
                 <div class="col-md-6" class="selected-list-wrapper" style="height: 403px;">
                     <h4>Selected</h4>
                     <ul class="col-md-12 zeroPadding" style="max-height: 328px; overflow: auto;">
-                        <li ng-repeat="selectedList in workflowData.selectedLists | orderBy: name"
+                        <li data-ng-repeat="selectedList in workflowData.selectedLists | orderBy : name"
                             class="selected">
-                            <span ng-bind="selectedList.inventoryType | toTitleCase"></span>
-                            <span class="titleList" ng-bind="selectedList.name"></span>
+                            <span data-ng-bind="selectedList.inventoryType | toTitleCase"></span>
+                            <span class="titleList" data-ng-bind="selectedList.name"></span>
                             <span class="icon-close"
-                                  ng-click="workflowData.removeInventory(selectedList)"
+                                  data-ng-click="workflowData.removeInventory(selectedList)"
                                   aria-hidden="true"></span>
                         </li>
                     </ul>
@@ -316,12 +340,12 @@
             <div class="col-md-12 popFooter">
                 <button type="button"
                         class="btn btn-primary pull-right"
-                        ng-click="saveCancelExistingListPopup('save')"
+                        data-ng-click="saveCancelExistingListPopup('save')"
                         data-ng-bind="textConstants.SAVE">
                 </button>
                 <button type="button"
                         class="btn btn-link pull-right"
-                        ng-click="saveCancelExistingListPopup('cancel')"
+                        data-ng-click="saveCancelExistingListPopup('cancel')"
                         data-ng-bind="textConstants.CANCEL">
                 </button>
             </div>
@@ -329,12 +353,13 @@
     </form>
 </div>
 <!-- Modal End -->
+
 <!--=== Next Step Panel ===-->
-<span class="nextWrapper leftNavLink" ng-hide="showDomainListPopup">
+<span class="nextWrapper leftNavLink" data-ng-hide="showDomainListPopup">
     <a href
        data-toggle="tab"
        class="btn btn-default"
-       ng-click="triggerCreativeTag()"
+       data-ng-click="triggerCreativeTag()"
        data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE">
     </a>
 </span>

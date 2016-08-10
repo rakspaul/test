@@ -1,3 +1,6 @@
+
+@import "../visto2.0/color.less";
+
 #creative {
     margin: 0 auto;
     width: 100%;
@@ -48,11 +51,11 @@
             .dropdown {
                 border: 1px solid #d4d4d4;
                 padding: 10px 15px;
-                color: #363D49;
+                color: @coal;
                 background-color: #ffffff;
                 font-family: Avenir;
                 border-radius: 2px;
-                border: 1px solid #BFC9D7 !important;
+                border: 1px solid @stroke-gray-borders !important;
                 position: relative;
                 .dropdown_name_selected {
                     margin-right: 0;
@@ -152,13 +155,13 @@
         //margin-top : -15px ;
     }
     .creativeAdBulkDiv {
-        padding: 30px 0; 
+        padding: 30px 0;
         min-height: 465px;
         h1 {
             margin-top: 0;
         }
         .file-chosen {
-            font-family: 'Avenir-bold'; 
+            font-family: 'Avenir-bold';
             margin: 5px 0 0 60px;
         }
         .file-chosen-name {
@@ -175,7 +178,7 @@
             margin-left: 20px;
         }
         .crt-dd {
-            margin-left: 20px; 
+            margin-left: 20px;
             max-width: 255px;
             width:255px;
         }
@@ -184,7 +187,7 @@
         .td {
             background-color : rgba(235, 171, 52, 0.04) ;
          }
-    } 
+    }
     .external_chkbox {
         margin: 0;
     }
@@ -222,7 +225,7 @@
             color: #B4B8BD;
             line-height: 27px;
             a {
-                color: #0978C9;
+                color: @visto-blue;
                 text-decoration: underline;
             }
         }
@@ -298,7 +301,7 @@
             }
             tbody {
                 tr {
-                    color: #57606d;
+                    color: @lead-gray;
                     margin: 10px 0 20px;
                 }
             }
@@ -409,11 +412,11 @@
             .dropdown {
                 border: 1px solid #d4d4d4;
                 padding: 10px 15px;
-                color: #363D49;
+                color: @coal;
                 background-color: #ffffff;
                 font-family: Avenir;
                 border-radius: 2px;
-                border: 1px solid #BFC9D7 !important;
+                border: 1px solid @stroke-gray-borders !important;
                 position: relative;
 
                 .dropdown_name_selected {
@@ -444,13 +447,13 @@
             padding: 20px 20px 10px 20px;
             h1 {
                 float: left;
-                color: #21252b;
+                color: @raven-text;
                 font-size: 18px;
                 line-height: 25px;
                 margin: 0 0 10px 0;
             }
             .icon-trash:hover {
-                color: #0978c9;
+                color: @visto-blue;
                 cursor: pointer;
             }
             > span {
@@ -547,7 +550,7 @@
                 padding: 0;
 
                 li {
-                    color: #939eae;
+                    color: @label-gray;
                     list-style: none;
                     padding: 5px 0;
                 }
@@ -567,7 +570,7 @@
             font-size: 12px;
             width: 12px;
             height: 12px;
-            color: #21252B;
+            color: @raven-text;
             opacity: .25;
         }
 
@@ -595,7 +598,7 @@
                 .btn-default {
                     float: left;
                     margin-left: -1px;
-                } 
+                }
             }
             h1 {
                 float: left;
@@ -606,7 +609,7 @@
             span {
                 float: left;
                 clear: left;
-                color: #21252b;
+                color: @raven-text;
             }
         }
 
@@ -720,7 +723,7 @@
                         font-size: 11px;
                         height: 11px;
                         width: 11px;
-                        color: #21252b;
+                        color: @raven-text;
                         opacity: .25;
                         margin: 5px 0 0 0;
                     }
@@ -732,7 +735,7 @@
         }
         .popFooter {
             padding: 20px 30px;
-            background: #E1EDF9;
+            background: @hover-light-blue;
             border-bottom-left-radius: 5px;
             border-bottom-right-radius: 5px;
             .btn-primary {
@@ -761,9 +764,9 @@ body {
                 border: 1px solid #ccd2da;
                 border-radius: 1px;
                 li:hover {
-                    color: #21252b;
+                    color: @raven-text;
                     text-decoration: none;
-                    background-color: #E1EDF9;
+                    background-color: @hover-light-blue;
                 }
             }
             .dropdown-menu > li > a:hover,
@@ -772,9 +775,9 @@ body {
             .dropdown-menu-search > li > a:hover,
             .dropdown-menu-search > li > a:focus,
             .dropdown-menu-search > li > .active > a{
-              color: #21252b !important;
+              color: @raven-text !important;
               text-decoration: none;
-              background-color: #E1EDF9 !important;
+              background-color: @hover-light-blue !important;
             }
             .advertisersList_ul,
             #clientsList,
@@ -788,7 +791,7 @@ body {
 
 //Size Wire Draft
 .size-box {
-	border: dashed 1px #939eae ;
+	border: dashed 1px @label-gray;
 	margin: 5px 0 14px 0px;
     max-width: 100%;
 }

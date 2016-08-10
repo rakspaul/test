@@ -57,7 +57,7 @@
   text-align: left;
 }
 .left_column_nav .stepCompLabel .statusLabel .col-md-12 .statusIcon {
-  margin: -1px 5px 0 0;
+  margin: -2px 5px 0 0 !important;
   float: left;
 }
 .left_column_nav .stepCompLabel .statusLabel .col-md-12 .txtLabel {
@@ -97,6 +97,15 @@
 .left_column_nav .stepCompLabel span:first-child {
   clear: left;
   text-align: right;
+}
+.left_column_nav .stepCompLabel [class^="icon-"],
+.left_column_nav .stepCompLabel [class*=" icon-"] {
+  height: 16px;
+  width: 16px;
+  font-size: 16px;
+  display: inline-block;
+  fill: currentColor;
+  color: #363d49;
 }
 .left_column_nav .stepCompLabel .greyTxt {
   padding: 0 0 0 5px !important;
@@ -202,7 +211,7 @@
   float: left;
   margin-right: 30px;
   font-size: 13px;
-  color: #939EAE;
+  color: #939eae;
   text-decoration: none;
   text-transform: uppercase;
   padding: 5px 0 5px 0;
@@ -211,10 +220,10 @@
   box-shadow: none;
 }
 .miniTabLinks .btn-link:hover {
-  color: #939EAE;
-  border-bottom: 2px solid #939EAE;
+  color: #939eae;
+  border-bottom: 2px solid #939eae;
 }
 .miniTabLinks .btn-link.active {
-  border-bottom: 2px solid #0978C9;
+  border-bottom: 2px solid #0978c9;
   color: #57606C;
 }

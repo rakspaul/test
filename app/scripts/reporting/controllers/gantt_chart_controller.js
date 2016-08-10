@@ -1,10 +1,12 @@
 define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt_chart_model',
-    'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model', 'common/moment_utils' ],
+    'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model', 'common/moment_utils',
+    'reporting/advertiser/advertiser_model'],
     function (angularAMD) {
     'use strict';
 
     angularAMD.controller('GanttChartController', function ($scope, ganttChart, ganttChartModel, constants,
-                                                            brandsModel, loginModel, momentService) {
+                                                            brandsModel, loginModel, momentService,
+                                                            advertiserModel) {
         var _curCtrl = this;
 
         _curCtrl.filter = undefined;
@@ -13,13 +15,19 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
         $scope.message = constants.MSG_DATA_NOT_AVAILABLE;
 
         $scope.calendar = function (filter) {
-            $scope.selected = 'quarter';
+            if(localStorage.clientRoleObj) {
+                $scope.selected = 'quarter';
 
-            if (brandsModel.getSelectedBrand().id === -1) {
-                _curCtrl.filter = filter;
-                $scope.init(null, filter);
-            } else {
-                $scope.init('single_brand', filter);
+                if (advertiserModel.getSelectedAdvertiser().id === -1) {
+                    _curCtrl.filter = filter;
+                    $scope.init(null, filter);
+                } else {
+                    $scope.init('single_brand', filter);
+                }
+            }else{
+                setTimeout(function(){
+                    $scope.calendar(filter);
+                },100);
             }
         };
 
@@ -45,7 +53,7 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
             ganttChartModel
                 .getGanttChartData()
                 .then(function (result) {
-                    var brands = [],
+                    var advertisers = [],
                         campaigns = [],
                         count = 0,
                         startDate,
@@ -55,12 +63,13 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
                     $scope.calendarBusy = false;
 
                     // TODO: move this into a service
-                    if (result !== undefined && result.brands !== undefined && result.brands.length > 0) {
-                        $scope.calendarData = result.brands.length;
+                    if (result !== undefined && result.advertisers !== undefined && result.advertisers.length > 0) {
+
+                        $scope.calendarData = result.advertisers.length;
                         $scope.dataFound = true;
 
                         // getting endpoint dates for calendar.
-                        _.each(result.brands, function (datum) {
+                        _.each(result.advertisers, function (datum) {
                             _.each(datum.campaigns, function (tasks) {
                                 var campaignEndDate = momentService.utcToLocalTime(tasks.end_date,
                                         constants.DATE_UTC_SHORT_FORMAT),
@@ -87,7 +96,7 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
                             });
                         });
 
-                        _.each(result.brands, function (datum) {
+                        _.each(result.advertisers, function (datum) {
                             var space,
                                 tab = 0,
                                 c = {};
@@ -111,7 +120,7 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
                                 c.startDate = startDate;
                                 c.endDate = endDate;
                                 campaigns.push(c);
-                                brands.push(count);
+                                advertisers.push(count);
                             }
 
                             // brand injected
@@ -125,7 +134,7 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
                             c.startDate = startDate;
                             c.endDate = endDate;
                             campaigns.push(c);
-                            brands.push(count);
+                            advertisers.push(count);
 
                             _.each(datum.campaigns, function (tasks) {
                                 var c = {};
@@ -144,15 +153,14 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
                                 c.state = tasks.state;
                                 c.kpiStatus = tasks.kpi_status;
                                 c.taskName = count;
-                                brands.push(count);
+                                advertisers.push(count);
                                 campaigns.push(c);
                             });
                         });
-
-                        if (brandsModel.getSelectedBrand().id === -1) {
-                            ganttChart.newCalendar(campaigns, brands);
-                        } else if (update || brandsModel.getSelectedBrand().id) {
-                            ganttChart.newCalendar(campaigns, brands, true);
+                        if (advertiserModel.getSelectedAdvertiser().id === -1) {
+                            ganttChart.newCalendar(campaigns, advertisers);
+                        } else if (update || advertiserModel.getSelectedAdvertiser().id) {
+                            ganttChart.newCalendar(campaigns, advertisers, true);
                             $scope.brandNotSelected = false;
                         }
                     } else {
@@ -168,16 +176,11 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
             $scope.loadingMore = true;
             $scope.brandNotSelected = false;
 
-            if (filter === undefined) {
-                ganttChartModel.filter = 'end_date';
-            } else {
-                ganttChartModel.filter = filter;
-            }
-
+            ganttChartModel.filter = filter || 'end_date';
             ganttChartModel
                 .getGanttChartData()
                 .then(function (result) {
-                    var brands = [],
+                    var advertisers = [],
                         campaigns = [],
                         count = _curCtrl.count,
                         o = {},
@@ -187,12 +190,12 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
                     o.selected = $scope.selected;
 
                     // TODO: move this into a service
-                    if (result !== undefined && result.brands !== undefined && result.brands.length > 0) {
-                            $scope.calendarData = result.brands.length;
+                    if (result !== undefined && result.advertisers !== undefined && result.advertisers.length > 0) {
+                            $scope.calendarData = result.advertisers.length;
                             $scope.dataFound = true;
 
                             // getting endpoint dates for calendar.
-                            _.each(result.brands, function (datum) {
+                            _.each(result.advertisers, function (datum) {
                                 _.each(datum.campaigns, function (tasks) {
                                     var campaignEndDate = momentService.utcToLocalTime(tasks.end_date,
                                             constants.DATE_UTC_SHORT_FORMAT),
@@ -219,7 +222,7 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
                                 });
                             });
 
-                            _.each(result.brands, function (datum) {
+                            _.each(result.advertisers, function (datum) {
                                 _.each(datum.campaigns, function (tasks) {
                                     var c = {};
 
@@ -238,12 +241,12 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
                                     c.state = tasks.state;
                                     c.kpiStatus = tasks.kpi_status;
                                     c.taskName = count;
-                                    brands.push(count);
+                                    advertisers.push(count);
                                     campaigns.push(c);
                                 });
                             });
 
-                            ganttChart.loadMoreItemToCalender(campaigns, brands, o);
+                            ganttChart.loadMoreItemToCalender(campaigns, advertisers, o);
                     } else {
                         _curCtrl.calendarLastPage = true;
                     }
@@ -307,12 +310,12 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
 
         $scope.calendarWidgetInit = function () {
             $('#calendar_widget').scroll(function () {
-                if (brandsModel.getSelectedBrand().id !== -1 &&
+                if (advertiserModel.getSelectedAdvertiser().id !== -1 &&
                     !$scope.loadingMore && !$scope.calendarBusy &&
                     !_curCtrl.calendarLastPage &&
                     ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight)) {
                     ganttChartModel.pageCount++;
-                    $scope.loadMoreItems();
+                    $scope.loadMoreItems(ganttChartModel.filter);
                 }
             });
         };

@@ -1,17 +1,19 @@
 define(['angularAMD', 'common/services/constants_service', 'login/login_model',
     'reporting/models/domain_reports', 'reporting/campaignSelect/campaign_select_model',
     'common/services/role_based_service', 'workflow/services/workflow_service', 'common/services/features_service',
-    'reporting/subAccount/sub_account_service'], function (angularAMD) {
+    'reporting/subAccount/sub_account_service','common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location, $modal,
                                                         constants, loginModel, domainReports, campaignSelectModel,
                                                         RoleBasedService, workflowService, featuresService,
-                                                        subAccountModel, localStorageService) {
+                                                        subAccountModel, localStorageService,$http, $sce, vistoconfig) {
+
         var featurePermission = function () {
                 $scope.fparams = featuresService.getFeatureParams();
                 $scope.showMediaPlanTab = $scope.fparams[0].mediaplan_list;
                 $scope.showReportTab = $scope.fparams[0].reports_tab;
+                $scope.invoiceTool = $scope.fparams[0].reports_invoice;
             },
 
             showSelectedMasterClient = function (evt, clientName) {
@@ -63,13 +65,14 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
-
         $scope.reports_nav_url = '' ;
+
         if ($scope.selectedCampaign === -1) {
             $scope.reports_nav_url = '/mediaplans';
         } else {
             $scope.reports_nav_url = '/mediaplans/' + $scope.selectedCampaign;
         }
+
         $scope.getClientData = function () {
             var clientId = localStorageService.masterClient.get().id;
 
@@ -86,6 +89,10 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         };
 
         $scope.set_account_name = function (event, id, name, isLeafNode) {
+
+            $('#user_nav_link').removeClass('selected');
+            $('#user-menu').css('min-height',0).slideUp('fast');
+
             var moduleObj = workflowService.getModuleInfo(),
                 $modalInstance;
 
@@ -143,7 +150,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         };
 
         $scope.NavigateToTab = function (url, event, page) {
-            $('.header_tab_dropdown').removeClass('active_tab active selected');
+            $('.each_nav_link').removeClass('active_tab active selected');
 
             if (page === 'reportOverview') {
                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
@@ -164,20 +171,27 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 url = '/creative/list';
                 $('#creative_nav_link').addClass('active_tab');
             } else if (page === 'adminOverview') {
-                $('.each_nav_link').removeClass('active_tab active selected');
                 url = '/admin/accounts';
+                $('.each_nav_link').removeClass('active_tab active selected');
                 $('#admin_nav_link').addClass('active_tab');
+            } else if (page === 'invoiceTool') {
+                url = '/v1sto/invoices';
+                $('.each_nav_link').removeClass('active_tab active selected');
+                $('#invoiceTool_nav_link').addClass('active_tab');
             } else if (page === 'mediaplanList') {
                 $('.each_nav_link').removeClass('active_tab active selected');
                 url = '/mediaplans';
                 $('#campaigns_nav_link').addClass('active_tab');
+            } else if (page === 'vendorsList') {
+                $('.each_nav_link').removeClass('active_tab active selected');
+                url = '/vendors/list';
+                $('#vendors_nav_link').addClass('active_tab');
             } else if (page === 'reportsSubPage') {
                 $('.reports_sub_menu_dd_holder').find('.active_tab').removeClass('active_tab');
                 $('.each_nav_link').removeClass('active_tab active selected');
                 $('#reports_nav_link').addClass('active_tab');
                 $(event.currentTarget).parent().addClass('active_tab');
             }
-
             $location.url(url);
         };
 
@@ -211,11 +225,12 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
             setTimeout(function () {
                 if (!(mainMenuHolder.is(':hover') ||
+                    $('#help-menu').is(':hover') ||
                     $('#user-menu').is(':hover') ||
                     $('#reports-menu').is(':hover') ||
                     $('#admin-menu').is(':hover')) ||
                     $('#campaigns_nav_link').is(':hover')) {
-                    $('#reports-menu, #admin-menu, #user-menu').css('min-height',0).slideUp('fast');
+                    $('#reports-menu, #admin-menu, #user-menu, #help-menu').css('min-height',0).slideUp('fast');
                     mainMenuHolder.find('.selected').removeClass('selected');
                 }
             }, 400);
@@ -358,7 +373,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                     quickFilterId,
                     regionTooltipId;
 
-                if (cdbDropdownId.is(':visible') && ($(event.target).hasClass('durationMenuText') == false) ) {
+                if (cdbDropdownId.is(':visible') && ($(event.target).hasClass('durationMenuText') === false) ) {
                     cdbDropdownId.closest('.each_filter').removeClass('filter_dropdown_open');
                     cdbDropdownId.hide();
                 }
@@ -506,11 +521,27 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
             $scope.mobileMenuHide = function () {
                 $('.mobileNavWrap').hide();
+
                 $('.icon-hamburger').css({
                     '-ms-transform': 'rotate(0deg)',
                     '-webkit-transform': 'rotate(0deg)',
                     transform: 'rotate(0deg)'
                 });
+            };
+
+            $scope.showFiles = false;
+
+            $scope.openHelp = function() {
+                var clientId = loginModel.getMasterClient().id;
+                var url  = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/userguide/download';
+                $http.get(url, {responseType:'arraybuffer'})
+                    .success(function (response) {
+                        var file = new Blob([response], {type: 'application/pdf'});
+                        var fileURL = URL.createObjectURL(file);
+                        $scope.content = $sce.trustAsResourceUrl(fileURL);
+                        $scope.showFiles = true;
+                });
+
             };
         });
     });

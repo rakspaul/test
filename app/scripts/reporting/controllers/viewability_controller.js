@@ -2,7 +2,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
     'reporting/strategySelect/strategy_select_service', 'common/services/data_service',
     'reporting/models/domain_reports', 'common/services/constants_service', 'common/services/vistoconfig_service',
     'reporting/timePeriod/time_period_model', 'login/login_model', 'common/services/url_service',
-    'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
+    'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'common/utils', 
     'reporting/strategySelect/strategy_select_directive', 'reporting/strategySelect/strategy_select_controller',
     'reporting/timePeriod/time_period_pick_directive'], function (angularAMD) {
     'use strict';
@@ -10,7 +10,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
     angularAMD.controller('ViewabilityController', function ($scope, kpiSelectModel, campaignSelectModel,
                                                              strategySelectModel, dataService, domainReports, constants,
                                                              vistoconfig, timePeriodModel, loginModel, urlService,
-                                                             advertiserModel, brandsModel) {
+                                                             advertiserModel, brandsModel, utils) {
         var extractAdFormats =  function () {
             $scope.adFormats = domainReports.checkForCampaignFormat(strategySelectModel.allAdFormats());
             $scope.videoMode = $scope.adFormats && $scope.adFormats.videoAds;
@@ -48,7 +48,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             } else if ($scope.apiReturnCode === 404 || $scope.apiReturnCode >= 500) {
                 return constants.MSG_UNKNOWN_ERROR_OCCURED;
             } else if (campaignSelectModel.durationLeft() === 'Yet to start') {
-                return constants.MSG_CAMPAIGN_YET_TO_START;
+                return utils.formatStringWithDate(constants.MSG_CAMPAIGN_YET_TO_START ,campaign.startDate,constants.REPORTS_DATE_FORMAT);
             }  else if (campaignSelectModel.daysSinceEnded() > 1000) {
                 return constants.MSG_CAMPAIGN_VERY_OLD;
             }  else if ($scope.selectedCampaign.kpi === 'null') {

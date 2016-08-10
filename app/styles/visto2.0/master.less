@@ -12,7 +12,7 @@ body {
 }
 
 .adminElement.active {
-    background: #e1edf9 ;
+    background: @hover-light-blue;
     cursor: default;
 }
 .zeroPadding {
@@ -48,7 +48,7 @@ body {
 }
 
 .bottomBorder {
-    border-bottom: 1px solid #bfc9d7;
+    border-bottom: 1px solid @stroke-gray-borders;
 }
 
 .workflow,
@@ -125,7 +125,7 @@ a {
 
 .viewLabelTxt {
     float: left;
-    color: #939EAE;
+    color: @label-gray;
     margin: 4px 0 0 5px;
     font-size: 12px;
 }
@@ -139,7 +139,7 @@ a {
     height: 12px;
     font-size: 12px;
     margin: 5px 0 0 15px;
-    color: #939EAE;
+    color: @label-gray;
 }
 
 .breadcrumbFlow {
@@ -157,7 +157,7 @@ a {
         cursor: pointer;
 
         &:first-child:hover {
-            color: #0978C9;
+            color: @visto-blue;
         }
     }
 
@@ -167,7 +167,7 @@ a {
         -webkit-transform: rotate(270deg);
         transform: rotate(270deg);
         margin: 11px 10px 0 10px;
-        color: #939EAE;
+        color: @label-gray;
     }
 }
 
@@ -180,12 +180,18 @@ a {
     padding: 0 !important;
 }
 
+.selected_bg {
+    padding: 10px;
+    background: #EDF2F8;
+    margin: 61px 0 0 0;
+}
+
 strong {
   font-family: Avenir-bold, sans-serif;
 }
 
 .greyTxt {
-    color: #939eae !important;
+    color: @label-gray !important;
     padding: 10px 0 5px 0 !important;
     text-align: left;
     font-size: 12px !important;
@@ -194,7 +200,7 @@ strong {
 }
 
 .greyTxtLarge {
-    color: #939eae !important;
+    color: @label-gray !important;
     padding: 10px 0 5px 0 !important;
     text-align: left;
     font-size: 14px !important;
@@ -226,7 +232,7 @@ strong {
     font-size: 16px;
     display: inline-block;
     fill: currentColor;
-    color: #57606D;
+    color: @coal;
 }
 
 .form-group {
@@ -325,7 +331,7 @@ strong {
 
 .form-control {
     border-radius: 1px !important;
-    border: 1px solid #BFC9D7;
+    border: 1px solid @stroke-gray-borders;
     -webkit-appearance: none;
 }
 
@@ -462,7 +468,7 @@ strong {
     }
 
     //.btn {
-    //    border: 1px solid #0978c9;
+    //    border: 1px solid @visto-blue;
     //    border-radius: 2px;
     //    text-align: center;
     //    width: 62px;
@@ -471,7 +477,7 @@ strong {
     //    float: left;
     //
     //    &:last-child {
-    //        background: #0978c9;
+    //        background: @visto-blue;
     //        color: #fff;
     //        margin-left: 5px;
     //    }
@@ -481,7 +487,7 @@ strong {
 // Default Card Select
 .cardSelectHolder {
     border-radius: 1px;
-    border: 1px solid #bfc9d7;
+    border: 1px solid @stroke-gray-borders;
     padding: 30px 20px;
     min-height: 280px;
     width: 32%;
@@ -497,24 +503,24 @@ strong {
 
     &:hover {
         background-color: rgba(225, 237, 249, 0.4);
-        border: 1px solid #0978c9;
+        border: 1px solid @visto-blue;
     }
 
     &.active {
         .icon-inline-edit {
             display: initial;
-            color: #363d49;
+            color: @coal;
         }
 
         .icon-trash:hover {
-            color: #0978c9;
+            color: @visto-blue;
         }
     }
 
     &.active:hover {
         .icon-inline-edit {
             display: initial;
-            color: #0978c9;
+            color: @visto-blue;
         }
     }
 
@@ -536,7 +542,7 @@ strong {
 
         span {
             font-family: Avenir, sans-serif;
-            color: #939eae;
+            color: @label-gray;
             width: auto;
             float: none;
         }
@@ -558,7 +564,7 @@ strong {
     }
 
     .btn.active {
-        background: #E1EDF9;
+        background: @hover-light-blue;
         box-shadow: none;
         width: auto;
         margin-left: -43px;
@@ -580,7 +586,7 @@ strong {
         text-align: center;
         height: 32px;
         font-size: 32px;
-        color: #363d49;
+        color: @coal;
         min-height: initial;
     }
 
@@ -590,7 +596,7 @@ strong {
         z-index: 10;
         top: 10px;
         right: 10px;
-        color: #363d49;
+        color: @coal;
         font-size: 16px;
         width: 16px;
         height: 16px;
@@ -599,7 +605,7 @@ strong {
 
     .icon-inline-edit:hover,
     .icon-trash:hover {
-        color: #0978c9;
+        color: @visto-blue;
         cursor: pointer;
     }
 
@@ -636,14 +642,14 @@ strong {
             color: @raven-text;
             font-weight: normal;
             background: #fff;
-            border: 1px solid #bfc9d7;
+            border: 1px solid @stroke-gray-borders;
             float: left;
         }
 
         .targetListItem {
             text-align: center;
             width: 100%;
-            color: #939eae;
+            color: @label-gray;
             font-size: 14px;
             float: left;
         }
@@ -651,7 +657,7 @@ strong {
         .targetListItemMore {
             text-align: center;
             width: 100%;
-            color: #0978c9;
+            color: @visto-blue;
             font-size: 14px;
             float: left;
         }

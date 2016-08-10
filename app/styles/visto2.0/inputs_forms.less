@@ -1,5 +1,7 @@
 // Visto 2.0 Inputs / Forms
 // Inputs
+@import "color.less";
+
 input[type="text"],
 input[type="number"],
 input[type="email"],
@@ -7,7 +9,7 @@ input[type="password"],
 .has-success input[type="text"].form-control,
 input[type="textarea"],
 textarea{
-    border: 1px solid #BFC9D7;
+    border: 1px solid @stroke-gray-borders;
     border-radius: 2px !important;
     line-height: normal;
     padding: 10px 15px;
@@ -38,7 +40,7 @@ input[type="password"]:focus,
 input[type="textarea"]:focus,
 .has-success input[type="text"].form-control:focus,
 textarea:focus {
-    border: 1px solid #0978c9 !important;
+    border: 1px solid @visto-blue !important;
     box-shadow: none !important;
 }
 
@@ -83,17 +85,17 @@ select {
     cursor: pointer;
     overflow: hidden;
     background: url(../../images/cdesk/arrow_down2.png) no-repeat right #fff;
-    border: 1px solid #BFC9D7 !important;
+    border: 1px solid @stroke-gray-borders !important;
     background-size: 20px 15px;
 }
 
 select:hover {
-    background-color: #E1EDF9 !important;
+    background-color: @hover-light-blue !important;
 }
 
 .searchInput {
   width: auto;
-  border: 1px solid #BFC9D7;
+  border: 1px solid @stroke-gray-borders;
   border-width: 0;
   border-radius: 2px;
   height: 36px;
@@ -101,7 +103,7 @@ select:hover {
     cursor: pointer;
     height: 36px;
     padding: 10px 15px;
-    border: 1px solid #BFC9D7;
+    border: 1px solid @stroke-gray-borders;
   }
   .input-group {
     position: relative;
@@ -113,15 +115,15 @@ select:hover {
       border-top-right-radius: 0px !important;
       border-bottom-right-radius: 0px !important;
       height: 36px !important;
-      border: 1px solid #BFC9D7;
+      border: 1px solid @stroke-gray-borders;
       text-align: left;
     }
     input:hover {
-      border: 1px solid #939eae !important;
+      border: 1px solid @label-gray !important;
       box-shadow: none;
     }
     input:focus {
-      border: 1px solid #0978c9 !important;
+      border: 1px solid @visto-blue !important;
       box-shadow: none;
     }
     .btn {
@@ -135,7 +137,7 @@ select:hover {
       width: 36px;
       height: 34px;
       background: #fff !important;
-      //border-left: 1px solid #BFC9D7;
+      //border-left: 1px solid @stroke-gray-borders;
       [class^="icon-"], [class*=" icon-"] {
         float: right !important;
         cursor: pointer;
@@ -155,15 +157,15 @@ select:hover {
     right: 1px;
     background: #fff;
     border-width: 0px !important;
-    border-left: 1px solid #bfc9d7 !important;
+    border-left: 1px solid @stroke-gray-borders !important;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     padding: 10px 14px 8px !important;
     height: 34px !important;
   }
   &:active, &:focus {
-    background: #dce6f1 !important;
-    border-color: #bfc9d7 !important;
+    background: @active-gray !important;
+    border-color: @stroke-gray-borders !important;
   }
   .searchClearInputBtn {
     border-width: 0px !important;
@@ -174,16 +176,16 @@ select:hover {
     [class^="icon-"], [class*=" icon-"] {
         background: transparent !important;
         padding: 10px 9px 9px 10px !important;
-        color: #57606d;
+        color: @lead-gray;
         &:hover {
-            color: #363d49;
+            color: @coal;
         }
     }
   }
 }
 .searchInput:hover .searchInputBtnInline {
-  background: #e1edf9;
-  border-color: #939eae;
+  background: @hover-light-blue;
+  border-color: @label-gray;
 }
 
 //Tags Input Pills
@@ -200,19 +202,19 @@ select:hover {
             box-shadow: none !important;
             outline: none !important;
             .tags {
-                border: 1px solid #BFC9D7;
+                border: 1px solid @stroke-gray-borders;
                 border-radius: 2px !important;
                 line-height: normal;
                 padding: 2px;
                 min-height: 36px;
                 box-shadow: none !important;
-                border-color: #BFC9D7;
+                border-color: @stroke-gray-borders;
                 float: left;
                 width: 100%;
                 -webkit-appearance: none !important;
                 ti-tag-item {
                     span {
-                        color: #21252b;
+                        color: @raven-text;
                         font-family: "Avenir";
                         font-size: inherit;
                     }
@@ -235,9 +237,9 @@ select:hover {
             .tags.focused {
                 -webkit-box-shadow: none !important;
                 box-shadow: none !important;
-                color: #21252b;
+                color: @raven-text;
                 text-decoration: none;
-                border: 1px solid #0978c9;
+                border: 1px solid @visto-blue;
             }
         }
     }
@@ -249,14 +251,14 @@ select:hover {
     width: 100%;
     padding: 3px 0 5px 22px;
     .labelPills {
-        background: #EDF2F8;
+        background: @periwinkle-gray;
         margin: 0 5px 5px 0;
         padding: 7px 8px;
         display: inline-block;
         float: left;
         font: 12px "Avenir";
         line-height: 100%;
-        border: 1px solid #BFC9D7;
+        border: 1px solid @stroke-gray-borders;
         border-radius: 3px;
     }
     .brand_search_highlight {
