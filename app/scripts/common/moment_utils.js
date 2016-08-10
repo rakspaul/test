@@ -162,7 +162,7 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
                 parsedDate = Date.parse(d[1] + '/' + d[2] + '/' + d[0] + ' ' + dateTime.slice(11, 19) + ' UTC');
                 tz = this.getTimezoneName();
 
-                return moment(parsedDate).tz(tz).format(format) ;
+                return moment(parsedDate).tz(tz) && moment(parsedDate).tz(tz).format(format) ;
             }
         };
 

@@ -86,7 +86,7 @@ define(['angularAMD'], function (angularAMD) {
             var today = this.momentInNetworkTZ.today(),
                 endDate = this.momentInNetworkTZ.newMoment(this.endDate),
                 startDate = this.momentInNetworkTZ.newMoment(this.startDate),
-                totalDays = endDate.diff(startDate, 'days'),
+                totalDays = endDate && endDate.diff(startDate, 'days'),
                 daysOver = Math.round(today.diff(startDate, 'days', true));
 
             if (today.isBefore(startDate)) {
