@@ -2,7 +2,7 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
     angularAMD.service('routeResolvers', function () {
         var
             accountDataWithReportList = function ($location, $route, accountService, collectiveReportModel, advertiserModel, brandsModel, campaignSelectModel,
-                                                  vistoconfig,deferred) {
+                                                  vistoconfig, deferred) {
                 accountService
                     .fetchAccountData($route.current.params.accountId)
                     .then(function () {
@@ -229,7 +229,7 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
             dashboardHeaderResolver2 = function ($q, $location, $route, accountService, subAccountService, advertiserModel, vistoconfig) {
                 var deferred = $q.defer(),
                     params = $route.current.params;
-
+//console.log('rrp = ', rrp)
                 accountService
                     .fetchAccountList()
                     .then(function () {
