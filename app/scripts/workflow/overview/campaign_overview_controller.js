@@ -746,11 +746,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         amountLeft = result[0].length;
 
                         $scope.sizeString = creativeSizeLimit.join(', ').replace(/X/g, 'x') +
-                            ' <span class="blueTxt" title="' +
-                            remainingCreativeSize +
-                            '" >+' +
-                            amountLeft +
-                            '</span>';
+                            $sce.trustAsHtml(' <span class="blueTxt" title="' + remainingCreativeSize + '" >+' + amountLeft + '</span>');
                     } else {
                         $scope.sizeString = result[0] && result[0].join(', ');
                     }
@@ -763,7 +759,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }else {
                 $scope.sizeString = constants.WF_NOT_SET;
             }
-
             return $scope.sizeString;
         };
 
