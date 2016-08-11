@@ -1165,10 +1165,10 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MEDIA_PLAN_CLONE ='Media Plan Clone';
         this.MEDIA_PLAN_WARNING_MESSAGE = 'You will lose your changes if you leave this page. Are you sure?';
 
-        this.MEDIA_PLAN_TOTAL = 'Media Plan Total:*';
-        this.AD_GROUP_TOTAL = 'Ad Group Total:*';
-        this.CAMPAIGN_TOTAL = 'Campaign Total:*';
-        this.LINE_ITME_TOTAL = 'Line Item Total:*';
+        this.MEDIA_PLAN_TOTAL = 'Media Plan Total:';
+        this.AD_GROUP_TOTAL = 'Ad Group Total:';
+        this.CAMPAIGN_TOTAL = 'Campaign Total:';
+        this.LINE_ITME_TOTAL = 'Line Item Total:';
         this.INCLUDES_FIXED_COSTS = '*Includes Fixed Costs';
         this.EXCLUDES_MEDIA_PLAN_FIXED_COSTS = '*Excludes Media Plan fixed costs';
 
