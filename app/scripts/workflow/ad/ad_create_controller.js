@@ -1623,10 +1623,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 adData.budgetExceeded ||
                 adData.adBudgetExceedUnallocated ||
                 !adData.adName ||
-                (adData.targetValue.length && adData.targetValue.length === 0) ||
-                (adData.unitCost.length && adData.unitCost.length === 0) ||
-                (adData.totalAdBudget.length && adData.totalAdBudget.length === 0) ||
-                (adData.budgetAmount.length && adData.budgetAmount.length === 0)
+                (adData.targetValue && adData.targetValue.length === 0) ||
+                (adData.unitCost && adData.unitCost.length === 0) ||
+                (adData.totalAdBudget && adData.totalAdBudget.length === 0) ||
+                (adData.budgetAmount && adData.budgetAmount.length === 0)
             );
         };
 
