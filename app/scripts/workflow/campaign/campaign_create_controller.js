@@ -623,7 +623,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 dateTimeZone,
                 i,
                 clientId = vistoconfig.getSelectedAccountId(),
-                campaignId = vistoconfig.getSelectedCampaignId()
+                campaignId = vistoconfig.getSelectedCampaignId(),
                 isDateChanged = true;
 
             saveMediaPlanBeforeLineItem  = saveMediaPlanBeforeLineItem || false;

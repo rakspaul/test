@@ -28,7 +28,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
 
             var orderBy = $filter('orderBy'),
                 campaign = campaignListService,
-                Campaigns = campaignListModel,
+                //Campaigns = campaignListModel,
                 getSetCampaignDetails,
 
                 // API call for campaign details
