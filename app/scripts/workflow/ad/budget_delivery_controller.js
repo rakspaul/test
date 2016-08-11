@@ -287,11 +287,13 @@ define(['angularAMD', '../../common/services/constants_service', 'common/moment_
 
                 $('.external_chkbox').hide();
 
-                if (type === 'VTC' || type === 'CTR' || type === 'ACTION RATE') {
+                if (type === 'VTC' || type === 'CTR' || type === 'ACTION RATE' || type === 'SUSPICIOUS ACTIVITY RATE' || type === 'VIEWABLE RATE') {
                     elem.closest('.symbolAbs')
                         .find('.KPI_symbol')
                         .addClass('perSymbol')
                         .html('%');
+                }else if(type === 'VIEWABLE IMPRESSIONS'){
+                    elem.closest('.symbolAbs').find('.KPI_symbol').html('#');
                 }
             } else {
                 elem.closest('.symbolAbs').find('.KPI_symbol').html('#');
@@ -303,6 +305,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/moment_
                     $('.budget_holder_input').find('input[type="text"]').attr('disabled', true);
                     impressionsHolder.find('.external_chkbox').removeClass('disabled');
                 }
+
             }
         };
 
