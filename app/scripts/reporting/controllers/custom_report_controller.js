@@ -2081,11 +2081,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
             // Fix for CRPT-5523 (End date not showing correctly.
             $scope.handleEndDate = function (endDate) {
                 if (endDate !== 'NA') {
-                    if (Number(moment(endDate).get('hour')) > 4) {
-                        endDate = moment(endDate).subtract(13, 'hours');
-                    }
-
-                    endDate = momentService.formatDate(endDate, 'D MMM YYYY');
+                    endDate = momentService.utcToLocalTime(endDate, 'D MMM YYYY');
                 }
 
                 return endDate;
