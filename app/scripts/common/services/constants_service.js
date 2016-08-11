@@ -96,7 +96,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.VTC = 'VTC';
         this.CPM = 'CPM';
         this.SUSPICIOUS_ACTIVITY = 'Suspicious Activity %';
-        this.VIEWABLE_IMPRESSION = 'Viewable Impression';
+        this.VIEWABLE_IMPRESSION = 'Viewable Impressions';
         this.VIEWABLE_RATE = 'Viewable Rate';
         this.ESTREACH = 'Estimated Pool Size';
         this.CPC = 'CPC';
