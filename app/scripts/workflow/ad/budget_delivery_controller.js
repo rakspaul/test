@@ -254,7 +254,8 @@ define(['angularAMD', '../../common/services/constants_service', 'common/moment_
 
         $scope.select_kpi = function (event, type) {
             var elem = $(event.target),
-                impressionsHolder = $('.impressions_holder');
+                impressionsHolder = $('.impressions_holder'),
+                percentageSymbolArr = ['VTC', 'CTR', 'ACTION RATE', 'SUSPICIOUS ACTIVITY RATE', 'VIEWABLE RATE'];
 
             $scope.adData.primaryKpi = type;
             $scope.adData.targetValue = '';
@@ -266,6 +267,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/moment_
             elem.closest('.symbolAbs').find('.KPI_symbol').removeClass('perSymbol');
 
             if (type !== 'IMPRESSIONS') {
+
                 $('#targetUnitCost_squaredFour').prop('checked', false);
 
                 impressionsHolder
@@ -287,7 +289,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/moment_
 
                 $('.external_chkbox').hide();
 
-                if (type === 'VTC' || type === 'CTR' || type === 'ACTION RATE' || type === 'SUSPICIOUS ACTIVITY RATE' || type === 'VIEWABLE RATE') {
+                if($.inArray(type, percentageSymbolArr) !== -1){
                     elem.closest('.symbolAbs')
                         .find('.KPI_symbol')
                         .addClass('perSymbol')
