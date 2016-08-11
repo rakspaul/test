@@ -229,7 +229,7 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
             dashboardHeaderResolver2 = function (args) {
                 var deferred = args.$q.defer(),
                     params = args.$route.current.params;
-console.log('args = ', args);
+
                 args.accountService
                     .fetchAccountList()
                     .then(function () {
