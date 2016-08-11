@@ -225,7 +225,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
             setTimeout(function () {
                 if (!(mainMenuHolder.is(':hover') ||
-                    $('#help-menu').is(':hover') ||
+                    //$('#help-menu').is(':hover') ||
                     $('#user-menu').is(':hover') ||
                     $('#reports-menu').is(':hover') ||
                     $('#admin-menu').is(':hover')) ||
@@ -532,7 +532,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             $scope.showFiles = false;
 
             $scope.openHelp = function() {
-                var clientId = loginModel.getMasterClient().id;
                 var url  = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/userguide/download';
                 $http.get(url, {responseType:'arraybuffer'})
                     .success(function (response) {

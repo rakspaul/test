@@ -1510,8 +1510,7 @@
             <!--End Date end_time-->
             <div class="each_col"
                  data-ng-if="customReportData.end_time !== ''"
-                 data-ng-bind="(customReportData.end_time && (customReportData.end_time !== 'NA')) ?
-                    (customReportData.end_time | formatDate:'D MMM YYYY') :'NA'">
+                 data-ng-bind="handleEndDate(customReportData.end_time)">
             </div>
             <!--Booked Impressions booked_impressions-->
             <div class="each_col" ng-if="customReportData.booked_impressions != null"

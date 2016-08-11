@@ -548,8 +548,7 @@
                                 </div>
                             </div>
 
-                            <div class="pull-left" style="margin-left: 20px;"
-                                 data-ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
+                            <div class="pull-left" style="margin-left: 20px;" data-ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
                                 <div class="pull-left greyTxt" data-ng-bind="textConstants.ACTION_RATE"></div>
                                 <div class="pull-left clearLeft"
                                      data-ng-bind="((campaigns.cdbDataMap[campaign.orderId].action_rate > 0) ||
@@ -619,8 +618,7 @@
                         <div class="col-md-4 each_col col_spend">
                             <div class="col_heading clearfix">{{textConstants.SPEND}}
                                 <span class="metric_val"
-                                      data-ng-bind="(campaigns.spend > 0) ? (
-                                        campaigns.spend | currency : undefined : 0) : '-'">
+                                      data-ng-bind="(campaigns.spend > 0) ? (campaigns.spend | currency : undefined):''">
                                 </span>
                             </div>
                             <div class="metric_graph {{getSpendClass(campaign)}}">
@@ -659,7 +657,7 @@
                         </div>
 
                         <!--Column 3-->
-                        <div class="col-md-4 each_col col_vtc" 
+                        <div class="col-md-4 each_col col_vtc"
                              data-ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate > 0">
                             <div class="col_heading clearfix" data-ng-bind="textConstants.QUARTILE_DETAILS"></div>
                             <div class="quartile_details_graph"
@@ -679,10 +677,8 @@
                           class="no-data-common"
                           data-ng-bind="textConstants.NO_LINKED_STRATEGIES">
                     </span>
-                    <div campaign-sort campaigns="campaigns"
-                         data-ng-show="campaign.campaignStrategies.length > 0">
-                    </div>
-                    <div class="total_campaign_list_holder">
+                    <div campaign-sort campaigns="campaigns" data-ng-show="campaign.campaignStrategies.length > 0">
+                    </div><div class="total_campaign_list_holder">
                         <!--reusing the campaign and strategy partial view -->
                         <div campaign-strategy-card
                              campaign="campaign"

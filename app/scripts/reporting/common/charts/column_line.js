@@ -30,11 +30,15 @@ define(['angularAMD', '../../../common/utils', 'common/services/constants_servic
                 },
 
                 columnChart = function (chartData, kpIType) {
+
                     var xData = [],
                         impLine = [],
                         kpiColumn = [],
                         i,
-                        kpi_value;
+                        kpi_value,
+                        kpilongText = ['Post Click CPA', 'Suspicious Activity %', 'Viewable Impressions', 'Viewable' +
+                        ' Rate'],
+                        xPos =  (kpilongText.indexOf(kpIType) !== -1) ? 95 : -8;
 
                     kpIType = kpIType.toLowerCase();
 
@@ -225,7 +229,7 @@ define(['angularAMD', '../../../common/utils', 'common/services/constants_servic
 
                                         rotation: 0,
                                         y: -10,
-                                        x: -8
+                                        x: xPos
                                     },
 
                                     labels: {

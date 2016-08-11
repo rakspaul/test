@@ -72,7 +72,8 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                 actionRate: 0,
                                 chart: false,
                                 momentInNetworkTZ: momentInNetworkTZ,
-                                is_tracking: tactic.is_tracking
+                                is_tracking: tactic.is_tracking,
+                                spend:tactic.spend
                             };
 
                             mediaTypeIcon = mediaTypeIconMap[tactic.media_type.toLowerCase()];
@@ -147,12 +148,13 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                         if (!angular.isString(tacticMetrics)) {
                             tactic.adFormats = domainReports.checkForCampaignFormat(tacticMetrics.adFormat);
                             tactic.totalImpressions = tacticMetrics.impressions;
-                            tactic.grossRev = _.find(lineItemData[selectedLineItemId], function(val){
+                            /*tactic.grossRev = _.find(lineItemData[selectedLineItemId], function(val){
                                 return (val.ad_id === tactic.id);
-                            });
-                            if(tactic.grossRev && tactic.grossRev.gross_rev) {
+                            });*/
+                            /*if(tactic.grossRev && tactic.grossRev.gross_rev) {
                                 tactic.grossRev = tactic.grossRev.gross_rev;
-                            }
+                            }*/
+
                             tactic.ctr = tacticMetrics.ctr * 100;
                             tactic.actionRate = tacticMetrics.action_rate;
                             tactic.vtcData = vtcMetricsJsonModifier(tacticMetrics.video_metrics);
@@ -169,6 +171,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                             tactic.map.clicks = tacticMetrics.clicks;
                             tactic.map.action_rate = tacticMetrics.action_rate;
                             tactic.map.ctr = tacticMetrics.ctr * 100;
+                            tactic.spend = tacticMetrics.spend;
                         }
                     },
 
@@ -450,11 +453,9 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                         // TODO: optimise this a bit futher after introducing pagination
                                         // TODO: separate list data call and data manipulation
                                         if (data.length <= pageSize) {
-                                            campaign.campaignStrategies = createStrategyObject(data, timePeriod,
-                                                campaign, kpiType, kpiValue);
+                                            campaign.campaignStrategies = createStrategyObject(data, timePeriod, campaign, kpiType, kpiValue);
                                         } else {
-                                            campaign.campaignStrategies = createStrategyObject(data.slice(0, pageSize),
-                                                timePeriod, campaign, kpiType, kpiValue);
+                                            campaign.campaignStrategies = createStrategyObject(data.slice(0, pageSize), timePeriod, campaign, kpiType, kpiValue);
 
                                             campaign.campaignStrategiesLoadMore = data.slice(pageSize);
                                         }

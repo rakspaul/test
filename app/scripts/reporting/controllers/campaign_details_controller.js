@@ -1342,7 +1342,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                         return spendDifference;
                     }
 
-                    spend = campaignCDBObj.getGrossRev();
+                    spend = campaignCDBObj.getSpend();
                     expectedSpend = campaign.expectedMediaCost;
 
                     return $scope.getPercentDiff(expectedSpend, spend);
@@ -1363,7 +1363,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                         return spendDifference;
                     }
 
-                    spend = campaignCDBObj.getGrossRev();
+                    spend = campaignCDBObj.getSpend();
                     totalSpend = campaign.totalMediaCost;
 
                     return $scope.getPercentDiff(totalSpend, spend);
