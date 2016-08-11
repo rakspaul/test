@@ -351,7 +351,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.METRICS = 'Metrics';
         this.METRIC = 'Metric';
         this.SELECTED_METRICS = 'Selected Metrics';
-        this.LOAD_MORE_STRATEGIES = 'View more Ad Groups.';
+        this.LOAD_MORE_STRATEGIES = 'Load more Line Items';
         this.LOAD_MORE_TACTICS = 'View more Ads.';
 
         this.STATUS = 'Status';
