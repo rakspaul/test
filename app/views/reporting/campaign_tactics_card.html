@@ -27,8 +27,7 @@
                                                            txt="{{tactic.audience_targeting}}">
                                 </targeting-icon-with-hover>
                             </div>
-                            <div data-ng-if="(tactic.geo_targeting !== 'null' &&
-                                    tactic.geo_targeting !== '' && tactic.geo_targeting.length > 0)">
+                            <div data-ng-if="(tactic.geo_targeting !== 'null' && tactic.geo_targeting !== '' && tactic.geo_targeting.length > 0)">
                                 <targeting-icon-with-hover class-name="globe-icon"
                                                            txt="{{tactic.geo_targeting}}">
                                 </targeting-icon-with-hover>
@@ -97,7 +96,7 @@
                 <div class="col-md-6 each_campaign_section metric_campaign_section">
                     <div class="clearfix metric_graph_header">
                         <span class="metric_title" data-ng-bind="textConstants.SPEND"></span>
-                        <span class="metric_val" data-ng-bind="tactic.grossRev | currency : undefined : 2"></span>
+                        <span class="metric_val" ng-if="tactic.spend > 0" data-ng-bind="tactic.spend | currency : undefined"></span>
                     </div>
                     <div class="metric_graph {{getSpendClassForTactic(tactic)}}">
                         <div class="full_metric_graph">
