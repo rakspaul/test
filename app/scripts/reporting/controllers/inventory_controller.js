@@ -3,6 +3,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
     'common/services/data_service', 'common/services/constants_service', 'reporting/timePeriod/time_period_model',
     'login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
     'common/services/url_service', 'reporting/models/domain_reports', 'common/utils',
+    'common/services/vistoconfig_service',
     'reporting/kpiSelect/kpi_select_directive', 'reporting/kpiSelect/kpi_select_controller',
     'reporting/strategySelect/strategy_select_directive', 'reporting/strategySelect/strategy_select_controller',
     'reporting/timePeriod/time_period_pick_directive'], function (angularAMD) {
@@ -11,8 +12,10 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
     angularAMD.controller('InventoryController', function ($scope, kpiSelectModel, campaignSelectModel,
                                                            strategySelectModel, columnline, dataService, constants,
                                                            timePeriodModel, loginModel, advertiserModel,
-                                                           brandsModel, urlService, domainReports, utils) {
-        var inventoryWrapper =  {
+                                                           brandsModel, urlService, domainReports, utils,
+                                                           vistoconfig) {
+        var _curCtrl = this,
+            inventoryWrapper =  {
             // Function called to draw the Strategy chart
             getStrategyChartData: function () {
                 var inventoryQueryIdMapperWithAllAdsGroup = {
@@ -108,7 +111,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                                     if ($scope.strategyTableData.length > 0) {
                                         $scope.inventoryChart =
                                             columnline.highChart($scope.strategyTableData,
-                                                $scope.selectedFilters.kpi_type);
+                                                _curCtrl.kpi_display);
                                     } else {
                                         $scope.inventoryChart = false;
                                     }
@@ -337,7 +340,14 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 inventoryWrapper.callBackStrategyChange();
             }
         });
-
+        $scope.$watch('selectedFilters.kpi_type', function (v) {
+            var kpi_display = _.find(vistoconfig.kpiDropDown,function(obj){
+                return obj.kpi === (v).toLowerCase();
+            });
+            if(kpi_display && kpi_display.displayName){
+                _curCtrl.kpi_display = kpi_display.displayName
+            }
+        });
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event, strategy) {
             $scope.selectedFilters.time_filter = strategy;
             inventoryWrapper.callBackStrategyChange();
