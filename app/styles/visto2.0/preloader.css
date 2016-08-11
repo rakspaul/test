@@ -254,3 +254,88 @@
   background: transparent;
   border-color: rgba(9, 120, 201, 0.75) rgba(9, 120, 201, 0.75) #ececec #ececec;
 }
+/*preloader which hides in 1sec*/
+.commonPreLoaderHolder {
+  position: absolute;
+  z-index: 9999999999;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+}
+.commonPreLoader {
+  position: relative;
+  vertical-align: middle;
+  margin: 0em;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  width: 52px;
+  height: 52px;
+  font-size: 11px;
+  text-align: center;
+  z-index: 1000;
+  top: 50% !important;
+  left: 50% !important;
+  margin-left: -26px !important;
+  margin-top: -26px !important;
+}
+.commonPreLoader:before {
+  position: absolute;
+  content: '';
+  top: 0%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 500rem;
+  border: 0.2em solid #ececec;
+}
+.commonPreLoader:after {
+  position: absolute;
+  content: '';
+  top: 0%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  -webkit-animation: loader 0.6s linear;
+  animation: loader 0.6s linear;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  border-radius: 500rem;
+  border-color: #0978c9 transparent transparent;
+  border-style: solid;
+  border-width: 0.2em;
+  box-shadow: 0px 0px 0px 1px transparent;
+}
+.commonPreLoader:before,
+.commonPreLoader:after {
+  width: 4.5714em;
+  height: 4.5714em;
+  margin: 0em 0em 0em -2.2857em;
+}
+.hideLoaderDiv {
+  -moz-animation: cssAnimation 0s ease-in 1s forwards;
+  /* Firefox */
+  -webkit-animation: cssAnimation 0s ease-in 1s forwards;
+  /* Safari and Chrome */
+  -o-animation: cssAnimation 0s ease-in 1s forwards;
+  /* Opera */
+  animation: cssAnimation 0s ease-in 1s forwards;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+@keyframes cssAnimation {
+  to {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+}
+@-webkit-keyframes cssAnimation {
+  to {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+  }
+}
