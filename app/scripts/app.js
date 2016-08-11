@@ -61,7 +61,7 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     templateUrl: assets.html_reports_login,
                     title: 'Login',
                     controller: 'loginController',
-                    showHeader : false,
+                    showHeader: false,
                     controllerUrl: 'login/login_controller'
                 }))
 
@@ -70,12 +70,12 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     controller: 'DashboardController',
                     controllerUrl: 'reporting/dashboard/dashboard_controller',
                     title: 'Dashboard',
-                    showHeader : true,
+                    showHeader: true,
                     bodyclass: 'dashboard_body',
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, advertiserModel, brandsModel, vistoconfig, routeResolvers) {
-                            return routeResolvers.dashboardHeaderResolver($q, $location, $route, accountService, advertiserModel, brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.dashboardHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -85,12 +85,12 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     controller: 'DashboardController',
                     controllerUrl: 'reporting/dashboard/dashboard_controller',
                     title: 'Dashboard',
-                    showHeader : true,
+                    showHeader: true,
                     bodyclass: 'dashboard_body',
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, advertiserModel, brandsModel, vistoconfig, routeResolvers) {
-                            return routeResolvers.dashboardHeaderResolver($q, $location, $route, accountService, advertiserModel, brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.dashboardHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -100,43 +100,44 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     controller: 'DashboardController',
                     controllerUrl: 'reporting/dashboard/dashboard_controller',
                     title: 'Dashboard',
-                    showHeader : true,
+                    showHeader: true,
                     bodyclass: 'dashboard_body',
 
+                    // TODO: Move resolve header callback to routeResolvers service
                     resolve: {
-                        header: function ($q, $location, $route, accountService, advertiserModel, brandsModel, $timeout, vistoconfig, routeResolvers) {
-                            var deferrer = $q.defer(),
-                                params = $route.current.params;
+                        header: function (routeResolversParams, routeResolvers) {
+                            var deferrer = routeResolversParams.$q.defer(),
+                                params = routeResolversParams.$route.current.params;
 
-                            routeResolvers.dashboardHeaderResolver($q, $location, $route, accountService, advertiserModel, brandsModel, vistoconfig)
+                            routeResolvers.dashboardHeaderResolver(routeResolversParams)
                                 .then(function () {
-                                    advertiserModel
+                                    routeResolversParams.advertiserModel
                                         .fetchAdvertiserList(params.accountId)
                                         .then(function () {
-                                            if (advertiserModel.allowedAdvertiser(params.advertiserId)) {
-                                                brandsModel
+                                            if (routeResolversParams.advertiserModel.allowedAdvertiser(params.advertiserId)) {
+                                                routeResolversParams.brandsModel
                                                     .fetchBrandList(params.accountId, params.advertiserId)
                                                     .then(function () {
-                                                        if (brandsModel.allowedBrand(params.brandId)) {
+                                                        if (routeResolversParams.brandsModel.allowedBrand(params.brandId)) {
                                                             deferrer.resolve();
 
                                                             $timeout(function () {
                                                                 // hack -> wait till the dashboard (with header) page loads
-                                                                params.advertiserId && routeResolvers.fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
+                                                                params.advertiserId && routeResolvers.fetchCurrentAdvertiser(routeResolversParams);
 
                                                                 params.advertiserId && params.brandId &&
-                                                                routeResolvers.fetchCurrentBrand($location, $route, brandsModel, vistoconfig);
+                                                                routeResolvers.fetchCurrentBrand(routeResolversParams);
                                                             }, 1000);
                                                         } else {
                                                             deferrer.reject('brand not allowed');
                                                             console.log('brand not allowed');
-                                                            $location.url('/tmp');
+                                                            routeResolversParams.$location.url('/tmp');
                                                         }
                                                     });
                                             } else {
                                                 deferrer.reject('advertiser not allowed');
                                                 console.log('advertiser not allowed');
-                                                $location.url('/tmp');
+                                                routeResolversParams.$location.url('/tmp');
                                             }
                                         });
                                 });
@@ -151,13 +152,12 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     controller: 'DashboardController',
                     controllerUrl: 'reporting/dashboard/dashboard_controller',
                     title: 'Dashboard',
-                    showHeader : true,
+                    showHeader: true,
                     bodyclass: 'dashboard_body',
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, advertiserModel, vistoconfig, routeResolvers) {
-                            // TODO: Start with this!!!
-                            return routeResolvers.dashboardHeaderResolver2($q, $location, $route, accountService, subAccountService, advertiserModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.dashboardHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -167,12 +167,12 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     controller: 'DashboardController',
                     controllerUrl: 'reporting/dashboard/dashboard_controller',
                     title: 'Dashboard',
-                    showHeader : true,
+                    showHeader: true,
                     bodyclass: 'dashboard_body',
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, advertiserModel, brandsModel, vistoconfig, routeResolvers) {
-                            return routeResolvers.dashboardHeaderResolver2($q, $location, $route, accountService, subAccountService, advertiserModel, brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.dashboardHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -182,41 +182,42 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     controller: 'DashboardController',
                     controllerUrl: 'reporting/dashboard/dashboard_controller',
                     title: 'Dashboard',
-                    showHeader : true,
+                    showHeader: true,
                     bodyclass: 'dashboard_body',
 
+                    // TODO: Move resolve header callback to routeResolvers service
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, advertiserModel, brandsModel, $timeout, vistoconfig, routeResolvers) {
-                            var deferrer = $q.defer(),
-                                params = $route.current.params;
+                        header: function (routeResolversParams, routeResolvers) {
+                            var deferrer = routeResolversParams.$q.defer(),
+                                params = routeResolversParams.$route.current.params;
 
-                            dashboardHeaderResolver2($q, $location, $route, accountService, subAccountService, advertiserModel, brandsModel, vistoconfig)
+                            routeResolvers.dashboardHeaderResolver2(routeResolversParams)
                                 .then(function () {
-                                    advertiserModel
+                                    routeResolversParams.advertiserModel
                                         .fetchAdvertiserList(params.subAccountId)
                                         .then(function () {
-                                            if (advertiserModel.allowedAdvertiser(params.advertiserId)) {
-                                                brandsModel
+                                            if (routeResolversParams.advertiserModel.allowedAdvertiser(params.advertiserId)) {
+                                                routeResolversParams.brandsModel
                                                     .fetchBrandList(params.subAccountId, params.advertiserId)
                                                     .then(function () {
-                                                        if (brandsModel.allowedBrand(params.brandId)) {
+                                                        if (routeResolversParams.brandsModel.allowedBrand(params.brandId)) {
                                                             deferrer.resolve();
 
-                                                            $timeout(function () {
+                                                            $timeout(function () { // jshint:ignore
                                                                 // hack -> wait till the dashboard (with header) page loads
-                                                                params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
-                                                                params.advertiserId && params.brandId && fetchCurrentBrand($location, $route, brandsModel, vistoconfig);
+                                                                params.advertiserId && routeResolvers.fetchCurrentAdvertiser(routeResolversParams);
+                                                                params.advertiserId && params.brandId && routeResolvers.fetchCurrentBrand(routeResolversParams);
                                                             }, 1000);
                                                         } else {
                                                             deferrer.reject('brand not allowed');
                                                             console.log('brand not allowed');
-                                                            $location.url('/tmp');
+                                                            routeResolversParams.$location.url('/tmp');
                                                         }
                                                     });
                                             } else {
                                                 deferrer.reject('advertiser not allowed');
                                                 console.log('advertiser not allowed');
-                                                $location.url('/tmp');
+                                                routeResolversParams.$location.url('/tmp');
                                             }
                                         });
                                 });
@@ -231,13 +232,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
                     controllerUrl: 'reporting/controllers/campaign_reports_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolverWOCampaign(
-                                $q, $location, $route, accountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolverWOCampaign(routeResolversParams);
                         }
                     }
                 }))
@@ -247,12 +246,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
                     controllerUrl: 'reporting/controllers/campaign_reports_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolverWOCampaign(
-                                $q, $location, $route, accountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolverWOCampaign(routeResolversParams);
                         }
                     }
                 }))
@@ -262,12 +260,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
                     controllerUrl: 'reporting/controllers/campaign_reports_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolverWOCampaign(
-                                $q, $location, $route, accountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolverWOCampaign(routeResolversParams);
                         }
                     }
                 }))
@@ -277,14 +274,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports Overview',
                     controller: 'CampaignDetailsController',
                     controllerUrl: 'reporting/controllers/campaign_details_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService,  campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig,
-                                          routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(
-                                $q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -294,14 +288,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
                     controllerUrl: 'reporting/controllers/performance_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig,
-                                          routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(
-                                $q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -311,12 +302,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Cost',
                     controller: 'CostController',
                     controllerUrl: 'reporting/controllers/cost_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(
-                                $q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -326,14 +316,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Platform',
                     controller: 'PlatformController',
                     controllerUrl: 'reporting/controllers/platform_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig,
-                                          routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(
-                                $q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -343,14 +330,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Inventory',
                     controller: 'InventoryController',
                     controllerUrl: 'reporting/controllers/inventory_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig,
-                                          routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(
-                                $q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -360,14 +344,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Quality',
                     controller: 'ViewabilityController',
                     controllerUrl: 'reporting/controllers/viewability_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig,
-                                          routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(
-                                $q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -377,14 +358,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Optimization Impact',
                     controller: 'OptimizationController',
                     controllerUrl: 'reporting/controllers/optimization_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig,
-                                          routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(
-                                $q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -394,14 +372,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports Overview',
                     controller: 'CampaignDetailsController',
                     controllerUrl: 'reporting/controllers/campaign_details_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService,  campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig,
-                                          routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(
-                                $q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -411,12 +386,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
                     controllerUrl: 'reporting/controllers/performance_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(
-                                $q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -426,14 +400,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Cost',
                     controller: 'CostController',
                     controllerUrl: 'reporting/controllers/cost_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig,
-                                          routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(
-                                $q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -443,14 +414,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Platform',
                     controller: 'PlatformController',
                     controllerUrl: 'reporting/controllers/platform_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig,
-                                          routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(
-                                $q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -460,14 +428,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Inventory',
                     controller: 'InventoryController',
                     controllerUrl: 'reporting/controllers/inventory_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig,
-                                          routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(
-                                $q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -477,14 +442,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Quality',
                     controller: 'ViewabilityController',
                     controllerUrl: 'reporting/controllers/viewability_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig,
-                                          routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(
-                                $q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -494,14 +456,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Optimization Impact',
                     controller: 'OptimizationController',
                     controllerUrl: 'reporting/controllers/optimization_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig,
-                                          routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(
-                                $q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -511,14 +470,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
                     controllerUrl: 'reporting/controllers/campaign_reports_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig,
-                                          routeResolvers) {
-                            return routeResolvers.reportsHeaderResolverWOCampaign2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolverWOCampaign2(routeResolversParams);
                         }
                     }
                 }))
@@ -528,14 +484,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
                     controllerUrl: 'reporting/controllers/campaign_reports_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig,
-                                          routeResolvers) {
-                            return routeResolvers.reportsHeaderResolverWOCampaign2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolverWOCampaign2(routeResolversParams);
                         }
                     }
                 }))
@@ -545,14 +498,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
                     controllerUrl: 'reporting/controllers/campaign_reports_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig,
-                                          routeResolvers) {
-                            return routeResolvers.reportsHeaderResolverWOCampaign2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolverWOCampaign2(routeResolversParams);
                         }
                     }
                 }))
@@ -562,14 +512,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
                     controllerUrl: 'reporting/controllers/campaign_reports_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig,
-                                          routeResolvers) {
-                            return routeResolvers.reportsHeaderResolverWOCampaign2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolverWOCampaign2(routeResolversParams);
                         }
                     }
                 }))
@@ -579,14 +526,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports Overview',
                     controller: 'CampaignDetailsController',
                     controllerUrl: 'reporting/controllers/campaign_details_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -596,14 +540,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports Overview',
                     controller: 'CampaignDetailsController',
                     controllerUrl: 'reporting/controllers/campaign_details_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -613,14 +554,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
                     controllerUrl: 'reporting/controllers/performance_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -630,14 +568,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
                     controllerUrl: 'reporting/controllers/performance_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -647,14 +582,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Cost',
                     controller: 'CostController',
                     controllerUrl: 'reporting/controllers/cost_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -664,14 +596,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Cost',
                     controller: 'CostController',
                     controllerUrl: 'reporting/controllers/cost_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -681,14 +610,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Platform',
                     controller: 'PlatformController',
                     controllerUrl: 'reporting/controllers/platform_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -698,14 +624,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Platform',
                     controller: 'PlatformController',
                     controllerUrl: 'reporting/controllers/platform_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -715,14 +638,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Inventory',
                     controller: 'InventoryController',
                     controllerUrl: 'reporting/controllers/inventory_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -732,14 +652,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Inventory',
                     controller: 'InventoryController',
                     controllerUrl: 'reporting/controllers/inventory_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -749,14 +666,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Quality',
                     controller: 'ViewabilityController',
                     controllerUrl: 'reporting/controllers/viewability_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2();
                         }
                     }
                 }))
@@ -766,14 +680,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Quality',
                     controller: 'ViewabilityController',
                     controllerUrl: 'reporting/controllers/viewability_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -783,14 +694,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Optimization Impact',
                     controller: 'OptimizationController',
                     controllerUrl: 'reporting/controllers/optimization_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2();
                         }
                     }
                 }))
@@ -800,14 +708,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Optimization Impact',
                     controller: 'OptimizationController',
                     controllerUrl: 'reporting/controllers/optimization_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -817,14 +722,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports Overview',
                     controller: 'CampaignDetailsController',
                     controllerUrl: 'reporting/controllers/campaign_details_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -834,14 +736,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
                     controllerUrl: 'reporting/controllers/performance_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -851,14 +750,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Cost',
                     controller: 'CostController',
                     controllerUrl: 'reporting/controllers/cost_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -868,65 +764,53 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Reports - Platform',
                     controller: 'PlatformController',
                     controllerUrl: 'reporting/controllers/platform_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel,
-                                          vistoconfig) {
-                            return reportsHeaderResolver2(
-                                $q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig
-                            );
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
 
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
-                    '/:campaignId/li/:lineitemId/inventory', angularAMD.route({
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/inventory', angularAMD.route({
                     templateUrl: assets.html_inventory,
                     title: 'Reports - Inventory',
                     controller: 'InventoryController',
                     controllerUrl: 'reporting/controllers/inventory_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
-                                          strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
-                            return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
 
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
-                    '/:campaignId/li/:lineitemId/quality', angularAMD.route({
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/quality', angularAMD.route({
                     templateUrl: assets.html_viewability,
                     title: 'Reports - Quality',
                     controller: 'ViewabilityController',
                     controllerUrl: 'reporting/controllers/viewability_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
-                                          strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
-                            return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
 
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans' +
-                    '/:campaignId/li/:lineitemId/optimization', angularAMD.route({
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/optimization', angularAMD.route({
                     templateUrl: assets.html_optimization,
                     title: 'Reports - Optimization Impact',
                     controller: 'OptimizationController',
                     controllerUrl: 'reporting/controllers/optimization_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, campaignSelectModel,
-                                          strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
-                            return reportsHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -935,12 +819,10 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     templateUrl: assets.html_campaign_list,
                     title: 'Media Plan List',
                     reloadOnSearch : false,
-                    showHeader : true,
+                    showHeader: true,
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService,
-                                          advertiserModel, brandsModel, vistoconfig) {
-                            return mediaPlansHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                advertiserModel, brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -949,13 +831,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     templateUrl: assets.html_campaign_list,
                     title: 'Media Plan List',
                     reloadOnSearch : false,
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, advertiserModel,
-                                          brandsModel, vistoconfig) {
-                            return mediaPlansHeaderResolver($q, $location, $route, accountService, advertiserModel,
-                                brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -964,13 +844,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     templateUrl: assets.html_campaign_list,
                     title: 'Media Plan List',
                     reloadOnSearch : false,
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, advertiserModel,
-                                          brandsModel, vistoconfig) {
-                            return mediaPlansHeaderResolver($q, $location, $route, accountService,
-                                advertiserModel, brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -979,29 +857,24 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     templateUrl: assets.html_campaign_list,
                     title: 'Media Plan List',
                     reloadOnSearch : false,
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, advertiserModel,
-                                          brandsModel, vistoconfig) {
-                            return mediaPlansHeaderResolver($q, $location, $route, accountService,
-                                advertiserModel, brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
-
 
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplans', angularAMD.route({
                     templateUrl: assets.html_campaign_list,
                     title: 'Media Plan List',
                     reloadOnSearch : false,
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService,
-                                          advertiserModel, brandsModel, vistoconfig) {
-                            return mediaPlansHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                advertiserModel, brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -1010,13 +883,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     templateUrl: assets.html_campaign_list,
                     title: 'Media Plan List',
                     reloadOnSearch : false,
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, advertiserModel,
-                                          brandsModel, vistoconfig) {
-                            return mediaPlansHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                advertiserModel, brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -1026,12 +897,12 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Scheduled Reports',
                     controller: 'ReportsScheduleListController',
                     controllerUrl: 'reporting/collectiveReport/reports_schedule_list_controller',
-                    showHeader : true,
+                    showHeader: true,
                     css: assets.css_reports_schedule_list,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, vistoconfig) {
-                            return scheduleReportListCreateResolver($q, $location, $route, accountService, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.scheduleReportListCreateResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -1041,12 +912,12 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Report Builder',
                     controller: 'CustomReportController',
                     controllerUrl: 'reporting/controllers/custom_report_controller',
-                    showHeader : true,
+                    showHeader: true,
                     bodyclass: 'custom_report_page',
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService) {
-                            return scheduleReportListCreateResolver($q, $location, $route, accountService);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.scheduleReportListCreateResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -1056,14 +927,12 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Report Builder',
                     controller: 'CustomReportController',
                     controllerUrl: 'reporting/controllers/custom_report_controller',
-                    showHeader : true,
+                    showHeader: true,
                     bodyclass: 'custom_report_page',
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, advertiserModel,
-                                          brandsModel, vistoconfig) {
-                            return mediaPlansHeaderResolver($q, $location, $route, accountService, advertiserModel,
-                                brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -1073,14 +942,12 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Upload Custom Reports',
                     controller: 'CustomReportUploadController',
                     controllerUrl: 'reporting/controllers/custom_report_upload_controller',
-                    showHeader : true,
+                    showHeader: true,
                     css: assets.css_custom_reports,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, advertiserModel,
-                                          brandsModel, vistoconfig) {
-                            return mediaPlansHeaderResolver($q, $location, $route, accountService, advertiserModel,
-                                brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -1090,14 +957,12 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Upload Custom Reports',
                     controller: 'CustomReportUploadController',
                     controllerUrl: 'reporting/controllers/custom_report_upload_controller',
-                    showHeader : true,
+                    showHeader: true,
                     css: assets.css_custom_reports,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, advertiserModel,
-                                          brandsModel, vistoconfig) {
-                            return mediaPlansHeaderResolver($q, $location, $route, accountService, advertiserModel,
-                                brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -1107,14 +972,12 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Upload Custom Reports',
                     controller: 'CustomReportUploadController',
                     controllerUrl: 'reporting/controllers/custom_report_upload_controller',
-                    showHeader : true,
+                    showHeader: true,
                     css: assets.css_custom_reports,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, advertiserModel,
-                                          brandsModel, vistoconfig) {
-                            return mediaPlansHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                advertiserModel, brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -1124,14 +987,12 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Upload Custom Reports',
                     controller: 'CustomReportUploadController',
                     controllerUrl: 'reporting/controllers/custom_report_upload_controller',
-                    showHeader : true,
+                    showHeader: true,
                     css: assets.css_custom_reports,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, advertiserModel,
-                                          brandsModel, vistoconfig) {
-                            return mediaPlansHeaderResolver2($q, $location, $route, accountService, subAccountService,
-                                advertiserModel, brandsModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -1141,14 +1002,12 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
                     controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
-                    showHeader : true,
+                    showHeader: true,
                     css: assets.css_custom_reports,
 
                     resolve: {
-                        reportsList: function ($q, $location, $route, accountService, campaignSelectModel,
-                                               advertiserModel, brandsModel, collectiveReportModel, vistoconfig) {
-                            return uploadReportsHeaderResolver($q, $location, $route, accountService,
-                                campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel, vistoconfig);
+                        reportsList: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.uploadReportsHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -1158,14 +1017,12 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
                     controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
-                    showHeader : true,
+                    showHeader: true,
                     css: assets.css_custom_reports,
 
                     resolve: {
-                        reportsList: function ($q, $location, $route, accountService, campaignSelectModel,
-                                               advertiserModel, brandsModel, collectiveReportModel, vistoconfig) {
-                            return uploadReportsHeaderResolver($q, $location, $route, accountService,
-                                campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel, vistoconfig);
+                        reportsList: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.uploadReportsHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -1175,51 +1032,42 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
                     controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
-                    showHeader : true,
+                    showHeader: true,
                     css: assets.css_custom_reports,
 
                     resolve: {
-                        reportsList: function ($q, $location, $route, accountService, campaignSelectModel,
-                                               advertiserModel, brandsModel, collectiveReportModel, vistoconfig) {
-                            return uploadReportsHeaderResolver($q, $location, $route, accountService,
-                                campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel, vistoconfig);
+                        reportsList: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.uploadReportsHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
 
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/reports/list',
-                    angularAMD.route({
-                        templateUrl: assets.html_collective_report_listing,
-                        title: 'Collective Insights',
-                        controller: 'CollectiveReportListingController',
-                        controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
-                        showHeader : true,
-                        css: assets.css_custom_reports,
+                .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/reports/list', angularAMD.route({
+                    templateUrl: assets.html_collective_report_listing,
+                    title: 'Collective Insights',
+                    controller: 'CollectiveReportListingController',
+                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    showHeader: true,
+                    css: assets.css_custom_reports,
 
-                        resolve: {
-                            reportsList: function ($q, $location, $route, accountService, campaignSelectModel,
-                                                   advertiserModel, brandsModel, collectiveReportModel, vistoconfig) {
-                                return uploadReportsHeaderResolver($q, $location, $route, accountService,
-                                    campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel, vistoconfig);
-                            }
+                    resolve: {
+                        reportsList: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.uploadReportsHeaderResolver(routeResolversParams);
                         }
-                    }))
+                    }
+                }))
 
                 .when('/a/:accountId/sa/:subAccountId/reports/list', angularAMD.route({
                     templateUrl: assets.html_collective_report_listing,
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
                     controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
-                    showHeader : true,
+                    showHeader: true,
                     css: assets.css_custom_reports,
 
                     resolve: {
-                        reportsList: function ($q, $location, $route, accountService, subAccountService,
-                                               campaignSelectModel, advertiserModel, brandsModel,
-                                               collectiveReportModel, vistoconfig) {
-                            return uploadReportsHeaderResolver2($q, $location, $route, accountService,
-                                subAccountService, campaignSelectModel, advertiserModel, brandsModel,
-                                collectiveReportModel, vistoconfig);
+                        reportsList: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.uploadReportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -1229,16 +1077,12 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
                     controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
-                    showHeader : true,
+                    showHeader: true,
                     css: assets.css_custom_reports,
 
                     resolve: {
-                        reportsList: function ($q, $location, $route, accountService, subAccountService,
-                                               campaignSelectModel, advertiserModel, brandsModel,
-                                               collectiveReportModel, vistoconfig) {
-                            return uploadReportsHeaderResolver2($q, $location, $route, accountService,
-                                subAccountService, campaignSelectModel, advertiserModel, brandsModel,
-                                collectiveReportModel, vistoconfig);
+                        reportsList: function (routeResolversParams,routeResolvers) {
+                            return routeResolvers.uploadReportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -1248,51 +1092,43 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
                     controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
-                    showHeader : true,
+                    showHeader: true,
                     css: assets.css_custom_reports,
 
                     resolve: {
-                        reportsList: function ($q, $location, $route, accountService, subAccountService,
-                                               campaignSelectModel, advertiserModel, brandsModel,
-                                               collectiveReportModel, vistoconfig) {
-                            return uploadReportsHeaderResolver2($q, $location, $route, accountService,
-                                subAccountService, campaignSelectModel, advertiserModel, brandsModel,
-                                collectiveReportModel, vistoconfig);
+                        reportsList: function (routeResolversParams,routeResolvers) {
+                            return routeResolvers.uploadReportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
 
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/reports/list',
-                    angularAMD.route({
-                        templateUrl: assets.html_collective_report_listing,
-                        title: 'Collective Insights',
-                        controller: 'CollectiveReportListingController',
-                        controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
-                        showHeader : true,
-                        css: assets.css_custom_reports,
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/reports/list', angularAMD.route({
+                    templateUrl: assets.html_collective_report_listing,
+                    title: 'Collective Insights',
+                    controller: 'CollectiveReportListingController',
+                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    showHeader: true,
+                    css: assets.css_custom_reports,
 
-                        resolve: {
-                            reportsList: function ($q, $location, $route, accountService, subAccountService,
-                                                   campaignSelectModel, advertiserModel, brandsModel,
-                                                   collectiveReportModel, vistoconfig) {
-                                return uploadReportsHeaderResolver2($q, $location, $route, accountService,
-                                    subAccountService, campaignSelectModel, advertiserModel, brandsModel,
-                                    collectiveReportModel, vistoconfig);
-                            }
+                    resolve: {
+                        reportsList: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.uploadReportsHeaderResolver2(routeResolversParams);
                         }
-                    }))
+                    }
+                }))
 
                 .when('/a/:accountId/sa/:subAccountId/v1sto/invoices', angularAMD.route({
                     templateUrl: assets.html_reports_invoice_list,
                     title: 'Invoices Reports',
                     controller: 'ReportsInvoiceListController',
                     controllerUrl: 'reporting/collectiveReport/reports_invoice_list_controller',
-                    showHeader : true,
+                    showHeader: true,
                     css: assets.css_reports_invoice_list,
+
                     resolve: {
-                            header: function ($q, $location, $route, accountService, loginModel, vistoconfig) {
-                                return invoiceHeader($q, $location, $route, accountService, loginModel, vistoconfig);
-                            }
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.invoiceHeader(routeResolversParams);
+                        }
                     }
                 }))
 
@@ -1302,9 +1138,10 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     controller: 'reportsInvoiceController',
                     controllerUrl: 'reporting/collectiveReport/reports_invoice_controller',
                     css: assets.css_reports_invoice_list,
+
                     resolve: {
-                        header: function ($q, $location, $route, accountService, loginModel, vistoconfig) {
-                            return invoiceHeader($q, $location, $route, accountService, loginModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.invoiceHeader(routeResolversParams);
                         }
                     }
                 }))
@@ -1314,7 +1151,7 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Create - Vendor',
                     controller: 'CreateVendorController',
                     controllerUrl: '/workflow/vendors/vendor_create_controller',
-                    showHeader : true
+                    showHeader: true
                 }))
 
                 .when('/vendors/list', angularAMD.route({
@@ -1322,15 +1159,16 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Vendors - List',
                     controller: 'VendorsListController',
                     controllerUrl: 'workflow/vendors/vendors_list_controller',
-                    showHeader : true,
+                    showHeader: true,
                     css: assets.css_table_list
                 }))
 
                 .when('/a/:accountId/admin/home', angularAMD.route({
                     templateUrl: assets.html_admin_home,
                     title: 'AdminHome',
-                    showHeader : true,
+                    showHeader: true,
 
+                    // TODO: Move to routeResolvers service???
                     resolve: {
                         check: function ($location, loginModel) {
                             if (!loginModel.getClientData().is_super_admin) {
@@ -1346,10 +1184,10 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Accounts',
                     controller: 'AccountsController',
                     controllerUrl: 'common/controllers/accounts/accounts_controller',
-                    showHeader : true,
+                    showHeader: true,
                     resolve: {
-                        header: function ($q, $location, $route, accountService, loginModel, vistoconfig) {
-                            return adminHeaderResolver($q, $location, $route, accountService, loginModel, vistoconfig);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -1359,8 +1197,9 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Users',
                     controller: 'UsersController',
                     controllerUrl: 'common/controllers/users/users_controller',
-                    showHeader : true,
+                    showHeader: true,
 
+                    // TODO: Move to routeResolvers service???
                     resolve: {
                         check: function ($location, loginModel) {
                             if (!loginModel.getClientData().is_super_admin) {
@@ -1375,8 +1214,9 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'AdminBrands',
                     controller: 'AdminAdvertisersController',
                     controllerUrl: 'common/controllers/accounts/admin_brands_controller',
-                    showHeader : true,
+                    showHeader: true,
 
+                    // TODO: Move to routeResolvers service???
                     resolve: {
                         check: function ($location, loginModel) {
                             if (!loginModel.getClientData().is_super_admin) {
@@ -1391,8 +1231,9 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'AdminAdvertisers',
                     controller: 'AdminUsersController',
                     controllerUrl: 'common/controllers/accounts/admin_advertisers_controller',
-                    showHeader : true,
+                    showHeader: true,
 
+                    // TODO: Move to routeResolvers service???
                     resolve: {
                         check: function ($location, loginModel) {
                             if (!loginModel.getClientData().is_super_admin) {
@@ -1407,12 +1248,12 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Create - Media Plan',
                     controller: 'CreateCampaignController',
                     controllerUrl: 'workflow/campaign/campaign_create_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants, vistoconfig, advertiserModel) {
-                            return mediaPlanCreateResolver($q, $location, $route, accountService,
-                                subAccountService, workflowService, constants, vistoconfig, advertiserModel, 'create');
+                        header: function (routeResolversParams, routeResolvers) {
+                            // TODO: Check out this method implementation!!!
+                            return routeResolvers.mediaPlanCreateResolver(routeResolversParams, 'create');
                         }
                     }
                 }))
@@ -1422,13 +1263,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Create - Media Plan',
                     controller: 'CreateCampaignController',
                     controllerUrl: 'workflow/campaign/campaign_create_controller',
-                    showHeader : true,
-
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants, vistoconfig, advertiserModel) {
-                            return mediaPlanCreateResolver($q, $location, $route, accountService,
-                                subAccountService, workflowService, constants, vistoconfig, advertiserModel, 'create');
+                        header: function (routeResolversParams,routeResolvers) {
+                            return routeResolvers.mediaPlanCreateResolver(routeResolversParams, 'create');
                         }
                     }
                 }))
@@ -1438,12 +1277,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Edit - Media Plan',
                     controller: 'CreateCampaignController',
                     controllerUrl: 'workflow/campaign/campaign_create_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants, vistoconfig, advertiserModel) {
-                            return mediaPlanCreateResolver($q, $location, $route, accountService,
-                                subAccountService, workflowService, constants, vistoconfig, advertiserModel, 'edit');
+                        header: function (routeResolversParams,routeResolvers) {
+                            return routeResolvers.mediaPlanCreateResolver(routeResolversParams, 'edit');
                         }
                     }
                 }))
@@ -1453,12 +1291,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Edit - Media Plan',
                     controller: 'CreateCampaignController',
                     controllerUrl: 'workflow/campaign/campaign_create_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants, vistoconfig, advertiserModel) {
-                            return mediaPlanCreateResolver($q, $location, $route, accountService,
-                                subAccountService, workflowService, constants, vistoconfig, advertiserModel, 'edit');
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlanCreateResolver(routeResolversParams, 'edit');
                         }
                     }
                 }))
@@ -1468,15 +1305,12 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Media Plan - Overview',
                     controller: 'CampaignOverViewController',
                     controllerUrl: 'workflow/overview/campaign_overview_controller',
-                    showHeader : true,
+                    showHeader: true,
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService, workflowService, constants, vistoconfig, advertiserModel) {
-                            return mediaPlanOverviewResolver($q, $location, $route, accountService,
-                                subAccountService, workflowService, constants, vistoconfig, advertiserModel);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlanOverviewResolver(routeResolversParams);
                         }
                     }
-
-
                 }))
 
                 .when('/a/:accountId/sa/:subAccountId/mediaplan/:campaignId/overview', angularAMD.route({
@@ -1484,98 +1318,81 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Media Plan - Overview',
                     controller: 'CampaignOverViewController',
                     controllerUrl: 'workflow/overview/campaign_overview_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService,
-                                          workflowService, constants, vistoconfig, advertiserModel) {
-                            return mediaPlanOverviewResolver($q, $location, $route, accountService,
-                                subAccountService, workflowService, constants, vistoconfig, advertiserModel);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlanOverviewResolver(routeResolversParams);
                         }
                     }
                 }))
 
-                .when('/a/:accountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/' +
-                    'ads/create', angularAMD.route({
+                .when('/a/:accountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/create', angularAMD.route({
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Create',
                     controller: 'CampaignAdsCreateController',
                     controllerUrl: 'workflow/ad/ad_create_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-
-                        header: function ($q, $location, $route, accountService, subAccountService,
-                                          workflowService, vistoconfig, advertiserModel, constants) {
-                            return adsResolver($q, $location, $route, accountService,
-                                subAccountService, workflowService, vistoconfig, advertiserModel, constants, 'create');
+                        header: function (routeResolversParams, routeResolvers) {
+                            // TODO: Check out this method's implementation
+                            return routeResolvers.adsResolver(routeResolversParams, 'create');
                         }
                     }
                 }))
 
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/' +
-                    'adGroup/:adGroupId/ads/create', angularAMD.route({
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/create', angularAMD.route({
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Create',
                     controller: 'CampaignAdsCreateController',
                     controllerUrl: 'workflow/ad/ad_create_controller',
-                    showHeader : true,
+                    showHeader: true,
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService,
-                                          workflowService, vistoconfig, advertiserModel, constants) {
-                            return adsResolver($q, $location, $route, accountService,
-                                subAccountService, workflowService, vistoconfig, advertiserModel, constants, 'create');
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adsResolver(routeResolversParams, 'create');
                         }
                     }
                 }))
 
-                .when('/a/:accountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/' +
-                    'adGroup/:adGroupId/ads/:adId/edit',
-                    angularAMD.route({
-                        templateUrl: assets.html_campaign_create_adBuild,
-                        title: 'Media Plan - Ad Edit',
-                        controller: 'CampaignAdsCreateController',
-                        controllerUrl: 'workflow/ad/ad_create_controller',
-                        showHeader : true,
+                .when('/a/:accountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/:adId/edit', angularAMD.route({
+                    templateUrl: assets.html_campaign_create_adBuild,
+                    title: 'Media Plan - Ad Edit',
+                    controller: 'CampaignAdsCreateController',
+                    controllerUrl: 'workflow/ad/ad_create_controller',
+                    showHeader: true,
 
-                        resolve: {
-                            header: function ($q, $location, $route, accountService, subAccountService,
-                                              workflowService, vistoconfig, advertiserModel, constants) {
-                                return adsResolver($q, $location, $route, accountService,
-                                    subAccountService, workflowService, vistoconfig, advertiserModel, constants, 'edit');
-                            }
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adsResolver(routeResolversParams, 'edit');
                         }
+                    }
+                }))
 
-                    }))
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/:adId/edit', angularAMD.route({
+                    templateUrl: assets.html_campaign_create_adBuild,
+                    title: 'Media Plan - Ad Edit',
+                    controller: 'CampaignAdsCreateController',
+                    controllerUrl: 'workflow/ad/ad_create_controller',
+                    showHeader: true,
 
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/' +
-                    'adGroup/:adGroupId/ads/:adId/edit',
-                    angularAMD.route({
-                        templateUrl: assets.html_campaign_create_adBuild,
-                        title: 'Media Plan - Ad Edit',
-                        controller: 'CampaignAdsCreateController',
-                        controllerUrl: 'workflow/ad/ad_create_controller',
-                        showHeader : true,
-                        resolve: {
-                            header: function ($q, $location, $route, accountService, subAccountService,
-                                              workflowService, vistoconfig, advertiserModel, constants) {
-                                return adsResolver($q, $location, $route, accountService,
-                                    subAccountService, workflowService, vistoconfig, advertiserModel, constants, 'edit');
-                            }
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adsResolver(routeResolversParams, 'edit');
                         }
-                    }))
+                    }
+                }))
 
                 .when('/a/:accountId/creative/add', angularAMD.route({
                     templateUrl: assets.html_creative,
                     title: 'Add Creative',
                     controller: 'CreativeController',
                     controllerUrl: 'workflow/creative/creative_controller',
-                    showHeader : true,
+                    showHeader: true,
+
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService,
-                                          workflowService, constants, vistoconfig, advertiserModel) {
-                            return creativeResolver($q, $location, $route, accountService,
-                                workflowService, subAccountService, constants, vistoconfig, advertiserModel);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -1585,12 +1402,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Add Creative',
                     controller: 'CreativeController',
                     controllerUrl: 'workflow/creative/creative_controller',
-                    showHeader : true,
+                    showHeader: true,
+
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService,
-                                          workflowService, constants, vistoconfig, advertiserModel) {
-                            return creativeResolver($q, $location, $route, accountService,
-                                workflowService, subAccountService, constants, vistoconfig, advertiserModel);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeResolver(routeResolversParams);
                         }
                     }
 
@@ -1601,46 +1417,39 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Edit Creative',
                     controller: 'CreativeController',
                     controllerUrl: 'workflow/creative/creative_controller',
-                    showHeader : true,
+                    showHeader: true,
+
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService,
-                                          workflowService, constants, vistoconfig, advertiserModel) {
-                            return creativeResolver($q, $location, $route, accountService,
-                                workflowService, subAccountService, constants, vistoconfig, advertiserModel);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeResolver(routeResolversParams);
                         }
                     }
                 }))
-
 
                 .when('/a/:accountId/sa/:subAccountId/creative/:creativeId/edit', angularAMD.route({
                     templateUrl: assets.html_creative,
                     title: 'Edit Creative',
                     controller: 'CreativeController',
                     controllerUrl: 'workflow/creative/creative_controller',
-                    showHeader : true,
+                    showHeader: true,
+
                     resolve: {
-                        header: function ($q, $location, $route, accountService, subAccountService,
-                                          workflowService, constants, vistoconfig, advertiserModel) {
-                            return creativeResolver($q, $location, $route, accountService,
-                                workflowService, subAccountService, constants, vistoconfig, advertiserModel);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeResolver(routeResolversParams);
                         }
                     }
                 }))
-
 
                 .when('/a/:accountId/sa/:subAccountId/creative/list', angularAMD.route({
                     templateUrl: assets.html_creative_list,
                     title: 'Creative List',
                     controller: 'CreativeListController',
                     controllerUrl: 'workflow/creative/creative_list_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-
-                        header: function ($q, $location, $route, accountService, workflowService,
-                                          subAccountService, constants, vistoconfig, advertiserModel) {
-                            return creativeListResolver($q, $location, $route, accountService, workflowService,
-                                subAccountService, constants, vistoconfig, advertiserModel);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeListResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -1650,14 +1459,11 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Creative List',
                     controller: 'CreativeListController',
                     controllerUrl: 'workflow/creative/creative_list_controller',
-                    showHeader : true,
+                    showHeader: true,
 
                     resolve: {
-
-                        header: function ($q, $location, $route, accountService, workflowService,
-                                          subAccountService, constants, vistoconfig, advertiserModel) {
-                            return creativeListResolver($q, $location, $route, accountService, workflowService,
-                                subAccountService, constants, vistoconfig, advertiserModel);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeListResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -1667,69 +1473,53 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',
                     controllerUrl: 'workflow/creative/creative_preview_controller',
-                    showHeader : false,
+                    showHeader: false,
 
                     resolve: {
-
-                        header: function ($q, $location, $route, accountService, workflowService,
-                                          subAccountService, constants, vistoconfig, advertiserModel) {
-                            return creativePreviewResolver($q, $location, $route, accountService, workflowService,
-                                subAccountService, constants, vistoconfig, advertiserModel);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativePreviewResolver(routeResolversParams);
                         }
                     }
                 }))
-
-
 
                 .when('/a/:accountId/adv/:advertiserId/creative/:creativeId/preview', angularAMD.route({
                     templateUrl: assets.html_creative_preview,
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',
                     controllerUrl: 'workflow/creative/creative_preview_controller',
-                    showHeader : false,
+                    showHeader: false,
 
                     resolve: {
-
-                        header: function ($q, $location, $route, accountService, workflowService,
-                                          subAccountService, constants, vistoconfig, advertiserModel) {
-                            return creativePreviewResolver($q, $location, $route, accountService, workflowService,
-                                subAccountService, constants, vistoconfig, advertiserModel);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativePreviewResolver(routeResolversParams);
                         }
                     }
                 }))
 
-                .when('/a/:accountId/sa/:subAccountId//clientId/:clientId/adv/:advertiserId/campaignId/:campaignId/adId/:adId/creative/' +
-                    ':creativeId/preview', angularAMD.route({
+                .when('/a/:accountId/sa/:subAccountId//clientId/:clientId/adv/:advertiserId/campaignId/:campaignId/adId/:adId/creative/:creativeId/preview', angularAMD.route({
                     templateUrl: assets.html_creative_preview,
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',
                     controllerUrl: 'workflow/creative/creative_preview_controller',
-                    showHeader : false,
+                    showHeader: false,
 
                     resolve: {
-
-                        header: function ($q, $location, $route, accountService, workflowService,
-                                          subAccountService, constants, vistoconfig, advertiserModel) {
-                            return creativePreviewResolver($q, $location, $route, accountService, workflowService,
-                                subAccountService, constants, vistoconfig, advertiserModel);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativePreviewResolver(routeResolversParams);
                         }
                     }
                 }))
 
-                .when('/a/:accountId/clientId/:clientId/adv/:advertiserId/campaignId/:campaignId/adId/:adId/creative/' +
-                    ':creativeId/preview', angularAMD.route({
+                .when('/a/:accountId/clientId/:clientId/adv/:advertiserId/campaignId/:campaignId/adId/:adId/creative/:creativeId/preview', angularAMD.route({
                     templateUrl: assets.html_creative_preview,
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',
                     controllerUrl: 'workflow/creative/creative_preview_controller',
-                    showHeader : false,
+                    showHeader: false,
 
                     resolve: {
-
-                        header: function ($q, $location, $route, accountService, workflowService,
-                                          subAccountService, constants, vistoconfig, advertiserModel) {
-                            return creativePreviewResolver($q, $location, $route, accountService, workflowService,
-                                subAccountService, constants, vistoconfig, advertiserModel);
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativePreviewResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -1737,7 +1527,7 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                 .when('/help', angularAMD.route({
                     templateUrl: assets.html_help,
                     title: 'Help - Online',
-                    showHeader : true,
+                    showHeader: true,
                     controller: 'HelpController'
                 }))
 

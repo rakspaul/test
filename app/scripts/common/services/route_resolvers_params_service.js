@@ -1,6 +1,6 @@
 define(['angularAMD', 'common/services/vistoconfig_service'], function (angularAMD) {
     angularAMD.service('routeResolversParams', function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel,
-    brandsModel, vistoconfig) {
+                                                         brandsModel, vistoconfig, collectiveReportModel, loginModel, workflowService, constants) {
         return {
             $q: $q,
             $location: $location,
@@ -10,8 +10,12 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
             campaignSelectModel: campaignSelectModel,
             strategySelectModel: strategySelectModel,
             advertiserModel: advertiserModel,
-            brandModel: brandsModel,
-            vistoconfig: vistoconfig
+            brandsModel: brandsModel,
+            vistoconfig: vistoconfig,
+            collectiveReportModel: collectiveReportModel,
+            loginModel: loginModel,
+            workflowService: workflowService,
+            constants: constants
         };
     });
 });

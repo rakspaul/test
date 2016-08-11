@@ -1,17 +1,16 @@
 define(['angularAMD', 'common/services/vistoconfig_service'], function (angularAMD) {
     angularAMD.service('routeResolvers', function () {
-        var
-            accountDataWithReportList = function ($location, $route, accountService, collectiveReportModel, advertiserModel, brandsModel, campaignSelectModel,
-                                                  vistoconfig, deferred) {
-                accountService
-                    .fetchAccountData($route.current.params.accountId)
+        var accountDataWithReportList = function (args, deferred) {
+            // TODO: check out the 'deferred' param
+                args.accountService
+                    .fetchAccountData(args.$route.current.params.accountId)
                     .then(function () {
-                        collectiveReportModel
+                        args.collectiveReportModel
                             .getReportList(
-                                $route.current.params.subAccountId,
-                                $route.current.params.advertiserId || -1,
-                                $route.current.params.brandId || -1,
-                                $route.current.params.campaignId || -1
+                                args.$route.current.params.subAccountId,
+                                args.$route.current.params.advertiserId || -1,
+                                args.$route.current.params.brandId || -1,
+                                args.$route.current.params.campaignId || -1
                             )
                             .then(function (response) {
                                 if (response && response.data.data) {
@@ -20,9 +19,10 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                                     deferred.resolve([]);
                                 }
 
-                                $route.current.params.campaignId && campaignSelectModel.fetchCampaign($route.current.params.subAccountId, $route.current.params.campaignId);
+                                args.$route.current.params.campaignId &&
+                                    args.campaignSelectModel.fetchCampaign(args.$route.current.params.subAccountId, args.$route.current.params.campaignId);
 
-                                !$route.current.params.campaignId && campaignSelectModel.setSelectedCampaign({
+                                !args.$route.current.params.campaignId && args.campaignSelectModel.setSelectedCampaign({
                                     id: -1,
                                     name: 'All Media Plans',
                                     kpi: 'ctr',
@@ -30,182 +30,182 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                                     endDate: '-1'
                                 });
 
-                                $route.current.params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
-                                $route.current.params.advertiserId && $route.current.params.brandId && fetchCurrentBrand($location, $route, brandsModel, vistoconfig);
+                                args.$route.current.params.advertiserId &&
+                                    // TODO: Check out the implementation of this method
+                                    fetchCurrentAdvertiser(args.$location, args.$route, args.advertiserModel, args.vistoconfig);
+
+                                args.$route.current.params.advertiserId &&
+                                    args.$route.current.params.brandId &&
+                                    // TODO: Check out the implementation of this method
+                                    fetchCurrentBrand(args.$location, args.$route, args.brandsModel, args.vistoconfig);
                             });
                     });
             },
 
-            adsResolver = function ($q, $location, $route, accountService, subAccountService, workflowService, vistoconfig, advertiserModel, constants, mode) {
-                var deferred = $q.defer(),
+            // TODO: Why is this NOT USED?
+            adsResolver = function (args, mode) {
+                var deferred = args.$q.defer(),
                     redirect = true;
 
-                console.log('accountService', accountService);
-                console.log('subAccountService', subAccountService);
+                console.log('accountService', args.accountService);
+                console.log('subAccountService', args.subAccountService);
 
-                accountService
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
 
-                        if (accountService.allowedAccount($route.current.params.accountId)) {
-                            isLeafNode = accountService.getSelectedAccount().isLeafNode;
+                        if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
+                            isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                subAccountService.fetchSubAccountList($route.current.params.accountId).then(function () {
-                                    if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                                        fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred, redirect,
-                                            constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE, mode, true);
+                                args.subAccountService.fetchSubAccountList(args.$route.current.params.accountId).then(function () {
+                                    if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
+                                        fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE, mode, true);
                                     }
                                 });
                             }else {
-                                fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred, redirect,
-                                    constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE, mode, true);
+                                fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE, mode, true);
                             }
                         } else {
                             console.log('account not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
                 return deferred.promise;
             },
 
-            adminHeaderResolver = function ($q, $location, $route, accountService, loginModel) {
-                var deferred = $q.defer(),
-                    params = $route.current.params;
+            adminHeaderResolver = function (args) {
+                var deferred = args.$q.defer(),
+                    params = args.$route.current.params;
 
-                if (!loginModel.getClientData().is_super_admin) {
-                    $location.url('/dashboard');
+                if (!args.loginModel.getClientData().is_super_admin) {
+                    args.$location.url('/dashboard');
                 }
 
-                accountService
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
-                        if (accountService.allowedAccount($route.current.params.accountId)) {
-                            accountService
+                        if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
+                            args.accountService
                                 .fetchAccountData(params.accountId)
                                 .then(function () {
                                     deferred.resolve();
                                 });
                         } else {
                             console.log('account ' + params.accountId + ' not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
                 return deferred.promise;
             },
 
-            creativeListResolver = function ($q, $location, $route, accountService, workflowService, subAccountService, constants, vistoconfig, advertiserModel) {
-                var deferred = $q.defer(),
+            creativeListResolver = function (args) {
+                var deferred = args.$q.defer(),
                     redirect = false;
 
-                accountService
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
 
-                        if (accountService.allowedAccount($route.current.params.accountId)) {
-                            isLeafNode = accountService.getSelectedAccount().isLeafNode;
+                        if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
+                            isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                subAccountService
-                                    .fetchSubAccountList($route.current.params.accountId)
+                                args.subAccountService
+                                    .fetchSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
-                                        if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                                            fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred,
-                                                redirect, constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
+                                        if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
+                                            fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
                                         }
                                     });
                             } else {
-                                fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred, redirect,
-                                    constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
+                                fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
                             }
                         } else {
                             console.log('account not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
                 return deferred.promise;
             },
 
-            creativePreviewResolver = function ($q, $location, $route, accountService, workflowService, subAccountService, constants, vistoconfig, advertiserModel) {
-                var deferred = $q.defer(),
+            creativePreviewResolver = function (args) {
+                var deferred = args.$q.defer(),
                     redirect = false;
 
-                accountService
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
 
-                        if (accountService.allowedAccount($route.current.params.accountId)) {
-                            isLeafNode = accountService.getSelectedAccount().isLeafNode;
+                        if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
+                            isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                subAccountService
-                                    .fetchSubAccountList($route.current.params.accountId)
+                                args.subAccountService
+                                    .fetchSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
-                                        if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                                            fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred,
-                                                redirect, constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
+                                        if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
+                                            fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
                                         }
                                     });
                             } else {
-                                fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred, redirect,
-                                    constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
+                                fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
                             }
                         } else {
                             console.log('account not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
                 return deferred.promise;
             },
 
-            creativeResolver = function ($q, $location, $route, accountService, workflowService, subAccountService, constants, vistoconfig, advertiserModel) {
-                var deferred = $q.defer(),
+            creativeResolver = function (args) {
+                var deferred = args.$q.defer(),
                     redirect = false;
 
-                accountService
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
 
-                        if (accountService.allowedAccount($route.current.params.accountId)) {
-                            isLeafNode = accountService.getSelectedAccount().isLeafNode;
+                        if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
+                            isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                subAccountService
-                                    .fetchSubAccountList($route.current.params.accountId)
+                                args.subAccountService
+                                    .fetchSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
-                                        if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                                            fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred,
-                                                redirect, constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE);
+                                        if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
+                                            fetchAccountDataSetWSInfo(args, deferred,
+                                                redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE);
                                         }
                                     });
                             } else {
-                                fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred, redirect,
-                                    constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE);
+                                fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE);
                             }
                         } else {
                             console.log('account not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
                 return deferred.promise;
             },
 
-            dashboardHeaderResolver = function ($q, $location, $route, accountService, advertiserModel, vistoconfig) {
-                var deferred = $q.defer(),
-                    params = $route.current.params;
+            dashboardHeaderResolver = function (args) {
+                var deferred = args.$q.defer(),
+                    params = args.$route.current.params;
 
-                accountService.fetchAccountList().then(function () {
-                    if (accountService.allowedAccount(params.accountId)) {
-                        accountService
+                args.accountService.fetchAccountList().then(function () {
+                    if (args.accountService.allowedAccount(params.accountId)) {
+                        args.accountService
                             .fetchAccountData(params.accountId)
                             .then(function () {
                                 deferred.resolve();
@@ -214,31 +214,31 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                                     console.log('fetching the advertiser & brand before loading dashboard. See resolve function');
                                 } else {
                                     // fetch the advertiser async
-                                    params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
+                                    params.advertiserId && fetchCurrentAdvertiser(args);
                                 }
                             });
                     } else {
                         console.log('account not allowed');
-                        $location.url('/tmp');
+                        args.$location.url('/tmp');
                     }
                 });
 
                 return deferred.promise;
             },
 
-            dashboardHeaderResolver2 = function ($q, $location, $route, accountService, subAccountService, advertiserModel, vistoconfig) {
-                var deferred = $q.defer(),
-                    params = $route.current.params;
-//console.log('rrp = ', rrp)
-                accountService
+            dashboardHeaderResolver2 = function (args) {
+                var deferred = args.$q.defer(),
+                    params = args.$route.current.params;
+console.log('args = ', args);
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
-                        if (accountService.allowedAccount($route.current.params.accountId)) {
-                            subAccountService
-                                .fetchDashboardSubAccountList($route.current.params.accountId)
+                        if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
+                            args.subAccountService
+                                .fetchDashboardSubAccountList(args.$route.current.params.accountId)
                                 .then(function () {
-                                    if (subAccountService.allowedDashboardSubAccount($route.current.params.subAccountId)) {
-                                        accountService
+                                    if (args.subAccountService.allowedDashboardSubAccount(args.$route.current.params.subAccountId)) {
+                                        args.accountService
                                             .fetchAccountData(params.accountId)
                                             .then(function () {
                                                 deferred.resolve();
@@ -247,51 +247,50 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                                                     console.log('fetching the advertiser & brand before loading dashboard. See resolve function');
                                                 } else {
                                                     // fetch the advertiser async
-                                                    params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
+                                                    params.advertiserId && fetchCurrentAdvertiser(args.$location, args.$route, args.advertiserModel, args.vistoconfig);
                                                 }
                                             });
                                     } else {
                                         console.log('dashboard account ' + params.subAccountId + 'not allowed');
-                                        $location.url('/tmp');
+                                        args.$location.url('/tmp');
                                     }
                                 });
                         } else {
                             console.log('account ' + params.accountId + ' not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
                 return deferred.promise;
             },
 
-            fetchAccountData = function ($location, $route, advertiserModel, brandsModel, vistoconfig, params, accountService, fetchCurrentBrand, deferred) {
-                accountService
-                    .fetchAccountData($route.current.params.accountId)
+            fetchAccountData = function (args, params, deferred) {
+                args.accountService
+                    .fetchAccountData(args.$route.current.params.accountId)
                     .then(function () {
                         deferred.resolve();
-                        $route.current.params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
-                        $route.current.params.advertiserId && $route.current.params.brandId && fetchCurrentBrand($location, $route, brandsModel, vistoconfig);
+                        args.$route.current.params.advertiserId && fetchCurrentAdvertiser(args);
+                        args.$route.current.params.advertiserId && args.$route.current.params.brandId && fetchCurrentBrand(args);
                     });
             },
 
-            fetchAccountDataSetWSInfo = function ($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred, redirect, warningMsg,
-                                                  mode, adGroup) {
-                accountService
-                    .fetchAccountData($route.current.params.accountId)
+            fetchAccountDataSetWSInfo = function (args, deferred, redirect, warningMsg, mode, adGroup) {
+                args.accountService
+                    .fetchAccountData(args.$route.current.params.accountId)
                     .then(function () {
                         deferred.resolve();
 
                         if (mode) {
-                            workflowService.setMode(mode);
+                            args.workflowService.setMode(mode);
                         }
 
                         if (adGroup) {
-                            workflowService.setIsAdGroup(true);
+                            args.workflowService.setIsAdGroup(true);
                         }
 
-                        $route.current.params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
+                        args.$route.current.params.advertiserId && fetchCurrentAdvertiser(args);
 
-                        workflowService.setModuleInfo({
+                        args.workflowService.setModuleInfo({
                             moduleName: 'WORKFLOW',
                             warningMsg: warningMsg,
                             redirect: redirect
@@ -299,13 +298,13 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                     });
             },
 
-            fetchAccountDataWithCampaign = function ($route, $location, campaignSelectModel, accountService, deferred) {
-                accountService
-                    .fetchAccountData($route.current.params.accountId)
+            fetchAccountDataWithCampaign = function (args, deferred) {
+                args.accountService
+                    .fetchAccountData(args.$route.current.params.accountId)
                     .then(function () {
-                        var params = $route.current.params;
+                        var params = args.$route.current.params;
 
-                        campaignSelectModel
+                        args.campaignSelectModel
                             .fetchCampaigns(params.subAccountId, params.advertiserId || -1, params.brandId || -1)
                             .then(function (campaignsResponse) {
                                 var campaign,
@@ -319,6 +318,7 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                                         if (params.advertiserId) {
                                             url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
                                         }
+
                                         url += '/mediaplans/' + campaign.campaign_id + '/' + params.reportName;
                                     } else {
                                         (params.advertiserId > 0) && (url += '/adv/' + params.advertiserId);
@@ -327,7 +327,7 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                                         url += '/mediaplans';
                                     }
 
-                                    $location.url(url);
+                                    args.$location.url(url);
                                 }
 
                                 deferred.resolve();
@@ -335,20 +335,20 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                     });
             },
 
-            fetchAdvertiserAndBrand = function ($route, $location, advertiserModel, brandsModel, vistoconfig) {
-                $route.current.params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
-                $route.current.params.advertiserId && $route.current.params.brandId && fetchCurrentBrand($location, $route, brandsModel, vistoconfig);
+            fetchAdvertiserAndBrand = function (args) {
+                args.$route.current.params.advertiserId && fetchCurrentAdvertiser(args);
+                args.$route.current.params.advertiserId && args.$route.current.params.brandId && fetchCurrentBrand(args);
             },
 
-            fetchCampaignStrategy = function ($route, $location, advertiserModel, brandsModel, vistoconfig, campaignSelectModel, strategySelectModel, deferred) {
+            fetchCampaignStrategy = function (args, deferred) {
                 var resolvedOtherDeferrer = false;
 
-                campaignSelectModel
-                    .fetchCampaign($route.current.params.subAccountId, $route.current.params.campaignId)
+                args.campaignSelectModel
+                    .fetchCampaign(args.$route.current.params.subAccountId, args.$route.current.params.campaignId)
                     .then(function () {
                         if (resolvedOtherDeferrer) {
                             deferred.resolve();
-                            fetchAdvertiserAndBrand($route,$location ,advertiserModel,brandsModel, vistoconfig);
+                            fetchAdvertiserAndBrand(args);
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -356,19 +356,19 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                         deferred.reject('Mediaplan not found');
                     });
 
-                strategySelectModel
-                    .fetchStrategyList($route.current.params.subAccountId, $route.current.params.campaignId)
+                args.strategySelectModel
+                    .fetchStrategyList(args.$route.current.params.subAccountId, args.$route.current.params.campaignId)
                     .then(function () {
-                        if (strategySelectModel.allowedStrategy($route.current.params.lineitemId)) {
+                        if (args.strategySelectModel.allowedStrategy(args.$route.current.params.lineitemId)) {
                             console.log('broadcast set strategy');
                         } else {
                             console.log('strategy not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
 
                         if (resolvedOtherDeferrer) {
                             deferred.resolve();
-                            fetchAdvertiserAndBrand($route, $location, advertiserModel,brandsModel, vistoconfig);
+                            fetchAdvertiserAndBrand(args);
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -377,218 +377,216 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                     });
             },
 
-            fetchCurrentAdvertiser = function ($location, $route, advertiserModel, vistoconfig) {
-                var params = $route.current.params;
+            fetchCurrentAdvertiser = function (args) {
+                var params = args.$route.current.params;
 
-                advertiserModel
+                args.advertiserModel
                     .fetchAdvertiserList(params.subAccountId || params.accountId)
                     .then(function () {
                         var advertiser;
 
-                        if (advertiserModel.allowedAdvertiser(params.advertiserId)) {
-                            advertiser = vistoconfig ? vistoconfig.getSelectAdvertiserId() : {};
+                        if (args.advertiserModel.allowedAdvertiser(params.advertiserId)) {
+                            advertiser = args.vistoconfig ? args.vistoconfig.getSelectAdvertiserId() : {};
                             $('#advertiser_name_selected').text(advertiser.name);
                             $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
                         } else {
                             console.log('advertiser not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
             },
 
-            fetchCurrentBrand = function ($location, $route, brandsModel, vistoconfig) {
-                var params = $route.current.params;
+            fetchCurrentBrand = function (args) {
+                var params = args.$route.current.params;
 
-                brandsModel
+                args.brandsModel
                     .fetchBrandList(params.subAccountId || params.accountId, params.advertiserId)
                     .then(function () {
-                        if (brandsModel.allowedBrand(params.brandId)) {
-                            var brand = vistoconfig ? vistoconfig.getSelectedBrandId() : {};
+                        var brand;
+
+                        if (args.brandsModel.allowedBrand(params.brandId)) {
+                            brand = args.vistoconfig ? args.vistoconfig.getSelectedBrandId() : {};
 
                             $('#brand_name_selected').text(brand.name);
                             $('#brandsDropdown').attr('placeholder', brand.name).val('');
                         } else {
                             console.log('brand not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
             },
 
-            invoiceHeader = function ($q, $location, $route, accountService) {
-                var deferred = $q.defer(),
-                    params = $route.current.params;
+            invoiceHeader = function (args) {
+                var deferred = args.$q.defer(),
+                    params = args.$route.current.params;
 
-                accountService
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
-                        if (accountService.allowedAccount($route.current.params.accountId)) {
-                            accountService
+                        if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
+                            args.accountService
                                 .fetchAccountData(params.accountId)
                                 .then(function () {
                                     deferred.resolve();
                                 });
                         } else {
                             console.log('account ' + params.accountId + ' not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
                 return deferred.promise;
             },
 
-            mediaPlanCreateResolver = function ($q, $location, $route, accountService, subAccountService, workflowService, constants, vistoconfig, advertiserModel, mode) {
-                var deferred = $q.defer(),
+            mediaPlanCreateResolver = function (args, mode) {
+                var deferred = args.$q.defer(),
                     redirect = true;
 
-                console.log('accountService', accountService);
-                console.log('subAccountService', subAccountService);
+                console.log('accountService', args.accountService);
+                console.log('subAccountService', args.subAccountService);
 
-                accountService
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
 
-                        if (accountService.allowedAccount($route.current.params.accountId)) {
-                            isLeafNode = accountService.getSelectedAccount().isLeafNode;
+                        if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
+                            isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                subAccountService
-                                    .fetchSubAccountList($route.current.params.accountId)
+                                args.subAccountService
+                                    .fetchSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
-                                        if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                                            fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred,
-                                                redirect, constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);
+                                        if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
+                                            fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);
                                         }
                                     });
                             } else {
-                                fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig, advertiserModel, deferred, redirect,
-                                    constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);
+                                fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);
                             }
                         } else {
                             console.log('account not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
                 return deferred.promise;
             },
 
-            mediaPlanOverviewResolver = function ($q, $location, $route, accountService, subAccountService, workflowService, constants, vistoconfig, advertiserModel) {
-                var deferred = $q.defer(),
+            mediaPlanOverviewResolver = function (args) {
+                var deferred = args.$q.defer(),
                     redirect = true;
 
-                console.log('accountService', accountService);
-                console.log('subAccountService', subAccountService);
+                console.log('accountService', args.accountService);
+                console.log('subAccountService', args.subAccountService);
 
-                accountService
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
 
-                        if (accountService.allowedAccount($route.current.params.accountId)) {
-                            isLeafNode = accountService.getSelectedAccount().isLeafNode;
+                        if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
+                            isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                subAccountService
-                                    .fetchSubAccountList($route.current.params.accountId)
+                                args.subAccountService
+                                    .fetchSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
-                                        if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                                            fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService,
-                                                vistoconfig, advertiserModel, deferred, redirect, constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE);
+                                        if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
+                                            fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE);
                                         }
                                     });
                             } else {
-                                fetchAccountDataSetWSInfo($route, $location, constants, accountService, workflowService, vistoconfig,
-                                    advertiserModel, deferred, redirect, constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE);
+                                fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE);
                             }
                         } else {
                             console.log('account not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
                 return deferred.promise;
             },
 
-            mediaPlansHeaderResolver = function ($q, $location, $route, accountService, advertiserModel, brandsModel, vistoconfig) {
-                var deferred = $q.defer(),
-                    params = $route.current.params;
+            mediaPlansHeaderResolver = function (args) {
+                var deferred = args.$q.defer(),
+                    params = args.$route.current.params;
 
-                accountService
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
-                        if (accountService.allowedAccount(params.accountId)) {
-                            accountService
+                        if (args.accountService.allowedAccount(params.accountId)) {
+                            args.accountService
                                 .fetchAccountData(params.accountId)
                                 .then(function () {
                                     deferred.resolve();
-                                    params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
-                                    params.advertiserId && params.brandId && fetchCurrentBrand($location, $route, brandsModel, vistoconfig);
+                                    params.advertiserId && fetchCurrentAdvertiser(args);
+                                    params.advertiserId && params.brandId && fetchCurrentBrand(args);
                                 });
                         } else {
                             console.log('account ' + params.accountId + 'not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
                 return deferred.promise;
             },
 
-            mediaPlansHeaderResolver2 = function ($q, $location, $route, accountService, subAccountService, advertiserModel, brandsModel, vistoconfig) {
-                var deferred = $q.defer(),
-                    params = $route.current.params;
+            mediaPlansHeaderResolver2 = function (args) {
+                var deferred = args.$q.defer(),
+                    params = args.$route.current.params;
 
-                accountService
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
 
-                        if (accountService.allowedAccount(params.accountId)) {
-                            isLeafNode = accountService.getSelectedAccount().isLeafNode;
+                        if (args.accountService.allowedAccount(params.accountId)) {
+                            isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                subAccountService
+                                args.subAccountService
                                     .fetchSubAccountList(params.accountId)
                                     .then(function () {
-                                        if (subAccountService.allowedSubAccount(params.subAccountId)) {
-                                            fetchAccountData($location, $route, advertiserModel, brandsModel, vistoconfig, params, accountService, fetchCurrentBrand, deferred);
+                                        if (args.subAccountService.allowedSubAccount(params.subAccountId)) {
+                                            fetchAccountData(args, params, deferred);
                                         } else {
                                             console.log('dashboard account not allowed');
-                                            $location.url('/tmp');
+                                            args.$location.url('/tmp');
                                         }
                                     });
                             } else {
-                                fetchAccountData($location, $route, advertiserModel, brandsModel, vistoconfig, params, accountService, fetchCurrentBrand, deferred);
+                                fetchAccountData(args, params, deferred);
                             }
                         } else {
                             console.log('account ' + params.accountId + 'not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
                 return deferred.promise;
             },
 
-            reportsHeaderResolver = function ($q, $location, $route, accountService, campaignSelectModel, strategySelectModel, advertiserModel, brandsModel, vistoconfig) {
-                var deferred = $q.defer(),
-                    params = $route.current.params;
+            reportsHeaderResolver = function (args) {
+                var deferred = args.$q.defer(),
+                    params = args.$route.current.params;
 
-                accountService
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
-                        if (accountService.allowedAccount($route.current.params.accountId)) {
-                            accountService
-                                .fetchAccountData($route.current.params.accountId)
+                        if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
+                            args.accountService
+                                .fetchAccountData(args.$route.current.params.accountId)
                                 .then(function () {
                                     var resolvedOtherDeferrer = false;
 
-                                    campaignSelectModel
-                                        .fetchCampaign($route.current.params.accountId, $route.current.params.campaignId)
+                                    args.campaignSelectModel
+                                        .fetchCampaign(args.$route.current.params.accountId, args.$route.current.params.campaignId)
                                         .then(function () {
                                             if (resolvedOtherDeferrer) {
                                                 deferred.resolve();
-                                                params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
-                                                params.advertiserId && params.brandId && fetchCurrentBrand($location, $route, brandsModel, vistoconfig);
+                                                params.advertiserId && fetchCurrentAdvertiser(args);
+                                                params.advertiserId && params.brandId && fetchCurrentBrand(args);
                                             } else {
                                                 resolvedOtherDeferrer = true;
                                             }
@@ -596,20 +594,20 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                                             deferred.reject('Mediaplan not found');
                                         });
 
-                                    strategySelectModel
-                                        .fetchStrategyList($route.current.params.accountId, $route.current.params.campaignId)
+                                    args.strategySelectModel
+                                        .fetchStrategyList(args.$route.current.params.accountId, args.$route.current.params.campaignId)
                                         .then(function () {
-                                            if (strategySelectModel.allowedStrategy($route.current.params.lineitemId)) {
+                                            if (args.strategySelectModel.allowedStrategy(args.$route.current.params.lineitemId)) {
                                                 console.log('broadcast set strategy');
                                             } else {
                                                 console.log('strategy not allowed');
-                                                $location.url('/tmp');
+                                                args.$location.url('/tmp');
                                             }
 
                                             if (resolvedOtherDeferrer) {
                                                 deferred.resolve();
-                                                params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
-                                                params.advertiserId && params.brandId && fetchCurrentBrand($location, $route, brandsModel, vistoconfig);
+                                                params.advertiserId && fetchCurrentAdvertiser(args);
+                                                params.advertiserId && params.brandId && fetchCurrentBrand(args);
                                             } else {
                                                 resolvedOtherDeferrer = true;
                                             }
@@ -621,51 +619,48 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                                 });
                         } else {
                             console.log('account not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
                 return deferred.promise;
             },
 
-            reportsHeaderResolver2 = function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel,
-                                               brandsModel, vistoconfig) {
-                var deferred = $q.defer();
+            reportsHeaderResolver2 = function (args) {
+                var deferred = args.$q.defer();
 
-                accountService
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
 
-                        if (accountService.allowedAccount($route.current.params.accountId)) {
-                            isLeafNode = accountService.getSelectedAccount().isLeafNode;
+                        if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
+                            isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             // if not leafnode i.e having subaccount then fetch subaccount
                             if (!isLeafNode) {
-                                subAccountService
-                                    .fetchSubAccountList($route.current.params.accountId)
+                                args.subAccountService
+                                    .fetchSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
-                                        if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                                            accountService
-                                                .fetchAccountData($route.current.params.accountId)
+                                        if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
+                                            args.accountService
+                                                .fetchAccountData(args.$route.current.params.accountId)
                                                 .then(function () {
-                                                    fetchCampaignStrategy(
-                                                        $route, $location, advertiserModel, brandsModel, vistoconfig, campaignSelectModel, strategySelectModel, deferred
-                                                    );
+                                                    fetchCampaignStrategy(args, deferred);
                                                 }, function () {
                                                     deferred.reject('Client data not found');
                                                 });
                                         } else {
                                             console.log('sub account not allowed');
-                                            $location.url('/tmp');
+                                            args.$location.url('/tmp');
                                         }
                                     });
                             } else {
                                 // if it's a leaf node i.e not haveing subaccount
-                                accountService
-                                    .fetchAccountData($route.current.params.accountId)
+                                args.accountService
+                                    .fetchAccountData(args.$route.current.params.accountId)
                                     .then(function () {
-                                        fetchCampaignStrategy($route, $location, advertiserModel, brandsModel, vistoconfig, campaignSelectModel, strategySelectModel, deferred);
+                                        fetchCampaignStrategy(args, deferred);
                                     }, function () {
                                         deferred.reject('Client data not found');
                                     });
@@ -673,7 +668,7 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
 
                         } else {
                             console.log('account not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
@@ -681,19 +676,19 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
             },
 
             // report header resolver without campaign id - we pick the campaign here
-            reportsHeaderResolverWOCampaign = function ($q, $location, $route, accountService, campaignSelectModel) {
-                var deferred = $q.defer();
+            reportsHeaderResolverWOCampaign = function (args) {
+                var deferred = args.$q.defer();
 
-                accountService
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
-                        if (accountService.allowedAccount($route.current.params.accountId)) {
-                            accountService
-                                .fetchAccountData($route.current.params.accountId)
+                        if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
+                            args.accountService
+                                .fetchAccountData(args.$route.current.params.accountId)
                                 .then(function () {
-                                    var params = $route.current.params;
+                                    var params = args.$route.current.params;
 
-                                    campaignSelectModel
+                                    args.campaignSelectModel
                                         .fetchCampaigns(params.accountId, params.advertiserId || -1, params.brandId || -1)
                                         .then(function (campaignsResponse) {
                                             var campaign,
@@ -712,7 +707,7 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                                                     url += '/mediaplans';
                                                 }
 
-                                                $location.url(url);
+                                                args.$location.url(url);
                                             }
 
                                             deferred.resolve();
@@ -720,82 +715,82 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                                 });
                         } else {
                             console.log('account not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
                 return deferred.promise;
             },
 
-            reportsHeaderResolverWOCampaign2 = function ($q, $location, $route, accountService, subAccountService, campaignSelectModel) {
-                var deferred = $q.defer();
+            reportsHeaderResolverWOCampaign2 = function (args) {
+                var deferred = args.$q.defer();
 
-                accountService
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
 
-                        if (accountService.allowedAccount($route.current.params.accountId)) {
-                            isLeafNode = accountService.getSelectedAccount().isLeafNode;
+                        if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
+                            isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                subAccountService
-                                    .fetchSubAccountList($route.current.params.accountId)
+                                args.subAccountService
+                                    .fetchSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
-                                        if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                                            fetchAccountDataWithCampaign($route, $location, campaignSelectModel, accountService, deferred);
+                                        if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
+                                            fetchAccountDataWithCampaign(args, deferred);
                                         } else {
                                             console.log('sub account not allowed');
-                                            $location.url('/tmp');
+                                            args.$location.url('/tmp');
                                         }
                                     });
                             } else {
-                                fetchAccountDataWithCampaign($route, $location, campaignSelectModel, accountService, deferred);
+                                fetchAccountDataWithCampaign(args, deferred);
                             }
 
                         } else {
                             console.log('account not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
                 return deferred.promise;
             },
 
-            scheduleReportListCreateResolver = function ($q, $location, $route, accountService) {
-                var deferred = $q.defer(),
-                    params = $route.current.params;
+            scheduleReportListCreateResolver = function (args) {
+                var deferred = args.$q.defer(),
+                    params = args.$route.current.params;
 
-                accountService
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
-                        if (accountService.allowedAccount(params.accountId)) {
-                            accountService
-                                .fetchAccountData($route.current.params.accountId)
+                        if (args.accountService.allowedAccount(params.accountId)) {
+                            args.accountService
+                                .fetchAccountData(args.$route.current.params.accountId)
                                 .then(function () {
                                     deferred.resolve();
                                 });
                         } else {
                             console.log('account ' + params.accountId + 'not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
                 return deferred.promise;
             },
 
-            uploadReportsHeaderResolver = function ($q, $location, $route, accountService, campaignSelectModel, advertiserModel, brandsModel, collectiveReportModel, vistoconfig) {
-                var deferred = $q.defer(),
-                    params = $route.current.params;
+            uploadReportsHeaderResolver = function (args) {
+                var deferred = args.$q.defer(),
+                    params = args.$route.current.params;
 
-                accountService
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
-                        if (accountService.allowedAccount($route.current.params.accountId)) {
-                            accountService
-                                .fetchAccountData($route.current.params.accountId)
+                        if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
+                            args.accountService
+                                .fetchAccountData(args.$route.current.params.accountId)
                                 .then(function () {
-                                    collectiveReportModel
+                                    args.collectiveReportModel
                                         .getReportList(params.accountId, params.advertiserId || -1, params.brandId || -1, params.campaignId || -1)
                                         .then(function (response) {
                                             if (response && response.data.data) {
@@ -804,9 +799,9 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                                                 deferred.resolve([]);
                                             }
 
-                                            params.campaignId && campaignSelectModel.fetchCampaign(params.accountId, params.campaignId);
+                                            params.campaignId && args.campaignSelectModel.fetchCampaign(params.accountId, params.campaignId);
 
-                                            !params.campaignId && campaignSelectModel.setSelectedCampaign({
+                                            !params.campaignId && args.campaignSelectModel.setSelectedCampaign({
                                                 id: -1,
                                                 name: 'All Media Plans',
                                                 kpi: 'ctr',
@@ -814,51 +809,48 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                                                 endDate: '-1'
                                             });
 
-                                            params.advertiserId && fetchCurrentAdvertiser($location, $route, advertiserModel, vistoconfig);
-                                            params.advertiserId && params.brandId && fetchCurrentBrand($location, $route, brandsModel, vistoconfig);
+                                            params.advertiserId && fetchCurrentAdvertiser(args);
+                                            params.advertiserId && params.brandId && fetchCurrentBrand(args);
                                         });
                                 });
                         } else {
                             console.log('account not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
                 return deferred.promise;
             },
 
-            uploadReportsHeaderResolver2 = function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, advertiserModel, brandsModel,
-                                                     collectiveReportModel, vistoconfig) {
-                var deferred = $q.defer(),
-                    params = $route.current.params;
+            uploadReportsHeaderResolver2 = function (args) {
+                var deferred = args.$q.defer(),
+                    params = args.$route.current.params;
 
-                accountService
+                args.accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
 
-                        if (accountService.allowedAccount($route.current.params.accountId)) {
-                            isLeafNode = accountService.getSelectedAccount().isLeafNode;
+                        if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
+                            isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                subAccountService
-                                    .fetchSubAccountList($route.current.params.accountId)
+                                args.subAccountService
+                                    .fetchSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
-                                        if (subAccountService.allowedSubAccount($route.current.params.subAccountId)) {
-                                            accountDataWithReportList($location, $route, accountService, collectiveReportModel,
-                                                advertiserModel, brandsModel, campaignSelectModel, vistoconfig, deferred);
+                                        if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
+                                            accountDataWithReportList(args, deferred);
                                         } else {
                                             console.log('sub account ' + params.accountId + 'not allowed');
-                                            $location.url('/tmp');
+                                            args.$location.url('/tmp');
                                         }
                                     });
                             } else {
-                                accountDataWithReportList($location, $route, accountService, collectiveReportModel,
-                                    advertiserModel, brandsModel, campaignSelectModel, vistoconfig, deferred);
+                                accountDataWithReportList(args, deferred);
                             }
                         } else {
                             console.log('account ' + params.accountId + ' not allowed');
-                            $location.url('/tmp');
+                            args.$location.url('/tmp');
                         }
                     });
 
@@ -866,19 +858,12 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
             };
 
         return {
-            accountDataWithReportList: accountDataWithReportList,
-            adsResolver: adsResolver,
             adminHeaderResolver: adminHeaderResolver,
             creativeListResolver: creativeListResolver,
             creativePreviewResolver: creativePreviewResolver,
             creativeResolver: creativeResolver,
             dashboardHeaderResolver: dashboardHeaderResolver,
             dashboardHeaderResolver2: dashboardHeaderResolver2,
-            fetchAccountData: fetchAccountData,
-            fetchAccountDataSetWSInfo: fetchAccountDataSetWSInfo,
-            fetchAccountDataWithCampaign: fetchAccountDataWithCampaign,
-            fetchAdvertiserAndBrand: fetchAdvertiserAndBrand,
-            fetchCampaignStrategy: fetchCampaignStrategy,
             fetchCurrentAdvertiser: fetchCurrentAdvertiser,
             fetchCurrentBrand: fetchCurrentBrand,
             invoiceHeader: invoiceHeader,
