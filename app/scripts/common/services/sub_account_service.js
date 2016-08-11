@@ -91,26 +91,27 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
 
                 dashboardSubAccountList = [{'id': accountId, 'displayName': 'All'}];
 
-                workflowService.getDashboardSubAccount(accountId).then(function (result) {
+                workflowService
+                    .getDashboardSubAccount(accountId)
+                    .then(function (result) {
+                        if (result && result.data.data.length > 0) {
+                            dashboardSubAccountList = dashboardSubAccountList.concat(_.map(result.data.data, function (a) {
+                                return {'id': a.id, 'displayName': a.displayName, 'isLeafNode': a.isLeafNode};
+                            }));
 
-                    if (result && result.data.data.length > 0) {
+                            subAccountList = _.filter(dashboardSubAccountList, function (a) {
+                                return a.isLeafNode === true;
+                            });
 
-                        dashboardSubAccountList = dashboardSubAccountList.concat(_.map(result.data.data, function (a) {
-                            return {'id': a.id, 'displayName': a.displayName, 'isLeafNode': a.isLeafNode};
-                        }));
+                            previousAccountId = accountId;
 
-                        subAccountList = _.filter(dashboardSubAccountList, function (a) {
-                            return a.isLeafNode === true;
-                        });
+                            deferred.resolve();
 
-                        previousAccountId = accountId;
+                        } else {
+                            console.log('error', result);
+                        }
+                    });
 
-                        deferred.resolve();
-
-                    } else {
-                        console.log('error', result);
-                    }
-                });
                 return deferred.promise;
             },
 
