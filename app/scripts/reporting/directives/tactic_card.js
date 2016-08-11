@@ -36,7 +36,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
 
                     expectedSpend = tactic.expectedMediaCost;
 
-                    return $scope.getPercentDiff(expectedSpend, tactic.grossRev);
+                    return $scope.getPercentDiff(expectedSpend, tactic.spend);
                 };
 
                 $scope.getSpendTotalDiffForTactic = function (tactic) {
@@ -48,7 +48,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
 
                     totalSpend = tactic.totalMediaCost;
 
-                    return $scope.getPercentDiff(totalSpend, tactic.grossRev);
+                    return $scope.getPercentDiff(totalSpend, tactic.spend);
                 };
 
                 $scope.getSpendClass = function (campaign) {
@@ -106,13 +106,12 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 $scope.getSpendWidthForTactic = function (tactic) {
                     var actualWidth;
 
-                    if (tactic !== undefined) {
+                    if (tactic.spend) {
                         actualWidth = 100 + $scope.getSpendTotalDiffForTactic(tactic);
 
                         if (actualWidth > 100) {
                             actualWidth = 100;
                         }
-
                         return actualWidth;
                     }
                 };
