@@ -13,7 +13,8 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                                                            strategySelectModel, columnline, dataService, constants,
                                                            timePeriodModel, loginModel, advertiserModel,
                                                            brandsModel, urlService, domainReports, vistoconfig, utils) {
-        var inventoryWrapper =  {
+        var _curCtrl = this,
+            inventoryWrapper =  {
             // Function called to draw the Strategy chart
             getStrategyChartData: function () {
                 var inventoryQueryIdMapperWithAllAdsGroup = {
@@ -109,7 +110,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                                     if ($scope.strategyTableData.length > 0) {
                                         $scope.inventoryChart =
                                             columnline.highChart($scope.strategyTableData,
-                                                $scope.selectedFilters.kpi_type);
+                                                _curCtrl.kpi_display);
                                     } else {
                                         $scope.inventoryChart = false;
                                     }
@@ -338,7 +339,14 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 inventoryWrapper.callBackStrategyChange();
             }
         });
-
+        $scope.$watch('selectedFilters.kpi_type', function (v) {
+            var kpi_display = _.find(vistoconfig.kpiDropDown,function(obj){
+                return obj.kpi === (v).toLowerCase();
+            });
+            if(kpi_display && kpi_display.displayName){
+                _curCtrl.kpi_display = kpi_display.displayName
+            }
+        });
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event, strategy) {
             $scope.selectedFilters.time_filter = strategy;
             inventoryWrapper.callBackStrategyChange();

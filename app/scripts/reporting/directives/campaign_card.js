@@ -161,7 +161,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                                 return spendDifference;
                             }
 
-                            spend = campaignCDBObj.getGrossRev();
+                            spend = campaignCDBObj.getSpend();
                             expectedSpend = campaign.expectedMediaCost;
 
                             return $scope.getPercentDiff(expectedSpend, spend);
@@ -182,7 +182,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                                 return spendDifference;
                             }
 
-                            spend = campaignCDBObj.getGrossRev();
+                            spend = campaignCDBObj.getSpend();
                             totalSpend = campaign.totalMediaCost;
 
                             return $scope.getPercentDiff(totalSpend, spend);
