@@ -127,6 +127,10 @@ define(['angularAMD'], function (angularAMD) {
             //America/Denver
             'US/Mountain' : 'America/Denver',
 
+            'US/Alaska' : 'America/Anchorage',
+
+            'US/Hawaii' : 'Pacific/Honolulu',
+
             'GMT' : 'UTC'
         };
 
