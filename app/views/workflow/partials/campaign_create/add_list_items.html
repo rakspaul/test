@@ -284,7 +284,7 @@
                    ng-readonly="true"/>
         </div>
         <div style="clear:both"></div>
-        <div class="col-md-3 zeroPadding dropdown-workflow" style="margin-right:10px;">
+        <div class="col-md-3 zeroPadding dropdown-workflow" style="margin-right:10px;" >
             <div class="dropdown">
                 <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_VOLUME_TYPE"></label>
                 <button style="width:100%;" class="btn btn-default dropdown-toggle systemOfRecordName" type="button"
@@ -298,8 +298,6 @@
                     <li class="available" ng-repeat="type in volumeType"
                         ng-click="setVolumeType(type,'create')"><a>{{type}}</a></li>
                 </ul>
-                <input type="hidden" class="form-control" ng-model="systemOfRecordSelected.id"
-                       name="systemOfRecordSelected"/>
             </div>
 
         </div>
