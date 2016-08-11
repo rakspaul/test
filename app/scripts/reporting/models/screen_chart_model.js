@@ -4,10 +4,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
     'common/services/vistoconfig_service', 'common/services/sub_account_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.service('screenChartModel', ['$filter', 'urlService', 'dataService', 'brandsModel',
-        'dashboardModel', 'constants', 'loginModel', 'RoleBasedService', 'advertiserModel', 'vistoconfig',
-        'subAccountService', function ($filter, urlService, dataService, brandsModel, dashboardModel, constants,
-                                     loginModel, RoleBasedService, advertiserModel, vistoconfig) {
+    angularAMD.service('screenChartModel', ['$rootScope', '$filter', 'urlService', 'dataService', 'brandsModel',
+        'dashboardModel', 'constants', 'loginModel', 'RoleBasedService', 'advertiserModel', 'vistoconfig', 'featuresService',
+        function ($rootScope, $filter, urlService, dataService, brandsModel, dashboardModel, constants,
+                                     loginModel, RoleBasedService, advertiserModel, vistoconfig, featuresService) {
             var screenWidgetData = {
                     selectedMetric: constants.SPEND,
 
@@ -23,7 +23,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     ],
 
                     selectedFormat: constants.SCREENS,
-                    formatDropDown: [constants.SCREENS, constants.FORMATS, constants.PLATFORMS],
+                    formatDropDown: [],
                     chartData: {},
                     dataNotAvailable: true
                 },
@@ -35,7 +35,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
 
                 screenTypeMap = vistoconfig.screenTypeMap,
                 formatTypeMap = vistoconfig.formatTypeMap,
-                usrRole = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().uiExclusions;
+                usrRole = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().uiExclusions,
+
+
+                fParams = featuresService.getFeatureParams(),
+                featurePerformance = fParams[0].performance,
+                featurePlatform = fParams[0].platform;
+
+
 
             if (usrRole && usrRole.ui_modules) {
                 screenWidgetData.formatDropDown =
@@ -45,6 +52,28 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         return _.indexOf(usrRole.ui_modules, obj.toLowerCase()) === -1;
                     });
             }
+
+            //initially and as well when ever features of client change then it should be called
+            var setFormatDropDown  = function() {
+                screenWidgetData.formatDropDown = [];
+                if(featurePerformance) {
+                    screenWidgetData.formatDropDown.push(constants.SCREENS, constants.FORMATS);
+                }
+                if(featurePlatform) {
+                    screenWidgetData.formatDropDown.push(constants.PLATFORMS);
+                }
+            };
+            //initially set data for formatdropdown depending on features
+            setFormatDropDown();
+
+            $rootScope.$on('features', function () {
+                fParams = featuresService.getFeatureParams();
+                featurePerformance = fParams[0].performance;
+                featurePlatform = fParams[0].platform;
+                setFormatDropDown();
+
+            });
+
 
             this.dataModifyForPlatform =  function (data) {
                 var platformData = {},

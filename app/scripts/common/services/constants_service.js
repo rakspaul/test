@@ -107,7 +107,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.FORMATS = 'Formats';
         this.PLATFORMS = 'Platforms';
         this.CREATIVES = 'Creatives';
-        this.VIDEO_PLAYS = 'Video Plays';
         this.AD_SIZES = 'Ad Sizes';
         this.DELETE_CREATIVES = 'Are you sure you want to archive creatives?';
         this.CPMV = 'CPMv';
@@ -268,13 +267,11 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.PERFORMANCE = 'Performance';
         this.MARGIN = 'Margin';
         this.BUDGET = 'Budget';
-        this.BRAND = 'Brand';
         this.CAMPAIGN_ON_TRACK = 'Media Plan is On Track';
         this.UNDERPERFORMING_CAMPAIGN = 'Media Plan is Off Track';
         this.NEUTRAL = 'Neutral (no status)';
         this.IMP_WITH_DOT = 'Imps.';
         this.CLICKS = 'Clicks';
-        this.VTC = 'VTC';
         this.QUARTILE_DETAILS = 'Quartile Data';
         this.YET_TO_START = 'Scheduled ';
         this.ENDED = 'Ended';
@@ -303,7 +300,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.UNDERPERFORMING = 'Underperforming';
         this.PAUSED = 'Paused';
         this.COMPLETED = 'Completed';
-        this.ENDED = 'Ended';
 
         this.CREATE_ACTIVITY = 'Create Activity';
         this.ACTIVITY_CREATED_SUCCESSFULLY_VIEW_ACTIVITY_LOG =
@@ -318,7 +314,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.INTERNAL = 'Internal';
         this.ACTIVITY_LOG = 'Activity Log';
         this.CLICK_FOR_DETAILED_REPORTS = 'Click for detailed reports';
-        this.SCREENS = 'Screens';
         this.PLATFORM = 'Platforms';
         this.TOP_THREE = 'Top 3';
         this.QUALITY = 'Quality';
@@ -328,12 +323,10 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.TOP = 'Top';
         this.NO_LINKED_STRATEGIES = 'There are no linked Ad Groups';
-        this.ALL = 'All';
         this.ONE_S = '1s';
         this.FIVE_S = '5s';
         this.FIFTEEN_S = '15s';
         this.CAMPAIGN_OVERVIEW = 'Media Plan Overview';
-        this.KPI = 'KPI';
         this.DATA = 'Data';
         this.AD_SERVING = 'Ad Serving';
         this.AD_START_IMPS = 'Ad Start Imps.';
@@ -402,7 +395,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.AFTER = 'After';
         this.OPTIMIZATION_TYPE = 'Optimization Type';
         this.DATE_OPTIMIZED = 'Date Optimized';
-        this.METRIC = 'Metric';
         this.DATE_FROM = 'Date from';
         this.DATE_TO = 'Date to';
         this.VALUE = 'Value';
@@ -414,15 +406,11 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.DAYS_OF_WEEK = 'Days of Week';
         this.DISCREPANCY = 'Discrepancy';
-        this.COST = 'Cost';
         this.BASED_ONLY_ON_MEASURABLE_IMPS = 'Value based only on Measurable Impressions.';
         this.BASED_ONLY_ON_VIEWABLE_IMPS = 'Value based only on Viewable Impressions.';
         this.VIEWABLE = 'Viewable';
         this.MEASURABLE = 'Measurable';
         this.SSL_ERROR_MESSAGE = 'Please enter a SSL compatible tag.';
-
-        this.STRATEGY = 'Ad Group';
-        this.LINE_ITEM = 'Line Item';
 
         this.PLATFORM_NAME = 'Platform Name';
         this.COLLECTIVE_FEE = 'Collective Fee';
@@ -430,9 +418,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.SUSPICIOUS = 'Suspicious';
         this.TOTAL = 'Total';
 
-        this.SCREEN = 'Screen';
-        this.SELECT_ALL_SMALL_A = 'Select all';
-
         this.FORGOT_PASSWORD = 'Forgot Password';
         this.FORGOT_PASSWORD_CONTACT_ACCOUNT_MANAGER = 'Contact your Account Manager to reset your password';
         this.COPY_RIGHTS = 'Copyright &copy; 2016 Collective, Inc. All Rights Reserved';
@@ -441,21 +426,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.STRATEGY = 'Ad Group';
 
-        this.PLATFORM_NAME = 'Platform Name';
-
-        this.SUSPICIOUS = 'Suspicious';
-        this.TOTAL = 'Total';
-
         this.SCREEN = 'Screen';
         this.SELECT_ALL_SMALL_A = 'Select all';
 
-        this.FORGOT_PASSWORD = 'Forgot Password';
-        this.FORGOT_PASSWORD_CONTACT_ACCOUNT_MANAGER = 'Contact your Account Manager to reset your password';
-        this.COPY_RIGHTS = 'Copyright &copy; 2016 Collective, Inc. All Rights Reserved';
-        this.ABOUT_US = 'About Us';
-        this.USERNAME_OR_PASSWORD_INCORRECT = 'The Username/Password is incorrect';
-
-        this.CAPAIGN_DETAILS = 'Media Plan Details';
         this.CHANNEL = 'Channel';
         this.DOWNLOAD_REPORT = 'Download Report';
         this.DOWNLOADING = 'Downloading';
@@ -489,31 +462,23 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.WF_SETTINGS = 'Settings';
         this.ABOUT_THIS_MEDIAPLAN = 'About this Media Plan';
         this.ACCOUNT = 'Account';
-        this.WF_BRAND = 'Brands';
+        this.WF_BRAND = 'Brand';
         this.ADVERTISERS = 'Advertiser';
         this.SELECT_ACCOUNT = 'Select Account';
         this.WF_GOAL = 'Goal';
         this.SELECT_GOAL = 'Select Goal';
-        this.BUDGET = 'Budget';
         this.START_DATE = 'Start Date';
         this.FLIGHT_START_DATE = 'Flight Start Date';
         this.END_DATE = 'End Date';
         this.FLIGHT_END_DATE = 'Flight End Date';
         this.SELECT_TIME = 'Select Time';
-        this.ADS = 'Ads';
         this.UNTITLED_CAMPAIGN = 'Untitled Media Plan';
         this.SAVE_CAMPAIGN = 'Save Media Plan';
         this.PUSH_CAMPAIGN = 'Push Media Plan';
-        this.CANCEL = 'Cancel';
         this.GROUP_TITLE = 'Group Title';
         this.EDIT = 'Edit';
         this.DFP_DISPLAY = 'DFP Display';
         this.DFP_PRE_ROLL = 'DFP Pre-roll';
-        this.DRAFT = 'Draft';
-        this.READY = 'Ready';
-        this.IMPRESSIONS = 'Impressions';
-        this.CREATIVES = 'Creatives';
-        this.ADMIN = 'Admin';
         this.TARGETING = 'Targeting';
         this.CONTINUE = 'Continue';
         this.PREVIOUS = 'Previous';
@@ -535,7 +500,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.WF_HEADER_PRIMARY_GOAL = 'What is your primary goal?';
         this.WF_AD_GOAL = 'Ad Goal';
         this.WF_PERFORMANCE = 'Performance';
-        this.WF_BRAND = 'Brand';
         this.WF_HEADER_AD_OBJECTIVE = 'What is your Ad objective?';
         this.WF_PRIMARY_KPI = 'Primary KPI';
         this.SELECT_LABEL = 'Select One';
@@ -578,7 +542,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.WF_DATE_FORMAT = 'D MMM YYYY';
 
         this.YESTERDAY = 'Yesterday';
-        this.WF_NOT_SET = 'Not Set';
         this.REPORT_BUILDER = 'Report Builder';
         this.REPORT_BUILDER_SUBTITLE =
             'Select Dimension(s), Timeframe and any additional parameters to generate your report';
@@ -708,12 +671,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         //Ad Create: Header
         this.OBJECTIVES = 'Objectives';
-        this.DELBUDGET = 'Delivery Budget';
-        this.FLIGHTDATES = 'Flight Dates';
         this.CONTACTS = 'Contacts';
-        this.ADGROUPS = 'Ad Groups';
         this.ADS = 'Ads';
-        this.CREATIVES = 'Creatives';
 
         //Ad Create: Sidebar
         this.ADSETUP = 'Ad Setup';
@@ -728,9 +687,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.BUYINGPLATFORMSIDE = '3. Buying Platform';
         this.PLATFORMPAR = '(Platform)';
         this.TARGETINGSIDE = '4. Targeting';
-        this.GEOGRAPHY = 'Geography';
         this.AUDIENCE = 'Audience';
-        this.DAYPART = 'Daypart';
         this.INVENTORYSIDE = '5. Inventory Filters';
         this.CREATIVESIDE = '6. Creative';
 
@@ -756,8 +713,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.BUDGETCAL = 'Select your Booking Method';
         this.COST = 'Cost';
         this.FREQCAP = 'Frequency Cap';
-        this.YES = 'Yes';
-        this.NO = 'No';
         this.IMPPERUSER = 'Impressions per user';
         this.DAILY = 'Daily';
         this.LIFETIME = 'Lifetime';
@@ -791,13 +746,11 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.AUDSEGMENTS = 'Audience Segments';
         this.REACHAUD = 'Reach the right audience by selecting focus segments';
         this.ALLAUD = 'All Audience (default)';
-        this.SELECTED = 'Selected';
         this.TARGETAUDLOC = 'Target your audience by location';
         this.INCLUDED = 'Included';
         this.INCLUDE = 'Include';
         this.EXCLUDED = 'Excluded';
         this.EXCLUDE = 'Exclude';
-        this.DAYPART = 'Daypart';
         this.SELECTADREST = 'Select when to show your Ad by restricting day and time';
         this.ALLDAYSTIMES = 'All Days & Times (default)';
         this.AREYOUSURE = 'Are you sure?';
@@ -819,8 +772,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.FILENAME = 'File Name';
         this.LISTNAME = 'List Name';
         this.PLEASEENTERLIST = 'Please enter list name.';
-        this.CATEGORY = 'Category';
-        this.TYPE = 'Type';
         this.WHITELIST = 'Whitelist';
         this.BLACKLIST = 'Blacklist';
         this.LISTYPEMOD = 'List type cannot be modified. ';
@@ -838,7 +789,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ADDEXISTNG = 'Add from Existing';
         this.CREATENEW = 'Create New';
         this.DLTRACKER = 'Download Tracker URLs';
-        this.SIZE = 'Size';
         this.TAGNAME = 'Creative Name';
         this.TAGTYPE = 'Type';
         this.ADSRVER = 'Adserver';
@@ -847,7 +797,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.COPY = 'Copy';
         this.DELETE = 'Delete';
         this.DOWNLOAD = 'Download';
-        this.ARCHIEVE = 'Archive';
         this.CHOOSE_FILTER = 'Choose filter';
         this.SELECT = 'Select';
 
@@ -868,16 +817,12 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         //Overview Page
         this.ADVERTISER = 'Advertiser';
         this.BRAND = 'Brand';
-        this.EDIT = 'Edit';
         this.CLONE = 'Clone';
         this.OBJC = 'Objectives';
         this.KPI = 'KPI';
         this.DELBUDGET = 'Delivery Budget';
         this.FLIGHTDATES = 'Flight Dates';
         this.ADGROUPS = 'Ad Groups';
-        this.ADS = 'Ads';
-        this.CREATIVES = 'Creatives';
-        this.ADMIN = 'Admin';
         this.LAST_UPDATED = 'Last Updated';
         this.SORT = 'Sort';
         this.LATEST = 'Latest';
@@ -887,22 +832,17 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.SETADGRP = 'Ad Group Setup';
         this.EDITADGRP = 'Ad Group Edit';
         this.NAMEADGROUP = 'What is the name of your Ad Group?';
-        this.ADGROUPNAME = 'Ad Group Name';
         this.ENTERADGRP = 'Please enter a name for the ad group.';
         this.LIKEADSRUN = 'When would you like your Ads to run?';
         this.SELENDDATE = 'Please select the end Date.';
         this.SAVE = 'Save';
-        this.CREATEAD = 'Create Ad';
         this.PLATNOTSET = 'Platform Not Set';
         this.NOTPUSHEDPAR = '(NOT PUSHED)';
         this.FLTNOTSET = 'Flight Date Not Set';
         this.AD = 'AD';
-        this.PAUSED = 'Paused';
         this.CHOOSEONE = 'Choose One';
         this.BROWSER = 'Browser';
-        this.APP = 'App';
         this.APPS = 'Apps';
-        this.NEXT = 'Next';
         this.APP_LISTS = 'App Lists';
         this.DOMAIN_LISTS = 'Domain Lists';
         this.ALL_LISTS = 'All Lists';
@@ -915,7 +855,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ADTYPE = 'Ad Type';
         this.SHOWPRESET = 'Show Preset';
         this.PE = 'Pe';
-        this.TARGETING = 'Targeting';
         this.KEYVALUE = 'Key Value';
         this.USERPART = 'User Partition';
         this.BUDGERPART = 'Budger Partition';
@@ -935,7 +874,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.BUILD_REPORT = 'Build Report';
         this.CUSTOM_REPORTS = 'Custom Reports';
         this.MEDIA_PLAN_REPORTS = 'Media Plan Reports';
-        this.CREATIVES = 'Creatives';
 
         //media plans
         this.NO_CATEGORY_FOR_SELECTED_ADVERISER = 'No category available for selected advertiser.';
@@ -969,7 +907,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.OPTIONALPAR = '(Optional)';
         this.KEYWORD = 'Keyword';
         this.SOURCE = 'Source';
-        this.CLEARALL = 'Clear All';
         this.CATEGORY = 'Category';
         this.SEGMENTNAME = 'Segment Name';
         this.NORESULTSFOUND = ' No Results Found...';
@@ -995,7 +932,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.LATENIGHT = 'Late Night (11:00PM-1:00AM)';
         this.CUTSCHEDULE = 'Custom schedule';
         this.TIMEZONE = 'Time Zone';
-        this.ADVERTISER = 'Advertiser';
         this.VID = 'VID';
         this.ENDUSER = 'End User';
         this.CLOCK = 'Clock';
@@ -1003,7 +939,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.HR24 = '24 hr';
         this.DELADTIME = 'Deliver Ads on specific days and times';
         this.ADDDAYPART = 'Add Daypart';
-        this.CLEARALL = 'Clear All';
         this.SUNDAY = 'Sunday';
         this.MONDAY = 'Monday';
         this.TUESDAY = 'Tuesday';
@@ -1019,7 +954,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.COUNTRY = 'Country';
         this.INCZIP = 'Including zip / postal codes is going to limit your geographic targeting significantly.';
         this.ZIP_CODE_LABEL = 'Separate zip / postal codes by comma. Use hyphens to denote ranges.';
-        this.CONTINUE = 'Continue';
         this.REGCITY = 'REGION & CITY';
         this.REGTABLABEL = 'REGION';
         this.METRO = 'METRO';
@@ -1037,7 +971,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.REGION = 'Region';
         this.CITY = 'City';
-        this.SELECTED = 'Selected';
         this.TARGETING_LABEL = 'Targeting';
         this.REMOVEALL = 'Remove All';
         this.METROS = 'Metros';
@@ -1084,20 +1017,14 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         //Creative List
         this.NEWCREATIVEALERT = 'New Creative has been created successfully.';
         this.CREATIVELIBRARY = 'Creative Library';
-        this.CREATE = 'Create';
-        this.EDIT = 'Edit';
-        this.ARCHIVE = 'Archive';
-        this.CLONE = 'Clone';
         this.CREATIVENAME = 'Creative Name';
         this.FORMAT = 'Format';
         this.TYPE = 'Type';
         this.ADSERVER = 'Ad Server';
         this.SIZE = 'Size';
-        this.ADVERTISER = 'Advertiser';
         this.PLATFORMSPAR = 'Platform(s)';
         this.LASTUPDATED = 'Last Updated';
         this.CAMPAIGNDASHAD = 'Media Plan / Ad';
-        this.BRAND = 'Brand';
         this.TRACKINGONLY = 'Tracking-Only';
         this.DATANOTAVAILABLE = 'Data not available';
         this.UPDATETAG = 'Update Tag';
@@ -1242,7 +1169,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.AD_GROUP_TOTAL = 'Ad Group Total:*';
         this.CAMPAIGN_TOTAL = 'Campaign Total:*';
         this.LINE_ITME_TOTAL = 'Line Item Total:*';
-        this.INCLUDES_FIXED_COSTS = '*Includes Fixed Fosts';
+        this.INCLUDES_FIXED_COSTS = '*Includes Fixed Costs';
         this.EXCLUDES_MEDIA_PLAN_FIXED_COSTS = '*Excludes Media Plan fixed costs';
 
         this.CLIENT_LOADED = 'clientLoaded';
@@ -1297,7 +1224,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.SEAT_ID_CONNECTIONS = 'Seat ID | Connections' ;
         this.ENABLE = 'Enable' ;
         this.OFFERING = 'Offering' ;
-        this.CATEGORY = 'Category' ;
         this.BASE_RATE_TYPE = 'Base Rate & Type' ;
         this.SEAT_ID_CONNECTIONS = 'Seat ID | Connections' ;
         this.REPORT_BUILDER_METRIC_TOOLTIP = 'Metrics that don\'t apply to the selected Dimension(s) will be disabled.';
@@ -1309,6 +1235,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.NOTE_ADCHOICE_CODE = 'Note: Empty ad choice field will take default ad choice code from the system.';
         this.WF_PAUSE_ALL = 'Pause All';
         this.WF_RESUME_ALL = 'Resume All';
+        this.SELECTCOUNTRY = 'Select Country';
 
     });
 });

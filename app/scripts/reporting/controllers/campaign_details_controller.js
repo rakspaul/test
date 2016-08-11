@@ -28,7 +28,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
 
             var orderBy = $filter('orderBy'),
                 campaign = campaignListService,
-                fParams = featuresService.getFeatureParams(),
+                //Campaigns = campaignListModel,
                 getSetCampaignDetails,
 
                 // API call for campaign details
@@ -132,11 +132,46 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                     });
             }
 
-            $rootScope.$on('features', function () {
+            function enableFeaturePermission(){
                 var fParams = featuresService.getFeatureParams();
 
                 $scope.createOptimization = fParams[0].optimization_create;
                 $scope.showOptimization = fParams[0].optimization_transparency;
+                $scope.showPlatform = fParams[0].platform;
+                $scope.showPerformance = fParams[0].performance; //if performance is false hide screens/adsizes/formats widget
+                $scope.showViewAbility = fParams[0].quality;
+                $scope.showInventory = fParams[0].inventory;
+                $scope.showCostWidget = fParams[0].cost;
+                $scope.createOptimization = fParams[0].optimization_create;
+                $scope.showOptimization = fParams[0].optimization_transparency;
+                setWidgetInCarousel();
+            }
+
+            enableFeaturePermission();
+
+            function setWidgetInCarousel() {
+                setTimeout(function(){
+                    var selAllCarousalWidget = '#myCarousel > .carousel-inner .item:not(.ng-hide)',
+                        totalWidget = $(selAllCarousalWidget).length,
+                        activelength = (totalWidget >= 4) ? 4 : totalWidget;
+
+                    $(selAllCarousalWidget).removeClass('active');
+                    $(selAllCarousalWidget).slice(0, activelength).addClass('active');
+                    if(totalWidget && totalWidget <= 4){
+                        $('a[data-target="#myCarousel"]').hide();
+                    }else{
+                        $('a[data-target="#myCarousel"][data-slide="next"]').show();
+                    }
+                },25);
+            }
+
+
+            $rootScope.$on('features', function () {
+                enableFeaturePermission();
+            });
+
+            $rootScope.$on(constants.ACCOUNT_CHANGED, function () {
+                enableFeaturePermission();
             });
 
             $scope.campaigns = {
@@ -181,9 +216,6 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 return (dir === 'asc' ? 'desc': 'asc');
             };
 
-            $scope.showCostWidget = fParams[0].cost;
-            $scope.createOptimization = fParams[0].optimization_create;
-            $scope.showOptimization = fParams[0].optimization_transparency;
 
             $scope.details.resetSortParams = function () {
                 $scope.details.sortParam = undefined;
@@ -294,10 +326,9 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
             // init function sets the selected campaign onclick of campaign in campaign list page. CRPT-3440
             $scope.init();
 
-            //TODO :  sapna I dont udnerstand why need to call this when we click any canned report
-            // $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function () {
-            //     $location.path('/mediaplans/' + campaignSelectModel.getSelectedCampaign().id);
-            // });
+            $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function () {
+                $location.path('/mediaplans/' + campaignSelectModel.getSelectedCampaign().id);
+            });
 
             $scope.getCostBreakdownData  = function (campaign) {
                 //  get cost break down data

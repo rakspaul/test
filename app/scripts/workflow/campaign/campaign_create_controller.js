@@ -623,7 +623,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 dateTimeZone,
                 i,
                 clientId = vistoconfig.getSelectedAccountId(),
-                campaignId = vistoconfig.getSelectedCampaignId();
+                campaignId = vistoconfig.getSelectedCampaignId(),
+                isDateChanged = true;
 
             saveMediaPlanBeforeLineItem  = saveMediaPlanBeforeLineItem || false;
             $scope.$broadcast('show-errors-check-validity');
@@ -663,8 +664,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 dateTimeZone = workflowService.getAccountTimeZone();
 
+                if($scope.mediaPlanAPIStartTime && moment($scope.selectedCampaign.startTime).startOf('day').isSame(moment($scope.mediaPlanAPIStartTime).startOf('day'))) {
+                    isDateChanged = false;
+                }
+
                 utcStartTime = momentService.localTimeToUTC($scope.selectedCampaign.startTime,
-                    'startTime', dateTimeZone);
+                    'startTime', dateTimeZone, isDateChanged);
+
                 utcEndTime = momentService.localTimeToUTC($scope.selectedCampaign.endTime,
                     'endTime', dateTimeZone);
 

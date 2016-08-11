@@ -642,6 +642,24 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
 
                     return Math.abs(input);
                 };
+            })
+
+            // Used: Canned report
+            // performance.html
+            .filter('suffixPrefixCannedReport', function (constants) {
+                return function (val, type) {
+                    var retVal = '-';
+                    if(val) {
+                        if(type === 'suspicious_impressions_perc' || type === 'viewable_impressions_perc'){
+                            retVal = val.toFixed(3) + '%';
+                        }else if(type === 'viewable_impressions'){
+                            retVal = val.toFixed(0);
+                        } else{
+                            retVal = constants.currencySymbol + val.toFixed(3);
+                        }
+                    }
+                    return retVal;
+                };
             });
     }
 );

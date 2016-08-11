@@ -5,8 +5,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
     function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('HeaderController', function ($q, $scope, $rootScope, $route, $cookieStore, $location,
-                                                        $modal, $routeParams, constants, loginModel, domainReports,
+    angularAMD.controller('HeaderController', function ($http, $q, $scope, $rootScope, $route, $cookieStore, $location,
+                                                        $modal, $routeParams, $sce, constants, loginModel, domainReports,
                                                         campaignSelectModel, RoleBasedService, workflowService,
                                                         featuresService, accountService, subAccountService,
                                                         vistoconfig, localStorageService, advertiserModel, brandsModel,
@@ -70,6 +70,21 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
+
+        $scope.getClientData = function () {
+            var clientId = localStorageService.masterClient.get().id;
+
+            workflowService
+                .getClientData(clientId)
+                .then(function (response) {
+                    // set the type of user here in RoleBasedService.js
+                    RoleBasedService.setClientRole(response);
+                    RoleBasedService.setCurrencySymbol();
+                    featuresService.setFeatureParams(response.data.data.features, 'headercontroller');
+                    $scope.filters = domainReports.getReportsTabs();
+                    $scope.customFilters = domainReports.getCustomReportsTabs();
+                });
+        };
 
         $scope.set_account_name = function (event, id, name, isLeafNode) {
             $('#user_nav_link').removeClass('selected');
@@ -408,18 +423,19 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 });
             };
 
+            $scope.showFiles = false;
 
             $scope.openHelp = function() {
-                workflowService.getVistoUserManual()
-                    .then(function (res) {
-                        if (res.status === 'OK' || res.status === 'success') {
-                            var fileURL = URL.createObjectURL(res);
-                            console.log('fileUrl', fileURL);
-                            window.open(fileURL);
-                        }
-                    },function (err) {
-                        console.log('Error = ', err);
-                    });
+                var clientId = loginModel.getMasterClient().id;
+                var url  = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/userguide/download';
+                $http.get(url, {responseType:'arraybuffer'})
+                    .success(function (response) {
+                        var file = new Blob([response], {type: 'application/pdf'});
+                        var fileURL = URL.createObjectURL(file);
+                        $scope.content = $sce.trustAsResourceUrl(fileURL);
+                        $scope.showFiles = true;
+                });
+
             };
         });
     });

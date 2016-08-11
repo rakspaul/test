@@ -1163,6 +1163,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 utcEndTime,
                 inventoryLists,
                 dateTimeZone,
+                isDateChanged = true,
 
                 wrapperToReplaceCustomPlatformHiddenValues = function(customPlatformData) {
                     _.each(customPlatformData, function(obj) {
@@ -1221,8 +1222,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 dateTimeZone = workflowService.getAccountTimeZone();
 
+                if($scope.apiStartTime && moment(formData.startTime).startOf('day').isSame(moment($scope.apiStartTime).startOf('day'))) {
+                    isDateChanged = false;
+                }
+
                 if (formData.startTime) {
-                    utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone);
+                    utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone, isDateChanged);
 
                     // fixed for CW-4102
                     if ($scope.mode ==='edit') {

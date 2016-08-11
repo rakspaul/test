@@ -43,6 +43,16 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
             return (ret ? true : false);
         };
 
+        $scope.getDisplayKpiName = function(){
+            var ret;
+            _.each($scope.kpiData.kpiDropDown,function(obj){
+                if(obj.kpi === $scope.kpiData.selectedKpi){
+                    ret = obj.displayName;
+                }
+            });
+            return ret;
+        };
+
         $scope.setSelectedKpi = function (_kpi) {
             kpiSelectModel.setSelectedKpi(_kpi);
             $scope.kpiData.selectedKpi = kpiSelectModel.getSelectedKpi();

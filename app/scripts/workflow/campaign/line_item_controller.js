@@ -709,7 +709,8 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             var newItem,
                 utcStartTime,
                 utcEndTime,
-                dateTimeZone;
+                dateTimeZone,
+                isDateChanged = true;
 
             // this hack is to make it work in edit mode when media plan save is requierd prior to line item
             // check if we have saved line item details in service or create a new line item object
@@ -744,7 +745,12 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                 dateTimeZone = workflowService.getAccountTimeZone();
 
-                utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone);
+                if(lineItemAPIStartTimeList[oldLineItemIndex] &&
+                    moment(newItem.startTime).startOf('day').isSame(moment(lineItemAPIStartTimeList[oldLineItemIndex]).startOf('day'))) {
+                    isDateChanged = false;
+                }
+
+                utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone, isDateChanged);
 
                 if(moment(utcStartTime).startOf('day').isSame(moment(lineItemAPIStartTimeList[oldLineItemIndex]).startOf('day')))  {
                     utcStartTime = lineItemAPIStartTimeList[oldLineItemIndex];
@@ -1095,7 +1101,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         $scope.$parent.processLineItemEditMode = function (lineItemList) {
             $scope.lineItems.lineItemList.length = 0;
 
-            _.each(lineItemList, function (item) {
+            _.each(lineItemList, function (item, idx) {
                 var index = _.findIndex($scope.type, function (type) {
                         return type.id === item.billingTypeId;
                     }),
@@ -1141,11 +1147,11 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 $scope.pricingRate = item.billingRate;
 
                 // line start Date
-                $scope.lineItemAPIStartTime = item.startTime;
+                lineItemAPIStartTimeList[idx] = item.startTime;
                 $scope.lineItemStartDate = momentService.utcToLocalTime(item.startTime);
 
                 // line Item End Date
-                $scope.lineItemAPIEndTime = item.endTime;
+                lineItemAPIEndTimeList[idx] = item.endTime;
                 $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime);
 
                 if ( $scope.campaignDate ) {
