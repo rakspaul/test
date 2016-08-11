@@ -225,7 +225,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
             setTimeout(function () {
                 if (!(mainMenuHolder.is(':hover') ||
-                    $('#help-menu').is(':hover') ||
+                    //$('#help-menu').is(':hover') ||
                     $('#user-menu').is(':hover') ||
                     $('#reports-menu').is(':hover') ||
                     $('#admin-menu').is(':hover')) ||

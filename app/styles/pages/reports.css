@@ -675,7 +675,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li:focus {
   color: #21252b;
   text-decoration: none;
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
 }
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li span {
   padding: 0;
@@ -813,7 +813,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .common_reports_container .download_report:hover,
 .breadcrumb_campaign_strategy .download_report:hover,
 .smallScreenScrollDiv .download_report:hover {
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
   border: 1px solid #bfc9d7;
 }
 .common_reports_container .download_anchor,
@@ -1288,6 +1288,9 @@ div.strategy_total_container .discrepancyTplRow {
 div.strategy_total_container .discrepancyTplRow .discrepancyName {
   width: 250px;
 }
+div.strategy_total_container .discrepancyTplRow img {
+  vertical-align: baseline;
+}
 div.strategy_total_container div.strategy_total_container_header {
   background: #edf2f8;
   border: solid 1px #ccd9e3;
@@ -1320,7 +1323,8 @@ div.strategy_total_container div.strategy_total_container_header .discrepancyTpl
   -ms-transform: rotate(0deg);
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
-  margin-top: 7px;
+  margin-top: 5px;
+  margin-right: 8px ;
 }
 div.strategy_total_container div.strategy_total_container_header div.each_col.first_col {
   color: #21252b;
@@ -4187,7 +4191,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   cursor: pointer;
 }
 .report_generator_and_response #dynamicHeader .downReport:hover {
-  background: #E1EDF9;
+  background: #e1edf9;
 }
 .report_generator_and_response #dynamicHeader .subTitle {
   display: block;
