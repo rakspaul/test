@@ -344,7 +344,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 return obj.kpi === (v).toLowerCase();
             });
             if(kpi_display && kpi_display.displayName){
-                _curCtrl.kpi_display = kpi_display.displayName
+                _curCtrl.kpi_display = kpi_display.displayName;
             }
         });
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event, strategy) {
