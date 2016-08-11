@@ -1237,5 +1237,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.WF_RESUME_ALL = 'Resume All';
         this.SELECTCOUNTRY = 'Select Country';
 
+        this.TECH_FEES = 'Tech';
     });
 });
