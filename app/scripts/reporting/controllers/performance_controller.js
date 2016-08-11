@@ -142,7 +142,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             platforms: null
         };
 
-        $scope.checkForBoldClass = function(data){
+        $scope.checkForBoldClass = function(){
             return '';
             //TODO
             //if((data.kpi_type === $scope.selectedFilters.kpi_type) && !$scope.selectedFilters2.kpi_type){

@@ -25,7 +25,7 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                 _kpi = 'viewable_impressions_perc';
             }
             return _kpi;
-        }
+        };
         kpiData.setSelectedKpi = function (_kpi) {
             _kpi = getKpiVale(_kpi);
             _kpi = _kpi.replace(/ /g, '_');
