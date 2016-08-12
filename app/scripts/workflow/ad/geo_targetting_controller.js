@@ -1663,7 +1663,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         $scope.geoData.zip.countries = response;
                     }
                 });
-
                 $('.targetting-container .searchInput').closest('.btn-group').hide();
             } else {
                 $('.targetting-container .searchInput').closest('.btn-group').show();
