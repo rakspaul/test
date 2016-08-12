@@ -655,15 +655,15 @@ define(['common'], function (angularAMD) {
                         }
                     }
                 }))
-                
+
                 .when('/help', angularAMD.route({
                     templateUrl: assets.html_help,
                     title: 'Help - Online',
                     showHeader : true,
                     controller: 'HelpController'
                 }))
-                
-                
+
+
 
                 .otherwise({redirectTo: '/'});
 
@@ -700,7 +700,7 @@ define(['common'], function (angularAMD) {
         }])
 
         .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore,
-                       workflowService, featuresService, subAccountModel, $window,localStorageService,constants) {
+                       workflowService, featuresService, subAccountModel, $window,localStorageService,constants,vistoconfig) {
             var handleLoginRedirection = function () {
                 var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
                     localStorageRedirect = localStorage.getItem('cdeskRedirect'),
@@ -719,8 +719,28 @@ define(['common'], function (angularAMD) {
                             $cookieStore.remove('cdesk_redirect');
                             localStorage.removeItem('cdeskRedirect');
                         } else {
-                            setDefaultPage = 'dashboard';
+                          /* setDefaultPage = 'dashboard';
                             $location.url(setDefaultPage);
+*/
+                            //console.log('mclient: ',localStorageService.masterClient.get());
+
+                            workflowService.getClientData(localStorageService.masterClient.get().id)
+                                .then(function (response) {
+                                    var features = response.data.data.features;
+                                    featuresService.setFeatureParams(response.data.data.features);
+                                    if(features.indexOf('ENABLE_ALL') !== -1) {
+                                        $location.url('/dashboard');
+                                    } else {
+                                        if(features.indexOf('DASHBOARD') !== -1) {
+                                            $location.url('/dashboard');
+                                        } else {
+                                            $location.url(vistoconfig.MEDIA_PLANS_LINK);
+                                        }
+                                    }
+
+                                });
+
+
                         }
                     }
                 },
