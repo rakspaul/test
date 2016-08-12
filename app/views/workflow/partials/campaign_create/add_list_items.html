@@ -599,7 +599,7 @@
             <label class="col-sm-12 greyTxt miniLabels zeroPadding"
                    ng-if="editLineItem.lineItemType.name === 'Post-Click CPA' || editLineItem.lineItemType.name === 'Post-Impression CPA' || editLineItem.lineItemType.name === 'Total CPA'">Actions</label>
             <input type="text" class="col-md-12 form-control" placeholder="" ng-model="editLineItem.volume"
-                   whole-number-only autocomplete="off" ng-readonly="true"/>
+                   whole-number-only autocomplete="off" ng-readonly="(editLineItem.lineItemType.name === 'COGS+ %')?false:true"/>
         </div>
         <div class="col-md-3 zeroPadding dropdown-workflow" style="margin-right:10px;" ng-show="volumeTypeFlagEdit">
             <div class="dropdown">

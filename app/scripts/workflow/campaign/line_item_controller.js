@@ -923,7 +923,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     }
 
                     $scope.volumeFlagEdit = true;
-                    $scope.editLineItem.volume = '';
+                    // $scope.editLineItem.volume = '';
                     $scope.volumeTypeFlagEdit = true;
                     $scope.editLineItem.pixelSelected = {};
                 } else if (CONST_COGS_CPM === $scope.editLineItem.lineItemType.name) {
@@ -1284,28 +1284,75 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         };
 
         $scope.calculateVolume = function (mode) {
-            if (CONST_COGS_PERCENT !== $scope.lineItemType.name &&
-                CONST_FLAT_FEE !== $scope.lineItemType.name &&
-                CONST_COGS_CPM !== $scope.lineItemType.name) {
-                if (mode === 'create') {
-                    $scope.volume = '';
+            // if (CONST_COGS_PERCENT !== $scope.lineItemType.name &&
+            //     CONST_FLAT_FEE !== $scope.lineItemType.name &&
+            //     CONST_COGS_CPM !== $scope.lineItemType.name) {
+            //     if (mode === 'create') {
+            //         $scope.volume = '';
+            //
+            //         if ($scope.lineItemType &&
+            //             $scope.lineItemType.name &&
+            //             $scope.pricingRate &&
+            //             $scope.billableAmount &&
+            //             $scope.pricingRate > 0) {
+            //             if ($scope.lineItemType.name === 'CPM') {
+            //                 $scope.volume = ($scope.billableAmount / $scope.pricingRate ) * 1000;
+            //             } else {
+            //                 $scope.volume = ($scope.billableAmount / $scope.pricingRate );
+            //             }
+            //
+            //             $scope.volume = Math.round($scope.volume);
+            //         } else {
+            //             $scope.volume = 0;
+            //         }
+            //     } else {
+            //         $scope.editLineItem.volume = '';
+            //
+            //         if ($scope.editLineItem.lineItemType &&
+            //             $scope.editLineItem.lineItemType.name &&
+            //             $scope.editLineItem.pricingRate &&
+            //             $scope.editLineItem.billableAmount &&
+            //             $scope.editLineItem.pricingRate > 0) {
+            //             if ($scope.editLineItem.lineItemType.name === 'CPM') {
+            //                 $scope.editLineItem.volume =
+            //                     ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate ) * 1000;
+            //             } else {
+            //                 $scope.editLineItem.volume =
+            //                     ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate );
+            //             }
+            //
+            //             $scope.editLineItem.volume = Math.round($scope.editLineItem.volume);
+            //         } else {
+            //              // in case $scope.editLineItem.pricingRate is 0
+            //             $scope.editLineItem.volume = 0;
+            //         }
+            //     }
+            // }
+            if (mode === 'create') {
+                if (CONST_COGS_PERCENT !== $scope.lineItemType.name &&
+                    CONST_FLAT_FEE !== $scope.lineItemType.name &&
+                    CONST_COGS_CPM !== $scope.lineItemType.name) {
+                            $scope.volume = '';
+                            if ($scope.lineItemType &&
+                                $scope.lineItemType.name &&
+                                $scope.pricingRate &&
+                                $scope.billableAmount &&
+                                $scope.pricingRate > 0) {
+                                if ($scope.lineItemType.name === 'CPM') {
+                                    $scope.volume = ($scope.billableAmount / $scope.pricingRate ) * 1000;
+                                } else {
+                                    $scope.volume = ($scope.billableAmount / $scope.pricingRate );
+                                }
 
-                    if ($scope.lineItemType &&
-                        $scope.lineItemType.name &&
-                        $scope.pricingRate &&
-                        $scope.billableAmount &&
-                        $scope.pricingRate > 0) {
-                        if ($scope.lineItemType.name === 'CPM') {
-                            $scope.volume = ($scope.billableAmount / $scope.pricingRate ) * 1000;
-                        } else {
-                            $scope.volume = ($scope.billableAmount / $scope.pricingRate );
-                        }
-
-                        $scope.volume = Math.round($scope.volume);
-                    } else {
-                        $scope.volume = 0;
-                    }
-                } else {
+                                $scope.volume = Math.round($scope.volume);
+                            } else {
+                                $scope.volume = 0;
+                            }
+                }
+            } else {
+                if (CONST_COGS_PERCENT !== $scope.editLineItem.lineItemType.name &&
+                    CONST_FLAT_FEE !== $scope.editLineItem.lineItemType.name &&
+                    CONST_COGS_CPM !== $scope.editLineItem.lineItemType.name) {
                     $scope.editLineItem.volume = '';
 
                     if ($scope.editLineItem.lineItemType &&
@@ -1323,7 +1370,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                         $scope.editLineItem.volume = Math.round($scope.editLineItem.volume);
                     } else {
-                         // in case $scope.editLineItem.pricingRate is 0
+                        // in case $scope.editLineItem.pricingRate is 0
                         $scope.editLineItem.volume = 0;
                     }
                 }
