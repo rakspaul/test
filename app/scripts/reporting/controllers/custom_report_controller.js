@@ -20,7 +20,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 isGenerateAlreadyCalled = false,
 
                 metricKey1 = ['dimension', 'delivery_metrics', 'cost_metrics', 'pacing_metrics', 'booked_metrics', 'video_metrics', 'quality_metrics'],
-                metricDataKey = ['dimension', 'delivery_metrics', 'cost_metrics', 'pacing_metrics', 'booked_metrics', 'video_metrics', 'quality_data'],
+                metricDataKey = ['dimension', 'delivery_metrics', 'cost_metrics', 'pacing_metrics', 'booked_metrics', 'video_metrics', 'quality_metrics'],
                 metricsTab = ['delivery', 'cost', 'video', 'quality', 'pacing'],
                 metricCategoryKeys = ['delivery_metrics', 'cost_metrics', 'video_metrics', 'quality_metrics', 'pacing_metrics'],
                 metricVarKeys = ['deliveryMetrics', 'costMetrics', 'videoMetrics', 'qualityMetrics', 'pacingMetrics'],
