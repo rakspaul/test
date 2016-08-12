@@ -2280,8 +2280,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
 
                 startDateInput.datepicker('update', yesterday);
                 endDateInput.datepicker('update', yesterday);
-                startDateInput.datepicker('setEndDate', new Date());
-                endDateInput.datepicker('setEndDate', new Date());
 
                 customReportScroll.scroll(function () {
                     var documentScrollLeft = $(this).scrollLeft(),
