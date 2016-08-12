@@ -1585,7 +1585,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             geoTargeting.resetSearchValue();
 
             // reseting geo targeting data
-            //geoTargeting.resetGeoData();
+            geoTargeting.resetGeoData();
 
             $scope.selectedSubTab = tabType;
             geoTargeting.showHideExcAndIncSwitch();
@@ -1657,6 +1657,13 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     $scope.zipCodeTabSelected = false;
                 }
 
+                $scope.geoData.countries.queryParams = _.extend({}, defaultParams);
+               console.log("$scope.geoData.countries.queryParams", $scope.geoData.countries.queryParams);
+                geoTargeting.countries.fetch(null, function(response) {
+                    if (response.length > 0) {
+                        $scope.geoData.zip.countries = response;
+                    }
+                });
                 $('.targetting-container .searchInput').closest('.btn-group').hide();
             } else {
                 $('.targetting-container .searchInput').closest('.btn-group').show();
