@@ -257,8 +257,7 @@ define(['angularAMD'], function (angularAMD) {
                                                 if (params.advertiserId && params.brandId) {
                                                     console.log('fetching the advertiser & brand before loading dashboard. See resolve function');
                                                 } else {
-                                                    // fetch the advertiser async
-                                                    params.advertiserId && fetchCurrentAdvertiser(args.$location, args.$route, args.advertiserModel, args.vistoconfig);
+                                                    params.advertiserId && fetchCurrentAdvertiser(args);
                                                 }
                                             });
                                     } else {
@@ -396,7 +395,7 @@ define(['angularAMD'], function (angularAMD) {
 
             fetchCurrentAdvertiser = function (args) {
                 var params = args.$route.current.params;
-
+                var deferred = args.$q.defer();
                 args
                     .advertiserModel
                     .fetchAdvertiserList(params.subAccountId || params.accountId)
@@ -404,14 +403,17 @@ define(['angularAMD'], function (angularAMD) {
                         var advertiser;
 
                         if (args.advertiserModel.allowedAdvertiser(params.advertiserId)) {
-                            advertiser = args.vistoconfig ? args.vistoconfig.getSelectAdvertiserId() : {};
+                            advertiser = args.advertiserModel.getSelectedAdvertiser();
                             $('#advertiser_name_selected').text(advertiser.name);
                             $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
                         } else {
                             console.log('advertiser not allowed');
                             args.$location.url('/tmp');
                         }
+                        deferred.resolve();
                     });
+
+                return deferred.promise;
             },
 
             fetchCurrentBrand = function (args) {
