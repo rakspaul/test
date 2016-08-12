@@ -295,7 +295,7 @@
                 <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown"
                     name="lineItemType">
                     <li class="available" ng-repeat="sor in selectedCampaign.systemOfRecord"
-                        ng-click="setSystemOfRecord(sor,'create')"><a>{{sor.name}}</a></li>
+                        ng-click="setSystemOfRecord(sor,'create')" title="{{sor.name}}"><a>{{sor.name}}</a></li>
                 </ul>
                 <input type="hidden" class="form-control" ng-model="systemOfRecordSelected.id"
                        name="systemOfRecordSelected"/>
@@ -592,7 +592,7 @@
                 <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown"
                     name="lineItemType">
                     <li class="available" ng-repeat="sor in selectedCampaign.systemOfRecord"
-                        ng-click="setSystemOfRecord(sor,'edit')"><a>{{sor.name}}</a></li>
+                        ng-click="setSystemOfRecord(sor,'edit')" title="{{sor.name}}"><a>{{sor.name}}</a></li>
                 </ul>
                 <input type="hidden" class="form-control" ng-model="editLineItem.systemOfRecordSelected.id"
                        name="editLineItem.systemOfRecordSelected"/>
