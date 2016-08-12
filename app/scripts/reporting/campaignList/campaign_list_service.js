@@ -257,7 +257,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                             });
                     },
 
-                    createStrategyObject = function (clientId, campaign, timePeriod, strategyData, kpiType, kpiValue) {
+                    createStrategyObject = function (clientId, strategyData, timePeriod, campaign, kpiType, kpiValue) {
                         var strategyObj = [],
                             adSize = '',
                             keyValues = '',
@@ -439,9 +439,9 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                 if (result.status === 'success' && !angular.isString(data)) {
                                     if (data.length >= 0) {
                                         if (data.length <= pageSize) {
-                                            campaign.campaignStrategies = createStrategyObject(data, timePeriod, campaign, kpiType, kpiValue);
+                                            campaign.campaignStrategies = createStrategyObject(clientId, data, timePeriod, campaign, kpiType, kpiValue);
                                         } else {
-                                            campaign.campaignStrategies = createStrategyObject(data.slice(0, pageSize), timePeriod, campaign, kpiType, kpiValue);
+                                            campaign.campaignStrategies = createStrategyObject(clientId, data.slice(0, pageSize), timePeriod, campaign, kpiType, kpiValue);
 
                                             campaign.campaignStrategiesLoadMore = data.slice(pageSize);
                                         }

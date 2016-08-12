@@ -1,5 +1,4 @@
-define(['common', 'common/services/vistoconfig_service', 'common/services/route_resolvers_params_service', 'common/services/route_resolvers_service',
-    'reporting/strategySelect/strategy_select_model'], function (angularAMD) {
+define(['common'], function (angularAMD) {
     'use strict';
 
     angular
@@ -105,17 +104,20 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
 
                     // TODO: Move resolve header callback to routeResolvers service
                     resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
+                        header: function (routeResolversParams, routeResolvers, $timeout) {
                             var deferrer = routeResolversParams.$q.defer(),
                                 params = routeResolversParams.$route.current.params;
 
-                            routeResolvers.dashboardHeaderResolver(routeResolversParams)
+                            routeResolvers
+                                .dashboardHeaderResolver(routeResolversParams)
                                 .then(function () {
-                                    routeResolversParams.advertiserModel
+                                    routeResolversParams
+                                        .advertiserModel
                                         .fetchAdvertiserList(params.accountId)
                                         .then(function () {
                                             if (routeResolversParams.advertiserModel.allowedAdvertiser(params.advertiserId)) {
-                                                routeResolversParams.brandsModel
+                                                routeResolversParams
+                                                    .brandsModel
                                                     .fetchBrandList(params.accountId, params.advertiserId)
                                                     .then(function () {
                                                         if (routeResolversParams.brandsModel.allowedBrand(params.brandId)) {
@@ -191,13 +193,16 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
                             var deferrer = routeResolversParams.$q.defer(),
                                 params = routeResolversParams.$route.current.params;
 
-                            routeResolvers.dashboardHeaderResolver2(routeResolversParams)
+                            routeResolvers
+                                .dashboardHeaderResolver2(routeResolversParams)
                                 .then(function () {
-                                    routeResolversParams.advertiserModel
+                                    routeResolversParams
+                                        .advertiserModel
                                         .fetchAdvertiserList(params.subAccountId)
                                         .then(function () {
                                             if (routeResolversParams.advertiserModel.allowedAdvertiser(params.advertiserId)) {
-                                                routeResolversParams.brandsModel
+                                                routeResolversParams
+                                                    .brandsModel
                                                     .fetchBrandList(params.subAccountId, params.advertiserId)
                                                     .then(function () {
                                                         if (routeResolversParams.brandsModel.allowedBrand(params.brandId)) {
@@ -1252,7 +1257,6 @@ define(['common', 'common/services/vistoconfig_service', 'common/services/route_
 
                     resolve: {
                         header: function (routeResolversParams, routeResolvers) {
-                            // TODO: Check out this method implementation!!!
                             return routeResolvers.mediaPlanCreateResolver(routeResolversParams, 'create');
                         }
                     }

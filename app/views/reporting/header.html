@@ -30,13 +30,13 @@
             </div>
             <div class="pull-left each_nav_link" id="reports_nav_link" ng-if="showReportTab">
                 <a href="{{reports_nav_url}}" reporttitle="reportOverview"
-                   ng-click="NavigateToTab('', $event ,'reportOverview')"
-                   ng-mouseover="show_hide_nav_dropdown($event,'reports','hover');" ng-bind="textConstants.REPORTS"></a>
+                   ng-click="NavigateToTab('', $event, 'reportOverview')"
+                   ng-mouseover="show_hide_nav_dropdown($event, 'reports', 'hover');" ng-bind="textConstants.REPORTS"></a>
 
                 <div class="arrowSelect" style="bottom: -1px;"></div>
             </div>
             <div class="pull-left each_nav_link" id="creative_nav_link" ng-if="showCreativeList">
-                <a ng-click="NavigateToTab('', $event ,'creativelist')" ng-bind="textConstants.CREATIVES"></a>
+                <a ng-click="NavigateToTab('', $event, 'creativelist')" ng-bind="textConstants.CREATIVES"></a>
                 <div class="arrowSelect" style="bottom: -14px;"></div>
             </div>
             <!--Admin DD-->
@@ -51,13 +51,6 @@
                    ng-bind="textConstants.INVOICE_TOOL"></a>
                 <div class="arrowSelect"></div>
             </div>
-
-            <!--Vendor DD-->
-           <!--  <div class="pull-left each_nav_link" id="vendors_nav_link" >
-                <a href="javascript:void(0);" reporttitle="vendorsList"
-                   ng-click="NavigateToTab('', $event ,'vendorsList')" ng-bind="textConstants.VENDORS"></a>
-                <div class="arrowSelect"></div>
-            </div> -->
         </div>
         <div class="pull-right profile-photo-tab unselectable" id="user_nav_link"
              ng-mouseover="show_hide_nav_dropdown($event,'user');">

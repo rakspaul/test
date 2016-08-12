@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     angularAMD.service('routeResolversParams', function ($q, $location, $route, accountService, subAccountService, campaignSelectModel, strategySelectModel, advertiserModel,
                                                          brandsModel, vistoconfig, collectiveReportModel, loginModel, workflowService, constants) {
         return {

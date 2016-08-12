@@ -11,12 +11,11 @@
              data-ng-bind="textConstants.MEDIA_PLAN_REPORTS"
              data-ng-if="showMediaPlanReportHeading">
         </div>
-
         <div data-ng-repeat="tab in filters.tabs track by $index"
              class="header_tab_dropdown"
              data-ng-class="{'active_tab': tab.href === filters.activeTab}"
              id="{{tab.href}}">
-            <a data-ng-click="NavigateToTab('/'+ tab.href, $event , 'reportsSubPage')"
+            <a data-ng-click="NavigateToTab('/' + tab.href, $event , 'reportsSubPage')"
                id="performance_tab_{{tab.href}}"
                style="text-transform: capitalize;"
                reportTitle="{{tab.title}}"
