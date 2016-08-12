@@ -111,7 +111,7 @@
                                                       data-template_id="{{showDefaultDimension.template_id}}"
                                                       id="{{showDefaultDimension.key}}"
                                                       data-ng-bind-html=
-                                                              "reports.reportDefinition.dimensions.secondary.name ?
+                                                          "reports.reportDefinition.dimensions.secondary.name ?
                                                               reports.reportDefinition.dimensions.secondary.name :
                                                               textConstants.REPORT_CHOOSE_BREAKDOWN | textEllipsis : 16">
                                                 </span>
@@ -329,7 +329,7 @@
                                    class="pull-left"
                                    id="selectAll_chkbox"
                                    style="margin: 8px 5px 0 30px"
-                                   >
+                            >
 
                             <span class="pull-left" style="margin-top: 5px">Select All Available</span>
                             <div class="pull-left tooltip_holder" style="margin-left: 10px;margin-top: 5px">
@@ -357,17 +357,17 @@
                                 </span>
                                 <div>
                                     <fieldset class="col-md-12 metricData"
-                                         relationIds="Delivery"
-                                         data-ng-repeat="delivery_metric in deliveryMetrics track by $index"
-                                         id="{{delivery_metric.key}}"
-                                         data-ng-class="{active: delivery_metric.selected}"
-                                         data-ng-click="onMetricClick('deliveryMetrics', $index)"
-                                         data-ng-bind-html="delivery_metric.value"
-                                         ng-disabled="delivery_metric.isDisabled">
+                                              relationIds="Delivery"
+                                              data-ng-repeat="delivery_metric in deliveryMetrics track by $index"
+                                              id="{{delivery_metric.key}}"
+                                              data-ng-class="{active: delivery_metric.selected}"
+                                              data-ng-click="onMetricClick('deliveryMetrics', $index)"
+                                              data-ng-bind-html="delivery_metric.value"
+                                              ng-disabled="delivery_metric.isDisabled">
                                     </fieldset>
 
-                            </div>
                                 </div>
+                            </div>
 
                             <!--Pacing-->
                             <div class="col-md-2 zeroPadding" data-ng-show="pacingMetrics.length">
@@ -382,16 +382,16 @@
                                 </span>
                                 <div>
                                     <fieldset class="col-md-12 metricData"
-                                             relationIds='Pacing'
-                                             data-ng-repeat="pacing_metric in pacingMetrics track by $index"
-                                             id="{{pacing_metric.key}}"
-                                             data-ng-class="{active: pacing_metric.selected}"
-                                             data-ng-click="onMetricClick('pacingMetrics', $index)"
-                                             data-ng-bind-html="pacing_metric.value"
-                                             ng-disabled="pacing_metric.isDisabled">
+                                              relationIds='Pacing'
+                                              data-ng-repeat="pacing_metric in pacingMetrics track by $index"
+                                              id="{{pacing_metric.key}}"
+                                              data-ng-class="{active: pacing_metric.selected}"
+                                              data-ng-click="onMetricClick('pacingMetrics', $index)"
+                                              data-ng-bind-html="pacing_metric.value"
+                                              ng-disabled="pacing_metric.isDisabled">
                                     </fieldset>
-                            </div>
                                 </div>
+                            </div>
 
                             <!--Cost-->
                             <div class="col-md-2 zeroPadding" data-ng-show="costMetrics.length">
@@ -405,17 +405,17 @@
                                         Cost
                                 </span>
                                 <div>
-                                <fieldset class="col-md-12 metricData"
-                                     relationIds='Cost'
-                                     data-ng-repeat="cost_metric in costMetrics track by $index"
-                                     id="{{cost_metric.key}}"
-                                     data-ng-class="{active:cost_metric.selected}"
-                                     data-ng-click="onMetricClick('costMetrics', $index)"
-                                     data-ng-bind-html="cost_metric.value"
-                                     ng-disabled="cost_metric.isDisabled">
-                                </fieldset>
-                            </div>
+                                    <fieldset class="col-md-12 metricData"
+                                              relationIds='Cost'
+                                              data-ng-repeat="cost_metric in costMetrics track by $index"
+                                              id="{{cost_metric.key}}"
+                                              data-ng-class="{active:cost_metric.selected}"
+                                              data-ng-click="onMetricClick('costMetrics', $index)"
+                                              data-ng-bind-html="cost_metric.value"
+                                              ng-disabled="cost_metric.isDisabled">
+                                    </fieldset>
                                 </div>
+                            </div>
 
                             <!--Video-->
                             <div class="col-md-2 zeroPadding" data-ng-show="videoMetrics.length">
@@ -429,16 +429,16 @@
                                         Video
                                 </span>
                                 <div>
-                                <fieldset class="col-md-12 metricData"
-                                     relationIds="Video"
-                                     data-ng-repeat="video_metric in videoMetrics track by $index"
-                                     id="{{video_metric.key}}"
-                                     data-ng-class="{active:video_metric.selected}"
-                                     data-ng-click="onMetricClick('videoMetrics', $index)"
-                                     data-ng-bind-html="video_metric.value"
-                                     ng-disabled="video_metric.isDisabled">
-                                 </fieldset>
-                                    </div>
+                                    <fieldset class="col-md-12 metricData"
+                                              relationIds="Video"
+                                              data-ng-repeat="video_metric in videoMetrics track by $index"
+                                              id="{{video_metric.key}}"
+                                              data-ng-class="{active:video_metric.selected}"
+                                              data-ng-click="onMetricClick('videoMetrics', $index)"
+                                              data-ng-bind-html="video_metric.value"
+                                              ng-disabled="video_metric.isDisabled">
+                                    </fieldset>
+                                </div>
                             </div>
 
                             <!--Quality-->
@@ -454,16 +454,16 @@
                                 </span>
                                 <div>
                                     <fieldset class="col-md-12 metricData"
-                                     relationIds="Quality"
-                                     data-ng-repeat="quality_metrics in qualityMetrics track by $index"
-                                     id="{{quality_metrics.key}}"
-                                     data-ng-class="{active:quality_metrics.selected}"
-                                     data-ng-click="onMetricClick('qualityMetrics', $index)"
-                                     data-ng-bind-html="quality_metrics.value"
-                                     ng-disabled="quality_metrics.isDisabled">
+                                              relationIds="Quality"
+                                              data-ng-repeat="quality_metrics in qualityMetrics track by $index"
+                                              id="{{quality_metrics.key}}"
+                                              data-ng-class="{active:quality_metrics.selected}"
+                                              data-ng-click="onMetricClick('qualityMetrics', $index)"
+                                              data-ng-bind-html="quality_metrics.value"
+                                              ng-disabled="quality_metrics.isDisabled">
                                     </fieldset>
                                 </div>
-                                </div>
+                            </div>
                             <div class="col-md-12 zeroPadding" style="margin: 30px 0 0 0;">
                                 <span class="pull-left greyTxt">Imps. = Impressions</span>
                                 <span class="pull-left greyTxt"
@@ -806,7 +806,7 @@
                                     <!-- second dimension div-->
                                     <div
                                         data-ng-show=
-                                                "secondDimensionReportLoading.delivery_metrics[customReportData.idx]"
+                                            "secondDimensionReportLoading.delivery_metrics[customReportData.idx]"
                                         class="common-load-more">
                                     </div>
                                     <div class="clearfix second_dimension_row_holder">
@@ -827,7 +827,7 @@
                                                     .first_dimension.delivery_metrics[customReportData.idx].value,
                                                     customReportData.idx, 1)"
                                                   data-ng-show=
-                                                          "secDimensionLoadMore.delivery_metrics[customReportData.idx]"
+                                                      "secDimensionLoadMore.delivery_metrics[customReportData.idx]"
                                                   extFile="aaa">
                                                 <a href="javascript:void(0);">Load more</a>
                                             </span>
@@ -839,8 +839,8 @@
                                         </div>
                                         <span data-ng-if="secondDimensionReportDataNotFound.
                                                 delivery_metrics[customReportData.idx]"
-                                            class="no-data-common"
-                                            data-ng-bind-html="getMessageForDataNotAvailable()">
+                                              class="no-data-common"
+                                              data-ng-bind-html="getMessageForDataNotAvailable()">
                                         </span>
                                         <!-- end of load more for second dimension -->
                                     </div>
@@ -911,8 +911,8 @@
                                         </div>
                                         <span data-ng-if="secondDimensionReportDataNotFound
                                                 .cost_metrics[customReportData.idx]"
-                                            class="no-data-common"
-                                            data-ng-bind-html="getMessageForDataNotAvailable()">
+                                              class="no-data-common"
+                                              data-ng-bind-html="getMessageForDataNotAvailable()">
                                         </span>
                                         <!-- end of load more for second dimension -->
                                     </div>
@@ -984,8 +984,8 @@
                                         </div>
                                         <span data-ng-if="secondDimensionReportDataNotFound
                                                 .video_metrics[customReportData.idx]"
-                                            class="no-data-common"
-                                            data-ng-bind-html="getMessageForDataNotAvailable()">
+                                              class="no-data-common"
+                                              data-ng-bind-html="getMessageForDataNotAvailable()">
                                         </span>
                                         <!-- end of load more for second dimension -->
                                     </div>
@@ -1031,7 +1031,7 @@
                                     <!-- second dimension div-->
                                     <div data-ng-show="secondDimensionReportLoading
                                             .quality_metrics[customReportData.idx]"
-                                        class="common-load-more">
+                                         class="common-load-more">
                                     </div>
                                     <div class="clearfix second_dimension_row_holder">
                                         <div data-ng-if="!secondDimensionReportLoading.quality_metrics
@@ -1501,76 +1501,43 @@
             </div>
 
             <!--Start Date start_time-->
-            <div class="each_col"
-                 data-ng-if="customReportData.start_time !== ''"
-                 data-ng-bind="(customReportData.start_time && (customReportData.start_time !== 'NA')) ?
+            <div class="each_col" data-ng-if="customReportData.hasOwnProperty('start_time')" data-ng-bind="(customReportData.start_time && (customReportData.start_time !== 'NA')) ?
                     (customReportData.start_time | formatDate:'D MMM YYYY') : 'NA'">
             </div>
 
             <!--End Date end_time-->
-            <div class="each_col"
-                 data-ng-if="customReportData.end_time !== ''"
-                 data-ng-bind="handleEndDate(customReportData.end_time)">
+            <div class="each_col" data-ng-if="customReportData.hasOwnProperty('end_time')" data-ng-bind="handleEndDate(customReportData.end_time)">
             </div>
             <!--Booked Impressions booked_impressions-->
-            <div class="each_col" ng-if="customReportData.booked_impressions != null"
-                 ng-bind="customReportData.booked_impressions === null ? 'NA' :
-                 (customReportData.booked_impressions | number:0)">
-            </div>
+            <div class="each_col" data-ng-if=(customReportData.hasOwnProperty('booked_impressions')) ng-bind="(customReportData.booked_impressions | number:0)"></div>
 
             <!--Actual Impressions actual_impressions-->
-            <div class="each_col" ng-if="customReportData.actual_impressions != null"
-                 ng-bind="customReportData.actual_impressions === null ? 'NA' :
-                 (customReportData.actual_impressions | number:0)">
-            </div>
+            <div class="each_col" data-ng-if=(customReportData.hasOwnProperty('actual_impressions')) ng-bind="(customReportData.actual_impressions | number:0)"></div>
 
             <!--+-Impressions diff_impressions-->
-            <div class="each_col"
-                 data-ng-if="customReportData.diff_impressions !== null"
-                 data-ng-bind="customReportData.diff_impressions === null ? 'NA' :
-                    (customReportData.diff_impressions | number : 0)">
-            </div>
+            <div class="each_col" data-ng-if=(customReportData.hasOwnProperty('diff_impressions')) data-ng-bind="(customReportData.diff_impressions | number : 0)"></div>
 
             <!--%Delivered perc_delivered-->
-            <div class="each_col" ng-if="customReportData.perc_delivered != null"
-                 ng-bind="customReportData.perc_delivered === null ? 'NA' :
-                 (customReportData.perc_delivered| number:0) + '%'">
+            <div class="each_col" data-ng-if=(customReportData.hasOwnProperty('perc_delivered')) ng-bind="(customReportData.perc_delivered| number:0) + '%'">
             </div>
 
             <!--Booked Revenue booked_revenue-->
-            <div class="each_col" ng-if="customReportData.booked_revenue != null"
-                 data-ng-bind="customReportData.booked_revenue === null ? 'NA' :
-                 (customReportData.booked_revenue | number:0)">
-            </div>
+            <div class="each_col" data-ng-if=(customReportData.hasOwnProperty('booked_revenue')) data-ng-bind="(customReportData.booked_revenue | number:0)"></div>
 
             <!--Actual Revenue actual_revenue-->
-            <div class="each_col" ng-if="customReportData.actual_revenue != null"
-                 ng-bind="customReportData.actual_revenue === null ? 'NA' :
-                 (customReportData.actual_revenue | number:0)">
-            </div>
+            <div class="each_col" data-ng-if=(customReportData.hasOwnProperty('actual_revenue')) ng-bind="(customReportData.actual_revenue | number:0)"></div>
 
             <!--+/- Revenue  diff_revenue-->
-            <div class="each_col"
-                 data-ng-if="customReportData.diff_revenue !== null"
-                 data-ng-bind="customReportData.diff_revenue === null ? 'NA' :
-                    +(customReportData.diff_revenue | number : 0)">
-            </div>
+            <div class="each_col" data-ng-if=(customReportData.hasOwnProperty('diff_revenue')) data-ng-bind="customReportData.diff_revenue | number : 0"></div>
 
             <!--Booked CPM booked_cpm-->
-            <div class="each_col" ng-if="customReportData.booked_cpm != null"
-                 ng-bind="customReportData.booked_cpm | number:0">
-            </div>
+            <div class="each_col" data-ng-if=(customReportData.hasOwnProperty('booked_cpm')) ng-bind="customReportData.booked_cpm | number:0"></div>
 
             <!--Actual CPM actual_cpm-->
-            <div class="each_col" ng-if="customReportData.actual_cpm != null"
-                 ng-bind="customReportData.actual_cpm === null ? 'NA' : (customReportData.actual_cpm | number:2)">
-            </div>
+            <div class="each_col"  data-ng-if=(customReportData.hasOwnProperty('actual_cpm')) ng-bind="(customReportData.actual_cpm | number:0)"></div>
 
             <!-- +/-CPM diff_cpm -->
-            <div class="each_col"
-                 data-ng-bind="((customReportData.diff_cpm !== null) ?
-                    (customReportData.diff_cpm | number : 0) : '-')">
-            </div>
+            <div class="each_col" data-ng-if=(customReportData.hasOwnProperty('diff_cpm')) data-ng-bind="(customReportData.diff_cpm | number : 0)"></div>
         </script>
 
         <div class="common-popup-container" data-ng-show="updateSchedule">
@@ -1595,8 +1562,8 @@
                 </div>
                 <div class="clearfix popup-footer">
                     <button type="button"
-                         data-ng-click="updateReportAndRedirect('Yes')"
-                         class="common_primary_btn pull-right">
+                            data-ng-click="updateReportAndRedirect('Yes')"
+                            class="common_primary_btn pull-right">
                         Yes
                     </button>
                     <button type="button"
