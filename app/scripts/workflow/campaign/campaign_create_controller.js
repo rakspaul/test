@@ -252,11 +252,18 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     // set KPI type
                     if (campaignData.kpiType) {
                         if (campaignData.kpiType.toLowerCase() === 'action rate' ||
-                            campaignData.kpiType.toLowerCase() === 'impressions') {
+                            campaignData.kpiType.toLowerCase() === 'impressions' ||
+                            campaignData.kpiType.toLowerCase() === 'viewable impressions' ||
+                            campaignData.kpiType.toLowerCase() === 'suspicious activity rate' ||
+                            campaignData.kpiType.toLowerCase() === 'spend' ||
+                            campaignData.kpiType.toLowerCase() === 'post click cpa' ||
+                            campaignData.kpiType.toLowerCase() === 'viewable rate') {
                             $scope.kpiName = $filter('toPascalCase')(campaignData.kpiType);
                         } else {
                             $scope.kpiName = campaignData.kpiType;
                         }
+
+                        console.log(" $scope.kpiName",  $scope.kpiName)
                     }
 
                     // set Kpi Value
@@ -467,7 +474,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.percentageValueCheck = function (value) {
             if (($scope.kpiName.toUpperCase() === 'CTR' ||
                 $scope.kpiName.toUpperCase() === 'VTC' ||
-                $scope.kpiName.toUpperCase() === 'ACTION RATE') &&
+                $scope.kpiName.toUpperCase() === 'ACTION RATE' ||
+                $scope.kpiName.toUpperCase() === 'SUSPICIOUS ACTIVITY RATE' ||
+                $scope.kpiName.toUpperCase() === 'VIEWABLE RATE') &&
                 Number(value) > 100) {
                 $scope.selectedCampaign.kpiValue = 100;
             }
@@ -1105,6 +1114,25 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 }
             }
         });
+
+        $scope.checkKpiType = function(kpiName) {
+            kpiName = kpiName.toUpperCase();
+            var symbol = '#';
+
+            if(kpiName === 'VIEWABLE IMPRESSIONS' ||kpiName === 'IMPRESSIONS' || kpiName === 'Impressions') {
+                symbol = '#';
+            }
+
+            if(kpiName === 'CTR' || kpiName === 'VTC' || kpiName === 'ACTION RATE'|| kpiName === 'VIEWABLE RATE' || kpiName === 'SUSPICIOUS ACTIVITY RATE') {
+                symbol = '%';
+            }
+
+            if(kpiName === 'CPA' || kpiName === 'CPM' || kpiName === 'CPC' || kpiName === 'SPEND' || kpiName === 'POST CLICK CPA') {
+                symbol = '$';
+            }
+
+            return symbol;
+        }
 
         $(function () {
             $('.masterContainer').on('click', '.leftNavLink', function (event) {
