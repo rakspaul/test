@@ -7,9 +7,9 @@
         </a>
     </div>
     <div class="reports_sub_menu_dd canned_container">
-        <div class="header_tab_dd_subheading" data-ng-bind="textConstants.MEDIA_PLAN_REPORTS" data-ng-if="showMediaPlanReportHeading"></div>
-        <div class="header_tab_dropdown" id="reports_overview_tab" data-ng-show="showReportOverview">
-            <a data-ng-click="NavigateToTab('', $event, 'reportOverview')" data-ng-bind="textConstants.REPORTS_OVERVIEW + 'MMM'"></a>
+        <div class="header_tab_dd_subheading"
+             data-ng-bind="textConstants.MEDIA_PLAN_REPORTS"
+             data-ng-if="showMediaPlanReportHeading">
         </div>
         <div data-ng-repeat="tab in filters.tabs track by $index"
              class="header_tab_dropdown"

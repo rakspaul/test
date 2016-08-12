@@ -70,7 +70,8 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                 actionRate: 0,
                                 chart: false,
                                 momentInNetworkTZ: momentInNetworkTZ,
-                                is_tracking: tactic.is_tracking
+                                is_tracking: tactic.is_tracking,
+                                spend:tactic.spend
                             };
 
                             mediaTypeIcon = mediaTypeIconMap[tactic.media_type.toLowerCase()];
@@ -144,12 +145,13 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                         if (!angular.isString(tacticMetrics)) {
                             tactic.adFormats = domainReports.checkForCampaignFormat(tacticMetrics.adFormat);
                             tactic.totalImpressions = tacticMetrics.impressions;
-                            tactic.grossRev = _.find(lineItemData[selectedLineItemId], function(val){
+                            /*tactic.grossRev = _.find(lineItemData[selectedLineItemId], function(val){
                                 return (val.ad_id === tactic.id);
-                            });
-                            if(tactic.grossRev && tactic.grossRev.gross_rev) {
+                            });*/
+                            /*if(tactic.grossRev && tactic.grossRev.gross_rev) {
                                 tactic.grossRev = tactic.grossRev.gross_rev;
-                            }
+                            }*/
+
                             tactic.ctr = tacticMetrics.ctr * 100;
                             tactic.actionRate = tacticMetrics.action_rate;
                             tactic.vtcData = vtcMetricsJsonModifier(tacticMetrics.video_metrics);
@@ -166,6 +168,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                             tactic.map.clicks = tacticMetrics.clicks;
                             tactic.map.action_rate = tacticMetrics.action_rate;
                             tactic.map.ctr = tacticMetrics.ctr * 100;
+                            tactic.spend = tacticMetrics.spend;
                         }
                     },
 
@@ -254,7 +257,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                             });
                     },
 
-                    createStrategyObject = function (clientId, campaign, timePeriod, strategyData, kpiType, kpiValue) {
+                    createStrategyObject = function (clientId, strategyData, timePeriod, campaign, kpiType, kpiValue) {
                         var strategyObj = [],
                             adSize = '',
                             keyValues = '',
@@ -436,11 +439,9 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                 if (result.status === 'success' && !angular.isString(data)) {
                                     if (data.length >= 0) {
                                         if (data.length <= pageSize) {
-                                            campaign.campaignStrategies = createStrategyObject(clientId, campaign,
-                                                timePeriod, data, kpiType, kpiValue);
+                                            campaign.campaignStrategies = createStrategyObject(clientId, data, timePeriod, campaign, kpiType, kpiValue);
                                         } else {
-                                            campaign.campaignStrategies = createStrategyObject(clientId, campaign,
-                                                timePeriod, data.slice(0, pageSize), kpiType, kpiValue);
+                                            campaign.campaignStrategies = createStrategyObject(clientId, data.slice(0, pageSize), timePeriod, campaign, kpiType, kpiValue);
 
                                             campaign.campaignStrategiesLoadMore = data.slice(pageSize);
                                         }

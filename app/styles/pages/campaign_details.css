@@ -394,7 +394,7 @@ body {
   background-color: #E1EDF9;
 }
 .campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu li:hover .icon-single {
-  /*background-image: url("/images/cdesk/only_check_mark.png") ;*/
+  background: url("/images/cdesk/sprites-2.png") no-repeat -534px -58px;
 }
 .campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu .icon-empty,
 .campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu .icon-ok {

@@ -18,6 +18,10 @@ define(['angularAMD', 'reporting/models/campaign_cdb_data'], function(angularAMD
             return this.roundOff(this.gross_rev, 2);
         };
 
+        this.getSpend = function() {
+            return this.spend;
+        };
+
         this.getCPA = function() {
             return this.roundOff(this.cpa, 2);
         };

@@ -956,8 +956,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         });
                     },
 
-
-
                     OnSelectUnselectAllMetrics: function () {
                         var metricsTab = ['delivery', 'pacing', 'cost', 'video', 'quality'];
 
@@ -2088,6 +2086,16 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     $scope.$apply();
                 }
             };
+
+            // Fix for CRPT-5523 (End date not showing correctly.
+            $scope.handleEndDate = function (endDate) {
+                if (endDate !== 'NA') {
+                    endDate = momentService.utcToLocalTime(endDate, 'D MMM YYYY');
+                }
+
+                return endDate;
+            };
+            // End of Fix for CRPT-5523
 
             $(document).ready(function () {
                 var yesterday,

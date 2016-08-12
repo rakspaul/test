@@ -5,7 +5,7 @@ define(['angularAMD', '../../../workflow/services/account_service',
     'common/services/data_service', 'common/services/url_service', 'common/utils'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AccountsAddOrEditAdvertiser', function ($scope, $rootScope, $modalInstance,
+    angularAMD.controller('AccountsAddOrEditAdvertiser', function ($scope, $timeout, $rootScope, $modalInstance,
                                                                    accountsService, constants, momentService,
                                                                    dataService, urlService, utils) {
         var _currCtrl = this,
@@ -64,6 +64,7 @@ define(['angularAMD', '../../../workflow/services/account_service',
 
             return ret;
         };
+
 
         // Validate the Advertiser URL entered
         $scope.validateURL = function(url){
@@ -441,6 +442,10 @@ define(['angularAMD', '../../../workflow/services/account_service',
             .opened
             .then(function () {
                 $('popup-msg').appendTo(document.body);
+                $timeout(function() {
+                    $('#pixelExpDate').datepicker('setEndDate', momentService.addDays('YYYY-MM-DD', 364));
+                }, 5000);
+
             });
 
         _currCtrl.getIABCategoryList();

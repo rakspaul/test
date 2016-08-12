@@ -435,9 +435,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $('.totalBudgetInputClass').attr('disabled', responseData.enabledBudgetCalculation);
 
                 // disabled checkBox if its primary!=Impression && UnitCost!=CPM
-                if (((responseData.kpiType && (responseData.kpiType).toUpperCase() !== 'IMPRESSIONS') ||
-                   ((responseData.rateType) && ((responseData.rateType).toUpperCase()!== 'CPM' ) )) &&
-                    responseData.enabledBudgetCalculation) {
+                if ((responseData.kpiType && responseData.kpiType.toUpperCase() !== 'IMPRESSIONS') ||
+                    (responseData.rateType && responseData.rateType.toUpperCase() !== 'CPM') && responseData.enabledBudgetCalculation) {
                     $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', true);
                 } else {
                     $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', false);
@@ -1407,11 +1406,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                         postGeoTargetObj.ZIPCODE.geoTargetList=[];
 
-                                        postGeoTargetObj.ZIPCODE.geoTargetList.push({
-                                            countryCode:'US',
-                                            zipcodes: _.pluck(
-                                                postGeoTargetObj.ZIP_CODE.geoTargetList, 'code')
-                                        });
+                                        postGeoTargetObj.ZIPCODE.geoTargetList = _.map(postGeoTargetObj.ZIP_CODE.geoTargetList,
+                                            function (zip) { // jshint ignore:line
+                                                return {
+                                                    countryCode : zip.countryCode,
+                                                    zipcodes : utils.rangeValue(zip.zipcodes.replace(/\s*,\s*/g, ',').split(','))
+                                                };
+                                            }
+                                        );
 
                                         delete postGeoTargetObj.ZIP_CODE;
                                     }

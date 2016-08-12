@@ -1585,7 +1585,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             geoTargeting.resetSearchValue();
 
             // reseting geo targeting data
-            geoTargeting.resetGeoData();
+            //geoTargeting.resetGeoData();
 
             $scope.selectedSubTab = tabType;
             geoTargeting.showHideExcAndIncSwitch();
@@ -1954,6 +1954,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 geoTargeting.selectedGeoItemArr = [];
                 geoTargeting.showHideExcAndIncSwitch();
+
+                $('.sectionShownOnSelection').hide();
+                $('#country_sel')
+                    .parents('.dropdown')
+                    .find('button')
+                    .html('Select Country <span class="icon-arrow-solid-down"></span>');
             }
         };
 
@@ -2034,6 +2040,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 if (saveGeoData.zip.selected.length > 0) {
                     $scope.geoData.zip.selected = [];
+
+                    _.each(saveGeoData.zip.selected, function(obj) {
+                        obj.zipcodes = obj.data.join(',');
+                        delete obj.zipCodes;
+                    });
+
                     zipWrapper.setData(saveGeoData.zip.selected);
                     if (saveGeoData.countries.selected.length  === 0 &&
                         saveGeoData.regions.selected.length  === 0 &&

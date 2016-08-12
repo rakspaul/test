@@ -198,14 +198,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
             },
 
             unauthorized: function () {
-                $cookieStore.remove('cdesk_session');
-                localStorage.clear();
-
-                updateRedirectUrl($location.$$path);
-                $location.url('/login');
-
-                // remove header bar on login page
-                $('.main_navigation_holder').hide();
+               this.logout();
             },
 
             forbidden: function () {

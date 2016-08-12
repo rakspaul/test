@@ -142,6 +142,16 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             platforms: null
         };
 
+        $scope.checkForBoldClass = function(){
+            return '';
+            //TODO
+            //if((data.kpi_type === $scope.selectedFilters.kpi_type) && !$scope.selectedFilters2.kpi_type){
+            //    return 'bold';
+            //}else if($scope.selectedFilters2.kpi_type && data.kpi_type === $scope.selectedFilters2.kpi_type){
+            //    return 'bold';
+            //}
+        };
+
         $scope.checkForSelectedTabData =  function (data) {
             var totalImpression = _.reduce(data, function (sum, d) {
                 return sum + d.impressions;

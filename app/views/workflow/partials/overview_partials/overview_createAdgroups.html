@@ -191,7 +191,7 @@
                         data-ng-disabled="(createNewAdGrp.$invalid ||
                                           !isMinimumAdGroupBudget ||
                                           !isMaximumAdGroupBudget ||
-                                          adIGroupBudget === 0)"
+                                          adIGroupBudget == 0)"
                         data-ng-click="saveAdGroup($event)"
                         data-ng-bind="textConstants.SAVE"
                         data-ng-show="!loadingBtn">

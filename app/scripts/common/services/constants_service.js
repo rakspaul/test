@@ -96,7 +96,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.VTC = 'VTC';
         this.CPM = 'CPM';
         this.SUSPICIOUS_ACTIVITY = 'Suspicious Activity %';
-        this.VIEWABLE_IMPRESSION = 'Viewable Impression';
+        this.VIEWABLE_IMPRESSION = 'Viewable Impressions';
         this.VIEWABLE_RATE = 'Viewable Rate';
         this.ESTREACH = 'Estimated Pool Size';
         this.CPC = 'CPC';
@@ -351,7 +351,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.METRICS = 'Metrics';
         this.METRIC = 'Metric';
         this.SELECTED_METRICS = 'Selected Metrics';
-        this.LOAD_MORE_STRATEGIES = 'View more Ad Groups.';
+        this.LOAD_MORE_STRATEGIES = 'Load more Line Items';
         this.LOAD_MORE_TACTICS = 'View more Ads.';
 
         this.STATUS = 'Status';
@@ -1165,10 +1165,10 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MEDIA_PLAN_CLONE ='Media Plan Clone';
         this.MEDIA_PLAN_WARNING_MESSAGE = 'You will lose your changes if you leave this page. Are you sure?';
 
-        this.MEDIA_PLAN_TOTAL = 'Media Plan Total:*';
-        this.AD_GROUP_TOTAL = 'Ad Group Total:*';
-        this.CAMPAIGN_TOTAL = 'Campaign Total:*';
-        this.LINE_ITME_TOTAL = 'Line Item Total:*';
+        this.MEDIA_PLAN_TOTAL = 'Media Plan Total:';
+        this.AD_GROUP_TOTAL = 'Ad Group Total:';
+        this.CAMPAIGN_TOTAL = 'Campaign Total:';
+        this.LINE_ITME_TOTAL = 'Line Item Total:';
         this.INCLUDES_FIXED_COSTS = '*Includes Fixed Costs';
         this.EXCLUDES_MEDIA_PLAN_FIXED_COSTS = '*Excludes Media Plan fixed costs';
 
@@ -1237,5 +1237,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.WF_RESUME_ALL = 'Resume All';
         this.SELECTCOUNTRY = 'Select Country';
 
+        this.TECH_FEES = 'Tech';
     });
 });
