@@ -858,6 +858,7 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
             };
 
         return {
+            adsResolver: adsResolver,
             adminHeaderResolver: adminHeaderResolver,
             creativeListResolver: creativeListResolver,
             creativePreviewResolver: creativePreviewResolver,
