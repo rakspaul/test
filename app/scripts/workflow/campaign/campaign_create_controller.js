@@ -262,8 +262,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         } else {
                             $scope.kpiName = campaignData.kpiType;
                         }
-
-                        console.log(" $scope.kpiName",  $scope.kpiName)
                     }
 
                     // set Kpi Value
@@ -1132,7 +1130,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }
 
             return symbol;
-        }
+        };
 
         $(function () {
             $('.masterContainer').on('click', '.leftNavLink', function (event) {
