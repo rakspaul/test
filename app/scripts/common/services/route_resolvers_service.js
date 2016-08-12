@@ -1,48 +1,41 @@
-define(['angularAMD', 'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     angularAMD.service('routeResolvers', function () {
         var accountDataWithReportList = function (args, deferred) {
-            // TODO: check out the 'deferred' param
-                args.accountService
-                    .fetchAccountData(args.$route.current.params.accountId)
-                    .then(function () {
-                        args.collectiveReportModel
-                            .getReportList(
-                                args.$route.current.params.subAccountId,
-                                args.$route.current.params.advertiserId || -1,
-                                args.$route.current.params.brandId || -1,
-                                args.$route.current.params.campaignId || -1
-                            )
-                            .then(function (response) {
-                                if (response && response.data.data) {
-                                    deferred.resolve(response.data.data);
-                                } else {
-                                    deferred.resolve([]);
-                                }
+            args
+                .accountService
+                .fetchAccountData(args.$route.current.params.accountId)
+                .then(function () {
+                    args.collectiveReportModel
+                        .getReportList(
+                            args.$route.current.params.subAccountId,
+                            args.$route.current.params.advertiserId || -1,
+                            args.$route.current.params.brandId || -1,
+                            args.$route.current.params.campaignId || -1
+                        )
+                        .then(function (response) {
+                            if (response && response.data.data) {
+                                deferred.resolve(response.data.data);
+                            } else {
+                                deferred.resolve([]);
+                            }
 
-                                args.$route.current.params.campaignId &&
-                                    args.campaignSelectModel.fetchCampaign(args.$route.current.params.subAccountId, args.$route.current.params.campaignId);
+                            args.$route.current.params.campaignId &&
+                                args.campaignSelectModel.fetchCampaign(args.$route.current.params.subAccountId, args.$route.current.params.campaignId);
 
-                                !args.$route.current.params.campaignId && args.campaignSelectModel.setSelectedCampaign({
-                                    id: -1,
-                                    name: 'All Media Plans',
-                                    kpi: 'ctr',
-                                    startDate: '-1',
-                                    endDate: '-1'
-                                });
-
-                                args.$route.current.params.advertiserId &&
-                                    // TODO: Check out the implementation of this method
-                                    fetchCurrentAdvertiser(args.$location, args.$route, args.advertiserModel, args.vistoconfig);
-
-                                args.$route.current.params.advertiserId &&
-                                    args.$route.current.params.brandId &&
-                                    // TODO: Check out the implementation of this method
-                                    fetchCurrentBrand(args.$location, args.$route, args.brandsModel, args.vistoconfig);
+                            !args.$route.current.params.campaignId && args.campaignSelectModel.setSelectedCampaign({
+                                id: -1,
+                                name: 'All Media Plans',
+                                kpi: 'ctr',
+                                startDate: '-1',
+                                endDate: '-1'
                             });
-                    });
+
+                            args.$route.current.params.advertiserId && fetchCurrentAdvertiser(args);
+                            args.$route.current.params.advertiserId && args.$route.current.params.brandId && fetchCurrentBrand(args);
+                        });
+                });
             },
 
-            // TODO: Why is this NOT USED?
             adsResolver = function (args, mode) {
                 var deferred = args.$q.defer(),
                     redirect = true;
@@ -50,7 +43,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                 console.log('accountService', args.accountService);
                 console.log('subAccountService', args.subAccountService);
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
@@ -59,12 +53,15 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                             isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                args.subAccountService.fetchSubAccountList(args.$route.current.params.accountId).then(function () {
-                                    if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
-                                        fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE, mode, true);
-                                    }
-                                });
-                            }else {
+                                args
+                                    .subAccountService
+                                    .fetchSubAccountList(args.$route.current.params.accountId)
+                                    .then(function () {
+                                        if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
+                                            fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE, mode, true);
+                                        }
+                                    });
+                            } else {
                                 fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE, mode, true);
                             }
                         } else {
@@ -84,11 +81,13 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                     args.$location.url('/dashboard');
                 }
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
-                            args.accountService
+                            args
+                                .accountService
                                 .fetchAccountData(params.accountId)
                                 .then(function () {
                                     deferred.resolve();
@@ -106,7 +105,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                 var deferred = args.$q.defer(),
                     redirect = false;
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
@@ -115,7 +115,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                             isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                args.subAccountService
+                                args
+                                    .subAccountService
                                     .fetchSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
                                         if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
@@ -138,7 +139,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                 var deferred = args.$q.defer(),
                     redirect = false;
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
@@ -147,7 +149,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                             isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                args.subAccountService
+                                args
+                                    .subAccountService
                                     .fetchSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
                                         if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
@@ -170,7 +173,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                 var deferred = args.$q.defer(),
                     redirect = false;
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
@@ -179,12 +183,12 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                             isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                args.subAccountService
+                                args
+                                    .subAccountService
                                     .fetchSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
                                         if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
-                                            fetchAccountDataSetWSInfo(args, deferred,
-                                                redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE);
+                                            fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE);
                                         }
                                     });
                             } else {
@@ -203,25 +207,29 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                 var deferred = args.$q.defer(),
                     params = args.$route.current.params;
 
-                args.accountService.fetchAccountList().then(function () {
-                    if (args.accountService.allowedAccount(params.accountId)) {
-                        args.accountService
-                            .fetchAccountData(params.accountId)
-                            .then(function () {
-                                deferred.resolve();
+                args
+                    .accountService
+                    .fetchAccountList()
+                    .then(function () {
+                        if (args.accountService.allowedAccount(params.accountId)) {
+                            args
+                                .accountService
+                                .fetchAccountData(params.accountId)
+                                .then(function () {
+                                    deferred.resolve();
 
-                                if (params.advertiserId && params.brandId) {
-                                    console.log('fetching the advertiser & brand before loading dashboard. See resolve function');
-                                } else {
-                                    // fetch the advertiser async
-                                    params.advertiserId && fetchCurrentAdvertiser(args);
-                                }
-                            });
-                    } else {
-                        console.log('account not allowed');
-                        args.$location.url('/tmp');
-                    }
-                });
+                                    if (params.advertiserId && params.brandId) {
+                                        console.log('fetching the advertiser & brand before loading dashboard. See resolve function');
+                                    } else {
+                                        // fetch the advertiser async
+                                        params.advertiserId && fetchCurrentAdvertiser(args);
+                                    }
+                                });
+                        } else {
+                            console.log('account not allowed');
+                            args.$location.url('/tmp');
+                        }
+                    });
 
                 return deferred.promise;
             },
@@ -230,15 +238,18 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                 var deferred = args.$q.defer(),
                     params = args.$route.current.params;
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
-                            args.subAccountService
+                            args
+                                .subAccountService
                                 .fetchDashboardSubAccountList(args.$route.current.params.accountId)
                                 .then(function () {
                                     if (args.subAccountService.allowedDashboardSubAccount(args.$route.current.params.subAccountId)) {
-                                        args.accountService
+                                        args
+                                            .accountService
                                             .fetchAccountData(params.accountId)
                                             .then(function () {
                                                 deferred.resolve();
@@ -265,7 +276,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
             },
 
             fetchAccountData = function (args, params, deferred) {
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountData(args.$route.current.params.accountId)
                     .then(function () {
                         deferred.resolve();
@@ -275,7 +287,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
             },
 
             fetchAccountDataSetWSInfo = function (args, deferred, redirect, warningMsg, mode, adGroup) {
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountData(args.$route.current.params.accountId)
                     .then(function () {
                         deferred.resolve();
@@ -299,12 +312,14 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
             },
 
             fetchAccountDataWithCampaign = function (args, deferred) {
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountData(args.$route.current.params.accountId)
                     .then(function () {
                         var params = args.$route.current.params;
 
-                        args.campaignSelectModel
+                        args
+                            .campaignSelectModel
                             .fetchCampaigns(params.subAccountId, params.advertiserId || -1, params.brandId || -1)
                             .then(function (campaignsResponse) {
                                 var campaign,
@@ -343,7 +358,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
             fetchCampaignStrategy = function (args, deferred) {
                 var resolvedOtherDeferrer = false;
 
-                args.campaignSelectModel
+                args
+                    .campaignSelectModel
                     .fetchCampaign(args.$route.current.params.subAccountId, args.$route.current.params.campaignId)
                     .then(function () {
                         if (resolvedOtherDeferrer) {
@@ -356,7 +372,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                         deferred.reject('Mediaplan not found');
                     });
 
-                args.strategySelectModel
+                args
+                    .strategySelectModel
                     .fetchStrategyList(args.$route.current.params.subAccountId, args.$route.current.params.campaignId)
                     .then(function () {
                         if (args.strategySelectModel.allowedStrategy(args.$route.current.params.lineitemId)) {
@@ -380,7 +397,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
             fetchCurrentAdvertiser = function (args) {
                 var params = args.$route.current.params;
 
-                args.advertiserModel
+                args
+                    .advertiserModel
                     .fetchAdvertiserList(params.subAccountId || params.accountId)
                     .then(function () {
                         var advertiser;
@@ -399,7 +417,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
             fetchCurrentBrand = function (args) {
                 var params = args.$route.current.params;
 
-                args.brandsModel
+                args
+                    .brandsModel
                     .fetchBrandList(params.subAccountId || params.accountId, params.advertiserId)
                     .then(function () {
                         var brand;
@@ -420,11 +439,13 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                 var deferred = args.$q.defer(),
                     params = args.$route.current.params;
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
-                            args.accountService
+                            args
+                                .accountService
                                 .fetchAccountData(params.accountId)
                                 .then(function () {
                                     deferred.resolve();
@@ -445,7 +466,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                 console.log('accountService', args.accountService);
                 console.log('subAccountService', args.subAccountService);
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
@@ -454,7 +476,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                             isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                args.subAccountService
+                                args
+                                    .subAccountService
                                     .fetchSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
                                         if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
@@ -480,7 +503,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                 console.log('accountService', args.accountService);
                 console.log('subAccountService', args.subAccountService);
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
@@ -489,7 +513,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                             isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                args.subAccountService
+                                args
+                                    .subAccountService
                                     .fetchSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
                                         if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
@@ -512,11 +537,13 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                 var deferred = args.$q.defer(),
                     params = args.$route.current.params;
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         if (args.accountService.allowedAccount(params.accountId)) {
-                            args.accountService
+                            args
+                                .accountService
                                 .fetchAccountData(params.accountId)
                                 .then(function () {
                                     deferred.resolve();
@@ -536,7 +563,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                 var deferred = args.$q.defer(),
                     params = args.$route.current.params;
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
@@ -545,7 +573,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                             isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                args.subAccountService
+                                args
+                                    .subAccountService
                                     .fetchSubAccountList(params.accountId)
                                     .then(function () {
                                         if (args.subAccountService.allowedSubAccount(params.subAccountId)) {
@@ -571,16 +600,19 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                 var deferred = args.$q.defer(),
                     params = args.$route.current.params;
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
-                            args.accountService
+                            args
+                                .accountService
                                 .fetchAccountData(args.$route.current.params.accountId)
                                 .then(function () {
                                     var resolvedOtherDeferrer = false;
 
-                                    args.campaignSelectModel
+                                    args
+                                        .campaignSelectModel
                                         .fetchCampaign(args.$route.current.params.accountId, args.$route.current.params.campaignId)
                                         .then(function () {
                                             if (resolvedOtherDeferrer) {
@@ -594,7 +626,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                                             deferred.reject('Mediaplan not found');
                                         });
 
-                                    args.strategySelectModel
+                                    args
+                                        .strategySelectModel
                                         .fetchStrategyList(args.$route.current.params.accountId, args.$route.current.params.campaignId)
                                         .then(function () {
                                             if (args.strategySelectModel.allowedStrategy(args.$route.current.params.lineitemId)) {
@@ -629,7 +662,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
             reportsHeaderResolver2 = function (args) {
                 var deferred = args.$q.defer();
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
@@ -637,13 +671,15 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
                             isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
-                            // if not leafnode i.e having subaccount then fetch subaccount
+                            // if not leaf node i.e having sub-account then fetch sub-account
                             if (!isLeafNode) {
-                                args.subAccountService
+                                args
+                                    .subAccountService
                                     .fetchSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
                                         if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
-                                            args.accountService
+                                            args
+                                                .accountService
                                                 .fetchAccountData(args.$route.current.params.accountId)
                                                 .then(function () {
                                                     fetchCampaignStrategy(args, deferred);
@@ -657,7 +693,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                                     });
                             } else {
                                 // if it's a leaf node i.e not haveing subaccount
-                                args.accountService
+                                args
+                                    .accountService
                                     .fetchAccountData(args.$route.current.params.accountId)
                                     .then(function () {
                                         fetchCampaignStrategy(args, deferred);
@@ -679,16 +716,19 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
             reportsHeaderResolverWOCampaign = function (args) {
                 var deferred = args.$q.defer();
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
-                            args.accountService
+                            args
+                                .accountService
                                 .fetchAccountData(args.$route.current.params.accountId)
                                 .then(function () {
                                     var params = args.$route.current.params;
 
-                                    args.campaignSelectModel
+                                    args
+                                        .campaignSelectModel
                                         .fetchCampaigns(params.accountId, params.advertiserId || -1, params.brandId || -1)
                                         .then(function (campaignsResponse) {
                                             var campaign,
@@ -725,7 +765,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
             reportsHeaderResolverWOCampaign2 = function (args) {
                 var deferred = args.$q.defer();
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
@@ -734,7 +775,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                             isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                args.subAccountService
+                                args
+                                    .subAccountService
                                     .fetchSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
                                         if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
@@ -761,11 +803,13 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                 var deferred = args.$q.defer(),
                     params = args.$route.current.params;
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         if (args.accountService.allowedAccount(params.accountId)) {
-                            args.accountService
+                            args
+                                .accountService
                                 .fetchAccountData(args.$route.current.params.accountId)
                                 .then(function () {
                                     deferred.resolve();
@@ -783,14 +827,17 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                 var deferred = args.$q.defer(),
                     params = args.$route.current.params;
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
-                            args.accountService
+                            args
+                                .accountService
                                 .fetchAccountData(args.$route.current.params.accountId)
                                 .then(function () {
-                                    args.collectiveReportModel
+                                    args
+                                        .collectiveReportModel
                                         .getReportList(params.accountId, params.advertiserId || -1, params.brandId || -1, params.campaignId || -1)
                                         .then(function (response) {
                                             if (response && response.data.data) {
@@ -826,7 +873,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                 var deferred = args.$q.defer(),
                     params = args.$route.current.params;
 
-                args.accountService
+                args
+                    .accountService
                     .fetchAccountList()
                     .then(function () {
                         var isLeafNode;
@@ -835,7 +883,8 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
                             isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
 
                             if (!isLeafNode) {
-                                args.subAccountService
+                                args
+                                    .subAccountService
                                     .fetchSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
                                         if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {

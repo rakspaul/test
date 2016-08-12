@@ -158,7 +158,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             $('#cdbDropdown').hide();
         };
 
-        $scope.NavigateToTab = function (url, event, page) {
+    $scope.NavigateToTab = function (url, event, page) {
             $('.each_nav_link').removeClass('active_tab active selected');
 
             advertiserModel.reset();
