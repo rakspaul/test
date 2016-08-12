@@ -12,6 +12,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         var featurePermission = function () {
                 $scope.fparams = featuresService.getFeatureParams();
                 $scope.showMediaPlanTab = $scope.fparams[0].mediaplan_list;
+                $scope.showDashboard = $scope.fparams[0].dashboard;
                 $scope.showReportTab = $scope.fparams[0].reports_tab;
                 $scope.invoiceTool = $scope.fparams[0].reports_invoice;
             },

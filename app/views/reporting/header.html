@@ -4,9 +4,14 @@
         <div class="icon-hamburger" ng-click="mobileMenuShow();"></div>
 
         <!--Logo-->
-        <a href="/dashboard" class="main_logo" id="logo" style="cursor:pointer;">
+        <a ng-if="showDashboard" href="/dashboard" class="main_logo" id="logo" style="cursor:pointer;">
             <img ng-src="/images/visto_logos/Visto_Logo_hi-res.svg" alt="" height="32"/>
         </a>
+
+        <a ng-if="!showDashboard" class="main_logo" id="logo" style="cursor:pointer;">
+            <img ng-src="/images/visto_logos/Visto_Logo_hi-res.svg" alt="" height="32"/>
+        </a>
+
         <!--Mobile Menu-->
         <div class="mobileNavWrap">
             <div class="mobileNav">
