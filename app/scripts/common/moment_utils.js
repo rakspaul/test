@@ -3,8 +3,9 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
     angularAMD.service('momentService', ['loginModel', 'constants', 'vistoconfig',
         function(loginModel, constants, vistoconfig) {
         this.today = function() {
-            var m = moment.tz(loginModel.networkTimezone());
 
+            var tz  = this.getTimezoneName();
+            var m = moment.tz(tz);
             return m.startOf('day');
         };
 
@@ -26,12 +27,14 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
         };
 
         this.newMoment = function(date) {
+            var tz  = this.getTimezoneName();
+
             if (_.isDate(date)) {
                 return this.newMoment(moment(date).format('YYYY-MM-DD'));
             }
 
             if (_.isString(date) || _.isNumber(date)) {
-                return moment.tz(date, loginModel.networkTimezone());
+                return moment(date).tz(tz);
             }
         };
 

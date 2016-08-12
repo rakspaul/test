@@ -221,10 +221,10 @@
                 <div class="sectionShownOnSelection">
                     <div class="col-md-12 zeroPadding marginBottom">
                         <div class="col-md-6 zeroPadding countryNameSelected"></div>
-                        <div class="pull-right">
-                            <span class="pull-left icon-clear marginRightFive"></span>
-                            <span  class="pull-left clickCursor" data-ng-bind="textConstants.CLEARALL"></span>
-                        </div>
+                        <!--<div class="pull-right">-->
+                            <!--<span class="pull-left icon-clear marginRightFive"></span>-->
+                            <!--<span  class="pull-left clickCursor" data-ng-bind="textConstants.CLEARALL"></span>-->
+                        <!--</div>-->
                     </div>
                     <textarea class="form-control" id="zipCodes" name="zipCodes" ng-model="adData.zipCodes" rows="3" placeholder="Separate zip / postal codes by comma. Use hyphens to denote ranges." ></textarea>
 
@@ -241,7 +241,8 @@
                                     <input class="dropdown-toggle inactive" ng-model="geoData.zip.name"/>
                                     <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
                                 </div>
-                                <li ng-repeat="country in geoData.countries.data | filter : geoData.zip.name" class="available" ><a ng-click="showHideDropdownWithSearch($event);sectionShownOnSelection(country);">{{country.name}}</a></li>
+                                <div class="common-loading-area" ng-if="geoData.zip.countries.length ===0"></div>
+                                <li ng-repeat="country in geoData.zip.countries | filter : geoData.zip.name" class="available" ><a ng-click="showHideDropdownWithSearch($event);sectionShownOnSelection(country);">{{country.name}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -264,10 +265,10 @@
     <div class="col-md-5 zeroPadding selectedTables">
         <div class="col-md-12 zeroPadding">
             <h2 class="pull-left" data-ng-bind="textConstants.SELECTED"></h2>
-            <div class="pull-right ">
-                <span class="pull-left marginRightFive icon-clear"></span>
-                <span class="pull-left">Clear All</span>
-            </div>
+            <!--<div class="pull-right ">-->
+                <!--<span class="pull-left marginRightFive icon-clear"></span>-->
+                <!--<span class="pull-left">Clear All</span>-->
+            <!--</div>-->
         </div>
         <div class="col-md-12 zeroPadding options-selected-section" id="geo-selected-section">
             <div class="default-selected-section" ng-if="!(geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0 || geoData.dmas.selected.length > 0 || geoData.zip.selected.length > 0)">
