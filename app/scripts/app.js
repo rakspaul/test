@@ -1571,6 +1571,7 @@ define(['common'], function (angularAMD) {
 
         .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore,
                        workflowService , subAccountService, $window) {
+            
             var loginCheckFunc = function () {
                     var locationPath = $location.path(),
                         authorizationKey;
