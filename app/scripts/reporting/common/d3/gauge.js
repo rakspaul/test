@@ -373,7 +373,7 @@ define(['angularAMD','../../../common/services/constants_service'], function (an
 
                         // hardcoding widget message right now, later move it to config to generalize for gauge
                         this.leftDotText.text(readings[name].onTrack.toString() + ' On Track');
-                        this.rightDotText.text(readings[name].underPerforming.toString() + ' Underperforming');
+                        this.rightDotText.text(readings[name].underPerforming.toString() + ' Off Target');
                     }
                 };
             }
