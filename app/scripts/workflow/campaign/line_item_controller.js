@@ -171,6 +171,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
             newItem.billableAmount = $scope.billableAmount;
             newItem.volume = $scope.volume;
+            // newItem.volumeType = $scope.selectedVolumeType;
 
             if($scope.selectedVolumeType){
                 newItem.volumeType = $scope.selectedVolumeType;
@@ -220,6 +221,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             newItem.adGroupName = $scope.editLineItem.adGroupName;
             newItem.billableAmount = $scope.editLineItem.billableAmount;
             newItem.volume = $scope.editLineItem.volume;
+            newItem.volumeType = $scope.editLineItem.selectedVolumeType;
 
             if($scope.editLineItem.selectedVolumeType){
                 newItem.volumeType = $scope.editLineItem.selectedVolumeType;
@@ -822,6 +824,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 $scope.lineRate = '';
                 $scope.rateReadOnly = false;
                 $scope.volumeFlag = true;
+                $scope.volumeTypeFlag = false;
                 $scope.amountFlag = true;
                 $scope.rateTypeReadOnly = false;
                 $scope.hideLineItemRate = false;
@@ -844,8 +847,10 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                             );
                     }
 
-                    $scope.volumeFlag = false;
+                    $scope.volumeFlag = true;
                     $scope.volume = '';
+                    $scope.volumeTypeFlag = true;
+                    $scope.selectedVolumeType = '';
                 } else if (CONST_COGS_CPM === $scope.lineItemType.name) {
                     if (selectedAdvertiser && (selectedAdvertiser.billingTypeId && selectedAdvertiser.billingValue)) {
                         $scope.rateReadOnly = true;
@@ -856,6 +861,8 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                     $scope.volumeFlag = false;
                     $scope.volume = '';
+                    $scope.volumeTypeFlag = false;
+                    $scope.selectedVolumeType = '';
                 } else if (CONST_FLAT_FEE === $scope.lineItemType.name) {
                     if (selectedAdvertiser && (selectedAdvertiser.billingTypeId && selectedAdvertiser.billingValue)) {
                         $scope.rateReadOnly = true;
@@ -870,6 +877,8 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                     $scope.volumeFlag = false;
                     $scope.volume = '';
+                    $scope.volumeTypeFlag = false;
+                    $scope.selectedVolumeType = '';
 
                     $scope.billableAmount = '';
                     $scope.systemOfRecordSelected = {};
@@ -884,11 +893,14 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     CONST_TOTAL_CPA === $scope.lineItemType.name ||
                     CONST_POST_CLICK_CPA === $scope.lineItemType.name) {
                     $scope.showPixelsList = true;
+                    $scope.volumeTypeFlag = false;
+                    $scope.selectedVolumeType = '';
                 }
             } else {
                 $scope.rateReadOnlyEdit = false;
                 $scope.billableAmount = '';
                 $scope.volumeFlagEdit = true;
+                $scope.volumeTypeFlagEdit = false;
                 $scope.amountFlagEdit = true;
                 $scope.hideLineItemRateEdit = false;
                 $scope.hideAdGroupNameEdit = false;
@@ -910,8 +922,9 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                         $scope.rateTypeReadOnlyEdit = true;
                     }
 
-                    $scope.volumeFlagEdit = false;
+                    $scope.volumeFlagEdit = true;
                     $scope.editLineItem.volume = '';
+                    $scope.volumeTypeFlagEdit = true;
                     $scope.editLineItem.pixelSelected = {};
                 } else if (CONST_COGS_CPM === $scope.editLineItem.lineItemType.name) {
                     if (selectedAdvertiser && (selectedAdvertiser.billingTypeId && selectedAdvertiser.billingValue)) {
@@ -925,6 +938,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                     $scope.volumeFlagEdit = false;
                     $scope.editLineItem.volume = '';
+                    $scope.volumeTypeFlagEdit = false;
                     $scope.editLineItem.pixelSelected = {};
                 } else if (CONST_FLAT_FEE === $scope.editLineItem.lineItemType.name) {
                     if (selectedAdvertiser && (selectedAdvertiser.billingTypeId && selectedAdvertiser.billingValue)) {
@@ -940,6 +954,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                     $scope.volumeFlagEdit = false;
                     $scope.editLineItem.volume = '';
+                    $scope.volumeTypeFlagEdit = false;
 
                     // ad group in edit mode
                     $scope.hideAdGroupNameEdit = true;
@@ -1000,6 +1015,8 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
             $scope.rateReadOnly = false;
             $scope.volumeFlag = true;
+            $scope.volumeTypeFlag = false;
+            $scope.selectedVolumeType = '';
             $scope.amountFlag = true;
             $scope.hideAdGroupName = false;
             $scope.showPixelsList = false;

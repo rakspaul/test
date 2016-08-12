@@ -270,7 +270,7 @@
 
         <div class="listItemSmallValues" ng-show="volumeFlag">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding"
-                   ng-if="!lineItemType || lineItemType.name === 'Select Type'"
+                   ng-if="!lineItemType || lineItemType.name === 'Select Type' || lineItemType.name === 'COGS+ %'"
                    data-ng-bind="textConstants.MEDIAPLAN_VOLUME">Volume</label>
             <label class="col-sm-12 greyTxt miniLabels zeroPadding"
                    ng-if="lineItemType.name === 'CPM'">Impressions</label>
@@ -281,10 +281,11 @@
                    ng-if="lineItemType.name === 'Post-Click CPA' || lineItemType.name === 'Post-Impression CPA' || lineItemType.name === 'Total CPA'">Actions</label>
 
             <input type="text" class="col-md-12 form-control" placeholder="" ng-model="$parent.volume" whole-number-only
-                   ng-readonly="true"/>
+                   ng-readonly="(lineItemType.name !== 'COGS+ %')?true: false"/>
         </div>
         <div style="clear:both"></div>
-        <div class="col-md-3 zeroPadding dropdown-workflow" style="margin-right:10px;" >
+
+        <div class="col-md-3 zeroPadding dropdown-workflow" style="margin-right:10px;" ng-show="volumeTypeFlag">
             <div class="dropdown">
                 <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_VOLUME_TYPE"></label>
                 <button style="width:100%;" class="btn btn-default dropdown-toggle systemOfRecordName" type="button"
@@ -590,7 +591,7 @@
 
         <div class="listItemSmallValues" ng-show="volumeFlagEdit">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding"
-                   ng-if="!editLineItem.lineItemType || editLineItem.lineItemType.name === 'Select Type'"
+                   ng-if="!editLineItem.lineItemType || editLineItem.lineItemType.name === 'Select Type' || editLineItem.lineItemType.name === 'COGS+ %'"
                    data-ng-bind="textConstants.MEDIAPLAN_VOLUME">Volume</label>
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="editLineItem.lineItemType.name === 'CPM'">Impressions</label>
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="editLineItem.lineItemType.name === 'CPC'">Clicks</label>
@@ -600,8 +601,7 @@
             <input type="text" class="col-md-12 form-control" placeholder="" ng-model="editLineItem.volume"
                    whole-number-only autocomplete="off" ng-readonly="true"/>
         </div>
-
-        <div class="col-md-3 zeroPadding dropdown-workflow" style="margin-right:10px;">
+        <div class="col-md-3 zeroPadding dropdown-workflow" style="margin-right:10px;" ng-show="volumeTypeFlagEdit">
             <div class="dropdown">
                 <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_VOLUME_TYPE"></label>
                 <button style="width:100%;" class="btn btn-default dropdown-toggle systemOfRecordName" type="button"
