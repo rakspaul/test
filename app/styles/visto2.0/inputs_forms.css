@@ -317,8 +317,10 @@ select:hover {
 /* end .squared Check Box */
 .btn.disabled,
 .btn[disabled],
-fieldset[disabled] .btn {
-  opacity: 0.4;
+fieldset[disabled] .btn,
+input[disabled] {
+  opacity: 0.4 !important;
+  cursor: not-allowed;
 }
 .adChoices textarea {
   resize: both;
