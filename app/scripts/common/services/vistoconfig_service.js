@@ -85,10 +85,10 @@ define(['angularAMD'], function (angularAMD) {
             { kpi: 'cpc',                           displayName: 'CPC' },
             { kpi: 'cpm',                           displayName: 'CPM' },
             { kpi: 'pc_cpa',                        displayName: 'Post Click CPA' },
-            { kpi: 'spend',                         displayName: 'Spend' },
-            { kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
-            { kpi: 'viewable_impressions',          displayName: 'Viewable Impressions' },
-            { kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' }
+            { kpi: 'spend',                         displayName: 'Spend' }
+           // { kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
+           // { kpi: 'viewable_impressions',          displayName: 'Viewable Impressions' },
+            //{ kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' }
         ];
 
         this.PERFORMANCE_LINK = '/performance';
