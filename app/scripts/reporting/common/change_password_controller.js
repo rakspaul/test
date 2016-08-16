@@ -14,7 +14,7 @@ define(['angularAMD', 'common/services/account_service'], function (angularAMD) 
             if( ($scope.password !== $scope.confirm_password ) || ( ($scope.password.length || $scope.confirm_password.length ) < 7 ) ) {
                 $scope.passwordValidation = false ;
                 if(( ($scope.password.length || $scope.confirm_password.length ) < 7 )) {
-                   $scope.passwordValidationErrorTxt = 'Password should have more than 7 characters' ;
+                   $scope.passwordValidationErrorTxt = 'Password should have more than 6 characters' ;
                 } else {
                     $scope.passwordValidationErrorTxt = 'Passwords are not matching' ;
                 }
