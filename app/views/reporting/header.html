@@ -10,9 +10,9 @@
         <!--Mobile Menu-->
         <div class="mobileNavWrap">
             <div class="mobileNav">
-                <a href="javascript:void(0);" ng-click="NavigateToTab('', $event ,'mediaplanList')" ng-mouseover="hide_navigation_dropdown($event);" ng-bind="textConstants.MEDIA_PLAN"></a>
-                <a href="javascript:void(0);" reporttitle="reportOverview" ng-click="NavigateToTab('', $event ,'reportOverview')" ng-bind="textConstants.REPORTS"></a>
-                <a href="javascript:void(0);" ng-click="NavigateToTab('', $event ,'creativelist')" ng-bind="textConstants.CREATIVES"></a>
+                <a href="javascript:void(0);" ng-click="navigateToTab('', $event ,'mediaplanList')" ng-mouseover="hide_navigation_dropdown($event);" ng-bind="textConstants.MEDIA_PLAN"></a>
+                <a href="javascript:void(0);" reporttitle="reportOverview" ng-click="navigateToTab('', $event ,'reportOverview')" ng-bind="textConstants.REPORTS"></a>
+                <a href="javascript:void(0);" ng-click="navigateToTab('', $event ,'creativelist')" ng-bind="textConstants.CREATIVES"></a>
             </div>
             <div class="mobileHideFunc" ng-click="mobileMenuHide();"></div>
         </div>
@@ -25,29 +25,29 @@
             </div>-->
             <div class="pull-left each_nav_link" id="campaigns_nav_link" ng-if="showMediaPlanTab">
                 <a ng-mouseover="hide_navigation_dropdown($event);"
-                   ng-click="NavigateToTab('', $event ,'mediaplanList')" ng-bind="textConstants.MEDIA_PLAN"></a>
+                   ng-click="navigateToTab('', $event ,'mediaplanList')" ng-bind="textConstants.MEDIA_PLAN"></a>
                 <div class="arrowSelect"></div>
             </div>
             <div class="pull-left each_nav_link" id="reports_nav_link" ng-if="showReportTab">
                 <a href="{{reports_nav_url}}" reporttitle="reportOverview"
-                   ng-click="NavigateToTab('', $event, 'reportOverview')"
+                   ng-click="navigateToTab('/Overview', $event, 'reportsSubPage')"
                    ng-mouseover="show_hide_nav_dropdown($event, 'reports', 'hover');" ng-bind="textConstants.REPORTS"></a>
 
                 <div class="arrowSelect" style="bottom: -1px;"></div>
             </div>
             <div class="pull-left each_nav_link" id="creative_nav_link" ng-if="showCreativeList">
-                <a ng-click="NavigateToTab('', $event, 'creativelist')" ng-bind="textConstants.CREATIVES"></a>
+                <a ng-click="navigateToTab('', $event, 'creativelist')" ng-bind="textConstants.CREATIVES"></a>
                 <div class="arrowSelect" style="bottom: -14px;"></div>
             </div>
             <!--Admin DD-->
             <div class="pull-left each_nav_link" id="admin_nav_link" ng-if="isSuperAdmin">
-                <a data-ng-click="NavigateToTab('', $event ,'adminOverview')" reporttitle="adminOverview"
-                   ng-click="NavigateToTab('', $event ,'adminOverview')" ng-bind="textConstants.ADMIN"></a>
+                <a data-ng-click="navigateToTab('', $event ,'adminOverview')" reporttitle="adminOverview"
+                   ng-click="navigateToTab('', $event ,'adminOverview')" ng-bind="textConstants.ADMIN"></a>
                 <div class="arrowSelect"></div>
             </div>
 
             <div class="pull-left each_nav_link" id="invoiceTool_nav_link" ng-if="invoiceTool">
-                <a ng-click="NavigateToTab('', $event ,'invoiceTool')"
+                <a ng-click="navigateToTab('', $event ,'invoiceTool')"
                    ng-bind="textConstants.INVOICE_TOOL"></a>
                 <div class="arrowSelect"></div>
             </div>
