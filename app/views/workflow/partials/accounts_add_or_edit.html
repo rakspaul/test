@@ -44,7 +44,9 @@
                    placeholder="Add Name"
                    data-ng-model="clientName"
                    data-ng-blur="getClientCode()"
-                   data-toggle="dropdown">
+                   data-toggle="dropdown"
+                   special-character="special-character" >
+            <label class="txtError special-character-error" style="display:none" >Please omit any punctuation or special characters (e.g. &, @, etc)</label>
         </div>
         <div class="form-group col-md-4 " style="padding: 0 15px;">
             <div class="col-md-12 zeroPadding dropdown-workflow accountCode">
@@ -67,6 +69,7 @@
                         </li>
                     </ul>
                 </div>
+                
             </div>
             <div class="form-group customClientCode" style="padding: 0 15px;" data-ng-show="setSelectedClientCode=='Others'">
                 <label class="col-sm-12 greyTxt">Enter Code:</label>
@@ -90,8 +93,9 @@
             <input type="text"
                    class="form-control"
                    data-ng-model="nickname"
-                   remove-special-character="remove-special-character"
+                   special-character="special-character"
                    placeholder="Add Nickname">
+            <label class="txtError special-character-error" style="display:none" >Please omit any punctuation or special characters (e.g. &, @, etc)</label>  
         </div>
         <div class="form-group col-md-3" style="padding: 0 15px;">
             <label class="col-sm-12 greyTxt">Currency:</label>
