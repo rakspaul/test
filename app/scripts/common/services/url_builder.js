@@ -155,11 +155,13 @@ console.log('reportName = ', reportName);
 
                     if (leafSubAccount) {
                         url += '/sa/' + $routeParams.subAccountId;
-                    } else {
-                        url += '/sa/' + subAccountService.getSubAccounts()[0].id;
                     }
-
                 }
+
+                if(!$routeParams.subAccountId || !leafSubAccount){
+                    url += '/sa/' + subAccountService.getSubAccounts()[0].id;
+                }
+
                 url += '/creative/list';
                 $location.url(url);
             },
@@ -300,6 +302,16 @@ console.log('reportName = ', reportName);
                 return url;
             },
 
+            goToPreviewUrl = function(obj){
+                console.log("obj...",obj);
+                var url = '/a/'+ obj.clientId;
+
+                url += obj.subAccountId ? '/sa/'+ obj.subAccountId : '';
+                url += obj.advertiserId ? '/adv/'+ obj.advertiserId : '';
+                url += obj.creativeId ? '/creative/'+ obj.creativeId : '';
+                return url;
+            },
+
             adUrl = function(params) {
 
                 var url = '/a/' + $routeParams.accountId;
@@ -353,6 +365,7 @@ console.log('reportName = ', reportName);
                 gotoCreativeUrl : gotoCreativeUrl,
                 gotoAdminUrl: gotoAdminUrl,
                 gotoInvoiceTool: gotoInvoiceTool,
+                goToPreviewUrl: goToPreviewUrl,
                 gotoInvoiceReport: gotoInvoiceReport
             };
         });

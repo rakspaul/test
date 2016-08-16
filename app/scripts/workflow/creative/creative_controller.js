@@ -7,10 +7,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
     angularAMD.controller('CreativeController', function ($scope, $rootScope, $routeParams, $location,
                                                          constants, workflowService, creativeCustomModule,
                                                          loginModel, utils, localStorageService,
-                                                          vistoconfig, accountService, subAccountService, advertiserModel) {
+                                                          vistoconfig, accountService, subAccountService, advertiserModel,
+                                                          urlBuilder) {
 
 
         var postCrDataObj = {},
+            urlInfo = {},
 
             processEditCreative = function (clientId) {
                 workflowService
@@ -237,6 +239,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.creativeId = $routeParams.creativeId;
         localStorage.setItem('isOnchangeOfCreativeFeild', 0);
 
+        if($routeParams.accountId){
+            urlInfo.clientId = $routeParams.accountId;
+        }
+
+        if($routeParams.subAccountId){
+            urlInfo.subAccountId = $routeParams.subAccountId;
+        }
+
+console.log("urlInfo..........",urlInfo);
         $scope.creativeTagSelected = function (event, creativeType) {
             var target;
 
@@ -502,7 +513,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         function fireAPItoValidate(ele, creativeTag) {
             var creativeValidateObj = {
                     advertiserId : $scope.creative.advertiserId,
-                    clientId : vistoconfig.getSelectedAccountId(),
+                    clientId : vistoconfig.getMasterClientId(),
                     data: {
                         tag: creativeTag,
                         format: $scope.creativeFormat
@@ -525,13 +536,24 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             creativeType: creativeValidateObj.data.format
                         });
 
-                        url = '/clientId/'+ creativeValidateObj.clientId + '/adv/' + creativeValidateObj.advertiserId;
+                        if($routeParams.subAccountId){
 
-                        if($scope.creativeId) {
-                            url += '/creative/'+ $scope.creativeId + '/preview';
-                        } else {
-                            url += '/creative/-1/preview';
                         }
+
+                        creativeValidateObj.subAccountId = $routeParams.subAccountId || '' ;
+                        creativeValidateObj.creativeId = $scope.creativeId || -1;
+
+                        console.log(" creativeValidateObj.....",creativeValidateObj);
+
+                        url = urlBuilder.goToPreviewUrl(creativeValidateObj) + '/preview';
+
+                        //url = '/clientId/'+ creativeValidateObj.clientId + '/adv/' + creativeValidateObj.advertiserId;
+                        //
+                        //if($scope.creativeId) {
+                        //    url += '/creative/'+ $scope.creativeId + '/preview';
+                        //} else {
+                        //    url += '/creative/-1/preview';
+                        //}
 
                         appendEle = '<div class="creativePreviewBtn"><a target="_blank" href="' +
                             url +'">Preview</a></div>';
@@ -822,7 +844,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.$broadcast('show-errors-reset');
 
             if ($location.path().endsWith('/creative/add') || ($scope.creativeMode === 'edit' && !$scope.adPage)) {
-                url = '/a/' + $routeParams.accountId +'/creative/list';
+                //url = '/a/' + $routeParams.accountId +'/creative/list';
+                url = urlBuilder.goToPreviewUrl(urlInfo) + '/creative/list';
+                console.log("url....",url);
                 $location.url(url);
 
             } else {
