@@ -189,7 +189,7 @@ define(['common'], function (angularAMD) {
 
                     // TODO: Move resolve header callback to routeResolvers service
                     resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
+                        header: function (routeResolversParams, routeResolvers, $timeout) {
                             var deferrer = routeResolversParams.$q.defer(),
                                 params = routeResolversParams.$route.current.params;
 
