@@ -1284,6 +1284,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         };
 
         $scope.calculateVolume = function (mode) {
+            //TODO delete after basic testing
             // if (CONST_COGS_PERCENT !== $scope.lineItemType.name &&
             //     CONST_FLAT_FEE !== $scope.lineItemType.name &&
             //     CONST_COGS_CPM !== $scope.lineItemType.name) {
