@@ -1174,7 +1174,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 $scope.billableAmount = item.billableAmount;
                 $scope.volume = item.volume;
                 if(item.volumeType) {
-                    $scope.volumeType = item.volumeType;
+                    $scope.selectedVolumeType = item.volumeType;
                 }
                 $scope.pricingRate = item.billingRate;
 

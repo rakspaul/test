@@ -674,7 +674,7 @@
                        ((editLineItem.lineItemType.name).toLowerCase()=='post-impression cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
                        ((editLineItem.lineItemType.name).toLowerCase()=='total cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
                        ((editLineItem.lineItemType.name).toLowerCase()=='post-click cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
-                       ((editLineItem.lineItemType.name).toLowerCase()=='cogs+ %' && ( editLineItem.volume == ''))
+                       ((editLineItem.lineItemType.name).toLowerCase()=='cogs+ %' && ( editLineItem.volume ===  ''))
                        )"
                ng-bind="textConstants.SAVE_CHANGES"
                ng-show="!editLineItemLoaderEdit"></a>
