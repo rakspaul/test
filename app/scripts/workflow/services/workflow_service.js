@@ -63,6 +63,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url, {cache: false});
             },
 
+            resetPassword = function (clientId) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/users/' + clientId;
+
+                return password ;
+            },
+
             getSubAccounts = function (clientId, access_level) {
                 var accessLevel = '',
                     url;

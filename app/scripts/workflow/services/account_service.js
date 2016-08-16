@@ -359,6 +359,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     {'Content-Type': 'application/json'}
                 );
             },
+            
 
             setPermissions =  function (permissionObj) {
                 permission = permissionObj;
