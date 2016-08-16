@@ -668,7 +668,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                 campaign.kpiTypeDisplayName = _.find(vistoconfig.kpiDropDown, function (obj) {
                                     return obj.kpi === campaign.kpiType;
                                 });
-                                campaign.kpiTypeDisplayName = campaign.kpiTypeDisplayName ? campaign.kpiTypeDisplayName.displayName : utils.capitaliseAllText(campaign.kpiType);
+                                campaign.kpiTypeDisplayName = campaign.kpiTypeDisplayName ? campaign.kpiTypeDisplayName.displayName : (campaign.kpiType).toUpperCase();
                             }
 
                             campaignList.push(campaign);
