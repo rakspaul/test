@@ -5,119 +5,118 @@ define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
     'use strict';
 
     angularAMD.factory('domainReports', function ($location, loginModel, RoleBasedService, featuresService) {
-            return {
-                getReportsTabs: function (params) {
-                    var tabs = [],
-                        fParams = params || featuresService.getFeatureParams(),
-                        isAgencyCostModelTransparent,
-                        userRole;
+        return {
+            getReportsTabs: function (params) {
+                var tabs = [],
+                    fParams = params || featuresService.getFeatureParams(),
+                    isAgencyCostModelTransparent,
+                    userRole;
 
-                    if (fParams[0].report_overview === true) {
-                        tabs.push({href: 'overview', title: 'Reports Overview'});
-                    }
-
-                    if (fParams[0].performance === true) {
-                        tabs.push({href: 'performance', title: 'Performance'});
-                    }
-
-                    if (fParams[0].cost === true) {
-                        tabs.push({href: 'cost', title: 'Cost'});
-                    }
-
-                    if (fParams[0].platform === true) {
-                        tabs.push({href: 'platform', title: 'Platform'});
-                    }
-
-                    if (fParams[0].inventory === true) {
-                        tabs.push({href: 'inventory', title: 'inventory'});
-                    }
-
-                    if (fParams[0].quality === true) {
-                        tabs.push({href: 'quality', title: 'Quality'});
-                    }
-
-                    if (fParams[0].optimization_create === true || fParams[0].optimization_transparency === true) {
-                        tabs.push({href: 'optimization', title: 'Optimization Impact'});
-                    }
-
-                    isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
-
-                    // if agency level cost model is opaque
-                    if (!isAgencyCostModelTransparent) {
-                        tabs = _.filter(tabs, function (obj) {
-                            return obj.href !== 'cost';
-                        });
-                    }
-
-                    userRole = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().uiExclusions;
-
-                    if (userRole && userRole.ui_modules) {
-                        tabs = _.filter(tabs, function (obj) {
-                            return _.indexOf(userRole.ui_modules, obj.href) === -1;
-                        });
-                    }
-
-                    return {
-                        tabs: tabs,
-                        activeTab: $location.path()
-                    };
-                },
-
-                getCustomReportsTabs: function () {
-                    var tabs = [],
-                        fParams = featuresService.getFeatureParams();
-
-                    if (fParams[0].scheduled_reports === true) {
-                        tabs.push({ href:'reports/schedules', title: 'My Reports'});
-                    }
-
-                    if (fParams[0].collective_insights === true) {
-                        tabs.push({href: 'reports/list', title: 'Collective Insights'});
-                    }
-
-                    return {
-                        tabs: tabs,
-                        activeTab: $location.path()
-                    };
-                },
-
-                highlightHeaderMenu: function () {
-                    // Hot fix to show the campaign tab selected
-                    $('.main_navigation')
-                        .find('.active')
-                        .removeClass('active')
-                        .end()
-                        .find('#reports_nav_link')
-                        .addClass('active');
-                },
-
-                // highlightSubHeaderMenu: function () {
-                //     $('.reports_sub_menu_dd')
-                //         .find('.active_tab')
-                //         .removeClass('active_tab')
-                //         .end()
-                //         .find('#' + document.location.pathname.substring(1))
-                //         .addClass('active_tab');
-                // },
-
-                checkForCampaignFormat: function (adFormats) {
-                    var videoAdsExists,
-                        displayAdsExists;
-
-                    adFormats = _.flatten(adFormats);
-                    videoAdsExists = _.contains(adFormats, 'VIDEO');
-
-                    // Ex: ['VIDEO'], ['VIDEO', 'SOCIAL'], ['VIDEO', 'SOCIAL', 'RICH_MEDIA']
-                    displayAdsExists = !(videoAdsExists && adFormats.length === 1);
-
-                    return {
-                        videoAds: videoAdsExists,
-                        displayAds: displayAdsExists
-                    };
+                if (fParams[0].report_overview === true) {
+                    tabs.push({href: 'overview', title: 'Reports Overview'});
                 }
-            };
-        }
-    );
+
+                if (fParams[0].performance === true) {
+                    tabs.push({href: 'performance', title: 'Performance'});
+                }
+
+                if (fParams[0].cost === true) {
+                    tabs.push({href: 'cost', title: 'Cost'});
+                }
+
+                if (fParams[0].platform === true) {
+                    tabs.push({href: 'platform', title: 'Platform'});
+                }
+
+                if (fParams[0].inventory === true) {
+                    tabs.push({href: 'inventory', title: 'inventory'});
+                }
+
+                if (fParams[0].quality === true) {
+                    tabs.push({href: 'quality', title: 'Quality'});
+                }
+
+                if (fParams[0].optimization_create === true || fParams[0].optimization_transparency === true) {
+                    tabs.push({href: 'optimization', title: 'Optimization Impact'});
+                }
+
+                isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+
+                // if agency level cost model is opaque
+                if (!isAgencyCostModelTransparent) {
+                    tabs = _.filter(tabs, function (obj) {
+                        return obj.href !== 'cost';
+                    });
+                }
+
+                userRole = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().uiExclusions;
+
+                if (userRole && userRole.ui_modules) {
+                    tabs = _.filter(tabs, function (obj) {
+                        return _.indexOf(userRole.ui_modules, obj.href) === -1;
+                    });
+                }
+
+                return {
+                    tabs: tabs,
+                    activeTab: $location.path()
+                };
+            },
+
+            getCustomReportsTabs: function () {
+                var tabs = [],
+                    fParams = featuresService.getFeatureParams();
+
+                if (fParams[0].scheduled_reports === true) {
+                    tabs.push({ href:'reports/schedules', title: 'My Reports'});
+                }
+
+                if (fParams[0].collective_insights === true) {
+                    tabs.push({href: 'reports/list', title: 'Collective Insights'});
+                }
+
+                return {
+                    tabs: tabs,
+                    activeTab: $location.path()
+                };
+            },
+
+            highlightHeaderMenu: function () {
+                // Hot fix to show the campaign tab selected
+                $('.main_navigation')
+                    .find('.active')
+                    .removeClass('active')
+                    .end()
+                    .find('#reports_nav_link')
+                    .addClass('active');
+            },
+
+            // highlightSubHeaderMenu: function () {
+            //     $('.reports_sub_menu_dd')
+            //         .find('.active_tab')
+            //         .removeClass('active_tab')
+            //         .end()
+            //         .find('#' + document.location.pathname.substring(1))
+            //         .addClass('active_tab');
+            // },
+
+            checkForCampaignFormat: function (adFormats) {
+                var videoAdsExists,
+                    displayAdsExists;
+
+                adFormats = _.flatten(adFormats);
+                videoAdsExists = _.contains(adFormats, 'VIDEO');
+
+                // Ex: ['VIDEO'], ['VIDEO', 'SOCIAL'], ['VIDEO', 'SOCIAL', 'RICH_MEDIA']
+                displayAdsExists = !(videoAdsExists && adFormats.length === 1);
+
+                return {
+                    videoAds: videoAdsExists,
+                    displayAds: displayAdsExists
+                };
+            }
+        };
+    });
 
     angularAMD.directive('reportTabs', ['$http', '$compile', 'constants', 'featuresService', '$rootScope',
         'localStorageService','$timeout', function ($http, $compile, constants, featuresService, $rootScope,

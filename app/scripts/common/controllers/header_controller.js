@@ -159,9 +159,9 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             $('#cdbDropdown').hide();
         };
 
-    $scope.NavigateToTab = function (url, event, page) {
+        $scope.navigateToTab = function (url, event, page) {
             $('.each_nav_link').removeClass('active_tab active selected');
-
+console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', page);
             advertiserModel.reset();
             brandsModel.reset();
             strategySelectModel.reset();
@@ -175,7 +175,9 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 urlBuilder.gotoInvoiceTool();
             } else if (page === 'mediaplanList') {
                 urlBuilder.gotoMediaplansListUrl();
-            } else if (page === 'reportsSubPage') {
+
+            // TODO: Reports page when clicking on the top level nav menu
+            } else if (page === 'reportsSubPage' || page === 'reportOverview') {
                 urlBuilder.gotoCannedReportsUrl(url);
             } else if (page === 'customReports') {
                 $location.url(urlBuilder.customReportsUrl());
