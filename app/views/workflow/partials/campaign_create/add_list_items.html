@@ -344,7 +344,13 @@
 
         <div class="pull-right" style="padding: 30px 0 0 0;position:relative;">
             <div class="pull-right btn btn-default"
-                 ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''  || (showSystemOfRecord && !systemOfRecordSelected.id) || ((lineItemType.name.toLowerCase()=='post-impression cpa' && pixelSelected.id==undefined) || (lineItemType.name.toLowerCase()=='total cpa' && pixelSelected.id==undefined) || (lineItemType.name.toLowerCase()=='post-click cpa' && pixelSelected.id==undefined))"
+                 ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''  ||
+                 (showSystemOfRecord && !systemOfRecordSelected.id) ||
+                 ((lineItemType.name.toLowerCase()=='post-impression cpa' && pixelSelected.id==undefined) ||
+                    (lineItemType.name.toLowerCase()=='total cpa' && pixelSelected.id==undefined) ||
+                    (lineItemType.name.toLowerCase()=='post-click cpa' && pixelSelected.id==undefined)) ||
+                ((lineItemType.name.toLowerCase()=='cogs+ %' && (selectedVolumeType == '' || $parent.volume == '')))
+                 "
                  ng-click="navigateLineItem('create')"
                  ng-show="!Campaign.createNewLineItemLoaderEdit">Add Line Item
             </div>
@@ -667,7 +673,8 @@
                data-ng-disabled="!editLineItem.lineItemName || editLineItem.billableAmount === '' || (
                        ((editLineItem.lineItemType.name).toLowerCase()=='post-impression cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
                        ((editLineItem.lineItemType.name).toLowerCase()=='total cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
-                       ((editLineItem.lineItemType.name).toLowerCase()=='post-click cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == ''))
+                       ((editLineItem.lineItemType.name).toLowerCase()=='post-click cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
+                       ((editLineItem.lineItemType.name).toLowerCase()=='cogs+ %' && ( editLineItem.volume == ''))
                        )"
                ng-bind="textConstants.SAVE_CHANGES"
                ng-show="!editLineItemLoaderEdit"></a>
