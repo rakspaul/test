@@ -8,7 +8,7 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/
     angularAMD.controller('DashboardController', function ($scope, $rootScope, $routeParams, $location, constants,
                                                            dashboardModel, brandsModel, advertiserModel,
                                                            campaignSelectModel, loginModel, subAccountService,
-                                                           vistoconfig) {
+                                                           vistoconfig, workflowService) {
 
         var updateTitle = function () {
                 dashboardModel.setTitle();
@@ -27,19 +27,7 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/
         $scope.textConstants = constants;
 
 
-        $scope.removeBrandButton = function () {
-            var url = '/a/' + $routeParams.accountId;
 
-            if ($routeParams.subAccountId) {
-                url += '/sa/' + $routeParams.subAccountId;
-            }
-
-            ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
-            url += '/dashboard';
-            console.log('url', url);
-            $location.url(url);
-
-        };
 
         $scope.statusDropdown = function (status, eventType) {
             var obj = {
@@ -65,5 +53,37 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/
         $scope.hide_bubble_tooltip = function() {
             $('.bubble_tooltip').hide();
         };
+
+        /*
+        Purpose:  Show the advertiser name Oval structure
+        Desc:  If the advertiser adv id is available in the URL.
+         */
+        $scope.data.advertiserSelected = false;
+        if($routeParams.advertiserId){
+            workflowService.getAdvertisers($routeParams.subAccountId || $routeParams.accountId, 'read')
+                .then(function(res){
+                    if(res.status === 'success' || res.status === 'OK'){
+                        var advertiser = _.find(res.data.data, function(obj){
+                            return obj.id === Number($routeParams.advertiserId);
+                        });
+                        dashboardModel.setSelectedAdvertiser(advertiser);
+                    }
+                });
+        }
+
+        $scope.removeAdvertiserButton = function () {
+            var url = '/a/' + $routeParams.accountId;
+
+            if ($routeParams.subAccountId) {
+                url += '/sa/' + $routeParams.subAccountId;
+            }
+
+//            ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
+            url += '/dashboard';
+            console.log('url', url);
+            $location.url(url);
+
+        };
+
     });
 });

@@ -157,9 +157,7 @@
             </div>
         </div>
         <div class="col-md-2 zeroPadding kpiTable symbol-input">
-            <span class="symbol" ng-if="(kpiName === 'VIEWABLE IMPRESSIONS' ||kpiName === 'IMPRESSIONS')">#</span>
-            <span class="symbol perSymbol" ng-if="(kpiName === 'CTR' || kpiName === 'VTC' || kpiName === 'ACTION RATE'|| kpiName === 'VIEWABLE RATE' || kpiName === 'SUSPICIOUS ACTIVITY RATE')">%</span>
-            <span class="symbol" ng-if="(kpiName === 'CPA' || kpiName === 'CPM' || kpiName === 'CPC' || kpiName === 'SPEND' || kpiName === 'POST CLICK CPA')">$</span>
+            <span class="symbol" ng-bind="checkKpiType(kpiName)"></span>
             <input type="text" class="col-md-12 kpiValue" style="text-indent: 8px;height:36px;" ng-model="selectedCampaign.kpiValue" ng-value='selectedCampaign.kpiValue' ng-keyup="percentageValueCheck(selectedCampaign.kpiValue)"  field="kpiValue" fraction-numbers name="kpiValue" required ng-if="kpiName !== 'Impressions'" autocomplete="off"/>
             <input type="text" class="col-md-12 kpiValue" style="text-indent: 8px;height:36px;" ng-model="selectedCampaign.kpiValue" field="kpiValue" whole-number-only name="kpiValue" required ng-if="kpiName === 'Impressions'" autocomplete="off"/>
             <label ng-if="selectedCampaign.kpiValue==='0'"  class="col-sm-12  greyTxt errorLabel" style="display:inline;" ng-bind="textConstants.TARGET_GREATER_THAN_ZERO"></label>

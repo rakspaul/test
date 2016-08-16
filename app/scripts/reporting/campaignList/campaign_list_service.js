@@ -340,7 +340,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                             maxDays = result.data.data.measures_by_days;
                                             var queryObj = {
                                                     queryId: 15,
-                                                    clientId: loginModel.getSelectedClient().id,
+                                                    clientId: clientId,
                                                     advertiserId: advertiserModel.getSelectedAdvertiser().id,
                                                     brandId: brandsModel.getSelectedBrand().id,
                                                     dateFilter: 'life_time',

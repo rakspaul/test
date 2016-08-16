@@ -4461,6 +4461,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response .report_builder_container .metricDataView .metricContainer .metricData {
   padding: 9px 0 0 15px;
   cursor: pointer;
+  display: inline;
 }
 .report_generator_and_response .report_builder_container .metricDataView .metricContainer .metricData:disabled {
   color: #aaa ;
