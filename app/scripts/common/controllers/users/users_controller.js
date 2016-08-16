@@ -4,7 +4,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
     'use strict';
 
     angularAMD.controller('UsersController', function ($scope,$rootScope,$timeout,$filter,
-                                                       constants,accountsService) {
+                                                       $modal , constants,accountsService) {
         var _curCtrl = this,
             winHeight = $(window).height(),
 
@@ -48,6 +48,61 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 }, 2000);
             }
         };
+
+        // Change Password for User
+        $scope.changePassword = function (user) {
+            $modal.open({
+                templateUrl: assets.html_change_password,
+                controller: 'changePasswordController',
+                scope: $scope,
+                windowClass: 'delete-dialog',
+                resolve: {
+                    // deleteAction: function () {
+                    //     return function () {
+                    //         var successFun,
+                    //             errorFun;
+
+                    //         if (frequency === 'Saved') {
+                    //             successFun = function (data) {
+                    //                 if (data.status_code === 200) {
+                    //                     $scope.refreshReportList();
+                    //                     $rootScope
+                    //                         .setErrAlertMessage('The saved report is deleted successfully', 0);
+                    //                 } else {
+                    //                     $rootScope.setErrAlertMessage(data.message, data.message);
+                    //                 }
+                    //             };
+
+                    //             errorFun = function (data) {
+                    //                 $rootScope.setErrAlertMessage(data.message, data.message);
+                    //             };
+
+                    //             collectiveReportModel.deleteSavedReport(successFun, errorFun,
+                    //                 vistoconfig.getMasterClientId(), reportId);
+                    //         } else {
+                    //             successFun = function (data) {
+                    //                 if (data.status_code === 200) {
+                    //                     $scope.refreshReportList();
+                    //                     $rootScope
+                    //                         .setErrAlertMessage('The scheduled report is deleted successfully', 0);
+                    //                 } else {
+                    //                     $rootScope.setErrAlertMessage(data.message, data.message);
+                    //                 }
+                    //             };
+
+                    //             errorFun = function (data) {
+                    //                 $rootScope.setErrAlertMessage(data.message, data.message);
+                    //             };
+
+                    //             collectiveReportModel.deleteScheduledReport(successFun, errorFun,
+                    //                 vistoconfig.getMasterClientId(), reportId);
+                    //         }
+                    //     };
+                    // }
+                }
+            });
+        };
+
 
         usersList.getUsers();
 

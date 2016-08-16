@@ -2436,3 +2436,10 @@ tags-input .autocomplete {
   padding-top: 14px;
   vertical-align: top;
 }
+.linkText {
+  color: #428bca;
+  cursor: pointer;
+}
+.linkText:hover {
+  color: #2a6496 ;
+}
