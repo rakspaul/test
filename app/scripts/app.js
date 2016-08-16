@@ -12,7 +12,7 @@ define(['common'], function (angularAMD) {
         'ngSanitize', 'ui.multiselect', 'highcharts-ng', 'ui.bootstrap.showErrors', 'ngTagsInput']);
 
     app
-        .config(function ($routeProvider, $httpProvider, $timeout) {
+        .config(function ($routeProvider, $httpProvider) {
             $routeProvider.caseInsensitiveMatch = true;
 
             $routeProvider
