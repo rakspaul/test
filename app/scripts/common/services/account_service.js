@@ -54,7 +54,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/fea
                 return false;
             },
             updatePassword : function (userId, password) {
-                console.log("userId", userId, "password", password);
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/users/' + userId + '/reset_password',
                     {'password': password},
