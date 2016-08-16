@@ -88,6 +88,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.GA_USER_CAMPAIGN_SELECTION = 'user_campaign_selection';
         this.GA_USER_STRATEGY_SELECTION = 'user_strategy_selection';
         this.GAUGE_PERFORMANCE = 1;
+        this.GAUGE_UNDERPERFORMING = 'Off Target';
+        this.GAUGE_ONTRACK = 'On Target';
         this.COOKIE_REDIRECT = 'cdesk_redirect';
         this.COOKIE_SESSION = 'cdesk_session';
         this.SPEND = 'Spend';
@@ -268,6 +270,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MARGIN = 'Margin';
         this.BUDGET = 'Budget';
         this.CAMPAIGN_ON_TRACK = 'Media Plan is On Track';
+        this.CAMPAIGN_LIST_ITEM_UNDERPERFORMING = "Off Target";
+
         this.UNDERPERFORMING_CAMPAIGN = 'Media Plan is Off Track';
         this.NEUTRAL = 'Neutral (no status)';
         this.IMP_WITH_DOT = 'Imps.';
@@ -440,7 +444,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
             'Top 3 per Category shown. Percent (%) value is only available for categorized data. Data captured prior to March 2014 is uncategorized.';
 
         this.TARGET_ZONE = 'Target Zone';
-        this.KPI_ON_TARGET = 'KPI on target';
+        this.KPI_ON_TARGET = 'KPI on Target';
+        this.KPI_OFF_TARGET = 'KPI off Target';
         this.KPI_UNDERPERFORMANCE = 'KPI Underperformance';
         this.GRAPH_REPRESENTS_CAMPAIGNS_WHICH_HAVE_SET_KPI_VALUES_ONLY =
             '% of Performing Media Plan measured against the set KPI or delivery if no KPI is set.';

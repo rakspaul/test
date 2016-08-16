@@ -52,13 +52,13 @@
                     </div>
                 </div>
                 <div class="status_section_each_partition onTrack_section_bar status_section_{{campaigns.dashboard.status.active.ontrack}}" data-ng-click="campaigns.dashboard.filterSelectAll || (!campaigns.dashboard.status.active.bothItem && campaigns.dashboard.status.active.ontrack) || campaigns.dashboardFilter('active','ontrack')" >
-                    <div class="status_section_bar left_status_section_bar {{campaigns.dashboard.status.active.ontrack}}" title="KPI on Track {{campaigns.dashboard.active.ontrack}}">
+                    <div class="status_section_bar left_status_section_bar {{campaigns.dashboard.status.active.ontrack}}" title="{{textConstants.KPI_ON_TARGET}} {{campaigns.dashboard.active.ontrack}}">
                         <span class="section_bar_title" data-ng-bind="textConstants.KPI_ON_TRACK "></span>
                         <span class="section_bar_val" data-ng-bind="campaigns.dashboard.active.ontrack"></span>
                     </div>
                 </div>
                  <div class="status_section_each_partition notOnTrack_section_bar status_section_{{campaigns.dashboard.status.active.underperforming }} " data-ng-click="campaigns.dashboard.filterSelectAll || (!campaigns.dashboard.status.active.bothItem && campaigns.dashboard.status.active.underperforming) || campaigns.dashboardFilter('active','underperforming')" >
-                    <div class="status_section_bar {{campaigns.dashboard.status.active.underperforming }}" title="Underperforming {{campaigns.dashboard.active.underperforming}}">
+                    <div class="status_section_bar {{campaigns.dashboard.status.active.underperforming }}" title="{{textConstants.KPI_OFF_TARGET}} {{campaigns.dashboard.active.underperforming}}">
                         <span class="section_bar_title" data-ng-bind="textConstants.UNDERPERFORMING "></span>
                         <span class="section_bar_val" data-ng-bind="campaigns.dashboard.active.underperforming"></span>
                     </div>
