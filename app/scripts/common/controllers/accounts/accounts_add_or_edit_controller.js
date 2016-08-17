@@ -293,7 +293,6 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
             };
 
             $scope.getClientCode = function() {
-                $(".special-character-error").hide();
                 if ($scope.clientName) {
                     accountsService
                         .getUserClientCode($scope.clientName)
