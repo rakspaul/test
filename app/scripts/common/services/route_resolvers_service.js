@@ -607,6 +607,10 @@ define(['angularAMD'], function (angularAMD) {
                     .fetchAccountList()
                     .then(function () {
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
+                            var accountId = args.$route.current.params.accountId;
+                            if(args.$route.current.params.subAccountId) {
+                                accountId = args.$route.current.params.subAccountId;
+                            }
                             args
                                 .accountService
                                 .fetchAccountData(args.$route.current.params.accountId)
@@ -615,7 +619,7 @@ define(['angularAMD'], function (angularAMD) {
 
                                     args
                                         .campaignSelectModel
-                                        .fetchCampaign(args.$route.current.params.accountId, args.$route.current.params.campaignId)
+                                        .fetchCampaign(accountId, args.$route.current.params.campaignId)
                                         .then(function () {
                                             if (resolvedOtherDeferrer) {
                                                 deferred.resolve();
