@@ -238,6 +238,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                             $scope.creativeBusy = false;
                             $scope.adSizesBusy = false;
                             $scope.discrepancyBusy = false;
+                            $scope.strategyFound = true;
 
                             if (Number($scope.selectedStrategy.id) >= 0) {
                                 // Ad group total
