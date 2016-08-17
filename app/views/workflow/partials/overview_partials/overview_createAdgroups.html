@@ -34,12 +34,14 @@
                     <input type="text"
                            class="form-control"
                            id="nameTitleAdGroup"
-                           remove-special-character='remove-special-character'
+                           special-character='special-character'
                            name="adGroupName"
                            data-ng-model="adGroupName"
                            maxlength="250"
                            placeholder="Enter up to 250 characters, no punctuation or special characters."
                            required>
+                  <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
+
                     <label data-ng-if="createNewAdGrp.adGroupName.$error.required"
                            class="col-sm-12 control-label greyTxt errorLabel"
                            data-ng-bind="textConstants.PLEASENAMEADGRP">

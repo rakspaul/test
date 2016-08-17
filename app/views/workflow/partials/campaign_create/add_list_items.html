@@ -168,7 +168,9 @@
                        data-ng-bind="textConstants.MEDIAPLAN_LINE_ITEM_NAME"></label>
                 <input type="text" class="col-md-12 form-control"
                        placeholder="Enter Line Item name up to 150 characters" name="lineItemName"
-                       ng-model="$parent.lineItemName" title="{{$parent.lineItemName}}"/>
+                       ng-model="$parent.lineItemName" special-character="special-character" title="{{$parent.lineItemName}}"/>
+                <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
+
                 <span class="greyTxt errorLabel"
                       ng-show="lineItemForm.lineItemName.$error.required">Please enter a name</span>
             </div>
@@ -176,8 +178,10 @@
                 <label class="col-sm-12 zeroPadding greyTxt"
                        data-ng-bind="textConstants.CREATE_ADGROUP_LINEITEM"></label>
                 <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"
-                       remove-special-character='remove-special-character' title="{{$parent.adGroupName}}"
+                       special-character='special-character' title="{{$parent.adGroupName}}"
                        ng-model="$parent.adGroupName"/>
+                <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
+                       
             </div>
         </div>
 

@@ -44,8 +44,11 @@
                    placeholder="Add Name"
                    id="advertiserNameInp"
                    ng-model="advertiserName"
+                   special-character="special-character"
                    data-ng-blur="leaveFocusAddAdvertiser()"
                    ng-keyup="mode == 'create' ? showDropdown() : ''" ng-class="{'edit-input':isEditAdvertiser}">
+            <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
+
         </div>
         <div class="col-md-9 zeroPadding">
             <div class="col-md-3 dropdown-workflow accountCode" style="padding: 0 0 0 10px;">
@@ -70,7 +73,7 @@
                 </div>
             </div>
             
-            <div class="col-md-1 customAdvertiserCode" style="padding: 0 0 0 10px;" data-ng-show="setSelectedAdvertiserCode == 'Others'">
+            <div class="col-md-2 customAdvertiserCode" style="padding: 0 0 0 10px;" data-ng-show="setSelectedAdvertiserCode == 'Others'">
                 <label class="greyTxt">Enter Code:</label>
                 <input type="text"
                        class="form-control col-md-12"
@@ -78,11 +81,14 @@
                        data-ng-model="customAdvertiserCode"
                        data-ng-blur="leaveFocusCustomAdvertiserCode()"
                        data-ng-keyup="keyUpCustomAdvertiserCode()"
-                       remove-special-character="remove-special-character"
+                       special-character="special-character"
                        maxlength="5"
                        data-toggle="dropdown">
+                <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
+
+
                 <div>
-                    <span class="errorText codeExist" ng-if="advertiserCodeExist" data-ng-bind="textConstants.ADVERTISER_CODE_EXIST"></span>
+                    <span class="txtError codeExist" ng-if="advertiserCodeExist" data-ng-bind="textConstants.ADVERTISER_CODE_EXIST"></span>
                 </div>
             </div>
             
@@ -92,7 +98,9 @@
                        class="pull-left clearLeft col-md-12"
                        placeholder="Add Name"
                        ng-model="nickname"
-                       remove-special-character="remove-special-character">
+                       special-character="special-character">
+                <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
+
             </div>
             
             <div class="col-md-1" style="padding: 0 0 0 10px;">

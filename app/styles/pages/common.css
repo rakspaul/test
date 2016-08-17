@@ -1842,6 +1842,7 @@ multiselect .dropdown-menu > li > a {
 .txtError {
   color: #f24444 !important;
   font-size: 12px;
+  font-weight: normal;
 }
 .errorTxtColor {
   color: #f24444;

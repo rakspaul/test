@@ -29,7 +29,9 @@
 
                     <div class="form-group col-md-8" show-errors>
                         <label for="name" class="greyTxt" style="margin-top: 0;">Creative Name</label>
-                        <input type="text" class="form-control ng-pristine ng-valid"  id="name" name="name" ng-model="name" placeholder="Enter up to 250 characters, no punctuation or special characters." remove-special-character="remove-special-character" required>
+                        <input type="text" class="form-control ng-pristine ng-valid"  id="name" name="name" ng-model="name" placeholder="Enter up to 250 characters, no punctuation or special characters." special-character="special-character" required>
+                        <span class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></span>
+
                         <label ng-if="formCreativeCreate.name.$error.required"  class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.WF_MANDATORY_CREATIVE_NAME"></label>
                     </div>
                     <span class="col-md-12 labelQuestTxt" style="margin-top: 30px !important;" data-ng-bind="textConstants.CREATIVE_FOR"></span>
