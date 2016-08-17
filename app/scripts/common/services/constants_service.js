@@ -1236,7 +1236,13 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.WF_PAUSE_ALL = 'Pause All';
         this.WF_RESUME_ALL = 'Resume All';
         this.SELECTCOUNTRY = 'Select Country';
-
+        this.PASSWORD_LENGTH_ERROR = 'Password should have more than 6 characters' ;
+        this.PASSWORD_MATCH_ERROR = 'Passwords are not matching' ;
+        this.PASSWORD = 'Password' ;
+        this.UPDATE_PASSWORD = 'Update Password' ;
+        this.CONFIRM_PASSWORD = 'Confirm Password' ;
+        this.CHANGE_PASSWORD = 'Change Password' ;
+        this.PASSWORD_SUCCESS_MSG = 'Password successfully changed' ;
         this.TECH_FEES = 'Tech';
     });
 });

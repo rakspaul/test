@@ -1,7 +1,8 @@
-define(['angularAMD', 'common/services/account_service'], function (angularAMD) {
+define(['angularAMD', 'common/services/account_service', 'common/services/constants_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('changePasswordController', function( $scope  , $modalInstance, userObj  , accountService) {
+    angularAMD.controller('changePasswordController', function( $rootScope , $scope  , $modalInstance, userObj  , accountService , constants ) {
+
         $scope.userId = '' ;
     	$scope.passwordValidation = true ;
         $scope.passwordValidationErrorTxt = 'Passwords are not matching' ;
@@ -14,9 +15,9 @@ define(['angularAMD', 'common/services/account_service'], function (angularAMD) 
             if( ($scope.password !== $scope.confirm_password ) || ( ($scope.password.length || $scope.confirm_password.length ) < 7 ) ) {
                 $scope.passwordValidation = false ;
                 if(( ($scope.password.length || $scope.confirm_password.length ) < 7 )) {
-                   $scope.passwordValidationErrorTxt = 'Password should have more than 6 characters' ;
+                   $scope.passwordValidationErrorTxt = constants.PASSWORD_LENGTH_ERROR ;
                 } else {
-                    $scope.passwordValidationErrorTxt = 'Passwords are not matching' ;
+                   $scope.passwordValidationErrorTxt = constants.PASSWORD_MATCH_ERROR ;
                 }
             } else {
                 $scope.passwordValidation = true ;
@@ -29,11 +30,13 @@ define(['angularAMD', 'common/services/account_service'], function (angularAMD) 
                 accountService
                     .updatePassword($scope.userId,  $scope.confirm_password )
                     .then(function (res) {
-                        if (res.status === 'OK' || res.status === 'success') {
-                            $scope.close() ;
+                        if ((res.status === 'OK' || res.status === 'success') ) {
+                            $rootScope.setErrAlertMessage(constants.PASSWORD_SUCCESS_MSG , 0);
                         } else {
-                            $scope.close() ;
+                            console.log('Error');
                         }
+                        $scope.close() ;
+
                     }, function (err) {
                         $scope.close() ;
                         console.log('Error: ', err);
