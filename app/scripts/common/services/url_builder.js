@@ -94,7 +94,6 @@ define(['angularAMD'],
 
             gotoCannedReportsUrl =  function(reportName) {
                 var url = '/a/' + $routeParams.accountId;
-console.log('reportName = ', reportName);
                 if ($routeParams.subAccountId) { console.log('am in if',$routeParams);
                     var leafSubAccount = _.find(subAccountService.getSubAccounts(), function(a) {
                         return Number(a.id) === Number($routeParams.subAccountId);
@@ -303,7 +302,6 @@ console.log('reportName = ', reportName);
             },
 
             goToPreviewUrl = function(obj){
-                console.log("obj...",obj);
                 var url = '/a/'+ obj.clientId;
 
                 url += obj.subAccountId ? '/sa/'+ obj.subAccountId : '';

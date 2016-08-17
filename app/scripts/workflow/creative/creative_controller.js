@@ -247,7 +247,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             urlInfo.subAccountId = $routeParams.subAccountId;
         }
 
-console.log("urlInfo..........",urlInfo);
         $scope.creativeTagSelected = function (event, creativeType) {
             var target;
 
@@ -536,24 +535,10 @@ console.log("urlInfo..........",urlInfo);
                             creativeType: creativeValidateObj.data.format
                         });
 
-                        if($routeParams.subAccountId){
-
-                        }
-
                         creativeValidateObj.subAccountId = $routeParams.subAccountId || '' ;
                         creativeValidateObj.creativeId = $scope.creativeId || -1;
 
-                        console.log(" creativeValidateObj.....",creativeValidateObj);
-
                         url = urlBuilder.goToPreviewUrl(creativeValidateObj) + '/preview';
-
-                        //url = '/clientId/'+ creativeValidateObj.clientId + '/adv/' + creativeValidateObj.advertiserId;
-                        //
-                        //if($scope.creativeId) {
-                        //    url += '/creative/'+ $scope.creativeId + '/preview';
-                        //} else {
-                        //    url += '/creative/-1/preview';
-                        //}
 
                         appendEle = '<div class="creativePreviewBtn"><a target="_blank" href="' +
                             url +'">Preview</a></div>';
@@ -844,9 +829,7 @@ console.log("urlInfo..........",urlInfo);
             $scope.$broadcast('show-errors-reset');
 
             if ($location.path().endsWith('/creative/add') || ($scope.creativeMode === 'edit' && !$scope.adPage)) {
-                //url = '/a/' + $routeParams.accountId +'/creative/list';
                 url = urlBuilder.goToPreviewUrl(urlInfo) + '/creative/list';
-                console.log("url....",url);
                 $location.url(url);
 
             } else {
