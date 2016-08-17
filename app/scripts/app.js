@@ -810,7 +810,7 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2();
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))

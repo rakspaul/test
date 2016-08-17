@@ -107,7 +107,9 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
                         // append advertiser, mediaplans and canned report name when an advertiser is selected from dropdown in canned reports
                         if ($location.path().split('/').indexOf('mediaplans') > 0) {
                             var cannedReportName = _.last($location.path().split('/'));
-                            (advertiser.id > 0) && (url += '/adv/' + advertiser.id+'/b/0/mediaplans/'+$route.current.params.campaignId+'/'+cannedReportName);
+                            (advertiser.id > 0)?(url += '/adv/' + advertiser.id+'/b/0'):'';
+                            ($route.current.params.campaignId)?(url +='/mediaplans/'+$route.current.params.campaignId):(url +='/mediaplans');
+                            (cannedReportName && cannedReportName !== 'mediaplans')?(url += '/'+cannedReportName):'';
                             $location.url(url);
                         } else {
                             (advertiser.id > 0) && (url += '/adv/' + advertiser.id);
