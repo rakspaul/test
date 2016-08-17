@@ -1251,5 +1251,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.CHANGE_PASSWORD = 'Change Password' ;
         this.PASSWORD_SUCCESS_MSG = 'Password successfully changed' ;
         this.TECH_FEES = 'Tech';
+        this.SPECIAL_CHARACTER_ERROR = 'Please omit any punctuation or special characters (e.g. &, @, etc)' ;
     });
 });

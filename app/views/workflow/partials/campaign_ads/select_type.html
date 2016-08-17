@@ -13,11 +13,13 @@
                class="form-control"
                name="adName"
                placeholder="Enter up to 250 characters, no punctuation or special characters."
-               remove-special-character="remove-special-character"
+               special-character="special-character"
                data-ng-model="adData.adName"
                maxlength="250"
                autocomplete="off"
                autofocus>
+        <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
+
     </div>
 </div>
 

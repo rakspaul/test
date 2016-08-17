@@ -279,8 +279,10 @@
                            maxlength="128"
                            data-ng-model="pixelFormData.name"
                            data-ng-disabled="isEditMode && pixelFormData.id"
-                           remove-special-character="remove-special-character"
+                           special-character="special-character"
                            data-ng-keyup="checkDuplicatePixel(pixelFormData.name)">
+                    <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
+
                     <label class="errorText"
                            style="margin-top: 6px"
                            data-ng-bind="'Duplicate Entry'"

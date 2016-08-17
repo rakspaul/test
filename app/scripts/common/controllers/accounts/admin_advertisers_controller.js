@@ -159,6 +159,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         };
 
         $scope.leaveFocusAddAdvertiser = function () {
+            console.log("hi i m here");
             _curCtrl.getAdvertiserCode();
         };
 
