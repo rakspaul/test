@@ -55,6 +55,7 @@ define([
     'login/login_model',
 
     'reporting/brands/brands_model',
+    'reporting/common/change_password_controller',
     'reporting/controllers/gantt_chart_controller',
     'reporting/dashboard/dashboard_controller',
     'reporting/brands/brands_controller',

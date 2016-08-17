@@ -1,6 +1,7 @@
-define(['angularAMD', 'workflow/services/workflow_service', 'common/services/features_service'], function (angularAMD) {
+define(['angularAMD', 'workflow/services/workflow_service', 'common/services/features_service', 'common/services/data_service',
+    'common/services/vistoconfig_service'], function (angularAMD) {
     angularAMD.service('accountService', function ($rootScope, $location, $q, $route, $timeout, workflowService,
-                                                   subAccountService, RoleBasedService, featuresService,
+                                                   subAccountService, RoleBasedService, featuresService, dataService, vistoconfig,
                                                    pageFinder) {
 
         var accountList = [],
@@ -52,7 +53,13 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/fea
                 }
                 return false;
             },
-
+            updatePassword : function (userId, password) {
+                return dataService.put(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/users/' + userId + '/reset_password',
+                    {'password': password},
+                    {'Content-Type': 'application/json'}
+                );
+            },
             getAccounts: function() {
 
                 return accountList;
@@ -130,6 +137,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/fea
                 });
                 return deferred.promise;
             }
+
+
 
         };
 

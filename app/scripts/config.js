@@ -155,6 +155,9 @@ assets.html_add_credit_popup = '/views/reporting/partials/add_invoice_adjustment
 assets.html_invocie_upload_SOR = '/views/reporting/partials/invoice_upload_SOR_popup.html';
 assets.html_add_note_popup = '/views/reporting/partials/invoice_add_note.html';
 
+assets.html_change_password = '/views/reporting/change_password.html';
+
+
 // Admin page
 assets.html_admin_home = '/views/workflow/admin_home.html';
 assets.html_users = '/views/reporting/users.html';

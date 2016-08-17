@@ -4,7 +4,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
     'use strict';
 
     angularAMD.controller('UsersController', function ($scope,$rootScope,$timeout,$filter,
-                                                       constants,accountsService) {
+                                                       $modal , constants,accountsService) {
         var _curCtrl = this,
             winHeight = $(window).height(),
 
@@ -48,6 +48,24 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 }, 2000);
             }
         };
+
+        // Change Password for User
+        $scope.changePassword = function (user) {
+           
+        
+            $modal.open({
+                templateUrl: assets.html_change_password,
+                controller: 'changePasswordController',
+                scope: $scope,
+                windowClass: 'delete-dialog',
+                resolve: {
+                  userObj: function () {
+                    return user;
+                  }
+                }
+            });
+        };
+
 
         usersList.getUsers();
 
