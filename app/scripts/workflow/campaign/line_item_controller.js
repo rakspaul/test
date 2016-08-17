@@ -171,6 +171,11 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
             newItem.billableAmount = $scope.billableAmount;
             newItem.volume = $scope.volume;
+            // newItem.volumeType = $scope.selectedVolumeType;
+
+            if($scope.selectedVolumeType){
+                newItem.volumeType = $scope.selectedVolumeType;
+            }
 
             // in case pricerate is 30% markup remove the Markup
             if (typeof $scope.pricingRate === 'string') {
@@ -216,6 +221,11 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             newItem.adGroupName = $scope.editLineItem.adGroupName;
             newItem.billableAmount = $scope.editLineItem.billableAmount;
             newItem.volume = $scope.editLineItem.volume;
+            newItem.volumeType = $scope.editLineItem.selectedVolumeType;
+
+            if($scope.editLineItem.selectedVolumeType){
+                newItem.volumeType = $scope.editLineItem.selectedVolumeType;
+            }
 
             // in case pricerate is 30% markup remove the Markup
             if (typeof $scope.editLineItem.pricingRate === 'string') {
@@ -319,6 +329,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             $scope.editLineItem.pricingRate = lineItem.pricingRate;
             $scope.editLineItem.billableAmount = lineItem.billableAmount;
             $scope.editLineItem.volume = lineItem.volume;
+            $scope.editLineItem.selectedVolumeType = lineItem.volumeType;
             $scope.editLineItem.hasInFlightAds = lineItem.hasInFlightAds;
 
             // if pixel is empty show select from list in edit section for create/edit mode
@@ -353,10 +364,13 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
         $scope.CONST_COGS_PERCENT = 'COGS+ %';
         $scope.CONST_FLAT_FEE = 'Flat Fee';
+        $scope.volumeType = ['Impressions','Clicks','Actions'];
         $scope.pixelSelected = {};
         $scope.pixelSelected.name = 'Select from list';
         $scope.systemOfRecordSelected = {};
         $scope.systemOfRecordSelected.name = 'Select from list';
+        $scope.selectedVolumeType = '';
+        $scope.editLineItem.selectedVolumeType = '';
         $scope.selectedCampaign.lineItemBillableAmountTotal = 0;
         $scope.selectedCampaign.createItemList = false;
         $scope.showUploadRecordsMessageLineItems = false;
@@ -651,6 +665,9 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                 // show popup
                 $scope.showConfirmPopupCreate = true;
+
+                //in case the budget or rate is 0. A overlay popup shows up, this will hide it
+                $scope.Campaign.showBudgetZeroPopup = false;
             } else {
                 // this is temp save in case we need to save media plan before line item
                 newItem = workflowService.getLineItemData();
@@ -732,6 +749,9 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                 // show popup
                 $scope.showConfirmPopupEdit = true;
+
+                //in case the budget or rate is 0. A overlay popup shows up, this will hide it
+                $scope.Campaign.showBudgetZeroPopup = false;
             } else {
                 // this is temp save in case we need to save media plan before line item
                 newItem = workflowService.getLineItemDataEdit();
@@ -810,6 +830,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 $scope.lineRate = '';
                 $scope.rateReadOnly = false;
                 $scope.volumeFlag = true;
+                $scope.volumeTypeFlag = false;
                 $scope.amountFlag = true;
                 $scope.rateTypeReadOnly = false;
                 $scope.hideLineItemRate = false;
@@ -832,8 +853,10 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                             );
                     }
 
-                    $scope.volumeFlag = false;
+                    $scope.volumeFlag = true;
                     $scope.volume = '';
+                    $scope.volumeTypeFlag = true;
+                    $scope.selectedVolumeType = '';
                 } else if (CONST_COGS_CPM === $scope.lineItemType.name) {
                     if (selectedAdvertiser && (selectedAdvertiser.billingTypeId && selectedAdvertiser.billingValue)) {
                         $scope.rateReadOnly = true;
@@ -844,6 +867,8 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                     $scope.volumeFlag = false;
                     $scope.volume = '';
+                    $scope.volumeTypeFlag = false;
+                    $scope.selectedVolumeType = '';
                 } else if (CONST_FLAT_FEE === $scope.lineItemType.name) {
                     if (selectedAdvertiser && (selectedAdvertiser.billingTypeId && selectedAdvertiser.billingValue)) {
                         $scope.rateReadOnly = true;
@@ -858,6 +883,8 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                     $scope.volumeFlag = false;
                     $scope.volume = '';
+                    $scope.volumeTypeFlag = false;
+                    $scope.selectedVolumeType = '';
 
                     $scope.billableAmount = '';
                     $scope.systemOfRecordSelected = {};
@@ -872,11 +899,14 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     CONST_TOTAL_CPA === $scope.lineItemType.name ||
                     CONST_POST_CLICK_CPA === $scope.lineItemType.name) {
                     $scope.showPixelsList = true;
+                    $scope.volumeTypeFlag = false;
+                    $scope.selectedVolumeType = '';
                 }
             } else {
                 $scope.rateReadOnlyEdit = false;
                 $scope.billableAmount = '';
                 $scope.volumeFlagEdit = true;
+                $scope.volumeTypeFlagEdit = false;
                 $scope.amountFlagEdit = true;
                 $scope.hideLineItemRateEdit = false;
                 $scope.hideAdGroupNameEdit = false;
@@ -898,8 +928,9 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                         $scope.rateTypeReadOnlyEdit = true;
                     }
 
-                    $scope.volumeFlagEdit = false;
-                    $scope.editLineItem.volume = '';
+                    $scope.volumeFlagEdit = true;
+                    // $scope.editLineItem.volume = '';
+                    $scope.volumeTypeFlagEdit = true;
                     $scope.editLineItem.pixelSelected = {};
                 } else if (CONST_COGS_CPM === $scope.editLineItem.lineItemType.name) {
                     if (selectedAdvertiser && (selectedAdvertiser.billingTypeId && selectedAdvertiser.billingValue)) {
@@ -913,6 +944,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                     $scope.volumeFlagEdit = false;
                     $scope.editLineItem.volume = '';
+                    $scope.volumeTypeFlagEdit = false;
                     $scope.editLineItem.pixelSelected = {};
                 } else if (CONST_FLAT_FEE === $scope.editLineItem.lineItemType.name) {
                     if (selectedAdvertiser && (selectedAdvertiser.billingTypeId && selectedAdvertiser.billingValue)) {
@@ -928,6 +960,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                     $scope.volumeFlagEdit = false;
                     $scope.editLineItem.volume = '';
+                    $scope.volumeTypeFlagEdit = false;
 
                     // ad group in edit mode
                     $scope.hideAdGroupNameEdit = true;
@@ -988,6 +1021,8 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
             $scope.rateReadOnly = false;
             $scope.volumeFlag = true;
+            $scope.volumeTypeFlag = false;
+            $scope.selectedVolumeType = '';
             $scope.amountFlag = true;
             $scope.hideAdGroupName = false;
             $scope.showPixelsList = false;
@@ -1144,6 +1179,9 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 $scope.lineItemType.id = item.billingTypeId;
                 $scope.billableAmount = item.billableAmount;
                 $scope.volume = item.volume;
+                if(item.volumeType) {
+                    $scope.selectedVolumeType = item.volumeType;
+                }
                 $scope.pricingRate = item.billingRate;
 
                 // line start Date
@@ -1214,6 +1252,14 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             }
         };
 
+        $scope.setVolumeType = function (volumeType, mode) {
+            if (mode === 'create') {
+                $scope.selectedVolumeType = volumeType;
+            } else {
+                $scope.editLineItem.selectedVolumeType = volumeType;
+            }
+        };
+
         $scope.hideLineItemEditRow = function (event) {
             var target = event.currentTarget;
 
@@ -1244,28 +1290,76 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         };
 
         $scope.calculateVolume = function (mode) {
-            if (CONST_COGS_PERCENT !== $scope.lineItemType.name &&
-                CONST_FLAT_FEE !== $scope.lineItemType.name &&
-                CONST_COGS_CPM !== $scope.lineItemType.name) {
-                if (mode === 'create') {
-                    $scope.volume = '';
+            //TODO delete after basic testing
+            // if (CONST_COGS_PERCENT !== $scope.lineItemType.name &&
+            //     CONST_FLAT_FEE !== $scope.lineItemType.name &&
+            //     CONST_COGS_CPM !== $scope.lineItemType.name) {
+            //     if (mode === 'create') {
+            //         $scope.volume = '';
+            //
+            //         if ($scope.lineItemType &&
+            //             $scope.lineItemType.name &&
+            //             $scope.pricingRate &&
+            //             $scope.billableAmount &&
+            //             $scope.pricingRate > 0) {
+            //             if ($scope.lineItemType.name === 'CPM') {
+            //                 $scope.volume = ($scope.billableAmount / $scope.pricingRate ) * 1000;
+            //             } else {
+            //                 $scope.volume = ($scope.billableAmount / $scope.pricingRate );
+            //             }
+            //
+            //             $scope.volume = Math.round($scope.volume);
+            //         } else {
+            //             $scope.volume = 0;
+            //         }
+            //     } else {
+            //         $scope.editLineItem.volume = '';
+            //
+            //         if ($scope.editLineItem.lineItemType &&
+            //             $scope.editLineItem.lineItemType.name &&
+            //             $scope.editLineItem.pricingRate &&
+            //             $scope.editLineItem.billableAmount &&
+            //             $scope.editLineItem.pricingRate > 0) {
+            //             if ($scope.editLineItem.lineItemType.name === 'CPM') {
+            //                 $scope.editLineItem.volume =
+            //                     ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate ) * 1000;
+            //             } else {
+            //                 $scope.editLineItem.volume =
+            //                     ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate );
+            //             }
+            //
+            //             $scope.editLineItem.volume = Math.round($scope.editLineItem.volume);
+            //         } else {
+            //              // in case $scope.editLineItem.pricingRate is 0
+            //             $scope.editLineItem.volume = 0;
+            //         }
+            //     }
+            // }
+            if (mode === 'create') {
+                if (CONST_COGS_PERCENT !== $scope.lineItemType.name &&
+                    CONST_FLAT_FEE !== $scope.lineItemType.name &&
+                    CONST_COGS_CPM !== $scope.lineItemType.name) {
+                            $scope.volume = '';
+                            if ($scope.lineItemType &&
+                                $scope.lineItemType.name &&
+                                $scope.pricingRate &&
+                                $scope.billableAmount &&
+                                $scope.pricingRate > 0) {
+                                if ($scope.lineItemType.name === 'CPM') {
+                                    $scope.volume = ($scope.billableAmount / $scope.pricingRate ) * 1000;
+                                } else {
+                                    $scope.volume = ($scope.billableAmount / $scope.pricingRate );
+                                }
 
-                    if ($scope.lineItemType &&
-                        $scope.lineItemType.name &&
-                        $scope.pricingRate &&
-                        $scope.billableAmount &&
-                        $scope.pricingRate > 0) {
-                        if ($scope.lineItemType.name === 'CPM') {
-                            $scope.volume = ($scope.billableAmount / $scope.pricingRate ) * 1000;
-                        } else {
-                            $scope.volume = ($scope.billableAmount / $scope.pricingRate );
-                        }
-
-                        $scope.volume = Math.round($scope.volume);
-                    } else {
-                        $scope.volume = 0;
-                    }
-                } else {
+                                $scope.volume = Math.round($scope.volume);
+                            } else {
+                                $scope.volume = 0;
+                            }
+                }
+            } else {
+                if (CONST_COGS_PERCENT !== $scope.editLineItem.lineItemType.name &&
+                    CONST_FLAT_FEE !== $scope.editLineItem.lineItemType.name &&
+                    CONST_COGS_CPM !== $scope.editLineItem.lineItemType.name) {
                     $scope.editLineItem.volume = '';
 
                     if ($scope.editLineItem.lineItemType &&
@@ -1283,7 +1377,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                         $scope.editLineItem.volume = Math.round($scope.editLineItem.volume);
                     } else {
-                         // in case $scope.editLineItem.pricingRate is 0
+                        // in case $scope.editLineItem.pricingRate is 0
                         $scope.editLineItem.volume = 0;
                     }
                 }
@@ -1310,10 +1404,10 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             var zeroBudgetOrRateFlag = false; // flag to show zero popup - set flag when budget or rate is 0
 
             if(section === 'create') {
-                if($scope.billableAmount === '0') {
+                if(Number($scope.billableAmount) === 0) {
                     zeroBudgetOrRateFlag = true;
                 }
-                else if($scope.pricingRate === '0' && $scope.lineItemType.name !== 'Flat Fee' ){
+                else if(Number($scope.pricingRate) === 0 && $scope.lineItemType.name !== 'Flat Fee' ){
                     zeroBudgetOrRateFlag = true;
                 }
 
@@ -1330,14 +1424,15 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                 }
             } else {
 
-                if($scope.editLineItem.billableAmount === '0'){
+                if(Number($scope.editLineItem.billableAmount) === 0){
                     zeroBudgetOrRateFlag = true;
                 }
-                else if($scope.editLineItem.pricingRate === '0' && $scope.editLineItem.lineItemType.name !== 'Flat Fee' ){
+                else if(Number($scope.editLineItem.pricingRate) === 0 && $scope.editLineItem.lineItemType.name !== 'Flat Fee' ){
                     zeroBudgetOrRateFlag = true;
                 }
 
                 if(zeroBudgetOrRateFlag){
+
                     $scope.displayZeroLineItemBudgetPopUp(section);
                 } else {
                     if($scope.mode === 'create' || $scope.cloneMediaPlanName) {

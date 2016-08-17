@@ -535,8 +535,18 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             creativeType: creativeValidateObj.data.format
                         });
 
-                        creativeValidateObj.subAccountId = $routeParams.subAccountId || '' ;
-                        creativeValidateObj.creativeId = $scope.creativeId || -1;
+                        // creativeValidateObj.subAccountId = $routeParams.subAccountId || '' ;
+                        // creativeValidateObj.creativeId = $scope.creativeId || -1;
+
+                        url = '/a/' + $routeParams.accountId;
+                        var hasSubaccount = accountService.getSelectedAccount().isLeafNode;
+
+                        if(!hasSubaccount) {
+                            url += '/sa/' + $routeParams.subAccountId;
+                        }
+
+
+                        url += '/adv/' + creativeValidateObj.advertiserId;
 
                         url = urlBuilder.goToPreviewUrl(creativeValidateObj) + '/preview';
 

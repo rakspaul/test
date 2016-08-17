@@ -906,6 +906,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ZERO_MESSAGE = 'You have entered $0 for your rate or billable amount.';
 
 
+
         //Audience Targeting
         this.SAVEAUD = 'Save Audience';
         this.SELSEGMENTS = 'Select Segments';
@@ -1164,6 +1165,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.SAVE_CHANGES = 'Save Changes';
         this.SELECT_CONVERSION_PIXELS = 'Conversion Pixel';
         this.SELECT_SYSTEM_OF_RECORD = 'System of Record';
+        this.SELECT_VOLUME_TYPE = 'Volume Type';
         this.AD_GRP_NAME='Ad Group Name';
         this.TOTAL_BILLABLE_AMOUNT = 'Total Billable Amount';
 
