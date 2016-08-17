@@ -665,6 +665,9 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                 // show popup
                 $scope.showConfirmPopupCreate = true;
+
+                //in case the budget or rate is 0. A overlay popup shows up, this will hide it
+                $scope.Campaign.showBudgetZeroPopup = false;
             } else {
                 // this is temp save in case we need to save media plan before line item
                 newItem = workflowService.getLineItemData();
@@ -746,6 +749,9 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                 // show popup
                 $scope.showConfirmPopupEdit = true;
+
+                //in case the budget or rate is 0. A overlay popup shows up, this will hide it
+                $scope.Campaign.showBudgetZeroPopup = false;
             } else {
                 // this is temp save in case we need to save media plan before line item
                 newItem = workflowService.getLineItemDataEdit();
