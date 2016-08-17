@@ -303,13 +303,13 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             // End Search functionality
 
             // Download section
-            $scope.invoiceReports.download = function (e, data, mediaPlan) {
+            $scope.invoiceReports.download = function (e, data) {
                 var url = '';
 
                 e.preventDefault();
 
                 url = data.downloadLink ? data.downloadLink :
-                    mediaPlan.campaignId ? urlService.downloadInvoiceCampaign(mediaPlan.campaignId) : '';
+                    data.campaignId ? urlService.downloadInvoiceCampaign($scope.invoiceReports.clientId, data.campaignId) : '';
 
                 dataService
                     .downloadFile(url)
@@ -326,7 +326,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             };
 
             $scope.downloadSORReport = function (data) {
-                var url = urlService.downloadTemplateWithCampaignId(data.campaignId);
+                var url = urlService.downloadTemplateWithCampaignId($scope.invoiceReports.clientId, data.campaignId);
 
                 dataService
                     .downloadFile(url)
