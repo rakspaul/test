@@ -66,7 +66,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             getSubAccounts = function (clientId, access_level) {
                 var accessLevel = '',
                     url;
-
+console.log('getSubAccounts(), clientId = ', clientId);
                 if (access_level !== undefined) {
                     accessLevel = '&access_level=' + access_level;
                 }

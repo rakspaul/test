@@ -1,19 +1,12 @@
-define(['angularAMD', 'common/services/constants_service', 'login/login_model',
-    'reporting/models/domain_reports', 'reporting/campaignSelect/campaign_select_model',
-    'common/services/role_based_service', 'workflow/services/workflow_service', 'common/services/features_service',
-    'common/services/account_service','common/services/sub_account_service', 'common/services/vistoconfig_service'],
-    function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'login/login_model', 'reporting/models/domain_reports', 'reporting/campaignSelect/campaign_select_model',
+    'common/services/role_based_service', 'workflow/services/workflow_service', 'common/services/features_service', 'common/services/account_service',
+    'common/services/sub_account_service', 'common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('HeaderController', function ($http, $q, $scope, $rootScope, $route, $cookieStore, $location,
-                                                        $modal, $routeParams, $sce, constants, loginModel, domainReports,
-                                                        campaignSelectModel, RoleBasedService, workflowService,
-                                                        featuresService, accountService, subAccountService,
-                                                        vistoconfig, localStorageService, advertiserModel, brandsModel,
-                                                        strategySelectModel, pageFinder, urlBuilder) {
-        var nCount = 0,
-
-            featurePermission = function () {
+    angularAMD.controller('HeaderController', function ($http, $q, $scope, $rootScope, $route, $cookieStore, $location, $modal, $routeParams, $sce, constants, loginModel,
+                                                        domainReports, campaignSelectModel, RoleBasedService, workflowService, featuresService, accountService, subAccountService,
+                                                        vistoconfig, localStorageService, advertiserModel, brandsModel, strategySelectModel, pageFinder, urlBuilder) {
+        var featurePermission = function () {
                 var fParams = featuresService.getFeatureParams();
 
                 $scope.showMediaPlanTab = fParams[0].mediaplan_list;
@@ -112,34 +105,33 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
                             accountChangeAction: function () {
                                 return function () {
-                                    var deferred = $q.defer();
+                                    var deferred = $q.defer(),
+                                        url;
 
                                     setMasterClientData(id, name,isLeafNode, event);
-                                    var url;
+
                                     // when enters as workflow user should we broadcast masterclient - sapna
                                     if (moduleObj.redirect) {
                                         url = '/a/' + id;
-                                        if(!isLeafNode) {
 
+                                        if (!isLeafNode) {
                                             subAccountService
                                                 .fetchSubAccountList (id)
                                                 .then(function () {
+                                                    var subAccountId;
+
                                                     deferred.resolve();
-                                                    var subAccountId = subAccountService.getSubAccounts()[0].id;
+                                                    subAccountId = subAccountService.getSubAccounts()[0].id;
                                                     url += '/sa/'+ subAccountId+ '/mediaplans';
                                                     $location.url(url);
                                                 });
-
-
                                         } else {
                                             $location.url(url + '/mediaplans');
                                         }
-
                                     } else {
                                         $route.reload();
                                     }
                                     return deferred.promise;
-
                                 };
                             }
                         }
@@ -148,7 +140,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             } else {
                 setMasterClientData(id, name,isLeafNode, event);
             }
-
         };
 
         $scope.showProfileMenu = function () {
@@ -158,22 +149,13 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             $('#cdbDropdown').hide();
         };
 
-        $scope.foo = function (event) {
+        $scope.foo = function () {
             console.log('foo()');
-            if (nCount === 0) {
-                nCount++;
-                return $scope.navigateToTab('', event, 'mediaplanList', true);
-            } else {
-                nCount = 0;
-            }
         };
 
         $scope.navigateToTab = function (url, event, page, fromView) {
+            console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', page, ', fromView = ', fromView);
             $('.each_nav_link').removeClass('active_tab active selected');
-console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', page, ', fromView = ', fromView);
-            if (!event) {
-                return;
-            }
 
             advertiserModel.reset();
             brandsModel.reset();
@@ -182,17 +164,20 @@ console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', pa
             if (page === 'dashboard') {
                 $location.url(urlBuilder.dashboardUrl());
             } else if (page === 'creativelist') {
-                urlBuilder.gotoCreativeListUrl();
+                console.log('returned from urlBuilder.creativeListUrl(fromView) = ', urlBuilder.creativeListUrl(fromView));
+                return urlBuilder.creativeListUrl(fromView);
             } else if (page === 'adminOverview') {
-                urlBuilder.gotoAdminUrl();
+                console.log('returned from urlBuilder.adminUrl(fromView) = ', urlBuilder.adminUrl(fromView));
+                return urlBuilder.adminUrl(fromView);
             } else if (page === 'invoiceTool') {
-                urlBuilder.gotoInvoiceTool();
+                console.log('returned from urlBuilder.invoiceTool(fromView) = ', urlBuilder.invoiceTool(fromView));
+                return urlBuilder.invoiceTool(fromView);
             } else if (page === 'mediaplanList') {
+                console.log('returned from urlBuilder.mediaPlansListUrl(fromView) = ', urlBuilder.mediaPlansListUrl(fromView));
                 return urlBuilder.mediaPlansListUrl(fromView);
-
-            // TODO: Reports page when clicking on the top level nav menu
-            } else if (page === 'reportsSubPage' || page === 'reportOverview') {
-                urlBuilder.gotoCannedReportsUrl(url);
+            } else if (page === 'reportsSubPage') {
+                console.log('returned from urlBuilder.cannedReportsUrl(fromView) = ', urlBuilder.cannedReportsUrl(url, fromView));
+                return urlBuilder.cannedReportsUrl(url, fromView);
             } else if (page === 'customReports') {
                 $location.url(urlBuilder.customReportsUrl());
             } else if (page === 'scheduleReports') {

@@ -1,7 +1,6 @@
 <div class="clearfix reports_sub_menu_dd_holder">
     <div class="pull-left" data-ng-if="buildReport">
-        <a  data-ng-click="navigateToTab('/customreport', $event , 'customReports')"
-           class="clearfix new_report_generate_btn">
+        <a data-ng-click="navigateToTab('/customreport', $event , 'customReports')" class="clearfix new_report_generate_btn">
             <span class="icon-report-builder-1 pull-left"></span>
             <span class="pull-left" data-ng-bind="textConstants.BUILD_REPORT" style="margin-top: 3px;"></span>
         </a>
@@ -15,11 +14,12 @@
              class="header_tab_dropdown"
              data-ng-class="{'active_tab': tab.href === filters.activeTab}"
              id="{{tab.href}}">
-            <a data-ng-click="navigateToTab('/' + tab.href, $event , 'reportsSubPage')"
+            <a data-ng-href="{{navigateToTab('/' + tab.href, $event , 'reportsSubPage', true)}}"
+               data-ng-click="navigateToTab('/' + tab.href, $event , 'reportsSubPage')"
                id="performance_tab_{{tab.href}}"
                style="text-transform: capitalize;"
                reportTitle="{{tab.title}}"
-               data-ng-bind="tab.title + ' (' + tab.href + ')'">
+               data-ng-bind="tab.title">
             </a>
         </div>
     </div>
@@ -31,14 +31,13 @@
         <div data-ng-repeat="tab in customFilters.tabs track by $index"
              class="clearfix header_tab_dropdown"
              data-ng-class="{'active_tab': tab.href === customFilters.activeTab}">
-            <a
-               class="pull-left reports_list_link"
+            <a class="pull-left reports_list_link"
                data-ng-click="navigateToTab('/' + tab.href, $event, 'scheduleReports')"
                data-ng-bind="tab.title">
             </a>
             <div class="icon-upload"
                  data-ng-click="navigateToTab('/reports/upload', $event)"
-                 data-ng-show="tab.title==textConstants.COLLECTIVE_INSIGHTS">
+                 data-ng-show="tab.title === textConstants.COLLECTIVE_INSIGHTS">
             </div>
         </div>
     </div>
