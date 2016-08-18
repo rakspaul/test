@@ -181,7 +181,7 @@
                        special-character='special-character' title="{{$parent.adGroupName}}"
                        ng-model="$parent.adGroupName"/>
                 <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
-                       
+
             </div>
         </div>
 
@@ -288,14 +288,13 @@
                    ng-readonly="(lineItemType.name !== 'COGS+ %')?true: false"/>
         </div>
         <div style="clear:both"></div>
-
         <div class="col-md-3 zeroPadding dropdown-workflow" style="margin-right:10px;" ng-show="volumeTypeFlag">
             <div class="dropdown">
                 <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_VOLUME_TYPE"></label>
                 <button style="width:100%;" class="btn btn-default dropdown-toggle systemOfRecordName" type="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <span
-                        class="text">{{(selectedVolumeType )?selectedVolumeType:'Select from list'}}</span>
+                        class="text">{{(selectedVolumeType )?(selectedVolumeType | toTitleCase):'Select from list'}}</span>
                     <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown"
@@ -617,7 +616,7 @@
                 <button style="width:100%;" class="btn btn-default dropdown-toggle systemOfRecordName" type="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <span
-                        class="text">{{(editLineItem.selectedVolumeType )?editLineItem.selectedVolumeType:'Select from list'}}</span>
+                        class="text">{{(editLineItem.selectedVolumeType )?(editLineItem.selectedVolumeType | toTitleCase):'Select from list'}}</span>
                     <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown"
