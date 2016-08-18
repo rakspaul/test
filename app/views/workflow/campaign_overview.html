@@ -61,7 +61,7 @@
                         <div class="col-md-12 zeroPadding">
                             <div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;">
                                 <div class="dropdown">
-                                    <button class="btn btn-default dropdown-toggle"
+                                    <button class="btn btn-default dropdown-toggle  mediaplan-menu-auto"
                                             type="button"
                                             data-toggle="dropdown"
                                             aria-haspopup="true"
@@ -1050,7 +1050,7 @@
         <div class="clearfix popup-footer">
             <button data-ng-show ="!campaignArchiveLoader"
                     type="button"
-                    data-ng-click="archiveCampaign($event,workflowData.campaignData.id)"
+                    data-ng-click="archiveCampaign($event,workflowData.campaignData.clientId, workflowData.campaignData.id)"
                     class="common_primary_btn pull-right"
                     data-ng-hide="deleteCampaignFailed"
                     data-ng-bind="textConstants.ARCHIVE">

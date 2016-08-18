@@ -13,8 +13,10 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
                 agency_id: undefined
             },
 
-            updateRedirectUrl = function (value) {
-                $cookieStore.put(constants.COOKIE_REDIRECT, value);
+            updateRedirectUrl = function (redirectPath) {
+                if (['/', '/login'].indexOf(redirectPath) === -1) {
+                    $cookieStore.put(constants.COOKIE_REDIRECT, redirectPath);
+                }
             };
 
         return {
@@ -37,14 +39,6 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
 
             setSelectedClient: function (data) {
                 localStorage.setItem('selectedClient', JSON.stringify(data));
-            },
-
-            getSelectedClient: function () {
-                return localStorage.getItem('selectedClient') && JSON.parse(localStorage.getItem('selectedClient'));
-            },
-
-            setDashboardClient: function(data) {
-                localStorage.setItem('dashboardClient', JSON.stringify(data));
             },
 
             getDashboardClient: function() {
@@ -81,8 +75,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
 
             setUser: function (user) {
                 data = user;
-
-                document.cookie = 'cdesk_session=' + JSON.stringify(user) + ';expires='  + ';path=/';
+                $cookieStore.put('cdesk_session', user);
 
                 // campaignDetails object is required for reports tab.
                 localStorage.setItem('selectedCampaign', JSON.stringify({
@@ -182,17 +175,10 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
             },
 
             checkCookieExpiry: function () {
-                var redirectPath;
 
                 if (!$cookieStore.get('cdesk_session')) {
-                    redirectPath = localStorage.getItem('cdeskRedirect');
                     localStorage.clear();
-                    localStorage.setItem('cdeskRedirect', redirectPath);
-
-                    if ($location.$$path !== '/login') {
-                        updateRedirectUrl($location.$$path);
-                    }
-
+                    updateRedirectUrl($location.$$path);
                     $location.url('/login');
 
                     // remove header bar on login page
@@ -212,17 +198,7 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
             },
 
             unauthorized: function () {
-                $cookieStore.remove('cdesk_session');
-                localStorage.clear();
-
-                if ($location.$$path !== '/login') {
-                    updateRedirectUrl($location.$$path);
-                }
-
-                $location.url('/login');
-
-                // remove header bar on login page
-                $('.main_navigation_holder').hide();
+               this.logout();
             },
 
             forbidden: function () {

@@ -1,9 +1,10 @@
 define(['angularAMD', '../../common/utils', 'common/services/constants_service', 'common/moment_utils',
-    'reporting/campaignSelect/campaign_select_model'], function (angularAMD) {
+    'reporting/campaignSelect/campaign_select_model', 'common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
     angularAMD.directive('campaignCard',
-        function ($rootScope, $location, utils, constants, momentService, featuresService, $sce, campaignSelectModel) {
+        function ($rootScope, $location, utils, constants, momentService, featuresService, $sce,
+                  campaignSelectModel, vistoconfig, urlBuilder, accountService, subAccountService) {
             return {
                 restrict: 'EAC',
 
@@ -94,6 +95,21 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         return tempText.indexOf(phrase) >= 0;
                     };
 
+                    $scope.redirectToOverViewPage = function(mediaplanId) {
+                        var url = '',
+                            accountData = accountService.getSelectedAccount();
+
+                        url = '/a/'+ accountData.id;
+
+                        if(!accountData.isLeafNode) {
+                            url += '/sa/' + subAccountService.getSelectedSubAccount().id;
+                        }
+
+                        url += '/mediaplan/' + mediaplanId + '/overview';
+
+                        return url;
+                    };
+
                     $scope.showReportsOverview = fParams[0].report_overview;
                     $scope.showManageButton = fParams[0].mediaplan_hub;
 
@@ -116,7 +132,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                             if (campaign.is_archived) {
                                 url = '/mediaplans/' + campaign.orderId;
                             } else {
-                                url = '/mediaplan/' + campaign.orderId + '/overview';
+                                url = urlBuilder.mediaPlanOverviewUrl(campaign.orderId);
                             }
                         } else {
                             url = '/mediaplans/' + campaign.orderId;
@@ -145,7 +161,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                                 return spendDifference;
                             }
 
-                            spend = campaignCDBObj.getGrossRev();
+                            spend = campaignCDBObj.getSpend();
                             expectedSpend = campaign.expectedMediaCost;
 
                             return $scope.getPercentDiff(expectedSpend, spend);
@@ -166,7 +182,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                                 return spendDifference;
                             }
 
-                            spend = campaignCDBObj.getGrossRev();
+                            spend = campaignCDBObj.getSpend();
                             totalSpend = campaign.totalMediaCost;
 
                             return $scope.getPercentDiff(totalSpend, spend);

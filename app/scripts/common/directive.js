@@ -513,14 +513,43 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         }
 
                         transformedInput = inputValue.replace(/[^a-zA-Z0-9 _-]/gi, '');
-
+                        
                         if (transformedInput !== inputValue) {
                             modelCtrl.$setViewValue(transformedInput);
                             modelCtrl.$render();
                         }
-
                         return transformedInput;
                     });
+                }
+            };
+        })
+
+        .directive('specialCharacter', function () {
+            return {
+                require: 'ngModel',
+
+                link: function (scope, element, attrs, modelCtrl) {
+                    modelCtrl.$parsers.push(function (inputValue) {
+                        var transformedInput;
+
+                        if (!inputValue) {
+                            return '';
+                        }
+                        transformedInput = inputValue.replace(/[^a-zA-Z0-9 _-]/gi, '');
+                        if (transformedInput !== inputValue) {
+                            modelCtrl.$setViewValue(transformedInput);
+                            modelCtrl.$render();
+                            element.siblings('.special-character-error').show(); 
+                            setTimeout(function(){ 
+                               element.siblings('.special-character-error').fadeOut();
+                            }, 6000);
+                        }
+                        element.bind('blur', function() {
+                            element.siblings('.special-character-error').fadeOut();
+                        });
+                        return transformedInput;
+                    });
+                   
                 }
             };
         })

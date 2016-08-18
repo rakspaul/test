@@ -88,6 +88,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.GA_USER_CAMPAIGN_SELECTION = 'user_campaign_selection';
         this.GA_USER_STRATEGY_SELECTION = 'user_strategy_selection';
         this.GAUGE_PERFORMANCE = 1;
+        this.GAUGE_UNDERPERFORMING = 'Off Target';
+        this.GAUGE_ONTRACK = 'On Target';
         this.COOKIE_REDIRECT = 'cdesk_redirect';
         this.COOKIE_SESSION = 'cdesk_session';
         this.SPEND = 'Spend';
@@ -96,7 +98,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.VTC = 'VTC';
         this.CPM = 'CPM';
         this.SUSPICIOUS_ACTIVITY = 'Suspicious Activity %';
-        this.VIEWABLE_IMPRESSION = 'Viewable Impression';
+        this.VIEWABLE_IMPRESSION = 'Viewable Impressions';
         this.VIEWABLE_RATE = 'Viewable Rate';
         this.ESTREACH = 'Estimated Pool Size';
         this.CPC = 'CPC';
@@ -268,6 +270,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MARGIN = 'Margin';
         this.BUDGET = 'Budget';
         this.CAMPAIGN_ON_TRACK = 'Media Plan is On Track';
+        this.CAMPAIGN_LIST_ITEM_UNDERPERFORMING = 'Off Target';
+
         this.UNDERPERFORMING_CAMPAIGN = 'Media Plan is Off Track';
         this.NEUTRAL = 'Neutral (no status)';
         this.IMP_WITH_DOT = 'Imps.';
@@ -351,7 +355,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.METRICS = 'Metrics';
         this.METRIC = 'Metric';
         this.SELECTED_METRICS = 'Selected Metrics';
-        this.LOAD_MORE_STRATEGIES = 'View more Ad Groups.';
+        this.LOAD_MORE_STRATEGIES = 'Load more Line Items';
         this.LOAD_MORE_TACTICS = 'View more Ads.';
 
         this.STATUS = 'Status';
@@ -440,7 +444,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
             'Top 3 per Category shown. Percent (%) value is only available for categorized data. Data captured prior to March 2014 is uncategorized.';
 
         this.TARGET_ZONE = 'Target Zone';
-        this.KPI_ON_TARGET = 'KPI on target';
+        this.KPI_ON_TARGET = 'KPI on Target';
+        this.KPI_OFF_TARGET = 'KPI off Target';
         this.KPI_UNDERPERFORMANCE = 'KPI Underperformance';
         this.GRAPH_REPRESENTS_CAMPAIGNS_WHICH_HAVE_SET_KPI_VALUES_ONLY =
             '% of Performing Media Plan measured against the set KPI or delivery if no KPI is set.';
@@ -901,6 +906,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ZERO_MESSAGE = 'You have entered $0 for your rate or billable amount.';
 
 
+
         //Audience Targeting
         this.SAVEAUD = 'Save Audience';
         this.SELSEGMENTS = 'Select Segments';
@@ -1159,16 +1165,17 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.SAVE_CHANGES = 'Save Changes';
         this.SELECT_CONVERSION_PIXELS = 'Conversion Pixel';
         this.SELECT_SYSTEM_OF_RECORD = 'System of Record';
+        this.SELECT_VOLUME_TYPE = 'Volume Type';
         this.AD_GRP_NAME='Ad Group Name';
         this.TOTAL_BILLABLE_AMOUNT = 'Total Billable Amount';
 
         this.MEDIA_PLAN_CLONE ='Media Plan Clone';
         this.MEDIA_PLAN_WARNING_MESSAGE = 'You will lose your changes if you leave this page. Are you sure?';
 
-        this.MEDIA_PLAN_TOTAL = 'Media Plan Total:*';
-        this.AD_GROUP_TOTAL = 'Ad Group Total:*';
-        this.CAMPAIGN_TOTAL = 'Campaign Total:*';
-        this.LINE_ITME_TOTAL = 'Line Item Total:*';
+        this.MEDIA_PLAN_TOTAL = 'Media Plan Total:';
+        this.AD_GROUP_TOTAL = 'Ad Group Total:';
+        this.CAMPAIGN_TOTAL = 'Campaign Total:';
+        this.LINE_ITME_TOTAL = 'Line Item Total:';
         this.INCLUDES_FIXED_COSTS = '*Includes Fixed Costs';
         this.EXCLUDES_MEDIA_PLAN_FIXED_COSTS = '*Excludes Media Plan fixed costs';
 
@@ -1236,6 +1243,14 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.WF_PAUSE_ALL = 'Pause All';
         this.WF_RESUME_ALL = 'Resume All';
         this.SELECTCOUNTRY = 'Select Country';
-
+        this.PASSWORD_LENGTH_ERROR = 'Password should have more than 6 characters' ;
+        this.PASSWORD_MATCH_ERROR = 'Passwords are not matching' ;
+        this.PASSWORD = 'Password' ;
+        this.UPDATE_PASSWORD = 'Update Password' ;
+        this.CONFIRM_PASSWORD = 'Confirm Password' ;
+        this.CHANGE_PASSWORD = 'Change Password' ;
+        this.PASSWORD_SUCCESS_MSG = 'Password successfully changed' ;
+        this.TECH_FEES = 'Tech';
+        this.SPECIAL_CHARACTER_ERROR = 'Please omit any punctuation or special characters (e.g. &, @, etc)' ;
     });
 });

@@ -13,11 +13,13 @@
                class="form-control"
                name="adName"
                placeholder="Enter up to 250 characters, no punctuation or special characters."
-               remove-special-character="remove-special-character"
+               special-character="special-character"
                data-ng-model="adData.adName"
                maxlength="250"
                autocomplete="off"
                autofocus>
+        <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
+
     </div>
 </div>
 
@@ -39,8 +41,7 @@
         <div class="goalBtnGroup zeroPadding"
              data-ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}"
              data-ng-repeat="adformat in workflowData.adFormats track by adformat.id">
-            <label class="btn btn-primary{{adformat.active ? ' active' : '' }}
-                          {{(adformat.name === 'Social') ? ' disabled' : '' }}"
+            <label class="btn btn-primary{{adformat.active ? ' active' : '' }}"
                 aria-disabled="{{(adformat.name === 'Social') ? true : false }}">
                 <input type="radio"
                        name="adFormat"

@@ -31,7 +31,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         keywords = params.selectedKeywords,
                         source = params.selectedSource,
                         classification = params.selectedCategory,
-                        clientId =  loginModel.getSelectedClient().id,
+                        clientId =  vistoconfig.getSelectedAccountId(),
                         advertiserId=params.advertiserId,
                         url,
                         i,
@@ -119,15 +119,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return source;
                 },
 
-                fetchAudiencekeywords = function (params) {
-                    var searchKey = params.searchKey,
-                        url;
-
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + loginModel.getSelectedClient().id + '/segments?query=' + searchKey;
-
-                    return dataService.fetch(url, {cache: false});
-                },
-
                 setAudienceKeywords = function (s) {
                     keywords = s;
                 },
@@ -198,7 +189,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 fetchAudienceCategories : fetchAudienceCategories,
                 setAudienceSource : setAudienceSource,
                 getAudienceSource : getAudienceSource,
-                fetchAudiencekeywords : fetchAudiencekeywords,
                 setAudienceKeywords : setAudienceKeywords,
                 getAudienceKeywords : getAudienceKeywords,
                 setSelectedAudience : setSelectedAudience,

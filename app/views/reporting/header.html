@@ -1,77 +1,84 @@
-<div class="main_navigation_holder" ng-controller="HeaderController">
+<div class="main_navigation_holder" data-ng-controller="HeaderController">
     <div class="main_nav clearfix">
          <!--Hamburger Icon Mobile-->
-        <div class="icon-hamburger" ng-click="mobileMenuShow();"></div>
+        <div class="icon-hamburger" data-ng-click="mobileMenuShow();"></div>
 
         <!--Logo-->
-        <a href="/dashboard" class="main_logo" id="logo" style="cursor:pointer;">
-            <img ng-src="/images/visto_logos/Visto_Logo_hi-res.svg" alt="" height="32"/>
+        <a data-ng-if="showDashboard" href="/dashboard" class="main_logo" id="logo" style="cursor:pointer;">
+            <img data-ng-src="/images/visto_logos/Visto_Logo_hi-res.svg" alt="" height="32"/>
         </a>
+
+        <a data-ng-if="!showDashboard" class="main_logo" id="logo" style="cursor:pointer;">
+            <img data-ng-src="/images/visto_logos/Visto_Logo_hi-res.svg" alt="" height="32"/>
+        </a>
+
         <!--Mobile Menu-->
         <div class="mobileNavWrap">
             <div class="mobileNav">
-                <a href="/mediaplans" ng-mouseover="hide_navigation_dropdown($event);" ng-bind="textConstants.MEDIA_PLAN"></a>
-                <a href="javascript:void(0);" reporttitle="reportOverview" ng-click="NavigateToTab('', $event ,'reportOverview')" ng-bind="textConstants.REPORTS"></a>
-                <a href="javascript:void(0);" ng-click="NavigateToTab('', $event ,'creativelist')" ng-bind="textConstants.CREATIVES"></a>
+                <a href="javascript:void(0);"
+                   data-ng-click="navigateToTab('', $event, 'mediaplanList')"
+                   data-ng-mouseover="hide_navigation_dropdown($event);"
+                   data-ng-bind="textConstants.MEDIA_PLAN">
+                </a>
+                <a href="javascript:void(0);"
+                   reporttitle="reportOverview"
+                   data-ng-click="navigateToTab('', $event, 'reportOverview')"
+                   data-ng-bind="textConstants.REPORTS">
+                </a>
+                <a href="javascript:void(0);"
+                   data-ng-click="navigateToTab('', $event, 'creativelist')"
+                   data-ng-bind="textConstants.CREATIVES">
+                </a>
             </div>
-            <div class="mobileHideFunc" ng-click="mobileMenuHide();"></div>
+            <div class="mobileHideFunc" data-ng-click="mobileMenuHide();"></div>
         </div>
 
         <!--Full Nav Links-->
         <div class="pull-left main_navigation clearfix">
-            <!--<div class="pull-left each_nav_link" id="dashboard_nav_link">
-                <a href="/dashboard" ng-bind="textConstants.DASHBOARD"></a>
-                <div class="arrowSelect"></div>
-            </div>-->
-            <div class="pull-left each_nav_link" id="campaigns_nav_link" ng-if="showMediaPlanTab">
-                <a href="/mediaplans" ng-mouseover="hide_navigation_dropdown($event);"
-                   ng-click="NavigateToTab('', $event ,'mediaplanList')" ng-bind="textConstants.MEDIA_PLAN"></a>
+            <div class="pull-left each_nav_link" id="campaigns_nav_link" data-ng-if="showMediaPlanTab">
+                <a data-ng-mouseover="hide_navigation_dropdown($event);"
+                   data-ng-click="navigateToTab('', $event, 'mediaplanList')"
+                   data-ng-bind="textConstants.MEDIA_PLAN">
+                </a>
                 <div class="arrowSelect"></div>
             </div>
-            <div class="pull-left each_nav_link" id="reports_nav_link" ng-if="showReportTab">
+            <div class="pull-left each_nav_link" id="reports_nav_link" data-ng-if="showReportTab">
                 <a href="{{reports_nav_url}}" reporttitle="reportOverview"
-                   ng-click="NavigateToTab('', $event ,'reportOverview')"
-                   ng-mouseover="show_hide_nav_dropdown($event,'reports','hover');" ng-bind="textConstants.REPORTS"></a>
-
+                   data-ng-click="navigateToTab('/Overview', $event, 'reportsSubPage')"
+                   data-ng-mouseover="show_hide_nav_dropdown($event, 'reports', 'hover');"
+                   data-ng-bind="textConstants.REPORTS">
+                </a>
                 <div class="arrowSelect" style="bottom: -1px;"></div>
             </div>
-            <div class="pull-left each_nav_link" id="creative_nav_link" ng-if="fparams[0]['creative_list']">
-                <a href="/creative/list"
-                   ng-click="NavigateToTab('', $event ,'creativelist')" ng-bind="textConstants.CREATIVES"></a>
+            <div class="pull-left each_nav_link" id="creative_nav_link" data-ng-if="showCreativeList">
+                <a data-ng-click="navigateToTab('', $event, 'creativelist')" data-ng-bind="textConstants.CREATIVES"></a>
                 <div class="arrowSelect" style="bottom: -14px;"></div>
             </div>
+
             <!--Admin DD-->
-            <div class="pull-left each_nav_link" id="admin_nav_link" ng-if="isSuperAdmin">
-                <a href="/admin/accounts" reporttitle="adminOverview"
-                   ng-click="NavigateToTab('', $event ,'adminOverview')" ng-bind="textConstants.ADMIN"></a>
+            <div class="pull-left each_nav_link" id="admin_nav_link" data-ng-if="isSuperAdmin">
+                <a data-ng-click="navigateToTab('', $event, 'adminOverview')" reporttitle="adminOverview"
+                   data-ng-click="navigateToTab('', $event, 'adminOverview')" data-ng-bind="textConstants.ADMIN"></a>
                 <div class="arrowSelect"></div>
             </div>
-
-            <div class="pull-left each_nav_link" id="invoiceTool_nav_link" ng-if="invoiceTool">
-                <a href="/v1sto/invoices" ng-click="NavigateToTab('', $event ,'invoiceTool')"
-                   ng-bind="textConstants.INVOICE_TOOL"></a>
+            <div class="pull-left each_nav_link" id="invoiceTool_nav_link" data-ng-if="invoiceTool">
+                <a data-ng-click="navigateToTab('', $event, 'invoiceTool')"
+                   data-ng-bind="textConstants.INVOICE_TOOL"></a>
                 <div class="arrowSelect"></div>
             </div>
-
-            <!--Vendor DD-->
-           <!--  <div class="pull-left each_nav_link" id="vendors_nav_link" >
-                <a href="javascript:void(0);" reporttitle="vendorsList"
-                   ng-click="NavigateToTab('', $event ,'vendorsList')" ng-bind="textConstants.VENDORS"></a>
-                <div class="arrowSelect"></div>
-            </div> -->
         </div>
         <div class="pull-right profile-photo-tab unselectable" id="user_nav_link"
-             ng-mouseover="show_hide_nav_dropdown($event,'user');">
+             data-ng-mouseover="show_hide_nav_dropdown($event,'user');">
             <span class="user-photo pull-right"><span class="icon-avatar-round"></span></span>
-            <span class="pull-right account-name-nav" ng-bind="defaultAccountsName"></span>
+            <span class="pull-right account-name-nav" data-ng-bind="defaultAccountsName"></span>
         </div>
 
-        <div class="pull-right help-link-tab" ng-mouseover="show_hide_nav_dropdown($event,'help');">
+        <!--TODO: temporarily disabled help completely -->
+        <div class="pull-right help-link-tab" data-ng-mouseover="show_hide_nav_dropdown($event,'help');">
             <a class="pull-right">
                 <span class="icon-help"></span>
             </a>
-
-            <div class="main_nav_dropdown" id="help-menu" ng-mouseleave="hide_navigation_dropdown($event)" ng-mouseover="hoverHelp()">
+            <div class="main_nav_dropdown" id="help-menu" data-ng-mouseleave="hide_navigation_dropdown($event)" data-ng-mouseover="hoverHelp()">
                 <div class="clearfix nav-menu">
                     <div class="pull-right profile-data">
                         <div class="col-md-12 zeroPadding">
@@ -86,14 +93,12 @@
                 </div>
             </div>
         </div>
-
-        <div class="main_nav_dropdown" id="reports-menu" ng-mouseleave="hide_navigation_dropdown($event)">
+        <div class="main_nav_dropdown" id="reports-menu" data-ng-mouseleave="hide_navigation_dropdown($event)">
             <div class="nav-menu reports_header_tabs_holder clearfix">
                 <report-tabs></report-tabs>
             </div>
         </div>
-
-        <div class="main_nav_dropdown" id="admin-menu" ng-mouseleave="hide_navigation_dropdown($event)">
+        <div class="main_nav_dropdown" id="admin-menu" data-ng-mouseleave="hide_navigation_dropdown($event)">
             <div class="nav-menu reports_header_tabs_holder clearfix">
                 <div class="clearfix reports_sub_menu_dd_holder">
                     <a class="adminLinks" href="/admin/accounts">Accounts</a>
@@ -103,32 +108,41 @@
                 </div>
             </div>
         </div>
-
-        <div class="main_nav_dropdown" id="user-menu" ng-mouseleave="hide_navigation_dropdown($event)">
+        <div class="main_nav_dropdown" id="help-menu" data-ng-mouseleave="hide_navigation_dropdown($event)" data-ng-mouseover="hoverHelp()">
+            <div class="clearfix nav-menu">
+                <div class="pull-right profile-data">
+                    <div class="col-md-12 zeroPadding">
+                        <div class="dropdown pull-left user-photo-details">
+                            <span class="clearfix dropdown_ul_text" data-toggle="dropdown">
+                                <span class="username pull-left">Help</span>
+                                <a class="pull-left clearLeft" data-ng-click="openHelp()" target="_blank">View User Manual (pdf)</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main_nav_dropdown" id="user-menu" data-ng-mouseleave="hide_navigation_dropdown($event)">
             <div class="clearfix nav-menu">
                 <div class="pull-right profile-data" id="profileAccountData">
                     <div class="col-md-12 zeroPadding">
                         <div class="dropdown pull-left user-photo-details">
                             <span class="clearfix dropdown_ul_text" data-toggle="dropdown" style="cursor: default;">
-                                <span class="username pull-left dropMenuHeaderTxt" ng-bind="user_name"></span>
+                                <span class="username pull-left dropMenuHeaderTxt" data-ng-bind="user_name"></span>
                                 <div class="col-md-12 zeroPadding signOutBtn" style="margin: 15px 0;">
-                                    <span class="pull-left icon-signout" ng-click="logout()" style="cursor: pointer;"></span>
-                                    <span class="pull-left" ng-click="logout()" style="cursor: pointer; margin-left: 10px;">Sign Out</span>
+                                    <span class="pull-left icon-signout" data-ng-click="logout()" style="cursor: pointer;"></span>
+                                    <span class="pull-left" data-ng-click="logout()" style="cursor: pointer; margin-left: 10px;">Sign Out</span>
                                 </div>
-                                <!--<span class="pull-left dd_txt" ng-bind="defaultAccountsName"></span>-->
-                                <!--<span ng-show="multipleClient" class="pull-right icon-arrow-solid-down"></span>-->
                             </span>
-
                             <div class="col-md-12 zeroPadding" style="border-top: 1px solid #e1edf9;">
                                 <span class="pull-left dropMenuHeaderTxt" style="margin: 15px 0;">ACCOUNTS</span>
                             </div>
-
                             <ul class="dropdown-menu">
                                 <div class="accountsList-dropdown-li">
-                                    <li ng-repeat="eachaccount in accountsData" id="{{eachaccount.id}}"
-                                        ng-click="set_account_name($event,eachaccount.id,eachaccount.name,eachaccount.isLeafNode);"
-                                        ng-class="{'selected-li':defaultAccountsName == eachaccount.name}">
-                                        <span ng-bind="eachaccount.name"></span>
+                                    <li data-ng-repeat="eachaccount in accountsData" id="{{eachaccount.id}}"
+                                        data-ng-click="set_account_name($event,eachaccount.id,eachaccount.name,eachaccount.isLeafNode);"
+                                        data-ng-class="{'selected-li':defaultAccountsName == eachaccount.name}">
+                                        <span data-ng-bind="eachaccount.name"></span>
                                     </li>
                                 </div>
                             </ul>
@@ -137,32 +151,18 @@
                 </div>
             </div>
         </div>
-
-        <!--<div class="common-popup-container" ng-show="showFiles">-->
-            <!--<div class="popup">-->
-                <!--<span class="close unselectable" aria-hidden="true" ng-click="showFiles = false" >x</span>-->
-                <!--<object data="{{content}}" type="application/pdf"  style="width:600px;height:600px;"></object>-->
-
-            <!--</div>-->
-        <!--</div>-->
-
-        <div class="popContainerHolder" ng-show="showFiles" >
+        <div class="popContainerHolder" data-ng-show="showFiles" >
             <div class="popContainer popup-holder" style="width: 700px;">
                 <div class="modal-content">
                     <div class="clearfix modal-header">
-                        <span class="icon-close close unselectable"
-                              aria-hidden="true"
-                              data-ng-click="showFiles = false">
-                        </span>
+                        <span class="icon-close close unselectable" aria-hidden="true" data-ng-click="showFiles = false"></span>
                     </div>
                     <div class="modal-body">
-                        <object data="{{content}}" type="application/pdf" style="width: 100%; height: 600px;">
+                        <object data="{{content}}" type="application/pdf" style="width: 100%; height: 600px;"></object>
                     </div>
-
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 

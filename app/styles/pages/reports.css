@@ -1288,6 +1288,9 @@ div.strategy_total_container .discrepancyTplRow {
 div.strategy_total_container .discrepancyTplRow .discrepancyName {
   width: 250px;
 }
+div.strategy_total_container .discrepancyTplRow img {
+  vertical-align: baseline;
+}
 div.strategy_total_container div.strategy_total_container_header {
   background: #edf2f8;
   border: solid 1px #ccd9e3;
@@ -1320,7 +1323,8 @@ div.strategy_total_container div.strategy_total_container_header .discrepancyTpl
   -ms-transform: rotate(0deg);
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
-  margin-top: 7px;
+  margin-top: 5px;
+  margin-right: 8px ;
 }
 div.strategy_total_container div.strategy_total_container_header div.each_col.first_col {
   color: #21252b;
@@ -4457,6 +4461,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response .report_builder_container .metricDataView .metricContainer .metricData {
   padding: 9px 0 0 15px;
   cursor: pointer;
+  display: inline;
 }
 .report_generator_and_response .report_builder_container .metricDataView .metricContainer .metricData:disabled {
   color: #aaa ;

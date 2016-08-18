@@ -154,7 +154,7 @@
                             <div class="pull-right common-loading-btn" style="width:62px;" ng-show="saveCampaignClicked"></div>
 
                             <div ng-show="(mode == 'create' && !cloneMediaPlanName)">
-                                <a href="/mediaplans" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
+                                <a ng-click="redirectToMediaPlanList()" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
                             </div>
 
                         </div>

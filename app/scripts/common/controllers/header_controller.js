@@ -1,17 +1,47 @@
 define(['angularAMD', 'common/services/constants_service', 'login/login_model',
     'reporting/models/domain_reports', 'reporting/campaignSelect/campaign_select_model',
     'common/services/role_based_service', 'workflow/services/workflow_service', 'common/services/features_service',
-    'reporting/subAccount/sub_account_service','common/services/vistoconfig_service'], function (angularAMD) {
+    'common/services/account_service','common/services/sub_account_service', 'common/services/vistoconfig_service'],
+    function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location, $modal,
-                                                        constants, loginModel, domainReports, campaignSelectModel,
-                                                        RoleBasedService, workflowService, featuresService,
-                                                        subAccountModel, localStorageService,$http, $sce, vistoconfig) {
-
+    angularAMD.controller('HeaderController', function ($http, $q, $scope, $rootScope, $route, $cookieStore, $location,
+                                                        $modal, $routeParams, $sce, constants, loginModel, domainReports,
+                                                        campaignSelectModel, RoleBasedService, workflowService,
+                                                        featuresService, accountService, subAccountService,
+                                                        vistoconfig, localStorageService, advertiserModel, brandsModel,
+                                                        strategySelectModel, pageFinder, urlBuilder) {
         var featurePermission = function () {
+                var fParams = featuresService.getFeatureParams();
+
+                $scope.showMediaPlanTab = fParams[0].mediaplan_list;
+                $scope.showReportTab = fParams[0].reports_tab;
+                $scope.showMediaPlanTab = fParams[0].mediaplan_list;
+                $scope.showReportTab = fParams[0].reports_tab;
+                $scope.showReportOverview = fParams[0].report_overview;
+                $scope.showCreativeList = fParams[0].creative_list;
+                $scope.buildReport = fParams[0].scheduled_reports;
+
+                if (fParams[0].scheduled_reports || fParams[0].collective_insights) {
+                    $scope.showCustomReportHeading = true;
+                }
+
+                if (fParams[0].report_overview ||
+                    fParams[0].inventory ||
+                    fParams[0].performance ||
+                    fParams[0].quality ||
+                    fParams[0].cost ||
+                    fParams[0].optimization_impact ||
+                    fParams[0].platform) {
+                    $scope.showMediaPlanReportHeading = true;
+                }
+
+                $scope.filters = domainReports.getReportsTabs($scope.fparams);
+
+                $scope.customFilters = domainReports.getCustomReportsTabs();
                 $scope.fparams = featuresService.getFeatureParams();
                 $scope.showMediaPlanTab = $scope.fparams[0].mediaplan_list;
+                $scope.showDashboard = $scope.fparams[0].dashboard;
                 $scope.showReportTab = $scope.fparams[0].reports_tab;
                 $scope.invoiceTool = $scope.fparams[0].reports_invoice;
             },
@@ -28,50 +58,19 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             },
 
             setMasterClientData = function (id, name, isLeafNode, event) {
-                localStorageService.masterClient.set({
+                showSelectedMasterClient(event, name);
+
+                accountService.changeAccount({
                     id: id,
                     name: name,
                     isLeafNode: isLeafNode
                 });
-
-                showSelectedMasterClient(event, name);
-
-                if (isLeafNode) {
-                    loginModel.setSelectedClient({
-                        id: id,
-                        name: name
-                    });
-
-                    $scope.getClientData();
-
-                    $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {
-                        client: loginModel.getSelectedClient().id,
-                        event_type: 'clicked'
-                    });
-                } else {
-                    subAccountModel.fetchSubAccounts('MasterClientChanged', function () {
-                        $scope.getClientData();
-
-                        $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {
-                            client: loginModel.getSelectedClient().id,
-                            event_type: 'clicked'
-                        });
-                    });
-                }
 
                 $scope.defaultAccountsName = name;
             };
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
-        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
-        $scope.reports_nav_url = '' ;
-
-        if ($scope.selectedCampaign === -1) {
-            $scope.reports_nav_url = '/mediaplans';
-        } else {
-            $scope.reports_nav_url = '/mediaplans/' + $scope.selectedCampaign;
-        }
 
         $scope.getClientData = function () {
             var clientId = localStorageService.masterClient.get().id;
@@ -89,7 +88,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
         };
 
         $scope.set_account_name = function (event, id, name, isLeafNode) {
-
             $('#user_nav_link').removeClass('selected');
             $('#user-menu').css('min-height',0).slideUp('fast');
 
@@ -97,7 +95,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 $modalInstance;
 
             if (moduleObj && moduleObj.moduleName === 'WORKFLOW') {
-                if (localStorageService.masterClient.get().id !== id) {
+                if (vistoconfig.getMasterClientId() !== id) {
                     $modalInstance = $modal.open({
                         templateUrl: assets.html_change_account_warning,
                         controller: 'AccountChangeController',
@@ -115,19 +113,34 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
                             accountChangeAction: function () {
                                 return function () {
+                                    var deferred = $q.defer();
+
                                     setMasterClientData(id, name,isLeafNode, event);
-
-                                    if (!localStorageService.masterClient.get().isLeafNode) {
-                                       subAccountModel.resetDashboardSubAccStorage();
-                                    }
-
-                                    // TODO: check this condition ...
+                                    var url;
                                     // when enters as workflow user should we broadcast masterclient - sapna
                                     if (moduleObj.redirect) {
-                                        $location.url('/mediaplans');
+                                        url = '/a/' + id;
+                                        if(!isLeafNode) {
+
+                                            subAccountService
+                                                .fetchSubAccountList (id)
+                                                .then(function () {
+                                                    deferred.resolve();
+                                                    var subAccountId = subAccountService.getSubAccounts()[0].id;
+                                                    url += '/sa/'+ subAccountId+ '/mediaplans';
+                                                    $location.url(url);
+                                                });
+
+
+                                        } else {
+                                            $location.url(url + '/mediaplans');
+                                        }
+
                                     } else {
                                         $route.reload();
                                     }
+                                    return deferred.promise;
+
                                 };
                             }
                         }
@@ -135,11 +148,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 }
             } else {
                 setMasterClientData(id, name,isLeafNode, event);
-
-                if (!localStorageService.masterClient.get().isLeafNode) {
-                    subAccountModel.resetDashboardSubAccStorage();
-                }
             }
+
         };
 
         $scope.showProfileMenu = function () {
@@ -149,50 +159,35 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             $('#cdbDropdown').hide();
         };
 
-        $scope.NavigateToTab = function (url, event, page) {
+        $scope.navigateToTab = function (url, event, page) {
             $('.each_nav_link').removeClass('active_tab active selected');
-
-            if (page === 'reportOverview') {
-                $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
-
-                if ($scope.selectedCampaign === -1) {
-                    url = '/mediaplans';
-                    $('.each_nav_link').removeClass('active_tab active selected');
-                    $('.reports_sub_menu_dd_holder').find('.active_tab').removeClass('active_tab');
-                    $('#campaigns_nav_link').addClass('active_tab');
-                } else {
-                    url = '/mediaplans/' + $scope.selectedCampaign;
-                    $('.each_nav_link').removeClass('active_tab active selected');
-                    $('#reports_overview_tab').addClass('active_tab');
-                    $('#reports_nav_link').addClass('active_tab');
-                }
+console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', page);
+            advertiserModel.reset();
+            brandsModel.reset();
+            strategySelectModel.reset();
+            if (page === 'dashboard') {
+                $location.url(urlBuilder.dashboardUrl());
             } else if (page === 'creativelist') {
-                $('.each_nav_link').removeClass('active_tab active selected');
-                url = '/creative/list';
-                $('#creative_nav_link').addClass('active_tab');
+                urlBuilder.gotoCreativeListUrl();
             } else if (page === 'adminOverview') {
-                url = '/admin/accounts';
-                $('.each_nav_link').removeClass('active_tab active selected');
-                $('#admin_nav_link').addClass('active_tab');
+                urlBuilder.gotoAdminUrl();
             } else if (page === 'invoiceTool') {
-                url = '/v1sto/invoices';
-                $('.each_nav_link').removeClass('active_tab active selected');
-                $('#invoiceTool_nav_link').addClass('active_tab');
+                urlBuilder.gotoInvoiceTool();
             } else if (page === 'mediaplanList') {
-                $('.each_nav_link').removeClass('active_tab active selected');
-                url = '/mediaplans';
-                $('#campaigns_nav_link').addClass('active_tab');
-            } else if (page === 'vendorsList') {
-                $('.each_nav_link').removeClass('active_tab active selected');
-                url = '/vendors/list';
-                $('#vendors_nav_link').addClass('active_tab');
-            } else if (page === 'reportsSubPage') {
-                $('.reports_sub_menu_dd_holder').find('.active_tab').removeClass('active_tab');
-                $('.each_nav_link').removeClass('active_tab active selected');
-                $('#reports_nav_link').addClass('active_tab');
-                $(event.currentTarget).parent().addClass('active_tab');
+                urlBuilder.gotoMediaplansListUrl();
+
+            // TODO: Reports page when clicking on the top level nav menu
+            } else if (page === 'reportsSubPage' || page === 'reportOverview') {
+                urlBuilder.gotoCannedReportsUrl(url);
+            } else if (page === 'customReports') {
+                $location.url(urlBuilder.customReportsUrl());
+            } else if (page === 'scheduleReports') {
+                $location.url(urlBuilder.customReportsListUrl());
+            } else if (page === 'uploadReports') {
+                $location.url(urlBuilder.uploadReportsUrl());
+            } else if (page === 'uploadedReportsList') {
+                $location.url(urlBuilder.uploadReportsListUrl());
             }
-            $location.url(url);
         };
 
         $scope.show_hide_nav_dropdown = function (event, arg, behaviour) {
@@ -203,9 +198,11 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             if (argMenu.is(':visible') === false) {
                 $('.main_nav_dropdown').hide();
                 minHeight = argMenu.css('min-height');
+
                 argMenu.css('min-height', 0).slideDown('fast', function () {
                     $(this).css('min-height', minHeight);
                 });
+
                 $('.main_navigation_holder').find('.selected').removeClass('selected');
                 elem.closest('#' + arg + '_nav_link').addClass('selected');
                 $('.each_nav_link.active .arrowSelect').hide();
@@ -225,7 +222,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
             setTimeout(function () {
                 if (!(mainMenuHolder.is(':hover') ||
-                    $('#help-menu').is(':hover') ||
+                    //$('#help-menu').is(':hover') ||
                     $('#user-menu').is(':hover') ||
                     $('#reports-menu').is(':hover') ||
                     $('#admin-menu').is(':hover')) ||
@@ -240,117 +237,17 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             loginModel.logout();
         };
 
-        $scope.setDefaultReport = function (reportTitle) {
-            $('.header_tab_dropdown').removeClass('active_tab');
-            $('a[reportTitle="' + reportTitle + '"]').parent().addClass('active_tab');
-        };
-
-        $rootScope.$on('callSetDefaultReport', function (event, args) {
-            $scope.setDefaultReport(args);
-        });
-
-        if ($cookieStore.get('cdesk_session')) {
-            workflowService
-                .getClients()
-                .then(function (result) {
-                    var preferredClient,
-                        campaignsClientData;
-
-                    if (result && result.data.data.length > 0) {
-                        preferredClient = RoleBasedService.getUserData().preferred_client;
-
-                        campaignsClientData = function () {
-                            if (Number($scope.selectedCampaign) === -1) {
-                                campaignSelectModel
-                                    .getCampaigns(-1, {limit: 1, offset: 0})
-                                    .then(function (response) {
-                                        var firstCampaign;
-
-                                        if (response.length > 0) {
-                                            $scope.selectedCampaign = response[0].campaign_id;
-
-                                            firstCampaign = {
-                                                id: response[0].campaign_id,
-                                                name: response[0].name,
-                                                startDate: response[0].start_date,
-                                                endDate: response[0].end_date,
-                                                kpi: response[0].kpi_type,
-                                                redirectWidget: ''
-                                            };
-
-                                            localStorageService.selectedCampaign.set(firstCampaign);
-                                        }
-                                    });
-                            }
-
-                            $scope.getClientData();
-                        };
-
-                        $scope.accountsData = [];
-
-                        _.each(result.data.data, function (org) {
-                            $scope.accountsData.push({
-                                id: org.id,
-                                name: org.name,
-                                isLeafNode: org.isLeafNode
-                            });
-
-                            if (preferredClient !== undefined &&
-                                org.id === preferredClient &&
-                                !localStorageService.masterClient.get()) {
-                                localStorageService.masterClient.set(org.id, org.name, org.isLeafNode);
-                            }
-                        });
-
-                        if (preferredClient === 0 && !localStorageService.masterClient.get()) {
-                            localStorageService
-                                .masterClient
-                                .set(result.data.data[0].id, result.data.data[0].name, result.data.data[0].isLeafNode);
-                        }
-
-                        if (result.data.data.length > 1) {
-                            $scope.multipleClient = true;
-                        } else {
-                            $scope.multipleClient = false;
-                        }
-
-                        $scope.accountsData = _.sortBy($scope.accountsData, 'name');
-
-                        if (localStorageService.masterClient.get() && localStorageService.masterClient.get().name) {
-                            $scope.defaultAccountsName = localStorageService.masterClient.get().name;
-                        } else {
-                            $scope.defaultAccountsName = $scope.accountsData[0].name;
-                        }
-
-                        if (angular.isUndefined(loginModel.getSelectedClient()) ||
-                            loginModel.getSelectedClient() === null) {
-                            if (localStorageService.masterClient.get().isLeafNode) {
-                                loginModel.setSelectedClient({
-                                    id: localStorageService.masterClient.get().id,
-                                    name: localStorageService.masterClient.get().name
-                                });
-
-                                campaignsClientData(1);
-                            } else {
-                                subAccountModel.fetchSubAccounts('headerCtrl',function () {
-                                    campaignsClientData(2);
-                                });
-                            }
-                        } else {
-                            campaignsClientData(3);
-                        }
-                    }
-                });
-        }
-
-        // Start Feature Permission
+        /* Start Feature Permission */
         $rootScope.$on('features', function () {
+            $scope.accountsData = accountService.getAccounts();
+            $scope.defaultAccountsName = accountService.getSelectedAccount().name;
+            $scope.multipleClient = $scope.accountsData.length > 1;
+            $scope.pageName = pageFinder.pageBuilder($location.path()).pageName();
+
             featurePermission();
             $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
         });
-
-        featurePermission();
-        // End Feature Permission
+        /* End Feature Permission */
 
         $(function () {
             var closeMenuPopUs = function (event) {
@@ -532,7 +429,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             $scope.showFiles = false;
 
             $scope.openHelp = function() {
-                var clientId = loginModel.getMasterClient().id;
                 var url  = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/userguide/download';
                 $http.get(url, {responseType:'arraybuffer'})
                     .success(function (response) {

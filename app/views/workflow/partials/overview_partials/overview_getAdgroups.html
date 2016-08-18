@@ -52,7 +52,7 @@
             </div>
             <div class="zeroPadding dropdown-workflow pull-right hideCollapse" style="position: absolute; right: 0;">
                 <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle"
+                    <button class="btn btn-default dropdown-toggle adgroup-menu-auto"
                             type="button"
                             data-toggle="dropdown"
                             aria-haspopup="true"
@@ -268,7 +268,7 @@
                               data-ng-bind="'Creatives (' + (adsData.creatives.length || 0) + ')'">
                         </span>
                         <p style="margin: 0; text-transform: lowercase;">
-                            <span data-ng-bind="appendSizes(adsData.creatives)"></span>
+                            <span data-ng-bind-html="appendSizes(adsData.creatives)"></span>
                         </p>
                     </div>
                     <div class="col-md-12 zeroPadding">

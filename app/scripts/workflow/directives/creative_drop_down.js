@@ -3,7 +3,7 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
 
     angularAMD.directive('creativeDropDown', function () {
         return {
-            controller: function ($scope, workflowService) {
+            controller: function ($scope, workflowService, accountService) {
                 var creativeFilter = {
                     setDefaultValues : function (obj, type) {
                         var campaignData = localStorage.getItem('campaignData');
@@ -30,27 +30,11 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                         }
                     },
 
-                    clients :  function () {
-                        workflowService
-                            .getClients()
-                            .then(function (result) {
-                                var responseData;
 
-                                if (result.status === 'OK' || result.status === 'success') {
-                                    responseData = result.data.data;
-                                    $scope.creativeFilterData.clients =
-                                        _.sortBy(responseData, 'name'); // jshint ignore:line
-                                    creativeFilter.setDefaultValues($scope.creativeFilterData.clients, 'clients');
-                                    creativeFilter.fetchAdvertisers();
-                                } else {
-                                    creativeFilter.errorHandler(result);
-                                }
-                            }, creativeFilter.errorHandler);
-                    },
 
-                    fetchAdvertisers :  function () {
+                    fetchAdvertisers :  function (clientId) {
                         workflowService
-                            .getAdvertisers($scope.defaultClientId)
+                            .getAdvertisers(clientId)
                             .then(function (result) {
                                 var responseData;
 
@@ -100,6 +84,11 @@ define(['angularAMD'],function (angularAMD) { // jshint ignore:line
                     $scope.$parent.prarentHandler($scope.defaultClientId, $scope.defaultClientName,
                         advertiser.id, advertiser.name);
                 };
+
+
+                var accountData =  accountService.getSelectedAccount();
+                var clientId = accountData.id;
+                creativeFilter.fetchAdvertisers(clientId);
             },
 
             restrict: 'EAC',

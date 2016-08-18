@@ -26,9 +26,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
 
         // highlight the header menu - Dashboard, Campaigns, Reports
         domainReports.highlightHeaderMenu();
-        domainReports.highlightSubHeaderMenu();
+        //domainReports.highlightSubHeaderMenu();
 
-        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
         $scope.apiReturnCode = 200;
         $scope.strategyMarginValue = -1;
@@ -100,7 +99,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
             }
         };
 
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         $scope.init();
+
 
         $scope.strategiesCostData = function (param) {
             var errorHandler =  function () {
@@ -110,11 +111,14 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 },
 
                 dateFilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
+                clientId = vistoconfig.getSelectedAccountId(),
+                advertiserId = vistoconfig.getSelectAdvertiserId(),
+                brandId = vistoconfig.getSelectedBrandId(),
 
                 queryObj = {
-                    clientId: loginModel.getSelectedClient().id,
-                    advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                    brandId: brandsModel.getSelectedBrand().id,
+                    clientId: clientId,
+                    advertiserId: advertiserId,
+                    brandId: brandId,
                     dateFilter: dateFilter
                 },
 
@@ -199,11 +203,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 }, errorHandler);
         };
 
-        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function () {
-            $scope.init();
-            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
-        });
-
         $scope.$watch('selectedCampaign', function () {
             $scope.createDownloadReportUrl();
         });
@@ -265,11 +264,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 });
             }
         };
-
-        $scope.$on(constants.EVENT_KPI_CHANGED, function () {
-            $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
-        });
-
+        $scope.callBackStrategyChange();
+        
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
             $scope.sortType = 'kpi_metrics.' + args;
             $scope.sortTypeSubSort ='kpi_metrics.' + args;

@@ -168,7 +168,9 @@
                        data-ng-bind="textConstants.MEDIAPLAN_LINE_ITEM_NAME"></label>
                 <input type="text" class="col-md-12 form-control"
                        placeholder="Enter Line Item name up to 150 characters" name="lineItemName"
-                       ng-model="$parent.lineItemName" title="{{$parent.lineItemName}}"/>
+                       ng-model="$parent.lineItemName" special-character="special-character" title="{{$parent.lineItemName}}"/>
+                <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
+
                 <span class="greyTxt errorLabel"
                       ng-show="lineItemForm.lineItemName.$error.required">Please enter a name</span>
             </div>
@@ -176,8 +178,10 @@
                 <label class="col-sm-12 zeroPadding greyTxt"
                        data-ng-bind="textConstants.CREATE_ADGROUP_LINEITEM"></label>
                 <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"
-                       remove-special-character='remove-special-character' title="{{$parent.adGroupName}}"
+                       special-character='special-character' title="{{$parent.adGroupName}}"
                        ng-model="$parent.adGroupName"/>
+                <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
+
             </div>
         </div>
 
@@ -230,21 +234,7 @@
                                                                                    style="padding-left:20px"/>
             </div>
         </div>
-        <div class="listItemSmallValues" ng-show="volumeFlag">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
-                   ng-if="!lineItemType || lineItemType.name === 'Select Type'"
-                   data-ng-bind="textConstants.MEDIAPLAN_VOLUME">Volume</label>
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
-                   ng-if="lineItemType.name === 'CPM'">Impressions</label>
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="lineItemType.name === 'CPC'">Clicks</label>
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
-                   ng-if="lineItemType.name === 'CPCV'">Completed</label>
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
-                   ng-if="lineItemType.name === 'Post-Click CPA' || lineItemType.name === 'Post-Impression CPA' || lineItemType.name === 'Total CPA'">Actions</label>
 
-            <input type="text" class="col-md-12 form-control" placeholder="" ng-model="$parent.volume" whole-number-only
-                   ng-readonly="true"/>
-        </div>
 
         <!--Row 2-->
         <!-- <div class="clearfix col-md-12 zeroPadding"> -->
@@ -282,6 +272,40 @@
             </div>
         </div>
 
+        <div class="listItemSmallValues" ng-show="volumeFlag">
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
+                   ng-if="!lineItemType || lineItemType.name === 'Select Type' || lineItemType.name === 'COGS+ %'"
+                   data-ng-bind="textConstants.MEDIAPLAN_VOLUME">Volume</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
+                   ng-if="lineItemType.name === 'CPM'">Impressions</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="lineItemType.name === 'CPC'">Clicks</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
+                   ng-if="lineItemType.name === 'CPCV'">Completed</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
+                   ng-if="lineItemType.name === 'Post-Click CPA' || lineItemType.name === 'Post-Impression CPA' || lineItemType.name === 'Total CPA'">Actions</label>
+
+            <input type="text" class="col-md-12 form-control" placeholder="" ng-model="$parent.volume" whole-number-only
+                   ng-readonly="(lineItemType.name !== 'COGS+ %')?true: false"/>
+        </div>
+        <div style="clear:both"></div>
+        <div class="col-md-3 zeroPadding dropdown-workflow" style="margin-right:10px;" ng-show="volumeTypeFlag">
+            <div class="dropdown">
+                <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_VOLUME_TYPE"></label>
+                <button style="width:100%;" class="btn btn-default dropdown-toggle systemOfRecordName" type="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span
+                        class="text">{{(selectedVolumeType )?(selectedVolumeType | toTitleCase):'Select from list'}}</span>
+                    <span class="icon-arrow-solid-down"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown"
+                    name="lineItemType">
+                    <li class="available" ng-repeat="type in volumeType"
+                        ng-click="setVolumeType(type,'create')"><a>{{type}}</a></li>
+                </ul>
+            </div>
+
+        </div>
+
 
         <div class="col-md-3 zeroPadding dropdown-workflow" ng-show="showSystemOfRecord" style="margin-right:10px;">
             <div class="dropdown">
@@ -295,7 +319,7 @@
                 <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown"
                     name="lineItemType">
                     <li class="available" ng-repeat="sor in selectedCampaign.systemOfRecord"
-                        ng-click="setSystemOfRecord(sor,'create')"><a>{{sor.name}}</a></li>
+                        ng-click="setSystemOfRecord(sor,'create')" title="{{sor.name}}"><a>{{sor.name}}</a></li>
                 </ul>
                 <input type="hidden" class="form-control" ng-model="systemOfRecordSelected.id"
                        name="systemOfRecordSelected"/>
@@ -323,7 +347,13 @@
 
         <div class="pull-right" style="padding: 30px 0 0 0;position:relative;">
             <div class="pull-right btn btn-default"
-                 ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''  || (showSystemOfRecord && !systemOfRecordSelected.id) || ((lineItemType.name.toLowerCase()=='post-impression cpa' && pixelSelected.id==undefined) || (lineItemType.name.toLowerCase()=='total cpa' && pixelSelected.id==undefined) || (lineItemType.name.toLowerCase()=='post-click cpa' && pixelSelected.id==undefined))"
+                 ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''  ||
+                 (showSystemOfRecord && !systemOfRecordSelected.id) ||
+                 ((lineItemType.name.toLowerCase()=='post-impression cpa' && pixelSelected.id==undefined) ||
+                    (lineItemType.name.toLowerCase()=='total cpa' && pixelSelected.id==undefined) ||
+                    (lineItemType.name.toLowerCase()=='post-click cpa' && pixelSelected.id==undefined)) ||
+                ((lineItemType.name.toLowerCase()=='cogs+ %' && (selectedVolumeType == '' || $parent.volume == '')))
+                 "
                  ng-click="navigateLineItem('create')"
                  ng-show="!Campaign.createNewLineItemLoaderEdit">Add Line Item
             </div>
@@ -526,18 +556,7 @@
                                                                                    autocomplete="off"/>
             </div>
         </div>
-        <div class="listItemSmallValues" ng-show="volumeFlagEdit">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
-                   ng-if="!editLineItem.lineItemType || editLineItem.lineItemType.name === 'Select Type'"
-                   data-ng-bind="textConstants.MEDIAPLAN_VOLUME">Volume</label>
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="editLineItem.lineItemType.name === 'CPM'">Impressions</label>
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="editLineItem.lineItemType.name === 'CPC'">Clicks</label>
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="editLineItem.lineItemType.name === 'CPCV'">Completed</label>
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
-                   ng-if="editLineItem.lineItemType.name === 'Post-Click CPA' || editLineItem.lineItemType.name === 'Post-Impression CPA' || editLineItem.lineItemType.name === 'Total CPA'">Actions</label>
-            <input type="text" class="col-md-12 form-control" placeholder="" ng-model="editLineItem.volume"
-                   whole-number-only autocomplete="off" ng-readonly="true"/>
-        </div>
+
 
 
         <a class="btn btn-link pull-right"
@@ -579,6 +598,38 @@
 
         </div>
 
+        <div class="listItemSmallValues" ng-show="volumeFlagEdit">
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
+                   ng-if="!editLineItem.lineItemType || editLineItem.lineItemType.name === 'Select Type' || editLineItem.lineItemType.name === 'COGS+ %'"
+                   data-ng-bind="textConstants.MEDIAPLAN_VOLUME">Volume</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="editLineItem.lineItemType.name === 'CPM'">Impressions</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="editLineItem.lineItemType.name === 'CPC'">Clicks</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="editLineItem.lineItemType.name === 'CPCV'">Completed</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
+                   ng-if="editLineItem.lineItemType.name === 'Post-Click CPA' || editLineItem.lineItemType.name === 'Post-Impression CPA' || editLineItem.lineItemType.name === 'Total CPA'">Actions</label>
+            <input type="text" class="col-md-12 form-control" placeholder="" ng-model="editLineItem.volume"
+                   whole-number-only autocomplete="off" ng-readonly="(editLineItem.lineItemType.name === 'COGS+ %')?false:true"/>
+        </div>
+        <div class="col-md-3 zeroPadding dropdown-workflow" style="margin-right:10px;" ng-show="volumeTypeFlagEdit">
+            <div class="dropdown">
+                <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_VOLUME_TYPE"></label>
+                <button style="width:100%;" class="btn btn-default dropdown-toggle systemOfRecordName" type="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span
+                        class="text">{{(editLineItem.selectedVolumeType )?(editLineItem.selectedVolumeType | toTitleCase):'Select from list'}}</span>
+                    <span class="icon-arrow-solid-down"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown"
+                    name="lineItemType">
+                    <li class="available" ng-repeat="type in volumeType"
+                        ng-click="setVolumeType(type,'edit')"><a>{{type}}</a></li>
+                </ul>
+                <input type="hidden" class="form-control" ng-model="systemOfRecordSelected.id"
+                       name="systemOfRecordSelected"/>
+            </div>
+
+        </div>
+
 
         <div class="col-md-3 zeroPadding dropdown-workflow" ng-show="showSystemOfRecordEdit" style="margin-right:10px;">
             <div class="dropdown">
@@ -592,7 +643,7 @@
                 <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown"
                     name="lineItemType">
                     <li class="available" ng-repeat="sor in selectedCampaign.systemOfRecord"
-                        ng-click="setSystemOfRecord(sor,'edit')"><a>{{sor.name}}</a></li>
+                        ng-click="setSystemOfRecord(sor,'edit')" title="{{sor.name}}"><a>{{sor.name}}</a></li>
                 </ul>
                 <input type="hidden" class="form-control" ng-model="editLineItem.systemOfRecordSelected.id"
                        name="editLineItem.systemOfRecordSelected"/>
@@ -625,7 +676,8 @@
                data-ng-disabled="!editLineItem.lineItemName || editLineItem.billableAmount === '' || (
                        ((editLineItem.lineItemType.name).toLowerCase()=='post-impression cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
                        ((editLineItem.lineItemType.name).toLowerCase()=='total cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
-                       ((editLineItem.lineItemType.name).toLowerCase()=='post-click cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == ''))
+                       ((editLineItem.lineItemType.name).toLowerCase()=='post-click cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
+                       ((editLineItem.lineItemType.name).toLowerCase()=='cogs+ %' && ( editLineItem.volume ===  ''))
                        )"
                ng-bind="textConstants.SAVE_CHANGES"
                ng-show="!editLineItemLoaderEdit"></a>

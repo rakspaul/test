@@ -1,19 +1,22 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service',
     'workflow/services/creative_custom_module', 'login/login_model', 'common/utils',
-    'common/services/local_storage_service', 'workflow/directives/creative_drop_down',
-    '../../common/directives/ng_upload_hidden'], function (angularAMD) {
+    'common/services/local_storage_service', 'common/services/vistoconfig_service', 'common/services/account_service',
+    'workflow/directives/creative_drop_down', 'common/directives/ng_upload_hidden'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('CreativeController', function ($scope, $rootScope, $routeParams, $location,
                                                          constants, workflowService, creativeCustomModule,
-                                                         loginModel, utils, localStorageService) {
+                                                         loginModel, utils, localStorageService,
+                                                          vistoconfig, accountService, subAccountService, advertiserModel,
+                                                          urlBuilder) {
 
 
         var postCrDataObj = {},
+            urlInfo = {},
 
-            processEditCreative = function () {
+            processEditCreative = function (clientId) {
                 workflowService
-                    .getCreativeData($scope.creativeId,loginModel.getSelectedClient().id)
+                    .getCreativeData(clientId , $scope.creativeId)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.creativeEditData = result.data.data;
@@ -111,7 +114,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 fetchAdvertisers: function (clientId) {
                     workflowService
-                        .getAdvertisers('write',clientId)
+                        .getAdvertisers(clientId, 'write')
                         .then(function (result) {
                             var responseData;
 
@@ -126,25 +129,13 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 fetchBrands: function (clientId,advertiserId) {
                     workflowService
-                        .getBrands(clientId,advertiserId, 'write')
+                        .getBrands(clientId, advertiserId, 'write')
                         .then(function (result) {
                             var responseData;
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data;
                                 $scope.brands = _.sortBy(responseData, 'name');
-                            } else {
-                                creatives.errorHandler(result);
-                            }
-                        }, creatives.errorHandler);
-                },
-
-                fetchSubAccounts: function () {
-                    workflowService
-                        .getSubAccounts()
-                        .then(function (result) {
-                            if (result.status === 'OK' || result.status === 'success') {
-                                $scope.subAccounts = result.data.data;
                             } else {
                                 creatives.errorHandler(result);
                             }
@@ -167,7 +158,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             resetTemplate = function () {
                 $scope.onTemplateSelected('','');
                 $scope.adData.creativeTemplate = '';
-                //$scope.CreativeTemplate.name = 'Select Template';
             },
 
             resetAdServer = function () {
@@ -203,11 +193,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             },
 
             //  Get all adserver in Creative Library Page
-            getAdServersInLibraryPage = function (subAccountId) {
+            getAdServersInLibraryPage = function (clientId) {
                 var responseData = '';
 
                 workflowService
-                    .getVendorsAdServer(subAccountId)
+                    .getVendorsAdServer(clientId)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             responseData = result.data.data;
@@ -219,9 +209,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                                 {id: 3, name: 'Rich Media', active: false, disabled: true},
                                 {id: 4, name: 'Social',     active: false, disabled: true}
                             ];
-
                             if ($scope.creativeMode === 'edit') {
-                                processEditCreative();
+                                processEditCreative(responseData.clientId);
                             }
                         } else {
                             console.log('failed to get template Json');
@@ -249,6 +238,14 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.IncorrectClickThru=false;
         $scope.creativeId = $routeParams.creativeId;
         localStorage.setItem('isOnchangeOfCreativeFeild', 0);
+
+        if($routeParams.accountId){
+            urlInfo.clientId = $routeParams.accountId;
+        }
+
+        if($routeParams.subAccountId){
+            urlInfo.subAccountId = $routeParams.subAccountId;
+        }
 
         $scope.creativeTagSelected = function (event, creativeType) {
             var target;
@@ -285,47 +282,10 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             return adFormatMapper[adFormat.toLowerCase()];
         };
 
-        if ($routeParams.creativeId) {
-            $scope.isAddCreativePopup = true;
-            $scope.creativeMode = 'edit';
-        } else {
-            $scope.creativeMode = 'create';
-        }
 
-        if (!loginModel.getMasterClient().isLeafNode) {
-            $scope.showSubAccount = true;
-        }
-
-        if ($location.path() === '/creative/add') {
-            $scope.isAddCreativePopup = true;
-            $('html').css('background', '#fff');
-
-            $('.main_navigation')
-                .find('.active')
-                .removeClass('active')
-                .end()
-                .find('#creative_nav_link')
-                .addClass('active');
-        }
-
-        if ($scope.campaignId) {
-            $scope.adPage = true;
-        } else {
-            $scope.adPage = false;
-        }
 
         $scope.selectHandler = function (type, data) {
             switch (type) {
-                case 'subAccount':
-                    $scope.advertisers = {};
-                    $scope.subAccountName = data.displayName;
-                    $scope.creative.clientId = data.id;
-                    creatives.fetchAdvertisers(data.id);
-                    reset.advertiser();
-                    reset.brand();
-                    getAdServersInLibraryPage($scope.creative.clientId);
-                    break;
-
                 case 'advertiser':
                     $scope.brands = {};
                     $scope.advertiserName = data.name;
@@ -340,6 +300,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     $scope.creative.brandId = data.id;
                     break;
             }
+        };
+
+        $scope.changeSubAccount =  function(account) {
+            var url = '/a/' + $routeParams.accountId+'/sa/'+ account.id +'/creative/add';
+            $location.url(url);
         };
 
         //  function on adFormat selected
@@ -547,7 +512,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         function fireAPItoValidate(ele, creativeTag) {
             var creativeValidateObj = {
                     advertiserId : $scope.creative.advertiserId,
-                    clientId : loginModel.getSelectedClient().id,
+                    clientId : vistoconfig.getMasterClientId(),
                     data: {
                         tag: creativeTag,
                         format: $scope.creativeFormat
@@ -570,13 +535,20 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                             creativeType: creativeValidateObj.data.format
                         });
 
-                        url = '/clientId/'+ creativeValidateObj.clientId + '/adv/' + creativeValidateObj.advertiserId;
+                        // creativeValidateObj.subAccountId = $routeParams.subAccountId || '' ;
+                        // creativeValidateObj.creativeId = $scope.creativeId || -1;
 
-                        if($scope.creativeId) {
-                            url += '/creative/'+ $scope.creativeId + '/preview';
-                        } else {
-                            url += '/creative/-1/preview';
+                        url = '/a/' + $routeParams.accountId;
+                        var hasSubaccount = accountService.getSelectedAccount().isLeafNode;
+
+                        if(!hasSubaccount) {
+                            url += '/sa/' + $routeParams.subAccountId;
                         }
+
+
+                        url += '/adv/' + creativeValidateObj.advertiserId;
+
+                        url = urlBuilder.goToPreviewUrl(creativeValidateObj) + '/preview';
 
                         appendEle = '<div class="creativePreviewBtn"><a target="_blank" href="' +
                             url +'">Preview</a></div>';
@@ -598,51 +570,71 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $rootScope.setErrAlertMessage('', 0);
         };
 
-        $scope.prarentHandler = function () {
-            var client = loginModel.getSelectedClient(),
+        $scope.init = function () {
 
-                data = {
-                    id: client.id,
-                    name: client.name
-                },
+            if ($routeParams.creativeId) {
+                $scope.isAddCreativePopup = true;
+                $scope.creativeMode = 'edit';
+            } else {
+                $scope.creativeMode = 'create';
+            }
 
-                campaignData;
+
+            if ($location.path().endsWith('/creative/add')) {
+                $scope.isAddCreativePopup = true;
+                $('html').css('background', '#fff');
+
+                $('.main_navigation')
+                    .find('.active')
+                    .removeClass('active')
+                    .end()
+                    .find('#creative_nav_link')
+                    .addClass('active');
+            }
+
+            $scope.adPage = $scope.campaignId ? true : false;
+            console.log('$scope.adPage', $scope.adPage);
+
+            var accountData = accountService.getSelectedAccount(),
+                selectedSubAccount =  subAccountService.getSelectedSubAccount(),
+                clientId = accountData.id;
+
+            if (!accountData.isLeafNode) {
+                $scope.showSubAccount = true;
+                $scope.subAccounts = subAccountService.getSubAccounts();
+                $scope.subAccountName = selectedSubAccount.displayName;
+                clientId = selectedSubAccount.id;
+                $scope.subAccountId =  $scope.creative.clientId = clientId;
+            }
+
 
             if ($scope.adPage) {
-                campaignData = localStorage.getItem('campaignData');
-                campaignData = campaignData && JSON.parse(campaignData);
-                $scope.advertiserName = campaignData.advertiserName;
-                $scope.creative.advertiserId = campaignData.advertiserId;
-                $scope.subAccountName = data.name;
-                $scope.subAccountId =  $scope.creative.clientId = data.id;
-                creatives.fetchBrands(client.id,campaignData.advertiserId);
-            } else {
-                $scope.selectHandler('subAccount',data);
+                var selectedAdvertiser = advertiserModel.getSelectedAdvertiser();
+                $scope.advertiserName = selectedAdvertiser.name;
+                $scope.creative.advertiserId = selectedAdvertiser.id;
+                creatives.fetchBrands(clientId, selectedAdvertiser.id);
             }
+
 
             creatives.getCreativeSizes();
             creatives.fetchCreativeTagTypes();
 
-            // Ad create Mode.  [PS:In edit mode, on response data in processeditmode, broadcast is made to fetch]
             if ($scope.mode !== 'edit' && $scope.adPage) {
                 creatives.fetchAdFormats();
-                $scope.subAccountName = data.name;
-                $scope.subAccountId =  $scope.creative.clientId = data.id;
                 $scope.$broadcast('adFormatChanged', 'DISPLAY');
             }
 
-            // In creative List Page to create new creative
+
             if (!$scope.adPage) {
-                // instead of triggering here, trigger when the user selects sub account, with sub account ID
-                if ($scope.showSubAccount) {
-                    creatives.fetchSubAccounts();
-                } else {
-                    creatives.fetchAdvertisers();
-                }
+                creatives.fetchAdvertisers(clientId);
+                reset.advertiser();
+                reset.brand();
+                getAdServersInLibraryPage(clientId);
             }
+
         };
 
-        $scope.prarentHandler();
+        $scope.init();
 
         $scope.submitForm = function (form) {
             var formData,
@@ -837,6 +829,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         });
 
         $scope.$on('closeAddCreativePage', function () {
+            var url;
+
             $('#formCreativeCreate')[0].reset();
             $scope.IncorrectTag = false;
             $scope.addedSuccessfully = false;
@@ -844,8 +838,10 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $('#creativeSize').html('Select Size<span class="icon-arrow-solid-down"></span>');
             $scope.$broadcast('show-errors-reset');
 
-            if ($location.path() === '/creative/add'|| ($scope.creativeMode === 'edit' && !$scope.adPage)) {
-                $location.url('/creative/list');
+            if ($location.path().endsWith('/creative/add') || ($scope.creativeMode === 'edit' && !$scope.adPage)) {
+                url = urlBuilder.goToPreviewUrl(urlInfo) + '/creative/list';
+                $location.url(url);
+
             } else {
                 $('.newCreativeSlide .popCreativeLib')
                     .delay(300)

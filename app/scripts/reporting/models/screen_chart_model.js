@@ -1,13 +1,13 @@
-define(['angularAMD', 'common/services/vistoconfig_service','common/services/data_service',
-    'reporting/brands/brands_model','reporting/dashboard/dashboard_model','common/services/constants_service',
-    'login/login_model','common/services/role_based_service', 'reporting/advertiser/advertiser_model',
-    'common/services/vistoconfig_service','reporting/subAccount/sub_account_service'], function (angularAMD) {
+define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_service',
+    'reporting/brands/brands_model', 'reporting/dashboard/dashboard_model', 'common/services/constants_service',
+    'login/login_model', 'common/services/role_based_service', 'reporting/advertiser/advertiser_model',
+    'common/services/vistoconfig_service', 'common/services/sub_account_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.service('screenChartModel', ['$filter','$rootScope', 'urlService', 'dataService', 'brandsModel',
-        'dashboardModel', 'constants', 'loginModel', 'RoleBasedService', 'advertiserModel', 'vistoconfig',
-        'subAccountModel','featuresService', function ($filter,$rootScope, urlService, dataService, brandsModel, dashboardModel, constants,
-                                     loginModel, RoleBasedService, advertiserModel, vistoconfig, subAccountModel,featuresService) {
+    angularAMD.service('screenChartModel', ['$rootScope', '$filter', 'urlService', 'dataService', 'brandsModel',
+        'dashboardModel', 'constants', 'loginModel', 'RoleBasedService', 'advertiserModel', 'vistoconfig', 'featuresService',
+        function ($rootScope, $filter, urlService, dataService, brandsModel, dashboardModel, constants,
+                                     loginModel, RoleBasedService, advertiserModel, vistoconfig, featuresService) {
             var screenWidgetData = {
                     selectedMetric: constants.SPEND,
 
@@ -204,9 +204,6 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
 
                     // dashboard_hardware_categories
                     queryId = 1,
-
-                    brandId,
-                    advertiserId,
                     queryObj,
                     url;
 
@@ -218,16 +215,13 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
                     queryId = 3;
                 }
 
-                brandId = brandsModel.getSelectedBrand().id;
-                advertiserId = advertiserModel.getSelectedAdvertiser().id;
-
                 queryObj = {
                    queryId: queryId,
-                   clientId: subAccountModel.getDashboardAccountId(),
-                   campaignStatus: dashboardModel.campaignStatusToSend(),
-                   advertiserId: advertiserId,
-                   brandId: brandId,
-                   dateFilter: 'life_time'
+                   clientId: vistoconfig.getSelectedAccountId(),
+                   advertiserId: vistoconfig.getSelectAdvertiserId(),
+                   brandId: vistoconfig.getSelectedBrandId(),
+                   dateFilter: 'life_time',
+                   campaignStatus: dashboardModel.campaignStatusToSend()
                 };
 
                 url = urlService.APIVistoCustomQuery(queryObj);

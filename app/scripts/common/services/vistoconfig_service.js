@@ -1,5 +1,5 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.service('vistoconfig', function () {
+    angularAMD.service('vistoconfig', function ($routeParams) {
         var urlPaths = {
             apiSerivicesUrl: scala_api,
             apiSerivicesUrl_NEW: scala_api_NEW,
@@ -61,7 +61,7 @@ define(['angularAMD'], function (angularAMD) {
             {kpiType: 'POST CLICK CPA',             displayName: 'Post Click CPA'},
             {kpiType: 'SUSPICIOUS ACTIVITY RATE',   displayName: 'Suspicious Activity %'},
             {kpiType: 'SPEND',                      displayName: 'Spend'},
-            {kpiType: 'VIEWABLE IMPRESSIONS',       displayName: 'Viewable Impression'},
+            {kpiType: 'VIEWABLE IMPRESSIONS',       displayName: 'Viewable Impressions'},
             {kpiType: 'VIEWABLE RATE',              displayName: 'Viewable Rate'},
             {kpiType: 'VTC',                        displayName: 'VTC'}
         ];
@@ -75,7 +75,7 @@ define(['angularAMD'], function (angularAMD) {
             { kpi: 'pc_cpa',                        displayName: 'Post Click CPA' },
             { kpi: 'spend',                         displayName: 'Spend' },
             { kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
-            { kpi: 'viewable_impressions',          displayName: 'Viewable Impression' },
+            { kpi: 'viewable_impressions',          displayName: 'Viewable Impressions' },
             { kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' },
             { kpi: 'vtc',                           displayName: 'VTC' }
         ];
@@ -87,7 +87,7 @@ define(['angularAMD'], function (angularAMD) {
             { kpi: 'pc_cpa',                        displayName: 'Post Click CPA' },
             { kpi: 'spend',                         displayName: 'Spend' },
             { kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
-            { kpi: 'viewable_impressions',          displayName: 'Viewable Impression' },
+            { kpi: 'viewable_impressions',          displayName: 'Viewable Impressions' },
             { kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' }
         ];
 
@@ -109,6 +109,30 @@ define(['angularAMD'], function (angularAMD) {
             type: 'all'
         };
 
+        this.getMasterClientId = function() {
+            return Number($routeParams.accountId);
+        };
+
+        this.getSelectedAccountId = function() {
+            return $routeParams.subAccountId || $routeParams.accountId;
+        };
+
+        this.getSelectAdvertiserId = function() {
+            return $routeParams.advertiserId || -1;
+        };
+
+        this.getSelectedBrandId = function() {
+            return $routeParams.brandId || -1;
+        };
+
+        this.getSelectedCampaignId = function() {
+            return $routeParams.campaignId;
+        };
+
+        this.getSelectedStrategyId = function() {
+            return $routeParams.li_id;
+        };
+
         this.timeZoneNameMapper = {
             //Britain standard time
             'GB' : 'GMT',
@@ -126,6 +150,10 @@ define(['angularAMD'], function (angularAMD) {
 
             //America/Denver
             'US/Mountain' : 'America/Denver',
+
+            'US/Alaska' : 'America/Anchorage',
+
+            'US/Hawaii' : 'Pacific/Honolulu',
 
             'GMT' : 'UTC'
         };

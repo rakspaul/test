@@ -3,8 +3,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
     function (angularAMD) {
         'use strict';
 
-        angularAMD.factory('dataService', function ($q, $http, $cookieStore, $location, vistoconfig, dataStore, utils,
-                                                    urlService, loginModel, constants) {
+        angularAMD.factory('dataService', function ($q, $http, $cookieStore, $location, $routeParams, vistoconfig,
+                                                    dataStore, utils, urlService, loginModel, constants) {
             var errorObject = {
                     status: 'error',
                     data: {message: 'Error'}
@@ -26,9 +26,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(vistoconfig.apiPaths.apiSerivicesUrl_NEW + urlPath);
                 },
 
-                getCdbChartData = function (campaign, timePeriod, type, strategyId) {
+                getCdbChartData = function (clientId, campaign, timePeriod, type, strategyId) {
                     var urlPath,
-                        clientId = loginModel.getSelectedClient().id,
                         campaignId= campaign.orderId,
                         durationQuery= 'date_filter=' + timePeriod,
                         sd,
@@ -66,10 +65,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(urlPath);
                 },
 
-                getCdbTacticsChartData = function (campaignId, strategyId, adId, timePeriod, filterStartDate,
+                getCdbTacticsChartData = function (clientId, campaignId, strategyId, adId, timePeriod, filterStartDate,
                                                    filterEndDate) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
                             '/lineitems/' + strategyId +
@@ -80,9 +78,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getStrategyTacticList =  function (adGroupId, campaignId) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                getStrategyTacticList =  function (clientId, campaignId, adGroupId) {
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
                             '/lineitems/' + adGroupId +
@@ -91,9 +88,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getUnassignedTacticList =  function (campaignId) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                getUnassignedTacticList =  function (clientId, campaignId) {
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
                             '/no_ad_group/ads';
@@ -101,9 +97,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getCostViewability = function (campaign, timePeriod) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                getCostViewability = function (clientId, campaign, timePeriod) {
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + campaign.orderId +
                             '/viewReport?date_filter=' + timePeriod;
@@ -111,26 +106,23 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getCustomReportMetrics  =  function () {
-                    var clientId = loginModel.getMasterClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                getCustomReportMetrics  =  function (clientId) {
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/reports/custom/meta';
 
                     return this.fetch(url);
                 },
 
-                getCustomReportData = function (reportId, queryString) {
-                    var clientId = loginModel.getMasterClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                getCustomReportData = function (clientId, reportId, queryString) {
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId + '/custom_reports/' + reportId;
 
                     return this.post( url, queryString,undefined,false);
                 },
 
-                getVideoViewabilityData = function (campaign) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                getVideoViewabilityData = function (clientId, campaign) {
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + campaign.orderId +
                             '/viewReport';
@@ -138,18 +130,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                getActions = function () {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.workflow_apiServicesUrl +
+                getActions = function (clientId) {
+                    var url = vistoconfig.apiPaths.workflow_apiServicesUrl +
                             '/clients/' + clientId +
                             '/actionTypes';
 
                     return this.fetch(url);
                 },
 
-                getTactics = function (orderId) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                getTactics = function (clientId, orderId) {
+                    var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + orderId +
                             '/ads/meta';
@@ -177,9 +167,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(url);
                 },
 
-                createAction = function (data) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.workflow_apiServicesUrl +
+                createAction = function (clientId, data) {
+                    var url = vistoconfig.apiPaths.workflow_apiServicesUrl +
                             '/clients/' + clientId +
                             '/actions';
 
