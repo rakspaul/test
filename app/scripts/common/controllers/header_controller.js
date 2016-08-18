@@ -3,7 +3,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
     'common/services/sub_account_service', 'common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('HeaderController', function ($http, $q, $scope, $rootScope, $route, $cookieStore, $location, $modal, $routeParams, $sce, constants, loginModel,
+    angularAMD.controller('HeaderController', function ($http, $q, $scope, $rootScope, $route, $cookieStore, $location, $modal, $routeParams, $sce, $timeout,
+                                                        constants, loginModel,
                                                         domainReports, campaignSelectModel, RoleBasedService, workflowService, featuresService, accountService, subAccountService,
                                                         vistoconfig, localStorageService, advertiserModel, brandsModel, strategySelectModel, pageFinder, urlBuilder) {
         var featurePermission = function () {
@@ -122,7 +123,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
                                                     deferred.resolve();
                                                     subAccountId = subAccountService.getSubAccounts()[0].id;
-                                                    url += '/sa/'+ subAccountId+ '/mediaplans';
+                                                    url += '/sa/' + subAccountId + '/mediaplans';
                                                     $location.url(url);
                                                 });
                                         } else {
@@ -149,11 +150,22 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             $('#cdbDropdown').hide();
         };
 
-        $scope.foo = function () {
-            console.log('foo()');
-        };
-
+        var countMediaPlans = 0,
+            countReports = 0,
+            countCreatives,
+            countAdmin,
+            countBilling;
         $scope.navigateToTab = function (url, event, page, fromView) {
+            var temp;
+
+            if (fromView && !$routeParams.subAccountId) {
+                return;
+            }
+
+            if (countMediaPlans === 1 && countReports === 1 && countCreatives === 1 && countAdmin === 1 && countBilling === 1) {
+                return;
+            }
+
             console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', page, ', fromView = ', fromView);
             $('.each_nav_link').removeClass('active_tab active selected');
 
@@ -164,17 +176,25 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             if (page === 'dashboard') {
                 $location.url(urlBuilder.dashboardUrl());
             } else if (page === 'creativelist') {
-                console.log('returned from urlBuilder.creativeListUrl(fromView) = ', urlBuilder.creativeListUrl(fromView));
-                return urlBuilder.creativeListUrl(fromView);
+                if (countCreatives === 0) {
+                    countCreatives = 1;
+                    temp = urlBuilder.creativeListUrl(fromView);
+                    console.log('returned from urlBuilder.creativeListUrl(fromView) = ', temp);
+                    return urlBuilder.creativeListUrl(fromView);
+                }
             } else if (page === 'adminOverview') {
-                console.log('returned from urlBuilder.adminUrl(fromView) = ', urlBuilder.adminUrl(fromView));
-                return urlBuilder.adminUrl(fromView);
+                if (countAdmin === 0) {
+                    temp = urlBuilder.adminUrl(fromView);
+                    console.log('returned from urlBuilder.adminUrl(fromView) = ', temp);
+                    return urlBuilder.adminUrl(fromView);
+                }
             } else if (page === 'invoiceTool') {
                 console.log('returned from urlBuilder.invoiceTool(fromView) = ', urlBuilder.invoiceTool(fromView));
                 return urlBuilder.invoiceTool(fromView);
             } else if (page === 'mediaplanList') {
-                console.log('returned from urlBuilder.mediaPlansListUrl(fromView) = ', urlBuilder.mediaPlansListUrl(fromView));
-                return urlBuilder.mediaPlansListUrl(fromView);
+                temp = urlBuilder.mediaPlansListUrl(fromView);
+                console.log('returned from urlBuilder.mediaPlansListUrl(fromView) = ', temp);
+                return temp;
             } else if (page === 'reportsSubPage') {
                 console.log('returned from urlBuilder.cannedReportsUrl(fromView) = ', urlBuilder.cannedReportsUrl(url, fromView));
                 return urlBuilder.cannedReportsUrl(url, fromView);
@@ -443,5 +463,11 @@ console.log('$on.features()');
                 });
             };
         });
+/*
+        $timeout(function () {
+            $scope.mediaPlansUrl = $scope.navigateToTab('', undefined, 'mediaplanList', true);
+            console.log('outside document ready, $scope.mediaPlansUrl is = ', $scope.mediaPlansUrl);
+        }, 1000);
+*/
     });
 });

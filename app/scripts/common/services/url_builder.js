@@ -27,7 +27,7 @@ define(['angularAMD'],
 
                 // this method returns the url if fromView is true, and changes the current location if fromView is false
                 mediaPlansListUrl  = function (fromView) {
-console.log('mediaPlansListUrl(), fromview = ', fromView);
+console.log('mediaPlansListUrl(), fromview = ', fromView, ', $routeParams.subAccountId = ', $routeParams);
                     var url = '/a/' + $routeParams.accountId,
                         leafSubAccount,
                         selectedAccount;
@@ -36,7 +36,6 @@ console.log('mediaPlansListUrl(), fromview = ', fromView);
                         leafSubAccount = _.find(subAccountService.getSubAccounts(), function (a) {
                             return Number(a.id) === Number($routeParams.subAccountId);
                         });
-
                         if (leafSubAccount) {
                             url += '/sa/' + $routeParams.subAccountId;
 
@@ -57,14 +56,17 @@ console.log('mediaPlansListUrl(), fromview = ', fromView);
                         selectedAccount = _.find(accountService.getAccounts(), function (a) {
                             return Number(a.id) === Number($routeParams.accountId);
                         });
+console.log('mediaPlansListUrl(), accountService.getAccounts() = ', accountService.getAccounts());
 
                         if (selectedAccount && selectedAccount.isLeafNode) {
                             url += '/mediaplans';
                         } else {
-                            subAccountService.fetchSubAccountList($routeParams.accountId).then(function () {
-                                url += '/sa/' + subAccountService.getSubAccounts()[0].id;
-                                url += '/mediaplans';
-                            });
+                            subAccountService
+                                .fetchSubAccountList($routeParams.accountId)
+                                .then(function () {
+                                    url += '/sa/' + subAccountService.getSubAccounts()[0].id;
+                                    url += '/mediaplans';
+                                });
                         }
                     }
 
@@ -125,7 +127,7 @@ console.log('mediaPlansListUrl(), fromview = ', fromView);
                     var url = '/a/' + $routeParams.accountId,
                         leafSubAccount,
                         selectedAccount;
-console.log('mediaPlansListUrl(),reportName = ', reportName, ', fromview = ', fromView);
+console.log('cannedReportsUrl(),reportName = ', reportName, ', fromview = ', fromView);
 
                     if ($routeParams.subAccountId) {
 console.log('am in if', $routeParams);
