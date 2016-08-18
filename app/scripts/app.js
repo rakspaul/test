@@ -703,8 +703,8 @@ define(['common'], function (angularAMD) {
                        workflowService, featuresService, subAccountModel, $window,localStorageService,constants,vistoconfig) {
             var handleLoginRedirection = function () {
                 var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
-                    localStorageRedirect = localStorage.getItem('cdeskRedirect'),
-                    setDefaultPage;
+                    localStorageRedirect = localStorage.getItem('cdeskRedirect');
+                    //setDefaultPage;
 
                     if (localStorageRedirect) {
                         cookieRedirect = localStorageRedirect;
