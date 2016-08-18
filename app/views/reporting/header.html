@@ -17,7 +17,7 @@
             <div class="mobileNav">
                 <a href="javascript:void(0);"
                    data-ng-click="navigateToTab('', $event, 'mediaplanList')"
-                   data-ng-mouseover="hide_navigation_dropdown($event);"
+                   data-ng-mouseover="hideNavigationDropdown($event);"
                    data-ng-bind="textConstants.MEDIA_PLAN">
                 </a>
                 <a href="javascript:void(0);"
@@ -36,16 +36,18 @@
         <!--Full Nav Links-->
         <div class="pull-left main_navigation clearfix">
             <div class="pull-left each_nav_link" id="campaigns_nav_link" data-ng-if="showMediaPlanTab">
-                <a data-ng-mouseover="hide_navigation_dropdown($event);"
+                <a data-ng-href="{{navigateToTab('', $event, 'mediaplanList', true)}}"
+                   data-ng-mouseover="hideNavigationDropdown($event);"
                    data-ng-click="navigateToTab('', $event, 'mediaplanList')"
                    data-ng-bind="textConstants.MEDIA_PLAN">
                 </a>
                 <div class="arrowSelect"></div>
             </div>
             <div class="pull-left each_nav_link" id="reports_nav_link" data-ng-if="showReportTab">
-                <a href="{{reports_nav_url}}" reporttitle="reportOverview"
+                <a href="{{reports_nav_url}}"
+                   reporttitle="reportOverview"
                    data-ng-click="navigateToTab('/Overview', $event, 'reportsSubPage')"
-                   data-ng-mouseover="show_hide_nav_dropdown($event, 'reports', 'hover');"
+                   data-ng-mouseover="showHideNavigationDropdown($event, 'reports', 'hover');"
                    data-ng-bind="textConstants.REPORTS">
                 </a>
                 <div class="arrowSelect" style="bottom: -1px;"></div>
@@ -57,28 +59,31 @@
 
             <!--Admin DD-->
             <div class="pull-left each_nav_link" id="admin_nav_link" data-ng-if="isSuperAdmin">
-                <a data-ng-click="navigateToTab('', $event, 'adminOverview')" reporttitle="adminOverview"
-                   data-ng-click="navigateToTab('', $event, 'adminOverview')" data-ng-bind="textConstants.ADMIN"></a>
+                <a reporttitle="adminOverview"
+                   data-ng-click="navigateToTab('', $event, 'adminOverview')"
+                   data-ng-bind="textConstants.ADMIN">
+                </a>
                 <div class="arrowSelect"></div>
             </div>
             <div class="pull-left each_nav_link" id="invoiceTool_nav_link" data-ng-if="invoiceTool">
                 <a data-ng-click="navigateToTab('', $event, 'invoiceTool')"
-                   data-ng-bind="textConstants.INVOICE_TOOL"></a>
+                   data-ng-bind="textConstants.INVOICE_TOOL">
+                </a>
                 <div class="arrowSelect"></div>
             </div>
         </div>
         <div class="pull-right profile-photo-tab unselectable" id="user_nav_link"
-             data-ng-mouseover="show_hide_nav_dropdown($event,'user');">
+             data-ng-mouseover="showHideNavigationDropdown($event,'user');">
             <span class="user-photo pull-right"><span class="icon-avatar-round"></span></span>
             <span class="pull-right account-name-nav" data-ng-bind="defaultAccountsName"></span>
         </div>
 
         <!--TODO: temporarily disabled help completely -->
-        <div class="pull-right help-link-tab" data-ng-mouseover="show_hide_nav_dropdown($event,'help');">
+        <div class="pull-right help-link-tab" data-ng-mouseover="showHideNavigationDropdown($event,'help');">
             <a class="pull-right">
                 <span class="icon-help"></span>
             </a>
-            <div class="main_nav_dropdown" id="help-menu" data-ng-mouseleave="hide_navigation_dropdown($event)" data-ng-mouseover="hoverHelp()">
+            <div class="main_nav_dropdown" id="help-menu" data-ng-mouseleave="hideNavigationDropdown($event)" data-ng-mouseover="hoverHelp()">
                 <div class="clearfix nav-menu">
                     <div class="pull-right profile-data">
                         <div class="col-md-12 zeroPadding">
@@ -89,12 +94,12 @@
                 </div>
             </div>
         </div>
-        <div class="main_nav_dropdown" id="reports-menu" data-ng-mouseleave="hide_navigation_dropdown($event)">
+        <div class="main_nav_dropdown" id="reports-menu" data-ng-mouseleave="hideNavigationDropdown($event)">
             <div class="nav-menu reports_header_tabs_holder clearfix">
                 <report-tabs></report-tabs>
             </div>
         </div>
-        <div class="main_nav_dropdown" id="admin-menu" data-ng-mouseleave="hide_navigation_dropdown($event)">
+        <div class="main_nav_dropdown" id="admin-menu" data-ng-mouseleave="hideNavigationDropdown($event)">
             <div class="nav-menu reports_header_tabs_holder clearfix">
                 <div class="clearfix reports_sub_menu_dd_holder">
                     <a class="adminLinks" href="/admin/accounts">Accounts</a>
@@ -104,7 +109,7 @@
                 </div>
             </div>
         </div>
-        <div class="main_nav_dropdown" id="help-menu" data-ng-mouseleave="hide_navigation_dropdown($event)" data-ng-mouseover="hoverHelp()">
+        <div class="main_nav_dropdown" id="help-menu" data-ng-mouseleave="hideNavigationDropdown($event)" data-ng-mouseover="hoverHelp()">
             <div class="clearfix nav-menu">
                 <div class="pull-right profile-data">
                     <div class="col-md-12 zeroPadding">
@@ -118,7 +123,7 @@
                 </div>
             </div>
         </div>
-        <div class="main_nav_dropdown" id="user-menu" data-ng-mouseleave="hide_navigation_dropdown($event)">
+        <div class="main_nav_dropdown" id="user-menu" data-ng-mouseleave="hideNavigationDropdown($event)">
             <div class="clearfix nav-menu">
                 <div class="pull-right profile-data" id="profileAccountData">
                     <div class="col-md-12 zeroPadding">
@@ -136,7 +141,7 @@
                             <ul class="dropdown-menu">
                                 <div class="accountsList-dropdown-li">
                                     <li data-ng-repeat="eachaccount in accountsData" id="{{eachaccount.id}}"
-                                        data-ng-click="set_account_name($event,eachaccount.id,eachaccount.name,eachaccount.isLeafNode);"
+                                        data-ng-click="setAccountName($event,eachaccount.id,eachaccount.name,eachaccount.isLeafNode);"
                                         data-ng-class="{'selected-li':defaultAccountsName == eachaccount.name}">
                                         <span data-ng-bind="eachaccount.name"></span>
                                     </li>

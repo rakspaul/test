@@ -11,7 +11,9 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                                                         featuresService, accountService, subAccountService,
                                                         vistoconfig, localStorageService, advertiserModel, brandsModel,
                                                         strategySelectModel, pageFinder, urlBuilder) {
-        var featurePermission = function () {
+        var nCount = 0,
+
+            featurePermission = function () {
                 var fParams = featuresService.getFeatureParams();
 
                 $scope.showMediaPlanTab = fParams[0].mediaplan_list;
@@ -69,9 +71,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 $scope.defaultAccountsName = name;
             };
 
-        $scope.user_name = loginModel.getUserName();
-        $scope.version = version;
-
         $scope.getClientData = function () {
             var clientId = localStorageService.masterClient.get().id;
 
@@ -87,12 +86,12 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 });
         };
 
-        $scope.set_account_name = function (event, id, name, isLeafNode) {
-            $('#user_nav_link').removeClass('selected');
-            $('#user-menu').css('min-height',0).slideUp('fast');
-
+        $scope.setAccountName = function (event, id, name, isLeafNode) {
             var moduleObj = workflowService.getModuleInfo(),
                 $modalInstance;
+
+            $('#user_nav_link').removeClass('selected');
+            $('#user-menu').css('min-height',0).slideUp('fast');
 
             if (moduleObj && moduleObj.moduleName === 'WORKFLOW') {
                 if (vistoconfig.getMasterClientId() !== id) {
@@ -159,12 +158,27 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             $('#cdbDropdown').hide();
         };
 
-        $scope.navigateToTab = function (url, event, page) {
+        $scope.foo = function (event) {
+            console.log('foo()');
+            if (nCount === 0) {
+                nCount++;
+                return $scope.navigateToTab('', event, 'mediaplanList', true);
+            } else {
+                nCount = 0;
+            }
+        };
+
+        $scope.navigateToTab = function (url, event, page, fromView) {
             $('.each_nav_link').removeClass('active_tab active selected');
-console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', page);
+console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', page, ', fromView = ', fromView);
+            if (!event) {
+                return;
+            }
+
             advertiserModel.reset();
             brandsModel.reset();
             strategySelectModel.reset();
+
             if (page === 'dashboard') {
                 $location.url(urlBuilder.dashboardUrl());
             } else if (page === 'creativelist') {
@@ -174,7 +188,7 @@ console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', pa
             } else if (page === 'invoiceTool') {
                 urlBuilder.gotoInvoiceTool();
             } else if (page === 'mediaplanList') {
-                urlBuilder.gotoMediaplansListUrl();
+                return urlBuilder.mediaPlansListUrl(fromView);
 
             // TODO: Reports page when clicking on the top level nav menu
             } else if (page === 'reportsSubPage' || page === 'reportOverview') {
@@ -190,7 +204,7 @@ console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', pa
             }
         };
 
-        $scope.show_hide_nav_dropdown = function (event, arg, behaviour) {
+        $scope.showHideNavigationDropdown = function (event, arg, behaviour) {
             var elem = $(event.target),
                 minHeight,
                 argMenu = $('#' + arg + '-menu');
@@ -213,7 +227,7 @@ console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', pa
             }
         };
 
-        $scope.hide_navigation_dropdown = function () {
+        $scope.hideNavigationDropdown = function () {
             var mainMenuHolder = $('.main_navigation_holder');
 
             setTimeout(function () {
@@ -237,8 +251,12 @@ console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', pa
             loginModel.logout();
         };
 
+        $scope.user_name = loginModel.getUserName();
+        $scope.version = version;
+
         /* Start Feature Permission */
         $rootScope.$on('features', function () {
+console.log('$on.features()');
             $scope.accountsData = accountService.getAccounts();
             $scope.defaultAccountsName = accountService.getSelectedAccount().name;
             $scope.multipleClient = $scope.accountsData.length > 1;
@@ -430,14 +448,14 @@ console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', pa
 
             $scope.openHelp = function() {
                 var url  = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/userguide/download';
-                $http.get(url, {responseType:'arraybuffer'})
-                    .success(function (response) {
-                        var file = new Blob([response], {type: 'application/pdf'});
-                        var fileURL = URL.createObjectURL(file);
-                        $scope.content = $sce.trustAsResourceUrl(fileURL);
-                        $scope.showFiles = true;
-                });
 
+                $http.get(url, {responseType:'arraybuffer'}).success(function (response) {
+                    var file = new Blob([response], {type: 'application/pdf'}),
+                        fileURL = URL.createObjectURL(file);
+
+                    $scope.content = $sce.trustAsResourceUrl(fileURL);
+                    $scope.showFiles = true;
+                });
             };
         });
     });
