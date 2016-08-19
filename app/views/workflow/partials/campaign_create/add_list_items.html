@@ -374,7 +374,6 @@
                 <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_SYSTEM_OF_RECORD"></label>
                 <button style="width:100%;" class="btn btn-default dropdown-toggle systemOfRecordName" type="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        {{systemOfRecordSelected.name}}
                     <span
                         class="text">{{(systemOfRecordSelected )?systemOfRecordSelected.name:'Select Vendor...'}}</span>
                     <span class="icon-arrow-solid-down"></span>
@@ -705,7 +704,6 @@
                 <button style="width:100%;" class="btn btn-default dropdown-toggle systemOfRecordNameEdit"
                         ng-disabled="editLineItem.hasInFlightAds" type="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="true">
-                        {{systemOfRecordSelected.name}}
                     <span class="text">{{(editLineItem.systemOfRecordSelected )?editLineItem.systemOfRecordSelected.name:'Select Vendor...'}}</span>
                     <span class="icon-arrow-solid-down"></span>
                 </button>
