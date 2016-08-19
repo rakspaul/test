@@ -37,8 +37,8 @@
         <div class="pull-left main_navigation clearfix">
             <!-- Media Plans -->
             <div class="pull-left each_nav_link" id="campaigns_nav_link" data-ng-if="showMediaPlanTab">
-                <a data-ng-href="{{navigateToTab('', undefined, 'mediaplanList', true)}}"
-                   data-ng-click="navigateToTab('', $event, 'mediaplanList')"
+                <a data-ng-href="{{mediaPlansListUrl ? mediaPlansListUrl : navigateToTab('', $event, 'mediaplanList', true)}}"
+                   data-ng-click="navigateToTab('', $event, 'mediaplanList', false)"
                    data-ng-mouseover="hideNavigationDropdown($event);"
                    data-ng-bind="textConstants.MEDIA_PLAN">
                 </a>
@@ -47,9 +47,9 @@
 
             <!-- Reports -->
             <div class="pull-left each_nav_link" id="reports_nav_link" data-ng-if="showReportTab">
-                <a data-ng-href="{{navigateToTab('/overview', $event, 'reportsSubPage', true)}}"
+                <a data-ng-href="{{cannedReportsUrl[7] ? cannedReportsUrl[7] : navigateToTab('/overview', $event, 'reportsSubPage', true, 7)}}"
                    reporttitle="reportOverview"
-                   data-ng-click="navigateToTab('/overview', $event, 'reportsSubPage')"
+                   data-ng-click="navigateToTab('/overview', $event, 'reportsSubPage', false, 7)"
                    data-ng-mouseover="showHideNavigationDropdown($event, 'reports', 'hover');"
                    data-ng-bind="textConstants.REPORTS">
                 </a>
@@ -58,8 +58,8 @@
 
             <!-- Creatives -->
             <div class="pull-left each_nav_link" id="creative_nav_link" data-ng-if="showCreativeList">
-                <a data-ng-href="{{navigateToTab('', $event, 'creativelist', true)}}"
-                   data-ng-click="navigateToTab('', $event, 'creativelist')"
+                <a data-ng-href="{{creativeListUrl ? creativeListUrl : navigateToTab('', $event, 'creativelist', true)}}"
+                   data-ng-click="navigateToTab('', $event, 'creativelist', false)"
                    data-ng-mouseover="hideNavigationDropdown($event);"
                    data-ng-bind="textConstants.CREATIVES">
                 </a>
@@ -68,9 +68,9 @@
 
             <!--Admin DD-->
             <div class="pull-left each_nav_link" id="admin_nav_link" data-ng-if="isSuperAdmin">
-                <a data-ng-href="{{navigateToTab('', $event, 'adminOverview', true)}}"
+                <a data-ng-href="{{adminUrl ? adminUrl : navigateToTab('', $event, 'adminOverview', true)}}"
                    reporttitle="adminOverview"
-                   data-ng-click="navigateToTab('', $event, 'adminOverview')"
+                   data-ng-click="navigateToTab('', $event, 'adminOverview', false)"
                    data-ng-mouseover="hideNavigationDropdown($event);"
                    data-ng-bind="textConstants.ADMIN">
                 </a>
@@ -79,17 +79,20 @@
 
             <!-- Billing (Invoice Reports) -->
             <div class="pull-left each_nav_link" id="invoiceTool_nav_link" data-ng-if="invoiceTool">
-                <a data-ng-href="{{navigateToTab('', $event, 'invoiceTool', true)}}"
-                   data-ng-click="navigateToTab('', $event, 'invoiceTool')"
+                <a data-ng-href="{{invoiceToolUrl ? invoiceToolUrl : navigateToTab('', $event, 'invoiceTool', true)}}"
+                   data-ng-click="navigateToTab('', $event, 'invoiceTool', false)"
                    data-ng-mouseover="hideNavigationDropdown($event);"
                    data-ng-bind="textConstants.INVOICE_TOOL">
                 </a>
                 <div class="arrowSelect"></div>
             </div>
         </div>
-        <div class="pull-right profile-photo-tab unselectable" id="user_nav_link"
+        <div class="pull-right profile-photo-tab unselectable"
+             id="user_nav_link"
              data-ng-mouseover="showHideNavigationDropdown($event,'user');">
-            <span class="user-photo pull-right"><span class="icon-avatar-round"></span></span>
+            <span class="user-photo pull-right">
+                <span class="icon-avatar-round"></span>
+            </span>
             <span class="pull-right account-name-nav" data-ng-bind="defaultAccountsName"></span>
         </div>
 

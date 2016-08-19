@@ -4,9 +4,10 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
     'use strict';
 
     angularAMD.controller('HeaderController', function ($http, $q, $scope, $rootScope, $route, $cookieStore, $location, $modal, $routeParams, $sce, $timeout,
-                                                        constants, loginModel,
-                                                        domainReports, campaignSelectModel, RoleBasedService, workflowService, featuresService, accountService, subAccountService,
-                                                        vistoconfig, localStorageService, advertiserModel, brandsModel, strategySelectModel, pageFinder, urlBuilder) {
+                                                        constants, loginModel, domainReports, campaignSelectModel, RoleBasedService, workflowService, featuresService,
+                                                        accountService, subAccountService, vistoconfig, localStorageService, advertiserModel, brandsModel, strategySelectModel,
+                                                        pageFinder, urlBuilder) {
+console.log('HEADERCONTROLLER INVOKED!!!');
         var featurePermission = function () {
                 var fParams = featuresService.getFeatureParams();
 
@@ -64,6 +65,14 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
                 $scope.defaultAccountsName = name;
             };
+
+        $scope.mediaPlansListUrl = '';
+        $scope.cannedReportsUrl = [];
+        $scope.creativeListUrl = '';
+        $scope.adminUrl = '';
+        $scope.invoiceToolUrl = '';
+        $scope.customReportsUrl = '';
+        $scope.scheduleReportsUrl = [];
 
         $scope.getClientData = function () {
             var clientId = localStorageService.masterClient.get().id;
@@ -150,23 +159,15 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             $('#cdbDropdown').hide();
         };
 
-        var countMediaPlans = 0,
-            countReports = 0,
-            countCreatives,
-            countAdmin,
-            countBilling;
-        $scope.navigateToTab = function (url, event, page, fromView) {
-            var temp;
+        $scope.navigateToTab = function (url, event, page, fromView, index) {
+            var targetUrl;
 
-            if (fromView && !$routeParams.subAccountId) {
+            console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', page, ', fromView = ', fromView, ', index = ', index);
+            if (event && event.originalEvent.metaKey) {
+                console.log('Command key (mac) is pressed!');
                 return;
             }
 
-            if (countMediaPlans === 1 && countReports === 1 && countCreatives === 1 && countAdmin === 1 && countBilling === 1) {
-                return;
-            }
-
-            console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', page, ', fromView = ', fromView);
             $('.each_nav_link').removeClass('active_tab active selected');
 
             advertiserModel.reset();
@@ -175,38 +176,41 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
             if (page === 'dashboard') {
                 $location.url(urlBuilder.dashboardUrl());
-            } else if (page === 'creativelist') {
-                if (countCreatives === 0) {
-                    countCreatives = 1;
-                    temp = urlBuilder.creativeListUrl(fromView);
-                    console.log('returned from urlBuilder.creativeListUrl(fromView) = ', temp);
-                    return urlBuilder.creativeListUrl(fromView);
-                }
-            } else if (page === 'adminOverview') {
-                if (countAdmin === 0) {
-                    temp = urlBuilder.adminUrl(fromView);
-                    console.log('returned from urlBuilder.adminUrl(fromView) = ', temp);
-                    return urlBuilder.adminUrl(fromView);
-                }
-            } else if (page === 'invoiceTool') {
-                console.log('returned from urlBuilder.invoiceTool(fromView) = ', urlBuilder.invoiceTool(fromView));
-                return urlBuilder.invoiceTool(fromView);
             } else if (page === 'mediaplanList') {
-                temp = urlBuilder.mediaPlansListUrl(fromView);
-                console.log('returned from urlBuilder.mediaPlansListUrl(fromView) = ', temp);
-                return temp;
+                targetUrl = urlBuilder.mediaPlansListUrl(fromView);
+                $scope.mediaPlansListUrl = targetUrl;
+                console.log('returned from urlBuilder.mediaPlansListUrl(fromView) = ', targetUrl);
             } else if (page === 'reportsSubPage') {
-                console.log('returned from urlBuilder.cannedReportsUrl(fromView) = ', urlBuilder.cannedReportsUrl(url, fromView));
-                return urlBuilder.cannedReportsUrl(url, fromView);
+                targetUrl = urlBuilder.cannedReportsUrl(url, fromView);
+                $scope.cannedReportsUrl[index] = targetUrl;
+                console.log('returned from urlBuilder.cannedReportsUrl(fromView) = ', targetUrl);
+            } else if (page === 'creativelist') {
+                targetUrl = urlBuilder.creativeListUrl(fromView);
+                $scope.creativeListUrl = targetUrl;
+                console.log('returned from urlBuilder.creativeListUrl(fromView) = ', targetUrl);
+            } else if (page === 'adminOverview') {
+                targetUrl = urlBuilder.adminUrl(fromView);
+                $scope.adminUrl = targetUrl;
+                console.log('returned from urlBuilder.adminUrl(fromView) = ', targetUrl);
+            } else if (page === 'invoiceTool') {
+                targetUrl = urlBuilder.invoiceTool(fromView);
+                $scope.invoiceToolUrl = targetUrl;
+                console.log('returned from urlBuilder.invoiceTool(fromView) = ', targetUrl);
             } else if (page === 'customReports') {
-                $location.url(urlBuilder.customReportsUrl());
+                targetUrl = urlBuilder.customReportsUrl(fromView);
+                $scope.customReportsUrl = targetUrl;
+                console.log('returned from urlBuilder.customReportsUrl(fromView) = ', targetUrl);
             } else if (page === 'scheduleReports') {
-                $location.url(urlBuilder.customReportsListUrl());
+                targetUrl = urlBuilder.customReportsListUrl(url, fromView);
+                $scope.scheduleReportsUrl[index] = targetUrl;
+                console.log('returned from urlBuilder.customReportsListUrl(fromView) = ', targetUrl);
             } else if (page === 'uploadReports') {
                 $location.url(urlBuilder.uploadReportsUrl());
             } else if (page === 'uploadedReportsList') {
                 $location.url(urlBuilder.uploadReportsListUrl());
             }
+
+            return url;
         };
 
         $scope.showHideNavigationDropdown = function (event, arg, behaviour) {

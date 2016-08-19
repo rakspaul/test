@@ -1,6 +1,8 @@
 <div class="clearfix reports_sub_menu_dd_holder">
     <div class="pull-left" data-ng-if="buildReport">
-        <a data-ng-click="navigateToTab('/customreport', $event , 'customReports')" class="clearfix new_report_generate_btn">
+        <a data-ng-href="{{customReportsUrl ? customReportsUrl : navigateToTab('/customreport', $event , 'customReports', true)}}"
+           data-ng-click="navigateToTab('/customreport', $event , 'customReports', false)"
+           class="clearfix new_report_generate_btn">
             <span class="icon-report-builder-1 pull-left"></span>
             <span class="pull-left" data-ng-bind="textConstants.BUILD_REPORT" style="margin-top: 3px;"></span>
         </a>
@@ -14,8 +16,8 @@
              class="header_tab_dropdown"
              data-ng-class="{'active_tab': tab.href === filters.activeTab}"
              id="{{tab.href}}">
-            <a data-ng-href="{{navigateToTab('/' + tab.href, $event , 'reportsSubPage', true)}}"
-               data-ng-click="navigateToTab('/' + tab.href, $event , 'reportsSubPage')"
+            <a data-ng-href="{{cannedReportsUrl[$index] ? cannedReportsUrl[$index] : navigateToTab('/' + tab.href, $event , 'reportsSubPage', true, $index)}}"
+               data-ng-click="navigateToTab('/' + tab.href, $event , 'reportsSubPage', false, $index)"
                id="performance_tab_{{tab.href}}"
                style="text-transform: capitalize;"
                reportTitle="{{tab.title}}"
@@ -28,11 +30,12 @@
              data-ng-if="showCustomReportHeading"
              data-ng-bind="textConstants.CUSTOM_REPORTS">
         </div>
-        <div data-ng-repeat="tab in customFilters.tabs track by $index"
+        <div data-ng-repeat="tab in customFilters.tabs track by $index | limitTo : 1"
              class="clearfix header_tab_dropdown"
              data-ng-class="{'active_tab': tab.href === customFilters.activeTab}">
             <a class="pull-left reports_list_link"
-               data-ng-click="navigateToTab('/' + tab.href, $event, 'scheduleReports')"
+               data-ng-href="{{scheduleReportsUrl[$index] ? scheduleReportsUrl[$index] : navigateToTab(tab.href, $event, 'scheduleReports', true, $index)}}"
+               data-ng-click="navigateToTab(tab.href, $event, 'scheduleReports', false, $index)"
                data-ng-bind="tab.title">
             </a>
             <div class="icon-upload"

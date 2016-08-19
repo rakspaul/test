@@ -163,7 +163,7 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                         };
 
                 return {
-                    reportList: getReportList,
+                    getReportList: getReportList,
                     deleteReport: deleteReport,
                     getScheduleReportList: getScheduleReportList,
                     deleteScheduledReport: deleteScheduledReport,
