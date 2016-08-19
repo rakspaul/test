@@ -651,11 +651,11 @@ define(['angularAMD', 'common/services/constants_service', 'common/services/role
                     var retVal = '-';
                     if(val) {
                         if(type === 'suspicious_impressions_perc' || type === 'viewable_impressions_perc'){
-                            retVal = val.toFixed(3) + '%';
+                            retVal = val.toFixed(2) + '%';
                         }else if(type === 'viewable_impressions'){
                             retVal = val.toFixed(0);
                         } else{
-                            retVal = constants.currencySymbol + val.toFixed(3);
+                            retVal = constants.currencySymbol + val.toFixed(2);
                         }
                     }
                     return retVal;
