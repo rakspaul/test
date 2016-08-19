@@ -2211,27 +2211,50 @@
                     color: #428bca;
                 }
             }
-
-            .createItemList , .editItemList  {
-                background: @accent-yellow;
-                padding: 0 10px 10px 10px;
+            .createItemList {
                 margin-top : 10px ;
+            }
+            .editItemList {
+                padding-top: 10px ;
+            }
+            .createItemList , .editItemList  {
+                background: rgba(220, 230, 241, 0.5);
+                padding: 0 20px 20px;
+                .lineItemBgTitle {
+                    font-size: 20px;
+                    margin-top: 20px;
+                }
+
+                .lineItemBgBtns {
+                    padding: 20px 0 0 0;
+                    position:relative;
+                }
+                .date .dateWrapper .dateContainer input {
+                    font-size: 14px ;
+                }
                 .listItemValues , .listItemSmallValues {
                     width: 135px ;
                     float: left;
                     margin-right: 10px ;
+                    .form-control[disabled] , .form-control[readonly] {
+                        background: @active-gray ;
+                        border:  0 ;
+                    }
                 }
                 .listItemSmallValues {
-                    width: 100px ;
+                    width: 125px ;
                     input[type="text"] {
                         padding-right: 10px ;
                     }
+                    
                 }
                 .listItemFirstRow {
                     .eachListItemFirstRow {
                         float: left;
-                        width: 405px ;
-                        margin-right: 10px ;
+                        width: 422px ;
+                        &:first-child {
+                            margin-right: 10px ;
+                        }
                     }
                 }
                 .dateContainer {
@@ -2272,10 +2295,11 @@
                 float: left;
                 width: 100%;
                 display: none;
-                background: @accent-yellow;
-                padding: 0 10px 10px 10px;
-                border: 1px solid rgba(191, 201, 215, 0.5);
+                background: @light-blue-bg;
+                /*padding: 0 10px 10px 10px;*/
+                border: 1px solid @light-blue-bg-border ;
                 border-top: 0;
+
                 .dropdown-toggle.btn[disabled] {
                     background: #eee ;
                     opacity: 1 ;

@@ -1160,8 +1160,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MEDIAPLAN_CREDIT_NAME = 'Credit Name / Notes';
         this.MEDIAPLAN_AMOUNT = 'Amount';
         this.MEDIAPLAN_ADD_ANOTHER_CREDIT = 'Add Another Credit';
-        this.MEDIAPLAN_FLIGHT_DATE_START = 'Flight Date Start';
-        this.MEDIAPLAN_FLIGHT_DATE_END = 'Flight Date End';
+        this.MEDIAPLAN_FLIGHT_DATE_START = 'Flight Start Date';
+        this.MEDIAPLAN_FLIGHT_DATE_END = 'Flight End Date';
         this.SAVE_CHANGES = 'Save Changes';
         this.SELECT_CONVERSION_PIXELS = 'Conversion Pixel';
         this.SELECT_SYSTEM_OF_RECORD = 'System of Record';
@@ -1252,5 +1252,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.PASSWORD_SUCCESS_MSG = 'Password successfully changed' ;
         this.TECH_FEES = 'Tech';
         this.SPECIAL_CHARACTER_ERROR = 'Please omit any punctuation or special characters (e.g. &, @, etc)' ;
+        this.LINEITEM_SETUP = 'Line Item Setup' ;
+        this.LINEITEM_EDIT = 'Line Item Edit' ;
     });
 });

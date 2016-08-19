@@ -161,6 +161,49 @@
     </div>
     <!--Create Item List Form Start-->
     <div class="col-md-12 createItemList " ng-show="selectedCampaign.createItemList" ng-form name="lineItemForm">
+       <div class="pull-left lineItemBgTitle" data-ng-bind="textConstants.LINEITEM_SETUP"></div>
+       <div class="pull-right lineItemBgBtns">
+            <div class="pull-right btn btn-default"
+                 ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''  ||
+                 (showSystemOfRecord && !systemOfRecordSelected.id) ||
+                 ((lineItemType.name.toLowerCase()=='post-impression cpa' && pixelSelected.id==undefined) ||
+                    (lineItemType.name.toLowerCase()=='total cpa' && pixelSelected.id==undefined) ||
+                    (lineItemType.name.toLowerCase()=='post-click cpa' && pixelSelected.id==undefined)) ||
+                ((lineItemType.name.toLowerCase()=='cogs+ %' && (selectedVolumeType == '' || $parent.volume == '')))
+                 "
+                 ng-click="navigateLineItem('create')"
+                 ng-show="!Campaign.createNewLineItemLoaderEdit" data-ng-bind="textConstants.WF_AD_SAVE_CLOSE">
+            </div>
+
+            <!--show this button when user enters 0 as budget-->
+            <!--<div class="pull-right btn btn-default"-->
+                 <!--data-ng-show="billableAmount == '0'"-->
+                 <!--ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == '' || (showSystemOfRecord && !systemOfRecordSelected.id) || ((lineItemType.name.toLowerCase()=='post-impression cpa' && pixelSelected.id==undefined) || (lineItemType.name.toLowerCase()=='total cpa' && pixelSelected.id==undefined) || (lineItemType.name.toLowerCase()=='post-click cpa' && pixelSelected.id==undefined))"-->
+                 <!--ng-click="displayZeroLineItemBudgetPopUp('create')"-->
+                 <!--ng-show="!Campaign.createNewLineItemLoaderEdit">Add Line Item-->
+            <!--</div>-->
+
+            <div ng-show="Campaign.createNewLineItemLoaderEdit" class="pull-right common-loading-btn"></div>
+            <div class="pull-right btn btn-link" id="hideLineItemCreateBox"
+                 ng-click="selectedCampaign.resetLineItemParameters()" data-ng-bind="textConstants.MP_CANCEL">
+            </div>
+            <!--confirm message in edit mode-->
+            <div class="popUpCue showConfirmPopupCreate" data-ng-show="showConfirmPopupCreate">
+                <span
+                    class="col-md-12 zeroPadding">Media Plan changes will be saved, before Line Item is created.</span>
+                <a href="javascript:void(0);"
+                   class="leftNavLink pull-right btn btn-primary"
+                   data-ng-click="saveCampaign('create', true)"
+                   data-ng-bind="textConstants.CONTINUE" ng-show="!createNewLineItemLoader">
+                </a>
+                <div ng-show="createNewLineItemLoader" class="pull-right common-loading-btn"></div>
+                <a class="pull-right btn btn-link"
+                   data-ng-bind="textConstants.CANCEL"
+                   data-ng-click="cancelMediaPlanCreation()">
+                </a>
+            </div>
+        </div>
+
         <!--Row 1-->
         <div class="col-md-12 zeroPadding listItemFirstRow">
             <div class="eachListItemFirstRow">
@@ -194,7 +237,7 @@
                     <button style="width:100%;" class="btn btn-default dropdown-toggle lineItemType" type="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
                             ng-disabled="rateTypeReadOnly">
-                        <span class="text">{{(lineItemType )?lineItemType.name:'Select From List'}}</span>
+                        <span class="text">{{(lineItemType )?lineItemType.name:'Select...'}}</span>
                         <span class="icon-arrow-solid-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown"
@@ -210,11 +253,11 @@
             </div>
         </div>
 
-        <div class="listItemSmallValues rate-field" ng-hide="hideLineItemRate">
+        <div class="listItemValues rate-field" ng-hide="hideLineItemRate">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
             <div class="rate-input-field symbol-input col-md-12 zeroPadding">
                 <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                <input type="text" class="col-md-12 form-control" placeholder="Enter Rate"
+                <input type="text" class="col-md-12 form-control" 
                        ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate" fcsa-number="{  }"
                        valid-number ng-change="calculateVolume('create')"/>
             </div>
@@ -235,10 +278,59 @@
             </div>
         </div>
 
+        <div class="listItemSmallValues" ng-show="volumeFlag">
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
+                   ng-if="!lineItemType || lineItemType.name === 'Select...' || lineItemType.name === 'COGS+ %'"
+                   data-ng-bind="textConstants.MEDIAPLAN_VOLUME">Volume</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
+                   ng-if="lineItemType.name === 'CPM'">Impressions</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="lineItemType.name === 'CPC'">Clicks</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
+                   ng-if="lineItemType.name === 'CPCV'">Completed</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
+                   ng-if="lineItemType.name === 'Post-Click CPA' || lineItemType.name === 'Post-Impression CPA' || lineItemType.name === 'Total CPA'">Actions</label>
+
+            <input type="text" class="col-md-12 form-control" placeholder="" ng-model="$parent.volume" whole-number-only
+                   ng-readonly="(lineItemType.name !== 'COGS+ %')?true: false"/>
+        </div>
+        <div class="col-md-4 zeroPadding dropdown-workflow"  ng-show="volumeTypeFlag">
+            <div class="dropdown">
+                <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_VOLUME_TYPE"></label>
+                <button style="width:100%;" class="btn btn-default dropdown-toggle selectVolumeType" type="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span
+                        class="text">{{(selectedVolumeType )?(selectedVolumeType | toTitleCase):'Select...'}}</span>
+                    <span class="icon-arrow-solid-down"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown"
+                    name="lineItemType">
+                    <li class="available" ng-repeat="type in volumeType"
+                        ng-click="setVolumeType(type,'create')"><a>{{type}}</a></li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="col-md-4 zeroPadding dropdown-workflow" ng-show="showPixelsList">
+            <div class="dropdown">
+                <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_CONVERSION_PIXELS"></label>
+                <button style="width:100%;" class="btn btn-default dropdown-toggle pixelType" type="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="text">{{(pixelSelected )?pixelSelected.name:'Select...'}}</span>
+                    <span class="icon-arrow-solid-down"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="lineType" id="pixelsList" data-toggle="dropdown"
+                    name="lineItemType">
+                    <li class="available" ng-repeat="pixel in selectedCampaign.selectedPixel"
+                        ng-click="setPixels(pixel,'create')"><a>{{pixel.name}}</a></li>
+                </ul>
+                <input type="hidden" class="form-control" ng-model="pixelSelected.id" name="pixelSelected"/>
+            </div>
+
+        </div>
 
         <!--Row 2-->
         <!-- <div class="clearfix col-md-12 zeroPadding"> -->
-        <div class="pull-left">
+        <div class="col-md-12 zeroPadding">
             <div class="span4 col-md-12 input-daterange input-group date otherBgDateRange pull-left" id="datepicker">
                 <div class="col-md-12 dateWrapper zeroPadding">
                     <div class="dateContainer">
@@ -272,48 +364,19 @@
             </div>
         </div>
 
-        <div class="listItemSmallValues" ng-show="volumeFlag">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
-                   ng-if="!lineItemType || lineItemType.name === 'Select Type' || lineItemType.name === 'COGS+ %'"
-                   data-ng-bind="textConstants.MEDIAPLAN_VOLUME">Volume</label>
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
-                   ng-if="lineItemType.name === 'CPM'">Impressions</label>
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="lineItemType.name === 'CPC'">Clicks</label>
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
-                   ng-if="lineItemType.name === 'CPCV'">Completed</label>
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding"
-                   ng-if="lineItemType.name === 'Post-Click CPA' || lineItemType.name === 'Post-Impression CPA' || lineItemType.name === 'Total CPA'">Actions</label>
-
-            <input type="text" class="col-md-12 form-control" placeholder="" ng-model="$parent.volume" whole-number-only
-                   ng-readonly="(lineItemType.name !== 'COGS+ %')?true: false"/>
-        </div>
+        
         <div style="clear:both"></div>
-        <div class="col-md-3 zeroPadding dropdown-workflow" style="margin-right:10px;" ng-show="volumeTypeFlag">
-            <div class="dropdown">
-                <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_VOLUME_TYPE"></label>
-                <button style="width:100%;" class="btn btn-default dropdown-toggle systemOfRecordName" type="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <span
-                        class="text">{{(selectedVolumeType )?(selectedVolumeType | toTitleCase):'Select from list'}}</span>
-                    <span class="icon-arrow-solid-down"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown"
-                    name="lineItemType">
-                    <li class="available" ng-repeat="type in volumeType"
-                        ng-click="setVolumeType(type,'create')"><a>{{type}}</a></li>
-                </ul>
-            </div>
-
-        </div>
+ 
 
 
-        <div class="col-md-3 zeroPadding dropdown-workflow" ng-show="showSystemOfRecord" style="margin-right:10px;">
+        <div class="col-md-4 zeroPadding dropdown-workflow marginRight" ng-show="showSystemOfRecord" >
             <div class="dropdown">
                 <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_SYSTEM_OF_RECORD"></label>
                 <button style="width:100%;" class="btn btn-default dropdown-toggle systemOfRecordName" type="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        {{systemOfRecordSelected.name}}
                     <span
-                        class="text">{{(systemOfRecordSelected )?systemOfRecordSelected.name:'Select from list'}}</span>
+                        class="text">{{(systemOfRecordSelected )?systemOfRecordSelected.name:'Select Vendor...'}}</span>
                     <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown"
@@ -327,66 +390,8 @@
 
         </div>
 
-        <div class="col-md-3 zeroPadding dropdown-workflow" ng-show="showPixelsList">
-            <div class="dropdown">
-                <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_CONVERSION_PIXELS"></label>
-                <button style="width:100%;" class="btn btn-default dropdown-toggle pixelType" type="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <span class="text">{{(pixelSelected )?pixelSelected.name:'Select from list'}}</span>
-                    <span class="icon-arrow-solid-down"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="lineType" id="pixelsList" data-toggle="dropdown"
-                    name="lineItemType">
-                    <li class="available" ng-repeat="pixel in selectedCampaign.selectedPixel"
-                        ng-click="setPixels(pixel,'create')"><a>{{pixel.name}}</a></li>
-                </ul>
-                <input type="hidden" class="form-control" ng-model="pixelSelected.id" name="pixelSelected"/>
-            </div>
-
-        </div>
-
-        <div class="pull-right" style="padding: 30px 0 0 0;position:relative;">
-            <div class="pull-right btn btn-default"
-                 ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''  ||
-                 (showSystemOfRecord && !systemOfRecordSelected.id) ||
-                 ((lineItemType.name.toLowerCase()=='post-impression cpa' && pixelSelected.id==undefined) ||
-                    (lineItemType.name.toLowerCase()=='total cpa' && pixelSelected.id==undefined) ||
-                    (lineItemType.name.toLowerCase()=='post-click cpa' && pixelSelected.id==undefined)) ||
-                ((lineItemType.name.toLowerCase()=='cogs+ %' && (selectedVolumeType == '' || $parent.volume == '')))
-                 "
-                 ng-click="navigateLineItem('create')"
-                 ng-show="!Campaign.createNewLineItemLoaderEdit">Add Line Item
-            </div>
-
-            <!--show this button when user enters 0 as budget-->
-            <!--<div class="pull-right btn btn-default"-->
-                 <!--data-ng-show="billableAmount == '0'"-->
-                 <!--ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == '' || (showSystemOfRecord && !systemOfRecordSelected.id) || ((lineItemType.name.toLowerCase()=='post-impression cpa' && pixelSelected.id==undefined) || (lineItemType.name.toLowerCase()=='total cpa' && pixelSelected.id==undefined) || (lineItemType.name.toLowerCase()=='post-click cpa' && pixelSelected.id==undefined))"-->
-                 <!--ng-click="displayZeroLineItemBudgetPopUp('create')"-->
-                 <!--ng-show="!Campaign.createNewLineItemLoaderEdit">Add Line Item-->
-            <!--</div>-->
-
-            <div ng-show="Campaign.createNewLineItemLoaderEdit" class="pull-right common-loading-btn"></div>
-            <div class="pull-right btn btn-link" id="hideLineItemCreateBox"
-                 ng-click="selectedCampaign.resetLineItemParameters()">Cancel
-            </div>
-            <!--confirm message in edit mode-->
-            <div class="popUpCue showConfirmPopupCreate" data-ng-show="showConfirmPopupCreate">
-                <span
-                    class="col-md-12 zeroPadding">Media Plan changes will be saved, before Line Item is created.</span>
-                <a href="javascript:void(0);"
-                   class="leftNavLink pull-right btn btn-primary"
-                   data-ng-click="saveCampaign('create', true)"
-                   data-ng-bind="textConstants.CONTINUE" ng-show="!createNewLineItemLoader">
-                </a>
-                <div ng-show="createNewLineItemLoader" class="pull-right common-loading-btn"></div>
-                <a class="pull-right btn btn-link"
-                   data-ng-bind="textConstants.CANCEL"
-                   data-ng-click="cancelMediaPlanCreation()">
-                </a>
-            </div>
-        </div>
-
+        
+       
 
         <!-- </div> -->
     </div>
@@ -495,7 +500,50 @@
 <!--Table Edit Form Template-->
 <script type="text/ng-template" id="listItemEditTpl">
     <div class="col-md-12 editItemList">
+        <div class="col-md-12 zeroPadding">
+          <div class="pull-left lineItemBgTitle" data-ng-bind="textConstants.LINEITEM_EDIT"></div>
+          <div class="pull-right" style="margin-top: 20px ;position:relative;">
+              <a class="btn btn-default pull-right"
+                 ng-click="navigateLineItem('edit')"
+                 data-ng-disabled="!editLineItem.lineItemName || editLineItem.billableAmount === '' || (
+                         ((editLineItem.lineItemType.name).toLowerCase()=='post-impression cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
+                         ((editLineItem.lineItemType.name).toLowerCase()=='total cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
+                         ((editLineItem.lineItemType.name).toLowerCase()=='post-click cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
+                         ((editLineItem.lineItemType.name).toLowerCase()=='cogs+ %' && ( editLineItem.volume ===  ''))
+                         )"
+                 ng-bind="textConstants.WF_AD_SAVE_CLOSE"
+                 ng-show="!editLineItemLoaderEdit"></a>
 
+              <!--<a class="btn btn-default pull-right"-->
+                 <!--ng-click="displayZeroLineItemBudgetPopUp('edit')"-->
+                 <!--data-ng-show="editLineItem.billableAmount == '0'"-->
+                 <!--data-ng-disabled="!editLineItem.lineItemName  || (-->
+                         <!--((editLineItem.lineItemType.name).toLowerCase()=='post-impression cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||-->
+                         <!--((editLineItem.lineItemType.name).toLowerCase()=='total cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||-->
+                         <!--((editLineItem.lineItemType.name).toLowerCase()=='post-click cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == ''))-->
+                         <!--)"-->
+                 <!--ng-bind="textConstants.WF_AD_SAVE_CLOSE"-->
+                 <!--ng-show="!editLineItemLoaderEdit"></a>-->
+
+              <div ng-show="editLineItemLoaderEdit" class="pull-right common-loading-btn"></div>
+              <a class="btn btn-link pull-right cancelLineItem" ng-click="hideLineItemEditRow($event);">Cancel</a>
+
+              <!--confirm message in edit mode-->
+              <div class="popUpCue showConfirmPopupEdit" data-ng-show="showConfirmPopupEdit">
+                  <span class="col-md-12 zeroPadding">Media Plan changes will be saved, before Line Item changes are saved.</span>
+                  <a href="javascript:void(0);"
+                     class="leftNavLink pull-right btn btn-primary"
+                     data-ng-click="saveCampaign('edit')"
+                     data-ng-bind="textConstants.CONTINUE" ng-show="!Campaign.editLineItemLoader">
+                  </a>
+                  <div ng-show="Campaign.editLineItemLoader" class="pull-right common-loading-btn"></div>
+                  <a class="pull-right btn btn-link"
+                     data-ng-bind="textConstants.CANCEL"
+                     data-ng-click="cancelMediaPlanCreationEdit()">
+                  </a>
+              </div>
+          </div>
+        </div>
         <!--Row 1-->
         <div class="col-md-12 zeroPadding listItemFirstRow">
             <div class="eachListItemFirstRow">
@@ -533,11 +581,11 @@
         </div>
 
 
-        <div class="listItemSmallValues" ng-hide="hideLineItemRateEdit">
+        <div class="listItemValues" ng-hide="hideLineItemRateEdit">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
             <div class="rate-input-field symbol-input col-md-12 zeroPadding">
                 <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                <input type="text" class="col-md-12 form-control" placeholder="Enter Rate"
+                <input type="text" class="col-md-12 form-control" 
                        ng-model="editLineItem.pricingRate" ng-readonly="rateReadOnlyEdit" name="lineItemRate"
                        fraction-numbers autocomplete="off" fcsa-number="{  }" ng-change="calculateVolume('edit')">
             </div>
@@ -557,50 +605,9 @@
             </div>
         </div>
 
-
-
-        <a class="btn btn-link pull-right"
-           style="position: absolute;top: 2px; right: 0; display: block;padding: 0; color: #0978c9;"
-           ng-hide="mode === 'edit'" ng-click="deleteLineItem(true)">Delete</a>
-        <!--Row 2-->
-        <div class="span4 input-daterange input-group date otherBgDateRange pull-left" id="datepickerEdit">
-            <div class="pull-left dateWrapper zeroPadding">
-                <div class="dateContainer">
-                    <label class="col-sm-12 control-label greyTxt miniLabels"
-                           data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_START"></label>
-                    <div class="dateInputHolder">
-                        <input type="text"
-                               custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}"
-                               id="editLineItemStartDate{{$index}}" placeholder="MM/DD/YYYY" class="form-control"
-                               readonly name="startTime" ng-model="editLineItem.startTime"
-                               ng-change="validateDateLineItem(editLineItem.startTime, editLineItem.endTime, 'editLineItemEndDate{{$index}}')"/>
-
-                        <div class="icon-calendar-holder">
-                            <span class="icon-calendar"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="dateContainer">
-                    <label class="col-sm-12 control-label greyTxt miniLabels"
-                           data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_END"></label>
-                    <div class="dateInputHolder">
-                        <input type="text"
-                               custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}"
-                               id="editLineItemEndDate{{$index}}" placeholder="MM/DD/YYYY" class="form-control"
-                               ng-model="editLineItem.endTime" name="endTime"/>
-
-                        <div class="icon-calendar-holder">
-                            <span class="icon-calendar"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
         <div class="listItemSmallValues" ng-show="volumeFlagEdit">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding"
-                   ng-if="!editLineItem.lineItemType || editLineItem.lineItemType.name === 'Select Type' || editLineItem.lineItemType.name === 'COGS+ %'"
+                   ng-if="!editLineItem.lineItemType || editLineItem.lineItemType.name === 'Select...' || editLineItem.lineItemType.name === 'COGS+ %'"
                    data-ng-bind="textConstants.MEDIAPLAN_VOLUME">Volume</label>
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="editLineItem.lineItemType.name === 'CPM'">Impressions</label>
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="editLineItem.lineItemType.name === 'CPC'">Clicks</label>
@@ -610,13 +617,13 @@
             <input type="text" class="col-md-12 form-control" placeholder="" ng-model="editLineItem.volume"
                    whole-number-only autocomplete="off" ng-readonly="(editLineItem.lineItemType.name === 'COGS+ %')?false:true"/>
         </div>
-        <div class="col-md-3 zeroPadding dropdown-workflow" style="margin-right:10px;" ng-show="volumeTypeFlagEdit">
+        <div class="col-md-4 zeroPadding dropdown-workflow"  ng-show="volumeTypeFlagEdit">
             <div class="dropdown">
                 <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_VOLUME_TYPE"></label>
                 <button style="width:100%;" class="btn btn-default dropdown-toggle systemOfRecordName" type="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <span
-                        class="text">{{(editLineItem.selectedVolumeType )?(editLineItem.selectedVolumeType | toTitleCase):'Select from list'}}</span>
+                        class="text">{{(editLineItem.selectedVolumeType )?(editLineItem.selectedVolumeType | toTitleCase):'Select...'}}</span>
                     <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown"
@@ -629,15 +636,77 @@
             </div>
 
         </div>
+        <div class="col-md-4 zeroPadding dropdown-workflow" ng-show="showPixelsListEdit">
+            <div class="dropdown">
+                <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_CONVERSION_PIXELS"></label>
+                <button style="width:100%;" class="btn btn-default dropdown-toggle pixelTypeEdit" type="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="gf">
+                    <span class="text">{{(editLineItem.pixelSelected )?editLineItem.pixelSelected.name:'Select...'}}</span>
+                    <span class="icon-arrow-solid-down"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="lineType" id="pixelEdit" data-toggle="dropdown"
+                    name="pixelType">
+                    <li class="available" ng-repeat="pixel in selectedCampaign.selectedPixel"
+                        ng-click="setPixels(pixel,'edit')"><a>{{pixel.name}}</a></li>
+                </ul>
+                <input type="hidden" class="form-control" ng-model="editLineItem.pixelSelected.id" name="lineItemType"/>
+            </div>
+
+        </div>
+        <span class="icon-trash"
+           style="position: absolute;bottom: 15px; right: 15px; display: block;padding: 10px;cursor:pointer;"
+           ng-hide="mode === 'edit'" ng-click="deleteLineItem(true)" title="Delete">
+           <span class=""></span>
+        </span>
+        <!--Row 2-->
+        <div class="col-md-12 zeroPadding">
+          <div class="span4 input-daterange input-group date otherBgDateRange pull-left" id="datepickerEdit">
+              <div class="pull-left dateWrapper zeroPadding">
+                  <div class="dateContainer">
+                      <label class="col-sm-12 control-label greyTxt miniLabels"
+                             data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_START"></label>
+                      <div class="dateInputHolder">
+                          <input type="text"
+                                 custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}"
+                                 id="editLineItemStartDate{{$index}}" placeholder="MM/DD/YYYY" class="form-control"
+                                 readonly name="startTime" ng-model="editLineItem.startTime"
+                                 ng-change="validateDateLineItem(editLineItem.startTime, editLineItem.endTime, 'editLineItemEndDate{{$index}}')"/>
+
+                          <div class="icon-calendar-holder">
+                              <span class="icon-calendar"></span>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="dateContainer">
+                      <label class="col-sm-12 control-label greyTxt miniLabels"
+                             data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_END"></label>
+                      <div class="dateInputHolder">
+                          <input type="text"
+                                 custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}"
+                                 id="editLineItemEndDate{{$index}}" placeholder="MM/DD/YYYY" class="form-control"
+                                 ng-model="editLineItem.endTime" name="endTime"/>
+
+                          <div class="icon-calendar-holder">
+                              <span class="icon-calendar"></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+        </div>
 
 
-        <div class="col-md-3 zeroPadding dropdown-workflow" ng-show="showSystemOfRecordEdit" style="margin-right:10px;">
+
+
+        <div class="col-md-4 zeroPadding dropdown-workflow marginRight" ng-show="showSystemOfRecordEdit" >
             <div class="dropdown">
                 <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_SYSTEM_OF_RECORD"></label>
                 <button style="width:100%;" class="btn btn-default dropdown-toggle systemOfRecordNameEdit"
                         ng-disabled="editLineItem.hasInFlightAds" type="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="true">
-                    <span class="text">{{(editLineItem.systemOfRecordSelected )?editLineItem.systemOfRecordSelected.name:'Select from list'}}</span>
+                        {{systemOfRecordSelected.name}}
+                    <span class="text">{{(editLineItem.systemOfRecordSelected )?editLineItem.systemOfRecordSelected.name:'Select Vendor...'}}</span>
                     <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="lineType" id="sorList" data-toggle="dropdown"
@@ -651,66 +720,10 @@
 
         </div>
 
-        <div class="col-md-3 zeroPadding dropdown-workflow" ng-show="showPixelsListEdit">
-            <div class="dropdown">
-                <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_CONVERSION_PIXELS"></label>
-                <button style="width:100%;" class="btn btn-default dropdown-toggle pixelTypeEdit" type="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="gf">
-                    <span class="text">{{(editLineItem.pixelSelected )?editLineItem.pixelSelected.name:'Select from list'}}</span>
-                    <span class="icon-arrow-solid-down"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="lineType" id="pixelEdit" data-toggle="dropdown"
-                    name="pixelType">
-                    <li class="available" ng-repeat="pixel in selectedCampaign.selectedPixel"
-                        ng-click="setPixels(pixel,'edit')"><a>{{pixel.name}}</a></li>
-                </ul>
-                <input type="hidden" class="form-control" ng-model="editLineItem.pixelSelected.id" name="lineItemType"/>
-            </div>
-
-        </div>
 
 
-        <div class="pull-right" style="margin-top: 30px ;position:relative;">
-            <a class="btn btn-default pull-right"
-               ng-click="navigateLineItem('edit')"
-               data-ng-disabled="!editLineItem.lineItemName || editLineItem.billableAmount === '' || (
-                       ((editLineItem.lineItemType.name).toLowerCase()=='post-impression cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
-                       ((editLineItem.lineItemType.name).toLowerCase()=='total cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
-                       ((editLineItem.lineItemType.name).toLowerCase()=='post-click cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||
-                       ((editLineItem.lineItemType.name).toLowerCase()=='cogs+ %' && ( editLineItem.volume ===  ''))
-                       )"
-               ng-bind="textConstants.SAVE_CHANGES"
-               ng-show="!editLineItemLoaderEdit"></a>
 
-            <!--<a class="btn btn-default pull-right"-->
-               <!--ng-click="displayZeroLineItemBudgetPopUp('edit')"-->
-               <!--data-ng-show="editLineItem.billableAmount == '0'"-->
-               <!--data-ng-disabled="!editLineItem.lineItemName  || (-->
-                       <!--((editLineItem.lineItemType.name).toLowerCase()=='post-impression cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||-->
-                       <!--((editLineItem.lineItemType.name).toLowerCase()=='total cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||-->
-                       <!--((editLineItem.lineItemType.name).toLowerCase()=='post-click cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == ''))-->
-                       <!--)"-->
-               <!--ng-bind="textConstants.SAVE_CHANGES"-->
-               <!--ng-show="!editLineItemLoaderEdit"></a>-->
-
-            <div ng-show="editLineItemLoaderEdit" class="pull-right common-loading-btn"></div>
-            <a class="btn btn-link pull-right cancelLineItem" ng-click="hideLineItemEditRow($event);">Cancel</a>
-
-            <!--confirm message in edit mode-->
-            <div class="popUpCue showConfirmPopupEdit" data-ng-show="showConfirmPopupEdit">
-                <span class="col-md-12 zeroPadding">Media Plan changes will be saved, before Line Item changes are saved.</span>
-                <a href="javascript:void(0);"
-                   class="leftNavLink pull-right btn btn-primary"
-                   data-ng-click="saveCampaign('edit')"
-                   data-ng-bind="textConstants.CONTINUE" ng-show="!Campaign.editLineItemLoader">
-                </a>
-                <div ng-show="Campaign.editLineItemLoader" class="pull-right common-loading-btn"></div>
-                <a class="pull-right btn btn-link"
-                   data-ng-bind="textConstants.CANCEL"
-                   data-ng-click="cancelMediaPlanCreationEdit()">
-                </a>
-            </div>
-        </div>
+        
     </div>
 
     </div>
