@@ -1,16 +1,13 @@
-define(['angularAMD', 'common/services/constants_service', 'login/login_model',
-    'reporting/models/domain_reports', 'reporting/campaignSelect/campaign_select_model',
-    'common/services/role_based_service', 'workflow/services/workflow_service', 'common/services/features_service',
-    'common/services/account_service','common/services/sub_account_service', 'common/services/vistoconfig_service'],
-    function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'login/login_model', 'reporting/models/domain_reports', 'reporting/campaignSelect/campaign_select_model',
+    'common/services/role_based_service', 'workflow/services/workflow_service', 'common/services/features_service', 'common/services/account_service',
+    'common/services/sub_account_service', 'common/services/vistoconfig_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('HeaderController', function ($http, $q, $scope, $rootScope, $route, $cookieStore, $location,
-                                                        $modal, $routeParams, $sce, constants, loginModel, domainReports,
-                                                        campaignSelectModel, RoleBasedService, workflowService,
-                                                        featuresService, accountService, subAccountService,
-                                                        vistoconfig, localStorageService, advertiserModel, brandsModel,
-                                                        strategySelectModel, pageFinder, urlBuilder) {
+    angularAMD.controller('HeaderController', function ($http, $q, $scope, $rootScope, $route, $cookieStore, $location, $modal, $routeParams, $sce, $timeout,
+                                                        constants, loginModel, domainReports, campaignSelectModel, RoleBasedService, workflowService, featuresService,
+                                                        accountService, subAccountService, vistoconfig, localStorageService, advertiserModel, brandsModel, strategySelectModel,
+                                                        pageFinder, urlBuilder) {
+console.log('HEADERCONTROLLER INVOKED!!!');
         var featurePermission = function () {
                 var fParams = featuresService.getFeatureParams();
 
@@ -69,8 +66,13 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 $scope.defaultAccountsName = name;
             };
 
-        $scope.user_name = loginModel.getUserName();
-        $scope.version = version;
+        $scope.mediaPlansListUrl = '';
+        $scope.cannedReportsUrl = [];
+        $scope.creativeListUrl = '';
+        $scope.adminUrl = '';
+        $scope.invoiceToolUrl = '';
+        $scope.customReportsUrl = '';
+        $scope.scheduleReportsUrl = [];
 
         $scope.getClientData = function () {
             var clientId = localStorageService.masterClient.get().id;
@@ -87,12 +89,12 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
                 });
         };
 
-        $scope.set_account_name = function (event, id, name, isLeafNode) {
-            $('#user_nav_link').removeClass('selected');
-            $('#user-menu').css('min-height',0).slideUp('fast');
-
+        $scope.setAccountName = function (event, id, name, isLeafNode) {
             var moduleObj = workflowService.getModuleInfo(),
                 $modalInstance;
+
+            $('#user_nav_link').removeClass('selected');
+            $('#user-menu').css('min-height',0).slideUp('fast');
 
             if (moduleObj && moduleObj.moduleName === 'WORKFLOW') {
                 if (vistoconfig.getMasterClientId() !== id) {
@@ -113,34 +115,33 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
 
                             accountChangeAction: function () {
                                 return function () {
-                                    var deferred = $q.defer();
+                                    var deferred = $q.defer(),
+                                        url;
 
                                     setMasterClientData(id, name,isLeafNode, event);
-                                    var url;
+
                                     // when enters as workflow user should we broadcast masterclient - sapna
                                     if (moduleObj.redirect) {
                                         url = '/a/' + id;
-                                        if(!isLeafNode) {
 
+                                        if (!isLeafNode) {
                                             subAccountService
                                                 .fetchSubAccountList (id)
                                                 .then(function () {
+                                                    var subAccountId;
+
                                                     deferred.resolve();
-                                                    var subAccountId = subAccountService.getSubAccounts()[0].id;
-                                                    url += '/sa/'+ subAccountId+ '/mediaplans';
+                                                    subAccountId = subAccountService.getSubAccounts()[0].id;
+                                                    url += '/sa/' + subAccountId + '/mediaplans';
                                                     $location.url(url);
                                                 });
-
-
                                         } else {
                                             $location.url(url + '/mediaplans');
                                         }
-
                                     } else {
                                         $route.reload();
                                     }
                                     return deferred.promise;
-
                                 };
                             }
                         }
@@ -149,7 +150,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             } else {
                 setMasterClientData(id, name,isLeafNode, event);
             }
-
         };
 
         $scope.showProfileMenu = function () {
@@ -159,38 +159,61 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model',
             $('#cdbDropdown').hide();
         };
 
-        $scope.navigateToTab = function (url, event, page) {
+        $scope.navigateToTab = function (url, event, page, fromView, index) {
+            var targetUrl;
+
+            console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', page, ', fromView = ', fromView, ', index = ', index);
+            if (event && event.originalEvent.metaKey) {
+                console.log('Command key (mac) is pressed!');
+                return;
+            }
+
             $('.each_nav_link').removeClass('active_tab active selected');
-console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', page);
+
             advertiserModel.reset();
             brandsModel.reset();
             strategySelectModel.reset();
+
             if (page === 'dashboard') {
                 $location.url(urlBuilder.dashboardUrl());
-            } else if (page === 'creativelist') {
-                urlBuilder.gotoCreativeListUrl();
-            } else if (page === 'adminOverview') {
-                urlBuilder.gotoAdminUrl();
-            } else if (page === 'invoiceTool') {
-                urlBuilder.gotoInvoiceTool();
             } else if (page === 'mediaplanList') {
-                urlBuilder.gotoMediaplansListUrl();
-
-            // TODO: Reports page when clicking on the top level nav menu
-            } else if (page === 'reportsSubPage' || page === 'reportOverview') {
-                urlBuilder.gotoCannedReportsUrl(url);
+                targetUrl = urlBuilder.mediaPlansListUrl(fromView);
+                $scope.mediaPlansListUrl = targetUrl;
+                console.log('returned from urlBuilder.mediaPlansListUrl(fromView) = ', targetUrl);
+            } else if (page === 'reportsSubPage') {
+                targetUrl = urlBuilder.cannedReportsUrl(url, fromView);
+                $scope.cannedReportsUrl[index] = targetUrl;
+                console.log('returned from urlBuilder.cannedReportsUrl(fromView) = ', targetUrl);
+            } else if (page === 'creativelist') {
+                targetUrl = urlBuilder.creativeListUrl(fromView);
+                $scope.creativeListUrl = targetUrl;
+                console.log('returned from urlBuilder.creativeListUrl(fromView) = ', targetUrl);
+            } else if (page === 'adminOverview') {
+                targetUrl = urlBuilder.adminUrl(fromView);
+                $scope.adminUrl = targetUrl;
+                console.log('returned from urlBuilder.adminUrl(fromView) = ', targetUrl);
+            } else if (page === 'invoiceTool') {
+                targetUrl = urlBuilder.invoiceTool(fromView);
+                $scope.invoiceToolUrl = targetUrl;
+                console.log('returned from urlBuilder.invoiceTool(fromView) = ', targetUrl);
             } else if (page === 'customReports') {
-                $location.url(urlBuilder.customReportsUrl());
+                targetUrl = urlBuilder.customReportsUrl(fromView);
+                $scope.customReportsUrl = targetUrl;
+                console.log('returned from urlBuilder.customReportsUrl(fromView) = ', targetUrl);
             } else if (page === 'scheduleReports') {
-                $location.url(urlBuilder.customReportsListUrl());
+                targetUrl = urlBuilder.customReportsListUrl(url, fromView);
+                $scope.scheduleReportsUrl[index] = targetUrl;
+                console.log('returned from urlBuilder.customReportsListUrl(fromView) = ', targetUrl);
             } else if (page === 'uploadReports') {
                 $location.url(urlBuilder.uploadReportsUrl());
             } else if (page === 'uploadedReportsList') {
                 $location.url(urlBuilder.uploadReportsListUrl());
             }
+
+            return url;
         };
 
-        $scope.show_hide_nav_dropdown = function (event, arg, behaviour) {
+        $scope.showHideNavigationDropdown = function (event, arg, behaviour) {
             var elem = $(event.target),
                 minHeight,
                 argMenu = $('#' + arg + '-menu');
@@ -213,7 +236,7 @@ console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', pa
             }
         };
 
-        $scope.hide_navigation_dropdown = function () {
+        $scope.hideNavigationDropdown = function () {
             var mainMenuHolder = $('.main_navigation_holder');
 
             setTimeout(function () {
@@ -237,8 +260,12 @@ console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', pa
             loginModel.logout();
         };
 
+        $scope.user_name = loginModel.getUserName();
+        $scope.version = version;
+
         /* Start Feature Permission */
         $rootScope.$on('features', function () {
+console.log('$on.features()');
             $scope.accountsData = accountService.getAccounts();
             $scope.defaultAccountsName = accountService.getSelectedAccount().name;
             $scope.multipleClient = $scope.accountsData.length > 1;
@@ -430,15 +457,21 @@ console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', pa
 
             $scope.openHelp = function() {
                 var url  = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/userguide/download';
-                $http.get(url, {responseType:'arraybuffer'})
-                    .success(function (response) {
-                        var file = new Blob([response], {type: 'application/pdf'});
-                        var fileURL = URL.createObjectURL(file);
-                        $scope.content = $sce.trustAsResourceUrl(fileURL);
-                        $scope.showFiles = true;
-                });
 
+                $http.get(url, {responseType:'arraybuffer'}).success(function (response) {
+                    var file = new Blob([response], {type: 'application/pdf'}),
+                        fileURL = URL.createObjectURL(file);
+
+                    $scope.content = $sce.trustAsResourceUrl(fileURL);
+                    $scope.showFiles = true;
+                });
             };
         });
+/*
+        $timeout(function () {
+            $scope.mediaPlansUrl = $scope.navigateToTab('', undefined, 'mediaplanList', true);
+            console.log('outside document ready, $scope.mediaPlansUrl is = ', $scope.mediaPlansUrl);
+        }, 1000);
+*/
     });
 });

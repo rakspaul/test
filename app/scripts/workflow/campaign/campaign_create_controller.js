@@ -1012,7 +1012,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.redirectUserFromArchivedCampaign = function () {
             $scope.isMediaPlanArchive = false;
-            $location.url(urlBuilder.gotoMediaplansListUrl());
+            $location.url(urlBuilder.mediaPlansListUrl());
         };
 
         $scope.redirectToOverViewPage = function (campaignId) {
@@ -1028,7 +1028,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         });
 
         $scope.redirectToMediaPlanList = function() {
-            $location.url(urlBuilder.gotoMediaplansListUrl());
+            $location.url(urlBuilder.mediaPlansListUrl());
         };
 
         $scope.$watch('selectedCampaign.endTime',function (newVal, oldVal) {

@@ -304,7 +304,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 errorHandler: function (errData) {
                     if (errData.data.status === 404) {
-                        $location.url(urlBuilder.gotoMediaplansListUrl());
+                        $location.url(urlBuilder.mediaPlansListUrl());
                     }
                 }
             };
@@ -651,7 +651,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $scope.archivedAdFlag = false;
             $scope.archivedCampaignFlag = false;
 
-            url = urlBuilder.gotoMediaplansListUrl();
+            url = urlBuilder.mediaPlansListUrl();
 
             if (isAdArchived) {
                 if (!$scope.workflowData.campaignData.isArchived) {

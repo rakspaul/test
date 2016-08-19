@@ -325,6 +325,18 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
         };
 
+        _customCtrl.filterDiscrepancyReport = function() {
+            var fparams = featuresService.getFeatureParams();
+
+            $scope.showDiscrepancyTab = fparams[0].discrepancy;
+
+            if (!$scope.showDiscrepancyTab) {
+                $scope.download_report = _.filter($scope.download_report, function (report) {
+                    return report.name !== 'by_discrepancy';
+                });
+            }
+        };
+
         $scope.select_vender_option = function (arg) {
             $scope.selectedVendor = arg;
 
@@ -395,8 +407,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             _customCtrl.filterDiscrepancyReport();
         });
 
-        $scope.$watch('[adFormats.videoAds, selected_tab, selectedStrategy.id]', function (arr) {
+        $scope.$watchCollection('[adFormats.videoAds, selected_tab, selectedStrategy.id]', function (arr) {
             var width = (arr[0] || arr[1] === 'bydiscrepancy') ? '100%' : '1985px';
+
             $('.reports_performance_header, .strategy_total_container').css('width', width);
         });
 
@@ -547,26 +560,12 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.selectedFilters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
         });
 
-        _customCtrl.filterDiscrepancyReport = function() {
-            var fparams = featuresService.getFeatureParams();
-
-            $scope.showDiscrepancyTab = fparams[0].discrepancy;
-
-            if (!$scope.showDiscrepancyTab) {
-                $scope.download_report = _.filter($scope.download_report, function (report) {
-                    return report.name !== 'by_discrepancy';
-                });
-            }
-        };
-
         // check the permission on load
         _customCtrl.filterDiscrepancyReport();
 
         $rootScope.$on('features', function() {
             _customCtrl.filterDiscrepancyReport();
         });
-
-
 
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
             if ($scope.selected_tab === 'byformats') {

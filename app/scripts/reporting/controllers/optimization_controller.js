@@ -59,6 +59,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         };
 
         $scope.strategyLoading =  true;
+console.log('$scope.selectedStrategy = ', $scope.selectedStrategy);
         $scope.selectedStrategy.action = {};
         $scope.selectedStrategy.action.id = -1;
         $scope.selectedFilters = {};

@@ -27,7 +27,7 @@ define(['angularAMD' , '../services/workflow_service' ], function(angularAMD) {
                         $scope.campaignArchive = false;
                         $scope.campaignArchiveLoader = false;
                         localStorage.setItem('topAlertMessage','Campaign has been archived');
-                        $location.url(urlBuilder.gotoMediaplansListUrl());
+                        $location.url(urlBuilder.mediaPlansListUrl());
 
                     } else {
                         campaignArchiveErrorHandler();
