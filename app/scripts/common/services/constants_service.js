@@ -269,10 +269,10 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.PERFORMANCE = 'Performance';
         this.MARGIN = 'Margin';
         this.BUDGET = 'Budget';
-        this.CAMPAIGN_ON_TRACK = 'Media Plan is On Track';
+        this.CAMPAIGN_ON_TRACK = 'Media Plan is On Target';
         this.CAMPAIGN_LIST_ITEM_UNDERPERFORMING = 'Off Target';
 
-        this.UNDERPERFORMING_CAMPAIGN = 'Media Plan is Off Track';
+        this.UNDERPERFORMING_CAMPAIGN = 'Media Plan is Off Target';
         this.NEUTRAL = 'Neutral (no status)';
         this.IMP_WITH_DOT = 'Imps.';
         this.CLICKS = 'Clicks';

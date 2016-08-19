@@ -86,7 +86,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 fetchVendorConfigs: function () {
                     workflowService
-                        .getVendorConfigs($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId)
+                        .getVendorConfigs($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId, $scope.selectedCampaign.brandId)
                         .then(function (result) {
                             $scope.selectedCampaign.vendorConfig =
                                 campaignService.processVendorConfig(result.data.data);
@@ -95,7 +95,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 fetchCostAttributes: function () {
                     workflowService
-                        .getCostAttr($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId)
+                        .getCostAttr($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId, $scope.selectedCampaign.brandId)
                         .then(function (result) {
                             $scope.selectedCampaign.costAttributes = workflowService.processCostAttr(result.data.data);
                         });
@@ -103,7 +103,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 fetchSystemOfRecord: function () {
                     workflowService
-                        .getSystemOfRecord($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId)
+                        .getSystemOfRecord($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId, $scope.selectedCampaign.brandId)
                         .then(function (result) {
                             $scope.selectedCampaign.systemOfRecord = result.data.data;
                         });
@@ -560,6 +560,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 case 'brand':
                     $scope.selectedCampaign.brandId = data.id;
+
+                    createCampaign.fetchCostAttributes();
+                    createCampaign.fetchVendorConfigs();
+
+                    // for line item system of record
+                    createCampaign.fetchSystemOfRecord();
                     break;
             }
         };

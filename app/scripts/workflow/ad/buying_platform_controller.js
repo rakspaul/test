@@ -49,8 +49,10 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 },
 
                 fetchPlatforms: function (clientId, advertiserId, platform) {
+                    var brandId = $scope.workflowData.campaignData.brandId || -1;
+
                     workflowService
-                        .getPlatforms(clientId, advertiserId, {cache: false})
+                        .getPlatforms(clientId, advertiserId, brandId, {cache: false})
                         .then(function (result) {
                             var responseData,
                                 adsDetails,
