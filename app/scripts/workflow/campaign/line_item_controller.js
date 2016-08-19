@@ -335,7 +335,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
             // if pixel is empty show select from list in edit section for create/edit mode
             if (_.isEmpty($scope.editLineItem.pixelSelected)) {
                 $scope.editLineItem.pixelSelected = {};
-                $scope.editLineItem.pixelSelected.name = 'Select from list';
+                $scope.editLineItem.pixelSelected.name = 'Select...';
                 $scope.editLineItem.pixelSelected.id = '';
             }
 
@@ -366,9 +366,9 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         $scope.CONST_FLAT_FEE = 'Flat Fee';
         $scope.volumeType = ['Impressions','Clicks','Actions'];
         $scope.pixelSelected = {};
-        $scope.pixelSelected.name = 'Select from list';
+        $scope.pixelSelected.name = 'Select...';
         $scope.systemOfRecordSelected = {};
-        $scope.systemOfRecordSelected.name = 'Select from list';
+        $scope.systemOfRecordSelected.name = 'Select Vendor...';
         $scope.selectedVolumeType = '';
         $scope.editLineItem.selectedVolumeType = '';
         $scope.selectedCampaign.lineItemBillableAmountTotal = 0;
@@ -888,11 +888,11 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                     $scope.billableAmount = '';
                     $scope.systemOfRecordSelected = {};
-                    $scope.systemOfRecordSelected.name = 'Select from list';
+                    $scope.systemOfRecordSelected.name = 'Select Vendor...';
 
                     $('.systemOfRecordName')
                         .html('<span class="text" data-ng-bind="systemOfRecordSelected.name">' +
-                            'Select from list</span><span class="icon-arrow-solid-down"></span>');
+                            'Select Vendor...</span><span class="icon-arrow-solid-down"></span>');
 
                     $scope.showSystemOfRecord = false;
                 } else if (CONST_POST_IMPRESSION_CPA === $scope.lineItemType.name ||
@@ -967,7 +967,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     $scope.editLineItem.adGroupName = '';
                     $scope.editLineItem.pixelSelected = {};
                     $scope.editLineItem.systemOfRecordSelected = {};
-                    $scope.editLineItem.systemOfRecordSelected.name = 'Select from list';
+                    $scope.editLineItem.systemOfRecordSelected.name = 'Select Vendor...';
                     $scope.showSystemOfRecordEdit = false;
                 } else if (CONST_POST_IMPRESSION_CPA === $scope.editLineItem.lineItemType.name ||
                     CONST_TOTAL_CPA === $scope.editLineItem.lineItemType.name ||
@@ -976,7 +976,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                     if (_.isEmpty($scope.editLineItem.pixelSelected)) {
                         $scope.editLineItem.pixelSelected = {};
-                        $scope.editLineItem.pixelSelected.name = 'Select from list';
+                        $scope.editLineItem.pixelSelected.name = 'Select...';
                         $scope.editLineItem.pixelSelected.id = '';
                     }
                 }
@@ -989,28 +989,36 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         $scope.selectedCampaign.resetLineItemParameters = function () {
             $scope.lineItemName = '';
             $scope.lineItemType = {};
-            $scope.lineItemType.name = 'Select Type';
+            $scope.lineItemType.name = 'Select...';
             $scope.lineItemType.id = '';
             $scope.pixelSelected = {};
             $scope.systemOfRecordSelected = {};
 
             $('.lineItemType')
                 .html(
-                    '<span class="text" data-ng-bind="lineItemType.name">Select Type</span>' +
+                    '<span class="text" data-ng-bind="lineItemType.name">Select...</span>' +
                     '<span class="icon-arrow-solid-down"></span>'
                 );
 
             $('.pixelType')
                 .html(
-                    '<span class="text" data-ng-bind="pixelSelected.name">Select from list</span>' +
+                    '<span class="text" data-ng-bind="pixelSelected.name">Select...</span>' +
                     '<span class="icon-arrow-solid-down"></span>'
                 );
 
             $('.systemOfRecordName')
                 .html(
-                    '<span class="text" data-ng-bind="systemOfRecordSelected.name">Select from list</span>' +
+                    '<span class="text" data-ng-bind="systemOfRecordSelected.name">Select Vendor...</span>' +
                     '<span class="icon-arrow-solid-down"></span>'
                 );
+
+            $('.selectVolumeType')
+                .html(
+                    '<span class="text" data-ng-bind="selectedVolumeType">Select...</span>' +
+                    '<span class="icon-arrow-solid-down"></span>'
+                );
+
+                
 
             $scope.volume = '';
             $scope.billableAmount = '';
