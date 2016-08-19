@@ -4,7 +4,7 @@ module.exports =function(grunt) {
     var modRewrite = require('connect-modrewrite');
     var config = {
         local: {
-            livereload: false,
+            livereload: true,
             options: {
                 port: gruntConfig.configVars.port,
                 hostname: gruntConfig.configVars.hostname,
