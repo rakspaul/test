@@ -6,7 +6,7 @@ module.exports =function(grunt) {
         tasks: [],
         options: {
             spawn: false,
-            livereload: true
+            livereload: false
         }
     };
 
