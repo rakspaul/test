@@ -27,17 +27,17 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $scope.apiReturnCode = 200;
 
         // set the default sort type
-        $scope.sortType = '-view_metrics.ias_imps_delivered';
+        $scope.sortType = '-view_metrics.display_deliverable_imps';
 
         // set the default sort type
-        $scope.sortTypeForVidView = '-view_metrics.video_viewability_metrics.videos_deliverable_imps';
+        $scope.sortTypeForVidView = '-view_metrics.video_viewability_metrics.video_deliverable_imps';
 
         $scope.sortReverse = false;
 
         // set the default sort order
         $scope.sortReverseDefaultSelection  = true;
 
-        $scope.sortTypeForVideos = '-view_metrics.video_viewability_metrics.videos_deliverable_imps';
+        $scope.sortTypeForVideos = '-view_metrics.video_viewability_metrics.video_deliverable_imps';
         $scope.sortReverseForVidView = true;
 
         $scope.getMessageForDataNotAvailable = function (campaign, dataSetType) {
