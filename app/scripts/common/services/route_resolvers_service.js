@@ -426,8 +426,8 @@ define(['angularAMD'], function (angularAMD) {
                         var brand;
 
                         if (args.brandsModel.allowedBrand(params.brandId)) {
-                            brand = args.vistoconfig ? args.vistoconfig.getSelectedBrandId() : {};
-
+                            //brand = args.vistoconfig ? args.vistoconfig.getSelectedBrandId() : {};
+                            brand = args.brandsModel.getSelectedBrand();
                             $('#brand_name_selected').text(brand.name);
                             $('#brandsDropdown').attr('placeholder', brand.name).val('');
                         } else {

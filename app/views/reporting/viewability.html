@@ -32,9 +32,9 @@
                     <div class="viewability_header clearfix">
                         <div class="each_col sec_col viewability_delivered_col">
                             <span class="icon_text_holder"
-                                  data-ng-class="sortClassFunction('ias_imps_delivered', sortType,
+                                  data-ng-class="sortClassFunction('display_deliverable_imps', sortType,
                                         sortReverseDefaultSelection)"
-                                  data-ng-click="sortType = 'ias_imps_delivered';
+                                  data-ng-click="sortType = 'display_deliverable_imps';
                                         sortReverse = sortReverseDefaultSelection;
                                         sortReverseDefaultSelection = !sortReverseDefaultSelection;
                                         removeKpiActive();"
@@ -45,8 +45,8 @@
                             <span data-ng-bind="textConstants.MEASURABLE"></span>
                             <div class="sub_col">
                                 <span class="icon_text_holder"
-                                      data-ng-class="sortClassFunction('ias_measurable_imps', sortType, sortReverse)"
-                                      data-ng-click="sortType = 'ias_measurable_imps';
+                                      data-ng-class="sortClassFunction('display_measurable_imps', sortType, sortReverse)"
+                                      data-ng-click="sortType = 'display_measurable_imps';
                                             sortReverse = !sortReverse;removeKpiActive();"
                                       data-ng-bind="textConstants.IMP_WITH_DOT">
                                 </span>
@@ -63,8 +63,8 @@
                             <span data-ng-bind="textConstants.VIEWABLE"></span>
                             <div class="sub_col">
                                 <span class="icon_text_holder"
-                                      data-ng-class="sortClassFunction('ias_viewable_imps', sortType, sortReverse)"
-                                      data-ng-click="sortType = 'ias_viewable_imps';
+                                      data-ng-class="sortClassFunction('display_viewable_imps', sortType, sortReverse)"
+                                      data-ng-click="sortType = 'display_viewable_imps';
                                             sortReverse = !sortReverse;
                                             removeKpiActive();"
                                       data-ng-bind="textConstants.IMP_WITH_DOT">
@@ -138,17 +138,17 @@
                                 <div class="each_col first_col" data-ng-bind="strategyHeading"></div>
                                 <div class="each_col sec_col">
                                     <div class="sub_col">
-                                        <span data-ng-bind="((viewData.view_metrics.ias_imps_delivered > 0) ||
-                                            (viewData.view_metrics.ias_imps_delivered === 0)) ?
-                                            (viewData.view_metrics.ias_imps_delivered | number : 0) : '-'">
+                                        <span data-ng-bind="((viewData.view_metrics.display_deliverable_imps > 0) ||
+                                            (viewData.view_metrics.display_deliverable_imps === 0)) ?
+                                            (viewData.view_metrics.display_deliverable_imps | number : 0) : '-'">
                                         </span>
                                     </div>
                                 </div>
                                 <div class="each_col third_col">
                                     <div class="sub_col">
-                                        <span data-ng-bind="((viewData.view_metrics.ias_measurable_imps > 0) ||
-                                            (viewData.view_metrics.ias_measurable_imps === 0)) ?
-                                            (viewData.view_metrics.ias_measurable_imps | number : 0) : '-'">
+                                        <span data-ng-bind="((viewData.view_metrics.display_measurable_imps > 0) ||
+                                            (viewData.view_metrics.display_measurable_imps === 0)) ?
+                                            (viewData.view_metrics.display_measurable_imps | number : 0) : '-'">
                                         </span>
                                         <span data-ng-bind="((viewData.view_metrics.measurable_imps_perc > 0) ||
                                             (viewData.view_metrics.measurable_imps_perc === 0)) ?
@@ -158,9 +158,9 @@
                                 </div>
                                 <div class="each_col forth_col">
                                     <div class="sub_col">
-                                        <span data-ng-bind="((viewData.view_metrics.ias_viewable_imps > 0) ||
-                                            (viewData.view_metrics.ias_viewable_imps === 0)) ?
-                                            (viewData.view_metrics.ias_viewable_imps | number : 0) : '-'">
+                                        <span data-ng-bind="((viewData.view_metrics.display_viewable_imps > 0) ||
+                                            (viewData.view_metrics.display_viewable_imps === 0)) ?
+                                            (viewData.view_metrics.display_viewable_imps | number : 0) : '-'">
                                         </span>
                                         <span data-ng-bind="((viewData.view_metrics.viewable_imps_perc > 0) ||
                                             (viewData.view_metrics.viewable_imps_perc === 0)) ?
@@ -198,17 +198,17 @@
                                         <div class="each_col first_col" data-ng-bind="tactic.ad_name"></div>
                                         <div class="each_col sec_col">
                                             <div class="sub_col">
-                                                <span data-ng-bind="((tactic.ias_imps_delivered > 0) ||
-                                                    (tactic.ias_imps_delivered === 0)) ?
-                                                    (tactic.ias_imps_delivered | nrFormat) : '-'">
+                                                <span data-ng-bind="((tactic.display_deliverable_imps > 0) ||
+                                                    (tactic.display_deliverable_imps === 0)) ?
+                                                    (tactic.display_deliverable_imps | nrFormat) : '-'">
                                                 </span>
                                             </div>
                                         </div>
                                         <div class="each_col third_col">
                                             <div class="sub_col">
-                                                <span data-ng-bind="((tactic.ias_measurable_imps > 0) ||
-                                                    (tactic.ias_measurable_imps === 0)) ?
-                                                    (tactic.ias_measurable_imps | nrFormat) : '-'">
+                                                <span data-ng-bind="((tactic.display_measurable_imps > 0) ||
+                                                    (tactic.display_measurable_imps === 0)) ?
+                                                    (tactic.display_measurable_imps | nrFormat) : '-'">
                                                 </span>
                                                 <span data-ng-bind="((tactic.measurable_imps_perc > 0) ||
                                                     (tactic.measurable_imps_perc === 0)) ?
@@ -218,9 +218,9 @@
                                         </div>
                                         <div class="each_col forth_col">
                                             <div class="sub_col">
-                                                <span data-ng-bind="((tactic.ias_viewable_imps > 0) ||
-                                                    (tactic.ias_viewable_imps === 0)) ?
-                                                    (tactic.ias_viewable_imps | nrFormat) : '-'">
+                                                <span data-ng-bind="((tactic.display_viewable_imps > 0) ||
+                                                    (tactic.display_viewable_imps === 0)) ?
+                                                    (tactic.display_viewable_imps | nrFormat) : '-'">
                                                 </span>
                                                 <span data-ng-bind="((tactic.viewable_imps_perc > 0) ||
                                                     (tactic.viewable_imps_perc === 0)) ?
@@ -263,10 +263,10 @@
                     <div class="each_col sec_col">
                         <span class="icon_text_holder"
                               data-ng-class="
-                                sortClassFunction('-view_metrics.video_viewability_metrics.videos_deliverable_imps',
+                                sortClassFunction('-view_metrics.video_viewability_metrics.video_deliverable_imps',
                                 sortTypeForVideos, sortReverseForVidView)"
                               data-ng-click="sortTypeForVideos =
-                                '-view_metrics.video_viewability_metrics.videos_deliverable_imps';
+                                '-view_metrics.video_viewability_metrics.video_deliverable_imps';
                                 sortReverse = sortReverseForVidView;
                                 sortReverseForVidView = !sortReverseForVidView;"
                               data-ng-bind="textConstants.DELIVERED_IMPS">
@@ -303,10 +303,10 @@
                         <div class="sub_col">
                             <span class="icon_text_holder"
                                   data-ng-class="
-                                    sortClassFunction('view_metrics.video_viewability_metrics.videos_viewable_imps',
+                                    sortClassFunction('view_metrics.video_viewability_metrics.video_viewable_imps',
                                     sortTypeForVideos, sortReverse)"
                                   data-ng-click="sortTypeForVideos =
-                                    'view_metrics.video_viewability_metrics.videos_viewable_imps';
+                                    'view_metrics.video_viewability_metrics.video_viewable_imps';
                                     sortReverse = !sortReverse;
                                     removeKpiActive();"
                                   data-ng-bind="textConstants.IMP_WITH_DOT">
@@ -407,12 +407,12 @@
                             <div class="each_col first_col" data-ng-bind="strategyHeading"></div>
                             <div class="each_col sec_col"
                                  data-ng-bind="(selectedStrategy.id >= 0) ?
-                                    (((viewData.view_metrics.videos_deliverable_imps > 0) ||
-                                    (viewData.view_metrics.videos_deliverable_imps === 0)) ?
-                                    (viewData.view_metrics.videos_deliverable_imps | number : 0) : '-') :
-                                    (((viewData.view_metrics.video_viewability_metrics.videos_deliverable_imps > 0) ||
-                                    (viewData.view_metrics.video_viewability_metrics.videos_deliverable_imps === 0)) ?
-                                    (viewData.view_metrics.video_viewability_metrics.videos_deliverable_imps |
+                                    (((viewData.view_metrics.video_deliverable_imps > 0) ||
+                                    (viewData.view_metrics.video_deliverable_imps === 0)) ?
+                                    (viewData.view_metrics.video_deliverable_imps | number : 0) : '-') :
+                                    (((viewData.view_metrics.video_viewability_metrics.video_deliverable_imps > 0) ||
+                                    (viewData.view_metrics.video_viewability_metrics.video_deliverable_imps === 0)) ?
+                                    (viewData.view_metrics.video_viewability_metrics.video_deliverable_imps |
                                     number : 0) : '-')">
                             </div>
                             <div class="each_col third_col">
@@ -440,12 +440,12 @@
                             <div class="each_col ad_col">
                                 <div class="sub_col">
                                     <span data-ng-bind="(selectedStrategy.id >= 0) ?
-                                        (((viewData.view_metrics.videos_viewable_imps > 0) ||
-                                        (viewData.view_metrics.videos_viewable_imps === 0)) ?
-                                        (viewData.view_metrics.videos_viewable_imps | number : 0) : '-') :
-                                        (((viewData.view_metrics.video_viewability_metrics.videos_viewable_imps > 0) ||
-                                        (viewData.view_metrics.video_viewability_metrics.videos_viewable_imps === 0)) ?
-                                        (viewData.view_metrics.video_viewability_metrics.videos_viewable_imps |
+                                        (((viewData.view_metrics.video_viewable_imps > 0) ||
+                                        (viewData.view_metrics.video_viewable_imps === 0)) ?
+                                        (viewData.view_metrics.video_viewable_imps | number : 0) : '-') :
+                                        (((viewData.view_metrics.video_viewability_metrics.video_viewable_imps > 0) ||
+                                        (viewData.view_metrics.video_viewability_metrics.video_viewable_imps === 0)) ?
+                                        (viewData.view_metrics.video_viewability_metrics.video_viewable_imps |
                                         number : 0) : '-')">
                                     </span>
                                     <span data-ng-bind="(selectedStrategy.id >= 0) ?
@@ -517,9 +517,9 @@
                                 <div class="each_strategy clearfix">
                                     <div class="each_col first_col" data-ng-bind="tactic.ad_name"></div>
                                     <div class="each_col sec_col"
-                                         data-ng-bind="((tactic.videos_deliverable_imps > 0) ||
-                                            (tactic.videos_deliverable_imps === 0)) ?
-                                            (tactic.videos_deliverable_imps | number : 0) : '-'">
+                                         data-ng-bind="((tactic.video_deliverable_imps > 0) ||
+                                            (tactic.video_deliverable_imps === 0)) ?
+                                            (tactic.video_deliverable_imps | number : 0) : '-'">
                                     </div>
                                     <div class="each_col third_col">
                                         <div class="sub_col">
@@ -535,9 +535,9 @@
                                     </div>
                                     <div class="each_col ad_col">
                                         <div class="sub_col">
-                                            <span data-ng-bind="((tactic.videos_viewable_imps > 0) ||
-                                                (tactic.videos_viewable_imps === 0)) ?
-                                                (tactic.videos_viewable_imps | number : 0) : '-'">
+                                            <span data-ng-bind="((tactic.video_viewable_imps > 0) ||
+                                                (tactic.video_viewable_imps === 0)) ?
+                                                (tactic.video_viewable_imps | number : 0) : '-'">
                                             </span>
                                             <span data-ng-bind="((tactic.video_viewable_perc > 0) ||
                                                 (tactic.video_viewable_perc === 0)) ?
