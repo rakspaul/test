@@ -278,7 +278,6 @@
                            class="form-control"
                            maxlength="128"
                            data-ng-model="pixelFormData.name"
-                           data-ng-disabled="isEditMode && pixelFormData.id"
                            special-character="special-character"
                            data-ng-keyup="checkDuplicatePixel(pixelFormData.name)">
                     <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
