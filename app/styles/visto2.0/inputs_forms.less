@@ -343,8 +343,9 @@ select:hover {
 /* end .squared Check Box */
 
 //Disabled Class Style
-.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
-    opacity: 0.4;
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn, input[disabled] {
+    opacity: 0.4 !important;
+    cursor: not-allowed;
 }
 
 .adChoices textarea{

@@ -252,8 +252,7 @@
                 <div class="btn-group create pull-right" role="group" aria-label="...">
                     <!--Search Input-->
                     <a role="button" class="btn btn-default pull-right" data-ng-click="downLoadPixel();"
-                       data-ng-disabled="advertiserData.disableDownLoadPixel"
-                       style="border-right: 0;">
+                       data-ng-disabled="advertiserData.disableDownLoadPixel">
                         <span class="icon-download"></span>
                         <span>Download Selected Pixels</span>
                     </a>
@@ -391,14 +390,13 @@
                     <!--Segment Name-->
                     <div class="pull-left" data-ng-if="pixelFormData.segmentName && isEditMode">
                         <label class="greyTxt pull-left" style="padding-top: 0 !important;">Segment Name:</label>
-                        <span class="pull-left clearLeft"
-                              data-ng-bind="pixelFormData.segmentName"></span>
+                        <input class="col-md-12 zeroPadding" style="border-width: 0; background: transparent;"
+                              value="{{pixelFormData.segmentName}}"></input>
                     </div>
                 </div>
 
-                <div class="form-group col-md-6 zeroPaddding">
+                <div class="form-group col-md-6 zeroPadding" style="margin: 15px 0;">
                     <a class="pull-right btn btn-default"
-                        style="margin-bottom: 15px;"
                         data-ng-click="savePixel()"
                         data-ng-bind="pixelIndex!=null ? 'Update Pixel' : 'Save Pixel'">
                         Save Pixel
