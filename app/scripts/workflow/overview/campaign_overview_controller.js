@@ -1025,7 +1025,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postCreateAdObj = {};
                 postCreateAdObj.name = formData.adGroupName;
 
-                dateTimeZone = workflowService.getSubAccountTimeZone();
+                dateTimeZone = workflowService.getAccountTimeZone();
 
                 if($scope.adGroupData.modifiedAdGroupAPIStartTime &&
                     moment(formData.startTime).startOf('day').isSame(moment($scope.adGroupData.modifiedAdGroupAPIStartTime).startOf('day'))) {
