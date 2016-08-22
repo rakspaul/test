@@ -235,7 +235,7 @@ define(['angularAMD'],
                     }
 
                     url += '/v1sto/invoices';
-
+console.log('invoiceTool(), fromView = ', fromView);
                     if (fromView) {
                         return url;
                     } else {
