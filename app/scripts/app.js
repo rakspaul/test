@@ -1623,20 +1623,6 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/campaignId/:campaignId/adId/:adId/creative/:creativeId/preview', angularAMD.route({
-                    templateUrl: assets.html_creative_preview,
-                    title: 'Preview Creative',
-                    controller: 'CreativePreviewController',
-                    controllerUrl: 'workflow/creative/creative_preview_controller',
-                    showHeader: false,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativePreviewResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
                 .when('/a/:accountId/adv/:advertiserId/creative/:creativeId/preview', angularAMD.route({
                     templateUrl: assets.html_creative_preview,
                     title: 'Preview Creative',
@@ -1651,7 +1637,7 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/a/:accountId/sa/:subAccountId//clientId/:clientId/adv/:advertiserId/campaignId/:campaignId/adId/:adId/creative/:creativeId/preview', angularAMD.route({
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/campaign/:campaignId/ad/:adId/creative/:creativeId/preview', angularAMD.route({
                     templateUrl: assets.html_creative_preview,
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',
@@ -1665,7 +1651,7 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/a/:accountId/clientId/:clientId/adv/:advertiserId/campaignId/:campaignId/adId/:adId/creative/:creativeId/preview', angularAMD.route({
+                .when('/a/:accountId/adv/:advertiserId/campaign/:campaignId/ad/:adId/creative/:creativeId/preview', angularAMD.route({
                     templateUrl: assets.html_creative_preview,
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',

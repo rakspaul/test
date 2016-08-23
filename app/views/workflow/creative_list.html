@@ -307,7 +307,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a target="_blank"
-                                   data-ng-click = "getPreviewUrl(creativeData)">
+                                   data-ng-click = "getPreviewUrl(creativeData, campaignId)">
                                     <span class="icon-preview withIcons">{{textConstants.PREVIEW}}</span>
                                 </a>
                             </li>
@@ -400,8 +400,8 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a target="_blank"
-                                       data-ng-href="/clientId/{{creativeData.clientId}}/adv/{{creativeData.advertiserId}}/campaignId/{{adData.campaignId}}/adId/{{adData.adId}}/creative/{{creativeData.id}}/preview"
-                                       data-ng-bind-html="textConstants.PREVIEW">
+                                       data-ng-click = "getPreviewUrl(creativeData, adData.campaignId, adData.adId)">
+                                        <span class="icon-preview withIcons">{{textConstants.PREVIEW}}</span>
                                     </a>
                                 </li>
                             </ul>
