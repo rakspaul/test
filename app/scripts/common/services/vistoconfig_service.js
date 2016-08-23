@@ -7,6 +7,28 @@ define(['angularAMD'], function (angularAMD) {
             WORKFLOW_API_URL: workflowCreate_api
         };
 
+        this.supportedBrowser = [
+            {
+                name: 'Chrome',
+                version: 36
+            },
+
+            {
+                name: 'Firefox',
+                version: 35
+            },
+
+            {
+                name: 'Internet Explorer',
+                version: 10
+            },
+
+            {
+                name: 'Safari',
+                version: 8
+            }
+        ];
+
         this.actionColors = [
             '#7ED86C',
             '#2C417F',
