@@ -66,9 +66,7 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/campaignLi
                         return '';
                     }
 
-                    if (spendDifference < -10 || spendDifference > 20) {
-                        return 'red';
-                    } else if (spendDifference >= -10 && spendDifference <= 20) {
+                    if (spendDifference >= -10 && spendDifference <= 20) {
                         return 'blue';
                     }
 
