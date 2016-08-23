@@ -62,6 +62,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             };
 
             _currCtrl.fetchAllBrands = function (clientId) {
+                console.log('fetchAllBrands(), clientId = ', clientId);
                 accountsService
                     .getUserBrands(clientId)
                     .then(function (res) {
@@ -664,7 +665,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $('#admin_nav_link').addClass('active_tab');
             $('.miniTabLinks .btn').removeClass('active');
             $('#accounts_link').addClass('active');
-            
+
             $( document ).ready(function() {
                 $('.main_navigation')
                     .find('.active')

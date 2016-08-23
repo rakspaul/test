@@ -3,17 +3,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
     'use strict';
 
     angularAMD.factory('accountsService', function (vistoconfig, dataService, constants, requestCanceller) {
-
         var advertiser = null,
-
             brand = null,
-
             client = null,
-
             advertiserMode,
-
             counter = 0,
-
             permission = '',
 
             roleTemplateId = {
@@ -302,17 +296,21 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
 
             getUserAdvertiser = function (clientId) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers';
-                if(clientId){
-                    url += '?clientId='+clientId;
+
+                if (clientId) {
+                    url += '?clientId=' + clientId;
                 }
+
                 return dataService.fetch(url);
             },
 
             getUserBrands = function (clientId) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands';
-                if(clientId){
-                    url += '?clientId='+clientId;
+
+                if (clientId) {
+                    url += '?clientId=' + clientId;
                 }
+
                 return dataService.fetch(url);
             },
 
@@ -359,7 +357,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     {'Content-Type': 'application/json'}
                 );
             },
-            
+
 
             setPermissions =  function (permissionObj) {
                 permission = permissionObj;

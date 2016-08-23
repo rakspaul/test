@@ -1,10 +1,8 @@
 define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_store_model',
-    'common/utils', 'common/services/url_service', 'login/login_model', 'common/services/constants_service'],
-    function (angularAMD) {
+    'common/utils', 'common/services/url_service', 'login/login_model', 'common/services/constants_service'], function (angularAMD) {
         'use strict';
 
-        angularAMD.factory('dataService', function ($q, $http, $cookieStore, $location, $routeParams, vistoconfig,
-                                                    dataStore, utils, urlService, loginModel, constants) {
+        angularAMD.factory('dataService', function ($q, $http, $cookieStore, $location, $routeParams, vistoconfig, dataStore, utils, urlService, loginModel, constants) {
             var errorObject = {
                     status: 'error',
                     data: {message: 'Error'}
@@ -219,6 +217,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         })
                         .then(function (response) {
                             var urlIndex = utils.getParameterByName(url, 'urlIndex'),
+
                                 objOnSuccess = {
                                     status: 'success',
                                     data: response.data
@@ -230,12 +229,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
 
                             if (response.status === 401) {
                                 loginModel.unauthorized();
+
                                 return errorObject;
                             } else if (response.status === 403) {
                                 loginModel.forbidden();
+
                                 return errorObject;
                             } else if (response.status === 204) {
-                                objOnSuccess.status=constants.DATA_NOT_AVAILABLE;
+                                objOnSuccess.status = constants.DATA_NOT_AVAILABLE;
                             }
 
                             dataStore.cacheByUrl(url, objOnSuccess);
@@ -245,9 +246,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                             if (error.status !== 0) {
                                 if (error.status === 401) {
                                     loginModel.unauthorized();
+
                                     return errorObject;
                                 } else if (error.status === 403) {
                                     loginModel.forbidden();
+
                                     return errorObject;
                                 }
 
