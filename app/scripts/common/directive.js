@@ -566,6 +566,22 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
             };
         })
 
+       .directive('roundConverter', function() {
+          return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function(scope, elem, attrs, ngModelCtrl) {
+              function roundNumber(val) {
+                var parsed = parseFloat(val, 10);
+                if(parsed !== parsed) { return null; } // check for NaN
+                var rounded = Math.round(parsed);
+                return rounded;
+              }
+              // Parsers take the view value and convert it to a model value.
+              ngModelCtrl.$parsers.push(roundNumber);
+           }
+         };
+        })
         .directive('searchBox', function() {
             return {
                 restrict: 'A',
