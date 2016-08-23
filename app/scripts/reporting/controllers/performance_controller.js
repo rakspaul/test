@@ -408,8 +408,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         });
 
         $scope.$watchCollection('[adFormats.videoAds, selected_tab, selectedStrategy.id]', function (arr) {
-            var width = (arr[0] || arr[1] === 'bydiscrepancy') ? '100%' : '1985px';
-
+            var width = (arr[0] || arr[1] === 'bydiscrepancy') ? '100%' : '1550px';
             $('.reports_performance_header, .strategy_total_container').css('width', width);
         });
 
