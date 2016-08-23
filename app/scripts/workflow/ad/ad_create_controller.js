@@ -835,7 +835,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             previewUrl +=  '/adv/'+ creativeData.advertiserId;
 
             if($scope.adId) {
-                previewUrl += '/campaignId/'+ $scope.campaignId +'/adId/'+ $scope.adId +
+                previewUrl += '/campaign/'+ $scope.campaignId +'/ad/'+ $scope.adId +
                     '/creative/'+ creativeData.id +'/preview';
             } else {
                 previewUrl +=  '/creative/' + creativeData.id +'/preview';

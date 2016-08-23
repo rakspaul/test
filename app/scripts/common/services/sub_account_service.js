@@ -9,6 +9,7 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
             previousAccountId,
 
             reset = function () {
+
                 subAccountList = [];
                 dashboardSubAccountList = [];
                 selectedSubAccount = undefined;
@@ -17,9 +18,11 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                 campaignSelectModel.reset();
                 advertiserModel.reset();
                 brandsModel.reset();
+
             },
 
             fetchSubAccountList = function (accountId) {
+
                 accountId = Number(accountId);
                 var deferred = $q.defer();
 
@@ -57,9 +60,11 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                         }
                     );
                 return deferred.promise;
+
             },
 
             allowedSubAccount = function (subAccountId) {
+
                 subAccountId = Number(subAccountId);
                 if (subAccountId) {
                     selectedSubAccount = _.find(subAccountList, function (client) {
@@ -70,9 +75,11 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                     }
                 }
                 return false;
+
             },
 
             fetchDashboardSubAccountList = function (accountId) {
+
                 accountId =  Number(accountId);
                 var deferred = $q.defer();
 
@@ -113,9 +120,11 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                     });
 
                 return deferred.promise;
+
             },
 
             allowedDashboardSubAccount = function (subAccountId) {
+
                 subAccountId = Number(subAccountId);
 
                 if (subAccountId) {
@@ -128,28 +137,38 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                 }
 
                 return false;
+
             },
 
             getSubAccounts = function () {
+
                 return subAccountList;
+
             },
 
             getDashboardSubAccountList = function () {
+
                 return dashboardSubAccountList;
+
             },
 
             getSelectedSubAccount = function () {
+
                 return selectedSubAccount;
+
             },
 
             getSelectedDashboardSubAccount = function () {
+
                 return selectedDashboardSubAccount;
+
             },
 
             changeSubAccount =  function (account, subAccount) {
+
                 var url = '/a/' + account + '/sa/' + subAccount.id;
-                console.log('account', account);
                 $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
+
             };
 
         return {
