@@ -677,8 +677,6 @@ console.log('PATEA getSubAccounts(), clientId = ', clientId, ', access_level = '
             getAdvertisersDomainList = function (clientId, advertiserId) {
                 var url;
 
-                clientId = vistoconfig.getMasterClientId();
-
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
