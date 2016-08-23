@@ -215,34 +215,11 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         }
                     };
 
-                    $scope.getClassFromDiff = function (spendDifference, campaignEndDate) {
-                        var dateDiffInDays;
-
-                        if (campaignEndDate !== undefined) {
-                            dateDiffInDays =
-                                momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), campaignEndDate);
-                        }
+                    $scope.getClassFromDiff = function (spendDifference) {
 
                         // fix for initial loading
                         if (spendDifference === -999) {
                             return '';
-                        }
-
-                        if (campaignEndDate !== undefined) {
-                            if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'),
-                                    campaignEndDate) === false) {
-                                if ((dateDiffInDays <= 7) && (spendDifference < -5 || spendDifference > 5)) {
-                                    return 'red';
-                                } else if ((dateDiffInDays <= 7) && (spendDifference >= -5 && spendDifference <= 5)) {
-                                    return 'blue';
-                                }
-                            }
-
-                            // past a campaign end date
-                            if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'),
-                                    campaignEndDate) === true) {
-                                return (spendDifference < -5 || spendDifference > 5) ? 'red' : 'blue';
-                            }
                         }
 
                         if (spendDifference < -10 || spendDifference > 20) {
