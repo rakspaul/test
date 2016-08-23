@@ -22,13 +22,13 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
             fetchSubAccountList = function (accountId) {
                 accountId = Number(accountId);
                 var deferred = $q.defer();
-
+console.log('fetchSubAccountList(): accountId = ', accountId, ', typeof accountId = ', typeof accountId, ', previousAccountId = ', previousAccountId,
+    'typeof previousAccountId = ', typeof previousAccountId);
                 if (previousAccountId !== accountId) {
                     this.reset();
                 }
 
                 if (subAccountList.length > 0) {
-
                     $timeout(function () {
                         deferred.resolve();
                     }, 10);
@@ -56,6 +56,7 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                             }
                         }
                     );
+
                 return deferred.promise;
             },
 
@@ -131,6 +132,7 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
             },
 
             getSubAccounts = function () {
+                //var list = subAccountList.length ? subAccountList : fetchSubAccountList(accountId);
                 return subAccountList;
             },
 

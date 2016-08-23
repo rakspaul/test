@@ -37,7 +37,7 @@
         <div class="pull-left main_navigation clearfix">
             <!-- Media Plans -->
             <div class="pull-left each_nav_link" id="campaigns_nav_link" data-ng-if="showMediaPlanTab">
-                <a data-ng-href="{{mediaPlansListUrl ? mediaPlansListUrl : navigateToTab('', $event, 'mediaplanList', true)}}"
+                <a data-ng-href="{{mplUrl && isNaN(mplUrl.slice(-2)) ? mplUrl : navigateToTab('', $event, 'mediaplanList', true)}}"
                    data-ng-click="navigateToTab('', $event, 'mediaplanList', false)"
                    data-ng-mouseover="hideNavigationDropdown($event);"
                    data-ng-bind="textConstants.MEDIA_PLAN">
