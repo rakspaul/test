@@ -330,7 +330,10 @@ define(['angularAMD'], function (angularAMD) {
 
                                     if (campaign) {
                                         if (params.advertiserId) {
-                                            url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
+
+                                            //When user selects all brand, it will not be selected as campaign brand id is getting used - Sapna
+                                            //url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
+                                            url += '/adv/' + campaign.advertiser_id + '/b/' + (params.brandId || 0);
                                         }
 
                                         url += '/mediaplans/' + campaign.campaign_id + '/' + params.reportName;

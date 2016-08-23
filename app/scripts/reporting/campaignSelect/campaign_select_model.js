@@ -1,11 +1,10 @@
 define(['angularAMD', 'common/services/url_service', 'common/services/data_service',
-    'reporting/kpiSelect/kpi_select_model', 'login/login_model', 'reporting/advertiser/advertiser_model',
+    'reporting/kpiSelect/kpi_select_model', 'login/login_model',
     'common/services/vistoconfig_service'], function (angularAMD) {
         angularAMD.factory('campaignSelectModel', ['$q', '$rootScope', '$routeParams', '$timeout', 'urlService',
-            'dataService', 'kpiSelectModel', 'loginModel', 'advertiserModel', 'localStorageService', 'brandsModel',
+            'dataService', 'kpiSelectModel', 'loginModel', 'localStorageService', 'brandsModel',
             'utils', 'vistoconfig', 'strategySelectModel',
-            function ($q, $rootScope, $routeParams, $timeout, urlService, dataService, kpiSelectModel, loginModel,
-                      advertiserModel, localStorageService, brandsModel, utils, vistoconfig, strategySelectModel) {
+            function ($q, $rootScope, $routeParams, $timeout, urlService, dataService, kpiSelectModel, loginModel, localStorageService, brandsModel, utils, vistoconfig, strategySelectModel) {
                 var campaign = {
                     selectedCampaign: {},
                     selectedCampaignOriginal: {}
@@ -69,8 +68,7 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                         }, 5);
                         return deferred.promise;
                     }
-                    url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                        '/clients/' + clientId + '/campaigns/' + campaignId;
+                    url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId;
 
                     dataService.getSingleCampaign(url).then(function (result) {
                         if (result.status === 'success' && !angular.isString(result.data)) {
