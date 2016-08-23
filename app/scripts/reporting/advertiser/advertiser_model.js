@@ -1,11 +1,11 @@
-define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/services/constants_service'],
+define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/services/constants_service','reporting/campaignSelect/campaign_select_controller'],
     function (angularAMD) {
         'use strict';
 
         angularAMD.factory('advertiserModel', ['$route','$q', '$location', '$timeout', 'advertiserService', 'constants',
-            'localStorageService', 'workflowService', 'pageFinder',
+            'localStorageService', 'workflowService', 'pageFinder','campaignSelectModel',
             function ($route,$q, $location, $timeout, advertiserService, constants, localStorageService,
-                      workflowService, pageFinder) {
+                      workflowService, pageFinder,campaignSelectModel) {
 
                 var advertiserData = {
                         advertiserList: [],
@@ -103,14 +103,45 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
                     changeAdvertiser: function(accountId, subAccountId, advertiser) {
                         var url = '/a/' + accountId;
                         subAccountId && (url += '/sa/' + subAccountId);
+                        var cannedReportName = _.last($location.path().split('/'));
 
-                        // append advertiser, mediaplans and canned report name when an advertiser is selected from dropdown in canned reports
+                        //brand is 0 in url always as when a new advertiser is selected it will be 'All Brands'
+                        (advertiser.id > 0)?(url += '/adv/' + advertiser.id+'/b/0'):'';
+
                         if ($location.path().split('/').indexOf('mediaplans') > 0) {
-                            var cannedReportName = _.last($location.path().split('/'));
-                            (advertiser.id > 0)?(url += '/adv/' + advertiser.id+'/b/0'):'';
-                            ($route.current.params.campaignId)?(url +='/mediaplans/'+$route.current.params.campaignId):(url +='/mediaplans');
-                            (cannedReportName && cannedReportName !== 'mediaplans')?(url += '/'+cannedReportName):'';
-                            $location.url(url);
+
+                            // If it is canned reports
+                            if($route.current.params.campaignId){
+
+                                //check which is the apropriate client id master or subaccount.
+                                var accountIdToFetchCamp = accountId;
+                                if(subAccountId) {
+                                    accountIdToFetchCamp = subAccountId;
+                                }
+
+                                //You need to fetch campaigns when ever an advertiser has changed from dropdown.  Brand will be -1 for call as in UI it will be 'All Brands'.
+                                campaignSelectModel.fetchCampaigns(accountIdToFetchCamp, advertiser.id, -1).then(function(response){
+                                    var campaignArr = response.data.data;
+
+                                    if(campaignArr[0].campaign_id) {
+
+                                        var campaignId = campaignArr[0].campaign_id;
+
+                                        //set first campaign as selected campaign
+                                        campaignSelectModel.setSelectedCampaign(campaignArr[0]);
+
+                                        url += '/mediaplans/' + campaignArr[0].campaign_id;
+                                        (cannedReportName && cannedReportName !== 'mediaplans') ? (url += '/' + cannedReportName) : '';
+                                        $location.url(url);
+                                    }
+                                });
+                            } else {
+                                // if it is mediaplan list page
+                                url +='/mediaplans';
+                                (cannedReportName && cannedReportName !== 'mediaplans')?(url += '/'+cannedReportName):'';
+                                $location.url(url);
+                            }
+
                         } else {
                             (advertiser.id > 0) && (url += '/adv/' + advertiser.id);
                             $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
