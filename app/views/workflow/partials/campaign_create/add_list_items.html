@@ -257,7 +257,7 @@
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
             <div class="rate-input-field symbol-input col-md-12 zeroPadding">
                 <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                <input type="text" class="col-md-12 form-control" 
+                <input type="text" class="col-md-12 form-control"
                        ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate" fcsa-number="{  }"
                        valid-number ng-change="calculateVolume('create')"/>
             </div>
@@ -364,9 +364,9 @@
             </div>
         </div>
 
-        
+
         <div style="clear:both"></div>
- 
+
 
 
         <div class="col-md-4 zeroPadding dropdown-workflow marginRight" ng-show="showSystemOfRecord" >
@@ -389,8 +389,8 @@
 
         </div>
 
-        
-       
+
+
 
         <!-- </div> -->
     </div>
@@ -513,17 +513,6 @@
                  ng-bind="textConstants.WF_AD_SAVE_CLOSE"
                  ng-show="!editLineItemLoaderEdit"></a>
 
-              <!--<a class="btn btn-default pull-right"-->
-                 <!--ng-click="displayZeroLineItemBudgetPopUp('edit')"-->
-                 <!--data-ng-show="editLineItem.billableAmount == '0'"-->
-                 <!--data-ng-disabled="!editLineItem.lineItemName  || (-->
-                         <!--((editLineItem.lineItemType.name).toLowerCase()=='post-impression cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||-->
-                         <!--((editLineItem.lineItemType.name).toLowerCase()=='total cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == '')) ||-->
-                         <!--((editLineItem.lineItemType.name).toLowerCase()=='post-click cpa' && (editLineItem.pixelSelected.id==undefined || editLineItem.pixelSelected.id == ''))-->
-                         <!--)"-->
-                 <!--ng-bind="textConstants.WF_AD_SAVE_CLOSE"-->
-                 <!--ng-show="!editLineItemLoaderEdit"></a>-->
-
               <div ng-show="editLineItemLoaderEdit" class="pull-right common-loading-btn"></div>
               <a class="btn btn-link pull-right cancelLineItem" ng-click="hideLineItemEditRow($event);">Cancel</a>
 
@@ -549,12 +538,12 @@
                 <label class="col-sm-12 greyTxt miniLabels zeroPadding"
                        data-ng-bind="textConstants.MEDIAPLAN_LINE_ITEM_NAME"></label>
                 <input type="text" class="col-md-12" placeholder="Enter Line Item name up to 150 characters"
-                       title="{{editLineItem.lineItemName}}" ng-model="editLineItem.lineItemName" autocomplete="off"/>
+                       title="{{editLineItem.lineItemName}}" special-character="special-character" ng-model="editLineItem.lineItemName" autocomplete="off"/>
             </div>
             <div class="eachListItemFirstRow" ng-hide="hideAdGroupNameEdit || mode === 'edit'">
                 <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.CREATE_ADGROUP_LINEITEM"></label>
                 <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"
-                       title="{{editLineItem.adGroupName}}" ng-model="editLineItem.adGroupName" autocomplete="off"/>
+                       title="{{editLineItem.adGroupName}}" special-character="special-character" ng-model="editLineItem.adGroupName" autocomplete="off"/>
             </div>
         </div>
         <div class="listItemValues">
@@ -584,7 +573,7 @@
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
             <div class="rate-input-field symbol-input col-md-12 zeroPadding">
                 <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                <input type="text" class="col-md-12 form-control" 
+                <input type="text" class="col-md-12 form-control"
                        ng-model="editLineItem.pricingRate" ng-readonly="rateReadOnlyEdit" name="lineItemRate"
                        fraction-numbers autocomplete="off" fcsa-number="{  }" ng-change="calculateVolume('edit')">
             </div>
@@ -721,7 +710,7 @@
 
 
 
-        
+
     </div>
 
     </div>
