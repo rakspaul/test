@@ -1439,9 +1439,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                     return '';
                 }
 
-                if (spendDifference < -10 || spendDifference > 20) {
-                    return 'red';
-                } else if (spendDifference >= -10 && spendDifference <= 20) {
+                if (spendDifference >= -10 && spendDifference <= 20) {
                     return 'blue';
                 }
 
