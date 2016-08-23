@@ -3,31 +3,7 @@ define(['../app','login/login_service','common/utils','common/services/constants
     'use strict';
 
     app.controller('loginController', function ($scope, $sce, loginService, utils, constants, RoleBasedService,
-                                                loginModel) {
-        var browserNameList = '',
-
-            supportedBrowser = [
-                {
-                    name: 'Chrome',
-                    version: 36
-                },
-
-                {
-                    name: 'Firefox',
-                    version: 35
-                },
-
-                {
-                    name: 'Internet Explorer',
-                    version: 10
-                },
-
-                {
-                    name: 'Safari',
-                    version: 8
-                }
-            ];
-
+                                                loginModel, vistoconfig) {
         $scope.textConstants = constants;
         $scope.loadingClass = '';
         $scope.loginErrorMsg = undefined;
@@ -43,7 +19,7 @@ define(['../app','login/login_service','common/utils','common/services/constants
                 $scope.username.trim() === '' ||
                 $scope.password === undefined ||
                 $scope.password.trim() === '') {
-                $scope.loginErrorMsg = 'The Username/Password is incorrect';
+                $scope.loginErrorMsg = constants.USERNAME_OR_PASSWORD_INCORRECT;
                 $scope.loginError = true;
             } else {
                 $scope.dataLoading = true;
@@ -93,10 +69,11 @@ define(['../app','login/login_service','common/utils','common/services/constants
             $scope.loginError = false;
         };
 
-        $scope.getBrowserNameList = function (supportedBrowser) {
-            var lastCommaIndex;
+        $scope.getBrowserNameList = function (browsers) {
+            var lastCommaIndex,
+                browserNameList = '';
 
-            browserNameList = _.pluck(supportedBrowser, 'name').join(',');
+            browserNameList = _.pluck(browsers, 'name').join(',');
             lastCommaIndex = browserNameList.lastIndexOf(',');
 
             browserNameList = browserNameList.substr(0, lastCommaIndex) + ' or ' +
@@ -108,9 +85,10 @@ define(['../app','login/login_service','common/utils','common/services/constants
         $scope.checkoutBrowserInfo = function () {
             var browserInfo = utils.detectBrowserInfo(),
 
-                findData = _.where(supportedBrowser, {
+                findData = _.where(vistoconfig.supportedBrowser, {
                     name: browserInfo.browserName
-                });
+                }),
+                browserList;
 
             if (findData.length > 0) {
                 var findName = findData[0].name,
@@ -124,27 +102,27 @@ define(['../app','login/login_service','common/utils','common/services/constants
                     if (findName === 'Internet Explorer') {
                         $scope.showMessage = true;
 
-                        $scope.browserMessage = 'Unfortunately, we do not support your browser. Please upgrade to IE ' +
-                            findVersion + '.';
+                        $scope.browserMessage = constants.UPGRADE_BROWSER_MESSAGE1.replace(/\{findVersion}/g, findVersion);
 
                         $scope.disabledFormFields = true;
                     } else {
                         $scope.showMessage = true;
 
-                        $scope.browserMessage = 'Best viewed in ' + findName + ' version ' + findVersion +
-                            ' and above. Please upgrade your browser.';
+                        $scope.browserMessage = constants.UPGRADE_BROWSER_MESSAGE2.replace(/\{browserName}/g, findName)
+                            .replace(/\{findVersion}/g, findVersion);
 
                         $scope.disabledFormFields = false;
                     }
                 }
+
             } else {
+
                 // unsupported Browser
                 $scope.showMessage = true;
-
-                $scope.browserMessage = 'Unfortunately, we don\'t yet support your browser. Please use ' +
-                    $scope.getBrowserNameList(supportedBrowser);
-
+                browserList = $scope.getBrowserNameList(vistoconfig.supportedBrowser);
+                $scope.browserMessage = constants.UPGRADE_BROWSER_MESSAGE3.replace(/\{browserList}/g, browserList);
                 $scope.disabledFormFields = true;
+
             }
         };
 
