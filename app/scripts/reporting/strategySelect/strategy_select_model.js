@@ -86,20 +86,19 @@ define(['angularAMD', '../../common/services/url_service', 'common/services/data
 
                 allAdFormats: function () {
                     var result,
-                        adFormatsArr,
-                        selectedStrategy;
+                        adFormatsArr;
 
-                    if (strategyList.strategies && strategyList.strategies.length > 0) {
-                        if (Number(strategyList.selectedStrategy.id) === -1) {
-                            adFormatsArr = _.map(strategyList.strategies, function (strategy) {
+                    if (strategyList && strategyList.length > 0) {
+                        if (Number(selectedStrategy.id) === -1) {
+                            adFormatsArr = _.map(strategyList, function (strategy) {
                                 return strategy.ad_formats || [];
                             });
 
                             result = _.uniq(_.flatten(adFormatsArr));
                         } else {
                             selectedStrategy =
-                                _.find(strategyList.strategies, function (strategy) {
-                                    return strategy.id === Number(strategyList.selectedStrategy.id);
+                                _.find(strategyList, function (strategy) {
+                                    return strategy.id === Number(selectedStrategy.id);
                                 });
 
                             result = selectedStrategy ? selectedStrategy.ad_formats : [];

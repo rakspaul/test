@@ -1,5 +1,5 @@
 define(['angularAMD', 'common/services/constants_service', 'reporting/campaignList/campaign_list_service',
-    'common/moment_utils', 'reporting/directives/tactic_card', 'reporting/common/d3/campaign_chart'],
+    'reporting/directives/tactic_card', 'reporting/common/d3/campaign_chart'],
     function (angularAMD) {
     'use strict';
 
@@ -60,39 +60,14 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/campaignLi
                     return $scope.getClassFromDiff(spendDifference, strategy.endDate);
                 };
 
-                $scope.getClassFromDiff = function (spendDifference, strategyEndDate) {
-                    var dateDiffInDays;
-
-                    if (strategyEndDate !== undefined) {
-                        dateDiffInDays =
-                            momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), strategyEndDate);
-                    }
+                $scope.getClassFromDiff = function (spendDifference) {
 
                     // fix for initial loading
                     if (spendDifference === -999) {
                         return '';
                     }
 
-                    if (strategyEndDate !== undefined) {
-                        if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'),
-                                strategyEndDate) === false) {
-                            if ((dateDiffInDays <= 7) && (spendDifference < -5 || spendDifference > 5)) {
-                                return 'red';
-                            } else if ((dateDiffInDays <= 7) && (spendDifference >= -5 && spendDifference <= 5)) {
-                                return 'blue';
-                            }
-                        }
-
-                        // past a campaign end date
-                        if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'),
-                                strategyEndDate) === true) {
-                            return (spendDifference < -5 || spendDifference > 5) ? 'red' : 'blue';
-                        }
-                    }
-
-                    if (spendDifference < -10 || spendDifference > 20) {
-                        return 'red';
-                    } else if (spendDifference >= -10 && spendDifference <= 20) {
+                    if (spendDifference >= -10 && spendDifference <= 20) {
                         return 'blue';
                     }
 

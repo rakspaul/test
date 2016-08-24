@@ -12,6 +12,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                                              strategySelectModel, dataService, domainReports, constants,
                                                              timePeriodModel, brandsModel, loginModel, urlService,
                                                              advertiserModel, vistoconfig, featuresService, utils) {
+
         var _customCtrl = this,
             extractAdFormats,
 
@@ -416,6 +417,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.adFormats = domainReports.checkForCampaignFormat(strategySelectModel.allAdFormats());
             $scope.videoMode = $scope.adFormats && $scope.adFormats.videoAds;
         };
+
+        extractAdFormats();
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED, function () {
             var selectedStrategyObj = strategySelectModel.getSelectedStrategy();
