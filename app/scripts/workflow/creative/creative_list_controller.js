@@ -201,7 +201,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 display: 'icon-image',
                 video: 'icon-video',
                 'rich media': 'icon-rich-media',
-                social: 'icon-social'
+                social: 'icon-social',
+                native : 'native'
             };
 
             adFormat = adFormat || 'display';

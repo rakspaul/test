@@ -276,7 +276,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 display: 'image',
                 video: 'video',
                 'rich media': 'rich-media',
-                social: 'social'
+                social: 'social',
+                native : 'native'
             };
 
             return adFormatMapper[adFormat.toLowerCase()];
