@@ -302,8 +302,6 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-
-
                 .when('/a/:accountId/sa/:subAccountId/mediaplans/reports/:reportName', angularAMD.route({
                     templateUrl: assets.html_campaign_reports,
                     title: 'Reports Overview',
@@ -383,6 +381,7 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         header: function (routeResolversParams, routeResolvers) {
+                            console.log('Reports overview..........');
                             return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
@@ -1269,6 +1268,7 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         header: function (routeResolversParams, routeResolvers) {
+                            console.log('v1sto/invoices route!');
                             return routeResolvers.invoiceHeader(routeResolversParams);
                         }
                     }

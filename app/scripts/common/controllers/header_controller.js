@@ -69,7 +69,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
         $scope.isNaN = window.isNaN;
 
         $scope.mplUrl = '';
-        $scope.cannedReportsUrl = [];
+        $scope.reportsUrl = [];
         $scope.creativeListUrl = '';
         $scope.adminUrl = '';
         $scope.invoiceToolUrl = '';
@@ -163,7 +163,10 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
         $scope.navigateToTab = function (url, event, page, fromView, index) {
             var targetUrl;
-
+console.log('navigateToTab()!!!!!!!!!!, $scope.mplUrl = ', $scope.mplUrl, ', $scope.reportsUrl[' + (index || 'none') + '] = ', $scope.reportsUrl[index]);
+if (_.isEmpty($routeParams) && page !== 'creativelist') {
+    return;
+}
             if (event && event.originalEvent.metaKey) {
                 return;
             }
@@ -181,7 +184,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $scope.mplUrl = targetUrl;
             } else if (page === 'reportsSubPage') {
                 targetUrl = urlBuilder.cannedReportsUrl(url, fromView);
-                $scope.cannedReportsUrl[index] = targetUrl;
+                $scope.reportsUrl[index] = targetUrl;
             } else if (page === 'creativelist') {
                 targetUrl = urlBuilder.creativeListUrl(fromView);
                 $scope.creativeListUrl = targetUrl;

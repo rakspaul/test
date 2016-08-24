@@ -20,8 +20,12 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
             },
 
             fetchSubAccountList = function (accountId) {
+                var deferred;
+
+                accountId = accountId || previousAccountId;
                 accountId = Number(accountId);
-                var deferred = $q.defer();
+
+                deferred = $q.defer();
 console.log('fetchSubAccountList(): accountId = ', accountId, ', typeof accountId = ', typeof accountId, ', previousAccountId = ', previousAccountId,
     'typeof previousAccountId = ', typeof previousAccountId);
                 if (previousAccountId !== accountId) {

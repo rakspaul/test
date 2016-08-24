@@ -76,6 +76,7 @@ define(['angularAMD'], function (angularAMD) {
             adminHeaderResolver = function (args) {
                 var deferred = args.$q.defer(),
                     params = args.$route.current.params;
+console.log('adminHeaderResolver(), params = ', params);
 
                 if (!args.loginModel.getClientData().is_super_admin) {
                     args.$location.url('/dashboard');
@@ -104,6 +105,7 @@ define(['angularAMD'], function (angularAMD) {
             creativeListResolver = function (args) {
                 var deferred = args.$q.defer(),
                     redirect = false;
+                console.log('creativeResolver(), redirect = ', redirect);
 
                 args
                     .accountService
@@ -113,7 +115,7 @@ define(['angularAMD'], function (angularAMD) {
 
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
                             isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
-
+console.log('creativeResolver(): account ALLOWED!')
                             if (!isLeafNode) {
                                 args
                                     .subAccountService
@@ -127,7 +129,7 @@ define(['angularAMD'], function (angularAMD) {
                                 fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
                             }
                         } else {
-                            console.log('account not allowed');
+                            console.log('creativeResolver(): account not allowed');
                             args.$location.url('/tmp');
                         }
                     });
@@ -440,7 +442,7 @@ define(['angularAMD'], function (angularAMD) {
             invoiceHeader = function (args) {
                 var deferred = args.$q.defer(),
                     params = args.$route.current.params;
-
+console.log('invoHeader, params = ', params);
                 args
                     .accountService
                     .fetchAccountList()
@@ -667,6 +669,7 @@ define(['angularAMD'], function (angularAMD) {
 
             reportsHeaderResolver2 = function (args) {
                 var deferred = args.$q.defer();
+console.log('reportsHeaderResolver2(): CALLED FROM Reports overview..........args.$route.current.params.accountId = ', args.$route.current.params.accountId);
 
                 args
                     .accountService
@@ -698,7 +701,7 @@ define(['angularAMD'], function (angularAMD) {
                                         }
                                     });
                             } else {
-                                // if it's a leaf node i.e not haveing subaccount
+                                // if it's a leaf node i.e not having subaccount
                                 args
                                     .accountService
                                     .fetchAccountData(args.$route.current.params.accountId)
