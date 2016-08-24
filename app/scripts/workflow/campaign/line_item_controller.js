@@ -541,7 +541,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                                 // make lineitems call n refresh that data
                                 workflowService
-                                    .getLineItem($routeParams.campaignId, true)
+                                    .getLineItem(clientId, $routeParams.campaignId, true)
                                     .then(function (results) {
                                         if (results.status === 'success' && results.data.statusCode === 200) {
                                             $scope.lineItems.lineItemList = [];
@@ -1018,7 +1018,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     '<span class="icon-arrow-solid-down"></span>'
                 );
 
-                
+
 
             $scope.volume = '';
             $scope.billableAmount = '';
