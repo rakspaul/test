@@ -2,43 +2,32 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
     function (angularAMD) {
 
     angularAMD.controller('AccountListDropdownController', function ($scope, $rootScope, $compile, $q, constants, accountsService) {
-            var _customctrl = this,
-                defaultAccess = 'ADMIN',
-                editedUserDetails = {},
-                dropdownDiv = null;
+        var _customctrl = this,
+            defaultAccess = 'ADMIN',
+            editedUserDetails = {},
+            dropdownDiv = null;
 
-            $scope.initddl = function(){
-           
+        $scope.initddl = function(){
+       
             var ddlIndex = Math.floor(Math.random() * 1000);
             
             $scope.loadingClientDropDown = false;
             $scope.ddlID = 'accountDropDown_1';
+            $scope.clientddlID = 'clientDropdown_' + ddlIndex + '_';
 
-            $scope.$parent.$watch('userConsoleFormDetails.homeClientId', function(){
-                    
-                var clientId = $scope.$parent.userConsoleFormDetails.homeClientId;
-                if(typeof clientId !== 'undefined'){
-                    accountsService
-                        .getClient(clientId)
-                        .then(function(res){
-                         if((res.status === 'OK' || res.status === 'success')){
-                            $scope.clientddlID = 'clientDropdown_' + ddlIndex + '_';
-                            $scope.currentClientName = res.data.data.displayName;
-                            }
-                        });
-                    }
-                });
-
+            $scope.$parent.$watch('userConsoleFormDetails.homeClientId', function(){   
+                $scope.currentClientName = $scope.$parent.userConsoleFormDetails.homeClientName;               
+            });
         };
 
         $scope.openAccountsDropdown = function (event) {
              $(event.target).closest('.dropdown').find('.dropdown-menu').show();
-          };
+        };
 
         $scope.selectClientOption = function (id, name, accountIndex) {
-;
+
                 $scope.$parent.userConsoleFormDetails.homeClientId = id;
-                $scope.currentClientName = name;
+                $scope.$parent.userConsoleFormDetails.homeClientName = name;
 
                 $('#' +  $scope.ddlID + ' .clientDropdownCnt , .childTier').hide();
 

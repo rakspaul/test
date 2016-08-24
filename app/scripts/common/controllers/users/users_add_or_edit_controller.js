@@ -265,6 +265,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                         $scope.userConsoleFormDetails.lastName = _customctrl.responseData.lastName;
                         $scope.userConsoleFormDetails.status = _customctrl.responseData.status;
                         $scope.userConsoleFormDetails.homeClientId = _customctrl.responseData.homeClientId;
+                        $scope.userConsoleFormDetails.homeClientName = _customctrl.responseData.homeClientName;
                         $scope.isCurr_SuperUser = (_customctrl.responseData.reportTemplateId === 1) ? true : false;
 
                         setTimeout(function () {
