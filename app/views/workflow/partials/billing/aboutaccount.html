@@ -1,0 +1,201 @@
+<div class="clearfix modal-body">
+    
+    <div class="col-md-12 zeroPadding">
+        <h1 class="pull-left">About this Account</h1>
+    </div>
+    
+    <!--Row 1-->
+    <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
+        <label class="col-sm-12 greyTxt">Account Type:</label>
+        <div class="col-md-12 zeroPadding dropdown-workflow">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle"
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="true">
+                    <span class="text" data-ng-bind="clientType ? clientType : 'Select Account'">
+                        Select Account
+                    </span>
+                    <span class="icon-arrow-solid-down"></span>
+                </button>
+                <ul class="dropdown-menu" data-toggle="dropdown">
+                    <li class="available" data-ng-click="setSelectedClientType('MARKETER')">
+                        <a>MARKETER</a>
+                    </li>
+                    <li class="available" data-ng-click="setSelectedClientType('AGENCY')">
+                        <a>AGENCY</a>
+                    </li>
+                    <li class="available" data-ng-click="setSelectedClientType('RESELLER')">
+                        <a>RESELLER</a>
+                    </li>
+                    <li class="available" data-ng-click="setSelectedClientType('ORGANIZATION')">
+                        <a>ORGANIZATION</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
+        <label class="col-sm-12 greyTxt">Account Name:</label>
+        <input type="text"
+               class="form-control"
+               placeholder="Add Name"
+               data-ng-model="clientName"
+               data-ng-blur="getClientCode()"
+               data-toggle="dropdown"
+               special-character="special-character" >
+        <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR" ></label>
+    </div>
+    
+    <div class="form-group col-md-4 " style="padding: 0;">
+        <div class="col-md-12 zeroPadding dropdown-workflow accountCode">
+            <label class="col-sm-12 greyTxt">Account Code:</label>
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle setSelectedClientCode"
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="true">
+                    <span class="text" data-ng-bind="setSelectedClientCode ? setSelectedClientCode : 'Select Code'"></span>
+                    <span class="icon-arrow-solid-down"></span>
+                </button>
+                <ul class="dropdown-menu" data-toggle="dropdown">
+                    <li class="available" data-ng-repeat="code in codeList" data-ng-click="selectClientCode($event,code)">
+                        <a data-ng-bind="code"></a>
+                    </li>
+                    <li class="available" data-ng-click="selectClientCode($event,'Others')">
+                        <a data-ng-bind="'Others'"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group customClientCode" style="padding: 0;" data-ng-show="setSelectedClientCode=='Others'">
+            <label class="col-sm-12 greyTxt">Enter Code:</label>
+            <input type="text"
+                   class="form-control"
+                   placeholder="Add Code"
+                   data-ng-model="customClientCode"
+                   data-ng-blur="leaveFocusCustomClientCode()"
+                   special-character="special-character"
+                   maxlength="5"
+                   data-toggle="dropdown">
+            <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
+            <div>
+                <span class="txtError" ng-if="clientCodeExist" data-ng-bind="textConstants.CLIENT_CODE_EXIST"></span>
+            </div>
+        </div>
+    </div>
+
+    <!--Row 2-->
+    <div class="form-group col-md-3" style="padding: 0 15px 0 0; clear: left;">
+        <label class="col-sm-12 greyTxt" data-ng-bind="textConstants.ACCOUNT_NICKNAME"></label>
+        <input type="text"
+               class="form-control"
+               data-ng-model="nickname"
+               special-character="special-character"
+               placeholder="Add Nickname">
+        <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>  
+    </div>
+    
+    <div class="form-group col-md-3" style="padding: 0 15px 0 0;">
+        <label class="col-sm-12 greyTxt">Currency:</label>
+        <div class="col-md-12 zeroPadding dropdown-workflow">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle"
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="true">
+                    <span class="text" data-ng-bind="selectedCurrency ? selectedCurrency : 'Select Currency'">
+                        Select Currency
+                    </span>
+                    <span class="icon-arrow-solid-down"></span>
+                </button>
+                <ul class="dropdown-menu" data-toggle="dropdown">
+                    <li class="available"
+                        value="{{curr.id}}"
+                        data-ng-repeat="curr in currency"
+                        data-ng-selected="{{curr.id === selectedCurrency}}">
+                        <a data-ng-bind="curr.currencyCode" data-ng-click="selectCurrency(curr)"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group col-md-3" style="padding: 0 15px 0 0;">
+        <label class="col-sm-12 greyTxt">Geography:</label>
+        <div class="col-md-12 zeroPadding dropdown-workflow">
+            <div class="dropdown">
+                <button id="geography"
+                        class="btn btn-default dropdown-toggle"
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="true">
+                    <span class="text" data-ng-bind="selectedCountry ? selectedCountry : 'Select Geography'"></span>
+                    <span class="icon-arrow-solid-down"></span>
+                </button>
+                <ul class="dropdown-menu" data-toggle="dropdown">
+                    <li class="available"
+                        value="{{country.id}}"
+                        data-ng-repeat="country in Geography"
+                        data-ng-selected="{{country.id == selectedCountry}}">
+                        <a data-ng-bind="country.name" data-ng-click="selectCountry(country)"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group col-md-3" style="padding: 0;">
+        <label class="col-sm-12 greyTxt">Timezone:</label>
+        <div class="col-md-12 zeroPadding dropdown-workflow">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle"
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="true">
+                    <span class="text"
+                          data-ng-bind="timezones[timezone] ? timezones[timezone] : 'Select Time zone'">
+                    </span>
+                    <span class="icon-arrow-solid-down"></span>
+                </button>
+                <ul class="dropdown-menu" data-toggle="dropdown">
+                    <li class="available"
+                        value="{{key}}"
+                        data-ng-repeat="(key, value) in timezones"
+                        data-ng-selected="{{key === timezone}}">
+                        <a data-ng-bind="value" data-ng-click="selectTimeZone(key)"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Ad Choices-->
+<div class="adChoices" data-ng-show="clientObj.isLeafNode" style="margin-top: 30px;">
+    <div class="col-md-12 zeroPadding">
+        <h1 class="pull-left" style="margin-top: 5px;">Ad Choices</h1>
+    </div>
+    <div class="form-group col-md-2" style="padding: 0 15px 0 0;">
+        <label class="col-sm-12 greyTxt">Enable Ad Choices:</label>
+        <input id="advEnableAdChoices"
+               class="cmn-toggle cmn-toggle-round"
+               type="checkbox"
+               data-ng-model="enableAdChoice">
+        <label for="advEnableAdChoices"></label>
+    </div>
+    <div class="form-group col-md-10" style="padding: 0 15px;" data-ng-show="enableAdChoice">
+        <label class="col-sm-12 greyTxt" for="pixelCode">Ad Choices Code Block:</label>
+        <textarea data-ng-model="adChoiceCode" id="pixelCode"></textarea>
+        <span class="col-md-12 zeroPadding" style="margin-top: 7px;"
+         data-ng-show="enableAdChoice"
+         data-ng-bind="textConstants.NOTE_ADCHOICE_CODE"></span>
+    </div>
+</div>

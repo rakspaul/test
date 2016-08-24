@@ -1828,7 +1828,7 @@ multiselect .dropdown-menu > li > a {
 }
 .symbol-input .symbol {
   position: absolute;
-  top: 10px;
+  top: 9px;
   left: 10px;
   z-index: 1;
 }

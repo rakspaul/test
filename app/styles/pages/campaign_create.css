@@ -4713,9 +4713,8 @@
 .modalAccountRedx .modal-dialog .modal-content .popup-holder select {
   border: 1px solid #bfc9d7;
   border-radius: 2px !important;
-  line-height: normal;
-  padding: 10px 12px 7px 12px;
-  height: auto;
+  line-height: 100%;
+  padding: 10px 15px;
   box-shadow: none !important;
 }
 .accounts-popup.popup-holder .add-filters,

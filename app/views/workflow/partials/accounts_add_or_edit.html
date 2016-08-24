@@ -1,279 +1,67 @@
-<div class="popup-holder accounts-popup">
-    <div class="modal-header">
-        <span class="btn btn-primary pull-right" data-ng-click="saveClients()">Save</span>
-        <span class="btn btn-link pull-right" data-dismiss="modal" data-ng-click="close()">Cancel</span>
-        <h2 class="modal-title" id="myModalLabel" data-ng-bind="showUserModeText()"></h2>
-    </div>
-    <div class="clearfix modal-body">
-        <!--Row 1-->
-        <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-            <label class="col-sm-12 greyTxt">Account Type:</label>
-            <div class="col-md-12 zeroPadding dropdown-workflow">
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle"
-                            type="button"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="true">
-                        <span class="text" data-ng-bind="clientType ? clientType : 'Select Account'">
-                            Select Account
-                        </span>
-                        <span class="icon-arrow-solid-down"></span>
-                    </button>
-                    <ul class="dropdown-menu" data-toggle="dropdown">
-                        <li class="available" data-ng-click="setSelectedClientType('MARKETER')">
-                            <a>MARKETER</a>
-                        </li>
-                        <li class="available" data-ng-click="setSelectedClientType('AGENCY')">
-                            <a>AGENCY</a>
-                        </li>
-                        <li class="available" data-ng-click="setSelectedClientType('RESELLER')">
-                            <a>RESELLER</a>
-                        </li>
-                        <li class="available" data-ng-click="setSelectedClientType('ORGANIZATION')">
-                            <a>ORGANIZATION</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="form-group col-md-4" style="padding: 0 15px;">
-            <label class="col-sm-12 greyTxt">Account Name:</label>
-            <input type="text"
-                   class="form-control"
-                   placeholder="Add Name"
-                   data-ng-model="clientName"
-                   data-ng-blur="getClientCode()"
-                   data-toggle="dropdown"
-                   special-character="special-character" >
-            <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR" ></label>
-        </div>
-        <div class="form-group col-md-4 " style="padding: 0 15px;">
-            <div class="col-md-12 zeroPadding dropdown-workflow accountCode">
-                <label class="col-sm-12 greyTxt">Account Code:</label>
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle setSelectedClientCode"
-                            type="button"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="true">
-                        <span class="text" data-ng-bind="setSelectedClientCode ? setSelectedClientCode : 'Select Code'"></span>
-                        <span class="icon-arrow-solid-down"></span>
-                    </button>
-                    <ul class="dropdown-menu" data-toggle="dropdown">
-                        <li class="available" data-ng-repeat="code in codeList" data-ng-click="selectClientCode($event,code)">
-                            <a data-ng-bind="code"></a>
-                        </li>
-                        <li class="available" data-ng-click="selectClientCode($event,'Others')">
-                            <a data-ng-bind="'Others'"></a>
-                        </li>
-                    </ul>
-                </div>
-                
-            </div>
-            <div class="form-group customClientCode" style="padding: 0 15px;" data-ng-show="setSelectedClientCode=='Others'">
-                <label class="col-sm-12 greyTxt">Enter Code:</label>
-                <input type="text"
-                       class="form-control"
-                       placeholder="Add Code"
-                       data-ng-model="customClientCode"
-                       data-ng-blur="leaveFocusCustomClientCode()"
-                       special-character="special-character"
-                       maxlength="5"
-                       data-toggle="dropdown">
-                <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
-                <div>
-                    <span class="txtError" ng-if="clientCodeExist" data-ng-bind="textConstants.CLIENT_CODE_EXIST"></span>
-                </div>
-            </div>
-        </div>
-
-        <!--Row 2-->
-        <div class="form-group col-md-3" style="padding: 0 15px 0 0; clear: left;">
-            <label class="col-sm-12 greyTxt" data-ng-bind="textConstants.ACCOUNT_NICKNAME"></label>
-            <input type="text"
-                   class="form-control"
-                   data-ng-model="nickname"
-                   special-character="special-character"
-                   placeholder="Add Nickname">
-            <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>  
-        </div>
-        <div class="form-group col-md-3" style="padding: 0 15px;">
-            <label class="col-sm-12 greyTxt">Currency:</label>
-            <div class="col-md-12 zeroPadding dropdown-workflow">
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle"
-                            type="button"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="true">
-                        <span class="text" data-ng-bind="selectedCurrency ? selectedCurrency : 'Select Currency'">
-                            Select Currency
-                        </span>
-                        <span class="icon-arrow-solid-down"></span>
-                    </button>
-                    <ul class="dropdown-menu" data-toggle="dropdown">
-                        <li class="available"
-                            value="{{curr.id}}"
-                            data-ng-repeat="curr in currency"
-                            data-ng-selected="{{curr.id === selectedCurrency}}">
-                            <a data-ng-bind="curr.currencyCode" data-ng-click="selectCurrency(curr)"></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="form-group col-md-3" style="padding: 0 15px;">
-            <label class="col-sm-12 greyTxt">Geography:</label>
-            <div class="col-md-12 zeroPadding dropdown-workflow">
-                <div class="dropdown">
-                    <button id="geography"
-                            class="btn btn-default dropdown-toggle"
-                            type="button"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="true">
-                        <span class="text" data-ng-bind="selectedCountry ? selectedCountry : 'Select Geography'"></span>
-                        <span class="icon-arrow-solid-down"></span>
-                    </button>
-                    <ul class="dropdown-menu" data-toggle="dropdown">
-                        <li class="available"
-                            value="{{country.id}}"
-                            data-ng-repeat="country in Geography"
-                            data-ng-selected="{{country.id == selectedCountry}}">
-                            <a data-ng-bind="country.name" data-ng-click="selectCountry(country)"></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="form-group col-md-3" style="padding: 0 0 0 15px;">
-            <label class="col-sm-12 greyTxt">Timezone:</label>
-            <div class="col-md-12 zeroPadding dropdown-workflow">
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle"
-                            type="button"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="true">
-                        <span class="text"
-                              data-ng-bind="timezones[timezone] ? timezones[timezone] : 'Select Time zone'">
-                        </span>
-                        <span class="icon-arrow-solid-down"></span>
-                    </button>
-                    <ul class="dropdown-menu" data-toggle="dropdown">
-                        <li class="available"
-                            value="{{key}}"
-                            data-ng-repeat="(key, value) in timezones"
-                            data-ng-selected="{{key === timezone}}">
-                            <a data-ng-bind="value" data-ng-click="selectTimeZone(key)"></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end of modal_body -->
-
-    <div class="adChoices" data-ng-show="clientObj.isLeafNode">
-        <div class="col-md-12 zeroPadding">
-            <h1 class="pull-left">Ad Choices</h1>
-        </div>
-        <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-            <label class="col-sm-12 greyTxt">Enable Ad Choices:</label>
-            <input id="advEnableAdChoices"
-                   class="cmn-toggle cmn-toggle-round"
-                   type="checkbox"
-                   data-ng-model="enableAdChoice">
-            <label for="advEnableAdChoices"></label>
-        </div>
-        <div class="form-group col-md-4" style="padding: 0 15px;" data-ng-show="enableAdChoice">
-            <label class="col-sm-12 greyTxt" for="pixelCode">Ad Choices Code Block:</label>
-            <textarea data-ng-model="adChoiceCode" id="pixelCode"></textarea>
-        </div>
-        <div class="col-md-12 zeroPadding"
-             data-ng-show="enableAdChoice"
-             data-ng-bind="textConstants.NOTE_ADCHOICE_CODE"></div>
-    </div>
-
-    <!--Billing & Invoices-->
-    <div class="billingMethods">
-        <div class="col-md-12 zeroPadding">
-            <h1 class="pull-left">Billing & Invoices</h1>
-            <div class="form-group col-md-4 pull-right">
-                <label class="col-sm-12 greyTxt" style="text-align: right;">Invoice On Demand:</label>
-                <input id="invoiceDemand" class="cmn-toggle cmn-toggle-round pull-right" type="checkbox">
-                <label for="invoiceDemand" class="pull-right"></label>
-            </div>
-        </div>
-
-        <!--Row 1-->
-        <div class="col-md-12 zeroPadding">
-            <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-                <label class="col-sm-12 greyTxt">Billed For:</label>
-                <span data-ng-bind="billingData.techFees.name"></span>
-            </div>
-
-            <!--Tech Fees-->
-            <div class="col-md-8 zeroPadding methodFees techFees">
-                <label class="col-sm-12 greyTxt">Rate Type:</label>
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle form-group col-md-4 disabled"
-                            type="button"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="true"
-                            disabled>
-                        <span class="text" data-ng-bind="billingData.techFees.billingTypeName"></span>
-                    </button>
-                </div>
-                <div class="form-group col-md-4" style="margin-top: -36px;">
-                    <label class="col-sm-12 greyTxt" for="techFeesBillingValue">Value:</label>
-                    <input type="text"
-                           id="techFeesBillingValue"
-                           class="form-control"
-                           maxlength="80"
-                           placeholder="Add some value"
-                           data-ng-model="billingData.techFees.billingValue">
-                </div>
-            </div>
-
-            <!--Service Fee-->
-            <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-                <label class="col-sm-12 greyTxt">Billed For:</label>
-                <span data-ng-bind="billingData.serviceFees.name"></span>
-            </div>
-            <div class="col-md-8 zeroPadding methodFees techFees">
-                <label class="col-sm-12 greyTxt">Rate Type:</label>
-                <div class="dropdown-workflow col-md-4 zeroPadding">
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle form-group col-md-4"
-                                type="button"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="true">
-                            <span class="text" data-ng-bind="billingData.serviceFees.billingTypeName"></span>
-                            <span class="icon-arrow-solid-down" style="margin-left: 192px"></span>
-                        </button>
-                        <ul class="dropdown-menu" data-toggle="dropdown">
-                            <li class="available" data-ng-repeat="billingType in billingData.billingTypesArr">
-                                <a data-ng-click="selectedBillingTypeChanged(billingType)"
-                                   data-ng-bind="billingType.name"></a>
+<div class="popup-holder accounts-popup" style="margin-top: -30px;">
+    <div id="campaignCreate">
+        <div class="firstWrapper">
+            <div class="masterContainer">
+                <!-- Header Starts -->
+                <div class="clearfix left_column_nav campaign-create-left-nav" style="border-width: 0;">
+                    <div class="campaign_name_holder">
+                        <h1 class="campaign_name">Account Setup</h1>
+                        <ul class="stepCompLabel nav nav-tabs" id="mediaTab">
+                            <li class="active eachStepCompLabel">
+                                <a class="leftNavLink selected" data-target="#aboutaccount" data-toggle="tab">1. About this Account</a>
+                            </li>
+                            <li class="clearfix eachStepCompLabel">
+                                <a class="leftNavLink selected" data-target="#billingtab" data-toggle="tab">2. Billing</a>
+                            </li>
+                            <li class="clearfix eachStepCompLabel">
+                                <a class="leftNavLink selected" data-target="#advtab" data-toggle="tab">3. Advertiser Defaults</a>
+                            </li>
+                            <li class="clearfix eachStepCompLabel">
+                                <a class="leftNavLink selected" data-target="#assoctab" data-toggle="tab">4. Associations</a>
+                            </li>
+                            <li class="clearfix eachStepCompLabel">
+                                <a class="leftNavLink selected" data-target="#contacttab" data-toggle="tab">5. Contacts</a>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <div class="form-group col-md-4" style="margin-top: -36px">
-                    <label class="col-sm-12 greyTxt" for="serviceFeesBillingValue">Value:</label>
-                    <input type="text"
-                           id="serviceFeesBillingValue"
-                           class="form-control"
-                           maxlength="80"
-                           placeholder="Add some value"
-                           data-ng-model="billingData.serviceFees.billingValue">
+                
+                <!-- Form Settings Start -->
+                <div class="settingWrap">
+                    <div class="modal-header">
+                        <span class="btn btn-primary pull-right" data-ng-click="saveClients()">Save</span>
+                        <span class="btn btn-link pull-right" data-dismiss="modal" data-ng-click="close()">Cancel</span>
+                        <h2 class="modal-title" id="myModalLabel" data-ng-bind="showUserModeText()"></h2>
+                    </div>
+                    
+                    <div class="tab-content">
+                        <!--About this Account-->
+                        <div class="isCollapsed tab-pane fade in active" id="aboutaccount">
+                            <div ng-include="'/views/workflow/partials/billing/aboutaccount.html'"></div>
+                        </div>
+
+                        <!--Billing-->
+                        <div class="tab-pane fade" id="billingtab">
+                            <div ng-include="'/views/workflow/partials/billing/billingtab.html'"></div>
+                        </div>
+
+                        <!--Advertiser Defaults-->
+                        <div class="tab-pane fade" id="advtab">
+                            <div ng-include="'/views/workflow/partials/billing/advtab.html'"></div>
+                        </div>
+
+                        <!--Associations-->
+                        <div class="tab-pane fade" id="assoctab">
+                            <div ng-include="'/views/workflow/partials/billing/assoctab.html'"></div>
+                        </div>
+                        
+                        <!--Contacts-->
+                        <div class="tab-pane fade" id="contacttab">
+                            <div ng-include="'/views/workflow/partials/billing/contacttab.html'"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- end of popup-holder -->
