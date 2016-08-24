@@ -319,8 +319,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            deleteAd = function (campaignId, adId) {
-                var clientId = vistoconfig.getSelectedAccountId();
+            deleteAd = function (clientId, campaignId, adId) {
 
                 return dataService.deleteRequest(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
