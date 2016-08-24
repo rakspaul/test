@@ -15,6 +15,13 @@
                data-ng-bind="textConstants.ADTYPESIDE">
             </a>
             <div class="col-md-12 zeroPadding">
+                <div class="statusLabel" data-ng-if="adData.startTime">
+                    <div class="col-md-12">
+                        <div class="statusIcon icon-calendar"></div>
+                        <span data-ng-bind="adData.startTime + ' - ' + adData.endTime"></span>
+                        <span class="greyTxt" data-ng-bind="textConstants.FLIGHTPAR"></span>
+                    </div>
+                </div>
                 <div class="statusLabel disabled"
                      data-ng-if="!adData.adFormat && !adData.goal && adData.screenTypes.length === 0">
                     <div class="col-md-12">
@@ -69,13 +76,6 @@
                                  !adData.budgetAmount">
                     <div class="col-md-12">
                         <span style="color: #000;" data-ng-bind="textConstants.NOTSET"></span>
-                    </div>
-                </div>
-                <div class="statusLabel" data-ng-if="adData.startTime">
-                    <div class="col-md-12">
-                        <div class="statusIcon icon-calendar"></div>
-                        <span data-ng-bind="adData.startTime + ' - ' + adData.endTime"></span>
-                        <span class="greyTxt" data-ng-bind="textConstants.FLIGHTPAR"></span>
                     </div>
                 </div>
                 <div class="statusLabel" data-ng-if="(adData.unitCost)">

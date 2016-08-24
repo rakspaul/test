@@ -474,9 +474,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.WF_GOAL = 'Goal';
         this.SELECT_GOAL = 'Select Goal';
         this.START_DATE = 'Start Date';
-        this.FLIGHT_START_DATE = 'Flight Start Date';
+        this.FLIGHT_START_DATE = 'Start Date';
         this.END_DATE = 'End Date';
-        this.FLIGHT_END_DATE = 'Flight End Date';
+        this.FLIGHT_END_DATE = 'End Date';
         this.SELECT_TIME = 'Select Time';
         this.UNTITLED_CAMPAIGN = 'Untitled Media Plan';
         this.SAVE_CAMPAIGN = 'Save Media Plan';
@@ -682,7 +682,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         //Ad Create: Sidebar
         this.ADSETUP = 'Ad Setup';
-        this.ADTYPESIDE = '1. Ad Type';
+        this.ADTYPESIDE = '1. About this Ad';
         this.NOTSET = 'Not Set';
         this.FORMATPAR = '(Format)';
         this.PRIMARYKPIPAR = '(Primary KPI)';
@@ -698,10 +698,11 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.CREATIVESIDE = '6. Creative';
 
         //Ad Create: 1 Ad Type
-        this.SELECTADTYPE = 'Select Ad Type';
+        this.SELECTADTYPE = 'About this Ad';
         this.LEARNADTYPES = 'Learn more about Ad Types';
-        this.NAMEOFAD = 'What is the name of your Ad?';
-        this.LABEL = 'Add labels';
+        this.NAMEOFAD = 'Tell us about your Ad';
+        this.LABEL = 'Labels (Optional)';
+        this.ADNAME = 'Ad Name';
 
         //Ad Create: 2 Budget & Delivery
         this.SETBUDGET = 'Budget & Delivery';
