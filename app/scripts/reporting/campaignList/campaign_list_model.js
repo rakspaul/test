@@ -688,21 +688,18 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
 
                             switch (filterToApply) {
                                 case 'in_flight':
-                                    this.appliedQuickFilterText = 'In Flight';
                                     this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                                     this.dashboard.status.active.bothItem = 'active' ;
                                     type = 'active' ;
                                     break;
 
                                 case 'ontrack':
-                                    this.appliedQuickFilterText = this.getCapitalizeString('ontrack');
                                     this.dashboard.quickFilterSelectedCount = this.dashboard.active['ontrack'];
                                     this.dashboard.status.active.ontrack = 'active' ;
                                     kpiStatus = 'ontrack';
                                     break;
 
                                 case 'underperforming' :
-                                    this.appliedQuickFilterText = this.getCapitalizeString('Underperforming');
                                     this.dashboard.quickFilterSelectedCount =
                                         this.dashboard.active['underperforming'];
 
@@ -711,7 +708,6 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                     break;
 
                                 case 'endingSoon' :
-                                    this.appliedQuickFilterText = 'Ending Soon' ;
                                     this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                                     this.dashboard.status.active.endingSoon = 'active';
                                     this.appliedQuickFilter = 'endingSoon';
@@ -720,7 +716,6 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                     break;
 
                                 case 'draft':
-                                    this.appliedQuickFilterText = 'Draft';
 
                                     this.dashboard.quickFilterSelectedCount =
                                         this.dashboard['draft'];
@@ -730,7 +725,6 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                     break;
 
                                 case 'scheduled':
-                                    this.appliedQuickFilterText = 'Scheduled';
 
                                     this.dashboard.quickFilterSelectedCount =
                                         this.dashboard['ready'];
@@ -740,7 +734,6 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                     break;
 
                                 case 'ended':
-                                    this.appliedQuickFilterText = 'Ended';
 
                                     this.dashboard.quickFilterSelectedCount =
                                         this.dashboard['completed'];
@@ -750,7 +743,6 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                     break;
 
                                 case 'archived':
-                                    this.appliedQuickFilterText = 'Archived';
 
                                     this.dashboard.quickFilterSelectedCount =
                                         this.dashboard['archived'];
@@ -760,7 +752,6 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                     break;
 
                                 case 'all':
-                                    this.appliedQuickFilterText = 'All';
 
                                     this.dashboard.quickFilterSelectedCount =
                                         this.dashboard['all'];
@@ -771,7 +762,6 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                     break;
 
                                 default:
-                                    this.appliedQuickFilterText = 'In Flight';
                                     this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                                     this.dashboard.status.active.bothItem = 'active' ;
                                     type = 'active' ;
