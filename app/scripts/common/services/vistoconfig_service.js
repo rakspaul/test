@@ -81,10 +81,10 @@ define(['angularAMD'], function (angularAMD) {
             {kpiType: 'CTR',                        displayName: 'CTR'},
             {kpiType: 'IMPRESSIONS',                displayName: 'Impressions'},
             {kpiType: 'POST CLICK CPA',             displayName: 'Post Click CPA'},
-            {kpiType: 'SUSPICIOUS ACTIVITY RATE',   displayName: 'Suspicious Activity %'},
+            //{kpiType: 'SUSPICIOUS ACTIVITY RATE',   displayName: 'Suspicious Activity %'},
             {kpiType: 'SPEND',                      displayName: 'Spend'},
-            {kpiType: 'VIEWABLE IMPRESSIONS',       displayName: 'Viewable Impressions'},
-            {kpiType: 'VIEWABLE RATE',              displayName: 'Viewable Rate'},
+            //{kpiType: 'VIEWABLE IMPRESSIONS',       displayName: 'Viewable Impressions'},
+            //{kpiType: 'VIEWABLE RATE',              displayName: 'Viewable Rate'},
             {kpiType: 'VTC',                        displayName: 'VTC'}
         ];
 
@@ -96,9 +96,9 @@ define(['angularAMD'], function (angularAMD) {
             { kpi: 'ctr',                           displayName: 'CTR' },
             { kpi: 'pc_cpa',                        displayName: 'Post Click CPA' },
             { kpi: 'spend',                         displayName: 'Spend' },
-            { kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
-            { kpi: 'viewable_impressions',          displayName: 'Viewable Impressions' },
-            { kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' },
+            //{ kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
+            //{ kpi: 'viewable_impressions',          displayName: 'Viewable Impressions' },
+            //{ kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' },
             { kpi: 'vtc',                           displayName: 'VTC' }
         ];
 
