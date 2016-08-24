@@ -854,7 +854,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 video: 'video',
                 'rich media': 'rich-media',
                 social: 'social',
-                // native : 'native'
+                native : 'native'
             };
 
             return adFormatMapper[adFormat.toLowerCase()];
