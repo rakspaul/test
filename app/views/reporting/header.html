@@ -37,7 +37,7 @@
         <div class="pull-left main_navigation clearfix">
             <!-- Media Plans -->
             <div class="pull-left each_nav_link" id="campaigns_nav_link" data-ng-if="showMediaPlanTab">
-                <a data-ng-href="{{mediaPlansListUrl ? mediaPlansListUrl : navigateToTab('', $event, 'mediaplanList', true)}}"
+                <a data-ng-href="{{mplUrl && (isNaN(mplUrl.slice(-2)) && mplUrl.indexOf('undefined') === -1) ? mplUrl : navigateToTab('', $event, 'mediaplanList', true)}}"
                    data-ng-click="navigateToTab('', $event, 'mediaplanList', false)"
                    data-ng-mouseover="hideNavigationDropdown($event);"
                    data-ng-bind="textConstants.MEDIA_PLAN">
@@ -47,7 +47,7 @@
 
             <!-- Reports -->
             <div class="pull-left each_nav_link" id="reports_nav_link" data-ng-if="showReportTab">
-                <a data-ng-href="{{cannedReportsUrl[7] ? cannedReportsUrl[7] : navigateToTab('/overview', $event, 'reportsSubPage', true, 7)}}"
+                <a data-ng-href="{{reportsUrl[7] && (isNaN(reportsUrl[7].slice(-2)) && reportsUrl[7].indexOf('undefined') === -1) ? reportsUrl[7] : navigateToTab('/overview', $event, 'reportsSubPage', true, 7)}}"
                    reporttitle="reportOverview"
                    data-ng-click="navigateToTab('/overview', $event, 'reportsSubPage', false, 7)"
                    data-ng-mouseover="showHideNavigationDropdown($event, 'reports', 'hover');"

@@ -1,7 +1,5 @@
 define(['angularAMD', 'workflow/services/workflow_service'], function (angularAMD) {
-    angularAMD.service('subAccountService', function ($rootScope, $location, $q, $route, $timeout, workflowService,
-                                                      campaignSelectModel, advertiserModel, brandsModel, pageFinder) {
-
+    angularAMD.service('subAccountService', function ($rootScope, $location, $q, $route, $timeout, workflowService, campaignSelectModel, advertiserModel, brandsModel, pageFinder) {
         var subAccountList = [],
             dashboardSubAccountList = [],
             selectedSubAccount,
@@ -9,7 +7,6 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
             previousAccountId,
 
             reset = function () {
-
                 subAccountList = [];
                 dashboardSubAccountList = [];
                 selectedSubAccount = undefined;
@@ -18,20 +15,24 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                 campaignSelectModel.reset();
                 advertiserModel.reset();
                 brandsModel.reset();
-
             },
 
             fetchSubAccountList = function (accountId) {
+                var deferred;
 
+                accountId = accountId || previousAccountId;
                 accountId = Number(accountId);
-                var deferred = $q.defer();
+
+                deferred = $q.defer();
+
+                console.log('fetchSubAccountList(): accountId = ', accountId, ', typeof accountId = ', typeof accountId, ', previousAccountId = ',
+                    previousAccountId, 'typeof previousAccountId = ', typeof previousAccountId);
 
                 if (previousAccountId !== accountId) {
                     this.reset();
                 }
 
                 if (subAccountList.length > 0) {
-
                     $timeout(function () {
                         deferred.resolve();
                     }, 10);
@@ -49,23 +50,22 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                                 });
 
                                 // commented by sapna - need to checkout with Abhimanyu that why this sorting has been done though in the subaccount dropdown not applied.
-                               // subAccountList = _.sortBy(subAccountList, 'displayName');
+                                // subAccountList = _.sortBy(subAccountList, 'displayName');
 
                                 previousAccountId = accountId;
-
                                 deferred.resolve();
                             } else {
                                 console.log('error', result);
                             }
                         }
                     );
-                return deferred.promise;
 
+                return deferred.promise;
             },
 
             allowedSubAccount = function (subAccountId) {
-
                 subAccountId = Number(subAccountId);
+
                 if (subAccountId) {
                     selectedSubAccount = _.find(subAccountList, function (client) {
                         return subAccountId === client.id;
@@ -74,21 +74,20 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                         return true;
                     }
                 }
-                return false;
 
+                return false;
             },
 
             fetchDashboardSubAccountList = function (accountId) {
+                var deferred = $q.defer();
 
                 accountId =  Number(accountId);
-                var deferred = $q.defer();
 
                 if (previousAccountId !==  accountId) {
                     this.reset();
                 }
 
                 if (dashboardSubAccountList.length > 0) {
-
                     $timeout(function () {
                         deferred.resolve();
                     }, 10);
@@ -111,20 +110,16 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                             });
 
                             previousAccountId = accountId;
-
                             deferred.resolve();
-
                         } else {
                             console.log('error', result);
                         }
                     });
 
                 return deferred.promise;
-
             },
 
             allowedDashboardSubAccount = function (subAccountId) {
-
                 subAccountId = Number(subAccountId);
 
                 if (subAccountId) {
@@ -137,38 +132,28 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                 }
 
                 return false;
-
             },
 
             getSubAccounts = function () {
-
                 return subAccountList;
-
             },
 
             getDashboardSubAccountList = function () {
-
                 return dashboardSubAccountList;
-
             },
 
             getSelectedSubAccount = function () {
-
                 return selectedSubAccount;
-
             },
 
             getSelectedDashboardSubAccount = function () {
-
                 return selectedDashboardSubAccount;
-
             },
 
             changeSubAccount =  function (account, subAccount) {
-
                 var url = '/a/' + account + '/sa/' + subAccount.id;
-                $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
 
+                $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
             };
 
         return {

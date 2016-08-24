@@ -16,7 +16,7 @@
              class="header_tab_dropdown"
              data-ng-class="{'active_tab': tab.href === filters.activeTab}"
              id="{{tab.href}}">
-            <a data-ng-href="{{cannedReportsUrl[$index] ? cannedReportsUrl[$index] : navigateToTab('/' + tab.href, $event , 'reportsSubPage', true, $index)}}"
+            <a data-ng-href="{{reportsUrl[$index] && (isNaN(reportsUrl[$index].slice(-2)) && reportsUrl[$index].indexOf('undefined') === -1) ? reportsUrl[$index] : navigateToTab('/' + tab.href, $event , 'reportsSubPage', true, $index)}}"
                data-ng-click="navigateToTab('/' + tab.href, $event , 'reportsSubPage', false, $index)"
                id="performance_tab_{{tab.href}}"
                style="text-transform: capitalize;"

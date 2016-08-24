@@ -101,11 +101,14 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/fea
                         $location.url(page.buildPage(url));
                     } else {
                         // fetch only the leaf subaccounts
-                        subAccountService.fetchSubAccountList(account.id).then(function() {
-                            var subAccountId = subAccountService.getSubAccounts()[0].id;
-                            url += '/sa/' + subAccountId;
-                            $location.url(page.buildPage(url));
-                        });
+                        subAccountService
+                            .fetchSubAccountList(account.id)
+                            .then(function() {
+                                var subAccountId = subAccountService.getSubAccounts()[0].id;
+
+                                url += '/sa/' + subAccountId;
+                                $location.url(page.buildPage(url));
+                            });
                     }
                 }
             },

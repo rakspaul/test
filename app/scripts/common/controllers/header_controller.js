@@ -7,7 +7,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                                                         constants, loginModel, domainReports, campaignSelectModel, RoleBasedService, workflowService, featuresService,
                                                         accountService, subAccountService, vistoconfig, localStorageService, advertiserModel, brandsModel, strategySelectModel,
                                                         pageFinder, urlBuilder) {
-console.log('HEADERCONTROLLER INVOKED!!!');
         var featurePermission = function () {
                 var fParams = featuresService.getFeatureParams();
 
@@ -66,8 +65,11 @@ console.log('HEADERCONTROLLER INVOKED!!!');
                 $scope.defaultAccountsName = name;
             };
 
-        $scope.mediaPlansListUrl = '';
-        $scope.cannedReportsUrl = [];
+        // Assign isNaN to scope variable to use it from view template
+        $scope.isNaN = window.isNaN;
+
+        $scope.mplUrl = '';
+        $scope.reportsUrl = [];
         $scope.creativeListUrl = '';
         $scope.adminUrl = '';
         $scope.invoiceToolUrl = '';
@@ -118,7 +120,7 @@ console.log('HEADERCONTROLLER INVOKED!!!');
                                     var deferred = $q.defer(),
                                         url;
 
-                                    setMasterClientData(id, name,isLeafNode, event);
+                                    setMasterClientData(id, name, isLeafNode, event);
 
                                     // when enters as workflow user should we broadcast masterclient - sapna
                                     if (moduleObj.redirect) {
@@ -161,10 +163,11 @@ console.log('HEADERCONTROLLER INVOKED!!!');
 
         $scope.navigateToTab = function (url, event, page, fromView, index) {
             var targetUrl;
-
-            console.log('navigateToTab(), url = ', url, ', event = ', event, ', page = ', page, ', fromView = ', fromView, ', index = ', index);
+console.log('navigateToTab()!!!!!!!!!!, $scope.mplUrl = ', $scope.mplUrl, ', $scope.reportsUrl[' + (index || 'none') + '] = ', $scope.reportsUrl[index]);
+if (_.isEmpty($routeParams) && page !== 'creativelist') {
+    return;
+}
             if (event && event.originalEvent.metaKey) {
-                console.log('Command key (mac) is pressed!');
                 return;
             }
 
@@ -178,32 +181,25 @@ console.log('HEADERCONTROLLER INVOKED!!!');
                 $location.url(urlBuilder.dashboardUrl());
             } else if (page === 'mediaplanList') {
                 targetUrl = urlBuilder.mediaPlansListUrl(fromView);
-                $scope.mediaPlansListUrl = targetUrl;
-                console.log('returned from urlBuilder.mediaPlansListUrl(fromView) = ', targetUrl);
+                $scope.mplUrl = targetUrl;
             } else if (page === 'reportsSubPage') {
                 targetUrl = urlBuilder.cannedReportsUrl(url, fromView);
-                $scope.cannedReportsUrl[index] = targetUrl;
-                console.log('returned from urlBuilder.cannedReportsUrl(fromView) = ', targetUrl);
+                $scope.reportsUrl[index] = targetUrl;
             } else if (page === 'creativelist') {
                 targetUrl = urlBuilder.creativeListUrl(fromView);
                 $scope.creativeListUrl = targetUrl;
-                console.log('returned from urlBuilder.creativeListUrl(fromView) = ', targetUrl);
             } else if (page === 'adminOverview') {
                 targetUrl = urlBuilder.adminUrl(fromView);
                 $scope.adminUrl = targetUrl;
-                console.log('returned from urlBuilder.adminUrl(fromView) = ', targetUrl);
             } else if (page === 'invoiceTool') {
                 targetUrl = urlBuilder.invoiceTool(fromView);
                 $scope.invoiceToolUrl = targetUrl;
-                console.log('returned from urlBuilder.invoiceTool(fromView) = ', targetUrl);
             } else if (page === 'customReports') {
                 targetUrl = urlBuilder.customReportsUrl(fromView);
                 $scope.customReportsUrl = targetUrl;
-                console.log('returned from urlBuilder.customReportsUrl(fromView) = ', targetUrl);
             } else if (page === 'scheduleReports') {
                 targetUrl = urlBuilder.customReportsListUrl(url, fromView);
                 $scope.scheduleReportsUrl[index] = targetUrl;
-                console.log('returned from urlBuilder.customReportsListUrl(fromView) = ', targetUrl);
             } else if (page === 'uploadReports') {
                 $location.url(urlBuilder.uploadReportsUrl());
             } else if (page === 'uploadedReportsList') {
@@ -268,7 +264,6 @@ console.log('HEADERCONTROLLER INVOKED!!!');
 
         /* Start Feature Permission */
         $rootScope.$on('features', function () {
-console.log('$on.features()');
             $scope.accountsData = accountService.getAccounts();
             $scope.defaultAccountsName = accountService.getSelectedAccount().name;
             $scope.multipleClient = $scope.accountsData.length > 1;
@@ -470,11 +465,5 @@ console.log('$on.features()');
                 });
             };
         });
-/*
-        $timeout(function () {
-            $scope.mediaPlansUrl = $scope.navigateToTab('', undefined, 'mediaplanList', true);
-            console.log('outside document ready, $scope.mediaPlansUrl is = ', $scope.mediaPlansUrl);
-        }, 1000);
-*/
     });
 });
