@@ -213,7 +213,10 @@ if (_.isEmpty($routeParams) && page !== 'creativelist') {
             var elem = $(event.target),
                 minHeight,
                 argMenu = $('#' + arg + '-menu');
-
+            if( arg === 'help' ) {
+                var elem_dropdown = $('.help-link-tab').offset().left - ( $('#help-menu').width()/2 ) + 10 ;
+                argMenu.css({'left':elem_dropdown + 'px', 'right': 'auto'});
+            }
             if (argMenu.is(':visible') === false) {
                 $('.main_nav_dropdown').hide();
                 minHeight = argMenu.css('min-height');

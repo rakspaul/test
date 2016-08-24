@@ -216,11 +216,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url, { cache: false });
             },
 
-            getPlatforms = function (clientId, advertiserId, cacheObj) {
+            getPlatforms = function (clientId, advertiserId, brandId, cacheObj) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
                     '/vendors?vendorType=EXECUTION_PLATFORM&sortBy=name';
+
+                if(brandId) {
+                    url += '&brandId=' + brandId;
+                }
+
 
                 return dataService.fetch(url, cacheObj);
             },
@@ -411,10 +416,19 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             // creative Library Flow
-            getVendorsAdServer = function (clientId) {
+            getVendorsAdServer = function (clientId, advertiserId, brandId) {
+
+                advertiserId = advertiserId || -1;
+                var url = '/clients/' + clientId +
+                        '/advertisers/' + advertiserId +
+                        '/vendors?vendorType=ADSERVING';
+
+                if(brandId){
+                    url += '&brandId=' + brandId;
+                }
+
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId +
-                    '/vendors?vendorType=ADSERVING');
+                    url);
             },
 
             // Ad Create Flow
@@ -663,8 +677,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             getAdvertisersDomainList = function (clientId, advertiserId) {
                 var url;
 
-                clientId = vistoconfig.getMasterClientId();
-
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
@@ -746,43 +758,64 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/cost_categories/5/vendors');
             },
 
-            getVendorConfigs = function (advertiserId, client_id) {
-                var clientId = vistoconfig.getMasterClientId();
+            getVendorConfigs = function (advertiserId, client_id,brandId) {
+                var clientId = vistoconfig.getMasterClientId(),
+                    url;
 
                 if (client_id) {
                     clientId = client_id;
                 }
 
-                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId +
+                url = '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
-                    '/clientVendorConfigs?rateType=FIXED&rateTypeIncluded=false');
+                    '/clientVendorConfigs?rateType=FIXED&rateTypeIncluded=false';
+
+                if(brandId){
+                    url += '&brandId=' + brandId;
+                }
+
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    url);
             },
 
-            getCostAttr = function (advertiserId, client_id) {
-                var clientId = vistoconfig.getMasterClientId();
+            getCostAttr = function (advertiserId, client_id, brandId) {
+                var clientId = vistoconfig.getMasterClientId(),
+                    url;
 
                 if (client_id) {
                     clientId = client_id;
                 }
 
-                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId +
+                url = '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
-                    '/clientVendorConfigs?rateType=FIXED');
+                    '/clientVendorConfigs?rateType=FIXED';
+
+                if(brandId){
+                    url += '&brandId=' + brandId;
+                }
+
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    url);
             },
 
-            getSystemOfRecord = function (advertiserId, client_id) {
-                var clientId = vistoconfig.getMasterClientId();
+            getSystemOfRecord = function (advertiserId, client_id, brandId) {
+                var clientId = vistoconfig.getMasterClientId(),
+                    url = '';
 
                 if (client_id) {
                     clientId = client_id;
                 }
 
+                url = '/clients/' + clientId +
+                '/advertisers/' + advertiserId +
+                '/clientVendorConfigs?sor=true';
+
+                if(brandId){
+                    url += '&brandId=' + brandId;
+                }
+
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId +
-                    '/advertisers/' + advertiserId +
-                    '/clientVendorConfigs?sor=true');
+                    url);
             },
 
             getBillingTypeAndValue = function (advertiserId, client_id) {

@@ -1025,7 +1025,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postCreateAdObj = {};
                 postCreateAdObj.name = formData.adGroupName;
 
-                dateTimeZone = workflowService.getSubAccountTimeZone();
+                dateTimeZone = workflowService.getAccountTimeZone();
 
                 if($scope.adGroupData.modifiedAdGroupAPIStartTime &&
                     moment(formData.startTime).startOf('day').isSame(moment($scope.adGroupData.modifiedAdGroupAPIStartTime).startOf('day'))) {
@@ -1200,7 +1200,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 param.campaignId = dataObj.campaignData.id;
                 param.adGroupId = dataObj.adGroupsData.adGroup.id;
 
-                campaignOverviewService.pauseAllAds(param).then(function(res) {
+                campaignOverviewService.pauseAllAds(param).then(function() {
                     $rootScope.setErrAlertMessage('All Ads in ' + dataObj.adGroupsData.adGroup.name + ' paused', 0);
                     campaignOverView.getAdgroups(param.clientId, param.campaignId);
                 });

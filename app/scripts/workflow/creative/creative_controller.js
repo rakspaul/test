@@ -193,11 +193,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             //  Get all adserver in Creative Library Page
-            getAdServersInLibraryPage = function (clientId) {
+            getAdServersInLibraryPage = function (clientId, advertiserId, brandId) {
                 var responseData = '';
 
                 workflowService
-                    .getVendorsAdServer(clientId)
+                    .getVendorsAdServer(clientId, advertiserId, brandId)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             responseData = result.data.data;
@@ -293,11 +293,19 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.creative.advertiserId = data.id;
                     creatives.fetchBrands($scope.creative.clientId, data.id);
                     $scope.brandName = 'Select Brand';
+                    $scope.selectedAdServer = {};
+
+                    //update vendorConfig
+                    getAdServersInLibraryPage($scope.creative.clientId, $scope.creative.advertiserId);
                     break;
 
                 case 'brand':
                     $scope.brandName = data.name;
                     $scope.creative.brandId = data.id;
+                    $scope.selectedAdServer = {};
+
+                    //update vendorConfig
+                    getAdServersInLibraryPage($scope.creative.clientId, $scope.creative.advertiserId, $scope.creative.brandId);
                     break;
             }
         };

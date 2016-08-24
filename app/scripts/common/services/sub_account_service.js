@@ -1,7 +1,5 @@
 define(['angularAMD', 'workflow/services/workflow_service'], function (angularAMD) {
-    angularAMD.service('subAccountService', function ($rootScope, $location, $q, $route, $timeout, workflowService,
-                                                      campaignSelectModel, advertiserModel, brandsModel, pageFinder) {
-
+    angularAMD.service('subAccountService', function ($rootScope, $location, $q, $route, $timeout, workflowService, campaignSelectModel, advertiserModel, brandsModel, pageFinder) {
         var subAccountList = [],
             dashboardSubAccountList = [],
             selectedSubAccount,
@@ -26,8 +24,10 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                 accountId = Number(accountId);
 
                 deferred = $q.defer();
-console.log('fetchSubAccountList(): accountId = ', accountId, ', typeof accountId = ', typeof accountId, ', previousAccountId = ', previousAccountId,
-    'typeof previousAccountId = ', typeof previousAccountId);
+
+                console.log('fetchSubAccountList(): accountId = ', accountId, ', typeof accountId = ', typeof accountId, ', previousAccountId = ',
+                    previousAccountId, 'typeof previousAccountId = ', typeof previousAccountId);
+
                 if (previousAccountId !== accountId) {
                     this.reset();
                 }
@@ -50,10 +50,9 @@ console.log('fetchSubAccountList(): accountId = ', accountId, ', typeof accountI
                                 });
 
                                 // commented by sapna - need to checkout with Abhimanyu that why this sorting has been done though in the subaccount dropdown not applied.
-                               // subAccountList = _.sortBy(subAccountList, 'displayName');
+                                // subAccountList = _.sortBy(subAccountList, 'displayName');
 
                                 previousAccountId = accountId;
-
                                 deferred.resolve();
                             } else {
                                 console.log('error', result);
@@ -66,6 +65,7 @@ console.log('fetchSubAccountList(): accountId = ', accountId, ', typeof accountI
 
             allowedSubAccount = function (subAccountId) {
                 subAccountId = Number(subAccountId);
+
                 if (subAccountId) {
                     selectedSubAccount = _.find(subAccountList, function (client) {
                         return subAccountId === client.id;
@@ -74,19 +74,20 @@ console.log('fetchSubAccountList(): accountId = ', accountId, ', typeof accountI
                         return true;
                     }
                 }
+
                 return false;
             },
 
             fetchDashboardSubAccountList = function (accountId) {
-                accountId =  Number(accountId);
                 var deferred = $q.defer();
+
+                accountId =  Number(accountId);
 
                 if (previousAccountId !==  accountId) {
                     this.reset();
                 }
 
                 if (dashboardSubAccountList.length > 0) {
-
                     $timeout(function () {
                         deferred.resolve();
                     }, 10);
@@ -109,9 +110,7 @@ console.log('fetchSubAccountList(): accountId = ', accountId, ', typeof accountI
                             });
 
                             previousAccountId = accountId;
-
                             deferred.resolve();
-
                         } else {
                             console.log('error', result);
                         }
@@ -136,7 +135,6 @@ console.log('fetchSubAccountList(): accountId = ', accountId, ', typeof accountI
             },
 
             getSubAccounts = function () {
-                //var list = subAccountList.length ? subAccountList : fetchSubAccountList(accountId);
                 return subAccountList;
             },
 
@@ -154,7 +152,7 @@ console.log('fetchSubAccountList(): accountId = ', accountId, ', typeof accountI
 
             changeSubAccount =  function (account, subAccount) {
                 var url = '/a/' + account + '/sa/' + subAccount.id;
-                console.log('account', account);
+
                 $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
             };
 

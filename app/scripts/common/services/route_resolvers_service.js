@@ -76,7 +76,8 @@ define(['angularAMD'], function (angularAMD) {
             adminHeaderResolver = function (args) {
                 var deferred = args.$q.defer(),
                     params = args.$route.current.params;
-console.log('adminHeaderResolver(), params = ', params);
+
+                console.log('adminHeaderResolver(), params = ', params);
 
                 if (!args.loginModel.getClientData().is_super_admin) {
                     args.$location.url('/dashboard');
@@ -115,7 +116,8 @@ console.log('adminHeaderResolver(), params = ', params);
 
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
                             isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
-console.log('creativeResolver(): account ALLOWED!')
+                            console.log('creativeResolver(): account ALLOWED!');
+
                             if (!isLeafNode) {
                                 args
                                     .subAccountService
@@ -332,7 +334,10 @@ console.log('creativeResolver(): account ALLOWED!')
 
                                     if (campaign) {
                                         if (params.advertiserId) {
-                                            url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
+
+                                            //When user selects all brand, it will not be selected as campaign brand id is getting used - Sapna
+                                            //url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
+                                            url += '/adv/' + campaign.advertiser_id + '/b/' + (params.brandId || 0);
                                         }
 
                                         url += '/mediaplans/' + campaign.campaign_id + '/' + params.reportName;
@@ -442,7 +447,9 @@ console.log('creativeResolver(): account ALLOWED!')
             invoiceHeader = function (args) {
                 var deferred = args.$q.defer(),
                     params = args.$route.current.params;
-console.log('invoHeader, params = ', params);
+
+                console.log('invoHeader, params = ', params);
+
                 args
                     .accountService
                     .fetchAccountList()
@@ -669,7 +676,8 @@ console.log('invoHeader, params = ', params);
 
             reportsHeaderResolver2 = function (args) {
                 var deferred = args.$q.defer();
-console.log('reportsHeaderResolver2(): CALLED FROM Reports overview..........args.$route.current.params.accountId = ', args.$route.current.params.accountId);
+
+                console.log('reportsHeaderResolver2(): CALLED FROM Reports overview..........args.$route.current.params.accountId = ', args.$route.current.params.accountId);
 
                 args
                     .accountService

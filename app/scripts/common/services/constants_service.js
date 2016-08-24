@@ -269,10 +269,10 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.PERFORMANCE = 'Performance';
         this.MARGIN = 'Margin';
         this.BUDGET = 'Budget';
-        this.CAMPAIGN_ON_TRACK = 'Media Plan is On Track';
+        this.CAMPAIGN_ON_TRACK = 'Media Plan is On Target';
         this.CAMPAIGN_LIST_ITEM_UNDERPERFORMING = 'Off Target';
 
-        this.UNDERPERFORMING_CAMPAIGN = 'Media Plan is Off Track';
+        this.UNDERPERFORMING_CAMPAIGN = 'Media Plan is Off Target';
         this.NEUTRAL = 'Neutral (no status)';
         this.IMP_WITH_DOT = 'Imps.';
         this.CLICKS = 'Clicks';
@@ -427,6 +427,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.COPY_RIGHTS = 'Copyright &copy; 2016 Collective, Inc. All Rights Reserved';
         this.ABOUT_US = 'About Us';
         this.USERNAME_OR_PASSWORD_INCORRECT = 'The Username/Password is incorrect';
+        this.UPGRADE_BROWSER_MESSAGE1 =  'Unfortunately, we do not support your browser. Please upgrade to IE {findVersion}.';
+        this.UPGRADE_BROWSER_MESSAGE2 =  'Best viewed in {browserName} version {findVersion} and above. Please upgrade your browser.';
+        this.UPGRADE_BROWSER_MESSAGE3 = 'Unfortunately, we don\'t yet support your browser. Please use {browserList}.';
 
         this.STRATEGY = 'Ad Group';
 
@@ -1160,8 +1163,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MEDIAPLAN_CREDIT_NAME = 'Credit Name / Notes';
         this.MEDIAPLAN_AMOUNT = 'Amount';
         this.MEDIAPLAN_ADD_ANOTHER_CREDIT = 'Add Another Credit';
-        this.MEDIAPLAN_FLIGHT_DATE_START = 'Flight Date Start';
-        this.MEDIAPLAN_FLIGHT_DATE_END = 'Flight Date End';
+        this.MEDIAPLAN_FLIGHT_DATE_START = 'Flight Start Date';
+        this.MEDIAPLAN_FLIGHT_DATE_END = 'Flight End Date';
         this.SAVE_CHANGES = 'Save Changes';
         this.SELECT_CONVERSION_PIXELS = 'Conversion Pixel';
         this.SELECT_SYSTEM_OF_RECORD = 'System of Record';
@@ -1252,5 +1255,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.PASSWORD_SUCCESS_MSG = 'Password successfully changed' ;
         this.TECH_FEES = 'Tech';
         this.SPECIAL_CHARACTER_ERROR = 'Please omit any punctuation or special characters (e.g. &, @, etc)' ;
+        this.LINEITEM_SETUP = 'Line Item Setup' ;
+        this.LINEITEM_EDIT = 'Line Item Edit' ;
     });
 });

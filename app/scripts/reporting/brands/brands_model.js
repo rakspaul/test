@@ -7,8 +7,10 @@ define(['angularAMD', 'reporting/brands/brands_service', 'common/services/consta
         var brand = {
                 brandList: [],
                 selectedBrand: {id: -1, name: constants.ALL_BRANDS},
-                allBrandObject: {id: -1, name: constants.ALL_BRANDS},
-                unknownBrandObject: {id: 0, name: 'Unknown'}
+                allBrandObject: {id: 0, name: constants.ALL_BRANDS},
+            //commented the below line as it shows for brand unknown when canned report page is loaded, need to check with Abhi -  Sapna
+                //unknownBrandObject: {id: 0, name: 'Unknown'}
+                unknownBrandObject: {id: 0, name: constants.ALL_BRANDS}
             },
             previousAdvertiserId;
 
@@ -55,7 +57,7 @@ define(['angularAMD', 'reporting/brands/brands_service', 'common/services/consta
 
             allowedBrand: function(brandId) {
                 brandId = Number(brandId);
-                
+
                 if (brandId === 0) {
                     brand.selectedBrand = brand.unknownBrandObject;
                     return true;
@@ -104,7 +106,7 @@ define(['angularAMD', 'reporting/brands/brands_service', 'common/services/consta
                 subAccountId && (url += '/sa/' + subAccountId);
                 // All Advertisers id is -1 and don't show it in the URL
                 (advertiserId > 0) && (url += '/adv/' + advertiserId);
-                (brand.id > 0) && (url += '/b/' + brand.id);
+                (brand.id >= 0) && (url += '/b/' + brand.id);
                 $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
             },
         };
