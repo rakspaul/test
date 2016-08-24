@@ -1341,12 +1341,9 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'common/controllers/users/users_controller',
                     showHeader: true,
 
-                    // TODO: Move to routeResolvers service???
                     resolve: {
-                        check: function ($location, loginModel) {
-                            if (!loginModel.getClientData().is_super_admin) {
-                                $location.url('/dashboard');
-                            }
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -1358,12 +1355,9 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'common/controllers/accounts/admin_brands_controller',
                     showHeader: true,
 
-                    // TODO: Move to routeResolvers service???
                     resolve: {
-                        check: function ($location, loginModel) {
-                            if (!loginModel.getClientData().is_super_admin) {
-                                $location.url('/dashboard');
-                            }
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -1375,12 +1369,9 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'common/controllers/accounts/admin_advertisers_controller',
                     showHeader: true,
 
-                    // TODO: Move to routeResolvers service???
                     resolve: {
-                        check: function ($location, loginModel) {
-                            if (!loginModel.getClientData().is_super_admin) {
-                                $location.url('/dashboard');
-                            }
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
