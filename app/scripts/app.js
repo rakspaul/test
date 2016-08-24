@@ -1279,6 +1279,7 @@ define(['common'], function (angularAMD) {
                     title: 'Media Plan - Overview',
                     controller: 'reportsInvoiceController',
                     controllerUrl: 'reporting/collectiveReport/reports_invoice_controller',
+                    showHeader: true,
                     css: assets.css_reports_invoice_list,
 
                     resolve: {

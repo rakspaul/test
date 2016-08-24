@@ -183,7 +183,7 @@
         <div class="col-md-1">
             <div class="pull-left">
                 <span class="greyTxt" data-ng-bind="'Spend'"></span> <br>
-                <span data-ng-bind="invoiceDetails.spendTotal"></span>
+                <span data-ng-bind="invoiceDetails.spendTotal | number:2"></span>
             </div>
         </div>
 
@@ -197,7 +197,7 @@
         <div class="col-md-1">
             <div class="pull-left">
                 <span class="greyTxt" data-ng-bind="'Billable'"></span> <br>
-                <span data-ng-bind="invoiceDetails.billable"></span>
+                <span data-ng-bind="invoiceDetails.billable | number:2"></span>
             </div>
         </div>
 
