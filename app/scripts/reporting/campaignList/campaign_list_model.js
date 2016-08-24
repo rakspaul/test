@@ -694,14 +694,14 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                     break;
 
                                 case 'ontrack':
-                                    this.dashboard.quickFilterSelectedCount = this.dashboard.active['ontrack'];
+                                    this.dashboard.quickFilterSelectedCount = this.dashboard.active.ontrack;
                                     this.dashboard.status.active.ontrack = 'active' ;
                                     kpiStatus = 'ontrack';
                                     break;
 
                                 case 'underperforming' :
                                     this.dashboard.quickFilterSelectedCount =
-                                        this.dashboard.active['underperforming'];
+                                        this.dashboard.active.underperforming;
 
                                     this.dashboard.status.active.underperforming = 'active' ;
                                     kpiStatus = 'Underperforming';
@@ -718,7 +718,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                 case 'draft':
 
                                     this.dashboard.quickFilterSelectedCount =
-                                        this.dashboard['draft'];
+                                        this.dashboard.draft;
 
                                     this.dashboard.status.draft = 'active' ;
                                     type = 'draft';
@@ -727,7 +727,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                 case 'scheduled':
 
                                     this.dashboard.quickFilterSelectedCount =
-                                        this.dashboard['ready'];
+                                        this.dashboard.ready;
 
                                     this.dashboard.status.ready = 'active' ;
                                     type = 'ready';
@@ -736,7 +736,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                 case 'ended':
 
                                     this.dashboard.quickFilterSelectedCount =
-                                        this.dashboard['completed'];
+                                        this.dashboard.completed;
 
                                     this.dashboard.status.completed = 'active' ;
                                     type = 'completed';
@@ -745,7 +745,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                 case 'archived':
 
                                     this.dashboard.quickFilterSelectedCount =
-                                        this.dashboard['archived'];
+                                        this.dashboard.archived;
 
                                     this.dashboard.status.archived = 'active' ;
                                     type = 'archived';
@@ -754,7 +754,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                 case 'all':
 
                                     this.dashboard.quickFilterSelectedCount =
-                                        this.dashboard['all'];
+                                        this.dashboard.all;
 
                                     this.dashboard.status.all = 'all';
                                     this.dashboard.status.active.all = 'active' ;
