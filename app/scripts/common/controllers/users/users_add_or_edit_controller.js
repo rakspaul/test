@@ -1,5 +1,5 @@
 define(['angularAMD', 'common/services/constants_service', 'workflow/services/account_service',
-    'common/moment_utils', 'login/login_model', 'workflow/directives/ng_update_hidden_dropdown'],
+    'common/moment_utils', 'login/login_model','','workflow/directives/ng_update_hidden_dropdown','common/controllers/accounts/account_list_dropdown_controller'],
     function (angularAMD) {
     'use strict';
 
@@ -147,6 +147,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                 email: $scope.userConsoleFormDetails.email,
                 password: $scope.userConsoleFormDetails.password,
                 status: $scope.userConsoleFormDetails.status,
+                homeClientId :$scope.userConsoleFormDetails.homeClientId,
                 permissions: []
             };
 
@@ -263,6 +264,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                         $scope.userConsoleFormDetails.firstName = _customctrl.responseData.firstName;
                         $scope.userConsoleFormDetails.lastName = _customctrl.responseData.lastName;
                         $scope.userConsoleFormDetails.status = _customctrl.responseData.status;
+                        $scope.userConsoleFormDetails.homeClientId = _customctrl.responseData.homeClientId;
+                        $scope.userConsoleFormDetails.homeClientName = _customctrl.responseData.homeClientName;
                         $scope.isCurr_SuperUser = (_customctrl.responseData.reportTemplateId === 1) ? true : false;
 
                         setTimeout(function () {
