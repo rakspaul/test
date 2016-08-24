@@ -27,7 +27,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
             isValidQueryParamFilter = false;
 
-        $scope.createCustomReportUrl = urlBuilder.customReportsUrl();
+        $scope.createCustomReportUrl = urlBuilder.customReportsUrl(true);
 
         _curCtrl.filters = {};
         _curCtrl.isFilterExpanded = false;
