@@ -301,7 +301,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.INFLIGHT_LABEL = 'In Flight';
         this.ACTIVE_LABEL = 'Active';
         this.KPI_ON_TRACK = 'KPI is On Target';
-        this.UNDERPERFORMING = 'Underperforming';
+        this.UNDERPERFORMING = 'Off Target';
         this.PAUSED = 'Paused';
         this.COMPLETED = 'Completed';
 
