@@ -696,7 +696,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
             getPlatformCustomInputs = function (clientId, platformId) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' + platformId;
-
                 return dataService.fetch(url);
             },
 
@@ -714,13 +713,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url);
             },
 
-            createLineItems = function (campaignId,client_id,data) {
-                var clientId = client_id || vistoconfig.getMasterClientId(),
+            createLineItems = function (clientId, campaignId, data) {
 
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/campaigns/' + campaignId +
-                        '/lineitems';
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + clientId +
+                    '/campaigns/' + campaignId +
+                    '/lineitems';
 
                 return dataService.post(
                     url,
@@ -729,13 +727,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            updateLineItems = function (campaignId, client_id, data) {
-                var clientId = client_id || vistoconfig.getMasterClientId(),
+            updateLineItems = function (clientId, campaignId, data) {
 
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/campaigns/' + campaignId +
-                        '/lineitems/' + data.id;
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + clientId +
+                    '/campaigns/' + campaignId +
+                    '/lineitems/' + data.id;
 
                 return dataService.put(
                     url,
