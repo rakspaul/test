@@ -449,6 +449,38 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 .then(function () {
                     $('popup-msg').appendTo(document.body);
                 });
+                
+            //Add and Edit Show-Hide
+            $scope.noFeeBill = function() {
+                $(".licenseFee").hide();
+                $(".noFeeBill").addClass("active");
+                $(".seeFeeBill").removeClass("active");
+            }
+            
+            $scope.seeFeeBill = function() {
+                $(".licenseFee").show();
+                $(".seeFeeBill").addClass("active");
+                $(".noFeeBill").removeClass("active");
+            }
+            
+            $scope.feeSlotToggle = function (slot) {
+                $(".billingMethodSlot").hide();
+                $("." + slot).show();
+            }
+            
+            $scope.arbitrageBill = function() {
+                $(".arbitrageBillView").show();
+                $(".cogsBillView").hide();
+                $(".arbitrageBill").addClass("active");
+                $(".cogsBill").removeClass("active");
+            }
+            
+            $scope.cogsBill = function() {
+                $(".cogsBillView").show();
+                $(".arbitrageBillView").hide();
+                $(".cogsBill").addClass("active");
+                $(".arbitrageBill").removeClass("active");
+            }
         });
     }
 );
