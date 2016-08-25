@@ -986,8 +986,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             if($scope.toggleCodeField ){
                 $rootScope.setErrAlertMessage(constants.CAUTION_MSG, '','','warning');
             } else {
-                $scope.adData.thirdPartyTracker = "";
+                $scope.adData.thirdPartyTracker = '';
             }
-        }
+        };
     });
 });
