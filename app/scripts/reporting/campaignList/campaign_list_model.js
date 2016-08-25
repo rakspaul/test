@@ -229,7 +229,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                 clientId = vistoconfig.getSelectedAccountId();
                                 advertiserId = vistoconfig.getSelectAdvertiserId();
                                 brandId = vistoconfig.getSelectedBrandId();
-
+console.log("sapna:: url::",url)
                                 campaignListService.getCampaigns(url, function (result) {
                                     var data = result.data.data;
 
@@ -683,7 +683,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
 
                             localStorageService.campaignListFilter.set(filterToApply);
 
-                            //  now hardcoded the status because the constants should only be used for displaying the text and not here, 
+                            //  now hardcoded the status because the constants should only be used for displaying the text and not here,
                             // it is affecting the api call's whenever we change the text in constant_sevice page
 
                             switch (filterToApply) {
@@ -832,9 +832,11 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                             this.sortDirection && params.push('sort_direction=' + this.sortDirection);
 
                             if (this.appliedQuickFilter === 'endingSoon') {
-                                params.push('condition=in_flight');
+                                params.push('condition=all');
+                                params.push('end_soon=true');
                             } else {
                                 params.push('condition=' + this.appliedQuickFilter);
+                                params.push('end_soon=false');
                             }
 
                             if (this.appliedQuickFilter === 'archived') {
