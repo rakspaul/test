@@ -88,6 +88,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $scope.apiReturnCode = 200;
         $scope.redirectWidget = $scope.selectedCampaign && $scope.selectedCampaign.redirectWidget;
 
+        $scope.strategyHeading = Number($scope.selectedStrategy.id) >= 0 ?
+            constants.LINE_ITME_TOTAL : constants.MEDIA_PLAN_TOTAL;
+
         $scope.getMessageForDataNotAvailable = function (campaign) {
             campaign = campaign || $scope.campaign;
 
