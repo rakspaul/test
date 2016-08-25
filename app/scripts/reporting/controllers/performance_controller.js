@@ -286,6 +286,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                 _.each($scope.groupThem, function(item) {
                                     item.perf_metrics = _customCtrl.removeDuplicateSOR(item.perf_metrics);
                                 });
+                                $scope.lastSyncedOn = _.first($scope['strategyPerfDataBy' + tab]).sync_date;
 
                                 _.each($scope['strategyPerfDataBy' + tab], function (item) {
                                     var vendorName = (item.nodes.length === 1) ? item.nodes[0].name : item.category;
