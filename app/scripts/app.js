@@ -1310,22 +1310,6 @@ define(['common'], function (angularAMD) {
                     css: assets.css_table_list
                 }))
 
-                .when('/a/:accountId/admin/home', angularAMD.route({
-                    templateUrl: assets.html_admin_home,
-                    title: 'AdminHome',
-                    showHeader: true,
-
-                    // TODO: Move to routeResolvers service???
-                    resolve: {
-                        check: function ($location, loginModel) {
-                            if (!loginModel.getClientData().is_super_admin) {
-                                $location.url('/dashboard');
-                            }
-                        }
-                    }
-
-                }))
-
                 .when('/a/:accountId/admin/accounts', angularAMD.route({
                     templateUrl: assets.html_accounts,
                     title: 'Accounts',
