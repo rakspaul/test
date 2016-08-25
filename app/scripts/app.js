@@ -38,6 +38,10 @@ define(['common'], function (angularAMD) {
                                         account = _.find(accountService.getAccounts(), function (client) {
                                             return client.id === preferredClientId;
                                         });
+
+                                        if(!account) {
+                                            account = accountService.getAccounts()[0];
+                                        }
                                     } else {
                                         account = accountService.getAccounts()[0];
                                     }
