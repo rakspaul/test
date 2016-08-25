@@ -345,7 +345,7 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                         '/invoices/' + invoiceId;
                 },
 
-                getInvoiceData = function ( invoiceReports, queryStr) {
+                getInvoiceData = function (invoiceReports, queryStr) {
                     var url;
 
                     if (invoiceReports.isSearched) {
