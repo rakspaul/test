@@ -21,9 +21,8 @@ define(['angularAMD'], function (angularAMD) {
                 }));
 
                 if (maxBillabaleAmt>campaignBudget) {
-
                     $scope.Campaign.totalBudget=Number(maxBillabaleAmt);
-                    $rootScope.setErrAlertMessage('Media Plan Budget...' , '' , '' , 'warning');
+                    $rootScope.setErrAlertMessage('Resetting the Media Plan Budget' , '' , '' , 'warning');
                     $scope.$parent.ComputeCost();
                 }
             }
