@@ -1,5 +1,5 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.controller('BudgetController', function ($scope) {
+    angularAMD.controller('BudgetController', function ($scope, $rootScope ) {
         $scope.selectedCampaign.additionalCosts = [];
         $scope.selectedCampaign.selectedCostAttr = [];
 
@@ -22,6 +22,7 @@ define(['angularAMD'], function (angularAMD) {
 
                 if (maxBillabaleAmt>campaignBudget) {
                     $scope.Campaign.totalBudget=Number(maxBillabaleAmt);
+                    $rootScope.setErrAlertMessage('Resetting the Media Plan Budget' , '' , '' , 'warning');
                     $scope.$parent.ComputeCost();
                 }
             }

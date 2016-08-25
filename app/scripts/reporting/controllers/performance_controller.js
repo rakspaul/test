@@ -88,6 +88,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $scope.apiReturnCode = 200;
         $scope.redirectWidget = $scope.selectedCampaign && $scope.selectedCampaign.redirectWidget;
 
+        $scope.strategyHeading = Number($scope.selectedStrategy.id) >= 0 ?
+            constants.LINE_ITME_TOTAL : constants.MEDIA_PLAN_TOTAL;
+
         $scope.getMessageForDataNotAvailable = function (campaign) {
             campaign = campaign || $scope.campaign;
 
@@ -286,6 +289,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                 _.each($scope.groupThem, function(item) {
                                     item.perf_metrics = _customCtrl.removeDuplicateSOR(item.perf_metrics);
                                 });
+                                $scope.lastSyncedOn = _.first($scope['strategyPerfDataBy' + tab]).sync_date;
 
                                 _.each($scope['strategyPerfDataBy' + tab], function (item) {
                                     var vendorName = (item.nodes.length === 1) ? item.nodes[0].name : item.category;

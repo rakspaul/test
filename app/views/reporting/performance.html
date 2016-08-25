@@ -167,8 +167,8 @@
                                 <div class="strategy_total_container_header clearfix">
                                     <div class="each_col first_col" data-ng-hide="discrepancyBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
-                                        <span class="viewLabelTxt" style="margin: 4px 0 0 15px;">
-                                            *Imps. data delayed by 24 hours
+                                        <span class="viewLabelTxt" style="margin: 4px 0 0 15px;" ng-if="lastSyncedOn">
+                                            *Data last available for all vendors at {{lastSyncedOn}}
                                         </span>
                                     </div>
                                     <div class="row_list_holder clearfix">

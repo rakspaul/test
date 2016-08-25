@@ -3,7 +3,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
     'use strict';
 
     angularAMD.controller('BulkCreativeController', function ($scope, $rootScope, $routeParams, $location,
-                                                             constants, workflowService, Upload) {
+                                                             constants, workflowService, Upload, vistoconfig) {
         var creatives = {
                 errorHandler: function (errData) {
                     console.log(errData);
@@ -142,11 +142,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         $scope.downloadCreativeTemplate = function () {
+            var clientId = vistoconfig.getSelectedAccountId();
             if ($scope.selectedAdServer.id && $scope.creativeFormat && $scope.adData.creativeTemplate) {
                 $scope.downloadBusy = true;
 
                 workflowService
-                    .downloadCreativeTemplate($scope.selectedAdServer.id, $scope.adData.creativeTemplate)
+                    .downloadCreativeTemplate(clientId, $scope.selectedAdServer.id, $scope.adData.creativeTemplate)
                     .then(function (response) {
                         if (response.status === 'success') {
                             $scope.downloadBusy = false;

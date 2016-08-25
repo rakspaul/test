@@ -38,6 +38,10 @@ define(['common'], function (angularAMD) {
                                         account = _.find(accountService.getAccounts(), function (client) {
                                             return client.id === preferredClientId;
                                         });
+
+                                        if(!account) {
+                                            account = accountService.getAccounts()[0];
+                                        }
                                     } else {
                                         account = accountService.getAccounts()[0];
                                     }
@@ -1304,22 +1308,6 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'workflow/vendors/vendors_list_controller',
                     showHeader: true,
                     css: assets.css_table_list
-                }))
-
-                .when('/a/:accountId/admin/home', angularAMD.route({
-                    templateUrl: assets.html_admin_home,
-                    title: 'AdminHome',
-                    showHeader: true,
-
-                    // TODO: Move to routeResolvers service???
-                    resolve: {
-                        check: function ($location, loginModel) {
-                            if (!loginModel.getClientData().is_super_admin) {
-                                $location.url('/dashboard');
-                            }
-                        }
-                    }
-
                 }))
 
                 .when('/a/:accountId/admin/accounts', angularAMD.route({

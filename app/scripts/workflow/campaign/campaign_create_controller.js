@@ -648,7 +648,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
 
             if ($scope.mode === 'edit' && $scope.editCampaignData.bookedSpend > $scope.Campaign.deliveryBudget) {
-                $rootScope.setErrAlertMessage('Booked Spent should not exceed the campaign budget');
+                $rootScope.setErrAlertMessage('Delivery Budget should be more than or equal to the Total Billable Amount');
                 return false;
             }
 

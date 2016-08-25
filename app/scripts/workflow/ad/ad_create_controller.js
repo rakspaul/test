@@ -726,8 +726,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.adArchive = false;
                         url = '/mediaplan/' + $scope.campaignId + '/overview';
-                        $location.url(urlBuilder.mediaPlanOverviewUrl($scope.campaignId));
                         localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_PAUSE_SUCCESS);
+                        $location.url(urlBuilder.mediaPlanOverviewUrl($scope.campaignId));
                     } else {
                         errorAchiveAdHandler();
                     }
@@ -739,6 +739,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     $scope.adArchive = false;
                     $rootScope.setErrAlertMessage($scope.textConstants.WF_AD_RESUME_FAILURE);
                 },
+
+                clientId = vistoconfig.getSelectedAccountId(),
 
                 resumeAdDataObj = {
                     name: $scope.getAd_result.name,
@@ -752,15 +754,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 };
 
             workflowService
-                .resumeAd(resumeAdDataObj)
+                .resumeAd(clientId, resumeAdDataObj)
                 .then(function (result) {
-                    var url;
-
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.adArchive = false;
-                        url = '/mediaplan/' + $scope.campaignId + '/overview';
-                        $location.url(url);
                         localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_RESUME_SUCCESS);
+                        $location.url(urlBuilder.mediaPlanOverviewUrl($scope.campaignId));
                     } else {
                         errorAchiveAdHandler();
                     }
