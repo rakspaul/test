@@ -229,7 +229,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                 clientId = vistoconfig.getSelectedAccountId();
                                 advertiserId = vistoconfig.getSelectAdvertiserId();
                                 brandId = vistoconfig.getSelectedBrandId();
-console.log("sapna:: url::",url)
+
                                 campaignListService.getCampaigns(url, function (result) {
                                     var data = result.data.data;
 
