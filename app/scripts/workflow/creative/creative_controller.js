@@ -60,6 +60,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 $scope.adData.creativeSize = $scope.creativeEditData.size;
 
                                 $scope.creative.clientId = $scope.creativeEditData.client.id;
+                                //tracker
+                                if($scope.creativeEditData.thirdPartyTracker){
+                                    $scope.toggleCodeField = true;
+                                    $scope.adData.thirdPartyTracker =  $scope.creativeEditData.thirdPartyTracker;
+                                }
+
                                 creatives.fetchAdvertisers($scope.creativeEditData.client.id);
 
                                 creatives.fetchBrands($scope.creativeEditData.client.id,
@@ -655,6 +661,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 templateArr,
                 creativeCustomInputsArr,
 
+            // list of data which should not be included in creativeCustomInputsArr Array.
                 listArr = [
                     'name',
                     'subAccountId',
@@ -668,7 +675,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     'tag',
                     'creativeSize',
                     'creativeType',
-                    'clickUrl'
+                    'clickUrl',
+                    'thirdPartyTracker'
                 ];
 
             $scope.$broadcast('show-errors-check-validity');
@@ -687,6 +695,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postCrDataObj.sizeId = formData.creativeSize ? formData.creativeSize :'';
                 postCrDataObj.creativeTemplateId = formData.creativeTemplate;
                 postCrDataObj.creativeCustomInputs=[];
+                postCrDataObj.thirdPartyTracker = formData.thirdPartyTracker;
 
                 validCreativeUrl = true;
                 validateTag=true;
@@ -701,7 +710,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         indexArr.push(i);
                     }
                 }
-
                 // Arr of objects of template HTML, which needs to be sent in the List in post Json
                 templateArr = $.grep(formDataObj, function (n, i) {
                     return $.inArray(i, indexArr) === -1;
@@ -972,5 +980,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.$on('$locationChangeSuccess', function () {
             localStorage.setItem('isOnchangeOfCreativeFeild', 0);
         });
+
+        $scope.clickTrackingBox = function(){
+            $scope.toggleCodeField = !$scope.toggleCodeField;
+            if($scope.toggleCodeField ){
+                $rootScope.setErrAlertMessage(constants.CAUTION_MSG, '','','warning');
+            } else {
+                $scope.adData.thirdPartyTracker = "";
+            }
+        }
     });
 });

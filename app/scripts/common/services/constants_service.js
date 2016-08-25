@@ -1038,6 +1038,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.DATANOTAVAILABLE = 'Data not available';
         this.UPDATETAG = 'Update Tag';
         this.CREATIVESDELETE = 'Archive Creatives';
+        this.TRACKING_MESSAGE = 'Use 3rd party tracking code';
+        this.CAUTION_MSG = '<b>Caution</b>: 3rd party tracking code may not be compatible with this ad server configuration or your selected buying/execution platform. ' +
+            'Be sure to consult with Visto support or your Collective Visto account manager before using this code in a live ad.';
         this.TAB_CHANGED = 'tab_changed';
 
        // this.EVENT_CLIENT_CHANGED = 'eventClientChanged';
