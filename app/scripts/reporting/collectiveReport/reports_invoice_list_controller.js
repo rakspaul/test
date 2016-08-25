@@ -18,7 +18,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                                                         $sce) {
 
             $scope.invoiceReports = {
-                clientId: vistoconfig.getMasterClientId(),
+                clientId: vistoconfig.getSelectedAccountId(),
 
                 advertiserId: advertiserModel.getSelectedAdvertiser().id,
 
@@ -157,16 +157,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             $scope.$on(constants.EVENT_BRAND_CHANGED, function () {
                 $scope.invoiceReports.brandId = vistoconfig.getSelectedBrandId();
                 $scope.getInvoiceData(0);
-            });
-
-            $scope.$on(constants.EVENT_CLIENT_CHANGED, function () {
-                $scope.invoiceReports.clientId = loginModel.getSelectedClient().id;
-                $scope.getInvoiceData(0);
-            });
-
-            $scope.$on(constants.CREDIT_SAVED_SUCCESS, function () {
-                $scope.invoiceReports.clientId = vistoconfig.getMasterClientId();
-                    $scope.getInvoiceData(0);
             });
 
             // Event Received from reports_invoice_addAdjustment_controller.js file
