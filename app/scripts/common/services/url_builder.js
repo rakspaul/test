@@ -241,16 +241,16 @@ console.log('creativeListUrl!!! url = ', url);
                 },
 
                 invoiceTool = function (fromView) {
-                    var url = '/a/' + $routeParams.accountId;
+                    var url = '/a/' + $routeParams.accountId,
+                        acccountData =  accountService.getSelectedAccount();
 
-                    if ($routeParams.subAccountId) {
-                        url += '/sa/' + $routeParams.subAccountId;
-                    } else {
+
+                    if (!acccountData.isLeafNode) {
                         url += '/sa/' + subAccountService.getSubAccounts()[0].id;
                     }
 
                     url += '/v1sto/invoices';
-
+                    console.log("invoiceTool", invoiceTool);
                     if (fromView) {
                         return url;
                     } else {

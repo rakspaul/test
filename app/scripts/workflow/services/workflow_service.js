@@ -343,8 +343,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            resumeAd = function (data) {
-                var clientId = vistoconfig.getSelectedAccountId();
+            resumeAd = function (clientId, data) {
 
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -567,10 +566,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            downloadCreativeTemplate = function (adServerId, templateId) {
-                var clientId = vistoconfig.getMasterClientId(),
+            downloadCreativeTemplate = function (clientId, adServerId, templateId) {
 
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/adserver/' + adServerId +
                         '/template/' + templateId +

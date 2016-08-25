@@ -45,6 +45,7 @@
             <input type="text" class="pull-left clearLeft col-md-3" placeholder="Add Name" id="brandNameInp" ng-model="brandName"
                    ng-keyup="mode == 'create' ? showDropdown() : ''" special-character="special-character" style="border-top-right-radius: 0px; border-bottom-right-radius: 0;" ng-class="{'edit-input':isEditBrand}">
 
+            <label class="col-md-12 txtError special-character-error zeroPadding" style="display: none;" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
             <span class="pull-left icon-clear" ng-show="isEditBrand"
                   data-ng-click="isEditBrand=false;brandName=''" style="margin: 10px 0 0 10px; cursor: pointer;"></span>
         </div>
