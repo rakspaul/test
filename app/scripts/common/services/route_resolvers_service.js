@@ -452,7 +452,8 @@ define(['angularAMD'], function (angularAMD) {
 
             invoiceHeader = function (args) {
                 var deferred = args.$q.defer(),
-                    params = args.$route.current.params;
+                    params = args.$route.current.params,
+                    isLeafNode;
 
                 console.log('invoHeader, params = ', params);
 
@@ -461,12 +462,19 @@ define(['angularAMD'], function (angularAMD) {
                     .fetchAccountList()
                     .then(function () {
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
-                            args
-                                .accountService
-                                .fetchAccountData(params.accountId)
-                                .then(function () {
-                                    deferred.resolve();
-                                });
+                            isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
+                            if (!isLeafNode) {
+                                args
+                                    .subAccountService
+                                    .fetchSubAccountList(args.$route.current.params.accountId)
+                                    .then(function () {
+                                        if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
+                                            fetchAccountData(args, params, deferred);
+                                        }
+                                    });
+                            } else {
+                                fetchAccountData(args, params, deferred);
+                            }
                         } else {
                             console.log('account ' + params.accountId + ' not allowed');
                             args.$location.url('/tmp');
