@@ -250,7 +250,6 @@ console.log('creativeListUrl!!! url = ', url);
                     }
 
                     url += '/v1sto/invoices';
-                    console.log("invoiceTool", invoiceTool);
                     if (fromView) {
                         return url;
                     } else {
