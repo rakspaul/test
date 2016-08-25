@@ -3,7 +3,7 @@ var IMAGES_PATH = '/images/',
     IMAGES_STATUS_BULBS_PATH = IMAGES_PATH + 'statusBulbs/',
     IMAGES_CDESK_PATH = IMAGES_PATH + 'cdesk/',
     IMAGES_CALENDAR_PATH = IMAGES_PATH + 'calendar/',
-    STYLESHEETS_PATH = '../styles/',
+    STYLESHEETS_PATH = '/styles/',
     assets = {}; // jshint ignore:line
 
 assets.platform_icon = IMAGES_PATH + 'tag_icon.png';
