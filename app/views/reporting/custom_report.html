@@ -70,7 +70,7 @@
                                         <ul class="dropdown-menu"
                                             data-ng-click="enable_generate_btn();"
                                             style="min-width: 200px;">
-                                            <li data-ng-click="select_dropdown_option($event);showPrimaryTxtBox=false"
+                                            <li data-ng-click="select_dropdown_option($event,'primary');showPrimaryTxtBox=false"
                                                 data-ng-bind-html="textConstants.REPORT_CHOOSE_BREAKDOWN"
                                                 data-toggle="dropdown">
                                             </li>
@@ -119,7 +119,7 @@
                                                 <span class="icon-arrow-solid-down"></span>
                                             </div>
                                             <ul class="dropdown-menu">
-                                                <li data-ng-click="select_dropdown_option($event)"
+                                                <li data-ng-click="select_dropdown_option($event,'secondary')"
                                                     data-ng-bind-html="textConstants.REPORT_CHOOSE_BREAKDOWN"
                                                     data-toggle="dropdown">
                                                 </li>
