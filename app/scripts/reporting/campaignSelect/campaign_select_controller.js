@@ -176,7 +176,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model',
                     url += '/sa/' + $routeParams.subAccountId;
                 }
 
-                url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
+                if($routeParams.advertiserId) {
+                    url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
+                }
                 url += '/mediaplans/' + campaign.campaign_id;
                 var page = pageFinder.pageBuilder($location.path());
                 if (page.isCannedReportsPage()) {
