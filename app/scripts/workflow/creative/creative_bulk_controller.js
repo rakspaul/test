@@ -180,7 +180,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         $scope.uploadFileChosen = function () {
-            var url = workflowService.uploadBulkCreativeUrl($scope.selectedAdServer.id, $scope.creativeFormat,
+
+            var clientId = vistoconfig.getSelectedAccountId(),
+                url;
+
+            url = workflowService.uploadBulkCreativeUrl(clientId, $scope.selectedAdServer.id, $scope.creativeFormat,
                 $scope.adData.creativeTemplate);
 
             (function (file) {
