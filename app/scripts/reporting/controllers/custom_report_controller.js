@@ -880,7 +880,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         //$scope.isAllSelectDisabled = false;
                     },
 
-                    enableSpecifiedMetrics: function(metricTypeWithUnderscore){
+                    enableSpecifiedMetrics: function(metricTypeWithUnderscore){ console.log("sapna specified: ",metricTypeWithUnderscore)
                         var apiMetricsObj = apiMetrics.metrics;
                         var eachMetricName = metricTypeWithUnderscore.split('_')[0]+'Metrics';
 
@@ -891,7 +891,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         $scope[eachMetricName].isDisabled = false;
                     },
 
-                    enableFewMetrics: function(metricTypeWithUnderscore,metricsToEnableArr){
+                    enableFewMetrics: function(metricTypeWithUnderscore,metricsToEnableArr){ console.log("sapna enable few: ",metricTypeWithUnderscore,metricsToEnableArr)
                         var apiMetricsObj = apiMetrics.metrics;
                         var eachMetricName = metricTypeWithUnderscore.split('_')[0]+'Metrics';
 
@@ -979,6 +979,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         var secDimension = $scope.reports.reportDefinition.dimensions.secondary.dimension;
                         var dimSpecificMetrics = apiMetrics.dim_specific_metrics;
 
+                        $scope.metrics.onDimensionSelection();
+
                         if (dimSpecificMetrics[secDimension] && Array === dimSpecificMetrics[secDimension].constructor) {
                             $scope.metrics.enableMetrics();
                             $scope.allMetrics = true;
@@ -990,7 +992,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                         {
                                             $scope.metrics.enableSpecifiedMetrics(metricTypeWithUnderscore);
                                         } else {
-                                            $scope.metrics.enableFewMetrics(metricTypeWithUnderscore, dimSpecificMetrics[secDimension][metricTypeWithUnderscore]);
+                                           // $scope.metrics.enableFewMetrics(metricTypeWithUnderscore, dimSpecificMetrics[secDimension][metricTypeWithUnderscore]);
                                         }
 
                             }
