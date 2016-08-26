@@ -713,8 +713,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ADGROUP_FLIGHTPASSED_NO_NEW_ADS = 'Extend the Ad Group flight dates to create Ads';
         this.BUDGET_EXCEEDED = 'Cannot create Ad Group as the Media Plan does not have sufficient budget',
         this.MEDIAPLAN_FLIGHTPASSED_NO_NEW_ADS = 'Cannot create Ad Group as Media Plan has ended',
-        this.SETUPBUDGET = 'How do you want to budget your Ad?';
-        this.MEASUREBUDGET = 'How will you measure success for your Ad?';
+        this.SETUPBUDGET = 'How would you like to this Ad to book and deliver?';
+        this.MEASUREBUDGET = 'How would you like to measure this Ad?';
+        this.HOWMUCHSPEND = 'How much would you like to spend?';
         this.TRACKBUDGET = 'How do you want to track your Ad?';
         this.UNITCOST = 'Unit Cost';
         this.BUDGETCAL = 'Select your Booking Method';
