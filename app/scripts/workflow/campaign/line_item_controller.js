@@ -541,7 +541,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                                 // make lineitems call n refresh that data
                                 workflowService
-                                    .getLineItem($routeParams.campaignId, true)
+                                    .getLineItem(clientId, $routeParams.campaignId, true)
                                     .then(function (results) {
                                         if (results.status === 'success' && results.data.statusCode === 200) {
                                             $scope.lineItems.lineItemList = [];
@@ -691,7 +691,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                 // else just save line item
                 workflowService
-                    .createLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem)
+                    .createLineItems($scope.selectedCampaign.clientId, $scope.selectedCampaign.campaignId, newItem)
                     .then(function (results) {
                         var campaignObj;
 
@@ -793,7 +793,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
                 // update line item
                 workflowService
-                    .updateLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem)
+                    .updateLineItems($scope.selectedCampaign.clientId, $scope.selectedCampaign.campaignId, newItem)
                     .then(function (results) {
                         var campaignObj;
 
@@ -804,7 +804,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                             $scope.calculateLineItemTotal();
                             workflowService.setLineItemDataEdit(null);
                         } else {
-                            $rootScope.setErrAlertMessage(results.data.data.message );
+                            $rootScope.setErrAlertMessage(results.data.data.message);
                         }
 
                         $scope.editLineItemLoader = false;
@@ -1018,7 +1018,7 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
                     '<span class="icon-arrow-solid-down"></span>'
                 );
 
-                
+
 
             $scope.volume = '';
             $scope.billableAmount = '';
@@ -1298,51 +1298,6 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
         };
 
         $scope.calculateVolume = function (mode) {
-            //TODO delete after basic testing
-            // if (CONST_COGS_PERCENT !== $scope.lineItemType.name &&
-            //     CONST_FLAT_FEE !== $scope.lineItemType.name &&
-            //     CONST_COGS_CPM !== $scope.lineItemType.name) {
-            //     if (mode === 'create') {
-            //         $scope.volume = '';
-            //
-            //         if ($scope.lineItemType &&
-            //             $scope.lineItemType.name &&
-            //             $scope.pricingRate &&
-            //             $scope.billableAmount &&
-            //             $scope.pricingRate > 0) {
-            //             if ($scope.lineItemType.name === 'CPM') {
-            //                 $scope.volume = ($scope.billableAmount / $scope.pricingRate ) * 1000;
-            //             } else {
-            //                 $scope.volume = ($scope.billableAmount / $scope.pricingRate );
-            //             }
-            //
-            //             $scope.volume = Math.round($scope.volume);
-            //         } else {
-            //             $scope.volume = 0;
-            //         }
-            //     } else {
-            //         $scope.editLineItem.volume = '';
-            //
-            //         if ($scope.editLineItem.lineItemType &&
-            //             $scope.editLineItem.lineItemType.name &&
-            //             $scope.editLineItem.pricingRate &&
-            //             $scope.editLineItem.billableAmount &&
-            //             $scope.editLineItem.pricingRate > 0) {
-            //             if ($scope.editLineItem.lineItemType.name === 'CPM') {
-            //                 $scope.editLineItem.volume =
-            //                     ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate ) * 1000;
-            //             } else {
-            //                 $scope.editLineItem.volume =
-            //                     ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate );
-            //             }
-            //
-            //             $scope.editLineItem.volume = Math.round($scope.editLineItem.volume);
-            //         } else {
-            //              // in case $scope.editLineItem.pricingRate is 0
-            //             $scope.editLineItem.volume = 0;
-            //         }
-            //     }
-            // }
             if (mode === 'create') {
                 if (CONST_COGS_PERCENT !== $scope.lineItemType.name &&
                     CONST_FLAT_FEE !== $scope.lineItemType.name &&

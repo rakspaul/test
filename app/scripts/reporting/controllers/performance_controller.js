@@ -12,6 +12,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                                              strategySelectModel, dataService, domainReports, constants,
                                                              timePeriodModel, brandsModel, loginModel, urlService,
                                                              advertiserModel, vistoconfig, featuresService, utils) {
+
         var _customCtrl = this,
             extractAdFormats,
 
@@ -86,6 +87,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
         $scope.apiReturnCode = 200;
         $scope.redirectWidget = $scope.selectedCampaign && $scope.selectedCampaign.redirectWidget;
+
+        $scope.strategyHeading = Number($scope.selectedStrategy.id) >= 0 ?
+            constants.LINE_ITME_TOTAL : constants.MEDIA_PLAN_TOTAL;
 
         $scope.getMessageForDataNotAvailable = function (campaign) {
             campaign = campaign || $scope.campaign;
@@ -285,6 +289,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                 _.each($scope.groupThem, function(item) {
                                     item.perf_metrics = _customCtrl.removeDuplicateSOR(item.perf_metrics);
                                 });
+                                $scope.lastSyncedOn = _.first($scope['strategyPerfDataBy' + tab]).sync_date;
 
                                 _.each($scope['strategyPerfDataBy' + tab], function (item) {
                                     var vendorName = (item.nodes.length === 1) ? item.nodes[0].name : item.category;
@@ -408,8 +413,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         });
 
         $scope.$watchCollection('[adFormats.videoAds, selected_tab, selectedStrategy.id]', function (arr) {
-            var width = (arr[0] || arr[1] === 'bydiscrepancy') ? '100%' : '1985px';
-
+            var width = (arr[0] || arr[1] === 'bydiscrepancy') ? '100%' : '1550px';
             $('.reports_performance_header, .strategy_total_container').css('width', width);
         });
 
@@ -417,6 +421,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.adFormats = domainReports.checkForCampaignFormat(strategySelectModel.allAdFormats());
             $scope.videoMode = $scope.adFormats && $scope.adFormats.videoAds;
         };
+
+        extractAdFormats();
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED, function () {
             var selectedStrategyObj = strategySelectModel.getSelectedStrategy();

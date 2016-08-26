@@ -21,6 +21,8 @@ define(['angularAMD'],
                     pageName = 'uploadReports';
                 } else if (path.split('/').indexOf('mediaplans') > 0) {
                     pageName = 'cannedReports';
+                } else if (path.endsWith('invoices')) {
+                    pageName = 'invoices';
                 }
 
                 return {
@@ -48,6 +50,10 @@ define(['angularAMD'],
                     isUploadedReportsListPage: function() {
                         return pageName === 'uploadedReportsList';
                     },
+                    isInoviceListPage: function() {
+                        return pageName === 'invoices';
+                    },
+
                     /*
                      Use this method on change of account, subaccount, advertiser and brand only.
                      */
@@ -69,6 +75,8 @@ define(['angularAMD'],
                             url += '/reports/schedules';
                         } else if (this.isCreativeListPage()){
                             url += '/creative/list';
+                        } else if(this.isInoviceListPage()) {
+                            url += '/v1sto/invoices';
                         }
                         console.log('url', url);
                         return url;

@@ -304,7 +304,7 @@
             </div>
             <div class="each_col third_col {{platform.kpi_type === 'VTC' ? 'bold' : ''}}">
                 <span data-ng-bind="((platform.vtc_100 > 0) || (platform.vtc_100 === 0)) ?
-                    ((platform.vtc_100 | number : 3) + '%') : '-'">
+                    ((platform.vtc_100 | number : 2) + '%') : '-'">
                 </span>
             </div>
         </div>
@@ -318,15 +318,15 @@
         <div data-ng-if="!adFormats.videoAds">
             <div class="each_col sixth_col {{platform.kpi_type === 'CPA' ? 'bold' : ''}}"
                  data-ng-bind="((platform.cpa > 0) || (platform.cpa === 0)) ?
-                    (platform.cpa | currency : undefined : 3) : '-'">
+                    (platform.cpa | currency : undefined : 2) : '-'">
             </div>
             <div class="each_col seventh_col {{platform.kpi_type === 'CPC' ? 'bold' : ''}}"
                  data-ng-bind="((platform.cpc > 0) || (platform.cpc === 0)) ?
-                    (platform.cpc | currency : undefined : 3) : '-'">
+                    (platform.cpc | currency : undefined : 2) : '-'">
             </div>
             <div class="each_col eight_col {{platform.kpi_type === 'CPM' ? 'bold' : ''}}"
                  data-ng-bind="((platform.cpm > 0) || (platform.cpm === 0)) ?
-                    (platform.cpm | currency : undefined : 3) : '-'">
+                    (platform.cpm | currency : undefined : 2) : '-'">
             </div>
         </div>
         <div data-ng-if="adFormats.videoAds"
@@ -554,7 +554,7 @@
                 </span>
                 <span class="tooltip_holder {{platform.kpi_type === 'CPC' ? 'bold' : ''}}"
                       data-ng-bind="((platform.CPC > 0) || (platform.CPC === 0)) ?
-                        (platform.CPC | currency : undefined : 3) : '-'">
+                        (platform.CPC | currency : undefined : 2) : '-'">
                 </span>
                 <span class="tooltip_holder"
                       data-ng-bind="((platform.clicks > 0) || (platform.clicks === 0)) ?
@@ -569,7 +569,7 @@
                 </span>
                 <span class="tooltip_holder"
                       data-ng-bind="((platform.CPMv > 0) || (platform.CPMv === 0)) ?
-                        (platform.CPMv | currency : undefined : 3) : '-'">
+                        (platform.CPMv | currency : undefined : 2) : '-'">
                 </span>
                 <span class="tooltip_holder"
                       data-ng-bind="((platform.VIEWABLE_IMPS > 0) || (platform.VIEWABLE_IMPS === 0)) ?
@@ -585,7 +585,7 @@
                 </span>
                 <span class="tooltip_holder {{platform.kpi_type === 'CPA' ? 'bold' : ''}}"
                       data-ng-bind="((platform.CPA > 0) || (platform.CPA === 0)) ?
-                        (platform.CPA | currency : undefined : 3) : '-'">
+                        (platform.CPA | currency : undefined : 2) : '-'">
                 </span>
                 <span class="tooltip_holder"
                       data-ng-bind="((platform.actions > 0) || (platform.actions === 0)) ? (platform.actions) : '-'">

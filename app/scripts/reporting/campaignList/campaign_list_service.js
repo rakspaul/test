@@ -278,8 +278,8 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                 selected_geos: geos,
                                 totalImpressions: null,
                                 grossRev: null,
-                                totalMediaCost: utils.roundOff(strategy.total_media_cost, 2),
-                                expectedMediaCost: utils.roundOff(strategy.expected_media_cost, 2),
+                                totalMediaCost: strategy.total_media_cost,
+                                expectedMediaCost: strategy.expected_media_cost,
                                 ctr: 0,
                                 actionRate: 0,
                                 chart: false,
@@ -655,7 +655,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                 campaign.kpiTypeDisplayName = _.find(vistoconfig.kpiDropDown, function (obj) {
                                     return obj.kpi === campaign.kpiType;
                                 });
-                                campaign.kpiTypeDisplayName = campaign.kpiTypeDisplayName ? campaign.kpiTypeDisplayName.displayName : utils.capitaliseAllText(campaign.kpiType);
+                                campaign.kpiTypeDisplayName = campaign.kpiTypeDisplayName ? campaign.kpiTypeDisplayName.displayName : (campaign.kpiType).toUpperCase();
                             }
 
                             campaignList.push(campaign);

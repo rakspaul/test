@@ -5,14 +5,14 @@
     <!--Header-->
     <div class="col-md-12 zeroPadding heading" style="margin: 30px 0;">
         <h1 class="zeroMargin pull-left">Brands</h1>
-        
+
         <div class="pull-right btn-group create" role="group" aria-label="...">
             <a class="btn btn-default" ng-click="createBrand()">
                 <span class="icon-plus"></span>
                 <span data-ng-bind="isEditBrand ? 'Update' : 'Create'"></span>
             </a>
         </div>
-        
+
         <!--Search Input-->
         <div class="btn-group pull-right" style="margin-right: 10px;">
             <button type="button" class="btn btn-default pull-right" style="display: none">
@@ -39,12 +39,13 @@
         </div >
 
         <span class="pull-right" style="font-size: 12px; margin: 9px 10px 0 0;"><span data-ng-bind="brandsTotal"></span> Brands</span>
-    
+
         <div class="col-md-12 zeroPadding">
             <label class="col-sm-12 greyTxt">Brand Name</label>
             <input type="text" class="pull-left clearLeft col-md-3" placeholder="Add Name" id="brandNameInp" ng-model="brandName"
-                   ng-keyup="mode == 'create' ? showDropdown() : ''" style="border-top-right-radius: 0px; border-bottom-right-radius: 0;" ng-class="{'edit-input':isEditBrand}">
-            
+                   ng-keyup="mode == 'create' ? showDropdown() : ''" special-character="special-character" style="border-top-right-radius: 0px; border-bottom-right-radius: 0;" ng-class="{'edit-input':isEditBrand}">
+
+            <label class="col-md-12 txtError special-character-error zeroPadding" style="display: none;" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
             <span class="pull-left icon-clear" ng-show="isEditBrand"
                   data-ng-click="isEditBrand=false;brandName=''" style="margin: 10px 0 0 10px; cursor: pointer;"></span>
         </div>

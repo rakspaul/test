@@ -66,7 +66,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             getSubAccounts = function (clientId, access_level) {
                 var accessLevel = '',
                     url;
-console.log('PATEA getSubAccounts(), clientId = ', clientId, ', access_level = ', access_level);
+
                 if (access_level !== undefined) {
                     accessLevel = '&access_level=' + access_level;
                 }
@@ -220,8 +220,12 @@ console.log('PATEA getSubAccounts(), clientId = ', clientId, ', access_level = '
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
-                    '/brands/'+ brandId +
                     '/vendors?vendorType=EXECUTION_PLATFORM&sortBy=name';
+
+                if(brandId) {
+                    url += '&brandId=' + brandId;
+                }
+
 
                 return dataService.fetch(url, cacheObj);
             },
@@ -315,8 +319,7 @@ console.log('PATEA getSubAccounts(), clientId = ', clientId, ', access_level = '
                 );
             },
 
-            deleteAd = function (campaignId, adId) {
-                var clientId = vistoconfig.getSelectedAccountId();
+            deleteAd = function (clientId, campaignId, adId) {
 
                 return dataService.deleteRequest(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -340,8 +343,7 @@ console.log('PATEA getSubAccounts(), clientId = ', clientId, ', access_level = '
                 );
             },
 
-            resumeAd = function (data) {
-                var clientId = vistoconfig.getSelectedAccountId();
+            resumeAd = function (clientId, data) {
 
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -415,11 +417,13 @@ console.log('PATEA getSubAccounts(), clientId = ', clientId, ', access_level = '
             getVendorsAdServer = function (clientId, advertiserId, brandId) {
 
                 advertiserId = advertiserId || -1;
-                brandId = brandId || -1;
                 var url = '/clients/' + clientId +
                         '/advertisers/' + advertiserId +
-                        '/brands/' + brandId +
                         '/vendors?vendorType=ADSERVING';
+
+                if(brandId){
+                    url += '&brandId=' + brandId;
+                }
 
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                     url);
@@ -562,10 +566,9 @@ console.log('PATEA getSubAccounts(), clientId = ', clientId, ', access_level = '
                 );
             },
 
-            downloadCreativeTemplate = function (adServerId, templateId) {
-                var clientId = vistoconfig.getMasterClientId(),
+            downloadCreativeTemplate = function (clientId, adServerId, templateId) {
 
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/adserver/' + adServerId +
                         '/template/' + templateId +
@@ -671,8 +674,6 @@ console.log('PATEA getSubAccounts(), clientId = ', clientId, ', access_level = '
             getAdvertisersDomainList = function (clientId, advertiserId) {
                 var url;
 
-                clientId = vistoconfig.getMasterClientId();
-
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
@@ -692,7 +693,6 @@ console.log('PATEA getSubAccounts(), clientId = ', clientId, ', access_level = '
 
             getPlatformCustomInputs = function (clientId, platformId) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' + platformId;
-
                 return dataService.fetch(url);
             },
 
@@ -710,13 +710,12 @@ console.log('PATEA getSubAccounts(), clientId = ', clientId, ', access_level = '
                 return dataService.fetch(url);
             },
 
-            createLineItems = function (campaignId,client_id,data) {
-                var clientId = client_id || vistoconfig.getMasterClientId(),
+            createLineItems = function (clientId, campaignId, data) {
 
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/campaigns/' + campaignId +
-                        '/lineitems';
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + clientId +
+                    '/campaigns/' + campaignId +
+                    '/lineitems';
 
                 return dataService.post(
                     url,
@@ -725,13 +724,12 @@ console.log('PATEA getSubAccounts(), clientId = ', clientId, ', access_level = '
                 );
             },
 
-            updateLineItems = function (campaignId, client_id, data) {
-                var clientId = client_id || vistoconfig.getMasterClientId(),
+            updateLineItems = function (clientId, campaignId, data) {
 
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/campaigns/' + campaignId +
-                        '/lineitems/' + data.id;
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + clientId +
+                    '/campaigns/' + campaignId +
+                    '/lineitems/' + data.id;
 
                 return dataService.put(
                     url,
@@ -758,16 +756,17 @@ console.log('PATEA getSubAccounts(), clientId = ', clientId, ', access_level = '
                 var clientId = vistoconfig.getMasterClientId(),
                     url;
 
-                brandId = brandId || -1;
-
                 if (client_id) {
                     clientId = client_id;
                 }
 
                 url = '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
-                    '/brands/'+ brandId +
                     '/clientVendorConfigs?rateType=FIXED&rateTypeIncluded=false';
+
+                if(brandId){
+                    url += '&brandId=' + brandId;
+                }
 
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                     url);
@@ -777,16 +776,17 @@ console.log('PATEA getSubAccounts(), clientId = ', clientId, ', access_level = '
                 var clientId = vistoconfig.getMasterClientId(),
                     url;
 
-                brandId = brandId || -1;
-
                 if (client_id) {
                     clientId = client_id;
                 }
 
                 url = '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
-                    '/brands/'+ brandId +
                     '/clientVendorConfigs?rateType=FIXED';
+
+                if(brandId){
+                    url += '&brandId=' + brandId;
+                }
 
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                     url);
@@ -796,17 +796,17 @@ console.log('PATEA getSubAccounts(), clientId = ', clientId, ', access_level = '
                 var clientId = vistoconfig.getMasterClientId(),
                     url = '';
 
-                brandId = brandId || -1;
-
                 if (client_id) {
                     clientId = client_id;
                 }
 
                 url = '/clients/' + clientId +
                 '/advertisers/' + advertiserId +
-                '/brands/'+ brandId +
                 '/clientVendorConfigs?sor=true';
-                console.log("url",url);
+
+                if(brandId){
+                    url += '&brandId=' + brandId;
+                }
 
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                     url);

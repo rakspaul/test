@@ -301,7 +301,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.INFLIGHT_LABEL = 'In Flight';
         this.ACTIVE_LABEL = 'Active';
         this.KPI_ON_TRACK = 'KPI is On Target';
-        this.UNDERPERFORMING = 'Underperforming';
+        this.UNDERPERFORMING = 'Off Target';
         this.PAUSED = 'Paused';
         this.COMPLETED = 'Completed';
 
@@ -427,6 +427,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.COPY_RIGHTS = 'Copyright &copy; 2016 Collective, Inc. All Rights Reserved';
         this.ABOUT_US = 'About Us';
         this.USERNAME_OR_PASSWORD_INCORRECT = 'The Username/Password is incorrect';
+        this.UPGRADE_BROWSER_MESSAGE1 =  'Unfortunately, we do not support your browser. Please upgrade to IE {findVersion}.';
+        this.UPGRADE_BROWSER_MESSAGE2 =  'Best viewed in {browserName} version {findVersion} and above. Please upgrade your browser.';
+        this.UPGRADE_BROWSER_MESSAGE3 = 'Unfortunately, we don\'t yet support your browser. Please use {browserList}.';
 
         this.STRATEGY = 'Ad Group';
 
@@ -1035,6 +1038,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.DATANOTAVAILABLE = 'Data not available';
         this.UPDATETAG = 'Update Tag';
         this.CREATIVESDELETE = 'Archive Creatives';
+        this.TRACKING_MESSAGE = 'Use 3rd party tracking code';
+        this.CAUTION_MSG = '<b>Caution</b>: 3rd party tracking code may not be compatible with this ad server configuration or your selected buying/execution platform. ' +
+            'Be sure to consult with Visto support or your Collective Visto account manager before using this code in a live ad.';
         this.TAB_CHANGED = 'tab_changed';
 
        // this.EVENT_CLIENT_CHANGED = 'eventClientChanged';

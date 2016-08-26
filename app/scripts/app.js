@@ -38,6 +38,10 @@ define(['common'], function (angularAMD) {
                                         account = _.find(accountService.getAccounts(), function (client) {
                                             return client.id === preferredClientId;
                                         });
+
+                                        if(!account) {
+                                            account = accountService.getAccounts()[0];
+                                        }
                                     } else {
                                         account = accountService.getAccounts()[0];
                                     }
@@ -302,8 +306,6 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-
-
                 .when('/a/:accountId/sa/:subAccountId/mediaplans/reports/:reportName', angularAMD.route({
                     templateUrl: assets.html_campaign_reports,
                     title: 'Reports Overview',
@@ -383,6 +385,7 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         header: function (routeResolversParams, routeResolvers) {
+                            console.log('Reports overview..........');
                             return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
@@ -724,7 +727,7 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2();
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -1269,6 +1272,7 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         header: function (routeResolversParams, routeResolvers) {
+                            console.log('v1sto/invoices route!');
                             return routeResolvers.invoiceHeader(routeResolversParams);
                         }
                     }
@@ -1279,6 +1283,7 @@ define(['common'], function (angularAMD) {
                     title: 'Media Plan - Overview',
                     controller: 'reportsInvoiceController',
                     controllerUrl: 'reporting/collectiveReport/reports_invoice_controller',
+                    showHeader: true,
                     css: assets.css_reports_invoice_list,
 
                     resolve: {
@@ -1305,22 +1310,6 @@ define(['common'], function (angularAMD) {
                     css: assets.css_table_list
                 }))
 
-                .when('/a/:accountId/admin/home', angularAMD.route({
-                    templateUrl: assets.html_admin_home,
-                    title: 'AdminHome',
-                    showHeader: true,
-
-                    // TODO: Move to routeResolvers service???
-                    resolve: {
-                        check: function ($location, loginModel) {
-                            if (!loginModel.getClientData().is_super_admin) {
-                                $location.url('/dashboard');
-                            }
-                        }
-                    }
-
-                }))
-
                 .when('/a/:accountId/admin/accounts', angularAMD.route({
                     templateUrl: assets.html_accounts,
                     title: 'Accounts',
@@ -1341,12 +1330,9 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'common/controllers/users/users_controller',
                     showHeader: true,
 
-                    // TODO: Move to routeResolvers service???
                     resolve: {
-                        check: function ($location, loginModel) {
-                            if (!loginModel.getClientData().is_super_admin) {
-                                $location.url('/dashboard');
-                            }
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -1358,12 +1344,9 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'common/controllers/accounts/admin_brands_controller',
                     showHeader: true,
 
-                    // TODO: Move to routeResolvers service???
                     resolve: {
-                        check: function ($location, loginModel) {
-                            if (!loginModel.getClientData().is_super_admin) {
-                                $location.url('/dashboard');
-                            }
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -1375,12 +1358,9 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'common/controllers/accounts/admin_advertisers_controller',
                     showHeader: true,
 
-                    // TODO: Move to routeResolvers service???
                     resolve: {
-                        check: function ($location, loginModel) {
-                            if (!loginModel.getClientData().is_super_admin) {
-                                $location.url('/dashboard');
-                            }
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
@@ -1623,20 +1603,6 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/campaignId/:campaignId/adId/:adId/creative/:creativeId/preview', angularAMD.route({
-                    templateUrl: assets.html_creative_preview,
-                    title: 'Preview Creative',
-                    controller: 'CreativePreviewController',
-                    controllerUrl: 'workflow/creative/creative_preview_controller',
-                    showHeader: false,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativePreviewResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
                 .when('/a/:accountId/adv/:advertiserId/creative/:creativeId/preview', angularAMD.route({
                     templateUrl: assets.html_creative_preview,
                     title: 'Preview Creative',
@@ -1651,7 +1617,7 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/a/:accountId/sa/:subAccountId//clientId/:clientId/adv/:advertiserId/campaignId/:campaignId/adId/:adId/creative/:creativeId/preview', angularAMD.route({
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/campaign/:campaignId/ad/:adId/creative/:creativeId/preview', angularAMD.route({
                     templateUrl: assets.html_creative_preview,
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',
@@ -1665,7 +1631,7 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/a/:accountId/clientId/:clientId/adv/:advertiserId/campaignId/:campaignId/adId/:adId/creative/:creativeId/preview', angularAMD.route({
+                .when('/a/:accountId/adv/:advertiserId/campaign/:campaignId/ad/:adId/creative/:creativeId/preview', angularAMD.route({
                     templateUrl: assets.html_creative_preview,
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',

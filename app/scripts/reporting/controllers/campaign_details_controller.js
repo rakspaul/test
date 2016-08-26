@@ -1241,36 +1241,14 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 return $scope.getClassFromDiff(spendDifference, strategy.endDate);
             };
 
-            $scope.getClassFromDiff = function (spendDifference, endDate) {
-                var dateDiffInDays;
-
-                if (endDate !== undefined) {
-                    dateDiffInDays = momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), endDate);
-                }
+            $scope.getClassFromDiff = function (spendDifference) {
 
                 // fix for initial loading
                 if (spendDifference === -999) {
                     return '';
                 }
 
-                if (endDate !== undefined) {
-                    if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), endDate) === false) {
-                        if ((dateDiffInDays <= 7) && (spendDifference < -5 || spendDifference > 5)) {
-                            return 'red';
-                        } else if ((dateDiffInDays <= 7) && (spendDifference >= -5 && spendDifference <= 5)) {
-                            return 'blue';
-                        }
-                    }
-
-                    // past a campaign end date
-                    if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), endDate) === true) {
-                        return (spendDifference < -5 || spendDifference > 5) ? 'red': 'blue';
-                    }
-                }
-
-                if (spendDifference < -10 || spendDifference > 20) {
-                    return 'red';
-                } else if (spendDifference >= -10 && spendDifference <= 20) {
+                if (spendDifference >= -10 && spendDifference <= 20) {
                     return 'blue';
                 }
 

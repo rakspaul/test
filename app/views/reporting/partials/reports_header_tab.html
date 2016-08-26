@@ -16,8 +16,7 @@
              class="header_tab_dropdown"
              data-ng-class="{'active_tab': tab.href === filters.activeTab}"
              id="{{tab.href}}">
-            <a data-ng-href="{{cannedReportsUrl[$index] ? cannedReportsUrl[$index] : navigateToTab('/' + tab.href, $event , 'reportsSubPage', true, $index)}}"
-               data-ng-click="navigateToTab('/' + tab.href, $event , 'reportsSubPage', false, $index)"
+            <a data-ng-click="navigateToTab('/' + tab.href, $event , 'reportsSubPage', false, $index)"
                id="performance_tab_{{tab.href}}"
                style="text-transform: capitalize;"
                reportTitle="{{tab.title}}"
@@ -34,7 +33,6 @@
              class="clearfix header_tab_dropdown"
              data-ng-class="{'active_tab': tab.href === customFilters.activeTab}">
             <a class="pull-left reports_list_link"
-               data-ng-href="{{scheduleReportsUrl[$index] ? scheduleReportsUrl[$index] : navigateToTab(tab.href, $event, 'scheduleReports', true, $index)}}"
                data-ng-click="navigateToTab(tab.href, $event, 'scheduleReports', false, $index)"
                data-ng-bind="tab.title">
             </a>

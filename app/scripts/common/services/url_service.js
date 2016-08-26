@@ -37,11 +37,11 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                      4  : budget_top5_across_all_advertisers
                      5  : budget_top5_across_all_advertisers_brands
                      6  : budget_top5_across_all_brands
-                     7  : performace_screens
-                     8  : performace_formats
+                     7  : performance_screens
+                     8  : performance_formats
                      9  : performance_ad_sizes
-                     10 : performace_creatives
-                     11 : performace_days_of_week
+                     10 : performance_creatives
+                     11 : performance_days_of_week
                      12 : quality_data_for_all_ads
                      13 : quality_data_for_all_ads_strategy
                      14 : cost_report_for_one_or_more_campaign_ids
@@ -69,6 +69,9 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                     }
 
                     if (qryObj.brandId) {
+                        if(Number(qryObj.brandId) === 0) {
+                            qryObj.brandId = -1;
+                        }
                         params += '&brand_id=' + qryObj.brandId;
                     }
 
@@ -116,6 +119,7 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                     return params;
                 },
 
+               // Performance canned report
                 APIVistoCustomQuery = function (qryObj) {
 
                     var params = this.buildParams(qryObj),
@@ -341,7 +345,7 @@ define(['angularAMD', 'common/services/vistoconfig_service',
                         '/invoices/' + invoiceId;
                 },
 
-                getInvoiceData = function ( invoiceReports, queryStr) {
+                getInvoiceData = function (invoiceReports, queryStr) {
                     var url;
 
                     if (invoiceReports.isSearched) {

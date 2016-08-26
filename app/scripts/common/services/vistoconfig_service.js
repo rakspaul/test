@@ -7,6 +7,28 @@ define(['angularAMD'], function (angularAMD) {
             WORKFLOW_API_URL: workflowCreate_api
         };
 
+        this.supportedBrowser = [
+            {
+                name: 'Chrome',
+                version: 36
+            },
+
+            {
+                name: 'Firefox',
+                version: 35
+            },
+
+            {
+                name: 'Internet Explorer',
+                version: 10
+            },
+
+            {
+                name: 'Safari',
+                version: 8
+            }
+        ];
+
         this.actionColors = [
             '#7ED86C',
             '#2C417F',
@@ -59,10 +81,10 @@ define(['angularAMD'], function (angularAMD) {
             {kpiType: 'CTR',                        displayName: 'CTR'},
             {kpiType: 'IMPRESSIONS',                displayName: 'Impressions'},
             {kpiType: 'POST CLICK CPA',             displayName: 'Post Click CPA'},
-            {kpiType: 'SUSPICIOUS ACTIVITY RATE',   displayName: 'Suspicious Activity %'},
+            //{kpiType: 'SUSPICIOUS ACTIVITY RATE',   displayName: 'Suspicious Activity %'},
             {kpiType: 'SPEND',                      displayName: 'Spend'},
-            {kpiType: 'VIEWABLE IMPRESSIONS',       displayName: 'Viewable Impressions'},
-            {kpiType: 'VIEWABLE RATE',              displayName: 'Viewable Rate'},
+            //{kpiType: 'VIEWABLE IMPRESSIONS',       displayName: 'Viewable Impressions'},
+            //{kpiType: 'VIEWABLE RATE',              displayName: 'Viewable Rate'},
             {kpiType: 'VTC',                        displayName: 'VTC'}
         ];
 
@@ -74,9 +96,9 @@ define(['angularAMD'], function (angularAMD) {
             { kpi: 'ctr',                           displayName: 'CTR' },
             { kpi: 'pc_cpa',                        displayName: 'Post Click CPA' },
             { kpi: 'spend',                         displayName: 'Spend' },
-            { kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
-            { kpi: 'viewable_impressions',          displayName: 'Viewable Impressions' },
-            { kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' },
+            //{ kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
+            //{ kpi: 'viewable_impressions',          displayName: 'Viewable Impressions' },
+            //{ kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' },
             { kpi: 'vtc',                           displayName: 'VTC' }
         ];
 
@@ -85,10 +107,10 @@ define(['angularAMD'], function (angularAMD) {
             { kpi: 'cpc',                           displayName: 'CPC' },
             { kpi: 'cpm',                           displayName: 'CPM' },
             { kpi: 'pc_cpa',                        displayName: 'Post Click CPA' },
-            { kpi: 'spend',                         displayName: 'Spend' },
-            { kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
-            { kpi: 'viewable_impressions',          displayName: 'Viewable Impressions' },
-            { kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' }
+            { kpi: 'spend',                         displayName: 'Spend' }
+           // { kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
+           // { kpi: 'viewable_impressions',          displayName: 'Viewable Impressions' },
+           // { kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' }
         ];
 
         this.PERFORMANCE_LINK = '/performance';

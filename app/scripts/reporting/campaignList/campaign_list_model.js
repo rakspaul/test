@@ -94,9 +94,9 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                             ontrackWidth: undefined
                         },
 
-                        quickFilterSelected: this.getCapitalizeString(constants.ACTIVE),
+                        quickFilterSelected: this.getCapitalizeString('active'),
                         quickFilterSelectedCount: 0,
-                        filterActive: constants.ACTIVE_CONDITION,
+                        filterActive: 'in_flight',
                         filterReady: undefined,
                         filterDraft: undefined,
                         filterCompleted: undefined,
@@ -466,10 +466,10 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                     if (forceLoadFilter !== undefined) {
                                         self.dashboard.displayFilterSection = true;
 
-                                        if (forceLoadFilter === constants.ACTIVE_ONTRACK) {
-                                            self.setQuickFilter(constants.ACTIVE_ONTRACK);
-                                        } else if (forceLoadFilter === constants.ACTIVE_UNDERPERFORMING) {
-                                            self.setQuickFilter(constants.ACTIVE_UNDERPERFORMING);
+                                        if (forceLoadFilter === 'ontrack') {
+                                            self.setQuickFilter('ontrack');
+                                        } else if (forceLoadFilter === 'underperforming') {
+                                            self.setQuickFilter('underperforming');
                                         }
                                     } else {
                                         self.dashboard.displayFilterSection = false;
@@ -538,7 +538,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                         dashboardFilter = function (type, state) {
                             requestCanceller.cancelLastRequest(constants.CAMPAIGN_LIST_CANCELLER);
 
-                            if ((state === 'endingSoon') || (this.dashboard.status.active.endingSoon === constants.ACTIVE)) {
+                            if ((state === 'endingSoon') || (this.dashboard.status.active.endingSoon === 'active')) {
                                 this.sortParam = 'end_date';
                                 this.sortDirection = 'asc';
                             }
@@ -683,96 +683,88 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
 
                             localStorageService.campaignListFilter.set(filterToApply);
 
+                            //  now hardcoded the status because the constants should only be used for displaying the text and not here,
+                            // it is affecting the api call's whenever we change the text in constant_sevice page
+
                             switch (filterToApply) {
-                                case constants.ACTIVE_CONDITION:
-                                    this.appliedQuickFilterText = constants.INFLIGHT_LABEL;
+                                case 'in_flight':
                                     this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
-                                    this.dashboard.status.active.bothItem = constants.ACTIVE;
-                                    type = constants.ACTIVE;
+                                    this.dashboard.status.active.bothItem = 'active' ;
+                                    type = 'active' ;
                                     break;
 
-                                case constants.ACTIVE_ONTRACK:
-                                    this.appliedQuickFilterText = this.getCapitalizeString(constants.ONTRACK);
-                                    this.dashboard.quickFilterSelectedCount = this.dashboard.active[constants.ONTRACK];
-                                    this.dashboard.status.active.ontrack = constants.ACTIVE;
-                                    kpiStatus = constants.ontrack;
+                                case 'ontrack':
+                                    this.dashboard.quickFilterSelectedCount = this.dashboard.active.ontrack;
+                                    this.dashboard.status.active.ontrack = 'active' ;
+                                    kpiStatus = 'ontrack';
                                     break;
 
-                                case constants.ACTIVE_UNDERPERFORMING:
-                                    this.appliedQuickFilterText = this.getCapitalizeString(constants.UNDERPERFORMING);
-
+                                case 'underperforming' :
                                     this.dashboard.quickFilterSelectedCount =
-                                        this.dashboard.active[constants.UNDERPERFORMING.toLowerCase()];
+                                        this.dashboard.active.underperforming;
 
-                                    this.dashboard.status.active.underperforming = constants.ACTIVE;
-                                    kpiStatus = constants.UNDERPERFORMING;
+                                    this.dashboard.status.active.underperforming = 'active' ;
+                                    kpiStatus = 'Underperforming';
                                     break;
 
-                                case constants.ENDING_SOON_CONDITION:
-                                    this.appliedQuickFilterText = constants.ENDING_SOON;
+                                case 'endingSoon' :
                                     this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
-                                    this.dashboard.status.active.endingSoon = constants.ACTIVE;
-                                    this.appliedQuickFilter = constants.ENDING_SOON_CONDITION;
+                                    this.dashboard.status.active.endingSoon = 'active';
+                                    this.appliedQuickFilter = 'endingSoon';
                                     this.sortParam = 'end_date';
                                     this.sortDirection = 'asc';
                                     break;
 
-                                case constants.DRAFT_CONDITION:
-                                    this.appliedQuickFilterText = constants.DRAFT;
+                                case 'draft':
 
                                     this.dashboard.quickFilterSelectedCount =
-                                        this.dashboard[(constants.DRAFT).toLowerCase()];
+                                        this.dashboard.draft;
 
-                                    this.dashboard.status.draft = constants.ACTIVE;
-                                    type = constants.DRAFT.toLowerCase();
+                                    this.dashboard.status.draft = 'active' ;
+                                    type = 'draft';
                                     break;
 
-                                case constants.READY_CONDITION:
-                                    this.appliedQuickFilterText = constants.SCHEDULED;
+                                case 'scheduled':
 
                                     this.dashboard.quickFilterSelectedCount =
-                                        this.dashboard[constants.READY.toLowerCase()];
+                                        this.dashboard.ready;
 
-                                    this.dashboard.status.ready = constants.ACTIVE;
-                                    type = constants.READY.toLowerCase();
+                                    this.dashboard.status.ready = 'active' ;
+                                    type = 'ready';
                                     break;
 
-                                case constants.COMPLETED_CONDITION:
-                                    this.appliedQuickFilterText = constants.ENDED;
+                                case 'ended':
 
                                     this.dashboard.quickFilterSelectedCount =
-                                        this.dashboard[constants.COMPLETED.toLowerCase()];
+                                        this.dashboard.completed;
 
-                                    this.dashboard.status.completed = constants.ACTIVE;
-                                    type = constants.COMPLETED.toLowerCase();
+                                    this.dashboard.status.completed = 'active' ;
+                                    type = 'completed';
                                     break;
 
-                                case constants.ARCHIVED_CONDITION:
-                                    this.appliedQuickFilterText = constants.ARCHIVED;
+                                case 'archived':
 
                                     this.dashboard.quickFilterSelectedCount =
-                                        this.dashboard[constants.ARCHIVED.toLowerCase()];
+                                        this.dashboard.archived;
 
-                                    this.dashboard.status.archived = constants.ACTIVE;
-                                    type = constants.ARCHIVED.toLowerCase();
+                                    this.dashboard.status.archived = 'active' ;
+                                    type = 'archived';
                                     break;
 
-                                case constants.ALL_CONDITION:
-                                    this.appliedQuickFilterText = constants.ALL;
+                                case 'all':
 
                                     this.dashboard.quickFilterSelectedCount =
-                                        this.dashboard[constants.ALL.toLowerCase()];
+                                        this.dashboard.all;
 
-                                    this.dashboard.status.all = constants.ALL.toLowerCase();
-                                    this.dashboard.status.active.all = constants.ACTIVE;
-                                    type = constants.ALL.toLowerCase();
+                                    this.dashboard.status.all = 'all';
+                                    this.dashboard.status.active.all = 'active' ;
+                                    type = 'all';
                                     break;
 
                                 default:
-                                    this.appliedQuickFilterText = constants.DASHBOARD_STATUS_IN_FLIGHT;
                                     this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
-                                    this.dashboard.status.active.bothItem = constants.ACTIVE;
-                                    type = constants.ACTIVE;
+                                    this.dashboard.status.active.bothItem = 'active' ;
+                                    type = 'active' ;
                             }
 
 
@@ -801,7 +793,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                 if ($tmpSavedFilter) {
                                     this.setQuickFilter($tmpSavedFilter);
                                 } else {
-                                    this.setQuickFilter(constants.ALL_CONDITION);
+                                    this.setQuickFilter('all');
                                 }
                             } else {
                                 this.setQuickFilter(filterStatus);
@@ -839,15 +831,17 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                             this.sortParam && params.push('sort_column=' + this.sortParam);
                             this.sortDirection && params.push('sort_direction=' + this.sortDirection);
 
-                            if (this.appliedQuickFilter === constants.ENDING_SOON_CONDITION) {
-                                params.push('condition=' + constants.ACTIVE_CONDITION);
+                            if (this.appliedQuickFilter === 'endingSoon') {
+                                params.push('condition=all');
+                                params.push('end_soon=true');
                             } else {
                                 params.push('condition=' + this.appliedQuickFilter);
+                                params.push('end_soon=false');
                             }
 
-                            if (this.appliedQuickFilter === constants.ARCHIVED_CONDITION) {
-                                params.push('cond_type=' + constants.ARCHIVED_CONDITION);
-                            } else if (this.appliedQuickFilter === constants.ACTIVE_ONTRACK || this.appliedQuickFilter === constants.ACTIVE_UNDERPERFORMING) {
+                            if (this.appliedQuickFilter === 'archived') {
+                                params.push('cond_type=archived');
+                            } else if (this.appliedQuickFilter === 'ontrack' || this.appliedQuickFilter === 'underperforming') {
                                 params.push('cond_type=kpi_status');
                             } else {
                                 params.push('cond_type=status');

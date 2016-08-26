@@ -201,7 +201,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 display: 'icon-image',
                 video: 'icon-video',
                 'rich media': 'icon-rich-media',
-                social: 'icon-social'
+                social: 'icon-social',
+                native : 'native'
             };
 
             adFormat = adFormat || 'display';
@@ -361,7 +362,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
 
-        $scope.getPreviewUrl = function (creativeData) {
+        $scope.getPreviewUrl = function (creativeData, campaignId, adId) {
 
             var previewUrl,
                 isLeafNode;
@@ -376,8 +377,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
             previewUrl +=  '/adv/' + creativeData.advertiserId;
 
-            if ($scope.adId) {
-                previewUrl += '/campaignId/'+ $scope.campaignId + '/adId/' + $scope.adId + '/creative/' + creativeData.id + '/preview';
+            if (adId) {
+                previewUrl += '/campaign/'+ campaignId + '/ad/' + adId + '/creative/' + creativeData.id + '/preview';
             } else {
                 previewUrl +=  '/creative/' + creativeData.id +'/preview';
             }

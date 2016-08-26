@@ -173,8 +173,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.post(url, data, {'Content-Type': 'application/json'});
                 },
 
-                createScheduleReport  =  function (data) {
-                    return this.post( urlService.createScheduledRpt(), data, {'Content-Type': 'application/json'});
+                createScheduleReport  =  function (clientId,data) {
+                    return this.post( urlService.createScheduledRpt(clientId), data, {'Content-Type': 'application/json'});
                 },
 
 
