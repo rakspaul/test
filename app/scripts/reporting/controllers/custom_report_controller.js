@@ -853,7 +853,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                      */
                     selectUnSelectAvailableMetrics: function() {
                         if($scope.allMetrics) {
-                            $scope.metrics.onDimensionSelection();
+                            $scope.metrics.onPrimaryDimensionSelection();
                         } else {
                             $scope.metrics.unSelectAvailableMetrics();
                         }
@@ -912,7 +912,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                      Functionality: It enables are disables
                      Params: metricTypeWithUnderscore - holds the metrictype with underscore eg: delivery_metrics
                      */
-                    onDimensionSelection: function (dimension) {
+                    onPrimaryDimensionSelection: function (dimension) {
                         var primaryDimension = $scope.reports.reportDefinition.dimensions.primary.dimension;
                         var secDimension = $scope.reports.reportDefinition.dimensions.secondary.dimension;
                         var dimSpecificMetrics = apiMetrics.dim_specific_metrics;
@@ -979,7 +979,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         var secDimension = $scope.reports.reportDefinition.dimensions.secondary.dimension;
                         var dimSpecificMetrics = apiMetrics.dim_specific_metrics;
 
-                        $scope.metrics.onDimensionSelection();
+                        $scope.metrics.onPrimaryDimensionSelection();
 
                         if (dimSpecificMetrics[secDimension] && Array === dimSpecificMetrics[secDimension].constructor) {
                             $scope.metrics.enableMetrics();
@@ -1071,7 +1071,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 };
 
                 $scope.showAddBreakdownButton = true;
-                $scope.metrics.onDimensionSelection();
+                $scope.metrics.onPrimaryDimensionSelection();
             };
 
             $scope.getMessageForDataNotAvailable = function () {
@@ -1857,7 +1857,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
 
                     //customize metric selection
                     if(String(type) === 'Primary') {
-                        $scope.metrics.onDimensionSelection();
+                        $scope.metrics.onPrimaryDimensionSelection();
                     } else {
                         $scope.metrics.onSecondDimensionSelection();
                     }
@@ -1897,8 +1897,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     } else if(String(arg) === 'secondary') {
                         $scope.reports.reportDefinition.dimensions.secondary.name = "";
                         $scope.reports.reportDefinition.dimensions.secondary.dimension = "";
-                        $scope.metrics.onDimensionSelection();
-                        //$scope.showAddBreakdownButton = true;
+
+                        $scope.metrics.onPrimaryDimensionSelection();
                     }
 
 
@@ -2918,7 +2918,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
 
                     $scope.scheduleResponseData = JSON.parse(JSON.stringify(responseData));
                     //$scope.metrics.setMetrixText('Custom');
-                    $scope.metrics.onDimensionSelection();
+                    $scope.metrics.onPrimaryDimensionSelection();
 
                     //save metrics so that it's in reportDefinition.metrics and available for schedule
                     $scope.saveMetrics();
