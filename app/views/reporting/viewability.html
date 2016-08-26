@@ -133,9 +133,13 @@
                                  id="strategy_activityLoader"
                                  data-ng-show="strategyBusy">
                             </div>
+                            <div class="strategy_total_container_header">
+                                     <div class="each_quality media_plan_totals"  data-ng-bind="textConstants.MEDIA_PLAN_TOTALS"></div>
+                            </div>
                             <div class="strategy_total_container_header clearfix"
                                  data-ng-if="!dataNotFound && strategyFound && viewData.view_metrics">
-                                <div class="each_col first_col" data-ng-bind="strategyHeading"></div>
+
+                                <!-- <div class="each_col first_col" data-ng-bind="strategyHeading"></div> -->
                                 <div class="each_col sec_col">
                                     <div class="sub_col">
                                         <span data-ng-bind="((viewData.view_metrics.display_deliverable_imps > 0) ||
@@ -402,9 +406,13 @@
                              id="strategy_activityLoader"
                              data-ng-show="strategyBusy">
                         </div>
+
+                        <div class="strategy_total_container_header">
+                            <div class="each_quality media_plan_totals"  data-ng-bind="textConstants.MEDIA_PLAN_TOTALS"></div>
+                        </div>
                         <div class="strategy_total_container_header clearfix"
                              data-ng-if=" !dataNotFound && strategyFound && viewData.view_metrics">
-                            <div class="each_col first_col" data-ng-bind="strategyHeading"></div>
+                           <!-- <div class="each_col first_col" data-ng-bind="strategyHeading"></div> -->
                             <div class="each_col sec_col"
                                  data-ng-bind="(selectedStrategy.id >= 0) ?
                                     (((viewData.view_metrics.video_deliverable_imps > 0) ||

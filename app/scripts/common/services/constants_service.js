@@ -421,6 +421,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.SUSPICIOUS = 'Suspicious';
         this.TOTAL = 'Total';
+        this.MEDIA_PLAN_TOTALS = 'Media Plan Totals *';
+        this.viewLabeltxt_cost = '* Totals includes Fixed Costs';
 
         this.FORGOT_PASSWORD = 'Forgot Password';
         this.FORGOT_PASSWORD_CONTACT_ACCOUNT_MANAGER = 'Contact your Account Manager to reset your password';
