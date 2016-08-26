@@ -1244,7 +1244,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.NOTHINGSELECTED = 'Nothing is Selected' ;
         this.GEONOTE = 'Selections made in the "Select Access" <br> component will appear in this area' ;
-        this.ERROR = 'Error:';
+        this.ERROR = 'Unkown Error:';
         this.NOTE_ADCHOICE_CODE = 'Note: Empty ad choice field will take default ad choice code from the system.';
         this.WF_PAUSE_ALL = 'Pause All';
         this.WF_RESUME_ALL = 'Resume All';
