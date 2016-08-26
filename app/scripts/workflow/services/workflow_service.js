@@ -586,8 +586,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.downloadFile(url);
             },
 
-            uploadBulkCreativeUrl = function (adServerId, creativeFormat, templateId) {
-                var clientId = vistoconfig.getMasterClientId();
+            uploadBulkCreativeUrl = function (clientId, adServerId, creativeFormat, templateId) {
 
                 return vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
                     '/adserver/' + adServerId +
