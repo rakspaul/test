@@ -880,7 +880,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         //$scope.isAllSelectDisabled = false;
                     },
 
-                    enableSpecifiedMetrics: function(metricTypeWithUnderscore){ console.log("sapna specified: ",metricTypeWithUnderscore)
+                    enableSpecifiedMetrics: function(metricTypeWithUnderscore){
                         var apiMetricsObj = apiMetrics.metrics;
                         var eachMetricName = metricTypeWithUnderscore.split('_')[0]+'Metrics';
 
@@ -891,7 +891,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         $scope[eachMetricName].isDisabled = false;
                     },
 
-                    enableFewMetrics: function(metricTypeWithUnderscore,metricsToEnableArr){ console.log("sapna enable few: ",metricTypeWithUnderscore,metricsToEnableArr)
+                    enableFewMetrics: function(metricTypeWithUnderscore,metricsToEnableArr){
                         var apiMetricsObj = apiMetrics.metrics;
                         var eachMetricName = metricTypeWithUnderscore.split('_')[0]+'Metrics';
 
@@ -1890,15 +1890,18 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         $scope.reports.reportDefinition.dimensions.primary.dimension = "";
                         $scope.reports.reportDefinition.dimensions.secondary.name = "";
                         $scope.reports.reportDefinition.dimensions.secondary.dimension = "";
+
+                        $scope.metrics.initializeMetrics();
+                        $scope.showMetricsButton = false;
+                        $scope.showSecondDimensionBlock = false;
                     } else if(String(arg) === 'secondary') {
                         $scope.reports.reportDefinition.dimensions.secondary.name = "";
                         $scope.reports.reportDefinition.dimensions.secondary.dimension = "";
-                        $scope.showAddBreakdownButton = true;
+                        $scope.metrics.onDimensionSelection();
+                        //$scope.showAddBreakdownButton = true;
                     }
 
-                    $scope.metrics.initializeMetrics();
-                    $scope.showMetricsButton = false;
-                    $scope.showSecondDimensionBlock = false;
+
                 }
 
                 if (arg) {
