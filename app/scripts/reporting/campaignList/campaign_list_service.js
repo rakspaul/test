@@ -10,10 +10,10 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
         // originally in models/campaign.js
         angularAMD.factory('campaignListService', ['dataService', 'utils', 'modelTransformer', '$routeParams',
             'campaignModel','requestCanceller', 'constants', 'momentService', 'domainReports', 'loginModel',
-            'timePeriodModel','urlService', 'line', 'vistoconfig',
+            'timePeriodModel','urlService', 'line', 'vistoconfig', 'advertiserModel', 'brandsModel',
             function (dataService, utils, modelTransformer, $routeParams, campaignModel, requestCanceller,
                                             constants, momentInNetworkTZ, domainReports, loginModel, timePeriodModel,
-                                            urlService, line,  vistoconfig) {
+                                            urlService, line,  vistoconfig, advertiserModel, brandsModel) {
                 var listCampaign = '',
                     lineItemData = {},
                     selectedLineItemId = '',
@@ -315,8 +315,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                         strategy.map.ctr = strategyMetrics.ctr * 100;
                     },
 
-                    getStrategyCdbLineChart = function (clientId, campaign, strategy, timePeriod, kpiType, kpiValue,
-                                                        advertiserModel, brandsModel) {
+                    getStrategyCdbLineChart = function (clientId, campaign, strategy, timePeriod, kpiType, kpiValue) {
                         selectedLineItemId = strategy.id;
 
                         dataService
