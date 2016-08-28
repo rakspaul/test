@@ -1,7 +1,8 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/account_service','login/login_model', 'workflow/directives/ng_update_hidden_dropdown'],
+define(['angularAMD', 'ng-update-hidden-dropdown'],
     function (angularAMD) {
 
-    angularAMD.controller('AccountListDropdownController', function ($scope, $rootScope, $compile, $q, constants, accountsService) {
+    angularAMD.controller('AccountListDropdownController', ['$scope', '$rootScope', '$compile', '$q', 'constants', 'accountsService',
+        function ($scope, $rootScope, $compile, $q, constants, accountsService) {
 
         $scope.initddl = function(){
 
@@ -85,5 +86,5 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         };
 
 
-        });
+        }]);
     });

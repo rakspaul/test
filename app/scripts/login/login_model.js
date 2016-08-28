@@ -1,5 +1,5 @@
-define(['angularAMD', 'common/services/constants_service'], function (angularAMD) {
-    angularAMD.service('loginModel', function ($cookieStore, $location, $http, constants) {
+define(['angularAMD'], function (angularAMD) {
+    angularAMD.service('loginModel', ['$cookieStore', '$location', '$http', 'constants', function ($cookieStore, $location, $http, constants) {
         var data = {
                 user_id: undefined,
                 user_name: '',
@@ -205,5 +205,5 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
                 $location.url('/mediaplans');
             }
         };
-    });
+    }]);
 });

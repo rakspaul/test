@@ -1,12 +1,13 @@
-define(['angularAMD', 'common/services/account_service', 'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('changePasswordController', function( $rootScope , $scope  , $modalInstance, userObj  , accountService , constants ) {
+    angularAMD.controller('changePasswordController', ['$rootScope', '$scope', '$modalInstance', 'userObj', 'accountService', 'constants',
+        function( $rootScope , $scope  , $modalInstance, userObj  , accountService , constants ) {
 
         $scope.userId = '' ;
     	$scope.passwordValidation = true ;
         $scope.passwordValidationErrorTxt = 'Passwords are not matching' ;
-        
+
         $scope.userId = userObj.id ;
         $scope.close = function(){
             $modalInstance.dismiss();
@@ -22,10 +23,10 @@ define(['angularAMD', 'common/services/account_service', 'common/services/consta
             } else {
                 $scope.passwordValidation = true ;
             }
-            
+
         };
         $scope.update_password = function() {
-        	$scope.checkPassword() ; 
+        	$scope.checkPassword() ;
             if ($scope.userId && $scope.passwordValidation ) {
                 accountService
                     .updatePassword($scope.userId,  $scope.confirm_password )
@@ -41,7 +42,7 @@ define(['angularAMD', 'common/services/account_service', 'common/services/consta
                         $scope.close() ;
                         console.log('Error: ', err);
                     });
-            } 
+            }
         };
-    });
+    }]);
 });

@@ -1,9 +1,9 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_service',
-    'common/services/constants_service', 'workflow/services/workflow_service' , 'login/login_model'],
+define(['angularAMD'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.factory('audienceService', function (vistoconfig, dataService, constants, workflowService,
+        angularAMD.factory('audienceService', ['vistoconfig', 'dataService', 'constants', 'workflowService',
+            'loginModel', function (vistoconfig, dataService, constants, workflowService,
                                                         loginModel) {
             var audience,
                 source,
@@ -205,6 +205,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 setDayTimeArr : setDayTimeArr,
                 getDayTimeArr : getDayTimeArr
             };
-        });
+        }]);
     }
 );

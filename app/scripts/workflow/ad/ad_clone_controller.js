@@ -1,9 +1,10 @@
 define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AdClone', function($scope ,$rootScope, $timeout, $routeParams, $location, $modalInstance,
-                                              vistoconfig, getMediaPlansForClone, workflowService, constants,
-                                              localStorageService) {
+    angularAMD.controller('AdClone', ['$scope', '$rootScope', '$timeout', '$routeParams', '$location', '$modalInstance',
+        'vistoconfig', 'getMediaPlansForClone', 'workflowService', 'constants', 'localStorageService',
+        function($scope ,$rootScope, $timeout, $routeParams, $location, $modalInstance, vistoconfig, getMediaPlansForClone, workflowService, constants,
+                 localStorageService) {
 
         var selectedMediaPlanId,
             selectedAdGroupId = -1,
@@ -206,5 +207,5 @@ define(['angularAMD'], function (angularAMD) {
             $scope.getMediaPlansForClone();
         });
 
-    });
+    }]);
 });

@@ -19,6 +19,7 @@ module.exports =function(grunt) {
                 mainConfigFile: '<%= cvars.app %>/<%= cvars.appjs %>/main.js',
                 removeCombined: true,
                 findNestedDependencies: true,
+                include: ['main'],
                 dir: '<%= cvars.dist %>/<%= cvars.appjs %>/',
                 modules: [
                     { name: 'app' }

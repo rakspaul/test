@@ -1,7 +1,7 @@
-define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.directive('strategyDropDown', function(constants) {
+    angularAMD.directive('strategyDropDown', ['constants', function(constants) {
         return {
             restrict: 'AE',
 
@@ -27,5 +27,5 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 });
             }
         };
-    });
+    }]);
 });

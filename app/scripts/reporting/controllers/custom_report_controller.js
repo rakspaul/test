@@ -1,13 +1,16 @@
-define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
-        'reporting/strategySelect/strategy_select_service', 'reporting/kpiSelect/kpi_select_model',
-        'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
-        'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'common/moment_utils',
-        'login/login_model', 'common/services/url_service', 'common/services/data_store_model',
-        'reporting/models/domain_reports', 'common/services/vistoconfig_service', 'common/services/features_service'],
+define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-select-model',
+        'common-utils', 'request-cancel-service', 'time-period-model'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('CustomReportController', function ($routeParams, $rootScope, $scope, $route, $window,
+        angularAMD.controller('CustomReportController', ['$routeParams', '$rootScope', '$scope', '$route', '$window',
+            '$timeout', '$location', 'campaignSelectModel',
+            'strategySelectModel', 'kpiSelectModel', 'utils',
+            'dataService', 'requestCanceller', 'constants',
+            'timePeriodModel', 'momentService', 'loginModel',
+            'urlService', 'dataStore',
+            'domainReports', 'vistoconfig', 'featuresService',
+            'localStorageService', 'urlBuilder', function ($routeParams, $rootScope, $scope, $route, $window,
                                                                   $timeout, $location, campaignSelectModel,
                                                                   strategySelectModel, kpiSelectModel, utils,
                                                                   dataService, requestCanceller, constants,
@@ -2980,6 +2983,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     $(window).unbind('scroll');
                 });
             });
-        });
+        }]);
     }
 );

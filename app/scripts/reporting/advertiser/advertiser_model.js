@@ -1,4 +1,4 @@
-define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/services/constants_service','reporting/campaignSelect/campaign_select_controller'], function (angularAMD) {
+define(['angularAMD', 'advertiser-service'], function (angularAMD) {
     'use strict';
 
     angularAMD.factory('advertiserModel', ['$route','$q', '$location', '$timeout', 'advertiserService', 'constants', 'localStorageService', 'workflowService', 'pageFinder',

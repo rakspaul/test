@@ -1,8 +1,8 @@
-define(['angularAMD', 'common/services/sub_account_service', 'common/services/constants_service', 'login/login_model', 'common/services/vistoconfig_service'],
-    function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('subAccountController', function ($scope, $rootScope, $route, $routeParams, $location, subAccountService, constants, loginModel, vistoconfig,
+    angularAMD.controller('subAccountController', ['$scope', '$rootScope', '$route', '$routeParams', '$location', 'subAccountService', 'constants', 'loginModel',
+        'vistoconfig', 'utils', 'accountService', function ($scope, $rootScope, $route, $routeParams, $location, subAccountService, constants, loginModel, vistoconfig,
                                                             utils, accountService) {
         $scope.constants = constants;
 
@@ -57,7 +57,6 @@ define(['angularAMD', 'common/services/sub_account_service', 'common/services/co
                 // TODO: Redundant???
                 //$scope.subAccountData.selectedSubAccount.id = subAccountService.getSelectedSubAccount();
                 selectedSubAccount = subAccountService.getSelectedSubAccount();
-console.log('$scope.subAccountData = ', $scope.subAccountData);
                 if (selectedSubAccount) {
                     $scope.subAccountData.selectedSubAccount.id = selectedSubAccount.id;
                     $scope.subAccountData.selectedSubAccount.name = selectedSubAccount.displayName;
@@ -76,5 +75,5 @@ console.log('$scope.subAccountData = ', $scope.subAccountData);
                 $('.subAccountList_ul').scrollTop($(this).offset().top - 20 + 'px');
             });
         });
-    });
+    }]);
 });

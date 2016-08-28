@@ -1,9 +1,8 @@
-// global angObj, angular
-define(['angularAMD', '../../../login/login_model', 'common/services/constants_service', 'common/utils'],
+define(['angularAMD', 'common-utils'],
     function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('actionChart', function ($timeout, loginModel, constants, utils) {
+    angularAMD.factory('actionChart', ['$timeout', 'loginModel', 'constants', 'utils', function ($timeout, loginModel, constants, utils) {
         var browserInfo = utils.detectBrowserInfo(),
             adjustY = browserInfo.browserName === 'Firefox' ? 8 : 7,
             adjustX = browserInfo.browserName === 'Firefox' ? 1 : 0,
@@ -1105,5 +1104,5 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
         return {
             lineChart: lineChart
         };
-    });
+    }]);
 });

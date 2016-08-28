@@ -1,8 +1,8 @@
-define(['../app','login/login_service','common/utils','common/services/constants_service',
-    'common/services/role_based_service','login/login_model'],function (app) {
+define(['app', 'common-utils'],function (app) {
     'use strict';
 
-    app.controller('loginController', function ($scope, $sce, loginService, utils, constants, RoleBasedService,
+    app.controller('loginController', ['$scope', '$sce', 'loginService', 'utils', 'constants', 'RoleBasedService',
+        'loginModel', 'vistoconfig', function ($scope, $sce, loginService, utils, constants, RoleBasedService,
                                                 loginModel, vistoconfig) {
         $scope.textConstants = constants;
         $scope.loadingClass = '';
@@ -129,5 +129,5 @@ define(['../app','login/login_service','common/utils','common/services/constants
         $scope.getSigninClass = function() {
             return $scope.disabledFormFields ? 'signin_disabled' : '';
         };
-    });
+    }]);
 });

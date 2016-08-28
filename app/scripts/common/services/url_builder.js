@@ -1,6 +1,7 @@
 define(['angularAMD'],
     function (angularAMD) {
-        angularAMD.factory('urlBuilder', function ($location, $routeParams, accountService, subAccountService) {
+        angularAMD.factory('urlBuilder', ['$location', '$routeParams', 'accountService', 'subAccountService',
+            function ($location, $routeParams, accountService, subAccountService) {
 
             var dashboardUrl = function () {
                     var url = '/a/' + $routeParams.accountId,
@@ -30,7 +31,6 @@ define(['angularAMD'],
                         leafSubAccount,
                         selectedAccount,
                         subAccounts;
-console.log('mediaPlanOverviewUrl(), $routeParams = ', $routeParams);
 
                     if ($routeParams.subAccountId) {
                         leafSubAccount = _.find(subAccountService.getSubAccounts(), function (a) {
@@ -416,5 +416,5 @@ console.log('creativeListUrl!!! url = ', url);
                 goToPreviewUrl: goToPreviewUrl,
                 gotoInvoiceReport: gotoInvoiceReport
             };
-        });
+        }]);
     });

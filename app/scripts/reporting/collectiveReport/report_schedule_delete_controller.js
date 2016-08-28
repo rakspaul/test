@@ -1,7 +1,8 @@
 define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('ReportScheduleDeleteController', function( $scope , $modalInstance, headerMsg, mainMsg,
+    angularAMD.controller('ReportScheduleDeleteController', ['$scope' , '$modalInstance', 'headerMsg', 'mainMsg',
+        'deleteAction', function( $scope , $modalInstance, headerMsg, mainMsg,
                                                                       deleteAction) {
         $scope.headerMsg = headerMsg;
         $scope.mainMsg = mainMsg;
@@ -10,5 +11,5 @@ define(['angularAMD'], function (angularAMD) {
         $scope.close = function(){
             $modalInstance.dismiss();
         };
-    });
+    }]);
 });

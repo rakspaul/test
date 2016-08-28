@@ -1,20 +1,22 @@
-define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services/transformer_service',
-    'reporting/models/campaign_cdb_data', 'reporting/campaignList/campaign_list_service',
-    'reporting/campaignList/campaign_list_model', 'reporting/campaignSelect/campaign_select_model',
-    'reporting/strategySelect/strategy_select_service', 'reporting/common/charts/actions',
-    'common/services/data_service', 'common/utils', 'reporting/common/charts/pie_chart',
-    'reporting/common/charts/solid_gauge', 'common/services/constants_service', 'common/services/features_service',
-    'login/login_model', 'login/login_service', 'reporting/brands/brands_model', 'common/services/url_service',
-    'common/moment_utils', 'common/services/role_based_service', 'reporting/advertiser/advertiser_model',
-    'reporting/kpiSelect/kpi_select_model', 'common/services/data_store_model', 'common/services/vistoconfig_service',
-    'reporting/models/domain_reports', 'reporting/editActions/edit_actions_model', 'reporting/models/activity_list',
-    'reporting/controllers/actions_controller', 'reporting/editActions/edit_actions_controller',
-    'reporting/common/d3/campaign_chart', 'reporting/common/d3/quartiles_graph', 'reporting/directives/strategy_card',
-    'reporting/common/d3/pie_chart', 'reporting/advertiser/advertiser_directive', 'reporting/brands/brands_directive'],
+define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-data', 'campaign-list-service',
+    'campaign-list-model', 'campaign-select-model', 'strategy-select-service', 'charts-actions', 'common-utils', 'pie-chart',
+    'charts-solid-gauge', 'url-service', 'kpi-select-model', 'edit-actions-model', 'activity-list',
+    'actions-controller', 'edit-actions-controller', 'campaign-chart', 'quartiles-graph', 'strategy-card',
+    'pie-chart', 'advertiser-directive', 'brands-directive'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('CampaignDetailsController', function ($rootScope, $scope, $routeParams,
+        angularAMD.controller('CampaignDetailsController', ['$rootScope', '$scope', '$routeParams',
+            '$window', '$filter', '$location',  '$timeout',
+            'timePeriodModel', 'modelTransformer', 'campaignCDBData',
+            'campaignListService', 'campaignSelectModel',
+            'strategySelectModel', 'strategySelectService',
+            'actionChart', 'dataService', 'utils', 'pieChart',
+            'solidGaugeChart', 'constants', 'featuresService',
+            'loginModel', 'loginService', 'brandsModel', 'urlService',
+            'momentService', 'RoleBasedService', 'advertiserModel',
+            'kpiSelectModel', 'dataStore', 'vistoconfig',
+            'domainReports', 'editAction', 'activityList', function ($rootScope, $scope, $routeParams,
                                                                      $window, $filter,$location,  $timeout,
                                                                      timePeriodModel, modelTransformer, campaignCDBData,
                                                                      campaignListService, campaignSelectModel,
@@ -1681,6 +1683,6 @@ console.log('$scope.details.actionChart = ', $scope.details.actionChart);
                     }
                 });
             });
-        });
+        }]);
     }
 );

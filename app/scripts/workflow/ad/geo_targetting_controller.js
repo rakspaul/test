@@ -1,8 +1,9 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
-    'common/services/zip_code_service', 'common/utils', 'lrInfiniteScroll'], function (angularAMD) {
+define(['angularAMD', 'zip-code-service', 'common-utils', 'lrInfiniteScroll'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('GeoTargettingController', function ($scope, $rootScope, $timeout, $filter, constants, workflowService, zipCode, utils) {
+    angularAMD.controller('GeoTargettingController', ['$scope', '$rootScope', '$timeout', '$filter', 'constants', 'workflowService', 'zipCode', 'utils',
+
+        function ($scope, $rootScope, $timeout, $filter, constants, workflowService, zipCode, utils) {
         var DATA_MAX_SIZE = 200,
 
             defaultParams = {
@@ -2164,5 +2165,5 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.$on('reset.Geo', function () {
             $scope.resetGeoTargeting();
         });
-    });
+    }]);
 });

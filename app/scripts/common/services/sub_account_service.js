@@ -1,5 +1,6 @@
-define(['angularAMD', 'workflow/services/workflow_service'], function (angularAMD) {
-    angularAMD.service('subAccountService', function ($rootScope, $location, $q, $route, $timeout, workflowService, campaignSelectModel, advertiserModel, brandsModel, pageFinder) {
+define(['angularAMD'], function (angularAMD) {
+    angularAMD.service('subAccountService', ['$rootScope', '$location', '$q', '$route', '$timeout', 'workflowService', 'campaignSelectModel', 'advertiserModel',
+        'brandsModel', 'pageFinder', function ($rootScope, $location, $q, $route, $timeout, workflowService, campaignSelectModel, advertiserModel, brandsModel, pageFinder) {
         var subAccountList = [],
             dashboardSubAccountList = [],
             selectedSubAccount,
@@ -168,5 +169,5 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
             getSelectedDashboardSubAccount : getSelectedDashboardSubAccount,
             changeSubAccount               : changeSubAccount
         };
-    });
+    }]);
 });

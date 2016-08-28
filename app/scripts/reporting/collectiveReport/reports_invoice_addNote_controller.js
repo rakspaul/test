@@ -1,8 +1,7 @@
-define(['angularAMD', 'common/services/data_service', 'common/services/url_service',
-    'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD', 'url-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('ReportsInvoiceAddNoteController', function ($scope, $rootScope, $modalInstance) {
+    angularAMD.controller('ReportsInvoiceAddNoteController', ['$scope', '$rootScope', '$modalInstance', function ($scope, $rootScope, $modalInstance) {
         // Close method for note modal popUp
         $scope.close = function () {
             $modalInstance.dismiss();
@@ -15,5 +14,5 @@ define(['angularAMD', 'common/services/data_service', 'common/services/url_servi
             $rootScope.$broadcast('saveNoteData');
             $scope.close();
         };
-    });
+    }]);
 });

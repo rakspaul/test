@@ -1,14 +1,10 @@
-var angObj = angObj || {};
-
-define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service',
-    'common/moment_utils', 'login/login_model', 'common/utils',
-    'common/controllers/accounts/accounts_add_or_edit_advertiser_controller',
-    'common/controllers/accounts/accounts_add_or_edit_brand_controller',
-    'common/controllers/accounts/accounts_add_or_edit_controller', 'workflow/directives/custom_date_picker'],
+define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controller', 'accounts-add-or-edit-brand-controller',
+    'accounts-add-or-edit-controller', 'custom-date-picker'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('AccountsController', function ($scope, $rootScope, $modal, $compile, $sce, constants,
+        angularAMD.controller('AccountsController', ['$scope', '$rootScope', '$modal', '$compile', '$sce', 'constants',
+            'accountsService', 'momentService', 'loginModel', function ($scope, $rootScope, $modal, $compile, $sce, constants,
                                                               accountsService, momentService, loginModel) {
             var _currCtrl = this;
 
@@ -664,7 +660,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $('#admin_nav_link').addClass('active_tab');
             $('.miniTabLinks .btn').removeClass('active');
             $('#accounts_link').addClass('active');
-            
+
             $( document ).ready(function() {
                 $('.main_navigation')
                     .find('.active')
@@ -678,6 +674,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
             _currCtrl.fetchAllAdvertisers();
             _currCtrl.fetchAllBrands();
-        });
+        }]);
     }
 );

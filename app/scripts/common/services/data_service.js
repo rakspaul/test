@@ -1,9 +1,7 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_store_model',
-    'common/utils', 'common/services/url_service', 'login/login_model', 'common/services/constants_service'],
+define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
     function (angularAMD) {
-        'use strict';
-
-        angularAMD.factory('dataService', function ($q, $http, $cookieStore, $location, $routeParams, vistoconfig,
+        angularAMD.factory('dataService', ['$q', '$http', '$cookieStore', '$location', '$routeParams', 'vistoconfig',
+            'dataStore', 'utils', 'urlService', 'loginModel', 'constants', function ($q, $http, $cookieStore, $location, $routeParams, vistoconfig,
                                                     dataStore, utils, urlService, loginModel, constants) {
             var errorObject = {
                     status: 'error',
@@ -513,6 +511,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 put: put,
                 deleteRequest: deleteRequest
             };
-        });
+        }]);
     }
 );

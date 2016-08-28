@@ -1,7 +1,7 @@
-define(['angularAMD', '../../../common/services/constants_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.directive('campaignChart', function ($window, $filter, constants) {
+    angularAMD.directive('campaignChart', ['$window', '$filter', 'constants', function ($window, $filter, constants) {
         return {
             restrict: 'EA',
             template: '<svg></svg>',
@@ -1746,5 +1746,5 @@ define(['angularAMD', '../../../common/services/constants_service'], function (a
                 lineChartService.drawAxis();
             }
         };
-    });
+    }]);
 });

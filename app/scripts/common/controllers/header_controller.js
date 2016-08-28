@@ -1,12 +1,15 @@
-define(['angularAMD', 'common/services/constants_service', 'login/login_model', 'reporting/models/domain_reports', 'reporting/campaignSelect/campaign_select_model',
-    'common/services/role_based_service', 'workflow/services/workflow_service', 'common/services/features_service', 'common/services/account_service',
-    'common/services/sub_account_service', 'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('HeaderController', function ($http, $q, $scope, $rootScope, $route, $cookieStore, $location, $modal, $routeParams, $sce, $timeout,
-                                                        constants, loginModel, domainReports, campaignSelectModel, RoleBasedService, workflowService, featuresService,
-                                                        accountService, subAccountService, vistoconfig, localStorageService, advertiserModel, brandsModel, strategySelectModel,
-                                                        pageFinder, urlBuilder) {
+    angularAMD.controller('HeaderController', ['$http', '$q', '$scope', '$rootScope', '$route', '$cookieStore', '$location',
+        '$modal', '$routeParams', '$sce', '$timeout', 'constants', 'loginModel', 'domainReports', 'campaignSelectModel', 'RoleBasedService',
+        'workflowService', 'featuresService', 'accountService', 'subAccountService', 'vistoconfig', 'localStorageService', 'advertiserModel', 'brandsModel',
+        'strategySelectModel', 'pageFinder', 'urlBuilder',
+
+        function ($http, $q, $scope, $rootScope, $route, $cookieStore, $location, $modal, $routeParams, $sce, $timeout, constants, loginModel,
+                  domainReports, campaignSelectModel, RoleBasedService, workflowService, featuresService, accountService, subAccountService,
+                  vistoconfig, localStorageService, advertiserModel, brandsModel, strategySelectModel, pageFinder, urlBuilder) {
+            
         var featurePermission = function () {
                 var fParams = featuresService.getFeatureParams();
 
@@ -465,5 +468,5 @@ if (_.isEmpty($routeParams) && page !== 'creativelist') {
                 });
             };
         });
-    });
+    }]);
 });

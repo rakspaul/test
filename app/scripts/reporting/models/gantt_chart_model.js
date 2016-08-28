@@ -1,8 +1,8 @@
-define(['angularAMD', 'common/services/url_service', 'common/services/data_service', 'reporting/brands/brands_model',
-    'reporting/dashboard/dashboard_model', 'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD', 'url-service', 'dashboard-model'], function (angularAMD) {
     'use strict';
 
-    angularAMD.service('ganttChartModel', function (utils, urlService , dataService, brandsModel,
+    angularAMD.service('ganttChartModel', ['utils', 'urlService' , 'dataService', 'brandsModel',
+        'dashboardModel', 'vistoconfig', function (utils, urlService , dataService, brandsModel,
                                                                      dashboardModel, vistoconfig) {
             this.dashboard = {
                 tasks: {},
@@ -32,6 +32,5 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
                         return response.data.data;
                     });
             };
-        }
-    );
+        }]);
 });

@@ -1,5 +1,4 @@
-define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_service',
-    'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     angularAMD.service('momentService', ['loginModel', 'constants', 'vistoconfig',
         function (loginModel, constants, vistoconfig) {
 

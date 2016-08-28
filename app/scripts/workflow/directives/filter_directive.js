@@ -1,6 +1,4 @@
-define(['angularAMD', 'common/services/constants_service',
-    'common/services/vistoconfig_service', 'common/services/account_service',
-    'common/services/sub_account_service', 'workflow/services/filter_service'], function (angularAMD) {
+define(['angularAMD', 'filter-service'], function (angularAMD) {
     'use strict';
 
     angularAMD.directive('filterDirective', function () {

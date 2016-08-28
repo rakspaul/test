@@ -1,10 +1,9 @@
-define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
-    'common/services/features_service', 'common/services/vistoconfig_service',
-    'reporting/timePeriod/time_period_directive', 'reporting/subAccount/sub_account_directive',
-    'common/services/account_service'], function (angularAMD) {
+define(['angularAMD', 'time-period-directive', 'sub-account-directive',
+    ], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('domainReports', function ($location, loginModel, RoleBasedService, featuresService) {
+    angularAMD.factory('domainReports', ['$location', 'loginModel', 'RoleBasedService', 'featuresService',
+        function ($location, loginModel, RoleBasedService, featuresService) {
         return {
             getReportsTabs: function (params) {
                 var tabs = [],
@@ -116,7 +115,7 @@ define(['angularAMD', 'login/login_model', 'common/services/role_based_service',
                 };
             }
         };
-    });
+    }]);
 
     angularAMD.directive('reportTabs', ['$http', '$compile', 'constants', 'featuresService', '$rootScope',
         'localStorageService','$timeout', function ($http, $compile, constants, featuresService, $rootScope,

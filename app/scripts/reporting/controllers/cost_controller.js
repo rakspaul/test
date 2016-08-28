@@ -1,14 +1,13 @@
-define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
-    'reporting/kpiSelect/kpi_select_model', 'reporting/advertiser/advertiser_model',
-    'reporting/strategySelect/strategy_select_service', 'reporting/brands/brands_model', 'common/services/data_service',
-    'common/utils', 'login/login_model', 'common/services/url_service', 'common/services/constants_service',
-    'reporting/timePeriod/time_period_model', 'reporting/models/domain_reports',
-    'common/services/vistoconfig_service','reporting/strategySelect/strategy_select_directive',
-    'reporting/strategySelect/strategy_select_controller', 'reporting/timePeriod/time_period_pick_directive',
-    'reporting/kpiSelect/kpi_select_directive'],function (angularAMD) {
+define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-select-service',
+    'common-utils', 'url-service', 'time-period-model', 'strategy-select-directive',
+    'strategy-select-controller', 'time-period-pick-directive',
+    'kpi-select-directive'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CostController', function ($scope, $window, campaignSelectModel, kpiSelectModel,
+    angularAMD.controller('CostController', ['$scope', '$window', 'campaignSelectModel', 'kpiSelectModel',
+        'advertiserModel', 'strategySelectModel', 'brandsModel', 'dataService',
+        'utils', 'loginModel', 'urlService', 'constants', 'timePeriodModel',
+        'domainReports', 'vistoconfig', function ($scope, $window, campaignSelectModel, kpiSelectModel,
                                                        advertiserModel, strategySelectModel, brandsModel, dataService,
                                                        utils, loginModel, urlService, constants, timePeriodModel,
                                                        domainReports, vistoconfig) {
@@ -265,7 +264,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
             }
         };
         $scope.callBackStrategyChange();
-        
+
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
             $scope.sortType = 'kpi_metrics.' + args;
             $scope.sortTypeSubSort ='kpi_metrics.' + args;
@@ -297,5 +296,5 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
             mainNavigation.find('.reports_sub_menu_dd_holder').find('#cost').addClass('active_tab');
         }, 200);
         // end of hot fix for the enabling the active link in the reports dropdown
-    });
+    }]);
 });

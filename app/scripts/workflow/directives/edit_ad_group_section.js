@@ -1,7 +1,7 @@
 define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.directive('editAdGroupSection', function ($http, $compile) {
+    angularAMD.directive('editAdGroupSection', ['$http', '$compile', function ($http, $compile) {
         return {
             restrict:'EAC',
 
@@ -141,5 +141,5 @@ define(['angularAMD'], function (angularAMD) {
                 };
             }
         };
-    });
+    }]);
 });

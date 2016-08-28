@@ -1,8 +1,8 @@
-define(['angularAMD', 'common/services/constants_service', 'reporting/brands/brands_model',
-    'login/login_model', 'common/services/role_based_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.service('bubbleChart', function ($rootScope,$locale, $location, $routeParams,
+    angularAMD.service('bubbleChart', ['$rootScope', '$locale', '$location', '$routeParams',
+        'constants', 'brandsModel', 'loginModel', 'RoleBasedService', function ($rootScope,$locale, $location, $routeParams,
                                                 constants, brandsModel, loginModel, RoleBasedService) {
         var advertisersSvg = {},
             campaignsSvg = {},
@@ -696,5 +696,5 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/brands/bra
             d3.select('#'+spanId+'_svg').remove();
             $('#data_not_available').hide();
         };
-    });
+    }]);
 });

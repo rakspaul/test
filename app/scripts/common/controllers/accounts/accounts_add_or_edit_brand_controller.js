@@ -1,10 +1,7 @@
-var angObj = angObj || {};
-
-define(['angularAMD', '../../../workflow/services/account_service',
-    'reporting/models/domain_reports', '../../services/constants_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('AccountsAddOrEditBrand', function ($scope, $rootScope, $modalInstance,
+        angularAMD.controller('AccountsAddOrEditBrand', ['$scope', '$rootScope', '$modalInstance', function ($scope, $rootScope, $modalInstance,
             accountsService, domainReports, constants ) {
             function createBrandUnderAdvertiser(brandId) {
                 accountsService
@@ -38,5 +35,5 @@ define(['angularAMD', '../../../workflow/services/account_service',
                     createBrandUnderAdvertiser($scope.selectedBrandId);
                 }
             };
-        });
+        }]);
     });

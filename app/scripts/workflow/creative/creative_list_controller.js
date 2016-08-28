@@ -1,9 +1,9 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service', 'common/moment_utils', 'login/login_model',
-    'common/services/vistoconfig_service', 'common/services/account_service', 'reporting/advertiser/advertiser_model', 'workflow/creative/creative_bulk_controller',
-    'workflow/directives/filter_directive'], function (angularAMD) {
+define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CreativeListController', function ($scope, $rootScope, $routeParams, $route, $location, $window, constants, domainReports, workflowService,
+    angularAMD.controller('CreativeListController', ['$scope', '$rootScope', '$routeParams', '$route', '$location', '$window', 'constants', 'domainReports', 'workflowService',
+        'momentService', 'loginModel', 'vistoconfig', 'accountService', 'urlBuilder',
+        function ($scope, $rootScope, $routeParams, $route, $location, $window, constants, domainReports, workflowService,
                                                               momentService, loginModel, vistoconfig,accountService, urlBuilder) {
         var creativeDataArr,
             winHeight = $(window).height(),
@@ -584,5 +584,5 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.clearHoverPreview = function () {
             $('.hideOption').removeClass('open');
         };
-    });
+    }]);
 });

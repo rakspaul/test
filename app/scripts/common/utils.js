@@ -1,4 +1,4 @@
-define(['angularAMD','common/services/constants_service', 'common/services/role_based_service'],
+define(['angularAMD'],
     function (angularAMD) {
         angularAMD.factory('utils', ['$location', '$sce', 'constants', function ($location, $sce, constants) {
                 var
