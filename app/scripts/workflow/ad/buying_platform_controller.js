@@ -3,7 +3,8 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
 
     angularAMD.controller('BuyingPlatformController', ['$scope', '$timeout', '$modal', '$filter', '$rootScope',
         'constants', 'workflowService', 'vistoconfig', 'platformCustomeModule',
-        function ($scope, $timeout, $modal, $filter, $rootScope, constants, workflowService, vistoconfig,platformCustomeModule) {
+
+        function ($scope, $timeout, $modal, $filter, $rootScope, constants, workflowService, vistoconfig, platformCustomeModule) {
         var tempPlatform,
             storedResponse,
             oldPlatformName,
@@ -600,5 +601,5 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                 $('#creative-tab').find('a[data-target="#creative"]').click();
             }, 100);
         };
-    });
+    }]);
 });
