@@ -1,9 +1,7 @@
-define(['angularAMD','common/services/constants_service', 'workflow/services/workflow_service' , 'login/login_model',
-        'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
         'use strict';
 
-        angularAMD.factory('vendorsService', function (dataService, constants, workflowService,
-                                                       loginModel, vistoconfig) {
+        angularAMD.factory('vendorsService', ['dataService', 'vistoconfig', function (dataService, vistoconfig) {
             var clientId,
                 url,
 
@@ -17,6 +15,6 @@ define(['angularAMD','common/services/constants_service', 'workflow/services/wor
             return {
                 fetchVendors : fetchVendors
             };
-        });
+        }]);
     }
 );

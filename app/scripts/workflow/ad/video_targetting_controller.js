@@ -1,7 +1,7 @@
-define(['angularAMD', '../services/workflow_service', 'common/services/constants_service',
-    'workflow/services/video_service'], function (angularAMD) {
-    angularAMD.controller('VideoTargettingController', function ($scope, $timeout, audienceService, workflowService,
-                                                                 constants, videoService) {
+define(['angularAMD', 'workflow-service', 'video-service'], function (angularAMD) {
+
+    angularAMD.controller('VideoTargettingController', ['$scope', '$timeout', 'audienceService', 'workflowService',
+        'constants', 'videoService', function ($scope, $timeout, audienceService, workflowService, constants, videoService) {
         var _videoTargeting = {
                 init: function () {
                     $scope.isVideoTargetingCancelled = false;
@@ -437,5 +437,5 @@ define(['angularAMD', '../services/workflow_service', 'common/services/constants
         });
 
         _videoTargeting.init();
-    });
+    }]);
 });

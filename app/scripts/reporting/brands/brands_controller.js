@@ -1,10 +1,8 @@
-define(['angularAMD', 'reporting/brands/brands_model', 'reporting/brands/brands_service', 'common/utils',
-    'common/services/constants_service', 'common/services/vistoconfig_service', 'login/login_model',
-    'reporting/advertiser/advertiser_model', 'reporting/brands/brands_directive',
-    'common/services/sub_account_service'], function (angularAMD) {
+define(['angularAMD', 'brands-service', 'common-utils', 'brands-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('BrandsController', function ($scope, $rootScope, $routeParams, $location, brandsModel,
+    angularAMD.controller('BrandsController', ['$scope', '$rootScope', '$routeParams', '$location', 'brandsModel',
+        'brandsService', 'utils', 'constants', 'vistoconfig', function ($scope, $rootScope, $routeParams, $location, brandsModel,
                                                         brandsService, utils, constants, vistoconfig) {
         var search = false,
             searchCriteria = utils.typeAheadParams,
@@ -68,5 +66,5 @@ define(['angularAMD', 'reporting/brands/brands_model', 'reporting/brands/brands_
             });
         });
 
-    });
+    }]);
 });

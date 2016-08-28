@@ -1,5 +1,5 @@
-define(['angularAMD', '../../../common/services/constants_service'], function (angularAMD) {
-    angularAMD.directive('bubbleChart', function (constants) {
+define(['angularAMD'], function (angularAMD) {
+    angularAMD.directive('bubbleChart', ['constants', function (constants) {
         return {
             restrict: 'EAC',
             templateUrl: assets.html_bubble_chart,
@@ -8,5 +8,5 @@ define(['angularAMD', '../../../common/services/constants_service'], function (a
                 $scope.textConstants = constants;
             }
         };
-    });
+    }]);
 });

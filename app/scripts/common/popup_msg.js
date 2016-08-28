@@ -1,5 +1,5 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.directive('popupMsg', function ($compile) {
+    angularAMD.directive('popupMsg', ['$compile', function ($compile) {
         return {
             restrict : 'E',
             replace : true,
@@ -16,5 +16,5 @@ define(['angularAMD'], function (angularAMD) {
                 ))($scope));
             }
         };
-    });
+    }]);
 });

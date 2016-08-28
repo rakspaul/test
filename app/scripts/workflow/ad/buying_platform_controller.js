@@ -1,10 +1,9 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
-    'workflow/services/platform_custom_module', 'workflow/ad/direct_Inventory_controller'], function (angularAMD) {
+define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('BuyingPlatformController', function ($scope, $timeout, $modal, $filter, $rootScope,
-                                                                constants, workflowService, vistoconfig,
-                                                                platformCustomeModule) {
+    angularAMD.controller('BuyingPlatformController', ['$scope', '$timeout', '$modal', '$filter', '$rootScope',
+        'constants', 'workflowService', 'vistoconfig', 'platformCustomeModule',
+        function ($scope, $timeout, $modal, $filter, $rootScope, constants, workflowService, vistoconfig,platformCustomeModule) {
         var tempPlatform,
             storedResponse,
             oldPlatformName,

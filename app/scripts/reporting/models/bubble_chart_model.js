@@ -1,8 +1,4 @@
-define(['angularAMD', 'common/services/url_service', 'reporting/timePeriod/time_period_model',
-    'common/services/data_service', 'reporting/brands/brands_model', 'reporting/dashboard/dashboard_model',
-    'common/services/request_cancel_service', 'common/services/constants_service', 'login/login_model',
-    'reporting/advertiser/advertiser_model',
-    'common/services/sub_account_service','common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD', 'url-service', 'time-period-model', 'dashboard-model', 'request-cancel-service'], function (angularAMD) {
     'use strict';
 
     angularAMD.service('bubbleChartModel', ['urlService', 'timePeriodModel', 'dataService', 'brandsModel',

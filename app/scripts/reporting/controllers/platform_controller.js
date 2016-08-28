@@ -1,15 +1,16 @@
-define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model',
-    'reporting/strategySelect/strategy_select_service', 'common/services/data_service',
-    'common/services/constants_service', 'reporting/models/domain_reports', 'common/services/vistoconfig_service',
-    'reporting/timePeriod/time_period_model', 'login/login_model', 'common/services/role_based_service',
-    'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'common/services/url_service',
-    'common/services/features_service', 'common/services/request_cancel_service', 'common/utils',
-    'reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller',
-    'reporting/timePeriod/time_period_pick_directive', 'reporting/kpiSelect/kpi_select_directive'],
+define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-select-service',
+    'time-period-model', 'url-service', 'request-cancel-service', 'common-utils',
+    'strategy-select-directive','strategy-select-controller',
+    'time-period-pick-directive', 'kpi-select-directive'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('PlatformController', function ($scope, $rootScope, kpiSelectModel, campaignSelectModel,
+        angularAMD.controller('PlatformController', ['$scope', '$rootScope', 'kpiSelectModel', 'campaignSelectModel',
+            'strategySelectModel', 'dataService', 'constants',
+            'domainReports', 'vistoconfig', 'timePeriodModel', 'loginModel',
+            'RoleBasedService', 'advertiserModel', 'brandsModel',
+            'urlService', 'featuresService', 'requestCanceller',
+            'utils', function ($scope, $rootScope, kpiSelectModel, campaignSelectModel,
                                                               strategySelectModel, dataService, constants,
                                                               domainReports, vistoconfig, timePeriodModel, loginModel,
                                                               RoleBasedService, advertiserModel, brandsModel,
@@ -508,6 +509,6 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 mainNavigation.find('.reports_sub_menu_dd_holder').find('#platform').addClass('active_tab');
             });
             // end of hot fix for the enabling the active link in the reports dropdown
-        });
+        }]);
     }
 );

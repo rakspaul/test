@@ -1,4 +1,4 @@
-define(['angularAMD', 'reporting/models/action_type'], function (angularAMD) {
+define(['angularAMD', 'action-type'], function (angularAMD) {
     'use strict';
 
     var ActionType = function () {

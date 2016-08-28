@@ -1,14 +1,15 @@
-define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaignList/campaign_list_model', 'reporting/campaignSelect/campaign_select_model',
-    'reporting/strategySelect/strategy_select_service', 'common/utils', 'common/services/constants_service', 'common/services/vistoconfig_service',
-    'reporting/brands/brands_model', 'login/login_model', 'reporting/models/gauge_model', 'common/services/role_based_service', 'common/services/url_builder',
-    'reporting/campaignList/campaign_list_filter_directive', 'reporting/directives/campaign_cost_sort', 'reporting/directives/campaign_sort',
-    'reporting/directives/campaign_card', 'reporting/directives/campaign_list_sort', 'reporting/common/d3/quartiles_graph', 'reporting/common/d3/campaign_chart',
-    'reporting/directives/campaign_cost_card'], function (angularAMD) {
+define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-select-model',
+    'strategy-select-service', 'common-utils', 'gauge-model', 'campaign-list-filter-directive', 'campaign-cost-sort',
+    'campaign-card', 'campaign-list-sort', 'quartiles-graph', 'campaign-chart',
+    'campaign-cost-card'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CampaignListController',
-        function ($scope, $rootScope, $routeParams, $location, kpiSelectModel, campaignListModel, campaignSelectModel, strategySelectModel, utils, constants, vistoconfig,
-                  brandsModel, loginModel, gaugeModel, RoleBasedService, urlBuilder, featuresService) {
+    angularAMD.controller('CampaignListController', ['$scope', '$rootScope', '$routeParams', '$location', 'kpiSelectModel',
+        'campaignListModel', 'campaignSelectModel', 'strategySelectModel', 'utils', 'constants', 'vistoconfig',
+        'brandsModel', 'loginModel', 'gaugeModel', 'RoleBasedService', 'urlBuilder', 'featuresService',
+        function ($scope, $rootScope, $routeParams, $location, kpiSelectModel, campaignListModel, campaignSelectModel,
+                  strategySelectModel, utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel, RoleBasedService, urlBuilder, featuresService) {
+
             var fParams = featuresService.getFeatureParams(),
                 forceLoadCampaignsFilter,
 
@@ -208,6 +209,5 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     }
                 }
             });
-        }
-    );
+        }]);
 });

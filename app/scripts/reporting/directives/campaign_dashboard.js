@@ -1,7 +1,7 @@
-define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.directive('campaignDashboard', function (constants) {
+    angularAMD.directive('campaignDashboard', ['constants', function (constants) {
         return {
             restrict:'EAC',
 
@@ -85,5 +85,5 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 };
             }
         };
-    });
+    }]);
 });

@@ -1,7 +1,8 @@
-define(['angularAMD','../../common/moment_utils'],function (angularAMD) {
+define(['angularAMD'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('GetAdgroupsController', function($scope,$rootScope, $routeParams, $location,
+    angularAMD.controller('GetAdgroupsController', ['$scope', '$rootScope', '$routeParams', '$location',
+        'momentService', 'workflowService', 'urlBuilder', function($scope,$rootScope, $routeParams, $location,
                                                             momentService, workflowService, urlBuilder) {
         $scope.numOfDays = function (startTime, endTime) {
             startTime = momentService.utcToLocalTime(startTime);
@@ -61,5 +62,5 @@ define(['angularAMD','../../common/moment_utils'],function (angularAMD) {
               event.preventDefault();
             }
         });
-    });
+    }]);
 });

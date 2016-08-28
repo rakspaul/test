@@ -1,14 +1,17 @@
-define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
-    'reporting/strategySelect/strategy_select_service', 'reporting/kpiSelect/kpi_select_model',
-    'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
-    'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'login/login_model',
-    'reporting/advertiser/advertiser_model', 'common/services/url_service',
-    'reporting/collectiveReport/collective_report_model', 'reporting/brands/brands_model',
-    'common/services/vistoconfig_service', 'reporting/models/domain_reports',
-    'reporting/models/reports_upload_list', 'workflow/directives/filter_directive'], function (angularAMD) {
+define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-select-model',
+    'common-utils', 'request-cancel-service', 'time-period-model', 'url-service',
+    'collective-report-model', 'reports-upload-list', 'filter-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CustomReportUploadController', function ($modal, dataStore, $timeout, $location, $rootScope,
+    angularAMD.controller('CustomReportUploadController', ['$modal', 'dataStore', '$timeout', '$location', '$rootScope',
+        '$scope', '$route', '$window', 'campaignSelectModel',
+        'strategySelectModel', 'kpiSelectModel',
+        'utils', 'dataService', 'requestCanceller',
+        'constants', 'timePeriodModel', 'loginModel',
+        'advertiserModel', 'urlService', 'collectiveReportModel',
+        'brandsModel', 'vistoconfig', 'accountService',
+        'domainReports', 'reportsUploadList',
+        'Upload', 'urlBuilder', function ($modal, dataStore, $timeout, $location, $rootScope,
                                                                     $scope, $route, $window, campaignSelectModel,
                                                                     strategySelectModel, kpiSelectModel,
                                                                     utils, dataService, requestCanceller,
@@ -451,5 +454,5 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
         $scope.goToUploadReportsList = function () {
             $location.url(urlBuilder.uploadReportsListUrl());
         };
-    });
+    }]);
 });

@@ -1,7 +1,7 @@
-define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.directive('campaignSort', function (constants) {
+    angularAMD.directive('campaignSort', ['constants', function (constants) {
         return {
             restrict:'EAC',
 
@@ -15,5 +15,5 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 $scope.textConstants = constants;
             }
         };
-    });
+    }]);
 });

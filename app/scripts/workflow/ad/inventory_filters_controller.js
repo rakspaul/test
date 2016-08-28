@@ -1,5 +1,6 @@
-define(['angularAMD', '../services/workflow_service', '../../common/services/file_reader'], function (angularAMD) {
-    angularAMD.controller('InventoryFiltersController', function ($scope, workflowService, fileReader, Upload) {
+define(['angularAMD', 'file-reader'], function (angularAMD) {
+
+    angularAMD.controller('InventoryFiltersController', ['$scope', 'workflowService', 'fileReader', 'Upload', function ($scope, workflowService, fileReader, Upload) {
         var InventoryFiltersView = {
             getAdvertisersDomainList: function (clientId, advertiserId) {
                 workflowService
@@ -817,5 +818,5 @@ define(['angularAMD', '../services/workflow_service', '../../common/services/fil
                 $scope.hideDomainListDropdown();
             }
         });
-    });
+    }]);
 });

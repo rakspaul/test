@@ -1,4 +1,4 @@
-define(['angularAMD', '../moment_utils', 'common/services/constants_service'],
+define(['angularAMD'],
     function (angularAMD) {
         'use strict';
 

@@ -1,8 +1,8 @@
-define(['angularAMD', '../services/audience_service', 'workflow/services/workflow_service',
-    'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD', 'audience-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AudienceTargettingController', function ($scope, audienceService,
+    angularAMD.controller('AudienceTargettingController', ['$scope', 'audienceService',
+        'workflowService', 'constants', 'vistoconfig', function ($scope, audienceService,
                                                                     workflowService, constants, vistoconfig) {
 
         var editOneTimeFlag = false,
@@ -550,5 +550,5 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
         $(document).on('click', '.dropdown-menu', function (event) {
             event.stopPropagation();
         });
-    });
+    }]);
 });

@@ -1,7 +1,9 @@
 define(['angularAMD'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CampaignClone', function ($scope, $routeParams, $location, $timeout, $modalInstance,
+    angularAMD.controller('CampaignClone', ['$scope', '$routeParams', '$location', '$timeout', '$modalInstance',
+        'constants', 'vistoconfig', 'campaignCloneAction', 'workflowService',
+        'localStorageService', 'momentService', 'urlBuilder', function ($scope, $routeParams, $location, $timeout, $modalInstance,
                                                      constants, vistoconfig, campaignCloneAction, workflowService,
                                                      localStorageService, momentService, urlBuilder) {
         var today = momentService.utcToLocalTime();
@@ -153,5 +155,5 @@ define(['angularAMD'],function (angularAMD) {
 
             }
         };
-    });
+    }]);
 });

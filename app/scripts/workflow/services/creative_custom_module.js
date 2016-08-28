@@ -1,7 +1,7 @@
-define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('creativeCustomModule', function ($compile) {
+    angularAMD.factory('creativeCustomModule', ['$compile', function ($compile) {
         var _self = this,
             idx= 0,
 
@@ -289,5 +289,5 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
             init: init
         };
 
-    });
+    }]);
 });

@@ -1,10 +1,8 @@
-define(['angularAMD', '../../common/services/constants_service', 'common/moment_utils',
-    'common/services/vistoconfig_service', 'common/directives/ng_upload_hidden',
-    'workflow/directives/custom_date_picker'], function (angularAMD) {
+define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('BudgetDeliveryController', function ($scope, constants, momentService,
-                                                                vistoconfig, workflowService) {
+    angularAMD.controller('BudgetDeliveryController', ['$scope', 'constants', 'momentService',
+        'vistoconfig', 'workflowService', function ($scope, constants, momentService, vistoconfig, workflowService) {
         var unallocatedAmount = 0,
             adMaximumRevenue = 0;
 
@@ -408,5 +406,5 @@ define(['angularAMD', '../../common/services/constants_service', 'common/moment_
                 $scope.budgetErrorObj.mediaCostValidator = false;
             }
         });
-    });
+    }]);
 });

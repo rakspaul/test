@@ -1,8 +1,8 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service'],
+define(['angularAMD'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('CreativeTagController', function ($scope, constants, workflowService) {
+        angularAMD.controller('CreativeTagController', ['$scope', 'constants', 'workflowService', function ($scope, constants, workflowService) {
             var addFromLibrary = {
                 modifyCreativesData: function (respData) {
                     var arr;
@@ -268,6 +268,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 // TODO: Enable save button of popup library if elements exists
             });
-        });
+        }]);
     }
 );

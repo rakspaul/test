@@ -1,8 +1,8 @@
-define(['angularAMD', 'common/services/data_service','common/services/vistoconfig_service'],
+define(['angularAMD'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.factory('campaignOverviewService', function (dataService,vistoconfig) {
+        angularAMD.factory('campaignOverviewService', ['dataService', 'vistoconfig', function (dataService, vistoconfig) {
 
             var pauseAllAds = function(params){
 
@@ -32,6 +32,6 @@ define(['angularAMD', 'common/services/data_service','common/services/vistoconfi
                 pauseAllAds:pauseAllAds,
                 resumeAllAds:resumeAllAds
             };
-        });
+        }]);
     }
 );

@@ -1,16 +1,13 @@
-define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'common/utils',
-    'common/services/constants_service', 'common/services/url_service', 'common/services/data_store_model',
-    'common/services/data_service', 'common/moment_utils', 'common/controllers/confirmation_modal_controller',
-    'common/services/vistoconfig_service', 'reporting/collectiveReport/report_schedule_delete_controller'],
+define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 'data-store-model', 'report-schedule-delete-controller'],
     function (angularAMD) {
-    'use strict';
+    angularAMD.controller('ReportsScheduleListController', ['$scope', '$filter', '$location', '$modal', '$rootScope',
+        '$routeParams', 'collectiveReportModel', 'utils', 'constants', 'urlService', 'dataStore', 'domainReports', 'dataService',
+        'momentService', '$q', '$timeout', 'localStorageService', 'vistoconfig', 'urlBuilder',
 
-    angularAMD.controller('ReportsScheduleListController', function ($scope,$filter, $location, $modal, $rootScope,
-                                                                     $routeParams, collectiveReportModel, utils,
-                                                                     constants, urlService, dataStore,
-                                                                     domainReports, dataService, momentService,
-                                                                     $q, $timeout, localStorageService,
-                                                                     vistoconfig, urlBuilder) {
+        function ($scope,$filter, $location, $modal, $rootScope, $routeParams, collectiveReportModel, utils,
+                  constants, urlService, dataStore, domainReports, dataService, momentService, $q, $timeout,
+                  localStorageService, vistoconfig, urlBuilder) {
+            
         var _curCtrl = this,
             isSearch = false,
             urlQueries = $location.search(),
@@ -718,5 +715,5 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             // No params given, get all reports
             $scope.displayName ? $scope.getScheduledReports() : _curCtrl.getmetaData();
         }
-    });
+    }]);
 });

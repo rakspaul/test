@@ -1,4 +1,4 @@
-define(['angularAMD', 'reporting/timePeriod/time_period_directive'], function (angularAMD) {
+define(['angularAMD', 'time-period-directive'], function (angularAMD) {
     'use strict';
 
     angularAMD.directive('timeperiodDropDownPicker', function () {

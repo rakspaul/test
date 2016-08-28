@@ -1,7 +1,7 @@
 define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('pieChart', function ($timeout) {
+    angularAMD.factory('pieChart', ['$timeout', function ($timeout) {
         var pieChart = function (graphData) {
             var data = [],
                 i,
@@ -103,5 +103,5 @@ define(['angularAMD'], function (angularAMD) {
         return {
             highChart: pieChart
         };
-    });
+    }]);
 });

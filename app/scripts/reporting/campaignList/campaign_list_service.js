@@ -1,8 +1,5 @@
-define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/services/transformer_service',
-    'reporting/models/campaign_model', 'common/services/request_cancel_service', 'common/services/constants_service',
-    'common/moment_utils', 'reporting/models/domain_reports', 'login/login_model',
-    'reporting/timePeriod/time_period_model', 'common/services/url_service', 'reporting/common/charts/line',
-    'common/services/vistoconfig_service', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model'],
+define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', 'request-cancel-service',
+    'time-period-model', 'url-service', 'charts-line'],
 
     function (angularAMD) {
         'use strict';

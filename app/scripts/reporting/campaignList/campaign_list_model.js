@@ -1,7 +1,5 @@
-define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/services/transformer_service', 'reporting/models/campaign_cdb_data',
-    'reporting/models/campaign_cost', 'common/services/request_cancel_service', 'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model',
-    'reporting/advertiser/advertiser_model', 'common/services/url_service', 'common/services/vistoconfig_service','../../common/services/data_service'], function (angularAMD) {
-        // originally part of controllers/campaign_controller.js
+define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-cdb-data',
+    'campaign-cost', 'request-cancel-service', 'url-service'], function (angularAMD) {
         angularAMD.factory('campaignListModel', ['$route','$rootScope', '$location', 'campaignListService', 'modelTransformer', 'campaignCDBData', 'campaignCost',
             'requestCanceller', 'constants', 'brandsModel', 'loginModel', 'advertiserModel', 'urlService', 'vistoconfig', 'dataService', 'localStorageService',
             function ($route,$rootScope, $location, campaignListService, modelTransformer, campaignCDBData, campaignCost, requestCanceller, constants, brandsModel, loginModel,

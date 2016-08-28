@@ -1,10 +1,9 @@
-define(['angularAMD', 'common/services/constants_service', 'reporting/campaignList/campaign_list_service',
-    'reporting/directives/tactic_card', 'reporting/common/d3/campaign_chart'],
+define(['angularAMD', 'campaign-list-service', 'tactic-card', 'campaign-chart'],
     function (angularAMD) {
     'use strict';
 
-    angularAMD.directive('campaignStrategyCard', function (utils, loginModel, constants, campaignListService,
-                                                           momentService, $routeParams) {
+    angularAMD.directive('campaignStrategyCard', ['utils', 'loginModel', 'constants', 'campaignListService',
+        'momentService', '$routeParams', function (utils, loginModel, constants, campaignListService, momentService, $routeParams) {
         return {
             restrict: 'EAC',
 
@@ -196,5 +195,5 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/campaignLi
                 };
             }
         };
-    });
+    }]);
 });

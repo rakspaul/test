@@ -1,4 +1,4 @@
-define(['angularAMD', 'reporting/models/campaign_cdb_data'], function(angularAMD) {
+define(['angularAMD', 'campaign-cdb-data'], function(angularAMD) {
     'use strict';
 
     var CampaignCDBData = function() {

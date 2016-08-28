@@ -1,12 +1,10 @@
-define(['angularAMD', 'common/services/data_service', 'common/services/url_service',
-    'common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_model',
-    'common/services/vistoconfig_service'],
+define(['angularAMD', 'url-service'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('ReportsInvoiceAddAdjustmentController', function ($scope, $rootScope, $modalInstance,
-                                                                                 dataService, urlService, constants,
-                                                                                 loginModel, advertiserModel, vistoconfig) {
+        angularAMD.controller('ReportsInvoiceAddAdjustmentController', ['$scope', '$rootScope', '$modalInstance',
+            'dataService', 'urlService', 'constants', 'loginModel', 'advertiserModel', 'vistoconfig',
+            function ($scope, $rootScope, $modalInstance, dataService, urlService, constants, loginModel, advertiserModel, vistoconfig) {
             var _currCtrl = this;
 
             _currCtrl.clientId = vistoconfig.getSelectedAccountId();
@@ -125,6 +123,6 @@ define(['angularAMD', 'common/services/data_service', 'common/services/url_servi
                         $rootScope.setErrAlertMessage(constants.CREDIT_ADD_ERR);
                     });
             };
-        });
+        }]);
     }
 );

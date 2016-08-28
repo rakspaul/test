@@ -1,7 +1,7 @@
-define(['angularAMD','workflow/services/workflow_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('filterService', function (workflowService) {
+    angularAMD.factory('filterService', ['workflowService', function (workflowService) {
         var subAccountData = {},
 
             getSubAccount = function (callbackFunction) {
@@ -32,6 +32,6 @@ define(['angularAMD','workflow/services/workflow_service'], function (angularAMD
             getSubAccount: getSubAccount,
             fetchAdvertisers: fetchAdvertisers
         };
-    });
+    }]);
 });
 

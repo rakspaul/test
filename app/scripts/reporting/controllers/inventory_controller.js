@@ -1,15 +1,13 @@
-define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model',
-    'reporting/strategySelect/strategy_select_service', 'reporting/common/charts/column_line',
-    'common/services/data_service', 'common/services/constants_service', 'reporting/timePeriod/time_period_model',
-    'login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
-    'common/services/url_service', 'reporting/kpiSelect/kpi_select_directive',
-    'reporting/kpiSelect/kpi_select_controller', 'reporting/models/domain_reports',
-    'common/services/vistoconfig_service', 'common/utils', 'reporting/strategySelect/strategy_select_directive',
-    'reporting/strategySelect/strategy_select_controller', 'reporting/timePeriod/time_period_pick_directive'],
+define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
+        'strategy-select-service', 'time-period-model', 'url-service', 'common-utils', 'charts-column-line', 'time-period-controller',
+        'kpi-select-directive', 'strategy-select-directive', 'strategy-select-controller', 'time-period-pick-directive'],
     function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('InventoryController', function ($scope, kpiSelectModel, campaignSelectModel,
+    angularAMD.controller('InventoryController', ['$scope', 'kpiSelectModel', 'campaignSelectModel',
+        'strategySelectModel', 'columnline', 'dataService', 'constants',
+        'timePeriodModel', 'loginModel', 'advertiserModel',
+        'brandsModel', 'urlService', 'domainReports', 'vistoconfig', 'utils', function ($scope, kpiSelectModel, campaignSelectModel,
                                                            strategySelectModel, columnline, dataService, constants,
                                                            timePeriodModel, loginModel, advertiserModel,
                                                            brandsModel, urlService, domainReports, vistoconfig, utils) {
@@ -383,5 +381,5 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 inventoryWrapper.callBackStrategyChange();
             });
         });
-    });
+    }]);
 });

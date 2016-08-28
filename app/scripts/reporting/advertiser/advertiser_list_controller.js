@@ -1,7 +1,7 @@
-define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AdvertiserListController', function ($scope, constants) {
+    angularAMD.controller('AdvertiserListController', ['$scope', 'constants', function ($scope, constants) {
         function applyAdvertiserFilter() {
             var filter = $scope.selectedAdvertiser.name.toUpperCase(),
                 value = $scope.advertiser.name.toUpperCase(),
@@ -35,5 +35,5 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
 
             applyAdvertiserFilter();
         });
-    });
+    }]);
 });

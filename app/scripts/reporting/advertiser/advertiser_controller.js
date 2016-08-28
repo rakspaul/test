@@ -1,9 +1,8 @@
-define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils',
-    'common/services/constants_service', 'common/services/vistoconfig_service',
-    'reporting/advertiser/advertiser_directive'], function (angularAMD) {
+define(['angularAMD', 'common-utils', 'advertiser-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AdvertiserController', function ($scope, $rootScope, $routeParams, $location,
+    angularAMD.controller('AdvertiserController', ['$scope', '$rootScope', '$routeParams', '$location',
+        'advertiserModel', 'utils', 'constants', 'vistoconfig', function ($scope, $rootScope, $routeParams, $location,
                                                             advertiserModel, utils, constants, vistoconfig) {
 
         var search = false,
@@ -53,5 +52,5 @@ define(['angularAMD', 'reporting/advertiser/advertiser_model', 'common/utils',
                 $('.advertisersList_ul').scrollTop($(this).offset().top - 20 + 'px');
             });
         });
-    });
+    }]);
 });

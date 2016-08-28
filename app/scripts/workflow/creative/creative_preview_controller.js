@@ -1,10 +1,11 @@
-define(['angularAMD', '../services/workflow_service', 'login/login_model', 'reporting/advertiser/advertiser_model',
-    'common/services/local_storage_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CreativePreviewController', function ($scope, $rootScope, $routeParams, $location,
-                                                                 workflowService, loginModel, advertiserModel,
-                                                             localStorageService, vistoconfig) {
+    angularAMD.controller('CreativePreviewController', ['$scope', '$rootScope', '$routeParams', '$location',
+        'workflowService', 'loginModel', 'advertiserModel', 'localStorageService', 'vistoconfig',
+        function ($scope, $rootScope, $routeParams, $location, workflowService, loginModel, advertiserModel,
+                  localStorageService, vistoconfig) {
+
         var params = {
                 campaignId: $routeParams.campaignId,
                 adId: $routeParams.adId,
@@ -86,5 +87,5 @@ define(['angularAMD', '../services/workflow_service', 'login/login_model', 'repo
                     }
                 });
         }
-    });
+    }]);
 });
