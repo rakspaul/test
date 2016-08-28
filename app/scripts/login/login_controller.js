@@ -1,8 +1,8 @@
 define(['app', 'common-utils'],function (app) {
     'use strict';
 
-    app.controller('loginController', ['$scope', '$sce', 'loginService', 'utils', 'constants', 'RoleBasedService',
-        'loginModel', 'vistoconfig', function ($scope, $sce, loginService, utils, constants, RoleBasedService,
+    app.controller('loginController', ['$scope', '$sce', '$window', 'loginService', 'utils', 'constants', 'RoleBasedService',
+        'loginModel', 'vistoconfig', function ($scope, $sce, $window, loginService, utils, constants, RoleBasedService,
                                                 loginModel, vistoconfig) {
         $scope.textConstants = constants;
         $scope.loadingClass = '';
@@ -35,7 +35,7 @@ define(['app', 'common-utils'],function (app) {
                         loginModel.setClientData(user);
                         loginService.setCredentials(user);
                         RoleBasedService.setUserData(response);
-                        document.location = '/';
+                        $window.location.href  = '/';
                     } else {
                         $scope.error = response.data.message;
                         $scope.loginErrorMsg = response.data.message;

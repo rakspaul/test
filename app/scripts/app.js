@@ -1693,9 +1693,6 @@ define(['common'], function (angularAMD) {
                     var locationPath = $location.path(),
                         authorizationKey;
 
-                    if (JSON.parse(localStorage.getItem('userObj'))) {
-                        authorizationKey = JSON.parse(localStorage.getItem('userObj')).authorizationKey;
-                    }
 
                     if (locationPath !== '/login') {
                         brandsModel.enable();
@@ -1704,12 +1701,6 @@ define(['common'], function (angularAMD) {
                     dataService.updateRequestHeader();
 
                     loginModel.checkCookieExpiry();
-
-                    // if some one try to change the authorization key or delete the key manually
-                    // this is getting after successful login.
-                    if ($cookieStore.get('cdesk_session') && authorizationKey !== loginModel.getauth_token()) {
-                        loginModel.unauthorized();
-                    }
                 },
 
                 locationChangeStartFunc = $rootScope.$on('$locationChangeStart', function () {
