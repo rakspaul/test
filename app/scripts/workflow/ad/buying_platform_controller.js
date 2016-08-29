@@ -273,7 +273,8 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
 
             getplatformCustomNameSpace =  function(customPlatformData) {
                 var ids = _.pluck(customPlatformData, 'platformCustomInputId'),
-                    value;
+                    value,
+                    customInpChildrenData;
 
                 _.each($scope.adData.customInpNameSpaceList, function(customInpNameSpaceList) {
                     _.each(customInpNameSpaceList.platformCustomInputGroupList, function(platformCustomInputGroupList) {
@@ -287,6 +288,13 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                         }
                     });
                 });
+
+                if(!value) {
+                    customInpChildrenData = _.filter($scope.adData.customInpNameSpaceList, function(obj) { return obj.hasChildren; });
+                    if(customInpChildrenData && customInpChildrenData.length > 0) {
+                        value = customInpChildrenData[0].name;
+                    }
+                }
 
                 return value;
             };
@@ -368,8 +376,10 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
 
                                 if (tabName) {
                                     $timeout(function () {
-                                        $('#' + tabName).click();
-                                    }, 200);
+                                        if($('#' + tabName).attr('disabled') !== 'disabled') { //Abhimanyu TODO
+                                            $('#' + tabName).trigger('click');
+                                        }
+                                    }, 500);
                                 }
 
                             } else {
