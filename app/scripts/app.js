@@ -205,9 +205,13 @@ define(['common'], function (angularAMD) {
                                         .fetchAdvertiserList(params.subAccountId)
                                         .then(function () {
                                             if (routeResolversParams.advertiserModel.allowedAdvertiser(params.advertiserId)) {
+
+                                                //To fetch branch we have to send the selected advertisers clientId
+                                                var subAccountId = routeResolversParams.advertiserModel.getSelectedAdvertiser().clientId;
+
                                                 routeResolversParams
                                                     .brandsModel
-                                                    .fetchBrandList(params.subAccountId, params.advertiserId)
+                                                    .fetchBrandList(subAccountId, params.advertiserId)
                                                     .then(function () {
                                                         if (routeResolversParams.brandsModel.allowedBrand(params.brandId)) {
                                                             deferrer.resolve();
@@ -215,7 +219,7 @@ define(['common'], function (angularAMD) {
                                                             $timeout(function () { // jshint:ignore
                                                                 // hack -> wait till the dashboard (with header) page loads
                                                                 params.advertiserId && routeResolvers.fetchCurrentAdvertiser(routeResolversParams);
-                                                                params.advertiserId && params.brandId && routeResolvers.fetchCurrentBrand(routeResolversParams);
+                                                                params.advertiserId && params.brandId && routeResolvers.fetchCurrentBrand(routeResolversParams,subAccountId);
                                                             }, 1000);
                                                         } else {
                                                             deferrer.reject('brand not allowed');
@@ -1690,8 +1694,7 @@ define(['common'], function (angularAMD) {
                        workflowService , subAccountService, $window) {
 
             var loginCheckFunc = function () {
-                    var locationPath = $location.path(),
-                        authorizationKey;
+                    var locationPath = $location.path();
 
 
                     if (locationPath !== '/login') {

@@ -433,12 +433,16 @@ define(['angularAMD'], function (angularAMD) {
                 return deferred.promise;
             },
 
-            fetchCurrentBrand = function (args) {
+            fetchCurrentBrand = function (args,dashboardSubAccountId) {
                 var params = args.$route.current.params;
+                var accountId = params.subAccountId || params.accountId;
+                if(params.subAccountId && dashboardSubAccountId){
+                    accountId = dashboardSubAccountId;
+                }
 
                 args
                     .brandsModel
-                    .fetchBrandList(params.subAccountId || params.accountId, params.advertiserId)
+                    .fetchBrandList(accountId, params.advertiserId)
                     .then(function () {
                         var brand;
 
