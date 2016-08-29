@@ -145,7 +145,7 @@ define(['angularAMD', 'admin-account-service'],
             }
 
             function getCountries() {
-                accountsService
+                adminAccountsService
                     .getCountries()
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
