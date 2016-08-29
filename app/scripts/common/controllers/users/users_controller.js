@@ -1,16 +1,16 @@
-define(['angularAMD', 'users-add-or-edit-controller', 'modernizr-custom', 'dlmenu'],
+define(['angularAMD', 'users-add-or-edit-controller', 'admin-account-service', 'modernizr-custom', 'dlmenu'],
     function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('UsersController', ['$scope', '$rootScope', '$timeout', '$filter', '$modal', 'constants', 'accountsService',
-        function ($scope,$rootScope, $timeout, $filter, $modal, constants, accountsService) {
+    angularAMD.controller('UsersController', ['$scope', '$rootScope', '$timeout', '$filter', '$modal', 'constants', 'adminAccountsService',
+        function ($scope,$rootScope, $timeout, $filter, $modal, constants, adminAccountsService) {
         var _curCtrl = this,
             winHeight = $(window).height(),
 
             usersList = {
                 getUsers:function () {
                     $scope.loadUserList = true;
-                    accountsService.getUsers().then(function (res) {
+                    adminAccountsService.getUsers().then(function (res) {
                         $scope.loadUserList = false;
                         $scope.UsersData.users= res.data.data;
                         _curCtrl.UsersData = $scope.UsersData.users;

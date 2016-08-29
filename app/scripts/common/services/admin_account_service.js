@@ -1,7 +1,7 @@
 define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('accountsService', ['vistoconfig', 'dataService', 'constants', 'requestCanceller', function (vistoconfig, dataService, constants, requestCanceller) {
+    angularAMD.factory('adminAccountsService', ['vistoconfig', 'dataService', 'constants', 'requestCanceller', function (vistoconfig, dataService, constants, requestCanceller) {
 
         var advertiser = null,
 

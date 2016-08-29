@@ -1,10 +1,10 @@
-define(['angularAMD'], function (angularAMD) {
+define(['angularAMD', 'admin-account-service'], function (angularAMD) {
         'use strict';
+        angularAMD.controller('AccountsAddOrEditBrand', ['$scope', '$rootScope', '$modalInstance', 'adminAccountsService', 'domainReports', 'constants',
+            function ($scope, $rootScope, $modalInstance, adminAccountsService, domainReports, constants ) {
 
-        angularAMD.controller('AccountsAddOrEditBrand', ['$scope', '$rootScope', '$modalInstance', function ($scope, $rootScope, $modalInstance,
-            accountsService, domainReports, constants ) {
             function createBrandUnderAdvertiser(brandId) {
-                accountsService
+                adminAccountsService
                     .createBrandUnderAdvertiser($scope.client.id, $scope.advertiser.id, brandId)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
