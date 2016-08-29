@@ -1694,8 +1694,7 @@ define(['common'], function (angularAMD) {
                        workflowService , subAccountService, $window) {
 
             var loginCheckFunc = function () {
-                    var locationPath = $location.path(),
-                        authorizationKey;
+                    var locationPath = $location.path();
 
 
                     if (locationPath !== '/login') {

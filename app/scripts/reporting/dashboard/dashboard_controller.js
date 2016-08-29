@@ -3,10 +3,10 @@ define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-
 
     angularAMD.controller('DashboardController', ['$scope', '$rootScope', '$routeParams', '$location', 'constants',
         'dashboardModel', 'brandsModel', 'advertiserModel', 'campaignSelectModel', 'loginModel', 'subAccountService',
-        'vistoconfig', 'workflowService', function ($scope, $rootScope, $routeParams, $location, constants,
+        'vistoconfig', function ($scope, $rootScope, $routeParams, $location, constants,
                                                            dashboardModel, brandsModel, advertiserModel,
                                                            campaignSelectModel, loginModel, subAccountService,
-                                                           vistoconfig, workflowService) {
+                                                           vistoconfig) {
 
         var updateTitle = function () {
                 dashboardModel.setTitle();

@@ -915,14 +915,9 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                      Functionality: It enables are disables
                      Params: metricTypeWithUnderscore - holds the metrictype with underscore eg: delivery_metrics
                      */
-                    onPrimaryDimensionSelection: function (dimension) {
+                    onPrimaryDimensionSelection: function () {
                         var primaryDimension = $scope.reports.reportDefinition.dimensions.primary.dimension;
-                        var secDimension = $scope.reports.reportDefinition.dimensions.secondary.dimension;
                         var dimSpecificMetrics = apiMetrics.dim_specific_metrics;
-                        //var checkForSecondaryDime = (secDimension) ? true : false;
-                        //sapna cmmmented for this ticket
-                        var checkForSecondaryDime = false;
-                        var apiMetricsObj = apiMetrics.metrics;
 
                         $scope.allMetrics = true;
 
@@ -1005,8 +1000,8 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         var dimSpecificMetrics = apiMetrics.dim_specific_metrics;
 
                         /*
-                        If first dimension is domain (pacing NA - disabled) and second dimension is Ad (All - all enabled) it works fine but when you select again second dimension as
-                        Platform ( pacing NA - disabled) it will not be disabled, by calling this function it disables the first dimension unapplied metrics.
+                        If first dimension is domain (pacing NA - disabled) and second dimension is Ad (All - all enabled) it works fine but when you select again second
+                        dimension as Platform ( pacing NA - disabled) it will not be disabled, by calling this function it disables the first dimension unapplied metrics.
                          */
                         $scope.metrics.disableFirstDimensionNA();
 
@@ -1020,8 +1015,6 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                                         if ((metricTypePrimDimData.length === 1) && metricTypePrimDimData[0] === 'all')
                                         {
                                             $scope.metrics.enableSpecifiedMetrics(metricTypeWithUnderscore);
-                                        } else {
-                                           // $scope.metrics.enableFewMetrics(metricTypeWithUnderscore, dimSpecificMetrics[secDimension][metricTypeWithUnderscore]);
                                         }
 
                             }
@@ -1915,17 +1908,17 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     /* when choose dimesion is selected from dimension dropdown check whether it's a primary dimension or secondary dimension, if primary remove both primary and
                     secondary dimension data and if only secondary then remove only secondary data */
                     if(String(arg) === 'primary') {
-                        $scope.reports.reportDefinition.dimensions.primary.name = "";
-                        $scope.reports.reportDefinition.dimensions.primary.dimension = "";
-                        $scope.reports.reportDefinition.dimensions.secondary.name = "";
-                        $scope.reports.reportDefinition.dimensions.secondary.dimension = "";
+                        $scope.reports.reportDefinition.dimensions.primary.name = '';
+                        $scope.reports.reportDefinition.dimensions.primary.dimension = '';
+                        $scope.reports.reportDefinition.dimensions.secondary.name = '';
+                        $scope.reports.reportDefinition.dimensions.secondary.dimension = '';
 
                         $scope.metrics.initializeMetrics();
                         $scope.showMetricsButton = false;
                         $scope.showSecondDimensionBlock = false;
                     } else if(String(arg) === 'secondary') {
-                        $scope.reports.reportDefinition.dimensions.secondary.name = "";
-                        $scope.reports.reportDefinition.dimensions.secondary.dimension = "";
+                        $scope.reports.reportDefinition.dimensions.secondary.name = '';
+                        $scope.reports.reportDefinition.dimensions.secondary.dimension = '';
 
                         $scope.metrics.onPrimaryDimensionSelection();
                     }
