@@ -1,8 +1,9 @@
-define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/services/constants_service','reporting/campaignSelect/campaign_select_controller'], function (angularAMD) {
+define(['angularAMD', 'advertiser-service'], function (angularAMD) {
     'use strict';
 
     angularAMD.factory('advertiserModel', ['$route','$q', '$location', '$timeout', 'advertiserService', 'constants', 'localStorageService', 'workflowService', 'pageFinder',
-        'campaignSelectModel', function ($route,$q, $location, $timeout, advertiserService, constants, localStorageService, workflowService, pageFinder,campaignSelectModel) {
+        'campaignSelectModel','utils', function ($route,$q, $location, $timeout, advertiserService, constants, localStorageService, workflowService, pageFinder,campaignSelectModel,
+        utils) {
             var advertiserData = {
                     advertiserList: [],
                     selectedAdvertiser: {id: -1, name: constants.ALL_ADVERTISERS},
@@ -116,6 +117,7 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
                             }
 
                             //You need to fetch campaigns when ever an advertiser has changed from dropdown.  Brand will be -1 for call as in UI it will be 'All Brands'.
+                            utils.cleanSearchParameter();
                             campaignSelectModel.fetchCampaigns(accountIdToFetchCamp, advertiser.id, -1).then(function(response){
                                 var campaignArr = response.data.data,
                                     campaignId;

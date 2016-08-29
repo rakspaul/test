@@ -1,4 +1,4 @@
-define(['angularAMD', '../utils'], function (angularAMD) {
+define(['angularAMD', 'common-utils'], function (angularAMD) {
     'use strict';
 
     angularAMD.service('dataStore', function () {

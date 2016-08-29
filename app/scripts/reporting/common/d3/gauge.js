@@ -1,7 +1,7 @@
-define(['angularAMD','../../../common/services/constants_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.service('gauge', function ($window, constants) {
+    angularAMD.service('gauge', ['$window', 'constants', function ($window, constants) {
         var gauges = [],
             dashContainer,
             readings = [],
@@ -380,5 +380,5 @@ define(['angularAMD','../../../common/services/constants_service'], function (an
 
             createDashboard();
         };
-    });
+    }]);
 });

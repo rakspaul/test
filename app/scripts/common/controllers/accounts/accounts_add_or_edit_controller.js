@@ -1,11 +1,9 @@
-var angObj = angObj || {};
-
-define(['angularAMD', '../../../workflow/services/account_service', 'common/services/constants_service'],
+define(['angularAMD'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('AccountsAddOrEdit', function ($scope, $rootScope, $modalInstance, accountsService,
-                                                             constants) {
+        angularAMD.controller('AccountsAddOrEdit', ['$scope', '$rootScope', '$modalInstance', 'accountsService', 'constants', function ($scope, $rootScope, $modalInstance,
+                                                                                                                                        accountsService, constants) {
             var _currCtrl = this,
                 selectedBillingTypeName;
 
@@ -449,6 +447,6 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 .then(function () {
                     $('popup-msg').appendTo(document.body);
                 });
-        });
+        }]);
     }
 );

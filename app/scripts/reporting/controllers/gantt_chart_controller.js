@@ -1,12 +1,11 @@
-define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt_chart_model',
-    'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model', 'common/moment_utils',
-    'reporting/advertiser/advertiser_model', 'common/services/vistoconfig_service'],
+define(['angularAMD', 'gantt-chart', 'gantt-chart-model'],
     function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('GanttChartController', function ($scope, ganttChart, ganttChartModel, constants,
-                                                            brandsModel, loginModel, momentService,
-                                                            advertiserModel, vistoconfig) {
+    angularAMD.controller('GanttChartController', ['$scope', 'ganttChart', 'ganttChartModel', 'constants',
+        'brandsModel', 'loginModel', 'momentService', 'advertiserModel', 'vistoconfig',
+
+        function ($scope, ganttChart, ganttChartModel, constants, brandsModel, loginModel, momentService, advertiserModel, vistoconfig) {
         var _curCtrl = this;
 
         _curCtrl.filter = undefined;
@@ -316,5 +315,5 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
                 }
             });
         };
-    });
+    }]);
 });

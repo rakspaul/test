@@ -1,4 +1,4 @@
-define(['angularAMD','common/services/constants_service', 'common/services/role_based_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
     angularAMD
@@ -513,7 +513,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         }
 
                         transformedInput = inputValue.replace(/[^a-zA-Z0-9 _-]/gi, '');
-                        
+
                         if (transformedInput !== inputValue) {
                             modelCtrl.$setViewValue(transformedInput);
                             modelCtrl.$render();
@@ -539,8 +539,8 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         if (transformedInput !== inputValue) {
                             modelCtrl.$setViewValue(transformedInput);
                             modelCtrl.$render();
-                            element.siblings('.special-character-error').show(); 
-                            setTimeout(function(){ 
+                            element.siblings('.special-character-error').show();
+                            setTimeout(function(){
                                element.siblings('.special-character-error').fadeOut();
                             }, 6000);
                         }
@@ -549,7 +549,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         });
                         return transformedInput;
                     });
-                   
+
                 }
             };
         })

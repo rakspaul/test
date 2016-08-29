@@ -1,9 +1,10 @@
-define(['angularAMD','reporting/editActions/edit_actions_service', 'common/services/constants_service',
-    'login/login_model', 'reporting/editActions/edit_actions_model'], function (angularAMD) {
+define(['angularAMD','edit-actions-service', 'edit-actions-model'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('EditActionsController', function ($rootScope, $scope, editActionsService, constants,
+    angularAMD.controller('EditActionsController', ['$rootScope', '$scope', 'editActionsService', 'constants',
+        'loginModel', 'editAction', 'activityList', function ($rootScope, $scope, editActionsService, constants,
                                                              loginModel, editAction, activityList) {
+
         var closeEditActivityScreenFunc = $rootScope.$on('closeEditActivityScreen', function () {
                 $scope.closeEdit();
             }),
@@ -134,5 +135,5 @@ define(['angularAMD','reporting/editActions/edit_actions_service', 'common/servi
         });
 
         $('.edit_activity_log_holder').css('height', winHeight - 50);
-    });
+    }]);
 });

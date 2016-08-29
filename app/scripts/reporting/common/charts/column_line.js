@@ -1,8 +1,8 @@
-define(['angularAMD', '../../../common/utils', 'common/services/constants_service'],
+define(['angularAMD', 'common-utils'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.factory('columnline', function ($timeout, $locale, utils, constants) {
+        angularAMD.factory('columnline', ['$timeout', '$locale', 'utils', 'constants', function ($timeout, $locale, utils, constants) {
             var  getRepString = function (x) {
                     var y = Math.abs(x);
 
@@ -350,6 +350,6 @@ define(['angularAMD', '../../../common/utils', 'common/services/constants_servic
             return {
                 highChart: columnChart
             };
-        });
+        }]);
     }
 );

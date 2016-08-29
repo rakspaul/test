@@ -1,18 +1,18 @@
-define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model',
-    'reporting/strategySelect/strategy_select_service', 'common/services/data_service', 'common/utils',
-    'reporting/common/charts/actions', 'reporting/models/domain_reports', 'common/services/constants_service',
-    'reporting/timePeriod/time_period_model', 'login/login_model', 'common/moment_utils', 'common/services/url_service',
-    'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'common/services/vistoconfig_service',
-    'reporting/strategySelect/strategy_select_directive', 'reporting/strategySelect/strategy_select_controller',
-    'reporting/kpiSelect/kpi_select_directive', 'reporting/kpiSelect/kpi_select_controller',
-    'reporting/timePeriod/time_period_pick_directive'], function (angularAMD) {
+define(['angularAMD','kpi-select-model', 'campaign-select-model',
+    'strategy-select-service', 'time-period-model', 'url-service', 'common-utils', 'charts-actions', 'time-period-controller',
+    'kpi-select-directive', 'strategy-select-directive', 'strategy-select-controller', 'time-period-pick-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('OptimizationController', function ($timeout, $rootScope, $scope, kpiSelectModel,
+    angularAMD.controller('OptimizationController', ['$timeout', '$rootScope', '$scope', 'kpiSelectModel',
+        'campaignSelectModel', 'strategySelectModel', 'dataService',
+        'utils', 'actionChart', 'domainReports', 'constants',
+        'timePeriodModel', 'loginModel', 'momentService', 'urlService',
+        'advertiserModel', 'brandsModel', 'vistoconfig', function ($timeout, $rootScope, $scope, kpiSelectModel,
                                                               campaignSelectModel, strategySelectModel, dataService,
                                                               utils, actionChart, domainReports, constants,
                                                               timePeriodModel, loginModel, momentService, urlService,
                                                               advertiserModel, brandsModel, vistoconfig) {
+
         var fromLocStore = localStorage.getItem('timeSetLocStore'),
             getCustomQueryParams,
             actionDataForSelectedCampaign,
@@ -568,5 +568,5 @@ console.log('$scope.selectedStrategy = ', $scope.selectedStrategy);
             mainNavigation.find('.reports_sub_menu_dd_holder').find('#optimization').addClass('active_tab');
         }, 200);
         // end of hot fix for the enabling the active link in the reports dropdown
-    });
+    }]);
 });

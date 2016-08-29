@@ -1,7 +1,8 @@
 define(['angularAMD'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AccountChangeController', function ($scope, $modalInstance, headerMsg, mainMsg,
+    angularAMD.controller('AccountChangeController', ['$scope', '$modalInstance', 'headerMsg', 'mainMsg',
+        'accountChangeAction', function ($scope, $modalInstance, headerMsg, mainMsg,
                                                                accountChangeAction) {
         $scope.headerMsg = headerMsg;
         $scope.mainMsg =  mainMsg;
@@ -10,5 +11,5 @@ define(['angularAMD'],function (angularAMD) {
         $scope.close=function(){
             $modalInstance.dismiss();
         };
-    });
+    }]);
 });

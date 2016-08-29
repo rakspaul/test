@@ -1,12 +1,9 @@
-/**
- * Created by shrujan on 02/05/16.
- */
-define(['angularAMD', '../../common/services/constants_service', 'common/services/vistoconfig_service',
-    'workflow/services/workflow_service', '../../common/services/file_reader', 'login/login_model',
-    'common/moment_utils', '../../common/directives/ng_upload_hidden'], function (angularAMD) {
+define(['angularAMD', 'file-reader', 'ng-upload-hidden'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('LineItemController', function ($scope, $rootScope, $routeParams, $locale, vistoconfig,
+    angularAMD.controller('LineItemController', ['$scope', '$rootScope', '$routeParams', '$locale', 'vistoconfig',
+        '$location', '$timeout', 'constants', 'workflowService', 'loginModel',
+        'momentService', 'fileReader', 'Upload', 'dataService', function ($scope, $rootScope, $routeParams, $locale, vistoconfig,
                                                           $location, $timeout, constants, workflowService, loginModel,
                                                           momentService, fileReader, Upload, dataService) {
         var selectedAdvertiser,
@@ -1407,5 +1404,5 @@ define(['angularAMD', '../../common/services/constants_service', 'common/service
 
             }
         };
-    });
+    }]);
 });

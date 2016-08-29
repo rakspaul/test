@@ -1,7 +1,8 @@
-define(['angularAMD', '../services/workflow_service', 'workflow/services/audience_service'], function (angularAMD) {
+define(['angularAMD', 'audience-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('targettingController', function ($scope, $rootScope, $timeout, workflowService,
+    angularAMD.controller('targettingController', ['$scope', '$rootScope', '$timeout', 'workflowService',
+        'audienceService', 'videoService', function ($scope, $rootScope, $timeout, workflowService,
                                                            audienceService, videoService) {
         var _targeting = this;
 
@@ -500,5 +501,5 @@ define(['angularAMD', '../services/workflow_service', 'workflow/services/audienc
                 }
             });
         });
-    });
+    }]);
 });

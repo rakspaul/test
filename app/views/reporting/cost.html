@@ -102,6 +102,12 @@
 
                         <div class="cost_transparency_container">
                             <div class="each_cost_row_holder strategy_total_row">
+                                <div class="each_cost_row media_plan_totals" data-ng-bind="textConstants.MEDIA_PLAN_TOTALS"></div>
+                            </div>
+                        </div>
+
+                        <div class="cost_transparency_container">
+                            <div class="each_cost_row_holder strategy_total_row">
                                 <div class="each_cost_row">
                                     <div class="no_data_found_cost_strategy"
                                          data-ng-if="dataNotFound"
@@ -249,6 +255,7 @@
                             </div>
                         </div>
                     </div>
+                    <span class="viewLabelTxt" data-ng-bind="textConstants.VIEWLABLETXT_COST"></span>
                 </div>
             </div>
         </div>

@@ -1,6 +1,4 @@
-define(['angularAMD', '../../common/services/url_service', 'common/services/data_service',
-    'common/services/request_cancel_service', 'common/services/constants_service',
-    'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD', 'url-service', 'request-cancel-service'], function (angularAMD) {
     'use strict';
 
     angularAMD.factory('strategySelectModel', ['$q', '$timeout', 'urlService', 'dataService', 'requestCanceller',

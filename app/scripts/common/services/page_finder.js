@@ -1,7 +1,7 @@
 define(['angularAMD'],
     function (angularAMD) {
 
-        angularAMD.factory('pageFinder', function ($location) {
+        angularAMD.factory('pageFinder', ['$location', function ($location) {
 
             var pageFinder = function(path) {
                 var pageName;
@@ -90,5 +90,5 @@ define(['angularAMD'],
             return {
                 pageBuilder: pageFinder
             };
-        });
+        }]);
     });

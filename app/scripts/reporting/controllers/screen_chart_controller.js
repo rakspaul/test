@@ -1,8 +1,9 @@
-define(['angularAMD','../../login/login_model', 'reporting/models/screen_chart_model',
-    'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD','screen-chart-model'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('ScreenChartController', function ($scope, loginModel, screenChartModel, constants) {
+    angularAMD.controller('ScreenChartController', ['$scope', 'loginModel', 'screenChartModel', 'constants',
+        function ($scope, loginModel, screenChartModel, constants) {
+
         $scope.dataFound = true;
         $scope.screenWidgetData = screenChartModel.getScreenWidgetData();
         $scope.screenBusy = false;
@@ -86,5 +87,5 @@ define(['angularAMD','../../login/login_model', 'reporting/models/screen_chart_m
         };
 
         $scope.init();
-    });
+    }]);
 });

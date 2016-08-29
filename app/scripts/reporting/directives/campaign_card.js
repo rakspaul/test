@@ -1,8 +1,8 @@
-define(['angularAMD', '../../common/utils', 'common/services/constants_service', 'common/moment_utils',
-    'reporting/campaignSelect/campaign_select_model', 'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angularAMD) {
     'use strict';
 
-    angularAMD.directive('campaignCard',
+    angularAMD.directive('campaignCard', ['$rootScope', '$location', 'utils', 'constants', 'momentService', 'featuresService', '$sce',
+        'campaignSelectModel', 'vistoconfig', 'urlBuilder', 'accountService', 'subAccountService',
         function ($rootScope, $location, utils, constants, momentService, featuresService, $sce,
                   campaignSelectModel, vistoconfig, urlBuilder, accountService, subAccountService) {
             return {
@@ -320,6 +320,5 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                     };
                 }
             };
-        }
-    );
+        }]);
 });

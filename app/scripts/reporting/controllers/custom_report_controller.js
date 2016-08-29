@@ -1,13 +1,16 @@
-define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
-        'reporting/strategySelect/strategy_select_service', 'reporting/kpiSelect/kpi_select_model',
-        'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
-        'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'common/moment_utils',
-        'login/login_model', 'common/services/url_service', 'common/services/data_store_model',
-        'reporting/models/domain_reports', 'common/services/vistoconfig_service', 'common/services/features_service'],
+define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-select-model',
+        'common-utils', 'request-cancel-service', 'time-period-model'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('CustomReportController', function ($routeParams, $rootScope, $scope, $route, $window,
+        angularAMD.controller('CustomReportController', ['$routeParams', '$rootScope', '$scope', '$route', '$window',
+            '$timeout', '$location', 'campaignSelectModel',
+            'strategySelectModel', 'kpiSelectModel', 'utils',
+            'dataService', 'requestCanceller', 'constants',
+            'timePeriodModel', 'momentService', 'loginModel',
+            'urlService', 'dataStore',
+            'domainReports', 'vistoconfig', 'featuresService',
+            'localStorageService', 'urlBuilder', function ($routeParams, $rootScope, $scope, $route, $window,
                                                                   $timeout, $location, campaignSelectModel,
                                                                   strategySelectModel, kpiSelectModel, utils,
                                                                   dataService, requestCanceller, constants,
@@ -689,9 +692,9 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     },
 
                     /*
-                     Functionality: Enable all metrics under all type(delivery,cost,...)
+                     Functionality: Enable and select all metrics under all type(delivery,cost,...)
                      */
-                    enableAllMetrics: function() {
+                    enableAndSelectAllMetrics: function() {
                         var apiMetricsObj = apiMetrics.metrics;
                         $scope.selectedMetricsList = [];
 
@@ -730,7 +733,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                      deliveryMetrics/costMetrics
                      Params: metricTypeWithUnderscore - holds the metrictype with underscore eg: delivery_metrics
                      */
-                    enableSpecifiedMetrics: function(metricTypeWithUnderscore) {
+                    enableAndSelectSpecifiedMetrics: function(metricTypeWithUnderscore) {
                         var apiMetricsObj = apiMetrics.metrics;
                         var eachMetricName = metricTypeWithUnderscore.split('_')[0]+'Metrics';
                         var totalMetricName = 'total'+eachMetricName.toString().charAt(0).toUpperCase() +
@@ -760,7 +763,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                      Params: metricTypeWithUnderscore - holds the metrictype with underscore eg: delivery_metrics
                      Params: metricsToEnableArr - holds the metrics to enable
                      */
-                    enableFewMetrics: function(metricTypeWithUnderscore,metricsToEnableArr) {
+                    enableAndSelectFewMetrics: function(metricTypeWithUnderscore,metricsToEnableArr) {
                         var apiMetricsObj = apiMetrics.metrics;
                         var eachMetricName = metricTypeWithUnderscore.split('_')[0]+'Metrics';
                         var totalMetricName = 'total'+eachMetricName.toString().charAt(0).toUpperCase() +
@@ -853,7 +856,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                      */
                     selectUnSelectAvailableMetrics: function() {
                         if($scope.allMetrics) {
-                            $scope.metrics.onDimensionSelection();
+                            $scope.metrics.onPrimaryDimensionSelection();
                         } else {
                             $scope.metrics.unSelectAvailableMetrics();
                         }
@@ -861,15 +864,64 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     },
 
                     /*
+                    Description: Only Enables all metrics
+                     */
+                    enableMetrics: function(){
+                        var apiMetricsObj = apiMetrics.metrics;
+
+                        //metricType eg: delivery_metrics
+                        _.each(apiMetricsObj,function(metricTypeArr,metricType){
+                            var eachMetricName = metricType.split('_')[0]+'Metrics';
+                            _.each(metricTypeArr,function(eachMetric){
+                                var obj = _.find($scope[eachMetricName], function(obj) { return obj.key === eachMetric; });
+                                obj.isDisabled = false;
+                            });
+                            $scope[eachMetricName].isDisabled = false;
+                        });
+
+                        //To do: check if required
+                        //$scope.isAllSelectDisabled = false;
+                    },
+
+                    enableSpecifiedMetrics: function(metricTypeWithUnderscore){
+                        var apiMetricsObj = apiMetrics.metrics;
+                        var eachMetricName = metricTypeWithUnderscore.split('_')[0]+'Metrics';
+
+                        _.each(apiMetricsObj[metricTypeWithUnderscore],function(dimensionKey){
+                            var obj = _.find($scope[eachMetricName], function(obj) { return obj.key === dimensionKey; });
+                            obj.isDisabled = false;
+                        });
+                        $scope[eachMetricName].isDisabled = false;
+                    },
+
+                    enableFewMetrics: function(metricTypeWithUnderscore,metricsToEnableArr){
+                        var apiMetricsObj = apiMetrics.metrics;
+                        var eachMetricName = metricTypeWithUnderscore.split('_')[0]+'Metrics';
+
+                        _.each(apiMetricsObj[metricTypeWithUnderscore], function (dimensionKey) {
+                            var foundAt = _.indexOf(metricsToEnableArr,dimensionKey);
+
+                            if(foundAt >= 0) {
+                                var obj = _.find($scope[eachMetricName], function(obj) { return obj.key === dimensionKey; });
+                                obj.isDisabled = false;
+                            }
+                        });
+                        $scope[eachMetricName].isDisabled = false;
+                    },
+
+
+                    /*
                      Called: when ever dimension changes
                      Functionality: It enables are disables
                      Params: metricTypeWithUnderscore - holds the metrictype with underscore eg: delivery_metrics
                      */
-                    onDimensionSelection: function () {
+                    onPrimaryDimensionSelection: function (dimension) {
                         var primaryDimension = $scope.reports.reportDefinition.dimensions.primary.dimension;
                         var secDimension = $scope.reports.reportDefinition.dimensions.secondary.dimension;
                         var dimSpecificMetrics = apiMetrics.dim_specific_metrics;
-                        var checkForSecondaryDime = (secDimension) ? true : false;
+                        //var checkForSecondaryDime = (secDimension) ? true : false;
+                        //sapna cmmmented for this ticket
+                        var checkForSecondaryDime = false;
                         var apiMetricsObj = apiMetrics.metrics;
 
                         $scope.allMetrics = true;
@@ -882,15 +934,10 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                             // if object then selected metrics of different type(delivery,cost..)
                             //eg: "ad_format":["all"]
                             if (dimSpecificMetrics[primaryDimension] && Array === dimSpecificMetrics[primaryDimension].constructor) {
-                                $scope.metrics.enableAllMetrics();
-                            } else if (dimSpecificMetrics[secDimension] && Array === dimSpecificMetrics[secDimension].constructor) {
-                                //checking if secondary dimension has all metrics
-                                $scope.metrics.enableAllMetrics();
+                                $scope.metrics.enableAndSelectAllMetrics();
                             } else {
                                 $scope.selectedMetricsList = [];
                                 var primaryDimSpecMetrics = dimSpecificMetrics[primaryDimension];
-                                var secDimSpecMetrics = (checkForSecondaryDime) ? dimSpecificMetrics[secDimension] :
-                                    undefined;
 
                                 //loop each metric type(tab) i.e Delivery, Cost, Video, Quality and Pacing for the
                                 // dimension
@@ -905,36 +952,18 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                                     if (metricTypePrimDimData && Array === metricTypePrimDimData.constructor) {
                                         if ((metricTypePrimDimData.length === 1) && metricTypePrimDimData[0] === 'all')
                                         {
-                                            $scope.metrics.enableSpecifiedMetrics(metricTypeWithUnderscore);
-                                        } else if ((metricTypePrimDimData.length === 1) &&
-                                            (metricTypePrimDimData[0] === 'NA')) {
-                                            //check for both primary and secondary
-                                            if (secDimension) {
-                                                //only enable those metrics which can be choosen
-                                                $scope.metrics.enableFewMetrics(metricTypeWithUnderscore,
-                                                    secDimSpecMetrics[metricTypeWithUnderscore]);
-                                            } else {
+                                            $scope.metrics.enableAndSelectSpecifiedMetrics(metricTypeWithUnderscore);
+                                        } else if ((metricTypePrimDimData.length === 1) && (metricTypePrimDimData[0] === 'NA')) {
+
                                                 //disable Metric and each metric under that
                                                 $scope.metrics.disableSpecifiedMetrics(metricTypeWithUnderscore);
-                                            }
+
                                         } else {
                                             var metricsToEnableArr = [];
-
-                                            if (secDimension) {
-                                                if (secDimSpecMetrics[metricTypeWithUnderscore].length > 1) {
-                                                    metricsToEnableArr = _.union(
-                                                        primaryDimSpecMetrics[metricTypeWithUnderscore],
-                                                        secDimSpecMetrics[metricTypeWithUnderscore]
-                                                    );
-                                                } else {
-                                                    metricsToEnableArr = apiMetricsObj[metricTypeWithUnderscore];
-                                                }
-                                            } else {
                                                 metricsToEnableArr = primaryDimSpecMetrics[metricTypeWithUnderscore];
-                                            }
+
                                             //enable few metrics
-                                            $scope.metrics.enableFewMetrics(metricTypeWithUnderscore,
-                                                metricsToEnableArr);
+                                            $scope.metrics.enableAndSelectFewMetrics(metricTypeWithUnderscore, metricsToEnableArr);
                                         }
                                     } else {
                                         console.log('API has not sent as an Array');
@@ -947,6 +976,31 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         //change the metric text and count selected
                         $scope.metrics.setMetrixText();
                         $scope.metrics.specifiedMetricCount();
+                    },
+
+                    onSecondDimensionSelection: function(){
+                        var secDimension = $scope.reports.reportDefinition.dimensions.secondary.dimension;
+                        var dimSpecificMetrics = apiMetrics.dim_specific_metrics;
+
+                        $scope.metrics.onPrimaryDimensionSelection();
+
+                        if (dimSpecificMetrics[secDimension] && Array === dimSpecificMetrics[secDimension].constructor) {
+                            $scope.metrics.enableMetrics();
+                            $scope.allMetrics = true;
+                        } else {
+                            _.each(metricCategoryKeys, function (metricTypeWithUnderscore) {
+                                var metricTypePrimDimData = dimSpecificMetrics[secDimension][metricTypeWithUnderscore];
+                                    if (metricTypePrimDimData && Array === metricTypePrimDimData.constructor) {
+                                        if ((metricTypePrimDimData.length === 1) && metricTypePrimDimData[0] === 'all')
+                                        {
+                                            $scope.metrics.enableSpecifiedMetrics(metricTypeWithUnderscore);
+                                        } else {
+                                           // $scope.metrics.enableFewMetrics(metricTypeWithUnderscore, dimSpecificMetrics[secDimension][metricTypeWithUnderscore]);
+                                        }
+
+                            }
+                        });// end of each
+                        }// end of else
                     },
 
                     specifiedMetricCount: function() {
@@ -1020,7 +1074,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 };
 
                 $scope.showAddBreakdownButton = true;
-                $scope.metrics.onDimensionSelection();
+                $scope.metrics.onPrimaryDimensionSelection();
             };
 
             $scope.getMessageForDataNotAvailable = function () {
@@ -1758,8 +1812,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     if (type === 'Primary') {
                         $('.custom_report_filter').closest('.breakdown_div').find('.filter_input_txtbox').show();
                         $scope.secondaryDimensionArr = specificFilter.hasOwnProperty(dimension) ?
-                            angular.copy(specificFilter[dimension]) :
-                            angular.copy($scope.customeDimensionData[0].dimensions);
+                            angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].dimensions);
 
                         $scope.secondaryDimensionArr =
                             _.filter($scope.secondaryDimensionArr, function (item) {
@@ -1775,25 +1828,24 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         }
 
                         $scope.reports.reportDefinition.dimensions.primary.name = $scope.displayName[dimension];
-
-                        $scope.reports.reportDefinition.dimensions.primary.dimension =
-                            (dimension === undefined) ? dimension.dimension : dimension;
+                        $scope.reports.reportDefinition.dimensions.primary.dimension = (dimension === undefined) ? dimension.dimension : dimension;
 
                         // if a dimension is selected as Primary it should not appear in secondary
-                        //sapna commented for this ticket
-                        // $scope.initializeMetrics($scope.customeDimensionData[0], dimension);
-
                         _customctrl.resetMetricsPopUp();
                         removeIndex = ($scope.secondaryDimensionArr).indexOf(dimension);
                         $scope.secondaryDimensionArr.splice(removeIndex, 1);
 
                         // After selecting secondary dimension if primary is reset as secondary dimension then
                         // initialize secondary dimension
-                        if ($scope.reports.reportDefinition.dimensions.secondary.dimension ===
+                        /*if ($scope.reports.reportDefinition.dimensions.secondary.dimension ===
                             $scope.reports.reportDefinition.dimensions.primary.dimension) {
                             $scope.deleteSecondDimensionBlock();
                             $scope.showSecondDimension();
-                        }
+                        }*/
+
+                        // At any point if you change the primary dimension then second dimension block will be deleted and option to 'Add Dimension' will be given
+                        $scope.deleteSecondDimensionBlock();
+
                     } else {
                         $scope.showSecondaryTxtBox = true;
                         $scope.reports.reportDefinition.dimensions.secondary.name = $scope.displayName[dimension];
@@ -1807,7 +1859,12 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     $scope.metrics.setMetrixText();
 
                     //customize metric selection
-                    $scope.metrics.onDimensionSelection(dimension);
+                    if(String(type) === 'Primary') {
+                        $scope.metrics.onPrimaryDimensionSelection();
+                    } else {
+                        $scope.metrics.onSecondDimensionSelection();
+                    }
+
                 }
             };
 
@@ -1826,9 +1883,28 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 elem.closest('.dropdown').find('.dd_txt').attr('id', elem.attr('id'));
                 elem.closest('.breakdown_div').find('.filter_input_txtbox').show();
 
+
                 if(String(elem.text()) === 'Choose Dimension') {
-                    $scope.metrics.initializeMetrics();
-                    $scope.showMetricsButton = false;
+
+                    /* when choose dimesion is selected from dimension dropdown check whether it's a primary dimension or secondary dimension, if primary remove both primary and
+                    secondary dimension data and if only secondary then remove only secondary data */
+                    if(String(arg) === 'primary') {
+                        $scope.reports.reportDefinition.dimensions.primary.name = "";
+                        $scope.reports.reportDefinition.dimensions.primary.dimension = "";
+                        $scope.reports.reportDefinition.dimensions.secondary.name = "";
+                        $scope.reports.reportDefinition.dimensions.secondary.dimension = "";
+
+                        $scope.metrics.initializeMetrics();
+                        $scope.showMetricsButton = false;
+                        $scope.showSecondDimensionBlock = false;
+                    } else if(String(arg) === 'secondary') {
+                        $scope.reports.reportDefinition.dimensions.secondary.name = "";
+                        $scope.reports.reportDefinition.dimensions.secondary.dimension = "";
+
+                        $scope.metrics.onPrimaryDimensionSelection();
+                    }
+
+
                 }
 
                 if (arg) {
@@ -2334,10 +2410,13 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 $scope.onMetricClick = function (metricType, index) {
                     var totalMetricSelected = 0,
                         selectedIndx,
+                        enabledMetrics=0,
+                        totalMetrics = 0,
                     // eg: metricType = pacingMetrics, below 2 lines extracts only pacing and captailize
                     // first letter eg: Pacing
                         nameOfMetric = metricType.split(/(?=[A-Z])/)[0];
-                    nameOfMetric = nameOfMetric.toString().charAt(0).toUpperCase() + nameOfMetric.slice(1);
+                        nameOfMetric = nameOfMetric.toString().charAt(0).toUpperCase() + nameOfMetric.slice(1);
+
 
                     if (index === undefined) {
                         $scope['total' + nameOfMetric + 'Metrics'] = 0;
@@ -2352,22 +2431,28 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     }
 
                     selectedIndx = _.findIndex($scope[metricType], function (eachObj) {
+                        totalMetrics++;
                         if (eachObj.selected === true) {
                             totalMetricSelected++;
                         }
+                        if(!eachObj.isDisabled) {
+                            enabledMetrics++;
+                        }
                     });
+
+                    $scope['total' + nameOfMetric + 'Metrics'] = totalMetricSelected;
+
 
                     if (totalMetricSelected > 0) {
                         $scope[metricType].minOneSelected = true;
-
-                        if (totalMetricSelected === $scope['total' + nameOfMetric + 'Metrics']) {
+                        if(enabledMetrics === totalMetricSelected) {
                             $scope[metricType].isAllSelected = true;
                             $scope.setAllMetrics();
                         } else {
                             $scope[metricType].isAllSelected = false;
                             $scope.allMetrics = false;
                         }
-                    } else {
+                    }else {
                         $scope[metricType].minOneSelected = false;
                         $scope.allMetrics = false;
                     }
@@ -2730,10 +2815,12 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                             $scope.reports.reportDefinition.dimensions.primary.value = obj.values;
                         }
 
-                        $scope.showPrimaryTxtBox = true;
-
                         if (!fromFilters) {
                             $scope.showAddBreakdownButton = true;
+                        }
+
+                        if($scope.reports.reportDefinition.dimensions.primary.name) {
+                            $scope.showPrimaryTxtBox = true;
                         }
 
                     };
@@ -2834,7 +2921,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
 
                     $scope.scheduleResponseData = JSON.parse(JSON.stringify(responseData));
                     //$scope.metrics.setMetrixText('Custom');
-                    $scope.metrics.onDimensionSelection();
+                    $scope.metrics.onPrimaryDimensionSelection();
 
                     //save metrics so that it's in reportDefinition.metrics and available for schedule
                     $scope.saveMetrics();
@@ -2896,6 +2983,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     $(window).unbind('scroll');
                 });
             });
-        });
+        }]);
     }
 );

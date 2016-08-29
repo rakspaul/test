@@ -1,7 +1,7 @@
-define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('platformCustomeModule', function ($timeout, $locale, constants) {
+    angularAMD.factory('platformCustomeModule', ['$timeout', '$locale', 'constants', function ($timeout, $locale, constants) {
         var _self = this,
             textConstants = constants,
 
@@ -477,5 +477,5 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
         return {
             init: init
         };
-    });
+    }]);
 });

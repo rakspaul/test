@@ -1,13 +1,9 @@
-var angObj = angObj || {};
-
-define(['angularAMD', '../../../workflow/services/account_service',
-    '../../services/constants_service', 'common/moment_utils', 'workflow/directives/custom_date_picker',
-    'common/services/data_service', 'common/services/url_service', 'common/utils'], function (angularAMD) {
+define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AccountsAddOrEditAdvertiser', function ($scope, $timeout, $rootScope, $modalInstance,
-                                                                   accountsService, constants, momentService,
-                                                                   dataService, urlService, utils) {
+    angularAMD.controller('AccountsAddOrEditAdvertiser', ['$scope', '$timeout', '$rootScope', '$modalInstance', 'accountsService', 'constants', 'momentService',
+        'dataService', 'urlService', 'utils', function ($scope, $timeout, $rootScope, $modalInstance, accountsService, constants,
+                                                        momentService, dataService, urlService, utils) {
         var _currCtrl = this,
             selectedBillingTypeName;
 
@@ -522,5 +518,5 @@ define(['angularAMD', '../../../workflow/services/account_service',
             $scope.close();
         });
 
-    });
+    }]);
 });

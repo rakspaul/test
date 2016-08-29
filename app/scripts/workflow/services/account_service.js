@@ -1,8 +1,7 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_service',
-    'common/services/constants_service', 'common/services/request_cancel_service'], function (angularAMD) {
+define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('accountsService', function (vistoconfig, dataService, constants, requestCanceller) {
+    angularAMD.factory('accountsService', ['vistoconfig', 'dataService', 'constants', 'requestCanceller', function (vistoconfig, dataService, constants, requestCanceller) {
         var advertiser = null,
             brand = null,
             client = null,
@@ -496,5 +495,5 @@ console.log('getUserBrands(): URL = ', url);
             invoiceSaveNote : invoiceSaveNote,
 
         };
-    });
+    }]);
 });

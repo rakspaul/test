@@ -1,4 +1,4 @@
-define(['angularAMD', 'reporting/models/campaign_cost'], function (angularAMD) {
+define(['angularAMD', 'campaign-cost'], function (angularAMD) {
     'use strict';
 
     var CampaignCostData = function () {

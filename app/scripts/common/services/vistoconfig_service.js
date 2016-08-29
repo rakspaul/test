@@ -1,5 +1,5 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.service('vistoconfig', function ($routeParams) {
+    angularAMD.service('vistoconfig', ['$routeParams', function ($routeParams) {
         var urlPaths = {
             apiSerivicesUrl: scala_api,
             apiSerivicesUrl_NEW: scala_api_NEW,
@@ -180,5 +180,5 @@ define(['angularAMD'], function (angularAMD) {
             'GMT' : 'UTC'
         };
 
-    });
+    }]);
 });

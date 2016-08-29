@@ -1,6 +1,6 @@
-define(['angularAMD' , '../services/workflow_service' ], function(angularAMD) {
-    angularAMD.controller('ArchiveController', function($scope , $routeParams, $rootScope ,$location, workflowService,
-                                                        urlBuilder) {
+define(['angularAMD'], function(angularAMD) {
+    angularAMD.controller('ArchiveController', ['$scope' , '$routeParams', '$rootScope', '$location', 'workflowService',
+        'urlBuilder', function($scope , $routeParams, $rootScope ,$location, workflowService, urlBuilder) {
         $scope.campaignArchive = false;
 
         // archive campaign
@@ -34,5 +34,5 @@ define(['angularAMD' , '../services/workflow_service' ], function(angularAMD) {
                     }
                 }, campaignArchiveErrorHandler);
         };
-    });
+    }]);
 });

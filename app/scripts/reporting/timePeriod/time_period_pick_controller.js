@@ -1,8 +1,9 @@
-define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services/constants_service'],
-    function (angularAMD) {
+define(['angularAMD', 'time-period-model'], function (angularAMD) {
     'use strict';
+    angularAMD.controller('TimePeriodPickController', ['$scope', '$rootScope', 'timePeriodModel', 'constants',
 
-    angularAMD.controller('TimePeriodPickController', function ($scope, $rootScope, timePeriodModel, constants) {
+        function ($scope, $rootScope, timePeriodModel, constants) {
+
         var datesFromLocStore,
             endDatesFromLocStore;
 
@@ -82,5 +83,5 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                     .format(constants.DATE_UTC_SHORT_FORMAT)
             );
         });
-    });
+    }]);
 });

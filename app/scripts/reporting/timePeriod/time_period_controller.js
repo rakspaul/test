@@ -1,8 +1,10 @@
-define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services/constants_service'],
+define(['angularAMD', 'time-period-model'],
     function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('TimePeriodController', function ($scope, $rootScope, timePeriodModel, constants) {
+    angularAMD.controller('TimePeriodController', ['$scope', '$rootScope', 'timePeriodModel', 'constants',
+        function ($scope, $rootScope, timePeriodModel, constants) {
+
         $scope.timeData = timePeriodModel.timeData;
 
         $scope.filterByTimePeriod = function (timePeriod) {
@@ -51,5 +53,5 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 }
             );
         };
-    });
+    }]);
 });

@@ -1,8 +1,8 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/constants_service', 'common/services/data_service', 'login/login_model',
-    'common/services/request_cancel_service', 'common/moment_utils'], function (angularAMD) {
+define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('workflowService', function ($rootScope, vistoconfig, constants, dataService, loginModel, requestCanceller, momentService, $location) {
+    angularAMD.factory('workflowService', ['$rootScope', 'vistoconfig', 'constants', 'dataService', 'loginModel', 'requestCanceller', 'momentService', '$location',
+        function ($rootScope, vistoconfig, constants, dataService, loginModel, requestCanceller, momentService, $location) {
         var mode,
             adDetails,
             newCreative,
@@ -586,8 +586,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.downloadFile(url);
             },
 
-            uploadBulkCreativeUrl = function (adServerId, creativeFormat, templateId) {
-                var clientId = vistoconfig.getMasterClientId();
+            uploadBulkCreativeUrl = function (clientId, adServerId, creativeFormat, templateId) {
 
                 return vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
                     '/adserver/' + adServerId +
@@ -1406,5 +1405,5 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             setAccountTimeZone : setAccountTimeZone,
             getAccountTimeZone : getAccountTimeZone
         };
-    });
+    }]);
 });

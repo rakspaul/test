@@ -1,24 +1,18 @@
-define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'common/utils', 'login/login_model',
-    'common/services/constants_service', 'common/services/url_service', 'common/services/data_store_model',
-    'common/services/data_service', 'common/moment_utils', 'common/controllers/confirmation_modal_controller',
-    'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'workflow/services/account_service',
-    'common/services/vistoconfig_service', 'reporting/collectiveReport/report_schedule_delete_controller',
-    'reporting/collectiveReport/reports_invoice_addNote_controller',
-    'reporting/collectiveReport/reports_invoice_addAdjustment_controller',
-    'reporting/collectiveReport/invoice_upload_SOR_controller'], function (angularAMD) {
+define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 'report-schedule-delete-controller',
+    'reports-invoice-addNote-controller', 'reports-invoice-addAdjustment-controller', 'invoice-upload-SOR-controller'], function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('reportsInvoiceController', function ($scope,$filter, $location, $modal, $rootScope,
-                                                                    $routeParams, $q, $timeout, collectiveReportModel,
-                                                                    utils, loginModel, constants, urlService,
-                                                                    dataStore, dataService, momentService,
-                                                                    domainReports, advertiserModel, brandsModel,
-                                                                    accountsService, vistoconfig) {
+        angularAMD.controller('reportsInvoiceController', ['$scope', '$filter', '$location', '$modal', '$rootScope',
+            '$routeParams', '$q', '$timeout', 'collectiveReportModel', 'utils', 'loginModel', 'constants', 'urlService',
+            'dataStore', 'dataService', 'momentService', 'domainReports', 'advertiserModel', 'brandsModel',
+            'accountsService', 'vistoconfig', function ($scope, $filter, $location, $modal, $rootScope, $routeParams, $q, $timeout, collectiveReportModel,
+                                                        utils, loginModel, constants, urlService, dataStore, dataService, momentService,
+                                                        domainReports, advertiserModel, brandsModel, accountsService, vistoconfig) {
             var _curCtrl = this;
 
             _curCtrl.invoiceId = $routeParams.invoiceId;
-
             _curCtrl.clientId = vistoconfig.getSelectedAccountId();
+
             // Get the details of the invoice
             _curCtrl.getInvoiceDetials = function () {
                 var res;
@@ -171,6 +165,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
                 $scope.invoiceData = angular.copy(invoice);
             };
-        });
+        }]);
     }
 );

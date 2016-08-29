@@ -1,4 +1,4 @@
-define(['angularAMD','common/services/constants_service', 'common/services/role_based_service'],
+define(['angularAMD'],
     function (angularAMD) {
         angularAMD.factory('utils', ['$location', '$sce', 'constants', function ($location, $sce, constants) {
                 var
@@ -240,6 +240,16 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                         limit: constants.DEFAULT_LIMIT_COUNT,
                         offset: constants.DEFAULT_OFFSET_START
                     },
+
+
+                    cleanSearchParameter = function() {
+                        typeAheadParams = {
+                            key: '',
+                            limit: constants.DEFAULT_LIMIT_COUNT,
+                            offset: constants.DEFAULT_OFFSET_START
+                        };
+                    },
+
 
                     // NOTE: Used in
                     // 1) campaign_card.js
@@ -680,7 +690,8 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     rangeValue : rangeValue,
                     getResponseMsg: getResponseMsg,
 		            formatStringWithDate:formatStringWithDate,
-                    capitaliseAllText: capitaliseAllText
+                    capitaliseAllText: capitaliseAllText,
+                    cleanSearchParameter:cleanSearchParameter
                 };
             }
         ]);

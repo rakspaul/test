@@ -1,7 +1,8 @@
-define(['angularAMD', '../services/audience_service', 'workflow/services/workflow_service',
-    'workflow/directives/clear_row'], function (angularAMD) {
+define(['angularAMD', 'audience-service', 'clear-row'], function (angularAMD) {
 
-    angularAMD.controller('daypartController', function ($scope, $timeout, audienceService, workflowService) {
+    angularAMD.controller('daypartController', ['$scope', '$timeout', 'audienceService', 'workflowService',
+        function ($scope, $timeout, audienceService, workflowService) {
+
         var _dayPartTargetting = this;
 
         $scope.Schedule = {
@@ -947,5 +948,5 @@ define(['angularAMD', '../services/audience_service', 'workflow/services/workflo
         });
 
         $scope.resetDayPartTargetingVariables();
-    });
+    }]);
 });

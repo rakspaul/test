@@ -1,13 +1,13 @@
-define(['angularAMD', 'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('popUpMsgCtr', function ($scope, $rootScope, $timeout, constants) {
+    angularAMD.controller('popUpMsgCtr', ['$scope', '$rootScope', '$timeout', 'constants', function ($scope, $rootScope, $timeout, constants) {
         $scope.addClass = '';
 
-        $scope.init = function (msg, errMsg) {
+        $scope.init = function (msg) {
             if (!angular.element('.top_message_box').length) {
                 $rootScope.errMsgKey = msg;
-                $rootScope.errMsg = constants[errMsg];
+                $rootScope.errMsg = constants.ERROR;
 
                 $rootScope[$rootScope.errMsgKey] = {
                     'message': '',
@@ -58,5 +58,5 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
                 $('.top_message_box').removeClass($scope.addClass);
             }
         };
-    });
+    }]);
 });

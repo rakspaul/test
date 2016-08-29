@@ -1,10 +1,9 @@
-define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service',
-    'common/controllers/users/users_add_or_edit_controller', 'libs/modernizr-custom', 'libs/dlmenu'],
+define(['angularAMD', 'users-add-or-edit-controller', 'modernizr-custom', 'dlmenu'],
     function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('UsersController', function ($scope,$rootScope,$timeout,$filter,
-                                                       $modal , constants,accountsService) {
+    angularAMD.controller('UsersController', ['$scope', '$rootScope', '$timeout', '$filter', '$modal', 'constants', 'accountsService',
+        function ($scope, $rootScope, $timeout, $filter, $modal, constants, accountsService) {
         var _curCtrl = this,
             winHeight = $(window).height(),
 
@@ -51,8 +50,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
         // Change Password for User
         $scope.changePassword = function (user) {
-           
-        
+
+
             $modal.open({
                 templateUrl: assets.html_change_password,
                 controller: 'changePasswordController',
@@ -111,5 +110,5 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.searchHideInput();
             }
         });
-    });
+    }]);
 });

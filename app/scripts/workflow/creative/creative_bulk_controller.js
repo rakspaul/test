@@ -1,8 +1,8 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
-    '../../common/directives/ng_upload_hidden'], function (angularAMD) {
+define(['angularAMD', 'ng-upload-hidden'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('BulkCreativeController', function ($scope, $rootScope, $routeParams, $location,
+    angularAMD.controller('BulkCreativeController', ['$scope', '$rootScope', '$routeParams', '$location',
+        'constants', 'workflowService', 'Upload', 'vistoconfig', function ($scope, $rootScope, $routeParams, $location,
                                                              constants, workflowService, Upload, vistoconfig) {
         var creatives = {
                 errorHandler: function (errData) {
@@ -180,7 +180,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         $scope.uploadFileChosen = function () {
-            var url = workflowService.uploadBulkCreativeUrl($scope.selectedAdServer.id, $scope.creativeFormat,
+
+            var clientId = vistoconfig.getSelectedAccountId(),
+                url;
+
+            url = workflowService.uploadBulkCreativeUrl(clientId, $scope.selectedAdServer.id, $scope.creativeFormat,
                 $scope.adData.creativeTemplate);
 
             (function (file) {
@@ -303,5 +307,5 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 .find('.dropdown-toggle-search')
                 .attr('value=' + selText);
         });
-    });
+    }]);
 });

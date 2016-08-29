@@ -1,10 +1,9 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/account_service',
-    'common/moment_utils', 'login/login_model','','workflow/directives/ng_update_hidden_dropdown','common/controllers/accounts/account_list_dropdown_controller'],
+define(['angularAMD', 'ng-update-hidden-dropdown','account-list-dropdown-controller'],
     function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('UsersAddOrEdit', function ($scope, $rootScope, $compile, $q, constants, accountsService,
-                                                     momentService, loginModel) {
+    angularAMD.controller('UsersAddOrEdit', ['$scope', '$rootScope', '$compile', '$q', 'constants', 'accountsService', 'momentService', 'loginModel',
+        function ($scope, $rootScope, $compile, $q, constants, accountsService, momentService, loginModel) {
         var _customctrl = this,
             defaultAccess = 'ADMIN',
             editedUserDetails = {},
@@ -930,5 +929,5 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
 
             return deferred.promise;
         };
-    });
+    }]);
 });

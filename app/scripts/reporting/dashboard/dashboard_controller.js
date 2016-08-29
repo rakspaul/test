@@ -1,11 +1,9 @@
-define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/dashboard_model',
-    'reporting/brands/brands_model', 'reporting/advertiser/advertiser_model',
-    'reporting/campaignSelect/campaign_select_model','login/login_model',
-    'reporting/common/d3/bubble_chart_directive','reporting/common/d3/gauge_directive',
-    'common/services/sub_account_service', 'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('DashboardController', function ($scope, $rootScope, $routeParams, $location, constants,
+    angularAMD.controller('DashboardController', ['$scope', '$rootScope', '$routeParams', '$location', 'constants',
+        'dashboardModel', 'brandsModel', 'advertiserModel', 'campaignSelectModel', 'loginModel', 'subAccountService',
+        'vistoconfig', 'workflowService', function ($scope, $rootScope, $routeParams, $location, constants,
                                                            dashboardModel, brandsModel, advertiserModel,
                                                            campaignSelectModel, loginModel, subAccountService,
                                                            vistoconfig, workflowService) {
@@ -85,5 +83,5 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/
 
         };
 
-    });
+    }]);
 });
