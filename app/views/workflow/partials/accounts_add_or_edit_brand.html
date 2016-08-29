@@ -8,9 +8,9 @@
         </div>
     </div>
     <div class="modal-body col-md-12 zeroPadding">
-        <div class="form-group col-md-4 zeroPadding">
+        <!--div class="form-group col-md-4 zeroPadding">
             <label class="col-sm-12 greyTxt">Brand Name:</label>
-            <select class="form-control" name="selectedBrandId" data-ng-model="selectedBrandId">
+            <select class="form-control" name="selectedBrandId" data-ng-model="selectedBrandId" id="selectBrandId">
                 <option selected disabled data-ng-bind="'Select Brand'"></option>
                 <option value="{{brand.id}}"
                         data-ng-repeat="brand in brandsData"
@@ -18,6 +18,58 @@
                         data-ng-bind="brand.name">
                 </option>
             </select>
+        </div-->
+        <!-- -->
+        <div class="form-group col-md-4 zeroPadding">
+            <label class="col-sm-12 greyTxt">Brand Name:</label>
+            <div class="brand_name_selected"
+                 id="sub_account_name_selected"
+                 data-ng-click="showSubAccountDropDown()"
+                 title="{{brandName}}"
+                 data-ng-bind="(brandName ? brandName : '')">
+            </div>
+            <span class="icon-arrow-solid-down"></span>
         </div>
+        <div class="clearfix">
+            <div class="brandsDropdownSearch dropdown-workflow" data-ng-class="brandsData.length > 0 ? '' : 'loadedDropdownData'">
+                <ul class="dropdown-menu"
+                    data-ng-click="fetchAllBrands(client.id, '', 10, brandsPageNo)"
+                    role="menu" id="subAccountDropDownList" style="display: block !important;">
+                    <div id="subAccountDropdownDiv">
+                        <input class="dropdown-toggle"
+                               id="subAccountDropdown"
+                               data-ng-keyup="disableShowAll();"
+                               data-ng-model="brandName"
+                               placeHolder="{{(brandName ? brandName : 'Select Brand')}}">
+                        <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
+                    </div>
+                    <div  class="subAccountList_ul">
+                        <li data-ng-repeat="brand in brandsData"
+                            data-ng-class="{active: brand.id === brandidTODO}"
+                            title="{{brand.name}}">
+                            <a data-ng-click="selectSubAccount(subAccount, 'clicked')">
+                                <span class="tick"></span>
+                                <span class="menuItemText" data-ng-bind="brand.name"></span>
+                            </a>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <!-- -->
+        <!--advertiser-drop-down></advertiser-drop-down-->
     </div>
 </div>
+
+<script>
+    $('#selectBrandId').scroll(function(e) {
+        console.log('select box scrolled, e = ', e);
+    });
+
+    $('#subAccountDropDownList').click(function (e) {
+        console.log('list clicked!!!! e = ', e);
+    });
+    $('#subAccountDropDownList').scroll(function () {
+        console.log('scrolling...');
+    });
+</script>

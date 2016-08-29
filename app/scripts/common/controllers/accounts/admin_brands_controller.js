@@ -33,8 +33,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                         _curCtrl.brandsData = $scope.brandsData;
 
                         _.each($scope.brandsData, function (item, i) {
-                            $scope.brandsData[i].createdAt =
-                                momentService.newMoment($scope.brandsData[i].createdAt).format('YYYY-MM-DD');
+                            $scope.brandsData[i].createdAt = momentService.newMoment($scope.brandsData[i].createdAt).format('YYYY-MM-DD');
                         });
                     }
                 });

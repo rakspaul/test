@@ -53,21 +53,30 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
             _currCtrl.fetchAllAdvertisers = function (clientId) {
                 accountsService
-                    .getUserAdvertiser(clientId)
+                    .getUserAdvertiser(clientId, '', 2000, 1)
                     .then(function (res) {
                         if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
                             $scope.advertisersData = res.data.data;
+                            console.log('$scope.advertisersData = ', $scope.advertisersData);
                         }
                     });
             };
 
-            _currCtrl.fetchAllBrands = function (clientId) {
-                console.log('fetchAllBrands(), clientId = ', clientId);
+            _currCtrl.fetchAllBrands = function (clientId, query, pageSize, pageNo) {
+                console.log('fetchAllBrands(), clientId = ', clientId, 'pageNo = ', pageNo);
+                query = query || '';
+                pageSize = pageSize || 20;
+                pageNo = pageNo || 0;
+
+                $scope.brandsPageNo = pageNo + 1;
+
                 accountsService
-                    .getUserBrands(clientId)
+                    .getUserBrands(clientId, query, pageSize, $scope.brandsPageNo)
                     .then(function (res) {
                         if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
-                            $scope.brandsData = res.data.data;
+                            console.log('BEFORE: $scope.brandsData = ', $scope.brandsData);
+                            Array.prototype.push.apply($scope.brandsData, res.data.data);
+                            console.log('AFTER: $scope.brandsData = ', $scope.brandsData);
                         }
                     });
             };
@@ -117,6 +126,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     },function () {
                     });
             }
+
+            $scope.brandsData = [];
+            $scope.brandsPageNo = 0;
 
             $scope.pixelIndex = null;
             $scope.pixelFormData = {
@@ -679,6 +691,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
             _currCtrl.fetchAllAdvertisers();
             _currCtrl.fetchAllBrands();
+
+            $scope.fetchAllBrands = _currCtrl.fetchAllBrands;
         });
     }
 );

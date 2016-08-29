@@ -294,23 +294,36 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     '/advertisers/codes/' + code + '/exists');
             },
 
-            getUserAdvertiser = function (clientId) {
+            getUserAdvertiser = function (clientId, query, pageSize, pageNo) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers';
 
+                query = query || '';
+                pageSize = pageSize || 20;
+                pageNo = pageNo || 1;
+
                 if (clientId) {
-                    url += '?clientId=' + clientId;
+                    url += '?clientId=' + clientId + '&query=' + query + '&pageSize=' + pageSize + '&pageNo=' + pageNo;
+                } else {
+                    url += '?query=' + query + '&pageSize=' + pageSize + '&pageNo=' + pageNo;
                 }
+                console.log('getUserAdvertiser(): URL = ', url);
 
                 return dataService.fetch(url);
             },
 
-            getUserBrands = function (clientId) {
+            getUserBrands = function (clientId, query, pageSize, pageNo) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands';
 
-                if (clientId) {
-                    url += '?clientId=' + clientId;
-                }
+                query = query || '';
+                pageSize = pageSize || 20;
+                pageNo = pageNo || 1;
 
+                if (clientId) {
+                    url += '?clientId=' + clientId + '&query=' + query + '&pageSize=' + pageSize + '&pageNo=' + pageNo;
+                } else {
+                    url += '?query=' + query + '&pageSize=' + pageSize + '&pageNo=' + pageNo;
+                }
+console.log('getUserBrands(): URL = ', url);
                 return dataService.fetch(url);
             },
 
