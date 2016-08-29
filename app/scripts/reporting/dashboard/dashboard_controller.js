@@ -22,9 +22,8 @@ define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-
             .addClass('active');
 
         $scope.data = dashboardModel.getData();
+        $scope.data.advertiserSelected = false;
         $scope.textConstants = constants;
-            $scope.data.advertiserSelected = false;
-
 
         $scope.statusDropdown = function (status, eventType) {
             var obj = {
