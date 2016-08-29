@@ -419,6 +419,10 @@ define(['angularAMD'], function (angularAMD) {
                             advertiser = args.advertiserModel.getSelectedAdvertiser();
                             $('#advertiser_name_selected').text(advertiser.name);
                             $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
+                            if (args.$location.path().endsWith('/dashboard')) {
+                                $('#advertiserButton').hide();
+                                args.dashboardModel.setSelectedAdvertiser(advertiser);
+                            }
                         } else {
                             console.log('advertiser not allowed');
                             args.$location.url('/tmp');
