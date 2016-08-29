@@ -9,14 +9,14 @@
     <link href="/images/collective.png" rel="shortcut icon" type="image/x-icon">
     <link href="//fonts.googleapis.com/css?family=Armata" media="screen" rel="stylesheet">
 
-    <link rel="stylesheet" href="/styles/libs/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles/libs/ng-tags-input.min.css">
+    <link rel="stylesheet" href="/styles/libs/bootstrap.min.css?v=@@BUST@@">
+    <link rel="stylesheet" href="/styles/libs/ng-tags-input.min.css?v=@@BUST@@">
     <!-- @if ENV='local' -->
         <link rel="stylesheet" href="/styles/cdesk_application.css">
     <!-- @endif -->
 
     <!-- @if ENV!='local' -->
-        <link rel="stylesheet" href="/styles/cdesk_application.min.css">
+        <link rel="stylesheet" href="/styles/cdesk_application.min.css?v=@@BUST@@">
     <!-- @endif -->
 </head>
 <body class='{{bodyclass}} {{productType}} {{customReport}}'>
@@ -24,8 +24,8 @@
 
     <div class="bodyWrap" ng-view></div>
 
-    <script src="/conf/application-<!-- @echo ENV -->.js"></script>
-    <script src="/scripts/file_path.js"></script>
+    <script src="/conf/application-<!-- @echo ENV -->.js?v=@@BUST@@"></script>
+    <script src="/scripts/file_path.js?v=@@BUST@@"></script>
     <script data-main="/scripts/main.js" src="/scripts/libs/require.js"></script>
 
     <!-- @if ENV='local' -->

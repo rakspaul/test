@@ -54,6 +54,7 @@ module.exports = function (grunt) {
         'requirejs',
         'preprocess:' + env,
         'htmlmin',
+        'replace',
         'compress'
     ]);
 
