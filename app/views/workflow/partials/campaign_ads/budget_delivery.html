@@ -170,14 +170,30 @@
     <div class="clearfix col-md-12 zeroPadding">
         <div class="pull-left">
             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.BUDGETCAL"></label>
-            <div class="btn-group miniToggle" style="display:block;">
-                <label class="btn btn-default budget_cost active"><span data-ng-bind="textConstants.WF_MEDIA_COST"></span>
-                    <input type="radio" name="budgetType" value="Cost" checked hidden="hidden" ng-model="adData.budgetType" class="btn_rad budget_type" ng-click="resetBudgetField('mediaCost'); toggleBtn($event);">
-                </label>
-                <label class="btn btn-default budget_{{adData.budgetTypeLabel | lowercase}} "><span data-ng-bind="adData.budgetTypeLabel"></span>
-                    <input type="radio" name="budgetType" value="{{adData.budgetTypeLabel}}"  ng-model="adData.budgetType" class="btn_rad budget_type" hidden="hidden" ng-click="resetBudgetField('impressions'); toggleBtn($event); ">
-                </label>
+            
+            <div class="form-group col-md-12 zeroPadding">
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="text">{{adData.budgetType ? adData.budgetType :'Media Cost'}}</span>
+                            <span class="icon-arrow-solid-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" data-toggle="dropdown">
+                            <li class="available"><a ng-click="resetBudgetField('mediaCost');">Media Cost</a></li>
+                            <li class="available"><a ng-click="resetBudgetField('impressions');">Impressions</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+            
+            <!--<div class="btn-group miniToggle" style="display:block;">-->
+            <!--    <label class="btn btn-default budget_cost active"><span data-ng-bind="textConstants.WF_MEDIA_COST"></span>-->
+            <!--        <input type="radio" name="budgetType" value="Cost" checked hidden="hidden" ng-model="adData.budgetType" class="btn_rad budget_type" ng-click="resetBudgetField('mediaCost'); toggleBtn($event);">-->
+            <!--    </label>-->
+            <!--    <label class="btn btn-default budget_{{adData.budgetTypeLabel | lowercase}} "><span data-ng-bind="adData.budgetTypeLabel"></span>-->
+            <!--        <input type="radio" name="budgetType" value="{{adData.budgetTypeLabel}}"  ng-model="adData.budgetType" class="btn_rad budget_type" hidden="hidden" ng-click="resetBudgetField('impressions'); toggleBtn($event);">-->
+            <!--    </label>-->
+            <!--</div>-->
         </div>
         <div class="col-md-2 zeroPadding" style="margin-left: 10px;">
             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.VALUE" style="padding-left:5px;"></label>
@@ -213,18 +229,24 @@
             
             <div class="col-md-3 zeroPadding" style="margin-top:10px;" >
                 <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.FREQCAP"></label>
-                <div class="btn-group miniToggle" ng-init="adData.setCap=false">
-                    <label class="btn btn-default cap_yes" style="width: auto;"><span data-ng-bind="textConstants.YES"></span>
-                        <input type="radio" name="setCap" value ="true"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = true; frequencySelected('Daily')">
-                    </label>
-                    <label class="btn btn-default active cap_no" style="width: auto;"><span data-ng-bind="textConstants.NO"></span>
-                        <input type="radio" name="setCap" checked  value ="false"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = false;">
-                    </label>
+                <div class="form-group col-md-4 pull-left zeroPadding dynamicChkBox"
+                     ng-click="enableChkBox()">
+                    <input id="setCap" class="cmn-toggle cmn-toggle-round pull-left" type="checkbox">
+                    <label for="setCap" class="pull-left"></label>
                 </div>
+                
+                <!--<div class="btn-group miniToggle" ng-init="adData.setCap=false">-->
+                <!--    <label class="btn btn-default cap_yes" style="width: auto;"><span data-ng-bind="textConstants.YES"></span>-->
+                <!--        <input type="radio" name="setCap" value ="true"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = true; frequencySelected('Daily')">-->
+                <!--    </label>-->
+                <!--    <label class="btn btn-default active cap_no" style="width: auto;"><span data-ng-bind="textConstants.NO"></span>-->
+                <!--        <input type="radio" name="setCap" checked  value ="false"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = false;">-->
+                <!--    </label>-->
+                <!--</div>-->
             </div>
             
-            <div class="row col-md-9 zeroPadding unitCostTwo radioBtnToggle" >
-                <div class="col-md-12 zeroPadding symbolAbs"  ng-show="adData.setCap" style="margin-top:10px;">
+            <div class="row col-md-9 zeroPadding" ng-show="enableFreqCap">
+                <div class="col-md-12 zeroPadding symbolAbs" style="margin-top:10px;">
                     <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.IMPPERUSER"></label>
                     <div class="form-group col-md-7 zeroPadding">
                         <span>#</span>

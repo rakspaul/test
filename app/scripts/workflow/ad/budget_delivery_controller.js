@@ -209,8 +209,6 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
             }
         };
 
-        
-
         $scope.$parent.budgetErrorObj = {};
 
         $scope.$watch('adData.budgetType', function (newValue, oldValue) {
@@ -219,6 +217,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                 $scope.budgetErrorObj.mediaCostValidator = false;
             }
         });
+
 
         $scope.selectVerificationSetting = function(setting) {
             $scope.adData.selectedSetting.name = setting.name;
