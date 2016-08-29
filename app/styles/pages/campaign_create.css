@@ -2748,6 +2748,7 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus .icon-tracking,
 #vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus .icon-tracking {
   color: #fff;
+  margin: 0;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus .icon-warning,
 #vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus .icon-warning {

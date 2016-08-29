@@ -1,13 +1,13 @@
 define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 'report-schedule-delete-controller',
-    'reports-invoice-addNote-controller', 'reports-invoice-addAdjustment-controller', 'invoice-upload-SOR-controller'], function (angularAMD) {
+    'reports-invoice-addNote-controller', 'reports-invoice-addAdjustment-controller', 'invoice-upload-SOR-controller', 'admin-account-service'], function (angularAMD) {
         'use strict';
 
         angularAMD.controller('reportsInvoiceController', ['$scope', '$filter', '$location', '$modal', '$rootScope',
             '$routeParams', '$q', '$timeout', 'collectiveReportModel', 'utils', 'loginModel', 'constants', 'urlService',
             'dataStore', 'dataService', 'momentService', 'domainReports', 'advertiserModel', 'brandsModel',
-            'accountsService', 'vistoconfig', function ($scope, $filter, $location, $modal, $rootScope, $routeParams, $q, $timeout, collectiveReportModel,
-                                                        utils, loginModel, constants, urlService, dataStore, dataService, momentService,
-                                                        domainReports, advertiserModel, brandsModel, accountsService, vistoconfig) {
+            'adminAccountsService', 'vistoconfig', function ($scope,$filter, $location, $modal, $rootScope, $routeParams, $q, $timeout, collectiveReportModel,
+                                                             utils, loginModel, constants, urlService, dataStore, dataService, momentService,
+                                                             domainReports, advertiserModel, brandsModel, adminAccountsService, vistoconfig) {
             var _curCtrl = this;
 
             _curCtrl.invoiceId = $routeParams.invoiceId;
@@ -32,7 +32,7 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 
 
             // Save the note and status information
             _curCtrl.saveNoteAndStatus = function () {
-                accountsService
+                adminAccountsService
                     .invoiceSaveNote(vistoconfig.getMasterClientId(), $routeParams.invoiceId, $scope.noteData)
                     .then(function (result) {
                         if (result.status === 'success' || result.status === 'OK') {

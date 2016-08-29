@@ -1,9 +1,10 @@
 define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controller', 'accounts-add-or-edit-brand-controller',
-    'accounts-add-or-edit-controller' ], function (angularAMD) {
+    'accounts-add-or-edit-controller', 'admin-account-service' ], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AdminAdvertisersController', ['$scope', '$rootScope', '$modal', '$compile', '$filter', 'constants', 'accountsService', 'momentService', 'loginModel',
-        'vistoconfig', 'utils', function ($scope, $rootScope, $modal, $compile, $filter, constants, accountsService, momentService, loginModel, vistoconfig, utils) {
+    angularAMD.controller('AdminAdvertisersController', ['$scope', '$rootScope', '$modal', '$compile', '$filter', 'constants', 'adminAccountsService', 'momentService',
+        'loginModel', 'vistoconfig', 'utils', function ($scope, $rootScope, $modal, $compile, $filter, constants, adminAccountsService, momentService,
+                                                        loginModel, vistoconfig, utils) {
         var _curCtrl = this,
             winHeight = $(window).height();
 
@@ -18,7 +19,7 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
 
         $scope.fetchAllBrands = function () {
             $scope.loadBrandList = true;
-            accountsService
+            adminAccountsService
                 .getUserBrands(_curCtrl.masterClientId)
                 .then(function (res) {
                     $scope.loadBrandList = false;
@@ -49,7 +50,7 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
                 data.name = $scope.brandName;
                 data.ownerClientId = _curCtrl.masterClientId;
 
-                accountsService
+                adminAccountsService
                     .updateBrand(data)
                     .then(function (res) {
                         if (res.status === 'CREATED' || res.status === 'success') {
@@ -67,7 +68,7 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
                     name: $scope.brandName,
                     ownerClientId: _curCtrl.masterClientId
                 };
-                accountsService
+                adminAccountsService
                     .createBrand(data)
                     .then(function (res) {
                         if (res.status === 'CREATED' || res.status === 'success') {

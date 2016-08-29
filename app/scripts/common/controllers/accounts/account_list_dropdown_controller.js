@@ -1,8 +1,8 @@
-define(['angularAMD', 'ng-update-hidden-dropdown'],
+define(['angularAMD', 'ng-update-hidden-dropdown', 'admin-account-service'],
     function (angularAMD) {
 
-    angularAMD.controller('AccountListDropdownController', ['$scope', '$rootScope', '$compile', '$q', 'constants', 'accountsService',
-        function ($scope, $rootScope, $compile, $q, constants, accountsService) {
+    angularAMD.controller('AccountListDropdownController', ['$scope', '$rootScope', '$compile', '$q', 'constants', 'adminAccountsService',
+        function ($scope, $rootScope, $compile, $q, constants, adminAccountsService) {
 
         $scope.initddl = function(){
 
@@ -50,7 +50,7 @@ define(['angularAMD', 'ng-update-hidden-dropdown'],
 
             $scope.loadingClientDropDown = true;
 
-            accountsService
+            adminAccountsService
                 .getSubClients(clientId)
                 .then(function (res) {
                     var result = res.data.data;

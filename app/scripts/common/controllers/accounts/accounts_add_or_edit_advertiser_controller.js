@@ -1,8 +1,8 @@
-define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils'], function (angularAMD) {
+define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admin-account-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AccountsAddOrEditAdvertiser', ['$scope', '$timeout', '$rootScope', '$modalInstance', 'accountsService', 'constants', 'momentService',
-        'dataService', 'urlService', 'utils', function ($scope, $timeout, $rootScope, $modalInstance, accountsService, constants,
+    angularAMD.controller('AccountsAddOrEditAdvertiser', ['$scope', '$timeout', '$rootScope', '$modalInstance', 'adminAccountsService', 'constants', 'momentService',
+        'dataService', 'urlService', 'utils', function ($scope, $timeout, $rootScope, $modalInstance, adminAccountsService, constants,
                                                         momentService, dataService, urlService, utils) {
         var _currCtrl = this,
             selectedBillingTypeName;
@@ -10,7 +10,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils'], func
         _currCtrl.downloadPixelIds = [];
 
         _currCtrl.getIABCategoryList = function () {
-            accountsService
+            adminAccountsService
                 .getIABCategoryList()
                 .then(function (res) {
                     if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
@@ -22,7 +22,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils'], func
         };
 
         _currCtrl.getIABSubCategoryList = function (groupId) {
-            accountsService
+            adminAccountsService
                 .getIABSubCategoryList(groupId)
                 .then(function (res) {
                     if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
@@ -120,7 +120,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils'], func
                 requestData.costBillingValue = Number($scope.billingData.cost.billingValue);
             }
 
-            accountsService
+            adminAccountsService
                 .createAdvertiserUnderClient($scope.client.id, advId, requestData)
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
@@ -180,7 +180,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils'], func
         }
 
         function createPixelsforAdvertiser(clientId, advId) {
-            accountsService
+            adminAccountsService
                 .createPixelsUnderAdvertiser(clientId, advId, getRequestDataforPixel(clientId, advId))
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
@@ -197,7 +197,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils'], func
         }
 
         function getBillingTypes() {
-            accountsService
+            adminAccountsService
                 .getBillingTypes()
                 .then(function (res) {
                     var billingTypes;
@@ -410,7 +410,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils'], func
         };
 
         $scope.leaveFocusCustomAdvertiserCode = function(){
-            accountsService
+            adminAccountsService
                 .checkAdvertiserCodeExist($scope.customAdvertiserCode)
                 .then(function(result){
                     if (result.status === 'OK' || result.status === 'success') {

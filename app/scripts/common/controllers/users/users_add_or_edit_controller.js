@@ -1,16 +1,16 @@
-define(['angularAMD', 'ng-update-hidden-dropdown','account-list-dropdown-controller'],
+define(['angularAMD', 'ng-update-hidden-dropdown','account-list-dropdown-controller', 'admin-account-service'],
     function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('UsersAddOrEdit', ['$scope', '$rootScope', '$compile', '$q', 'constants', 'accountsService', 'momentService', 'loginModel',
-        function ($scope, $rootScope, $compile, $q, constants, accountsService, momentService, loginModel) {
+    angularAMD.controller('UsersAddOrEdit', ['$scope', '$rootScope', '$compile', '$q', 'constants', 'adminAccountsService', 'momentService', 'loginModel',
+        function ($scope, $rootScope, $compile, $q, constants, adminAccountsService, momentService, loginModel) {
         var _customctrl = this,
             defaultAccess = 'ADMIN',
             editedUserDetails = {},
 
             userModalPopup = {
                 getUserClients: function () {
-                    accountsService.getClients(function (res) {
+                    adminAccountsService.getClients(function (res) {
                         $scope.userModalData.Clients = res.data.data;
                     }, function () {
                     }, 'cancellable');
@@ -19,7 +19,7 @@ define(['angularAMD', 'ng-update-hidden-dropdown','account-list-dropdown-control
                 getUserBrands: function (clientId, advertiserId, accountIndex, permissionIndex) {
                     var arr = null;
 
-                    accountsService
+                    adminAccountsService
                         .getAdvertisersBrand(clientId, advertiserId)
                         .then(function (res) {
                             arr = res.data.data;
@@ -37,7 +37,7 @@ define(['angularAMD', 'ng-update-hidden-dropdown','account-list-dropdown-control
                 },
 
                 getUserAdvertiser: function (clientObj, accountIndex, permissionIndex, editmode, editData) {
-                    accountsService
+                    adminAccountsService
                         .getClientsAdvertisers(clientObj.id)
                         .then(function (res) {
                             var arr = null,
@@ -75,7 +75,7 @@ define(['angularAMD', 'ng-update-hidden-dropdown','account-list-dropdown-control
                 },
 
                 getUserPages: function () {
-                    accountsService
+                    adminAccountsService
                         .getUserPages()
                         .then(function (res) {
                             if (res.data.data) {
@@ -245,7 +245,7 @@ define(['angularAMD', 'ng-update-hidden-dropdown','account-list-dropdown-control
         };
 
         function setPreselectedPermission(user) {
-            accountsService
+            adminAccountsService
                 .getUsersDetails(user[0].id)
                 .then(function (res) {
                     $('#maskWindow').hide();
@@ -458,7 +458,7 @@ define(['angularAMD', 'ng-update-hidden-dropdown','account-list-dropdown-control
             }
 
             if ($scope.editId) {
-                accountsService
+                adminAccountsService
                     .updateUser(requestData)
                     .then(function (res) {
                         if (res.status === 'OK' || res.status === 'success') {
@@ -475,7 +475,7 @@ define(['angularAMD', 'ng-update-hidden-dropdown','account-list-dropdown-control
                         console.log('Error: ', err);
                     });
             } else {
-                accountsService
+                adminAccountsService
                     .createUser(requestData)
                     .then(function (res) {
                         if (res.status === 'OK' || res.status === 'success') {
@@ -526,10 +526,10 @@ define(['angularAMD', 'ng-update-hidden-dropdown','account-list-dropdown-control
             $scope.permissions[accountIndex].resources[permissionIndex].permissionValue = permissionObj.value;
         };
 
-        accountsService.initCounter();
+            adminAccountsService.initCounter();
 
         $scope.incrementCounter = function () {
-            _customctrl.accountIndex = accountsService.getCounter();
+            _customctrl.accountIndex = adminAccountsService.getCounter();
             $scope.pagePermissionValue[_customctrl.accountIndex] = [];
 
             $scope.pagePermissionValue[_customctrl.accountIndex].push({
@@ -537,13 +537,13 @@ define(['angularAMD', 'ng-update-hidden-dropdown','account-list-dropdown-control
                 code: 'ENABLE_ALL'
             });
 
-            accountsService.setCounter();
+            adminAccountsService.setCounter();
 
-            if (!$scope.User.data[accountsService.getCounter() - 1]) {
-                $scope.User.data[accountsService.getCounter() - 1] = {};
+            if (!$scope.User.data[adminAccountsService.getCounter() - 1]) {
+                $scope.User.data[adminAccountsService.getCounter() - 1] = {};
             }
 
-            $scope.User.data[accountsService.getCounter() - 1].accessLevel = defaultAccess;
+            $scope.User.data[adminAccountsService.getCounter() - 1].accessLevel = defaultAccess;
 
             $scope.permissions.push({
                 resources: [],
@@ -584,7 +584,7 @@ define(['angularAMD', 'ng-update-hidden-dropdown','account-list-dropdown-control
             $scope.adminToggle = [];
             $scope.User = {data: []};
             $scope.isSuperAdmin = false;
-            accountsService.initCounter();
+            adminAccountsService.initCounter();
             editedUserDetails = {};
 
             if (!isInitialEdit) {
@@ -841,7 +841,7 @@ define(['angularAMD', 'ng-update-hidden-dropdown','account-list-dropdown-control
 
             $scope.loadingClientDropDown[accountIndex] = true;
 
-            accountsService
+            adminAccountsService
                 .getSubClients(clientId)
                 .then(function (res) {
                     var result = res.data.data;
