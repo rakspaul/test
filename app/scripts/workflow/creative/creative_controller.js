@@ -96,7 +96,9 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                         {id: 1, name: 'Display',    active: true,  disabled:false},
                         {id: 2, name: 'Video',      active: false, disabled:true},
                         {id: 3, name: 'Rich Media', active: false, disabled:true},
-                        {id: 4, name: 'Social',     active: false, disabled:true}
+                        {id: 4, name: 'Social',     active: false, disabled:true},
+                        {id: 5, name: 'Native',     active: false, disabled:true}
+
                     ];
 
                     // default value
@@ -210,7 +212,9 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                                 {id: 1, name: 'Display',    active: false, disabled: true},
                                 {id: 2, name: 'Video',      active: false, disabled: true},
                                 {id: 3, name: 'Rich Media', active: false, disabled: true},
-                                {id: 4, name: 'Social',     active: false, disabled: true}
+                                {id: 4, name: 'Social',     active: false, disabled: true},
+                                {id: 5, name: 'Native',     active: false, disabled: true}
+
                             ];
                             if ($scope.creativeMode === 'edit') {
                                 processEditCreative(responseData.clientId);
