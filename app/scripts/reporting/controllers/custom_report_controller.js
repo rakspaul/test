@@ -978,11 +978,37 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         $scope.metrics.specifiedMetricCount();
                     },
 
+                    /*
+                    It disables a complete metric type(eg: pacing checkbox and it's metrics)
+                     */
+                    disableFirstDimensionNA: function(){
+                        var primaryDimension = $scope.reports.reportDefinition.dimensions.primary.dimension;
+                        var dimSpecificMetrics = apiMetrics.dim_specific_metrics;
+
+                        if ((dimSpecificMetrics) && (dimSpecificMetrics[primaryDimension])) {
+                            var primaryDimSpecMetrics = dimSpecificMetrics[primaryDimension];
+
+                            _.each(metricCategoryKeys, function (metricTypeWithUnderscore) {
+                                var metricTypePrimDimData = primaryDimSpecMetrics[metricTypeWithUnderscore];
+                                    if (metricTypePrimDimData && Array === metricTypePrimDimData.constructor) {
+                                        if ((metricTypePrimDimData.length === 1) && (metricTypePrimDimData[0] === 'NA')) {
+                                            $scope.metrics.disableSpecifiedMetrics(metricTypeWithUnderscore);
+                                        }
+                                    }
+                            });
+
+                        }
+                    },
+
                     onSecondDimensionSelection: function(){
                         var secDimension = $scope.reports.reportDefinition.dimensions.secondary.dimension;
                         var dimSpecificMetrics = apiMetrics.dim_specific_metrics;
 
-                        $scope.metrics.onPrimaryDimensionSelection();
+                        /*
+                        If first dimension is domain (pacing NA - disabled) and second dimension is Ad (All - all enabled) it works fine but when you select again second dimension as
+                        Platform ( pacing NA - disabled) it will not be disabled, by calling this function it disables the first dimension unapplied metrics.
+                         */
+                        $scope.metrics.disableFirstDimensionNA();
 
                         if (dimSpecificMetrics[secDimension] && Array === dimSpecificMetrics[secDimension].constructor) {
                             $scope.metrics.enableMetrics();
