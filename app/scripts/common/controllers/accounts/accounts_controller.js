@@ -1,11 +1,10 @@
-define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controller', 'accounts-add-or-edit-brand-controller',
+define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-edit-advertiser-controller', 'accounts-add-or-edit-brand-controller',
     'accounts-add-or-edit-controller', 'custom-date-picker'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('AccountsController', ['$scope', '$rootScope', '$modal', '$compile', '$sce', 'constants',
-            'accountsService', 'momentService', 'loginModel', function ($scope, $rootScope, $modal, $compile, $sce, constants,
-                                                              accountsService, momentService, loginModel) {
+        angularAMD.controller('AccountsController', ['$scope', '$rootScope', '$modal', '$compile', '$sce', 'constants', 'adminAccountsService', 'momentService', 'loginModel',
+            function ($scope, $rootScope, $modal, $compile, $sce, constants, adminAccountsService, momentService, loginModel) {
             var _currCtrl = this;
 
             _currCtrl.pixelTypeCode = {
@@ -48,7 +47,7 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
             };
 
             _currCtrl.fetchAllAdvertisers = function (clientId) {
-                accountsService
+                adminAccountsService
                     .getUserAdvertiser(clientId)
                     .then(function (res) {
                         if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
@@ -58,7 +57,7 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
             };
 
             _currCtrl.fetchAllBrands = function (clientId) {
-                accountsService
+                adminAccountsService
                     .getUserBrands(clientId)
                     .then(function (res) {
                         if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
@@ -86,7 +85,7 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
             };
 
             function getPixelsData(clientId, advId) {
-                accountsService
+                adminAccountsService
                     .getPixelsUnderAdvertiser(clientId, advId)
                     .then(function (res) {
                         if (res.data.status === 'OK' || res.data.status === 'success') {
@@ -296,7 +295,7 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
                     if (typeof ($scope.clientsDetails[clientId]) !== 'undefined') {
                         $('#client_' + clientId + '_sub').slideToggle(function () {});
                     } else {
-                        accountsService
+                        adminAccountsService
                             .getSubClients(clientId)
                             .then(function (res) {
                                 var result = res.data.data;
@@ -360,7 +359,7 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
                 $scope.loadTopClientList = true;
                 $scope.resetAccountPage();
 
-                accountsService
+                adminAccountsService
                     .getClients(null,null,'notCancellable')
                     .then(function (res) {
                         $scope.loadTopClientList = false;
@@ -383,7 +382,7 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
 
                 $scope.clientsDetails[clientId].advertisersLoader = true;
 
-                accountsService
+                adminAccountsService
                     .getClientsAdvertisers(clientId)
                     .then(function (res) {
                         var index;
@@ -411,7 +410,7 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
 
             $scope.fetchBrands = function (clientId, advertiserId) {
                 if (advertiserId !== -1) {
-                    accountsService
+                    adminAccountsService
                         .getAdvertisersBrand(clientId, advertiserId)
                         .then(function (res) {
                             if (res.data.status === 'OK' || res.data.status === 'success') {
@@ -454,7 +453,7 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
                     $scope.selectedAdvertiserId = advObj.id;
                     $scope.selectedAdvertiser = advObj.name;
                     $scope.setSelectedAdvertiserCode = advObj.code;
-                    accountsService
+                    adminAccountsService
                         .getAdvertiserUnderClient(client.id, advObj.id)
                         .then(function (res) {
                             var result;
@@ -484,7 +483,7 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
 
                 $('html, body').animate({scrollTop : 0}, 30);
 
-                accountsService
+                adminAccountsService
                     .getClientsAdvertisers(client.id)
                     .then(function (res) {
                         loadTemplate = true;
@@ -530,7 +529,7 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
                 $scope.advertiserId = advObj.id;
                 $('html, body').animate({scrollTop: 0}, 30);
                 _currCtrl.fetchAllBrands(client.id);
-                accountsService
+                adminAccountsService
                     .getAdvertisersBrand(client.id, advObj.id)
                     .then(function (res) {
                         if (res.data.status === 'OK' && res.data.statusCode === 200 && res.data.data.length) {
@@ -563,9 +562,9 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
                 $scope.allAdvertiser = [];
                 $scope.dropdownCss.display = 'none';
                 $scope.setSelectedAdvertiserCode = '';
-                accountsService.setToBeEditedAdvertiser(null);
-                accountsService.setToBeEditedBrand(null);
-                accountsService.setToBeEditedClient(null);
+                adminAccountsService.setToBeEditedAdvertiser(null);
+                adminAccountsService.setToBeEditedBrand(null);
+                adminAccountsService.setToBeEditedClient(null);
 
                 $scope.pixelFormData = {
                     name: '',
@@ -585,13 +584,13 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
                 $scope.isCreateTopClient = clientObj ? false : true;
                 $('html, body').animate({scrollTop : 0}, 30);
 
-                accountsService
+                adminAccountsService
                     .getAllCurrency()
                     .then(function (result) {
                         $scope.currency = result.data.data;
                     });
 
-                accountsService.setToBeEditedClient(clientObj);
+                adminAccountsService.setToBeEditedClient(clientObj);
                 $scope.clientObj = clientObj;
 
                 $modalInstance = $modal.open({

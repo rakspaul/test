@@ -81,6 +81,7 @@ require.config({
         'video-service' : 'workflow/services/video_service',
         'platform-custom-module' : 'workflow/services/platform_custom_module',
         'zip-code-service' : 'common/services/zip_code_service',
+        'admin-account-service' : 'common/services/admin_account_service',
 
         /*register Services - End*/
 

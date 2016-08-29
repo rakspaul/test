@@ -1,16 +1,16 @@
-define(['angularAMD'],
+define(['angularAMD', 'admin-account-service'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('AccountsAddOrEdit', ['$scope', '$rootScope', '$modalInstance', 'accountsService',
-            'constants', function ($scope, $rootScope, $modalInstance, accountsService, constants) {
+        angularAMD.controller('AccountsAddOrEdit', ['$scope', '$rootScope', '$modalInstance', 'adminAccountsService', 'constants',
+            function ($scope, $rootScope, $modalInstance, adminAccountsService, constants) {
             var _currCtrl = this,
                 selectedBillingTypeName;
 
             _currCtrl.isAdChoiceInClient = false;
 
             _currCtrl.getAdChoiceData = function () {
-                accountsService
+                adminAccountsService
                     .getAdChoiceDataFromClient($scope.clientObj.id)
                     .then(function (res) {
                         _currCtrl.isAdChoiceInClient = false;
@@ -37,7 +37,7 @@ define(['angularAMD'],
                     code: $scope.adChoiceCode
                 };
 
-                accountsService
+                adminAccountsService
                     .saveAdChoiceDataForClient($scope.clientObj.id, reqBody)
                     .then(null, function (err) {
                         console.log('ERROR = ', err);
@@ -167,7 +167,7 @@ define(['angularAMD'],
             }
 
             function createClient(body) {
-                accountsService
+                adminAccountsService
                     .createClient(body)
                     .then(function (adv) {
                         if (adv.status === 'OK' || adv.status === 'success') {
@@ -180,7 +180,7 @@ define(['angularAMD'],
             }
 
             function getBillingTypes() {
-                accountsService
+                adminAccountsService
                     .getBillingTypes()
                     .then(function (res) {
                         var billingTypes;
@@ -281,7 +281,7 @@ define(['angularAMD'],
                     return;
                 }
 
-                accountsService.checkClientCodeExist($scope.customClientCode).then(function(result) {
+                adminAccountsService.checkClientCodeExist($scope.customClientCode).then(function(result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.clientCodeExist = result.data.data.isExists;
                     }
@@ -292,7 +292,7 @@ define(['angularAMD'],
 
             $scope.getClientCode = function() {
                 if ($scope.clientName) {
-                    accountsService
+                    adminAccountsService
                         .getUserClientCode($scope.clientName)
                         .then(function (result) {
                             if (result.status === 'OK' || result.status === 'success') {
@@ -327,10 +327,10 @@ define(['angularAMD'],
                 }
 
                 if ($scope.mode === 'edit') {
-                    clientObj =  accountsService.getToBeEditedClient();
+                    clientObj =  adminAccountsService.getToBeEditedClient();
                     body = constructRequestBody(clientObj);
 
-                    accountsService
+                    adminAccountsService
                         .updateClient(body, body.id)
                         .then(function (result) {
                             if (result.status === 'OK' || result.status === 'success') {
@@ -353,7 +353,7 @@ define(['angularAMD'],
                         });
                 } else {
                     if ($scope.isCreateTopClient) {
-                        accountsService
+                        adminAccountsService
                             .createBillableAccount(createBillableBody())
                             .then(function (result) {
                                 if (result.status === 'OK' || result.status === 'success') {
@@ -367,7 +367,7 @@ define(['angularAMD'],
                                 console.log('Error = ', err);
                             });
                     } else {
-                        accountsService
+                        adminAccountsService
                             .getClient($scope.clientObj)
                             .then(function (res) {
                                 if (res.status === 'OK' || res.status === 'success') {
