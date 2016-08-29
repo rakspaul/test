@@ -153,7 +153,12 @@ select {
 // Big Toggle BTN
 .goalBtnGroup {
     float: left;
-    cursor: pointer;
+    .btn {
+        cursor: pointer;
+    }
+    .btn.disabled {
+        cursor : default ;
+    }
     .btn-primary {
         border-radius: 0;
         width: auto;
