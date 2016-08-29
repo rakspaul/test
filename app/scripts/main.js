@@ -1,7 +1,7 @@
 require.config({
     // alias libraries paths. Must set 'angular'
     waitSeconds: 0,
-    urlArgs: 'visto=v1.0.0',
+    urlArgs: 'v=@@BUST@@',
     paths: {
         angular:                    'libs/angular.min',
         'angular-route':            'libs/angular-route',
