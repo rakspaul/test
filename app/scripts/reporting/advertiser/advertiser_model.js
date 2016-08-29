@@ -37,7 +37,8 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                     workflowService.getAdvertisers(accountId, 'read').then(function (result) {
                         if (result && result.data.data.length > 0) {
                             advertiserData.advertiserList = _.map(result.data.data, function(a) {
-                                return {'id': a.id, 'name': a.name};
+                                //client id is required for dashboard brand query, need to send advertisers client id to fetch brand
+                                return {'id': a.id, 'name': a.name,'clientId': a.clientId};
                             });
 
                             advertiserData.advertiserList = _.sortBy(advertiserData.advertiserList, 'name');
@@ -141,7 +142,6 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                         }
 
                     } else {
-                        (advertiser.id > 0) && (url += '/adv/' + advertiser.id);
                         $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
                     }
                 }
