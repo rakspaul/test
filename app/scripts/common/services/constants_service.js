@@ -718,7 +718,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.HOWMUCHSPEND = 'How much would you like to spend?';
         this.TRACKBUDGET = 'How do you want to track your Ad?';
         this.UNITCOST = 'Unit Cost';
-        this.BUDGETCAL = 'Select your Booking Method';
+        this.BUDGETCAL = 'Booking Method';
         this.COST = 'Cost';
         this.FREQCAP = 'Frequency Cap';
         this.IMPPERUSER = 'Impressions per user';
@@ -728,7 +728,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.PACING = 'Pacing';
         this.PACEEVENLY = 'Pace Evenly';
         this.SENDFAST = 'Spend as fast as possible';
-        this.SELECTPRIMARYKPI = 'Select Primary KPI';
+        this.SELECTPRIMARYKPI = 'Primary KPI';
         this.TARGETVALUE = 'Target Value';
         this.RATE = 'Rate';
         this.VERIFICATION_TITLE = 'Which system will validate delivery and measure viewability for this Ad?';
