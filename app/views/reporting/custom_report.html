@@ -357,17 +357,16 @@
                                         Delivery
                                 </span>
                                 <div>
-
-                                    <fieldset class="col-md-12 metricData"
+                                  <div data-ng-repeat="delivery_metric in deliveryMetrics track by $index">
+                                    <fieldset class="metricData"
                                               relationIds="Delivery"
-                                              data-ng-repeat="delivery_metric in deliveryMetrics track by $index"
                                               id="{{delivery_metric.key}}"
                                               data-ng-class="{active: delivery_metric.selected}"
                                               data-ng-click="onMetricClick('deliveryMetrics', $index)"
                                               data-ng-bind-html="delivery_metric.value"
                                               ng-disabled="delivery_metric.isDisabled">
                                     </fieldset>
-
+                                    </div>
                                 </div>
                             </div>
 
@@ -383,15 +382,16 @@
                                     Pacing
                                 </span>
                                 <div>
-                                    <fieldset class="col-md-12 metricData"
+                                  <div data-ng-repeat="pacing_metric in pacingMetrics track by $index">
+                                    <fieldset class="metricData"
                                               relationIds='Pacing'
-                                              data-ng-repeat="pacing_metric in pacingMetrics track by $index"
                                               id="{{pacing_metric.key}}"
                                               data-ng-class="{active: pacing_metric.selected}"
                                               data-ng-click="onMetricClick('pacingMetrics', $index)"
                                               data-ng-bind-html="pacing_metric.value"
                                               ng-disabled="pacing_metric.isDisabled">
                                     </fieldset>
+                                  </div>
                                 </div>
                             </div>
 
@@ -407,16 +407,16 @@
                                         Cost
                                 </span>
                                 <div>
-
-                                    <fieldset class="col-md-12 metricData"
+                                  <div data-ng-repeat="cost_metric in costMetrics track by $index">
+                                    <fieldset class="metricData"
                                               relationIds='Cost'
-                                              data-ng-repeat="cost_metric in costMetrics track by $index"
                                               id="{{cost_metric.key}}"
                                               data-ng-class="{active:cost_metric.selected}"
                                               data-ng-click="onMetricClick('costMetrics', $index)"
                                               data-ng-bind-html="cost_metric.value"
                                               ng-disabled="cost_metric.isDisabled">
                                     </fieldset>
+                                  </div>
                                 </div>
                             </div>
 
@@ -432,15 +432,16 @@
                                         Video
                                 </span>
                                 <div>
-                                    <fieldset class="col-md-12 metricData"
+                                  <div data-ng-repeat="video_metric in videoMetrics track by $index">
+                                    <fieldset class="metricData"
                                               relationIds="Video"
-                                              data-ng-repeat="video_metric in videoMetrics track by $index"
                                               id="{{video_metric.key}}"
                                               data-ng-class="{active:video_metric.selected}"
                                               data-ng-click="onMetricClick('videoMetrics', $index)"
                                               data-ng-bind-html="video_metric.value"
                                               ng-disabled="video_metric.isDisabled">
                                     </fieldset>
+                                  </div>
                                 </div>
                             </div>
 
@@ -456,15 +457,16 @@
                                         Quality
                                 </span>
                                 <div>
-                                    <fieldset class="col-md-12 metricData"
+                                  <div data-ng-repeat="quality_metrics in qualityMetrics track by $index">
+                                    <fieldset class="metricData"
                                               relationIds="Quality"
-                                              data-ng-repeat="quality_metrics in qualityMetrics track by $index"
                                               id="{{quality_metrics.key}}"
                                               data-ng-class="{active:quality_metrics.selected}"
                                               data-ng-click="onMetricClick('qualityMetrics', $index)"
                                               data-ng-bind-html="quality_metrics.value"
                                               ng-disabled="quality_metrics.isDisabled">
                                     </fieldset>
+                                  </div>
                                 </div>
                             </div>
                             <div class="col-md-12 zeroPadding" style="margin: 30px 0 0 0;">
