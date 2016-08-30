@@ -2,7 +2,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
     'campaign-list-model', 'campaign-select-model', 'strategy-select-service', 'charts-actions', 'common-utils', 'pie-chart',
     'charts-solid-gauge', 'url-service', 'kpi-select-model', 'edit-actions-model', 'activity-list',
     'actions-controller', 'edit-actions-controller', 'campaign-chart', 'quartiles-graph', 'strategy-card',
-    'pie-chart', 'advertiser-directive', 'brands-directive'],
+    'directive-pie-chart', 'advertiser-directive', 'brands-directive'],
     function (angularAMD) {
         'use strict';
 
