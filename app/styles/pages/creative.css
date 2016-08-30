@@ -677,7 +677,7 @@
 }
 .popInventoryLib .inventoryLib .popFooter {
   padding: 20px 30px;
-  background: #e1edf9;
+  background: #E1EDF9;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
@@ -702,7 +702,7 @@ body div div.nav_filters .dropdown-menu {
 body div div.nav_filters .dropdown-menu li:hover {
   color: #21252b;
   text-decoration: none;
-  background-color: #e1edf9;
+  background-color: #E1EDF9;
 }
 body div div.nav_filters .dropdown-menu > li > a:hover,
 body div div.nav_filters .dropdown-menu > li > a:focus,
@@ -712,7 +712,7 @@ body div div.nav_filters .dropdown-menu-search > li > a:focus,
 body div div.nav_filters .dropdown-menu-search > li > .active > a {
   color: #21252b !important;
   text-decoration: none;
-  background-color: #e1edf9 !important;
+  background-color: #E1EDF9 !important;
 }
 body div div.nav_filters .advertisersList_ul,
 body div div.nav_filters #clientsList,
