@@ -302,6 +302,34 @@
                             </span>
                         </div>
                     </div>
+
+                    <!-- Data Source start -->
+
+                    <div class="col-md-12 zeroPadding title_row_separator" ng-show="dataSource.showDataSource">
+                        <span class="greyTxt">Primary Data Source</span>
+                        <div class="" >
+                            <div class="common_dropdown">
+                                <div class="dropdown">
+                                    <span class="dropdown_ul_text clearfix" data-toggle="dropdown">
+                                        <span class="dd_txt" data-ng-bind-html="displayName[reports.reportDefinition.dataSource]">
+                                        </span>
+                                        <span class="icon-arrow-solid-down"></span>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <li data-ng-model="reports.reportDefinition.dataSource"
+                                            data-ng-repeat="data_source in dataSource.dataSourceArr"
+                                            data-ng-click="reports.reportDefinition.dataSource = data_source"
+                                            data-ng-bind-html="displayName[data_source]"
+                                            data-toggle="dropdown">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Data Source end -->
+
+
                 </div>
                 <!-- End Timeframe -->
             </div>

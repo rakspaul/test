@@ -47,7 +47,7 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 
             $scope.breadcrumbsDisplay = {
                 clientName : subAccountService.getSelectedSubAccount().displayName,
                 invoiceId : $routeParams.invoiceId
-            }
+            };
 
             $scope.noteData = {
                 notes: '',
