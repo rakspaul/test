@@ -14,7 +14,7 @@
                  id="brandNameSelected"
                  data-ng-click="showBrandsDropDown($event)"
                  title="{{brandName ? 'Click to select another Brand' : 'Click to select a Brand'}}"
-                 data-ng-bind="(brandName && selectedBrandId ? brandName : 'Click to select a Brand')">
+                 data-ng-bind="(brandName && selectedBrandId ? brandName : 'Select a Brand')">
             </div>
             <span class="icon-arrow-solid-down" data-ng-click="showBrandsDropDown($event)"></span>
         </div>
@@ -28,10 +28,12 @@
                                id="brandsSearchBox"
                                data-ng-keyup="searchBrands($event);"
                                data-ng-model="brandsQuery"
+                               data-ng-click="loadMoreBrands()"
                                placeHolder="{{(brandsQuery ? brandsQuery : 'Search Brand')}}">
                     </div>
                     <div id="dropdown">
-                        <ul class="brands-list">
+                        <ul class="brands-list" lr-infinite-scroll="loadMoreBrands">
+                            <li class="common-loading-area" data-ng-show="brandsLoading"></li>
                             <li data-ng-repeat="brand in brandsData"
                                 class="menuItemText {{brand.id === selectedBrandId ? ' active' : ''}}"
                                 data-ng-bind="brand.name"
@@ -39,6 +41,7 @@
                                 data-ng-click="selectBrandAndClose(brand)"
                                 title="{{brand.name}}">
                             </li>
+                            <li class="common-loading-area" data-ng-show="brandsData.length > 0 && !noMoreBrandsToLoad"></li>
                         </ul>
                     </div>
                 </div>

@@ -1,7 +1,9 @@
-define(['angularAMD', 'admin-account-service'], function (angularAMD) {
+define(['angularAMD', 'admin-account-service', 'lrInfiniteScroll'], function (angularAMD) {
     'use strict';
     angularAMD.controller('AccountsAddOrEditBrand', ['$scope', '$rootScope', '$modalInstance', 'adminAccountsService', 'domainReports', 'constants',
         function ($scope, $rootScope, $modalInstance, adminAccountsService, domainReports, constants ) {
+            var searchBrandsTimer = 0;
+
             function createBrandUnderAdvertiser(brandId) {
                 adminAccountsService
                     .createBrandUnderAdvertiser($scope.client.id, $scope.advertiser.id, brandId)
@@ -35,12 +37,17 @@ define(['angularAMD', 'admin-account-service'], function (angularAMD) {
                 }
             };
 
-            $scope.searchBrands = function (e) {
-                if (e.keyCode === 13) {
-                    console.log('Enter key pressed! = ', $scope.clientId);
-                    $scope.brandsPageNo = 0;
-                    $scope.fetchAllBrands($scope.clientId, $scope.brandsQuery, $scope.brandsPageSize, $scope.brandsPageNo);
+            $scope.searchBrands = function () {
+                if (searchBrandsTimer) {
+                    clearTimeout(searchBrandsTimer);
                 }
+
+                searchBrandsTimer = setTimeout(function () {
+                    $scope.$parent.brandsLoading = true;
+                    $scope.$parent.brandsPageNo = 0;
+                    $scope.$parent.brandsData = [];
+                    $scope.fetchAllBrands($scope.clientId, $scope.brandsQuery, $scope.brandsPageSize, $scope.$parent.brandsPageNo);
+                }, 400);
             };
 
             $scope.selectBrandAndClose = function (brand) {
@@ -58,6 +65,7 @@ define(['angularAMD', 'admin-account-service'], function (angularAMD) {
                 brandNameSelected.css('display', 'none');
                 iconArrowSolidDown.css('display', 'none');
                 adminBrandsDropdownList.css('display', 'block');
+                $('#brandsSearchBox').focus();
             };
 
             $scope.hideBrandsDropDown = function () {
@@ -70,10 +78,15 @@ define(['angularAMD', 'admin-account-service'], function (angularAMD) {
                 iconArrowSolidDown.css('display', 'block');
             };
 
-            // TODO: scroll event is not getting registered!!!
-            $('.brands-list').scroll(function () {
-                console.log('scroll');
-            });
+            $scope.loadMoreBrands = function () {
+                if (!$scope.noMoreBrandsToLoad) {
+                    if ($scope.$parent.brandsPageNo > 0) {
+                        $scope.$parent.brandsPageNo++;
+                    }
+
+                    $scope.fetchAllBrands($scope.clientId, $scope.brandsQuery, $scope.brandsPageSize, $scope.$parent.brandsPageNo);
+                }
+            };
 
             $(document).click(function (event) {
                 if (event.target.id === 'adminBrandsDropDownList' || event.target.id === 'brandsSearchBox') {

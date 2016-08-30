@@ -297,7 +297,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers';
 
                 query = query || '';
-                pageSize = pageSize || 20;
+                pageSize = pageSize || 200;
                 pageNo = pageNo || 1;
 
                 if (clientId) {
@@ -305,7 +305,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 } else {
                     url += '?query=' + query + '&pageSize=' + pageSize + '&pageNo=' + pageNo;
                 }
-                console.log('getUserAdvertiser(): URL = ', url);
 
                 return dataService.fetch(url);
             },
@@ -314,7 +313,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands';
 
                 query = query || '';
-                pageSize = pageSize || 20;
+                pageSize = pageSize || 200;
                 pageNo = pageNo || 1;
 
                 if (clientId) {
@@ -322,7 +321,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 } else {
                     url += '?query=' + query + '&pageSize=' + pageSize + '&pageNo=' + pageNo;
                 }
-console.log('getUserBrands(): URL = ', url);
+
                 return dataService.fetch(url);
             },
 

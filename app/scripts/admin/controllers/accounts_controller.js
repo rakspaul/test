@@ -58,7 +58,6 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
                 };
 
                 _currCtrl.fetchAllBrands = function (clientId, query, pageSize, pageNo) {
-                    console.log('fetchAllBrands(), clientId = ', clientId, 'pageNo = ', pageNo);
                     query = query || '';
                     pageSize = pageSize || $scope.brandsPageSize;
                     pageNo = pageNo || 0;
@@ -68,18 +67,28 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
                         .getUserBrands(clientId, query, pageSize, $scope.brandsPageNo)
                         .then(function (res) {
                             if ((res.status === 'OK' || res.status === 'success')) {
-                                if (res.data.data.length) {
-                                    console.log('BEFORE: $scope.brandsData = ', $scope.brandsData);
-                                    console.log('page number = ', pageNo);
+                                if (res.data.data.length > 0) {
+                                    if (res.data.data.length < pageSize) {
+                                        $scope.noMoreBrandsToLoad = true;
+                                    } else {
+                                        $scope.noMoreBrandsToLoad = false;
+                                    }
+
                                     if (pageNo === 1) {
                                         $scope.brandsData = res.data.data;
                                     } else {
                                         Array.prototype.push.apply($scope.brandsData, res.data.data);
                                     }
-                                    console.log('AFTER: $scope.brandsData = ', $scope.brandsData);
                                 } else {
+                                    $scope.noMoreBrandsToLoad = true;
+                                }
+
+                                // If no data is found for the search query entered by the user
+                                if ($scope.brandsData.length === 0) {
                                     $scope.brandsData = [{id: 0, name: 'No matching Brands found!'}];
                                 }
+
+                                $scope.brandsLoading = false;
                             }
                         });
                 };
@@ -132,9 +141,11 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
 
                 // TODO: Brands & Advertisers data init here
                 $scope.brandsData = [];
-                $scope.brandsPageSize = 500;
+                $scope.brandsPageSize = 20;
                 $scope.brandsPageNo = 0;
                 $scope.brandsQuery = '';
+                $scope.noMoreBrandsToLoad = false;
+                $scope.brandsLoading = false;
                 // TODO: End of Brands & Advertisers data init here
 
                 $scope.pixelIndex = null;

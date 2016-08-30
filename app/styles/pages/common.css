@@ -2467,20 +2467,22 @@ tags-input .autocomplete {
   margin-left: 15px;
 }
 #brandsPopup .form-group {
-  margin-bottom: 0;
+  height: 70px;
+  margin-bottom: -32px;
 }
 #brandsPopup .brand-name-selected {
   cursor: pointer;
-}
-#brandsPopup .brand-name-selected:hover,
-#brandsPopup .brand-name-selected:hover + .icon-arrow-solid-down {
-  color: #84bce4;
+  position: absolute;
+  bottom: 0;
+  border: 1px solid #bfc9d7;
+  width: 100%;
+  padding: 5px 10px;
 }
 #brandsPopup .icon-arrow-solid-down {
   position: absolute;
   z-index: 2;
-  bottom: 2px;
-  right: 0;
+  bottom: 8px;
+  right: 3px;
   cursor: pointer;
   font-size: 10px;
   color: #939eae;
@@ -2511,6 +2513,8 @@ tags-input .autocomplete {
 }
 #brandsPopup #dropdown ul {
   margin: 0;
+  max-height: 200px;
+  overflow-y: auto;
   padding: 0;
 }
 #brandsPopup #dropdown li {
