@@ -572,7 +572,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
             $scope.reports.reportDefinition = {};
             $scope.reports.schedule = {};
             $scope.reports.reportDefinition.timeframe = {};
-            $scope.reports.reportDefinition.dataSource = "";
+            $scope.reports.reportDefinition.dataSource = '';
 
             $scope.reports.reportDefinition.timeframe.start_date = moment()
                 .subtract(1, 'day')
@@ -1011,7 +1011,6 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                     onSecondDimensionSelection: function(){
                         var secDimension = $scope.reports.reportDefinition.dimensions.secondary.dimension;
-                        var primaryDimension = $scope.reports.reportDefinition.dimensions.primary.dimension;
                         var dimSpecificMetrics = apiMetrics.dim_specific_metrics;
 
                         if((String(secDimension) === 'conversion_pixel_name')) {
@@ -3041,7 +3040,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                                 }
                             }
                         },
-                    }
+                    };
                 })();
 
                 _customctrl.showCost_permission();
