@@ -202,7 +202,7 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
                 video: 'icon-video',
                 'rich media': 'icon-rich-media',
                 social: 'icon-social',
-                native : 'native'
+                native : 'icon-native'
             };
 
             adFormat = adFormat || 'display';
