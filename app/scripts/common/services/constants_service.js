@@ -734,7 +734,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.RATE = 'Rate';
         this.VERIFICATION_TITLE = 'Which system will validate delivery and measure viewability for this Ad?';
         this.VERIFICATION_VENDOR = 'Verification Vendor' ;
-        this.VERIFICATION_DEFAULT = 'None' ;
+        this.VERIFICATION_DEFAULT = 'None (Disable Verification Tracking)' ;
         this.VERIFICATION_DEFAULT_SMALL = 'None' ;
 
         //Ad Create: 3 Buying Platform
