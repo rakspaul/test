@@ -419,6 +419,10 @@ define(['angularAMD'], function (angularAMD) {
                             advertiser = args.advertiserModel.getSelectedAdvertiser();
                             $('#advertiser_name_selected').text(advertiser.name);
                             $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
+                            if (args.$location.path().endsWith('/dashboard')) {
+                                $('#advertiserButton').hide();
+                                args.dashboardModel.setSelectedAdvertiser(advertiser);
+                            }
                         } else {
                             console.log('advertiser not allowed');
                             args.$location.url('/tmp');
@@ -429,12 +433,16 @@ define(['angularAMD'], function (angularAMD) {
                 return deferred.promise;
             },
 
-            fetchCurrentBrand = function (args) {
+            fetchCurrentBrand = function (args,dashboardSubAccountId) {
                 var params = args.$route.current.params;
+                var accountId = params.subAccountId || params.accountId;
+                if(params.subAccountId && dashboardSubAccountId){
+                    accountId = dashboardSubAccountId;
+                }
 
                 args
                     .brandsModel
-                    .fetchBrandList(params.subAccountId || params.accountId, params.advertiserId)
+                    .fetchBrandList(accountId, params.advertiserId)
                     .then(function () {
                         var brand;
 

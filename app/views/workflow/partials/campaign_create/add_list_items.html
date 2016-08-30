@@ -539,11 +539,13 @@
                        data-ng-bind="textConstants.MEDIAPLAN_LINE_ITEM_NAME"></label>
                 <input type="text" class="col-md-12" placeholder="Enter Line Item name up to 150 characters"
                        title="{{editLineItem.lineItemName}}" special-character="special-character" ng-model="editLineItem.lineItemName" autocomplete="off"/>
+                <label class="col-md-12 txtError special-character-error zeroPadding" style="display: none;" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
             </div>
             <div class="eachListItemFirstRow" ng-hide="hideAdGroupNameEdit || mode === 'edit'">
                 <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.CREATE_ADGROUP_LINEITEM"></label>
                 <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"
                        title="{{editLineItem.adGroupName}}" special-character="special-character" ng-model="editLineItem.adGroupName" autocomplete="off"/>
+                <label class="col-md-12 txtError special-character-error zeroPadding" style="display: none;" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
             </div>
         </div>
         <div class="listItemValues">

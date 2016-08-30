@@ -243,7 +243,7 @@ define(['angularAMD'],
 
 
                     cleanSearchParameter = function() {
-                        typeAheadParams = {
+                        this.typeAheadParams = {
                             key: '',
                             limit: constants.DEFAULT_LIMIT_COUNT,
                             offset: constants.DEFAULT_OFFSET_START

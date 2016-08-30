@@ -273,10 +273,12 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
 
             getplatformCustomNameSpace =  function(customPlatformData) {
                 var ids = _.pluck(customPlatformData, 'platformCustomInputId'),
-                    value;
+                    value,
+                    customInpChildrenData;
 
                 _.each($scope.adData.customInpNameSpaceList, function(customInpNameSpaceList) {
                     _.each(customInpNameSpaceList.platformCustomInputGroupList, function(platformCustomInputGroupList) {
+
                         var inputObj = _.filter(platformCustomInputGroupList.platformCustomInputList, function(obj) {
                             return _.indexOf(ids, obj.id) !== -1;
                         });
@@ -286,6 +288,13 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                         }
                     });
                 });
+
+                if(!value) {
+                    customInpChildrenData = _.filter($scope.adData.customInpNameSpaceList, function(obj) { return obj.hasChildren; });
+                    if(customInpChildrenData && customInpChildrenData.length > 0) {
+                        value = customInpChildrenData[0].name;
+                    }
+                }
 
                 return value;
             };
@@ -326,7 +335,6 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
 
             platformWrap.html('');
             $scope.adData.customInpNameSpaceList = [];
-            $scope.adData.customInpNameSpaceList = [];
             $scope.adData.customPlatformLoader = true;
             _buyingPlatform.showCustomFieldBox();
 
@@ -350,6 +358,7 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                                 $scope.adData.customInpNameSpaceList = _.sortBy(platformCustomeJson.platformCustomInputNamespaceList, 'displayOrder');
 
                                 _.each($scope.adData.customInpNameSpaceList, function (obj, idx) {
+                                    obj.hasChildren = obj.platformCustomInputGroupList && obj.platformCustomInputGroupList.length > 0 ? true : false;
                                     obj.className = idx === 0 ? 'active' : '';
                                 });
                             }
@@ -367,9 +376,12 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
 
                                 if (tabName) {
                                     $timeout(function () {
-                                        $('#' + tabName).click();
+                                        if($('#' + tabName).attr('disabled') !== 'disabled') { //Abhimanyu TODO
+                                            $('#' + tabName).trigger('click');
+                                        }
                                     }, 500);
                                 }
+
                             } else {
                                 if (oldPlatformName !== $scope.adData.platform) {
                                     // maintain state of building platform strategy when user selects it
@@ -434,16 +446,22 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
         };
 
         $scope.$parent.showRespectiveSection = function (event, type) {
-            var elem = $(event.target);
+            var elem = $(event.target),
+                platformName,
+                customInpArr;
 
             elem.closest('.btn-group').find('.active').removeClass('active');
             elem.closest('.btn').addClass('active');
 
             $('.eachBuyingSection').hide();
+
             $('.' + type + '_div').show();
 
-            _.each(['buying_strategy_div' , 'appnexus_deal_div', 'appnexus_direct_div'],
-                function(id) {
+            platformName = $scope.adData.platform.toLowerCase();
+            customInpArr = ['buying_strategy_div' , platformName +'_deal_div', platformName + '_direct_div'];
+
+
+            _.each(customInpArr, function(id) {
                     if (id === (type + '_div')) {
                         $('.'+id).find('input, select').removeAttr('disabled');
                     } else {
@@ -452,8 +470,7 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                 });
 
             $scope.inventoryTabSelected = type;
-
-            if (type === 'appnexus_direct') {
+            if (type === (platformName +'_direct')) {
                 $rootScope.$broadcast('directInvenotry', $scope.adData);
             }
         };
@@ -462,7 +479,8 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
             var customFieldErrorElem = $('.customFieldErrorMsg'),
                 customPlatformFormData = $('#customPlatformForm').serializeArray(),
                 selectedPlacementsData,
-                selectedPlacementIds;
+                selectedPlacementIds,
+                platformName = $scope.adData.platform.toLowerCase();
 
             $scope.$parent.postPlatformDataObj = [];
 
@@ -471,7 +489,7 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                     var d = data.name.split('$$');
 
                     if (d[0] === 'placements' || d[0] === 'placements_display') {
-                        if ($scope.inventoryTabSelected && $scope.inventoryTabSelected === 'appnexus_direct') {
+                        if ($scope.inventoryTabSelected && $scope.inventoryTabSelected === platformName + '_direct') {
                             selectedPlacementsData = $scope.adData.directInvenotryData.placements.selected;
                             selectedPlacementIds = _.pluck(selectedPlacementsData, 'sourceId');
 
@@ -508,7 +526,7 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                 localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.$parent.postPlatformDataObj));
             }
 
-            if ($scope.inventoryTabSelected !== 'appnexus_direct') {
+            if ($scope.inventoryTabSelected !== platformName + '_direct') {
                 $scope.adData.clearAllSelectedPlacements();
             }
 
