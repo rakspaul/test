@@ -345,6 +345,10 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     str += '&exact_match=true';
                 }
 
+                if($scope.reports.reportDefinition.dataSource && $scope.dataSource.showDataSource) {
+                    str += '&data_source='+$scope.reports.reportDefinition.dataSource;
+                }
+
                 // timeframe
                 str += '&start_date=' + $scope.reports.reportDefinition.timeframe.start_date + '&end_date=' +
                     $scope.reports.reportDefinition.timeframe.end_date;
@@ -568,6 +572,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
             $scope.reports.reportDefinition = {};
             $scope.reports.schedule = {};
             $scope.reports.reportDefinition.timeframe = {};
+            $scope.reports.reportDefinition.dataSource = "";
 
             $scope.reports.reportDefinition.timeframe.start_date = moment()
                 .subtract(1, 'day')
@@ -921,6 +926,15 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                         $scope.allMetrics = true;
 
+                        if(String(primaryDimension) === 'conversion_pixel_name') {
+                            $scope.dataSource.showDataSource = false;
+                        } else {
+                            if(!$scope.reports.reportDefinition.dataSource) {
+                                $scope.dataSource.setDataSource();
+                            }
+                            $scope.dataSource.showDataSource = true;
+                        }
+
                         if ((dimSpecificMetrics) && (dimSpecificMetrics[primaryDimension])) {
 
                             $scope.showMetricsButton = true;
@@ -997,7 +1011,15 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                     onSecondDimensionSelection: function(){
                         var secDimension = $scope.reports.reportDefinition.dimensions.secondary.dimension;
+                        var primaryDimension = $scope.reports.reportDefinition.dimensions.primary.dimension;
                         var dimSpecificMetrics = apiMetrics.dim_specific_metrics;
+
+                        if((String(secDimension) === 'conversion_pixel_name')) {
+                            $scope.dataSource.showDataSource = false;
+                        } else {
+                            $scope.dataSource.showDataSource = true;
+                        }
+
 
                         /*
                         If first dimension is domain (pacing NA - disabled) and second dimension is Ad (All - all enabled) it works fine but when you select again second
@@ -1254,6 +1276,11 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     }
                 }
 
+                if($scope.reports.reportDefinition.dataSource && $scope.dataSource.showDataSource) {
+                    //str += '&data_source='+$scope.reports.reportDefinition.dataSource;
+                    requestData.reportDefinition.data_source = $scope.reports.reportDefinition.dataSource;
+                }
+
                 return requestData;
             };
 
@@ -1395,7 +1422,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         .then(function (result) {
                             if (result.data.status_code === 200) {
                                 $rootScope.setErrAlertMessage('Success: The scheduled Report is listed.', 0);
-                                $location.url(urlBuilder.customReportsListUrl());
+                                $location.url(urlBuilder.customReportsListUrl('reports/schedules'));
                             }
                         });
                 }
@@ -1606,8 +1633,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 var initiallyActiveTab = $scope.activeTab;
 
                 if (!currFirstDimensionElem.hasClass('treeOpen') &&
-                    _customctrl.isInputsChangedAfterGenerate(_customctrl.inputDataOnGenerate,
-                        $scope.createData().reportDefinition) &&
+                    _customctrl.isInputsChangedAfterGenerate(_customctrl.inputDataOnGenerate, $scope.createData().reportDefinition) &&
                     $scope.isReportForMultiDimension !== false) {
                     $rootScope.setErrAlertMessage('Please regenerate the page, input data had changed');
 
@@ -1916,6 +1942,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         $scope.metrics.initializeMetrics();
                         $scope.showMetricsButton = false;
                         $scope.showSecondDimensionBlock = false;
+                        $scope.dataSource.showDataSource = false;
                     } else if(String(arg) === 'secondary') {
                         $scope.reports.reportDefinition.dimensions.secondary.name = '';
                         $scope.reports.reportDefinition.dimensions.secondary.dimension = '';
@@ -2217,6 +2244,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                                     url;
 
                                 $scope.metrics.initializeMetricData(result.data.data[0]);
+                                $scope.dataSource.setDataSource(result.data.data[0].data_source);
                                 $scope.displayName = result.data.data[0].display_name;
                                 $scope.filterList = result.data.data[0].filters;
                                 $scope.metrics.initializeMetrics(result.data.data[0]);
@@ -2238,8 +2266,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                                     $scope.buttonResetCancel = 'Cancel';
 
                                     if (localStorageService.scheduleListReportType.get() === 'Saved') {
-                                        url = urlService.savedReport(vistoconfig.getMasterClientId(),
-                                            $routeParams.reportId);
+                                        url = urlService.savedReport(vistoconfig.getMasterClientId(), $routeParams.reportId);
                                         $scope.isSavedReportGen = true;
                                     } else {
                                         $scope.isSavedReportGen = false;
@@ -2519,8 +2546,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     if ($scope.verifyReportInputs()) {
                         if ($scope.reportTypeSelect === 'Save') {
                             dataService
-                                .updateSavedReport(vistoconfig.getMasterClientId(), $routeParams.reportId,
-                                    $scope.createData())
+                                .updateSavedReport(vistoconfig.getMasterClientId(), $routeParams.reportId, $scope.createData())
                                 .then(function (result) {
                                     if (result.data.status_code === 200) {
                                         $rootScope.setErrAlertMessage('Saved report updated successfully', 0);
@@ -2541,7 +2567,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                                     if (result.data.status_code === 200) {
                                         $rootScope.setErrAlertMessage('Scheduled report updated successfully', 0);
                                         $scope.stopRedirectingPage = false;
-                                        $location.url(urlBuilder.customReportsListUrl());
+                                        $location.url(urlBuilder.customReportsListUrl('reports/schedules'));
                                     }
                                 });
                         }
@@ -2778,6 +2804,8 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                     $scope.reports.reportDefinition.timeframe = responseData.reportDefinition.timeframe;
 
+                    $scope.reports.reportDefinition.dataSource = responseData.reportDefinition.data_source;
+
                     if (responseData.isScheduled) {
                         $('#toggle').bootstrapToggle('on');
                     }
@@ -2990,6 +3018,31 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                             return true;
                     }
                 };
+
+                $scope.dataSource = (function(){
+                    return {
+                        dataSourceArr: {},
+                        showDataSource: false,
+                        getDataSource: function() {
+                            return $scope.dataSource.dataSourceArr;
+                        },
+                        setDataSource: function(data) {
+
+                            if(data){
+                                $scope.dataSource.dataSourceArr = data;
+                            }
+
+                            if($scope.dataSource.dataSourceArr) {
+                                // by default 'system_of_record' should be selected
+                                if(_.contains($scope.dataSource.dataSourceArr,'system_of_record')){
+                                    $scope.reports.reportDefinition.dataSource = 'system_of_record';
+                                } else {
+                                    $scope.reports.reportDefinition.dataSource = $scope.dataSource.dataSourceArr[0];
+                                }
+                            }
+                        },
+                    }
+                })();
 
                 _customctrl.showCost_permission();
 
