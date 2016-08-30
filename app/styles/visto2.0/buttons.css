@@ -19,7 +19,7 @@ select {
   text-decoration: none;
 }
 .btn:hover {
-  background: #e1edf9 !important;
+  background: #E1EDF9 !important;
 }
 .btn-primary {
   background: #0978c9;
@@ -49,12 +49,12 @@ select {
   border: 1px solid #939eae;
 }
 .btn-default:not(.label-btn):hover {
-  background: #e1edf9;
+  background: #E1EDF9;
   box-shadow: none !important;
 }
 .btn-default:not(.label-btn):active,
 .btn-default:not(.label-btn).active {
-  background: #e1edf9;
+  background: #E1EDF9;
   box-shadow: none !important;
 }
 .btn-default:active,
@@ -143,7 +143,7 @@ select {
   padding: 10px 15px;
 }
 .goalBtnGroup .btn-primary:hover {
-  background: #e1edf9 !important;
+  background: #E1EDF9 !important;
 }
 .goalBtnGroup .btn-primary:hover .hideRadioBtn {
   background-color: none !important;
@@ -370,7 +370,7 @@ input.cmn-toggle-round:checked + label:after {
   margin-right: 15px;
 }
 .screenChkSelection .btn-default:hover {
-  background-color: #e1edf9 !important;
+  background-color: #E1EDF9 !important;
   border: 1px solid #939eae !important;
 }
 .screenChkSelection .btn-default.active {
@@ -426,7 +426,7 @@ tags-input ul li span {
 tags-input ul li:hover,
 tags-input ul li:focus,
 tags-input ul .suggestion-item.selected {
-  background: #e1edf9 !important;
+  background: #E1EDF9 !important;
   padding: 3px 15px !important;
 }
 tags-input ul li:hover span,
