@@ -4800,6 +4800,9 @@
 .goalBtnWithPopup .popUpCue {
   top: -82px;
 }
+.buying-platform-popup {
+  display: none;
+}
 .keywordWrap {
   background: #edf2f8;
   border: 1px solid #bfc9d7;
