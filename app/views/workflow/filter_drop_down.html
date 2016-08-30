@@ -1,21 +1,42 @@
 <div class="clearfix nav_filters creative_filter_dropdowns">
     <div class="pull-left each_filter advertisers_filter" ng-if="filterData.subAccountList.length > 0">
         <div class="greyTxt">{{constants.SUB_ACCOUNT}}</div>
-        <div class="dropdown">
-            <div class="dropdown_name_selected" id="subAcc_name_selected"
-                 data-toggle="dropdown" title="{{filterData.subAccSelectedName}}" ng-bind="filterData.subAccSelectedName ? filterData.subAccSelectedName : 'Loading..'">
+
+        <div class="col-md-12 zeroPadding">
+            <div class="brand_name_selected dropdown_name_selected"
+                 id="sub_account_name_selected"
+                 data-ng-click="showSubAccountDropDown()"
+                 data-toggle="dropdown" title="{{filterData.subAccSelectedName}}" ng-bind="filterData.subAccSelectedName ? filterData.subAccSelectedName : 'Loading..'"
+                 > <!-- id="subAcc_name_selected" -->
             </div>
             <span class="icon-arrow-solid-down"></span>
-            <ul class="dropdown-menu" role="menu" id="subAccountDropDownList">
-                <div class="clientsList_ul" id="clientsList_ul">
-                    <li ng-repeat="subaccount in filterData.subAccountList track by subaccount.id"
+        </div>
+        <div class="clearfix">
+            <div class="brandsDropdownSearch dropdown-workflow" data-ng-class="filterData.subAccountList.length > 0 ? '' : 'loadedDropdownData'">
+                <ul class="dropdown-menu" role="menu" id="subAccountDropDownList">
+                    <div id="subAccountDropdownDiv">
+                        <input class="dropdown-toggle "
+                               id="subAccountDropdown"
+                               data-ng-model="selectedSubAccount.name"
+                               placeHolder="{{(filterData.subAccSelectedName ? filterData.subAccSelectedName : 'Select Sub-Account')}}">
+                        <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
+                    </div>
+                    <div  class="subAccountList_ul clientsList_ul"  id="clientsList_ul">
+                        <li ng-repeat="subaccount in filterData.subAccountList | filter:selectedSubAccount.name "
                         title="{{subaccount.displayName}}"
                         ng-class="{'active' : subaccount.id === filterData.subAccSelectedId}">
-                        <a data-ng-click="changeSubAccount(subaccount)"><span class="menuItemText">{{subaccount.displayName}}</span></a>
-                    </li>
-                </div>
-            </ul>
+                            <a data-ng-click="changeSubAccount(subaccount)"><span class="menuItemText">{{subaccount.displayName}}</span></a>
+                        </li>
+                    </div>
+                </ul>
+            </div>
         </div>
+
+
+
+
+
+
     </div>
     <div class="pull-left each_filter advertisers_filter">
         <div class="greyTxt">{{constants.ADVERTISER}}</div>

@@ -12,6 +12,7 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
                 $scope.filterData.subAccSelectedId = '';
                 $scope.constants = constants;
 
+
                 var fetchAdvertiserAndBroadCast = function (clientId, onClientSelect) {
 
                     onClientSelect = onClientSelect || false;
@@ -34,7 +35,16 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
                         });
                 };
 
+                $scope.showSubAccountDropDown = function () {
+                    var subAccountDropdownList = $('#subAccountDropDownList');
 
+                    subAccountDropdownList.toggle();
+                    $('#cdbMenu').closest('.each_filter').removeClass('filter_dropdown_open');
+                    subAccountDropdownList.closest('.each_filter').toggleClass('filter_dropdown_open');
+                    $('#cdbDropdown').hide();
+                    $('#profileDropdown').hide();
+                };
+                
                 $scope.showAdvertisersDropDown = function () {
                     $('#advertisersDropDownList')
                         .toggle()
@@ -60,6 +70,7 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
                 };
 
                 $scope.changeSubAccount =  function(account) {
+                    $scope.filterData.subAccSelectedName = account.displayName ;
                     var url = '/a/' + $routeParams.accountId+'/sa/'+ account.id +'/creative/list';
                     $location.url(url);
                 };
