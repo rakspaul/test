@@ -43,7 +43,7 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
                     subAccountDropdownList.closest('.each_filter').toggleClass('filter_dropdown_open');
                     $('#cdbDropdown').hide();
                     $('#profileDropdown').hide();
-                    $("#advertisersDropDownList").hide();
+                    $('#advertisersDropDownList').hide();
                 };
                 
                 $scope.showAdvertisersDropDown = function () {
@@ -51,7 +51,7 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
                         .toggle()
                         .closest('.each_filter')
                         .toggleClass('filter_dropdown_open');
-                    $("#subAccountDropDownList").hide();
+                    $('#subAccountDropDownList').hide();
                 };
 
                 $scope.selectAdvertisers = function (advertiser) {
