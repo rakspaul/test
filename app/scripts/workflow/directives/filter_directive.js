@@ -43,6 +43,7 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
                     subAccountDropdownList.closest('.each_filter').toggleClass('filter_dropdown_open');
                     $('#cdbDropdown').hide();
                     $('#profileDropdown').hide();
+                    $("#advertisersDropDownList").hide();
                 };
                 
                 $scope.showAdvertisersDropDown = function () {
@@ -50,6 +51,7 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
                         .toggle()
                         .closest('.each_filter')
                         .toggleClass('filter_dropdown_open');
+                    $("#subAccountDropDownList").hide();
                 };
 
                 $scope.selectAdvertisers = function (advertiser) {
@@ -57,7 +59,6 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
 
                      $scope.filterData.advertiserSelectedName = advertiser.name;
                      $scope.filterData.advertiserSelectedId = advertiser.id;
-
                      //set to localstorage
 
                      args = {
@@ -65,8 +66,9 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
                          clientId: $scope.filterData.subAccSelectedId,
                          advertiserId: advertiser.id
                      };
-
                      $rootScope.$broadcast('filterChanged',args);
+                     $scope.selectedAdvertiser.name = '';
+                     
                 };
 
                 $scope.changeSubAccount =  function(account) {

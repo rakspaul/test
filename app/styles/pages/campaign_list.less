@@ -2911,6 +2911,10 @@ button, i, input[type="submit"] {
       display: inline-block;
       height: 18px;
     }
+    .advertisersDropDownCreative {
+      left: -1px ;
+      top : -20px ;
+    }
     #advertisersDropDownList , #subAccountDropDownList {
       width: auto;
       padding-top: 0;
@@ -3206,7 +3210,7 @@ button, i, input[type="submit"] {
                 font-family: Avenir;
                 font-size: 14px;
                 line-height: 100%;
-                padding: 9px 15px !important;
+                padding: 7px 15px !important;
                 overflow: hidden;
                 &:hover, &:focus {
                     color: @raven-text;
@@ -3214,7 +3218,10 @@ button, i, input[type="submit"] {
                     background-color: #E1EDF9;
                 }
                 span {
-                    padding: 0;
+                  padding: 0px ;
+                }
+                span.menuItemText {
+                    padding: 2px 0 ;
                 }
             }
         }
