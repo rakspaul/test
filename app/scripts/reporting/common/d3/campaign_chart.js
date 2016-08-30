@@ -404,12 +404,10 @@ define(['angularAMD'], function (angularAMD) {
                             svg.append('text')
                                 .attr('id', 'kpi_type_text')
                                 .attr('x', -15)
-                                .attr('y', adjustY - 10)
+                                .attr('y', adjustY - 5)
                                 .style('font-size', '12px')
                                 .style('fill', '#57595b')
-                                .text(_config.kpiType.toLowerCase() !== 'impressions' ?
-                                    _config.kpiType :
-                                    'Impressions');
+                                .text(_config.kpiType);
                         }
 
                         if (threshold !== 0 && kpiType.toLowerCase() !== 'impressions') {

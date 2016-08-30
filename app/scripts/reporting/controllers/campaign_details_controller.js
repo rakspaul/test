@@ -1342,59 +1342,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                 };
             };
 
-            getSetCampaignDetails = function() {
-                var dataArr,
-                    params,
-                    spendUrl;
 
-                dataArr = [campaignSelectModel.getSelectedCampaignOriginal()];
-
-                $scope.adFormats = domainReports.checkForCampaignFormat(dataArr[0].adFormats);
-                $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
-                $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
-
-                // Fetch Spend Start
-                params = getCustomQueryParams(14);
-                delete params.campaignId;
-                params.campaignIds = $scope.campaign.id;
-                spendUrl = urlService.getCampaignSpend(params);
-
-                dataService.fetch(spendUrl).then(function(response) {
-                    if(response.data && response.data.data && response.data.data.length > 0) {
-                        $scope.campaigns.spend =  response.data.data[0].gross_rev;
-                    } else {
-                        $scope.campaigns.spend = 0;
-                    }
-                });
-
-                // Fetch Spend End
-                campaign.getStrategiesList(clientId, $scope.campaign, constants.PERIOD_LIFE_TIME);
-                updateActionItems($scope.getCdbChartData, 1, true);
-console.log('getSetCampaignDetails(), $scope.getCdbChartData = ', $scope.getCdbChartData);
-console.log('$scope.details.actionChart = ', $scope.details.actionChart);
-
-                campaignListService.getCdbLineChart(clientId, $scope.campaign, 'life_time', function (cdbData) {
-                    if (cdbData) {
-                        $scope.campaigns.cdbDataMap[campaignId] =
-                            modelTransformer.transform(cdbData, campaignCDBData);
-                        $scope.campaigns.cdbDataMap[campaignId].modified_vtc_metrics =
-                            campaignListService
-                                .vtcMetricsJsonModifier(
-                                    $scope.campaigns.cdbDataMap[campaignId].video_metrics
-                                );
-                    }
-                });
-
-                $scope.getCostBreakdownData($scope.campaign);
-                $scope.getPlatformData();
-                $scope.getAdSizeGraphData($scope.campaign);
-                $scope.getScreenGraphData($scope.campaign);
-                $scope.getFormatsGraphData($scope.campaign);
-                $scope.getInventoryGraphData($scope.campaign);
-                $scope.getCostViewabilityData($scope.campaign);
-            };
-
-            getSetCampaignDetails();
 
             // TODO: Performance Chart - Moving to D3
             $scope.getCdbChartData = function (campaign) {
@@ -1409,7 +1357,6 @@ console.log('$scope.details.actionChart = ', $scope.details.actionChart);
                             kpiTypeLower,
                             activityLocalStorageInfo,
                             i;
-console.log('$scope.details.actionChart = ', $scope.details.actionChart);
 
                         if (result.status === 'success' && !angular.isString(result.data)) {
                             if (!angular.isUndefined($scope.campaign.kpiType)) {
@@ -1445,7 +1392,7 @@ console.log('$scope.details.actionChart = ', $scope.details.actionChart);
                                     $scope.details.lineChart = {
                                         data: lineData,
                                             kpiValue: parseFloat($scope.campaign.kpiValue),
-                                            kpiType: $scope.campaign.kpiType,
+                                            kpiType: $filter('toTitleCase')($scope.campaign.kpiType),
                                             from: 'action_performance',
 
                                             // for delivery kpi
@@ -1483,6 +1430,59 @@ console.log('$scope.details.actionChart = ', $scope.details.actionChart);
                         }
                     });
             };
+
+            getSetCampaignDetails = function() {
+                var dataArr,
+                    params,
+                    spendUrl;
+
+                dataArr = [campaignSelectModel.getSelectedCampaignOriginal()];
+
+                $scope.adFormats = domainReports.checkForCampaignFormat(dataArr[0].adFormats);
+                $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
+                $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
+
+                // Fetch Spend Start
+                params = getCustomQueryParams(14);
+                delete params.campaignId;
+                params.campaignIds = $scope.campaign.id;
+                spendUrl = urlService.getCampaignSpend(params);
+
+                dataService.fetch(spendUrl).then(function(response) {
+                    if(response.data && response.data.data && response.data.data.length > 0) {
+                        $scope.campaigns.spend =  response.data.data[0].gross_rev;
+                    } else {
+                        $scope.campaigns.spend = 0;
+                    }
+                });
+
+                // Fetch Spend End
+                campaign.getStrategiesList(clientId, $scope.campaign, constants.PERIOD_LIFE_TIME);
+
+                updateActionItems($scope.getCdbChartData, 1, true);
+
+                campaignListService.getCdbLineChart(clientId, $scope.campaign, 'life_time', function (cdbData) {
+                    if (cdbData) {
+                        $scope.campaigns.cdbDataMap[campaignId] =
+                            modelTransformer.transform(cdbData, campaignCDBData);
+                        $scope.campaigns.cdbDataMap[campaignId].modified_vtc_metrics =
+                            campaignListService
+                                .vtcMetricsJsonModifier(
+                                    $scope.campaigns.cdbDataMap[campaignId].video_metrics
+                                );
+                    }
+                });
+
+                $scope.getCostBreakdownData($scope.campaign);
+                $scope.getPlatformData();
+                $scope.getAdSizeGraphData($scope.campaign);
+                $scope.getScreenGraphData($scope.campaign);
+                $scope.getFormatsGraphData($scope.campaign);
+                $scope.getInventoryGraphData($scope.campaign);
+                $scope.getCostViewabilityData($scope.campaign);
+            };
+
+            getSetCampaignDetails();
 
             $scope.$on('$destroy', function () {
                 eventActionCreatedFunc();
