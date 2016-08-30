@@ -311,7 +311,7 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
         };
 
         $scope.selectTrackingIntegrations = function (trackingIntegration) {
-            $scope.showtrackingSetupInfoPopUp = false;
+            $('.buying-platform-popup').hide();
             $scope.$parent.postPlatformDataObj = [];
 
             trackingIntegration = $scope.trackingIntegration || trackingIntegration;
@@ -422,17 +422,19 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                                 .left + 50;
 
             $scope.trackingIntegration = trackingIntegration;
-
-            $('.buyingPlatformHolder .popUpCue').css({
-                top: 10,
-                left: relativeX
-            });
-
-            $scope.showtrackingSetupInfoPopUp = true;
+            
+            setTimeout(function(){ 
+                $('.buyingPlatformHolder .popUpCue').css({
+                    top: '-10px',
+                    left: relativeX + 'px' 
+                });
+            }, 5);
+            $('.buying-platform-popup').show();
         };
 
         $scope.hideTrackingSetupInfoPopUp = function () {
-            $scope.showtrackingSetupInfoPopUp = false;
+            $('.buying-platform-popup').hide();
+
         };
 
         $scope.$parent.switchPlatform = function (event) {
@@ -537,7 +539,8 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
             }
         };
 
-        $scope.showtrackingSetupInfoPopUp = false;
+        $('.buying-platform-popup').hide();
+
         $scope.trackingIntegrationId = '';
 
         $scope.$watch('adData.platformId', function (newValue) {
