@@ -67,7 +67,7 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
                          advertiserId: advertiser.id
                      };
                      $rootScope.$broadcast('filterChanged',args);
-                     $scope.selectedAdvertiser.name = '';
+                     // $scope.selectedAdvertiser.name = '';
                      
                 };
 
