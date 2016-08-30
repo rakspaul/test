@@ -2839,6 +2839,10 @@ input[type="submit"] {
   display: inline-block;
   height: 18px;
 }
+.nav_filters .each_filter .advertisersDropDownCreative {
+  left: -1px;
+  top: -20px;
+}
 .nav_filters .each_filter #advertisersDropDownList,
 .nav_filters .each_filter #subAccountDropDownList {
   width: auto;
@@ -3130,7 +3134,7 @@ input[type="submit"] {
   font-family: Avenir;
   font-size: 14px;
   line-height: 100%;
-  padding: 9px 15px !important;
+  padding: 7px 15px !important;
   overflow: hidden;
 }
 .nav_filters .brandsDropdownSearch .subAccountList_ul li a:hover,
@@ -3140,7 +3144,10 @@ input[type="submit"] {
   background-color: #E1EDF9;
 }
 .nav_filters .brandsDropdownSearch .subAccountList_ul li a span {
-  padding: 0;
+  padding: 0px ;
+}
+.nav_filters .brandsDropdownSearch .subAccountList_ul li a span.menuItemText {
+  padding: 2px 0 ;
 }
 .nav_filters .brandsDropdownSearch .subAccountList_ul li.active a {
   background: transparent;

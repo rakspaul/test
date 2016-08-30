@@ -959,7 +959,7 @@
 }
 .nav_filters .each_filter #advertisersDropDownList {
   width: 280px;
-  left: 0px;
+  left: -1px;
   padding: 0;
 }
 .nav_filters .each_filter #advertisersDropDownList .brandsList_ul2 {
