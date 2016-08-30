@@ -5,11 +5,9 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
         '$modal', '$routeParams', '$sce', '$timeout', 'constants', 'loginModel', 'domainReports', 'campaignSelectModel', 'RoleBasedService',
         'workflowService', 'featuresService', 'accountService', 'subAccountService', 'vistoconfig', 'localStorageService', 'advertiserModel', 'brandsModel',
         'strategySelectModel', 'pageFinder', 'urlBuilder',
-
         function ($http, $q, $scope, $rootScope, $route, $cookieStore, $location, $modal, $routeParams, $sce, $timeout, constants, loginModel,
                   domainReports, campaignSelectModel, RoleBasedService, workflowService, featuresService, accountService, subAccountService,
                   vistoconfig, localStorageService, advertiserModel, brandsModel, strategySelectModel, pageFinder, urlBuilder) {
-            
         var featurePermission = function () {
                 var fParams = featuresService.getFeatureParams();
 
@@ -153,7 +151,7 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
                     });
                 }
             } else {
-                setMasterClientData(id, name,isLeafNode, event);
+                setMasterClientData(id, name, isLeafNode, event);
             }
         };
 
@@ -166,13 +164,16 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
 
         $scope.navigateToTab = function (url, event, page, fromView, index) {
             var targetUrl;
-console.log('navigateToTab()!!!!!!!!!!, $scope.mplUrl = ', $scope.mplUrl, ', $scope.reportsUrl[' + (index || 'none') + '] = ', $scope.reportsUrl[index]);
-if (_.isEmpty($routeParams) && page !== 'creativelist') {
-    return;
-}
+
+            // TODO: Temp code - get rid of it later.
+            console.log('navigateToTab()!!!!!!!!!!, $scope.mplUrl = ', $scope.mplUrl, ', $scope.reportsUrl[' + (index || 'none') + '] = ', $scope.reportsUrl[index]);
+            if (_.isEmpty($routeParams) && page !== 'creativelist') {
+                return;
+            }
             if (event && event.originalEvent.metaKey) {
                 return;
             }
+            // TODO: END temp code - get rid of it later.
 
             $('.each_nav_link').removeClass('active_tab active selected');
 
@@ -216,10 +217,13 @@ if (_.isEmpty($routeParams) && page !== 'creativelist') {
             var elem = $(event.target),
                 minHeight,
                 argMenu = $('#' + arg + '-menu');
+
             if( arg === 'help' ) {
-                var elem_dropdown = $('.help-link-tab').offset().left - ( $('#help-menu').width()/2 ) + 10 ;
-                argMenu.css({'left':elem_dropdown + 'px', 'right': 'auto'});
+                var elem_dropdown = $('.help-link-tab').offset().left - ($('#help-menu').width() / 2) + 10;
+
+                argMenu.css({'left': elem_dropdown + 'px', 'right': 'auto'});
             }
+
             if (argMenu.is(':visible') === false) {
                 $('.main_nav_dropdown').hide();
                 minHeight = argMenu.css('min-height');

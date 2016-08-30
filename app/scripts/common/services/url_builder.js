@@ -221,7 +221,7 @@ define(['angularAMD'],
                     }
 
                     url += '/creative/list';
-console.log('creativeListUrl!!! url = ', url);
+                    console.log('creativeListUrl!!! url = ', url);
 
                     if (fromView) {
                         return url;

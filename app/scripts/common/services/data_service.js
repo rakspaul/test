@@ -62,8 +62,7 @@ define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
                     return this.fetch(urlPath);
                 },
 
-                getCdbTacticsChartData = function (clientId, campaignId, strategyId, adId, timePeriod, filterStartDate,
-                                                   filterEndDate) {
+                getCdbTacticsChartData = function (clientId, campaignId, strategyId, adId, timePeriod, filterStartDate, filterEndDate) {
                     var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
@@ -175,7 +174,6 @@ define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
                 createScheduleReport  =  function (clientId,data) {
                     return this.post( urlService.createScheduledRpt(clientId), data, {'Content-Type': 'application/json'});
                 },
-
 
                 createSaveReport =  function (data) {
                     return this.post( urlService.createSaveRpt(), data, {'Content-Type': 'application/json'});
