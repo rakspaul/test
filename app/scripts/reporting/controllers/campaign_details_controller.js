@@ -680,7 +680,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
 
                         $scope.inventoryBarChartConfig = {
                             data: $scope.chartDataInventory,
-                            showLabel: true,
+                            showLabel: (inventoryData.length > 3)?true:false,
                             graphName: 'inventory'
                         };
                     }, function () {
@@ -757,7 +757,8 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
 
                         $scope.screenBarChartConfig = {
                             data: $scope.chartDataScreen,
-                            graphName: 'screens'
+                            graphName: 'screens',
+                            showLabel: (screenResponseData.length > 3)?true:false
                         };
                     },function () {
                         console.log('screen data call failed');
