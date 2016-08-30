@@ -153,6 +153,8 @@ require.config({
         'kpi-select-directive' : 'reporting/kpiSelect/kpi_select_directive',
         'edit-ad-group-section' : 'workflow/directives/edit_ad_group_section',
         'creative-drop-down' : 'workflow/directives/creative_drop_down',
+        'directive-pie-chart' : 'reporting/common/d3/pie_chart',
+
 
         /*register Directives - END*/
 
