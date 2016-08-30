@@ -56,14 +56,14 @@
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" data-ng-hide="screenBusy">
+                                    <!-- <div class="each_col first_col" data-ng-hide="screenBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
                                         <span class="pull-left icon-target viewLabelTxt"></span>
                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div>
-                                    <div class="row_list_holder clearfix">
+                                    </div> -->
+                                    <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="screenBusy"></div>
-                                        <div class="clearfix each_row_list"
+                                        <div class="clearfix each_row_list {{screenData.sepratorCls}}"
                                              data-ng-show="!screenBusy"
                                              data-ng-repeat="screenData in strategyPerfDataByScreen |
                                                 orderBy : sortTypeScreens : sortReverse track by $index"
@@ -107,14 +107,14 @@
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" data-ng-hide="dowBusy">
+                                    <!-- <div class="each_col first_col" data-ng-hide="dowBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
                                         <span class="pull-left icon-target viewLabelTxt"></span>
                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div>
-                                    <div class="row_list_holder clearfix">
+                                    </div> -->
+                                    <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="dowBusy"></div>
-                                        <div class="clearfix each_row_list"
+                                        <div class="clearfix each_row_list {{daysOfWeekData.sepratorCls}}"
                                              data-ng-show="!dowBusy"
                                              data-ng-repeat="daysOfWeekData in strategyPerfDataByDOW |
                                                 orderBy : sortTypebydaysofweek : sortReverse track by $index"
@@ -218,14 +218,14 @@
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" data-ng-hide="formatBusy">
+                                   <!-- <div class="each_col first_col" data-ng-hide="formatBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
                                         <span class="pull-left icon-target viewLabelTxt"></span>
                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div>
-                                    <div class="row_list_holder clearfix">
+                                    </div> -->
+                                    <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="formatBusy"></div>
-                                        <div class="clearfix each_row_list"
+                                        <div class="clearfix each_row_list {{formatData.sepratorCls}}"
                                              data-ng-show="!formatBusy"
                                              data-ng-repeat="formatData in strategyPerfDataByFormat |
                                                 orderBy : sortTypebyformats : sortReverse track by $index"
@@ -273,14 +273,14 @@
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" data-ng-hide="creativeBusy">
+                                    <!--<div class="each_col first_col" data-ng-hide="creativeBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
                                         <span class="pull-left icon-target viewLabelTxt"></span>
                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div>
-                                    <div class="row_list_holder clearfix">
+                                    </div> -->
+                                    <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="creativeBusy"></div>
-                                        <div class="clearfix each_row_list"
+                                        <div class="clearfix each_row_list {{creativesData.sepratorCls}}"
                                              data-ng-show="!creativeBusy"
                                              data-ng-repeat="creativesData in strategyPerfDataByCreatives |
                                                 orderBy : sortTypeByCreatives : sortReverse
@@ -328,14 +328,14 @@
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" data-ng-hide="adSizeBusy">
+                                    <!-- <div class="each_col first_col" data-ng-hide="adSizeBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
                                         <span class="pull-left icon-target viewLabelTxt"></span>
                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div>
-                                    <div class="row_list_holder clearfix">
+                                    </div> -->
+                                    <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="adSizesBusy"></div>
-                                        <div class="clearfix each_row_list"
+                                        <div class="clearfix each_row_list {{adSizesData.sepratorCls}}"
                                              data-ng-show="!adSizesBusy"
                                              data-ng-repeat="adSizesData in strategyPerfDataByAdsizes |
                                                 orderBy : sortTypeByAdSizes : sortReverse track by $index"

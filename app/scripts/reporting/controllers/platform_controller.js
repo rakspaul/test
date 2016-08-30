@@ -174,6 +174,9 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                             if (Number($scope.selectedStrategy.id) >= 0) {
                                 // strategy selected
                                 $scope.platformData = _.filter(result.data.data, function (item) {
+                                    if(item.platform_name === 'Line Item Totals') {
+                                        item.sepratorCls_platform = 'sepratorCls_platform';
+                                    }
                                     return (item.ad_id === -1 && item.ad_group_name === '');
                                 });
 
@@ -195,6 +198,9 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                                 $scope.platformData = result.data.data;
 
                                 _.each($scope.platformData, function (item) {
+                                    if(item.platform_name === 'Media Plan Totals') {
+                                        item.sepratorCls_platform = 'sepratorCls_platform';
+                                    }
                                     sumTechFeesNServiceFees(item);
                                     marginPercentage(item);
                                     item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
