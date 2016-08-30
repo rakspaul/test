@@ -234,13 +234,14 @@ define(['angularAMD'], function (angularAMD) {
                                 .appendTo(fieldLabel);
 
                         inputListHTML && inputListHTML.on('change', function () {
+                            chkSelValue = this.checked ?  'TRUE' : 'FALSE';
                             if (inputList.dependentGroups) {
                                 selectPlatform(chkSelValue , inputList,
                                     inputGroupList.platformCustomInputChildrenGroupList,
                                     'chkDependentItems');
                             }
 
-                            if (chkSelValue) {
+                            if (chkSelValue !== undefined) {
                                 hiddenInputField.attr('value', chkSelValue);
                             }
                         });
