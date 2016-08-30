@@ -46,7 +46,7 @@ define(['angularAMD', 'admin-account-service', 'lrInfiniteScroll'], function (an
                     $scope.$parent.brandsLoading = true;
                     $scope.$parent.brandsPageNo = 0;
                     $scope.$parent.brandsData = [];
-                    $scope.fetchAllBrands($scope.clientId, $scope.brandsQuery, $scope.brandsPageSize, $scope.$parent.brandsPageNo);
+                    $scope.fetchAllBrands($scope.clientId, $scope.brandsQuery, $scope.$parent.brandsPageSize, $scope.$parent.brandsPageNo);
                 }, 400);
             };
 
@@ -79,12 +79,12 @@ define(['angularAMD', 'admin-account-service', 'lrInfiniteScroll'], function (an
             };
 
             $scope.loadMoreBrands = function () {
-                if (!$scope.noMoreBrandsToLoad) {
+                if (!$scope.$parent.noMoreBrandsToLoad) {
                     if ($scope.$parent.brandsPageNo > 0) {
                         $scope.$parent.brandsPageNo++;
                     }
 
-                    $scope.fetchAllBrands($scope.clientId, $scope.brandsQuery, $scope.brandsPageSize, $scope.$parent.brandsPageNo);
+                    $scope.fetchAllBrands($scope.clientId, $scope.brandsQuery, $scope.$parent.brandsPageSize, $scope.$parent.brandsPageNo);
                 }
             };
 
