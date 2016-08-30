@@ -178,18 +178,18 @@ define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
                 },
 
 
-                createSaveReport =  function (data) {
-                    return this.post( urlService.createSaveRpt(), data, {'Content-Type': 'application/json'});
+                createSaveReport =  function (clientId,data) {
+                    return this.post( urlService.createSaveRpt(clientId), data, {'Content-Type': 'application/json'});
                 },
 
-                updateScheduleReport = function (reportId,data) {
-                    var url = urlService.updateScheduledRpt(reportId);
+                updateScheduleReport = function (clientId,reportId,data) {
+                    var url = urlService.updateScheduledRpt(clientId,reportId);
 
                     return this.put(url,data);
                 },
 
-                updateSavedReport = function (reportId, data) {
-                    var url = urlService.updateSavedRpt(reportId);
+                updateSavedReport = function (clientId,reportId, data) {
+                    var url = urlService.updateSavedRpt(clientId,reportId);
 
                     return this.put(url,data);
                 },
