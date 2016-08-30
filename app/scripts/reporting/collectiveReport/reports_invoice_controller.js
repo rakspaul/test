@@ -5,9 +5,9 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 
         angularAMD.controller('reportsInvoiceController', ['$scope','$filter', '$location', '$modal', '$rootScope',
             '$routeParams', '$q', '$timeout', 'collectiveReportModel', 'utils', 'loginModel', 'constants', 'urlService',
             'dataStore', 'dataService', 'momentService', 'domainReports', 'advertiserModel', 'brandsModel',
-            'adminAccountsService', 'vistoconfig', function ($scope,$filter, $location, $modal, $rootScope, $routeParams, $q, $timeout, collectiveReportModel,
+            'adminAccountsService', 'vistoconfig', 'subAccountService', function ($scope,$filter, $location, $modal, $rootScope, $routeParams, $q, $timeout, collectiveReportModel,
                                                         utils, loginModel, constants, urlService, dataStore, dataService, momentService,
-                                                        domainReports, advertiserModel, brandsModel, adminAccountsService, vistoconfig) {
+                                                        domainReports, advertiserModel, brandsModel, adminAccountsService, vistoconfig, subAccountService) {
             var _curCtrl = this;
 
             _curCtrl.invoiceId = $routeParams.invoiceId;
@@ -24,6 +24,8 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 
                         $scope.noteData.status = $scope.invoiceDetails.status;
                         $scope.isDataLoaded = true;
                         $scope.isUploadStatus = (res.status === 'Upload') ? true : false;
+                        $scope.breadcrumbsDisplay.advertiserName = res.advertiserName;
+                        $scope.breadcrumbsDisplay.mediaPlanName = res.mediaPlanName;
                     }
                 }, function () {});
             };
@@ -42,10 +44,10 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 
                     });
             };
 
-            //$scope.clientName = vistoconfig.getMasterClientId() ? loginModel.getSelectedClient().name : '';
-            //
-            //$scope.advertiserName = advertiserModel.getAdvertiser().selectedAdvertiser ?
-            //    advertiserModel.getAdvertiser().selectedAdvertiser.name : 'All Advertisers';
+            $scope.breadcrumbsDisplay = {
+                clientName : subAccountService.getSelectedSubAccount().displayName,
+                invoiceId : $routeParams.invoiceId
+            }
 
             $scope.noteData = {
                 notes: '',
