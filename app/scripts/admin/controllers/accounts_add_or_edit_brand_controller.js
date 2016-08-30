@@ -70,7 +70,7 @@ define(['angularAMD', 'admin-account-service'], function (angularAMD) {
                 iconArrowSolidDown.css('display', 'block');
             };
 
-            console.log(' = ', $('.brands-list'));
+            // TODO: scroll event is not getting registered!!!
             $('.brands-list').scroll(function () {
                 console.log('scroll');
             });
