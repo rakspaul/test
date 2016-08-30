@@ -2,7 +2,7 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 
     'reports-invoice-addNote-controller', 'reports-invoice-addAdjustment-controller', 'invoice-upload-SOR-controller', 'admin-account-service'], function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('reportsInvoiceController', ['$scope','$filter', '$location', '$modal', '$rootScope',
+        angularAMD.controller('reportsInvoiceController', ['$scope', '$filter', '$location', '$modal', '$rootScope',
             '$routeParams', '$q', '$timeout', 'collectiveReportModel', 'utils', 'loginModel', 'constants', 'urlService',
             'dataStore', 'dataService', 'momentService', 'domainReports', 'advertiserModel', 'brandsModel',
             'adminAccountsService', 'vistoconfig', 'subAccountService', function ($scope,$filter, $location, $modal, $rootScope, $routeParams, $q, $timeout, collectiveReportModel,
@@ -11,8 +11,8 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 
             var _curCtrl = this;
 
             _curCtrl.invoiceId = $routeParams.invoiceId;
-
             _curCtrl.clientId = vistoconfig.getSelectedAccountId();
+
             // Get the details of the invoice
             _curCtrl.getInvoiceDetials = function () {
                 var res;

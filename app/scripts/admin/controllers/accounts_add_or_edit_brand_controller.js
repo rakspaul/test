@@ -1,14 +1,15 @@
-define(['angularAMD', 'admin-account-service'], function (angularAMD) {
-        'use strict';
-        angularAMD.controller('AccountsAddOrEditBrand', ['$scope', '$rootScope', '$modalInstance', 'adminAccountsService', 'domainReports', 'constants',
-            function ($scope, $rootScope, $modalInstance, adminAccountsService, domainReports, constants ) {
+define(['angularAMD', 'admin-account-service', 'lrInfiniteScroll'], function (angularAMD) {
+    'use strict';
+    angularAMD.controller('AccountsAddOrEditBrand', ['$scope', '$rootScope', '$modalInstance', 'adminAccountsService', 'domainReports', 'constants',
+        function ($scope, $rootScope, $modalInstance, adminAccountsService, domainReports, constants ) {
+            var searchBrandsTimer = 0;
 
             function createBrandUnderAdvertiser(brandId) {
                 adminAccountsService
                     .createBrandUnderAdvertiser($scope.client.id, $scope.advertiser.id, brandId)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
-                            $scope.fetchBrands($scope.client.id,$scope.advertiser.id);
+                            $scope.fetchBrands($scope.client.id, $scope.advertiser.id);
                             $scope.resetBrandAdvertiserAfterEdit();
                             $scope.close();
                             $rootScope.setErrAlertMessage('Brands add successfully', 0);
@@ -35,5 +36,65 @@ define(['angularAMD', 'admin-account-service'], function (angularAMD) {
                     createBrandUnderAdvertiser($scope.selectedBrandId);
                 }
             };
-        }]);
-    });
+
+            $scope.searchBrands = function () {
+                if (searchBrandsTimer) {
+                    clearTimeout(searchBrandsTimer);
+                }
+
+                searchBrandsTimer = setTimeout(function () {
+                    $scope.$parent.brandsLoading = true;
+                    $scope.$parent.brandsPageNo = 0;
+                    $scope.$parent.brandsData = [];
+                    $scope.fetchAllBrands($scope.clientId, $scope.brandsQuery, $scope.$parent.brandsPageSize, $scope.$parent.brandsPageNo);
+                }, 400);
+            };
+
+            $scope.selectBrandAndClose = function (brand) {
+                $scope.selectBrand(brand);
+                $scope.hideBrandsDropDown();
+            };
+
+            $scope.showBrandsDropDown = function (event) {
+                var brandNameSelected = $('#brandNameSelected'),
+                    iconArrowSolidDown = $('.icon-arrow-solid-down'),
+                    adminBrandsDropdownList = $('.admin-brand-dropdown-menu');
+
+                event && event.stopPropagation();
+
+                brandNameSelected.css('display', 'none');
+                iconArrowSolidDown.css('display', 'none');
+                adminBrandsDropdownList.css('display', 'block');
+                $('#brandsSearchBox').focus();
+            };
+
+            $scope.hideBrandsDropDown = function () {
+                var brandNameSelected = $('#brandNameSelected'),
+                    iconArrowSolidDown = $('.icon-arrow-solid-down'),
+                    adminBrandsDropdownList = $('.admin-brand-dropdown-menu');
+
+                adminBrandsDropdownList.css('display', '');
+                brandNameSelected.css('display', 'block');
+                iconArrowSolidDown.css('display', 'block');
+            };
+
+            $scope.loadMoreBrands = function () {
+                if (!$scope.$parent.noMoreBrandsToLoad) {
+                    if ($scope.$parent.brandsPageNo > 0) {
+                        $scope.$parent.brandsPageNo++;
+                    }
+
+                    $scope.fetchAllBrands($scope.clientId, $scope.brandsQuery, $scope.$parent.brandsPageSize, $scope.$parent.brandsPageNo);
+                }
+            };
+
+            $(document).click(function (event) {
+                if (event.target.id === 'adminBrandsDropDownList' || event.target.id === 'brandsSearchBox') {
+                    return;
+                }
+
+                $scope.hideBrandsDropDown();
+            });
+        }
+    ]);
+});

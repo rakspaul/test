@@ -1,8 +1,7 @@
 define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
     function (angularAMD) {
-        angularAMD.factory('dataService', ['$q', '$http', '$cookieStore', '$location', '$routeParams', 'vistoconfig',
-            'dataStore', 'utils', 'urlService', 'loginModel', 'constants', function ($q, $http, $cookieStore, $location, $routeParams, vistoconfig,
-                                                    dataStore, utils, urlService, loginModel, constants) {
+        angularAMD.factory('dataService', ['$q', '$http', '$cookieStore', '$location', '$routeParams', 'vistoconfig', 'dataStore', 'utils', 'urlService', 'loginModel',
+            'constants', function ($q, $http, $cookieStore, $location, $routeParams, vistoconfig, dataStore, utils, urlService, loginModel, constants) {
             var errorObject = {
                     status: 'error',
                     data: {message: 'Error'}
@@ -63,8 +62,7 @@ define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
                     return this.fetch(urlPath);
                 },
 
-                getCdbTacticsChartData = function (clientId, campaignId, strategyId, adId, timePeriod, filterStartDate,
-                                                   filterEndDate) {
+                getCdbTacticsChartData = function (clientId, campaignId, strategyId, adId, timePeriod, filterStartDate, filterEndDate) {
                     var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
@@ -178,7 +176,7 @@ define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
                 },
 
 
-                createSaveReport =  function (clientId,data) {
+                createSaveReport =  function (clientId, data) {
                     return this.post( urlService.createSaveRpt(clientId), data, {'Content-Type': 'application/json'});
                 },
 
@@ -217,6 +215,7 @@ define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
                         })
                         .then(function (response) {
                             var urlIndex = utils.getParameterByName(url, 'urlIndex'),
+
                                 objOnSuccess = {
                                     status: 'success',
                                     data: response.data
@@ -228,12 +227,14 @@ define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
 
                             if (response.status === 401) {
                                 loginModel.unauthorized();
+
                                 return errorObject;
                             } else if (response.status === 403) {
                                 loginModel.forbidden();
+
                                 return errorObject;
                             } else if (response.status === 204) {
-                                objOnSuccess.status=constants.DATA_NOT_AVAILABLE;
+                                objOnSuccess.status = constants.DATA_NOT_AVAILABLE;
                             }
 
                             dataStore.cacheByUrl(url, objOnSuccess);
@@ -243,9 +244,11 @@ define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
                             if (error.status !== 0) {
                                 if (error.status === 401) {
                                     loginModel.unauthorized();
+
                                     return errorObject;
                                 } else if (error.status === 403) {
                                     loginModel.forbidden();
+
                                     return errorObject;
                                 }
 

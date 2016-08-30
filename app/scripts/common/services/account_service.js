@@ -1,18 +1,15 @@
 define(['angularAMD'], function (angularAMD) {
     angularAMD.service('accountService', ['$rootScope', '$location', '$q', '$route', '$timeout', 'workflowService',
-        'subAccountService', 'RoleBasedService', 'featuresService', 'dataService', 'vistoconfig',
-        'pageFinder', function ($rootScope, $location, $q, $route, $timeout, workflowService,
-                                                   subAccountService, RoleBasedService, featuresService, dataService, vistoconfig,
-                                                   pageFinder) {
-
+        'subAccountService', 'RoleBasedService', 'featuresService', 'dataService', 'vistoconfig', 'pageFinder',
+        function ($rootScope, $location, $q, $route, $timeout, workflowService, subAccountService, RoleBasedService, featuresService, dataService, vistoconfig, pageFinder) {
         var accountList = [],
             selectedAccount,
             accountDataMap = {};
 
         return {
-
             fetchAccountList: function() {
                 var deferred = $q.defer();
+
                 if (accountList.length > 0) {
 
                     $timeout(function() {
@@ -21,23 +18,20 @@ define(['angularAMD'], function (angularAMD) {
 
                     return deferred.promise;
                 }
+
                 workflowService.getClients().then(function (result) {
-
                     if (result && result.data.data.length > 0) {
-
                         accountList = _.map(result.data.data, function (org) {
                             return {'id': org.id, 'name': org.name, 'isLeafNode': org.isLeafNode, 'timezone' : org.timezone};
                         });
 
                         accountList = _.sortBy(accountList, 'name');
-
                         deferred.resolve();
-
                     } else {
-
                         deferred.reject('Unable to fetch accounts');
                     }
                 });
+
                 return deferred.promise;
             },
 
@@ -52,6 +46,7 @@ define(['angularAMD'], function (angularAMD) {
                         return true;
                     }
                 }
+
                 return false;
             },
             updatePassword : function (userId, password) {
@@ -62,12 +57,10 @@ define(['angularAMD'], function (angularAMD) {
                 );
             },
             getAccounts: function() {
-
                 return accountList;
             },
 
             getSelectedAccount: function() {
-
                 return selectedAccount;
             },
 
@@ -82,21 +75,21 @@ define(['angularAMD'], function (angularAMD) {
                 url = '/a/' + account.id;
 
                 if (account.isLeafNode) {
-
                     url = page.buildPage(url);
-
                     $location.url(url);
 
                 } else {
                     if (page.isDashboardPage()) {
 
                         // fetch all the subaccounts including the leaf accounts
-                        subAccountService.fetchDashboardSubAccountList(account.id).then(function() {
-                            var subAccountId = subAccountService.getDashboardSubAccountList()[0].id;
-                            url += '/sa/' + subAccountId;
-                            $location.url(page.buildPage(url));
+                        subAccountService
+                            .fetchDashboardSubAccountList(account.id)
+                            .then(function () {
+                                var subAccountId = subAccountService.getDashboardSubAccountList()[0].id;
+                                url += '/sa/' + subAccountId;
+                                $location.url(page.buildPage(url));
 
-                        });
+                            });
                     } else if (page.isCustomReportsPage() || page.isCustomReportsListPage()) {
                         // doesn't require the sub account id
                         $location.url(page.buildPage(url));
@@ -104,7 +97,7 @@ define(['angularAMD'], function (angularAMD) {
                         // fetch only the leaf subaccounts
                         subAccountService
                             .fetchSubAccountList(account.id)
-                            .then(function() {
+                            .then(function () {
                                 var subAccountId = subAccountService.getSubAccounts()[0].id;
 
                                 url += '/sa/' + subAccountId;
@@ -139,12 +132,9 @@ define(['angularAMD'], function (angularAMD) {
                         deferred.reject('account data not found');
                     }
                 });
+
                 return deferred.promise;
             }
-
-
-
         };
-
     }]);
 });

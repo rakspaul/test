@@ -2,17 +2,11 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
     'use strict';
 
     angularAMD.factory('adminAccountsService', ['vistoconfig', 'dataService', 'constants', 'requestCanceller', function (vistoconfig, dataService, constants, requestCanceller) {
-
         var advertiser = null,
-
             brand = null,
-
             client = null,
-
             advertiserMode,
-
             counter = 0,
-
             permission = '',
 
             roleTemplateId = {
@@ -299,19 +293,35 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                     '/advertisers/codes/' + code + '/exists');
             },
 
-            getUserAdvertiser = function (clientId) {
+            getUserAdvertiser = function (clientId, query, pageSize, pageNo) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers';
-                if(clientId){
-                    url += '?clientId='+clientId;
+
+                query = query || '';
+                pageSize = pageSize || 200;
+                pageNo = pageNo || 1;
+
+                if (clientId) {
+                    url += '?clientId=' + clientId + '&query=' + query + '&pageSize=' + pageSize + '&pageNo=' + pageNo;
+                } else {
+                    url += '?query=' + query + '&pageSize=' + pageSize + '&pageNo=' + pageNo;
                 }
+
                 return dataService.fetch(url);
             },
 
-            getUserBrands = function (clientId) {
+            getUserBrands = function (clientId, query, pageSize, pageNo) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands';
-                if(clientId){
-                    url += '?clientId='+clientId;
+
+                query = query || '';
+                pageSize = pageSize || 200;
+                pageNo = pageNo || 1;
+
+                if (clientId) {
+                    url += '?clientId=' + clientId + '&query=' + query + '&pageSize=' + pageSize + '&pageNo=' + pageNo;
+                } else {
+                    url += '?query=' + query + '&pageSize=' + pageSize + '&pageNo=' + pageNo;
                 }
+
                 return dataService.fetch(url);
             },
 

@@ -4,11 +4,10 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
 
     angularAMD.controller('AdminUsersController', ['$scope', '$rootScope', '$modal', '$compile', '$filter', 'constants', 'adminAccountsService',
         'momentService', 'loginModel', 'vistoconfig', 'utils',
-
         function ($scope, $rootScope, $modal, $compile, $filter, constants, adminAccountsService, momentService, loginModel, vistoconfig, utils) {
-
         var _curCtrl = this,
             winHeight = $(window).height();
+
         _curCtrl.clientId = vistoconfig.getSelectedAccountId();
         _curCtrl.masterClientId = vistoconfig.getMasterClientId();
 

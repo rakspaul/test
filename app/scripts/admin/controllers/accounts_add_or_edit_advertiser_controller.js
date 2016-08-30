@@ -61,11 +61,12 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
             return ret;
         };
 
-
         // Validate the Advertiser URL entered
         $scope.validateURL = function(url){
             var re = utils.regExp().validateUrl;
+
             $scope.urlValidation = '';
+
             if (!re.test(url)) {
                 $scope.urlValidation = 'Incorrect URL: Please add valid url in the field';
             }
@@ -438,6 +439,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
             .opened
             .then(function () {
                 $('popup-msg').appendTo(document.body);
+
                 $timeout(function() {
                     $('#pixelExpDate').datepicker('setEndDate', momentService.addDays('YYYY-MM-DD', 364));
                 }, 5000);

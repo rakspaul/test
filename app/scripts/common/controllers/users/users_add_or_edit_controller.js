@@ -3,7 +3,6 @@ define(['angularAMD', 'ng-update-hidden-dropdown','account-list-dropdown-control
     'use strict';
 
     angularAMD.controller('UsersAddOrEdit', ['$scope', '$rootScope', '$compile', '$q', 'constants', 'adminAccountsService', 'momentService', 'loginModel',
-
         function ($scope, $rootScope, $compile, $q, constants, adminAccountsService, momentService, loginModel) {
         var _customctrl = this,
             defaultAccess = 'ADMIN',

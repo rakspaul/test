@@ -7,6 +7,7 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
                                                         loginModel, vistoconfig, utils) {
         var _curCtrl = this,
             winHeight = $(window).height();
+
         _curCtrl.clientId = vistoconfig.getSelectedAccountId();
         _curCtrl.masterClientId = vistoconfig.getMasterClientId();
 
@@ -28,8 +29,7 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
                         _curCtrl.brandsData = $scope.brandsData;
 
                         _.each($scope.brandsData, function (item, i) {
-                            $scope.brandsData[i].createdAt =
-                                momentService.newMoment($scope.brandsData[i].createdAt).format('YYYY-MM-DD');
+                            $scope.brandsData[i].createdAt = momentService.newMoment($scope.brandsData[i].createdAt).format('YYYY-MM-DD');
                         });
                     }
                 });

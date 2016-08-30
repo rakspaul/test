@@ -2466,3 +2466,69 @@ tags-input .autocomplete {
   padding-left: 15px;
   margin-left: 15px;
 }
+#brandsPopup .form-group {
+  height: 70px;
+  margin-bottom: -32px;
+}
+#brandsPopup .brand-name-selected {
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+  border: 1px solid #bfc9d7;
+  width: 100%;
+  padding: 5px 10px;
+}
+#brandsPopup .icon-arrow-solid-down {
+  position: absolute;
+  z-index: 2;
+  bottom: 8px;
+  right: 3px;
+  cursor: pointer;
+  font-size: 10px;
+  color: #939eae;
+}
+#brandsPopup .admin-brand-dropdown-menu {
+  border: 1px solid #bfc9d7;
+  display: none;
+  padding: 0;
+}
+#brandsPopup #brandsDropdownDiv {
+  border-bottom: solid 1px #bfc9d7;
+  padding: 0 10px;
+}
+#brandsPopup #brandsSearchBox {
+  background: url(/images/cdesk/search_input.png) #fff no-repeat right center !important;
+  border: medium none;
+  cursor: pointer;
+  font-family: Avenir, sans-serif;
+  font-size: 11pt;
+  height: 30px;
+  padding-right: 20px;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+#brandsPopup #dropdown {
+  max-height: 200px;
+  overflow-y: auto;
+}
+#brandsPopup #dropdown ul {
+  margin: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 0;
+}
+#brandsPopup #dropdown li {
+  color: #21252b;
+  cursor: pointer;
+  font-family: Avenir, sans-serif;
+  font-size: 14px;
+  line-height: 100%;
+  list-style: none;
+  padding: 9px 15px;
+}
+#brandsPopup #dropdown li:hover {
+  background: #E1EDF9;
+}
+#brandsPopup #dropdown li.active {
+  font-family: Avenir-bold, sans-serif !important;
+}
