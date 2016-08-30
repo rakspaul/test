@@ -638,37 +638,44 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                             hasVideoAds = $scope.adFormats && kpIType.toLowerCase() === 'vtc' &&
                                 !$scope.adFormats.videoAds;
 
-                            if (inventoryData && inventoryData.length > 0 && !hasVideoAds) {
-                                _.each(inventoryData, function (obj) {
-                                    obj.vtc = obj.vtc_100;
-                                    obj['action rate'] = obj.action_rate;
-                                });
+                            if(inventoryData && inventoryData.length > 0 ) {
+                                inventoryData = _.filter(inventoryData,
+                                    function (obj) {
+                                        return obj.dimension.toLowerCase() !== 'media plan totals';
+                                    });
+                                if (!hasVideoAds) {
+                                    _.each(inventoryData, function (obj) {
+                                        obj.vtc = obj.vtc_100;
+                                        obj['action rate'] = obj.action_rate;
+                                    });
 
-                                // This Sorts the Data order by CTR or CPA
-                                sortedData = _.sortBy(inventoryData, kpIType);
+                                    // This Sorts the Data order by CTR or CPA
+                                    sortedData = _.sortBy(inventoryData, kpIType);
 
-                                sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpIType) ?
-                                    sortedData : sortedData.reverse();
+                                    sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpIType) ?
+                                        sortedData : sortedData.reverse();
 
-                                sortedData = _.sortBy(sortedData, function (obj) {
-                                    return obj[kpIType] === 0;
-                                });
+                                    sortedData = _.sortBy(sortedData, function (obj) {
+                                        return obj[kpIType] === 0;
+                                    });
 
-                                sortedData  = sortedData.slice(0, 3);
+                                    sortedData  = sortedData.slice(0, 3);
 
-                                $scope.chartDataInventory = _.map(sortedData, function (data) {
-                                    var kpiData = data[kpIType];
+                                    $scope.chartDataInventory = _.map(sortedData, function (data) {
+                                        var kpiData = data[kpIType];
 
-                                    return {
-                                        gross_env: '',
-                                        className: '',
-                                        icon_url: '',
-                                        type: data.dimension,
-                                        value: kpiData,
-                                        kpiType: kpIType
-                                    };
-                                });
+                                        return {
+                                            gross_env: '',
+                                            className: '',
+                                            icon_url: '',
+                                            type: data.dimension,
+                                            value: kpiData,
+                                            kpiType: kpIType
+                                        };
+                                    });
+                                }
                             }
+
                         }
 
                         $scope.inventoryBarChartConfig = {
@@ -710,7 +717,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                             if (screenResponseData && screenResponseData.length > 0 && !hasVideoAds) {
                                 screensDataPerfMtcs = _.filter(screenResponseData,
                                     function (obj) {
-                                        return obj.dimension.toLowerCase() !== 'unknown';
+                                        return obj.dimension.toLowerCase() !== 'unknown' && obj.dimension.toLowerCase() !== 'media plan totals';
                                     });
 
                                 screensData = _.map(screensDataPerfMtcs, function (obj) {
@@ -783,37 +790,46 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                                 kpiModel.toLowerCase() === 'vtc' &&
                                 !$scope.adFormats.videoAds;
 
-                            if (adSizeResponseData && adSizeResponseData.length > 0 && !hasVideoAds) {
-                                adSizeData = _.map(adSizeResponseData, function (obj) {
-                                    obj.vtc = obj.vtc_100;
-                                    obj['action rate'] = obj.action_rate;
-                                    return obj;
-                                });
 
-                                // This Sorts the Data order by CTR or CPA
-                                sortedData = _.sortBy(adSizeData, kpiModel);
+                            if(adSizeResponseData && adSizeResponseData.length > 0) {
 
-                                sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpiModel) ?
-                                    sortedData : sortedData.reverse();
+                                adSizeResponseData =
+                                    _.filter(adSizeResponseData, function (obj) {
+                                        return obj.dimension.toLowerCase() !== 'media plan totals';
+                                    });
 
-                                sortedData = _.sortBy(sortedData, function (obj) {
-                                    return obj[kpiModel] === 0;
-                                });
+                                if (!hasVideoAds) {
+                                    adSizeData = _.map(adSizeResponseData, function (obj) {
+                                        obj.vtc = obj.vtc_100;
+                                        obj['action rate'] = obj.action_rate;
+                                        return obj;
+                                    });
 
-                                sortedData  = sortedData.slice(0, 3);
+                                    // This Sorts the Data order by CTR or CPA
+                                    sortedData = _.sortBy(adSizeData, kpiModel);
 
-                                $scope.chartDataAdSize = _.map(sortedData, function (data) {
-                                    var kpiData = data[kpiModel];
+                                    sortedData = _.contains(['cpa', 'cpm', 'cpc'], kpiModel) ?
+                                        sortedData : sortedData.reverse();
 
-                                    return {
-                                        gross_env: data.gross_rev,
-                                        className: '',
-                                        icon_url: '',
-                                        type: data.dimension.toLowerCase(),
-                                        value: kpiData,
-                                        kpiType: kpiModel
-                                    };
-                                });
+                                    sortedData = _.sortBy(sortedData, function (obj) {
+                                        return obj[kpiModel] === 0;
+                                    });
+
+                                    sortedData = sortedData.slice(0, 3);
+
+                                    $scope.chartDataAdSize = _.map(sortedData, function (data) {
+                                        var kpiData = data[kpiModel];
+
+                                        return {
+                                            gross_env: data.gross_rev,
+                                            className: '',
+                                            icon_url: '',
+                                            type: data.dimension.toLowerCase(),
+                                            value: kpiData,
+                                            kpiType: kpiModel
+                                        };
+                                    });
+                                }
                             }
                         }
 
@@ -857,7 +873,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                             if (formatResponseData && formatResponseData.length > 0 && !hasVideoAds) {
                                 formatDataPerfMtrcs =
                                     _.filter(formatResponseData, function (obj) {
-                                        return obj.dimension.toLowerCase() !== 'unknown';
+                                        return obj.dimension.toLowerCase() !== 'unknown' && obj.dimension.toLowerCase() !== 'media plan totals';
                                     });
 
                                 formatData = _.map(formatDataPerfMtrcs, function (obj) {
