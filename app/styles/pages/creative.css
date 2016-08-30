@@ -161,6 +161,9 @@
   max-width: 255px;
   width: 255px;
 }
+#creativeList .creativeAdBulkDiv .download-template {
+  margin: 40px 0 0 12px;
+}
 #creativeList .creativeUploadedNow .td {
   background-color: rgba(235, 171, 52, 0.04);
 }
@@ -671,7 +674,7 @@
 }
 .popInventoryLib .inventoryLib .popFooter {
   padding: 20px 30px;
-  background: #E1EDF9;
+  background: #e1edf9;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
@@ -696,7 +699,7 @@ body div div.nav_filters .dropdown-menu {
 body div div.nav_filters .dropdown-menu li:hover {
   color: #21252b;
   text-decoration: none;
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
 }
 body div div.nav_filters .dropdown-menu > li > a:hover,
 body div div.nav_filters .dropdown-menu > li > a:focus,
@@ -706,7 +709,7 @@ body div div.nav_filters .dropdown-menu-search > li > a:focus,
 body div div.nav_filters .dropdown-menu-search > li > .active > a {
   color: #21252b !important;
   text-decoration: none;
-  background-color: #E1EDF9 !important;
+  background-color: #e1edf9 !important;
 }
 body div div.nav_filters .advertisersList_ul,
 body div div.nav_filters #clientsList,
