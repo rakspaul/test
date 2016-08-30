@@ -7,6 +7,9 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
             adMaximumRevenue = 0;
 
         $scope.adData.primaryKpi = 'Impressions';
+        $scope.adData.selectedSetting = {}; // vendor config setting
+        $scope.adData.selectedSetting.name = constants.VERIFICATION_DEFAULT;
+        $scope.adData.selectedSetting.id = -1;
         $scope.adData.budgetExceeded = false;
         $scope.adData.adBudgetExceedUnallocated = false;
         $scope.isChecked = true;
@@ -406,5 +409,13 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                 $scope.budgetErrorObj.mediaCostValidator = false;
             }
         });
+
+        $scope.selectVerificationSetting = function(setting) {
+            $scope.adData.selectedSetting.name = setting.name;
+            $scope.adData.selectedSetting.id = setting.id;
+
+            console.log('$scope.adData.selectedSetting',$scope.adData.selectedSetting);
+
+        }
     }]);
 });

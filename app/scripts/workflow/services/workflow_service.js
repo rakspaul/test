@@ -1058,6 +1058,18 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 );
             },
 
+            getVerificationSettings  = function () {
+                var clientId = vistoconfig.getSelectedAccountId(),
+                    advertiserId = Number(vistoconfig.getSelectAdvertiserId()),
+
+                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + clientId +
+                    '/advertisers/' + advertiserId +
+                    '/clientVendorConfigs?vendorType=VERIFICATION';
+
+                return dataService.fetch(url);
+            },
+
             segrigateInventory = function (selectedList) {
                 var inventryListObj = {},
                     domainList = [],
@@ -1391,7 +1403,10 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             getLineItemDataEdit: getLineItemDataEdit,
             setLineItemBulkData: setLineItemBulkData,
             getLineItemBulkData: getLineItemBulkData,
-            wrapperForActiveAdGroups: wrapperForActiveAdGroups
+            wrapperForActiveAdGroups: wrapperForActiveAdGroups,
+            setAccountTimeZone : setAccountTimeZone,
+            getAccountTimeZone : getAccountTimeZone,
+            getVerificationSettings: getVerificationSettings
         };
     }]);
 });
