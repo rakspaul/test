@@ -257,6 +257,9 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
 
                                 $scope['strategyPerfDataByTactic' + tab]  =
                                     _.filter(result.data.data, function (item) {
+                                        if(item.dimension === 'Line Item Totals') {
+                                            item.sepratorCls = 'sepratorCls';
+                                        }
                                         return item.ad_id !== -1 && item.ad_group_id !== -1;
                                     });
 
@@ -276,6 +279,9 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
                                 $scope['strategyPerfDataBy' + tab]  = result.data.data;
 
                                 _.each($scope['strategyPerfDataBy' + tab], function (item) {
+                                    if(item.dimension === 'Media Plan Totals') {
+                                        item.sepratorCls = 'sepratorCls';
+                                    }
                                     item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                 });
                             }

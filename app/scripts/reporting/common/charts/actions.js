@@ -612,18 +612,6 @@ define(['angularAMD', 'common-utils'],
                             }
                         },
 
-                        // TODO - remove this after the date ticks are rewritten
-                        /*plotBands: [{ // Light air
-                            color: '#ffefef',
-                            label: {
-                              enabled: false,
-                              text: '',
-                              style: {
-                                  color: 'red'
-                              }
-                            }
-                        }],*/
-
                         plotLines: [{
                             label: {
                                 text: 'Baseline',

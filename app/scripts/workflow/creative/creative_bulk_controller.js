@@ -42,7 +42,8 @@ define(['angularAMD', 'ng-upload-hidden'], function (angularAMD) {
                                 {id: 1, name: 'Display',    active: false ,disabled:false},
                                 {id: 2, name: 'Video',      active: false, disabled:false},
                                 {id: 3, name: 'Rich Media', active: false, disabled:false},
-                                {id: 4, name: 'Social',     active: false, disabled:false}
+                                {id: 4, name: 'Social',     active: false, disabled:false},
+                                {id: 5, name: 'Native',     active: false, disabled:false}
                             ];
                         } else {
                             creatives.errorHandler(result);

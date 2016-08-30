@@ -1295,7 +1295,7 @@ div.strategy_total_container div.strategy_total_container_header {
   background: #edf2f8;
   border: solid 1px #ccd9e3;
   border-top-width: 2px ;
-  padding: 15px 20px 5px 20px ;
+  /* padding: 15px 20px 5px 20px ; */
 }
 div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .discrepancySecLevelRow {
   margin: 5px 0 ;
@@ -2632,9 +2632,39 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   font-weight: normal;
   font-size: 12px ;
 }
+.reports_tabs_content_container .reports_block .row_list_pad {
+  position: relative;
+  padding-top: 50px;
+  padding-left: 20px;
+}
 .reports_tabs_content_container .reports_block .row_list_holder .each_row_list {
   color: #57606d;
   font-size: 14px;
+  /* padding:6px 20px 0px 20px;*/
+}
+.reports_tabs_content_container .reports_block .row_list_holder .sepratorCls {
+  border-bottom: 2px solid #ccd9e3;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 10;
+  padding-left: 20px;
+}
+.reports_tabs_content_container .reports_block .row_list_holder .sepratorCls .sec_col {
+  font-family: "Avenir-bold";
+  text-transform: none !important;
+}
+.reports_tabs_content_container .reports_block .row_list_holder .sepratorCls_platform {
+  border-bottom: 2px solid #ccd9e3;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 10;
+  width: 1200px;
+}
+.reports_tabs_content_container .reports_block .row_list_holder .sepratorCls_platform .sec_col {
+  font-family: "Avenir-bold";
+  text-transform: none !important;
 }
 .reports_tabs_content_container .reports_block .reports_performance_header {
   background: #fff;
@@ -4557,6 +4587,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response .additional_filters_label {
   cursor: pointer;
+  margin-top: 3px ;
 }
 .report_generator_and_response .add_circle_symbol {
   height: 17px;

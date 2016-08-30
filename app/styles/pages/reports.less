@@ -1232,7 +1232,10 @@ div.strategy_total_container {
         background: @periwinkle-gray;
         border: solid 1px @reportBorder ;
         border-top-width: 2px ;
-        padding: 15px 20px 5px 20px ;
+
+       /* padding: 15px 20px 5px 20px ; */
+
+
         .discrepancySecLevel {
             .discrepancySecLevelRow {
                 margin : 5px 0 ;
@@ -1503,6 +1506,8 @@ div.strategy_total_container {
             font-family: "Avenir";
         }
     }
+
+
     div.sec_col {
         width: 90px;
         padding-top: 15px;
@@ -2689,10 +2694,45 @@ div.strategy_total_container {
                 font-size: 12px ;
             }
         }
+
+        .row_list_pad {
+            position:relative;
+            padding-top:50px;
+            padding-left:20px;
+        }
+
         .row_list_holder {
             .each_row_list {
                 .ReportDataFontColor() ;
+                 /* padding:6px 20px 0px 20px;*/
             }
+            .sepratorCls {
+                border-bottom: 2px solid #ccd9e3;
+                position:absolute;
+                top:0px;
+                left:0px;
+                z-index:10;
+                padding-left:20px;
+                .sec_col
+                   {
+                    font-family: "Avenir-bold";
+                    text-transform: none !important;
+                }
+            }
+            .sepratorCls_platform {
+                border-bottom: 2px solid #ccd9e3;
+                position:absolute;
+                top:0px;
+                left:0px;
+                z-index:10;
+                width:1200px;
+                .sec_col
+                {
+                    font-family: "Avenir-bold";
+                    text-transform: none !important;
+                }
+            }
+
         }
         .reports_performance_header {
             background: #fff;
@@ -4687,6 +4727,7 @@ only screen and (min-device-pixel-ratio: 2) {
     }
     .additional_filters_label {
         cursor: pointer;
+        margin-top: 3px ;
     }
     .add_circle_symbol {
         height: 17px;
