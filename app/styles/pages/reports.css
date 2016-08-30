@@ -1017,14 +1017,16 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .smallScreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details .imps_del_data {
   color: #57606d;
   font-size: 14px;
+  width: 102px;
+  padding-top: 10px;
 }
 .common_reports_container .inventory_strategy_chart .inventory_each_chart_details .url_val,
 .breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details .url_val,
 .smallScreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details .url_val {
-  padding: 0px 10px;
+  padding: 10px 8px;
   margin: 0px 0px 0px 10px;
   width: 260px;
-  height: 35px;
+  height: 34px;
   overflow: hidden;
   white-space: nowrap;
   color: #57606d;
@@ -1114,11 +1116,33 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .common_reports_container .inventory_chart_details_list,
 .breadcrumb_campaign_strategy .inventory_chart_details_list,
 .smallScreenScrollDiv .inventory_chart_details_list {
-  width: 520px;
+  /* width: 520px; */
   float: right;
   color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
+}
+.common_reports_container .inventory_num,
+.breadcrumb_campaign_strategy .inventory_num,
+.smallScreenScrollDiv .inventory_num {
+  text-align: right;
+}
+.common_reports_container .inventory_num_holder,
+.breadcrumb_campaign_strategy .inventory_num_holder,
+.smallScreenScrollDiv .inventory_num_holder {
+  margin-top: 44px;
+  line-height: 44px;
+}
+.common_reports_container .sepratorCls_inventory,
+.breadcrumb_campaign_strategy .sepratorCls_inventory,
+.smallScreenScrollDiv .sepratorCls_inventory {
+  border-bottom: 1px solid #ccd9e3;
+  border-top: 1px solid #ccd9e3;
+}
+.common_reports_container .sepratorCls_inventory .url_val,
+.breadcrumb_campaign_strategy .sepratorCls_inventory .url_val,
+.smallScreenScrollDiv .sepratorCls_inventory .url_val {
+  font-family: "Avenir-bold";
 }
 .common_reports_container .inventory_chart_details_list_holder,
 .breadcrumb_campaign_strategy .inventory_chart_details_list_holder,

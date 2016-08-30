@@ -1022,12 +1022,14 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
             }
             .cpa_data, .imps_del_data {
                 .ReportDataFontColor() ;
+                width:102px;
+                padding-top:10px;
             }
             .url_val {
-                padding: 0px 10px;
+                padding: 10px 8px;
                 margin: 0px 0px 0px 10px;
                 width: 260px;
-                height: 35px;
+                height: 34px;
                 overflow: hidden;
                 white-space: nowrap;
                 .ReportDataFontColor() ;
@@ -1082,10 +1084,27 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
         }
     }
     .inventory_chart_details_list {
-        width: 520px;
+        /* width: 520px; */
         float: right;
         .ColHeadingFontColor();
     }
+
+    .inventory_num {
+        text-align:right;
+    }
+    .inventory_num_holder {
+        margin-top: 44px;
+        line-height:44px;
+    }
+    .sepratorCls_inventory {
+        border-bottom:1px solid #ccd9e3;
+        border-top:1px solid #ccd9e3;
+
+        .url_val {
+            font-family: "Avenir-bold";
+        }
+    }
+
     .inventory_chart_details_list_holder {
         width: 520px ;
         margin-top: 20px;
