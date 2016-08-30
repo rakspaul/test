@@ -519,7 +519,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
 
                         $scope.platformBarChartConfig = {
                             data: $scope.chartDataPlatform,
-                            showLabel: true,
+                            showLabel: (platformData.length > 3),
                             graphName: 'platforms'
                         };
                     }, function () {
@@ -680,7 +680,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
 
                         $scope.inventoryBarChartConfig = {
                             data: $scope.chartDataInventory,
-                            showLabel: (inventoryData.length > 3)?true:false,
+                            showLabel: (inventoryData.length > 3),
                             graphName: 'inventory'
                         };
                     }, function () {
@@ -758,7 +758,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                         $scope.screenBarChartConfig = {
                             data: $scope.chartDataScreen,
                             graphName: 'screens',
-                            showLabel: (screenResponseData.length > 3)?true:false
+                            showLabel: (screenResponseData.length > 3)
                         };
                     },function () {
                         console.log('screen data call failed');
@@ -836,7 +836,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
 
                         $scope.adSizenBarChartConfig = {
                             data: $scope.chartDataAdSize,
-                            showLabel: true,
+                            showLabel: (adSizeData.length > 3),
                             graphName: 'adsizes'
                         };
                     }, function () {

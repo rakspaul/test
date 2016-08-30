@@ -456,6 +456,7 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                                     self.dashboard.completed = result.data.data.completed.total;
                                     self.dashboard.archived = result.data.data.archived;
                                     self.dashboard.total = result.data.data.total;
+                                    self.dashboard.endSoon = result.data.data.end_soon;
                                     self.dashboard.all = result.data.data.all;
                                     self.noData = true;
 
@@ -706,7 +707,7 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                                     break;
 
                                 case 'endingSoon' :
-                                    this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
+                                    this.dashboard.quickFilterSelectedCount = this.dashboard.endSoon;
                                     this.dashboard.status.active.endingSoon = 'active';
                                     this.appliedQuickFilter = 'endingSoon';
                                     this.sortParam = 'end_date';
@@ -831,16 +832,16 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
 
                             if (this.appliedQuickFilter === 'endingSoon') {
                                 params.push('condition=all');
-                                params.push('end_soon=true');
                             } else {
                                 params.push('condition=' + this.appliedQuickFilter);
-                                params.push('end_soon=false');
                             }
 
                             if (this.appliedQuickFilter === 'archived') {
                                 params.push('cond_type=archived');
                             } else if (this.appliedQuickFilter === 'ontrack' || this.appliedQuickFilter === 'underperforming') {
                                 params.push('cond_type=kpi_status');
+                            } else if(this.appliedQuickFilter === 'endingSoon'){
+                                params.push('cond_type=end_soon');
                             } else {
                                 params.push('cond_type=status');
                             }
