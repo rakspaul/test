@@ -101,7 +101,7 @@ define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angula
 
                         url = '/a/'+ accountData.id;
 
-                        if(!accountData.isLeafNode) {
+                        if(!accountData.isLeafNode && subAccountService.getSelectedSubAccount()) {
                             url += '/sa/' + subAccountService.getSelectedSubAccount().id;
                         }
 
