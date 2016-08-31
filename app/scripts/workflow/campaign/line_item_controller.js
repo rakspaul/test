@@ -328,6 +328,9 @@ define(['angularAMD', 'file-reader', 'ng-upload-hidden'], function (angularAMD) 
             $scope.editLineItem.volume = lineItem.volume;
             $scope.editLineItem.selectedVolumeType = lineItem.volumeType;
             $scope.editLineItem.hasInFlightAds = lineItem.hasInFlightAds;
+            if($scope.cloneMediaPlanName) {
+                $scope.editLineItem.hasInFlightAds = false;
+            }
 
             // if pixel is empty show select from list in edit section for create/edit mode
             if (_.isEmpty($scope.editLineItem.pixelSelected)) {
