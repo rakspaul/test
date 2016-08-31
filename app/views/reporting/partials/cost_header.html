@@ -19,9 +19,9 @@
     <div class="col-md-2 zeroPadding" style="margin-top: -12px;">
         <span class="col-md-12 zeroPadding text-center" style="border-bottom: 1px solid #000; margin: 0 0 5px 0;">Platform Fees</span>
         <div class="col-md-12 zeroPadding">
-            <span class="icon_text_holder pull-left" data-ng-bind="textConstants.TECH_FEES"></span>
-            <span class="icon_text_holder pull-left" style="padding-left: 23px;">Service</span>
-            <span class="icon_text_holder pull-right" style="padding-right: 0;">Total</span>
+            <span class="icon_text_holder col-md-4 zeroPadding" data-ng-bind="textConstants.TECH_FEES"></span>
+            <span class="icon_text_holder col-md-4 zeroPadding text-center" >Service</span>
+            <span class="icon_text_holder col-md-4 zeroPadding pull-right text-right" >Total</span>
         </div>
     </div>
     <div class="col-md-1 zeroPadding text-center" data-ng-class="sortClassFunction('spend',sortTypeByCost,sortReverse)" data-ng-click="sortTypeByCost = 'spend'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.TOTAL_SPEND}}</div>
