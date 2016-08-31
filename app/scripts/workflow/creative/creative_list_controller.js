@@ -108,7 +108,6 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
         $scope.successfulRecords = [];
         $scope.isCreativeSearched =  false;
         $scope.checkedCreativeArr=[];
-        $scope.clientId = vistoconfig.getMasterClientId();
 
         domainReports.highlightHeaderMenu();
         $scope.isLeafNode = accountService.getSelectedAccount().isLeafNode;
@@ -121,16 +120,15 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
             'z-index': '999'
         });
 
-        $scope.redirectAdEditPage=function (adData) {
+        $scope.redirectAdEditPage=function (adData, creativeData) {
+            var url;
+            url = urlBuilder.buildBaseUrl() + '/adv/' + creativeData.advertiserId;
             if (adData.adGroupId) {
-                $location.url('/mediaplan/' + adData.campaignId +
-                              '/lineItem/' + adData.lineItemId +
-                              '/adGroup/' + adData.adGroupId +
-                              '/ads/' + adData.adId +
-                              '/edit');
+                url += '/mediaplan/' + adData.campaignId + '/lineItem/' + adData.lineItemId + '/adGroup/' + adData.adGroupId + '/ads/' + adData.adId +'/edit';
             } else {
-                $location.url('/mediaplan/' + adData.campaignId + '/ads/' + adData.adId + '/edit');
+                url += '/mediaplan/' + adData.campaignId + '/ads/' + adData.adId + '/edit';
             }
+            $location.url(url);
         };
 
         $scope.selectAllCreative=function () {
