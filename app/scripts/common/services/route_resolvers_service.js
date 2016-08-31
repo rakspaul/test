@@ -78,8 +78,6 @@ define(['angularAMD'], function (angularAMD) {
                     params = args.$route.current.params,
                     isLeafNode;
 
-                console.log('adminHeaderResolver(), params = ', params);
-
                 if (!args.loginModel.getClientData().is_super_admin) {
                     args.$location.url('/dashboard');
                 }
