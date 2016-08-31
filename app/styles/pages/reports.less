@@ -1721,7 +1721,10 @@ div.strategy_total_container {
         }
     }
     .suspicious_col {
-        width: 225px ;
+        .strategy_total_container .each_strategy_holder {
+            width: 225px ;
+            text-align: center;
+        }
     }
     .media_plan_totals {
         font-family: "Avenir-bold" ;
@@ -2719,6 +2722,13 @@ div.strategy_total_container {
                     width: 125px;
                 }
             }
+            &.quartile_data_platform {
+                .each_strategy_holder {
+                    div.sec_col { 
+                        width: 265px;
+                    }
+                }
+            }
         }
         &.quar_data {
             .each_col{
@@ -3283,6 +3293,12 @@ div.strategy_total_container {
                     width: 280px ;
                 }
             }
+            .each_strategy_holder {
+                div.sec_col { 
+                    width: 186px;
+                }
+            }
+            
             div.sec_col.row_open {
                 width: 195px ;
                 &.vid_show{

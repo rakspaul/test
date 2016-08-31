@@ -1866,8 +1866,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_outer_container .strategy_total_container_header .each_col.sec_col {
   margin-left: 35px ;
 }
-.viewability_details_outer_container .suspicious_col {
+.viewability_details_outer_container .suspicious_col .strategy_total_container .each_strategy_holder {
   width: 225px ;
+  text-align: center;
 }
 .viewability_details_outer_container .media_plan_totals {
   font-family: "Avenir-bold";
@@ -2666,6 +2667,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container .reports_block#reports_platform_performance_block.quartile_data_platform .each_col {
   width: 125px;
 }
+.reports_tabs_content_container .reports_block#reports_platform_performance_block.quartile_data_platform .each_strategy_holder div.sec_col {
+  width: 265px;
+}
 .reports_tabs_content_container .reports_block.quar_data .each_col {
   width: 88px;
   border: 1px none #ff6600;
@@ -3176,6 +3180,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container div.sec_col.vid_show {
   width: 280px ;
+}
+.reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container .each_strategy_holder div.sec_col {
+  width: 186px;
 }
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container div.sec_col.row_open {
   width: 195px ;
