@@ -691,7 +691,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li:focus {
   color: #21252b;
   text-decoration: none;
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
 }
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li span {
   padding: 0;
@@ -829,7 +829,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .common_reports_container .download_report:hover,
 .breadcrumb_campaign_strategy .download_report:hover,
 .smallScreenScrollDiv .download_report:hover {
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
   border: 1px solid #bfc9d7;
 }
 .common_reports_container .download_anchor,
@@ -1866,8 +1866,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_outer_container .strategy_total_container_header .each_col.sec_col {
   margin-left: 35px ;
 }
-.viewability_details_outer_container .suspicious_col {
+.viewability_details_outer_container .suspicious_col .strategy_total_container .each_strategy_holder {
   width: 225px ;
+  text-align: center;
 }
 .viewability_details_outer_container .media_plan_totals {
   font-family: "Avenir-bold";
@@ -2666,6 +2667,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container .reports_block#reports_platform_performance_block.quartile_data_platform .each_col {
   width: 125px;
 }
+.reports_tabs_content_container .reports_block#reports_platform_performance_block.quartile_data_platform .each_strategy_holder div.sec_col {
+  width: 265px;
+}
 .reports_tabs_content_container .reports_block.quar_data .each_col {
   width: 88px;
   border: 1px none #ff6600;
@@ -2806,6 +2810,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   float: left ;
   width: 550px;
   border: 1px none #FF6600;
+}
+.reports_tabs_content_container .creativesTpl_vid_col {
+  width: 475px;
 }
 .reports_tabs_content_container .vid_none {
   width: 125px !important;
@@ -3176,6 +3183,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container div.sec_col.vid_show {
   width: 280px ;
+}
+.reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container .each_strategy_holder div.sec_col {
+  width: 186px;
 }
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container div.sec_col.row_open {
   width: 195px ;
@@ -4346,7 +4356,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   cursor: pointer;
 }
 .report_generator_and_response #dynamicHeader .downReport:hover {
-  background: #E1EDF9;
+  background: #e1edf9;
 }
 .report_generator_and_response #dynamicHeader .subTitle {
   display: block;
