@@ -1496,16 +1496,28 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
             $scope.deepLinking = (function () {
                 return {
                     mediaplan: function (dimension, curRowIndx, curSecDimIndx) {
-                        var mediaPlanId;
+                        var dimensionData,
+                            mediaPlanId,
+                            url = '/a/' + $routeParams.accountId,
+                            subAccountId;
 
                         if (dimension === 'first_dimension') {
-                            mediaPlanId = $scope.reportMetaData[dimension][curRowIndx].dimension.id;
+                            dimensionData = $scope.reportMetaData[dimension][curRowIndx].dimension;
                         } else {
-                            mediaPlanId = $scope.reportMetaData[dimension][curRowIndx][curSecDimIndx].dimension.id;
+                            dimensionData = $scope.reportMetaData[dimension][curRowIndx][curSecDimIndx].dimension;
+                        }
+
+                        mediaPlanId = dimensionData.id;
+                        subAccountId = dimensionData.client_id;
+
+                        if (subAccountId) {
+                            url += '/sa/' + subAccountId;
                         }
 
                         if (mediaPlanId && $scope.isMediaPlanAccessible) {
-                            $location.url('mediaplan/' + mediaPlanId + '/overview');
+
+                            url += '/mediaplan/' + mediaPlanId + '/overview'
+                            $location.url(url);
                         }
 
                         return false;
@@ -1516,7 +1528,10 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                             adGroupId,
                             mediaPlanId,
                             adId,
-                            lineItemId;
+                            lineItemId,
+                            advertiserId,
+                            url = '/a/' + $routeParams.accountId,
+                            subAccountId;
 
                         if (dimension === 'first_dimension') {
                             dataObj = $scope.reportMetaData[dimension][curRowIndx].dimension;
@@ -1527,16 +1542,23 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         adGroupId = dataObj.ad_group_id;
                         mediaPlanId = dataObj.campaign_id;
                         adId = dataObj.id;
+                        advertiserId = dataObj.advertiser_id;
                         lineItemId = dataObj.lineitem_id;
+                        subAccountId = dataObj.client_id;
 
-                        if ((adGroupId !== -1) &&
-                            (mediaPlanId !== -1) && (adId !== -1) && (lineItemId !== -1) &&
+                        if (subAccountId) {
+                            url += '/sa/' + subAccountId;
+                        }
+
+                        if ((adGroupId !== -1) && (mediaPlanId !== -1) && (adId !== -1) && (lineItemId !== -1) &&
                             ($scope.isAdAccessible)) {
-                            $location.url('mediaplan/' + mediaPlanId +
+                            url +=  '/adv/'+ advertiserId +'/mediaplan/' + mediaPlanId +
                                 '/lineItem/' + lineItemId +
                                 '/adGroup/' + adGroupId +
                                 '/ads/' + adId +
-                                '/edit');
+                                '/edit';
+
+                            $location.url(url);
                         }
                     },
 
