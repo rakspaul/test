@@ -179,7 +179,9 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
 
             advertiserModel.reset();
             brandsModel.reset();
-            strategySelectModel.reset();
+
+            //On click of strategy dropdown we are not making a call, on page refresh strategy is becoming blank, so it shouldn't be reset here.
+            //strategySelectModel.reset();
 
             if (page === 'dashboard') {
                 $location.url(urlBuilder.dashboardUrl());
