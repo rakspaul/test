@@ -368,66 +368,65 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                                 }
 
                                 sum = inventoryCostPercent + dataCostPercent + servingCostPercent;
-                                other = 0;
+                                if(sum >0) {
 
-                                if (sum < 100) {
-                                    other = 100 - sum;
+                                    if (sum < 100) {
+                                        other = sum < 100 ? (100 - sum) : 0;
+                                    }
+
+                                    $scope.getCostBreakdownInfo = [
+                                        {
+                                            name: 'Inventory',
+                                            value: inventoryCostPercent,
+                                            className: 'color1',
+                                            colorCode: '#F8810E'
+                                        },
+
+                                        {
+                                            name: 'Data',
+                                            value: dataCostPercent,
+                                            className: 'color2',
+                                            colorCode: '#0072BC'
+                                        },
+
+                                        {
+                                            name: 'Ad Serving',
+                                            value: servingCostPercent,
+                                            className: 'color3',
+                                            colorCode: '#45CB41'
+                                        },
+
+                                        {
+                                            name: 'Other',
+                                            value: other,
+                                            className: 'color4',
+                                            colorCode: '#BFC3D1'
+                                        }
+                                    ];
+
+                                    $scope.details.totalCostBreakdown = costData.gross_rev;
+
+                                    $scope.order = function (predicate, reverse) {
+                                        $scope.costBreakdownChartInfo =
+                                            orderBy($scope.getCostBreakdownInfo, predicate, reverse);
+                                    };
+
+                                    $scope.order('-value', false);
+
+                                    _.each($scope.costBreakdownChartInfo, function (data) {
+                                        if (data.name !== 'Other') {
+                                            cBreakdownChartColors.push(data.colorCode);
+                                            cBreakdownChartData.push(data.value);
+                                        }
+                                    });
+
+                                    //  Put Others as Last
+                                    findOthers =
+                                        _.findWhere($scope.costBreakdownChartInfo, {name: 'Other'});
+
+                                    cBreakdownChartColors.push(findOthers.colorCode);
+                                    cBreakdownChartData.push(findOthers.value);
                                 }
-
-                                $scope.getCostBreakdownInfo = [
-                                    {
-                                        name: 'Inventory',
-                                        value: inventoryCostPercent,
-                                        className: 'color1',
-                                        colorCode: '#F8810E'
-                                    },
-
-                                    {
-                                        name: 'Data',
-                                        value: dataCostPercent,
-                                        className: 'color2',
-                                        colorCode: '#0072BC'
-                                    },
-
-                                    {
-                                        name: 'Ad Serving',
-                                        value: servingCostPercent,
-                                        className: 'color3',
-                                        colorCode: '#45CB41'
-                                    },
-
-                                    {
-                                        name: 'Other',
-                                        value: other,
-                                        className: 'color4',
-                                        colorCode: '#BFC3D1'
-                                    }
-                                ];
-
-                                $scope.details.totalCostBreakdown = costData.gross_rev;
-
-                                $scope.order = function (predicate, reverse) {
-                                    $scope.costBreakdownChartInfo =
-                                        orderBy($scope.getCostBreakdownInfo, predicate, reverse);
-                                };
-
-                                $scope.order('-value', false);
-                                cBreakdownChartColors = [];
-                                cBreakdownChartData = [];
-
-                                _.each($scope.costBreakdownChartInfo, function (data) {
-                                    if (data.name !== 'Other') {
-                                        cBreakdownChartColors.push(data.colorCode);
-                                        cBreakdownChartData.push(data.value);
-                                    }
-                                });
-
-                                //  Put Others as Last
-                                findOthers =
-                                    _.findWhere($scope.costBreakdownChartInfo, {name: 'Other'});
-
-                                cBreakdownChartColors.push(findOthers.colorCode);
-                                cBreakdownChartData.push(findOthers.value);
 
                                 // set Up configuration for Cost breakdown chart
                                 $scope.costBreakDownPieChartConfig = {
@@ -437,6 +436,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                                     widgetId: 'costBreakdownWidget',
                                     colors: cBreakdownChartColors
                                 };
+
                             }
                         }
                     }, function () {
@@ -519,7 +519,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
 
                         $scope.platformBarChartConfig = {
                             data: $scope.chartDataPlatform,
-                            showLabel: (platformData.length > 3),
+                            showLabel: (platformData && platformData.length > 3),
                             graphName: 'platforms'
                         };
                     }, function () {
@@ -680,7 +680,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
 
                         $scope.inventoryBarChartConfig = {
                             data: $scope.chartDataInventory,
-                            showLabel: (inventoryData.length > 3),
+                            showLabel: (inventoryData && inventoryData.length > 3),
                             graphName: 'inventory'
                         };
                     }, function () {
@@ -836,7 +836,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
 
                         $scope.adSizenBarChartConfig = {
                             data: $scope.chartDataAdSize,
-                            showLabel: (adSizeData.length > 3),
+                            showLabel: (adSizeData && adSizeData.length > 3),
                             graphName: 'adsizes'
                         };
                     }, function () {
@@ -916,6 +916,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
 
                         $scope.formatBarChartConfig = {
                             data: $scope.chartDataFormat,
+                            showLabel: (formatData && formatData.length > 3),
                             graphName: 'formats'
                         };
                     },function () {
