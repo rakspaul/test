@@ -3,7 +3,29 @@ define(['angularAMD'],
         angularAMD.factory('urlBuilder', ['$location', '$routeParams', 'accountService', 'subAccountService',
             function ($location, $routeParams, accountService, subAccountService) {
 
-            var dashboardUrl = function () {
+            var buildBaseUrl = function () {
+                    // this method can be used for building base url which can be used everywhere
+                    var url = '/a/' + $routeParams.accountId,
+                        selectedAccount;
+
+                    if ($routeParams.subAccountId) {
+                        url += '/sa/' + $routeParams.subAccountId;
+                    } else {
+                        // user navigating from custom reports to media plans
+                        selectedAccount = _.find(accountService.getAccounts(), function (a) {
+                            return Number(a.id) === Number($routeParams.accountId);
+                        });
+
+                        if (!selectedAccount.isLeafNode) {
+                            url += '/sa/' + $routeParams.accountId;
+                        }
+                    }
+
+                    return url;
+                },
+
+
+                dashboardUrl = function () {
                     var url = '/a/' + $routeParams.accountId,
                         selectedAccount;
 
@@ -399,6 +421,7 @@ define(['angularAMD'],
                 };
 
             return {
+                buildBaseUrl : buildBaseUrl,
                 dashboardUrl : dashboardUrl,
                 mediaPlansListUrl : mediaPlansListUrl,
                 mediaPlanCreateUrl : mediaPlanCreateUrl,
