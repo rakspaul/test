@@ -742,7 +742,7 @@
          data-ng-bind="((adSizesData.clicks > 0) || (adSizesData.clicks === 0)) ?
         (adSizesData.clicks | number : 0) : '-'">
     </div>
-    <span  data-ng-if="adFormats.videoAds">
+    <span class="vid_col" data-ng-if="adFormats.videoAds">
         <div class="each_col third_col"
              data-ng-bind="((adSizesData.video_played > 0) || (adSizesData.video_played === 0)) ?
                 (adSizesData.video_played | number : 0) : '-'">

@@ -72,8 +72,7 @@
         }
     }
 }
-
-    div.reports_tabs_content_container {
+div.reports_tabs_content_container {
     div#reports_bycreatives_block {
         div.reports_details_outer_container.strategy_video_disabled.overflowAuto {
             div.each_col {
@@ -85,7 +84,26 @@
         }
     }
 }
-
+#reports_byadsizes_block , #reports_bycreatives_block , #reports_byformats_block , #reports_byscreens_block {
+    .reports_details_outer_container.overflowAuto {
+        .strategy_total_container  {
+            .each_col {
+                padding-right: 10px ;
+            }
+        }
+    }
+}
+#reports_bydiscrepancy_block {
+    .col-one {
+        width: 255px ;
+    }
+    .col-two {
+        width: 172px ;
+    }
+    .col-four {
+        margin-left: 22px;
+    }
+}
 /* Link: v1sto/invoices/invoiceId
    Content: LineItem, Adjustments
 */
@@ -1018,7 +1036,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
             span.row_index {
                 color: @lead-gray;
                 font-size: 13px;
-                margin-top: 1px;
+                margin-top: 10px;
                 text-shadow: 0px 1px 0px #e5ecef;
             }
             .cpa_data, .imps_del_data {
@@ -1436,7 +1454,8 @@ div.strategy_total_container {
         }
 
         .each_quality.media_plan_totals {
-            font-weight:bold;
+            font-family: "Avenir-bold" ;
+            margin-left: 40px ;
         }
 
         .each_col.first_col {
@@ -1453,6 +1472,16 @@ div.strategy_total_container {
             border-left: solid 1px @reportBorder ;
             padding-left: 10px ;
             position: relative;
+            .each_col.sec_col {
+                width: 116px;
+            }
+             .platform_name_col {
+                width: 263px ;
+            }
+            .suspicious_col {
+                text-align: right;
+                padding-right: 15px;
+            }
             .each_strategy {
                 float: none;
                 width: auto;
@@ -1529,7 +1558,7 @@ div.strategy_total_container {
 
 
     div.sec_col {
-        width: 90px;
+        width: 115px;
         padding-top: 15px;
         margin-right: 40px ;
         div.sub_col {
@@ -1686,6 +1715,18 @@ div.strategy_total_container {
 }
 
 .viewability_details_outer_container{
+    .strategy_total_container_header {
+        .each_col.sec_col {
+            margin-left: 35px ;
+        }
+    }
+    .suspicious_col {
+        width: 225px ;
+    }
+    .media_plan_totals {
+        font-family: "Avenir-bold" ;
+        margin-left: 50px ;
+    }
     .sort_order_down.active {
         &:hover{
             background-position: right -65px;
@@ -2018,6 +2059,10 @@ div.strategy_total_container {
         .first_col {
             text-align: left;
         }
+        .third_col {
+            margin-left: 50px ;
+        }
+
         .common-load-icon_viewability {
             border: solid 1px #ccd9e3;
             border-top: 0;
@@ -2592,6 +2637,7 @@ div.strategy_total_container {
         border-left: solid 1px @reportBorder ;
         padding-left: 10px ;
         position: relative;
+
     }
     .linkage_bar {
         position: absolute;
@@ -2683,7 +2729,13 @@ div.strategy_total_container {
                 }
             }
 
-
+            .strategy_total_container_header {
+                .vid_col {
+                    .third_col , .vid_quartile_data{
+                        padding-right: 20px ;
+                    }
+                }
+            }
         }
         min-height: 100px ;
         font-family: "Avenir" ;
@@ -2741,10 +2793,12 @@ div.strategy_total_container {
                 left:0px;
                 z-index:10;
                 padding-left:20px;
+                width: 100% ;
                 .sec_col
                    {
                     font-family: "Avenir-bold";
                     text-transform: none !important;
+                    padding-right: 0px !important;
                 }
             }
             .sepratorCls_platform {
@@ -2855,7 +2909,7 @@ div.strategy_total_container {
                     width: 80% ;
                     li {
                         line-height: 22px ;
-                        padding: 1px 15px !important;
+                        padding: 4px 15px !important;
                         .kpiIndicator {
                             float: left;
                             margin: 1px 0px 0 0;
@@ -2953,6 +3007,7 @@ div.strategy_total_container {
         }
     }
     #reports_byadsizes_block{
+        
         .vid_data_hdr {
             margin-left:1px
             width: 297px;
@@ -3022,7 +3077,7 @@ div.strategy_total_container {
         div.reports_details_outer_container {
             div.reports_performance_header , div.strategy_total_container  {
                 div.each_col {
-                    width : 70px  ;
+                    width : 80px  ;
                 }
                 div.each_col.first_col {
                     width : 100% ;
@@ -3038,10 +3093,10 @@ div.strategy_total_container {
                     padding-left: 30px ;
                 }
                 .each_col.seventh_col.last_col , .each_col.eight_col {
-                    width: 165px ;
+                    width: 115px ;
                 }
                 .each_col.seventh_col.last_col {
-                    width:  150px ;
+                    width:  110px ;
                 }
                 .each_col.imps-col  {
                     width: 115px ;
@@ -3051,6 +3106,9 @@ div.strategy_total_container {
     }
 
     #reports_byadsizes_block{
+        .vid_col {
+            width: 518px;
+        }
         .each_col{
             width:149px;
             text-align: right;
@@ -3082,7 +3140,7 @@ div.strategy_total_container {
                         width:83px;
                     }
                     &.seventh_col{
-                        width : 90px ;
+                        width : 105px ;
                     }
                 }
                 .vid_data_hdr{
@@ -3456,7 +3514,7 @@ div.strategy_total_container {
     }
 
     .media_plan_totals {
-        font-weight:bold;
+        font-family: "Avenir-bold" ;
     }
     .more_options .dd_txt , .dropdown-menu  {
         background: #fff ;
