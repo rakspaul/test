@@ -1829,16 +1829,10 @@ define(['angularAMD', 'zip-code-service', 'common-utils', 'lrInfiniteScroll'], f
                 if (data && data.length > 0) {
                     $rootScope.setErrAlertMessage(data + ' zip code' + (data.length > 1 ? 's are' : ' is') +
                         ' not valid.');
+                    validZipCodes = data;
+                    zipCodesRange = utils.rangeValue(zipCodes);
 
-                    validZipCodes = data.map(function (item) {
-                        return parseInt(item, 10);
-                    });
-
-                    zipCodesRange = utils.rangeValue(zipCodes).map(function (item) {
-                        return parseInt(item, 10);
-                    });
-
-                    zipCodes = _.difference(zipCodesRange, validZipCodes); // jshint ignore:line
+                    zipCodes = _. reject(zipCodesRange, function(zip) { return _.contains(validZipCodes , zip) }); // jshint ignore:line
                 }
 
                 zipCodesList.push({
