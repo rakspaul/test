@@ -305,7 +305,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
         };
 
         $scope.showUserModeText = function () {
-            return ($scope.mode === 'create'? 'Add Advertiser':'Edit Advertiser ( ' + $scope.advObj.name + ' )');
+            return ($scope.mode === 'create'? 'Add Advertiser' : 'Edit Advertiser ( ' + $scope.advObj.name + ' )');
         };
 
         $scope.close = function () {
@@ -519,6 +519,5 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
         $scope.$on('$locationChangeSuccess', function () {
             $scope.close();
         });
-
     }]);
 });
