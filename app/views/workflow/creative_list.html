@@ -383,7 +383,7 @@
                       class="icon-warning"
                       title="{{adData.message}}">
                 </span>
-                <a data-ng-click="redirectAdEditPage(adData)"
+                <a data-ng-click="redirectAdEditPage(adData, creativeData)"
                    tooltip="{{adData.campaignName}}/{{adData.adName}}"
                    data-ng-bind="(adData.campaignName | textEllipsis: 42) + ' / ' +  (adData.adName | textEllipsis: 42)">
                 </a>

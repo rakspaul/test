@@ -12,6 +12,7 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
                 $scope.filterData.subAccSelectedId = '';
                 $scope.constants = constants;
 
+
                 var fetchAdvertiserAndBroadCast = function (clientId, onClientSelect) {
 
                     onClientSelect = onClientSelect || false;
@@ -34,12 +35,23 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
                         });
                 };
 
+                $scope.showSubAccountDropDown = function () {
+                    var subAccountDropdownList = $('#subAccountDropDownList');
 
+                    subAccountDropdownList.toggle();
+                    $('#cdbMenu').closest('.each_filter').removeClass('filter_dropdown_open');
+                    subAccountDropdownList.closest('.each_filter').toggleClass('filter_dropdown_open');
+                    $('#cdbDropdown').hide();
+                    $('#profileDropdown').hide();
+                    $('#advertisersDropDownList').hide();
+                };
+                
                 $scope.showAdvertisersDropDown = function () {
                     $('#advertisersDropDownList')
                         .toggle()
                         .closest('.each_filter')
                         .toggleClass('filter_dropdown_open');
+                    $('#subAccountDropDownList').hide();
                 };
 
                 $scope.selectAdvertisers = function (advertiser) {
@@ -47,7 +59,6 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
 
                      $scope.filterData.advertiserSelectedName = advertiser.name;
                      $scope.filterData.advertiserSelectedId = advertiser.id;
-
                      //set to localstorage
 
                      args = {
@@ -55,11 +66,13 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
                          clientId: $scope.filterData.subAccSelectedId,
                          advertiserId: advertiser.id
                      };
-
                      $rootScope.$broadcast('filterChanged',args);
+                     $scope.selectedAdvertiser = '';
+                     
                 };
 
                 $scope.changeSubAccount =  function(account) {
+                    $scope.filterData.subAccSelectedName = account.displayName ;
                     var url = '/a/' + $routeParams.accountId+'/sa/'+ account.id +'/creative/list';
                     $location.url(url);
                 };

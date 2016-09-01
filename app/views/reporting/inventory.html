@@ -73,10 +73,24 @@
                         </div>
                         <div data-ng-if="inventoryChart"
                              class="pull-right inventory_chart_details_list_holder">
-                            <div class="inventory_chart_details_list"
+                            <!--<div class="inventory_chart_details_list" style="padding-bottom:20px;">
+                                <span class="row_index"></span>
+                                <span class="url_val" data-ng-if="(selectedFilters_tab !== 'domains')">Categories</span>
+                                <span class="url_val" data-ng-if="(selectedFilters_tab == 'domains')">Domains</span>
+                                <span class="cpa_col cpa_data pull-right">Imps</span>
+                                <span class="imps_del_data imps_del_col pull-right">CPMs</span>
+                            </div> -->
+                            <div class="col-md-1 zeroPadding inventory_num_holder">
+                                <span class="col-md-12 zeroPadding inventory_num">1.</span>
+                                <span class="col-md-12 zeroPadding inventory_num">2.</span>
+                                <span class="col-md-12 zeroPadding inventory_num">3.</span>
+                                <span class="col-md-12 zeroPadding inventory_num">4.</span>
+                                <span class="col-md-12 zeroPadding inventory_num">5.</span>
+                            </div>
+                            <div class="inventory_chart_details_list col-md-11 zeroPadding {{stable.sepratorCls_inventory}}"
                                  data-ng-repeat="stable in strategyTableData | orderBy:'-impressions' track by $index">
                                 <div class="chart_details_cols_row inventory_each_chart_details clearfix">
-                                    <span class="row_index" data-ng-bind="$index + 1"></span>
+                                    <!--<span class="row_index" data-ng-bind="$index + 1"></span>-->
                                     <span class="url_val" title="{{stable.dimension}}"
                                           data-ng-if="(selectedFilters_tab !== 'domains')"
                                           data-ng-bind="stable.dimension | formatUrl : 20">

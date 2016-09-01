@@ -179,7 +179,9 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
 
             advertiserModel.reset();
             brandsModel.reset();
-            strategySelectModel.reset();
+
+            //On click of strategy dropdown we are not making a call, on page refresh strategy is becoming blank, so it shouldn't be reset here.
+            //strategySelectModel.reset();
 
             if (page === 'dashboard') {
                 $location.url(urlBuilder.dashboardUrl());
@@ -285,6 +287,7 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
             var closeMenuPopUs = function (event) {
                 var cdbDropdownId = $('#cdbDropdown'),
                     brandsListId = $('#brandsList'),
+                    platform_popup = $('.buying-platform-popup'),
                     advertisersDropDownList = $('#advertisersDropDownList'),
                     dropdownMenuWithSearch = $('.dropdown-menu-with-search'),
                     subAccountDropDownList = $('#subAccountDropDownList'),
@@ -301,6 +304,10 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
                     childTier = $('.childTier'),
                     quickFilterId,
                     regionTooltipId;
+
+                if (platform_popup.is(':visible') && ($(event.target).closest('div').hasClass('select-btn') === false) ) {
+                    platform_popup.hide();
+                }
 
                 if (cdbDropdownId.is(':visible') && ($(event.target).hasClass('durationMenuText') === false) ) {
                     cdbDropdownId.closest('.each_filter').removeClass('filter_dropdown_open');

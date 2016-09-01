@@ -76,6 +76,9 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
                                             });
 
                                         _.each($scope.strategyTableData, function (item) {
+                                            if(item.dimension === 'Line Item Totals') {
+                                                item.sepratorCls_inventory = 'sepratorCls_inventory';
+                                            }
                                             item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                         });
 
@@ -102,6 +105,11 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
                                         $scope.strategyTableData = result.data.data;
 
                                         _.each($scope.strategyTableData, function (item) {
+
+                                            if(item.dimension === 'Media Plan Totals') {
+                                                item.sepratorCls_inventory = 'sepratorCls_inventory';
+                                            }
+
                                             item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                         });
                                     }

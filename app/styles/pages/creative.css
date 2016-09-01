@@ -312,6 +312,9 @@
 #creativeList .mainWrap .btn_list_filters {
   margin-bottom: 30px;
 }
+#creativeList #advertiser_name_selected {
+  cursor: pointer;
+}
 #creativeList .each_filter {
   float: left;
   /*width: 175px;*/

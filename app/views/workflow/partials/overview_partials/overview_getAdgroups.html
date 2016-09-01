@@ -158,7 +158,7 @@
             <div class="col-md-12">
                 <a href="#"
                    class="col-md-12 text-center addMaster">
-                    <span class="icon-plus aria-hidden="true" style="font-size: 32px;"></span>
+                    <span class="icon-plus" aria-hidden="true" style="font-size: 32px;"></span>
                     <h3>Create Ad</h3>
                 </a>
             </div>
@@ -215,7 +215,7 @@
                         </h4>
                         <span data-ng-if="adsData.adFormat"
                               class="icon-{{getAdFormatIconName(adsData.adFormat)}} pull-right"
-                              aria-hidden="true">
+                              aria-hidden="true" title="{{adsData.adFormat  | toTitleCase }} Ad">
                         </span>
                         <span class="pull-left adTxtGray dateAd"
                               data-ng-if="adsData.startTime && adsData.endTime"
@@ -285,7 +285,7 @@
                           aria-hidden="true"
                           tooltip="{{adsData.pushFeedback}}">
                     </span>
-                    <span class="pull-right icon-tracking"  data-ng-if="adsData.isTracking"></span>
+                    <span class="pull-right icon-tracking" title="Tracking Ad" data-ng-if="adsData.isTracking"></span>
                 </span>
             </div>
         </div>

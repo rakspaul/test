@@ -73,10 +73,16 @@
                                          data-ng-hide="performanceBusy"
                                          data-ng-bind="strategyHeading">
                                     </div> -->
-                                    <div class="row_list_holder" style="position:relative; padding-top:50px;">
+                                    <div class="row_list_holder" >
                                         <div class="common-load-icon" data-ng-show="performanceBusy"></div>
                                         <div class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
-                                             data-ng-show="!performanceBusy"
+                                             data-ng-show="!performanceBusy && platform.sepratorCls_platform == 'sepratorCls_platform'"
+                                             data-ng-repeat="platform in platformData |
+                                                orderBy : sortTypeByPerformance : sortReverse track by $index"
+                                             data-ng-include="'performanceTpl'">
+                                        </div>
+                                        <div class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
+                                             data-ng-show="!performanceBusy && platform.sepratorCls_platform != 'sepratorCls_platform'" 
                                              data-ng-repeat="platform in platformData |
                                                 orderBy : sortTypeByPerformance : sortReverse track by $index"
                                              data-ng-include="'performanceTpl'">
@@ -84,7 +90,7 @@
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder" data-ng-show="!performanceBusy">
-                                    <div class="each_strategy_holder1 clearfix {{platform.sepratorCls_hide}}"
+                                    <div class="each_strategy_holder clearfix {{platform.sepratorCls_hide}}"
                                          data-ng-repeat="platform in tacticPlatformData |
                                             orderBy : sortTypeByPerformance : sortReverse track by $index"
                                          data-ng-if="platform.ad_id">
@@ -117,10 +123,15 @@
                             <div class="strategy_total_container">
                                 <div class="strategy_total_container_header clearfix">
                                    <!-- <div class="each_cost_heading" data-ng-hide="costBusy" data-ng-bind="strategyHeading"></div> -->
-                                    <div class="row_list_holder" style="position:relative; padding-top:50px;">
+                                    <div class="row_list_holder" >
                                         <div class="common-load-icon" data-ng-show="costBusy"></div>
+                                         <div class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
+                                             data-ng-show="!costBusy && platform.sepratorCls_platform == 'sepratorCls_platform'"
+                                             data-ng-repeat="platform in platformData |
+                                                orderBy : sortTypeByCost : sortReverse track by $index"
+                                             data-ng-include="'costTpl'"></div>
                                         <div class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
-                                             data-ng-show="!costBusy"
+                                             data-ng-show="!costBusy && platform.sepratorCls_platform != 'sepratorCls_platform'"
                                              data-ng-repeat="platform in platformData |
                                                 orderBy : sortTypeByCost : sortReverse track by $index"
                                              data-ng-include="'costTpl'"></div>
@@ -167,16 +178,31 @@
                                          data-ng-hide="viewabilityBusy"
                                          data-ng-bind="strategyHeading">
                                     </div> -->
-                                    <div class="row_list_holder" style="position:relative; padding-top:50px;">
+                                    <div class="row_list_holder">
                                         <div class="common-load-icon" data-ng-show="viewabilityBusy"></div>
-                                        <div data-ng-show="!viewabilityBusy"
+                                        
+                                        <div data-ng-show="!viewabilityBusy && platform.sepratorCls_platform == 'sepratorCls_platform'"
                                              data-ng-if="!adFormats.videoAds || !videoMode"
                                              class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
                                              data-ng-repeat="platform in platformData |
                                                 orderBy : sortTypeByViewability : sortReverse  track by $index"
                                              data-ng-include="'viewabilityTpl'">
                                         </div>
-                                        <div data-ng-show="!viewabilityBusy"
+                                        <div data-ng-show="!viewabilityBusy && platform.sepratorCls_platform != 'sepratorCls_platform'"
+                                             data-ng-if="!adFormats.videoAds || !videoMode"
+                                             class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
+                                             data-ng-repeat="platform in platformData |
+                                                orderBy : sortTypeByViewability : sortReverse  track by $index"
+                                             data-ng-include="'viewabilityTpl'">
+                                        </div>
+                                        <div data-ng-show="!viewabilityBusy  && platform.sepratorCls_platform == 'sepratorCls_platform'"
+                                             data-ng-if="adFormats.videoAds && videoMode"
+                                             class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
+                                             data-ng-repeat="platform in platformData |
+                                                orderBy : sortTypeByViewability : sortReverse  track by $index"
+                                             data-ng-include="'videoViewabilityTpl'">
+                                        </div>
+                                        <div data-ng-show="!viewabilityBusy  && platform.sepratorCls_platform != 'sepratorCls_platform'"
                                              data-ng-if="adFormats.videoAds && videoMode"
                                              class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
                                              data-ng-repeat="platform in platformData |
@@ -268,7 +294,7 @@
     <div class="platform_row">
         <div class="each_col sec_col platform_logo"
              data-ng-class="{vid_none_hdr: adFormats.videoAds === false, vid_show: adFormats.videoAds === true}">
-            <span class="platform_logo_img">
+            <span class="platform_logo_img" ng-if="(platform.platform_name != 'Media Plan Totals') && (platform.platform_name != 'Ad Item Totals') && (platform.platform_name != 'Line Item Totals')" >
                 <img data-ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}">
             </span>
             <span class="plat_name" title="{{platform.platform_name}}" data-ng-bind="platform.platform_name"></span>
@@ -376,7 +402,7 @@
 <script type="text/ng-template" id="videoViewabilityTpl">
     <div class="clearfix platform_row">
         <div class="each_col platform_name_col platform_logo">
-            <span class="platform_logo_img">
+            <span class="platform_logo_img" ng-if="(platform.platform_name != 'Media Plan Totals') && (platform.platform_name != 'Ad Item Totals') && (platform.platform_name != 'Line Item Totals')" >
                 <img data-ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}">
             </span>
             <span class="plat_name" title="{{platform.platform_name}}" data-ng-bind="platform.platform_name"></span>
@@ -421,7 +447,7 @@
 <script type="text/ng-template" id="costTpl">
     <div class="clearfix platform_row">
         <div class="col-md-1 zeroPadding platform_logo">
-            <span class="platform_logo_img">
+            <span class="platform_logo_img" ng-if="(platform.platform_name != 'Media Plan Totals') && (platform.platform_name != 'Ad Item Totals') && (platform.platform_name != 'Line Item Totals')">
                 <img data-ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}">
             </span>
             <span class="plat_name" title="{{platform.platform_name}}" data-ng-bind="platform.platform_name"></span>
@@ -466,7 +492,7 @@
                       data-ng-bind="(platform.tech_fees >= 0) ?
                         (platform.tech_fees | currency : undefined : 0) : '-'">
                 </span>
-                <span class="pull-left col-md-4 zeroPadding text-center" style="text-indent: 23px;"
+                <span class="pull-left col-md-4 zeroPadding text-center"
                       data-ng-bind="(platform.service_fees >= 0) ?
                         (platform.service_fees | currency : undefined : 0) : '-'">
                 </span>
@@ -490,7 +516,7 @@
 <script type="text/ng-template" id="viewabilityTpl">
     <div class="clearfix platform_row">
         <div class="each_col platform_name_col platform_logo">
-            <span class="platform_logo_img">
+            <span class="platform_logo_img" ng-if="(platform.platform_name != 'Media Plan Totals') && (platform.platform_name != 'Ad Item Totals') && (platform.platform_name != 'Line Item Totals')">
                 <img data-ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}"/>
             </span>
             <span class="plat_name" title="{{platform.platform_name}}" data-ng-bind="platform.platform_name"></span>
@@ -533,7 +559,7 @@
 <script type="text/ng-template" id="marginTpl">
     <div class="clearfix platform_row">
         <div class="each_col platform_name_col platform_logo">
-            <span class="platform_logo_img">
+            <span class="platform_logo_img" ng-if="(platform.platform_name != 'Media Plan Totals') && (platform.platform_name != 'Ad Item Totals') && (platform.platform_name != 'Line Item Totals')">
                 <img data-ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}">
             </span>
             <span class="plat_name" title="" data-ng-bind="platform.platform_name"></span>
