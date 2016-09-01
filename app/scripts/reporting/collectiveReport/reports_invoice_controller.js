@@ -114,8 +114,7 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 
                     _curCtrl.saveNoteAndStatus();
                 } else {
                     $scope.confirmationPopUp = true;
-                    $scope.update_status_msg = ($scope.noteData.status === 'Closed') ?
-                        constants.INVOICE_CONFIRM_CLOSE : constants.INVOICE_CONFIRM_UPLOAD;
+                    $scope.update_status_msg = ($scope.noteData.status === 'Closed') ? constants.INVOICE_CONFIRM_CLOSE : constants.INVOICE_CONFIRM_UPLOAD;
                 }
             };
 
