@@ -61,7 +61,7 @@ define(['angularAMD', 'url-service', 'time-period-model', 'dashboard-model', 're
                 var queryObj = {
                         clientId: vistoconfig.getSelectedAccountId(),
                         advertiserId: vistoconfig.getSelectAdvertiserId(),
-                        brandId: vistoconfig.getSelectedBrandId(),
+                        brandId: (Number(vistoconfig.getSelectedBrandId()) === 0)?-1:vistoconfig.getSelectedBrandId(),
                         dateFilter: constants.PERIOD_LIFE_TIME,
                         campaignStatus: dashboardModel.campaignStatusToSend()
                     },
