@@ -161,7 +161,7 @@
                             <div class="inventory_chart_details_list">
                                 <div class="chart_details_cols_row inventory_each_chart_details clearfix"
                                      data-ng-repeat="tableData in tactic.data | orderBy : '-impressions' track by $index">
-                                    <span class="row_index" data-ng-bind="$index + 1"></span>
+                                    <!--<span class="row_index" data-ng-bind="$index + 1"></span>-->
                                     <span class="url_val" title="{{tableData.dimension}}"
                                           data-ng-if="(selectedFilters_tab !== 'domains')"
                                           data-ng-bind="tableData.dimension | formatUrl : 20">

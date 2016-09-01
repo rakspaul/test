@@ -1218,7 +1218,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                 dateTimeZone = workflowService.getAccountTimeZone();
 
-                if($scope.apiStartTime && moment(formData.startTime).startOf('day').isSame(moment($scope.apiStartTime).startOf('day'))) {
+                if($scope.apiStartTime && moment(formData.startTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.apiStartTime)).startOf('day'))) {
                     isDateChanged = false;
                 }
 
@@ -1228,7 +1228,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     // fixed for CW-4102
                     if ($scope.mode ==='edit') {
 
-                        if(moment(utcStartTime).startOf('day').isSame(moment($scope.apiStartTime).startOf('day')))  {
+                        if(moment(utcStartTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.apiStartTime)).startOf('day')))  {
                             utcStartTime = $scope.apiStartTime;
                         }
                     }

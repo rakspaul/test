@@ -763,13 +763,13 @@ define(['angularAMD', 'file-reader', 'ng-upload-hidden'], function (angularAMD) 
                 dateTimeZone = workflowService.getAccountTimeZone();
 
                 if(lineItemAPIStartTimeList[oldLineItemIndex] &&
-                    moment(newItem.startTime).startOf('day').isSame(moment(lineItemAPIStartTimeList[oldLineItemIndex]).startOf('day'))) {
+                    moment(newItem.startTime).startOf('day').isSame(moment(momentService.utcToLocalTime(lineItemAPIStartTimeList[oldLineItemIndex])).startOf('day'))) {
                     isDateChanged = false;
                 }
 
                 utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone, isDateChanged);
 
-                if(moment(utcStartTime).startOf('day').isSame(moment(lineItemAPIStartTimeList[oldLineItemIndex]).startOf('day')))  {
+                if(moment(utcStartTime).startOf('day').isSame(moment(momentService.utcToLocalTime(lineItemAPIStartTimeList[oldLineItemIndex])).startOf('day')))  {
                     utcStartTime = lineItemAPIStartTimeList[oldLineItemIndex];
                 }
 
