@@ -551,20 +551,7 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                             creativeType: creativeValidateObj.data.format
                         });
 
-                        // creativeValidateObj.subAccountId = $routeParams.subAccountId || '' ;
-                        // creativeValidateObj.creativeId = $scope.creativeId || -1;
-
-                        url = '/a/' + $routeParams.accountId;
-                        var hasSubaccount = accountService.getSelectedAccount().isLeafNode;
-
-                        if(!hasSubaccount) {
-                            url += '/sa/' + $routeParams.subAccountId;
-                        }
-
-
-                        url += '/adv/' + creativeValidateObj.advertiserId;
-
-                        url = urlBuilder.goToPreviewUrl(creativeValidateObj) + '/preview';
+                        url = urlBuilder.goToPreviewUrl(creativeValidateObj);
 
                         appendEle = '<div class="creativePreviewBtn"><a target="_blank" href="' +
                             url +'">Preview</a></div>';
@@ -857,7 +844,7 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
             $scope.$broadcast('show-errors-reset');
 
             if ($location.path().endsWith('/creative/add') || ($scope.creativeMode === 'edit' && !$scope.adPage)) {
-                url = urlBuilder.goToPreviewUrl(urlInfo) + '/creative/list';
+                url = urlBuilder.goToCreativeList(urlInfo) + '/creative/list';
                 $location.url(url);
 
             } else {
