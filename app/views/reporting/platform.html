@@ -82,7 +82,7 @@
                                              data-ng-include="'performanceTpl'">
                                         </div>
                                         <div class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
-                                             data-ng-show="!performanceBusy && platform.sepratorCls_platform != 'sepratorCls_platform'" 
+                                             data-ng-show="!performanceBusy && platform.sepratorCls_platform != 'sepratorCls_platform'"
                                              data-ng-repeat="platform in platformData |
                                                 orderBy : sortTypeByPerformance : sortReverse track by $index"
                                              data-ng-include="'performanceTpl'">
@@ -180,7 +180,7 @@
                                     </div> -->
                                     <div class="row_list_holder">
                                         <div class="common-load-icon" data-ng-show="viewabilityBusy"></div>
-                                        
+
                                         <div data-ng-show="!viewabilityBusy && platform.sepratorCls_platform == 'sepratorCls_platform'"
                                              data-ng-if="!adFormats.videoAds || !videoMode"
                                              class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
@@ -502,8 +502,8 @@
                 </span>
             </div>
             <div class="col-md-1 zeroPadding text-center"
-                 data-ng-bind="(platform.gross_rev >= 0) ?
-                    (platform.gross_rev | currency : undefined : 0) : '-'">
+                 data-ng-bind="(platform.spend >= 0) ?
+                    (platform.spend | currency : undefined : 0) : '-'">
             </div>
             <div class="col-md-1 zeroPadding text-center"
                  data-ng-bind="(platform.margin >= 0) ?
