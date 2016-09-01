@@ -1032,14 +1032,14 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                 dateTimeZone = workflowService.getAccountTimeZone();
 
                 if($scope.adGroupData.modifiedAdGroupAPIStartTime &&
-                    moment(formData.startTime).startOf('day').isSame(moment($scope.adGroupData.modifiedAdGroupAPIStartTime).startOf('day'))) {
+                    moment(formData.startTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.adGroupData.modifiedAdGroupAPIStartTime)).startOf('day'))) {
                     isDateChanged = false;
                 }
 
                 utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone, isDateChanged);
 
                 if ($scope.adGroupData.editAdGroupFlag) {
-                    if (moment(utcStartTime).startOf('day').isSame(moment($scope.adGroupData.modifiedAdGroupAPIStartTime).startOf('day')))  {
+                    if (moment(utcStartTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.adGroupData.modifiedAdGroupAPIStartTime)).startOf('day')))  {
                         utcStartTime = $scope.adGroupData.modifiedAdGroupAPIStartTime;
                     }
                 }

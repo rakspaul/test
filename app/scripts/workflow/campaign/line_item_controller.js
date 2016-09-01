@@ -328,6 +328,9 @@ define(['angularAMD', 'file-reader', 'ng-upload-hidden'], function (angularAMD) 
             $scope.editLineItem.volume = lineItem.volume;
             $scope.editLineItem.selectedVolumeType = lineItem.volumeType;
             $scope.editLineItem.hasInFlightAds = lineItem.hasInFlightAds;
+            if($scope.cloneMediaPlanName) {
+                $scope.editLineItem.hasInFlightAds = false;
+            }
 
             // if pixel is empty show select from list in edit section for create/edit mode
             if (_.isEmpty($scope.editLineItem.pixelSelected)) {
@@ -763,13 +766,13 @@ define(['angularAMD', 'file-reader', 'ng-upload-hidden'], function (angularAMD) 
                 dateTimeZone = workflowService.getAccountTimeZone();
 
                 if(lineItemAPIStartTimeList[oldLineItemIndex] &&
-                    moment(newItem.startTime).startOf('day').isSame(moment(lineItemAPIStartTimeList[oldLineItemIndex]).startOf('day'))) {
+                    moment(newItem.startTime).startOf('day').isSame(moment(momentService.utcToLocalTime(lineItemAPIStartTimeList[oldLineItemIndex])).startOf('day'))) {
                     isDateChanged = false;
                 }
 
                 utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone, isDateChanged);
 
-                if(moment(utcStartTime).startOf('day').isSame(moment(lineItemAPIStartTimeList[oldLineItemIndex]).startOf('day')))  {
+                if(moment(utcStartTime).startOf('day').isSame(moment(momentService.utcToLocalTime(lineItemAPIStartTimeList[oldLineItemIndex])).startOf('day')))  {
                     utcStartTime = lineItemAPIStartTimeList[oldLineItemIndex];
                 }
 

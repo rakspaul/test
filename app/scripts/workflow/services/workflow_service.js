@@ -923,7 +923,8 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                             config.vendorName = data[j].vendorName;
                             config.configName = data[j].name;
                             config.adFormat = data[j].clientVendorOfferings[i].name;
-                            config.rate = 'Media Cost + ' + data[j].clientVendorOfferings[i].rateValue + ' ' + data[j].clientVendorOfferings[i].rateType.name;
+                            config.rate = data[j].currency.currencySymbol + ' ' + 
+                                          data[j].clientVendorOfferings[i].rateValue.toFixed(2) + ' ' + data[j].clientVendorOfferings[i].rateType.name;
                             config.category = data[j].clientVendorOfferings[i].costCategory.name;
                             processedData.configs.push(config);
                         }

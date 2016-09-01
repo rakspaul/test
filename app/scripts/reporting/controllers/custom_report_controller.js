@@ -1516,7 +1516,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                         if (mediaPlanId && $scope.isMediaPlanAccessible) {
 
-                            url += '/mediaplan/' + mediaPlanId + '/overview'
+                            url += '/mediaplan/' + mediaPlanId + '/overview';
                             $location.url(url);
                         }
 

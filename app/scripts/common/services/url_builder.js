@@ -376,6 +376,22 @@ define(['angularAMD'],
                 },
 
                 goToPreviewUrl = function (obj) {
+                    var url = '/a/' + $routeParams.accountId;
+                    var hasSubaccount = accountService.getSelectedAccount().isLeafNode;
+
+                    if(!hasSubaccount) {
+                        url += '/sa/' + $routeParams.subAccountId;
+                    }
+
+                    url += '/adv/' + obj.advertiserId;
+                    url += '/creative/';
+                    url += $routeParams.creativeId ?  $routeParams.creativeId : -1;
+                    url +='/preview';
+
+                    return url;
+                },
+
+                goToCreativeList = function(obj) {
                     var url = '/a/'+ obj.clientId;
 
                     url += obj.subAccountId ? '/sa/' + obj.subAccountId : '';
@@ -437,7 +453,8 @@ define(['angularAMD'],
                 adminUrl: adminUrl,
                 invoiceTool: invoiceTool,
                 goToPreviewUrl: goToPreviewUrl,
-                gotoInvoiceReport: gotoInvoiceReport
+                gotoInvoiceReport: gotoInvoiceReport,
+                goToCreativeList : goToCreativeList
             };
         }]);
     });
