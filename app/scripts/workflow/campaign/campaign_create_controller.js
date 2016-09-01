@@ -675,7 +675,8 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
 
                 dateTimeZone = workflowService.getAccountTimeZone();
 
-                if($scope.mediaPlanAPIStartTime && moment($scope.selectedCampaign.startTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.mediaPlanAPIStartTime)).startOf('day'))) {
+                if($scope.mediaPlanAPIStartTime && moment($scope.selectedCampaign.startTime).startOf('day')
+                        .isSame(moment(momentService.utcToLocalTime($scope.mediaPlanAPIStartTime)).startOf('day'))) {
                     isDateChanged = false;
                 }
 
