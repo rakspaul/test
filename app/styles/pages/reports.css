@@ -691,7 +691,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li:focus {
   color: #21252b;
   text-decoration: none;
-  background-color: #e1edf9;
+  background-color: #E1EDF9;
 }
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li span {
   padding: 0;
@@ -829,7 +829,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .common_reports_container .download_report:hover,
 .breadcrumb_campaign_strategy .download_report:hover,
 .smallScreenScrollDiv .download_report:hover {
-  background-color: #e1edf9;
+  background-color: #E1EDF9;
   border: 1px solid #bfc9d7;
 }
 .common_reports_container .download_anchor,
@@ -1895,6 +1895,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .viewability_details_outer_container .each_col.second_col .icon_text_holder.sort_order_up.active:hover {
   background-position: right -64px !important;
+}
+.viewability_video_mode_container .each_strategy .first_col,
+.viewability_details_outer_container .each_strategy .first_col,
+#reports_platform_performance_block .each_strategy .first_col,
+#reports_platform_viewability_block .each_strategy .first_col {
+  padding-left: 10px ;
 }
 #reports_platform_viewability_block .strategy_total_container_header .suspicious_col {
   text-align: right;
@@ -3117,7 +3123,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container #reports_byformats_block .sec_col {
   width: 132px ;
   text-align: left;
-  text-transform: lowercase;
+  /*text-transform: lowercase;*/
 }
 .reports_tabs_content_container #reports_byscreens_block .sec_col:first-letter,
 .reports_tabs_content_container #reports_byformats_block .sec_col:first-letter {
@@ -3126,7 +3132,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container #reports_byscreens_block .first_col,
 .reports_tabs_content_container #reports_byformats_block .first_col {
   width: 100% !important ;
-  padding-left: 6px !important ;
 }
 .reports_tabs_content_container #reports_byscreens_block .reports_performance_header .sec_col,
 .reports_tabs_content_container #reports_byformats_block .reports_performance_header .sec_col {
@@ -3134,10 +3139,21 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin-left: 14px;
   text-transform: capitalize;
 }
+.reports_tabs_content_container #reports_byscreens_block .first_col,
+.reports_tabs_content_container #reports_byformats_block .first_col,
+.reports_tabs_content_container #reports_byadsizes_block .first_col,
+.reports_tabs_content_container #reports_bydaysofweek_block .first_col,
+.reports_tabs_content_container #reports_bydiscrepancy_block .first_col,
+.reports_tabs_content_container #reports_bycreatives_block .first_col {
+  padding-left: 6px !important ;
+}
+.reports_tabs_content_container #reports_bydiscrepancy_block .reports_details_outer_container {
+  padding-left: 1px ;
+}
 .reports_tabs_content_container #reports_bydaysofweek_block .sec_col {
   text-align: left;
   width: 125px;
-  text-transform: lowercase;
+  /*text-transform: lowercase;*/
 }
 .reports_tabs_content_container #reports_bydaysofweek_block .sec_col:first-letter {
   text-transform: uppercase;
@@ -4368,7 +4384,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   cursor: pointer;
 }
 .report_generator_and_response #dynamicHeader .downReport:hover {
-  background: #e1edf9;
+  background: #E1EDF9;
 }
 .report_generator_and_response #dynamicHeader .subTitle {
   display: block;

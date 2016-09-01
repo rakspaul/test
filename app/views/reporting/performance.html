@@ -129,9 +129,9 @@
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col" data-ng-bind="tactic.name"></div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="col-md-12 zeroPadding  each_col first_col" data-ng-bind="tactic.name"></div>
+                                            <div class="col-md-12 zeroPadding  row_list_holder">
+                                                <div class="clearfix each_row_list {{daysOfWeekData.sepratorCls}}"
                                                      data-ng-repeat="daysOfWeekData in tactic.perf_metrics |
                                                         orderBy : sortTypebydaysofweek : sortReverse
                                                         track by $index"
@@ -188,9 +188,9 @@
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col" data-ng-bind="tactic.name"></div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="each_col col-md-12 zeroPadding first_col" data-ng-bind="tactic.name"></div>
+                                            <div class="row_list_holder col-md-12 zeroPadding">
+                                                <div class="clearfix each_row_list {{vendor.sepratorCls}}"
                                                      data-ng-repeat="vendor in tactic.perf_metrics |
                                                         orderBy : sortTypediscrepancy : sortReverse track by $index"
                                                      data-ng-include="'discrepancyTpl'">
@@ -240,9 +240,9 @@
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col" data-ng-bind="tactic.name"></div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="each_col zeroPadding col-md-12 first_col" data-ng-bind="tactic.name"></div>
+                                            <div class="col-md-12 zeroPadding row_list_holder">
+                                                <div class="clearfix each_row_list {{formatData.sepratorCls}}"
                                                      data-ng-repeat="formatData in tactic.perf_metrics |
                                                         orderBy : sortTypebyformats : sortReverseFormatTab
                                                         track by $index"
@@ -290,18 +290,19 @@
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder" data-ng-show="!creativeBusy">
+                                    
                                     <div class="each_strategy_holder clearfix"
                                          data-ng-repeat="tactic in groupThem |
                                             orderBy : sortTypeByCreatives : sortReverse track by $index"
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col"
+                                            <div class="each_col first_col col-md-12 zeroPadding"
                                                  style="width: 100%"
                                                  data-ng-bind="tactic.name">
                                             </div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="row_list_holder col-md-12 zeroPadding">
+                                                <div class="clearfix each_row_list {{creativesData.sepratorCls}}"
                                                      data-ng-repeat="creativesData in tactic.perf_metrics |
                                                         orderBy : sortTypeByCreatives : sortReverseCreativesTab
                                                         track by $index"
@@ -333,6 +334,7 @@
                                         <span class="pull-left icon-target viewLabelTxt"></span>
                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
                                     </div> -->
+                                    
                                     <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="adSizesBusy"></div>
                                         <div class="clearfix each_row_list {{adSizesData.sepratorCls}}"
@@ -350,12 +352,12 @@
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col"
+                                            <div class="each_col first_col col-md-12 zeroPadding"
                                                  style="width: 100%"
                                                  data-ng-bind="tactic.name">
                                             </div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="row_list_holder col-md-12 zeroPadding">
+                                                <div class="clearfix each_row_list {{adSizesData.sepratorCls}}"
                                                      data-ng-repeat="adSizesData in tactic.perf_metrics |
                                                         orderBy : sortTypeByAdSizes : sortReverseAdSizes
                                                         track by $index"

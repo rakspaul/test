@@ -1788,7 +1788,13 @@ div.strategy_total_container {
 
 
 }
-
+.viewability_video_mode_container , .viewability_details_outer_container , #reports_platform_performance_block , #reports_platform_viewability_block {
+    .each_strategy {
+        .first_col {
+            padding-left: 10px ;
+        }
+    } 
+}
 #reports_platform_viewability_block{
     .strategy_total_container_header {
         .suspicious_col {
@@ -3219,14 +3225,13 @@ div.strategy_total_container {
         .sec_col {
             width: 132px ;
             text-align: left;
-            text-transform: lowercase;
+            /*text-transform: lowercase;*/
         }
         .sec_col:first-letter {
             text-transform: uppercase;
         }
         .first_col {
             width: 100% !important ;
-            padding-left: 6px !important ;
         }
         .reports_performance_header {
             .sec_col {
@@ -3236,11 +3241,21 @@ div.strategy_total_container {
             }
         }
     }
+    #reports_byscreens_block , #reports_byformats_block , #reports_byadsizes_block , #reports_bydaysofweek_block , #reports_bydiscrepancy_block , #reports_bycreatives_block  {
+        .first_col { 
+            padding-left: 6px !important ;
+        }
+    }
+     #reports_bydiscrepancy_block  {
+        .reports_details_outer_container {
+            padding-left: 1px ;
+        }
+    }
     #reports_bydaysofweek_block {
         .sec_col {
             text-align: left;
             width:125px;
-            text-transform: lowercase;
+            /*text-transform: lowercase;*/
         }
         .sec_col:first-letter {
             text-transform: uppercase;
