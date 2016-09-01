@@ -19,7 +19,7 @@
                        placeHolder="{{(selectedAdvertiser.name ? selectedAdvertiser.name : 'Select Advertiser')}}">
                 <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
             </div>
-            <div  class="advertisersList_ul">
+            <div class="advertisersList_ul">
                 <!--removed track by as on dashboard its giving dupes error-->
                 <li data-ng-repeat="advertiser in advertisers | filter : searchInput"
                     data-ng-hide="isExcludedByAdvertiserFilter"
