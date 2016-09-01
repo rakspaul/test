@@ -144,16 +144,6 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
                         $scope.selectedCampaign.clientName = campaignData.clientName;
                         $scope.selectedCampaign.clientId = campaignData.clientId;
 
-                        accountData = accountService.getSelectedAccount();
-
-                        if(!accountData.isLeafNode) {
-                            accountData = _.find(subAccountService.getSubAccounts(), function (data) {
-                                return data.id === campaignData.clientId;
-                            });
-                        }
-
-                        workflowService.setAccountTimeZone(accountData.timezone);
-
                     } else {
                         $scope.selectedCampaign.clientId = vistoconfig.getMasterClientId();
                     }
@@ -631,7 +621,6 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
                 utcStartTime,
                 utcEndTime,
                 campaignCosts = [],
-                dateTimeZone,
                 i,
                 clientId = vistoconfig.getSelectedAccountId(),
                 campaignId = vistoconfig.getSelectedCampaignId(),
@@ -673,18 +662,14 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
                     postDataObj.purchaseOrder = formData.purchaseOrder;
                 }
 
-                dateTimeZone = workflowService.getAccountTimeZone();
-
                 if($scope.mediaPlanAPIStartTime && moment($scope.selectedCampaign.startTime).startOf('day')
                         .isSame(moment(momentService.utcToLocalTime($scope.mediaPlanAPIStartTime)).startOf('day'))) {
                     isDateChanged = false;
                 }
 
-                utcStartTime = momentService.localTimeToUTC($scope.selectedCampaign.startTime,
-                    'startTime', dateTimeZone, isDateChanged);
+                utcStartTime = momentService.localTimeToUTC($scope.selectedCampaign.startTime, 'startTime');
 
-                utcEndTime = momentService.localTimeToUTC($scope.selectedCampaign.endTime,
-                    'endTime', dateTimeZone);
+                utcEndTime = momentService.localTimeToUTC($scope.selectedCampaign.endTime, 'endTime');
 
                 if ($scope.mode ==='edit') {
 

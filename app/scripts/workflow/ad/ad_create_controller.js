@@ -58,15 +58,6 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                                 clientId = responseData.clientId;
                                 advertiserId = responseData.advertiserId;
 
-                                accountData =  accountService.getSelectedAccount();
-                                if(!accountData.isLeafNode) {
-                                    accountData = _.find(subAccountService.getSubAccounts(), function(data) {
-                                        return data.id === responseData.clientId;
-                                    });
-                                }
-
-                                workflowService.setAccountTimeZone(accountData.timezone);
-
                                 if ($scope.mode === 'edit') {
                                     if (!$scope.adGroupId) {
                                         workflowService
@@ -1158,7 +1149,6 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 utcStartTime,
                 utcEndTime,
                 inventoryLists,
-                dateTimeZone,
                 isDateChanged = true,
 
                 wrapperToReplaceCustomPlatformHiddenValues = function(customPlatformData) {
@@ -1216,14 +1206,12 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     postAdDataObj.goal = formData.goal;
                 }
 
-                dateTimeZone = workflowService.getAccountTimeZone();
-
                 if($scope.apiStartTime && moment(formData.startTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.apiStartTime)).startOf('day'))) {
                     isDateChanged = false;
                 }
 
                 if (formData.startTime) {
-                    utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone, isDateChanged);
+                    utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', isDateChanged);
 
                     // fixed for CW-4102
                     if ($scope.mode ==='edit') {
@@ -1237,7 +1225,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 }
 
                 if (formData.endTime) {
-                    utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime', dateTimeZone);
+                    utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
 
                     // fixed for CW-4102
                     if ($scope.mode ==='edit') {
@@ -1306,6 +1294,14 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                         if ($scope.TrackingIntegrationsSelected) {
                             postAdDataObj.isTracking = true;
+                        } else {
+                            // custom field section.
+                            if ($.isEmptyObject($scope.postPlatformDataObj)) {
+                                $scope.saveCustomeFieldForPlatform(1);
+                            }
+
+                            postAdDataObj.adPlatformCustomInputs =
+                                wrapperToReplaceCustomPlatformHiddenValues($scope.postPlatformDataObj);
                         }
                     }
 
@@ -1504,15 +1500,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     }
                     // end of inventory save
 
-                    // custom field section.
-                    if (!$scope.TrackingIntegrationsSelected) {
-                        if ($.isEmptyObject($scope.postPlatformDataObj)) {
-                            $scope.saveCustomeFieldForPlatform(1);
-                        }
 
-                        postAdDataObj.adPlatformCustomInputs =
-                            wrapperToReplaceCustomPlatformHiddenValues($scope.postPlatformDataObj);
-                    }
 
                     campaignOverView.saveAds(postAdDataObj);
                 }

@@ -16,6 +16,7 @@ define(['angularAMD'], function (angularAMD) {
                 campaignSelectModel.reset();
                 advertiserModel.reset();
                 brandsModel.reset();
+
             },
 
             fetchSubAccountList = function (accountId) {
@@ -72,6 +73,7 @@ define(['angularAMD'], function (angularAMD) {
                         return subAccountId === client.id;
                     });
                     if (selectedSubAccount) {
+                        workflowService.setClientTimeZone(selectedSubAccount.timezone);
                         return true;
                     }
                 }

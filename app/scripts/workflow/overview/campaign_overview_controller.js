@@ -62,15 +62,6 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                                 }
                                 $scope.labels = responseData.labels;
 
-                                accountData = accountService.getSelectedAccount();
-
-                                if (!accountData.isLeafNode) {
-                                    accountData = _.find(subAccountService.getSubAccounts(), function (data) {
-                                        return data.id === responseData.clientId;
-                                    });
-                                }
-
-                                workflowService.setAccountTimeZone(accountData.timezone);
                                 $scope.campaignStartTime = momentService.utcToLocalTime($scope.workflowData.campaignData.startTime);
                                 $scope.campaignEndTime = momentService.utcToLocalTime($scope.workflowData.campaignData.endTime);
 
@@ -991,7 +982,6 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                 postCreateAdObj,
                 utcStartTime,
                 utcEndTime,
-                dateTimeZone,
                 clientId = vistoconfig.getSelectedAccountId(),
                 isDateChanged = true,
 
@@ -1029,14 +1019,12 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                 postCreateAdObj = {};
                 postCreateAdObj.name = formData.adGroupName;
 
-                dateTimeZone = workflowService.getAccountTimeZone();
-
                 if($scope.adGroupData.modifiedAdGroupAPIStartTime &&
                     moment(formData.startTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.adGroupData.modifiedAdGroupAPIStartTime)).startOf('day'))) {
                     isDateChanged = false;
                 }
 
-                utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone, isDateChanged);
+                utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', isDateChanged);
 
                 if ($scope.adGroupData.editAdGroupFlag) {
                     if (moment(utcStartTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.adGroupData.modifiedAdGroupAPIStartTime)).startOf('day')))  {
@@ -1045,7 +1033,7 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                 }
 
                 postCreateAdObj.startTime = utcStartTime;
-                utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime', dateTimeZone);
+                utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
 
                 if ($scope.adGroupData.editAdGroupFlag) {
                     // if api end unix time and form end unix time is same then will take api end time

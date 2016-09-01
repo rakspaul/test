@@ -43,6 +43,7 @@ define(['angularAMD'], function (angularAMD) {
                     });
 
                     if (selectedAccount) {
+                        workflowService.setClientTimeZone(selectedAccount.timezone);
                         return true;
                     }
                 }
@@ -134,7 +135,8 @@ define(['angularAMD'], function (angularAMD) {
                 });
 
                 return deferred.promise;
-            }
+            },
+
         };
     }]);
 });

@@ -1,6 +1,6 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.service('momentService', ['loginModel', 'constants', 'vistoconfig',
-        function (loginModel, constants, vistoconfig) {
+    angularAMD.service('momentService', ['loginModel', 'constants',
+        function (loginModel, constants) {
 
             this.today = function () {
 
@@ -111,23 +111,7 @@ define(['angularAMD'], function (angularAMD) {
              */
 
             this.getTimezoneName = function () {
-
-                var clientRoleObj = JSON.parse(localStorage.getItem('clientRoleObj'));
-
-                if (clientRoleObj && clientRoleObj.timezoneName) {
-                    return clientRoleObj.timezoneName;
-                }
-
-            };
-
-            /*
-             Set the timezone name based on the timezone abbreviation, and store in localStorage ('clientRoleObj').
-             */
-
-            this.setTimezoneName = function (timezone, clientRoleObj) {
-
-                clientRoleObj.timezoneName = vistoconfig.timeZoneNameMapper[timezone];
-
+                return localStorage.getItem('clientTimeZone');
             };
 
             /*
@@ -153,9 +137,7 @@ define(['angularAMD'], function (angularAMD) {
              */
 
             this.setTimezoneMoment = function (clientRoleObj) {
-
                 clientRoleObj.timezoneMoment = moment.tz(this.getTimezoneName());
-
             };
 
             /*
@@ -163,26 +145,19 @@ define(['angularAMD'], function (angularAMD) {
              Also, startTime is forced to beginning of day & endTime to end of day.
              */
 
-            this.localTimeToUTC = function (dateTime, type, timezone, isDateChanged) {
+            this.localTimeToUTC = function (dateTime, type, isDateChanged) {
 
                 var clientUTCTime,
                     parseDateTime,
                     currentUTCTime,
                     tz,
-                    timeZoneCode,
                     timeSuffix = (type === 'startTime' ? '00:00:00' : '23:59:59');
 
                 if (typeof isDateChanged === 'undefined') {
                     isDateChanged = true;
                 }
 
-                if (timezone) {
-                    timeZoneCode = vistoconfig.timeZoneNameMapper[timezone];
-                    tz = moment(dateTime).tz(timeZoneCode).format('z');
-                } else {
-                    tz = moment(dateTime).tz(this.getTimezoneName()).format('z');
-                }
-
+                tz = moment(dateTime).tz(this.getTimezoneName()).format('z');
                 parseDateTime = Date.parse(dateTime + ' ' + timeSuffix + ' ' + tz);
                 clientUTCTime = moment(parseDateTime).tz('UTC');
                 currentUTCTime = moment.utc();
