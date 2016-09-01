@@ -256,12 +256,19 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
                                 });
 
                                 $scope['strategyPerfDataByTactic' + tab]  =
+
                                     _.filter(result.data.data, function (item) {
                                         if(item.dimension === 'Line Item Totals') {
                                             item.sepratorCls = 'sepratorCls';
                                         }
+                                        if(item.dimension === 'Ad Item Totals') {
+                                            item.sepratorCls = 'sepratorLineCls';
+                                        }
                                         return item.ad_id !== -1 && item.ad_group_id !== -1;
                                     });
+
+                                   
+
 
                                 $scope.groupThem = _.chain($scope['strategyPerfDataByTactic' + tab])
                                     .groupBy('ad_id')
