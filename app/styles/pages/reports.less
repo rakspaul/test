@@ -1341,10 +1341,16 @@ div.strategy_total_container {
         .each_strategy {
             float: left;
             width: 100% ;
-            padding: 15px 20px 5px 6px;
+            padding: 15px 1px 5px 0px;
             margin: 10px 0 0 0px;
             border: solid 1px @reportBorder ;
             background: #fff;
+            .row_list_holder {
+                > div {
+                    padding-left: 6px ;
+                    padding-right: 20px ;
+                }
+            }
         }
         .each_strategy_holder:last-child {
             .linkage_lines {
@@ -2811,6 +2817,13 @@ div.strategy_total_container {
                     padding-right: 0px !important;
                 }
             }
+            .sepratorLineCls {
+                border-bottom: 1px solid #ccd9e3;
+                margin-bottom: 10px ;
+                .sec_col {
+                    font-family: "Avenir-bold" ;
+                }
+            }
             .sepratorCls_platform {
                 border-bottom: 2px solid #ccd9e3;
                 /*position: absolute;
@@ -3213,6 +3226,7 @@ div.strategy_total_container {
         }
         .first_col {
             width: 100% !important ;
+            padding-left: 6px !important ;
         }
         .reports_performance_header {
             .sec_col {

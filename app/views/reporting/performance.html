@@ -71,18 +71,18 @@
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder" data-ng-show="!screenBusy">
-                                    <div class="each_strategy_holder clearfix"
+                                    <div class="each_strategy_holder clearfix "
                                          data-ng-repeat="tactic in groupThem |
                                             orderBy : sortTypeScreens : sortReverse track by $index"
-                                         data-ng-if="showPerfMetrix === true">
+                                         data-ng-if="showPerfMetrix === true" >
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col" data-ng-bind="tactic.name"></div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="each_col col-md-12 zeroPadding first_col" data-ng-bind="tactic.name"></div>
+                                            <div class="col-md-12 zeroPadding row_list_holder">
+                                                <div class="clearfix each_row_list {{screenData.sepratorCls}}"
                                                      data-ng-repeat="screenData in tactic.perf_metrics |
                                                         orderBy : sortTypeScreens : sortReverse track by $index"
-                                                     data-ng-include="'screenTpl'">
+                                                     data-ng-include="'screenTpl'" >
                                                 </div>
                                             </div>
                                         </div>

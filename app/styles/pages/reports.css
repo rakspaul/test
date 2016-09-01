@@ -1397,10 +1397,14 @@ div.strategy_total_container .all_strategies_holder .linkage_lines:after {
 div.strategy_total_container .all_strategies_holder .each_strategy {
   float: left;
   width: 100% ;
-  padding: 15px 20px 5px 6px;
+  padding: 15px 1px 5px 0px;
   margin: 10px 0 0 0px;
   border: solid 1px #ccd9e3;
   background: #fff;
+}
+div.strategy_total_container .all_strategies_holder .each_strategy .row_list_holder > div {
+  padding-left: 6px ;
+  padding-right: 20px ;
 }
 div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-child .linkage_lines {
   height: 50px;
@@ -2738,6 +2742,13 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   text-transform: none !important;
   padding-right: 0px !important;
 }
+.reports_tabs_content_container .reports_block .row_list_holder .sepratorLineCls {
+  border-bottom: 1px solid #ccd9e3;
+  margin-bottom: 10px ;
+}
+.reports_tabs_content_container .reports_block .row_list_holder .sepratorLineCls .sec_col {
+  font-family: "Avenir-bold";
+}
 .reports_tabs_content_container .reports_block .row_list_holder .sepratorCls_platform {
   border-bottom: 2px solid #ccd9e3;
   /*position: absolute;
@@ -3115,6 +3126,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container #reports_byscreens_block .first_col,
 .reports_tabs_content_container #reports_byformats_block .first_col {
   width: 100% !important ;
+  padding-left: 6px !important ;
 }
 .reports_tabs_content_container #reports_byscreens_block .reports_performance_header .sec_col,
 .reports_tabs_content_container #reports_byformats_block .reports_performance_header .sec_col {
