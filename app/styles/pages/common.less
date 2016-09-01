@@ -2660,13 +2660,15 @@ tags-input .autocomplete {
 	}
 }
 
-// Styles for Admin Brands popup
-#brandsPopup .form-group {
+// Styles for Admin Brands & Advertisers popup
+#brandsPopup .form-group,
+#advertisersWrapper .form-group {
     height: 70px;
 	margin-bottom: -32px;
 }
 
-#brandsPopup .brand-name-selected {
+#brandsPopup .brand-name-selected,
+#advertisersWrapper .advertiser-selected {
 	cursor: pointer;
     position: absolute;
     bottom: 0;
@@ -2675,7 +2677,8 @@ tags-input .autocomplete {
     padding: 5px 10px;
 }
 
-#brandsPopup .icon-arrow-solid-down {
+#brandsPopup .icon-arrow-solid-down,
+#advertisersWrapper .icon-arrow-solid-down {
 	position: absolute;
 	z-index: 2;
 	bottom: 8px;
@@ -2685,18 +2688,25 @@ tags-input .autocomplete {
 	color: #939eae; //@label-gray;
 }
 
-#brandsPopup .admin-brand-dropdown-menu {
+#brandsPopup .admin-brand-dropdown-menu,
+#advertisersWrapper .admin-advertisers-dropdown-menu {
 	border: 1px solid #bfc9d7;
 	display: none;
 	padding: 0;
 }
 
-#brandsPopup #brandsDropdownDiv {
+#advertisersWrapper .admin-advertisers-dropdown-menu {
+    margin-bottom: -30px;
+}
+
+#brandsPopup #brandsDropdownDiv,
+#advertisersWrapper #advertisersDropdownDiv {
 	border-bottom: solid 1px #bfc9d7;
 	padding: 0 10px;
 }
 
-#brandsPopup #brandsSearchBox {
+#brandsPopup #brandsSearchBox,
+#advertisersWrapper #advertisersSearchBox {
 	background: url(/images/cdesk/search_input.png) #fff no-repeat right center !important;
 	border: medium none;
 	cursor: pointer;
@@ -2708,19 +2718,22 @@ tags-input .autocomplete {
 	width: 100%;
 }
 
-#brandsPopup #dropdown {
+#brandsPopup #dropdown,
+#advertisersWrapper #dropdown {
 	max-height: 200px;
 	overflow-y: auto;
 }
 
-#brandsPopup #dropdown ul {
+#brandsPopup #dropdown ul,
+#advertisersWrapper #dropdown ul {
 	margin: 0;
     max-height: 200px;
     overflow-y: auto;
 	padding: 0;
 }
 
-#brandsPopup #dropdown li {
+#brandsPopup #dropdown li,
+#advertisersWrapper #dropdown li {
 	color: #21252b;
 	cursor: pointer;
 	font-family: Avenir, sans-serif;
@@ -2730,11 +2743,21 @@ tags-input .autocomplete {
 	padding: 9px 15px;
 }
 
-#brandsPopup #dropdown li:hover {
+#brandsPopup #dropdown li:hover,
+#advertisersWrapper #dropdown li:hover {
 	background: #E1EDF9;
 }
 
-#brandsPopup #dropdown li.active {
+#brandsPopup #dropdown li.active,
+#advertisersWrapper #dropdown li.active {
 	font-family: Avenir-bold, sans-serif !important;
 }
-// END Styles for Admin Brands popup
+
+#advertisersWrapper .campaignUrl {
+    margin-top: 45px;
+}
+
+#advertisersWrapper {
+    margin-bottom: 15px;
+}
+// END Styles for Admin Brands & Advertisers popup

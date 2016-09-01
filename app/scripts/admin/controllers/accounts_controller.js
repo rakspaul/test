@@ -46,13 +46,38 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
                     return ret;
                 };
 
-                _currCtrl.fetchAllAdvertisers = function (clientId) {
+                _currCtrl.fetchAllAdvertisers = function (clientId, query, pageSize, pageNo) {
+                    query = query || '';
+                    pageSize = pageSize || $scope.advertisersPageSize;
+                    pageNo = pageNo || 0;
+                    $scope.advertisersPageNo = ++pageNo;
+
                     adminAccountsService
-                        .getUserAdvertiser(clientId)
+                        .getUserAdvertiser(clientId, query, pageSize, $scope.advertisersPageNo)
                         .then(function (res) {
-                            if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
-                                $scope.advertisersData = res.data.data;
-                                console.log('$scope.advertisersData = ', $scope.advertisersData);
+                            if ((res.status === 'OK' || res.status === 'success')) {
+                                if (res.data.data.length > 0) {
+                                    if (res.data.data.length < pageSize) {
+                                        $scope.noMoreAdvertisersToLoad = true;
+                                    } else {
+                                        $scope.noMoreAdvertisersToLoad = false;
+                                    }
+
+                                    if (pageNo === 1) {
+                                        $scope.advertisersData = res.data.data;
+                                    } else {
+                                        Array.prototype.push.apply($scope.advertisersData, res.data.data);
+                                    }
+                                } else {
+                                    $scope.noMoreAdvertisersToLoad = true;
+                                }
+
+                                // If no data is found for the search query entered by the user
+                                if ($scope.advertisersData.length === 0) {
+                                    $scope.advertisersData = [{id: 0, name: 'No matching Advertisers found!'}];
+                                }
+
+                                $scope.advertisersLoading = false;
                             }
                         });
                 };
@@ -146,6 +171,12 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
                 $scope.brandsQuery = '';
                 $scope.noMoreBrandsToLoad = false;
                 $scope.brandsLoading = false;
+                $scope.advertisersData = [];
+                $scope.advertisersPageSize = 20;
+                $scope.advertisersPageNo = 0;
+                $scope.advertisersQuery = '';
+                $scope.noMoreAdvertisersToLoad = false;
+                $scope.advertisersLoading = false;
                 // TODO: End of Brands & Advertisers data init here
 
                 $scope.pixelIndex = null;
@@ -711,6 +742,7 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
                 _currCtrl.fetchAllBrands();
 
                 $scope.fetchAllBrands = _currCtrl.fetchAllBrands;
+                $scope.fetchAllAdvertisers = _currCtrl.fetchAllAdvertisers;
             }
         ]);
     }
