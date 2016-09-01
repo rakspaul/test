@@ -156,13 +156,15 @@ define(['angularAMD', 'admin-account-service'],
 
             function getTimezones() {
                 $scope.timezones = {
-                    EST          : 'Eastern Standard Time (GMT-05:00)',
+                     EST          : 'Eastern Standard Time (GMT-05:00)',
                     'US/Eastern' : 'Eastern Time',
+                    'US/Alaska'  : 'Alaska Time',
+                    'US/Hawaii'  : 'Hawaii Time',
                     'US/Central' : 'Central Time',
                     'US/Mountain': 'Mountain Time',
                     'US/Pacific' : 'Pacific Time',
-                     UTC          : 'GMT',
-                     GB           : 'British Summer Time'
+                     UTC         : 'GMT',
+                     GB          : 'British Summer Time'
                 };
             }
 
