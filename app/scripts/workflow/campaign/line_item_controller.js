@@ -643,8 +643,7 @@ define(['angularAMD', 'file-reader', 'ng-upload-hidden'], function (angularAMD) 
         };
 
         $scope.$parent.createNewLineItemInEditMode = function () {
-            var newItem,
-                dateTimeZone;
+            var newItem;
 
             $scope.Campaign.showBudgetZeroPopup = false;
 
@@ -679,10 +678,8 @@ define(['angularAMD', 'file-reader', 'ng-upload-hidden'], function (angularAMD) 
                 // loader for save button
                 $scope.Campaign.createNewLineItemLoaderEdit = true;
 
-                dateTimeZone = workflowService.getAccountTimeZone();
-
-                newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone);
-                newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime', dateTimeZone);
+                newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
+                newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
 
                 // in case pricerate is 30% markup remove the Markup
                 if (typeof newItem.pricingRate === 'string') {
@@ -726,7 +723,6 @@ define(['angularAMD', 'file-reader', 'ng-upload-hidden'], function (angularAMD) 
             var newItem,
                 utcStartTime,
                 utcEndTime,
-                dateTimeZone,
                 isDateChanged = true;
 
             // this hack is to make it work in edit mode when media plan save is requierd prior to line item
@@ -763,14 +759,13 @@ define(['angularAMD', 'file-reader', 'ng-upload-hidden'], function (angularAMD) 
                     newItem = createEditLineItemObj(angular.copy(oldLineItem));
                 }
 
-                dateTimeZone = workflowService.getAccountTimeZone();
 
                 if(lineItemAPIStartTimeList[oldLineItemIndex] &&
                     moment(newItem.startTime).startOf('day').isSame(moment(momentService.utcToLocalTime(lineItemAPIStartTimeList[oldLineItemIndex])).startOf('day'))) {
                     isDateChanged = false;
                 }
 
-                utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone, isDateChanged);
+                utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', isDateChanged);
 
                 if(moment(utcStartTime).startOf('day').isSame(moment(momentService.utcToLocalTime(lineItemAPIStartTimeList[oldLineItemIndex])).startOf('day')))  {
                     utcStartTime = lineItemAPIStartTimeList[oldLineItemIndex];
@@ -778,7 +773,7 @@ define(['angularAMD', 'file-reader', 'ng-upload-hidden'], function (angularAMD) 
 
                 newItem.startTime = utcStartTime;
 
-                utcEndTime = momentService.localTimeToUTC(newItem.endTime, 'endTime', dateTimeZone);
+                utcEndTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
 
                 if(moment(utcEndTime).unix() === moment(lineItemAPIEndTimeList[oldLineItemIndex]).unix())  {
                     utcEndTime = lineItemAPIEndTimeList[oldLineItemIndex];
