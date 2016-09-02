@@ -1265,7 +1265,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 });
 
                 return obj;
-            }
+            };
 
         return {
             fetchCampaigns: fetchCampaigns,

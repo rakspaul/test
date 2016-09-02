@@ -41,7 +41,7 @@ define(['angularAMD', 'time-period-model'],
 
                     if (clickedDateRange.startsWith('custom')) {
                         $('#newDatePickerBox').show();
-                        $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED, clickedDateRange);
+                        $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED);
                     } else {
                         $('#newDatePickerBox').hide();
                     }
