@@ -14,8 +14,6 @@ define(['angularAMD', 'time-period-model'], function (angularAMD) {
         $scope.reports.schedule = {};
 
         $scope.timeData = timePeriodModel.timeData;
-        console.log("$scope.timeData", $scope.timeData);
-
 
         $scope.reports.schedule.startDate = moment()
             .subtract(0, 'days').
@@ -32,7 +30,6 @@ define(['angularAMD', 'time-period-model'], function (angularAMD) {
         }
 
         $scope.datePickerfilterByTimePeriod = function (key, startDate, endDate) {
-            console.log("datePickerfilterByTimePeriod");
             key.key = 'custom&start_date=' + startDate + '&end_date=' + endDate;
             timePeriodModel.selectTimePeriod(key);
             $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED);

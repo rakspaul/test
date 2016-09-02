@@ -259,10 +259,8 @@ define(['angularAMD', 'time-period-directive', 'sub-account-directive',
                 element.bind('click', function () {});
 
                 $scope.downloadPerformanceReport = function (report) {
-                    var time_filter =  timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
-                    console.log("time_filter", time_filter);
-
                     var reportUrl,
+                        time_filter =  timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
 
                         queryObj = {
                             url: report.url,

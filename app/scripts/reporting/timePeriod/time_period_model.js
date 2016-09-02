@@ -76,7 +76,6 @@ define(['angularAMD'], function (angularAMD) {
                 };
 
                 this.setTimeFilterCustomDates = function(date) {
-                    console.log("setTimeFilterCustomDates", date);
                     self.timeFrameCustomDates = date;
                 };
 
