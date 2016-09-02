@@ -531,8 +531,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
 
         // Initializing the variable.
         $scope.init = function () {
-            var fromLocStore = localStorage.getItem('timeSetLocStore');
-
             $scope.strategyFound = false;
             $scope.apiReturnCode = 200;
             $scope.isStrategyDataEmpty = false;
@@ -553,7 +551,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
         $scope.resetVariables();
         $scope.strategyChangeHandler();
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event) {
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function () {
             $scope.resetVariables();
             $scope.strategyChangeHandler();
         });

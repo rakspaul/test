@@ -182,7 +182,7 @@ define(['angularAMD'], function (angularAMD) {
         };
 
         this.setClientTimeZone = function(timeZone) {
-            console.log("setClientTimeZone", timeZone)
+            console.log('setClientTimeZone', timeZone);
             clientTimeZone = timeZone;
         };
 

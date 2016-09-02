@@ -343,8 +343,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
 
             // Initializing the variable.
             $scope.init = function () {
-                var fromLocStore = localStorage.getItem('timeSetLocStore');
-
                 $scope.strategyFound = false;
                 $scope.strategyLoading = true;
                 $scope.apiReturnCode = 200;
@@ -352,13 +350,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                 $scope.strategies = {};
                 $scope.resetVariables();
                 $scope.selectedFilters = {};
-
-                if (fromLocStore) {
-                    fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
-                    $scope.selectedFilters.time_filter = fromLocStore;
-                } else {
-                    $scope.selectedFilters.time_filter = 'life_time';
-                }
 
                 $scope.selectedFilters.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
                 $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
