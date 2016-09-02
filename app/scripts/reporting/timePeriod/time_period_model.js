@@ -79,6 +79,10 @@ define(['angularAMD'], function (angularAMD) {
                     self.timeFrameCustomDates = date;
                 };
 
+                this.getTimeFilterCustomDates = function() {
+                    return self.timeFrameCustomDates;
+                };
+
             };
 
         return new tpModel();

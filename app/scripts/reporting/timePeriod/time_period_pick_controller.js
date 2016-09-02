@@ -10,13 +10,20 @@ define(['angularAMD', 'time-period-model'], function (angularAMD) {
 
         $scope.timeData = timePeriodModel.timeData;
 
-        $scope.reports.schedule.startDate = moment()
-            .subtract(0, 'days').
-            format(constants.DATE_UTC_SHORT_FORMAT);
+        var selectedTimeFrame = timePeriodModel.getTimeFilterCustomDates();
+        if(selectedTimeFrame) {
+            $scope.reports.schedule.startDate = selectedTimeFrame.startDate;
+            $scope.reports.schedule.endDate = selectedTimeFrame.endDate;
 
-        $scope.reports.schedule.endDate = moment()
-            .subtract(0, 'days')
-            .format(constants.DATE_UTC_SHORT_FORMAT);
+        } else {
+            $scope.reports.schedule.startDate = moment()
+                .subtract(0, 'days').
+                format(constants.DATE_UTC_SHORT_FORMAT);
+
+            $scope.reports.schedule.endDate = moment()
+                .subtract(0, 'days')
+                .format(constants.DATE_UTC_SHORT_FORMAT);
+        }
 
         if (timePeriodModel.timeData.displayTimePeriod === 'Custom') {
             $('#newDatePickerBox').show();
