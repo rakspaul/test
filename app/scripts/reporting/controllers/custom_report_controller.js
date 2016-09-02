@@ -2745,12 +2745,11 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 };
 
                 $scope.resetMetricOptions = function () {
-                    var url = urlBuilder.customReportsListUrl();
-
                     if ($scope.buttonResetCancel === 'Cancel') {
-                        $location.url(url);
+                        $location.url(urlBuilder.customReportsListUrl('reports/schedules',true));
                     } else if ($scope.buttonResetCancel === 'Clear') {
                         localStorage.removeItem('customReport');
+                        $location.url(urlBuilder.customReportsUrl(true));
                         $route.reload();
                     }
                 };

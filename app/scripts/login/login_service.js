@@ -23,16 +23,6 @@ define(['angularAMD'],
                         });
                     },
 
-                    getUserInfo = function () {
-                        return dataService
-                            .fetch(urlService.APIuserInfo())
-                            .then(function (response) {
-                                if(response.status === 'success') {
-                                    loginModel.setUser(response.data.data);
-                                }
-                            });
-                    },
-
                     setCredentials = function (data) {
                         loginModel.setUser(data);
                     };
@@ -40,7 +30,6 @@ define(['angularAMD'],
                 return {
                     loginAction: loginAction,
                     setCredentials: setCredentials,
-                    getUserInfo: getUserInfo,
                     logoutAction: logoutAction
                 };
             }

@@ -1,39 +1,39 @@
 define(['angularAMD'], function (angularAMD) {
     angularAMD.service('routeResolvers', function () {
         var accountDataWithReportList = function (args, deferred) {
-            args
-                .accountService
-                .fetchAccountData(args.$route.current.params.accountId)
-                .then(function () {
-                    args.collectiveReportModel
-                        .getReportList(
-                            args.$route.current.params.subAccountId,
-                            args.$route.current.params.advertiserId || -1,
-                            args.$route.current.params.brandId || -1,
-                            args.$route.current.params.campaignId || -1
-                        )
-                        .then(function (response) {
-                            if (response && response.data.data) {
-                                deferred.resolve(response.data.data);
-                            } else {
-                                deferred.resolve([]);
-                            }
+                args
+                    .accountService
+                    .fetchAccountData(args.$route.current.params.accountId)
+                    .then(function () {
+                        args.collectiveReportModel
+                            .getReportList(
+                                args.$route.current.params.subAccountId,
+                                args.$route.current.params.advertiserId || -1,
+                                args.$route.current.params.brandId || -1,
+                                args.$route.current.params.campaignId || -1
+                            )
+                            .then(function (response) {
+                                if (response && response.data.data) {
+                                    deferred.resolve(response.data.data);
+                                } else {
+                                    deferred.resolve([]);
+                                }
 
-                            args.$route.current.params.campaignId &&
+                                args.$route.current.params.campaignId &&
                                 args.campaignSelectModel.fetchCampaign(args.$route.current.params.subAccountId, args.$route.current.params.campaignId);
 
-                            !args.$route.current.params.campaignId && args.campaignSelectModel.setSelectedCampaign({
-                                id: -1,
-                                name: 'All Media Plans',
-                                kpi: 'ctr',
-                                startDate: '-1',
-                                endDate: '-1'
-                            });
+                                !args.$route.current.params.campaignId && args.campaignSelectModel.setSelectedCampaign({
+                                    id: -1,
+                                    name: 'All Media Plans',
+                                    kpi: 'ctr',
+                                    startDate: '-1',
+                                    endDate: '-1'
+                                });
 
-                            args.$route.current.params.advertiserId && fetchCurrentAdvertiser(args);
-                            args.$route.current.params.advertiserId && args.$route.current.params.brandId && fetchCurrentBrand(args);
-                        });
-                });
+                                args.$route.current.params.advertiserId && fetchCurrentAdvertiser(args);
+                                args.$route.current.params.advertiserId && args.$route.current.params.brandId && fetchCurrentBrand(args);
+                            });
+                    });
             },
 
             adsResolver = function (args, mode) {
@@ -323,7 +323,8 @@ define(['angularAMD'], function (angularAMD) {
                     .accountService
                     .fetchAccountData(args.$route.current.params.accountId)
                     .then(function () {
-                        var params = args.$route.current.params;
+                        var params = args.$route.current.params,
+                            currentPath =  args.$location.path();
 
                         args
                             .campaignSelectModel
@@ -346,10 +347,10 @@ define(['angularAMD'], function (angularAMD) {
 
                                         url += '/mediaplans/' + campaign.campaign_id + '/' + params.reportName;
                                     } else {
+                                        localStorage.setItem('topAlertMessage', args.constants.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_BRAND);
                                         (params.advertiserId > 0) && (url += '/adv/' + params.advertiserId);
-                                        (params.advertiserId > 0) && (params.brandId > 0) && (url += '/b/' + params.brandId);
-
-                                        url += '/mediaplans';
+                                        (params.advertiserId > 0) && (url += '/b/0');
+                                        url += '/mediaplans/reports' + currentPath.substr(currentPath.lastIndexOf('/'), currentPath.length);
                                     }
 
                                     args.$location.url(url);
@@ -771,7 +772,7 @@ define(['angularAMD'], function (angularAMD) {
                 return deferred.promise;
             },
 
-            // report header resolver without campaign id - we pick the campaign here
+        // report header resolver without campaign id - we pick the campaign here
             reportsHeaderResolverWOCampaign = function (args) {
                 var deferred = args.$q.defer();
 

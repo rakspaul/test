@@ -194,6 +194,29 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                                     sumTechFeesNServiceFees(item);
                                     marginPercentage(item);
                                 });
+
+                                var tacticPlatformData = [],
+                                    tempArr = [],
+                                    isExist = [],
+                                    tempVal = null;
+
+                                _.each($scope.tacticPlatformData, function(item){
+                                    if(isExist.indexOf(item.ad_id) === -1) {
+                                        isExist.push(item.ad_id);
+                                        tempArr = _.filter($scope.tacticPlatformData, function (v) {
+                                            return v.ad_id === item.ad_id;
+                                        });
+                                        if(!tempArr[0].platform_name || (tempArr[0].platform_name !== 'Ad Item' +
+                                            ' Totals' && tempArr[0].platform_name !== 'Ad Totals')){
+                                            tempVal = tempArr[1];
+                                            tempArr[1] = tempArr[0];
+                                            tempArr[0] = tempVal;
+                                        }
+                                        tacticPlatformData.push(tempArr);
+                                    }
+                                });
+
+                                $scope.tacticPlatformData = tacticPlatformData;
                             } else {
                                 $scope.platformData = result.data.data;
 
