@@ -26,9 +26,12 @@ define(['angularAMD', 'brands-service', 'common-utils', 'brands-directive'], fun
                     });
             };
 
-        if(localStorage.getItem('topAlertMessage')) {
-            $rootScope.setErrAlertMessage(constants.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_BRAND);
+
+        if(vistoconfig.getNoMediaPlanFoundMsg()) {
+            $rootScope.setErrAlertMessage(vistoconfig.getNoMediaPlanFoundMsg());
+            vistoconfig.setNoMediaPlanFoundMsg(null);
         }
+
         $scope.textConstants = constants;
 
         // used to enable the brands drop-down

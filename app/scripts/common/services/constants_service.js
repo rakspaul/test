@@ -1263,5 +1263,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.LINEITEM_EDIT = 'Line Item Edit' ;
         this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ADVERTISER = 'There are no Media Plans for the selected Advertiser';
         this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_BRAND = 'There are no Media Plans for the selected Brand';
+        this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ACCOUNT = 'There are no Media Plans for the selected account';
     }]);
 });

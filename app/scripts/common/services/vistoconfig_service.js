@@ -6,7 +6,8 @@ define(['angularAMD'], function (angularAMD) {
             workflow_apiServicesUrl: workflow_api,
             WORKFLOW_API_URL: workflowCreate_api
         },
-            clientTimeZone;
+            clientTimeZone,
+            noMediaPlanFoundMsg;
 
         this.supportedBrowser = [
             {
@@ -188,6 +189,14 @@ define(['angularAMD'], function (angularAMD) {
 
         this.getClientTimeZone = function() {
             return clientTimeZone;
+        };
+
+        this.setNoMediaPlanFoundMsg = function(msgObj) {
+            noMediaPlanFoundMsg = msgObj;
+        };
+
+        this.getNoMediaPlanFoundMsg = function() {
+           return noMediaPlanFoundMsg;
         };
 
     }]);
