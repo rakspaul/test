@@ -503,7 +503,6 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
                     createCampaign.fetchAdvertisers(data.id);
                     $scope.mediaPlanOverviewClient = {'id':data.id,'name':data.name};
                     resetPixelMediaPlan();
-                    workflowService.setAccountTimeZone(data.timezone);
                     break;
 
                 case 'advertiser':
