@@ -91,7 +91,7 @@
                                 </div>
                                 <div class="all_strategies_holder" data-ng-show="!performanceBusy">
                                     <div class="each_strategy_holder clearfix"
-                                        
+
                                          data-ng-repeat="data in tacticPlatformData |
                                             orderBy : sortTypeByPerformance : sortReverse track by $index">
                                         <div class="linkage_bar"></div>
@@ -140,14 +140,15 @@
                                 </div>
                                 <div class="all_strategies_holder" data-ng-show="!costBusy">
                                     <div class="each_strategy_holder clearfix"
-                                         data-ng-repeat="platform in tacticPlatformData |
+                                         data-ng-repeat="data in tacticPlatformData |
                                             orderBy : sortTypeByCost : sortReverse track by $index"
-                                         data-ng-if="platform.ad_id">
+                                         data-ng-if="data[0].ad_id">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col" data-ng-bind="platform.ad_name"></div>
+                                            <div class="each_col first_col" data-ng-bind="data[0].ad_name"></div>
                                             <div class="row_list_holder">
                                                 <div class="clearfix each_row_list expandRow"
+                                                     data-ng-repeat="platform in data"
                                                      data-ng-include="'costTpl'">
                                                 </div>
                                             </div>
@@ -214,19 +215,21 @@
                                 </div>
                                 <div class="all_strategies_holder" data-ng-show="!viewabilityBusy">
                                     <div class="each_strategy_holder clearfix"
-                                         data-ng-repeat="platform in tacticPlatformData |
+                                         data-ng-repeat="data in tacticPlatformData |
                                             orderBy : sortTypeByViewability : sortReverse track by $index"
-                                         data-ng-if="platform.ad_id">
+                                         data-ng-if="data[0].ad_id">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col" data-ng-bind="platform.ad_name"></div>
+                                            <div class="each_col first_col" data-ng-bind="data[0].ad_name"></div>
                                             <div class="row_list_holder">
                                                 <div data-ng-if="!adFormats.videoAds || !videoMode"
                                                      class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
+                                                     data-ng-repeat="platform in data"
                                                      data-ng-include="'viewabilityTpl'">
                                                 </div>
                                                 <div data-ng-if="adFormats.videoAds && videoMode"
                                                      class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
+                                                     data-ng-repeat="platform in data"
                                                      data-ng-include="'videoViewabilityTpl'">
                                                 </div>
                                             </div>
