@@ -275,6 +275,10 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
             return isActive + ' ' + sortDirection;
         };
 
+        $scope.$on(constants.EVENT_KPI_CHANGED, function() {
+            $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
+        });
+
         // hot fix for the enabling the active link in the reports dropdown
         setTimeout(function () {
             var mainNavigation = $('.main_navigation');
