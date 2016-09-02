@@ -75,8 +75,12 @@
                              class="pull-right inventory_chart_details_list_holder">
                             <div class="inventory_chart_details_list"
                                  data-ng-repeat="stable in strategyTableData | orderBy:'-impressions' track by $index">
-                                <div class="chart_details_cols_row inventory_each_chart_details clearfix" ng-class="(stable.dimension == 'Line Item Totals' || stable.dimension === 'Media Plan Totals' )?'sepratorCls_inventory paddingBottom':''">
-                                    <span class="row_index" ng-if="stable.dimension !== 'Line Item Totals' || stable.dimension !=== 'Media Plan Totals'" data-ng-bind="$index"></span>
+                                <div class="chart_details_cols_row inventory_each_chart_details clearfix" ng-class="(stable.dimension == 'Line Item Totals' || stable.dimension == 'Media Plan Totals' )?'sepratorCls_inventory paddingBottom':''">
+                                    <span ng-switch="stable.dimension">
+                                        <span class="row_index" ng-switch-when = "Line Item Totals"></span>
+                                        <span class="row_index" ng-switch-when = "Media Plan Totals"></span>
+                                        <span class="row_index" ng-switch-default data-ng-bind="$index"></span>
+                                    </span>
                                     <span class="url_val" title="{{stable.dimension}}"
                                           data-ng-if="(selectedFilters_tab !== 'domains')"
                                           data-ng-bind="stable.dimension | formatUrl : 20">
