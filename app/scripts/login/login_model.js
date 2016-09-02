@@ -205,16 +205,6 @@ define(['angularAMD'], function (angularAMD) {
                 return ($cookieStore.get('cdesk_session')) ? true : false;
             },
 
-            networkTimezone: function () {
-                if ($cookieStore.get('cdesk_session')) {
-                    data.network_tz = $cookieStore.get('cdesk_session').network_tz;
-
-                    return $cookieStore.get('cdesk_session').network_tz;
-                }
-
-                return 'America/New_York';
-            },
-
             checkCookieExpiry: function () {
                 if (!$cookieStore.get('cdesk_session')) {
                     localStorage.clear();
