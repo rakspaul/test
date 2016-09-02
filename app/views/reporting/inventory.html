@@ -97,11 +97,14 @@
                                     </span>
                                     <span class="url_val" title="{{stable.dimension}}"
                                           data-ng-if="(selectedFilters_tab === 'domains')">
-                                        <a href="http://{{ stable.dimension}}"
-                                           target="_blank"
-                                           id="inventory_url_val"
-                                           data-ng-bind="stable.dimension | formatUrl : 15">
-                                        </a>
+                                          <a href="http://{{ stable.dimension}}"
+                                             target="_blank"
+                                             id="inventory_url_val" ng-if="stable.dimension !== 'Media Plan Totals'"
+                                             data-ng-bind="stable.dimension | formatUrl : 15">
+                                          </a>
+                                        <span data-ng-bind="stable.dimension"
+                                             ng-if="stable.dimension == 'Media Plan Totals'">
+                                        </span>
                                      </span>
                                     <span class="cpa_col cpa_data pull-right {{stable.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
                                           data-ng-bind="(stable[(selectedFilters.kpi_type.toLowerCase() === 'vtc') ?
@@ -166,7 +169,7 @@
                                           data-ng-if="(selectedFilters_tab !== 'domains')"
                                           data-ng-bind="tableData.dimension | formatUrl : 20">
                                     </span>
-                                    
+
                                     <span class="url_val" title="{{tableData.dimension}}" data-ng-if="(selectedFilters_tab === 'domains')">
                                         <a href="http://{{ tableData.dimension}}"
                                            target='_blank' id="inventory_domain"
