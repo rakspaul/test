@@ -261,7 +261,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
                                         if(item.dimension === 'Line Item Totals') {
                                             item.sepratorCls = 'sepratorCls';
                                         }
-                                        if(item.dimension === 'Ad Item Totals') {
+                                        if(item.dimension === 'Ad Totals') {
                                             item.sepratorCls = 'sepratorLineCls';
                                         }
                                         return item.ad_id !== -1 && item.ad_group_id !== -1;
