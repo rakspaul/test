@@ -2,8 +2,8 @@ define(['angularAMD'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.factory('loginService', ['dataService','urlService', 'loginModel',
-            function (dataService,urlService, loginModel) {
+        angularAMD.factory('loginService', ['dataService', 'urlService', 'loginModel',
+            function (dataService, urlService, loginModel) {
                 var loginAction = function (username, password, callback) {
                         var data = {
                                 login : username,
