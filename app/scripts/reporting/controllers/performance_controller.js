@@ -267,7 +267,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
                                         return item.ad_id !== -1 && item.ad_group_id !== -1;
                                     });
 
-                                   
+
 
 
                                 $scope.groupThem = _.chain($scope['strategyPerfDataByTactic' + tab])
@@ -541,14 +541,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
             $scope.strategies = {};
             $scope.resetVariables();
             $scope.selectedFilters = {};
-
-            if (fromLocStore) {
-                fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
-                $scope.selectedFilters.time_filter = fromLocStore;
-            } else {
-                $scope.selectedFilters.time_filter = 'life_time';
-            }
-
             $scope.selectedFilters.campaign_default_kpi_type =  kpiSelectModel.getSelectedKpi();
             $scope.selectedFilters.kpi_type = 'cpm';
             $scope.selectedFilters2 = {};
@@ -561,8 +553,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
         $scope.resetVariables();
         $scope.strategyChangeHandler();
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event, strategy) {
-            $scope.selectedFilters.time_filter = strategy;
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event) {
             $scope.resetVariables();
             $scope.strategyChangeHandler();
         });
