@@ -1,5 +1,5 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.service('loginModel', ['$cookieStore', '$location', '$http', 'constants', function ($cookieStore, $location, $http, constants) {
+    angularAMD.service('loginModel', ['$cookieStore', '$cookies', '$location', '$http', 'constants', function ($cookieStore, $cookies, $location, $http, constants) {
         var data = {
                 user_id: undefined,
                 user_name: '',
@@ -18,6 +18,47 @@ define(['angularAMD'], function (angularAMD) {
                     $cookieStore.put(constants.COOKIE_REDIRECT, redirectPath);
                 }
             };
+
+        // function to ensure cookie is set to the root path of domain
+        function setCookie(name, value) {
+            document.cookie = name + '=' + value + '; Path=/;';
+        }
+
+        // function to delete cookie by setting its Expires value to the past
+        function deleteCookie(name) {
+            document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        }
+
+        // function to read the value of a cookie whose name is given
+        function readCookie(name) {
+            var nameEQ = name + '=',
+                ca = document.cookie.split(';'),
+                i,
+                c;
+
+            for(i = 0; i < ca.length; i++) {
+                c = ca[i];
+
+                while (c.charAt(0) === ' ') {
+                    c = c.substring(1, c.length);
+                }
+
+                if (c.indexOf(nameEQ) === 0) {
+                    return c.substring(nameEQ.length, c.length);
+                }
+            }
+
+            return null;
+        }
+
+        // This is to ensure the cookie's path is set to the domain root path
+        setCookie('cdesk_session', readCookie('cdesk_session'));
+
+        // TODO: Temp console.log
+        console.log('login(): readCookie = ', readCookie('cdesk_session'));
+        console.log('Login(), cookies = ', $cookies,
+            ', cdesk_session = ', $cookieStore.get('cdesk_session'),
+            ', document.cookie = ', document.cookie);
 
         return {
             deleteData: function () {
@@ -175,7 +216,6 @@ define(['angularAMD'], function (angularAMD) {
             },
 
             checkCookieExpiry: function () {
-
                 if (!$cookieStore.get('cdesk_session')) {
                     localStorage.clear();
                     updateRedirectUrl($location.$$path);
@@ -192,6 +232,13 @@ define(['angularAMD'], function (angularAMD) {
                 localStorage.clear();
                 this.deleteData();
                 $location.url('/login');
+
+                // 'Manually' delete cookie using pure JS if AngularJS failed to delete it
+                deleteCookie('cdesk_session');
+                // TODO: Temp console.log. Remove after testing is done.
+                console.log('Logout(), cookies = ', $cookies,
+                    ', cdesk_session = ', $cookieStore.get('cdesk_session'),
+                    ', document.cookie = ', document.cookie);
 
                 // remove header bar on login page
                 $('.main_navigation_holder').hide();
