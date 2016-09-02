@@ -865,8 +865,8 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                     selectMetricsAvailable: function(){
                         _.each(metricVarKeys,function(eachMKey){
-                            $scope.selectedMetricsList = []
-                            _.each($scope[eachMKey],function(eachMetric,index,name){
+                            $scope.selectedMetricsList = [];
+                            _.each($scope[eachMKey],function(eachMetric){
                                 if(!eachMetric.isDisabled) {
                                     eachMetric.selected = true;
                                     $scope.selectedMetricsList.push({
@@ -969,7 +969,6 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     onPrimaryDimensionSelection: function () {
                         var primaryDimension = $scope.reports.reportDefinition.dimensions.primary.dimension;
                         var dimSpecificMetrics = apiMetrics.dim_specific_metrics;
-                        var allPrimaryDimSelected = false;
 
                         $scope.allMetrics = true;
 
@@ -1093,8 +1092,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         });// end of each
                         }// end of else
 
-                        var totalSelMetrics = $scope.metrics.getTotalSelMetrcis();
-                        if($scope.metrics.getTotalSelMetrcis() != secondaryDimensionTotalMetrics) {
+                        if($scope.metrics.getTotalSelMetrcis() !== secondaryDimensionTotalMetrics) {
                             $scope.allMetrics = false;
                         }
 
@@ -1105,7 +1103,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         var totalSelMetrics = 0;
                         _.each(mArr,function(eachTotalMtrc){
                             totalSelMetrics+= $scope[eachTotalMtrc];
-                        })
+                        });
                         return totalSelMetrics;
                     },
 
@@ -1113,11 +1111,12 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                         //primaryDimensionTotoalMetrics,
                         //secondaryDimensionTotalMetrics
-                        var dimensionTotalMetrics = 0;
+                        var dimensionTotalMetrics = 0,
+                            dimension;
                         if(String(dimensionLevel) === 'primary' || String(dimensionLevel) === 'secondary') {
-                            var dimension = $scope.reports.reportDefinition.dimensions.primary.dimension;
+                            dimension = $scope.reports.reportDefinition.dimensions.primary.dimension;
                             if(String(dimensionLevel) === 'secondary'){
-                                var dimension = $scope.reports.reportDefinition.dimensions.secondary.dimension;
+                                dimension = $scope.reports.reportDefinition.dimensions.secondary.dimension;
                             }
 
                             var apiDimSpecificMetrics = $scope.customeDimensionData[0].dim_specific_metrics;
@@ -1127,7 +1126,6 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                                 dimensionTotalMetrics+= $scope.metrics.getTotalMetrics();
                             } else  {
                                 _.each(dimensionData,function(eachMetric,metric_name){
-                                    var metricName = metric_name;
                                     if ((eachMetric.length === 1) && eachMetric[0] === 'all') {
                                         dimensionTotalMetrics+= apiMetrics.metrics[metric_name].length;
                                     } else if ((eachMetric.length === 1) && (eachMetric[0] === 'NA')) {
@@ -1135,7 +1133,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                                     } else {
                                         dimensionTotalMetrics+= eachMetric.length;
                                     }
-                                })
+                                });
                             }
                             (String(dimensionLevel) === 'primary')?(primaryDimensionTotoalMetrics=dimensionTotalMetrics): (secondaryDimensionTotalMetrics = dimensionTotalMetrics);
                         }//if end
@@ -1143,9 +1141,9 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                     getTotalMetricsOfDimension: function(dimensionLevel) {
                       if(String(dimensionLevel) === 'primary')  {
-                        return primaryDimensionTotoalMetrics
+                        return primaryDimensionTotoalMetrics;
                       } else if(String(dimensionLevel) === 'primary') {
-                          return secondaryDimensionTotalMetrics
+                          return secondaryDimensionTotalMetrics;
                       }
                     },
 
