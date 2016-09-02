@@ -1,6 +1,6 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.service('subAccountService', ['$rootScope', '$location', '$q', '$route', '$timeout', 'workflowService', 'campaignSelectModel', 'advertiserModel',
-        'brandsModel', 'pageFinder', function ($rootScope, $location, $q, $route, $timeout, workflowService, campaignSelectModel, advertiserModel, brandsModel, pageFinder) {
+    angularAMD.service('subAccountService', ['$rootScope', '$location', '$q', '$route', '$timeout', 'vistoconfig', 'workflowService', 'campaignSelectModel', 'advertiserModel',
+        'brandsModel', 'pageFinder', function ($rootScope, $location, $q, $route, $timeout, vistoconfig, workflowService, campaignSelectModel, advertiserModel, brandsModel, pageFinder) {
         var subAccountList = [],
             dashboardSubAccountList = [],
             selectedSubAccount,
@@ -74,7 +74,7 @@ define(['angularAMD'], function (angularAMD) {
                     });
                     if (selectedSubAccount) {
                         if(selectedSubAccount.timezone) {
-                            workflowService.setClientTimeZone(selectedSubAccount.timezone);
+                            vistoconfig.setClientTimeZone(selectedSubAccount.timezone);
                         }
                         return true;
                     }

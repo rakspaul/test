@@ -43,7 +43,7 @@ define(['angularAMD'], function (angularAMD) {
                     });
 
                     if (selectedAccount) {
-                        workflowService.setClientTimeZone(selectedAccount.timezone);
+                        vistoconfig.setClientTimeZone(selectedAccount.timezone);
                         return true;
                     }
                 }

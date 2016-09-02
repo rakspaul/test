@@ -5,7 +5,8 @@ define(['angularAMD'], function (angularAMD) {
             apiSerivicesUrl_NEW: scala_api_NEW,
             workflow_apiServicesUrl: workflow_api,
             WORKFLOW_API_URL: workflowCreate_api
-        };
+        },
+            clientTimeZone;
 
         this.supportedBrowser = [
             {
@@ -178,6 +179,15 @@ define(['angularAMD'], function (angularAMD) {
             'US/Hawaii' : 'Pacific/Honolulu',
 
             'GMT' : 'UTC'
+        };
+
+        this.setClientTimeZone = function(timeZone) {
+            console.log("setClientTimeZone", timeZone)
+            clientTimeZone = timeZone;
+        };
+
+        this.getClientTimeZone = function() {
+            return clientTimeZone;
         };
 
     }]);
