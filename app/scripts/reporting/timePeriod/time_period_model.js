@@ -63,13 +63,10 @@ define(['angularAMD'], function (angularAMD) {
                     if (dateFilter === 'custom') {
                         var todayDate = moment()
                                 .subtract(0, 'days')
-                                .format(constants.DATE_UTC_SHORT_FORMAT),
+                                .format(constants.DATE_UTC_SHORT_FORMAT);
 
-                            localStorageStartDate = JSON.parse(localStorage.getItem('customStartDate')),
-                            localStorageEndDate = JSON.parse(localStorage.getItem('customEndDate'));
-
-                        if (localStorageStartDate && localStorageEndDate) {
-                            return 'custom&start_date=' + localStorageStartDate + '&end_date=' + localStorageEndDate;
+                        if (self.timeFrameCustomDates && self.timeFrameCustomDates.startDate && self.timeFrameCustomDates.endDate) {
+                            return 'custom&start_date=' + self.timeFrameCustomDates.startDate + '&end_date=' + self.timeFrameCustomDates.endDate;
                         } else {
                             return 'custom&start_date=' + todayDate + '&end_date=' + todayDate;
                         }
@@ -77,6 +74,12 @@ define(['angularAMD'], function (angularAMD) {
                         return dateFilter;
                     }
                 };
+
+                this.setTimeFilterCustomDates = function(date) {
+                    console.log("setTimeFilterCustomDates", date);
+                    self.timeFrameCustomDates = date;
+                };
+
             };
 
         return new tpModel();

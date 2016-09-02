@@ -7,44 +7,37 @@ define(['angularAMD', 'time-period-model'], function (angularAMD) {
         var datesFromLocStore,
             endDatesFromLocStore;
 
-        $scope.timeData = timePeriodModel.timeData;
 
-        $scope.datePickerfilterByTimePeriod = function (key, timePeriod, timePeriods) {
-            key.key = 'custom&start_date=' + timePeriod + '&end_date=' + timePeriods;
-            timePeriodModel.selectTimePeriod(key);
-            $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED, key);
-            localStorage.setItem('customStartDate', JSON.stringify(timePeriod));
-            localStorage.setItem('customEndDate', JSON.stringify(timePeriods));
-        };
 
         $scope.reports = {};
         $scope.reports.reportDefinition = {};
         $scope.reports.schedule = {};
 
-        // first check in local storage here
-        datesFromLocStore = localStorage.getItem('customStartDate');
-        endDatesFromLocStore = localStorage.getItem('customEndDate');
+        $scope.timeData = timePeriodModel.timeData;
+        console.log("$scope.timeData", $scope.timeData);
 
-        if (datesFromLocStore || endDatesFromLocStore) {
-            datesFromLocStore = JSON.parse(localStorage.getItem('customStartDate'));
-            endDatesFromLocStore = JSON.parse(localStorage.getItem('customEndDate'));
-            $scope.reports.schedule.startDate = datesFromLocStore;
-            $scope.reports.schedule.endDate = endDatesFromLocStore;
-        } else {
-            $scope.reports.schedule.startDate = moment()
-                .subtract(0, 'days').
-                format(constants.DATE_UTC_SHORT_FORMAT);
 
-            $scope.reports.schedule.endDate = moment()
-                .subtract(0, 'days')
-                .format(constants.DATE_UTC_SHORT_FORMAT);
-        }
+        $scope.reports.schedule.startDate = moment()
+            .subtract(0, 'days').
+            format(constants.DATE_UTC_SHORT_FORMAT);
+
+        $scope.reports.schedule.endDate = moment()
+            .subtract(0, 'days')
+            .format(constants.DATE_UTC_SHORT_FORMAT);
 
         if (timePeriodModel.timeData.displayTimePeriod === 'Custom') {
             $('#newDatePickerBox').show();
         } else {
             $('#newDatePickerBox').hide();
         }
+
+        $scope.datePickerfilterByTimePeriod = function (key, startDate, endDate) {
+            console.log("datePickerfilterByTimePeriod");
+            key.key = 'custom&start_date=' + startDate + '&end_date=' + endDate;
+            timePeriodModel.selectTimePeriod(key);
+            $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED);
+            timePeriodModel.setTimeFilterCustomDates({startDate : startDate, endDate : endDate})
+        };
 
         $(document).ready(function () {
             var startDateInput = $('#startDateInput');
