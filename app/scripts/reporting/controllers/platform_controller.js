@@ -206,7 +206,8 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                                         tempArr = _.filter($scope.tacticPlatformData, function (v) {
                                             return v.ad_id === item.ad_id;
                                         });
-                                        if(!tempArr[0].platform_name || tempArr[0].platform_name !== 'Ad Item Totals'){
+                                        if(!tempArr[0].platform_name || (tempArr[0].platform_name !== 'Ad Item' +
+                                            ' Totals' && tempArr[0].platform_name !== 'Ad Totals')){
                                             tempVal = tempArr[1];
                                             tempArr[1] = tempArr[0];
                                             tempArr[0] = tempVal;
