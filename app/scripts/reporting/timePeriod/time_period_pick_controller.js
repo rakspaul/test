@@ -4,11 +4,6 @@ define(['angularAMD', 'time-period-model'], function (angularAMD) {
 
         function ($scope, $rootScope, timePeriodModel, constants) {
 
-        var datesFromLocStore,
-            endDatesFromLocStore;
-
-
-
         $scope.reports = {};
         $scope.reports.reportDefinition = {};
         $scope.reports.schedule = {};
@@ -33,7 +28,7 @@ define(['angularAMD', 'time-period-model'], function (angularAMD) {
             key.key = 'custom&start_date=' + startDate + '&end_date=' + endDate;
             timePeriodModel.selectTimePeriod(key);
             $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED);
-            timePeriodModel.setTimeFilterCustomDates({startDate : startDate, endDate : endDate})
+            timePeriodModel.setTimeFilterCustomDates({startDate : startDate, endDate : endDate});
         };
 
         $(document).ready(function () {

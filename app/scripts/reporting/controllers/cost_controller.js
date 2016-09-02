@@ -67,8 +67,6 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
         };
 
         $scope.init = function () {
-            var fromLocStore;
-
             $scope.strategyCostData = [];
             $scope.tacticsCostData = [];
             $scope.tacticList = {};
@@ -87,15 +85,6 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
             $scope.selectedFilters = {};
             $scope.selectedFilters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
             $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
-
-            fromLocStore = localStorage.getItem('timeSetLocStore');
-
-            if (fromLocStore) {
-                fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
-                $scope.selectedFilters.time_filter = fromLocStore;
-            } else {
-                $scope.selectedFilters.time_filter = 'life_time';
-            }
         };
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
@@ -206,10 +195,9 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
             $scope.createDownloadReportUrl();
         });
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event, strategy) {
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function () {
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name;
-            $scope.selectedFilters.time_filter = strategy;
             $scope.createDownloadReportUrl();
             $scope.callBackStrategyChange();
             dataHeader();
@@ -258,8 +246,7 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
                     campaignId: $scope.selectedCampaign.id,
                     strategyId: Number($scope.selectedStrategy.id),
                     startDate: $scope.selectedCampaign.startDate,
-                    endDate: $scope.selectedCampaign.endDate,
-                    timeFilter: $scope.selectedFilters.time_filter
+                    endDate: $scope.selectedCampaign.endDate
                 });
             }
         };
