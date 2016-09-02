@@ -107,7 +107,7 @@ define(['angularAMD'], function (angularAMD) {
                     .then(function (result) {
                         if (result && result.data.data.length > 0) {
                             dashboardSubAccountList = dashboardSubAccountList.concat(_.map(result.data.data, function (a) {
-                                return {'id': a.id, 'displayName': a.displayName, 'isLeafNode': a.isLeafNode};
+                                return {'id': a.id, 'displayName': a.displayName, 'isLeafNode': a.isLeafNode, 'timezone' : a.timezone};
                             }));
 
                             subAccountList = _.filter(dashboardSubAccountList, function (a) {
