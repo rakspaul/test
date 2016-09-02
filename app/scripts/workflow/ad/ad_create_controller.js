@@ -6,11 +6,11 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
     angularAMD.controller('CampaignAdsCreateController', ['$scope', '$modal', '$rootScope', '$routeParams',
         '$locale', '$location', '$filter', '$timeout', 'constants', 'workflowService', 'loginModel',
         'dataService', 'audienceService', 'RoleBasedService', 'momentService', 'vistoconfig', 'videoService',
-        'utils', 'urlBuilder', 'accountService', 'subAccountService',
+        'utils', 'urlBuilder', 'accountService',
 
         function ($scope, $modal, $rootScope, $routeParams, $locale, $location,  $filter, $timeout, constants, workflowService, loginModel,
                   dataService, audienceService, RoleBasedService, momentService, vistoconfig, videoService,
-                  utils, urlBuilder, accountService, subAccountService) {
+                  utils, urlBuilder, accountService) {
 
         var winHeaderHeight = $(window).height() - 50,
             winHeight,
@@ -23,8 +23,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         .then(function (result) {
                             var responseData,
                                 clientId,
-                                advertiserId,
-                                accountData;
+                                advertiserId;
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data;

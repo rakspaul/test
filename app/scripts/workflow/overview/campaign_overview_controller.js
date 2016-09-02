@@ -35,8 +35,8 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                     workflowService
                         .getCampaignData(clientId, campaignId)
                         .then(function (result) {
-                            var responseData,
-                                accountData;
+                            var responseData;
+
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 //redirect user to media plan list screen if campaign is archived campaign

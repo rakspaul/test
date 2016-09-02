@@ -125,7 +125,6 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
                 prefillMediaPlan: function (campaignData) {
 
                     var advertiserObj,
-                        accountData,
 
                         flightDateObj = {
                             startTime: momentService.utcToLocalTime(campaignData.startTime),
