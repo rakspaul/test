@@ -1267,12 +1267,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 return obj;
             }
 
-            // setClientTimeZone = function(timeZone) {
-            //     console.log('timeZone', timeZone);
-            //     localStorage.removeItem('clientTimeZone');
-            //     localStorage.setItem('clientTimeZone', vistoconfig.timeZoneNameMapper[timeZone]);
-            // };
-
         return {
             fetchCampaigns: fetchCampaigns,
             getClientData: getClientData,
@@ -1398,7 +1392,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             setLineItemBulkData: setLineItemBulkData,
             getLineItemBulkData: getLineItemBulkData,
             wrapperForActiveAdGroups: wrapperForActiveAdGroups
-            //setClientTimeZone : setClientTimeZone
         };
     }]);
 });
