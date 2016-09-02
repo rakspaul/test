@@ -73,7 +73,9 @@ define(['angularAMD'], function (angularAMD) {
                         return subAccountId === client.id;
                     });
                     if (selectedSubAccount) {
-                        workflowService.setClientTimeZone(selectedSubAccount.timezone);
+                        if(selectedSubAccount.timezone) {
+                            workflowService.setClientTimeZone(selectedSubAccount.timezone);
+                        }
                         return true;
                     }
                 }
