@@ -357,13 +357,20 @@
                                                  data-ng-bind="tactic.name">
                                             </div>
                                             <div class="row_list_holder col-md-12 zeroPadding">
-                                                <div class="clearfix each_row_list {{adSizesData.sepratorCls}}"
+                                                <div ng-if="adSizesData.sepratorCls == 'sepratorLineCls'" class="clearfix each_row_list {{adSizesData.sepratorCls}}"
+                                                     data-ng-repeat="adSizesData in tactic.perf_metrics |
+                                                        orderBy : sortTypeByAdSizes : sortReverseAdSizes
+                                                        track by $index"
+                                                     data-ng-include="'AdSizesTpl'">
+                                                </div>
+                                                <div ng-if="adSizesData.sepratorCls!='sepratorLineCls'" class="clearfix each_row_list"
                                                      data-ng-repeat="adSizesData in tactic.perf_metrics |
                                                         orderBy : sortTypeByAdSizes : sortReverseAdSizes
                                                         track by $index"
                                                      data-ng-include="'AdSizesTpl'">
                                                 </div>
                                             </div>
+                                                
                                         </div>
                                     </div>
                                 </div>
