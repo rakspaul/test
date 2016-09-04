@@ -662,7 +662,8 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                     //should be moved to costservice inside cost module later
                     getCampaignCostData = function (campaignIds, filterStartDate, filterEndDate, advertiserId, brandId,
                                                    success, failure) {
-                        var dateFilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
+
+                        var dateFilter = constants.PERIOD_LIFE_TIME, //timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
 
                             queryObj = {
                                 queryId: 14,

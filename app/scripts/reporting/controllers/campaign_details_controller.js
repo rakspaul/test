@@ -50,7 +50,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                 });
 
             function getCustomQueryParams(queryId) {
-                var dateFilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
+                var dateFilter = constants.PERIOD_LIFE_TIME;//timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
 
                 return {
                     queryId: queryId,
