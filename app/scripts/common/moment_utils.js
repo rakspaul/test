@@ -20,7 +20,7 @@ define(['angularAMD'], function (angularAMD) {
                 }
 
                 return Date.parse(dateString);
-            }
+            };
 
             this.today = function () {
 
