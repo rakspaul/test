@@ -17,8 +17,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.GANTT_CHART_BRAND_CANCELLER = 7;
         this.NEW_REPORT_RESULT_CANCELLER = 3;
         this.PERIOD_LIFE_TIME = 'life_time';
-        this.PERIOD_LAST_7_DAYS = 'last_7_days';
-        this.PERIOD_LAST_30_DAYS = 'last_30_days';
         this.SORT_DESC = 'desc';
         this.ACTIVE_UNDERPERFORMING = 'underperforming';//has to be this way as per database
         this.ACTIVE_ONTRACK = 'ontrack';

@@ -1501,7 +1501,6 @@ define(['angularAMD', 'zip-code-service', 'common-utils', 'lrInfiniteScroll'], f
                 // search type can be countries/regions/cities
                 searchType = parentElem.attr('data-searchfield');
 
-            target.hide();
             parentElem.val('');
             $scope.searchKeyword = null;
 

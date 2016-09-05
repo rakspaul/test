@@ -42,7 +42,6 @@ define(['angularAMD'],
 
                     setUserData = function (response) {
                         var userObj = {
-                            authorizationKey: response.data.data.auth_token,
                             preferred_client: response.data.data.preferred_client
                         };
 

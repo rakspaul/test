@@ -2,6 +2,26 @@ define(['angularAMD'], function (angularAMD) {
     angularAMD.service('momentService', ['loginModel', 'constants', 'vistoconfig',
         function (loginModel, constants, vistoconfig) {
 
+            var mappedDateParse = function(dateString) {
+                var timeZoneDesignatorMap = {
+                    akdt : '-0800',
+                    akst : '-0900',
+                    art : '-0300'
+                };
+
+                var name, newDateString, regex;
+
+                for (name in timeZoneDesignatorMap) {
+                    regex = new RegExp(name, 'i');
+                    if (dateString.search(regex) !== -1) {
+                        newDateString = dateString.replace(regex, timeZoneDesignatorMap[name]);
+                        return Date.parse(newDateString);
+                    }
+                }
+
+                return Date.parse(dateString);
+            }
+
             this.today = function () {
 
                 var tz = vistoconfig.getClientTimeZone();
@@ -142,7 +162,7 @@ define(['angularAMD'], function (angularAMD) {
                 }
 
                 tz = moment(dateTime).tz(vistoconfig.getClientTimeZone()).format('z');
-                parseDateTime = Date.parse(dateTime + ' ' + timeSuffix + ' ' + tz);
+                parseDateTime = mappedDateParse(dateTime + ' ' + timeSuffix + ' ' + tz);
                 clientUTCTime = moment(parseDateTime).tz('UTC');
                 currentUTCTime = moment.utc();
 
