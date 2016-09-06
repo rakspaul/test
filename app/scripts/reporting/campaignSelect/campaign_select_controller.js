@@ -190,7 +190,6 @@ define(['angularAMD','campaign-select-model',  'common-utils'], function (angula
                 if (page.isCannedReportsPage()) {
                     var reportName = _.last($location.path().split('/'));
                     url += '/' +reportName;
-                    console.log('url', url);
                     $location.url(url);
                 } else if (page.isUploadReportsPage()) {
                    console.log('isUploadReportsPage');

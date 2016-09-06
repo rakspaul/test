@@ -1,7 +1,6 @@
 <div class="clearfix reports_sub_menu_dd_holder">
     <div class="pull-left" data-ng-if="buildReport">
-        <a data-ng-href="{{customReportsUrl ? customReportsUrl : navigateToTab('/customreport', $event , 'customReports', true)}}"
-           data-ng-click="navigateToTab('/customreport', $event , 'customReports', false)"
+        <a data-ng-click="navigateToTab('/customreport', $event , 'customReports')"
            class="clearfix new_report_generate_btn">
             <span class="icon-report-builder-1 pull-left"></span>
             <span class="pull-left" data-ng-bind="textConstants.BUILD_REPORT" style="margin-top: 3px;"></span>

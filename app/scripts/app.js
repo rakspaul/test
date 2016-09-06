@@ -21,11 +21,8 @@ define(['common'], function (angularAMD) {
                     templateUrl: 'home.html',
                     controller: function ($cookieStore, $location, RoleBasedService, dataService, accountService) {
                         var preferredClientId;
-
-                        console.log('Home page controller is initialized');
                         if ($cookieStore.get('cdesk_session')) {
                             preferredClientId = RoleBasedService.getUserData().preferred_client;
-                            console.log('preferredClientId', preferredClientId);
                             dataService.updateRequestHeader();
 
                             accountService
@@ -142,7 +139,6 @@ define(['common'], function (angularAMD) {
                                                     });
                                             } else {
                                                 deferrer.reject('advertiser not allowed');
-                                                console.log('advertiser not allowed');
                                                 routeResolversParams.$location.url('/tmp');
                                             }
                                         });
@@ -229,7 +225,6 @@ define(['common'], function (angularAMD) {
                                                     });
                                             } else {
                                                 deferrer.reject('advertiser not allowed');
-                                                console.log('advertiser not allowed');
                                                 routeResolversParams.$location.url('/tmp');
                                             }
                                         });
@@ -389,7 +384,6 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         header: function (routeResolversParams, routeResolvers) {
-                            console.log('Reports overview..........');
                             return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
@@ -1290,7 +1284,6 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         header: function (routeResolversParams, routeResolvers) {
-                            console.log('v1sto/invoices route!');
                             return routeResolvers.invoiceHeader(routeResolversParams);
                         }
                     }

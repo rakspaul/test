@@ -42,13 +42,11 @@ define(['angularAMD'], function (angularAMD) {
         function fetchSubAccounts() {
             var selectedSubAccount;
 
-            console.log(' $scope.subAccountData = ',  $scope.subAccountData.valueOf());
             if ($location.path().endsWith('/dashboard')) {
                 $scope.subAccountData.subAccounts = subAccountService.getDashboardSubAccountList();
                 $scope.subAccountData.selectedSubAccount.id = subAccountService.getSelectedDashboardSubAccount().id;
                 $scope.subAccountData.selectedSubAccount.name = subAccountService.getSelectedDashboardSubAccount().displayName;
             } else {
-                console.log('subAccountController.fetchSubAccounts(): $routeParams.accountId = ', $routeParams.accountId);
                 $scope.subAccountData.subAccounts = subAccountService.getSubAccounts();
 
                 // TODO: Is this the correct call, or redundant as we have the following code below?
