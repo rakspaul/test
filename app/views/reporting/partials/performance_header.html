@@ -45,6 +45,16 @@
 <div class="each_col seventh_col" data-ng-class="{vid_none_hdr:adFormats.videoAds == false}">
     <span class="icon_text_holder" data-ng-class="sortClassFunction('-cpm',sortTypeByPerformance,sortReverseForCostscpm)" data-ng-click=" sortTypeByPerformanceSubSort='-cpm';  sortTypeByPerformance = '-cpm';sortReverse = sortReverseForCostscpm; sortReverseForCostscpm = !sortReverseForCostscpm;removeKpiActive();" >{{textConstants.CPM}}</span>
 </div>
+<div class="each_col seventh_col" data-ng-class="{vid_none_hdr:adFormats.videoAds == false}">
+    <span class="icon_text_holder"
+          data-ng-class="sortClassFunction('-pc_cpa',sortTypeByPerformance,sortReverseForCostscpm)"
+          data-ng-click=" sortTypeByPerformanceSubSort='-pc_cpa';  sortTypeByPerformance = '-pc_cpa';sortReverse = sortReverseForCostscpm; sortReverseForCostscpm = !sortReverseForCostscpm;removeKpiActive();" data-ng-bind="textConstants.PC_CPA"></span>
+</div>
+<div class="each_col seventh_col" data-ng-class="{vid_none_hdr:adFormats.videoAds == false}">
+    <span class="icon_text_holder"
+          data-ng-class="sortClassFunction('-pc_cpa',sortTypeByPerformance,sortReverseForCostscpm)"
+          data-ng-click=" sortTypeByPerformanceSubSort='-spend';  sortTypeByPerformance = '-spend';sortReverse = sortReverseForCostscpm; sortReverseForCostscpm = !sortReverseForCostscpm;removeKpiActive();" data-ng-bind="textConstants.SPEND"></span>
+</div>
 </span>
 <div class="each_col seventh_col">
     <div data-ng-if="adFormats.videoAds"  class="dropdown kpi-dd-holder {{sortTypeByPerformance}}"  >
