@@ -394,7 +394,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
             }
 
             if (responseData.startTime) {
-                $scope.apiStartTime = responseData.startTime;
+                $scope.adAPIStartTime = responseData.startTime;
 
                 $scope.adData.startTime = momentService.utcToLocalTime(responseData.startTime);
 
@@ -402,7 +402,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
             }
 
             if (responseData.endTime) {
-                $scope.apiEndTime = responseData.endTime;
+                $scope.adAPIEndTime = responseData.endTime;
 
                 $scope.adData.endTime = momentService.utcToLocalTime(responseData.endTime);
 
@@ -1145,10 +1145,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 appListsIds = [],
                 adData,
                 videoTargetsData,
-                utcStartTime,
-                utcEndTime,
                 inventoryLists,
-                isDateChanged = true,
 
                 wrapperToReplaceCustomPlatformHiddenValues = function(customPlatformData) {
                     _.each(customPlatformData, function(obj) {
@@ -1205,36 +1202,8 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     postAdDataObj.goal = formData.goal;
                 }
 
-                if($scope.apiStartTime && moment(formData.startTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.apiStartTime)).startOf('day'))) {
-                    isDateChanged = false;
-                }
-
-                if (formData.startTime) {
-                    utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', isDateChanged);
-
-                    // fixed for CW-4102
-                    if ($scope.mode ==='edit') {
-
-                        if(moment(utcStartTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.apiStartTime)).startOf('day')))  {
-                            utcStartTime = $scope.apiStartTime;
-                        }
-                    }
-
-                    postAdDataObj.startTime = utcStartTime;
-                }
-
-                if (formData.endTime) {
-                    utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
-
-                    // fixed for CW-4102
-                    if ($scope.mode ==='edit') {
-
-                        if(moment(utcEndTime).unix() === moment($scope.apiEndTime).unix())  {
-                            utcEndTime = $scope.apiEndTime;
-                        }
-                    }
-                    postAdDataObj.endTime = utcEndTime;
-                }
+                postAdDataObj.startTime = momentService.postDateModifier(formData.startTime, $scope.adAPIStartTime, 'startTime');
+                postAdDataObj.endTime = momentService.postDateModifier(formData.endTime, $scope.adAPIEndTime, 'endTime');
 
                 postAdDataObj.lineitemId = $scope.adData.lineItemId;
 
