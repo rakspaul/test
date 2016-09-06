@@ -292,7 +292,7 @@
             <a href="javascript:void(0);"
                data-ng-click="ShowHideCreativeWin(creativeData, $index)"
                tooltip="{{creativeData.name}}"
-               data-ng-bind="creativeData.name.length > 0 ? (creativeData.name | textEllipsis: 40 ) : ''">
+               data-ng-bind="creativeData.name.length > 0 ? (creativeData.name | textEllipsis: 32 ) : ''">
             </a>
             <div class="pull-right">
                 <div class="dropdown-workflow" data-ng-if="creativeData.creativeTemplate.templateType === 'NORMAL'">
@@ -383,9 +383,9 @@
                       class="icon-warning"
                       title="{{adData.message}}">
                 </span>
-                <a data-ng-click="redirectAdEditPage(adData, creativeData)"
+                <a class="marginTopFive" data-ng-click="redirectAdEditPage(adData, creativeData)"
                    tooltip="{{adData.campaignName}}/{{adData.adName}}"
-                   data-ng-bind="(adData.campaignName | textEllipsis: 42) + ' / ' +  (adData.adName | textEllipsis: 42)">
+                   data-ng-bind="(adData.campaignName | textEllipsis: 32) + ' / ' +  (adData.adName | textEllipsis: 32)">
                 </a>
                 <div class="pull-right">
                     <div class="dropdown-workflow" data-ng-if="creativeData.creativeTemplate.templateType === 'NORMAL'">
