@@ -14,7 +14,7 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
         var _curCtrl = this,
             inventoryWrapper =  {
             // Function called to draw the Strategy chart
-            getStrategyChartData: function () {
+            getStrategyChartData: function () { //TODO : we need to refactor the code and divide into small function.
                 var inventoryQueryIdMapperWithAllAdsGroup = {
                         categories: 25,
                         domains: 27
@@ -54,7 +54,8 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
                 return dataService
                     .fetch(url)
                     .then(function (result) {
-                        var adsTempData;
+                        var adsTempData,
+                        InventoryData;
 
                         $scope.loadingFlag = false;
                         $scope.strategyLoading = false;
@@ -113,10 +114,16 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
                                             item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                         });
                                     }
+
                                     if ($scope.strategyTableData.length > 0) {
+                                        InventoryData = _.filter($scope.strategyTableData,
+                                            function (obj) {
+                                                return Number($scope.selectedStrategy.id) >= 0 ?
+                                                    (obj.dimension.toLowerCase() !== 'line item totals') : (obj.dimension.toLowerCase() !== 'media plan totals');
+                                            });
+
                                         $scope.inventoryChart =
-                                            columnline.highChart($scope.strategyTableData,
-                                                _curCtrl.kpi_display);
+                                            columnline.highChart(InventoryData, _curCtrl.kpi_display);
                                     } else {
                                         $scope.inventoryChart = false;
                                     }
@@ -176,6 +183,12 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
 
                     // For Top Chart
                     if (topPerformance.length > 2) {
+                        topPerformance = _.filter(topPerformance,
+                            function (obj) {
+                                return (obj.dimension.toLowerCase() !== 'ad totals');
+                            });
+
+                        console.log('topPerformance', topPerformance);
                         topChartObj = columnline.highChart(topPerformance, $scope.selectedFilters.kpi_type);
                     }
 

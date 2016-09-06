@@ -118,34 +118,7 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
 
                             accountChangeAction: function () {
                                 return function () {
-                                    var deferred = $q.defer(),
-                                        url;
-
                                     setMasterClientData(id, name, isLeafNode, event);
-
-                                    // // when enters as workflow user should we broadcast masterclient - sapna
-                                    // if (moduleObj.redirect) {
-                                    //     url = '/a/' + id;
-                                    //     console.log("accountChangeAction  ==== subAccountId == ",id);
-                                    //     if (!isLeafNode) {
-                                    //         subAccountService
-                                    //             .fetchSubAccountList (id)
-                                    //             .then(function () {
-                                    //                 var subAccountId;
-                                    //                 deferred.resolve();
-                                    //                 subAccountId = subAccountService.getSubAccounts()[0].id;
-                                    //                 console.log("accountChangeAction === subAccountId == ",subAccountId);
-                                    //
-                                    //                 url += '/sa/' + subAccountId + '/mediaplans';
-                                    //                 $location.url(url);
-                                    //             });
-                                    //     } else {
-                                    //         $location.url(url + '/mediaplans');
-                                    //     }
-                                    // } else {
-                                    //     $route.reload();
-                                    // }
-                                    // return deferred.promise;
                                 };
                             }
                         }
