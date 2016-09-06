@@ -6,7 +6,9 @@ define(['angularAMD'], function (angularAMD) {
                 var timeZoneDesignatorMap = {
                     akdt : '-0800',
                     akst : '-0900',
-                    art : '-0300'
+                    art : '-0300',
+                    hadt : '-0900',
+                    hst : '-1000'
                 };
 
                 var name, newDateString, regex;
