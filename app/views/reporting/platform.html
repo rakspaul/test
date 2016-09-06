@@ -358,6 +358,14 @@
                  data-ng-bind="((platform.cpm > 0) || (platform.cpm === 0)) ?
                     (platform.cpm | currency : undefined : 2) : '-'">
             </div>
+            <div class="each_col eight_col {{platform.kpi_type === 'pc_cpa' ? 'bold' : ''}}"
+                 data-ng-bind="((platform.pc_cpa > 0) || (platform.pc_cpa === 0)) ?
+                    (platform.pc_cpa | currency : undefined : 2) : '-'">
+            </div>
+            <div class="each_col eight_col {{platform.kpi_type === 'spend' ? 'bold' : ''}}"
+                 data-ng-bind="((platform.spend > 0) || (platform.spend === 0)) ?
+                    (platform.spend | currency : undefined : 2) : '-'">
+            </div>
         </div>
         <div data-ng-if="adFormats.videoAds"
              class="each_col eight_col {{platform.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
