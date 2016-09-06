@@ -58,7 +58,7 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
 
                 $scope.selectAdvertisers = function (advertiser) {
                      var args;
-                    
+
                      if(advertiser) {
                          $scope.filterData.advertiserSelectedName = advertiser.name;
                          $scope.filterData.advertiserSelectedId = advertiser.id;
@@ -66,7 +66,7 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
 
                          args = {
                              from: $scope.from,
-                             clientId: $scope.filterData.subAccSelectedId,
+                             clientId: advertiser.clientId,
                              advertiserId: advertiser.id
                          };
                          $rootScope.$broadcast('filterChanged', args);
