@@ -731,9 +731,6 @@ define(['angularAMD'], function (angularAMD) {
 
             reportsHeaderResolver2 = function (args) {
                 var deferred = args.$q.defer();
-
-                console.log('reportsHeaderResolver2(): CALLED FROM Reports overview..........args.$route.current.params.accountId = ', args.$route.current.params.accountId);
-
                 args
                     .accountService
                     .fetchAccountList()

@@ -69,14 +69,6 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
         // Assign isNaN to scope variable to use it from view template
         $scope.isNaN = window.isNaN;
 
-        $scope.mplUrl = '';
-        $scope.reportsUrl = [];
-        $scope.creativeListUrl = '';
-        $scope.adminUrl = '';
-        $scope.invoiceToolUrl = '';
-        $scope.customReportsUrl = '';
-        $scope.scheduleReportsUrl = [];
-
         $scope.getClientData = function () {
             var clientId = localStorageService.masterClient.get().id;
 
@@ -145,11 +137,8 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
             $('#cdbDropdown').hide();
         };
 
-        $scope.navigateToTab = function (url, event, page, fromView, index) {
-            var targetUrl;
-
+        $scope.navigateToTab = function (url, event, page) {
             // TODO: Temp code - get rid of it later.
-            console.log('navigateToTab()!!!!!!!!!!, $scope.mplUrl = ', $scope.mplUrl, ', $scope.reportsUrl[' + (index || 'none') + '] = ', $scope.reportsUrl[index]);
             if (_.isEmpty($routeParams) && page !== 'creativelist') {
                 return;
             }
@@ -168,35 +157,26 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
             if (page === 'dashboard') {
                 $location.url(urlBuilder.dashboardUrl());
             } else if (page === 'mediaplanList') {
-                targetUrl = urlBuilder.mediaPlansListUrl(fromView);
-                $scope.mplUrl = targetUrl;
+                urlBuilder.mediaPlansListUrl();
             } else if (page === 'reportsSubPage') {
-                targetUrl = urlBuilder.cannedReportsUrl(url, fromView);
-                $scope.reportsUrl[index] = targetUrl;
+                urlBuilder.cannedReportsUrl(url);
             } else if (page === 'creativelist') {
-                targetUrl = urlBuilder.creativeListUrl(fromView);
-                $scope.creativeListUrl = targetUrl;
+                urlBuilder.creativeListUrl();
             } else if (page === 'adminOverview') {
-                targetUrl = urlBuilder.adminUrl(fromView);
-                $scope.adminUrl = targetUrl;
+                urlBuilder.adminUrl();
             } else if (page === 'invoiceTool') {
-                targetUrl = urlBuilder.invoiceTool(fromView);
-                $scope.invoiceToolUrl = targetUrl;
+                urlBuilder.invoiceTool();
             } else if (page === 'customReports') {
-                targetUrl = urlBuilder.customReportsUrl(fromView);
-                $scope.customReportsUrl = targetUrl;
+                urlBuilder.customReportsUrl();
             } else if (page === 'scheduleReports') {
-                targetUrl = urlBuilder.customReportsListUrl(url, fromView);
-                $scope.scheduleReportsUrl[index] = targetUrl;
+                urlBuilder.customReportsListUrl(url);
             } else if (page === 'uploadReports') {
                 $location.url(urlBuilder.uploadReportsUrl());
             } else if (page === 'uploadedReportsList') {
                 $location.url(urlBuilder.uploadReportsListUrl());
             }else if (page === 'reportsOverview') {
-                targetUrl = urlBuilder.reportsOverviewUrl(url, fromView);
-                $scope.reportsUrl[index] = targetUrl;
+                urlBuilder.reportsOverviewUrl(url);
             }
-
             return url;
         };
 

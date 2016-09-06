@@ -29,7 +29,6 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service'], funct
             var reportName = _.last($location.path().split('/'));
             url += reportName;
 
-            console.log('url', url);
             $location.url(url);
         };
 

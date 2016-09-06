@@ -56,7 +56,6 @@ define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-
                 url += '/sa/' + $routeParams.subAccountId;
             }
             url += '/dashboard';
-            console.log('url', url);
             $location.url(url);
 
         };

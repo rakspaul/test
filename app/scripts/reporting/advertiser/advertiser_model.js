@@ -26,7 +26,6 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                     }
 
                     if (advertiserData.advertiserList.length > 0) {
-                        console.log('fetchAdvertiserList ', 'already fetched');
                         $timeout(function() {
                             deferred.resolve();
                         }, 10);
