@@ -331,28 +331,31 @@ define(['angularAMD'], function (angularAMD) {
                             .fetchCampaigns(params.subAccountId, params.advertiserId || -1, params.brandId || -1)
                             .then(function (campaignsResponse) {
                                 var campaign,
-                                    url;
+                                    url = '/a/' + params.accountId + '/sa/' + params.subAccountId;
 
                                 if (campaignsResponse && campaignsResponse.data.data) {
                                     campaign = campaignsResponse.data.data[0];
-                                    url = '/a/' + params.accountId + '/sa/' + params.subAccountId;
+
 
                                     if (campaign) {
                                         if (params.advertiserId) {
-
                                             //When user selects all brand, it will not be selected as campaign brand id is getting used - Sapna
-                                            //url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
                                             url += '/adv/' + campaign.advertiser_id + '/b/' + (params.brandId || 0);
                                         }
-
                                         url += '/mediaplans/' + campaign.campaign_id + '/' + params.reportName;
                                     } else {
-                                        localStorage.setItem('topAlertMessage', args.constants.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_BRAND);
-                                        (params.advertiserId > 0) && (url += '/adv/' + params.advertiserId);
-                                        (params.advertiserId > 0) && (url += '/b/0');
-                                        url += '/mediaplans/reports' + currentPath.substr(currentPath.lastIndexOf('/'), currentPath.length);
-                                    }
 
+                                        if (params.advertiserId) {
+                                            args.vistoconfig.setNoMediaPlanFoundMsg(args.constants.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_BRAND);
+                                            (params.advertiserId > 0) && (url += '/adv/' + params.advertiserId);
+                                            (params.advertiserId > 0) && (url += '/b/0');
+                                            url += '/mediaplans/reports' + currentPath.substr(currentPath.lastIndexOf('/'), currentPath.length);
+                                        } else {
+                                            args.vistoconfig.setNoMediaPlanFoundMsg(args.constants.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ACCOUNT);
+                                            url += '/mediaplans';
+                                        }
+
+                                    }
                                     args.$location.url(url);
                                 }
 

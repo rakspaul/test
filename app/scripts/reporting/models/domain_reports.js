@@ -90,15 +90,6 @@ define(['angularAMD', 'time-period-directive', 'sub-account-directive',
                     .addClass('active');
             },
 
-            // highlightSubHeaderMenu: function () {
-            //     $('.reports_sub_menu_dd')
-            //         .find('.active_tab')
-            //         .removeClass('active_tab')
-            //         .end()
-            //         .find('#' + document.location.pathname.substring(1))
-            //         .addClass('active_tab');
-            // },
-
             checkForCampaignFormat: function (adFormats) {
                 var videoAdsExists,
                     displayAdsExists;
@@ -255,7 +246,7 @@ define(['angularAMD', 'time-period-directive', 'sub-account-directive',
     });
 
     angularAMD.directive('downloadReport', function ($http, $location, loginModel, advertiserModel, brandsModel,
-                                                     dataService, urlService, vistoconfig, constants) {
+                                                     dataService, urlService, vistoconfig, constants, timePeriodModel) {
         return {
             controller: function () {},
             restrict: 'EAC',
@@ -269,6 +260,7 @@ define(['angularAMD', 'time-period-directive', 'sub-account-directive',
 
                 $scope.downloadPerformanceReport = function (report) {
                     var reportUrl,
+                        time_filter =  timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
 
                         queryObj = {
                             url: report.url,
@@ -277,7 +269,7 @@ define(['angularAMD', 'time-period-directive', 'sub-account-directive',
                             campaignId: $scope.selectedCampaign.id,
                             advertiserId: vistoconfig.getSelectAdvertiserId(),
                             brandId: vistoconfig.getSelectedBrandId(),
-                            dateFilter: 'life_time',
+                            dateFilter: time_filter,
                             download_config_id: report.download_config_id
                         };
 

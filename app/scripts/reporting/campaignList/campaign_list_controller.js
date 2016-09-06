@@ -37,6 +37,11 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
 
             enableFeaturePermission();
 
+            if(vistoconfig.getNoMediaPlanFoundMsg()) {
+                $rootScope.setErrAlertMessage(vistoconfig.getNoMediaPlanFoundMsg());
+                vistoconfig.setNoMediaPlanFoundMsg(null);
+            }
+
             $rootScope.$on('features', function () {
                 var fParams = featuresService.getFeatureParams();
 

@@ -233,7 +233,6 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
             },
 
             init: function () {
-                var fromLocStore = localStorage.getItem('timeSetLocStore');
 
                 $scope.strategyFound = false;
                 $scope.strategyTableData = [];
@@ -242,13 +241,6 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
                 $scope.strategyBusy = false;
                 $scope.isStrategyDropDownShow = true;
                 $scope.selectedFilters = {};
-
-                if (fromLocStore) {
-                    fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
-                    $scope.selectedFilters.time_filter = fromLocStore;
-                } else {
-                    $scope.selectedFilters.time_filter = 'life_time';
-                }
 
                 $scope.selectedFilters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
                 $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();

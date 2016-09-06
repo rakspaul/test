@@ -59,7 +59,7 @@
                                                ng-model="searchKeyword" ng-keyup="search($event, searchKeyword)"
                                                placeholder="Search for Placements" autocomplete="off">
                                         <div class="btn btn-default searchClearInputBtn">
-                                            <span class="icon-clear" aria-hidden="true"></span>
+                                            <span class="icon-clear" ng-click="resetPlacements($event)" aria-hidden="true"></span>
                                         </div>
                                     </div>
                                 </div>

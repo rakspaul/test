@@ -1795,6 +1795,15 @@ div.strategy_total_container {
         }
     } 
 }
+#reports_bydiscrepancy_block {
+    .all_strategies_holder {
+        .each_strategy {
+            .first_col {
+                width: 100% ;
+            }
+        }
+    }
+}
 #reports_platform_viewability_block{
     .strategy_total_container_header {
         .suspicious_col {
@@ -2604,12 +2613,6 @@ div.strategy_total_container {
             color: @visto-blue;
         }
     }
-
-    .reports_platform_cost_block.reports_platform_header{
-
-    }
-
-
     .viewability_header{
         .platform_name_col.sort_order_up {
             cursor: pointer;
@@ -3830,7 +3833,10 @@ div.strategy_total_container {
         padding: 10px 15px;
     }
     .strategy_total_container_header {
-        padding: 15px 15px 5px;
+        padding: 0px !important ;
+        .each_row_list {
+            padding-left: 15px ;
+        }
     }
 
     .each_cost_col{

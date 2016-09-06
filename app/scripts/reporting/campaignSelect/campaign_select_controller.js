@@ -6,7 +6,7 @@ define(['angularAMD','campaign-select-model',  'common-utils'], function (angula
             function ($location, $scope, $rootScope, $routeParams, campaignSelectModel, constants, brandsModel,
                       loginModel, utils, vistoconfig, pageFinder) {
 
-
+                $scope.loading_icon_mediaplan = 'loadedDropdownData' ;
             var searchCriteria = utils.typeAheadParams,
                 campaignsList,
                 loadCampaigns = true,
@@ -61,30 +61,33 @@ define(['angularAMD','campaign-select-model',  'common-utils'], function (angula
             $scope.fetchCampaigns = function (search) {
                 delete searchCriteria.clientId;
                 delete searchCriteria.advertiserId;
-                console.log('fetchCampaigns(), vistoconfig.getSelectedBrandId() = ', vistoconfig.getSelectedBrandId());
-
                 campaignSelectModel
                     .getCampaigns(vistoconfig.getSelectedBrandId(), searchCriteria)
                     .then(function () {
                         // TODO: rewrite what to do in search condition
                         var campObj = campaignSelectModel.getCampaignObj(),
                             campArrObj = campObj.campaigns;
-
+                             $scope.loading_icon_mediaplan = '' ;
                         if (search) {
                             if ($scope.isAllMediaPlan === 'true' || $scope.isAllMediaPlan === true) {
                                 campArrObj.unshift.apply(campArrObj, $scope.campAll);
                                 $scope.campaignData.campaigns = campArrObj;
+
                             } else {
                                 $scope.campaignData.campaigns = campObj.campaigns;
+
                             }
                         } else {
                             $scope.campaignData.campaigns = $scope.campaignData.campaigns.concat(campObj.campaigns);
+
                         }
 
                         _.uniq($scope.campaignData.campaigns);
+
                         $scope.fetching = false;
 
                         if ($scope.campaignData.campaigns.length < searchCriteria.limit) {
+                            $scope.loading_icon_mediaplan = '' ;
                             $scope.exhausted = true;
                         }
                     });
@@ -100,11 +103,13 @@ define(['angularAMD','campaign-select-model',  'common-utils'], function (angula
                     search = $('#campaignDropdown').val();
                 } else {
                     search = $($('.campaignDropdown')[fileIndex]).val();
+
                 }
 
                 searchCriteria.key = search;
                 $scope.fetchCampaigns(true, false);
                 $scope.exhausted = false;
+                $scope.loading_icon_mediaplan = 'loadedDropdownData' ;
                 $scope.fetching = true;
             };
 
