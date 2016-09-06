@@ -4,7 +4,7 @@
         <div class="icon-hamburger" data-ng-click="mobileMenuShow();"></div>
 
         <!--Logo-->
-        <a data-ng-if="showDashboard" href="/dashboard" class="main_logo" id="logo" style="cursor:pointer;">
+        <a data-ng-if="showDashboard" data-ng-click="getDashboardUrl()" class="main_logo" id="logo" style="cursor:pointer;">
             <img data-ng-src="/images/visto_logos/Visto_Logo_hi-res.svg" alt="VISTO" height="32"/>
         </a>
 
@@ -47,7 +47,7 @@
             <!-- Reports -->
             <div class="pull-left each_nav_link" id="reports_nav_link" data-ng-if="showReportTab">
                 <a reporttitle="reportOverview"
-                   data-ng-click="navigateToTab('/overview', $event, 'reportsSubPage', false, 7)"
+                   data-ng-click="navigateToTab('/overview', $event, 'reportsOverview', false, 7)"
                    data-ng-mouseover="showHideNavigationDropdown($event, 'reports', 'hover');"
                    data-ng-bind="textConstants.REPORTS">
                 </a>

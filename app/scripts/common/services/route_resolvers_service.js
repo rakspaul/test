@@ -383,7 +383,7 @@ define(['angularAMD'], function (angularAMD) {
 
                 args
                     .campaignSelectModel
-                    .fetchCampaign(args.$route.current.params.subAccountId, args.$route.current.params.campaignId)
+                    .fetchCampaign(args.$route.current.params.subAccountId || args.$route.current.params.accountId, args.$route.current.params.campaignId)
                     .then(function () {
                         if (resolvedOtherDeferrer) {
                             deferred.resolve();
@@ -397,7 +397,7 @@ define(['angularAMD'], function (angularAMD) {
 
                 args
                     .strategySelectModel
-                    .fetchStrategyList(args.$route.current.params.subAccountId, args.$route.current.params.campaignId)
+                    .fetchStrategyList(args.$route.current.params.subAccountId || args.$route.current.params.accountId, args.$route.current.params.campaignId)
                     .then(function () {
                         if (args.strategySelectModel.allowedStrategy(args.$route.current.params.lineitemId)) {
                             console.log('broadcast set strategy');

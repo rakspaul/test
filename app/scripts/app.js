@@ -395,6 +395,20 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
+                .when('/a/:accountId/mediaplans/:campaignId/overview', angularAMD.route({
+                    templateUrl: assets.html_campaign_details,
+                    title: 'Reports Overview',
+                    controller: 'CampaignDetailsController',
+                    controllerUrl: 'campaign-details-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
+                        }
+                    }
+                }))
+
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/performance', angularAMD.route({
                     templateUrl: assets.html_performance,
                     title: 'Reports - Performance',
