@@ -36,9 +36,6 @@ define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-
             $rootScope.$broadcast(constants.EVENT_STATUS_FILTER_CHANGED, obj);
         };
 
-        if (subAccountService.getSelectedDashboardSubAccount()) {
-            updateTitle();
-        }
 
         $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED, function () {
             dashboardModel.setSelectedBrand(vistoconfig.getSelectedBrandId());
@@ -50,8 +47,7 @@ define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-
             $('.bubble_tooltip').hide();
         };
 
-
-
+        updateTitle();
 
         $scope.removeAdvertiserButton = function () {
             var url = '/a/' + $routeParams.accountId;
@@ -59,8 +55,6 @@ define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-
             if ($routeParams.subAccountId) {
                 url += '/sa/' + $routeParams.subAccountId;
             }
-
-//            ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
             url += '/dashboard';
             console.log('url', url);
             $location.url(url);
